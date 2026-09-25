@@ -1,0 +1,55 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Aktualizace kurzů CZ (ČNB)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Denní kurz České národní banky jako poskytovatel pro OCA rámec currency_rate_update</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace přidává denní kurz <b>České národní banky</b> (ČNB) jako
+         <code>res.currency.rate.provider</code> do OCA rámce <code>currency_rate_update</code>.
+         Je kompatibilní s Community a <b>nevyžaduje</b> funkci Odoo Enterprise
+         <code>currency_rate_live</code>.</p>
+      <p>ČNB zveřejňuje jeden denní kurz (CZK vůči cizím měnám). U společnosti se základní měnou CZK se na
+         <code>res.currency.rate</code> ukládá kurz <code>Množství / Kurz</code> (jednotky cizí měny na 1 CZK) —
+         například <code>EMU|euro|1|EUR|24.170</code> se uloží jako <code>1 / 24.170</code> a
+         <code>Japan|yen|100|JPY|13.043</code> jako <code>100 / 13.043</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Poskytovatel denního kurzu <b>ČNB</b> pro <code>currency_rate_update</code>.</li>
+        <li>Správný přepočet při základní měně CZK respektující jednotku měny (sloupec <i>Množství</i>, např. 100 JPY).</li>
+        <li>Funguje na Odoo Community — bez závislosti na živých kurzech Enterprise.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>V <i>Nastavení ▸ Technické ▸ Poskytovatelé kurzů měn</i> vytvořte poskytovatele, zvolte službu
+         <b>Česká národní banka (ČNB)</b>, vyberte měny, které chcete sledovat, a spusťte synchronizaci
+         (ručně nebo naplánovanou akcí). Stažené kurzy se zapíší do <code>res.currency.rate</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

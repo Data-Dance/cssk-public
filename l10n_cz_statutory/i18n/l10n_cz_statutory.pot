@@ -1,0 +1,99 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_statutory
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-30 06:14+0000\n"
+"PO-Revision-Date: 2026-06-30 06:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_statutory
+#. odoo-python
+#: code:addons/l10n_cz_statutory/hooks.py:0
+msgid "Finanční úřad %s"
+msgstr ""
+
+#. module: l10n_cz_statutory
+#: model:cssk.person.type,name:l10n_cz_statutory.cz_person_type_fo
+msgid "Fyzická osoba"
+msgstr ""
+
+#. module: l10n_cz_statutory
+#: model:cssk.person.type,name:l10n_cz_statutory.cz_person_type_po
+msgid "Právnická osoba"
+msgstr ""
+
+#. module: l10n_cz_statutory
+#. odoo-python
+#: code:addons/l10n_cz_statutory/hooks.py:0
+msgid "Územní pracoviště %s"
+msgstr ""
+
+#. module: l10n_cz_statutory
+#: model:ir.module.module,shortdesc:base.module_l10n_cz_statutory
+msgid "CZ Localization — Statutory Reference Data"
+msgstr ""
+
+#. module: l10n_cz_statutory
+#. odoo-python
+#: code:addons/l10n_cz_statutory/models/cssk_statutory_submission.py:0
+msgid ""
+"Company '%(company)s' has no competent tax office (finanční úřad) set, but "
+"every Czech EPO submission must carry its code in the XML header (c_ufo). "
+"Set 'Tax authority' on the company (Settings → Users & Companies → Companies"
+" → %(company)s) and export again."
+msgstr ""
+
+#. module: l10n_cz_statutory
+#. odoo-python
+#: code:addons/l10n_cz_statutory/models/cssk_statutory_submission.py:0
+msgid ""
+"Company '%(company)s' is a Czech filer, but its tax office '%(authority)s' "
+"is not a Czech one. A Czech EPO submission must name a finanční úřad. Pick a"
+" Czech office and export again."
+msgstr ""
+
+#. module: l10n_cz_statutory
+#: model:ir.module.module,summary:base.module_l10n_cz_statutory
+msgid ""
+"Czech statutory reference registries: finanční úřady (seeded from the "
+"official l10n_cz.tax_office codelist) and person types."
+msgstr ""
+
+#. module: l10n_cz_statutory
+#. odoo-python
+#: code:addons/l10n_cz_statutory/models/cssk_statutory_submission.py:0
+msgid ""
+"Tax office '%(authority)s' has no submission code, but it is what the Czech "
+"EPO submission emits as c_ufo. Set 'Submission code' on the office and "
+"export again."
+msgstr ""
+
+#. module: l10n_cz_statutory
+#. odoo-python
+#: code:addons/l10n_cz_statutory/models/cssk_statutory_submission.py:0
+msgid ""
+"Tax office '%(authority)s' has submission code %(code)s, which the Czech EPO"
+" submission cannot emit as c_ufo — that field takes at most 3 digits "
+"(xs:decimal, totalDigits=3). Correct the office's 'Submission code' and "
+"export again."
+msgstr ""
+
+#. module: l10n_cz_statutory
+#. odoo-python
+#: code:addons/l10n_cz_statutory/models/cssk_statutory_submission.py:0
+msgid ""
+"Tax office '%(authority)s' is a territorial workplace (územní pracoviště), "
+"and its code %(code)s cannot be used as c_ufo — that field takes the "
+"regional finanční úřad (at most 3 digits). Set the company's tax authority "
+"to '%(parent)s' instead; the workplace belongs in the separate 'Tax office' "
+"field, which the XML emits as c_pracufo."
+msgstr ""

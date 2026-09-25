@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_epostak" model="ir.ui.view">
+        <field name="name">res.config.settings.view.epostak</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="edi_base.view_res_config_settings_edi_base"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='edi_providers_anchor']" position="before">
+                <h2>ePošťák</h2>
+                <div class="ms-4" name="epostak_section">
+                    <div class="alert alert-warning" role="alert"
+                        invisible="epostak_mode != 'sandbox'">
+                        <strong>Sandbox is active.</strong>
+                        Documents are exchanged on the ePošťák test network and
+                        never reach the live Peppol network.
+                    </div>
+                    <block title="Environment" name="epostak_mode_block">
+                        <setting>
+                            <label for="epostak_mode"/>
+                            <div class="text-muted">
+                                Selects which ePošťák environment and credential
+                                set every request uses.
+                            </div>
+                            <field name="epostak_mode" widget="radio"/>
+                        </setting>
+                        <setting>
+                            <field name="epostak_firm_id"
+                                placeholder="only for sk_int_* integrator keys"/>
+                        </setting>
+                    </block>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

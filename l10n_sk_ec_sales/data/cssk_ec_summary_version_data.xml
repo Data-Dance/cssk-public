@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      TWO vintages, because FS SR publishes two schemas and they are not the
+      same document.
+
+      svdph2010.xsd  1. 1. 2010 – 31. 12. 2019
+      svdph20.xsd    1. 1. 2020 – open
+
+      The boundary is the Quick Fixes (smernica 2018/1910, § 8a zákona o DPH),
+      in force from 1. 1. 2020: the SV gains a second register for call-off
+      stock (`zaznamCast2`), and with it the page shrinks from 27 records to
+      12 + 12. The 2020 vzor also drops `oznacenie` and `pocet2Stran` and
+      replaces the structured fax with an email. A 2019 period filed in the
+      2020 structure is not a near miss — every page of the document is a
+      different shape.
+
+      The floor is 2010-01-01 in both directions: the VAT package brought
+      SERVICES into the EC sales list on 1. 1. 2010, and before that it was a
+      goods-only report that would need a vintage of its own.
+
+      This record used to start 2025-01-01 and cover everything after, which
+      meant an earlier period resolved to NO version — not a wrong figure but
+      no figure, the statement refusing to compute. Found on the first
+      comparison ever made against filed data: 19 filed rows and 20 290.75 for
+      FY2024 with nothing to compute against, while FY2025 matched 16 of 18.
+    -->
+
+    <record id="sdv_version_2010" model="cssk.ec.summary.statement.version">
+        <field name="name">Súhrnný výkaz 2010 (do 31. 12. 2019)</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2010-01-01</field>
+        <field name="valid_to">2019-12-31</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_ec_sales.sdv_2010"/>
+        <field name="xml_root_element">dokument</field>
+        <field name="xml_schema_filename">svdph2010.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_ec_sales/data/svdph2010.xsd"/>
+        <field name="statement_type_ids" eval="[
+            (0, 0, {'code': 'rdp', 'name': 'Riadny', 'fa_xml_value': 'R',
+                    'sequence': 10}),
+            (0, 0, {'code': 'odp', 'name': 'Opravný', 'fa_xml_value': 'O',
+                    'sequence': 20}),
+            (0, 0, {'code': 'ddp', 'name': 'Dodatočný', 'fa_xml_value': 'D',
+                    'sequence': 30}),
+        ]"/>
+    </record>
+    <record id="sdv_version_2025" model="cssk.ec.summary.statement.version">
+        <field name="name">Súhrnný výkaz 2020 (od 1. 1. 2020)</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2020-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_ec_sales.sdv_2025"/>
+        <field name="xml_root_element">dokument</field>
+        <field name="xml_schema_filename">svdph20.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_ec_sales/data/svdph20.xsd"/>
+        <field name="statement_type_ids" eval="[
+            (0, 0, {'code': 'rdp', 'name': 'Riadny', 'fa_xml_value': 'R',
+                    'sequence': 10}),
+            (0, 0, {'code': 'odp', 'name': 'Opravný', 'fa_xml_value': 'O',
+                    'sequence': 20}),
+            (0, 0, {'code': 'ddp', 'name': 'Dodatočný', 'fa_xml_value': 'D',
+                    'sequence': 30}),
+        ]"/>
+    </record>
+
+</odoo>

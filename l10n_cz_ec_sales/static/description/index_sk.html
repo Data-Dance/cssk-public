@@ -1,0 +1,40 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <p class="oe_mt8" style="text-align:right;">🌐 <a href="index.html">EN</a> · <a href="index_cz.html">CZ</a> · <b>SK</b></p>
+        <h2 class="oe_slogan">CZ Súhrnný výkaz (DPHSHV)</h2>
+        <h3 class="oe_slogan" style="color:#875A7B;">Česká národná vrstva zdieľaného rámca súhrnného výkazu s exportom XML EPO Pisemnost / DPHSHV</h3>
+        <div class="oe_span12">
+            <p>Tento modul je českou národnou vrstvou zdieľaného rámca súhrnného výkazu (<code>l10n_cssk_ec_summary_base</code>). Agreguje dodania do iného členského štátu EÚ podľa členského štátu, IČ DPH odberateľa a kódu plnenia — so zdedeným povinným overením IČ DPH (VIES) zo základného modulu — a exportuje českú XML správu EPO Pisemnost / DPHSHV.</p>
+        </div>
+    </div>
+</section>
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Kľúčové funkcie</h2>
+        <div class="oe_span12">
+            <ul>
+                <li>Agreguje dodania do iného členského štátu EÚ podľa (členský štát, IČ DPH odberateľa, kód plnenia) a využíva zdieľaný výkaz, riadky a povinné overenie IČ DPH (VIES) z modulu <code>l10n_cssk_ec_summary_base</code>.</li>
+                <li>Načítava kódy plnenia z <code>account.tax.cssk_ec_summary_code</code> (0 = tovar, 1 = trojstranný obchod, 2 = služby …).</li>
+                <li>Exportuje XML EPO Pisemnost / DPHSHV: jednu hlavičku VetaD, jeden blok platiteľa VetaP a jednu vetu VetaR za každý vykazovaný riadok partnera.</li>
+                <li>Obsahuje zákonnú verziu výkazu (2025) s typmi Řádné / Opravné / Následné.</li>
+                <li>Export je validovaný voči oficiálnemu XSD EPO DPHSHV (<code>data/dphshv_epo2.xsd</code>), ktoré je načítané na zázname verzie výkazu.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Použitie</h2>
+        <div class="oe_span12">
+            <p>Nainštalujte modul na českú spoločnosť, otvorte zdieľaný súhrnný výkaz, zvoľte českú verziu a obdobie, vypočítajte riadky a exportujte XML EPO Pisemnost / DPHSHV. Zaradenie plnenia vychádza z <code>account.tax.cssk_ec_summary_code</code>, preto sa uistite, že dane z dodaní do EÚ nesú správny kód plnenia a že má spoločnosť nastavený príslušný daňový úrad.</p>
+        </div>
+    </div>
+</section>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12" style="text-align:center;">
+            <p>Vydáva <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+            <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+        </div>
+    </div>
+</section>

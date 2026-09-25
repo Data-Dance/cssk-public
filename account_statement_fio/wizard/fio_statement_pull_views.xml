@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="fio_statement_pull_view_form" model="ir.ui.view">
+        <field name="name">fio.statement.pull.form</field>
+        <field name="model">fio.statement.pull</field>
+        <field name="arch" type="xml">
+            <form string="Pull from Fio">
+                <group>
+                    <field name="journal_id" readonly="1" />
+                    <field name="mode" widget="radio" />
+                </group>
+                <group invisible="mode != 'movements'">
+                    <field name="date_from" required="mode == 'movements'" />
+                    <field name="date_to" required="mode == 'movements'" />
+                </group>
+                <group invisible="mode != 'official'">
+                    <field name="statement_year" />
+                    <field name="statement_from" />
+                    <field name="statement_to" />
+                </group>
+                <div class="alert alert-info" role="alert" invisible="call_count &lt; 2">
+                    This will make <field name="call_count" class="oe_inline" readonly="1" />
+                    calls to Fio. The bank allows one call per token every 30
+                    seconds, so expect it to take roughly that many half-minutes.
+                </div>
+                <div class="alert alert-warning" role="alert" invisible="not needs_history_unlock">
+                    <field name="needs_history_unlock" invisible="1" />
+                    <p>
+                        <b>This range reaches further back than 90 days.</b>
+                        Fio serves it only while the full history is unlocked
+                        for this token: open internet banking, go to
+                        <b>Nastavení → API</b> and click the padlock on the token.
+                    </p>
+                    <p>
+                        The unlock lasts <b>ten minutes</b>, so do it now — then:
+                    </p>
+                    <field name="history_unlocked" />
+                </div>
+                <footer>
+                    <button name="action_pull" type="object" string="Pull"
+                            class="btn-primary"
+                            invisible="needs_history_unlock and not history_unlocked" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="fio_statement_pull_action" model="ir.actions.act_window">
+        <field name="name">Pull from Fio</field>
+        <field name="res_model">fio.statement.pull</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_journal" />
+        <field name="binding_view_types">form,list</field>
+    </record>
+
+</odoo>

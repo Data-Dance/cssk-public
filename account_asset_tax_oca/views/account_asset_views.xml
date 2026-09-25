@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_asset_profile_view_form_tax" model="ir.ui.view">
+        <field name="name">account.asset.profile.form.tax</field>
+        <field name="model">account.asset.profile</field>
+        <field name="inherit_id" ref="account_asset_management.account_asset_profile_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Tax Depreciation Defaults">
+                    <field name="tax_depreciation_enabled"/>
+                    <field name="tax_class_id"
+                           invisible="not tax_depreciation_enabled"
+                           options="{'no_create': True}"/>
+                    <field name="tax_method" invisible="not tax_depreciation_enabled"/>
+                    <field name="tax_increased_first_year"
+                           invisible="not tax_depreciation_enabled or tax_method != 'linear'"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_asset_view_form_tax" model="ir.ui.view">
+        <field name="name">account.asset.form.tax (oca)</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset_management.account_asset_view_form"/>
+        <field name="arch" type="xml">
+            <!-- OCA labels method_number "Number of Years", but with Time Method =
+                 "Number of Depreciations" and a monthly Period Length it is the
+                 number of PERIODS, not years. Relabel it and show the Period
+                 Length inline so the unit is explicit (e.g. "60  Months"). -->
+            <xpath expr="//field[@name='method_period']" position="replace"/>
+            <xpath expr="//field[@name='method_number']" position="replace">
+                <!-- Year mode: method_number is a number of YEARS; other modes
+                     (Number of Depreciations) it is a number of PERIODS whose
+                     unit is the Period Length shown inline. -->
+                <label for="method_number" string="Number of years"
+                       invisible="method_time != 'year'"/>
+                <label for="method_number" string="Number of periods"
+                       invisible="method_time == 'year'"/>
+                <div class="o_row">
+                    <field name="method_number" nolabel="1"
+                           invisible="method_time not in ['number', 'year']"
+                           required="method_time in ['number', 'year']"
+                           readonly="state in ['open', 'close', 'removed']"/>
+                    <field name="method_period" nolabel="1"
+                           required="1"
+                           readonly="state in ['open', 'close', 'removed']"/>
+                </div>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Tax Depreciation" name="tax_depreciation">
+                    <field name="tax_country_code" invisible="1"/>
+                    <field name="tax_allowed_methods" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="tax_depreciation_enabled"/>
+                            <field name="tax_class_id"
+                                   invisible="not tax_depreciation_enabled"
+                                   required="tax_depreciation_enabled"
+                                   domain="[('country_code','=',tax_country_code)]"
+                                   options="{'no_create': True}"/>
+                            <field name="tax_method"
+                                   invisible="not tax_depreciation_enabled"
+                                   readonly="tax_method_locked"/>
+                            <field name="tax_increased_first_year"
+                                   invisible="not tax_depreciation_enabled or tax_method != 'linear' or tax_country_code != 'CZ'"/>
+                            <field name="tax_method_locked"
+                                   invisible="not tax_depreciation_enabled"/>
+                        </group>
+                        <group>
+                            <field name="tax_entry_value"
+                                   invisible="not tax_depreciation_enabled"/>
+                            <field name="tax_vehicle_capped"
+                                   invisible="not tax_depreciation_enabled"/>
+                            <field name="tax_in_service_date_override"
+                                   invisible="not tax_depreciation_enabled"/>
+                            <field name="tax_value_depreciated"
+                                   invisible="not tax_depreciation_enabled"/>
+                            <field name="tax_value_residual"
+                                   invisible="not tax_depreciation_enabled"/>
+                        </group>
+                    </group>
+                    <button name="action_compute_tax_board" type="object"
+                            string="Compute Tax Board" class="btn-primary"
+                            invisible="not tax_depreciation_enabled"/>
+                    <button name="%(account_asset_tax.action_account_asset_tax_backfill)d"
+                            type="action" string="Backfill (migration)"
+                            invisible="not tax_depreciation_enabled"/>
+                    <field name="tax_line_ids" invisible="not tax_depreciation_enabled"
+                           readonly="1">
+                        <list string="Tax Depreciation Board">
+                            <field name="year_index"/>
+                            <field name="fiscal_year"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="amount"/>
+                            <field name="book_amount" optional="show"/>
+                            <field name="difference" optional="show"/>
+                            <field name="amount_cumulative"/>
+                            <field name="residual"/>
+                            <field name="book_residual" optional="hide"/>
+                            <!-- filed flag is set by the close-year / backfill
+                                 wizards only; never hand-editable -->
+                            <field name="posted" readonly="1"/>
+                            <field name="note"/>
+                            <field name="currency_id" column_invisible="1"/>
+                        </list>
+                    </field>
+                    <separator string="Lifecycle Events"
+                               invisible="not tax_depreciation_enabled"/>
+                    <div invisible="not tax_depreciation_enabled">
+                        <button name="%(account_asset_tax.action_account_asset_tax_event_wizard)d"
+                                type="action" string="Technical Improvement"
+                                context="{'default_event_type': 'improvement'}"/>
+                        <button name="%(account_asset_tax.action_account_asset_tax_event_wizard)d"
+                                type="action" string="Suspension"
+                                context="{'default_event_type': 'suspension'}"/>
+                        <button name="%(account_asset_tax.action_account_asset_tax_event_wizard)d"
+                                type="action" string="Disposal"
+                                context="{'default_event_type': 'disposal'}"/>
+                    </div>
+                    <field name="tax_event_ids" invisible="not tax_depreciation_enabled"
+                           readonly="1">
+                        <list string="Tax Depreciation Events">
+                            <field name="date"/>
+                            <field name="event_type"/>
+                            <field name="amount"/>
+                            <field name="duration_years"/>
+                            <field name="note"/>
+                            <field name="currency_id" column_invisible="1"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,55 @@
+<section class="oe_container">
+    <p class="oe_mt8" style="text-align:right;">🌐 <b>EN</b> · <a href="index_cz.html">CZ</a> · <a href="index_sk.html">SK</a></p>
+    <h2 class="oe_slogan">Czech Republic Base Localization</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Czech IBAN &amp; legacy account number conversion and variable / constant / specific symbols</h3>
+    <div class="oe_span12">
+        <p>
+            This module provides the Czech-specific building blocks shared by other modules
+            (for example ISDOC e-invoicing). It is kept deliberately lightweight and depends
+            only on the <code>account</code> module. It adds bidirectional conversion between a
+            Czech IBAN and the legacy domestic "prefix-number/bankcode" account number on
+            <code>res.partner.bank</code>, together with the Variable, Constant and Specific
+            symbol fields (VS / KS / SS) on <code>account.move</code>.
+        </p>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <h2 class="oe_slogan">Key features</h2>
+    <ul>
+        <li>
+            On <code>res.partner.bank</code>, the legacy account number, account prefix
+            (předčíslí) and four-digit bank code are stored fields computed from the IBAN,
+            which stays the primary storage format. The IBAN is split following the CNB
+            layout, and leading zeros are stripped from the legacy representation.
+        </li>
+        <li>
+            Helper methods build a valid Czech IBAN (ISO 13616 mod-97 check digits) from
+            legacy parts and convert a legacy "prefix-number/bankcode" string to an IBAN,
+            so input from external documents can be normalised to IBAN.
+        </li>
+        <li>
+            On <code>account.move</code>, Variable symbol (VS), Constant symbol (KS) and
+            Specific symbol (SS) fields. The Variable symbol is computed (digits only) from
+            the invoice number for customer documents and from the reference for vendor
+            documents, and remains editable.
+        </li>
+    </ul>
+</section>
+
+<section class="oe_container">
+    <h2 class="oe_slogan">Usage</h2>
+    <p>
+        Open a partner's bank account (<code>res.partner.bank</code>) and enter the IBAN in
+        the account number field; the bank code and legacy account number parts are filled
+        automatically from it. On an invoice or journal entry (<code>account.move</code>) the
+        Variable symbol is proposed automatically from the document number (or vendor
+        reference) and can be overridden, while the Constant and Specific symbols can be
+        filled as needed.
+    </p>
+</section>
+
+<section class="oe_container" style="text-align:center;">
+    <p>Published by <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+    <small>License: Data Dance Proprietary License v1.0 (see the LICENSE file).</small>
+</section>

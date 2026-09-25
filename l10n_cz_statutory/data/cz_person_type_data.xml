@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Czech taxpayer / entity types (typ daňového subjektu): FO = fyzická osoba
+     (natural person), PO = právnická osoba (legal entity). -->
+<odoo>
+  <data noupdate="1">
+    <record id="cz_person_type_fo" model="cssk.person.type">
+      <field name="name">Fyzická osoba</field>
+      <field name="code">CZ-FO</field>
+      <field name="country_code">CZ</field>
+      <field name="is_legal_entity" eval="False"/>
+      <field name="sequence">10</field>
+    </record>
+    <record id="cz_person_type_po" model="cssk.person.type">
+      <field name="name">Právnická osoba</field>
+      <field name="code">CZ-PO</field>
+      <field name="country_code">CZ</field>
+      <field name="is_legal_entity" eval="True"/>
+      <field name="sequence">20</field>
+    </record>
+  </data>
+</odoo>

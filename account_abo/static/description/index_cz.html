@@ -1,0 +1,63 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Export plateb ABO</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Export tuzemských úhrad pro české/slovenské banky ve formátu ABO</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace generuje <b>soubory platebních příkazů ve formátu ABO</b> používané českými
+         (a slovenskými) bankami — Česká spořitelna, ČSOB, KB, MONETA, Raiffeisenbank, UniCredit a
+         dalšími — z platebního příkazu OCA <code>account.payment.order</code>. Je <b>čistě CE</b>:
+         staví na <code>account_payment_order</code> a sdílených stavitelích
+         <code>account_cz_bankfile_base</code>, <b>bez závislosti na Enterprise</b>.</p>
+      <p>Exportuje tuzemské úhrady (typ dat ABO 1501). Vlastní vykreslení souboru je delegováno na
+         <code>account_cz_bankfile_base</code>; tento modul mu pouze předává normalizované platební
+         položky z řádků platby.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Export úhrad (typ dat ABO 1501) jako platební soubor na příkazu OCA
+            <code>account.payment.order</code>.</li>
+        <li>Hromadné uspořádání záznamů — účet příkazce je v hlavičce skupiny.</li>
+        <li>Variabilní / konstantní / specifický symbol (VS / KS / SS) na každém řádku platby, s
+            náhradou, která načte token <code>VS:</code> / <code>KS:</code> / <code>SS:</code> ze
+            zprávy pro příjemce, pokud je pole prázdné.</li>
+        <li>Validace symbolů na řádku: pouze číslice, VS/SS do 10 číslic, KS do 4 číslic.</li>
+        <li>Výstupní kódování WIN-1250 s náhradou na ASCII.</li>
+        <li>Registruje výstupní platební metodu <code>ABO</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Nastavte u bankovního deníku výstupní platební metodu <b>ABO (česká/slovenská úhrada)</b>.
+         Vytvořte platební příkaz z přijatých faktur jako obvykle
+         (<i>Účetnictví ▸ Dodavatelé ▸ Platební příkazy</i>), vyplňte symboly VS/KS/SS na řádcích
+         (nebo je nechte prázdné a použijte zprávu pro příjemce), potvrďte příkaz a zvolte
+         <b>Generovat platební soubor</b> — vznikne soubor <code>.abo</code> pro nahrání do banky.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

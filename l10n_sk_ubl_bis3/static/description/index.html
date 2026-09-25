@@ -1,0 +1,77 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovakia — Peppol BIS Billing 3.0 (eFaktúra)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Peppol BIS Billing 3.0 / UBL 2.1 e-invoice export for Slovak companies</h3>
+    <div class="oe_span12">
+      <p>This module enables the Peppol BIS Billing 3.0 (UBL 2.1 / EN 16931) e-invoice format for
+         Slovak companies, ahead of the mandatory Slovak e-invoicing regime (domestic B2B from
+         1 January 2027).</p>
+      <p>Slovakia has <b>no national billing CIUS</b>: the mandated invoice is unmodified Peppol
+         BIS Billing 3.0, which Odoo's <code>account.edi.xml.ubl_bis3</code> already produces
+         correctly. This module is therefore deliberately thin — it only fills the Slovak gaps.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Format registration.</b> <code>SK</code> is missing from Odoo core's
+            <code>PEPPOL_DEFAULT_COUNTRIES</code>, so the generic Peppol format is not offered for
+            Slovak partners. This module registers <code>ubl_bis3_sk</code> for <code>SK</code> and
+            makes it the auto-suggested default for Slovak partners.</li>
+        <li><b>Extension point.</b> <code>account.edi.xml.ubl_sk</code> subclasses the generic
+            Peppol builder — a stable place to add Slovak-specific behaviour later, with no
+            CustomizationID deviation.</li>
+        <li><b>Variabilný symbol (VS).</b> Mapped onto <code>cac:PaymentMeans/cbc:PaymentID</code>
+            (BT-83): the explicit payment reference if set, otherwise the numeric tail of the
+            invoice number, normalised to the last 10 digits.</li>
+        <li>Auto-installs once a Slovak chart and the UBL/CII engine are both present, mirroring
+            <code>l10n_ro_edi</code> / <code>l10n_pl_edi</code>.</li>
+      </ul>
+      <p><b>Out of scope</b> (handled by a certified Peppol Access Point, not the ERP): the Slovak
+         Tax Data Document (TDD, <code>urn:peppol:taxdata:sk-1</code>) and the 5-corner CTC
+         reporting to Finančná správa.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Slovak partners get <code>invoice_edi_format = "Slovakia (Peppol BIS 3.0)"</code>
+         automatically. Ensure the company has a valid IČ DPH (VAT) and a Slovak IBAN on the
+         relevant bank account, then send the invoice as usual — the UBL 2.1 file is generated in
+         the Peppol BIS Billing 3.0 format.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Documentation</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — release history.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

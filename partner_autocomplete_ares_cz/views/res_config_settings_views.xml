@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_partner_autocomplete_provider_ares_cz" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.partner.autocomplete.provider.ares_cz</field>
+            <field name="model">res.config.settings</field>
+            <field eval="50" name="priority"/>
+            <field name="inherit_id" ref="partner_autocomplete_dispatcher.res_config_settings_view_form_partner_autocomplete_provider"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('partner-autocomplete-dispatcher')]" position="inside">
+                    <div class="mt16 row" invisible="partner_autocomplete_provider != 'partner.autocomplete.provider.ares_cz'">
+                        <label class="col-3 col-lg-3 o_light_label" for="config_ares_cz_mapping_ico" string="IČO"/>
+                        <field class="oe_inline" name="config_ares_cz_mapping_ico"/>
+                    </div>
+                </xpath></field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_cssk" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.cssk</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <!-- A dedicated CZ/SK block, after the (stable) Default Accounts
+                 block of the Accounting settings page. -->
+            <xpath expr="//block[@id='default_accounts']" position="after">
+                <block title="Czech / Slovak Localization" id="l10n_cssk_settings">
+                    <field name="l10n_cssk_is_enterprise" invisible="1"/>
+                    <!-- Community-only: account_usability would duplicate the
+                         menus Enterprise already ships, so hide it on EE. -->
+                    <setting
+                        id="cssk_account_usability"
+                        string="Extra accounting menus (Community)"
+                        invisible="l10n_cssk_is_enterprise"
+                        help="Adds the accounting menus &amp; report shortcuts that Enterprise ships (general ledger, journals, aged balances, closing entries). Recommended on Community.">
+                        <field name="module_account_usability"/>
+                    </setting>
+                    <!-- Community-only: Enterprise ships these reports natively. -->
+                    <setting
+                        id="cssk_financial_report"
+                        string="Financial reports (Community)"
+                        invisible="l10n_cssk_is_enterprise"
+                        help="General Ledger, Trial Balance, Partner Ledger, Aged Balance, Journal Ledger (OCA account_financial_report) — the reports Enterprise provides natively.">
+                        <field name="module_account_financial_report"/>
+                    </setting>
+                    <setting
+                        id="cssk_default_tax_authority"
+                        string="Default tax authority"
+                        help="Tax office used by default on statutory filings for this company.">
+                        <field name="l10n_cssk_tax_authority_id"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

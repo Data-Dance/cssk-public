@@ -1,0 +1,64 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">SK faktura (zákonné PDF)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenský vzhled faktúry s povinným obsahem podle §74 zákona o DPH a se zákonnými větami</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace mění obecnou fakturu Odoo na slovenskú <b>faktúru</b>, která nese povinný
+         obsah <b>§74 slovenského zákona o DPH</b>, nad rámec toho, co už vykresluje jádro a
+         <code>l10n_sk</code> (IČO, zápis v obchodním rejstříku, datum dodání, rozpis DPH, QR platba
+         PAY by square, podpis).</p>
+      <p>Závisí na <code>l10n_sk</code>, na sdíleném <code>l10n_cssk_core</code> a na
+         <code>l10n_cssk_payment_symbols</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Identifikátory stran</b> — tiskne <b>DIČ</b> odběratele vedle IČ DPH / IČO, které už
+            zobrazuje jádro.</li>
+        <li><b>Platební symboly</b> — variabilní / konstantní / specifický symbol, z modulu
+            <code>l10n_cssk_payment_symbols</code>.</li>
+        <li><b>Zákonné věty</b> — automaticky rozpoznané a tištěné slovensky (s anglickým
+            překladem): tuzemské přenesení daňové povinnosti (<i>prenesenie daňovej povinnosti</i>,
+            §69/12), osvobození u dodání do EU (§43) a vývozu (§47); plus volná ruční poznámka pro
+            hraniční případy.</li>
+        <li><b>Popisky řízené jazykem</b> — slovensky pro partnery s jazykem SK, jinak anglicky,
+            přes standardní překlady Odoo. Zákonné věty jsou vždy slovensky, protože to vyžaduje
+            zákon.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Nainstalujte modul; slovenský vzhled faktury se použije na vydané faktury. Na formuláři daně
+         a faktury (Účetnictví) je dostupný příznak přenesení daňové povinnosti pro danou daň a pole
+         ruční zákonné poznámky. Vytiskněte fakturu a získáte PDF <b>faktúry</b> podle §74.</p>
+      <p><b>Poznámka:</b> automatické rozpoznání vět je heuristika podle nejlepšího odhadu (nulová
+         sazba + země partnera + příznak přenesení daňové povinnosti u dané daně). Nechte mapování
+         potvrdit účetním pro vaše nastavení daní; pole ruční poznámky pokrývá hraniční případy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

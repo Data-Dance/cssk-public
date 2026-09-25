@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_control_statement_view_form_sk" model="ir.ui.view">
+        <field name="name">cssk.control.statement.form.sk</field>
+        <field name="model">cssk.control.statement</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_kv_kh_base.cssk_control_statement_view_form"/>
+        <field name="arch" type="xml">
+            <page name="sections" position="inside">
+                <notebook>
+                    <page string="A.1" name="sk_a1">
+                        <field name="sk_section_a1_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="partner_id"/>
+                                <field name="partner_vat_stripped"/>
+                                <field name="entry_ref"/>
+                                <field name="supply_date"/>
+                                <field name="product_code"/>
+                                <field name="tax_base_amount"/>
+                                <field name="tax_rate"/>
+                                <field name="tax_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="A.2" name="sk_a2">
+                        <field name="sk_section_a2_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="partner_id"/>
+                                <field name="partner_vat_stripped"/>
+                                <field name="entry_ref"/>
+                                <field name="tax_base_amount"/>
+                                <field name="goods_code" optional="show"/>
+                                <field name="goods_kind" optional="show"/>
+                                <field name="quantity" optional="show"/>
+                                <field name="uom_code" optional="show"/>
+                                <field name="tax_rate"/>
+                                <field name="tax_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="B.1" name="sk_b1">
+                        <field name="sk_section_b1_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="partner_id"/>
+                                <field name="partner_vat_stripped"/>
+                                <field name="entry_ref"/>
+                                <field name="tax_base_amount"/>
+                                <field name="tax_rate"/>
+                                <field name="tax_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="B.2" name="sk_b2">
+                        <field name="sk_section_b2_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="partner_id"/>
+                                <field name="partner_vat_stripped"/>
+                                <field name="entry_ref"/>
+                                <field name="tax_base_amount"/>
+                                <field name="tax_rate"/>
+                                <field name="tax_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="B.3.1" name="sk_b31">
+                        <field name="sk_section_b31_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="row_count"/>
+                                <field name="total_tax_base"/>
+                                <field name="total_tax_amount"/>
+                                <field name="total_deducted_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                                <field name="source_move_line_ids" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="B.3.2" name="sk_b32">
+                        <field name="sk_section_b32_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="partner_id"/>
+                                <field name="partner_vat"/>
+                                <field name="row_count"/>
+                                <field name="total_tax_base"/>
+                                <field name="total_tax_amount"/>
+                                <field name="total_deducted_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                                <field name="source_move_line_ids" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="C.1" name="sk_c1">
+                        <field name="sk_section_c1_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="partner_vat_stripped"/>
+                                <field name="entry_ref"/>
+                                <field name="entry_ref_original"/>
+                                <field name="tax_base_amount"/>
+                                <field name="tax_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="C.2" name="sk_c2">
+                        <field name="sk_section_c2_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="partner_vat_stripped"/>
+                                <field name="entry_ref"/>
+                                <field name="entry_ref_original"/>
+                                <field name="tax_base_amount"/>
+                                <field name="tax_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="D.1" name="sk_d1">
+                        <field name="sk_section_d1_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="row_count"/>
+                                <field name="total_tax_base"/>
+                                <field name="total_tax_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                                <field name="source_move_line_ids" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="D.2" name="sk_d2">
+                        <field name="sk_section_d2_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="row_count"/>
+                                <field name="tax_base_basic"/>
+                                <field name="tax_amount_basic"/>
+                                <field name="tax_base_lower"/>
+                                <field name="tax_amount_lower"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                                <field name="source_move_line_ids" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </page>
+        </field>
+    </record>
+
+</odoo>

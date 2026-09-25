@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_cssk_partner_confirmation"
+              name="Balance Confirmations"
+              parent="account.menu_finance_receivables"
+              action="cssk_partner_confirmation_action"
+              sequence="60"/>
+
+    <menuitem id="menu_cssk_partner_netting"
+              name="Netting Agreements"
+              parent="account.menu_finance_payables"
+              action="cssk_partner_netting_action"
+              sequence="62"/>
+
+</odoo>

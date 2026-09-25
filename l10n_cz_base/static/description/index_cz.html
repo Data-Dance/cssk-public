@@ -1,0 +1,54 @@
+<section class="oe_container">
+    <p class="oe_mt8" style="text-align:right;">🌐 <a href="index.html">EN</a> · <b>CZ</b> · <a href="index_sk.html">SK</a></p>
+    <h2 class="oe_slogan">Základní lokalizace pro Českou republiku</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Převod českého IBAN a tuzemského čísla účtu a variabilní / konstantní / specifický symbol</h3>
+    <div class="oe_span12">
+        <p>
+            Tento modul poskytuje stavební kameny pro Českou republiku, které sdílejí další
+            moduly (například elektronická fakturace ISDOC). Je záměrně odlehčený a závisí
+            pouze na modulu <code>account</code>. Přidává obousměrný převod mezi českým IBAN
+            a tuzemským formátem čísla účtu „předčíslí-číslo/kód banky“ na modelu
+            <code>res.partner.bank</code> a dále pole variabilní, konstantní a specifický
+            symbol (VS / KS / SS) na modelu <code>account.move</code>.
+        </p>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <ul>
+        <li>
+            Na modelu <code>res.partner.bank</code> jsou tuzemské číslo účtu, předčíslí účtu
+            a čtyřmístný kód banky uložená pole vypočtená z IBAN, který zůstává primárním
+            formátem uložení. IBAN se rozdělí podle rozvržení ČNB a v tuzemském tvaru se
+            odstraní úvodní nuly.
+        </li>
+        <li>
+            Pomocné metody sestaví platný český IBAN (kontrolní číslice mod-97 dle ISO 13616)
+            z tuzemských částí a převedou tuzemský řetězec „předčíslí-číslo/kód banky“ na
+            IBAN, takže vstup z externích dokladů lze normalizovat na IBAN.
+        </li>
+        <li>
+            Na modelu <code>account.move</code> pole variabilní symbol (VS), konstantní
+            symbol (KS) a specifický symbol (SS). Variabilní symbol se vypočítá (pouze
+            číslice) z čísla dokladu u odběratelských dokladů a z odkazu u dodavatelských
+            dokladů a zůstává upravitelný.
+        </li>
+    </ul>
+</section>
+
+<section class="oe_container">
+    <h2 class="oe_slogan">Použití</h2>
+    <p>
+        Otevřete bankovní účet partnera (<code>res.partner.bank</code>) a do pole čísla účtu
+        zadejte IBAN; kód banky a tuzemské části čísla účtu se z něj doplní automaticky.
+        Na faktuře nebo účetním zápisu (<code>account.move</code>) se variabilní symbol
+        navrhne automaticky z čísla dokladu (nebo z dodavatelského odkazu) a lze jej přepsat,
+        zatímco konstantní a specifický symbol lze vyplnit dle potřeby.
+    </p>
+</section>
+
+<section class="oe_container" style="text-align:center;">
+    <p>Vydává <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+    <small>Licence: Data Dance Proprietary License v1.0 (viz soubor LICENSE).</small>
+</section>

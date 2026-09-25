@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="purchase_order_form_advance_invoice" model="ir.ui.view">
+        <field name="name">purchase.order.form.advance.invoice</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button
+                    name="%(action_purchase_advance_payment_wizard)d"
+                    string="Register Payment"
+                    type="action"
+                    class="btn-primary"
+                    invisible="not is_advance_invoice or advance_invoice_payment_status in ('paid_fully', 'overpaid', 'cancelled')"
+                />
+                <button
+                    name="%(action_purchase_advance_payment_link_wizard)d"
+                    string="Link Payment"
+                    type="action"
+                    invisible="not is_advance_invoice or advance_invoice_payment_status in ('paid_fully', 'overpaid', 'cancelled')"
+                />
+                <button
+                    name="%(action_purchase_advance_tax_doc_wizard)d"
+                    string="Register Received Tax Document"
+                    type="action"
+                    class="btn-primary"
+                    invisible="not is_advance_invoice or advance_invoice_accounting_status != 'waiting'"
+                />
+            </header>
+            <div name="button_box" position="inside">
+                <button
+                    name="action_view_advance_invoices"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-file-text-o"
+                    invisible="is_advance_invoice or advance_invoice_count == 0"
+                >
+                    <field
+                        name="advance_invoice_count"
+                        widget="statinfo"
+                        string="Advances"
+                    />
+                </button>
+                <button
+                    name="action_view_advance_tax_docs"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-pencil-square-o"
+                    string="Tax Documents"
+                    invisible="not is_advance_invoice or advance_invoice_accounting_status in (False, 'nothing_to_account')"
+                />
+            </div>
+            <field name="partner_ref" position="after">
+                <field name="is_advance_invoice" invisible="1" />
+                <field
+                    name="advance_invoice_parent_order_id"
+                    invisible="not is_advance_invoice"
+                />
+                <field
+                    name="advance_invoice_payment_status"
+                    invisible="not is_advance_invoice"
+                />
+                <field
+                    name="advance_invoice_accounting_status"
+                    invisible="not is_advance_invoice"
+                />
+                <field
+                    name="amount_paid"
+                    invisible="not is_advance_invoice"
+                />
+                <field
+                    name="advance_invoice_paid_date"
+                    invisible="not is_advance_invoice"
+                />
+                <field
+                    name="advance_invoice_expected_doc_date"
+                    invisible="not is_advance_invoice or advance_invoice_accounting_status != 'waiting'"
+                />
+                <field
+                    name="advance_invoice_long_term"
+                    invisible="not is_advance_invoice"
+                />
+            </field>
+        </field>
+    </record>
+
+    <record id="purchase_order_advance_list" model="ir.ui.view">
+        <field name="name">purchase.order.advance.list</field>
+        <field name="model">purchase.order</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <list string="Received Advance Invoices">
+                <field name="name" />
+                <field name="date_order" />
+                <field name="partner_id" />
+                <field name="advance_invoice_parent_order_id" optional="show" />
+                <field name="amount_total" sum="Total" />
+                <field name="amount_paid" sum="Paid" />
+                <field name="advance_invoice_paid_date" optional="show" />
+                <field
+                    name="advance_invoice_payment_status"
+                    widget="badge"
+                    decoration-success="advance_invoice_payment_status == 'paid_fully'"
+                    decoration-warning="advance_invoice_payment_status == 'paid_partially'"
+                    decoration-danger="advance_invoice_payment_status == 'overpaid'"
+                />
+                <field
+                    name="advance_invoice_accounting_status"
+                    widget="badge"
+                    decoration-success="advance_invoice_accounting_status == 'accounted'"
+                    decoration-warning="advance_invoice_accounting_status == 'waiting'"
+                />
+                <field name="advance_invoice_expected_doc_date" optional="show" />
+                <field name="currency_id" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+
+    <record id="purchase_order_advance_search" model="ir.ui.view">
+        <field name="name">purchase.order.advance.search</field>
+        <field name="model">purchase.order</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <search string="Received Advance Invoices">
+                <field name="name" />
+                <field name="partner_id" />
+                <filter
+                    string="Waiting for Tax Document"
+                    name="waiting"
+                    domain="[('advance_invoice_accounting_status', '=', 'waiting')]"
+                />
+                <filter
+                    string="Tax Document Overdue"
+                    name="doc_overdue"
+                    domain="[('advance_invoice_accounting_status', '=', 'waiting'), ('advance_invoice_expected_doc_date', '&lt;', 'today')]"
+                />
+                <filter
+                    string="Unpaid"
+                    name="unpaid"
+                    domain="[('advance_invoice_payment_status', 'in', ('none', 'paid_partially'))]"
+                />
+                <group>
+                    <filter
+                        string="Supplier"
+                        name="groupby_partner"
+                        context="{'group_by': 'partner_id'}"
+                    />
+                    <filter
+                        string="Payment Status"
+                        name="groupby_payment_status"
+                        context="{'group_by': 'advance_invoice_payment_status'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_purchase_order_advance" model="ir.actions.act_window">
+        <field name="name">Received Advance Invoices</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="purchase_order_advance_list" />
+        <field name="search_view_id" ref="purchase_order_advance_search" />
+        <field name="domain">[('is_advance_invoice', '=', True)]</field>
+        <field name="context">{'default_is_advance_invoice': True}</field>
+    </record>
+
+    <menuitem
+        id="menu_purchase_order_advance"
+        name="Received Advance Invoices"
+        action="action_purchase_order_advance"
+        parent="purchase.menu_procurement_management"
+        sequence="8"
+    />
+
+
+    <!-- Accounting -> Vendors, just before Payments (sequence 20) -->
+    <menuitem
+        id="menu_account_purchase_order_advance"
+        name="Received Advance Invoices"
+        parent="account.menu_finance_payables"
+        action="action_purchase_order_advance"
+        groups="purchase.group_purchase_user,account.group_account_readonly"
+        sequence="19"/>
+
+</odoo>

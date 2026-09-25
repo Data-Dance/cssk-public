@@ -1,0 +1,61 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ Deferrals — default accounts (časové rozlišení)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Pre-fills the OCA cut-off / deferral default accounts with the Czech 381/383/384/385 accounts</h3>
+    <div class="oe_span12">
+      <p>Thin glue between the Czech chart of accounts (<code>l10n_cz</code>) and the OCA cut-off /
+         deferral engine (<code>account_cutoff_start_end_dates</code>). It pre-fills the company's
+         default cut-off / deferral accounts with the Czech <i>časové rozlišení</i> accounts so
+         accruals and deferrals work out of the box.</p>
+      <p>Licensed <b>AGPL-3</b> because it depends on the AGPL OCA cut-off engine.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Maps the four Czech <i>časové rozlišení</i> default accounts on the company:
+          <ul>
+            <li>prepaid expense → <b>381</b> Náklady příštích období</li>
+            <li>deferred revenue → <b>384</b> Výnosy příštích období</li>
+            <li>accrued expense → <b>383</b> Výdaje příštích období</li>
+            <li>accrued revenue → <b>385</b> Příjmy příštích období</li>
+          </ul>
+        </li>
+        <li>Picks a default cut-off journal if none is set.</li>
+        <li><code>post_init_hook</code> backfills the defaults on CZ companies that already had the
+            <code>l10n_cz</code> chart loaded before this module was installed.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install on a company using the Czech chart; the deferral default accounts are set
+         automatically. Then use the standard OCA cut-off / deferral wizards (from
+         <code>account_cutoff_start_end_dates</code>) to recognise prepaid expenses and deferred
+         revenue — they will post against the Czech 381 / 383 / 384 / 385 accounts.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

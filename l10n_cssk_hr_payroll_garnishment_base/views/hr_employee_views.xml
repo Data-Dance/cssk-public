@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_view_form_garnishment" model="ir.ui.view">
+        <field name="name">hr.employee.form.garnishment</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button name="action_open_garnishments" type="object"
+                        class="oe_stat_button" icon="fa-gavel"
+                        groups="hr.group_hr_user"
+                        invisible="l10n_cssk_garnishment_count == 0">
+                    <field name="l10n_cssk_garnishment_count" widget="statinfo" string="Garnishments"/>
+                </button>
+            </div>
+            <xpath expr="//page[@name='hr_settings']" position="inside">
+                <group string="Wage Garnishment" name="cssk_garnishment" groups="hr.group_hr_user">
+                    <field name="l10n_cssk_garnishment_dependents"/>
+                    <field name="l10n_cssk_garnishment_is_pensioner"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

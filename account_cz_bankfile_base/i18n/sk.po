@@ -1,0 +1,118 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_cz_bankfile_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-31 16:52+0000\n"
+"PO-Revision-Date: 2026-08-31 16:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/abo.py:0
+msgid "ABO only supports CZK payments — payment line %(name)s is in %(cur)s."
+msgstr "ABO podporuje iba platby v CZK — riadok platby %(name)s je v %(cur)s."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "CFD/CFU only supports CZK payments — payment %(name)s is in %(cur)s."
+msgstr "CFD/CFU podporuje iba platby v CZK — platba %(name)s je v %(cur)s."
+
+#. module: account_cz_bankfile_base
+#: model:ir.module.module,shortdesc:base.module_account_cz_bankfile_base
+msgid "CZ/SK Bank File Formats — shared builders"
+msgstr "CZ/SK formáty bankových súborov — zdieľané zostavovače"
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "Cannot generate a MultiCash file from an empty payment list."
+msgstr "Z prázdneho zoznamu platieb nemožno vygenerovať súbor MultiCash."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/abo.py:0
+msgid "Cannot generate an ABO file from an empty payment list."
+msgstr "Z prázdneho zoznamu platieb nemožno vygenerovať súbor ABO."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "Journal %s has no bank account configured."
+msgstr "Denník %s nemá nastavený bankový účet."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "Journal %s requires a bank with a BIC for CFA export."
+msgstr "Denník %s vyžaduje pre export CFA banku s BIC."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "Journal %s requires a bank with a BIC for MT101 export."
+msgstr "Denník %s vyžaduje pre export MT101 banku s BIC."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/abo.py:0
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "Orderer bank account: %s"
+msgstr "Účet príkazcu: %s"
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "Payment %(name)s: %(error)s"
+msgstr "Platba %(name)s: %(error)s"
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "Payment %s is missing a partner bank account."
+msgstr "Platbe %s chýba bankový účet partnera."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/abo.py:0
+msgid "Payment line %(name)s: %(err)s"
+msgstr "Riadok platby %(name)s: %(err)s"
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/abo.py:0
+msgid "Payment line %s is missing a partner bank account."
+msgstr "Riadku platby %s chýba bankový účet partnera."
+
+#. module: account_cz_bankfile_base
+#: model:ir.module.module,summary:base.module_account_cz_bankfile_base
+msgid ""
+"Shared ABO and MultiCash payment-file builders. The CE "
+"(account_payment_order) and EE (account_batch_payment) variants of "
+"account_abo / account_multicash both build on this."
+msgstr ""
+"Zdieľané zostavovače platobných súborov ABO a MultiCash. Stavajú na nich "
+"varianty CE (account_payment_order) aj EE (account_batch_payment) modulov "
+"account_abo a account_multicash."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/abo.py:0
+msgid "The bank journal has no bank account configured."
+msgstr "Bankový denník nemá nastavený bankový účet."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid "Unknown MultiCash payment method code: %s"
+msgstr "Neznámy kód platobnej metódy MultiCash: %s"

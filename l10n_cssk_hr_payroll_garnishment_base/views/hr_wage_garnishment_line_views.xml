@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_wage_garnishment_line_view_list" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.line.list</field>
+        <field name="model">hr.wage.garnishment.line</field>
+        <field name="arch" type="xml">
+            <list string="Garnishment Deductions" create="0" decoration-muted="state == 'done'">
+                <field name="date_to"/>
+                <field name="employee_id"/>
+                <field name="case_number"/>
+                <field name="claim_class" optional="hide"/>
+                <field name="payee_partner_id"/>
+                <field name="amount_second_third" sum="Second Third" optional="hide"/>
+                <field name="amount_first_third" sum="First Third" optional="hide"/>
+                <field name="amount" sum="Total"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"/>
+                <field name="currency_id" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_line_view_search" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.line.search</field>
+        <field name="model">hr.wage.garnishment.line</field>
+        <field name="arch" type="xml">
+            <search string="Garnishment Deductions">
+                <field name="employee_id"/>
+                <field name="case_number"/>
+                <field name="payee_partner_id"/>
+                <filter name="to_remit" string="To Remit" domain="[('state', '=', 'computed')]"/>
+                <filter name="remitted" string="Remitted" domain="[('state', '=', 'done')]"/>
+                <group>
+                    <filter name="group_payee" string="Payee" context="{'group_by': 'payee_partner_id'}"/>
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_period" string="Period" context="{'group_by': 'date_to:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_line_action" model="ir.actions.act_window">
+        <field name="name">Garnishment Deductions</field>
+        <field name="res_model">hr.wage.garnishment.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_payee': 1}</field>
+    </record>
+</odoo>

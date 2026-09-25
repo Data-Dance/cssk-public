@@ -1,0 +1,391 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_statement_fio
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-31 16:52+0000\n"
+"PO-Revision-Date: 2026-08-31 16:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "%(count)s new transaction(s) imported."
+msgstr "Naimportovaných %(count)s nových transakcií."
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid ""
+"<b>This range reaches further back than 90 days.</b>\n"
+"                        Fio serves it only while the full history is unlocked\n"
+"                        for this token: open internet banking, go to\n"
+"                        <b>Nastavení → API</b> and click the padlock on the token."
+msgstr ""
+"<b>Tento rozsah siaha ďalej než 90 dní dozadu.</b>\n"
+"                        Fio ho vydá len vtedy, ak je pre tento token odomknutá\n"
+"                        celá história: otvorte internet banking, choďte do\n"
+"                        <b>Nastavení → API</b> a kliknite pri tokene na zámok."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__journal_id
+msgid "Bank Journal"
+msgstr "Bankový denník"
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_list_fio_statement
+msgid "Bank feed"
+msgstr "Zdroj výpisov"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__call_count
+msgid "Call Count"
+msgstr "Počet volaní"
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__date_from
+msgid "Date From"
+msgstr "Dátum od"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__date_to
+msgid "Date To"
+msgstr "Dátum do"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_bank_statement_line__fio_instruction_id
+msgid "Fio Instruction ID"
+msgstr "ID pokynu Fio"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_pull_at
+msgid "Fio Last Pull At"
+msgstr "Posledné stiahnutie z Fio"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_statement_number
+msgid "Fio Last Statement Number"
+msgstr "Číslo posledného výpisu Fio"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_statement_year
+msgid "Fio Last Statement Year"
+msgstr "Rok posledného výpisu Fio"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_bank_statement_line__fio_movement_id
+msgid "Fio Movement ID"
+msgstr "ID pohybu Fio"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_pull_mode
+msgid "Fio Pull Mode"
+msgstr "Režim sťahovania Fio"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "Fio banka API"
+msgstr "Fio banka API"
+
+#. module: account_statement_fio
+#: model:ir.module.module,shortdesc:base.module_account_statement_fio
+msgid "Fio banka — bank statements"
+msgstr "Fio banka — bankové výpisy"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "Fio movement %s"
+msgstr "Pohyb Fio %s"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_overlap_days
+msgid "Fio re-read days"
+msgstr "Dní spätného čítania Fio"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"Fio refused the request as reaching further back than 90 days without an "
+"unlocked history. Unlock it in internet banking (Nastavení → API, the "
+"padlock) and retry within ten minutes."
+msgstr ""
+"Fio požiadavku odmietlo, pretože siaha ďalej než 90 dní dozadu bez "
+"odomknutej histórie. Odomknite ju v internet bankingu (Nastavení → API, "
+"zámok) a zopakujte pokus do desiatich minút."
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"Fio serves movements older than %(days)s days only while the full history is"
+" unlocked for this token: open internet banking, go to Nastavení → API and "
+"click the padlock on this token. The unlock lasts ten minutes, so do it now "
+"and then tick the confirmation box."
+msgstr ""
+"Pohyby staršie než %(days)s dní Fio vydá len vtedy, ak je pre tento token "
+"odomknutá celá história: otvorte internet banking, choďte do Nastavení → API"
+" a kliknite pri tomto tokene na zámok. Odomknutie platí desať minút, urobte "
+"to teda teraz a potom zaškrtnite potvrdzovacie pole."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_bank_statement_line__fio_movement_id
+msgid ""
+"Fio's ID pohybu — unique per movement, and the key this integration "
+"deduplicates on."
+msgstr ""
+"ID pohybu podľa Fio — jedinečné pre každý pohyb; podľa neho táto integrácia "
+"rozpoznáva duplicity."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_bank_statement_line__fio_instruction_id
+msgid ""
+"Fio's ID pokynu. NOT unique: a transfer and its fee share one, and so do a "
+"payment and its later reversal — which is why it is never used for duplicate"
+" detection. It is also a different number from the batch id returned when a "
+"payment order is uploaded, so it cannot link a statement line back to a "
+"payment order either."
+msgstr ""
+"ID pokynu podľa Fio. NIE JE jedinečné: zdieľa ho prevod so svojím poplatkom "
+"aj platba so svojím neskorším stornom — preto sa nikdy nepoužíva na "
+"rozpoznanie duplicít. Je to aj iné číslo než ID dávky vrátené pri odoslaní "
+"platobného príkazu, takže ním nemožno riadok výpisu spojiť späť s platobným "
+"príkazom."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__statement_from
+msgid "First statement number"
+msgstr "Prvé číslo výpisu"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "Give both dates."
+msgstr "Zadajte obidva dátumy."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_create_statements
+msgid "Group Fio movements into statements"
+msgstr "Zoskupovať pohyby Fio do výpisov"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_journal__fio_last_movement_id
+msgid ""
+"Highest Fio movement id imported so far. Informational — duplicate detection"
+" uses the statement line's import key."
+msgstr ""
+"Najvyššie doteraz naimportované ID pohybu Fio. Iba informatívne — duplicity "
+"sa rozpoznávajú podľa importného kľúča riadku výpisu."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__history_unlocked
+msgid "History unlocked in internet banking"
+msgstr "História odomknutá v internet bankingu"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "Imported transactions"
+msgstr "Naimportované transakcie"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_journal__fio_overlap_days
+msgid ""
+"In movements mode, each run re-reads this many days before today. Movements "
+"already imported are dropped, so the overlap costs nothing and closes the "
+"hole a missed run would leave."
+msgstr ""
+"V režime pohybov každý beh znova načíta toľko dní dozadu. Už naimportované "
+"pohyby sa zahodia, prekryv teda nič nestojí a zaceľuje dieru, ktorú by "
+"vynechaný beh nechal."
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"Journal %(name)s is set to be fed by the Fio banka API, but it has no Fio "
+"read token. Ask an administrator to paste one into the journal's Fio banka "
+"section — it is generated in internet banking under Nastavení → API."
+msgstr ""
+"Denník %(name)s má ako zdroj výpisov nastavené Fio banka API, ale nemá token"
+" Fio na čítanie. Požiadajte správcu, aby ho vložil do časti Fio banka na "
+"denníku — generuje sa v internet bankingu v Nastavení → API."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_movement_id
+msgid "Last Fio movement"
+msgstr "Posledný pohyb Fio"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__statement_to
+msgid "Last statement number"
+msgstr "Posledné číslo výpisu"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "Manual pull: %(count)s new transaction(s)."
+msgstr "Ručné stiahnutie: %(count)s nových transakcií."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__mode
+msgid "Mode"
+msgstr "Režim"
+
+#. module: account_statement_fio
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__account_journal__fio_pull_mode__movements
+msgid "Movements (re-readable date range)"
+msgstr "Pohyby (opakovane čitateľný rozsah dátumov)"
+
+#. module: account_statement_fio
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__fio_statement_pull__mode__movements
+msgid "Movements in a date range"
+msgstr "Pohyby v rozsahu dátumov"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_journal__fio_create_statements
+msgid ""
+"Movements mode only. Official statements always produce an "
+"account.bank.statement, because that is the point of them."
+msgstr ""
+"Iba v režime pohybov. Oficiálne výpisy vytvárajú account.bank.statement "
+"vždy, pretože práve o to pri nich ide."
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__needs_history_unlock
+msgid "Needs History Unlock"
+msgstr "Vyžaduje odomknutie histórie"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "Nothing new — Fio has no movements Odoo does not already have."
+msgstr "Nič nové — Fio nemá žiadne pohyby, ktoré by Odoo už nemalo."
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "Nothing new — every movement Fio returned was already in Odoo."
+msgstr "Nič nové — všetky pohyby, ktoré Fio vrátilo, už v Odoo boli."
+
+#. module: account_statement_fio
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__account_journal__fio_pull_mode__official
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__fio_statement_pull__mode__official
+msgid "Official numbered statements"
+msgstr "Oficiálne číslované výpisy"
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "Pull"
+msgstr "Stiahnuť"
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid "Pull a range…"
+msgstr "Stiahnuť rozsah…"
+
+#. module: account_statement_fio
+#: model:ir.actions.act_window,name:account_statement_fio.fio_statement_pull_action
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "Pull from Fio"
+msgstr "Stiahnuť z Fio"
+
+#. module: account_statement_fio
+#: model:ir.module.module,summary:base.module_account_statement_fio
+msgid ""
+"Pull movements and official statements from the Fio banka API into bank "
+"journals. Community and Enterprise alike."
+msgstr ""
+"Sťahuje pohyby a oficiálne výpisy z Fio banka API do bankových denníkov. "
+"Rovnako pre Community aj Enterprise."
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid "Pull now"
+msgstr "Stiahnuť hneď"
+
+#. module: account_statement_fio
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__account_journal__fio_pull_mode__bookmark
+msgid "Since the bookmark on the token"
+msgstr "Od záložky uloženej na tokene"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__statement_year
+msgid "Statement Year"
+msgstr "Rok výpisu"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"That range holds more than 50 000 movements, which Fio will not serve at "
+"once. Pull it in shorter pieces."
+msgstr ""
+"V tomto rozsahu je viac než 50 000 pohybov, ktoré Fio naraz nevydá. "
+"Stiahnite ho po kratších častiach."
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "The first date is after the last one."
+msgstr "Prvý dátum je neskorší ako posledný."
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "The first statement number is after the last."
+msgstr "Prvé číslo výpisu je vyššie ako posledné."
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "The scheduled Fio pull failed: %(error)s"
+msgstr "Naplánované sťahovanie z Fio zlyhalo: %(error)s"
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "The unlock lasts <b>ten minutes</b>, so do it now — then:"
+msgstr "Odomknutie platí <b>desať minút</b>, urobte to teda teraz — a potom:"
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "This will make"
+msgstr "Prebehne"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_fio_statement_pull__history_unlocked
+msgid ""
+"Tick this only after clicking the padlock on this token in Fio internet "
+"banking. The unlock lasts ten minutes."
+msgstr ""
+"Zaškrtnite až potom, čo pri tomto tokene kliknete na zámok v internet "
+"bankingu Fio. Odomknutie platí desať minút."
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid ""
+"calls to Fio. The bank allows one call per token every 30\n"
+"                    seconds, so expect it to take roughly that many half-minutes."
+msgstr ""
+"volaní do Fio. Banka povoľuje jedno volanie na token za 30\n"
+"                    sekúnd, počítajte teda zhruba s toľkými polminútami."
+
+#. module: account_statement_fio
+#: model:ir.model,name:account_statement_fio.model_fio_statement_pull
+msgid "Pull Fio Bank Statements"
+msgstr "Stiahnutie bankových výpisov Fio"

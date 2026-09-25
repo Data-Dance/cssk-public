@@ -1,0 +1,161 @@
+# Copyright 2026 Data Dance s.r.o.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+"""Platební titul — the ČNB payment-reason code list.
+
+Reference: *FIO API BANKOVNICTVÍ* v1.9, §6.3.4.
+
+Mandatory on every foreign payment (``ForeignTransaction``), and conditionally
+on a Europlatba — §6.3.2 requires it for accounts held at Fio's Slovak branch
+when the payment exceeds EUR 50 000.
+
+Descriptions are kept in Czech verbatim: these are the statutory ČNB terms,
+and an English paraphrase of a legal code-list entry is worse for the only
+audience that reads them.
+"""
+
+#: code → official description (ČNB, as reproduced in the Fio documentation)
+PAYMENT_REASONS = {
+    "110": "Vývoz zboží",
+    "112": "Finanční pronájem (leasing) – vývoz",
+    "120": "Dovoz zboží",
+    "122": "Finanční pronájem (leasing) – dovoz",
+    "130": "Reexport",
+    "132": "Zpracování",
+    "135": "Opravy",
+    "190": "Transakce z použití směnek a šeků",
+    "195": "Časově neidentifikované platební tituly",
+    "210": "Železniční nákladní – inkasa a platby spojené s přepravou zboží po železnici",
+    "211": "Železniční osobní – inkasa a platby spojené s přepravou osob po železnici",
+    "212": "Železniční ostatní",
+    "213": "Námořní nákladní",
+    "214": "Námořní osobní",
+    "215": "Námořní ostatní",
+    "216": "Vnitrozemská vodní nákladní",
+    "217": "Vnitrozemská vodní osobní",
+    "218": "Vnitrozemská vodní ostatní",
+    "219": "Letecká nákladní",
+    "220": "Letecká osobní",
+    "221": "Letecká ostatní",
+    "222": "Silniční nákladní",
+    "223": "Silniční osobní",
+    "224": "Silniční ostatní",
+    "226": "Kombinovaná doprava",
+    "233": "Kosmická doprava",
+    "235": "Potrubní tranzit",
+    "239": "Ostatní přepravní služby",
+    "260": "Nákup cizí měny za hotovost",
+    "262": "Nákup cizí měny s připsáním na účet fyzické osoby v Kč",
+    "265": "Nákup cizí měny s připsáním na účet právnické osoby v Kč",
+    "270": "Prodej cizí měny za hotovost",
+    "272": "Prodej cizí měny s odepsáním z účtu fyzické osoby v Kč",
+    "275": "Prodej cizí měny s odepsáním z účtu právnické osoby v Kč",
+    "280": "Aktivní cestovní ruch",
+    "282": "Pasivní cestovní ruch",
+    "285": "Mimobankovní směnárny",
+    "295": "Transakce z použití platebních karet",
+    "310": "Poštovní služby",
+    "311": "Kurýrní služby",
+    "312": "Telekomunikační a radiokomunikační služby",
+    "315": "Stavební a montážní práce v zahraničí",
+    "318": "Stavební a montážní práce v tuzemsku",
+    "320": "Ziskové operace se zbožím",
+    "325": "Opravy",
+    "326": "Pojištění zboží",
+    "327": "Zajištění (pojišťoven)",
+    "328": "Pomocné služby při pojištění",
+    "330": "Ostatní pojištění",
+    "332": "Životní a penzijní pojištění",
+    "335": "Finanční služby",
+    "340": "Reklama",
+    "345": "Právní služby",
+    "346": "Účetnické a auditorské služby",
+    "347": "Poradenství v podnikání a řízení, služby v oblasti vytváření vztahu k veřejnosti – public relations",
+    "348": "Nájemné",
+    "352": "Pronájem strojů a zařízení",
+    "355": "Výzkum a vývoj",
+    "360": "Autorské honoráře, licenční poplatky",
+    "361": "Ochranné známky, franšízy",
+    "365": "Služby výpočetní techniky",
+    "368": "Informační služby",
+    "369": "Služby mezi podniky v rámci přímých investic",
+    "370": "Diplomatická zastoupení České republiky v zahraničí",
+    "372": "Zahraniční diplomatická zastoupení v České republice",
+    "375": "Vládní příjmy a výdaje",
+    "376": "Ostatní vládní příjmy a výdaje",
+    "378": "Zprostředkovatelské služby",
+    "380": "Ostatní služby obchodní povahy",
+    "382": "Audiovizuální služby",
+    "384": "Služby v oblasti vzdělávání",
+    "385": "Služby v oblasti kultury, zábavy, sportu a rekreace",
+    "386": "Služby v oblasti zdravotnictví a veterinární péče",
+    "387": "Služby v oblasti zemědělství",
+    "388": "Služby v oblasti odpadového hospodářství",
+    "390": "Technické služby",
+    "392": "Služby v oblasti těžebního průmyslu",
+    "395": "Zastoupení českých firem v zahraničí",
+    "397": "Zastoupení zahraničních firem v ČR",
+    "410": "Převody pracovních příjmů u krátkodobého pobytu",
+    "412": "Převody pracovních příjmů u dlouhodobého pobytu",
+    "510": "Výnosy z přímých investic",
+    "520": "Výnosy z portfoliových investic",
+    "530": "Úroky – přímé investice",
+    "532": "Úroky – portfoliové investice",
+    "535": "Úroky z finančních a ostatních úvěrů",
+    "538": "Úroky z obchodních úvěrů",
+    "540": "Úroky z depozit",
+    "550": "Důchody z půdy",
+    "610": "Převody (nenávratné) – podpory, odškodnění, věna apod.",
+    "612": "Dědictví a dary",
+    "615": "Výživné",
+    "618": "Penze",
+    "620": "Příspěvky mezinárodním organizacím ze státního rozpočtu",
+    "622": "Příspěvky mezinárodním organizacím mimo státní rozpočet",
+    "625": "Převody v souvislosti s vystěhováním",
+    "628": "Zahraniční pomoc",
+    "630": "Dotace",
+    "632": "Pokuty, penále",
+    "635": "Daně a poplatky",
+    "640": "Nákup a prodej vlastnických práv a nefinančních aktiv",
+    "650": "Ostatní finanční převody",
+    "652": "Příspěvky a výhry",
+    "653": "Vklady a příspěvky do nadací a nadačních fondů",
+    "725": "Finanční deriváty",
+    "735": "Nákup a prodej nemovitostí v zahraničí",
+    "740": "Poskytnuté úvěry krátkodobé účelové",
+    "742": "Poskytnuté úvěry krátkodobé finanční (bez stanoveného účelu)",
+    "745": "Poskytnuté úvěry střednědobé a dlouhodobé účelové",
+    "748": "Poskytnuté úvěry střednědobé a dlouhodobé finanční (bez stanoveného účelu)",
+    "750": "Vklady a výběry z vkladů promptních a krátkodobých",
+    "752": "Dotace účtů",
+    "755": "Vklady a výběry z vkladů střednědobých a dlouhodobých",
+    "760": "Konverze, arbitráže a další operace",
+    "762": "Řízení likvidity peněžních prostředků (cash-pooling, zero balancing)",
+    "770": "Členské podíly v mezinárodních organizacích",
+    "790": "Zajištění závazků cizozemce",
+    "818": "Tuzemské portfoliové investice",
+    "820": "Tuzemské dluhové cenné papíry krátkodobé",
+    "822": "Tuzemské dluhové cenné papíry střednědobé a dlouhodobé",
+    "825": "Finanční deriváty",
+    "835": "Nákup a prodej nemovitostí v tuzemsku",
+    "850": "Vklady a výběry z vkladů promptních a krátkodobých",
+    "852": "Dotace účtů",
+    "855": "Vklady a výběry z vkladů střednědobých a dlouhodobých",
+    "862": "Řízení likvidity peněžních prostředků (cash-pooling, zero balancing)",
+    "890": "Zajištění závazku tuzemce",
+    "950": "Převody mezi tuzemci",
+    "952": "Převody mezi cizozemci",
+}
+
+
+def is_valid_payment_reason(code):
+    """True if ``code`` is a known three-digit platební titul."""
+    return bool(code) and str(code).strip() in PAYMENT_REASONS
+
+
+def payment_reason_selection():
+    """``[(code, "code — description")]``, for an Odoo Selection field."""
+    return [
+        (code, "%s — %s" % (code, description))
+        for code, description in sorted(PAYMENT_REASONS.items())
+    ]

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Czech depreciation groups — zákon 586/1992 Sb., 2026 consolidated text.
+        Straight-line rates: §31 (max year-1 / next years / increased entry price).
+        Accelerated coefficients: §32 (year-1 / next years / increased residual).
+        Lives: §30(1). Verified against zakonyprolidi.cz verze 156 (01.04.2026).
+        noupdate="0": coefficients refresh on module upgrade if the law changes.
+    -->
+
+    <record id="cz_group_1" model="account.asset.tax.class">
+        <field name="code">CZ-1</field>
+        <field name="name">Odpisová skupina 1</field>
+        <field name="country_code">CZ</field>
+        <field name="group_number">1</field>
+        <field name="useful_life_years">3</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="True"/>
+        <!-- §30a eligibility assumption: extraordinary depreciation currently
+             applies to BEZEMISNÍ VOZIDLA (emission-free vehicles acquired
+             1.1.2024–31.12.2028 by the first depreciator, §30a odst. 1), and
+             road motor vehicles sit in odpisová skupina 2 — so §30a is enabled
+             on CZ-2 only. Explicit False (not omitted) so that noupdate="0"
+             reloads also correct databases that carried the old True. -->
+        <field name="allow_extraordinary" eval="False"/>
+        <field name="linear_rate_first">20</field>
+        <field name="linear_rate_next">40</field>
+        <field name="linear_rate_increased">33.3</field>
+        <field name="accel_coeff_first">3</field>
+        <field name="accel_coeff_next">4</field>
+        <field name="accel_coeff_increased">3</field>
+    </record>
+
+    <record id="cz_group_2" model="account.asset.tax.class">
+        <field name="code">CZ-2</field>
+        <field name="name">Odpisová skupina 2</field>
+        <field name="country_code">CZ</field>
+        <field name="group_number">2</field>
+        <field name="useful_life_years">5</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="True"/>
+        <!-- kept: §30a (mimořádné odpisy) targets emission-free road vehicles,
+             which belong to group 2 — see the eligibility note on CZ-1 -->
+        <field name="allow_extraordinary" eval="True"/>
+        <field name="linear_rate_first">11</field>
+        <field name="linear_rate_next">22.25</field>
+        <field name="linear_rate_increased">20</field>
+        <field name="accel_coeff_first">5</field>
+        <field name="accel_coeff_next">6</field>
+        <field name="accel_coeff_increased">5</field>
+    </record>
+
+    <record id="cz_group_3" model="account.asset.tax.class">
+        <field name="code">CZ-3</field>
+        <field name="name">Odpisová skupina 3</field>
+        <field name="country_code">CZ</field>
+        <field name="group_number">3</field>
+        <field name="useful_life_years">10</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="True"/>
+        <field name="linear_rate_first">5.5</field>
+        <field name="linear_rate_next">10.5</field>
+        <field name="linear_rate_increased">10</field>
+        <field name="accel_coeff_first">10</field>
+        <field name="accel_coeff_next">11</field>
+        <field name="accel_coeff_increased">10</field>
+    </record>
+
+    <record id="cz_group_4" model="account.asset.tax.class">
+        <field name="code">CZ-4</field>
+        <field name="name">Odpisová skupina 4</field>
+        <field name="country_code">CZ</field>
+        <field name="group_number">4</field>
+        <field name="useful_life_years">20</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="True"/>
+        <field name="linear_rate_first">2.15</field>
+        <field name="linear_rate_next">5.15</field>
+        <field name="linear_rate_increased">5.0</field>
+        <field name="accel_coeff_first">20</field>
+        <field name="accel_coeff_next">21</field>
+        <field name="accel_coeff_increased">20</field>
+    </record>
+
+    <record id="cz_group_5" model="account.asset.tax.class">
+        <field name="code">CZ-5</field>
+        <field name="name">Odpisová skupina 5</field>
+        <field name="country_code">CZ</field>
+        <field name="group_number">5</field>
+        <field name="useful_life_years">30</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="True"/>
+        <field name="linear_rate_first">1.4</field>
+        <field name="linear_rate_next">3.4</field>
+        <field name="linear_rate_increased">3.4</field>
+        <field name="accel_coeff_first">30</field>
+        <field name="accel_coeff_next">31</field>
+        <field name="accel_coeff_increased">30</field>
+    </record>
+
+    <record id="cz_group_6" model="account.asset.tax.class">
+        <field name="code">CZ-6</field>
+        <field name="name">Odpisová skupina 6</field>
+        <field name="country_code">CZ</field>
+        <field name="group_number">6</field>
+        <field name="useful_life_years">50</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="True"/>
+        <field name="linear_rate_first">1.02</field>
+        <field name="linear_rate_next">2.02</field>
+        <field name="linear_rate_increased">2.0</field>
+        <field name="accel_coeff_first">50</field>
+        <field name="accel_coeff_next">51</field>
+        <field name="accel_coeff_increased">50</field>
+    </record>
+
+</odoo>

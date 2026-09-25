@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_wage_garnishment_root"
+              name="Garnishments"
+              parent="hr.menu_hr_root"
+              groups="hr.group_hr_user"
+              sequence="60"/>
+
+    <menuitem id="menu_wage_garnishment_orders"
+              name="Orders"
+              parent="menu_wage_garnishment_root"
+              action="hr_wage_garnishment_action"
+              sequence="10"/>
+
+    <menuitem id="menu_wage_garnishment_lines"
+              name="Deductions"
+              parent="menu_wage_garnishment_root"
+              action="hr_wage_garnishment_line_action"
+              sequence="20"/>
+
+    <menuitem id="menu_wage_garnishment_notice"
+              name="Statutory Notices"
+              parent="menu_wage_garnishment_root"
+              action="hr_wage_garnishment_notice_action"
+              sequence="30"/>
+
+    <menuitem id="menu_wage_garnishment_rates"
+              name="Garnishment Rates"
+              parent="hr.menu_human_resources_configuration"
+              action="hr_wage_garnishment_rate_action"
+              groups="hr.group_hr_manager"
+              sequence="90"/>
+</odoo>

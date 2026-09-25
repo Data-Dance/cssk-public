@@ -1,0 +1,57 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* currency_rate_update_sk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-13 20:34+0000\n"
+"PO-Revision-Date: 2026-06-13 20:34+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: currency_rate_update_sk
+#: model:ir.model,name:currency_rate_update_sk.model_res_currency_rate_provider
+msgid "Currency Rates Provider"
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields.selection,name:currency_rate_update_sk.selection__res_currency_rate_provider__service__tb
+msgid "Tatra banka"
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields,help:currency_rate_update_sk.field_res_currency_rate_provider__fill_missing_days
+msgid ""
+"After each update, carry the last published rate forward to weekends and "
+"holidays so every calendar day in the synced range has a rate. Idempotent — "
+"never overwrites a published rate."
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.module.module,shortdesc:base.module_currency_rate_update_sk
+msgid "Currency Rate Update SK (NBS/ECB + Slovak banks)"
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_currency_rate_provider__fill_missing_days
+msgid "Fill non-publishing days"
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_currency_rate_provider__service
+msgid "Service"
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.module.module,summary:base.module_currency_rate_update_sk
+msgid ""
+"Slovak FX-rate providers for OCA currency_rate_update: ECB reference rate "
+"(NBS statutory) with previous-day fill, plus VÚB and Tatra banka commercial "
+"rate lists."
+msgstr ""

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="account_journal_view_form_fio" model="ir.ui.view">
+        <field name="name">account.journal.form.fio</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <!-- Right after the account number: the tokens describe the same
+                 account the fields above it do. -->
+            <group name="bank_account_number" position="after">
+                <!-- FULL WIDTH: ``colspan="2"`` spans both columns of core's
+                     enclosing group, the same way sale's ``sale_total`` group
+                     does. That buys a genuine two-column grid INSIDE it — the
+                     connection on the left, the statement settings that
+                     ``account_statement_fio`` adds on the right — where a
+                     half-width section could only stack them and push the whole
+                     block off the fold. Anything meant to be read as prose,
+                     the buttons and the two notes, keeps ``colspan="2"`` so it
+                     spans the full width rather than being squeezed into a
+                     column. -->
+                <group name="fio" string="Fio banka" colspan="2"
+                       invisible="type != 'bank'">
+                    <div name="fio_buttons" colspan="2" class="mb-3">
+                        <button name="action_fio_test_connection" type="object"
+                                string="Test connection" class="btn-secondary"
+                                icon="fa-plug" />
+                    </div>
+                    <div class="text-muted" colspan="2" groups="base.group_system">
+                        Generate the tokens in Fio internet banking under
+                        <b>Nastavení → API</b>. A token becomes usable five
+                        minutes after it is authorised, is bound to one account,
+                        and expires after at most 180 days. Use a read-only
+                        token for the statement pull and a separate submit token
+                        for payment orders — the read token is the one in
+                        constant use, and one that can only read cannot pay
+                        anyone.
+                    </div>
+                    <div class="text-muted" colspan="2" groups="!base.group_system">
+                        The tokens themselves are visible to administrators only.
+                    </div>
+                    <!-- Left column, titled the same way the right one is: a
+                         ``string`` on the group itself, not a separator inside
+                         an untitled group. Same construct, so the two columns
+                         are guaranteed to render alike rather than merely
+                         similarly, and each starts with its heading.
+                         ``account_statement_fio`` puts the right column in
+                         after this one. -->
+                    <group name="fio_connection" string="Settings">
+                        <field name="fio_token_read" password="True"
+                               groups="base.group_system" />
+                        <field name="fio_token_read_expiry" />
+                        <field name="fio_token_write" password="True"
+                               groups="base.group_system" />
+                        <field name="fio_token_write_expiry" />
+                        <field name="fio_has_token_read" string="Read token set"
+                               readonly="1" groups="!base.group_system" />
+                        <field name="fio_has_token_write" string="Submit token set"
+                               readonly="1" groups="!base.group_system" />
+                        <field name="fio_download_format" />
+                        <field name="fio_last_read_at" />
+                        <field name="fio_last_write_at" />
+                        <separator string="What Fio reports about this account"
+                                   colspan="2" invisible="not fio_account_number" />
+                        <field name="fio_account_number"
+                               invisible="not fio_account_number" />
+                        <field name="fio_bank_code" invisible="not fio_account_number" />
+                        <field name="fio_iban" invisible="not fio_account_number" />
+                        <field name="fio_bic" invisible="not fio_account_number" />
+                        <field name="fio_currency" invisible="not fio_account_number" />
+                    </group>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="account_journal_view_list_fio" model="ir.ui.view">
+        <field name="name">account.journal.list.fio</field>
+        <field name="model">account.journal</field>
+        <field name="arch" type="xml">
+            <list string="Fio Connections" create="0">
+                <field name="name" />
+                <field name="code" optional="show" />
+                <field name="fio_account_number" />
+                <field name="fio_currency" />
+                <field name="fio_has_token_read" string="Read token" />
+                <field name="fio_has_token_write" string="Submit token" />
+                <field name="fio_token_read_expiry"
+                       decoration-danger="fio_token_read_expiry and fio_token_read_expiry &lt; current_date" />
+                <field name="fio_token_write_expiry"
+                       decoration-danger="fio_token_write_expiry and fio_token_write_expiry &lt; current_date" />
+                <field name="fio_last_read_at" />
+                <field name="company_id" groups="base.group_multi_company" optional="show" />
+            </list>
+        </field>
+    </record>
+
+    <!-- One screen showing every Fio connection and both token expiries. A
+         dead token is otherwise invisible until a payment run trips over it,
+         which is how it was found the first time. -->
+    <record id="fio_journal_action" model="ir.actions.act_window">
+        <field name="name">Fio banka</field>
+        <field name="res_model">account.journal</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('fio_has_token_read', '=', True)]</field>
+        <field name="context">{'default_type': 'bank'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No bank journal is connected to Fio yet</p>
+            <p>
+                Open a bank journal and paste a token from Fio internet banking
+                (Nastavení → API) into its <b>Fio banka</b> section.
+            </p>
+        </field>
+    </record>
+
+    <record id="fio_journal_action_view_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="account_journal_view_list_fio" />
+        <field name="act_window_id" ref="fio_journal_action" />
+    </record>
+
+    <menuitem id="fio_account_menu"
+              name="Fio banka"
+              parent="account.account_account_menu"
+              action="fio_journal_action"
+              sequence="90" />
+
+</odoo>

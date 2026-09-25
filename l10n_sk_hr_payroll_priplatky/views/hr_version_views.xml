@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Surcharge and minimum-wage-claim attributes on the contract/version
+        form. Inherits the core hr contract-template form (the same anchor the
+        Slovak payroll modules use) so this stays installable without either
+        payroll engine, and is guarded by hr.group_hr_user for the same reason.
+    -->
+    <record id="hr_version_view_form_l10n_sk_priplatky" model="ir.ui.view">
+        <field name="name">hr.version.view.form.l10n_sk_priplatky</field>
+        <field name="model">hr.version</field>
+        <field name="inherit_id" ref="hr.hr_contract_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='contract']" position="after">
+                <div class="alert alert-warning" role="alert"
+                     groups="hr.group_hr_user"
+                     invisible="not l10n_sk_min_wage_warning">
+                    <field name="l10n_sk_min_wage_warning" readonly="1" nolabel="1"/>
+                </div>
+                <group string="Slovak Wage Surcharges" groups="hr.group_hr_user">
+                    <field name="l10n_sk_wage_level"/>
+                    <field name="l10n_sk_risk_work"/>
+                    <field name="l10n_sk_night_reduced"
+                           invisible="l10n_sk_risk_work"/>
+                    <field name="l10n_sk_saturday_reduced"/>
+                    <field name="l10n_sk_sunday_reduced"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

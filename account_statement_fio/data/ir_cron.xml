@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="cron_fio_pull_statements" model="ir.cron">
+        <field name="name">Fio: pull bank statements</field>
+        <field name="model_id" ref="account.model_account_journal" />
+        <field name="state">code</field>
+        <field name="code">model._fio_cron_pull_statements()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="active" eval="True" />
+    </record>
+</odoo>

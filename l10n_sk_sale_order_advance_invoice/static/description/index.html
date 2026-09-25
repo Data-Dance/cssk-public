@@ -1,0 +1,72 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Advance Invoices — Slovak Localization</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Wires advance invoices (preddavkové faktúry) to the Slovak chart of accounts</h3>
+    <div class="oe_span12">
+      <p>This app connects the country-neutral <code>sale_order_advance_invoice</code> module to the
+         Slovak chart of accounts so the advance-payment workflow posts to the correct statutory
+         accounts.</p>
+      <p>On install it configures, for every company on the Slovak chart template (only empty fields
+         are filled, so existing manual configuration is preserved): the dedicated tax-documents
+         journal <b>TDADV</b> (Faktúry k prijatým platbám), the reconcilable advance-clearing account
+         <b>324001</b> (created — the standard chart has none), the short-term received-advance
+         account <b>324000</b> (Prijaté preddavky), and the long-term received-advance account
+         <b>475000</b> (Dlhodobé prijaté preddavky).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Post-init hook wires the advance-invoice journal and accounts to the Slovak chart per
+            company.</li>
+        <li>Creates the reconcilable clearing account 324001 that the standard SK chart lacks.</li>
+        <li>Idempotent — only empty configuration fields are filled, so manual setup is preserved.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install the module on a database with the Slovak chart; the wiring runs automatically. The
+         advance-invoice workflow — advance / proforma invoice → payment → tax document for the
+         received payment → final invoice with advance deduction — then posts to the Slovak accounts.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Documentation</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="../../docs/index.rst">docs/index.rst</a> — what gets configured and the
+            four-step Slovak accounting flow for received advances.</li>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — release history.</li>
+        <li><a href="../../../sale_order_advance_invoice/static/description/advance_invoice_cheat_sheet.html">Advance-invoice cheat sheet</a>
+            — interactive cheat sheet in the country-neutral base module.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

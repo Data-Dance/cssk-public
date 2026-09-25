@@ -1,0 +1,63 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Česká republika — Přiznání k DPH (DPHDP3)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">České přiznání k DPH sestavené z daňových značek l10n_cz a exportované jako XML EPO Pisemnost/DPHDP3</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace je českou zemskou vrstvou sdíleného rámce pro přiznání k DPH
+         (<code>l10n_cssk_vat_return_base</code>). Vytváří české <b>přiznání k DPH</b>
+         (DPHDP3): sada řádků DPHDP3 je namapována na daňové značky <code>l10n_cz</code>
+         (<code>VAT n Base</code> / <code>VAT n Tax</code>) a 48 řádků založených na značkách
+         se automaticky vypočítá z daňových značek zaúčtovaných řádků.</p>
+      <p>Je <b>CE-čistá</b> — čte přímo daňové značky jádra <code>l10n_cz</code> a
+         <b>nevyžaduje</b> enterprise engine <code>account_reports</code>, takže funguje na
+         Community i Enterprise. Export probíhá jako XML EPO <b>Pisemnost / DPHDP3</b>
+         (VetaD / VetaP / Veta1–Veta6) podle struktury exportu Odoo Enterprise.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Sada řádků DPHDP3 (obrat23/dan23/…) namapovaná na daňové značky
+            <code>l10n_cz</code>; 48 řádků základu/daně se automaticky počítá ze značek
+            řádků zápisů.</li>
+        <li>Export XML EPO <b>Pisemnost / DPHDP3</b> (VetaD / VetaP / Veta1–Veta6).</li>
+        <li>CE-čistá: čte daňové značky přímo, bez závislosti na <code>account_reports</code> —
+            funguje na Community i Enterprise.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Výkazy ▸ Česká republika ▸ Přiznání k DPH.</i> Vytvořte přiznání za
+         období, <b>Vypočítat</b> pro naplnění řádků založených na značkách z účetních zápisů
+         období, zkontrolujte řádky a následně <b>Exportovat XML</b> pro portál EPO.</p>
+      <p><b>Poznámka k rozsahu (v1):</b> 48 řádků základu/daně se počítá automaticky; řádky
+         nároku na odpočet (krácení koeficientem) a součty zadává/kontroluje účetní. Oficiální
+         XSD EPO zatím není zapojeno (export ověřuje kořenový element a je dobře utvořený);
+         pro validaci na úrovni podání jej doplňte.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

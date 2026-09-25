@@ -1,0 +1,84 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Financial Statements — Shared Framework</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Country-neutral engine behind the Slovak Súvaha / VZS and Czech Rozvaha / VZZ — line trees from account-code balances, a comparison period and XSD-validated XML</h3>
+    <div class="oe_span12">
+      <p>The country-neutral engine behind the Slovak <b>Súvaha</b> (balance sheet) /
+         <b>Výkaz ziskov a strát</b> (P&amp;L) and Czech <b>Rozvaha</b> / <b>Výkaz zisku a
+         ztráty (VZZ)</b>. A hierarchical line tree where leaf lines are computed from
+         <b>account-code balances</b> and parent lines aggregate, for a current and a
+         comparison (prior) period.</p>
+      <p><b>CE-clean:</b> the evaluator reads <code>account.move.line</code> balances directly
+         (by <code>account.account.code</code>), so it does <b>not</b> depend on the Enterprise
+         <code>account_reports</code> engine. It runs on Community and Enterprise, on Odoo 18.0
+         and 19.0. Country modules ship the line definitions (the account mapping), the XML
+         template and the schema.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.fs.statement.version</code> — line definitions + statement kind
+            (balance sheet / profit &amp; loss) + template + schema. New legislation ships as
+            a new version record.</li>
+        <li><code>cssk.fs.statement.line.def</code> — three line kinds: <b>accounts</b>
+            (account-code formula; balance sheet = as-of, P&amp;L = period), <b>aggregate</b>
+            (formula over line codes) and <b>manual</b>.</li>
+        <li><code>cssk.fs.statement</code> (mail.thread) — computes the current <b>and a
+            comparison (prior) period</b>, with per-line manual overrides preserved across
+            recompute.</li>
+        <li>XSD-validated statutory XML export.</li>
+      </ul>
+      <p><i>Scope note:</i> this core computes a single (net) value per line. The SK Súvaha's
+         3-column <b>Brutto / Korekcia / Netto</b> split and the Poznámky / mikro variants are
+         extensions on top.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Accounting ▸ Reporting ▸ Financial Statements.</i> Use <b>New Financial
+         Statement</b> to create one for a period, review the per-line detail (current vs prior
+         period), adjust any manual lines, recompute, then <b>Export XML</b>. The line set,
+         account mapping and schema come from the installed country module; statement versions
+         live under the localization root menu.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Wizards</h2>
+    <div class="oe_span12">
+      <h4>Create Financial Statement <small>(Accounting ▸ Reporting ▸ Financial Statements ▸ New Financial Statement)</small></h4>
+      <p><b>What it does:</b> creates a financial statement for a period and computes it in one
+         step.</p>
+      <p><b>How to use:</b> pick the company, the statement version (filtered to the company's
+         fiscal country) and the period (date from / date to), then <i>Create</i>; the wizard
+         builds the <code>cssk.fs.statement</code>, runs the computation and opens the new
+         statement.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--
+            Garnishment records are highly sensitive personal data: they reveal
+            that an employee is in debt enforcement. Access follows the normal
+            HR officer/manager split, and records never leak across companies.
+        -->
+        <record id="hr_wage_garnishment_company_rule" model="ir.rule">
+            <field name="name">Wage Garnishment: multi-company</field>
+            <field name="model_id" ref="model_hr_wage_garnishment"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record id="hr_wage_garnishment_line_company_rule" model="ir.rule">
+            <field name="name">Wage Garnishment Deduction: multi-company</field>
+            <field name="model_id" ref="model_hr_wage_garnishment_line"/>
+            <field name="global" eval="True"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+    </data>
+</odoo>

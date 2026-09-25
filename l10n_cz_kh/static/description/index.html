@@ -1,0 +1,42 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">🌐 <b>EN</b> · <a href="index_cz.html">CZ</a> · <a href="index_sk.html">SK</a></p>
+    <h2 class="oe_slogan">CZ Control Statement (Kontrolní hlášení / DPHKH1)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Czech VAT control statement on the shared KV/KH framework, with the 10 000 CZK split and the EPO Pisemnost / DPHKH1 XML export</h3>
+    <div class="oe_span12">
+      <p>The Czech country layer for the shared control-statement framework (<code>l10n_cssk_kv_kh_base</code>). A line-level resolver classifies posted move lines into the Kontrolní hlášení (DPHKH1) sections, and the module exports the EPO Pisemnost / DPHKH1 XML for submission. This is the Czech Kontrolní hlášení (KH) — a different form from the Slovak Kontrolný výkaz DPH (KV DPH).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>A line-level resolver classifies posted move lines into the KH sections.</li>
+        <li>The per-document 10 000 CZK threshold splits the detail sections (A4/B2, over) from the aggregates (A5/B3, up to).</li>
+        <li>Reverse-charge supplies and acquisitions (§92a) are routed to A1/B1; EU acquisitions to A2.</li>
+        <li>Exports the EPO Pisemnost / DPHKH1 XML: VetaD/VetaP, the per-document VetaA1/A2/A4/B1/B2 rows, the VetaA5/B3 aggregates, and the VetaC control totals computed from the sections.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install the module on a Czech company and create a control statement for the reporting period. Computing the lines populates the A1–B3 sections from the posted move lines, applying the 10 000 CZK per-document split between the detail and aggregate sections. Export the statement to produce the EPO Pisemnost / DPHKH1 XML, validated against the official EPO DPHKH1 XSD (<code>data/dphkh1_epo2.xsd</code>) loaded onto the version record. Scope note (v1): the resolver decision tree — especially the §92a reverse-charge commodity list and the §44 bad-debt corrections — needs CZ-accountant validation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

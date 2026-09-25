@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PREHLAD_2026 - o zrazenych a odvedenych preddavkoch, zamestnaneckej premii a danovom bonuse za kalendarny mesiac -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation>PREHLAD_2026</xsd:documentation>
+    </xsd:annotation>
+    <!-- prazdny retazec -->
+    <xsd:simpleType name="emptyStr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value=""/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- nepovinna boolovska hodnota -->
+    <xsd:simpleType name="optBool">
+        <xsd:union memberTypes="xsd:boolean emptyStr"/>
+    </xsd:simpleType>
+    <!-- povinna boolovska hodnota 0 alebo 1 -->
+    <xsd:simpleType name="only_0_1">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="1"/>
+            <xsd:pattern value="[0-1]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- datum v hlavickovej casti -->
+    <xsd:simpleType name="Date">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern
+                value="(((([0])?[1-9])|([1-2][0-9])|([3][0]))[.]((([0])?[13-9])|([1][0-2]))[.]([0-9][0-9][0-9][0-9]))"/>
+            <xsd:pattern value="([3][1][.]((([0])?[13578])|([1][02]))[.]([0-9][0-9][0-9][0-9]))"/>
+            <xsd:pattern
+                value="(((([0])?[1-9])|([1][0-9])|([2][0-8]))[.]([0])?[2][.]([0-9][0-9][0-9][0-9]))"/>
+            <xsd:pattern value="([2][9][.]([0])?[2])[.][0-9][0-9][13579][26]"/>
+            <xsd:pattern value="([2][9][.]([0])?[2])[.][0-9][0-9][02468][048]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- nepovinne datum -->
+    <xsd:simpleType name="optDate">
+        <xsd:union memberTypes="Date emptyStr"/>
+    </xsd:simpleType>
+    <!-- nepovinne mesiac rok -->
+    <xsd:simpleType name="optMonthYear">
+        <xsd:union memberTypes="MonthYear emptyStr"/>
+    </xsd:simpleType>
+    <!-- datum v hlavickovej casti -->
+    <xsd:simpleType name="MonthYear">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="(((([0])?[1-9])|([1][0-2]))[.]([0-9][0-9][0-9][0-9]))"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- nepovinne cele cislo -->
+    <xsd:simpleType name="optInt">
+        <xsd:union memberTypes="xsd:integer emptyStr"/>
+    </xsd:simpleType>
+    <!-- nepovinne desatinne cislo -->
+    <xsd:simpleType name="optDec">
+        <xsd:union memberTypes="decimalWithTwoDec emptyStr"/>
+    </xsd:simpleType>
+    <!-- cislo tvaru N (12.2) -->
+    <xsd:simpleType name="decimalWithTwoDec">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="12"/>
+            <xsd:fractionDigits value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="cast1">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="r00"/>
+                <xsd:element ref="r01"/>
+                <xsd:element ref="r01a"/>
+                <xsd:element name="r01b" type="optDec"/>
+                <xsd:element ref="r02"/>
+                <xsd:element ref="r03"/>
+                <xsd:element ref="r04"/>
+                <xsd:element ref="r05"/>
+                <xsd:element ref="r06"/>
+                <xsd:element ref="r07"/>
+                <xsd:element ref="r08"/>
+                <xsd:element ref="r08b"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="cast2">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="rA"/>
+                <xsd:element ref="rB"/>
+                <xsd:element ref="rC"/>
+                <xsd:element ref="rD"/>
+                <xsd:element ref="rE"/>
+                <xsd:element ref="rF"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="cast3">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="poukazatBonus"/>
+                <xsd:element ref="poukazatPremiu"/>
+                <xsd:element ref="poukazatBonusNaUroky"/>
+                <xsd:element ref="sposobPlatby"/>
+                <xsd:element ref="IBAN"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="cislo" type="xsd:string"/>
+    <xsd:element name="cisloUctu" type="xsd:string"/>
+    <xsd:element name="predcislieUctu" type="xsd:string"/>
+    <xsd:element name="IBAN" type="xsd:string"/>
+    <xsd:element name="datum" type="optDate"/>
+    <xsd:element name="mesiacRok" type="optMonthYear"/>
+    <xsd:element name="datumVyhotovenia" type="optDate"/>
+    <xsd:element name="datumZisteniaOP" type="optDate"/>
+    <xsd:element name="datumNarodenia" type="optDate"/>
+    <xsd:element name="dic" type="xsd:string"/>
+    <xsd:element name="dokument">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="hlavicka"/>
+                <xsd:element ref="telo"/>
+                <xsd:element ref="vyhotovil"/>
+            </xsd:sequence>
+            <xsd:attribute name="appendixRemoved" type="xsd:unsignedByte" use="optional"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="druhPrehladu">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="riadny"/>
+                <xsd:element ref="opravny"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="fax">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="predcislie"/>
+                <xsd:element ref="cislo"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="fo">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="priezvisko"/>
+                <xsd:element ref="meno"/>
+                <xsd:element ref="titul"/>
+                <xsd:element ref="titulZa"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="hlavicka">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="dic"/>
+                <xsd:element ref="druhPrehladu"/>
+                <xsd:element ref="zdanovacieObdobie"/>
+                <xsd:element ref="datumZisteniaOP"/>
+                <xsd:element ref="fo"/>
+                <xsd:element ref="po"/>
+                <xsd:element ref="sidlo"/>
+                <xsd:element ref="podava"/>
+                <xsd:element ref="tel"/>
+                <xsd:element ref="email"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="kodBanky" type="xsd:string"/>
+    <xsd:element name="meno" type="xsd:string"/>
+    <xsd:element name="mesiac" type="optInt"/>
+    <xsd:element name="obchodneMeno" type="xsd:string"/>
+    <xsd:element name="obec" type="xsd:string"/>
+    <xsd:element name="opravny" type="only_0_1"/>
+    <xsd:element name="po">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="obchodneMeno"/>
+                <xsd:element ref="pravnaForma"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="poukazatBonus" type="poukazat"/>
+    <xsd:element name="poukazatPremiu" type="poukazat"/>
+    <xsd:element name="poukazatBonusNaUroky" type="poukazat"/>
+    <xsd:complexType name="poukazat">
+        <xsd:sequence>
+            <xsd:element ref="ziadam"/>
+            <xsd:element ref="suma"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="ziadam" type="only_0_1"/>
+    <xsd:element name="poukazka" type="only_0_1"/>
+    <xsd:element name="pravnaForma" type="xsd:string"/>
+    <xsd:element name="predcislie" type="xsd:string"/>
+    <xsd:element name="priezvisko" type="xsd:string"/>
+    <xsd:element name="psc" type="xsd:string"/>
+    <xsd:element name="r00" type="optDec"/>
+    <xsd:element name="r01">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="datum"/>
+                <xsd:element ref="suma"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="r01a">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="mesiacRok"/>
+                <xsd:element ref="suma"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="r02" type="optDec"/>
+    <xsd:element name="r03" type="optDec"/>
+    <xsd:element name="r04" type="optDec"/>
+    <xsd:element name="r05" type="optDec"/>
+    <xsd:element name="r06" type="optDec"/>
+    <xsd:element name="r07" type="optDec"/>
+    <xsd:element name="r08" type="optDec"/>
+    <xsd:element name="r08b" type="only_0_1"/>
+    <xsd:element name="rA" type="optDec"/>
+    <xsd:element name="rB" type="optDec"/>
+    <xsd:element name="rC" type="optDec"/>
+    <xsd:element name="rD" type="optDec"/>
+    <xsd:element name="rE" type="optDec"/>
+    <xsd:element name="rF" type="optDec"/>
+    <xsd:element name="riadny" type="only_0_1"/>
+    <xsd:element name="rodneCislo" type="optInt"/>
+    <xsd:element name="rok" type="optInt"/>
+    <xsd:element name="sidlo">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ulica"/>
+                <xsd:element ref="cislo"/>
+                <xsd:element ref="psc"/>
+                <xsd:element ref="obec"/>
+                <xsd:element ref="stat"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="podava">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="priezvisko"/>
+                <xsd:element ref="meno"/>
+                <xsd:element ref="titul"/>
+                <xsd:element ref="titulZa"/>
+                <xsd:element ref="rodneCislo"/>
+                <xsd:element ref="datumNarodenia"/>
+                <xsd:element ref="dic"/>
+                <xsd:element ref="obchodneMeno"/>
+                <xsd:element ref="pravnaForma"/>
+                <xsd:element ref="ulica"/>
+                <xsd:element ref="cislo"/>
+                <xsd:element ref="psc"/>
+                <xsd:element ref="obec"/>
+                <xsd:element ref="stat"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="socialne" type="optDec"/>
+    <xsd:element name="sposobPlatby">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="poukazka"/>
+                <xsd:element ref="ucet"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="stat" type="xsd:string"/>
+    <xsd:element name="stvrtrok" type="optInt"/>
+    <xsd:element name="suma" type="optDec"/>
+    <xsd:element name="tel" type="xsd:string"/>
+    <xsd:element name="email" type="xsd:string"/>
+    <!--	<xsd:element name="tel">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="predcislie"/>  
+				<xsd:element ref="cislo"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>  -->
+    <xsd:element name="telo">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="cast1"/>
+                <xsd:element ref="cast2"/>
+                <xsd:element ref="cast3"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="titul" type="xsd:string"/>
+    <xsd:element name="titulZa" type="xsd:string"/>
+    <xsd:element name="trvalyPobyt">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ulica"/>
+                <xsd:element ref="cislo"/>
+                <xsd:element ref="psc"/>
+                <xsd:element ref="obec"/>
+                <xsd:element ref="stat"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ucet" type="only_0_1"/>
+    <xsd:element name="ulica" type="xsd:string"/>
+    <xsd:element name="vyhotovil">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="meno"/>
+                <xsd:element ref="tel"/>
+                <xsd:element ref="datumVyhotovenia"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="zdanovacieObdobie">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="mesiac"/>
+                <xsd:element ref="rok"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

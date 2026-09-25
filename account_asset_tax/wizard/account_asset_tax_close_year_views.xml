@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_asset_tax_close_year_form" model="ir.ui.view">
+        <field name="name">account.asset.tax.close.year.form</field>
+        <field name="model">account.asset.tax.close.year</field>
+        <field name="arch" type="xml">
+            <form string="Close Tax Depreciation Year">
+                <p class="text-muted">
+                    Freeze the tax-depreciation board up to and including the chosen
+                    fiscal year on every tax-tracked asset. Filed years are not moved
+                    by later recomputations, and the method is locked.
+                </p>
+                <group>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="fiscal_year"/>
+                </group>
+                <footer>
+                    <button name="action_close" type="object" string="File Year"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_asset_tax_close_year" model="ir.actions.act_window">
+        <field name="name">Close Tax Depreciation Year</field>
+        <field name="res_model">account.asset.tax.close.year</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_account_asset_tax_close_year"
+              name="Close Tax Depreciation Year"
+              action="action_account_asset_tax_close_year"
+              parent="account.menu_finance_configuration"
+              sequence="96"
+              groups="account.group_account_manager"/>
+
+</odoo>

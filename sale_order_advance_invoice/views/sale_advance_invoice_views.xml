@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_advance_invoice_list" model="ir.ui.view">
+        <field name="name">sale.order.list (advance invoices)</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <list string="Advance Invoices"
+                  sample="1"
+                  decoration-muted="state == 'cancel'">
+                <field name="message_needaction" column_invisible="True"/>
+                <field name="currency_id" column_invisible="True"/>
+
+                <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                <field name="date_order" optional="show" readonly="state in ['cancel', 'sale']"/>
+                <field name="advance_invoice_date_due" optional="show"/>
+                <field name="partner_id" readonly="1"/>
+                <field name="advance_invoice_parent_order_id" readonly="1" optional="show"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="show"/>
+                <field name="amount_total"
+                       sum="Total"
+                       widget="monetary"
+                       decoration-bf="1"
+                       optional="show"/>
+                <field name="state"
+                       widget="badge"
+                       optional="hide"
+                       decoration-success="state == 'sale'"
+                       decoration-info="state == 'draft'"
+                       decoration-primary="state == 'sent'"/>
+                <field name="advance_invoice_payment_status"
+                       widget="badge"
+                       optional="show"
+                       decoration-muted="advance_invoice_payment_status in ('none', 'cancelled')"
+                       decoration-warning="advance_invoice_payment_status == 'paid_partially'"
+                       decoration-success="advance_invoice_payment_status == 'paid_fully'"
+                       decoration-danger="advance_invoice_payment_status == 'overpaid'"/>
+                <field name="advance_invoice_accounting_status"
+                       widget="badge"
+                       optional="show"
+                       decoration-primary="advance_invoice_accounting_status == 'nothing_to_account'"
+                       decoration-muted="advance_invoice_accounting_status == 'cancel'"
+                       decoration-warning="advance_invoice_accounting_status == 'waiting' and advance_invoice_accounting_date_due &gt; context_today().strftime('%Y-%m-%d')"
+                       decoration-success="advance_invoice_accounting_status == 'accounted'"
+                       decoration-danger="advance_invoice_accounting_status == 'waiting' and advance_invoice_accounting_date_due &lt;= context_today().strftime('%Y-%m-%d')"/>
+                  <field name="advance_invoice_paid_date" optional="show"/>
+                <field
+                    name="advance_invoice_accounting_date_due"
+                    widget="remaining_days"
+                    invisible="advance_invoice_accounting_status != 'waiting'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_advance_invoices" model="ir.actions.act_window">
+        <field name="name">Advance Invoices</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_advance_invoice', '=', True)]</field>
+        <field name="context">{'default_is_advance_invoice': True, 'default_require_payment': True}</field>
+    </record>
+
+    <record id="action_advance_invoices_list_view" model="ir.actions.act_window.view">
+        <field name="sequence">1</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_advance_invoice_list"/>
+        <field name="act_window_id" ref="action_advance_invoices"/>
+    </record>
+
+    <menuitem
+        id="menu_sale_advance_invoices"
+        name="Advance Invoices"
+        parent="sale.sale_order_menu"
+        action="action_advance_invoices"
+        groups="sales_team.group_sale_salesman"
+        sequence="25"/>
+
+
+    <!-- Accounting -> Customers, just before Payments (sequence 15) -->
+    <menuitem
+        id="menu_account_advance_invoices"
+        name="Advance Invoices"
+        parent="account.menu_finance_receivables"
+        action="action_advance_invoices"
+        groups="sales_team.group_sale_salesman,account.group_account_readonly"
+        sequence="14"/>
+
+</odoo>

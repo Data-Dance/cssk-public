@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- VAT-rate -> tax mapping (configuration) -->
+    <record id="view_ai_tax_map_list" model="ir.ui.view">
+        <field name="name">account.invoice.ai.tax.map.list</field>
+        <field name="model">account.invoice.ai.tax.map</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="rate_percent"/>
+                <field name="tax_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_ai_tax_map" model="ir.actions.act_window">
+        <field name="name">AI Invoice — VAT Rate Mapping</field>
+        <field name="res_model">account.invoice.ai.tax.map</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Menus under Accounting -->
+    <menuitem id="menu_ai_extractions"
+              name="AI Invoice Extractions"
+              parent="account.menu_finance_payables"
+              action="action_ai_extraction"
+              sequence="50"/>
+
+    <menuitem id="menu_ai_tax_map"
+              name="AI Invoice VAT Mapping"
+              parent="account.menu_finance_configuration"
+              action="action_ai_tax_map"
+              sequence="90"/>
+</odoo>

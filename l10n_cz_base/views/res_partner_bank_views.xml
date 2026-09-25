@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_partner_bank_form_cz" model="ir.ui.view">
+        <field name="name">res.partner.bank.form.cz.payment</field>
+        <field name="model">res.partner.bank</field>
+        <field name="inherit_id" ref="base.view_partner_bank_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='acc_number']" position="after">
+                <field name="bank_local_code"/>
+                <field name="account_legacy_starting_number"/>
+                <field name="acc_legacy_number"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

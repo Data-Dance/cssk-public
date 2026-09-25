@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="https://ekr.financnasprava.sk/Formulare/XSD/kv_dph_2014.xsd" xmlns:tns="https://ekr.financnasprava.sk/Formulare/XSD/kv_dph_2014.xsd" elementFormDefault="qualified" version="2014">
+
+
+
+	<annotation>
+		<appinfo>
+			Schema pre vytvorenie davky pre Kontrolny vykaz k dani z pridanej hodnoty (dalej len KVDPH)
+			Autor: Beset, spol. s r.o.
+			Platnost od: 1.1.2014
+		</appinfo>
+		<documentation>
+			Root Element: KVDPH
+		</documentation>
+	</annotation>
+
+	<simpleType name="DruhKvType">
+		<annotation>
+			<documentation>
+				Druh kontrolneho vykazu
+				Platitel dane vyznaci, aky druh kontrolneho vykazu podava
+				Povolene hodnoty: R, O, D
+				R: Riadny KVDPH
+				O: Opravny KVDPH
+				D: Dodatocny KVDPH
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="R" />
+			<enumeration value="O" />
+			<enumeration value="D" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="SumaEurType">
+		<annotation>
+			<documentation>
+				Pouziva sa pre penazne hodnoty v EUR s presnostou na 2 desatinne miesta
+			</documentation>
+		</annotation>
+		<restriction base="decimal">
+			<fractionDigits value="2" />
+		</restriction>
+	</simpleType>
+
+
+	<simpleType name="SadzbaDaneType">
+		<annotation>
+			<documentation>
+				Sadzba dane. 
+				Povolene hodnoty: 10, 20
+			</documentation>
+		</annotation>
+		<restriction base="integer">
+			<enumeration value="10"></enumeration>
+			<enumeration value="20"></enumeration>
+		</restriction>
+	</simpleType>
+
+
+	<simpleType name="IcDphSkType">
+		<annotation>
+			<documentation>
+				Identifikacne cislo platitela dane z pridanej hodnoty v tuzemsku.
+				Vyzaduje sa format  SK##########
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="SK\d{10}"></pattern>
+		</restriction>
+	</simpleType>
+
+
+
+	<simpleType name="IcDphClenskychStatovType">
+		<annotation>
+			<documentation>
+				Identifikacne cislo platitela dane z pridanej hodnoty v clenskom state
+				Format pre clenske staty je podla http://www.drsr.sk/drsr/slovak/danovy_subjekt/ostatne/data/koprdph.pdf
+						</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="[A-Z]{2}[a-zA-Z0-9]{2,12}"></pattern>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="IcDphTretichStranType">
+		<annotation>
+			<documentation>
+				Identifikacne cislo platitela dane z pridanej hodnoty z tretieho statu
+				Format nie je urceny.
+			</documentation>
+		</annotation>
+		<restriction base="normalizedString">
+			<minLength value="1"></minLength>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="IcDphType">
+		<union memberTypes="tns:IcDphSkType tns:IcDphClenskychStatovType tns:IcDphTretichStranType"></union>
+	</simpleType>
+	
+
+	<simpleType name="PoradoveCisloFakturyType">
+		<annotation>
+			<documentation>
+				Poradove cislo faktury sa uvedie tak, ako je na fakture zapisane vystavovatelom faktury.
+				Format: bez medzier, riadiacich znakov (napr. enter)
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="\S{1,32}"></pattern>
+		</restriction>
+	</simpleType>
+
+	<complexType name="ObdobieVykazuType">
+		<annotation>
+			<documentation>
+				Obdobie moze byt: Rok a Mesiac alebo Rok a Stvrtrok
+
+				Rok sa zada vzdy.
+
+				Platitel dane podavajuci kontrolny vykaz za kalendarny mesiac uvedie prislusny mesiac cislom 1 – 12
+				(platitel dane neuvedie kalendarny stvrtrok)
+
+				Platitel dane podavajuci kontrolny vykaz za kalendarny stvrtrok uvedie prislusny stvrtrok cislom 1 – 4
+				(platitel dane neuvedie kalendarny mesiac).
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="Rok" minOccurs="1" maxOccurs="1">
+				<simpleType>
+					<restriction base="int">
+						<minInclusive value="2014"></minInclusive>
+					</restriction>
+				</simpleType>
+			</element>
+			<choice>
+				<element name="Mesiac">
+					<simpleType>
+						<restriction base="int">
+							<minInclusive value="1"></minInclusive>
+							<maxInclusive value="12"></maxInclusive>
+						</restriction>
+					</simpleType>
+				</element>
+				<element name="Stvrtrok">
+					<simpleType>
+						<restriction base="int">
+							<minInclusive value="1"></minInclusive>
+							<maxInclusive value="4"></maxInclusive>
+						</restriction>
+					</simpleType>
+				</element>
+			</choice>
+		</sequence>
+	</complexType>
+
+	<simpleType name="DatDodaniaTovaruSluzbyPrijatiaPlatbyType">
+		<annotation>
+			<documentation>
+				Datum dodania tovaru alebo sluzby alebo datum prijatia platby
+				Format je podla normy v tvare RRRR-MM-DD
+			</documentation>
+		</annotation>
+		<restriction base="date">
+		</restriction>
+	</simpleType>
+
+
+	<simpleType name="KodScsType">
+		<annotation>
+			<documentation>
+				Ciselny kod tovaru podla Spolocneho colneho sadzobnika (podla § 69 ods. 12 pism. f) a g) zakona)
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<pattern value="\d{4}"></pattern>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="DruhTovaruType">
+		<annotation>
+			<documentation>
+				Druh tovaru (podla § 69 ods. 12 pism. h) a i) zakona)
+				Povolene hodnoty su: IO, MT
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="IO" />
+			<enumeration value="MT" />
+		</restriction>
+	</simpleType>
+
+
+	<simpleType name="MJType">
+		<annotation>
+			<documentation>
+				Merna jednotka
+				Povolene hodnoty su: kg, t, m, ks
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="kg" />
+			<enumeration value="t" />
+			<enumeration value="m" />
+			<enumeration value="ks" />
+		</restriction>
+	</simpleType>
+
+
+	<simpleType name="MnozstvoType">
+		<annotation>
+			<documentation>
+				Pouziva sa pre uvedene mnozstvo s presnostou na 2 desatinne miesta
+			</documentation>
+		</annotation>
+		<restriction base="decimal">
+			<fractionDigits value="2" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="KodOpravyType">
+		<annotation>
+			<documentation>
+				Kod opravy
+				Pre zrusenie nespravne uvedenych udajov v riadnom kontrolnom vykaze sa pouzije pre „kod opravy“ cislo 1.
+				Pre uvedenie novych udajov, ktore neboli v riadnom kontrolnom vykaze spravne uvedene, alebo ktore neboli v riadnom kontrolnom vykaze uvedene vobec, sa pouzije pre „kod opravy“ cislo 2.
+				Povolene hodnoty: 1, 2 
+			</documentation>
+		</annotation>
+		<restriction base="string">
+			<enumeration value="1" />
+			<enumeration value="2" />
+		</restriction>
+
+	</simpleType>
+
+	<element name="Identifikacia">
+		<annotation>
+			<documentation>
+				Udaje, ktore identifikuju konkretny KVDPH platitela
+				Atributy:
+				
+				IcDphPlatitela: IC DPH platitela dane registrovaneho podla § 4, § 5 alebo § 6 zakona o DPH, ktory podava KVDPH.
+
+				Druh: druh kontrolného vykazu
+				
+					Uvadzaju sa hodnoty R, O, D.
+					R: Riadny KVDPH
+					O: Opravny KVDPH
+					D: Dodatocny KVDPH
+				
+				   
+				Obdobie: obdobie KVDPH, Rok a Mesiac alebo Rok a Stvrtrok
+				
+				Nazov: nazov alebo obchodne meno pravnickej osoby alebo meno a priezvisko fyzickej osoby 
+				Stat, Obec, PSC, Ulica, Cislo, Tel, Email: adresa sidla alebo trvaleho pobytu, kontaktne udaje
+				Nazov, Stat, Obec su povinne 
+			   
+			</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="IcDphPlatitela" type="tns:IcDphSkType" minOccurs="1" maxOccurs="1" />
+				<element name="Druh" type="tns:DruhKvType" minOccurs="1" maxOccurs="1" />
+				<element name="Obdobie" type="tns:ObdobieVykazuType" minOccurs="1" maxOccurs="1" />
+				<element name="Nazov" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Stat" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="Obec" type="string" minOccurs="1" maxOccurs="1" />
+				<element name="PSC" type="string" minOccurs="0" maxOccurs="1" />
+				<element name="Ulica" type="string" minOccurs="0" maxOccurs="1" />
+				<element name="Cislo" type="string" minOccurs="0" maxOccurs="1" />
+				<element name="Tel" type="string" minOccurs="0" maxOccurs="1" />
+				<element name="Email" type="string" minOccurs="0" maxOccurs="1" />				
+			</sequence>
+		</complexType>
+	</element>
+
+
+	<element name="A1">
+		<annotation>
+			<documentation>
+				Element A1 sluzi na vykazovanie transakcii z casti A1
+				Atributy:
+				Odb: identifikacne cislo pre dan odberatela
+				F: cislo faktury
+				Den: datum dodania tovaru alebo sluzby alebo datum prijatia platby
+				Z: zaklad dane v eurach
+				D: suma dane v eurach
+				S: sadzba dane
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KV DPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="Odb" type="tns:IcDphType" use="optional" />
+			<attribute name="F" type="tns:PoradoveCisloFakturyType" use="required" />
+			<attribute name="Den" type="tns:DatDodaniaTovaruSluzbyPrijatiaPlatbyType" use="required" />
+			<attribute name="Z" type="tns:SumaEurType" use="required" />
+			<attribute name="D" type="tns:SumaEurType" use="required" />
+			<attribute name="S" type="tns:SadzbaDaneType" use="required" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+
+
+	<element name="A2">
+		<annotation>
+			<documentation>
+				Element A2 sluzi na vykazovanie transakcii z casti A2
+				Atributy:
+				Odb: IC DPH odberatela
+				F: poradove cislo faktury
+				Den: datum dodania tovaru alebo datum prijatia platby
+				Z: zaklad dane v eurach
+				TK: ciselny kod tovaru zo Spolocneho colneho sadzobnika
+				TD: druh tovaru (tovary MT, IO)
+				Mn: mnozstvo tovaru
+				MJ:merna jednotka
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KV DPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="Odb" type="tns:IcDphSkType" use="required" />
+			<attribute name="F" type="tns:PoradoveCisloFakturyType" use="required" />
+			<attribute name="Den" type="tns:DatDodaniaTovaruSluzbyPrijatiaPlatbyType" use="required" />
+			<attribute name="Z" type="tns:SumaEurType" use="required" />
+			<attribute name="TK" type="tns:KodScsType" use="optional" />
+			<attribute name="TD" type="tns:DruhTovaruType" use="optional" />
+			<attribute name="Mn" type="tns:MnozstvoType" use="optional" />
+			<attribute name="MJ" type="tns:MJType" use="optional" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+
+
+
+	<element name="B1">
+		<annotation>
+			<documentation>
+				Element B1 sluzi na vykazovanie transakcii z casti B1
+				Atributy:
+				Dod: identifikacne cislo pre dan dodavatela
+				F: poradove cislo faktury alebo ciselna identifikacia dokladu
+				Den: datum dodania tovaru alebo sluzby alebo datum prijatia platby
+				Z: zaklad dane v eurach
+				D: suma dane v eurach
+				S: sadzba dane
+				O: vyska odpocitanej dane v eurach
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KVDPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="Dod" type="tns:IcDphType" use="optional" />
+			<attribute name="F" type="tns:PoradoveCisloFakturyType" use="required" />
+			<attribute name="Den" type="tns:DatDodaniaTovaruSluzbyPrijatiaPlatbyType" use="required" />
+			<attribute name="Z" type="tns:SumaEurType" use="required" />
+			<attribute name="D" type="tns:SumaEurType" use="required" />
+			<attribute name="S" type="tns:SadzbaDaneType" use="required" />
+			<attribute name="O" type="tns:SumaEurType" use="required" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+
+
+	<element name="B2">
+		<annotation>
+			<documentation>
+				Element B2 sluzi na vykazovanie transakcii z casti B2
+				Atributy:
+				Dod: identifikacne cislo pre dan dodavatela
+				F: poradove cislo faktury
+				Den: datum dodania tovaru alebo sluzby alebo datum prijatia platby
+				Z: zaklad dane v eurach
+				D: suma dane v eurach
+				S: sadzba dane
+				O: vyska odpocitanej dane v eurach
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KV DPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="Dod" type="tns:IcDphSkType" use="required" />
+			<attribute name="F" type="tns:PoradoveCisloFakturyType" use="required" />
+			<attribute name="Den" type="tns:DatDodaniaTovaruSluzbyPrijatiaPlatbyType" use="required" />
+			<attribute name="Z" type="tns:SumaEurType" use="required" />
+			<attribute name="D" type="tns:SumaEurType" use="required" />
+			<attribute name="S" type="tns:SadzbaDaneType" use="required" />
+			<attribute name="O" type="tns:SumaEurType" use="required" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+	
+	
+	<element name="B3">
+		<annotation>
+			<documentation>
+				Element B3 sluzi na vykazovanie transakcii z casti B3.
+				Pri predkladani riadneho a opravneho KVDPH je uvedeny max 1 riadok B3.
+				Pri predkladani dotatocneho KVDPH je mozne vykazat max 2 riadky B3, pricom jeden riadok B3 obsahuje kod opravy 1, druhy riadok obsahuje kod opravy 2 
+				Atributy:
+				Z: celkova suma zakladov dane v eurach
+				D: celkova suma dane v eurach
+				O: celkova suma odpocitanej dane v eurach
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KV DPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="Z" type="tns:SumaEurType" use="required" />
+			<attribute name="D" type="tns:SumaEurType" use="required" />
+			<attribute name="O" type="tns:SumaEurType" use="required" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+	
+	
+
+	<element name="C1">
+		<annotation>
+			<documentation>
+				Element C1 sluzi na vykazovanie transakcii z casti C1
+				Atributy:
+				Odb: identifikacne cislo pre dan odberatela
+				FO: poradove cislo opravnej faktury
+				FP: poradove cislo povodnej vyhotovenej faktury
+				ZR: rozdiel zakladu dane v eurach
+				DR: rozdiel sumy dane v eurach
+				S: sadzba dane
+				TK: ciselny kod tovaru zo Spolocneho colneho sadzobnika	sadzobnika (SCS)
+				TD: druh tovaru (tovary MT, IO)
+				Mn: rozdiel mnozstva tovaru
+				MJ: merna jednotka
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KVDPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="Odb" type="tns:IcDphType" use="optional" />
+			<attribute name="FO" type="tns:PoradoveCisloFakturyType" use="required" />
+			<attribute name="FP" type="tns:PoradoveCisloFakturyType" use="required" />
+			<attribute name="ZR" type="tns:SumaEurType" use="required" />
+			<attribute name="DR" type="tns:SumaEurType" use="optional" />
+			<attribute name="S" type="tns:SadzbaDaneType" use="optional" />
+			<attribute name="TK" type="tns:KodScsType" use="optional" />
+			<attribute name="TD" type="tns:DruhTovaruType" use="optional" />
+			<attribute name="Mn" type="tns:MnozstvoType" use="optional" />
+			<attribute name="MJ" type="tns:MJType" use="optional" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+
+
+	<element name="C2">
+		<annotation>
+			<documentation>
+				Element C2 sluzi na vykazovanie transakcii z casti C2
+				Atributy:
+				Dod: identifikacne cislo pre dan dodavatela
+				FO: poradove cislo opravnej faktury
+				FP: cislo povodnej prijatej faktury
+				ZR: rozdiel zakladu dane v eurach
+				DR: rozdiel sumy dane v eurach
+				S: sadzba dane
+				OR: rozdiel v sume odpocitanej dane v eurach
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KV DPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="Dod" type="tns:IcDphType" use="optional" />
+			<attribute name="FO" type="tns:PoradoveCisloFakturyType" use="required" />
+			<attribute name="FP" type="tns:PoradoveCisloFakturyType" use="required" />
+			<attribute name="ZR" type="tns:SumaEurType" use="required" />
+			<attribute name="DR" type="tns:SumaEurType" use="required" />
+			<attribute name="S" type="tns:SadzbaDaneType" use="required" />
+			<attribute name="OR" type="tns:SumaEurType" use="required" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+
+
+	<element name="D1">
+		<annotation>
+			<documentation>
+				Element D1 sluzi na vykazovanie transakcii z casti D1
+				Pri predkladani riadneho a opravneho KVDPH je uvedeny max 1 riadok D1.
+				Pri predkladani dotatocneho KVDPH je mozne vykazat max 2 riadky D1, pricom jeden riadok D1 obsahuje kod opravy 1, druhy riadok obsahuje kod opravy 2
+				Atributy:
+				SumaObratov: celkova suma obratov v eurach evidovanych vsetkymi elektronickymi registracnymi pokladnicami
+				Z: celkova suma zakladov dane vratane oprav v eurach (zakladna sadzba)
+				D: celkova suma dane v eurach (zakladna sadzba)
+				ZZn: celkova suma zakladov dane vratane oprav v eurach (znizena sadzba)
+				DZn: celkova suma dane v eurach (znizena sadzba)
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KV DPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="SumaObratov" type="tns:SumaEurType" use="required" />
+			<attribute name="Z" type="tns:SumaEurType" use="required" />
+			<attribute name="D" type="tns:SumaEurType" use="required" />
+			<attribute name="ZZn" type="tns:SumaEurType" use="required" />
+			<attribute name="DZn" type="tns:SumaEurType" use="required" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+
+
+
+	<element name="D2">
+		<annotation>
+			<documentation>
+				Element D2 sluzi na vykazovanie transakcii z casti D2
+				Pri predkladani riadneho a opravneho KVDPH je uvedeny max 1 riadok D2.
+				Pri predkladani dotatocneho KVDPH je mozne vykazat max 2 riadky D2, pricom jeden riadok D2 obsahuje kod opravy 1, druhy riadok obsahuje kod opravy 2
+				Atributy:
+				Z: celkova suma zakladov dane vratane oprav v eurach (zakladna sadzba)
+				D: celkova suma dane v eurach (zakladna sadzba)
+				ZZn: celkova suma zakladov dane vratane oprav v eurach (znizena sadzba)
+				DZn: celkova suma dane v eurach (znizena sadzba)
+				KOpr: kod opravy, vykazuje sa len pre dodatocny KV DPH
+			</documentation>
+		</annotation>
+		<complexType>
+			<attribute name="Z" type="tns:SumaEurType" use="required" />
+			<attribute name="D" type="tns:SumaEurType" use="required" />
+			<attribute name="ZZn" type="tns:SumaEurType" use="required" />
+			<attribute name="DZn" type="tns:SumaEurType" use="required" />
+			<attribute name="KOpr" type="tns:KodOpravyType" use="optional" />
+		</complexType>
+	</element>
+
+
+	<element name="Transakcie">
+		<annotation>
+			<documentation>
+				Transakcie
+			</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="tns:A1" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="tns:A2" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="tns:B1" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="tns:B2" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="tns:B3" minOccurs="0" maxOccurs="2" />
+				<element ref="tns:C1" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="tns:C2" minOccurs="0" maxOccurs="unbounded" />
+				<element ref="tns:D1" minOccurs="0" maxOccurs="2" />
+				<element ref="tns:D2" minOccurs="0" maxOccurs="2" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="KVDPH">
+		<annotation>
+			<documentation>
+				Toto je Root element.
+			</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element ref="tns:Identifikacia" minOccurs="1" maxOccurs="1" />
+				<element ref="tns:Transakcie" minOccurs="1" maxOccurs="1" />
+			</sequence>
+		</complexType>
+	</element>
+</schema>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="account_journal_view_form_fio_statement" model="ir.ui.view">
+        <field name="name">account.journal.form.fio.statement</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account_fio.account_journal_view_form_fio" />
+        <field name="arch" type="xml">
+            <button name="action_fio_test_connection" position="after">
+                <button name="action_fio_pull" type="object"
+                        string="Pull now" class="btn-secondary"
+                        icon="fa-download"
+                        invisible="bank_statements_source != 'fio'" />
+                <button name="%(fio_statement_pull_action)d" type="action"
+                        string="Pull a range…" class="btn-secondary"
+                        icon="fa-calendar"
+                        invisible="bank_statements_source != 'fio'" />
+            </button>
+
+            <!-- Once Fio is the bank feed, a journal without a read token is a
+                 misconfiguration. ``_check_fio_source_has_a_token`` refuses it
+                 at save time; this is the same refusal, in front of the user
+                 before they press save. Core gates a source's own settings
+                 exactly this way (account_bank_statement_import_qif). -->
+            <field name="fio_token_read" position="attributes">
+                <attribute name="required">bank_statements_source == 'fio'</attribute>
+            </field>
+
+            <!-- Full width, outside both columns: it explains why the right
+                 column is absent, so it cannot live inside it. -->
+            <div name="fio_buttons" position="after">
+                <div class="text-muted" colspan="2"
+                     invisible="bank_statements_source == 'fio' or not fio_has_token_read">
+                    This journal has a Fio token but its bank feed is not set to
+                    <b>Fio banka API</b>, so no statements are pulled on a
+                    schedule and the <b>Bank statements</b> settings are hidden.
+                    The token is still used for payment orders.
+                </div>
+            </div>
+
+            <!-- The RIGHT column of the full-width Fio section, and an
+                 all-or-nothing one: the whole group carries the
+                 ``bank_statements_source`` condition rather than each field
+                 carrying its own. Gating field by field left the column half
+                 present when the feed was switched away — some rows gone, the
+                 heading and the stragglers still there — which reads as a
+                 rendering fault rather than as a setting that no longer
+                 applies. The tokens in the left column are deliberately NOT
+                 gated: a Fio token is a credential for the account, not for the
+                 statement feed, and a journal may be used for Fio payments
+                 while its statements arrive some other way. -->
+            <group name="fio_connection" position="after">
+                <group name="fio_statements" string="Bank statements"
+                       invisible="bank_statements_source != 'fio'">
+                    <field name="fio_pull_mode" />
+                    <field name="fio_overlap_days"
+                           invisible="fio_pull_mode != 'movements'" />
+                    <field name="fio_create_statements"
+                           invisible="fio_pull_mode != 'movements'" />
+                    <field name="fio_last_pull_at" />
+                    <field name="fio_last_movement_id" />
+                    <field name="fio_last_statement_year"
+                           invisible="fio_pull_mode != 'official'" />
+                    <field name="fio_last_statement_number"
+                           invisible="fio_pull_mode != 'official'" />
+                    <div class="text-muted" colspan="2"
+                         invisible="fio_pull_mode != 'bookmark'">
+                        The bookmark lives on the token inside Fio, not in Odoo.
+                        Anything else reading movements with this same token —
+                        another system, or a colleague testing — moves it, and
+                        those movements never arrive here. Use a dedicated token
+                        for this mode, or prefer the re-readable date range.
+                    </div>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="account_journal_view_list_fio_statement" model="ir.ui.view">
+        <field name="name">account.journal.list.fio.statement</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account_fio.account_journal_view_list_fio" />
+        <field name="arch" type="xml">
+            <field name="fio_last_read_at" position="after">
+                <field name="bank_statements_source" string="Bank feed" />
+                <field name="fio_last_pull_at" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

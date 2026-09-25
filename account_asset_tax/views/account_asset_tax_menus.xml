@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Place under the standard Accounting > Configuration menu when present. -->
+    <menuitem id="menu_account_asset_tax_class"
+              name="Tax Depreciation Groups"
+              action="action_account_asset_tax_class"
+              parent="account.menu_finance_configuration"
+              sequence="95"
+              groups="account.group_account_manager"/>
+</odoo>

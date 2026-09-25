@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.partner_autocomplete_dispatcher</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Bank Accounts" name="one2many_fields">
+                    <field name="bank_ids"/>
+                </page>
+                <page string="Contacts" name="one2many_fields">
+                    <field name="child_contact_ids"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

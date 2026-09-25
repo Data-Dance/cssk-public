@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="cssk_income_tax_return_view_form" model="ir.ui.view">
+        <field name="name">cssk.income.tax.return.form</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_compute_lines" type="object"
+                            string="Compute" class="btn-primary"
+                            invisible="state not in ('draft', 'preview')" />
+                    <button name="action_export_xml" type="object"
+                            string="Export XML" class="btn-primary"
+                            invisible="state in ('draft', 'submitted', 'legacy')" />
+                    <button name="action_submit" type="object"
+                            string="Mark Submitted" class="btn-primary"
+                            invisible="state != 'exported'" />
+                    <button name="action_create_submission" type="object"
+                            string="File it" class="btn-primary"
+                            invisible="state not in ('exported', 'submitted')"
+                            help="Open a delivery for this filing. With only the
+                                  manual channel installed this records who filed
+                                  it on the portal and holds the receipts."/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state not in ('exported', 'submitted')"
+                            confirm="Reset this filing to draft? The originally filed copy is kept." />
+                    <button name="action_create_amendment" type="object"
+                            string="Amended / corrective"
+                            invisible="state != 'submitted'" />
+                    <button name="action_post_provision" type="object"
+                            string="Post tax provision"
+                            invisible="state in ('draft', 'legacy') or provision_move_id or provision_amount &lt;= 0"
+                            confirm="Post the year-end income-tax provision (MD 591 / D 341) for the computed tax?" />
+                    <button name="action_reverse_provision" type="object"
+                            string="Reverse provision"
+                            invisible="not provision_move_id"
+                            confirm="Reverse the posted income-tax provision entry?" />
+                    <field name="unreconciled_count" invisible="1" />
+                    <button name="action_view_unreconciled" type="object"
+                            class="btn-danger" icon="fa-exclamation-triangle"
+                            invisible="state in ('draft', 'legacy') or unreconciled_count == 0"
+                            string="Unreconciled rows" />
+                    <button name="action_view_unreconciled" type="object"
+                            class="btn-success" icon="fa-check" disabled="1"
+                            invisible="state in ('draft', 'legacy') or unreconciled_count != 0"
+                            string="Rows tie out" />
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,preview,exported,submitted" />
+                    <field name="submission_state" widget="badge" optional="show"
+                           invisible="not submission_state"
+                           decoration-success="submission_state in ('accepted',)"
+                           decoration-info="submission_state in ('delivered',)"
+                           decoration-danger="submission_state in ('rejected','failed')"/>
+                </header>
+                <sheet>
+                    <!-- A filing can have SEVERAL comparisons, one per
+                         basis — itself recomputed, the ledger, another filing
+                         — so this leads to the list of them rather than to
+                         one. Hidden at zero: a stat button reading 0 invites
+                         a click that lands on an empty list. -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_cssk_open_comparisons" type="object"
+                                class="oe_stat_button" icon="fa-balance-scale"
+                                invisible="cssk_comparison_count == 0">
+                            <field name="cssk_comparison_count"
+                                   widget="statinfo" string="Comparisons"/>
+                        </button>
+                    </div>
+                    <div class="oe_title"><h1><field name="name" readonly="1" /></h1></div>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" />
+                            <field name="country_id" invisible="1" />
+                            <field name="version_id" readonly="state != 'draft'" />
+                            <field name="statement_type_id" readonly="state != 'draft'" />
+                            <field name="original_return_id" readonly="1"
+                                   invisible="not original_return_id" />
+                        </group>
+                        <group>
+                            <field name="date_from" readonly="state != 'draft'" />
+                            <field name="date_to" readonly="state != 'draft'" />
+                            <field name="xml_attachment_id" readonly="1"
+                                   invisible="not xml_attachment_id" />
+                            <field name="submitted_attachment_id" readonly="1"
+                                   invisible="not submitted_attachment_id" />
+                            <field name="submitted_date"
+                                   invisible="not submitted_date" />
+                            <field name="submission_reference" />
+                            <field name="filed_history_ids" widget="many2many_tags"
+                                   invisible="not filed_history_ids"/>
+                        </group>
+                    </group>
+                    <group string="Income-tax provision (591/341)" name="provision"
+                           invisible="provision_amount &lt;= 0 and not provision_move_id">
+                        <field name="provision_amount" readonly="1" />
+                        <field name="provision_journal_id"
+                               readonly="state == 'draft'"
+                               invisible="provision_move_id" />
+                        <field name="provision_move_id" readonly="1"
+                               invisible="not provision_move_id" />
+                        <field name="provision_posted" invisible="1" />
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom" default_order="sequence"
+                                      decoration-muted="kind == 'aggregate'">
+                                    <field name="is_leaf" column_invisible="1" />
+                                    <field name="has_source" column_invisible="1" />
+                                    <field name="code" readonly="1" />
+                                    <field name="name" readonly="1" />
+                                    <field name="kind" readonly="1" optional="show" />
+                                    <field name="is_overridden" />
+                                    <field name="manual_value"
+                                           column_invisible="0" />
+                                    <field name="value" readonly="1" />
+                                    <field name="formula_note" string="Derivation"
+                                           optional="show" invisible="is_leaf" />
+                                    <field name="source_reconciles" string="✓"
+                                           widget="boolean" optional="show"
+                                           invisible="not is_leaf" />
+                                    <button name="action_view_source_lines"
+                                            type="object" icon="fa-search-plus"
+                                            string="Documents"
+                                            invisible="not has_source" />
+                                    <field name="company_currency_id" column_invisible="1" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_income_tax_return_view_list" model="ir.ui.view">
+        <field name="name">cssk.income.tax.return.list</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="version_id" />
+                <field name="date_from" />
+                <field name="date_to" />
+                <field name="state" widget="badge"
+                       decoration-success="state == 'exported'"
+                       decoration-info="state == 'preview'"
+                       decoration-muted="state == 'legacy'" />
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_income_tax_return_action" model="ir.actions.act_window">
+        <field name="name">Income Tax Returns (DPPO)</field>
+        <field name="res_model">cssk.income.tax.return</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_cssk_income_tax_root" name="Income Tax (DPPO)"
+              parent="l10n_cssk_core.menu_cssk_reports_root"
+              action="cssk_income_tax_return_action" sequence="80" />
+
+    <!-- Drill-down target: the P&L journal items behind an account-based DPPO line -->
+    <record id="view_move_line_dppo_audit" model="ir.ui.view">
+        <field name="name">account.move.line.dppo.audit</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <list string="Source documents" create="false" delete="false"
+                  edit="false" default_order="account_id, move_id">
+                <field name="account_id"/>
+                <field name="move_id" string="Document"/>
+                <field name="partner_id"/>
+                <field name="name" string="Description"/>
+                <field name="date"/>
+                <field name="balance" string="Balance" sum="Total"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

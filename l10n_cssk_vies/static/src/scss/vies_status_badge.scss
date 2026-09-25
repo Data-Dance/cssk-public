@@ -1,0 +1,21 @@
+// Copyright 2026 Data Dance s.r.o.
+// License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+// The glyph itself is 14px wide. Left unpadded, that is the entire click
+// target, and aiming at it is a coin toss — a miss lands on the field wrapper
+// and nothing happens, which reads exactly like a broken control. Pad it out
+// to a comfortable target and make it look like something you can press.
+.o_vies_status_badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    min-height: 28px;
+    cursor: pointer;
+    border-radius: var(--bs-border-radius, 0.25rem);
+
+    &:hover,
+    &:focus-visible {
+        background-color: rgba(0, 0, 0, 0.075);
+    }
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_sale_advance_invoice" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.sale.advance.invoice</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='invoicing_setting_container']/setting[@id='automatic_invoicing']" position="after">
+                <setting
+                    id="advance_invoice_journal_setting"
+                    string="Advance Tax Documents Journal"
+                    company_dependent="1"
+                    help="Journal used for the tax documents created from advance invoices."
+                >
+                    <field name="advance_invoice_journal_id" options="{'no_create': True}" domain="[('type', 'in', ('sale', 'general')), ('company_id', '=', company_id)]"/>
+                    <div class="text-muted">
+                        Journal used when creating tax documents from advance invoices. Set by the country localization if installed.
+                    </div>
+                </setting>
+                <setting
+                    id="advance_received_account_setting"
+                    string="Advance Clearing Account"
+                    company_dependent="1"
+                    help="Reconcilable clearing account used to match the advance payment against its tax document."
+                >
+                    <field name="advance_received_account_id" options="{'no_create': True}" domain="[('reconcile', '=', True)]"/>
+                    <div class="text-muted">
+                        The advance payment and the receivable side of its tax document are posted here and reconciled together.
+                    </div>
+                </setting>
+                <setting
+                    id="advance_tax_doc_account_setting"
+                    string="Received Advance Account (short-term)"
+                    company_dependent="1"
+                    help="Account carrying the net received advance until it is settled on the final invoice."
+                >
+                    <field name="advance_tax_doc_account_id" options="{'no_create': True}"/>
+                    <div class="text-muted">
+                        Used on the tax-document income line and on the settlement deduction line (short-term received advances).
+                    </div>
+                </setting>
+                <setting
+                    id="advance_tax_doc_account_lt_setting"
+                    string="Received Advance Account (long-term)"
+                    company_dependent="1"
+                    help="As the short-term account, but for advances settled after more than one year."
+                >
+                    <field name="advance_tax_doc_account_lt_id" options="{'no_create': True}"/>
+                    <div class="text-muted">
+                        Used for advances flagged as long-term on the advance invoice.
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

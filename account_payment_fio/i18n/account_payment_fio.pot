@@ -1,0 +1,135 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_payment_fio
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-31 16:52+0000\n"
+"PO-Revision-Date: 2026-08-31 16:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_payment_fio
+#. odoo-python
+#: code:addons/account_payment_fio/models/account_payment_line.py:0
+msgid "%(label)s must be a numeric string up to %(max_len)s digits."
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.module.module,summary:base.module_account_payment_fio
+msgid ""
+"Build Fio XML payment orders and send them to the bank from an OCA payment "
+"order."
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__constant_symbol
+msgid "Constant Symbol"
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,help:account_payment_fio.field_account_payment_line__constant_symbol
+msgid ""
+"Czech/Slovak payment Constant Symbol (KS). Up to 4 digits. If empty, falls "
+"back to a `KS:` token in the communication."
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,help:account_payment_fio.field_account_payment_line__specific_symbol
+msgid ""
+"Czech/Slovak payment Specific Symbol (SS). Up to 10 digits. If empty, falls "
+"back to a `SS:` token in the communication."
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,help:account_payment_fio.field_account_payment_line__variable_symbol
+msgid ""
+"Czech/Slovak payment Variable Symbol (VS). Up to 10 digits. If empty, falls "
+"back to a `VS:` token in the communication."
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.module.module,shortdesc:base.module_account_payment_fio
+msgid "Fio banka — payment orders"
+msgstr ""
+
+#. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid "It IS in the bank"
+msgstr ""
+
+#. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid "It is NOT in the bank"
+msgstr ""
+
+#. module: account_payment_fio
+#. odoo-python
+#: code:addons/account_payment_fio/models/account_payment_order.py:0
+msgid ""
+"Journal %(journal)s has no bank account, so Fio cannot be told which account"
+" the money leaves."
+msgstr ""
+
+#. module: account_payment_fio
+#. odoo-python
+#: code:addons/account_payment_fio/models/account_payment_order.py:0
+msgid "No payment file on this order — generate it first."
+msgstr ""
+
+#. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid ""
+"Only press this after checking Fio internet banking and finding no batch. It"
+" allows Odoo to send these payments again."
+msgstr ""
+
+#. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid ""
+"Only press this after finding the batch in Fio internet banking. It stops "
+"Odoo from sending these payments again."
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__fio_payment_reason
+msgid "Platební titul"
+msgstr ""
+
+#. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid "Send to Fio"
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__specific_symbol
+msgid "Specific Symbol"
+msgstr ""
+
+#. module: account_payment_fio
+#. odoo-python
+#: code:addons/account_payment_fio/models/account_payment_order.py:0
+msgid ""
+"This payment order cannot be sent to Fio yet:\n"
+"\n"
+"%(problems)s"
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__variable_symbol
+msgid "Variable Symbol"
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,help:account_payment_fio.field_account_payment_line__fio_payment_reason
+msgid ""
+"ČNB payment reason. Fio requires one on every foreign payment and, for "
+"accounts at its Slovak branch, on a Europlatba above EUR 50 000. Defaults "
+"from the partner."
+msgstr ""

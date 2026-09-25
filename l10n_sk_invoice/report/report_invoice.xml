@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_invoice_document_sk" inherit_id="account.report_invoice_document">
+
+        <!-- Customer DIČ, alongside the IČ DPH / IČO core+l10n_sk already print -->
+        <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']" position="after">
+            <div t-if="o.partner_id.l10n_sk_dic and o.company_id.country_code == 'SK'">
+                DIČ: <span t-field="o.partner_id.l10n_sk_dic" />
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_address_same_as_shipping']" position="after">
+            <div t-if="o.partner_id.l10n_sk_dic and o.company_id.country_code == 'SK'">
+                DIČ: <span t-field="o.partner_id.l10n_sk_dic" />
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_no_shipping']" position="after">
+            <div t-if="o.partner_id.l10n_sk_dic and o.company_id.country_code == 'SK'">
+                DIČ: <span t-field="o.partner_id.l10n_sk_dic" />
+            </div>
+        </xpath>
+
+        <!-- Payment symbols in the dates / informations row -->
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div class="col-auto col-3 mw-100 mb-2"
+                 t-if="o.l10n_cssk_variable_symbol and o.company_id.country_code == 'SK'"
+                 name="l10n_sk_variable_symbol">
+                <strong>Variable Symbol</strong>
+                <div t-field="o.l10n_cssk_variable_symbol" />
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2"
+                 t-if="o.l10n_cssk_constant_symbol and o.company_id.country_code == 'SK'"
+                 name="l10n_sk_constant_symbol">
+                <strong>Constant Symbol</strong>
+                <div t-field="o.l10n_cssk_constant_symbol" />
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2"
+                 t-if="o.l10n_cssk_specific_symbol and o.company_id.country_code == 'SK'"
+                 name="l10n_sk_specific_symbol">
+                <strong>Specific Symbol</strong>
+                <div t-field="o.l10n_cssk_specific_symbol" />
+            </div>
+        </xpath>
+
+        <!-- Mandatory §74 statutory phrases -->
+        <xpath expr="//div[@name='comment']" position="after">
+            <p t-if="o.l10n_sk_legal_notes and o.company_id.country_code == 'SK'"
+               name="l10n_sk_legal_notes" class="mt-2"
+               style="white-space: pre-line;">
+                <span t-field="o.l10n_sk_legal_notes" />
+            </p>
+        </xpath>
+
+    </template>
+</odoo>

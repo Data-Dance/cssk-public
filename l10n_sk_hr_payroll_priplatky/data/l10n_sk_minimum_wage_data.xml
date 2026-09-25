@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Minimálne mzdové nároky pre stupne náročnosti práce (§ 120 Zákonníka
+        práce, zákon č. 311/2001 Z. z.).
+
+        § 120 ods. 4 derives each level from the 2020 anchor of €580 and the
+        coefficients 1.0 / 1.2 / 1.4 / 1.6 / 1.8 / 2.0:
+
+            nárok(stupeň) = (MM_rok − 580) + 580 × koeficient(stupeň)
+
+        The results are published annually and those published figures are
+        shipped verbatim here rather than recomputed — see the model docstring.
+        Level 1 equals the plain monthly minimum wage of the year, and its
+        hourly figure is the ``minimálna mzda v eurách za hodinu`` that the
+        night / Saturday / Sunday / difficult-work / standby surcharges are
+        percentages of.
+
+        Hourly figures are the monthly amount over the statutory 174 hours,
+        rounded to three decimals, and apply to a 40-hour week; a shorter
+        established week raises them (§ 120 ods. 5, handled in code).
+    -->
+
+    <!-- ================================================================ 2024 -->
+    <!-- Monthly minimum wage €750 (nariadenie vlády č. 300/2023 Z. z.). -->
+    <record id="min_wage_2024_1" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+        <field name="level">1</field>
+        <field name="amount_monthly">750</field>
+        <field name="amount_hourly">4.310</field>
+    </record>
+    <record id="min_wage_2024_2" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+        <field name="level">2</field>
+        <field name="amount_monthly">866</field>
+        <field name="amount_hourly">4.977</field>
+    </record>
+    <record id="min_wage_2024_3" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+        <field name="level">3</field>
+        <field name="amount_monthly">982</field>
+        <field name="amount_hourly">5.644</field>
+    </record>
+    <record id="min_wage_2024_4" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+        <field name="level">4</field>
+        <field name="amount_monthly">1098</field>
+        <field name="amount_hourly">6.310</field>
+    </record>
+    <record id="min_wage_2024_5" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+        <field name="level">5</field>
+        <field name="amount_monthly">1214</field>
+        <field name="amount_hourly">6.977</field>
+    </record>
+    <record id="min_wage_2024_6" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+        <field name="level">6</field>
+        <field name="amount_monthly">1330</field>
+        <field name="amount_hourly">7.644</field>
+    </record>
+
+    <!-- ================================================================ 2025 -->
+    <!-- Monthly minimum wage €816 (nariadenie vlády č. 278/2024 Z. z.). -->
+    <record id="min_wage_2025_1" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        <field name="level">1</field>
+        <field name="amount_monthly">816</field>
+        <field name="amount_hourly">4.690</field>
+    </record>
+    <record id="min_wage_2025_2" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        <field name="level">2</field>
+        <field name="amount_monthly">932</field>
+        <field name="amount_hourly">5.356</field>
+    </record>
+    <record id="min_wage_2025_3" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        <field name="level">3</field>
+        <field name="amount_monthly">1048</field>
+        <field name="amount_hourly">6.023</field>
+    </record>
+    <record id="min_wage_2025_4" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        <field name="level">4</field>
+        <field name="amount_monthly">1164</field>
+        <field name="amount_hourly">6.690</field>
+    </record>
+    <record id="min_wage_2025_5" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        <field name="level">5</field>
+        <field name="amount_monthly">1280</field>
+        <field name="amount_hourly">7.356</field>
+    </record>
+    <record id="min_wage_2025_6" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        <field name="level">6</field>
+        <field name="amount_monthly">1396</field>
+        <field name="amount_hourly">8.023</field>
+    </record>
+
+    <!-- ================================================================ 2026 -->
+    <!-- Monthly minimum wage €915. -->
+    <record id="min_wage_2026_1" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        <field name="level">1</field>
+        <field name="amount_monthly">915</field>
+        <field name="amount_hourly">5.259</field>
+    </record>
+    <record id="min_wage_2026_2" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        <field name="level">2</field>
+        <field name="amount_monthly">1031</field>
+        <field name="amount_hourly">5.925</field>
+    </record>
+    <record id="min_wage_2026_3" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        <field name="level">3</field>
+        <field name="amount_monthly">1147</field>
+        <field name="amount_hourly">6.592</field>
+    </record>
+    <record id="min_wage_2026_4" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        <field name="level">4</field>
+        <field name="amount_monthly">1263</field>
+        <field name="amount_hourly">7.259</field>
+    </record>
+    <record id="min_wage_2026_5" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        <field name="level">5</field>
+        <field name="amount_monthly">1379</field>
+        <field name="amount_hourly">7.925</field>
+    </record>
+    <record id="min_wage_2026_6" model="l10n.sk.minimum.wage">
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        <field name="level">6</field>
+        <field name="amount_monthly">1495</field>
+        <field name="amount_hourly">8.592</field>
+    </record>
+</odoo>

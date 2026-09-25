@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Statutory Czech annual leave (dovolená) accrual plans.
+
+        LEGAL BASIS (zákoník práce, zák. č. 262/2006 Sb., stav 2025/2026;
+        dovolená is HOURS-based since 1. 1. 2021):
+          * § 212 Výměra dovolené: minimum 4 týdny/rok (odst. 1); 5 týdnů pro
+            zaměstnavatele dle § 109 odst. 3 (stát, ÚSC, příspěvkové organizace)
+            (odst. 2); 8 týdnů pedagogičtí a akademičtí pracovníci (odst. 3).
+            Zaměstnavatel může poskytnout více (5 týdnů je běžné v soukromém sektoru).
+          * § 213 Dovolená za kalendářní rok a její poměrná část:
+              - odst. 1: kdo odpracoval 52 týdnů v rozsahu stanovené týdenní
+                pracovní doby -> plná dovolená = (týdenní pracovní doba) x (výměra).
+                Např. 40 h/týden x 4 týdny = 160 h/rok; 40 h x 5 týdnů = 200 h/rok.
+              - odst. 3: poměrná část náleží při odpracování alespoň 4 týdnů.
+              - odst. 4: za každou odpracovanou stanovenou (nebo kratší) týdenní
+                pracovní dobu náleží 1/52 z (týdenní pracovní doba x výměra).
+            Práce přesčas se do odpracované doby započítává a zvyšuje nárok poměrně.
+          * § 218 Čerpání / převod: nevyčerpaná dovolená se převádí do dalšího
+            kalendářního roku (musí být určena k čerpání, resp. u části nad 4 týdny
+            lze převést na písemnou žádost zaměstnance) — proto can_be_carryover.
+            PŘEVOD PLATÍ JEN JEDEN ROK: převedená dovolená se musí vyčerpat do konce
+            následujícího kalendářního roku, jinak propadá. V Odoo je to accrual_validity
+            = 364 dnů počítaných OD data převodu (1. 1.), takže propadnutí nastane cca
+            31. 12. následujícího roku — TĚSNĚ PŘED dalším převodem 1. 1. Tím se vyhýbáme
+            kolizi termínu převodu a termínu propadnutí na stejné datum (1. 1.), která
+            by u 12měsíční platnosti vedla k faktickému držení dovolené dva roky. Dovolená
+            za rok N se převede 1. 1. N+1 a propadá na konci roku N+1.
+
+        MODELLING ASSUMPTION (human-verify):
+        Odoo accrual plans grant a FIXED number of hours per period; they cannot
+        read the employee's contractual weekly hours. These plans are therefore
+        calibrated for the standard full-time týdenní pracovní doba of 40 h/týden.
+        The § 213 odst. 4 mechanic (1/52 of weekly hours per worked week) is encoded
+        as a WEEKLY accrual of výměra x 40 / 52 hours, based on worked time, so a
+        full year yields the full entitlement (160 h / 200 h) and a partial year
+        yields the poměrná část automatically. For other weekly hours (part-time,
+        37.5 h, DPP/DPČ fiktivních 20 h) an admin must scale added_value pro rata
+        (e.g. 20 h/týden 4 týdny -> 80 h/rok -> added_value = 80/52 = 1.538462).
+        The § 213 odst. 3 "at least 4 weeks" threshold and rounding to whole hours
+        are simplifications not enforced by the plan.
+
+        The plans are GENERIC (no time_off_type_id) so their hour-based levels are
+        not coerced to days by the day-based CZ holiday leave type; an admin assigns
+        the appropriate plan when creating an employee's dovolená allocation.
+        Sources:
+          https://www.pracomat.cz/poradna/zakonik-prace/138-zakonik-prace-cast-9-hlava-2-dil-1.html
+          https://ppropo.mpsv.cz/X1Dovolenazakalendarnirokajejipo
+    -->
+
+    <!-- 4 týdny (statutory minimum, private sector) = 160 h/rok @ 40 h/týden -->
+    <record id="accrual_plan_cz_holiday_4w" model="hr.leave.accrual.plan">
+        <field name="name">Statutory annual leave — 4 weeks (160 h/year)</field>
+        <field name="accrued_gain_time">end</field>
+        <field name="is_based_on_worked_time" eval="True"/>
+        <field name="can_be_carryover" eval="True"/>
+        <field name="carryover_date">year_start</field>
+    </record>
+    <record id="accrual_plan_cz_holiday_4w_level" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_4w"/>
+        <!-- 1/52 of (40 h x 4 týdny) per worked week = 160/52 = 3.076923 h/týden -->
+        <field name="added_value">3.076923</field>
+        <field name="added_value_type">hour</field>
+        <field name="frequency">weekly</field>
+        <field name="week_day">0</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- § 218: carried-over dovolená is valid for ONE further year; days not
+             taken by the end of that year are forfeited. Odoo counts the validity
+             from the carryover date; 364 days lands the expiry on ~31 Dec, just
+             BEFORE the 1 Jan carryover, so the carried days lapse at the end of the
+             following year. This avoids the carryover/expiry collision on 1 Jan that
+             a 12-month validity would cause (which drifted to a 2-year retention). -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+
+    <!-- 5 týdnů (common private-sector benefit / § 109 odst. 3) = 200 h/rok @ 40 h/týden -->
+    <record id="accrual_plan_cz_holiday_5w" model="hr.leave.accrual.plan">
+        <field name="name">Annual leave — 5 weeks (200 h/year)</field>
+        <field name="accrued_gain_time">end</field>
+        <field name="is_based_on_worked_time" eval="True"/>
+        <field name="can_be_carryover" eval="True"/>
+        <field name="carryover_date">year_start</field>
+    </record>
+    <record id="accrual_plan_cz_holiday_5w_level" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_5w"/>
+        <!-- 1/52 of (40 h x 5 týdnů) per worked week = 200/52 = 3.846154 h/týden -->
+        <field name="added_value">3.846154</field>
+        <field name="added_value_type">hour</field>
+        <field name="frequency">weekly</field>
+        <field name="week_day">0</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- § 218: carried-over dovolená is valid for ONE further year; 364-day
+             validity forfeits it at ~31 Dec (before the 1 Jan carryover collision). -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+</odoo>

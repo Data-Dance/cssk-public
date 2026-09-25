@@ -1,0 +1,67 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Aktualizace kurzů SK (NBS/ECB + slovenské banky)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenští poskytovatelé kurzů pro OCA rámec currency_rate_update s doplněním z předchozího dne</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace přidává slovenské <b>poskytovatele</b> kurzů do OCA rámce
+         <code>currency_rate_update</code> (podtřídy <code>res.currency.rate.provider</code>). Je kompatibilní
+         s Community a <b>nevyžaduje</b> funkci Odoo Enterprise <code>currency_rate_live</code>.</p>
+      <p>Poskytovatel <b>ECB</b> (součást OCA základu) je <i>referenční směnný kurz</i>, který Národní banka
+         Slovenska (NBS) přebírá od Evropské centrální banky — kurz používaný pro zákonné přepočty cizí měny
+         ve slovenském účetnictví. Dva komerční bankovní poskytovatelé (<b>VÚB banka</b> a <b>Tatra banka</b>)
+         zveřejňují svůj denní <i>kurzovní lístek</i> a jsou určeni pro odsouhlasení skutečných bankovních
+         přepočtů.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>ECB</b> (základ) — referenční kurz ECB přebíraný NBS pro <b>zákonné</b> přepočty cizí měny.</li>
+        <li><b>VÚB banka</b> — denní <i>kurzovní lístek</i> banky (Devíza stred / střední kurz).</li>
+        <li><b>Tatra banka</b> — zveřejňovaný kurzovní feed banky.</li>
+        <li><b>Doplnění z předchozího dne</b> (výchozí, přepínač u poskytovatele): centrální i komerční banky
+            o víkendech a svátcích nezveřejňují, proto se po každé synchronizaci poslední zveřejněný kurz
+            přenese na každý kalendářní den synchronizovaného období. Každý den pak má explicitní
+            <code>res.currency.rate</code> a žádný zápis nepřipadne na den bez kurzu. Doplnění je idempotentní
+            a nikdy nepřepíše zveřejněný kurz.</li>
+      </ul>
+      <p><b>Poznámka:</b> pro zákonné přepočty používejte <b>ECB</b>; feedy VÚB a Tatra banky nesou
+         <i>komerční</i> kurzy pouze pro odsouhlasení s bankou.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>V <i>Nastavení ▸ Technické ▸ Poskytovatelé kurzů měn</i> vytvořte poskytovatele, zvolte službu
+         (<b>ECB</b>, <b>VÚB banka</b> nebo <b>Tatra banka</b>), vyberte měny ke sledování, ponechte zapnuté
+         <b>Doplňovat nezveřejněné dny</b> a spusťte synchronizaci (ručně nebo naplánovanou akcí).</p>
+      <p><b>Zákonná výhrada (vyžaduje potvrzení účetní):</b> slovenský zákon oceňuje transakci v cizí měně
+         referenčním kurzem ECB z <i>předchozího</i> pracovního dne. Odoo vrací nejnovější kurz s datem
+         k datu transakce nebo dřívějším, takže existuje-li kurz ECB ze stejného dne, použije se místo kurzu
+         z předchozího dne. Striktní soulad s pravidlem "předchozího dne" zde není řešen — před spoléháním na
+         to to proberte s účetní zákazníka.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

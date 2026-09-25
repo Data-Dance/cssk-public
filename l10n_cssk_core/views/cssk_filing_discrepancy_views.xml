@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cssk_filing_discrepancy_list" model="ir.ui.view">
+        <field name="name">cssk.filing.discrepancy.list</field>
+        <field name="model">cssk.filing.discrepancy</field>
+        <field name="arch" type="xml">
+            <!-- Coloured by KIND, not by state. The question the reader of a
+                 comparison asks first is "does this row agree", and that is
+                 what the colour must answer: green agrees, red differs, grey
+                 is a gap that is structural or informational and is not a
+                 finding at all. What somebody has DECIDED about a row is a
+                 second question and stays on the state badge. -->
+            <list decoration-muted="stale or kind in ('expected', 'info')"
+                  decoration-success="kind == 'ok' and not stale"
+                  decoration-danger="not stale and kind in ('amount', 'only_filed', 'only_computed', 'unmapped')"
+                  decoration-warning="not stale and kind == 'classification'">
+                <field name="date_from" optional="show"/>
+                <field name="res_model" optional="show"/>
+                <field name="comparison_id" optional="hide"/>
+                <field name="filing_name" optional="hide"/>
+                <field name="legacy_source" optional="hide"/>
+                <field name="code"/>
+                <field name="row_label" optional="show"/>
+                <field name="kind"/>
+                <field name="filed" sum="Filed"/>
+                <field name="computed" sum="Computed"/>
+                <field name="difference" sum="Difference"/>
+                <field name="basis" optional="hide"/>
+                <field name="basis_label" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state == 'asked'"
+                       decoration-info="state == 'open'"
+                       decoration-success="state == 'agrees'"/>
+                <field name="note" optional="show"/>
+                <field name="stale" optional="hide"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cssk_filing_discrepancy_form" model="ir.ui.view">
+        <field name="name">cssk.filing.discrepancy.form</field>
+        <field name="model">cssk.filing.discrepancy</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"
+                           options="{'clickable': 1}"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="No longer compared"
+                            bg_color="text-bg-secondary" invisible="not stale"/>
+                    <widget name="web_ribbon" title="Agrees"
+                            bg_color="text-bg-success"
+                            invisible="stale or kind != 'ok'"/>
+                    <div class="oe_title">
+                        <h1><field name="code" readonly="1"/></h1>
+                        <h3><field name="row_label" readonly="1"
+                                   invisible="not row_label"/></h3>
+                    </div>
+                    <group>
+                        <group string="The filing">
+                            <field name="comparison_id" readonly="1"/>
+                            <field name="filing_name" readonly="1"/>
+                            <field name="res_model" readonly="1"/>
+                            <field name="legacy_source" readonly="1"/>
+                            <field name="date_from" readonly="1"/>
+                            <field name="date_to" readonly="1"/>
+                            <button name="action_open_filing" type="object"
+                                    string="Open the filing" class="btn-link"
+                                    icon="fa-arrow-right"/>
+                        </group>
+                        <group string="The comparison">
+                            <field name="kind" readonly="1"/>
+                            <field name="filed" readonly="1"/>
+                            <field name="computed" readonly="1"/>
+                            <field name="difference" readonly="1"/>
+                            <field name="basis" readonly="1"/>
+                            <field name="basis_label" readonly="1"
+                                   invisible="not basis_label"/>
+                            <field name="counterpart_id" readonly="1"
+                                   invisible="not counterpart_id"/>
+                            <field name="stale" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <!-- One detail block, not one per kind: the field may only
+                         be placed once, and what changes between kinds is the
+                         explanation beside it, never the text itself. -->
+                    <div class="alert alert-warning" role="alert"
+                         invisible="not detail">
+                        <field name="detail" nolabel="1" readonly="1"/>
+                    </div>
+                    <div class="alert alert-info" role="alert"
+                         invisible="kind != 'classification'">
+                        Both sides carry this amount; they disagree about which
+                        row it belongs on. The question for the accountant is
+                        which box is right, not which figure.
+                    </div>
+                    <div class="alert alert-secondary" role="alert"
+                         invisible="kind != 'expected'">
+                        A gap in this direction is structural, not an error: the
+                        KV is a proper subset of the priznanie. Only the
+                        opposite direction is impossible, and only that is
+                        flagged.
+                    </div>
+                    <div class="alert alert-secondary" role="alert"
+                         invisible="kind != 'info'">
+                        Reported, never flagged. The two sides legitimately
+                        diverge — prijaté preddavky create daňová povinnosť
+                        without výnos, accruals the reverse — so a difference
+                        here is not by itself a finding.
+                    </div>
+                    <group string="What the accountant said">
+                        <field name="note" nolabel="1" colspan="2"
+                               placeholder="Asked on … . Their answer: …"/>
+                    </group>
+                    <group>
+                        <field name="resolved_uid" readonly="1"
+                               invisible="not resolved_uid"/>
+                        <field name="resolved_date" readonly="1"
+                               invisible="not resolved_date"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cssk_filing_discrepancy_search" model="ir.ui.view">
+        <field name="name">cssk.filing.discrepancy.search</field>
+        <field name="model">cssk.filing.discrepancy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="code"/>
+                <field name="row_label"/>
+                <field name="filing_name"/>
+                <field name="legacy_source"/>
+                <!-- The worklist filter. Agreeing rows are created in state
+                     `agrees`, so they never reach it — which is why recording
+                     several hundred of them per agenda does not turn the
+                     accountant's queue into a wall of green. -->
+                <filter name="unresolved" string="To review"
+                        domain="[('state', 'in', ['open', 'asked']), ('stale', '=', False)]"/>
+                <filter name="differs" string="Differences only"
+                        domain="[('kind', 'in', ['amount', 'classification', 'only_filed', 'only_computed', 'unmapped'])]"/>
+                <filter name="agrees" string="Rows that agree"
+                        domain="[('kind', '=', 'ok')]"/>
+                <separator/>
+                <filter name="classification" string="Different row, same amount"
+                        domain="[('kind', '=', 'classification')]"/>
+                <filter name="real" string="Amount differs"
+                        domain="[('kind', 'in', ['amount', 'classification'])]"
+                        help="The two kinds that are about money."/>
+                <filter name="live" string="Still compared"
+                        domain="[('stale', '=', False)]"/>
+                <separator/>
+                <filter name="group_kind" string="Result" domain="[]"
+                        context="{'group_by': 'kind'}"/>
+                <filter name="group_state" string="Status" domain="[]"
+                        context="{'group_by': 'state'}"/>
+                <filter name="group_basis" string="Compared against" domain="[]"
+                        context="{'group_by': 'basis'}"/>
+                <filter name="group_comparison" string="The comparison"
+                        domain="[]"
+                        context="{'group_by': 'comparison_id'}"/>
+                <filter name="group_form" string="Form" domain="[]"
+                        context="{'group_by': 'res_model'}"/>
+                <filter name="group_period" string="Period" domain="[]"
+                        context="{'group_by': 'date_from'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cssk_filing_discrepancy" model="ir.actions.act_window">
+        <field name="name">Filed vs computed</field>
+        <field name="res_model">cssk.filing.discrepancy</field>
+        <field name="view_mode">list,form</field>
+        <!-- The menu is the WORKLIST, so it opens on what needs an answer.
+             The per-filing button opens the same model with no filter, which
+             is the comparison — agreeing rows included. Two questions, one
+             screen, and the filter is what separates them. -->
+        <field name="context">{'search_default_unresolved': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Nothing to review.</p>
+            <p>
+                Every row of a migrated filing set beside what the ledger
+                produces for the same period lands here — the ones that agree
+                as well as the ones that do not, so the state of a migration
+                can be read off it. This list opens on the differences that
+                still need an answer; clear the filter to see the whole
+                comparison.
+            </p>
+        </field>
+    </record>
+</odoo>

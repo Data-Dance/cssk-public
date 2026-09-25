@@ -1,0 +1,43 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">🌐 <b>EN</b> · <a href="index_cz.html">CZ</a> · <a href="index_sk.html">SK</a></p>
+    <h2 class="oe_slogan">CZ Supplier Reliability — ADIS provider</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Unreliable VAT payer &amp; published bank accounts from the MFČR ADIS web service</h3>
+    <div class="oe_span12">
+      <p>This module implements the Czech country provider for <code>l10n_cssk_payment_reliability</code>. It queries the Czech Financial Administration (Finanční správa ČR) ADIS SOAP web service (<code>rozhraniCRPDPH</code>) to tell whether a supplier is an unreliable VAT payer (nespolehlivý plátce) and to fetch the supplier's registered bank accounts (zveřejněné účty). This supports guarantor liability for unpaid VAT (§109) checks on vendor bills. No API key is required — the service is open.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Calls the published ADIS endpoint <code>adisrws.mfcr.cz/.../rozhraniCRPDPH.rozhraniCRPDPHSOAP</code>, operation <code>getStatusNespolehlivyPlatce</code>.</li>
+        <li>Tax reliability mapping: <code>nespolehlivyPlatce</code> ANO → unreliable, NE → reliable, NENALEZEN → unknown.</li>
+        <li>Registered bank accounts: <code>standardníÚčet</code> (předčíslí/číslo/kódBanky) is converted to its IBAN so it matches the bank account on the bill; <code>nestandardníÚčet</code> (already an IBAN) is taken as-is.</li>
+        <li>Returns no result on network or parsing errors, leaving the supplier status unknown rather than failing.</li>
+        <li>No API key needed — the MFČR service is open and free to query.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install this module alongside <code>l10n_cssk_payment_reliability</code>. For partners whose country is set to Czech Republic (CZ) and who have a VAT/DIČ filled in, the shared reliability check automatically routes to this ADIS provider. There is nothing to configure and no API key to obtain.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

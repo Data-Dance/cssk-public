@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_l10n_sk_cash_dpfo_form" model="ir.ui.view">
+        <field name="name">l10n.sk.cash.dpfo.form</field>
+        <field name="model">l10n.sk.cash.dpfo</field>
+        <field name="arch" type="xml">
+            <form string="DPFO typ B — údaje z peňažného denníka">
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="regime"/>
+                        <field name="needs_review" invisible="not needs_review"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </group>
+                <div class="alert alert-warning" role="alert" invisible="not needs_review">
+                    Denník obsahuje riadky označené na kontrolu. Kým nie sú
+                    vyriešené, údaje nie sú úplné.
+                </div>
+                <field name="line_ids" invisible="not line_ids">
+                    <list create="false" delete="false" edit="false">
+                        <field name="table"/>
+                        <field name="code"/>
+                        <field name="label"/>
+                        <field name="value" sum="Spolu"/>
+                        <field name="opening_value"/>
+                        <field name="closing_value"/>
+                        <field name="currency_id" column_invisible="1"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_compute" type="object" string="Vypočítať"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="Zavrieť" class="btn-secondary" special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_sk_cash_dpfo" model="ir.actions.act_window">
+        <field name="name">DPFO typ B — údaje z peňažného denníka</field>
+        <field name="res_model">l10n.sk.cash.dpfo</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

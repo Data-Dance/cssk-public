@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      ELDP09 XML — matches the official ČSSZ schema ELDP09.xsd (root <RELDP>,
+      ns http://schemas.cssz.cz/ELDP09, elementFormDefault="qualified",
+      attributes unqualified). One <eldp09> per employee; annual pension
+      assessment base (t1/@inc) and days (t1/@din) are summed from the year's
+      payslips. Constant empty attributes (dre, sre, dex/dar, m1..m13) are
+      written literally so they are never dropped by the QWeb renderer.
+    -->
+    <template id="eldp_xml">
+        <RELDP xmlns="http://schemas.cssz.cz/ELDP09"
+               t-att-version="reldp_version">
+            <eldp09 t-foreach="eldp_employees" t-as="e"
+                    t-att-sqnr="e['sqnr']"
+                    t-att-yer="e['yer']"
+                    t-att-typ="e['typ']"
+                    dre=""
+                    t-att-tco="e['tco']"
+                    t-att-dep="e['dep']"
+                    t-att-nam="e['nam']">
+                <client t-att-bno="e['bno']">
+                    <name t-att-sur="e['sur']" t-att-fir="e['fir']" tit=""/>
+                    <adr t-att-cit="e['adr']['cit']"
+                         t-att-str="e['adr']['str']"
+                         t-att-num="e['adr']['num']"
+                         t-att-pos="e['adr']['pos']"
+                         t-att-pnu="e['adr']['pnu']"
+                         t-att-cnt="e['adr']['cnt']"/>
+                    <birth t-att-dat="e['birth_dat']"
+                           t-att-nam="e['birth_nam']"
+                           t-att-cit="e['birth_cit']"/>
+                </client>
+                <items t-att-coun="e['coun']"
+                       sdex="0"
+                       t-att-sinc="e['sinc']"
+                       sdar="0">
+                    <t1 t-att-row="e['row']"
+                        t-att-cod="e['cod']"
+                        sre="N"
+                        t-att-fro="e['fro']"
+                        t-att-to="e['to']"
+                        t-att-din="e['din']"
+                        m1="" m2="" m3="" m4="" m5="" m6="" m7="" m8="" m9=""
+                        m10="" m11="" m12="" m13=""
+                        t-att-inc="e['inc']"
+                        dex="0"
+                        dar="0"/>
+                </items>
+                <comp t-att-nam="e['comp_nam']"
+                      t-att-id="e['comp_id']"
+                      t-att-vs="e['comp_vs']"
+                      t-att-cre="e['comp_cre']"
+                      t-att-fro="e['comp_fro']"/>
+            </eldp09>
+        </RELDP>
+    </template>
+</odoo>

@@ -1,0 +1,61 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Poskytovateľ rámčeka QR kódu</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Znovupoužiteľný hook na vykreslenie platobných QR kódov vnútri obrázka rámčeka</h3>
+    <div class="oe_span12">
+      <p>Tento modul poskytuje mechanizmus na vloženie platobného QR kódu do <b>obrázka rámčeka</b>
+         (napríklad rámček „PAY by square“ / „QR Platba“). Prepisuje
+         <code>res.partner.bank._get_qr_code_base64</code> tak, že ak je rámček nastavený,
+         vygenerovaný QR kód sa zmenší, vloží na rámček a vráti ako jeden PNG data URI.</p>
+      <p>Samotný modul vystavuje rozširovací hook
+         (<code>_get_qr_code_frame_generation_params</code>), ktorý v predvolenom stave vracia
+         <code>None</code> — konkrétny obrázok rámčeka, veľkosť bloku, okraj a umiestnenie dodáva
+         modul danej krajiny/schémy. Z QR kódu na zostave faktúry tiež odstraňuje predvolené logo
+         Odoo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Vkladá platobný QR kód do konfigurovateľného obrázka rámčeka (rámček, veľkosť bloku,
+            okraj, zmena veľkosti a umiestnenie x/y), vrátený ako PNG data URI.</li>
+        <li>Rozširovací hook <code>_get_qr_code_frame_generation_params(qr_method)</code> — v
+            predvolenom stave vracia <code>None</code>, takže nadväzujúci modul doplní konkrétne
+            parametre rámčeka podľa metódy QR.</li>
+        <li>Z QR kódu na zostave faktúry odstraňuje predvolené logo Odoo.</li>
+        <li>Bez rámčeka transparentný: použije sa štandardné vykreslenie QR kódu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Nainštalujte ako závislosť modulu, ktorý prepisuje
+         <code>_get_qr_code_frame_generation_params</code> a vracia obrázok rámčeka a rozloženie pre
+         danú metódu QR. S týmito parametrami každá faktúra, ktorá vykresľuje platobný QR kód, zobrazí
+         kód vnútri nastaveného rámčeka namiesto holého kódu.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

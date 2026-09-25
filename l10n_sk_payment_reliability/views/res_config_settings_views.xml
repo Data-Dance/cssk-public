@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="res_config_settings_view_form_sk_reliability" model="ir.ui.view">
+        <field name="name">res.config.settings.form.sk.reliability</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_payment_reliability.res_config_settings_view_form_cssk_reliability" />
+        <field name="arch" type="xml">
+            <field name="cssk_reliability_autocheck" position="after">
+                <field name="fa_api_key" placeholder="FS open-data API key…" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

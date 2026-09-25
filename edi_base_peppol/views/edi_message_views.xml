@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_edi_message_tree_peppol" model="ir.ui.view">
+        <field name="name">edi.message.list.peppol</field>
+        <field name="model">edi.message</field>
+        <field name="inherit_id" ref="edi_base.view_edi_message_tree"/>
+        <field name="arch" type="xml">
+            <field name="provider" position="after">
+                <field name="doc_family" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_edi_message_form_peppol" model="ir.ui.view">
+        <field name="name">edi.message.form.peppol</field>
+        <field name="model">edi.message</field>
+        <field name="inherit_id" ref="edi_base.view_edi_message_form"/>
+        <field name="arch" type="xml">
+            <field name="provider" position="after">
+                <field name="doc_family"/>
+            </field>
+            <field name="message_type" position="after">
+                <field name="peppol_move_id"
+                    invisible="doc_family != 'peppol'"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_edi_message_search_peppol" model="ir.ui.view">
+        <field name="name">edi.message.search.peppol</field>
+        <field name="model">edi.message</field>
+        <field name="inherit_id" ref="edi_base.view_edi_message_search"/>
+        <field name="arch" type="xml">
+            <field name="provider" position="after">
+                <field name="doc_family"/>
+                <filter name="filter_peppol" string="Peppol BIS3"
+                    domain="[('doc_family', '=', 'peppol')]"/>
+            </field>
+        </field>
+    </record>
+</odoo>

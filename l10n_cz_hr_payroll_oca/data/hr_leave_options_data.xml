@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        OPTIONAL / ALTERNATIVE CZ leave configuration (statutory limits).
+
+        This file ships extra, ready-to-use variants of the CZ leave taxonomy that
+        capture statutory day-limits. They complement the always-on records in
+        hr_leave_type_data.xml / hr_leave_accrual_plan_data.xml; an administrator
+        picks the ones a given company needs.
+
+        ARCHIVED vs ACTIVE:
+          * The two "full entitlement at start of year" holiday accrual plans below
+            are shipped ARCHIVED (active=False) — they are an ALTERNATIVE to the
+            default per-worked-week accrual and must be explicitly un-archived to be
+            used.
+          * The OČR and paid-obstacle limit leave types are shipped ACTIVE — they
+            reflect statutory caps a company can allocate against right away.
+
+        ============================================================================
+        A) DOVOLENÁ — "full annual entitlement granted on 1 January"
+        ============================================================================
+        Alternative to the per-worked-week accrual (accrual_plan_cz_holiday_4w/_5w).
+        Some employers grant the WHOLE year's dovolená up front on 1. 1. instead of
+        letting it accrue 1/52 per worked week (zák. č. 262/2006 Sb., § 213). These
+        plans grant the full entitlement in one yearly milestone at the start of the
+        period and are NOT based on worked time, so a leaver who has taken more than
+        the pro-rata share must be settled/reclaimed manually (§ 222 odst. 4).
+        Like the default plans they carry unused days over (§ 218) but only for ONE
+        further year: accrual_validity = 364 days from the 1 Jan carryover date, so the
+        carried days expire ~31 Dec of the following year (just before the next 1 Jan
+        carryover). Year-N leave rolls into N+1 and is forfeited at the end of N+1 if
+        still unused. 364 days (rather than 12 months) keeps the expiry from colliding
+        with the 1 Jan carryover, which otherwise drifts into a 2-year retention.
+        Calibrated for the standard 40 h/týden full-time week:
+          4 týdny = 40 h × 4 = 160 h/rok ; 5 týdnů = 40 h × 5 = 200 h/rok.
+
+        ============================================================================
+        B) OČR / OŠETŘOVNÉ — care for a family member (day limits)
+        ============================================================================
+        OČR is a SICKNESS-INSURANCE benefit (dávka nemocenského pojištění) paid by
+        ČSSZ/OSSZ, NOT by the employer — zák. č. 187/2006 Sb. The employer only
+        records the absence (leave_type_cz_ocr, code CZOCR) and pays nothing. The
+        "limit" is therefore the ČSSZ benefit DURATION, not an employer entitlement;
+        the leave-type variants below let a company that wants to cap recorded OČR
+        create an allocation of the statutory number of days.
+          * Krátkodobé ošetřovné (§ 39): paid from day 1 for max 9 KALENDÁŘNÍCH DNŮ;
+            16 kalendářních dnů for a lone parent (svobodný/ovdovělý/rozvedený,
+            nežijící s druhem/družkou) caring for at least one child under 16 who has
+            not finished povinnou školní docházku. When parents alternate, the 9/16
+            days are a shared total, not per parent.
+          * Dlouhodobé ošetřovné (§ 41a–41c): max 90 KALENDÁŘNÍCH DNŮ from the onset
+            of the need for long-term care; a fresh entitlement for the same person
+            only after 12 months. Since 1. 6. 2025 the employer may not refuse the
+            work leave for long-term care.
+
+        ============================================================================
+        C) DŮLEŽITÉ OSOBNÍ PŘEKÁŽKY V PRÁCI — paid obstacles (NV 590/2006 Sb.,
+           zák. práce § 191–199), stav 2025/2026 (novela 122/2025 Sb. od 1. 6. 2025)
+        ============================================================================
+        Per-reason limits and whether náhrada mzdy (wage compensation) is paid.
+        A single annual number does NOT fit — each reason has its own cap — so the
+        default leave_type_cz_obstacle stays a "necessary time" hour type and the
+        variant below represents the most common fixed cap (doprovod, max 1 den).
+          * Vyšetření/ošetření u lékaře: NEZBYTNĚ NUTNÁ DOBA, PAID, only when it
+            cannot be done outside working hours; paid time limited if not at the
+            nearest contracted facility.
+          * Doprovod rodinného příslušníka do zdrav. zařízení: nezbytně nutná doba,
+            MAX 1 DEN, PAID (manžel/ka, partner/ka, dítě, rodič/prarodič vlastní
+            nebo manžela/ky); 6 pracovních dnů/rok PAID for the transport of a
+            disabled child to a facility.
+          * Vlastní svatba: 2 dny, of which 1 day PAID (the ceremony day).
+          * Svatba dítěte: 1 den PAID. Svatba rodiče: 1 den, UNPAID.
+          * Úmrtí manžela/ky, partnera/ky, dítěte: 2 dny + 1 den na pohřeb, PAID.
+          * Úmrtí rodiče/prarodiče/vnuka/sourozence (i manžela/ky): 1 den na pohřeb
+            + 1 den navíc pokud obstarává pohřeb, PAID. Since 1. 6. 2025 up to 5
+            further days UNPAID for the death of the nearest relatives.
+          * Narození dítěte: transport of the mother PAID (nezbytně nutná doba),
+            being present at the birth UNPAID.
+          * Přestěhování ve vlastním zájmu: max 2 dny/rok, UNPAID (PAID only if in
+            the employer's interest).
+          * Znemožnění cesty do zaměstnání (těžce zdravotně postižený): max 1 den,
+            PAID. Vyhledání nového zaměstnání: nezbytně nutná doba, UNPAID (PAID up
+            to ½ dne/týden při výpovědi z org. důvodů).
+
+        Sources (accessed 2026-07):
+          zák. č. 187/2006 Sb. (nemocenské pojištění) — https://www.zakonyprolidi.cz/cs/2006-187
+          NV č. 590/2006 Sb. — https://ppropo.mpsv.cz/narizeni_vlady_590_2006
+          MPSV příručka — https://ppropo.mpsv.cz/IX113Jineduleziteosobniprekazkyv
+          ČSSZ dlouhodobé ošetřovné — https://www.cssz.gov.cz/dlouhodobe-osetrovne
+    -->
+
+    <!-- ===== A) Holiday: full entitlement granted at start of year (ARCHIVED) ===== -->
+    <record id="accrual_plan_cz_holiday_4w_yearstart" model="hr.leave.accrual.plan">
+        <field name="name">Annual leave — 4 weeks, full entitlement on 1 Jan (160 h)</field>
+        <field name="active" eval="False"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="is_based_on_worked_time" eval="False"/>
+        <field name="can_be_carryover" eval="True"/>
+        <field name="carryover_date">year_start</field>
+    </record>
+    <record id="accrual_plan_cz_holiday_4w_yearstart_level" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_4w_yearstart"/>
+        <!-- whole year granted in one milestone: 40 h × 4 týdny = 160 h -->
+        <field name="added_value">160</field>
+        <field name="added_value_type">hour</field>
+        <field name="frequency">yearly</field>
+        <field name="yearly_month">1</field>
+        <field name="yearly_day">1</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- § 218: carried-over dovolená lasts one further year, then is forfeited.
+             364-day validity lands the expiry on ~31 Dec, before the 1 Jan carryover,
+             avoiding the year_start collision that a 12-month validity would cause. -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+
+    <record id="accrual_plan_cz_holiday_5w_yearstart" model="hr.leave.accrual.plan">
+        <field name="name">Annual leave — 5 weeks, full entitlement on 1 Jan (200 h)</field>
+        <field name="active" eval="False"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="is_based_on_worked_time" eval="False"/>
+        <field name="can_be_carryover" eval="True"/>
+        <field name="carryover_date">year_start</field>
+    </record>
+    <record id="accrual_plan_cz_holiday_5w_yearstart_level" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_5w_yearstart"/>
+        <!-- whole year granted in one milestone: 40 h × 5 týdnů = 200 h -->
+        <field name="added_value">200</field>
+        <field name="added_value_type">hour</field>
+        <field name="frequency">yearly</field>
+        <field name="yearly_month">1</field>
+        <field name="yearly_day">1</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- § 218: carried-over dovolená lasts one further year, then is forfeited.
+             364-day validity lands the expiry on ~31 Dec, before the 1 Jan carryover,
+             avoiding the year_start collision that a 12-month validity would cause. -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+
+    <!-- ===== B) OČR statutory day-limit leave types (ACTIVE) =====
+         Same payroll code CZOCR as leave_type_cz_ocr, so recorded absence still
+         flows into the OČR salary rule. requires_allocation lets a company
+         enforce the cap by allocating the statutory number of days.
+
+         DELIBERATELY NO ACCRUAL PLAN. Both OČR limits are a podpůrčí doba PER
+         CASE, not per calendar year: 9 (16) kalendářních dnů per krátkodobé
+         case (§ 39) and 90 dnů per dlouhodobé case (§ 41a), with a fresh
+         entitlement for the same person after 12 months. An employee may
+         legitimately have several cases in one year, so a yearly accrual would
+         cap the second case at zero. The correct modelling is ONE ALLOCATION
+         PER CASE, its date_from/date_to bounding that case — which is exactly
+         what requires_allocation buys here. Contrast section C1, where the
+         limit really is annual and an accrual plan is right. -->
+    <record id="leave_type_cz_ocr_shortterm" model="hr.leave.type">
+        <field name="name">Short-term family care (OČR) — limit 9 days (16 for a lone parent)</field>
+        <field name="requires_allocation" eval="True"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZOCR</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_ocr_longterm" model="hr.leave.type">
+        <field name="name">Long-term family care — limit 90 days</field>
+        <field name="requires_allocation" eval="True"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZOCR</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- ===== C) Paid-obstacle statutory day-limit leave types (ACTIVE) =====
+         Same payroll code CZOBSTACLE. Per-reason limits documented in the header.
+
+         Only ONE paid CZ obstacle carries a genuine per-CALENDAR-YEAR budget —
+         the 6 pracovních dnů for transporting a disabled child (C1), which
+         therefore gets an accrual plan. Everything else in NV 590/2006 is
+         PER EVENT (doprovod max 1 den per trip, svatba, úmrtí, narození), so a
+         yearly accrual would be wrong: it would let a first doprovod exhaust
+         the whole year. Those stay allocation-per-event (C2) or, for the
+         "nezbytně nutná doba" reasons with no number at all, go on the generic
+         leave_type_cz_obstacle, which needs no allocation. -->
+
+    <!-- C1) Doprovod zdravotně postiženého dítěte do zařízení: 6 pracovních
+         dnů/ROK, paid — the CZ counterpart of the SK §141 ZŤP allowance and the
+         only paid obstacle with an annual budget, so the only one that accrues. -->
+    <record id="leave_type_cz_obstacle_transport_disabled" model="hr.leave.type">
+        <field name="name">Transport of a Disabled Child to a Facility — 6 days/year (paid)</field>
+        <field name="requires_allocation" eval="True"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="accrual_plan_cz_obstacle_transport_disabled_6d" model="hr.leave.accrual.plan">
+        <field name="name">Work obstacle — transport of a disabled child, 6 days/year</field>
+        <field name="time_off_type_id" ref="leave_type_cz_obstacle_transport_disabled"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="False"/>
+    </record>
+    <record id="accrual_level_cz_obstacle_transport_disabled_6d" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="accrual_plan_cz_obstacle_transport_disabled_6d"/>
+        <field name="added_value">6</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">yearly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">6</field>
+        <field name="action_with_unused_accruals">lost</field>
+    </record>
+
+    <!-- C2) Doprovod rodinného příslušníka k lékaři: max 1 den PER TRIP, paid.
+         No accrual plan on purpose — the cap is per event, so the company
+         allocates one day per occurrence. -->
+    <record id="leave_type_cz_obstacle_doprovod" model="hr.leave.type">
+        <field name="name">Escort to a doctor — max 1 day (paid)</field>
+        <field name="requires_allocation" eval="True"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

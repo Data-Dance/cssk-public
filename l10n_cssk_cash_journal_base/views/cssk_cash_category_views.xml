@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cssk_cash_category_list" model="ir.ui.view">
+        <field name="name">cssk.cash.category.list</field>
+        <field name="model">cssk.cash.category</field>
+        <field name="arch" type="xml">
+            <list string="Cash Journal Categories" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="country_id"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="taxable"/>
+                <field name="non_cash"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cssk_cash_category_form" model="ir.ui.view">
+        <field name="name">cssk.cash.category.form</field>
+        <field name="model">cssk.cash.category</field>
+        <field name="arch" type="xml">
+            <form string="Cash Journal Category">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="country_id"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="kind"/>
+                            <field name="taxable" invisible="kind == 'transit'"/>
+                            <field name="non_cash" invisible="kind == 'transit'"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+                    <group string="Note">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cssk_cash_category" model="ir.actions.act_window">
+        <field name="name">Cash Journal Categories</field>
+        <field name="res_model">cssk.cash.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Define a category</p>
+            <p>A category is the <i>členenie</i> a payment is filed under in the
+               peňažný denník. The country modules ship the statutory
+               catalogues.</p>
+        </field>
+    </record>
+</odoo>

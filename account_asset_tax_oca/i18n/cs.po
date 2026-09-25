@@ -1,0 +1,399 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_asset_tax_oca
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-04 07:48+0000\n"
+"PO-Revision-Date: 2026-06-28 23:43+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_method__accelerated
+msgid "Accelerated"
+msgstr "Zrychlený"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_vehicle_capped
+msgid "Apply Vehicle Depreciation Cap"
+msgstr "Použít limit odpisu vozidla"
+
+#. module: account_asset_tax_oca
+#: model:ir.model,name:account_asset_tax_oca.model_account_asset
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__asset_id
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_event__asset_id
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_line__asset_id
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_search
+msgid "Asset"
+msgstr "Majetek"
+
+#. module: account_asset_tax_oca
+#: model:ir.model,name:account_asset_tax_oca.model_account_asset_profile
+msgid "Asset profile"
+msgstr "Profil majetku"
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Backfill (migration)"
+msgstr "Doplnit (migrace)"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__book_amount
+msgid "Book Depreciation"
+msgstr "Účetní odpisy"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__book_amount_posted
+msgid "Book Depreciation (Posted)"
+msgstr "Účetní odpis (zaúčtovaný)"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__book_residual
+msgid "Book Residual Value"
+msgstr "Účetní zůstatková cena"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset_book_tax_report__difference
+msgid ""
+"Book depreciation minus tax depreciation for the year — the income-tax base "
+"adjustment (SK pripočítateľná/odpočítateľná položka, CZ § 23 ods. 3)."
+msgstr ""
+"Účetní odpisy minus daňové odpisy za rok — úprava základu daně z "
+"příjmů (SK pripočítateľná/odpočítateľná položka, CZ § 23 odst. 3)."
+
+#. module: account_asset_tax_oca
+#: model:ir.actions.act_window,name:account_asset_tax_oca.action_asset_book_tax_report
+#: model:ir.ui.menu,name:account_asset_tax_oca.menu_asset_book_tax_report
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_graph
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_pivot
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_search
+msgid "Book vs Tax Depreciation"
+msgstr "Účetní vs. daňové odpisy"
+
+#. module: account_asset_tax_oca
+#: model:ir.model,name:account_asset_tax_oca.model_account_asset_book_tax_report
+msgid "Book vs Tax Depreciation Report"
+msgstr "Přehled účetních a daňových odpisů"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_increased_first_year
+msgid ""
+"CZ §31(1)(b)/(c)/(d): a first depreciator of a group 1–3 asset may elect a "
+"higher first-year straight-line rate (+10/15/20 %). CZ + straight-line + "
+"groups 1–3 only."
+msgstr ""
+"CZ §31(1)(b)/(c)/(d): první odpisovatel majetku odpisové skupiny 1–3 může "
+"uplatnit vyšší rovnoměrnou sazbu v 1. roce (+10/15/20 %). Pouze CZ + "
+"rovnoměrný odpis + skupiny 1–3."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__company_id
+msgid "Company"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_currency_id
+msgid "Company currency, for the tax-depreciation monetary fields."
+msgstr "Měna společnosti pro peněžní pole daňových odpisů."
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Compute Tax Board"
+msgstr "Vypočítat daňový odpisový plán"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_in_service_date_override
+msgid ""
+"Date the asset entered use for tax purposes (zaradenie do užívania). "
+"Defaults to the accounting depreciation start; override it when migrating an "
+"asset whose tax depreciation started on another date."
+msgstr ""
+"Datum zařazení majetku do užívání pro daňové účely (zaradenie do užívania). "
+"Výchozí je počátek účetního odpisování; přepište jej při migraci majetku, "
+"jehož daňové odpisování začalo k jinému datu."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_entry_value
+msgid ""
+"Depreciable base for tax purposes (vstupní / vstupná cena). Defaults to the "
+"accounting acquisition value but can differ (e.g. capped M1 vehicle, non-"
+"deductible components)."
+msgstr ""
+"Odpisová základna pro daňové účely (vstupní / vstupná cena). Výchozí je "
+"účetní pořizovací cena, může se však lišit (např. limitované vozidlo M1, "
+"neodpočitatelné složky)."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__difference
+msgid "Difference (Book − Tax)"
+msgstr "Rozdíl (účetní − daňové)"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__display_name
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__display_name
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__display_name
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_event__display_name
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Disposal"
+msgstr "Vyřazení"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset_book_tax_report__tax_posted
+msgid "Every tax-depreciation line of the year has been filed (frozen)."
+msgstr "Všechny řádky daňových odpisů roku jsou podané (zmrazené)."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_method__extraordinary
+msgid "Extraordinary (CZ §30a)"
+msgstr "Mimořádný (CZ §30a)"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__tax_posted
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_search
+msgid "Filed"
+msgstr "Podáno"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__fiscal_year
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_search
+msgid "Fiscal Year"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__id
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__id
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__id
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_event__id
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_line__id
+msgid "ID"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_increased_first_year
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__tax_increased_first_year
+msgid "Increased First-Year Rate"
+msgstr "Zvýšená sazba v prvním roce"
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Lifecycle Events"
+msgstr "Události životního cyklu"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_depreciation_enabled
+msgid ""
+"Maintain a separate, non-posted tax-depreciation schedule for this asset "
+"(daňové odpisy). The accounting depreciation board is unaffected."
+msgstr ""
+"Udržovat pro tento majetek samostatný, nezaúčtovaný plán daňových odpisů "
+"(daňové odpisy). Účetní odpisový plán zůstává nedotčen."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__0
+msgid "None"
+msgstr "Žádný"
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Number of periods"
+msgstr "Počet období"
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Number of years"
+msgstr "Počet let"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset_book_tax_report__book_amount_posted
+msgid ""
+"Only the book depreciation whose journal entry is posted — the statutory-"
+"relevant figure; Book Depreciation also counts planned (draft) entries."
+msgstr ""
+"Pouze účetní odpisy se zaúčtovaným účetním zápisem — statutárně relevantní "
+"hodnota; sloupec Účetní odpis zahrnuje i plánované (koncepty)."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_vehicle_capped
+msgid ""
+"Passenger vehicle subject to the statutory depreciation cap (CZ §30e 2M "
+"CZK / SK §17(34) 48k EUR). The tax board is then computed on the company's "
+"capped base instead of the full entry value."
+msgstr ""
+"Osobní vozidlo podléhající zákonnému limitu odpisu (CZ §30e 2 mil. CZK / SK "
+"§17(34) 48 tis. EUR). Daňový plán se poté počítá z limitované základny "
+"společnosti namísto plné vstupní ceny."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_method_locked
+msgid ""
+"Set once the first tax depreciation is filed. The statutory method may not "
+"change for the asset's whole life (CZ §30(2) / SK §26(3))."
+msgstr ""
+"Nastaví se po podání prvních daňových odpisů. Zákonnou metodu nelze po celou "
+"dobu odpisování majetku změnit (CZ §30(2) / SK §26(3))."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_class_id
+msgid "Statutory depreciation group (odpisová skupina)."
+msgstr "Zákonná odpisová skupina."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_method__linear
+msgid "Straight-line"
+msgstr "Rovnoměrný"
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Suspension"
+msgstr "Přerušení odpisování"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_allowed_methods
+msgid "Tax Allowed Methods"
+msgstr "Povolené daňové metody"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_country_code
+msgid "Tax Country Code"
+msgstr "Daňový kód země"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_currency_id
+msgid "Tax Currency"
+msgstr "Daňová měna"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_value_depreciated
+msgid "Tax Depreciated"
+msgstr "Daňově odepsáno"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__tax_amount
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Tax Depreciation"
+msgstr "Daňové odpisy"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_line_ids
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Tax Depreciation Board"
+msgstr "Daňový odpisový plán"
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_profile_view_form_tax
+msgid "Tax Depreciation Defaults"
+msgstr "Výchozí nastavení daňových odpisů"
+
+#. module: account_asset_tax_oca
+#: model:ir.model,name:account_asset_tax_oca.model_account_asset_tax_event
+msgid "Tax Depreciation Event"
+msgstr "Událost daňového odpisu"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_event_ids
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Tax Depreciation Events"
+msgstr "Události daňových odpisů"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_class_id
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__tax_class_id
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__tax_class_id
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_search
+msgid "Tax Depreciation Group"
+msgstr "Daňová odpisová skupina"
+
+#. module: account_asset_tax_oca
+#: model:ir.model,name:account_asset_tax_oca.model_account_asset_tax_line
+msgid "Tax Depreciation Line"
+msgstr "Řádek daňového odpisu"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_entry_value
+msgid "Tax Entry Value"
+msgstr "Daňová vstupní cena"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_in_service_date_override
+msgid "Tax In-Service Date"
+msgstr "Datum daňového zařazení"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_method
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__tax_method
+msgid "Tax Method"
+msgstr "Daňová metoda"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_method_locked
+msgid "Tax Method Locked"
+msgstr "Daňová metoda uzamčena"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_value_residual
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__tax_residual
+msgid "Tax Residual Value"
+msgstr "Daňová zůstatková cena"
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
+msgid "Technical Improvement"
+msgstr "Technické zhodnocení"
+
+#. module: account_asset_tax_oca
+#: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_list
+msgid "Total"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_depreciation_enabled
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__tax_depreciation_enabled
+msgid "Track Tax Depreciation"
+msgstr "Sledovat daňové odpisy"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__10
+msgid "+10 %"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__15
+msgid "+15 %"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__20
+msgid "+20 %"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.module.module,summary:base.module_account_asset_tax_oca
+msgid ""
+"Attach the CZ/SK tax-depreciation board to OCA account_asset_management "
+"(Community)"
+msgstr ""
+"Připojí CZ/SK plán daňových odpisů k OCA account_asset_management "
+"(Community)"
+
+#. module: account_asset_tax_oca
+#: model:ir.module.module,shortdesc:base.module_account_asset_tax_oca
+msgid "Tax Depreciation - OCA bridge"
+msgstr "Daňové odpisy – most na OCA"

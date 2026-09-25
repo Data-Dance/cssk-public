@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Oznámení plátce mzdy / Oznámenie platiteľa mzdy.
+
+        Covers the three notification duties the employer owes the court or
+        the bailiff: that a debtor has joined (§ 294/1 o. s. ř.), that a
+        debtor has left, and the answer to an enquiry about which orders are
+        on file, in which rank and for how much (§ 294/2, § 295 o. s. ř.).
+    -->
+    <template id="report_garnishment_notice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="company" t-value="doc.company_id"/>
+                <t t-set="orders" t-value="doc._orders()"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-6 offset-6">
+                                <strong t-field="doc.recipient_partner_id.name"/>
+                                <div t-field="doc.recipient_partner_id"
+                                     t-options="{'widget': 'contact', 'fields': ['address'], 'no_marker': True}"/>
+                            </div>
+                        </div>
+
+                        <h3 class="mt32">
+                            <t t-if="doc.notice_type == 'employment_start'">
+                                Notice of the debtor entering employment
+                            </t>
+                            <t t-elif="doc.notice_type == 'employment_end'">
+                                Notice of the debtor leaving employment
+                            </t>
+                            <t t-else="">
+                                Statement on wage deductions
+                            </t>
+                        </h3>
+                        <p class="text-muted">
+                            <t t-if="doc.notice_type == 'employment_start'">
+                                Oznámení podle § 294 odst. 1 o. s. ř.
+                            </t>
+                            <t t-elif="doc.notice_type == 'employment_end'">
+                                Oznámení podle § 294 odst. 1 o. s. ř.
+                            </t>
+                            <t t-else="">
+                                Sdělení podle § 294 odst. 2 a § 295 o. s. ř.
+                            </t>
+                        </p>
+
+                        <p class="mt32">
+                            As the payer of the wage of
+                            <strong t-field="doc.employee_id.name"/><t t-if="doc.employee_id.identification_id">,
+                            ID <span t-field="doc.employee_id.identification_id"/></t>, we notify you of the following.
+                        </p>
+
+                        <p t-if="doc.notice_type == 'employment_start'">
+                            The above debtor entered our employment on
+                            <strong t-field="doc.event_date"/>. The orders listed
+                            below are on file with us and deductions are being
+                            made accordingly.
+                        </p>
+                        <p t-if="doc.notice_type == 'employment_end'">
+                            The above debtor left our employment on
+                            <strong t-field="doc.event_date"/>. We have ceased
+                            making deductions as of that date. The state of each
+                            order at the time of leaving is set out below.
+                        </p>
+                        <p t-if="doc.notice_type == 'enquiry'">
+                            In response to your enquiry, the orders served on us
+                            in respect of the above debtor, in their rank, are:
+                        </p>
+
+                        <table class="table table-sm mt32">
+                            <thead>
+                                <tr>
+                                    <th>Rank (delivered)</th>
+                                    <th>Case number</th>
+                                    <th>Class</th>
+                                    <th>Creditor</th>
+                                    <th class="text-end">Total claim</th>
+                                    <th class="text-end">Deducted to date</th>
+                                    <th class="text-end">Remaining</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="orders" t-as="order">
+                                    <td><span t-field="order.date_delivered"/></td>
+                                    <td><span t-field="order.case_number"/></td>
+                                    <td><span t-field="order.claim_class"/></td>
+                                    <td>
+                                        <span t-field="order.creditor_partner_id.name"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="order.total_amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="order.paid_amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-if="not order.is_open_ended" t-field="order.remaining_amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/>
+                                        <span t-else="">open-ended</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p t-if="doc.note" class="mt32" t-field="doc.note"/>
+
+                        <div class="row mt64">
+                            <div class="col-6 offset-6">
+                                <div>Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/></div>
+                                <div class="mt32">…………………………………………</div>
+                                <div class="text-muted">Signature and stamp of the payer of the wage</div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

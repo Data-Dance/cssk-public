@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Czech payroll attributes on the employee version (hr.version) contract
+        template form, inside the standard "salary_info" group, guarded by the
+        payroll group and shown only for CZ companies.
+    -->
+    <record id="hr_contract_view_form_l10n_cz" model="ir.ui.view">
+        <field name="name">hr.version.view.form.l10n_cz_payroll</field>
+        <field name="model">hr.version</field>
+        <field name="inherit_id" ref="hr.hr_contract_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='salary_info']" position="inside">
+                <group string="Czech Payroll — Tax" groups="payroll.group_payroll_user"
+                       invisible="country_code != 'CZ'">
+                    <field name="l10n_cz_tax_declaration"/>
+                    <field name="l10n_cz_claim_ztpp"/>
+                    <field name="l10n_cz_disability"/>
+                    <field name="l10n_cz_is_state_insured"/>
+                </group>
+                <group string="Children" groups="payroll.group_payroll_user"
+                       invisible="country_code != 'CZ'">
+                    <field name="l10n_cz_children_t1"/>
+                    <field name="l10n_cz_children_t2"/>
+                    <field name="l10n_cz_children_t3"/>
+                    <field name="l10n_cz_children_ztpp"/>
+                </group>
+                <group string="Meal Allowance / Agreement" groups="payroll.group_payroll_user"
+                       invisible="country_code != 'CZ'">
+                    <field name="l10n_cz_meal_allowance"/>
+                    <field name="l10n_cz_agreement_type"/>
+                    <field name="l10n_cz_dpp_notified"
+                           invisible="l10n_cz_agreement_type != 'dpp'"/>
+                </group>
+                <group string="Garnishment / Sickness" groups="payroll.group_payroll_user"
+                       invisible="country_code != 'CZ'">
+                    <field name="l10n_cz_garnishment_dependents"/>
+                    <field name="l10n_cz_avg_hourly_earnings"/>
+                    <field name="l10n_cz_social_discount_category"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

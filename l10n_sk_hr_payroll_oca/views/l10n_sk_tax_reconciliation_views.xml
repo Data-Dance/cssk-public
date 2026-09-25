@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_sk_tax_reconciliation_view_form" model="ir.ui.view">
+        <field name="name">l10n.sk.tax.reconciliation.form</field>
+        <field name="model">l10n.sk.tax.reconciliation</field>
+        <field name="arch" type="xml">
+            <form string="Annual Tax Reconciliation">
+                <header>
+                    <button name="action_compute" type="object"
+                            string="Compute" class="oe_highlight"/>
+                    <button name="action_post_settlement" type="object"
+                            string="Post Settlement"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="year"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="gather_from_payslips"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="result_amount"/>
+                            <field name="result_type"/>
+                            <field name="settlement_payslip_id"/>
+                            <field name="settlement_line_posted"/>
+                        </group>
+                    </group>
+                    <group string="Annual totals">
+                        <group>
+                            <field name="annual_tax_base"/>
+                            <field name="annual_advance_tax"/>
+                            <field name="annual_child_bonus_paid"/>
+                        </group>
+                        <group>
+                            <field name="nczd_spouse"/>
+                            <field name="dds_contributions"/>
+                            <field name="employee_premium"/>
+                            <field name="asignacia_note"/>
+                        </group>
+                    </group>
+                    <group string="Computed reconciliation">
+                        <group>
+                            <field name="nczd_taxpayer"/>
+                            <field name="nczd_total"/>
+                            <field name="taxable_base"/>
+                        </group>
+                        <group>
+                            <field name="annual_tax"/>
+                            <field name="child_bonus_entitlement"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_sk_tax_reconciliation_view_tree" model="ir.ui.view">
+        <field name="name">l10n.sk.tax.reconciliation.list</field>
+        <field name="model">l10n.sk.tax.reconciliation</field>
+        <field name="arch" type="xml">
+            <list string="Annual Tax Reconciliation">
+                <field name="employee_id"/>
+                <field name="year"/>
+                <field name="annual_tax_base"/>
+                <field name="annual_tax"/>
+                <field name="result_amount"/>
+                <field name="result_type"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="l10n_sk_tax_reconciliation_action" model="ir.actions.act_window">
+        <field name="name">Annual Tax Reconciliation</field>
+        <field name="res_model">l10n.sk.tax.reconciliation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="l10n_sk_tax_reconciliation_menu"
+              name="SK Annual Tax Reconciliation"
+              parent="payroll.payroll_menu_root"
+              action="l10n_sk_tax_reconciliation_action"
+              sequence="90"/>
+</odoo>

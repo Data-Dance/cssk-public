@@ -1,0 +1,57 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">SK spolehlivost dodavatele — poskytovatel z open dat FS</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenský poskytovatel pro kontrolu spolehlivosti dodavatele: zveřejněné bankovní účty a index daňové spolehlivosti z open dat FS</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace je slovenský národní poskytovatel pro sdílenou CZ/SK kontrolu spolehlivosti
+         dodavatele (<code>l10n_cssk_payment_reliability</code>). Dotazuje open-data API slovenské
+         Finanční správy (<code>iz.opendata.financnasprava.sk</code>) za účelem ověření zveřejněných
+         bankovních účtů dodavatele a jeho indexu daňové spolehlivosti.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Zveřejněné bankovní účty</b> — datová sada <code>ds_dph_iban</code> (účty, které
+            plátce DPH oznámil správci daně), vyhledáno podle <b>IČ DPH</b>.</li>
+        <li><b>Index daňové spolehlivosti</b> — datová sada <code>ds_iz_ran</code> (<i>index daňovej
+            spoľahlivosti</i>: vysoce spolehlivý / spolehlivý / méně spolehlivý), vyhledáno podle
+            <b>IČO</b>.</li>
+        <li>Zapojuje se do sdíleného základu spolehlivosti, takže výsledek se zobrazí tam, kde základ
+            kontrolu prezentuje (partner / přijatá faktura).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Poskytovatel potřebuje <b>API klíč</b> k open datům FS. Nastavte jej v
+         <i>Nastavení ▸ Účetnictví ▸ "FS open-data API key"</i> (registrace na
+         <code>opendata.financnasprava.sk</code>). Bez klíče je poskytovatel neaktivní a základ hlásí
+         „nezkontrolováno". S nastaveným klíčem se kontrola spolehlivosti dodavatele na partnerech a
+         přijatých fakturách zodpoví ze slovenských datových sad.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      DPH (daňové priznanie) XML template — matches the OFFICIAL FS SR schema
+      dph2025.xsd (root 'dokument', generic eForm hlavicka/telo, no namespace).
+      telo carries the full fixed r01..r37 line sequence (value-or-empty). The
+      net-payable lines are empty pending extended-engine support + accountant
+      validation. Identification flags default to a standard VAT payer; adjust
+      per the taxpayer's real status.
+    -->
+    <!--
+      DPHv21 — the vzor in force to 30. 6. 2025, matching the official
+      data/dph2021.xsd element for element (38 elements in `telo`, r01..r37
+      flat with no lettered variants, plus splneniePodmienok).
+
+      The `hlavicka` is IDENTICAL to the 2025 form — same root `dokument`, same
+      generic eForm header, no namespace — so only `telo` differs, and it
+      differs by the split the 2025 vzor introduced: where that form has
+      r01/r01a/r02/r02a and r09/r09a/r09b, this one has a single r01, r02, r09.
+
+      Which is exactly what the pre-July GRID computes: its line definitions
+      collect the union of the tags the later form split (`09|09a|09b`), so the
+      values this renders are already the single-band figures. Before this
+      template existed the pre-July version reused the 2025 one, emitted the
+      lettered elements, and could only validate against the wrong schema —
+      documented in the version data as "do not file the XML for a pre-July
+      period without the DPHv21 template". 18 of 24 periods of the reference
+      agenda are pre-July, so that follow-up covered three quarters of the
+      history.
+
+      r17/r18/r19 render the internal AGGREGATES, not the bare line codes —
+      the printed box is the total (see the 2025 template for the same
+      treatment and the DPHv25 poučenie reference).
+    -->
+    <template id="dph_2021">
+        <dokument>
+            <hlavicka>
+                <identifikacneCislo>
+                    <kodStatu>SK</kodStatu>
+                    <cislo t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                </identifikacneCislo>
+                <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
+                <nevzniklaPov>0</nevzniklaPov>
+                <typDP>
+                    <rdp t-out="'1' if statement.statement_type_id.fa_xml_value == 'R' else '0'"/>
+                    <odp t-out="'1' if statement.statement_type_id.fa_xml_value == 'O' else '0'"/>
+                    <ddp t-out="'1' if statement.statement_type_id.fa_xml_value == 'D' else '0'"/>
+                    <datumZisteniaDdp t-out="statement.discovery_date.strftime('%d.%m.%Y') if statement.discovery_date and statement.statement_type_id.fa_xml_value == 'D' else ''"/>
+                </typDP>
+                <osoba>
+                    <platitel>1</platitel>
+                    <registrovana>0</registrovana>
+                    <inaPovinna>0</inaPovinna>
+                    <zdanitelna>0</zdanitelna>
+                    <zastupca>0</zastupca>
+                    <zastupca69aa>0</zastupca69aa>
+                </osoba>
+                <zdanObd>
+                    <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
+                    <stvrtrok t-out="str((statement.date_from.month - 1) // 3 + 1) if statement.period_type == 'quarter' else ''"/>
+                    <rok t-out="str(statement.date_from.year)"/>
+                </zdanObd>
+                <meno>
+                    <riadok t-out="company.name or ''"/>
+                </meno>
+                <adresa>
+                    <ulica t-out="company.street or ''"/>
+                    <cislo t-out="company.street2 or ''"/>
+                    <psc t-out="company.zip or ''"/>
+                    <obec t-out="company.city or ''"/>
+                    <telefon t-out="company.phone or ''"/>
+                    <email t-out="company.email or ''"/>
+                </adresa>
+                <opravnenaOsoba>
+                    <menoPriezvisko/>
+                    <telefon/>
+                    <email/>
+                </opravnenaOsoba>
+                <datumVyhlasenia/>
+            </hlavicka>
+            <telo>
+                <r01 t-out="values_fmt.get('r01', '')"/>
+                <r02 t-out="values_fmt.get('r02', '')"/>
+                <r03 t-out="values_fmt.get('r03', '')"/>
+                <r04 t-out="values_fmt.get('r04', '')"/>
+                <r05 t-out="values_fmt.get('r05', '')"/>
+                <r06 t-out="values_fmt.get('r06', '')"/>
+                <r07 t-out="values_fmt.get('r07', '')"/>
+                <r08 t-out="values_fmt.get('r08', '')"/>
+                <r09 t-out="values_fmt.get('r09', '')"/>
+                <r10 t-out="values_fmt.get('r10', '')"/>
+                <r11 t-out="values_fmt.get('r11', '')"/>
+                <r12 t-out="values_fmt.get('r12', '')"/>
+                <r13 t-out="values_fmt.get('r13', '')"/>
+                <r14 t-out="values_fmt.get('r14', '')"/>
+                <r15 t-out="values_fmt.get('r15', '')"/>
+                <r16 t-out="values_fmt.get('r16', '')"/>
+                <r17 t-out="values_fmt.get('r17', '')"/>
+                <r18 t-out="values_fmt.get('r18_total', '')"/>
+                <r19 t-out="values_fmt.get('r19_total', '')"/>
+                <r20 t-out="values_fmt.get('r20', '')"/>
+                <r21 t-out="values_fmt.get('r21', '')"/>
+                <r22 t-out="values_fmt.get('r22', '')"/>
+                <r23 t-out="values_fmt.get('r23', '')"/>
+                <r24 t-out="values_fmt.get('r24', '')"/>
+                <r25 t-out="values_fmt.get('r25', '')"/>
+                <r26 t-out="values_fmt.get('r26', '')"/>
+                <r27 t-out="values_fmt.get('r27', '')"/>
+                <r28 t-out="values_fmt.get('r28', '')"/>
+                <r29 t-out="values_fmt.get('r29', '')"/>
+                <r30 t-out="values_fmt.get('r30', '')"/>
+                <r31 t-out="values_fmt.get('r31', '')"/>
+                <r32 t-out="values_fmt.get('r32', '')"/>
+                <splneniePodmienok>0</splneniePodmienok>
+                <r33 t-out="values_fmt.get('r33', '')"/>
+                <r34 t-out="values_fmt.get('r34', '')"/>
+                <r35 t-out="values_fmt.get('r35', '')"/>
+                <r36 t-out="values_fmt.get('r36', '')"/>
+                <r37 t-out="values_fmt.get('r37', '')"/>
+            </telo>
+        </dokument>
+    </template>
+
+    <template id="dph_2025">
+        <dokument>
+            <hlavicka>
+                <identifikacneCislo>
+                    <kodStatu>SK</kodStatu>
+                    <cislo t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                </identifikacneCislo>
+                <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
+                <nevzniklaPov>0</nevzniklaPov>
+                <typDP>
+                    <rdp t-out="'1' if statement.statement_type_id.fa_xml_value == 'R' else '0'"/>
+                    <odp t-out="'1' if statement.statement_type_id.fa_xml_value == 'O' else '0'"/>
+                    <ddp t-out="'1' if statement.statement_type_id.fa_xml_value == 'D' else '0'"/>
+                    <datumZisteniaDdp t-out="statement.discovery_date.strftime('%d.%m.%Y') if statement.discovery_date and statement.statement_type_id.fa_xml_value == 'D' else ''"/>
+                </typDP>
+                <osoba>
+                    <platitel>1</platitel>
+                    <registrovana>0</registrovana>
+                    <inaPovinna>0</inaPovinna>
+                    <zdanitelna>0</zdanitelna>
+                    <zastupca>0</zastupca>
+                    <zastupca69aa>0</zastupca69aa>
+                </osoba>
+                <zdanObd>
+                    <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
+                    <stvrtrok t-out="str((statement.date_from.month - 1) // 3 + 1) if statement.period_type == 'quarter' else ''"/>
+                    <rok t-out="str(statement.date_from.year)"/>
+                </zdanObd>
+                <meno>
+                    <riadok t-out="company.name or ''"/>
+                </meno>
+                <adresa>
+                    <ulica t-out="company.street or ''"/>
+                    <cislo t-out="company.street2 or ''"/>
+                    <psc t-out="company.zip or ''"/>
+                    <obec t-out="company.city or ''"/>
+                    <telefon t-out="company.phone or ''"/>
+                    <email t-out="company.email or ''"/>
+                </adresa>
+                <opravnenaOsoba>
+                    <menoPriezvisko/>
+                    <telefon/>
+                    <email/>
+                </opravnenaOsoba>
+                <datumVyhlasenia/>
+            </hlavicka>
+            <telo>
+                <r01 t-out="values_fmt.get('r01', '')"/>
+                <r01a t-out="values_fmt.get('r01a', '')"/>
+                <r02 t-out="values_fmt.get('r02', '')"/>
+                <r02a t-out="values_fmt.get('r02a', '')"/>
+                <r03 t-out="values_fmt.get('r03', '')"/>
+                <r04 t-out="values_fmt.get('r04', '')"/>
+                <r05 t-out="values_fmt.get('r05', '')"/>
+                <r05a t-out="values_fmt.get('r05a', '')"/>
+                <r06 t-out="values_fmt.get('r06', '')"/>
+                <r06a t-out="values_fmt.get('r06a', '')"/>
+                <r07 t-out="values_fmt.get('r07', '')"/>
+                <r08 t-out="values_fmt.get('r08', '')"/>
+                <r09 t-out="values_fmt.get('r09', '')"/>
+                <r09a t-out="values_fmt.get('r09a', '')"/>
+                <r09b t-out="values_fmt.get('r09b', '')"/>
+                <r10 t-out="values_fmt.get('r10', '')"/>
+                <r10a t-out="values_fmt.get('r10a', '')"/>
+                <r10b t-out="values_fmt.get('r10b', '')"/>
+                <r11 t-out="values_fmt.get('r11', '')"/>
+                <r11a t-out="values_fmt.get('r11a', '')"/>
+                <r11b t-out="values_fmt.get('r11b', '')"/>
+                <r11c t-out="values_fmt.get('r11c', '')"/>
+                <r11d t-out="values_fmt.get('r11d', '')"/>
+                <r11e t-out="values_fmt.get('r11e', '')"/>
+                <r12 t-out="values_fmt.get('r12', '')"/>
+                <r12a t-out="values_fmt.get('r12a', '')"/>
+                <r12b t-out="values_fmt.get('r12b', '')"/>
+                <r12c t-out="values_fmt.get('r12c', '')"/>
+                <r12d t-out="values_fmt.get('r12d', '')"/>
+                <r12e t-out="values_fmt.get('r12e', '')"/>
+                <r13 t-out="values_fmt.get('r13', '')"/>
+                <r14 t-out="values_fmt.get('r14', '')"/>
+                <r15 t-out="values_fmt.get('r15', '')"/>
+                <r16 t-out="values_fmt.get('r16', '')"/>
+                <r17 t-out="values_fmt.get('r17', '')"/>
+                <!-- r18/r18a/r19 export the per-rate TOTAL deduction (odpočítanie dane
+                     celkom), not the self-assessment component: per the DPHv25 poučenie
+                     (body 35/37) r18/18a/19 are the total deductible, r20/20a/21 etc. the
+                     domestic/import/customs breakdowns. The totals are the internal
+                     r18_total/r18a_total/r19_total aggregates. -->
+                <r18 t-out="values_fmt.get('r18_total', '')"/>
+                <r18a t-out="values_fmt.get('r18a_total', '')"/>
+                <r19 t-out="values_fmt.get('r19_total', '')"/>
+                <r20 t-out="values_fmt.get('r20', '')"/>
+                <r20a t-out="values_fmt.get('r20a', '')"/>
+                <r21 t-out="values_fmt.get('r21', '')"/>
+                <r22 t-out="values_fmt.get('r22', '')"/>
+                <r22a t-out="values_fmt.get('r22a', '')"/>
+                <r23 t-out="values_fmt.get('r23', '')"/>
+                <r23a t-out="values_fmt.get('r23a', '')"/>
+                <r23b t-out="values_fmt.get('r23b', '')"/>
+                <r23c t-out="values_fmt.get('r23c', '')"/>
+                <r24 t-out="values_fmt.get('r24', '')"/>
+                <r25 t-out="values_fmt.get('r25', '')"/>
+                <r26 t-out="values_fmt.get('r26', '')"/>
+                <r27 t-out="values_fmt.get('r27', '')"/>
+                <r28 t-out="values_fmt.get('r28', '')"/>
+                <r29 t-out="values_fmt.get('r29', '')"/>
+                <r30 t-out="values_fmt.get('r30', '')"/>
+                <r31 t-out="values_fmt.get('r31', '')"/>
+                <r32 t-out="values_fmt.get('r32', '')"/>
+                <splneniePodmienok>0</splneniePodmienok>
+                <r33 t-out="values_fmt.get('r33', '')"/>
+                <r34 t-out="values_fmt.get('r34', '')"/>
+                <r35 t-out="values_fmt.get('r35', '')"/>
+                <r36 t-out="values_fmt.get('r36', '')"/>
+                <r37 t-out="values_fmt.get('r37', '')"/>
+            </telo>
+        </dokument>
+    </template>
+
+    <!--
+      DPHv12 XML — the vzor in force 1. 1. 2012 - 31. 12. 2017.
+
+      Same telo as DPHv18/DPHv20 (r01..r38, splneniePodmienok before r32); the
+      hlavicka is where it differs, and it differs in ways the XSD enforces:
+
+        * `tel` and `fax` are STRUCTURED (predcislie + cislo), where the 2018
+          vzor replaced them with a plain `telefon` and an `email`. Same in
+          `opravnenaOsoba`, which carries a `tel` and no email at all.
+        * `osoba` has no `zastupca69aa` — the § 69aa representative arrives
+          with the 2018 vzor.
+
+      A phone held as one string goes in `cislo`, and `fax` is emitted empty
+      rather than omitted: the schema requires the element to be there.
+    -->
+    <template id="dph_2012">
+        <dokument>
+            <hlavicka>
+                <identifikacneCislo>
+                    <kodStatu>SK</kodStatu>
+                    <cislo t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                </identifikacneCislo>
+                <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
+                <nevzniklaPov>0</nevzniklaPov>
+                <typDP>
+                    <rdp t-out="'1' if statement.statement_type_id.fa_xml_value == 'R' else '0'"/>
+                    <odp t-out="'1' if statement.statement_type_id.fa_xml_value == 'O' else '0'"/>
+                    <ddp t-out="'1' if statement.statement_type_id.fa_xml_value == 'D' else '0'"/>
+                    <datumZisteniaDdp t-out="statement.discovery_date.strftime('%d.%m.%Y') if statement.discovery_date and statement.statement_type_id.fa_xml_value == 'D' else ''"/>
+                </typDP>
+                <osoba>
+                    <platitel>1</platitel>
+                    <registrovana>0</registrovana>
+                    <inaPovinna>0</inaPovinna>
+                    <zdanitelna>0</zdanitelna>
+                    <zastupca>0</zastupca>
+                </osoba>
+                <zdanObd>
+                    <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
+                    <stvrtrok t-out="str((statement.date_from.month - 1) // 3 + 1) if statement.period_type == 'quarter' else ''"/>
+                    <rok t-out="str(statement.date_from.year)"/>
+                </zdanObd>
+                <meno>
+                    <riadok t-out="company.name or ''"/>
+                </meno>
+                <adresa>
+                    <ulica t-out="company.street or ''"/>
+                    <cislo t-out="company.street2 or ''"/>
+                    <psc t-out="company.zip or ''"/>
+                    <obec t-out="company.city or ''"/>
+                    <tel>
+                        <predcislie/>
+                        <cislo t-out="company.phone or ''"/>
+                    </tel>
+                    <fax>
+                        <predcislie/>
+                        <cislo/>
+                    </fax>
+                </adresa>
+                <opravnenaOsoba>
+                    <menoPriezvisko/>
+                    <tel>
+                        <predcislie/>
+                        <cislo/>
+                    </tel>
+                </opravnenaOsoba>
+                <datumVyhlasenia/>
+            </hlavicka>
+            <telo>
+                <r01 t-out="values_fmt.get('r01', '')"/>
+                <r02 t-out="values_fmt.get('r02', '')"/>
+                <r03 t-out="values_fmt.get('r03', '')"/>
+                <r04 t-out="values_fmt.get('r04', '')"/>
+                <r05 t-out="values_fmt.get('r05', '')"/>
+                <r06 t-out="values_fmt.get('r06', '')"/>
+                <r07 t-out="values_fmt.get('r07', '')"/>
+                <r08 t-out="values_fmt.get('r08', '')"/>
+                <r09 t-out="values_fmt.get('r09', '')"/>
+                <r10 t-out="values_fmt.get('r10', '')"/>
+                <r11 t-out="values_fmt.get('r11', '')"/>
+                <r12 t-out="values_fmt.get('r12', '')"/>
+                <r13 t-out="values_fmt.get('r13', '')"/>
+                <r14 t-out="values_fmt.get('r14', '')"/>
+                <r15 t-out="values_fmt.get('r15', '')"/>
+                <r16 t-out="values_fmt.get('r16', '')"/>
+                <r17 t-out="values_fmt.get('r17', '')"/>
+                <r18 t-out="values_fmt.get('r18', '')"/>
+                <r19 t-out="values_fmt.get('r19', '')"/>
+                <!-- r20/r21 are the odpočet TOTALS; internal r20..r25 hold
+                     disjoint tag sums so the "z toho" rows do not double-count. -->
+                <r20 t-out="values_fmt.get('r20_total', '')"/>
+                <r21 t-out="values_fmt.get('r21_total', '')"/>
+                <r22 t-out="values_fmt.get('r22', '')"/>
+                <r23 t-out="values_fmt.get('r23', '')"/>
+                <r24 t-out="values_fmt.get('r24', '')"/>
+                <r25 t-out="values_fmt.get('r25', '')"/>
+                <r26 t-out="values_fmt.get('r26', '')"/>
+                <r27 t-out="values_fmt.get('r27', '')"/>
+                <r28 t-out="values_fmt.get('r28', '')"/>
+                <r29 t-out="values_fmt.get('r29', '')"/>
+                <r30 t-out="values_fmt.get('r30', '')"/>
+                <r31 t-out="values_fmt.get('r31', '')"/>
+                <splneniePodmienok>0</splneniePodmienok>
+                <r32 t-out="values_fmt.get('r32', '')"/>
+                <r33 t-out="values_fmt.get('r33', '')"/>
+                <r34 t-out="values_fmt.get('r34', '')"/>
+                <r35 t-out="values_fmt.get('r35', '')"/>
+                <r36 t-out="values_fmt.get('r36', '')"/>
+                <r37 t-out="values_fmt.get('r37', '')"/>
+                <r38 t-out="values_fmt.get('r38', '')"/>
+            </telo>
+        </dokument>
+    </template>
+
+    <!--
+      DPHv18 / DPHv20 XML — the vzory in force 1. 1. 2018 - 31. 12. 2020.
+
+      ONE template for two version records, because the two SCHEMAS are
+      byte-identical apart from their own documentation string (DPH2018 vs
+      DPH2020). The FORMS are not: r18 is the § 81 deregistration liability in
+      the 2018 vzor and the § 48ca / § 48d / § 48e daň in the 2020 one, which
+      folded § 81 into r01-r04 instead. That difference lives in the row
+      definitions, the only place it can — and it is exactly why a
+      wrong-vintage return validates perfectly. Nothing in a finished document
+      says which vzor it was written for.
+
+      Against the 2021 vzor: r38 exists here (dodatočné DP, daň na úhradu) and
+      splneniePodmienok sits BEFORE r32 rather than after it. Both are element
+      ORDER, so both are schema-visible and neither is a free choice.
+    -->
+    <template id="dph_2018">
+        <dokument>
+            <hlavicka>
+                <identifikacneCislo>
+                    <kodStatu>SK</kodStatu>
+                    <cislo t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                </identifikacneCislo>
+                <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
+                <nevzniklaPov>0</nevzniklaPov>
+                <typDP>
+                    <rdp t-out="'1' if statement.statement_type_id.fa_xml_value == 'R' else '0'"/>
+                    <odp t-out="'1' if statement.statement_type_id.fa_xml_value == 'O' else '0'"/>
+                    <ddp t-out="'1' if statement.statement_type_id.fa_xml_value == 'D' else '0'"/>
+                    <datumZisteniaDdp t-out="statement.discovery_date.strftime('%d.%m.%Y') if statement.discovery_date and statement.statement_type_id.fa_xml_value == 'D' else ''"/>
+                </typDP>
+                <osoba>
+                    <platitel>1</platitel>
+                    <registrovana>0</registrovana>
+                    <inaPovinna>0</inaPovinna>
+                    <zdanitelna>0</zdanitelna>
+                    <zastupca>0</zastupca>
+                    <zastupca69aa>0</zastupca69aa>
+                </osoba>
+                <zdanObd>
+                    <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
+                    <stvrtrok t-out="str((statement.date_from.month - 1) // 3 + 1) if statement.period_type == 'quarter' else ''"/>
+                    <rok t-out="str(statement.date_from.year)"/>
+                </zdanObd>
+                <meno>
+                    <riadok t-out="company.name or ''"/>
+                </meno>
+                <adresa>
+                    <ulica t-out="company.street or ''"/>
+                    <cislo t-out="company.street2 or ''"/>
+                    <psc t-out="company.zip or ''"/>
+                    <obec t-out="company.city or ''"/>
+                    <telefon t-out="company.phone or ''"/>
+                    <email t-out="company.email or ''"/>
+                </adresa>
+                <opravnenaOsoba>
+                    <menoPriezvisko/>
+                    <telefon/>
+                    <email/>
+                </opravnenaOsoba>
+                <datumVyhlasenia/>
+            </hlavicka>
+            <telo>
+                <r01 t-out="values_fmt.get('r01', '')"/>
+                <r02 t-out="values_fmt.get('r02', '')"/>
+                <r03 t-out="values_fmt.get('r03', '')"/>
+                <r04 t-out="values_fmt.get('r04', '')"/>
+                <r05 t-out="values_fmt.get('r05', '')"/>
+                <r06 t-out="values_fmt.get('r06', '')"/>
+                <r07 t-out="values_fmt.get('r07', '')"/>
+                <r08 t-out="values_fmt.get('r08', '')"/>
+                <r09 t-out="values_fmt.get('r09', '')"/>
+                <r10 t-out="values_fmt.get('r10', '')"/>
+                <r11 t-out="values_fmt.get('r11', '')"/>
+                <r12 t-out="values_fmt.get('r12', '')"/>
+                <r13 t-out="values_fmt.get('r13', '')"/>
+                <r14 t-out="values_fmt.get('r14', '')"/>
+                <r15 t-out="values_fmt.get('r15', '')"/>
+                <r16 t-out="values_fmt.get('r16', '')"/>
+                <r17 t-out="values_fmt.get('r17', '')"/>
+                <r18 t-out="values_fmt.get('r18', '')"/>
+                <r19 t-out="values_fmt.get('r19', '')"/>
+                <!-- r20/r21 are the odpočet TOTALS; internal r20..r25 hold
+                     disjoint tag sums so the "z toho" rows do not double-count. -->
+                <r20 t-out="values_fmt.get('r20_total', '')"/>
+                <r21 t-out="values_fmt.get('r21_total', '')"/>
+                <r22 t-out="values_fmt.get('r22', '')"/>
+                <r23 t-out="values_fmt.get('r23', '')"/>
+                <r24 t-out="values_fmt.get('r24', '')"/>
+                <r25 t-out="values_fmt.get('r25', '')"/>
+                <r26 t-out="values_fmt.get('r26', '')"/>
+                <r27 t-out="values_fmt.get('r27', '')"/>
+                <r28 t-out="values_fmt.get('r28', '')"/>
+                <r29 t-out="values_fmt.get('r29', '')"/>
+                <r30 t-out="values_fmt.get('r30', '')"/>
+                <r31 t-out="values_fmt.get('r31', '')"/>
+                <splneniePodmienok>0</splneniePodmienok>
+                <r32 t-out="values_fmt.get('r32', '')"/>
+                <r33 t-out="values_fmt.get('r33', '')"/>
+                <r34 t-out="values_fmt.get('r34', '')"/>
+                <r35 t-out="values_fmt.get('r35', '')"/>
+                <r36 t-out="values_fmt.get('r36', '')"/>
+                <r37 t-out="values_fmt.get('r37', '')"/>
+                <r38 t-out="values_fmt.get('r38', '')"/>
+            </telo>
+        </dokument>
+    </template>
+</odoo>

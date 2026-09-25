@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_peppol" model="ir.ui.view">
+        <field name="name">res.config.settings.peppol</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="edi_base.view_res_config_settings_edi_base"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='edi_providers_anchor']" position="before">
+                <block title="Peppol BIS3" name="peppol">
+                    <setting>
+                        <field name="peppol_auto_send"/>
+                    </setting>
+                    <setting>
+                        <field name="peppol_purchase_journal_id"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

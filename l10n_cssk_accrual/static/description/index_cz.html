@@ -1,0 +1,64 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK dohadné položky</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Zaúčtujte odhad na dohadný účet a po obdržení faktury jej vyrovnejte (dohadné položky)</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace implementuje český a slovenský koncept <b>dohadných položek / dohadných
+         účtů</b> — položek, u nichž závazek existuje, ale přesná částka ještě <b>není známa</b>
+         (např. energie spotřebovaná v prosinci, faktura přijde v lednu). Liší se od
+         <i>časového rozlišení</i> (rozlišení známé částky) a nedodává jej ani Odoo Community, ani
+         Enterprise.</p>
+      <p>Každý odhad nese vlastní dohadný a protiúčet a deník — bez napevno zadané osnovy — takže
+         funguje pro českou osnovu (388/389), slovenskou osnovu (326
+         <i>nevyfakturované dodávky</i>) i jakoukoli vlastní. Závisí <b>pouze na jádru Odoo</b>
+         (<code>account</code> + <code>l10n_cssk_core</code>).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Sledovaný a číslovaný záznam <code>cssk.accrual.estimate</code> s životním cyklem
+            koncept → zaúčtováno → vyrovnáno / zrušeno.</li>
+        <li><b>Dohadná položka pasivní</b>: MD náklad / D dohadný účet (CZ 389, SK 326).</li>
+        <li><b>Dohadná položka aktivní</b>: MD dohadný účet (CZ 388) / D výnos.</li>
+        <li><b>Propojení a vyrovnání</b>: připojte skutečnou fakturu, odhad se k datu faktury
+            stornuje a vyrovná proti dohadnému účtu, takže se vyčistí a do nového období zůstane jen
+            rozdíl.</li>
+        <li>Účty a deník na úrovni jednotlivého odhadu — podporovány české, slovenské i vlastní
+            osnovy.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Účetnictví ▸ Dohadné položky (dohadné).</i> Na konci období vytvořte odhad:
+         zvolte typ, partnera, částku, popis, deník, dohadný účet a protiúčet a poté <b>Zaúčtovat</b>
+         zaúčtuje zápis. Po obdržení skutečné faktury (zaúčtované běžně) otevřete odhad, vyberte ji v
+         poli <i>Skutečná faktura</i> a klikněte na <b>Vyrovnat</b> — odhad se k datu faktury stornuje
+         a vyrovná, zůstane jen rozdíl. <b>Zrušit</b> stornuje zaúčtovaný odhad.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

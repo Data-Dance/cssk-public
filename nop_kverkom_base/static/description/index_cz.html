@@ -1,0 +1,68 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">NOP KVERKOM Base</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Přenosová vrstva pro slovenské QR Platby: mTLS REST klient a evidence transakcí</h3>
+    <div class="oe_span12">
+      <p>Základní integrace se slovenským <b>Národním operátorem platieb (NOP)</b>, provozovaným
+         společností KVERKOM, pro okamžité <b>QR Platby</b> z účtu na účet. Tento modul přináší mTLS
+         REST klienta a autoritativní evidenci transakcí; sám o sobě <b>neobsahuje žádnou logiku
+         pokladny ani fakturace</b> — integrace pro POS a faktury dodávají samostatné moduly, které
+         na něm závisí.</p>
+      <p>Každá <code>pos.config</code> je svázána 1:1 s jednou <i>pokladnicou</i> NOP, jak vyžaduje
+         slovenský rámec eKasa: jeden mTLS klientský certifikát identifikuje jednu fyzickou pokladnu.
+         Subjekt certifikátu (VATSK a POKLADNICA id) se parsuje automaticky, se samostatnými sloty
+         pro prostředí Integration a Production.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Rozšíření <code>pos.config</code> nesoucí identitu NOP (VATSK, POKLADNICA id, prostředí),
+            IBAN/název obchodníka a mTLS materiál pro každé prostředí (klientský certifikát, soukromý
+            klíč, CA bundle).</li>
+        <li><code>nop.transaction</code> — autoritativní evidence notifikací o platbách přijatých
+            z banky přes NOP, s plným stavovým automatem (koncept, čekající, přijatá, potvrzená,
+            nesoulad, zrušená, expirovaná, čekající vratka, vrácená …).</li>
+        <li>Služba <code>NopClient</code> — mTLS autentizovaný REST klient obalující
+            <code>generateNewTransactionId</code>, <code>getAllTransactions</code> a
+            <code>getTransactionHistory</code>.</li>
+        <li>Ověření integritního hashe (SHA-256 z IBAN|AMOUNT|EUR|endToEndId); notifikace, jejichž
+            hash nebo částka nesouhlasí, jsou označeny jako <b>nesoulad</b>.</li>
+        <li>Dotazování s omezením frekvence (<code>FOR UPDATE SKIP LOCKED</code>) a záložní plánovaná
+            úloha, která dočerpává čekající transakce, plus tisk dokladu o nepotvrzení.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Konfigurace ▸ NOP KVERKOM</i> zobrazuje evidenci transakcí a pohled
+         <i>Dlužné vratky</i>. Pokladnu nakonfigurujte na jejím záznamu konfigurace Pokladny: zvolte
+         prostředí NOP, nahrajte eKasa klientský certifikát/klíč/CA pro dané prostředí a vyberte IBAN
+         obchodníka — VATSK a POKLADNICA id se z certifikátu získají automaticky. Pro vlastní QR
+         platební tok nainstalujte závislý modul (např. <code>pos_nop_qr_platba_sk</code>).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

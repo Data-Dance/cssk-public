@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-set='o']" position="after">
+            <t t-if="o.move_type in ['out_refund']" t-set="multiplier" t-value="-1"/>
+            <t t-else="" t-set="multiplier" t-value="1"/>
+        </xpath>
+        <xpath expr="//td[@name='td_price_unit']/span[@t-field='line.price_unit']" position="attributes">
+            <attribute name="t-field"></attribute>
+            <attribute name="t-out">line.price_unit * multiplier</attribute>
+        </xpath>
+        <xpath expr="//td[@name='td_subtotal']/span[@t-field='line.price_subtotal']" position="attributes">
+            <attribute name="t-field"></attribute>
+            <attribute name="t-out">line.price_subtotal * multiplier</attribute>
+        </xpath>
+        <xpath expr="//td[@name='td_subtotal']/span[@t-field='line.price_total']" position="attributes">
+            <attribute name="t-field"></attribute>
+            <attribute name="t-out">line.price_total * multiplier</attribute>
+        </xpath>
+        <xpath expr="//td/span[@t-out='section_subtotal']" position="attributes">
+            <attribute name="t-out">section_subtotal * multiplier</attribute>
+        </xpath>
+        <xpath expr='//td[@name="td_price_unit_grouped"]/span[@t-out="grouped_line[&apos;price_subtotal&apos;]"]' position="attributes">
+            <attribute name="t-out">grouped_line['price_subtotal'] * multiplier</attribute>
+        </xpath>
+        <xpath expr='//td[@name="td_subtotal_grouped"]/span[@t-out="grouped_line[&apos;price_subtotal&apos;]"]' position="attributes">
+            <attribute name="t-out">grouped_line['price_subtotal'] * multiplier</attribute>
+        </xpath>
+        <xpath expr='//td[@name="td_subtotal_grouped"]/span[@t-out="grouped_line[&apos;price_total&apos;]"]' position="attributes">
+            <attribute name="t-out">grouped_line['price_total'] * multiplier</attribute>
+        </xpath>
+
+        <xpath expr="//t[@t-if='o.tax_totals' and @t-call='account.document_tax_totals']/t[@t-set='tax_totals' and @t-value='o.tax_totals']" position="after">
+            <t t-if="multiplier == -1" t-set="tax_totals" t-value="o._reverse_tax_totals(tax_totals)"/>
+        </xpath>
+        <xpath expr='//t[@t-if="o.tax_totals and o.tax_totals.get(&apos;display_in_company_currency&apos;)"]/t[@t-set="tax_totals" and @t-value="o.tax_totals"]' position="after">
+            <t t-if="multiplier == -1" t-set="tax_totals" t-value="o._reverse_tax_totals(tax_totals)"/>
+        </xpath>
+    </template>
+
+</odoo>

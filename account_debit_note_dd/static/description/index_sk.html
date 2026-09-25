@@ -1,0 +1,55 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Ťarchopis DD</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Úpravy Data Dance pre odberateľské ťarchopisy v Odoo</h3>
+    <div class="oe_span12">
+      <p>Táto aplikácia pridáva úpravy Data Dance nad jadrovým modulom
+         <code>account_debit_note</code>. Sprehľadňuje prácu s odberateľskými ťarchopismi (opravná
+         faktúra zvyšujúca základ dane) a správne označuje tlačený doklad.</p>
+      <p>Ide o tenkú vrstvu pre UI a zostavu — <b>nemení</b> spôsob zaúčtovania ani číslovania
+         ťarchopisov; len upravuje formulár faktúry, akciu v ponuke a zostavu faktúry.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Tlačený doklad faktúry má názov <b>Ťarchopis</b> (vrátane variantov koncept / zrušené),
+            len čo zaúčtovaná odberateľská faktúra nesie <code>debit_origin_id</code>.</li>
+        <li>Štandardné tlačidlo <b>Stornovať</b> je na formulári faktúry skryté (ťarchopisy sa
+            vytvárajú vyhradeným postupom pre ťarchopisy, nie stornom).</li>
+        <li>Akcia <i>Dobropisy</i> pri odberateľoch je rozšírená tak, aby zobrazovala aj doklady s
+            <code>debit_origin_id</code>, takže ťarchopisy sú dostupné z toho istého miesta.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Nainštalujte nad <code>account_debit_note</code>. Vytvorte ťarchopis zo zaúčtovanej
+         odberateľskej faktúry štandardným postupom Odoo <i>Pridať ťarchopis</i>; výsledný doklad sa
+         vytlačí s názvom <b>Ťarchopis</b> a zobrazí sa vedľa dobropisov v zozname pri odberateľovi.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

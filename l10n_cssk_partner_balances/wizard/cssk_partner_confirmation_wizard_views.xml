@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_partner_confirmation_wizard_view_form" model="ir.ui.view">
+        <field name="name">cssk.partner.confirmation.wizard.form</field>
+        <field name="model">cssk.partner.confirmation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate Balance Confirmations">
+                <group>
+                    <field name="company_id"/>
+                    <field name="as_of_date"/>
+                    <field name="confirmation_type"/>
+                    <field name="partner_ids" widget="many2many_tags"
+                           placeholder="Leave empty for all partners with open balances"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object"
+                            string="Generate" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_partner_confirmation_wizard_action" model="ir.actions.act_window">
+        <field name="name">Generate Balance Confirmations</field>
+        <field name="res_model">cssk.partner.confirmation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

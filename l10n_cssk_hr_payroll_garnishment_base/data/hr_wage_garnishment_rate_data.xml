@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Statutory figures driving the garnishment allocator.
+
+        Czech Republic — nařízení vlády 595/2006 Sb. Only the 2026 vintage is
+        shipped: the 1 Jan 2026 reform replaced the old "3/4 of (životní
+        minimum + normativní náklady na bydlení)" formula with 85 % of a
+        three-component sum (the normativní náklady na bydlení were abolished
+        on 1 Oct 2025 and split into normativní nájemné + energetický paušál),
+        and the full-seizure limit went from 1.5× to 1.9×. Earlier vintages do
+        not fit these fields and are deliberately not back-filled — add a rate
+        record if you need to recompute an older period.
+
+        Slovakia — nariadenie vlády 268/2006 Z. z. Only the subsistence
+        minimum moves; the coefficients have been stable since 1 Nov 2020, so
+        one record per ŽM vintage (1 July each year) is enough.
+    -->
+
+    <!-- ==================================================== CZECH REPUBLIC -->
+    <!-- Sum = 4 860 + 9 430 + 2 300 = 16 590 Kč.
+         Nezabavitelná částka na povinného = 85 % = 14 101,50 Kč.
+         Na vyživovanou osobu = 1/4 = 3 525,375 Kč.
+         Hranice plné zabavitelnosti = 1,9 × 16 590 = 31 521 Kč.
+         Sources: exekuce.justice.cz "Výpočet srážek ze mzdy",
+         podnikatel.cz "Exekuční srážky v roce 2026". -->
+    <record id="rate_cz_2026" model="hr.wage.garnishment.rate">
+        <field name="country_id" ref="base.cz"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        <field name="cz_subsistence">4860.00</field>
+        <field name="cz_normative_rent">9430.00</field>
+        <field name="cz_energy">2300.00</field>
+        <field name="cz_base_pct">85.00</field>
+        <field name="cz_dependent_fraction">0.25</field>
+        <field name="cz_unlimited_limit">31521.00</field>
+    </record>
+
+    <!-- ============================================================ SLOVAKIA -->
+    <!-- Coefficients: § 1 ods. 1 = 140 % ŽM (neprednostná); § 2 ods. 2 =
+         100 % ŽM (prednostná); § 2 ods. 1 = 70 % zo 60 % ŽM (výživné na
+         maloleté dieťa); § 2a = 50 % ŽM (pokuty za priestupky). Per dependant
+         25 %, or 50 % for a poberateľ dôchodkových dávok. § 3: everything
+         above 3× the § 1 ods. 1 basic sum is seized without limitation. -->
+    <record id="rate_sk_2024" model="hr.wage.garnishment.rate">
+        <field name="country_id" ref="base.sk"/>
+        <field name="date_from" eval="datetime(2024, 7, 1).date()"/>
+        <field name="sk_zivotne_minimum">273.99</field>
+        <field name="sk_basic_coeff">1.40</field>
+        <field name="sk_priority_coeff">1.00</field>
+        <field name="sk_maintenance_outer_coeff">0.70</field>
+        <field name="sk_maintenance_inner_coeff">0.60</field>
+        <field name="sk_fine_coeff">0.50</field>
+        <field name="sk_dependent_coeff">0.25</field>
+        <field name="sk_dependent_coeff_pensioner">0.50</field>
+        <field name="sk_unlimited_mult">3.0</field>
+    </record>
+
+    <record id="rate_sk_2025" model="hr.wage.garnishment.rate">
+        <field name="country_id" ref="base.sk"/>
+        <field name="date_from" eval="datetime(2025, 7, 1).date()"/>
+        <field name="sk_zivotne_minimum">284.13</field>
+        <field name="sk_basic_coeff">1.40</field>
+        <field name="sk_priority_coeff">1.00</field>
+        <field name="sk_maintenance_outer_coeff">0.70</field>
+        <field name="sk_maintenance_inner_coeff">0.60</field>
+        <field name="sk_fine_coeff">0.50</field>
+        <field name="sk_dependent_coeff">0.25</field>
+        <field name="sk_dependent_coeff_pensioner">0.50</field>
+        <field name="sk_unlimited_mult">3.0</field>
+    </record>
+
+    <!-- ŽM valid 1.7.2026 – 30.6.2027: 295,22 €.
+         Základná suma 140 % = 413,31 €; na vyživovanú osobu 103,33 €;
+         hranica bez obmedzenia 3 × 413,31 = 1 239,93 €.
+         Source: podnikajte.sk "Životné minimum od 1.7.2026 do 30.6.2027",
+         jaspis.sk "Exekučné zrážky zo mzdy zamestnanca od 1.7.2026". -->
+    <record id="rate_sk_2026" model="hr.wage.garnishment.rate">
+        <field name="country_id" ref="base.sk"/>
+        <field name="date_from" eval="datetime(2026, 7, 1).date()"/>
+        <field name="sk_zivotne_minimum">295.22</field>
+        <field name="sk_basic_coeff">1.40</field>
+        <field name="sk_priority_coeff">1.00</field>
+        <field name="sk_maintenance_outer_coeff">0.70</field>
+        <field name="sk_maintenance_inner_coeff">0.60</field>
+        <field name="sk_fine_coeff">0.50</field>
+        <field name="sk_dependent_coeff">0.25</field>
+        <field name="sk_dependent_coeff_pensioner">0.50</field>
+        <field name="sk_unlimited_mult">3.0</field>
+    </record>
+</odoo>

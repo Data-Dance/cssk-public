@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="hr_payslip_input_pivot" model="ir.ui.view">
+        <field name="name">hr.payslip.input.pivot</field>
+        <field name="model">hr.payslip.input</field>
+        <field name="arch" type="xml">
+            <pivot string="Other Inputs">
+                <field name="employee_id" type="row" />
+                <field name="code" type="row" />
+                <field name="date_from" interval="month" type="col" />
+                <field name="amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="hr_payslip_input_list" model="ir.ui.view">
+        <field name="name">hr.payslip.input.list</field>
+        <field name="model">hr.payslip.input</field>
+        <field name="arch" type="xml">
+            <list string="Other Inputs">
+                <field name="employee_id" />
+                <field name="date_from" />
+                <field name="code" />
+                <field name="name" />
+                <field name="amount" sum="Amount" />
+                <field name="payslip_id" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_payslip_input_search" model="ir.ui.view">
+        <field name="name">hr.payslip.input.search</field>
+        <field name="model">hr.payslip.input</field>
+        <field name="arch" type="xml">
+            <search string="Other Inputs">
+                <field name="employee_id" />
+                <field name="code" />
+                <group>
+                    <filter name="grp_employee" string="Employee"
+                            context="{'group_by': 'employee_id'}" />
+                    <filter name="grp_code" string="Code"
+                            context="{'group_by': 'code'}" />
+                    <filter name="grp_period" string="Period"
+                            context="{'group_by': 'date_from:month'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_payslip_input_action" model="ir.actions.act_window">
+        <field name="name">Other Inputs</field>
+        <field name="res_model">hr.payslip.input</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="search_view_id" ref="hr_payslip_input_search" />
+        <field name="context">{'search_default_grp_employee': 1}</field>
+    </record>
+
+    <menuitem id="menu_payroll_input_analysis"
+              name="Other Inputs"
+              parent="payroll.payroll_menu_root"
+              action="hr_payslip_input_action"
+              sequence="26" />
+
+</odoo>

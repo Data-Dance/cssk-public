@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- The taxable supply date (DUZP / deň dodania) decides the VAT period in
+         both countries, yet 19.0 core puts it on the invoice form only. Extending
+         the base views reaches every primary child: customer invoices, credit
+         notes, vendor bills, refunds, and the bill search view. -->
+    <record id="view_invoice_tree_cssk" model="ir.ui.view">
+        <field name="name">account.invoice.list.l10n_cssk_core</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <field name="date" position="before">
+                <field name="show_taxable_supply_date" column_invisible="True"/>
+                <field name="taxable_supply_date"
+                       optional="show"
+                       invisible="not show_taxable_supply_date"
+                       readonly="state != 'draft'"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter_cssk" model="ir.ui.view">
+        <field name="name">account.invoice.select.l10n_cssk_core</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <filter name="invoice_date" position="after">
+                <filter name="taxable_supply_date" string="Taxable Supply Date" date="taxable_supply_date"/>
+            </filter>
+            <filter name="invoicedate" position="after">
+                <filter name="group_by_taxable_supply_date" string="Taxable Supply Date"
+                        context="{'group_by': 'taxable_supply_date'}"/>
+            </filter>
+        </field>
+    </record>
+</odoo>

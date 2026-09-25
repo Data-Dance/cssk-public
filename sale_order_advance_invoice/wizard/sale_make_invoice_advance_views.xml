@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sale_advance_payment_inv_advance_invoice" model="ir.ui.view">
+        <field name="name">sale.advance.payment.inv.form.advance.invoice</field>
+        <field name="model">sale.advance.payment.inv</field>
+        <field name="inherit_id" ref="sale.view_sale_advance_payment_inv"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[field[@name='sale_order_ids']]" position="inside">
+                <field name="is_advance_invoice_flow" invisible="1"/>
+            </xpath>
+
+            <xpath expr="//field[@name='advance_payment_method']" position="attributes">
+                <attribute name="invisible">count &gt; 1 or is_advance_invoice_flow</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='advance_payment_method']" position="after">
+                <field name="advance_payment_method" readonly="1" invisible="not is_advance_invoice_flow"/>
+            </xpath>
+
+            <xpath expr="//group[@name='down_payment_specification']" position="attributes">
+                <attribute name="invisible" add="is_advance_invoice_flow" separator=" or "/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

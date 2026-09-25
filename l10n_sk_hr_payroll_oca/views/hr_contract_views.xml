@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Slovak payroll attributes on the contract/version form (hr.version).
+        Added after the "Contract Overview" group, guarded by the OCA payroll
+        group.
+    -->
+    <record id="hr_version_view_form_l10n_sk" model="ir.ui.view">
+        <field name="name">hr.version.view.form.l10n_sk_payroll</field>
+        <field name="model">hr.version</field>
+        <field name="inherit_id" ref="hr.hr_contract_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='contract']" position="after">
+                <group string="Slovak Payroll" groups="payroll.group_payroll_user">
+                    <field name="l10n_sk_tax_declaration_signed"/>
+                    <field name="l10n_sk_ztp"/>
+                    <field name="l10n_sk_children_under_15"/>
+                    <field name="l10n_sk_children_15_18"/>
+                    <field name="l10n_sk_health_oop_claim"
+                           invisible="l10n_sk_agreement_type != 'none'"/>
+                </group>
+                <group string="Meal Allowance (Slovakia)" groups="payroll.group_payroll_user">
+                    <field name="l10n_sk_meal_allowance_type"/>
+                    <field name="l10n_sk_meal_days"
+                           invisible="l10n_sk_meal_allowance_type == 'none'"/>
+                    <field name="l10n_sk_meal_voucher_employer"
+                           invisible="l10n_sk_meal_allowance_type == 'none'"/>
+                    <field name="l10n_sk_meal_voucher_employee"
+                           invisible="l10n_sk_meal_allowance_type != 'voucher'"/>
+                </group>
+                <group string="Agreement (Slovakia)" groups="payroll.group_payroll_user">
+                    <field name="l10n_sk_agreement_type"/>
+                    <field name="l10n_sk_income_regular"
+                           invisible="l10n_sk_agreement_type == 'none'"/>
+                    <field name="l10n_sk_agreement_hours_warning"
+                           readonly="1"
+                           invisible="not l10n_sk_agreement_hours_warning"/>
+                    <field name="l10n_sk_agreement_oop"
+                           invisible="l10n_sk_agreement_type == 'none'"/>
+                    <field name="l10n_sk_health_exempt"
+                           invisible="l10n_sk_agreement_type == 'none'"/>
+                    <field name="l10n_sk_guarantee_exempt"/>
+                </group>
+                <group string="Garnishment (Slovakia)" groups="payroll.group_payroll_user">
+                    <field name="l10n_sk_garnishment_dependents"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

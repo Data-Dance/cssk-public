@@ -1,0 +1,66 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">MultiCash Payment Export</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Export payments in MultiCash formats (CFD/CFU/CFA/MT101) for Czech banks</h3>
+    <div class="oe_span12">
+      <p>This app generates <b>MultiCash payment files</b> used by Czech banks — Česká spořitelna,
+         KB, ČSOB, Raiffeisenbank, UniCredit and others — from an OCA
+         <code>account.payment.order</code>. It is <b>CE-clean</b>: it builds on
+         <code>account_payment_order</code> and the shared <code>account_cz_bankfile_base</code>
+         builders, with <b>no Enterprise dependency</b>.</p>
+      <p>The file rendering is delegated to <code>account_cz_bankfile_base</code>; this module only
+         feeds it the normalized payment items from the payment lines and resolves the target format
+         from the payment method.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>CFD</b> — domestic Czech credit transfers and direct debits (inkasa).</li>
+        <li><b>CFU</b> — urgent domestic Czech credit transfers.</li>
+        <li><b>CFA</b> — foreign (cross-border) payments.</li>
+        <li><b>MT101</b> — SWIFT Request For Transfer.</li>
+        <li>Variable / Constant / Specific symbol (VS / KS / SS) on every payment line, with a
+            fallback that parses a <code>VS:</code> / <code>KS:</code> / <code>SS:</code> token from
+            the payment communication when the field is left empty.</li>
+        <li>CFA / MT101 require the journal's bank to carry a BIC, otherwise the export is blocked
+            with a clear error.</li>
+        <li>Registers the matching outbound (and CFD inbound, for inkaso) payment methods.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Set the bank journal's payment method to the desired MultiCash format
+         (<i>MultiCash CFD / CFU / CFA / MT101</i>). Build a payment order from vendor bills as usual
+         (<i>Accounting ▸ Vendor ▸ Payment Orders</i>), fill the VS/KS/SS symbols on the lines
+         (or leave them empty to fall back to the communication), confirm the order and
+         <b>Generate Payment File</b> — the format-specific file (<code>.cfd</code> /
+         <code>.cfu</code> / <code>.cfa</code> / <code>.mt101</code>) is produced for upload to the
+         bank.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

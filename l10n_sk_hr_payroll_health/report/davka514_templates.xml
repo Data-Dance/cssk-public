@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      dávka 514 (Mesačný výkaz preddavkov na poistné) XML — element names and
+      order match the official ÚDZS/MZSR schema 514-2023.xsd (root <MZSR>, no
+      target namespace, elementFormDefault="qualified"). Blocks: Identification,
+      CorporateBody, InsuranceBody and one PersonData per employee. Only the
+      required elements are emitted; optional ones are omitted. See the model
+      for the rule-code mapping and the note on the schema's defects.
+    -->
+    <template id="davka514_xml">
+        <MZSR>
+            <Identification>
+                <PatternOfRate t-out="ident['charakter']"/>
+                <TypeOfRate t-out="ident['typ']"/>
+                <IDCode t-out="ident['ico']"/>
+                <CodeOfPayer t-out="ident['cislo_platitela']"/>
+                <CodeOfHealthInsuranceCompany t-out="ident['kod_zp']"/>
+                <DateOfSending t-out="ident['datum_odoslania']"/>
+                <SerialNumberOfRate t-out="ident['poradie']"/>
+                <NumberOfRecords t-out="ident['pocet_viet']"/>
+            </Identification>
+            <CorporateBody>
+                <Period t-out="corp['obdobie']"/>
+                <DateOfPayment t-out="corp['den_platby']"/>
+                <CorporateBodyFullName t-out="corp['nazov']"/>
+                <CompanyIDCode t-out="corp['ico']"/>
+                <CodeOfPayerSec t-out="corp['cislo_platitela']"/>
+                <CompanyIDTaxCode t-out="corp['dic']"/>
+                <IBAN t-out="corp['iban']"/>
+            </CorporateBody>
+            <InsuranceBody>
+                <TotalNumberOfInsurancePersons t-out="agg514['pocet']"/>
+                <NumberOfInsurancePersons1 t-out="agg514['pocet1']"/>
+                <NumberOfInsurancePersons2 t-out="agg514['pocet2']"/>
+                <NumberOfDays1 t-out="agg514['dni1']"/>
+                <NumberOfDays2 t-out="agg514['dni2']"/>
+                <TotalReceipt1 t-out="agg514['prijem1']"/>
+                <TotalReceipt2 t-out="agg514['prijem2']"/>
+                <BaseOfAssess1 t-out="agg514['vz1']"/>
+                <BaseOfAssess2 t-out="agg514['vz2']"/>
+                <DepositOfInsurance1 t-out="agg514['preddavok_zamtel']"/>
+                <DepositOfInsurance2 t-out="agg514['preddavok_zamnec']"/>
+                <DepositOfInsurance3 t-out="agg514['doplatok']"/>
+                <DepositOfInsurance4>0.00</DepositOfInsurance4>
+                <TotalDepositOfInsurance t-out="agg514['preddavok_spolu']"/>
+            </InsuranceBody>
+            <t t-foreach="rows514" t-as="row">
+                <PersonData>
+                    <SerialNumberOfLine t-out="row['pc']"/>
+                    <IdentificationNumberOfInsured t-out="row['rc']"/>
+                    <NumberOfDays t-out="row['poc_dni']"/>
+                    <TariffOfDeposit1 t-out="row['tarifa_zamtel']"/>
+                    <TariffOfDeposit2 t-out="row['tarifa_zamnec']"/>
+                    <TotalReceiptOfEmployee t-out="row['prijem']"/>
+                    <BaseOfAssessOfEmployee t-out="row['vz']"/>
+                    <DepositOfEmployer t-out="row['preddavok_zamtel']"/>
+                    <DepositOfEmployee t-out="row['preddavok_zamnec']"/>
+                    <DepositOfTotal t-out="row['preddavok_spolu']"/>
+                    <ReceiptOfEmployee t-out="row['prijem']"/>
+                    <TotalReceiptOfOther>0.00</TotalReceiptOfOther>
+                    <OP>0.00</OP>
+                    <NotAppliedMinimum>0</NotAppliedMinimum>
+                    <DepositOffEmployeeAdd t-out="row['doplatok']"/>
+                </PersonData>
+            </t>
+        </MZSR>
+    </template>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="onz_version_2022" model="cssk.payroll.declaration.version">
+        <field name="name">ONZ 2022</field>
+        <field name="code">cz_onz</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="valid_from">2022-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_hr_payroll_onz.onz_xml"/>
+        <field name="xml_root_element">ONZ</field>
+        <field name="xml_schema_module">l10n_cz_hr_payroll_onz</field>
+        <field name="xml_schema_filename">data/ONZ2022_20230616.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_cz_hr_payroll_onz/data/ONZ2022_20230616.xsd"/>
+    </record>
+
+</odoo>

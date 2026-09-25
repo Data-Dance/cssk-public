@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!--
+        Anchor on the container, not on `vies_valid`.
+
+        `base_vat` (priority 15) MOVES `<field name="vat"/>` into
+        `<div name="vat_vies_container">` and puts `vies_valid` inside a
+        `<span class="text-nowrap ps-2">` in there. Anything appended after
+        `vies_valid` therefore lands inside that span: no label cell, and the
+        span's own left padding shunts it right of the value column, which is
+        what made this block float free of every row above it.
+    -->
+    <record id="view_partner_form_vies" model="ir.ui.view">
+        <field name="name">res.partner.form.vies.proof</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base_vat.view_partner_base_vat_form" />
+        <field name="arch" type="xml">
+
+            <!--
+                Only the action and its verdict stay beside the VAT number:
+                a green tick or a red cross, which opens the VIES tab. Every
+                other thing VIES returns is evidence you go and read once, not
+                something to scroll past on every contact.
+
+                The badge and the button are safe on one `o_row` because a
+                glyph does not overflow when flex shrinks it — which is exactly
+                what the consultation number did here twice.
+            -->
+            <xpath expr="//div[@name='vat_vies_container']" position="after">
+                <label for="vies_valid" string="VIES" invisible="not vat"/>
+                <div name="vies_direct_check" invisible="not vat">
+                    <!--
+                        One widget owns both the button and the verdict. A plain
+                        `<button type="object">` could run the check but had no
+                        way to then open the VIES page — a server call cannot
+                        activate a notebook tab — so the answer it fetched
+                        stayed a tab away.
+                    -->
+                    <field name="vies_valid" widget="vies_status_badge" nolabel="1"/>
+                    <field name="vies_check_date" invisible="1"/>
+                </div>
+            </xpath>
+
+            <!--
+                One value per group row. Two earlier attempts put several of
+                these on a single `o_row`, which fails because `.o_row > span`
+                is `flex: 0 1 auto` — shrink is 1, so a span narrows below its
+                own content and the text spills out of its box onto the next
+                one. `text-nowrap` makes that worse, not better.
+
+                readonly="1" throughout: this is what VIES answered, not
+                something anyone types in.
+            -->
+            <xpath expr="//notebook" position="inside">
+                <page name="vies_proof" string="VIES" invisible="not vat">
+                    <group>
+                        <group string="Consultation">
+                            <field name="vies_check_date" readonly="1" />
+                            <field name="vies_consultation_number" readonly="1" />
+                            <field name="vies_request_date" readonly="1" />
+                            <field name="vies_fault_date" readonly="1"
+                                   invisible="not vies_fault_date" />
+                        </group>
+                        <group string="As registered in VIES">
+                            <field name="vies_trader_name" readonly="1" />
+                            <field name="vies_address" readonly="1" />
+                            <field name="vies_name_match" readonly="1" />
+                        </group>
+                    </group>
+                    <div class="text-muted">
+                        The consultation number is the evidence that the check
+                        happened. It is what a tax authority asks for when a
+                        customer's VAT number later turns out to have been
+                        invalid.
+                    </div>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

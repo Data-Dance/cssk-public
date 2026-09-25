@@ -1,0 +1,110 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Daňové odpisy — dvojité odpisovanie CZ/SK</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Druhý, neúčtovaný plán daňových odpisov popri účtovných odpisoch</h3>
+    <div class="oe_span12">
+      <p>České a slovenské zákony o dani z príjmov vyžadujú, aby každý majetok viedol dva paralelné
+         plány odpisov: <b>účtovný</b> plán (účtovaný na účet 551) a <b>daňový</b> plán
+         (daňové odpisy), ktorý je len údajom o daňovom základe a <b>nikdy sa neúčtuje</b> do hlavnej
+         knihy. Iba upravuje základ dane z príjmov (pripočítateľná / odpočítateľná položka DPPO).</p>
+      <p>Táto aplikácia pridáva daňový plán, vypočítaný overeným enginom v čistom Pythone, ktorý
+         implementuje CZ §31/§32/§30a a SK §27/§28. Nainštalujte <b>jadro + jeden most</b>
+         (<code>account_asset_tax_ee</code> pre Enterprise, <code>account_asset_tax_oca</code> pre
+         OCA/Community) <b>+ krajinovú dátovú vrstvu</b>
+         (<code>l10n_cz_account_asset_tax</code> / <code>l10n_sk_account_asset_tax</code>).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Paralelný <b>plán daňových odpisov</b> pre každý majetok, nezávislý od účtovaného
+            účtovného plánu.</li>
+        <li>Zákonný engine <b>bez importu Odoo</b> (<code>engine/depreciation.py</code>),
+            samostatne testovaný a nezmenene použitý oboma mostami rámcov.</li>
+        <li>Koeficienty a skupiny dodávajú tenké dátové vrstvy (CZ §31/§32/§30a, SK §27/§28).</li>
+        <li>Životné udalosti: technické zhodnotenie, prerušenie, vyradenie — preplánovanie od
+            dátumu udalosti.</li>
+        <li><b>Vysporiadanie obdobia pre DPPO</b> (pripočítanie / odpočítanie podľa §23) s voliteľným
+            zaúčtovaním odloženej dane a exportom XLSX/PDF.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Otvorte ľubovoľný majetok a uvidíte jeho daňový plán vedľa účtovného. Sprievodcovia nižšie
+         slúžia na hromadný výpočet plánov, doplnenie majetku v polovici životnosti, zaznamenanie
+         udalostí, uzavretie roka a vysporiadanie obdobia pre daňové priznanie.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Výpočet plánov daňových odpisov</h4>
+      <p><b>Čo robí:</b> (pre)počíta daňový plán pre vybraný majetok.</p>
+      <p><b>Ako používať:</b> vyberte majetok (alebo otvorte sprievodcu) a spustite <i>Vypočítať</i>;
+         plány sa zostavia zo vstupnej ceny, dátumu zaradenia, skupiny a metódy každého majetku.</p>
+      <h4>Doplnenie daňových odpisov</h4>
+      <p><b>Čo robí:</b> inicializuje daňový plán na majetku, ktorý je už v polovici životnosti.</p>
+      <p><b>Ako používať:</b> otvorte majetok, spustite <i>Doplniť</i>, zadajte už uplynuté roky /
+         oprávky daňových odpisov a potvrďte <i>Doplniť</i>.</p>
+      <h4>Sprievodca udalosťou daňových odpisov</h4>
+      <p><b>Čo robí:</b> zaznamená životnú udalosť — technické zhodnotenie, prerušenie alebo
+         vyradenie — a preplánuje plán od daného bodu.</p>
+      <p><b>Ako používať:</b> na majetku otvorte sprievodcu, zvoľte typ a dátum udalosti, zadajte
+         prípadnú sumu (napr. hodnotu zhodnotenia) a stlačte <i>Použiť</i>.</p>
+      <h4>Uzavretie roka daňových odpisov</h4>
+      <p><b>Čo robí:</b> zmrazí plán do podaného zdaňovacieho obdobia, aby neskoršie úpravy nezmenili
+         už podané DPPO.</p>
+      <p><b>Ako používať:</b> otvorte <i>Uzavrieť rok daňových odpisov</i>, zvoľte rok a stlačte
+         <i>Podať rok</i>.</p>
+      <h4>Vysporiadanie daňových odpisov (DPPO)</h4>
+      <p><b>Čo robí:</b> vysporiada účtovné vs. daňové odpisy za zdaňovacie obdobie — pripočítanie /
+         odpočítanie podľa §23 do daňového priznania.</p>
+      <p><b>Ako používať:</b> otvorte sprievodcu vysporiadania za obdobie, <i>Vypočítať</i>,
+         skontrolujte riadky podľa majetku, voliteľne <i>Zaúčtovať odloženú daň</i> a
+         <i>Exportovať XLSX</i> / <i>Tlačiť PDF</i>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Dokumentácia</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="cheat_sheet.html">Interaktívny ťahák</a> — zostavte plán rok po roku, prepínajte
+            krajinu/skupinu/metódu, aplikujte životné udalosti a sledujte výpočet DPPO.</li>
+        <li><a href="tax_depreciation_cheat_sheet.html">Ťahák daňových odpisov</a> — statická referencia
+            s prepočítanými príkladmi každej skupiny a metódy
+            (zdroj: <a href="../../docs/tax_depreciation_cheat_sheet.rst">docs/tax_depreciation_cheat_sheet.rst</a>).</li>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — história zmien.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

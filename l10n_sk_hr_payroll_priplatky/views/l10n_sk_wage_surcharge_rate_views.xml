@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_sk_wage_surcharge_rate_view_list" model="ir.ui.view">
+        <field name="name">l10n.sk.wage.surcharge.rate.list</field>
+        <field name="model">l10n.sk.wage.surcharge.rate</field>
+        <field name="arch" type="xml">
+            <list string="Wage Surcharge Rates">
+                <field name="date_from"/>
+                <field name="noc_pct"/>
+                <field name="sobota_pct"/>
+                <field name="nedela_pct"/>
+                <field name="sviatok_pct"/>
+                <field name="nadcas_pct"/>
+                <field name="stazeny_pct"/>
+                <field name="pohotovost_pct"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="l10n_sk_wage_surcharge_rate_view_form" model="ir.ui.view">
+        <field name="name">l10n.sk.wage.surcharge.rate.form</field>
+        <field name="model">l10n.sk.wage.surcharge.rate</field>
+        <field name="arch" type="xml">
+            <form string="Wage Surcharge Rate">
+                <sheet>
+                    <group>
+                        <field name="date_from"/>
+                    </group>
+                    <group string="Percentage of the minimum hourly wage">
+                        <group>
+                            <field name="noc_pct"/>
+                            <field name="noc_risk_pct"/>
+                            <field name="noc_reduced_pct"/>
+                            <field name="stazeny_pct"/>
+                        </group>
+                        <group>
+                            <field name="sobota_pct"/>
+                            <field name="sobota_reduced_pct"/>
+                            <field name="nedela_pct"/>
+                            <field name="nedela_reduced_pct"/>
+                            <field name="pohotovost_pct"/>
+                        </group>
+                    </group>
+                    <group string="Percentage of average earnings (§ 134)">
+                        <group>
+                            <field name="sviatok_pct"/>
+                        </group>
+                        <group>
+                            <field name="nadcas_pct"/>
+                            <field name="nadcas_risk_pct"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_sk_wage_surcharge_rate_action" model="ir.actions.act_window">
+        <field name="name">Wage Surcharge Rates</field>
+        <field name="res_model">l10n.sk.wage.surcharge.rate</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a wage surcharge rate</p>
+            <p>
+                Statutory minimum surcharges for night, weekend, public-holiday
+                and overtime work (§§ 121–123 Zákonníka práce). Create a new
+                dated record to raise them above the statutory floor.
+            </p>
+        </field>
+    </record>
+</odoo>

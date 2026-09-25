@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      SK DPH 2025 version. Line codes are the OFFICIAL form lines (r01..r37);
+      tag formulas + the net-computation aggregates MIRROR l10n_sk's own DPH
+      report (so values match Odoo's computation). The carryover/external lines
+      (r30, r31, r34, r36, r37) are 'manual' (default 0) — they take prior-period
+      / external values; add an override UI + reconciliation for full fidelity.
+      Net lines (r32 own liability, r33 excess, r35 to-be-paid) are computed.
+      Validate against the official form with a SK accountant.
+    -->
+      <!-- ``r_deduction_total``: rate-agnostic deduction total, internal — the
+         tlačivo has no such row. For legacy systems that file "odpočítaná daň
+         celkom" as one number; mapping that onto a single per-rate half drops
+         reduced-rate deductions silently. Full rationale in
+         cssk_vat_return_legacy_version_data.xml. -->
+  <record id="dph_version_2025" model="cssk.vat.return.version">
+        <field name="name">DPH 2025</field>
+        <field name="country_id" ref="base.sk"/>
+        <!-- ⚠️ CONTESTED: this may be 2025-07-01, not 2025-01-01, and the first
+             half of 2025 may need a version of its own.
+
+             Evidence, from the MRP extractor against 24 filed Slovak returns
+             of a real company:
+
+               2025-01 .. 2025-06   reverse charge filed on r09 / r10
+               2025-07 .. 2025-12   reverse charge filed on r09b / r10b
+
+             and MRP records the form vintage per filing in DPHVykaz.VYKAZ —
+             `DPH2021` through June, `DPH2025` from July. So the source states,
+             period by period, that the vzor changed mid-year.
+
+             That is consistent with the shape of the two versions here: DPH
+             2024 carries ONE reverse-charge band (['r09','r10',[10.0,20.0]])
+             while DPH 2025 splits it into three. If the vzor platný od
+             1. 7. 2025 is what introduced the split, then January to June 2025
+             is the OLD layout carrying the NEW rates, and this module reports
+             those six periods on a line that did not carry the standard band.
+             The totals are right and the return is wrong, which for a filed
+             document is simply wrong.
+
+             The boundary is now demonstrated on identical amounts, from a
+             fixture of 38 returns this company filed (docs/fixtures/
+             mrp_filed_vat_returns.json — 32 on DPH2021, 6 on DPH2025):
+
+               2025-06  DPH2021   r09  12.59   r10  2.90
+               2025-07  DPH2025   r09b 12.59   r10b 2.90
+
+             The same figures, a month apart, on different lines. And the rate
+             is confirmed by arithmetic rather than assumed: 2025-05 files
+             200.59 / 46.14 on r09/r10, which is 23.0 %.
+
+             SETTLED by the official schema, now kept beside this file as
+             data/dph2021.xsd (ekr.financnasprava.sk/Formulare/XSD/dph2021.xsd):
+
+               DPH2021  r01..r37, 37 lines, NO letter-suffixed bands at all
+               DPH2025  adds r01a r02a r05a r06a r09a r09b r10a r10b r11a-e
+                        r12a-e r18a r20a r22a r23a-c — 24 new lines, a strict
+                        superset
+
+             So the pre-July vzor has a SINGLE combined reverse-charge band,
+             r09/r10, and the 2025 vzor is what split it by rate. January to
+             June 2025 is therefore the old layout carrying the new rates.
+
+             STILL TO CONFIRM before splitting this record: the old form has
+             two domestic bands (r01/r02 and r03/r04) and 2025 has three rates,
+             so one band carries two of them. DPH 2024 maps r01/r02 to the
+             reduced rate and r03/r04 to the standard one, which suggests
+             r01/r02 carries 19 % and 5 % together and r03/r04 carries 23 % —
+             but the filed data cannot witness it: this company used only
+             r03/r04, so a wrong answer for r01/r02 would not show up in any
+             comparison available here.
+
+             Live for every Slovak company whose history spans mid-2025. -->
+        <field name="valid_from">2025-07-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_vat_return.dph_2025"/>
+        <field name="xml_root_element">dokument</field>
+        <field name="xml_schema_filename">dph2025.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_vat_return/data/dph2025.xsd"/>
+        <!-- Settlement / amendment line codes + the daň = základ × sadzba
+             pairing are version DATA (the base model hardcodes no form
+             lines). Pairs per the DPHv25 eForm vypocet_* functions:
+             19 % (§ 27 ods. 2), 5 % (§ 27 ods. 3), 23 % (základná). -->
+        <field name="own_tax_line_code">r32</field>
+        <field name="excess_line_code">r33</field>
+        <field name="diff_line_code">r36</field>
+        <field name="rate_pairs" eval="[
+            ['r01',  'r02',  19.0], ['r01a', 'r02a', 5.0],
+            ['r03',  'r04',  23.0],
+            ['r05',  'r06',  19.0], ['r05a', 'r06a', 5.0],
+            ['r07',  'r08',  23.0],
+            ['r09',  'r10',  19.0], ['r09a', 'r10a', 5.0], ['r09b', 'r10b', 23.0],
+            ['r11',  'r12',  19.0], ['r11a', 'r12a', 5.0], ['r11b', 'r12b', 23.0],
+            ['r11c', 'r12c', 19.0], ['r11d', 'r12d', 5.0], ['r11e', 'r12e', 23.0],
+        ]"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'r01',  'name': 'r01',  'kind': 'tags', 'tag_formula': '-01',  'sequence': 1}),
+            (0, 0, {'code': 'r02',  'name': 'r02',  'kind': 'tags', 'tag_formula': '-02',  'sequence': 2}),
+            (0, 0, {'code': 'r01a', 'name': 'r01a', 'kind': 'tags', 'tag_formula': '-01a', 'sequence': 3}),
+            (0, 0, {'code': 'r02a', 'name': 'r02a', 'kind': 'tags', 'tag_formula': '-02a', 'sequence': 4}),
+            (0, 0, {'code': 'r03',  'name': 'r03',  'kind': 'tags', 'tag_formula': '-03',  'sequence': 5}),
+            (0, 0, {'code': 'r04',  'name': 'r04',  'kind': 'tags', 'tag_formula': '-04',  'sequence': 6}),
+            (0, 0, {'code': 'r05',  'name': 'r05',  'kind': 'tags', 'tag_formula': '05',   'sequence': 7}),
+            (0, 0, {'code': 'r06',  'name': 'r06',  'kind': 'tags', 'tag_formula': '-06',  'sequence': 8}),
+            (0, 0, {'code': 'r05a', 'name': 'r05a', 'kind': 'tags', 'tag_formula': '05a',  'sequence': 9}),
+            (0, 0, {'code': 'r06a', 'name': 'r06a', 'kind': 'tags', 'tag_formula': '-06a', 'sequence': 10}),
+            (0, 0, {'code': 'r07',  'name': 'r07',  'kind': 'tags', 'tag_formula': '07',   'sequence': 11}),
+            (0, 0, {'code': 'r08',  'name': 'r08',  'kind': 'tags', 'tag_formula': '-08',  'sequence': 12}),
+            (0, 0, {'code': 'r09',  'name': 'r09',  'kind': 'tags', 'tag_formula': '09',   'sequence': 13}),
+            (0, 0, {'code': 'r10',  'name': 'r10',  'kind': 'tags', 'tag_formula': '-10',  'sequence': 14}),
+            (0, 0, {'code': 'r09a', 'name': 'r09a', 'kind': 'tags', 'tag_formula': '09a',  'sequence': 15}),
+            (0, 0, {'code': 'r10a', 'name': 'r10a', 'kind': 'tags', 'tag_formula': '-10a', 'sequence': 16}),
+            (0, 0, {'code': 'r09b', 'name': 'r09b', 'kind': 'tags', 'tag_formula': '09b',  'sequence': 17}),
+            (0, 0, {'code': 'r10b', 'name': 'r10b', 'kind': 'tags', 'tag_formula': '-10b', 'sequence': 18}),
+            (0, 0, {'code': 'r11',  'name': 'r11',  'kind': 'tags', 'tag_formula': '11',   'sequence': 19}),
+            (0, 0, {'code': 'r12',  'name': 'r12',  'kind': 'tags', 'tag_formula': '-12',  'sequence': 20}),
+            (0, 0, {'code': 'r11a', 'name': 'r11a', 'kind': 'tags', 'tag_formula': '11a',  'sequence': 21}),
+            (0, 0, {'code': 'r12a', 'name': 'r12a', 'kind': 'tags', 'tag_formula': '-12a', 'sequence': 22}),
+            (0, 0, {'code': 'r11b', 'name': 'r11b', 'kind': 'tags', 'tag_formula': '11b',  'sequence': 23}),
+            (0, 0, {'code': 'r12b', 'name': 'r12b', 'kind': 'tags', 'tag_formula': '-12b', 'sequence': 24}),
+            (0, 0, {'code': 'r11c', 'name': 'r11c', 'kind': 'tags', 'tag_formula': '11c',  'sequence': 25}),
+            (0, 0, {'code': 'r12c', 'name': 'r12c', 'kind': 'tags', 'tag_formula': '-12c', 'sequence': 26}),
+            (0, 0, {'code': 'r11d', 'name': 'r11d', 'kind': 'tags', 'tag_formula': '11d',  'sequence': 27}),
+            (0, 0, {'code': 'r12d', 'name': 'r12d', 'kind': 'tags', 'tag_formula': '-12d', 'sequence': 28}),
+            (0, 0, {'code': 'r11e', 'name': 'r11e', 'kind': 'tags', 'tag_formula': '11e',  'sequence': 29}),
+            (0, 0, {'code': 'r12e', 'name': 'r12e', 'kind': 'tags', 'tag_formula': '-12e', 'sequence': 30}),
+            (0, 0, {'code': 'r13',  'name': 'r13',  'kind': 'tags', 'tag_formula': '-13',  'sequence': 31}),
+            (0, 0, {'code': 'r14',  'name': 'r14',  'kind': 'tags', 'tag_formula': '-14',  'sequence': 32}),
+            (0, 0, {'code': 'r15',  'name': 'r15',  'kind': 'tags', 'tag_formula': '-15',  'sequence': 33}),
+            (0, 0, {'code': 'r16',  'name': 'r16',  'kind': 'tags', 'tag_formula': '-16',  'sequence': 34}),
+            (0, 0, {'code': 'r18',  'name': 'r18',  'kind': 'tags', 'tag_formula': '18',   'sequence': 35}),
+            (0, 0, {'code': 'r18a', 'name': 'r18a', 'kind': 'tags', 'tag_formula': '18a',  'sequence': 36}),
+            (0, 0, {'code': 'r19',  'name': 'r19',  'kind': 'tags', 'tag_formula': '19',   'sequence': 37}),
+            (0, 0, {'code': 'r20',  'name': 'r20',  'kind': 'tags', 'tag_formula': '20',   'sequence': 38}),
+            (0, 0, {'code': 'r20a', 'name': 'r20a', 'kind': 'tags', 'tag_formula': '20a',  'sequence': 39}),
+            (0, 0, {'code': 'r21',  'name': 'r21',  'kind': 'tags', 'tag_formula': '21',   'sequence': 40}),
+            (0, 0, {'code': 'r22',  'name': 'r22',  'kind': 'tags', 'tag_formula': '22',   'sequence': 41}),
+            (0, 0, {'code': 'r22a', 'name': 'r22a', 'kind': 'tags', 'tag_formula': '22a',  'sequence': 42}),
+            (0, 0, {'code': 'r23',  'name': 'r23',  'kind': 'tags', 'tag_formula': '23',   'sequence': 43}),
+            (0, 0, {'code': 'r23a', 'name': 'r23a', 'kind': 'tags', 'tag_formula': '23a',  'sequence': 44}),
+            (0, 0, {'code': 'r23b', 'name': 'r23b', 'kind': 'tags', 'tag_formula': '23b',  'sequence': 45}),
+            (0, 0, {'code': 'r23c', 'name': 'r23c', 'kind': 'tags', 'tag_formula': '23c',  'sequence': 46}),
+            (0, 0, {'code': 'r24',  'name': 'r24 — Rozdiel základu (§25)', 'kind': 'tags', 'tag_formula': '-24|+24_PR', 'sequence': 47}),
+            (0, 0, {'code': 'r25',  'name': 'r25 — Rozdiel dane (§25)', 'kind': 'tags', 'tag_formula': '-25', 'sequence': 48}),
+            (0, 0, {'code': 'r26',  'name': 'r26 — Rozdiel základu (§25a)', 'kind': 'tags', 'tag_formula': '-26', 'sequence': 49}),
+            (0, 0, {'code': 'r27',  'name': 'r27 — Rozdiel dane (§25a)', 'kind': 'tags', 'tag_formula': '-27', 'sequence': 50}),
+            (0, 0, {'code': 'r28',  'name': 'r28 — Oprava odpočítanej dane (§53)', 'kind': 'tags', 'tag_formula': '-28', 'sequence': 51}),
+            (0, 0, {'code': 'r29',  'name': 'r29 — Oprava odpočítanej dane (§53b)', 'kind': 'tags', 'tag_formula': '-29', 'sequence': 52}),
+            (0, 0, {'code': 'r17',  'name': 'r17 — Daň celkom', 'kind': 'aggregate',
+                    'aggregate_formula': 'r02 + r02a + r04 + r06 + r06a + r08 + r10 + r10a + r10b + r12 + r12a + r12b + r12c + r12d + r12e + r16',
+                    'sequence': 60}),
+            (0, 0, {'code': 'r18_total', 'name': '(internal) odpočet — znížená §27/2', 'kind': 'aggregate',
+                    'aggregate_formula': 'r18 + r20 + r22 + r23a', 'sequence': 61}),
+            (0, 0, {'code': 'r18a_total', 'name': '(internal) odpočet — znížená', 'kind': 'aggregate',
+                    'aggregate_formula': 'r18a + r20a + r22a + r23b', 'sequence': 62}),
+            (0, 0, {'code': 'r19_total', 'name': '(internal) odpočet — základná', 'kind': 'aggregate',
+                    'aggregate_formula': 'r19 + r21 + r23 + r23c', 'sequence': 63}),
+            (0, 0, {'code': 'r_deduction_total', 'name': '(internal) odpočet celkom — obe sadzby', 'kind': 'aggregate',
+                    'aggregate_formula': 'r18_total + r18a_total + r19_total', 'sequence': 64}),
+            (0, 0, {'code': 'r30', 'name': 'r30 — Odpočet pri registrácii', 'kind': 'manual', 'sequence': 70}),
+            (0, 0, {'code': 'r31', 'name': 'r31 — Vrátenie dane cestujúcim', 'kind': 'manual', 'sequence': 71}),
+            (0, 0, {'code': 'r34', 'name': 'r34 — Nadmerný odpočet odpočítaný', 'kind': 'manual', 'sequence': 72}),
+            (0, 0, {'code': 'r36', 'name': 'r36 — Rozdiel oproti poslednej známej dani', 'kind': 'manual', 'sequence': 73}),
+            (0, 0, {'code': 'r37', 'name': 'r37 — Daň na úhradu (+/-)', 'kind': 'manual', 'sequence': 74}),
+            (0, 0, {'code': 'r_net', 'name': '(internal) čistá daň', 'kind': 'aggregate',
+                    'aggregate_formula': 'r17 - r18_total - r18a_total - r19_total + r25 + r27 + r28 + r29 - r30 - r31',
+                    'sequence': 80}),
+            (0, 0, {'code': 'r32', 'name': 'r32 — Vlastná daňová povinnosť', 'kind': 'aggregate',
+                    'aggregate_formula': 'r_net if r_net &gt; 0 else 0.0', 'sequence': 81}),
+            (0, 0, {'code': 'r33', 'name': 'r33 — Nadmerný odpočet (§79/2)', 'kind': 'aggregate',
+                    'aggregate_formula': '-r_net if r_net &lt; 0 else 0.0', 'sequence': 82}),
+            (0, 0, {'code': 'r35', 'name': 'r35 — Vlastná daň na úhradu', 'kind': 'aggregate',
+                    'aggregate_formula': 'max(0.0, r32 - r34)', 'sequence': 83}),
+        ]"/>
+        <field name="statement_type_ids" eval="[
+            (0, 0, {'code': 'rdp', 'name': 'Riadny', 'fa_xml_value': 'R',
+                    'sequence': 10}),
+            (0, 0, {'code': 'odp', 'name': 'Opravný', 'fa_xml_value': 'O',
+                    'sequence': 20}),
+            (0, 0, {'code': 'ddp', 'name': 'Dodatočný', 'fa_xml_value': 'D',
+                    'sequence': 30}),
+        ]"/>
+    </record>
+
+</odoo>

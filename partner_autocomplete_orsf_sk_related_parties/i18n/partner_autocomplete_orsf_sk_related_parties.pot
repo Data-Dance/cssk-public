@@ -1,0 +1,215 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* partner_autocomplete_orsf_sk_related_parties
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-05 15:21+0000\n"
+"PO-Revision-Date: 2026-09-05 15:21+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk_related_parties/models/res_partner.py:0
+msgid ""
+"%s has no IČO. Fill the Company ID first — the register is keyed on it."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__degree
+msgid ""
+"1 = a person holding a role directly in this partner. 2 = another company "
+"that person also holds a role in."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model,name:partner_autocomplete_orsf_sk_related_parties.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__degree
+msgid "Degree"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__display_name
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk_related_parties.view_partner_form_orsf_sk_related_parties
+msgid "Fetch from register"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__fetched_at
+msgid "Fetched"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__id
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__related_ico
+msgid "IČO"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_res_partner__orsf_sk_related_party_count
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_res_users__orsf_sk_related_party_count
+msgid "Related party count"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__related_name
+msgid "Name"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk_related_parties/models/res_partner.py:0
+msgid ""
+"ORSF gates the ownership graph behind a signed-in session, and issues no API key for it.\n"
+"\n"
+"Set an ORSF account e-mail and password in Settings ▸ Contacts ▸ ORSF; the session is then obtained and refreshed automatically.\n"
+"\n"
+"If they are already set, the sign-in was refused — check them, and the server log for the reason."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk_related_parties/models/res_partner.py:0
+msgid ""
+"ORSF returned no graph for IČO %s. The session token may have expired, or "
+"the rate limit was reached — the server log has the detail."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk_related_parties.view_partner_form_orsf_sk_related_parties
+msgid ""
+"One partner at a time — ORSF gates the ownership graph and\n"
+"                        asks callers not to bulk-fetch persons (GDPR Art. 6(1)(f)).\n"
+"                        A shared officer is a lead, not a finding: the § 17 ods. 5\n"
+"                        test is wider than the register."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__related_partner_id
+msgid "Related contact"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_res_partner__orsf_sk_related_party_ids
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_res_users__orsf_sk_related_party_ids
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk_related_parties.orsf_sk_related_party_view_list
+msgid "Related parties"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk_related_parties.view_partner_form_orsf_sk_related_parties
+msgid "Related parties (SK)"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_res_partner__orsf_sk_related_parties_fetched_at
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_res_users__orsf_sk_related_parties_fetched_at
+msgid "Related parties fetched"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk_related_parties/models/res_partner.py:0
+msgid "Related parties — %s"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk_related_parties.orsf_sk_related_party_view_form
+msgid "Related party"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__link_role
+msgid "Role"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model,name:partner_autocomplete_orsf_sk_related_parties.model_orsf_sk_related_party
+msgid "SK Related Party (závislá osoba)"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__source
+msgid "Source"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk_related_parties/models/res_partner.py:0
+msgid "The ORSF provider module is not installed."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__related_partner_id
+msgid ""
+"The counterpart, when it already exists in this database. Most related "
+"companies do not — the IČO and name below are kept either way."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__link_person
+msgid "The natural person who links the two subjects."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__link_role
+msgid ""
+"The role that person holds, as the register words it — konateľ, spoločník, "
+"člen predstavenstva."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.constraint,message:partner_autocomplete_orsf_sk_related_parties.constraint_orsf_sk_related_party_partner_related_uniq
+msgid "This related party is already recorded for this partner."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk_related_parties
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk_related_parties.field_orsf_sk_related_party__link_person
+msgid "Through"
+msgstr ""

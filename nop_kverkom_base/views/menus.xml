@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_nop_root"
+              name="NOP KVERKOM"
+              parent="account.menu_finance_configuration"
+              sequence="80"
+              groups="point_of_sale.group_pos_user"/>
+    <menuitem id="menu_nop_transaction"
+              name="Transactions"
+              parent="menu_nop_root"
+              action="action_nop_transaction"
+              sequence="10"/>
+    <menuitem id="menu_nop_refund_pending"
+              name="Refunds owed"
+              parent="menu_nop_root"
+              action="action_nop_transaction_refund_pending"
+              sequence="20"/>
+</odoo>

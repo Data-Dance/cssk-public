@@ -1,0 +1,44 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">🌐 <b>EN</b> · <a href="index_cz.html">CZ</a> · <a href="index_sk.html">SK</a></p>
+    <h2 class="oe_slogan">CZ Invoice (statutory PDF)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Customer DIČ, payment symbols and the mandatory statutory phrases on the Czech invoice</h3>
+    <div class="oe_span12">
+      <p>The Czech country layer that adds the statutory invoice content to Odoo's invoice, on top of core and <code>l10n_cz</code> (which already prints the IČO and the trade-registry line). It supplies the customer DIČ, the Czech payment symbols and the mandatory statutory phrases — domestic reverse charge (§92a), intra-Community supply / exempt (§64) and export (§66) — on the printed invoice.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Prints the customer <b>DIČ</b> next to the IČO / DIČ DPH that the core CZ layer already shows (sourced from <code>l10n_cssk_core</code>).</li>
+        <li>Adds the Czech <b>payment symbols</b> to the invoice information row — variabilní symbol, konstantní symbol and specifický symbol.</li>
+        <li>Auto-detects and prints the mandatory <b>statutory phrases</b>: domestic reverse charge (§92a), intra-Community supply / exempt (§64) and export (§66).</li>
+        <li>A per-tax <b>CZ reverse charge (§92a)</b> flag drives the §92a phrase, with a distinct name so it does not collide with the EE <code>l10n_cz_reports</code> field (which is also honoured when that module is installed).</li>
+        <li>A free-text <b>manual legal note</b> printed in addition to any auto-detected phrase.</li>
+        <li>The phrase auto-detection (zero-rate + partner country + the per-tax §92a flag) is a best-effort heuristic — have an accountant confirm the mapping.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install the module on a Czech company. On customer invoices the customer DIČ and any populated payment symbols appear automatically on the PDF. Tick <b>CZ Reverse Charge phrase (§92a)</b> on the relevant tax to print the §92a phrase; the §64 and §66 phrases are derived from the zero-rate taxes and the customer's country. Type any extra wording in <b>Invoice Legal Note (manual)</b> on the invoice to have it printed as well.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

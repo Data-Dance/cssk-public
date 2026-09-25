@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_wage_garnishment_view_list" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.list</field>
+        <field name="model">hr.wage.garnishment</field>
+        <field name="arch" type="xml">
+            <list string="Wage Garnishments" decoration-muted="state in ('done', 'cancel')" decoration-info="state == 'draft'">
+                <field name="date_delivered"/>
+                <field name="case_number"/>
+                <field name="employee_id"/>
+                <field name="claim_class"/>
+                <field name="garnishment_type" optional="hide"/>
+                <field name="payee_partner_id"/>
+                <field name="total_amount" sum="Total"/>
+                <field name="paid_amount" sum="Paid"/>
+                <field name="remaining_amount" sum="Remaining"/>
+                <field name="monthly_amount" optional="hide"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'" decoration-warning="state == 'suspended'"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_view_form" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.form</field>
+        <field name="model">hr.wage.garnishment</field>
+        <field name="arch" type="xml">
+            <form string="Wage Garnishment">
+                <header>
+                    <button name="action_start" type="object" string="Start" class="oe_highlight" invisible="state not in ('draft', 'suspended')"/>
+                    <button name="action_suspend" type="object" string="Suspend" invisible="state != 'running'"/>
+                    <button name="action_settle" type="object" string="Mark Settled" invisible="state != 'running'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state in ('cancel', 'done')"/>
+                    <button name="action_draft" type="object" string="Reset to Draft" invisible="state not in ('cancel', 'suspended')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,running,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_lines" type="object" class="oe_stat_button" icon="fa-money">
+                            <field name="line_count" widget="statinfo" string="Deductions"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="case_number" string="Case Number"/>
+                        <h1><field name="case_number" placeholder="e.g. 123 EX 456/2026"/></h1>
+                    </div>
+                    <group>
+                        <group string="Order">
+                            <field name="employee_id"/>
+                            <field name="garnishment_type"/>
+                            <field name="claim_class"/>
+                            <field name="date_delivered"/>
+                            <field name="sequence" groups="base.group_no_one"/>
+                        </group>
+                        <group string="Period">
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="country_code" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="is_open_ended" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Amounts">
+                            <field name="total_amount"/>
+                            <field name="monthly_amount"/>
+                            <field name="arrears_amount" invisible="claim_class != 'maintenance'"/>
+                            <field name="paid_amount"/>
+                            <field name="remaining_amount" invisible="is_open_ended"/>
+                        </group>
+                        <group string="Remittance">
+                            <field name="creditor_partner_id"/>
+                            <field name="bailiff_partner_id"/>
+                            <field name="payee_partner_id" readonly="1"/>
+                            <field name="partner_bank_id"/>
+                            <field name="variable_symbol"/>
+                            <field name="specific_symbol"/>
+                            <field name="constant_symbol"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Deductions" name="lines">
+                            <field name="line_ids" readonly="1">
+                                <list>
+                                    <field name="date_to"/>
+                                    <field name="payslip_ref"/>
+                                    <field name="amount_second_third" optional="show"/>
+                                    <field name="amount_first_third" optional="show"/>
+                                    <field name="amount" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Document" name="document">
+                            <group>
+                                <field name="document" filename="document_name"/>
+                                <field name="document_name" invisible="1"/>
+                            </group>
+                            <field name="note" placeholder="Internal notes…"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_view_search" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.search</field>
+        <field name="model">hr.wage.garnishment</field>
+        <field name="arch" type="xml">
+            <search string="Wage Garnishments">
+                <field name="case_number"/>
+                <field name="employee_id"/>
+                <field name="payee_partner_id"/>
+                <filter name="running" string="Running" domain="[('state', '=', 'running')]"/>
+                <filter name="open_claims" string="Not Settled" domain="[('state', 'not in', ('done', 'cancel'))]"/>
+                <separator/>
+                <filter name="priority" string="Priority Claims" domain="[('claim_class', 'in', ('maintenance', 'priority', 'fine'))]"/>
+                <filter name="maintenance" string="Maintenance" domain="[('claim_class', '=', 'maintenance')]"/>
+                <group>
+                    <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                    <filter name="group_payee" string="Payee" context="{'group_by': 'payee_partner_id'}"/>
+                    <filter name="group_class" string="Claim Class" context="{'group_by': 'claim_class'}"/>
+                    <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_action" model="ir.actions.act_window">
+        <field name="name">Wage Garnishments</field>
+        <field name="res_model">hr.wage.garnishment</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_open_claims': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Register a wage-garnishment order</p>
+            <p>
+                Record every exekuční / exekučný príkaz served on you here. The
+                delivery date sets the claim's rank, and payroll then applies
+                the statutory waterfall across all of an employee's orders
+                automatically.
+            </p>
+        </field>
+    </record>
+</odoo>

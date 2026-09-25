@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo noupdate="1">
+
+    <record id="fyc_template_sk" model="account.fiscalyear.closing.template">
+        <field name="name">Účtovná závierka (SK) — 701 / 702 / 710</field>
+        <field name="chart_template">sk</field>
+    </record>
+
+    <!-- ================================================================
+         1. Uzavretie nákladov a výnosov na účet 710
+         Trieda 5 (náklady) a trieda 6 (výnosy) sa uzavrú na 710 — Účet
+         ziskov a strát, ktorého zostatok je výsledok hospodárenia.
+         ================================================================ -->
+    <record id="fyc_config_sk_pl" model="account.fiscalyear.closing.config.template">
+        <field name="name">Uzavretie nákladov a výnosov (710)</field>
+        <field name="template_id" ref="fyc_template_sk"/>
+        <field name="code">SK_PL</field>
+        <field name="sequence">10</field>
+        <field name="move_type">loss_profit</field>
+        <field name="move_date">last_ending</field>
+    </record>
+
+    <record id="fyc_map_sk_pl_5" model="account.fiscalyear.closing.mapping.template">
+        <field name="name">Náklady (trieda 5) → 710</field>
+        <field name="template_config_id" ref="fyc_config_sk_pl"/>
+        <field name="src_accounts">5%</field>
+        <field name="dest_account">710000</field>
+    </record>
+    <record id="fyc_map_sk_pl_6" model="account.fiscalyear.closing.mapping.template">
+        <field name="name">Výnosy (trieda 6) → 710</field>
+        <field name="template_config_id" ref="fyc_config_sk_pl"/>
+        <field name="src_accounts">6%</field>
+        <field name="dest_account">710000</field>
+    </record>
+
+    <!-- Náklady and výnosy are closed by their balance, not per partner. -->
+    <record id="fyc_type_sk_pl_expense" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_pl"/>
+        <field name="account_type">expense</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_pl_expense_dep" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_pl"/>
+        <field name="account_type">expense_depreciation</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_pl_expense_cost" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_pl"/>
+        <field name="account_type">expense_direct_cost</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_pl_income" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_pl"/>
+        <field name="account_type">income</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_pl_income_other" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_pl"/>
+        <field name="account_type">income_other</field>
+        <field name="closing_type">balance</field>
+    </record>
+
+    <!-- ================================================================
+         2. Uzavretie súvahových účtov na účet 702
+         Triedy 0–4 a zostatok účtu 710 (výsledok hospodárenia).
+         ================================================================ -->
+    <record id="fyc_config_sk_closing" model="account.fiscalyear.closing.config.template">
+        <field name="name">Uzavretie súvahových účtov (702)</field>
+        <field name="template_id" ref="fyc_template_sk"/>
+        <field name="code">SK_CLOSING</field>
+        <field name="sequence">20</field>
+        <field name="move_type">closing</field>
+        <field name="move_date">last_ending</field>
+    </record>
+
+    <record id="fyc_map_sk_cl_0" model="account.fiscalyear.closing.mapping.template">
+        <field name="name">Dlhodobý majetok (trieda 0) → 702</field>
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="src_accounts">0%</field>
+        <field name="dest_account">702000</field>
+    </record>
+    <record id="fyc_map_sk_cl_1" model="account.fiscalyear.closing.mapping.template">
+        <field name="name">Zásoby (trieda 1) → 702</field>
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="src_accounts">1%</field>
+        <field name="dest_account">702000</field>
+    </record>
+    <record id="fyc_map_sk_cl_2" model="account.fiscalyear.closing.mapping.template">
+        <field name="name">Finančné účty (trieda 2) → 702</field>
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="src_accounts">2%</field>
+        <field name="dest_account">702000</field>
+    </record>
+    <record id="fyc_map_sk_cl_3" model="account.fiscalyear.closing.mapping.template">
+        <field name="name">Zúčtovacie vzťahy (trieda 3) → 702</field>
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="src_accounts">3%</field>
+        <field name="dest_account">702000</field>
+    </record>
+    <record id="fyc_map_sk_cl_4" model="account.fiscalyear.closing.mapping.template">
+        <field name="name">Kapitálové účty a dlhodobé záväzky (trieda 4) → 702</field>
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="src_accounts">4%</field>
+        <field name="dest_account">702000</field>
+    </record>
+    <record id="fyc_map_sk_cl_710" model="account.fiscalyear.closing.mapping.template">
+        <field name="name">Výsledok hospodárenia (710) → 702</field>
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="src_accounts">710%</field>
+        <field name="dest_account">702000</field>
+    </record>
+
+    <record id="fyc_type_sk_cl_receivable" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">asset_receivable</field>
+        <field name="closing_type">unreconciled</field>
+    </record>
+    <record id="fyc_type_sk_cl_payable" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">liability_payable</field>
+        <field name="closing_type">unreconciled</field>
+    </record>
+    <record id="fyc_type_sk_cl_cash" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">asset_cash</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_current" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">asset_current</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_non_current" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">asset_non_current</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_prepayments" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">asset_prepayments</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_fixed" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">asset_fixed</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_liab_current" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">liability_current</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_liab_non_current" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">liability_non_current</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_credit_card" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">liability_credit_card</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_equity" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">equity</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <record id="fyc_type_sk_cl_equity_unaffected" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">equity_unaffected</field>
+        <field name="closing_type">balance</field>
+    </record>
+    <!-- 710 itself is off_balance on the SK chart. -->
+    <record id="fyc_type_sk_cl_off_balance" model="account.fiscalyear.closing.type.template">
+        <field name="template_config_id" ref="fyc_config_sk_closing"/>
+        <field name="account_type">off_balance</field>
+        <field name="closing_type">balance</field>
+    </record>
+
+    <!-- ================================================================
+         3. Otvorenie účtov v novom období cez 701
+         Inverzia uzavretia, zaúčtovaná k prvému dňu nasledujúceho obdobia.
+         ================================================================ -->
+    <record id="fyc_config_sk_opening" model="account.fiscalyear.closing.config.template">
+        <field name="name">Otvorenie súvahových účtov (701)</field>
+        <field name="template_id" ref="fyc_template_sk"/>
+        <field name="code">SK_OPENING</field>
+        <field name="sequence">30</field>
+        <field name="move_type">opening</field>
+        <field name="move_date">first_opening</field>
+        <field name="inverse">SK_CLOSING</field>
+    </record>
+
+</odoo>

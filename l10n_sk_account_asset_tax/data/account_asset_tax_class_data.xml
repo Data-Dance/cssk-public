@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Slovak depreciation groups — zákon 595/2003 Z.z., 2026 consolidated text.
+        Straight-line (§27): rate = 1 / life, year-1 prorated by whole months;
+        the engine derives it from the life, so no rate fields are needed.
+        Accelerated (§28): permitted ONLY for groups 2 and 3 since 1.1.2015;
+        coefficients = year-1 / next years / increased residual.
+        Lives: §26(1) per príloha č. 1. Verified against slov-lex 20260101.
+    -->
+
+    <record id="sk_group_0" model="account.asset.tax.class">
+        <field name="code">SK-0</field>
+        <field name="name">Odpisová skupina 0</field>
+        <field name="country_code">SK</field>
+        <field name="group_number">0</field>
+        <field name="useful_life_years">2</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="False"/>
+    </record>
+
+    <record id="sk_group_1" model="account.asset.tax.class">
+        <field name="code">SK-1</field>
+        <field name="name">Odpisová skupina 1</field>
+        <field name="country_code">SK</field>
+        <field name="group_number">1</field>
+        <field name="useful_life_years">4</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="False"/>
+    </record>
+
+    <record id="sk_group_2" model="account.asset.tax.class">
+        <field name="code">SK-2</field>
+        <field name="name">Odpisová skupina 2</field>
+        <field name="country_code">SK</field>
+        <field name="group_number">2</field>
+        <field name="useful_life_years">6</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="True"/>
+        <field name="accel_coeff_first">6</field>
+        <field name="accel_coeff_next">7</field>
+        <field name="accel_coeff_increased">6</field>
+    </record>
+
+    <record id="sk_group_3" model="account.asset.tax.class">
+        <field name="code">SK-3</field>
+        <field name="name">Odpisová skupina 3</field>
+        <field name="country_code">SK</field>
+        <field name="group_number">3</field>
+        <field name="useful_life_years">8</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="True"/>
+        <field name="accel_coeff_first">8</field>
+        <field name="accel_coeff_next">9</field>
+        <field name="accel_coeff_increased">8</field>
+    </record>
+
+    <record id="sk_group_4" model="account.asset.tax.class">
+        <field name="code">SK-4</field>
+        <field name="name">Odpisová skupina 4</field>
+        <field name="country_code">SK</field>
+        <field name="group_number">4</field>
+        <field name="useful_life_years">12</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="False"/>
+    </record>
+
+    <record id="sk_group_5" model="account.asset.tax.class">
+        <field name="code">SK-5</field>
+        <field name="name">Odpisová skupina 5</field>
+        <field name="country_code">SK</field>
+        <field name="group_number">5</field>
+        <field name="useful_life_years">20</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="False"/>
+    </record>
+
+    <record id="sk_group_6" model="account.asset.tax.class">
+        <field name="code">SK-6</field>
+        <field name="name">Odpisová skupina 6</field>
+        <field name="country_code">SK</field>
+        <field name="group_number">6</field>
+        <field name="useful_life_years">40</field>
+        <field name="allow_linear" eval="True"/>
+        <field name="allow_accelerated" eval="False"/>
+    </record>
+
+</odoo>

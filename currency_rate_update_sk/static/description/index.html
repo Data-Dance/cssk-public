@@ -1,0 +1,66 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Currency Rate Update SK (NBS/ECB + Slovak banks)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovak FX-rate providers for the OCA currency_rate_update framework, with previous-day fill</h3>
+    <div class="oe_span12">
+      <p>This app adds Slovak exchange-rate <b>providers</b> to the OCA <code>currency_rate_update</code>
+         framework (<code>res.currency.rate.provider</code> subclasses). It is Community-compatible and does
+         <b>not</b> require the Odoo Enterprise <code>currency_rate_live</code> feature.</p>
+      <p>The <b>ECB</b> provider (shipped in the OCA base) is the <i>referenčný výmenný kurz</i> that the
+         National Bank of Slovakia (NBS) republishes from the European Central Bank — the rate used for
+         statutory foreign-currency valuation in Slovak accounting. The two commercial-bank providers
+         (<b>VÚB banka</b> and <b>Tatra banka</b>) publish their daily <i>kurzový lístok</i> and are intended
+         for reconciling actual bank conversions.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>ECB</b> (base) — the NBS-republished ECB reference rate for <b>statutory</b> FX valuation.</li>
+        <li><b>VÚB banka</b> — the bank's daily <i>kurzový lístok</i> (Devíza stred / middle rate).</li>
+        <li><b>Tatra banka</b> — the bank's published exchange-rate feed.</li>
+        <li><b>Previous-day fill</b> (default, per-provider toggle): central and commercial banks do not publish
+            on weekends and holidays, so after each sync the last published rate is carried forward to every
+            calendar day in the synced window. Every day then has an explicit <code>res.currency.rate</code> and
+            no posting lands on a day without a rate. The fill is idempotent and never overwrites a published rate.</li>
+      </ul>
+      <p><b>Note:</b> use <b>ECB</b> for statutory valuation; the VÚB and Tatra banka feeds carry
+         <i>commercial</i> rates for bank reconciliation only.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>In <i>Settings ▸ Technical ▸ Currency Rate Providers</i> create a provider, pick the service
+         (<b>ECB</b>, <b>VÚB banka</b> or <b>Tatra banka</b>), choose the currencies to track, leave
+         <b>Fill non-publishing days</b> enabled, and run the sync (manually or via the scheduled action).</p>
+      <p><b>Statutory caveat (needs accountant sign-off):</b> Slovak law values a foreign-currency transaction
+         at the ECB reference rate of the <i>preceding</i> business day. Odoo returns the latest rate dated
+         on-or-before the transaction date, so when a same-day ECB rate exists it is used instead of the prior
+         day's. Strict alignment with the "preceding day" rule is not done here — raise it with the customer's
+         accountant before relying on it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

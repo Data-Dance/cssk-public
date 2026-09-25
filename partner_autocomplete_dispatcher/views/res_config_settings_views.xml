@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>
+
+    <record id="res_config_settings_view_form_partner_autocomplete_provider" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.partner.autocomplete.provider</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="50" />
+        <field name="inherit_id" ref="partner_autocomplete.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//widget[@name='iap_buy_more_credits'][@service_name='partner_autocomplete']" position="replace">
+                <div class="content-group partner-autocomplete-dispatcher">
+                    <div class="mt16 row">
+                        <label for="partner_autocomplete_provider" string="Provider" class="col-3 col-lg-3 o_light_label" />
+                        <field name="partner_autocomplete_provider" class="oe_inline" required="1" />
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+  <!--
+    ONE structure, like the kontrolní hlášení next door: Czech EPO publishes a
+    single dphdp3_epo2.xsd and overwrites it in place, so there is no older
+    vzor to resolve to and nothing to fetch. Dating this from 2025 refused to
+    export periods it was perfectly able to file — on the Money agenda, 62 of
+    80 filed returns.
+
+    ⚠️ valid_from here is a CONSERVATIVE BOUND, not a sourced one. 2016-01-01
+    is the kontrolní hlášení's statutory floor (the KH schema states it: a
+    document with DUZP before 1. 1. 2016 goes on DPHEVD instead). The VAT
+    return itself long predates that and its own floor has NOT been
+    established — it is borrowed deliberately, because it comfortably covers
+    every period any current agenda holds while claiming nothing we have
+    checked. If a return older than 2016 ever needs exporting, establish the
+    real floor first rather than moving this date on the assumption it is
+    safe.
+  -->
+  <record id="dphdp3_version_2025" model="cssk.vat.return.version">
+    <field name="name">DPHDP3 (aktuální struktura)</field>
+    <field name="country_id" ref="base.cz"/>
+    <field name="valid_from">2016-01-01</field>
+    <field name="xml_template_ref_id" ref="l10n_cz_vat_return.dphdp3_xml"/>
+    <field name="xml_root_element">Pisemnost</field>
+    <field name="xml_schema_filename">dphdp3_epo2.xsd</field>
+    <field name="xml_schema_data" type="base64" file="l10n_cz_vat_return/data/dphdp3_epo2.xsd"/>
+  </record>
+  <record id="dphdp3_type_B" model="cssk.vat.return.type">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">B</field>
+    <field name="name">Řádné</field><field name="fa_xml_value">B</field></record>
+  <record id="dphdp3_type_O" model="cssk.vat.return.type">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">O</field>
+    <field name="name">Opravné</field><field name="fa_xml_value">O</field></record>
+  <record id="dphdp3_type_E" model="cssk.vat.return.type">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">E</field>
+    <field name="name">Dodatečné</field><field name="fa_xml_value">E</field></record>
+  <record id="dphdp3_ld_dan23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan23</field>
+    <field name="name">R1 output_tax</field><field name="sequence">10</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 1 Tax</field></record>
+  <record id="dphdp3_ld_obrat23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">obrat23</field>
+    <field name="name">R1 tax_base</field><field name="sequence">10</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 1 Base</field></record>
+  <record id="dphdp3_ld_dan5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan5</field>
+    <field name="name">R2 output_tax</field><field name="sequence">20</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 2 Tax</field></record>
+  <record id="dphdp3_ld_obrat5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">obrat5</field>
+    <field name="name">R2 tax_base</field><field name="sequence">20</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 2 Base</field></record>
+  <record id="dphdp3_ld_dan_pzb23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_pzb23</field>
+    <field name="name">R3 output_tax</field><field name="sequence">30</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 3 Tax</field></record>
+  <record id="dphdp3_ld_p_zb23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">p_zb23</field>
+    <field name="name">R3 tax_base</field><field name="sequence">30</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 3 Base</field></record>
+  <record id="dphdp3_ld_dan_pzb5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_pzb5</field>
+    <field name="name">R4 output_tax</field><field name="sequence">40</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 4 Tax</field></record>
+  <record id="dphdp3_ld_p_zb5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">p_zb5</field>
+    <field name="name">R4 tax_base</field><field name="sequence">40</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 4 Base</field></record>
+  <record id="dphdp3_ld_dan_psl23_e" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_psl23_e</field>
+    <field name="name">R5 output_tax</field><field name="sequence">50</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 5 Tax</field></record>
+  <record id="dphdp3_ld_p_sl23_e" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">p_sl23_e</field>
+    <field name="name">R5 tax_base</field><field name="sequence">50</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 5 Base</field></record>
+  <record id="dphdp3_ld_dan_psl5_e" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_psl5_e</field>
+    <field name="name">R6 output_tax</field><field name="sequence">60</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 6 Tax</field></record>
+  <record id="dphdp3_ld_p_sl5_e" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">p_sl5_e</field>
+    <field name="name">R6 tax_base</field><field name="sequence">60</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 6 Base</field></record>
+  <record id="dphdp3_ld_dan_dzb23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_dzb23</field>
+    <field name="name">R7 output_tax</field><field name="sequence">70</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 7 Tax</field></record>
+  <record id="dphdp3_ld_dov_zb23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dov_zb23</field>
+    <field name="name">R7 tax_base</field><field name="sequence">70</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 7 Base</field></record>
+  <record id="dphdp3_ld_dan_dzb5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_dzb5</field>
+    <field name="name">R8 output_tax</field><field name="sequence">80</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 8 Tax</field></record>
+  <record id="dphdp3_ld_dov_zb5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dov_zb5</field>
+    <field name="name">R8 tax_base</field><field name="sequence">80</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 8 Base</field></record>
+  <record id="dphdp3_ld_dan_pdop_nrg" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_pdop_nrg</field>
+    <field name="name">R9 output_tax</field><field name="sequence">90</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 9 Tax</field></record>
+  <record id="dphdp3_ld_p_dop_nrg" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">p_dop_nrg</field>
+    <field name="name">R9 tax_base</field><field name="sequence">90</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 9 Base</field></record>
+  <record id="dphdp3_ld_dan_rpren23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_rpren23</field>
+    <field name="name">R10 output_tax</field><field name="sequence">100</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 10 Tax</field></record>
+  <record id="dphdp3_ld_rez_pren23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">rez_pren23</field>
+    <field name="name">R10 tax_base</field><field name="sequence">100</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 10 Base</field></record>
+  <record id="dphdp3_ld_dan_rpren5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_rpren5</field>
+    <field name="name">R11 output_tax</field><field name="sequence">110</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 11 Tax</field></record>
+  <record id="dphdp3_ld_rez_pren5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">rez_pren5</field>
+    <field name="name">R11 tax_base</field><field name="sequence">110</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 11 Base</field></record>
+  <record id="dphdp3_ld_dan_psl23_z" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_psl23_z</field>
+    <field name="name">R12 output_tax</field><field name="sequence">120</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 12 Tax</field></record>
+  <record id="dphdp3_ld_p_sl23_z" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">p_sl23_z</field>
+    <field name="name">R12 tax_base</field><field name="sequence">120</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 12 Base</field></record>
+  <record id="dphdp3_ld_dan_psl5_z" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_psl5_z</field>
+    <field name="name">R13 output_tax</field><field name="sequence">130</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 13 Tax</field></record>
+  <record id="dphdp3_ld_p_sl5_z" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">p_sl5_z</field>
+    <field name="name">R13 tax_base</field><field name="sequence">130</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 13 Base</field></record>
+  <record id="dphdp3_ld_dod_zb" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dod_zb</field>
+    <field name="name">R20 value</field><field name="sequence">200</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 20</field></record>
+  <record id="dphdp3_ld_pln_sluzby" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">pln_sluzby</field>
+    <field name="name">R21 value</field><field name="sequence">210</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 21</field></record>
+  <record id="dphdp3_ld_pln_vyvoz" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">pln_vyvoz</field>
+    <field name="name">R22 value</field><field name="sequence">220</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 22</field></record>
+  <record id="dphdp3_ld_dod_dop_nrg" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dod_dop_nrg</field>
+    <field name="name">R23 value</field><field name="sequence">230</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 23</field></record>
+  <record id="dphdp3_ld_pln_zaslani" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">pln_zaslani</field>
+    <field name="name">R24 value</field><field name="sequence">240</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 24</field></record>
+  <record id="dphdp3_ld_pln_rez_pren" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">pln_rez_pren</field>
+    <field name="name">R25 value</field><field name="sequence">250</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 25</field></record>
+  <record id="dphdp3_ld_pln_ost" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">pln_ost</field>
+    <field name="name">R26 value</field><field name="sequence">260</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 26</field></record>
+  <record id="dphdp3_ld_tri_pozb" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">tri_pozb</field>
+    <field name="name">R30 value</field><field name="sequence">300</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 30</field></record>
+  <record id="dphdp3_ld_tri_dozb" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">tri_dozb</field>
+    <field name="name">R31 value</field><field name="sequence">310</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_dov_osv" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dov_osv</field>
+    <field name="name">R32 value</field><field name="sequence">320</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 32</field></record>
+  <record id="dphdp3_ld_opr_verit" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">opr_verit</field>
+    <field name="name">R33 value</field><field name="sequence">330</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 33</field></record>
+  <record id="dphdp3_ld_opr_dluz" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">opr_dluz</field>
+    <field name="name">R34 value</field><field name="sequence">340</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_tuz23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_tuz23</field>
+    <field name="name">R40 reduced_claim</field><field name="sequence">400</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_tuz23_nar" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_tuz23_nar</field>
+    <field name="name">R40 in_full_amount</field><field name="sequence">400</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 40 Total</field></record>
+  <record id="dphdp3_ld_pln23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">pln23</field>
+    <field name="name">R40 tax_base</field><field name="sequence">400</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 40 Base</field></record>
+  <record id="dphdp3_ld_odp_tuz5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_tuz5</field>
+    <field name="name">R41 reduced_claim</field><field name="sequence">410</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_tuz5_nar" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_tuz5_nar</field>
+    <field name="name">R41 in_full_amount</field><field name="sequence">410</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 41 Total</field></record>
+  <record id="dphdp3_ld_pln5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">pln5</field>
+    <field name="name">R41 tax_base</field><field name="sequence">410</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 41 Base</field></record>
+  <record id="dphdp3_ld_dov_cu" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dov_cu</field>
+    <field name="name">R42 tax_base</field><field name="sequence">420</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 42 Base</field></record>
+  <record id="dphdp3_ld_odp_cu" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_cu</field>
+    <field name="name">R42 reduced_claim</field><field name="sequence">420</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_cu_nar" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_cu_nar</field>
+    <field name="name">R42 in_full_amount</field><field name="sequence">420</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 42 Total</field></record>
+  <record id="dphdp3_ld_nar_zdp23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">nar_zdp23</field>
+    <field name="name">R43 tax_base</field><field name="sequence">430</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 43 Base</field></record>
+  <record id="dphdp3_ld_od_zdp23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">od_zdp23</field>
+    <field name="name">R43 in_full_amount</field><field name="sequence">430</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 43 Total</field></record>
+  <record id="dphdp3_ld_odkr_zdp23" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odkr_zdp23</field>
+    <field name="name">R43 reduced_claim</field><field name="sequence">430</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_nar_zdp5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">nar_zdp5</field>
+    <field name="name">R44 tax_base</field><field name="sequence">440</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 44 Base</field></record>
+  <record id="dphdp3_ld_od_zdp5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">od_zdp5</field>
+    <field name="name">R44 in_full_amount</field><field name="sequence">440</field>
+    <field name="kind">tags</field><field name="tag_formula">-VAT 44 Total</field></record>
+  <record id="dphdp3_ld_odkr_zdp5" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odkr_zdp5</field>
+    <field name="name">R44 reduced_claim</field><field name="sequence">440</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_rez_nar" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_rez_nar</field>
+    <field name="name">R45 in_full_amount</field><field name="sequence">450</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_rezim" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_rezim</field>
+    <field name="name">R45 reduced_claim</field><field name="sequence">450</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_sum_kr" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_sum_kr</field>
+    <field name="name">R46 reduced_claim</field><field name="sequence">460</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_sum_nar" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_sum_nar</field>
+    <field name="name">R46 in_full_amount</field><field name="sequence">460</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_nar_maj" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">nar_maj</field>
+    <field name="name">R47 tax_base</field><field name="sequence">470</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 47 Base</field></record>
+  <record id="dphdp3_ld_od_maj" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">od_maj</field>
+    <field name="name">R47 in_full_amount</field><field name="sequence">470</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 47 Total</field></record>
+  <record id="dphdp3_ld_odkr_maj" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odkr_maj</field>
+    <field name="name">R47 reduced_claim</field><field name="sequence">470</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_plnosv_kf" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">plnosv_kf</field>
+    <field name="name">R50 value</field><field name="sequence">500</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 50</field></record>
+  <record id="dphdp3_ld_pln_nkf" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">pln_nkf</field>
+    <field name="name">R51A value</field><field name="sequence">510</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 51 with deduction</field></record>
+  <record id="dphdp3_ld_plnosv_nkf" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">plnosv_nkf</field>
+    <field name="name">R51B value</field><field name="sequence">510</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 51 without deduction</field></record>
+  <record id="dphdp3_ld_koef_p20_nov" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">koef_p20_nov</field>
+    <field name="name">R52A coefficient</field><field name="sequence">520</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_uprav_kf" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_uprav_kf</field>
+    <field name="name">R52B value</field><field name="sequence">520</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_koef_p20_vypor" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">koef_p20_vypor</field>
+    <field name="name">R53A coefficient</field><field name="sequence">530</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_vypor_odp" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">vypor_odp</field>
+    <field name="name">R53B value</field><field name="sequence">530</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_uprav_odp" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">uprav_odp</field>
+    <field name="name">R60 value</field><field name="sequence">600</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_dan_vrac" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_vrac</field>
+    <field name="name">R61 value</field><field name="sequence">610</field>
+    <field name="kind">tags</field><field name="tag_formula">VAT 61</field></record>
+  <record id="dphdp3_ld_dan_zocelk" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan_zocelk</field>
+    <field name="name">R62 value</field><field name="sequence">620</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_odp_zocelk" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_zocelk</field>
+    <field name="name">R63 value</field><field name="sequence">630</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_dano_da" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dano_da</field>
+    <field name="name">R64 value</field><field name="sequence">640</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_dano_no" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dano_no</field>
+    <field name="name">R65 value</field><field name="sequence">650</field>
+    <field name="kind">manual</field></record>
+  <record id="dphdp3_ld_dano" model="cssk.vat.return.line.def">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dano</field>
+    <field name="name">R66 value</field><field name="sequence">660</field>
+    <field name="kind">manual</field></record>
+</data>
+</odoo>

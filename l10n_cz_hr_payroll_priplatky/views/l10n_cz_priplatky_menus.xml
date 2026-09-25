@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_l10n_cz_priplatky_root"
+              name="Czech Wage Surcharges"
+              parent="hr.menu_human_resources_configuration"
+              sequence="95"/>
+    <menuitem id="menu_l10n_cz_minimum_wage"
+              action="action_l10n_cz_minimum_wage"
+              parent="menu_l10n_cz_priplatky_root"
+              sequence="10"/>
+    <menuitem id="menu_l10n_cz_wage_surcharge_rate"
+              action="action_l10n_cz_wage_surcharge_rate"
+              parent="menu_l10n_cz_priplatky_root"
+              sequence="20"/>
+</odoo>

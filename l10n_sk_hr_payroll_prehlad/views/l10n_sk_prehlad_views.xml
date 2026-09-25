@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_l10n_sk_prehlad_list" model="ir.ui.view">
+        <field name="name">l10n.sk.prehlad.list</field>
+        <field name="model">l10n.sk.prehlad</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="year"/>
+                <field name="month"/>
+                <field name="lines_count"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_l10n_sk_prehlad_form" model="ir.ui.view">
+        <field name="name">l10n.sk.prehlad.form</field>
+        <field name="model">l10n.sk.prehlad</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate" type="object"
+                            string="Generate"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_submit" type="object"
+                            string="Mark Submitted"
+                            invisible="state != 'generated'"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="year"/>
+                            <field name="month"/>
+                            <field name="payment_date"/>
+                        </group>
+                        <group>
+                            <field name="version_id"/>
+                            <field name="correction_type"/>
+                            <field name="correction_reference"
+                                   invisible="correction_type == 'regular'"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="xml_attachment_id"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list>
+                            <field name="sequence"/>
+                            <field name="employee_id"/>
+                            <field name="vz_base"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_sk_prehlad" model="ir.actions.act_window">
+        <field name="name">Monthly tax overview</field>
+        <field name="res_model">l10n.sk.prehlad</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_l10n_sk_prehlad"
+              name="SK monthly tax overview"
+              parent="l10n_cssk_payroll_declaration_base.menu_cssk_payroll_declaration_root"
+              action="action_l10n_sk_prehlad"
+              sequence="30"/>
+
+</odoo>

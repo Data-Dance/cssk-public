@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="payroll_dashboard_graph" model="ir.ui.view">
+        <field name="name">payroll.dashboard.graph</field>
+        <field name="model">hr.payslip.line</field>
+        <field name="arch" type="xml">
+            <!-- Line (trend) not stacked bars: gross already CONTAINS net and the
+                 deductions, so stacking them would double-count. Each headline
+                 figure is its own line so they can be compared over time. -->
+            <graph string="Payroll headline figures over time" type="line" stacked="0" sample="1">
+                <field name="date_from" interval="month" />
+                <field name="code" />
+                <field name="total" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="payroll_dashboard_pivot" model="ir.ui.view">
+        <field name="name">payroll.dashboard.pivot</field>
+        <field name="model">hr.payslip.line</field>
+        <field name="arch" type="xml">
+            <!-- Rows = headline figure (expand to employee interactively),
+                 columns = month, values = summed amount. -->
+            <pivot string="Payroll headline figures" sample="1">
+                <field name="code" type="row" />
+                <field name="date_from" interval="month" type="col" />
+                <field name="total" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="payroll_dashboard_search" model="ir.ui.view">
+        <field name="name">payroll.dashboard.search</field>
+        <field name="model">hr.payslip.line</field>
+        <field name="arch" type="xml">
+            <search string="Payroll Dashboard">
+                <field name="employee_id" />
+                <field name="code" />
+                <filter name="flt_headline" string="Headline (gross/net/employer/tax)"
+                        domain="[('code', 'in', ['GROSS', 'NET', 'SOCIALEMPLOYERTOTAL', 'INCOMETAXTOTAL'])]" />
+                <separator />
+                <filter name="flt_gross" string="Gross" domain="[('code', '=', 'GROSS')]" />
+                <filter name="flt_net" string="Net" domain="[('code', '=', 'NET')]" />
+                <filter name="flt_employer" string="Employer cost"
+                        domain="[('code', '=', 'SOCIALEMPLOYERTOTAL')]" />
+                <filter name="flt_tax" string="Income tax"
+                        domain="[('code', '=', 'INCOMETAXTOTAL')]" />
+                <group>
+                    <filter name="grp_month" string="Period"
+                            context="{'group_by': 'date_from:month'}" />
+                    <filter name="grp_employee" string="Employee"
+                            context="{'group_by': 'employee_id'}" />
+                    <filter name="grp_code" string="Figure"
+                            context="{'group_by': 'code'}" />
+                    <filter name="grp_category" string="Category"
+                            context="{'group_by': 'category_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="payroll_dashboard_action" model="ir.actions.act_window">
+        <field name="name">Payroll Analysis</field>
+        <field name="res_model">hr.payslip.line</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="search_view_id" ref="payroll_dashboard_search" />
+        <field name="context">{'search_default_flt_headline': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Nothing to show yet</p>
+            <p>Once payslips are computed, this dashboard charts the headline
+               figures — gross, net, employer cost and income tax — per month.
+               Switch to the pivot for an employee × period breakdown.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_payroll_dashboard"
+              name="Analysis"
+              parent="payroll.payroll_menu_root"
+              action="payroll_dashboard_action"
+              sequence="2" />
+
+</odoo>

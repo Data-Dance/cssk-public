@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <record id="view_inventarizacia_list" model="ir.ui.view">
+        <field name="name">l10n.sk.inventarizacia.list</field>
+        <field name="model">l10n.sk.inventarizacia</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'done'">
+                <field name="name"/>
+                <field name="date_as_of"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="supis_count"/>
+                <field name="book_amount" sum="Účtovný stav"/>
+                <field name="actual_amount" sum="Skutočný stav"/>
+                <field name="difference" sum="Rozdiel"/>
+                <field name="state" widget="badge"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_inventarizacia_form" model="ir.ui.view">
+        <field name="name">l10n.sk.inventarizacia.form</field>
+        <field name="model">l10n.sk.inventarizacia</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" type="object" string="Začať"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_done" type="object" string="Ukončiť"
+                            class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <button name="action_draft" type="object" string="Späť na návrh"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Termíny (§ 30 ods. 2)">
+                            <field name="date_start"/>
+                            <field name="date_as_of"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group string="Súhrn">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="book_amount"/>
+                            <field name="actual_amount"/>
+                            <field name="difference"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Inventúrne súpisy">
+                            <field name="supis_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="inventory_type"/>
+                                    <field name="account_id"/>
+                                    <field name="location"/>
+                                    <field name="responsible_person_id"/>
+                                    <field name="counted_by_id"/>
+                                    <field name="book_amount"/>
+                                    <field name="actual_amount"/>
+                                    <field name="difference"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="inventory_type"/>
+                                            <field name="account_id"
+                                                   invisible="inventory_type != 'dokladova'"/>
+                                            <field name="location"/>
+                                        </group>
+                                        <group>
+                                            <field name="responsible_person_id"/>
+                                            <field name="counted_by_id"/>
+                                            <field name="book_amount"/>
+                                            <field name="actual_amount"/>
+                                            <field name="difference"/>
+                                            <field name="currency_id" invisible="1"/>
+                                        </group>
+                                    </group>
+                                    <field name="line_ids">
+                                        <list editable="bottom">
+                                            <field name="sequence" widget="handle"/>
+                                            <field name="name"/>
+                                            <field name="product_id"/>
+                                            <field name="quantity"/>
+                                            <field name="uom_name"/>
+                                            <field name="unit_price"/>
+                                            <field name="amount"/>
+                                            <field name="note"/>
+                                            <field name="currency_id" column_invisible="1"/>
+                                        </list>
+                                    </field>
+                                    <group string="Poznámky">
+                                        <field name="note" nolabel="1"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Inventarizačný zápis (§ 30 ods. 3)">
+                            <group>
+                                <field name="comparison_note"/>
+                                <field name="valuation_note"/>
+                                <field name="approved_by_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_inventarizacia" model="ir.actions.act_window">
+        <field name="name">Inventarizácia</field>
+        <field name="res_model">l10n.sk.inventarizacia</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_inventarizacia" name="Inventarizácia"
+              parent="account.menu_finance_entries"
+              action="action_inventarizacia" sequence="95"/>
+</odoo>

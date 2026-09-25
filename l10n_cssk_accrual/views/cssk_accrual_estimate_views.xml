@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="cssk_accrual_estimate_view_list" model="ir.ui.view">
+        <field name="name">cssk.accrual.estimate.list</field>
+        <field name="model">cssk.accrual.estimate</field>
+        <field name="arch" type="xml">
+            <list string="Estimated Accruals">
+                <field name="name" />
+                <field name="date" />
+                <field name="partner_id" />
+                <field name="accrual_type" />
+                <field name="amount" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="invoice_id" optional="show" />
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'settled'"
+                       decoration-warning="state == 'posted'"
+                       decoration-muted="state == 'cancelled'" />
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_accrual_estimate_view_form" model="ir.ui.view">
+        <field name="name">cssk.accrual.estimate.form</field>
+        <field name="model">cssk.accrual.estimate</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_post" type="object" string="Post Estimate"
+                            class="btn-primary" invisible="state != 'draft'" />
+                    <button name="action_settle" type="object" string="Settle (link invoice)"
+                            class="btn-primary" invisible="state != 'posted'" />
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('draft', 'cancelled', 'settled')" />
+                    <button name="action_reset_to_draft" type="object" string="Reset to Draft"
+                            invisible="state != 'cancelled'" />
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,posted,settled" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1" /></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" />
+                            <field name="partner_id" readonly="state != 'draft'" />
+                            <field name="accrual_type" readonly="state != 'draft'" />
+                            <field name="date" readonly="state != 'draft'" />
+                            <field name="amount" readonly="state != 'draft'" />
+                            <field name="currency_id" invisible="1" />
+                            <field name="label" readonly="state != 'draft'" />
+                        </group>
+                        <group>
+                            <field name="journal_id" readonly="state != 'draft'" />
+                            <field name="accrual_account_id" readonly="state != 'draft'" />
+                            <field name="counterpart_account_id" readonly="state != 'draft'" />
+                            <field name="invoice_id" readonly="state not in ('posted',)" />
+                            <field name="move_id" readonly="1" invisible="not move_id" />
+                            <field name="reversal_move_id" readonly="1" invisible="not reversal_move_id" />
+                        </group>
+                    </group>
+                    <field name="note" placeholder="Internal note…" />
+                </sheet>
+                <chatter />
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_accrual_estimate_action" model="ir.actions.act_window">
+        <field name="name">Estimated Accruals</field>
+        <field name="res_model">cssk.accrual.estimate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

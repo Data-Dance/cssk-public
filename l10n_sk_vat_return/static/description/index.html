@@ -1,0 +1,83 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovakia — VAT Return (Daňové priznanie k DPH)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">The Slovak VAT return (DPHv25), computed CE-clean from l10n_sk tax tags, with FS SR DPH XML export</h3>
+    <div class="oe_span12">
+      <p>This app produces the Slovak <b>VAT return</b> (daňové priznanie k DPH, form DPHv25) on
+         top of the shared <code>l10n_cssk_vat_return_base</code> framework. Line definitions mirror
+         the <code>l10n_sk</code> DPH report tag formulas, so the per-line values match what Odoo's
+         own report would compute — but with a Community-clean evaluator that does
+         <b>not</b> depend on <code>account_reports</code>.</p>
+      <p>It also bundles a § 53b correction wizard for the input-VAT adjustment on long-overdue
+         vendor bills, and exports the Finančná správa <code>DPH</code> XML.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Output base/tax per category — <code>sk01</code>, <code>sk03</code> (standard),
+            <code>sk05</code> (reduced).</li>
+        <li>Deductible (input) tax — <code>sk19</code>, <code>sk20</code>.</li>
+        <li>Aggregates: total output base/tax, total deductions, net VAT.</li>
+        <li>FS SR <code>DPH</code> XML export (template + stand-in XSD — replace with the official
+            schema before live filing).</li>
+        <li>§ 53b correction of deducted VAT on vendor bills unpaid more than 100 days past due,
+            with a re-claim mirror entry once the bill is paid again.</li>
+      </ul>
+      <p><b>Status — functional core.</b> The net-payable lines that Odoo computes with
+         <code>sum</code> / custom engines (sk_30+) are out of scope of the simple tags+aggregate
+         evaluator and need extended-engine support or manual entry. The shipped XSD is a stand-in;
+         line semantics and the net-payable computation still need accountant validation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Create a VAT return for a period, compute it to populate the lines from the period's
+         postings against the real <code>l10n_sk</code> tax tags, review the per-line values, then
+         export the <code>DPH</code> XML for the FS portal. For long-overdue vendor bills, run the
+         § 53b wizard (below) to generate the r29 correction before computing the return.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Wizards</h2>
+    <div class="oe_span12">
+      <h4>§ 53b correction of deducted VAT <small>(Accounting ▸ Accounting ▸ Oprava odpočítanej dane (§ 53b))</small></h4>
+      <p><b>What it does:</b> generates the § 53b correction of deducted input VAT
+         (line r29 of the VAT return) for received vendor bills left unpaid more than 100 days past
+         their due date. The correction is proportional to the unpaid fraction of the bill and
+         carries the r29 tax tag so the return picks it up.</p>
+      <p><b>How to use:</b> open the menu item, choose the <i>as-of date</i> (the 100-day
+         threshold is measured to this date), the overdue-days threshold (default 100), the
+         correction journal and the cost counter-account (typically 548). The qualifying bills are
+         listed read-only; press <i>Generate corrections</i> to post one correction entry per bill.
+         When a corrected bill is paid again, use the bill's <i>§ 53b re-claim</i> action to post
+         the mirror entry that re-deducts the VAT.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

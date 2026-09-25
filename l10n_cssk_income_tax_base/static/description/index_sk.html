@@ -1,0 +1,81 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Daňové priznanie k dani z príjmov — rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Národne neutrálne jadro daňového priznania k dani z príjmov právnických osôb (DPPO): verziované definície riadkov, evaluátor výsledku hospodárenia + agregátov a XML overené voči XSD</h3>
+    <div class="oe_span12">
+      <p>Zdieľané, národne neutrálne jadro daňového priznania k dani z príjmov právnických osôb
+         (DPPO), zodpovedajúce rámcom pre priznanie k DPH a účtovnú závierku. Závisí iba na
+         jadre Odoo (<code>account</code> + <code>mail</code> + <code>l10n_cssk_core</code>),
+         takže je bez závislosti na EE a funguje na Odoo 18.0 a 19.0.</p>
+      <p>Národná vrstva (napr. <code>l10n_sk_dppo</code>) dodáva konkrétnu sadu riadkov,
+         mapovanie hlavičky a oficiálnu schému. Transformácia účtovné → daňové (riadky úprav) je
+         doménou účtovníka — tento rámec automaticky počíta výsledok hospodárenia a vzorcovú
+         kostru a zvyšok preberá ako ručné zadanie.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.income.tax.version</code> + definície riadkov — tri druhy riadkov:
+            <b>account</b> (výsledok hospodárenia pred zdanením), <b>aggregate</b> (vzorcová
+            kostra daňového výpočtu nad kódmi riadkov) a <b>manual</b> (úpravy účtovníka —
+            pripočítateľné / odpočítateľné položky); plus typy podania. Nová legislatíva sa
+            dodáva ako nový záznam verzie.</li>
+        <li><code>cssk.income.tax.return</code> (mail.thread) — evaluátor s ručnými prepismi
+            zachovanými a vstupujúcimi do závislých agregačných riadkov pri prepočte.</li>
+        <li>Stavový automat podania (koncept → podané) s podporou dodatočného / opravného
+            priznania.</li>
+        <li>Export zákonného XML overeného voči XSD.</li>
+        <li>Voliteľný účtovný zápis rezervy na daň / splatnej dane (591/341) — zaúčtovať a
+            stornovať.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p><i>Účtovníctvo ▸ Výkazy ▸ Daň z príjmov (DPPO).</i> Voľbou <b>Generovať</b> vytvorte
+         priznanie za obdobie a verziu; výsledok hospodárenia a vzorcová kostra sa vypočítajú
+         automaticky. Otvorte priznanie, zadajte ručné riadky úprav (pripočítateľné /
+         odpočítateľné položky), <b>Vypočítajte</b> agregáty a potom <b>Exportujte XML</b> na
+         podanie. Voliteľne zaúčtujte rezervu na daň.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Generovať daňové priznanie k dani z príjmov <small>(Účtovníctvo ▸ Výkazy ▸ Daň z príjmov (DPPO) ▸ Generovať)</small></h4>
+      <p><b>Čo robí:</b> v jednom kroku vytvorí priznanie DPPO za obdobie a verziu a vypočíta
+         jeho riadky.</p>
+      <p><b>Ako používať:</b> zvoľte spoločnosť, verziu, typ podania (filtrovaný podľa verzie) a
+         obdobie (od / do), potom <i>Vytvoriť</i>; sprievodca zostaví
+         <code>cssk.income.tax.return</code>, vypočíta riadky a otvorí ho. Koniec obdobia musí
+         byť v deň začiatku alebo neskôr.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

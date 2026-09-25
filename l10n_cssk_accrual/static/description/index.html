@@ -1,0 +1,65 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Estimated Accruals (dohadné položky)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Book an estimate to the accrual account, then link the actual invoice to true it up</h3>
+    <div class="oe_span12">
+      <p>This app implements the CZ/SK concept of <b>dohadné položky / dohadné účty</b> — items
+         where the obligation exists but the exact amount is <b>not yet known</b> (e.g. energy
+         consumed in December, the invoice arriving in January). It is distinct from
+         <i>časové rozlíšenie / časové rozlišení</i> (deferrals of a known amount) and is shipped by
+         neither Odoo Community nor Enterprise.</p>
+      <p>Each estimate carries its own accrual and counterpart account and journal — no hard-coded
+         chart — so it works for the Czech chart (388/389), the Slovak chart (326
+         <i>nevyfakturované dodávky</i>) and any custom one. Depends on <b>Odoo core only</b>
+         (<code>account</code> + <code>l10n_cssk_core</code>).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Mail-tracked, sequenced <code>cssk.accrual.estimate</code> with a
+            draft → posted → settled / cancelled lifecycle.</li>
+        <li><b>Estimated payable</b> (dohadný účet pasívny): Dr expense / Cr accrual (CZ 389,
+            SK 326).</li>
+        <li><b>Estimated receivable</b> (dohadný účet aktívny): Dr accrual (CZ 388) / Cr income.</li>
+        <li><b>Link &amp; true-up</b> settlement: link the actual invoice, the estimate is reversed
+            at the invoice date and reconciled against the accrual account, so it clears and only
+            the difference stays in the new period.</li>
+        <li>Per-estimate accounts and journal — CZ, SK and custom charts all supported.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Accounting ▸ Accounting ▸ Estimated Accruals (dohadné).</i> Create an estimate at period
+         end: pick the type, partner, amount, description, journal, accrual account and counterpart
+         account, then <b>Post</b> to book the entry. When the real invoice arrives (booked
+         normally), open the estimate, select it in <i>Actual Invoice</i> and <b>Settle</b> — the
+         estimate is reversed at the invoice date and reconciled, leaving only the difference.
+         <b>Cancel</b> reverses a posted estimate.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo noupdate="1">
+    <record id="style_group" model="mis.report.style">
+        <field name="name">SK — skupina</field>
+        <field name="font_weight">bold</field>
+    </record>
+    <record id="style_subtotal" model="mis.report.style">
+        <field name="name">SK — medzisúčet</field>
+        <field name="font_weight">bold</field>
+        <field name="color_inherit" eval="False" />
+        <field name="color">#1f4e79</field>
+    </record>
+    <record id="style_result" model="mis.report.style">
+        <field name="name">SK — výsledok</field>
+        <field name="font_weight">bold</field>
+        <field name="background_color_inherit" eval="False" />
+        <field name="background_color">#dce6f1</field>
+    </record>
+</odoo>

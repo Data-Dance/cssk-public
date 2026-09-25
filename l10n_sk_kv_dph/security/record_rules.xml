@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_l10n_sk_kv_dph_section_a1_company" model="ir.rule">
+        <field name="name">KV DPH section A1: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_a1"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_a2_company" model="ir.rule">
+        <field name="name">KV DPH section A2: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_a2"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_b1_company" model="ir.rule">
+        <field name="name">KV DPH section B1: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_b1"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_b2_company" model="ir.rule">
+        <field name="name">KV DPH section B2: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_b2"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_b3_company" model="ir.rule">
+        <field name="name">KV DPH section B3: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_b3"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_b31_company" model="ir.rule">
+        <field name="name">KV DPH section B31: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_b31"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_b32_company" model="ir.rule">
+        <field name="name">KV DPH section B32: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_b32"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_c1_company" model="ir.rule">
+        <field name="name">KV DPH section C1: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_c1"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_c2_company" model="ir.rule">
+        <field name="name">KV DPH section C2: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_c2"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_d1_company" model="ir.rule">
+        <field name="name">KV DPH section D1: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_d1"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_kv_dph_section_d2_company" model="ir.rule">
+        <field name="name">KV DPH section D2: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_kv_dph_section_d2"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

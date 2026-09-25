@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_edi" model="ir.ui.view">
+        <field name="name">res.partner.form.edi</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- account_add_gln shows the GLN only on delivery contacts.
+                 A GLN identifies any EDI party — our own company, the
+                 customer company, the invoicee, and the delivery point —
+                 so make it visible on every partner. -->
+            <xpath expr="//page[@name='sales_purchases']//group[@name='misc']//field[@name='global_location_number']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form//field[@name='global_location_number']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//page[@name='sales_purchases']//group[@name='misc']//field[@name='global_location_number']" position="after">
+                <field name="edi_auto_send_override"
+                    groups="edi_base.group_edi_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

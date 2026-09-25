@@ -1,0 +1,751 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* purchase_order_advance_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-12 13:57+0000\n"
+"PO-Revision-Date: 2026-09-12 13:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid ""
+"A tax document can only be registered while the advance is waiting for one "
+"(paid amount not yet accounted)."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_accounting_status__accounted
+msgid "Accounted"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_accounted_amount
+msgid "Accounted Amount"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__accounting_date
+msgid "Accounting Date"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_accounting_status
+msgid "Accounting Status"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__order_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__order_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__order_id
+msgid "Advance Invoice"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_count
+msgid "Advance Invoice Count"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__advance_ids
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_ids
+msgid "Advance Invoices"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_payment_ids
+msgid "Advance Payments"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid "Advance Tax Document"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_tax_doc_ids
+msgid "Advance Tax Documents"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/account_move.py:0
+msgid "Advance invoices can only be linked on a draft bill."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "Advance tax document overdue — chase %(supplier)s"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+msgid "Advances"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/account_move_link_purchase_advance_wizard.py:0
+msgid "Advances can only be deducted on a draft vendor bill."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__amount
+msgid "Amount (Tax Included)"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__amount_paid
+msgid "Amount Paid"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__amount_remaining
+msgid "Amount Remaining"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_order__advance_deducted_amount
+msgid "Amount already deducted on final vendor bills."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__available_advance_ids
+msgid "Available Advance"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__available_journal_ids
+msgid "Available Journal"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__available_payment_ids
+msgid "Available Payment"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__available_payment_method_line_ids
+msgid "Available Payment Method Line"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_order__advance_invoice_long_term
+msgid ""
+"Books the net advance on the long-term account when the localization "
+"configures one."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_account_move_link_purchase_advance_wizard_form
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_link_wizard_form
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_wizard_form
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_tax_doc_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_accounting_status__cancel
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__cancelled
+msgid "Cancelled"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Clearing account"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__company_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid ""
+"Configure the paid-advances account on the company first (Received Advance "
+"Invoices settings)."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+msgid ""
+"Configure the paid-advances clearing account on the company first (Received "
+"Advance Invoices settings)."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid ""
+"Configure the received-advances journal and accounts on the company first "
+"(Received Advance Invoices settings)."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_tax_doc_wizard_form
+msgid "Create Draft Bill"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_wizard_form
+msgid "Create Payment"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__create_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__create_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__create_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__create_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__create_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__create_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__currency_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_account_move_link_purchase_advance_wizard_form
+msgid "Deduct"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_account_move_link_purchase_advance_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_account_move_link_purchase_advance_wizard_form
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_move_form_purchase_advance
+msgid "Deduct Advance Invoices"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_account_move_link_purchase_advance_wizard
+msgid "Deduct Received Advance Invoices on a Vendor Bill"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_line__advance_deduction_order_id
+msgid "Deducted Advance"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_deducted_amount
+msgid "Deducted Amount"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "Deduction of advance %(name)s"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__invoice_date
+msgid "Document Date"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__paid_fully
+msgid "Fully Paid"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_line__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_bank_statement_line__is_advance_purchase_tax_document
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move__is_advance_purchase_tax_document
+msgid "Is Advance Purchase Tax Document"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__journal_id
+msgid "Journal"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__write_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__write_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__write_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__write_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__write_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__write_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_link_wizard_form
+msgid "Link"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_purchase_advance_payment_link_wizard
+msgid "Link Existing Payment to Received Advance Invoice"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_purchase_advance_payment_link_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_link_wizard_form
+msgid "Link Payment"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_long_term
+msgid "Long-term Advance"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__memo
+msgid "Memo"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_company__advance_paid_account_id
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_config_settings__advance_paid_account_id
+msgid "Net paid advances (e.g. 314000 — poskytnuté zálohy / preddavky)."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Net paid advances (e.g. 314000); optional long-term variant."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "New"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__none
+msgid "Not Paid"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_accounting_status__nothing_to_account
+msgid "Nothing to Account"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_company__advance_paid_account_lt_id
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_config_settings__advance_paid_account_lt_id
+msgid ""
+"Optional long-term variant; falls back to the short-term account when empty."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__payment_id
+msgid ""
+"Outbound payment already booked against the paid-advances clearing account."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__overpaid
+msgid "Overpaid"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_list
+msgid "Paid"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__advance_paid_account_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__advance_paid_account_id
+msgid "Paid Advances Account"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__advance_paid_account_lt_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__advance_paid_account_lt_id
+msgid "Paid Advances Account (Long-term)"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__advance_paid_clearing_account_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__advance_paid_clearing_account_id
+msgid "Paid Advances Clearing Account"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_paid_date
+msgid "Paid Date"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Paid advances account"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_parent_order_id
+msgid "Parent Purchase Order"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__paid_partially
+msgid "Partially Paid"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__payment_id
+msgid "Payment"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__amount
+msgid "Payment Amount"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__payment_date
+msgid "Payment Date"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__payment_method_line_id
+msgid "Payment Method"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_payment_status
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Payment Status"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid "Payment sent for Advance Invoice %(name)s on %(paid_date)s"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "Payments can only be linked to received advance invoices."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__accounting_date
+msgid ""
+"Period in which the input VAT is claimed — may differ from the tax point "
+"(e.g. the document arrived the next month, or the SK end-of-calendar-year "
+"rule). Defaults to the document date."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_purchase_order
+msgid "Purchase Order"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_company__advance_purchase_journal_id
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_config_settings__advance_purchase_journal_id
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid ""
+"Purchase journal for the suppliers' tax documents on sent advance payments "
+"(e.g. PDADV)."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_bank_statement_line__advance_purchase_order_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move__advance_purchase_order_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__is_advance_invoice
+msgid "Received Advance Invoice"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_purchase_order_advance
+#: model:ir.ui.menu,name:purchase_order_advance_invoice.menu_account_purchase_order_advance
+#: model:ir.ui.menu,name:purchase_order_advance_invoice.menu_purchase_order_advance
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_list
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Received Advance Invoices"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.server,name:purchase_order_advance_invoice.ir_cron_chase_advance_tax_documents_ir_actions_server
+msgid "Received Advance Invoices: chase overdue tax documents"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__advance_purchase_journal_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__advance_purchase_journal_id
+msgid "Received Advance Tax Documents Journal"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_company__advance_paid_clearing_account_id
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_config_settings__advance_paid_clearing_account_id
+msgid ""
+"Reconcilable clearing account (e.g. 314001) carrying both the advance "
+"payment and the tax document's payable leg. Must be of payable type: it is "
+"the payment-term leg of the vendor bill."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid ""
+"Reconcilable payable-type account (e.g. 314001) carrying the advance payment"
+" and the tax document's payable leg."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_purchase_advance_payment_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_wizard_form
+msgid "Register Payment"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_purchase_advance_payment_wizard
+msgid "Register Payment for Received Advance Invoice"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_purchase_advance_tax_doc_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_tax_doc_wizard_form
+msgid "Register Received Tax Document"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_purchase_advance_tax_doc_wizard
+msgid "Register Received Tax Document for Advance Payment"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_link_wizard.py:0
+msgid "Select a payment to link."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_order__advance_invoice_expected_doc_date
+msgid ""
+"Statutory deadline for the supplier to issue the tax document on the "
+"received payment."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Supplier"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__supplier_ref
+msgid "Supplier's Document Number"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_expected_doc_date
+msgid "Tax Document Expected By"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Tax Document Overdue"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+msgid "Tax Documents"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Tax documents journal"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__taxable_supply_date
+msgid "Tax point: the day the supplier received the payment."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__taxable_supply_date
+msgid "Taxable Supply Date"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid ""
+"The amount cannot exceed the paid amount that is not yet accounted "
+"(%(amount)s)."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid "The amount must be positive."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__supplier_ref
+msgid ""
+"The evidence number exactly as the supplier wrote it — it is reported "
+"verbatim in KH B.2 / KV DPH B.2."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+msgid "The payment amount cannot exceed the unpaid amount."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+msgid "The payment amount must be positive."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid ""
+"The supplier's tax document for the payment of %(name)s was expected by "
+"%(date)s."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+msgid "This action is only available for received advance invoices."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/account_move.py:0
+msgid "This action is only available for vendor bills."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_order__is_advance_invoice
+msgid ""
+"This order registers a received advance/proforma invoice — it is never "
+"posted itself; only its payment and the supplier's tax document on that "
+"payment are."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_list
+msgid "Total"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Unpaid"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__partner_id
+msgid "Vendor"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__move_id
+msgid "Vendor Bill"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_accounting_status__waiting
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Waiting for Tax Document"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__partner_id
+msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "advance_invoice_parent_order_id"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "advance_purchase_order_id"
+msgstr ""

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Vyúčtování srážek ze mzdy / Vyúčtovanie zrážok zo mzdy.
+
+        What the employer renders to the court, the bailiff or the employee to
+        account for what was withheld and where it went. One row per monthly
+        deduction, grouped by order, with the third the money came from so the
+        legal reasoning is auditable.
+    -->
+    <template id="report_garnishment_settlement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-set="company" t-value="doc.company_id"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Account of Deductions from Wages</h2>
+                        <p class="text-muted">
+                            Vyúčtování srážek ze mzdy / Vyúčtovanie zrážok zo mzdy
+                        </p>
+
+                        <div class="row mt32 mb32">
+                            <div class="col-6">
+                                <strong>Employee</strong>
+                                <div t-field="doc.employee_id.name"/>
+                                <div t-if="doc.employee_id.identification_id">
+                                    ID: <span t-field="doc.employee_id.identification_id"/>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <strong>Period</strong>
+                                <div>
+                                    <span t-field="doc.date_from"/> — <span t-field="doc.date_to"/>
+                                </div>
+                                <div t-if="doc.recipient_partner_id">
+                                    <strong>Addressee:</strong>
+                                    <span t-field="doc.recipient_partner_id.name"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <t t-set="orders" t-value="doc._orders()"/>
+                        <t t-set="lines" t-value="doc._lines()"/>
+
+                        <h4>Registered orders</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Delivered</th>
+                                    <th>Case number</th>
+                                    <th>Class</th>
+                                    <th>Payee</th>
+                                    <th class="text-end">Total claim</th>
+                                    <th class="text-end">Deducted</th>
+                                    <th class="text-end">Remaining</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="orders" t-as="order">
+                                    <td><span t-field="order.date_delivered"/></td>
+                                    <td><span t-field="order.case_number"/></td>
+                                    <td><span t-field="order.claim_class"/></td>
+                                    <td><span t-field="order.payee_partner_id.name"/></td>
+                                    <td class="text-end">
+                                        <span t-field="order.total_amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="order.paid_amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-if="not order.is_open_ended" t-field="order.remaining_amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': order.currency_id}"/>
+                                        <span t-else="">open-ended</span>
+                                    </td>
+                                    <td><span t-field="order.state"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4 class="mt32">Deductions in the period</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Period</th>
+                                    <th>Case number</th>
+                                    <th class="text-end">2nd third</th>
+                                    <th class="text-end">1st third</th>
+                                    <th class="text-end">Deducted</th>
+                                    <th>Remitted</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="lines" t-as="line">
+                                    <td><span t-field="line.date_to"/></td>
+                                    <td><span t-field="line.case_number"/></td>
+                                    <td class="text-end">
+                                        <span t-field="line.amount_second_third"
+                                              t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="line.amount_first_third"
+                                              t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="line.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                    </td>
+                                    <td><span t-field="line.state"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" class="text-end">Total</th>
+                                    <th class="text-end">
+                                        <span t-esc="sum(lines.mapped('amount'))"
+                                              t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/>
+                                    </th>
+                                    <th/>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <p t-if="doc.note" class="mt32" t-field="doc.note"/>
+
+                        <div class="row mt64">
+                            <div class="col-6 offset-6">
+                                <div>Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d.%m.%Y')"/></div>
+                                <div class="mt32">…………………………………………</div>
+                                <div class="text-muted">Signature and stamp of the payer of the wage</div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

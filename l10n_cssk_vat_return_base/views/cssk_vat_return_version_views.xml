@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_vat_return_version_view_list" model="ir.ui.view">
+        <field name="name">cssk.vat.return.version.list</field>
+        <field name="model">cssk.vat.return.version</field>
+        <field name="arch" type="xml">
+            <list string="VAT Return Versions">
+                <field name="country_id"/>
+                <field name="name"/>
+                <field name="valid_from"/>
+                <field name="valid_to"/>
+                <field name="xml_root_element"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_vat_return_version_view_form" model="ir.ui.view">
+        <field name="name">cssk.vat.return.version.form</field>
+        <field name="model">cssk.vat.return.version</field>
+        <field name="arch" type="xml">
+            <form string="VAT Return Version">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="country_id"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="xml_root_element"/>
+                            <field name="xml_template_ref_id"/>
+                            <field name="xml_schema_data" filename="xml_schema_filename"/>
+                            <field name="xml_schema_filename" readonly="1"/>
+                        </group>
+                        <group string="Form line codes">
+                            <field name="own_tax_line_code"/>
+                            <field name="excess_line_code"/>
+                            <field name="diff_line_code"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="line_def_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="kind"/>
+                                    <field name="tag_formula"/>
+                                    <field name="aggregate_formula"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Submission Types" name="types">
+                            <field name="statement_type_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="fa_xml_value"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_vat_return_version_action" model="ir.actions.act_window">
+        <field name="name">VAT Return Versions</field>
+        <field name="res_model">cssk.vat.return.version</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

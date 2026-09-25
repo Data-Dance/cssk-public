@@ -1,0 +1,56 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Account Debit Note DD</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Data Dance refinements for Odoo customer debit notes</h3>
+    <div class="oe_span12">
+      <p>This app adds Data Dance refinements on top of Odoo's core
+         <code>account_debit_note</code>. It tidies up the customer debit-note experience and labels
+         the printed document correctly.</p>
+      <p>It is a thin UI/report layer — it does <b>not</b> change how debit notes are posted or
+         numbered; it only adjusts the invoice form, the menu action and the invoice report.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>The printed invoice document is titled <b>Debit Note</b> (draft / cancelled variants
+            included) whenever a posted customer invoice carries a <code>debit_origin_id</code>.</li>
+        <li>The standard <b>Reverse</b> button is hidden on the invoice form (debit notes are created
+            through the dedicated debit-note flow, not via reversal).</li>
+        <li>The customer <i>Credit Notes</i> action is widened to also list documents that have a
+            <code>debit_origin_id</code>, so debit notes are reachable from the same place.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install on top of <code>account_debit_note</code>. Create a debit note from a posted
+         customer invoice using Odoo's standard <i>Add Debit Note</i> flow; the resulting document
+         prints with the <b>Debit Note</b> title and appears alongside credit notes in the customer
+         list.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record model="ir.ui.view" id="res_currency_rate_provider_form_view_sk">
+        <field name="name">res.currency.rate.provider.form.sk</field>
+        <field name="model">res.currency.rate.provider</field>
+        <field
+            name="inherit_id"
+            ref="currency_rate_update.res_currency_rate_provider_form_view"
+        />
+        <field name="arch" type="xml">
+            <field name="last_successful_run" position="after">
+                <field name="fill_missing_days" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

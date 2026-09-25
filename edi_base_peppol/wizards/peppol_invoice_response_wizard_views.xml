@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_peppol_invoice_response_wizard_form" model="ir.ui.view">
+        <field name="name">edi.peppol.invoice.response.wizard.form</field>
+        <field name="model">edi.peppol.invoice.response.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Peppol Invoice Response">
+                <group>
+                    <field name="move_id" invisible="1"/>
+                    <field name="response_code"/>
+                    <field name="reason_ids" widget="many2many_tags"
+                        invisible="response_code in ('AB','IP','AP','PD')"
+                        required="response_code in ('RE','UQ','CA') and not note"/>
+                    <field name="action_ids" widget="many2many_tags"
+                        invisible="response_code in ('AB','IP','AP','PD')"/>
+                    <field name="note"
+                        placeholder="Optional free-text clarification sent to the supplier…"/>
+                </group>
+                <footer>
+                    <button name="action_send" type="object" string="Send Response"
+                        class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

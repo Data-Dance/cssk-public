@@ -1,0 +1,113 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Sale Order Advance Invoice</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Advance / proforma invoices with tax documents on received payments (CZ/SK)</h3>
+    <div class="oe_span12">
+      <p>Country-neutral engine for the <b>advance-invoice / proforma</b> flow used in Czech and
+         Slovak accounting (<i>zálohová / preddavková faktúra</i>). An advance is its <b>own sale
+         order</b> — payable by QR code, manual payment or by linking a bank transfer — that produces
+         a <b>tax document on the received payment</b> (CZ <i>daňový doklad k přijaté platbě</i>, SK
+         <i>faktúra k prijatej platbe</i>) and is <b>settled (deducted)</b> on the final invoice, so
+         VAT is paid only once.</p>
+      <p>The base module is chart-agnostic. Install a localization layer to wire the statutory
+         accounts and journal automatically: <code>l10n_cz_sale_order_advance_invoice</code> (Czech
+         chart) or <code>l10n_sk_sale_order_advance_invoice</code> (Slovak chart).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>An advance invoice is its <b>own sale order</b> (<code>is_advance_invoice</code>), linked
+            back to the parent order, payable by <b>QR code</b>, <b>manual payment</b> or by
+            <b>linking an existing bank transfer</b>.</li>
+        <li>On payment, a <b>tax document for the received advance</b> is produced in a dedicated
+            journal, with the taxable-supply date set to the payment date.</li>
+        <li>The advance is <b>deducted</b> on the final invoice and the advance VAT is <b>reversed</b>,
+            so the customer is not taxed twice.</li>
+        <li>Standalone advance invoices can be <b>linked</b> to a final customer invoice after the
+            fact.</li>
+        <li>Clear <b>payment</b> and <b>accounting</b> statuses on every advance, with advance
+            tracking lines on the parent order.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>On a sale order, use <b>Create Advance Invoice</b> to raise an advance (full, percentage or
+         fixed amount). Collect it by QR, by <b>Register Payment</b>, or by <b>Link Manual
+         Transfer</b>; the tax document is generated on payment. When billing the order, the advance
+         is deducted on the final invoice; standalone advances can be attached with <b>Link Advance
+         Invoices</b> on a draft customer invoice. Without a localization installed, set the journal
+         and accounts under <i>Settings ▸ Sales ▸ Advance Invoices</i>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Wizards</h2>
+    <div class="oe_span12">
+      <h4>Create Advance Invoice <small>(button "Create Advance Invoice" in the sale order header)</small></h4>
+      <p><b>What it does:</b> raises an advance invoice for the order.</p>
+      <p><b>How to use:</b> choose <i>Full amount</i>, <i>Percentage</i> or <i>Fixed amount</i> (and an
+         optional description), then <i>Create Advance Invoice</i>. A new advance sale order is created
+         and opened.</p>
+      <h4>Register Manual Payment <small>(button "Register Payment" on the advance order)</small></h4>
+      <p><b>What it does:</b> records a manual customer payment against an advance invoice.</p>
+      <p><b>How to use:</b> pick the amount, date, journal and payment method, then <i>Create
+         Payment</i>; the advance is confirmed and the payment linked.</p>
+      <h4>Link Manual Bank Transfer <small>(button "Link Manual Transfer" on the advance order)</small></h4>
+      <p><b>What it does:</b> attaches an already-recorded inbound bank payment to the advance.</p>
+      <p><b>How to use:</b> choose the unreconciled payment, then <i>Link</i>.</p>
+      <h4>Link Standalone Advance Invoices <small>(button "Link Advance Invoices" on a draft customer invoice)</small></h4>
+      <p><b>What it does:</b> links one or more standalone advance invoices to a final customer
+         invoice.</p>
+      <p><b>How to use:</b> select the eligible advances, then <i>Link</i>; they are added as deduction
+         lines (net with VAT reversal when a tax document exists, gross otherwise).</p>
+      <h4>Advance-aware down-payment wizard <small>(extends the standard "Create Invoices")</small></h4>
+      <p><b>What it does:</b> forces the standard down-payment wizard into the <i>delivered</i> method
+         on advance-invoice orders so the advance flow stays consistent.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Documentation</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="advance_invoice_cheat_sheet.html">Interactive cheat sheet</a> — step through the
+            proforma → payment → tax document → final invoice → settlement flow and watch the journal
+            entries fill (CZ/SK, with/without tax document, short/long-term).</li>
+        <li><a href="advance_invoice_reference.html">Reference</a> — the same flow as narrative text
+            with worked journal entries
+            (source: <a href="../../docs/advance_invoice_cheat_sheet.rst">docs/advance_invoice_cheat_sheet.rst</a>).</li>
+        <li><a href="../../docs/index.rst">docs/index.rst</a> — feature and configuration overview.</li>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — release history.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

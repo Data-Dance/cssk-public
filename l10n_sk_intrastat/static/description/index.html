@@ -1,0 +1,60 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovakia — INTRASTAT-SK (CE / OCA)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Official Finančná správa INTRASTAT-SK INSTAT XML on the OCA intrastat_product engine, computed CE-clean</h3>
+    <div class="oe_span12">
+      <p>This app is a thin country layer on top of the OCA <code>intrastat_product</code>
+         declaration engine. The engine collects intra-EU goods movements and computes the grouped
+         declaration lines; this module renders them as the official Finančná správa
+         <b>INTRASTAT-SK INSTAT (instat62)</b> XML via the shared
+         <code>l10n_cssk_intrastat_base</code> renderer.</p>
+      <p>It is the Community / OCA adapter, licensed <b>AGPL-3</b> because it subclasses the AGPL OCA
+         engine. The shared INSTAT renderer is LGPL-3, so the Enterprise variant — which rides Odoo
+         EE <code>account_intrastat</code> instead — can reuse it without inheriting AGPL.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Country adapter on the OCA <code>intrastat_product</code> declaration engine, CE-clean
+            (no Enterprise <code>account_intrastat</code> dependency).</li>
+        <li>Renders the official FS SR INTRASTAT-SK <b>INSTAT (instat62)</b> XML through the shared
+            <code>l10n_cssk_intrastat_base</code> renderer.</li>
+        <li>Arrivals / dispatches declaration lines computed by the underlying OCA engine.</li>
+        <li>The LGPL-3 INSTAT renderer is shared with the EE variant, so both adapters emit the
+            identical statutory XML.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install alongside the OCA <code>intrastat_product</code> engine on the Slovak chart. Create
+         an INTRASTAT product declaration for the reporting period in the OCA engine, generate /
+         compute its lines, then export the INTRASTAT-SK INSTAT XML for the Finančná správa
+         portal.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

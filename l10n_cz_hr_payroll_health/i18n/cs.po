@@ -1,0 +1,742 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_hr_payroll_health
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-06 21:14+0000\n"
+"PO-Revision-Date: 2026-07-06 21:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: Czech (https://www.transifex.com/)\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_res_company__l10n_cz_health_payer_number
+msgid ""
+"10-digit health-insurance payer number (identifikacniCisloPlatce): the "
+"employer IČ (8 digits) followed by the 2-digit accounting-office sub-number "
+"(00-99). Leave empty to derive it from the company IČ as <IČ>00."
+msgstr ""
+"Desetimístné číslo plátce zdravotního pojištění (identifikacniCisloPlatce): "
+"IČ zaměstnavatele (8 číslic) následované dvoumístným podčíslem účtárny "
+"(00-99). Ponechte prázdné pro odvození z IČ společnosti jako <IČ>00."
+
+#. module: l10n_cz_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.pppz_xml
+msgid "1079e224-84f4-46e4-99e8-6095bd282301"
+msgstr "1079e224-84f4-46e4-99e8-6095bd282301"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__hr_employee__l10n_cz_health_insurer_code__111
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__insurer_code__111
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__insurer_code__111
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__res_company__l10n_cz_health_insurer_code__111
+msgid "111 — VZP (Všeobecná zdravotní pojišťovna)"
+msgstr "111 — VZP (Všeobecná zdravotní pojišťovna)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__hr_employee__l10n_cz_health_insurer_code__201
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__insurer_code__201
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__insurer_code__201
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__res_company__l10n_cz_health_insurer_code__201
+msgid "201 — VoZP (Vojenská zdravotní pojišťovna)"
+msgstr "201 — VoZP (Vojenská zdravotní pojišťovna)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__hr_employee__l10n_cz_health_insurer_code__205
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__insurer_code__205
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__insurer_code__205
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__res_company__l10n_cz_health_insurer_code__205
+msgid "205 — ČPZP (Česká průmyslová zdravotní pojišťovna)"
+msgstr "205 — ČPZP (Česká průmyslová zdravotní pojišťovna)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__hr_employee__l10n_cz_health_insurer_code__207
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__insurer_code__207
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__insurer_code__207
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__res_company__l10n_cz_health_insurer_code__207
+msgid "207 — OZP (Oborová zdravotní pojišťovna)"
+msgstr "207 — OZP (Oborová zdravotní pojišťovna)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__hr_employee__l10n_cz_health_insurer_code__209
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__insurer_code__209
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__insurer_code__209
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__res_company__l10n_cz_health_insurer_code__209
+msgid "209 — ZPŠ (Zaměstnanecká pojišťovna Škoda)"
+msgstr "209 — ZPŠ (Zaměstnanecká pojišťovna Škoda)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__hr_employee__l10n_cz_health_insurer_code__211
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__insurer_code__211
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__insurer_code__211
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__res_company__l10n_cz_health_insurer_code__211
+msgid "211 — ZPMV ČR (Zdravotní pojišťovna ministerstva vnitra)"
+msgstr "211 — ZPMV ČR (Zdravotní pojišťovna ministerstva vnitra)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__hr_employee__l10n_cz_health_insurer_code__213
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__insurer_code__213
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__insurer_code__213
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__res_company__l10n_cz_health_insurer_code__213
+msgid "213 — RBP (Revírní bratrská pokladna)"
+msgstr "213 — RBP (Revírní bratrská pokladna)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.hoz_xml
+msgid "882b97d9-3a41-4552-887b-3942ae92c3ea"
+msgstr "882b97d9-3a41-4552-887b-3942ae92c3ea"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_needaction
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akci"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_exception_decoration
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimky aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_state
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_type_icon
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.ui.menu,name:l10n_cz_hr_payroll_health.menu_l10n_cz_hoz
+msgid "CZ HOZ (health registration)"
+msgstr "CZ HOZ (zdravotní oznámení)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.ui.menu,name:l10n_cz_hr_payroll_health.menu_l10n_cz_pppz
+msgid "CZ PPPZ (health)"
+msgstr "CZ PPPZ (zdravotní)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__event_type
+msgid "Change code applied to every employee in this notification."
+msgstr "Kód změny použitý na každého zaměstnance v tomto oznámení."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model,name:l10n_cz_hr_payroll_health.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__company_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid ""
+"Company '%(company)s' needs a city and ZIP for the HOZ employer address."
+msgstr ""
+"Společnost '%(company)s' potřebuje obec a PSČ pro adresu zaměstnavatele v "
+"HOZ."
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_pppz.py:0
+msgid ""
+"Company '%(company)s' needs a city and ZIP for the PPPZ employer address."
+msgstr ""
+"Společnost '%(company)s' potřebuje obec a PSČ pro adresu zaměstnavatele v "
+"PPPZ."
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_pppz.py:0
+msgid ""
+"Company '%(company)s' needs a health payer number "
+"(identifikacniCisloPlatce). Set the company IČ or the 'Health payer number' "
+"field."
+msgstr ""
+"Společnost '%(company)s' potřebuje číslo plátce zdravotního pojištění "
+"(identifikacniCisloPlatce). Nastavte IČ společnosti nebo pole 'Health payer "
+"number'."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__report_type__opravny
+msgid "Corrective"
+msgstr "Opravný"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__country_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__country_id
+msgid "Country"
+msgstr "Země"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__create_uid
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__create_uid
+msgid "Created by"
+msgstr "Vytvořil(a)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__create_date
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__currency_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__currency_id
+msgid "Currency"
+msgstr "Měna"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model,name:l10n_cz_hr_payroll_health.model_l10n_cz_hoz
+msgid "Czech HOZ — Bulk Employer Notification"
+msgstr "České HOZ — Hromadné oznámení zaměstnavatele"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model,name:l10n_cz_hr_payroll_health.model_l10n_cz_pppz
+msgid "Czech PPPZ — Employer Health Premium Overview"
+msgstr "České PPPZ — Přehled o platbě pojistného zaměstnavatele"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__date_from
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__date_from
+msgid "Date From"
+msgstr "Datum od"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__date_to
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__date_to
+msgid "Date To"
+msgstr "Datum do"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_res_company__l10n_cz_health_insurer_code
+msgid ""
+"Default Czech health-insurance company for employees who have no insurer set"
+" on their own record — the kodZdravotniPojistovny of the PPPZ / HOZ filings."
+msgstr ""
+"Výchozí česká zdravotní pojišťovna pro zaměstnance, kteří nemají pojišťovnu "
+"nastavenou ve vlastním záznamu — kodZdravotniPojistovny podání PPPZ / HOZ."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_res_company__l10n_cz_health_insurer_code
+msgid "Default health insurer"
+msgstr "Výchozí zdravotní pojišťovna"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_res_company__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model,name:l10n_cz_hr_payroll_health.model_hr_employee
+msgid "Employee"
+msgstr "Zaměstnanec"
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid ""
+"Employee '%(name)s' needs a 9- or 10-digit birth number in Identification "
+"No. for the HOZ cisloPojistence."
+msgstr ""
+"Zaměstnanec '%(name)s' potřebuje 9- nebo 10místné rodné číslo v poli "
+"Identifikační číslo pro HOZ cisloPojistence."
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid ""
+"Employee '%(name)s' needs a contract %(kind)s date (or set the override date"
+" of change) for the HOZ datumZmeny."
+msgstr ""
+"Zaměstnanec '%(name)s' potřebuje datum smlouvy (%(kind)s) (nebo nastavte "
+"přepisové datum změny) pro HOZ datumZmeny."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__line_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__line_ids
+msgid "Employee declarations"
+msgstr "Hlášení zaměstnanců"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__employee_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__lines_count
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__lines_count
+msgid "Employees"
+msgstr "Zaměstnanci"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__employee_ids
+msgid "Employees whose enrol/terminate change is being notified."
+msgstr "Zaměstnanci, jejichž změna přihlášení/odhlášení se oznamuje."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__event_type__enroll
+msgid "Enrol (P)"
+msgstr "Přihlášení (P)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__event_date
+msgid "Event Date"
+msgstr "Datum události"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__event_type
+msgid "Event Type"
+msgstr "Typ události"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__submitted_attachment_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__filed_history_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__filed_history_ids
+msgid "Filed history"
+msgstr "Historie podání"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_type_icon
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: l10n_cz_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.view_l10n_cz_hoz_form
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.view_l10n_cz_pppz_form
+msgid "Generate"
+msgstr "Vygenerovat"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.actions.act_window,name:l10n_cz_hr_payroll_health.action_l10n_cz_hoz
+msgid "HOZ (health registration)"
+msgstr "HOZ (zdravotní oznámení)"
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid "HOZ generated and XSD-validated."
+msgstr "HOZ vygenerováno a ověřeno proti XSD."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__has_message
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_hr_employee__l10n_cz_health_insurer_code
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__insurer_code
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__insurer_code
+msgid "Health insurer"
+msgstr "Zdravotní pojišťovna"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__insurer_code
+msgid ""
+"Health insurer this notification is filed to. Only employees assigned to "
+"this insurer are reported."
+msgstr ""
+"Zdravotní pojišťovna, které se toto oznámení podává. Oznamují se pouze "
+"zaměstnanci přiřazení k této pojišťovně."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__insurer_code
+msgid ""
+"Health insurer this overview is filed to. Only employees assigned to this "
+"insurer are aggregated."
+msgstr ""
+"Zdravotní pojišťovna, které se tento přehled podává. Agregují se pouze "
+"zaměstnanci přiřazení k této pojišťovně."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_res_company__l10n_cz_health_payer_number
+msgid "Health payer number"
+msgstr "Číslo plátce zdravotního pojištění"
+
+#. module: l10n_cz_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.hoz_xml
+msgid "Hromadné oznámení zaměstnavatele 2026+"
+msgstr "Hromadné oznámení zaměstnavatele 2026+"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_hr_employee__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_res_company__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_exception_icon
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_exception_icon
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_needaction
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_has_error
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_has_sms_error
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_has_error
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_is_follower
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__write_uid
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil(a)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__write_date
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: l10n_cz_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.view_l10n_cz_hoz_form
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.view_l10n_cz_pppz_form
+msgid "Mark Submitted"
+msgstr "Označit jako odeslané"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_has_error
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba při doručování zpráv"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_ids
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__month
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__month
+msgid "Month"
+msgstr "Měsíc"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__my_activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__name
+msgid "Name"
+msgstr "Název"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_calendar_event_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Událost kalendáře další aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_summary
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_type_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid "No HOZ version is configured. Check the shipped version data."
+msgstr "Není nakonfigurována žádná verze HOZ. Zkontrolujte dodaná data verzí."
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_pppz.py:0
+msgid ""
+"No insured employees with a health premium were found for insurer %(code)s "
+"in %(month)s/%(year)s."
+msgstr ""
+"Pro pojišťovnu %(code)s nebyli za %(month)s/%(year)s nalezeni žádní "
+"pojištění zaměstnanci se zdravotním pojistným."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_needaction_counter
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_has_error_counter
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou při doručení"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__event_date
+msgid ""
+"Override date of change (datumZmeny). If empty, the contract start (enrol) "
+"or contract end (terminate) date is used per employee."
+msgstr ""
+"Přepisové datum změny (datumZmeny). Je-li prázdné, použije se u každého "
+"zaměstnance datum nástupu (přihlášení) nebo datum ukončení smlouvy "
+"(odhlášení)."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__report_type
+msgid "Overview type"
+msgstr "Typ přehledu"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.actions.act_window,name:l10n_cz_hr_payroll_health.action_l10n_cz_pppz
+msgid "PPPZ (health)"
+msgstr "PPPZ (zdravotní)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__payment_date
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__payment_date
+msgid ""
+"Payday reported to the authority (SK denVyplaty). Defaults to the period "
+"end."
+msgstr ""
+"Datum výplaty hlášené úřadu (SK denVyplaty). Výchozí hodnotou je konec "
+"období."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__payment_date
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__payment_date
+msgid "Payment Date"
+msgstr "Datum výplaty"
+
+#. module: l10n_cz_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.pppz_xml
+msgid "Přehled platby zaměstnavatele pro ZP 2026+"
+msgstr "Přehled platby zaměstnavatele pro ZP 2026+"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__report_type__radny
+msgid "Regular"
+msgstr "Řádný"
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid "Reset the notification to draft before regenerating it."
+msgstr "Před opětovným vygenerováním vraťte oznámení do konceptu."
+
+#. module: l10n_cz_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.view_l10n_cz_hoz_form
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.view_l10n_cz_pppz_form
+msgid "Reset to Draft"
+msgstr "Vrátit do konceptu"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_user_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_user_id
+msgid "Responsible User"
+msgstr "Odpovědný uživatel"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba při doručení SMS"
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid "Select at least one employee to notify."
+msgstr "Vyberte alespoň jednoho zaměstnance k oznámení."
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid "Select the health insurer for this HOZ notification."
+msgstr "Vyberte zdravotní pojišťovnu pro toto oznámení HOZ."
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_pppz.py:0
+msgid "Select the health insurer for this PPPZ overview."
+msgstr "Vyberte zdravotní pojišťovnu pro tento přehled PPPZ."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__state
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_state
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po termínu: Datum splatnosti již uplynulo\n"
+"Dnes: Datum aktivity je dnes\n"
+"Naplánováno: Budoucí aktivity."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__submission_reference
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__submission_reference
+msgid "Submission Reference"
+msgstr "Reference podání"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__submitted_date
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__submitted_date
+msgid "Submitted Date"
+msgstr "Datum odeslání"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__event_type__terminate
+msgid "Terminate (O)"
+msgstr "Odhlášení (O)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_hr_employee__l10n_cz_health_insurer_code
+msgid ""
+"The employee's Czech health-insurance company. PPPZ / HOZ filings are "
+"grouped per insurer: this employee is reported to the insurer set here, or —"
+" if empty — to the company's default health insurer."
+msgstr ""
+"Česká zdravotní pojišťovna zaměstnance. Podání PPPZ / HOZ se seskupují podle"
+" pojišťovny: tento zaměstnanec se oznamuje pojišťovně nastavené zde, nebo — "
+"je-li prázdné — výchozí zdravotní pojišťovně společnosti."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__activity_exception_decoration
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výjimečné aktivity v záznamu."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__version_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__version_id
+msgid "Version"
+msgstr "Verze"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__website_message_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__website_message_ids
+msgid "Website Messages"
+msgstr "Zprávy webu"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__website_message_ids
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace webu"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__xml_attachment_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "Příloha XML"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__year
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__year
+msgid "Year"
+msgstr "Rok"
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid "end"
+msgstr "ukončení"
+
+#. module: l10n_cz_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_health/models/l10n_cz_hoz.py:0
+msgid "start"
+msgstr "nástup"

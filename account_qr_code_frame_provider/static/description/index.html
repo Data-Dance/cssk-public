@@ -1,0 +1,60 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">QR Code Frame Provider</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">A reusable hook to render payment QR codes inside a branded frame image</h3>
+    <div class="oe_span12">
+      <p>This module provides the plumbing to composite a payment QR code onto a <b>frame image</b>
+         (for example a "QR Platba" / "PAY by square" branded frame). It overrides
+         <code>res.partner.bank._get_qr_code_base64</code> so that, when a frame is configured, the
+         generated QR is resized and pasted onto the frame and returned as a single PNG data URI.</p>
+      <p>On its own the module exposes an extension hook
+         (<code>_get_qr_code_frame_generation_params</code>) that returns <code>None</code> by
+         default — a country/scheme module supplies the actual frame image, box size, border and
+         placement. It also removes the default Odoo logo from the invoice-report QR code.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Composites the payment QR onto a configurable frame image (frame, box size, border,
+            resize and x/y placement), returned as a PNG data URI.</li>
+        <li>Extension hook <code>_get_qr_code_frame_generation_params(qr_method)</code> — returns
+            <code>None</code> by default, so a downstream module plugs in the concrete frame
+            parameters per QR method.</li>
+        <li>Removes the default Odoo logo from the invoice-report QR code.</li>
+        <li>Transparent in the absence of a frame: falls back to the standard QR rendering.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install as a dependency of a module that overrides
+         <code>_get_qr_code_frame_generation_params</code> to return the frame image and layout for a
+         given QR method. With those parameters present, every invoice that renders a payment QR code
+         will show it inside the configured frame instead of the plain code.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- noupdate="1" so the `active` flag the user toggles in the UI
+         survives subsequent module upgrades. -->
+    <data noupdate="1">
+        <!-- POST /document/send answers 202 ACCEPTED, which is intake only —
+             not proof of delivery. This cron resolves messages sitting in
+             'sent' to delivered or failed against the lifecycle endpoint.
+             Unlike the inbound poll it never self-retriggers: it only
+             re-reads documents we already handed over. -->
+        <record id="cron_epostak_query_status" model="ir.cron">
+            <field name="name">ePošťák: Query Outbound Delivery Status</field>
+            <field name="model_id" ref="edi_epostak_base.model_epostak_connector"/>
+            <field name="state">code</field>
+            <field name="code">model._query_status()</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

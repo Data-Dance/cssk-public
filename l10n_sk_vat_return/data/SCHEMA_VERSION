@@ -1,0 +1,71 @@
+dph2012.xsd  5ec813329cda0f0100f0f8171228d50c  6779
+dph2018.xsd  60784d73cedbf32e2562ba7ca8c2b61f  6601
+dph2020.xsd  c93842d32ad709076d3f7bc21bbd419d  6601
+dph2021.xsd  19524d6877f2e6faea784d3515f3c50a  6561
+dph2025.xsd  9d7df6cd80b9dcf94b878ecbe90591e6  9017
+
+The 2021 and 2025 files were verified byte-identical to the published copies
+on 2026-08-19; the 2012, 2018 and 2020 files on 2026-09-09. Fetched from
+https://ekr.financnasprava.sk/Formulare/XSD/<filename>
+
+THESE FIVE ARE ALL THERE ARE. Probed 2026-09-09 across dph2009..dph2026: only
+2012, 2018, 2020, 2021 and 2025 answer 200; every other year is 404 with a
+~1 245-byte HTML error page. Test by STATUS CODE — that page is a plausible
+file size.
+
+  dph2012.xsd   1. 1. 2012 - 31. 12. 2017
+  dph2018.xsd   1. 1. 2018 - 31. 12. 2019
+  dph2020.xsd   1. 1. 2020 - 31. 12. 2020
+  dph2021.xsd   1. 1. 2021 - 30.  6. 2025
+  dph2025.xsd   1. 7. 2025 - open
+
+AND THE SCHEMA CANNOT TELL YOU WHICH FORM YOU ARE FILING. dph2018.xsd and
+dph2020.xsd are BYTE-IDENTICAL apart from their own documentation string
+("DPH2018" vs "DPH2020"). The tlačivá are not: r18 is the § 81 deregistration
+liability in the 2018 vzor, and the § 48ca ods. 2 / § 48d ods. 15 / § 48e
+ods. 3 a 8 daň in the 2020 one, which folded § 81 into r01-r04. A 2018-vintage
+return therefore validates PERFECTLY against the 2020 schema while carrying a
+number on a row that means something else. Only the tlačivo separates them,
+which is why the validity windows above are recorded here and enforced in the
+version records rather than inferred from a file.
+
+WHY THIS FILE EXISTS. Not for the reason it used to give. This file previously
+claimed these schemas "carry NO version attribute and NO Ucinnost line" and
+that "the filename is ours rather than the ministry's". Both are false, found
+on 2026-09-08 while fetching the older vintages:
+
+  * each file stamps itself in an xsd:documentation annotation — dph2021.xsd
+    says "DPHv21 v1.2" and dph2025.xsd says "DPHv25". The 2021 one carries a
+    REVISION as well as a vintage, which is more than the KV schemas manage;
+  * the filenames are Finančná správa's own. dph2012.xsd, dph2018.xsd and
+    dph2020.xsd were fetched from
+    https://ekr.financnasprava.sk/Formulare/XSD/ at exactly those names, and
+    the refresh procedure below has always fetched by filename.
+
+The pinning is still right, for a narrower reason: a stamp is not a guarantee.
+"DPHv21 v1.2" would not necessarily become v1.3 if the file were revised in
+place, and nothing validates the annotation — it is a comment. So the digest
+remains the only thing that detects a silent revision. What changed is that it
+is no longer the only thing that identifies the vzor.
+
+⚠️ AND A STAMP DOES NOT ALWAYS SEPARATE TWO VINTAGES. dph2018.xsd and
+dph2020.xsd are STRUCTURALLY IDENTICAL — same elements, same types; the entire
+difference is the DPH2018 / DPH2020 string. Yet the forms differ: row 18 is the
+§ 81 deregistration liability in the 2018 vzor and the § 48ca/§ 48d/§ 48e daň
+in the 2020 one, and § 81 moves up into rows 01/03. So a 2018-shaped return
+validates perfectly against the 2020 schema while several rows mean something
+else. Schema validation cannot catch a wrong-vintage SK VAT return; only the
+tlačivo distinguishes them. Anyone adding the pre-2021 vintages needs to know
+that before trusting a green validation.
+
+REFRESH PROCEDURE
+  1. Fetch https://ekr.financnasprava.sk/Formulare/XSD/<filename> and compare
+     the md5 with the line here.
+  2. Check the status code, not the size: a miss returns 404 with a ~1 245-byte
+     HTML error page.
+  3. Probe for a newer vintage separately (dph2026.xsd, dphv26.xsd — both 404
+     as of 2026-08-19, so the open-ended 2025 version record is correct).
+  4. If a digest moved: replace the file, update this line, re-run the export
+     tests, and check whether the vzor's period range changed too — with no
+     Ucinnost in the file, the version record's valid_from/valid_to is
+     knowledge held only here and in the data file.

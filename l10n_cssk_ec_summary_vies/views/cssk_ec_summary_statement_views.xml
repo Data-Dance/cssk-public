@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="cssk_ec_summary_statement_view_form_vies" model="ir.ui.view">
+        <field name="name">cssk.ec.summary.statement.form.vies</field>
+        <field name="model">cssk.ec.summary.statement</field>
+        <field
+            name="inherit_id"
+            ref="l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/list/field[@name='total_amount']" position="after">
+                <field name="vies_valid" optional="show" />
+                <field name="vies_status" optional="show" />
+                <field name="vies_consultation_number" optional="show" />
+                <field name="vies_check_date" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

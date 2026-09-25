@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      PPPZ (Přehled o platbě pojistného zaměstnavatele) XML — matches the
+      official VZP/ZP schema PPPZ_2025_v8.xsd (root
+      <prehledPlatbyZamestnavatele>, ns
+      http://xmlns.vzp.cz/PrehledPlatbyZamestnavatele/v1,
+      elementFormDefault="qualified"). Employer-aggregate, no personal data:
+      the insured-employee count, the sum of health assessment bases and the
+      total 13.5 % premium. The two identifikacePredmetuPodani* tags are XSD
+      "fixed" constants and must appear verbatim.
+    -->
+    <template id="pppz_xml">
+        <prehledPlatbyZamestnavatele xmlns="http://xmlns.vzp.cz/PrehledPlatbyZamestnavatele/v1">
+            <identifikacePredmetuPodaniText>Přehled platby zaměstnavatele pro ZP 2026+</identifikacePredmetuPodaniText>
+            <identifikacePredmetuPodaniKod>1079e224-84f4-46e4-99e8-6095bd282301</identifikacePredmetuPodaniKod>
+            <kodZdravotniPojistovny t-out="insurer_code"/>
+            <typPrehledu t-out="report_type"/>
+            <identifikaceZamestnavatele>
+                <identifikacniCisloPlatce t-out="employer['identifikacniCisloPlatce']"/>
+                <nazevPlatce t-out="employer['nazevPlatce']"/>
+                <adresaPlatceUlice t-out="employer['adresaPlatceUlice']"/>
+                <adresaPlatceCisloPopisneOrientacni t-out="employer['adresaPlatceCisloPopisneOrientacni']"/>
+                <adresaPlatcePsc t-out="employer['adresaPlatcePsc']"/>
+                <adresaPlatceObec t-out="employer['adresaPlatceObec']"/>
+                <t t-if="employer.get('adresaPlatceTelefon')">
+                    <adresaPlatceTelefon t-out="employer['adresaPlatceTelefon']"/>
+                </t>
+            </identifikaceZamestnavatele>
+            <udajePlatby>
+                <mesicHlaseni t-out="mesic"/>
+                <rokHlaseni t-out="rok"/>
+                <pocetZamestnancu t-out="pocet_zamestnancu"/>
+                <soucetZakladuPojistneho t-out="soucet_zakladu"/>
+                <soucetPojistneho t-out="soucet_pojistneho"/>
+            </udajePlatby>
+        </prehledPlatbyZamestnavatele>
+    </template>
+</odoo>

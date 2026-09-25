@@ -1,0 +1,61 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK VIES — přímé ověření v EU &amp; důkaz o ověření</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Ověření DIČ pro DPH přímo proti službě VIES Evropské komise s uchováním úředního čísla ověření</h3>
+    <div class="oe_span12">
+      <p>Jádro <code>base_vat</code> v Odoo 19 ověřuje evropská DIČ pro DPH přes <b>Odoo IAP</b>
+         (<code>vies.api.odoo.com</code>) a ukládá pouze logickou hodnotu <code>vies_valid</code>.
+         Vlastní (self-hosted) instance bez IAP nezíská žádné ověření VIES a chybí záznam o tom,
+         <i>kdy</i> bylo číslo potvrzeno, i úřední <b>číslo ověření</b>, které je právním důkazem
+         ověření pro účely osvobození při dodání do EU (<i>ověření DIČ</i> CZ).</p>
+      <p>Tento modul volá REST službu VIES Evropské komise <b>přímo</b> — bez účtu Odoo, bez IAP —
+         a uloží číslo ověření i zbytek důkazu na partnera. Funguje na Community i Enterprise.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Přímé EU VIES</b> — volitelně dle společnosti (<i>Použít přímé EU VIES</i>); volá REST
+            službu VIES Evropské komise přímo, bez IAP.</li>
+        <li><b>Důkaz o ověření</b> — uloží <b>číslo ověření</b> VIES
+            (<code>requestIdentifier</code>), časové razítko ověření, datum dotazu VIES a zapsaný
+            název / adresu plátce + výsledek shody názvu na partnerovi.</li>
+        <li>Ruční akce <b>Ověřit VIES (přímo)</b> na partnerovi.</li>
+        <li>Denní <b>cron</b>, který obnovuje zastaralá ověření u společností v přímém režimu.</li>
+        <li>Přechodné chyby VIES (výpadek systému členského státu, omezení četnosti) jsou hlášeny jako
+            <i>fault</i> — partner se nikdy tiše nepřepne na <i>neplatný</i> ani se nesmaže důkaz.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>V <i>Nastavení ▸ Účetnictví</i> zapněte pro společnost <i>Použít přímé EU VIES</i>. Na
+         libovolném partnerovi s evropským DIČ stiskněte <b>Ověřit VIES (přímo)</b>: u platného
+         kvalifikovaného ověření se doplní číslo ověření a zapsaný název / adresa. Denní cron znovu
+         ověří partnery, jejichž poslední ověření je starší než nastavené okno.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

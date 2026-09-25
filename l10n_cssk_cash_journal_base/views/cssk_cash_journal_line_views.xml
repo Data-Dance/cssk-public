@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cssk_cash_journal_line_list" model="ir.ui.view">
+        <field name="name">cssk.cash.journal.line.list</field>
+        <field name="model">cssk.cash.journal.line</field>
+        <field name="arch" type="xml">
+            <list string="Cash Journal" multi_edit="1"
+                  decoration-warning="needs_review"
+                  decoration-muted="kind == 'transit'">
+                <field name="number" readonly="1"/>
+                <field name="date"/>
+                <field name="ref" readonly="1"/>
+                <field name="label"/>
+                <field name="partner_id" readonly="1"/>
+                <field name="category_id"/>
+                <field name="kind"/>
+                <field name="payment_kind" optional="show"/>
+                <field name="amount" sum="Total"/>
+                <field name="amount_tax" sum="VAT" optional="show"/>
+                <field name="amount_signed" sum="Net" optional="hide"/>
+                <field name="taxable" optional="hide"/>
+                <field name="non_cash" optional="hide"/>
+                <field name="manual" optional="hide"/>
+                <field name="needs_review" optional="hide"/>
+                <field name="review_reason" optional="hide"/>
+                <field name="source_move_id" optional="hide" readonly="1"/>
+                <field name="move_id" optional="hide" readonly="1"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cssk_cash_journal_line_form" model="ir.ui.view">
+        <field name="name">cssk.cash.journal.line.form</field>
+        <field name="model">cssk.cash.journal.line</field>
+        <field name="arch" type="xml">
+            <form string="Cash Journal Row">
+                <sheet>
+                    <widget name="web_ribbon" title="Needs review" bg_color="text-bg-warning"
+                            invisible="not needs_review"/>
+                    <group>
+                        <group>
+                            <field name="number" readonly="1"/>
+                            <field name="date"/>
+                            <field name="ref"/>
+                            <field name="label"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="kind"/>
+                            <field name="taxable"/>
+                            <field name="non_cash"/>
+                            <field name="payment_kind"/>
+                            <field name="manual"/>
+                        </group>
+                        <group string="Amounts">
+                            <field name="amount"/>
+                            <field name="amount_tax"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Source">
+                            <field name="journal_id"/>
+                            <field name="move_id"/>
+                            <field name="move_line_id"/>
+                            <field name="source_move_id"/>
+                            <field name="source_move_line_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Review" invisible="not needs_review">
+                        <field name="review_reason" nolabel="1" readonly="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cssk_cash_journal_line_search" model="ir.ui.view">
+        <field name="name">cssk.cash.journal.line.search</field>
+        <field name="model">cssk.cash.journal.line</field>
+        <field name="arch" type="xml">
+            <search string="Cash Journal">
+                <field name="number"/>
+                <field name="ref"/>
+                <field name="label"/>
+                <field name="partner_id"/>
+                <field name="category_id"/>
+                <filter name="income" string="Income" domain="[('kind', '=', 'income')]"/>
+                <filter name="expense" string="Expenses" domain="[('kind', '=', 'expense')]"/>
+                <filter name="transit" string="Transit" domain="[('kind', '=', 'transit')]"/>
+                <separator/>
+                <filter name="taxable" string="Affects the tax base" domain="[('taxable', '=', True)]"/>
+                <filter name="non_cash" string="Non-cash" domain="[('non_cash', '=', True)]"/>
+                <separator/>
+                <filter name="needs_review" string="Needs review" domain="[('needs_review', '=', True)]"/>
+                <filter name="manual" string="Manual" domain="[('manual', '=', True)]"/>
+                <separator/>
+                <filter name="this_year" string="This Year"
+                        domain="[('date', '&gt;=', context_today().strftime('%Y-01-01'))]"/>
+                <separator/>
+                <filter name="group_category" string="Category" context="{'group_by': 'category_id'}"/>
+                <filter name="group_kind" string="Type" context="{'group_by': 'kind'}"/>
+                <filter name="group_payment_kind" string="Money" context="{'group_by': 'payment_kind'}"/>
+                <filter name="group_date" string="Month" context="{'group_by': 'date:month'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cssk_cash_journal_line" model="ir.actions.act_window">
+        <field name="name">Cash Journal</field>
+        <field name="res_model">cssk.cash.journal.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_cssk_cash_journal_line_search"/>
+        <field name="context">{'search_default_this_year': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">The denník is empty</p>
+            <p>Generate it from the posted payments with
+               <i>Generate Cash Journal</i>.</p>
+        </field>
+    </record>
+
+    <record id="action_cssk_cash_journal_line_review" model="ir.actions.act_window">
+        <field name="name">Cash Journal — Needs Review</field>
+        <field name="res_model">cssk.cash.journal.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_cssk_cash_journal_line_search"/>
+        <field name="domain">[('needs_review', '=', True)]</field>
+    </record>
+</odoo>

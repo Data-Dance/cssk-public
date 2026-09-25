@@ -1,0 +1,23 @@
+.o_fs_tree {
+    .o_fs_caret {
+        cursor: pointer;
+        user-select: none;
+        display: inline-block;
+        width: 1em;
+        text-align: center;
+        i {
+            color: var(--gray-600, #6c757d);
+        }
+    }
+    .o_fs_tree_table {
+        tbody tr:hover {
+            background-color: var(--gray-100, #f8f9fa);
+        }
+        td, th {
+            padding: 0.2rem 0.5rem;
+        }
+        .o_fs_aggregate {
+            background-color: var(--gray-100, #f8f9fa);
+        }
+    }
+}

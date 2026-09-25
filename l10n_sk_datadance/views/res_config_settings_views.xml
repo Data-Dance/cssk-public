@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form_sk_dd" model="ir.ui.view">
+        <field name="name">res.config.settings.form.sk.datadance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="l10n_cssk_core.res_config_settings_view_form_cssk" />
+        <field name="arch" type="xml">
+            <!-- Inject the SK-suite toggles INTO the shared CZ/SK localization
+                 block (defined by l10n_cssk_core), rather than creating a second
+                 "Slovak localization" block on the Accounting settings page. -->
+            <xpath expr="//block[@id='l10n_cssk_settings']" position="inside">
+                <!-- Community-only: Enterprise ships automatic exchange rates
+                     and deferred revenue/expense, so hide these on EE. -->
+                <setting id="sk_dd_fx" string="Exchange-rate sync (NBS/ECB)"
+                         invisible="l10n_cssk_is_enterprise"
+                         help="Daily NBS/ECB + VÚB/Tatra banka FX rates.">
+                    <field name="module_currency_rate_update_sk" />
+                </setting>
+                <setting id="sk_dd_cutoff" string="Časové rozlíšenie (deferrals)"
+                         invisible="l10n_cssk_is_enterprise"
+                         help="Prepaid/deferred expenses &amp; revenues (381–385).">
+                    <field name="module_l10n_sk_account_cutoff" />
+                </setting>
+                <setting id="sk_dd_reliability" string="Supplier reliability check"
+                         help="Verify the supplier's tax reliability + registered bank account before paying.">
+                    <field name="module_l10n_sk_payment_reliability" />
+                </setting>
+                <setting id="sk_dd_assets" string="Dual depreciation"
+                         help="Separate tax vs accounting depreciation.">
+                    <field name="module_l10n_sk_account_asset_tax" />
+                </setting>
+                <setting id="sk_dd_methoda" string="Method A inventory"
+                         help="Perpetual inventory (required for audited companies).">
+                    <field name="module_l10n_sk_stock_account_method_a" />
+                </setting>
+                <setting id="sk_dd_advance" string="Advance invoices"
+                         help="Zálohové faktúry + tax documents.">
+                    <field name="module_l10n_sk_sale_order_advance_invoice" />
+                </setting>
+                <setting id="sk_dd_predkontacie" string="Účtovné vzory (interné doklady)"
+                         help="Pomenované vzory MD/D pre interné doklady — účtovník vyberie vzor, zadá jednu sumu a zaúčtuje. Nejde o predkontáciu na doklade: faktúry, banku a pokladnicu účtuje Odoo podľa produktov, partnerov a daňových pravidiel.">
+                    <field name="module_l10n_sk_account_move_template" />
+                </setting>
+                <setting id="sk_dd_zavierka" string="Účtovná závierka"
+                         help="Uzavretie roka cez závierkové účty 710 / 702 a otvorenie cez 701.">
+                    <field name="module_l10n_sk_zavierka" />
+                </setting>
+                <setting id="sk_dd_lizing" string="Finančný prenájom"
+                         help="Splátkový kalendár, účty 474/474100/562 a zákonné kritériá (60 %, režim DPH).">
+                    <field name="module_l10n_sk_account_loan_oca" />
+                </setting>
+                <setting id="sk_dd_protokoly" string="Protokoly k majetku"
+                         help="Zaraďovací a vyraďovací protokol k dlhodobému majetku.">
+                    <field name="module_l10n_sk_asset_protocol_oca" />
+                </setting>
+                <setting id="sk_dd_jcd" string="Dovoz tovaru (JCD)"
+                         help="Colné vyhlásenie: clo do obstarávacej ceny zásob, daň pri dovoze na správne riadky DPH.">
+                    <field name="module_l10n_sk_jcd" />
+                </setting>
+                <setting id="sk_dd_phl" string="Vozidlá a PHL"
+                         help="Paušálny odpočet DPH pri vozidlách (§ 85n) a daňový podiel PHL (§ 19 ods. 2 písm. l).">
+                    <field name="module_l10n_sk_vehicle_expense" />
+                </setting>
+                <setting id="sk_dd_mis" string="Manažérske výkazy"
+                         help="Manažérska výsledovka na MIS Builder — pre Community, kde Odoo neponúka nič. Nie je to štatutárny výkaz.">
+                    <field name="module_l10n_sk_mis_reports" />
+                </setting>
+                <setting id="sk_dd_ai_invoice" string="Vyťažovanie faktúr (AI)"
+                         help="Načítanie došlých faktúr z PDF a vytvorenie návrhu dodávateľskej faktúry.">
+                    <field name="module_account_invoice_ai_extract" />
+                </setting>
+                <!-- Ročné podania. Nie sú súčasťou verejného repozitára; prepínač
+                     zostáva neaktívny, kým modul nie je v addons path. -->
+                <setting id="sk_dd_fs" string="Účtovná závierka (Súvaha, VZS)"
+                         help="Súvaha a Výkaz ziskov a strát v štruktúre pre register účtovných závierok. Súčasť predplatného Data Dance.">
+                    <field name="module_l10n_sk_fs" />
+                </setting>
+                <setting id="sk_dd_dppo" string="Daňové priznanie DPPO"
+                         help="Daňové priznanie k dani z príjmov právnických osôb. Súčasť predplatného Data Dance.">
+                    <field name="module_l10n_sk_dppo" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

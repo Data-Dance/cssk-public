@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_partner_form_l10n_sk_trade_registry" model="ir.ui.view">
+        <field name="name">res.partner.form.l10n_sk.trade.registry</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <!-- A struck-off counterparty is worth seeing before reading
+                 anything else on the record, not buried in a tab. -->
+            <sheet position="before">
+                <div class="alert alert-warning text-center" role="alert"
+                     invisible="not l10n_sk_register_inactive">
+                    <field name="l10n_sk_register_status" readonly="1" nolabel="1"
+                           class="fw-bold d-inline"/>
+                    <span> — subjekt podľa registra neobchoduje.</span>
+                    <field name="l10n_sk_dissolved_on" readonly="1"
+                           invisible="not l10n_sk_dissolved_on"/>
+                </div>
+            </sheet>
+
+            <notebook position="inside">
+                <page name="l10n_sk_trade_registry" string="Register (SK)"
+                      invisible="country_id and country_code != 'SK'">
+                    <group>
+                        <group string="Zápis">
+                            <field name="l10n_sk_register_name"/>
+                            <field name="l10n_sk_register_office"/>
+                            <field name="l10n_sk_register_number"/>
+                            <field name="l10n_sk_legal_form"/>
+                            <field name="l10n_sk_established_on"/>
+                            <field name="l10n_sk_trade_registry_statement"/>
+                        </group>
+                        <group string="Stav">
+                            <field name="l10n_sk_register_status"/>
+                            <field name="l10n_sk_dissolved_on"
+                                   invisible="not l10n_sk_dissolved_on"/>
+                            <field name="l10n_sk_nace"/>
+                            <field name="l10n_sk_size_category"/>
+                            <field name="l10n_sk_register_checked_on" readonly="1"/>
+                            <field name="l10n_sk_last_filing_period" readonly="1"
+                                   invisible="not l10n_sk_last_filing_period"/>
+                            <field name="l10n_sk_filing_years_overdue" readonly="1"
+                                   invisible="not l10n_sk_filing_years_overdue"/>
+                            <field name="l10n_sk_register_inactive" invisible="1"/>
+                            <field name="l10n_sk_has_suspended_activity" invisible="1"/>
+                            <button name="action_l10n_sk_refresh_register"
+                                    type="object" class="btn-link ps-0"
+                                    icon="fa-refresh"
+                                    string="Ask ORSF to re-read the registers"/>
+                        </group>
+                    </group>
+
+                    <div class="alert alert-warning" role="alert"
+                         invisible="not l10n_sk_has_suspended_activity">
+                        Aspoň jeden predmet podnikania je pozastavený — subjekt
+                        je aktívny, ale túto činnosť vykonávať nesmie.
+                    </div>
+
+                    <separator string="Predmety podnikania"/>
+                    <field name="l10n_sk_activity_ids" nolabel="1" readonly="1">
+                        <list create="0" delete="0" decoration-muted="not is_current">
+                            <field name="name"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to" optional="hide"/>
+                            <field name="suspended_from" optional="show"/>
+                            <field name="suspended_to" optional="hide"/>
+                            <field name="is_current" optional="hide"/>
+                            <field name="source" optional="hide"/>
+                        </list>
+                    </field>
+
+                    <separator string="Účtovné závierky (RÚZ)"/>
+                    <div class="text-muted mb8">
+                        Metadata only — ORSF carries no figures. Whether and when
+                        a customer filed is still a credit fact.
+                    </div>
+                    <field name="l10n_sk_filing_ids" nolabel="1" readonly="1">
+                        <list create="0" delete="0">
+                            <field name="period"/>
+                            <field name="filing_type"/>
+                            <field name="filed_on"/>
+                            <field name="approved_on" optional="hide"/>
+                            <field name="prepared_on" optional="hide"/>
+                            <field name="consolidated" optional="hide"/>
+                        </list>
+                    </field>
+
+                    <separator string="Predchádzajúce názvy a sídla"
+                               invisible="not l10n_sk_history_ids"/>
+                    <field name="l10n_sk_history_ids" nolabel="1" readonly="1"
+                           invisible="not l10n_sk_history_ids">
+                        <list create="0" delete="0">
+                            <field name="kind"/>
+                            <field name="value"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_l10n_sk_trade_registry" model="ir.ui.view">
+        <field name="name">res.partner.list.l10n_sk.trade.registry</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <list position="attributes">
+                <attribute name="decoration-muted">l10n_sk_register_inactive</attribute>
+            </list>
+            <!-- Appended rather than anchored on a named column: the contact
+                 list is inherited by many modules and its columns move. -->
+            <list position="inside">
+                <field name="l10n_sk_register_inactive" column_invisible="1"/>
+                <field name="l10n_sk_register_status" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_partner_l10n_sk_register_inactive" model="ir.actions.act_window">
+        <field name="name">Zrušené subjekty (SK)</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('l10n_sk_register_inactive', '=', True)]</field>
+        <field name="context">{'create': False}</field>
+    </record>
+</odoo>

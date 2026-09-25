@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_fs_statement_view_list" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.list</field>
+        <field name="model">cssk.fs.statement</field>
+        <field name="arch" type="xml">
+            <list string="Financial Statements">
+                <field name="name"/>
+                <field name="country_id"/>
+                <field name="statement_kind"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'submitted'"
+                       decoration-info="state == 'exported'"
+                       decoration-muted="state == 'legacy'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_fs_statement_view_form" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.form</field>
+        <field name="model">cssk.fs.statement</field>
+        <field name="arch" type="xml">
+            <form string="Financial Statement">
+                <header>
+                    <button name="action_compute_lines" type="object"
+                            string="Compute"
+                            invisible="state not in ('draft', 'preview')"/>
+                    <button name="action_export_xml" type="object"
+                            string="Export XML" class="btn-primary"
+                            invisible="state in ('draft', 'submitted', 'legacy')"/>
+                    <button name="action_submit" type="object"
+                            string="Mark Submitted" class="btn-primary"
+                            invisible="state != 'exported'"/>
+                    <button name="action_create_submission" type="object"
+                            string="File it" class="btn-primary"
+                            invisible="state not in ('exported', 'submitted')"
+                            help="Open a delivery for this filing. With only the
+                                  manual channel installed this records who filed
+                                  it on the portal and holds the receipts."/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state not in ('exported', 'submitted')"
+                            confirm="Reset this filing to draft? The originally filed copy is kept."/>
+                    <field name="unreconciled_count" invisible="1"/>
+                    <button name="action_view_unreconciled" type="object"
+                            class="btn-danger" icon="fa-exclamation-triangle"
+                            invisible="state in ('draft', 'legacy') or unreconciled_count == 0"
+                            string="Unreconciled rows"/>
+                    <button name="action_view_unreconciled" type="object"
+                            class="btn-success" icon="fa-check" disabled="1"
+                            invisible="state in ('draft', 'legacy') or unreconciled_count != 0"
+                            string="Rows tie out"/>
+                    <field name="unmapped_count" invisible="1"/>
+                    <button name="action_view_unmapped" type="object"
+                            class="btn-warning" icon="fa-question-circle"
+                            invisible="state in ('draft', 'legacy') or unmapped_count == 0"
+                            string="Accounts on no row"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,preview,exported,submitted"/>
+                    <field name="submission_state" widget="badge" optional="show"
+                           invisible="not submission_state"
+                           decoration-success="submission_state in ('accepted',)"
+                           decoration-info="submission_state in ('delivered',)"
+                           decoration-danger="submission_state in ('rejected','failed')"/>
+                </header>
+                <sheet>
+                    <!-- A filing can have SEVERAL comparisons, one per
+                         basis — itself recomputed, the ledger, another filing
+                         — so this leads to the list of them rather than to
+                         one. Hidden at zero: a stat button reading 0 invites
+                         a click that lands on an empty list. -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_cssk_open_comparisons" type="object"
+                                class="oe_stat_button" icon="fa-balance-scale"
+                                invisible="cssk_comparison_count == 0">
+                            <field name="cssk_comparison_count"
+                                   widget="statinfo" string="Comparisons"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="country_id"/>
+                            <field name="version_id"/>
+                            <field name="statement_kind"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="xml_attachment_id"/>
+                            <field name="submitted_attachment_id"
+                                   invisible="not submitted_attachment_id"/>
+                            <field name="submitted_date"
+                                   invisible="not submitted_date"/>
+                            <field name="submission_reference"/>
+                            <field name="filed_history_ids" widget="many2many_tags"
+                                   invisible="not filed_history_ids"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <p class="text-muted">
+                                Tick <b>Override</b> to enter a manual value and
+                                press <b>Compute</b> — preserved across recompute.
+                            </p>
+                            <field name="line_ids" widget="cssk_fs_tree" nolabel="1">
+                                <!-- The inner list only declares which fields the
+                                     foldable-tree widget loads; the widget renders
+                                     its own collapsible hierarchy. -->
+                                <list>
+                                    <field name="parent_id" column_invisible="1"/>
+                                    <field name="level" column_invisible="1"/>
+                                    <field name="kind" column_invisible="1"/>
+                                    <field name="is_leaf" column_invisible="1"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="current_value"/>
+                                    <field name="prior_value"/>
+                                    <field name="has_source" column_invisible="1"/>
+                                    <field name="source_reconciles" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_fs_statement_action" model="ir.actions.act_window">
+        <field name="name">Financial Statements</field>
+        <field name="res_model">cssk.fs.statement</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- One action per statement kind: the list is filtered to that kind and
+         New lands on it with the matching version preselected (fs_create_kind). -->
+    <record id="cssk_fs_balance_action" model="ir.actions.act_window">
+        <field name="name">Balance sheet</field>
+        <field name="res_model">cssk.fs.statement</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('statement_kind', '=', 'balance_sheet')]</field>
+        <field name="context">{'fs_create_kind': 'balance_sheet'}</field>
+    </record>
+    <record id="cssk_fs_pl_action" model="ir.actions.act_window">
+        <field name="name">Income statement</field>
+        <field name="res_model">cssk.fs.statement</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('statement_kind', '=', 'profit_loss')]</field>
+        <field name="context">{'fs_create_kind': 'profit_loss'}</field>
+    </record>
+    <record id="cssk_fs_cashflow_action" model="ir.actions.act_window">
+        <field name="name">Cash flow statement</field>
+        <field name="res_model">cssk.fs.statement</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('statement_kind', '=', 'cash_flow')]</field>
+        <field name="context">{'fs_create_kind': 'cash_flow'}</field>
+    </record>
+    <record id="cssk_fs_equity_action" model="ir.actions.act_window">
+        <field name="name">Statement of changes in equity</field>
+        <field name="res_model">cssk.fs.statement</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('statement_kind', '=', 'equity_changes')]</field>
+        <field name="context">{'fs_create_kind': 'equity_changes'}</field>
+    </record>
+
+    <!-- Drill-down target: tax/audit lens on the journal items behind a leaf row -->
+    <record id="view_move_line_fs_audit" model="ir.ui.view">
+        <field name="name">account.move.line.fs.audit</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <list string="Source documents" create="false" delete="false"
+                  edit="false" default_order="move_id, id">
+                <field name="move_id" string="Document"/>
+                <field name="partner_id"/>
+                <field name="account_id"/>
+                <field name="name" string="Description"/>
+                <field name="date"/>
+                <field name="balance" string="Balance" sum="Total"/>
+                <field name="tax_tag_ids" widget="many2many_tags"
+                       string="Tax tags" optional="show"/>
+                <field name="tax_ids" widget="many2many_tags"
+                       string="Taxes" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="account_asset_line_view_pivot" model="ir.ui.view">
+        <field name="name">account.asset.line.pivot (account_asset_board)</field>
+        <field name="model">account.asset.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Depreciation Analysis" sample="1">
+                <field name="asset_id" type="row" />
+                <field name="line_date" interval="year" type="col" />
+                <field name="amount" type="measure" />
+                <field name="remaining_value" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="account_asset_line_view_graph" model="ir.ui.view">
+        <field name="name">account.asset.line.graph (account_asset_board)</field>
+        <field name="model">account.asset.line</field>
+        <field name="arch" type="xml">
+            <graph string="Depreciation Analysis" type="bar" stacked="1" sample="1">
+                <field name="line_date" interval="year" />
+                <field name="amount" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="account_asset_line_view_search" model="ir.ui.view">
+        <field name="name">account.asset.line.search (account_asset_board)</field>
+        <field name="model">account.asset.line</field>
+        <field name="arch" type="xml">
+            <search string="Depreciation Lines">
+                <field name="asset_id" />
+                <field name="profile_id" />
+                <field name="name" />
+                <filter
+                    name="posted"
+                    string="Posted"
+                    domain="[('move_id', '!=', False)]"
+                    help="Depreciation lines with an accounting entry"
+                />
+                <filter
+                    name="planned"
+                    string="Planned"
+                    domain="[('move_id', '=', False)]"
+                    help="Depreciation lines without an accounting entry yet"
+                />
+                <group>
+                    <filter
+                        name="groupby_asset"
+                        string="Asset"
+                        context="{'group_by': 'asset_id'}"
+                    />
+                    <filter
+                        name="groupby_profile"
+                        string="Asset Profile"
+                        context="{'group_by': 'profile_id'}"
+                    />
+                    <filter
+                        name="groupby_year"
+                        string="Year"
+                        context="{'group_by': 'line_date:year'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="account_asset_line_action_analysis" model="ir.actions.act_window">
+        <field name="name">Depreciation Analysis</field>
+        <field name="res_model">account.asset.line</field>
+        <field name="view_mode">pivot,graph</field>
+        <field name="domain">[('type', '=', 'depreciate')]</field>
+        <field name="search_view_id" ref="account_asset_line_view_search" />
+        <field name="context">{'search_default_groupby_asset': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No depreciation lines yet</p>
+            <p>Confirm an asset and compute its depreciation board to analyse the yearly depreciation here.</p>
+        </field>
+    </record>
+
+</odoo>

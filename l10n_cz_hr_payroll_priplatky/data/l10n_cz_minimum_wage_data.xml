@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Základní sazba minimální mzdy (§ 111 zákoníku práce).
+
+        From 1 January 2025 zákon č. 230/2024 Sb. abolished zaručená mzda in
+        the commercial sector and tied the minimum wage to a share of the
+        forecast average wage, so a single basic rate now covers every
+        private-sector employee regardless of the difficulty of the work.
+        That is why there is one figure per year here and no equivalent of the
+        Slovak six-level stupne náročnosti table.
+
+        The hourly figure is the published one, quoted for the 40-hour week of
+        § 79 odst. 1. It is NOT the monthly amount divided by the month's
+        hours, and the two do not reconcile exactly — see min_wage_hourly()
+        and min_wage_topup_monthly() in surcharge_calc.py for why that matters.
+    -->
+    <record id="minimum_wage_2025" model="l10n.cz.minimum.wage">
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+        <field name="amount_monthly">20800</field>
+        <field name="amount_hourly">124.40</field>
+    </record>
+    <record id="minimum_wage_2026" model="l10n.cz.minimum.wage">
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+        <field name="amount_monthly">22400</field>
+        <field name="amount_hourly">134.40</field>
+    </record>
+</odoo>

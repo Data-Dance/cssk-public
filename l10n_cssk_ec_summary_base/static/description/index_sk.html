@@ -1,0 +1,79 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK súhrnný výkaz — Spoločný rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Krajinovo neutrálny engine pre slovenský Súhrnný výkaz a české Souhrnné hlášení</h3>
+    <div class="oe_span12">
+      <p>Toto je krajinovo neutrálny engine pre slovenský <b>Súhrnný výkaz</b> a české
+         <b>Souhrnné hlášení</b> (súhrnný výkaz / EC sales list). Oba majú <b>rovnaký tvar
+         riadka</b> — jeden agregovaný riadok na (členský štát, IČ DPH zákazníka, kód transakcie) —
+         takže jeden riadkový model slúži obom; národné moduly dodávajú len kódy, XML šablónu a
+         schému.</p>
+      <p>Závisí <b>len od jadra Odoo</b> (<code>account</code>, <code>mail</code>,
+         <code>l10n_cssk_core</code>) — bez <code>account_reports</code> — takže je čistý pre
+         Community/Enterprise aj 18.0/19.0.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.ec.summary.statement.version</code> — verziovaná šablóna + schéma + typy.</li>
+        <li><code>cssk.ec.summary.statement</code> (mail.thread; koncept → náhľad → exportované →
+            podané) s <code>action_compute_lines</code> a <code>action_export_xml</code>.</li>
+        <li><code>cssk.ec.summary.statement.line</code> — agregovaný riadok.</li>
+        <li><code>account.tax.cssk_ec_summary_code</code> — označuje dane z dodania do EÚ a ich kód
+            transakcie.</li>
+        <li><b>Povinná predkontrola VIES</b> pred exportom (tvrdé zablokovanie — podaný súhrnný
+            výkaz s neplatným IČ DPH je v oboch jurisdikciách sankcionovaný).</li>
+        <li>Pipeline exportu XML overená voči XSD (predkontrola VIES → vykreslenie QWeb → validácia
+            XSD → príloha).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Označte každú daň z dodania do EÚ jej kódom transakcie (krok nasadenia), potom vytvorte
+         výkaz za obdobie v <i>Účtovníctvo ▸ Výkazy ▸ Súhrnný výkaz ▸ Nový súhrnný výkaz</i>,
+         kliknite na <b>Vypočítať</b> pre agregované riadky, skontrolujte ich, spustite
+         <b>predkontrolu VIES</b> a <b>Exportovať XML</b> na podanie. O zahrnutí rozhodujú výhradne
+         označené dane.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Vytvoriť súhrnný výkaz <small>(Účtovníctvo ▸ Výkazy ▸ Súhrnný výkaz ▸ Nový súhrnný výkaz)</small></h4>
+      <p><b>Čo robí:</b> vytvorí súhrnný výkaz za obdobie a v jednom kroku ho vypočíta
+         (<code>cssk.ec.summary.wizard</code>).</p>
+      <p><b>Ako používať:</b> otvorte sprievodcu, zvoľte firmu, verziu (filtrovanú podľa daňovej
+         krajiny firmy), typ výkazu, typ obdobia (mesačný / štvrťročný) a dátumy od/do, potom
+         <i>Vytvoriť</i>. Výkaz sa vytvorí, jeho riadky sa vypočítajú a otvorí sa formulár nového
+         výkazu na kontrolu a export.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

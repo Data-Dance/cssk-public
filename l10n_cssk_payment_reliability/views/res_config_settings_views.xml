@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="res_config_settings_view_form_cssk_reliability" model="ir.ui.view">
+        <field name="name">res.config.settings.form.cssk.reliability</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='account_vendor_bills']" position="inside">
+                <setting id="cssk_reliability_autocheck_setting"
+                         string="Supplier reliability check (CZ/SK)"
+                         help="On vendor-bill posting, check the supplier's tax reliability and registered bank accounts; warn on risk (never blocks).">
+                    <field name="cssk_reliability_autocheck" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

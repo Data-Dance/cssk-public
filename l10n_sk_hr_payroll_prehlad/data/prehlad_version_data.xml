@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="prehlad_version_2026" model="cssk.payroll.declaration.version">
+        <field name="name">Monthly tax overview 2026</field>
+        <field name="code">sk_prehlad</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2026-01-01</field>
+        <field name="xml_template_ref_id"
+               ref="l10n_sk_hr_payroll_prehlad.prehlad_xml"/>
+        <field name="xml_root_element">dokument</field>
+        <field name="xml_schema_module">l10n_sk_hr_payroll_prehlad</field>
+        <field name="xml_schema_filename">data/prehlad2026.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_hr_payroll_prehlad/data/prehlad2026.xsd"/>
+    </record>
+
+</odoo>

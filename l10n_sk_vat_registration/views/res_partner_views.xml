@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <!--
+        Anchor on the container rather than on `vat` itself.
+
+        `base_vat` (priority 15) MOVES `<field name="vat"/>` into
+        `<div name="vat_vies_container">`, so a spec of `<field name="vat"
+        position="after">` resolves to a node that is by then inside that div —
+        and fields placed in a div inside a group render with no label at all.
+        Placing them after the container keeps them as group rows, with the
+        labels the values need to mean anything.
+    -->
+    <record id="view_partner_form_l10n_sk_vat_registration" model="ir.ui.view">
+        <field name="name">res.partner.form.l10n_sk.vat.registration</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base_vat.view_partner_base_vat_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='vat_vies_container']" position="after">
+                <field name="l10n_sk_vat_registration_category"
+                       invisible="country_id and country_code != 'SK'"/>
+                <field name="l10n_sk_vat_payer_since"
+                       invisible="not l10n_sk_vat_registration_category"/>
+                <field name="l10n_sk_is_full_vat_payer" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

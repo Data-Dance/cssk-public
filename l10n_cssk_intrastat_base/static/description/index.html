@@ -1,0 +1,65 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Intrastat — INSTAT XML builder (base)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Edition-neutral INTRASTAT-SK INSTAT (instat62) XML renderer shared by the Community (OCA) and Enterprise adapters</h3>
+    <div class="oe_span12">
+      <p>Edition-neutral, dependency-free <b>INSTAT (instat62)</b> XML builder and validator for
+         <b>INTRASTAT-SK</b>. It renders and validates the official Finančná správa INTRASTAT-SK
+         message (<code>intrastat.financnasprava.sk</code>, schema <code>instat62.xsd</code>
+         vendored in <code>data/</code>) from a normalized header + line dicts.</p>
+      <p>It depends on <code>base</code> only — <b>no</b> dependency on the OCA intrastat engine
+         or Odoo Enterprise <code>account_intrastat</code> — so it is LGPL-3 and can be imported
+         by the AGPL Community adapter (<code>l10n_sk_intrastat</code>) and the proprietary
+         Enterprise adapter alike. There is no UI; this is a shared rendering library.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.instat.builder</code> (AbstractModel) with two entry points:
+            <code>build_instat_xml(header, lines)</code> for one declaration / one flow
+            (Community adapter), and <code>build_instat_envelope(env_header, decl_groups)</code>
+            for one envelope with several declarations, e.g. arrivals + dispatches (Enterprise
+            adapter).</li>
+        <li>Both validate the rendered XML against the vendored <code>instat62.xsd</code> and
+            raise on failure.</li>
+        <li>Integer coercion of <code>netMass</code> / <code>quantityInSU</code> /
+            <code>invoicedAmount</code> per the schema.</li>
+        <li>Normalized Party / Address rendering for the envelope sender and each declaration's
+            PSI.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>This module ships no menus or views. The Community / Enterprise INTRASTAT-SK adapters
+         call <code>self.env["cssk.instat.builder"].build_instat_xml(header, lines)</code> (or
+         <code>build_instat_envelope(...)</code>) with the normalized header and line dicts
+         documented in <code>models/cssk_instat_builder.py</code> and embed the validated XML in
+         the declaration.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

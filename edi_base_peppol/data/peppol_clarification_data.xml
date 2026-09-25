@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Peppol Invoice Response clarification codes (OPStatusReason /
+         OPStatusAction), mirroring Odoo core's account.peppol.clarification so
+         responses interoperate with Odoo-proxy participants. -->
+
+    <!-- ============ Status reasons (OPStatusReason) ============ -->
+    <record id="clar_reason_non" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">NON</field><field name="name">No issue</field>
+    </record>
+    <record id="clar_reason_ref" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">REF</field><field name="name">References incorrect</field>
+    </record>
+    <record id="clar_reason_leg" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">LEG</field><field name="name">Legal information incorrect</field>
+    </record>
+    <record id="clar_reason_rec" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">REC</field><field name="name">Receiver unknown</field>
+    </record>
+    <record id="clar_reason_qua" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">QUA</field><field name="name">Item quality insufficient</field>
+    </record>
+    <record id="clar_reason_del" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">DEL</field><field name="name">Delivery issues</field>
+    </record>
+    <record id="clar_reason_pri" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">PRI</field><field name="name">Prices incorrect</field>
+    </record>
+    <record id="clar_reason_qty" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">QTY</field><field name="name">Quantity incorrect</field>
+    </record>
+    <record id="clar_reason_itm" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">ITM</field><field name="name">Items incorrect</field>
+    </record>
+    <record id="clar_reason_pay" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">PAY</field><field name="name">Payment terms incorrect</field>
+    </record>
+    <record id="clar_reason_fin" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">FIN</field><field name="name">Finance incorrect</field>
+    </record>
+    <record id="clar_reason_ppd" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">PPD</field><field name="name">Partially paid</field>
+    </record>
+    <record id="clar_reason_unr" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">UNR</field><field name="name">Not recognized</field>
+    </record>
+    <record id="clar_reason_oth" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusReason</field>
+        <field name="code">OTH</field><field name="name">Other</field>
+    </record>
+
+    <!-- ============ Status actions (OPStatusAction) ============ -->
+    <record id="clar_action_ncr" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusAction</field>
+        <field name="code">NCR</field><field name="name">Issue a credit note</field>
+    </record>
+    <record id="clar_action_nin" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusAction</field>
+        <field name="code">NIN</field><field name="name">Issue a new invoice</field>
+    </record>
+    <record id="clar_action_pin" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusAction</field>
+        <field name="code">PIN</field><field name="name">Provide additional information</field>
+    </record>
+    <record id="clar_action_nop" model="edi.peppol.clarification">
+        <field name="list_identifier">OPStatusAction</field>
+        <field name="code">NOA</field><field name="name">No action required</field>
+    </record>
+</odoo>

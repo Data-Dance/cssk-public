@@ -1,0 +1,299 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_vat_return
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-26 22:20+0000\n"
+"PO-Revision-Date: 2026-06-26 22:20+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__date
+msgid "As of date"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__bill_ids
+msgid "Bill"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__bill_count
+msgid "Bill Count"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+msgid "Chýba daňová značka r29 (§ 53b) pre SK."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_move__l10n_sk_par53b_state__corrected
+msgid "Corrected (§ 53b)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__threshold_days
+msgid "Days overdue"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__journal_id
+msgid "Denník opráv"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+msgid "Faktúra %s nebola opravená podľa § 53b."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+msgid "Faktúra %s nemá odpočítanú daň na opravu."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__id
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_account_bank_statement_line__l10n_sk_par53b_is_reclaim
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_account_move__l10n_sk_par53b_is_reclaim
+msgid "Interná oprava, ktorá po zaplatení vracia odpočet späť."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model,name:l10n_sk_vat_return.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__date
+msgid ""
+"K tomuto dňu sa posudzuje 100-dňová lehota; opravná interná faktúra dostane "
+"tento dátum."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.actions.act_window,name:l10n_sk_vat_return.action_l10n_sk_par53b_wizard
+#: model:ir.ui.menu,name:l10n_sk_vat_return.menu_l10n_sk_par53b
+msgid "Oprava odpočítanej dane (§ 53b)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model,name:l10n_sk_vat_return.model_l10n_sk_par53b_wizard
+msgid "Oprava odpočítanej dane pri nevymožiteľnej pohľadávke (§ 53b)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.view_l10n_sk_par53b_wizard_form
+msgid "Oprava odpočítanej dane § 53b"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_bank_statement_line__l10n_sk_par53b_correction_ids
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_move__l10n_sk_par53b_correction_ids
+msgid "Opravy § 53b"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_bank_statement_line__l10n_sk_par53b_origin_id
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_move__l10n_sk_par53b_origin_id
+msgid "Original invoice (§ 53b)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_account_bank_statement_line__l10n_sk_par53b_origin_id
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_account_move__l10n_sk_par53b_origin_id
+msgid "Prijatá faktúra, ktorej odpočítaná daň sa opravuje podľa § 53b."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__correction_account_id
+msgid "Protiúčet (náklad)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_move__l10n_sk_par53b_state__reclaimed
+msgid "Reclaimed"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.dph_2025
+msgid "SK"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_bank_statement_line__l10n_sk_par53b_state
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_move__l10n_sk_par53b_state
+msgid "Stav § 53b"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model,name:l10n_sk_vat_return.model_cssk_vat_return
+msgid "VAT Return"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.view_l10n_sk_par53b_wizard_form
+msgid "Vygenerovať opravy"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.view_l10n_sk_par53b_wizard_form
+msgid ""
+"Vygeneruje opravu odpočítanej dane (r29 daňového priznania)\n"
+"                    pre prijaté faktúry nezaplatené viac ako 100 dní po\n"
+"                    splatnosti (§ 53b zákona o DPH). Oprava je úmerná\n"
+"                    nezaplatenej časti faktúry."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.view_l10n_sk_par53b_wizard_form
+msgid "Zrušiť"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+msgid "id"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+msgid "§ 53b — oprava odpočítanej dane"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_bank_statement_line__l10n_sk_par53b_is_reclaim
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_move__l10n_sk_par53b_is_reclaim
+msgid "§ 53b — znovu uplatnenie"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+msgid "§ 53b — znovu uplatnenie odpočítanej dane"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__threshold_days
+msgid ""
+"§ 53b: oprava ak je faktúra nezaplatená viac ako 100 dní po splatnosti."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__correction_account_id
+msgid ""
+"Účet, na ktorý sa preúčtuje opravená (neodpočítateľná) daň — zvyčajne 548."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+msgid "Žiadne faktúry nespĺňajú podmienky § 53b k %s."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
+msgid ""
+"Faktúra %s nemá čo znovu uplatniť podľa § 53b ods. 6 — buď nebola (ďalej) "
+"zaplatená, alebo už bola opravená daň znovu uplatnená v plnej výške "
+"zaplatenia."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_tax__l10n_sk_dph_69_par__auto
+msgid "From the supplier's country"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_tax__l10n_sk_dph_69_par
+msgid "SK § 69 paragraph (pre-2021 vzory)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.module.module,summary:base.module_l10n_sk_vat_return
+msgid ""
+"Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax "
+"tags, with FS SR DPH XML export. Built on the shared "
+"l10n_cssk_vat_return_base framework."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.module.module,shortdesc:base.module_l10n_sk_vat_return
+msgid "Slovakia — VAT Return (Daňové priznanie k DPH)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_account_tax__l10n_sk_dph_69_par
+msgid ""
+"Which row a reverse-charge amount takes on a DPH return for a period before 1. 1. 2021. Only those vzory separate the paragraphs; from 2021 the form merges them and this is ignored.\n"
+"\n"
+"Left on 'From the supplier's country' — the default, and right for the shared l10n_sk reverse-charge taxes — a line is treated as § 69 ods. 3 when its supplier is established outside Slovakia, which is what that paragraph says. Set it explicitly on a tax a company uses for ONE paragraph only: a dedicated domestic-construction prenos tax is '§ 69 ods. 2 a 9 až 12' whoever the supplier is, and a § 69 ods. 2 goods-with-installation tax is too, even though its supplier is foreign."
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_tax__l10n_sk_dph_69_par__69_other
+msgid "§ 69 ods. 2 a 9 až 12"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_tax__l10n_sk_dph_69_par__69_3
+msgid "§ 69 ods. 3 — služba od zahraničnej osoby"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_move__l10n_sk_par53b_state__none
+msgid "—"
+msgstr ""

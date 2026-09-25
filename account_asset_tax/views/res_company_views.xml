@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_tax_vehicle_cap" model="ir.ui.view">
+        <field name="name">res.company.form.tax.vehicle.cap</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <field name="currency_id" position="after">
+                <field name="tax_vehicle_cap_amount"
+                       groups="account.group_account_manager"/>
+                <field name="tax_deferred_journal_id"
+                       groups="account.group_account_manager"/>
+                <field name="account_deferred_tax_id"
+                       groups="account.group_account_manager"/>
+                <field name="account_deferred_tax_pl_id"
+                       groups="account.group_account_manager"/>
+            </field>
+        </field>
+    </record>
+</odoo>

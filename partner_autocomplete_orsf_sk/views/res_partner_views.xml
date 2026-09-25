@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <!--
+        Distinct from the dispatcher's "Update", deliberately.
+
+        Update reads the full company record per partner — everything, but 30
+        requests a minute, so a bulk run silently stops after about twenty.
+        This one trades depth for reach: identity only, 100 IČOs a call.
+    -->
+    <record id="action_orsf_bulk_refresh" model="ir.actions.server">
+        <field name="name">Refresh identity from ORSF (bulk)</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="binding_model_id" ref="base.model_res_partner"/>
+        <field name="state">code</field>
+        <field name="code">records.action_orsf_bulk_refresh()</field>
+    </record>
+</odoo>

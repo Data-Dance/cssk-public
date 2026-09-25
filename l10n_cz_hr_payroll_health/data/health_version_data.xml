@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="pppz_version_2025" model="cssk.payroll.declaration.version">
+        <field name="name">PPPZ 2025 (v8)</field>
+        <field name="code">cz_pppz</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_hr_payroll_health.pppz_xml"/>
+        <field name="xml_root_element">prehledPlatbyZamestnavatele</field>
+        <field name="xml_schema_module">l10n_cz_hr_payroll_health</field>
+        <field name="xml_schema_filename">data/PPPZ_2025_v8.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_cz_hr_payroll_health/data/PPPZ_2025_v8.xsd"/>
+    </record>
+
+    <record id="hoz_version_2025" model="cssk.payroll.declaration.version">
+        <field name="name">HOZ 2025 (v8)</field>
+        <field name="code">cz_hoz</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_hr_payroll_health.hoz_xml"/>
+        <field name="xml_root_element">hromadneOznameniZamestnavatele</field>
+        <field name="xml_schema_module">l10n_cz_hr_payroll_health</field>
+        <field name="xml_schema_filename">data/HOZ_2025_v8.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_cz_hr_payroll_health/data/HOZ_2025_v8.xsd"/>
+    </record>
+
+</odoo>

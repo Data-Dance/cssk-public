@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_asset_tax_event_wizard_form" model="ir.ui.view">
+        <field name="name">account.asset.tax.event.wizard.form</field>
+        <field name="model">account.asset.tax.event.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Tax Depreciation Event">
+                <field name="currency_id" invisible="1"/>
+                <group>
+                    <field name="asset_display" readonly="1"/>
+                    <field name="event_type"/>
+                    <field name="date"/>
+                    <field name="amount"
+                           invisible="event_type != 'improvement'"
+                           required="event_type == 'improvement'"/>
+                    <field name="duration_years"
+                           invisible="event_type != 'suspension'"/>
+                    <field name="note"/>
+                </group>
+                <div class="text-muted" invisible="event_type != 'improvement'">
+                    Technical improvement raises the tax entry value and recomputes
+                    the board from this year using the increased-price rate (CZ §31)
+                    or increased-residual coefficient (CZ §32 / SK §28).
+                </div>
+                <div class="text-muted" invisible="event_type != 'suspension'">
+                    Suspension inserts the chosen number of zero years and shifts
+                    the remaining board out (CZ §26(8) / SK §22(9)).
+                </div>
+                <div class="text-muted" invisible="event_type != 'disposal'">
+                    Disposal truncates the board: CZ allows half the annual charge
+                    in the disposal year (§26(7)); SK prorates to the month before.
+                </div>
+                <footer>
+                    <button name="action_apply" type="object" string="Apply"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_asset_tax_event_wizard" model="ir.actions.act_window">
+        <field name="name">Tax Depreciation Event</field>
+        <field name="res_model">account.asset.tax.event.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

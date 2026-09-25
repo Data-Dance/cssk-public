@@ -1,0 +1,68 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK EC Sales List — VIES proof</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Validate EC sales list partners against EU VIES at export and snapshot the consultation number onto each line</h3>
+    <div class="oe_span12">
+      <p>Glue module that wires the CZ/SK <b>EC Sales List</b> (recapitulative statement —
+         <i>Súhrnný výkaz</i> / <i>Souhrnné hlášení</i>) to <b>direct EU VIES</b> validation.
+         When both <code>l10n_cssk_ec_summary_base</code> and <code>l10n_cssk_vies</code> are
+         installed, the EC sales list export performs a <b>real VIES check</b> — not merely a
+         format gate — for companies using direct EU VIES, and <b>snapshots</b> the official
+         consultation number, the check timestamp and the validity onto each reported line, so
+         re-opening a filed statement shows exactly what was confirmed.</p>
+      <p>It <code>auto_install</code>s when its two dependencies are present and adds three
+         read-only columns to the EC sales list line table.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>On export, each reported line's foreign VAT number is verified against EU VIES
+            (only when the company has <i>Use direct EU VIES</i> enabled).</li>
+        <li>A line whose VAT VIES reports as <b>invalid</b> is a hard block on export — a
+            filing carrying an invalid VAT number is penalised.</li>
+        <li>The official <b>consultation number</b> (<code>requestIdentifier</code>), the
+            <b>check date</b> and the <b>validity</b> are stored on each line as proof of the
+            consultation as of the filing date.</li>
+        <li>A transient VIES outage does <b>not</b> block the statutory filing; affected lines
+            are exported without a fresh confirmation and the gap is logged in the statement
+            chatter so the check can be repeated.</li>
+        <li>The base presence/format hard-block from <code>l10n_cssk_ec_summary_base</code>
+            runs first and is unchanged.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Accounting ▸ Reporting ▸ EC Sales List.</i> Build and compute a statement as usual,
+         then export it. If the company uses direct EU VIES, each line is checked against VIES
+         at export: invalid numbers stop the export, the consultation number / check date /
+         validity are written to the line, and an unreachable VIES is logged in the chatter
+         without blocking the filing. Enable <i>Use direct EU VIES</i> under the VIES settings
+         (<code>l10n_cssk_vies</code>) for the check to run.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Priority 10 is load-bearing.
+
+        `base_vat` (priority 15) MOVES `<field name="vat"/>` into
+        `<div name="vat_vies_container">`. Applied after it, a spec of
+        `<field name="vat" position="before">` resolves to a node that is by
+        then inside that div, and fields placed in a div inside a group render
+        with NO LABEL — which is how DIČ and Typ osoby ended up as two bare,
+        unlabelled values with a blank gap where their labels should have been.
+
+        Running before base_vat means `vat` is still a plain child of the group,
+        so these two land as proper group rows and stay there when base_vat
+        subsequently moves only `vat` away.
+    -->
+    <record id="res_partner_view_form_cssk" model="ir.ui.view">
+        <field name="name">res.partner.form.cssk</field>
+        <field name="model">res.partner</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="before">
+                <field name="l10n_cssk_person_type_id"/>
+            </field>
+
+            <!--
+                Show the IČO on Czech and Slovak partners that core hides.
+
+                Core's rule is `invisible="parent_id or not is_company"`, which
+                is reasonable in general and wrong here: stock website_sale
+                creates the buyer as a PERSON carrying its own
+                `company_registry` (production has ~34 of them), so on exactly
+                those records the IČO was invisible while being the number the
+                invoice depends on.
+
+                The retired `l10n_base_sk_cz` used to override this and the
+                replacement did not carry it over, which is how it went
+                missing. Its version hid the field outright outside CZ/SK,
+                taking a German HRB number with it; this one only RELAXES the
+                `is_company` half for CZ/SK and leaves core's behaviour intact
+                everywhere else. The `parent_id` half stays: on a child the
+                value is inherited from the commercial parent, and editing it
+                there rewrites it for the whole group.
+            -->
+            <xpath expr="//field[@name='company_registry']" position="attributes">
+                <attribute name="invisible">parent_id or (not is_company and country_code not in ['CZ', 'SK'])</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

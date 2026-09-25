@@ -1,0 +1,1156 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-28 22:38+0000\n"
+"PO-Revision-Date: 2026-06-13 20:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "(corrective)"
+msgstr "(opravná)"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__account_formula
+msgid "Account Formula"
+msgstr "Vzorec účtov"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line__kind__accounts_close
+msgid "Account balances — period end"
+msgstr "Zostatky účtov — koniec obdobia"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line_def__kind__accounts_close
+msgid "Account balances — period end (cash flow)"
+msgstr "Zostatky účtov — koniec obdobia (cash flow)"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line__kind__accounts_open
+msgid "Account balances — period start"
+msgstr "Zostatky účtov — začiatok obdobia"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line_def__kind__accounts_open
+msgid "Account balances — period start (cash flow)"
+msgstr "Zostatky účtov — začiatok obdobia (cash flow)"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line__kind__accounts
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line_def__kind__accounts
+msgid "Account codes"
+msgstr "Kódy účtov"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__account_formula
+msgid ""
+"Account-code prefixes for kind=accounts, e.g. '012,013,-072' (leading '-' "
+"negates the token)."
+msgstr ""
+"Predčíslia účtových kódov pre kind=accounts, napr. '012,013,-072' (úvodné "
+"'-' znamienko tokenu obracia)."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akciu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__active
+msgid "Active"
+msgstr "Aktívne"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorácia výnimky aktivity"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line__kind__aggregate
+msgid "Aggregate"
+msgstr "Súhrn"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__aggregate_formula
+msgid "Aggregate Formula"
+msgstr "Agregačný vzorec"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line_def__kind__aggregate
+msgid "Aggregate of other lines"
+msgstr "Súhrn ostatných riadkov"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__amendment_ids
+msgid "Amendments"
+msgstr "Opravné podania"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__original_return_id
+msgid "Amends"
+msgstr "Opravuje"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.view_move_line_fs_audit
+msgid "Balance"
+msgstr "Zostatok"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
+#: model:ir.actions.act_window,name:l10n_cssk_fs_base.cssk_fs_balance_action
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_version__statement_kind__balance_sheet
+#: model:ir.ui.menu,name:l10n_cssk_fs_base.menu_cssk_fs_balance
+msgid "Balance sheet"
+msgstr "Súvaha"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__statement_kind
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_version__statement_kind
+msgid ""
+"Balance sheet evaluates account balances **as of** the period end "
+"(cumulative); P&L, cash flow and changes-in-equity evaluate the **period** "
+"movement (use the accounts_open / accounts_close line kinds for the "
+"opening / closing balances within those statements)."
+msgstr ""
+"Súvaha vyhodnocuje zostatky účtov **as of** ku koncu obdobia (kumulatívne); "
+"výkaz ziskov a strát, cash flow a prehľad o zmenách vlastného imania "
+"vyhodnocujú **period** pohyb za obdobie (pre počiatočné / konečné zostatky v "
+"rámci týchto výkazov použite druhy riadkov accounts_open / accounts_close)."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__state__cancelled
+msgid "Cancelled"
+msgstr "Zrušené"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
+#: model:ir.actions.act_window,name:l10n_cssk_fs_base.cssk_fs_cashflow_action
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_version__statement_kind__cash_flow
+#: model:ir.ui.menu,name:l10n_cssk_fs_base.menu_cssk_fs_cashflow
+msgid "Cash flow statement"
+msgstr "Prehľad peňažných tokov"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__child_ids
+msgid "Child"
+msgstr "Podriadený"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__code
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__code
+msgid "Code"
+msgstr "Kód"
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
+msgid "Collapse all"
+msgstr "Zbaliť všetko"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Compute"
+msgstr "Vypočítať"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "Compute the statement before exporting."
+msgstr "Pred exportom výkaz vypočítajte."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__submission_type__opravna
+msgid "Corrective"
+msgstr "Opravná"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__country_id
+msgid "Country"
+msgstr "Krajina"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__create_date
+msgid "Created on"
+msgstr "Vytvorené dňa"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__company_currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__current_value
+msgid "Current Value"
+msgstr "Aktuálna hodnota"
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
+msgid "Current period"
+msgstr "Bežné obdobie"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__date_from
+msgid "Date From"
+msgstr "Dátum od"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__date_to
+msgid "Date To"
+msgstr "Dátum do"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.view_move_line_fs_audit
+msgid "Description"
+msgstr "Popis"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.view_move_line_fs_audit
+msgid "Document"
+msgstr "Doklad"
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.js:0
+msgid "Does not tie (rounding / clamp / carryover)"
+msgstr "Nesúhlasí (zaokrúhlenie / orez / prenos)"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__state__draft
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
+msgid "Expand all"
+msgstr "Rozbaliť všetko"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Export XML"
+msgstr "Exportovať XML"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__state__exported
+msgid "Exported"
+msgstr "Exportované"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model,name:l10n_cssk_fs_base.model_cssk_fs_statement
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Financial Statement"
+msgstr "Účtovný výkaz"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model,name:l10n_cssk_fs_base.model_cssk_fs_statement_line
+msgid "Financial Statement Line"
+msgstr "Riadok účtovného výkazu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model,name:l10n_cssk_fs_base.model_cssk_fs_statement_line_def
+msgid "Financial Statement Line Definition"
+msgstr "Definícia riadku účtovného výkazu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model,name:l10n_cssk_fs_base.model_cssk_fs_statement_version
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_version_view_form
+msgid "Financial Statement Version"
+msgstr "Verzia účtovného výkazu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.actions.act_window,name:l10n_cssk_fs_base.cssk_fs_version_action
+#: model:ir.ui.menu,name:l10n_cssk_fs_base.menu_cssk_fs_version
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_version_view_list
+msgid "Financial Statement Versions"
+msgstr "Verzie účtovných výkazov"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.actions.act_window,name:l10n_cssk_fs_base.cssk_fs_statement_action
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_list
+msgid "Financial Statements"
+msgstr "Účtovné výkazy"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
+msgid "Financial statements"
+msgstr "Účtovná závierka"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__country_id
+msgid "Fiscal Country"
+msgstr "Fiškálna krajina"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_follower_ids
+msgid "Followers"
+msgstr "Sledujúci"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledujúci (partneri)"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, napr. fa-tasks"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__aggregate_formula
+msgid "Formula over line codes for kind=aggregate, e.g. 'a_i + a_ii'."
+msgstr "Vzorec nad kódmi riadkov pre kind=aggregate, napr. 'a_i + a_ii'."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__has_source
+msgid "Has Source"
+msgstr "Má zdroj"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__id
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__id
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označujúca výnimočnú aktivitu."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
+#: model:ir.actions.act_window,name:l10n_cssk_fs_base.cssk_fs_pl_action
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_version__statement_kind__profit_loss
+#: model:ir.ui.menu,name:l10n_cssk_fs_base.menu_cssk_fs_pl
+msgid "Income statement"
+msgstr "Výkaz ziskov a strát"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__level
+msgid "Indentation level for display (0 = top)."
+msgstr "Úroveň odsadenia pre zobrazenie (0 = najvyššia)."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledujúci"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__is_leaf
+msgid "Is Leaf"
+msgstr "Je list"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model,name:l10n_cssk_fs_base.model_account_move_line
+msgid "Journal Item"
+msgstr "Položka denníka"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__kind
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__kind
+msgid "Kind"
+msgstr "Druh"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené dňa"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__level
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__level
+msgid "Level"
+msgstr "Úroveň"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__line_ids
+msgid "Line"
+msgstr "Riadok"
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
+msgid "Line / Item"
+msgstr "Riadok / Položka"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__line_def_ids
+msgid "Line Def"
+msgstr "Definícia riadku"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_version_view_form
+msgid "Lines"
+msgstr "Riadky"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line__kind__manual
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line_def__kind__manual
+msgid "Manual"
+msgstr "Ručné"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__manual_value
+msgid "Manual Value"
+msgstr "Ručná hodnota"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Mark Submitted"
+msgstr "Označiť ako podané"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mojej aktivity"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__name
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__name
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__name
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín ďalšej aktivity"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_summary
+msgid "Next Activity Summary"
+msgstr "Súhrn ďalšej aktivity"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ ďalšej aktivity"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "Only draft statements can be recomputed."
+msgstr "Prepočítať možno iba výkazy v stave návrh."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__is_overridden
+msgid "Override"
+msgstr "Prepis"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__parent_id
+msgid "Parent"
+msgstr "Nadriadený"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__state__preview
+msgid "Preview"
+msgstr "Náhľad"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__prior_value
+msgid "Prior Value"
+msgstr "Predchádzajúca hodnota"
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
+msgid "Prior period"
+msgstr "Minulé obdobie"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_version__xml_template_ref_id
+msgid "QWeb template (ir.ui.view) that renders this version's statutory XML."
+msgstr "QWeb šablóna (ir.ui.view), ktorá generuje štatutárne XML tejto verzie."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__submission_type__radna
+msgid "Regular"
+msgstr "Riadna"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__submission_type
+msgid ""
+"Regular = original filing; Corrective = a corrective financial statement "
+"that supersedes an already-submitted one for the same period."
+msgstr ""
+"Riadne = pôvodné podanie; Opravné = opravná účtovná závierka, ktorá nahrádza "
+"už podanú závierku za rovnaké obdobie."
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "Rendered XML root <%(got)s> does not match expected <%(exp)s>."
+msgstr "Koreňový element vygenerovaného XML <%(got)s> nezodpovedá očakávanému <%(exp)s>."
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Reset this filing to draft? The originally filed copy is kept."
+msgstr ""
+"Vrátiť toto podanie do konceptu? Pôvodne podaná kópia zostane zachovaná."
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Reset to Draft"
+msgstr "Vrátiť do návrhu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný používateľ"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Rows tie out"
+msgstr "Riadky súhlasia"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__sequence
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__source_domain
+msgid "Source Domain"
+msgstr "Doména zdroja"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__source_reconciles
+msgid "Source Reconciles"
+msgstr "Zdroje súhlasia"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.view_move_line_fs_audit
+msgid "Source documents"
+msgstr "Zdrojové doklady"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "Source documents — %s %s"
+msgstr "Zdrojové doklady — %s %s"
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.js:0
+msgid "Source lines tie to the value"
+msgstr "Zdrojové riadky súhlasia s hodnotou"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__statement_id
+msgid "Statement"
+msgstr "Výkaz"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__statement_kind
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__statement_kind
+msgid "Statement Kind"
+msgstr "Druh výkazu"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
+#: model:ir.actions.act_window,name:l10n_cssk_fs_base.cssk_fs_equity_action
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_version__statement_kind__equity_changes
+#: model:ir.ui.menu,name:l10n_cssk_fs_base.menu_cssk_fs_equity
+msgid "Statement of changes in equity"
+msgstr "Prehľad zmien vlastného imania"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "Stav na základe aktivít\nPo termíne: Dátum splatnosti už uplynul\nDnes: Dátum aktivity je dnes\nPlánované: Budúce aktivity."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__submission_reference
+msgid "Submission Reference"
+msgstr "Referencia podania"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__submission_type
+msgid "Submission Type"
+msgstr "Typ podania"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__submission_reference
+msgid "Submission identifier / confirmation number from the FS portal."
+msgstr "Identifikátor podania / potvrdzovacie číslo z portálu FS."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__state__submitted
+msgid "Submitted"
+msgstr "Podané"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__submitted_date
+msgid "Submitted Date"
+msgstr "Dátum podania"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.view_move_line_fs_audit
+msgid "Tax tags"
+msgstr "Daňové značky"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.view_move_line_fs_audit
+msgid "Taxes"
+msgstr "Dane"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__country_id
+msgid "The country to use the tax reports from for this company"
+msgstr "Krajina, ktorej daňové výkazy sa pre túto spoločnosť použijú"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__submitted_attachment_id
+msgid "The exact XML that was submitted; preserved across reset-to-draft."
+msgstr "Presné XML, ktoré bolo podané; zachované aj po vrátení do konceptu."
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid ""
+"The financial statement XML failed schema validation:\n"
+"%s"
+msgstr "XML účtovnej závierky neprešlo validáciou schémy:\n%s"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__original_return_id
+msgid "The originally-filed statement this corrective statement corrects."
+msgstr "Pôvodne podaný výkaz, ktorý tento opravný výkaz opravuje."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line__source_reconciles
+msgid "The source lines' sum equals the line value in magnitude."
+msgstr "Súčet zdrojových riadkov sa veľkosťou rovná hodnote riadku."
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid ""
+"Tick <b>Override</b> to enter a manual value and\n"
+"                                press <b>Compute</b> — preserved across "
+"recompute."
+msgstr "Zaškrtnite <b>Prepis</b> pre zadanie ručnej hodnoty a\n                                stlačte <b>Vypočítať</b> — zachová sa pri prepočte."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line__is_overridden
+msgid ""
+"Tick to enter a manual value for the current period (preserved across "
+"recompute and fed into dependent lines)."
+msgstr ""
+"Zaškrtnite pre zadanie ručnej hodnoty pre aktuálne obdobie (zachová sa pri "
+"prepočte a vstupuje do závislých riadkov)."
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
+msgid "Ties to source documents"
+msgstr "Väzba na zdrojové doklady"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.view_move_line_fs_audit
+msgid "Total"
+msgstr "Spolu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__tree_label
+msgid "Tree Label"
+msgstr "Označenie stromu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výnimočnej aktivity v zázname."
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__unreconciled_count
+msgid "Unreconciled Count"
+msgstr "Počet nespárovaných"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Unreconciled rows"
+msgstr "Nesúladné riadky"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__valid_from
+msgid "Valid From"
+msgstr "Platné od"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__valid_to
+msgid "Valid To"
+msgstr "Platné do"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__version_id
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__version_id
+msgid "Version"
+msgstr "Verzia"
+
+#. module: l10n_cssk_fs_base
+#. odoo-javascript
+#: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
+msgid "View source documents"
+msgstr "Zobraziť zdrojové doklady"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__website_message_ids
+msgid "Website Messages"
+msgstr "Správy z webu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie z webu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__xml_template_ref_id
+msgid "XML template"
+msgstr "XML šablóna"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "XML príloha"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__xml_root_element
+msgid "Xml Root Element"
+msgstr "Koreňový element XML"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__xml_schema_data
+msgid "Xml Schema Data"
+msgstr "Dáta XSD schémy"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__xml_schema_filename
+msgid "Xml Schema Filename"
+msgstr "Názov súboru XML schémy"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__kind
+msgid ""
+"``accounts`` = period movement (P&L / cash flow) or as-of balance (balance "
+"sheet). ``accounts_open`` / ``accounts_close`` = cumulative balance at the "
+"start / end of the period — for the opening / closing cash rows of a cash-"
+"flow statement."
+msgstr ""
+"``accounts`` = pohyb za obdobie (výkaz ziskov a strát / cash flow) alebo "
+"zostatok k dátumu (súvaha). ``accounts_open`` / ``accounts_close`` = "
+"kumulatívny zostatok na začiatku / konci obdobia — pre počiatočné / konečné "
+"riadky peňažných prostriedkov vo výkaze cash flow."
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "id"
+msgstr "id"
+
+#~ msgid "Cancel"
+#~ msgstr "Zrušiť"
+
+#~ msgid "Create"
+#~ msgstr "Vytvoriť"
+
+#~ msgid "Create Financial Statement"
+#~ msgstr "Vytvoriť účtovný výkaz"
+
+#~ msgid "Generate"
+#~ msgstr "Generovať"
+
+#~ msgid "New Financial Statement"
+#~ msgstr "Nový účtovný výkaz"
+
+#~ msgid "Xml Template Ref"
+#~ msgstr "Odkaz na XML šablónu"
+
+#~ msgid "Balance sheet (Súvaha / Rozvaha)"
+#~ msgstr "Súvaha"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid ""
+"%(count)s account(s) carry a balance that no row of this statement claims, so their money is in the ledger and not on the form:\n"
+"\n"
+"%(codes)s\n"
+"\n"
+"Either the chart uses codes this form's mapping does not name, or a row is missing them."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
+msgid "%s — korekcia"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
+msgid "%s — side depends on the account's balance"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__account_formula
+msgid ""
+"Account-code prefixes for kind=accounts, e.g. '012,013,-072' (leading '-' "
+"negates the token). Where a correction formula is also set this is the GROSS"
+" side (brutto)."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__unmapped_note
+msgid ""
+"Accounts carrying a balance that no row of this statement claims. Their "
+"money is in the ledger and not on the form."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__account_formula_correction
+msgid ""
+"Accounts of the row's correction column (korekcia) — accumulated "
+"depreciation and impairment. Set only on a form filed in brutto / korekcia /"
+" netto columns, which the Slovak Súvaha is: the tlačivo states both groups "
+"per row, e.g. r005 Softvér is '(013) - /073, 091A/', so "
+"account_formula='013' and account_formula_correction='073,091'. Netto is "
+"derived as gross minus correction; leave empty and the row reports a single "
+"net figure as before."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__unmapped_note
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Accounts on no row"
+msgstr "Účty na žiadnom riadku"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__basis
+msgid "Basis"
+msgstr "Základ"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__gross_value
+msgid "Brutto"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.module.module,shortdesc:base.module_l10n_cssk_fs_base
+msgid ""
+"CZ/SK Financial Statements — Shared Framework (Súvaha / VZS / Rozvaha / VZZ)"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line__correction_value
+msgid ""
+"Correction column — accumulated depreciation and impairment. Reported as a "
+"positive number, as the form does."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__account_formula_correction
+msgid "Correction formula"
+msgstr "Vzorec korekcie"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.module.module,summary:base.module_l10n_cssk_fs_base
+msgid ""
+"Country-neutral framework for the Slovak and Czech financial statements "
+"(balance sheet + P&L): line trees computed from account-code balances + "
+"aggregates, with a comparison period, manual overrides and XSD-validated XML"
+" export. CE-clean."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line_def__basis__as_of
+msgid "Cumulative balance as of the period end"
+msgstr "Kumulatívny zostatok ku koncu obdobia"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "File it"
+msgstr "Podať"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line_def__basis__version
+msgid "From the statement kind"
+msgstr "Z druhu výkazu"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line__gross_value
+msgid ""
+"Gross column, where the form has one. The Slovak Súvaha is filed as brutto /"
+" korekcia / netto and its schema requires all three per row (tRiadok14 "
+"s1/s2/s3), so a net figure alone cannot be filed."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__state__legacy
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__legacy
+msgid "Historical filing"
+msgstr "Historické podanie"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_line__correction_value
+msgid "Korekcia"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement_line_def__basis__movement
+msgid "Movement within the period"
+msgstr "Pohyb v rámci obdobia"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__xml_schema_optional
+msgid "No official XSD exists"
+msgstr "Neexistuje oficiálne XSD"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid ""
+"Open a delivery for this filing. With only the"
+"                                   manual channel installed this records who"
+" filed                                   it on the portal and holds the "
+"receipts."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line__current_value
+msgid ""
+"The row's reported figure. On a form filed in three columns this is the "
+"NETTO — gross minus correction."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_version__xml_schema_optional
+msgid ""
+"Tick only where the authority publishes NO schema for this form, so its absence is a fact about the form and not a missing file. Export then skips validation and says so in the log, instead of refusing.\n"
+"\n"
+"The Czech accounting statements are the case: Rozvaha, Výkaz zisku a ztráty, Přehled o peněžních tocích and Přehled o změnách vlastního kapitálu are filed as attachments inside the DPPO envelope, and no standalone XSD is published for any of them. The Slovak side is the opposite — Úč POD ships uzpod-2014.xsd — which is why this is a property of the VERSION and not of the form family."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__unmapped_count
+msgid "Unmapped Count"
+msgstr "Počet nenamapovaných"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line_def__basis
+msgid ""
+"Which balance a ``kind=accounts`` line reads. Left at 'From the statement kind' it follows the version — as-of for a balance sheet, movement for a P&L, cash flow or changes in equity — which is what every statement filed as its own document wants.\n"
+"\n"
+"Set it explicitly only where ONE document carries rows of both bases. The Slovak účtovná závierka is exactly that: UZPODv14 is a single ``dokument`` whose ``telo`` holds ``ucPod1Suvaha`` (as-of) beside ``ucPod2VykazZS`` (movement), so a version modelling it cannot have one basis for all its lines."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "recomputed"
+msgstr "prepočítané"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__filed_history_ids
+msgid "Filed history"
+msgstr "História podaní"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed "
+"XML' is the latest one; after a reset → recompute → resubmit cycle "
+"the previously-filed copies stay reachable here."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__legacy
+msgid ""
+"This filing was not produced here — it records what was actually "
+"submitted for a period that predates this system, loaded from a "
+"migration. It is a historical fact, so it can never be exported, "
+"submitted or recomputed, and it is invisible to anything that looks "
+"for 'the return of the previous period'. It CAN be amended: a "
+"dodatočné filed later against a historical period is an ordinary "
+"submittable return.\n\nSetting this puts the record in state "
+"'Historical filing', which is terminal — the two are written "
+"together and cannot come apart."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__legacy_source
+msgid "Source system"
+msgstr "Zdrojový systém"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' "
+"— or how it was captured if by hand."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__legacy_reference
+msgid "Source reference"
+msgstr "Zdrojová referencia"
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced "
+"it."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "financial statement"
+msgstr "účtovná závierka"

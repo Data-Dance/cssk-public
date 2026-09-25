@@ -1,0 +1,1555 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_asset_tax
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-04 07:48+0000\n"
+"PO-Revision-Date: 2026-06-10 12:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_close_year.py:0
+msgid "%(l)d board line(s) frozen on %(a)d asset(s)."
+msgstr "Zmrazeno %(l)d řádků plánu na %(a)d majetku."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_compute.py:0
+msgid "%d asset(s) processed."
+msgstr "Zpracováno %d majetku."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid "&amp;nbsp; · &amp;nbsp; <strong>Income tax rate:</strong>"
+msgstr "&amp;nbsp; · &amp;nbsp; <strong>Sazba daně z příjmů:</strong>"
+
+#. module: account_asset_tax
+#: model:ir.actions.report,print_report_name:account_asset_tax.action_report_reconciliation
+msgid "'DPPO Table B %s' % (object.date_to or '')"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.actions.report,print_report_name:account_asset_tax.action_report_asset_tax_register
+msgid "'Tax Depreciation Register %s' % (object.fiscal_year)"
+msgstr ""
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_class.py:0
+msgid "(%s y)"
+msgstr "(%s r.)"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid "(no line)"
+msgstr "(bez řádku)"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid "<strong>Period:</strong>"
+msgstr "<strong>Období:</strong>"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "<strong>Zdaňovacie obdobie / Tax period:</strong>"
+msgstr "<strong>Zdaňovací období / Tax period:</strong>"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"A technical improvement of a §30a (extraordinary) asset is depreciated as a "
+"separate asset under §30a(3), not folded into this one. Create a new asset "
+"for the improvement."
+msgstr ""
+"Technické zhodnocení mimořádně odpisovaného majetku (§30a) se odpisuje jako "
+"samostatný majetek podle §30a(3), nezahrnuje se do tohoto majetku. Vytvořte "
+"pro zhodnocení nový majetek."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__accel_coeff_increased
+msgid "Accel. Coefficient – Increased Residual"
+msgstr "Koef. zrychlený – zvýšená ZC"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__accel_coeff_next
+msgid "Accel. Coefficient – Next Years"
+msgstr "Koef. zrychlený – další roky"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__accel_coeff_first
+msgid "Accel. Coefficient – Year 1"
+msgstr "Koef. zrychlený – 1. rok"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_backfill__tax_method__accelerated
+msgid "Accelerated"
+msgstr "Zrychlené"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset__tax_method__accelerated
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_method__accelerated
+msgid "Accelerated (zrychlené / zrýchlené)"
+msgstr "Zrychlené"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_class_form
+msgid "Accelerated coefficients (CZ §32 / SK §28)"
+msgstr "Koeficienty zrychleného odpisu (§32 / §28)"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Accounting"
+msgstr "Účetní"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__accounting_amount
+msgid "Accounting Depreciation"
+msgstr "Účetní odpis"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__accounting_residual
+msgid "Accounting NBV"
+msgstr "Účetní ZC"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__active
+msgid "Active"
+msgstr "Aktivní"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Add-back (150)"
+msgstr "Připočet (150)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__addback
+msgid "Add-back (line 150)"
+msgstr "Připočet (ř. 150)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__allow_accelerated
+msgid "Allows Accelerated"
+msgstr "Umožňuje zrychlené"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__allow_extraordinary
+msgid "Allows Extraordinary (CZ §30a)"
+msgstr "Umožňuje mimořádné (§30a)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__allow_linear
+msgid "Allows Straight-line"
+msgstr "Umožňuje rovnoměrné"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__amount
+msgid "Amount"
+msgstr "Částka"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_event_wizard_form
+msgid "Apply"
+msgstr "Použít"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_vehicle_capped
+msgid "Apply Vehicle Depreciation Cap"
+msgstr "Uplatnit limit odpisu vozidla"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__asset_display
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__asset_display
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__asset_name
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid "Asset"
+msgstr "Majetek"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__asset_ref_id
+msgid "Asset ID"
+msgstr "ID majetku"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_backfill_form
+msgid "Backfill"
+msgstr "Doplnit historii"
+
+#. module: account_asset_tax
+#: model:ir.actions.act_window,name:account_asset_tax.action_account_asset_tax_backfill
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_backfill
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_backfill_form
+msgid "Backfill Tax Depreciation"
+msgstr "Doplnit daňové odpisy"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_res_company__account_deferred_tax_id
+msgid "Balance-sheet deferred-tax account (CZ/SK 481)."
+msgstr "Rozvahový účet odložené daně (CZ/SK 481)."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__book_amount
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__book_amount
+msgid "Book Depreciation"
+msgstr "Účetní odpis"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__book_amount_posted
+msgid "Book Depreciation (Posted)"
+msgstr "Účetní odpis (zaúčtovaný)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__book_residual
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__book_residual
+msgid "Book Residual Value"
+msgstr "Účetní zůstatková hodnota"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_book_tax_report_mixin__difference
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_line__difference
+msgid ""
+"Book depreciation minus tax depreciation for the year — the income-tax base "
+"adjustment (SK pripočítateľná/odpočítateľná položka, CZ § 23 ods. 3)."
+msgstr ""
+"Účetní odpis minus daňový odpis za rok — úprava základu daně (přičitatelná/"
+"odčitatelná položka, § 23 odst. 3 ZDP)."
+
+#. module: account_asset_tax
+#: model:ir.model,name:account_asset_tax.model_account_asset_book_tax_report_mixin
+msgid "Book vs Tax Depreciation Report (shared)"
+msgstr "Přehled účetních a daňových odpisů (společný)"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "CELKOM / TOTAL"
+msgstr "CELKEM / TOTAL"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_increased_first_year
+msgid ""
+"CZ §31(1)(b)/(c)/(d): a first depreciator of a group 1–3 asset may elect a "
+"higher first-year straight-line rate (+10/15/20 %). CZ + straight-line + "
+"groups 1–3 only."
+msgstr ""
+"CZ §31(1)(b)/(c)/(d): první odpisovatel majetku odpisové skupiny 1–3 může "
+"uplatnit vyšší rovnoměrnou sazbu v 1. roce (+10/15/20 %). Pouze CZ + "
+"rovnoměrný odpis + skupiny 1–3."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_backfill_form
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_close_year_form
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_compute_form
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_event_wizard_form
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_asset_tax_register_form
+msgid "Cancel"
+msgstr "Zrušit"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"Cannot change %(field)s on %(asset)s: filed (frozen) tax-depreciation years "
+"exist and the change would silently contradict them. Use the Backfill "
+"(migration) wizard to correct the tax parameters — it unfreezes and rebuilds "
+"the history explicitly."
+msgstr ""
+"Na majetku %(asset)s nelze změnit %(field)s: existují podané "
+"(zmrazené) roky daňových odpisů a změna by jim tiše odporovala. Pro "
+"opravu daňových parametrů použijte průvodce Doplnění historie "
+"(migrace) — ten zmrazení výslovně zruší a historii přebuduje."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid "Cannot determine the tax country for asset %s."
+msgstr "Nelze určit daňovou zemi pro majetek %s."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_res_company__tax_vehicle_cap_amount
+msgid ""
+"Capped depreciable base for passenger vehicles flagged on the asset (CZ "
+"§30e: 2 000 000 CZK for category M1; SK §17(34): 48 000 EUR). Leave at 0 for "
+"no cap. Set per company in its own currency."
+msgstr ""
+"Limitovaná odpisová základna pro osobní vozidla označená na majetku (CZ "
+"§30e: 2 000 000 CZK pro kategorii M1; SK §17(34): 48 000 EUR). Ponechte 0 "
+"pro žádný limit. Nastavte za každou společnost v její vlastní měně."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Close"
+msgstr "Zavřít"
+
+#. module: account_asset_tax
+#: model:ir.actions.act_window,name:account_asset_tax.action_account_asset_tax_close_year
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_close_year
+#: model:ir.ui.menu,name:account_asset_tax.menu_account_asset_tax_close_year
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_close_year_form
+msgid "Close Tax Depreciation Year"
+msgstr "Uzavřít rok daňových odpisů"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__code
+msgid "Code"
+msgstr "Kód"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_class__accel_coeff_increased
+msgid "Coefficient applied after a technical improvement (CZ §32 / SK §28)."
+msgstr "Koeficient uplatněný po technickém zhodnocení (CZ §32 / SK §28)."
+
+#. module: account_asset_tax
+#: model:ir.model,name:account_asset_tax.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__company_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_close_year__company_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__company_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__company_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__company_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_register__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_currency_id
+msgid "Company currency, for the tax-depreciation monetary fields."
+msgstr "Měna společnosti pro peněžní pole daňových odpisů."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_compute_form
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Compute"
+msgstr "Vypočítat"
+
+#. module: account_asset_tax
+#: model:ir.actions.act_window,name:account_asset_tax.action_account_asset_tax_compute
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_compute_form
+msgid "Compute Tax Depreciation"
+msgstr "Vypočítat daňové odpisy"
+
+#. module: account_asset_tax
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_compute
+msgid "Compute Tax Depreciation Boards"
+msgstr "Vypočítat daňové odpisové plány"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid "Compute the reconciliation first."
+msgstr "Nejprve proveďte rekonciliaci."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid ""
+"Configure the deferred-tax journal and the 481 / 592 accounts on the company "
+"before posting deferred tax."
+msgstr ""
+"Před zaúčtováním odložené daně nastavte na společnosti deník odložené daně a "
+"účty 481 / 592."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation__tax_rate
+msgid ""
+"Corporate income-tax rate used for the deferred-tax computation from the "
+"cumulative accounting-vs-tax temporary difference (CZ/SK: 21%)."
+msgstr ""
+"Sazba daně z příjmů právnických osob použitá pro výpočet odložené daně z "
+"kumulativního přechodného rozdílu mezi účetními a daňovými odpisy (CZ/SK: 21 "
+"%)."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__country_code
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_class_search
+msgid "Country"
+msgstr "Země"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid ""
+"Create a draft journal entry truing the 481 deferred-tax balance to the "
+"computed closing position."
+msgstr ""
+"Vytvoří návrh účetního zápisu, který srovná zůstatek účtu odložené daně 481 "
+"na vypočtenou konečnou pozici."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_close_year__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_compute__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__create_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_register__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_close_year__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_compute__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__create_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_register__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__amount_cumulative
+msgid "Cumulative"
+msgstr "Kumulativně"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__currency_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__currency_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__currency_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__currency_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__currency_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__currency_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_class_search
+msgid "Czech"
+msgstr "Český"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_class__country_code__cz
+msgid "Czech Republic"
+msgstr "Česká republika"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__date
+msgid "Date"
+msgstr "Datum"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__date_from
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__date_from
+msgid "Date From"
+msgstr "Datum od"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__date_to
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__date_to
+msgid "Date To"
+msgstr "Datum do"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_in_service_date_override
+msgid ""
+"Date the asset entered use for tax purposes (zaradenie do užívania). "
+"Defaults to the accounting depreciation start; override it when migrating an "
+"asset whose tax depreciation started on another date."
+msgstr ""
+"Datum zařazení majetku do užívání pro daňové účely (zaradenie do užívania). "
+"Výchozí je počátek účetního odpisování; přepište jej při migraci majetku, "
+"jehož daňové odpisování začalo k jinému datu."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Daňové odpisy — registr / Tax Depreciation Register"
+msgstr "Daňové odpisy — registr / Tax Depreciation Register"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Deduction (250)"
+msgstr "Odpočet (250)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__deduction
+msgid "Deduction (line 250)"
+msgstr "Odpočet (ř. 250)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__deferred_tax
+msgid "Deferred Tax"
+msgstr "Odložená daň"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_res_company__account_deferred_tax_id
+msgid "Deferred Tax Account (481)"
+msgstr "Účet odložené daně (481)"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid "Deferred Tax Entry"
+msgstr "Zápis odložené daně"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_res_company__tax_deferred_journal_id
+msgid "Deferred Tax Journal"
+msgstr "Deník odložené daně"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_res_company__account_deferred_tax_pl_id
+msgid "Deferred Tax P&L Account (592)"
+msgstr "Výsledkový účet odložené daně (592)"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Deferred tax"
+msgstr "Odložená daň"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid "Deferred tax (481)"
+msgstr "Odložená daň (481)"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid "Deferred tax (592)"
+msgstr "Odložená daň (592)"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid "Deferred tax on depreciation difference %s"
+msgstr "Odložená daň z rozdílu odpisů %s"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_entry_value
+msgid ""
+"Depreciable base for tax purposes (vstupní / vstupná cena). Defaults to the "
+"accounting acquisition value but can differ (e.g. capped M1 vehicle, non-"
+"deductible components)."
+msgstr ""
+"Odpisová základna pro daňové účely (vstupní / vstupná cena). Výchozí je "
+"účetní pořizovací cena, může se však lišit (např. limitované vozidlo M1, "
+"neodpočitatelné složky)."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__useful_life_years
+msgid "Depreciation Period (years)"
+msgstr "Doba odpisování (roky)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__difference
+msgid "Difference (Acc − Tax)"
+msgstr "Rozdíl (účetní − daňový)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__difference
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__difference
+msgid "Difference (Book − Tax)"
+msgstr "Rozdíl (účetní − daňový)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_close_year__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_compute__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_register__display_name
+#: model:ir.model.fields,field_description:account_asset_tax.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_event__event_type__disposal
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_event_wizard__event_type__disposal
+msgid "Disposal"
+msgstr "Vyřazení"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_event_wizard_form
+msgid ""
+"Disposal truncates the board: CZ allows half the annual charge\n"
+"                    in the disposal year (§26(7)); SK prorates to the month "
+"before."
+msgstr ""
+"Vyřazení zkracuje odpisový plán: CZ umožňuje uplatnit polovinu ročního "
+"odpisu\n"
+"                    v roce vyřazení (§26(7)); SK poměrně krátí do "
+"předchozího měsíce."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_event_wizard.py:0
+msgid "Enter the technical-improvement amount."
+msgstr "Zadejte částku technického zhodnocení."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__event_type
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__event_type
+msgid "Event Type"
+msgstr "Typ události"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_book_tax_report_mixin__tax_posted
+msgid "Every tax-depreciation line of the year has been filed (frozen)."
+msgstr "Všechny řádky daňových odpisů roku jsou podané (zmrazené)."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__expected_residual
+msgid "Expected Tax Residual"
+msgstr "Očekávaná daňová ZC"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__xlsx_file
+msgid "Export"
+msgstr "Exportovat"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Export XLSX"
+msgstr "Export XLSX"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset__tax_method__extraordinary
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_backfill__tax_method__extraordinary
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_method__extraordinary
+msgid "Extraordinary (CZ §30a)"
+msgstr "Mimořádné (§30a)"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"Extraordinary (§30a) depreciation may not be interrupted — §30a(4) requires "
+"it to run in uninterrupted whole months. A suspension event cannot be "
+"recorded on this asset."
+msgstr ""
+"Mimořádné odpisování (§ 30a) nelze přerušit — § 30a odst. 4 "
+"vyžaduje, aby probíhalo v nepřerušených celých měsících. Na tomto "
+"majetku nelze zaznamenat přerušení."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_close_year_form
+msgid "File Year"
+msgstr "Uzavřít rok"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__tax_posted
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__posted
+msgid "Filed"
+msgstr "Podáno"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__filed_through_year
+msgid "Filed Through Fiscal Year"
+msgstr "Podáno do roku"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__fiscal_year
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_close_year__fiscal_year
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__fiscal_year
+msgid "Fiscal Year"
+msgstr "Zdaňovací období"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_close_year_form
+msgid ""
+"Freeze the tax-depreciation board up to and including the chosen\n"
+"                    fiscal year on every tax-tracked asset. Filed years are "
+"not moved\n"
+"                    by later recomputations, and the method is locked."
+msgstr ""
+"Zmrazí daňový odpisový plán až do zvoleného\n"
+"                    zdaňovacího období včetně u každého majetku se "
+"sledováním daní. Uzavřené roky\n"
+"                    nejsou pozdějšími přepočty měněny a metoda je uzamčena."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__group_number
+msgid "Group"
+msgstr "Skupina"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"Group %(group)s does not allow the %(method)s method. Allowed: %(allowed)s."
+msgstr "Skupina %(group)s neumožňuje metodu %(method)s. Povoleno: %(allowed)s."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_close_year__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_compute__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_register__id
+#: model:ir.model.fields,field_description:account_asset_tax.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__amount
+msgid "Improvement Amount"
+msgstr "Částka zhodnocení"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__tax_rate
+msgid "Income Tax Rate (%)"
+msgstr "Sazba daně z příjmů (%)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_increased_first_year
+msgid "Increased First-Year Rate"
+msgstr "Zvýšený odpis v 1. roce"
+
+#. module: account_asset_tax
+#: model_terms:ir.actions.act_window,help:account_asset_tax.action_account_asset_tax_class
+msgid ""
+"Install <b>l10n_cz_account_asset_tax</b> or <b>l10n_sk_account_asset_tax</"
+"b>\n"
+"               to load the statutory groups and coefficients."
+msgstr ""
+"Nainstalujte <b>l10n_cz_account_asset_tax</b> nebo "
+"<b>l10n_sk_account_asset_tax</b>\n"
+"               pro načtení zákonných skupin a koeficientů."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Konečná ZC / Closing"
+msgstr "Konečná ZC / Closing"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_close_year__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_compute__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__write_uid
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_register__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_close_year__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_compute__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__write_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_register__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_backfill__filed_through_year
+msgid ""
+"Last fiscal year whose tax depreciation has already been filed. Every board "
+"year up to and including it is frozen."
+msgstr ""
+"Poslední zdaňovací období, jehož daňové odpisy již byly podány. Každý rok "
+"plánu až do něj včetně je zmrazen."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__line_ids
+msgid "Line"
+msgstr "Řádek"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__linear_rate_increased
+msgid "Linear Rate – Increased Price (%)"
+msgstr "Rovnoměrná sazba – zvýšená cena (%)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__linear_rate_next
+msgid "Linear Rate – Next Years (%)"
+msgstr "Rovnoměrná sazba – další roky (%)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__linear_rate_first
+msgid "Linear Rate – Year 1 (%)"
+msgstr "Rovnoměrná sazba – 1. rok (%)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_depreciation_enabled
+msgid ""
+"Maintain a separate, non-posted tax-depreciation schedule for this asset "
+"(daňové odpisy). The accounting depreciation board is unaffected."
+msgstr ""
+"Udržovat pro tento majetek samostatný, nezaúčtovaný plán daňových odpisů "
+"(daňové odpisy). Účetní odpisový plán zůstává nedotčen."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Majetok / Asset"
+msgstr "Majetek / Asset"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Metóda / Method"
+msgstr "Metoda / Method"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__name
+msgid "Name"
+msgstr "Název"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation__total_deferred_tax
+msgid "Net deferred tax: positive = liability (DTL), negative = asset (DTA)."
+msgstr ""
+"Čistá odložená daň: kladná = závazek (DTL), záporná = pohledávka (DTA)."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_backfill.py:0
+#: code:addons/account_asset_tax/wizard/account_asset_tax_event_wizard.py:0
+msgid "No asset in context."
+msgstr "V kontextu není žádný majetek."
+
+#. module: account_asset_tax
+#: model_terms:ir.actions.act_window,help:account_asset_tax.action_account_asset_tax_class
+msgid "No tax depreciation groups yet"
+msgstr "Zatím žádné daňové odpisové skupiny"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset__tax_increased_first_year__0
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_increased_first_year__0
+msgid "None"
+msgstr "Žádné"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__note
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__note
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__note
+msgid "Note"
+msgstr "Poznámka"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid "Nothing to post"
+msgstr "Není co zaúčtovat"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_event__duration_years
+msgid "Number of whole tax periods to suspend (suspension events)."
+msgstr "Počet celých zdaňovacích období k přerušení (události přerušení)."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Odpis / Depreciation"
+msgstr "Odpis / Depreciation"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_compute__only_enabled
+msgid "Only assets tracking tax depreciation"
+msgstr "Pouze majetek se sledováním daňových odpisů"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_book_tax_report_mixin__book_amount_posted
+msgid ""
+"Only the book depreciation whose journal entry is posted — the statutory-"
+"relevant figure; Book Depreciation also counts planned (draft) entries."
+msgstr ""
+"Pouze účetní odpisy se zaúčtovaným účetním zápisem — statutárně relevantní "
+"hodnota; sloupec Účetní odpis zahrnuje i plánované (koncepty)."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Open"
+msgstr "Otevřít"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_backfill.py:0
+#: code:addons/account_asset_tax/wizard/account_asset_tax_event_wizard.py:0
+msgid "Open this from an asset."
+msgstr "Otevřete z karty majetku."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Oprávky / Accum."
+msgstr "Oprávky / Accum."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_backfill__expected_residual
+msgid ""
+"Optional cross-check: the tax residual value at the end of the filed period "
+"per your prior records. The wizard refuses to backfill if it disagrees with "
+"the statutory computation."
+msgstr ""
+"Volitelná kontrola: daňová zůstatková cena na konci podaného období podle "
+"vašich předchozích záznamů. Průvodce odmítne doplnit historii, pokud se "
+"neshoduje se zákonným výpočtem."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_vehicle_capped
+msgid ""
+"Passenger vehicle subject to the statutory depreciation cap (CZ §30e 2M "
+"CZK / SK §17(34) 48k EUR). The tax board is then computed on the company's "
+"capped base instead of the full entry value."
+msgstr ""
+"Osobní vozidlo podléhající zákonnému limitu odpisu (CZ §30e 2 mil. CZK / SK "
+"§17(34) 48 tis. EUR). Daňový plán se poté počítá z limitované základny "
+"společnosti namísto plné vstupní ceny."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation_line__deferred_tax
+msgid ""
+"Positive = deferred tax liability (DTL); negative = deferred tax asset (DTA)."
+msgstr ""
+"Kladná = odložený daňový závazek (DTL); záporná = odložená daňová pohledávka "
+"(DTA)."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Post Deferred Tax (draft)"
+msgstr "Zaúčtovat odloženou daň (návrh)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__post_deferred_immediately
+msgid "Post Deferred Tax Immediately"
+msgstr "Zaúčtovat odloženou daň ihned"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation__post_deferred_immediately
+msgid ""
+"Post the deferred-tax journal entry straight away instead of leaving it in "
+"draft for review."
+msgstr ""
+"Zaúčtovat účetní zápis odložené daně ihned namísto ponechání v návrhu ke "
+"kontrole."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Počiatočná ZC / Opening"
+msgstr "Počáteční ZC / Opening"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Print PDF"
+msgstr "Tisk PDF"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_asset_tax_register_form
+msgid "Print register"
+msgstr "Tisk registru"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_res_company__account_deferred_tax_pl_id
+msgid "Profit-and-loss deferred-tax account (CZ/SK 592)."
+msgstr "Výsledkový účet odložené daně (CZ/SK 592)."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_class__linear_rate_increased
+msgid ""
+"Rate applied to the increased entry price after a technical improvement (CZ "
+"§31)."
+msgstr ""
+"Sazba uplatněná na zvýšenou vstupní cenu po technickém zhodnocení (CZ §31)."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_compute_form
+msgid ""
+"Recompute the tax-depreciation board for the selected assets.\n"
+"                    Already-filed fiscal years are preserved; only the open "
+"tail is\n"
+"                    regenerated."
+msgstr ""
+"Přepočítá daňový odpisový plán pro vybraný majetek.\n"
+"                    Již podaná zdaňovací období zůstávají zachována; "
+"přepočítá se pouze\n"
+"                    otevřený zbytek."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"Recomputing the tax board of %(asset)s would change the already-filed year %"
+"(year)s (filed %(filed)s vs recomputed %(computed)s). Filed years are "
+"frozen; use the Backfill (migration) wizard to unfreeze and rebuild the "
+"history explicitly."
+msgstr ""
+"Přepočet plánu daňových odpisů majetku %(asset)s by změnil již "
+"podaný rok %(year)s (podáno %(filed)s vs přepočteno %(computed)s). "
+"Podané roky jsou zmrazené; pro výslovné zrušení zmrazení a "
+"přebudování historie použijte průvodce Doplnění historie (migrace)."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Reconciliation"
+msgstr "Rekonciliace"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Rozdiel / Difference"
+msgstr "Rozdíl / Difference"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_compute__asset_count
+msgid "Selected assets"
+msgstr "Vybraný majetek"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid "Set a tax depreciation group on asset %s first."
+msgstr "Nejprve nastavte na majetku %s daňovou odpisovou skupinu."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_method_locked
+msgid ""
+"Set once the first tax depreciation is filed. The statutory method may not "
+"change for the asset's whole life (CZ §30(2) / SK §26(3))."
+msgstr ""
+"Nastaví se po podání prvních daňových odpisů. Zákonnou metodu nelze po celou "
+"dobu odpisování majetku změnit (CZ §30(2) / SK §26(3))."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_backfill_form
+msgid ""
+"Set up tax depreciation on an asset that is already part-way\n"
+"                    through its life. The full statutory board is laid out, "
+"every\n"
+"                    year up to the filed fiscal year is frozen, and the open "
+"tail is\n"
+"                    left to be claimed going forward."
+msgstr ""
+"Nastaví daňové odpisy na majetku, který je již částečně\n"
+"                    ve své době odpisování. Vyloží se celý zákonný plán, "
+"každý\n"
+"                    rok až do podaného zdaňovacího období se zmrazí a "
+"otevřený zbytek\n"
+"                    zůstane k uplatnění do budoucna."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_class_search
+msgid "Slovak"
+msgstr "Slovenský"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_class__country_code__sk
+msgid "Slovakia"
+msgstr "Slovensko"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Spolu / Subtotal"
+msgstr "Součet / Subtotal"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_class__code
+msgid ""
+"Stable technical code, e.g. CZ-1 / SK-0. Referenced by the localization "
+"spec; do not change after assets reference it."
+msgstr ""
+"Stabilní technický kód, např. CZ-1 / SK-0. Odkazován specifikací lokalizace; "
+"po tom, co jej majetek odkazuje, neměňte."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_class_id
+msgid "Statutory depreciation group (odpisová skupina)."
+msgstr "Zákonná odpisová skupina (odpisová skupina)."
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_backfill__tax_method__linear
+msgid "Straight-line"
+msgstr "Rovnoměrné"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_method__linear
+msgid "Straight-line (rovnoměrné / rovnomerné)"
+msgstr "Rovnoměrné"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_class_form
+msgid "Straight-line rates (CZ §31, % of entry price)"
+msgstr "Rovnoměrné sazby (CZ §31, % vstupní ceny)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_event__event_type__suspension
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_event_wizard__event_type__suspension
+msgid "Suspension / Interruption"
+msgstr "Přerušení"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_event_wizard_form
+msgid ""
+"Suspension inserts the chosen number of zero years and shifts\n"
+"                    the remaining board out (CZ §26(8) / SK §22(9))."
+msgstr ""
+"Přerušení vloží zvolený počet nulových let a posune\n"
+"                    zbývající plán dále (CZ §26(8) / SK §22(9))."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Tax"
+msgstr "Daňový"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_allowed_methods
+msgid "Tax Allowed Methods"
+msgstr "Povolené daňové metody"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_country_code
+msgid "Tax Country Code"
+msgstr "Kód daňové země"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_currency_id
+msgid "Tax Currency"
+msgstr "Daňová měna"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__tax_amount
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__amount
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__tax_amount
+msgid "Tax Depreciation"
+msgstr "Daňové odpisy"
+
+#. module: account_asset_tax
+#: model:ir.actions.act_window,name:account_asset_tax.action_account_asset_tax_event_wizard
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_event
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_event_wizard_form
+msgid "Tax Depreciation Event"
+msgstr "Událost daňového odpisu"
+
+#. module: account_asset_tax
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_event_wizard
+msgid "Tax Depreciation Event Wizard"
+msgstr "Průvodce událostí daňového odpisu"
+
+#. module: account_asset_tax
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_class
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__tax_class_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_class_id
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_class_form
+msgid "Tax Depreciation Group"
+msgstr "Daňová odpisová skupina"
+
+#. module: account_asset_tax
+#: model:ir.actions.act_window,name:account_asset_tax.action_account_asset_tax_class
+#: model:ir.ui.menu,name:account_asset_tax.menu_account_asset_tax_class
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_class_list
+msgid "Tax Depreciation Groups"
+msgstr "Daňové odpisové skupiny"
+
+#. module: account_asset_tax
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_line
+msgid "Tax Depreciation Line"
+msgstr "Řádek daňového odpisu"
+
+#. module: account_asset_tax
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_mixin
+msgid "Tax Depreciation Mixin"
+msgstr "Mixin daňových odpisů"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+#: model:ir.ui.menu,name:account_asset_tax.menu_account_asset_tax_reconciliation
+msgid "Tax Depreciation Reconciliation"
+msgstr "Rekonciliace daňových odpisů"
+
+#. module: account_asset_tax
+#: model:ir.actions.act_window,name:account_asset_tax.action_account_asset_tax_reconciliation
+#: model:ir.actions.report,name:account_asset_tax.action_report_reconciliation
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_reconciliation
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Tax Depreciation Reconciliation (DPPO)"
+msgstr "Rekonciliace daňových odpisů (DPPO)"
+
+#. module: account_asset_tax
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_reconciliation_line
+msgid "Tax Depreciation Reconciliation Line"
+msgstr "Řádek rekonciliace daňových odpisů"
+
+#. module: account_asset_tax
+#: model:ir.actions.act_window,name:account_asset_tax.action_asset_tax_register
+#: model:ir.actions.report,name:account_asset_tax.action_report_asset_tax_register
+#: model:ir.model,name:account_asset_tax.model_account_asset_tax_register
+#: model:ir.ui.menu,name:account_asset_tax.menu_asset_tax_register
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_asset_tax_register_form
+msgid "Tax Depreciation Register"
+msgstr "Registr daňových odpisů"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__tax_entry_value
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_entry_value
+msgid "Tax Entry Value"
+msgstr "Daňová vstupní cena"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__tax_class_id
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__tax_class_name
+msgid "Tax Group"
+msgstr "Daňová skupina"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__tax_in_service_date
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_in_service_date_override
+msgid "Tax In-Service Date"
+msgstr "Datum zařazení (daňové)"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_backfill__tax_method
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_method
+msgid "Tax Method"
+msgstr "Daňová metoda"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_method_locked
+msgid "Tax Method Locked"
+msgstr "Daňová metoda uzamčena"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__tax_residual
+msgid "Tax Residual"
+msgstr "Daňová ZC"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__tax_residual
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__residual
+msgid "Tax Residual Value"
+msgstr "Daňová zůstatková cena"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_res_company__tax_vehicle_cap_amount
+msgid "Tax Vehicle Depreciation Cap"
+msgstr "Limit daňového odpisu vozidla"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid ""
+"Tax depreciation is not posted to the general ledger; it adjusts the\n"
+"                            income-tax base (add-back / deduction). Deferred "
+"tax is the temporary\n"
+"                            difference × the income-tax rate."
+msgstr ""
+"Daňové odpisy se neúčtují do hlavní knihy; upravují\n"
+"                            základ daně z příjmů (připočet / odpočet). "
+"Odložená daň je přechodný\n"
+"                            rozdíl × sazba daně z příjmů."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_line.py:0
+msgid ""
+"Tax depreciation line %(year)s of %(asset)s is filed (frozen); %(field)s may "
+"not change. Use the Backfill (migration) wizard to unfreeze and rebuild the "
+"history."
+msgstr ""
+"Řádek daňových odpisů %(year)s majetku %(asset)s je podaný "
+"(zmrazený); %(field)s nelze změnit. Pro zrušení zmrazení a "
+"přebudování historie použijte průvodce Doplnění historie (migrace)."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_compute.py:0
+msgid "Tax depreciation recomputed"
+msgstr "Daňové odpisy přepočítány"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid "Tax group"
+msgstr "Daňová skupina"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_register__fiscal_year
+msgid "Tax period (year)"
+msgstr "Zdaňovací období (rok)"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_close_year.py:0
+msgid "Tax year %s filed"
+msgstr "Daňový rok %s uzavřen"
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_event__event_type__improvement
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_event_wizard__event_type__improvement
+msgid "Technical Improvement (TZ)"
+msgstr "Technické zhodnocení (TZ)"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_event_wizard_form
+msgid ""
+"Technical improvement raises the tax entry value and recomputes\n"
+"                    the board from this year using the increased-price rate "
+"(CZ §31)\n"
+"                    or increased-residual coefficient (CZ §32 / SK §28)."
+msgstr ""
+"Technické zhodnocení zvyšuje daňovou vstupní cenu a přepočítá\n"
+"                    plán od tohoto roku pomocí sazby ze zvýšené ceny (CZ "
+"§31)\n"
+"                    nebo koeficientu pro zvýšenou zůstatkovou cenu (CZ §32 / "
+"SK §28)."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_event__amount
+msgid ""
+"Technical-improvement amount (for improvement events). Ignored for "
+"suspension and disposal."
+msgstr ""
+"Částka technického zhodnocení (pro události zhodnocení). Ignorováno u "
+"přerušení a vyřazení."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid "Temp. diff"
+msgstr "Dočasný rozdíl"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__temp_difference
+msgid "Temporary Difference"
+msgstr "Přechodný rozdíl"
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"The %(type)s event dated %(date)s falls inside or before the last filed tax "
+"year (%(year)s) of %(asset)s. Filed years are frozen; use the Backfill "
+"(migration) wizard to unfreeze and rebuild the history, then record the "
+"event."
+msgstr ""
+"Událost %(type)s s datem %(date)s spadá do posledního podaného "
+"daňového roku (%(year)s) majetku %(asset)s nebo před něj. Podané "
+"roky jsou zmrazené; zrušte zmrazení a přebudujte historii průvodcem "
+"Doplnění historie (migrace) a poté událost zaznamenejte."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid "The deferred-tax balance already matches."
+msgstr "Zůstatek odložené daně již odpovídá."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_class.py:0
+msgid "The depreciation period must be a positive number of years."
+msgstr "Doba odpisování musí být kladný počet let."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_line__posted
+msgid ""
+"The fiscal year of this line has been filed; the figure is frozen and a "
+"recomputation will not move it."
+msgstr ""
+"Zdaňovací období tohoto řádku bylo podáno; hodnota je zmrazena a přepočet ji "
+"nezmění."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"The increased first-year rate (§31) applies only to Czech straight-line "
+"depreciation of groups 1–3."
+msgstr ""
+"Zvýšená sazba v 1. roce (§31) platí pouze pro český rovnoměrný odpis skupin "
+"1–3."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
+msgid "The python 'xlsxwriter' library is not available."
+msgstr "Knihovna Python 'xlsxwriter' není dostupná."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_backfill.py:0
+msgid ""
+"The statutory tax residual at the end of %(year)s is %(computed)s, but you "
+"entered %(expected)s.\n"
+"\n"
+"Tax depreciation is statutory, so a mismatch usually means a past technical "
+"improvement or suspension is not yet recorded, or the tax in-service date is "
+"wrong. Fix those first (add the events, correct the date), then backfill."
+msgstr ""
+"Zákonná daňová zůstatková cena na konci %(year)s je %(computed)s, ale zadali "
+"jste %(expected)s.\n"
+"\n"
+"Daňové odpisy jsou zákonné, takže nesoulad obvykle znamená, že dosud není "
+"zaznamenáno minulé technické zhodnocení nebo přerušení, nebo je nesprávné "
+"datum daňového zařazení. Nejprve to opravte (přidejte události, opravte "
+"datum), poté doplňte historii."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"The tax depreciation group of %s is locked because filed years exist; it may "
+"not change."
+msgstr ""
+"Daňová odpisová skupina majetku %s je uzamčena, protože existují podaná "
+"období; nelze ji změnit."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
+msgid ""
+"The tax depreciation method of %s is locked and may not change for the "
+"asset's whole depreciation life (CZ §30(2) / SK §26(3)). Untick “Tax Method "
+"Locked” only to correct a data-entry error."
+msgstr ""
+"Daňová metoda majetku %s je uzamčena a nelze ji po celou dobu odpisování "
+"majetku změnit (CZ §30(2) / SK §26(3)). Zaškrtnutí „Daňová metoda uzamčena“ "
+"zrušte pouze pro opravu chyby při zadávání dat."
+
+#. module: account_asset_tax
+#. odoo-python
+#: code:addons/account_asset_tax/wizard/account_asset_tax_event_wizard.py:0
+msgid "This asset does not track tax depreciation."
+msgstr "Tento majetek nesleduje daňové odpisy."
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid "Total"
+msgstr "Celkem"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__total_accounting
+msgid "Total Accounting"
+msgstr "Účetní celkem"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__total_addback
+msgid "Total Addback"
+msgstr "Připočet celkem"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__total_deduction
+msgid "Total Deduction"
+msgstr "Odpočet celkem"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__total_deferred_tax
+msgid "Total Deferred Tax"
+msgstr "Odložená daň celkem"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__total_tax
+msgid "Total Tax"
+msgstr "Daňový celkem"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_depreciation_enabled
+msgid "Track Tax Depreciation"
+msgstr "Sledovat daňové odpisy"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Vstupná cena / Input"
+msgstr "Vstupní cena / Input"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__wizard_id
+msgid "Wizard"
+msgstr "Průvodce"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__xlsx_filename
+msgid "Xlsx Filename"
+msgstr "Název souboru XLSX"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__year_index
+msgid "Year #"
+msgstr "Rok č."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event__duration_years
+msgid "Years"
+msgstr "Roky"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_event_wizard__duration_years
+msgid "Years to Suspend"
+msgstr "Počet let přerušení"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_class_form
+msgid "e.g. Stroje a zariadenia"
+msgstr "např. Stroje a zařízení"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid "Účtovný odpis / Book"
+msgstr "Účetní odpis / Book"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
+msgid ""
+"Žiadne daňové odpisy v tomto období / No tax depreciation in this period."
+msgstr ""
+"Žádné daňové odpisy v tomto období / No tax depreciation in this period."
+
+#~ msgid "Cannot determine the tax country for this asset."
+#~ msgstr "Nelze určit daňovou zemi pro tento majetek."
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_increased_first_year__10
+msgid "+10 %"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_increased_first_year__15
+msgid "+15 %"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_increased_first_year__20
+msgid "+20 %"
+msgstr ""
+
+#. module: account_asset_tax
+#: model:ir.module.module,summary:base.module_account_asset_tax
+msgid ""
+"Country-neutral engine for a second, non-posted tax-depreciation board "
+"alongside accounting depreciation (daňové vs účetní/účtovné odpisy)"
+msgstr ""
+"Engine nezávislý na zemi pro druhý, nezaúčtovaný plán daňových "
+"odpisů vedle účetních odpisů (daňové vs účetní/účtovné odpisy)"
+
+#. module: account_asset_tax
+#: model:ir.module.module,shortdesc:base.module_account_asset_tax
+msgid "Tax Depreciation (CZ/SK dual depreciation core)"
+msgstr "Daňové odpisy (jádro dvojího odpisování CZ/SK)"

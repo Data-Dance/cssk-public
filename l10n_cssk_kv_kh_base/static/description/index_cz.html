@@ -1,0 +1,82 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Kontrolní výkaz — sdílený rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Abstraktní jádro slovenského KV DPH a českého Kontrolního hlášení (KH DPH) — verzované šablony, mixiny řádků a export XML ověřeného proti XSD</h3>
+    <div class="oe_span12">
+      <p>Národně neutrální jádro slovenského <b>Kontrolného výkazu DPH (KV DPH)</b> a českého
+         <b>Kontrolního hlášení (KH DPH)</b>. Národní moduly (<code>l10n_sk_kv_dph</code> /
+         <code>l10n_cz_kh_dph</code>) zapojují své konkrétní sady oddílů, limity a XML schémata.</p>
+      <p>Záměrně závisí pouze na <b>jádru Odoo</b> (<code>account</code>, <code>mail</code>,
+         <code>l10n_cssk_core</code>) — <b>bez</b> <code>account.report</code> /
+         <code>account_reports</code> — takže výkaz i jeho export XML jsou bez závislosti na
+         Community / Enterprise, na Odoo 18.0 a 19.0.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.control.statement.version</code> — verzovaná šablona + registr oddílů +
+            typy podání + limit. Legislativní změny se dodávají jako nové záznamy verze, nikoli
+            nové moduly.</li>
+        <li><code>cssk.control.statement</code> — agregát výkazu (mail.thread; koncept → náhled
+            → exportováno → podáno), s <code>action_compute_lines</code> a
+            <code>action_export_xml</code> (vykreslení QWeb + validace XSD přes
+            <code>lxml</code>).</li>
+        <li>Tři mixiny řádků — detail / souhrn / rekonciliace — k dědění konkrétními modely
+            oddílů.</li>
+        <li><code>account.move.line</code> — uložený <code>cssk_control_section_code</code>
+            (počítaný národně přepsatelným resolverem, <b>nejprve přenesení daňové
+            povinnosti</b>) + přepis pro více sazeb DPH.</li>
+        <li><code>account.tax</code> — <code>cssk_control_section_default</code> +
+            <code>cssk_control_is_reverse_charge</code>; <code>account.journal</code> — přepis
+            výchozího oddílu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Výkazy ▸ Kontrolní hlášení.</i> Volbou <b>Nové kontrolní hlášení</b>
+         vytvořte výkaz za období, <b>Vypočítejte</b> pro naplnění oddílů z účetních zápisů
+         období, zkontrolujte detail po oddílech a poté <b>Exportujte XML</b>. Konkrétní sada
+         oddílů, limity a schéma pocházejí z nainstalovaného národního modulu; verze výkazů jsou
+         v kořenové nabídce lokalizace.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Průvodci</h2>
+    <div class="oe_span12">
+      <h4>Vytvořit kontrolní hlášení DPH <small>(Účetnictví ▸ Výkazy ▸ Kontrolní hlášení ▸ Nové kontrolní hlášení)</small></h4>
+      <p><b>Co dělá:</b> v jednom kroku vytvoří kontrolní hlášení za období a vypočítá je.</p>
+      <p><b>Jak používat:</b> zvolte společnost, verzi výkazu (filtrovanou podle daňové země
+         společnosti), typ podání, typ období (měsíční / čtvrtletní) a období (od / do), poté
+         <i>Vytvořit</i>; průvodce sestaví <code>cssk.control.statement</code>, spustí výpočet a
+         otevře nový výkaz.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

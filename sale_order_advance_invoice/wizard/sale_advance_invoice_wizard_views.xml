@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sale_advance_invoice_wizard" model="ir.ui.view">
+        <field name="name">Create Advance Invoice</field>
+        <field name="model">sale.advance.invoice.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Create Advance Invoice">
+                <group>
+                    <field name="sale_order_id" readonly="1"/>
+                    <field name="has_advance_invoices" invisible="1"/>
+                </group>
+                <group name="payment_method">
+                    <label for="advance_payment_method" string="Advance Invoice Type"/>
+                    <div>
+                        <field name="advance_payment_method" widget="radio" class="oe_inline"/>
+                    </div>
+                </group>
+                <group name="payment_specification"
+                    invisible="advance_payment_method not in ('fixed', 'percentage')">
+                    <field name="company_id" invisible="1"/>
+                    <label for="fixed_amount" invisible="advance_payment_method != 'fixed'"/>
+                    <label for="amount" invisible="advance_payment_method != 'percentage'"/>
+                    <div id="payment_method_details">
+                        <field name="currency_id" invisible="1"/>
+                        <field name="fixed_amount"
+                            invisible="advance_payment_method != 'fixed'"
+                            required="advance_payment_method == 'fixed'"
+                            class="oe_inline"/>
+                        <field name="amount"
+                            invisible="advance_payment_method != 'percentage'"
+                            required="advance_payment_method == 'percentage'"
+                            class="oe_inline"/>
+                        <span invisible="advance_payment_method != 'percentage'"
+                            class="oe_inline">%</span>
+                    </div>
+                </group>
+                <group name="itemisation">
+                    <field name="include_items"/>
+                </group>
+                <group invisible="not has_advance_invoices">
+                    <field name="amount_advance_invoiced"/>
+                </group>
+                <group>
+                    <field name="description" placeholder="e.g., Down payment for project X"/>
+                </group>
+                <footer>
+                    <button
+                        name="create_advance_invoice"
+                        type="object"
+                        string="Create Advance Invoice"
+                        class="btn-primary"
+                        data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_sale_advance_invoice_wizard" model="ir.actions.act_window">
+        <field name="name">Create Advance Invoice</field>
+        <field name="res_model">sale.advance.invoice.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

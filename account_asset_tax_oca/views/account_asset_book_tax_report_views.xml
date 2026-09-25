@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_asset_book_tax_report_pivot" model="ir.ui.view">
+        <field name="name">account.asset.book.tax.report.pivot</field>
+        <field name="model">account.asset.book.tax.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Book vs Tax Depreciation" sample="1">
+                <field name="tax_class_id" type="row"/>
+                <field name="asset_id" type="row"/>
+                <field name="fiscal_year" type="col"/>
+                <field name="book_amount" type="measure"/>
+                <field name="tax_amount" type="measure"/>
+                <field name="difference" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_asset_book_tax_report_graph" model="ir.ui.view">
+        <field name="name">account.asset.book.tax.report.graph</field>
+        <field name="model">account.asset.book.tax.report</field>
+        <field name="arch" type="xml">
+            <graph string="Book vs Tax Depreciation" type="bar" sample="1">
+                <field name="fiscal_year"/>
+                <field name="difference" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_asset_book_tax_report_list" model="ir.ui.view">
+        <field name="name">account.asset.book.tax.report.list</field>
+        <field name="model">account.asset.book.tax.report</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="asset_id"/>
+                <field name="tax_class_id" optional="show"/>
+                <field name="fiscal_year"/>
+                <field name="book_amount" sum="Total"/>
+                <field name="book_amount_posted" optional="hide" sum="Total"/>
+                <field name="tax_amount" sum="Total"/>
+                <field name="difference" sum="Total"/>
+                <field name="book_residual" optional="hide"/>
+                <field name="tax_residual" optional="hide"/>
+                <field name="tax_posted" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_asset_book_tax_report_search" model="ir.ui.view">
+        <field name="name">account.asset.book.tax.report.search</field>
+        <field name="model">account.asset.book.tax.report</field>
+        <field name="arch" type="xml">
+            <search string="Book vs Tax Depreciation">
+                <field name="asset_id"/>
+                <field name="tax_class_id"/>
+                <field name="fiscal_year"/>
+                <filter name="filter_tax_posted" string="Filed"
+                        domain="[('tax_posted', '=', True)]"/>
+                <group>
+                    <filter name="group_by_class" string="Tax Depreciation Group"
+                            context="{'group_by': 'tax_class_id'}"/>
+                    <filter name="group_by_asset" string="Asset"
+                            context="{'group_by': 'asset_id'}"/>
+                    <filter name="group_by_year" string="Fiscal Year"
+                            context="{'group_by': 'fiscal_year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_asset_book_tax_report" model="ir.actions.act_window">
+        <field name="name">Book vs Tax Depreciation</field>
+        <field name="res_model">account.asset.book.tax.report</field>
+        <field name="view_mode">pivot,graph,list</field>
+        <field name="search_view_id" ref="view_asset_book_tax_report_search"/>
+    </record>
+
+    <menuitem id="menu_asset_book_tax_report"
+              name="Book vs Tax Depreciation"
+              parent="account.menu_finance_reports"
+              action="action_asset_book_tax_report"
+              sequence="98"
+              groups="account.group_account_manager"/>
+</odoo>

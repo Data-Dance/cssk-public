@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+
+     Členění peněžního deníku pro daňovou evidenci podle § 7b ZDP.
+
+     Na rozdíl od Slovenska ZÁDNÝ předpis členění nepředepisuje: § 7b požaduje
+     jen příjmy a výdaje "v členění potřebném pro zjištění základu daně" a
+     evidenci majetku a dluhů. Pojem "peněžní deník" definuje pouze § 13b zákona
+     o účetnictví pro jednoduché účetnictví, které OSVČ vést nemůže (§ 1f).
+     Toto členění proto sleduje zavedenou praxi (POHODA, Money S3).
+
+     Názvy jsou česky ve zdroji a nepřekládají se — jde o pojmy, které účetní
+     najde ve svém dosavadním programu a v přiznání. Viz CLAUDE.md.
+
+     ``tax_return_code``: ``r101`` = Příloha č. 1 ř. 101 (příjmy),
+     ``r102`` = ř. 102 (výdaje).
+  -->
+<odoo>
+    <!-- ====================== PŘÍJMY DAŇOVÉ ===================== -->
+    <record id="cat_p_zbozi" model="cssk.cash.category">
+        <field name="code">P1</field>
+        <field name="name">Prodej zboží</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r101</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="cat_p_vyrobky" model="cssk.cash.category">
+        <field name="code">P2</field>
+        <field name="name">Prodej výrobků a služeb</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r101</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="cat_p_ostatni" model="cssk.cash.category">
+        <field name="code">P3</field>
+        <field name="name">Ostatní zdanitelný příjem</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r101</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <!-- ==================== PŘÍJMY NEDAŇOVÉ ===================== -->
+    <record id="cat_pn_vklad" model="cssk.cash.category">
+        <field name="code">PN1</field>
+        <field name="name">Vklad podnikatele</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">40</field>
+    </record>
+    <record id="cat_pn_uver" model="cssk.cash.category">
+        <field name="code">PN2</field>
+        <field name="name">Přijatý úvěr nebo zápůjčka</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">50</field>
+    </record>
+    <record id="cat_pn_dph" model="cssk.cash.category">
+        <field name="code">PN3</field>
+        <field name="name">Nadměrný odpočet DPH</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">60</field>
+    </record>
+    <record id="cat_pn_ostatni" model="cssk.cash.category">
+        <field name="code">PN9</field>
+        <field name="name">Ostatní nedaňový příjem</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">70</field>
+    </record>
+
+    <!-- ===================== VÝDAJE DAŇOVÉ ====================== -->
+    <record id="cat_v_material" model="cssk.cash.category">
+        <field name="code">V1</field>
+        <field name="name">Materiál</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="cat_v_zbozi" model="cssk.cash.category">
+        <field name="code">V2</field>
+        <field name="name">Zboží</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">110</field>
+    </record>
+    <record id="cat_v_drobny_majetek" model="cssk.cash.category">
+        <field name="code">V3</field>
+        <field name="name">Drobný majetek</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">120</field>
+    </record>
+    <record id="cat_v_mzdy" model="cssk.cash.category">
+        <field name="code">V4</field>
+        <field name="name">Mzdy</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">130</field>
+    </record>
+    <record id="cat_v_odvody" model="cssk.cash.category">
+        <field name="code">V5</field>
+        <field name="name">Odvody za zaměstnance (SP a ZP)</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">140</field>
+    </record>
+    <record id="cat_v_rezie" model="cssk.cash.category">
+        <field name="code">V6</field>
+        <field name="name">Provozní režie a služby</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">150</field>
+    </record>
+    <record id="cat_v_ostatni" model="cssk.cash.category">
+        <field name="code">V9</field>
+        <field name="name">Ostatní daňový výdaj</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">160</field>
+    </record>
+
+    <!-- ==================== VÝDAJE NEDAŇOVÉ ===================== -->
+    <record id="cat_vn_osobni_spotreba" model="cssk.cash.category">
+        <field name="code">VN1</field>
+        <field name="name">Osobní spotřeba</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">200</field>
+    </record>
+    <record id="cat_vn_majetek" model="cssk.cash.category">
+        <field name="code">VN2</field>
+        <field name="name">Nákup dlouhodobého majetku</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">210</field>
+        <field name="note">Úhrada za majetek není výdajem; do základu daně vstupuje odpisem (§ 26–33 ZDP) — kategorie Z1.</field>
+    </record>
+    <record id="cat_vn_dph" model="cssk.cash.category">
+        <field name="code">VN3</field>
+        <field name="name">Odvod DPH</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">220</field>
+    </record>
+    <record id="cat_vn_dan_z_prijmu" model="cssk.cash.category">
+        <field name="code">VN4</field>
+        <field name="name">Daň z příjmů a zálohy na daň</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">230</field>
+    </record>
+    <record id="cat_vn_pojistne_podnikatele" model="cssk.cash.category">
+        <field name="code">VN5</field>
+        <field name="name">Pojistné podnikatele (SP a ZP)</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">240</field>
+        <field name="note">NENÍ daňovým výdajem — § 25 odst. 1 písm. g) ZDP. Na Slovensku naopak daňovým výdajem je (§ 19 ods. 3 písm. i) ZDP), proto se katalogy obou zemí v tomto bodě liší.</field>
+    </record>
+    <record id="cat_vn_uver" model="cssk.cash.category">
+        <field name="code">VN6</field>
+        <field name="name">Splátka úvěru nebo zápůjčky (jistina)</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">250</field>
+        <field name="note">Úrok je daňovým výdajem (V9), jistina nikoli.</field>
+    </record>
+    <record id="cat_vn_ostatni" model="cssk.cash.category">
+        <field name="code">VN9</field>
+        <field name="name">Ostatní nedaňový výdaj</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">260</field>
+    </record>
+
+    <!-- ================== PRŮBĚŽNÉ POLOŽKY ====================== -->
+    <record id="cat_c_prubezne" model="cssk.cash.category">
+        <field name="code">C1</field>
+        <field name="name">Průběžné položky</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">transit</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">300</field>
+        <field name="note">Převody mezi pokladnou a bankovním účtem a mezi účty.</field>
+    </record>
+
+    <!-- =============== NEPENĚŽNÍ DENÍK (§ 5, § 23) ============== -->
+    <record id="cat_z_odpisy" model="cssk.cash.category">
+        <field name="code">Z1</field>
+        <field name="name">Odpisy dlouhodobého majetku</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="non_cash" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">400</field>
+    </record>
+    <record id="cat_z_uprava_zd" model="cssk.cash.category">
+        <field name="code">Z2</field>
+        <field name="name">Úprava základu daně (§ 23 odst. 8 ZDP)</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="non_cash" eval="True"/>
+        <field name="tax_return_code">r102</field>
+        <field name="sequence">410</field>
+        <field name="note">Při ukončení činnosti, přechodu na paušální výdaje nebo na účetnictví; podává se dodatečným přiznáním za předchozí období. Příloha č. 1, oddíl E.</field>
+    </record>
+</odoo>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>EDI Base — edi_base</title>
+<style>
+:root {
+    --odoo-purple: #714B67;
+    --odoo-purple-dark: #5a3b53;
+    --text-color: #2b2b2b;
+    --muted: #6c757d;
+    --bg-soft: #f7f5f8;
+    --border: #e5e1e8;
+    --code-bg: #1f1c2a;
+    --code-fg: #f3eefa;
+    --link: #714B67;
+    --link-hover: #4d3247;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text-color);
+    background: #fafafa;
+    line-height: 1.55;
+}
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 40px 80px;
+    background: #fff;
+    min-height: 100vh;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+}
+.document > h1.title {
+    color: var(--odoo-purple);
+    border-bottom: 3px solid var(--odoo-purple);
+    padding-bottom: 12px;
+    margin-top: 0;
+    font-size: 2.1em;
+}
+h1, h2, h3, h4 { color: var(--odoo-purple-dark); }
+h1 { font-size: 1.9em; }
+h2 {
+    font-size: 1.45em;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-top: 2em;
+}
+h3 { font-size: 1.15em; margin-top: 1.6em; }
+h4 { font-size: 1.0em;  margin-top: 1.4em; color: var(--muted); }
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); text-decoration: underline; }
+p { margin: 0.7em 0; }
+ul, ol { padding-left: 1.6em; }
+li { margin: 0.25em 0; }
+code, tt.docutils.literal {
+    background: var(--bg-soft);
+    color: var(--odoo-purple-dark);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.93em;
+    font-family: "JetBrains Mono", "Fira Code", "Source Code Pro",
+                 Menlo, Consolas, monospace;
+}
+pre {
+    background: var(--code-bg);
+    color: var(--code-fg);
+    padding: 14px 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-family: "JetBrains Mono", "Fira Code", "Source Code Pro",
+                 Menlo, Consolas, monospace;
+    font-size: 0.92em;
+    line-height: 1.45;
+}
+pre code { background: transparent; color: inherit; padding: 0; }
+table.docutils {
+    border-collapse: collapse;
+    margin: 1em 0;
+    font-size: 0.94em;
+}
+table.docutils th, table.docutils td {
+    border: 1px solid var(--border);
+    padding: 6px 10px;
+    vertical-align: top;
+}
+table.docutils thead {
+    background: var(--bg-soft);
+}
+.contents.topic {
+    background: var(--bg-soft);
+    border-left: 4px solid var(--odoo-purple);
+    padding: 12px 18px;
+    border-radius: 4px;
+    margin: 1.2em 0 2em;
+}
+.contents.topic > p.topic-title {
+    color: var(--odoo-purple);
+    font-weight: 600;
+    margin: 0 0 8px;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.05em;
+}
+.contents.topic ul { list-style: none; padding-left: 0; }
+.contents.topic ul ul { padding-left: 1.1em; }
+.section > h2 + p:first-of-type { color: var(--muted); }
+.badges img {
+    height: 20px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+.badges {
+    margin: 0 0 1.2em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+blockquote {
+    border-left: 4px solid var(--border);
+    padding-left: 12px;
+    color: var(--muted);
+    margin-left: 0;
+}
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2em 0;
+}
+.module-meta {
+    background: linear-gradient(135deg, #f9f4fa 0%, #fff 100%);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 18px;
+    margin-bottom: 1.6em;
+    font-size: 0.92em;
+    color: var(--muted);
+}
+.module-meta strong { color: var(--odoo-purple-dark); }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="module-meta">
+<strong>Module:</strong> edi_base
+&nbsp;|&nbsp;
+<strong>Path:</strong> <code>/home/rex/Odoo/TEST-19/edi_base/README.rst</code>
+</div>
+<main id="edi-base">
+<h1 class="title">EDI Base</h1>
+<p><img alt="Production/Stable" src="https://img.shields.io/badge/maturity-Production%2FStable-green.png" /> <img alt="License: Other proprietary" src="https://img.shields.io/badge/licence-Other%20proprietary-lightgray.png" /> <a class="reference external image-reference" href="https://www.odoo.com"><img alt="Odoo 19.0" src="https://img.shields.io/badge/Odoo-19.0-714B67.png" /></a></p>
+<p><strong>EDI Base</strong> is the shared foundation for every Data Dance EDI
+integration (<span class="docutils literal">edi_editel_*</span>, <span class="docutils literal">edi_grit_*</span>, …). It does <strong>not</strong>
+implement any concrete protocol on its own — instead it provides:</p>
+<ul class="simple">
+<li><p>The central audit-trail model <span class="docutils literal">edi.message</span>, which stores every
+inbound / outbound EDI document for every provider.</p></li>
+<li><p>The abstract transport interface <span class="docutils literal">edi.connector.mixin</span> that
+provider modules implement.</p></li>
+<li><p>Shared, provider-agnostic helpers for turning parsed inbound
+documents into Odoo records (vendor bills from INVOIC, PO updates
+from ORDRSP, receipt updates from DESADV).</p></li>
+<li><p>Two access groups (<span class="docutils literal">EDI / User</span>, <span class="docutils literal">EDI / Manager</span>) and the
+top-level <strong>EDI</strong> menu with the messages list, search and form
+views.</p></li>
+<li><p>GLN-driven partner resolution (sender / receiver) backed by the
+<span class="docutils literal">account_add_gln</span> module's <span class="docutils literal">global_location_number</span>.</p></li>
+</ul>
+<p>Installing <span class="docutils literal">edi_base</span> alone is harmless — no provider is wired up
+and no cron will move messages.</p>
+<p><strong>Table of contents</strong></p>
+<nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#installation" id="toc-entry-1">Installation</a></p></li>
+<li><p><a class="reference internal" href="#configuration" id="toc-entry-2">Configuration</a></p></li>
+<li><p><a class="reference internal" href="#usage" id="toc-entry-3">Usage</a></p>
+<ul>
+<li><p><a class="reference internal" href="#end-users" id="toc-entry-4">End users</a></p></li>
+<li><p><a class="reference internal" href="#manual-operations" id="toc-entry-5">Manual operations</a></p></li>
+<li><p><a class="reference internal" href="#developers" id="toc-entry-6">Developers</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#models-fields" id="toc-entry-7">Models &amp; fields</a></p></li>
+<li><p><a class="reference internal" href="#security" id="toc-entry-8">Security</a></p></li>
+<li><p><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-9">Known issues / Roadmap</a></p></li>
+<li><p><a class="reference internal" href="#bug-tracker" id="toc-entry-10">Bug Tracker</a></p></li>
+<li><p><a class="reference internal" href="#credits" id="toc-entry-11">Credits</a></p>
+<ul>
+<li><p><a class="reference internal" href="#authors" id="toc-entry-12">Authors</a></p></li>
+<li><p><a class="reference internal" href="#maintainers" id="toc-entry-13">Maintainers</a></p></li>
+<li><p><a class="reference internal" href="#license" id="toc-entry-14">License</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="installation">
+<h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink">Installation</a></h2>
+<p>Dependencies:</p>
+<ul class="simple">
+<li><p><span class="docutils literal">account</span></p></li>
+<li><p><span class="docutils literal">account_add_gln</span></p></li>
+<li><p><span class="docutils literal">stock</span></p></li>
+<li><p><span class="docutils literal">uom_unece</span></p></li>
+</ul>
+</section>
+<section id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-2" role="doc-backlink">Configuration</a></h2>
+<ol class="arabic simple">
+<li><p>Make sure your company's <span class="docutils literal">global_location_number</span> is set on
+<span class="docutils literal">res.company.partner_id</span>. Outbound messages refuse to send
+without it.</p></li>
+<li><p>Optionally set a per-warehouse override <span class="docutils literal">edi_gln</span> on
+<span class="docutils literal">stock.warehouse</span>. Outbound documents that need a Delivery Place
+(DP) GLN — DESADV, ORDERS — read it from the warehouse first and
+fall back to the company GLN.</p></li>
+<li><p>For each EDI trading partner, set their
+<span class="docutils literal">global_location_number</span> on <span class="docutils literal">res.partner</span>. Inbound messages
+are auto-linked to the partner whose GLN matches the envelope.</p></li>
+<li><p>Per-partner you can choose the <strong>EDI product code priority</strong>
+(<span class="docutils literal">product_edi_code_priority</span>) which controls how a partner's
+article codes are resolved to Odoo products
+(default: <span class="docutils literal">barcode</span> → supplier code → internal reference).</p></li>
+</ol>
+</section>
+<section id="usage">
+<h2><a class="toc-backref" href="#toc-entry-3" role="doc-backlink">Usage</a></h2>
+<section id="end-users">
+<h3><a class="toc-backref" href="#toc-entry-4" role="doc-backlink">End users</a></h3>
+<p>Open <strong>EDI → Messages</strong> to see every transaction the system has
+processed. Columns highlight test/production mode, errors and
+blocking levels at a glance. Form view exposes the raw XML payload
+(stored inline for &lt; 1 MB, otherwise as <span class="docutils literal">ir.attachment</span>), the
+correlation identifiers (<span class="docutils literal">transmission_uuid</span>,
+<span class="docutils literal">provider_interchange_id</span>, <span class="docutils literal">external_id</span>) and provider-specific
+links (<span class="docutils literal">purchase_order_id</span>, <span class="docutils literal">sale_order_id</span>, <span class="docutils literal">picking_id</span>,
+<span class="docutils literal">vendor_bill_id</span>, …) added by downstream modules.</p>
+</section>
+<section id="manual-operations">
+<h3><a class="toc-backref" href="#toc-entry-5" role="doc-backlink">Manual operations</a></h3>
+<ul class="simple">
+<li><p><strong>Reprocess</strong> — re-run inbound dispatch (state → <span class="docutils literal">received</span>).</p></li>
+<li><p><strong>Retry Send</strong> — re-queue a failed outbound (state → <span class="docutils literal">ready</span>).</p></li>
+</ul>
+</section>
+<section id="developers">
+<h3><a class="toc-backref" href="#toc-entry-6" role="doc-backlink">Developers</a></h3>
+<ul class="simple">
+<li><p>Implement a new provider by inheriting <span class="docutils literal">edi.connector.mixin</span> and
+overriding <span class="docutils literal">_authenticate()</span>, <span class="docutils literal">_send_message()</span>,
+<span class="docutils literal">_poll_inbound()</span> and <span class="docutils literal">_acknowledge_inbound()</span>.</p></li>
+<li><p>Register the provider on <span class="docutils literal">edi.message</span> by extending
+<span class="docutils literal">PROVIDER_CONNECTOR_MAP</span>, <span class="docutils literal">PROVIDER_CRON_MAP</span>,
+<span class="docutils literal">_selection_provider()</span> and <span class="docutils literal">_default_provider()</span>.</p></li>
+<li><p>Reuse the pivot-format helpers exposed on <span class="docutils literal">edi.message</span>:</p>
+<ul>
+<li><p><span class="docutils literal">_create_vendor_bill_from_parsed(vendor, parsed)</span></p></li>
+<li><p><span class="docutils literal">_update_po_lines_from_parsed(order, parsed_items)</span></p></li>
+<li><p><span class="docutils literal">_update_picking_from_parsed(picking, parsed_articles)</span></p></li>
+</ul>
+</li>
+<li><p>Inject your country-specific or partner-specific behaviour via the
+no-op hooks <span class="docutils literal">_hook_post_create_vendor_bill</span>,
+<span class="docutils literal">_hook_post_update_po_lines</span>, <span class="docutils literal">_hook_post_update_picking</span>,
+<span class="docutils literal">_hook_post_create_sale_order</span>, <span class="docutils literal">_hook_validate_outbound_xml</span>.</p></li>
+</ul>
+</section>
+</section>
+<section id="models-fields">
+<h2><a class="toc-backref" href="#toc-entry-7" role="doc-backlink">Models &amp; fields</a></h2>
+<dl class="simple">
+<dt><span class="docutils literal">edi.message</span> (new)</dt>
+<dd><p>Single audit-log model. Key fields: <span class="docutils literal">provider</span>, <span class="docutils literal">direction</span>,
+<span class="docutils literal">state</span>, <span class="docutils literal">message_type</span>, <span class="docutils literal">doc_type_code</span> (more reliable than
+<span class="docutils literal">message_type</span>), <span class="docutils literal">message_id</span> (unique with direction),
+<span class="docutils literal">sender_gln</span> / <span class="docutils literal">receiver_gln</span> (auto-resolve to
+<span class="docutils literal">partner_id</span>), <span class="docutils literal">message_xml</span> (inline) or <span class="docutils literal">attachment_id</span>
+(large payloads), <span class="docutils literal">transmission_uuid</span>,
+<span class="docutils literal">provider_interchange_id</span>, <span class="docutils literal">external_id</span>,
+<span class="docutils literal">blocking_level</span>, <span class="docutils literal">error_message</span>.</p>
+</dd>
+<dt><span class="docutils literal">edi.connector.mixin</span> (abstract)</dt>
+<dd><p>Transport contract — four stub methods that providers override.</p>
+</dd>
+<dt><span class="docutils literal">res.partner</span> (extended)</dt>
+<dd><p>Adds <span class="docutils literal">product_edi_code_priority</span> (Selection).</p>
+</dd>
+<dt><span class="docutils literal">stock.warehouse</span> (extended)</dt>
+<dd><p>Adds <span class="docutils literal">edi_gln</span> (Char) — Delivery Place GLN override.</p>
+</dd>
+<dt><span class="docutils literal">res.config.settings</span> (extended)</dt>
+<dd><p>Anchor for provider-specific configuration sections.</p>
+</dd>
+</dl>
+</section>
+<section id="security">
+<h2><a class="toc-backref" href="#toc-entry-8" role="doc-backlink">Security</a></h2>
+<ul class="simple">
+<li><p><strong>EDI / User</strong> (<span class="docutils literal">group_edi_user</span>) — read-only on
+<span class="docutils literal">edi.message</span>; sees the EDI menu.</p></li>
+<li><p><strong>EDI / Manager</strong> (<span class="docutils literal">group_edi_manager</span>) — full read/write/create
+on <span class="docutils literal">edi.message</span> (no delete — audit trail).</p></li>
+</ul>
+</section>
+<section id="known-issues-roadmap">
+<h2><a class="toc-backref" href="#toc-entry-9" role="doc-backlink">Known issues / Roadmap</a></h2>
+<ul class="simple">
+<li><p>No native COMDIS / control-message handling yet — provider modules
+add their own where required.</p></li>
+<li><p>Message search performance relies on the indexes on
+<span class="docutils literal">transmission_uuid</span>, <span class="docutils literal">provider_interchange_id</span>, <span class="docutils literal">external_id</span>,
+and <span class="docutils literal">message_id</span> — adding very large XML payloads inline (rather
+than as attachments) can slow the form view.</p></li>
+</ul>
+</section>
+<section id="bug-tracker">
+<h2><a class="toc-backref" href="#toc-entry-10" role="doc-backlink">Bug Tracker</a></h2>
+<p>Bugs are reported privately to Data Dance s.r.o. via
+<a class="reference external" href="mailto:support&#64;datadance.eu">support&#64;datadance.eu</a>.</p>
+</section>
+<section id="credits">
+<h2><a class="toc-backref" href="#toc-entry-11" role="doc-backlink">Credits</a></h2>
+<section id="authors">
+<h3><a class="toc-backref" href="#toc-entry-12" role="doc-backlink">Authors</a></h3>
+<ul class="simple">
+<li><p>Data Dance s.r.o.</p></li>
+</ul>
+</section>
+<section id="maintainers">
+<h3><a class="toc-backref" href="#toc-entry-13" role="doc-backlink">Maintainers</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.datadance.eu">Data Dance s.r.o.</a></p></li>
+</ul>
+</section>
+<section id="license">
+<h3><a class="toc-backref" href="#toc-entry-14" role="doc-backlink">License</a></h3>
+<p>Data Dance Proprietary License v1.0 — see <span class="docutils literal">LICENSE</span> and <span class="docutils literal">__manifest__.py</span>.</p>
+</section>
+</section>
+</main>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="sale_order_portal_content_advance_invoice" inherit_id="sale.sale_order_portal_content">
+
+        <!-- After the totals section, show payment info for advance invoices:
+             bank account, reference, and QR code when enabled. -->
+        <xpath expr="//div[@id='total']" position="after">
+            <t t-if="sale_order.is_advance_invoice and sale_order.advance_invoice_partner_bank_id">
+                <t t-set="advance_qr_url" t-value="sale_order.advance_invoice_display_qr_code and sale_order._generate_advance_invoice_qr_code(silent_errors=True)"/>
+                <section class="mt-4" id="advance_invoice_payment_info">
+                    <h4>Payment Information</h4>
+                    <hr class="mt-0 mb-2"/>
+                    <div class="d-flex">
+                        <div t-if="advance_qr_url" class="me-3 position-relative" style="width:128px; height:128px;">
+                            <img t-att-src="advance_qr_url" style="width:128px; height:128px;"/>
+                            <img src="/account/static/src/img/Odoo_logo_O.svg"
+                                 class="top-50 start-50 position-absolute bg-white border border-3 rounded-circle"/>
+                        </div>
+                        <div class="lh-sm">
+                            <p t-if="advance_qr_url" class="text-muted fst-italic mb-2">Scan this QR Code with your banking application</p>
+                            <p class="mb-1"><strong>Bank Account: </strong><span t-field="sale_order.advance_invoice_partner_bank_id"/></p>
+                            <p class="mb-0"><strong>Reference: </strong><t t-out="sale_order.name"/></p>
+                        </div>
+                    </div>
+                </section>
+            </t>
+        </xpath>
+
+    </template>
+
+</odoo>

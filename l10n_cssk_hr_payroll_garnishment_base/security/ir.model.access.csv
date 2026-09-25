@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_wage_garnishment_user,hr.wage.garnishment user,model_hr_wage_garnishment,hr.group_hr_user,1,1,1,0
+access_hr_wage_garnishment_manager,hr.wage.garnishment manager,model_hr_wage_garnishment,hr.group_hr_manager,1,1,1,1
+access_hr_wage_garnishment_line_user,hr.wage.garnishment.line user,model_hr_wage_garnishment_line,hr.group_hr_user,1,1,1,0
+access_hr_wage_garnishment_line_manager,hr.wage.garnishment.line manager,model_hr_wage_garnishment_line,hr.group_hr_manager,1,1,1,1
+access_hr_wage_garnishment_rate_user,hr.wage.garnishment.rate user,model_hr_wage_garnishment_rate,hr.group_hr_user,1,0,0,0
+access_hr_wage_garnishment_rate_manager,hr.wage.garnishment.rate manager,model_hr_wage_garnishment_rate,hr.group_hr_manager,1,1,1,1
+access_hr_wage_garnishment_notice_user,hr.wage.garnishment.notice wizard,model_hr_wage_garnishment_notice,hr.group_hr_user,1,1,1,1

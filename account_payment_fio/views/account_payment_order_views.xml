@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="account_payment_order_view_form_fio" model="ir.ui.view">
+        <field name="name">account.payment.order.form.fio</field>
+        <field name="model">account.payment.order</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_order_form" />
+        <field name="arch" type="xml">
+            <button name="generated2uploaded" position="before">
+                <field name="fio_upload_state" invisible="1" />
+                <button name="action_fio_upload" type="object"
+                        string="Send to Fio" icon="fa-bolt" class="btn-primary"
+                        invisible="state != 'generated' or fio_upload_state != 'not_sent'" />
+                <button name="action_fio_confirm_sent" type="object"
+                        string="It IS in the bank" class="btn-warning"
+                        confirm="Only press this after finding the batch in Fio internet banking. It stops Odoo from sending these payments again."
+                        invisible="fio_upload_state != 'unknown'" />
+                <button name="action_fio_confirm_not_sent" type="object"
+                        string="It is NOT in the bank" class="btn-secondary"
+                        confirm="Only press this after checking Fio internet banking and finding no batch. It allows Odoo to send these payments again."
+                        invisible="fio_upload_state != 'unknown'" />
+            </button>
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-danger" role="alert"
+                     invisible="fio_upload_state != 'unknown'">
+                    <b>The bank's answer to the last upload was lost.</b>
+                    Fio may or may not be holding this batch. Open internet
+                    banking, look for an unauthorised batch, and tell Odoo what
+                    you found — sending again without checking would pay
+                    everything twice.
+                </div>
+                <div class="alert alert-info" role="alert"
+                     invisible="fio_upload_state != 'sent'">
+                    Sent to Fio as batch
+                    <field name="fio_id_instruction" class="oe_inline" readonly="1" />.
+                    It is <b>not paid yet</b>: somebody with signing rights has
+                    to authorise the batch in Fio internet banking.
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='head-right']" position="inside">
+                <field name="fio_uploaded_at" invisible="not fio_uploaded_at" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

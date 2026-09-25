@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_company_form_l10n_sk_trade_registry" model="ir.ui.view">
+        <field name="name">res.company.form.l10n_sk.trade.registry</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_sk.view_company_form_inherit_l10n_ck"/>
+        <field name="arch" type="xml">
+            <field name="trade_registry" position="before">
+                <field name="l10n_sk_register_name" invisible="country_code != 'SK'"/>
+                <field name="l10n_sk_register_office" invisible="country_code != 'SK'"/>
+                <field name="l10n_sk_register_number" invisible="country_code != 'SK'"/>
+            </field>
+        </field>
+    </record>
+</odoo>

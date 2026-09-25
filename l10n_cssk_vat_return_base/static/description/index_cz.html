@@ -1,0 +1,79 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Přiznání k DPH — sdílený rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Zemsky neutrální engine pro slovenské DPHv25 a české DPHDP3 — číslované řádky z daňových značek, XML ověřené proti XSD</h3>
+    <div class="oe_span12">
+      <p>Zemsky neutrální engine pro slovenské <b>daňové priznanie k DPH</b> (DPHv25) a české
+         <b>přiznání k DPH</b> (DPHDP3). Přiznání je pevná sada číslovaných řádků (<i>riadky</i>),
+         z nichž každý je vypočten jako součet zůstatků položek se znaménkem, které nesou dané
+         <b>daňové značky</b>, plus agregační řádky (součty) nad jinými řádky.</p>
+      <p><b>Čistě CE:</b> daňové značky i pomocná funkce
+         (<code>account.account.tag._get_tax_tags</code>) jsou v Odoo CE; tento modul přináší vlastní
+         malý vyhodnocovač, takže <b>nezávisí</b> na EE enginu <code>account_reports</code>. Funguje na
+         Community i Enterprise, na Odoo 18.0 a 19.0. Zemské moduly dodávají definice řádků, XML šablonu
+         a schéma.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.vat.return.version</code> — verzované definice řádků + XML šablona + schéma +
+            typy přiznání.</li>
+        <li><code>cssk.vat.return.line.def</code> — řádek je buď <b>tags</b> (vzorec daňových značek,
+            např. <code>-03</code>, kde úvodní <code>-</code> je znaménko), <b>aggregate</b> (vzorec nad
+            kódy jiných řádků, např. <code>r04 + r06</code>) nebo <b>manual</b>.</li>
+        <li><code>cssk.vat.return</code> (mail.thread; koncept → náhled → exportováno → podáno)
+            s vyhodnocovačem daňových značek a <code>action_export_xml</code>, který tvoří XML ověřené
+            proti XSD.</li>
+        <li><code>cssk.vat.return.line</code> — vypočtená hodnota každého řádku.</li>
+        <li>Vlastní vyhodnocovač daňových značek — bez závislosti na EE enginu
+            <code>account_reports</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Výkazy ▸ Přiznání k DPH.</i> Pomocí <b>Nové přiznání k DPH</b> vytvořte
+         přiznání za období (vypočte se jedním krokem), zkontrolujte číslované řádky naplněné
+         z účetních zápisů období a poté <b>Exportujte XML</b> pro daňový portál. Definice řádků,
+         šablona a schéma pocházejí z nainstalovaného zemského modulu; spravujte je v nabídce
+         <i>Verze přiznání k DPH</i>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Průvodci</h2>
+    <div class="oe_span12">
+      <h4>Vytvořit přiznání k DPH <small>(Účetnictví ▸ Výkazy ▸ Přiznání k DPH ▸ Nové přiznání k DPH)</small></h4>
+      <p><b>Co dělá:</b> vytvoří přiznání k DPH za období a jedním krokem jej vypočte.</p>
+      <p><b>Jak používat:</b> zvolte společnost, <i>verzi</i> přiznání a <i>typ přiznání</i>, typ
+         období (měsíční / čtvrtletní) a data období, poté stiskněte <b>Vytvořit</b>. Přiznání se
+         vytvoří a jeho řádky se ihned vypočtou; otevře se formulář nového přiznání.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

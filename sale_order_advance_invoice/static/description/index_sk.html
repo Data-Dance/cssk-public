@@ -1,0 +1,112 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Zálohové faktúry na predajnej objednávke</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Zálohové (preddavkové) faktúry s daňovým dokladom k prijatej platbe (CZ/SK)</h3>
+    <div class="oe_span12">
+      <p>Univerzálny engine pre tok <b>zálohových / preddavkových faktúr</b> používaný v českom a
+         slovenskom účtovníctve (<i>zálohová / preddavková faktúra</i>). Záloha je <b>vlastná
+         predajná objednávka</b> — uhraditeľná QR kódom, ručnou platbou alebo naviazaním bankového
+         prevodu — ktorá k <b>prijatej platbe vytvorí daňový doklad</b> (CZ <i>daňový doklad k přijaté
+         platbě</i>, SK <i>faktúra k prijatej platbe</i>) a na konečnej faktúre sa <b>vysporiada
+         (odpočíta)</b>, takže DPH sa odvedie iba raz.</p>
+      <p>Základný modul je nezávislý od účtovej osnovy. Pre automatické napojenie zákonných účtov a
+         denníka nainštalujte lokalizačnú vrstvu: <code>l10n_cz_sale_order_advance_invoice</code>
+         (česká osnova) alebo <code>l10n_sk_sale_order_advance_invoice</code> (slovenská osnova).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Zálohová faktúra je <b>vlastná predajná objednávka</b> (<code>is_advance_invoice</code>)
+            naviazaná na nadradenú objednávku, uhraditeľná <b>QR kódom</b>, <b>ručnou platbou</b>
+            alebo <b>naviazaním existujúceho bankového prevodu</b>.</li>
+        <li>Pri platbe vznikne <b>daňový doklad k prijatej platbe</b> vo vyhradenom denníku s dňom
+            dodania nastaveným na dátum platby.</li>
+        <li>Záloha sa na konečnej faktúre <b>odpočíta</b> a DPH zo zálohy sa <b>stornuje</b>, takže
+            zákazník nie je zdanený dvakrát.</li>
+        <li>Samostatné zálohové faktúry možno ku konečnej faktúre <b>naviazať</b> dodatočne.</li>
+        <li>Prehľadné stavy <b>platby</b> a <b>účtovania</b> na každej zálohe, s evidenčnými riadkami
+            zálohy na nadradenej objednávke.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Na predajnej objednávke použite <b>Vytvoriť zálohovú faktúru</b> na vystavenie zálohy (celá
+         suma, percento alebo pevná suma). Zálohu uhraďte QR kódom, akciou <b>Zaúčtovať platbu</b>
+         alebo <b>Naviazať ručný prevod</b>; daňový doklad vznikne pri platbe. Pri fakturácii
+         objednávky sa záloha odpočíta na konečnej faktúre; samostatné zálohy možno pripojiť akciou
+         <b>Naviazať zálohové faktúry</b> na návrhu odberateľskej faktúry. Bez lokalizácie nastavte
+         denník a účty v <i>Nastavenia ▸ Predaj ▸ Zálohové faktúry</i>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Vytvoriť zálohovú faktúru <small>(tlačidlo „Vytvoriť zálohovú faktúru“ v záhlaví objednávky)</small></h4>
+      <p><b>Čo robí:</b> vystaví zálohovú faktúru k objednávke.</p>
+      <p><b>Ako používať:</b> zvoľte <i>celú sumu</i>, <i>percento</i> alebo <i>pevnú sumu</i> (a
+         voliteľný popis), potom <i>Vytvoriť zálohovú faktúru</i>. Vznikne a otvorí sa nová zálohová
+         predajná objednávka.</p>
+      <h4>Zaúčtovať ručnú platbu <small>(tlačidlo „Zaúčtovať platbu“ na zálohe)</small></h4>
+      <p><b>Čo robí:</b> zaznamená ručnú platbu zákazníka k zálohovej faktúre.</p>
+      <p><b>Ako používať:</b> zadajte sumu, dátum, denník a platobnú metódu, potom <i>Vytvoriť
+         platbu</i>; záloha sa potvrdí a platba naviaže.</p>
+      <h4>Naviazať ručný bankový prevod <small>(tlačidlo „Naviazať ručný prevod“ na zálohe)</small></h4>
+      <p><b>Čo robí:</b> pripojí už zaevidovanú prichádzajúcu bankovú platbu k zálohe.</p>
+      <p><b>Ako používať:</b> vyberte nespárovanú platbu, potom <i>Naviazať</i>.</p>
+      <h4>Naviazať samostatné zálohové faktúry <small>(tlačidlo „Naviazať zálohové faktúry“ na návrhu faktúry)</small></h4>
+      <p><b>Čo robí:</b> naviaže jednu či viac samostatných zálohových faktúr na konečnú odberateľskú
+         faktúru.</p>
+      <p><b>Ako používať:</b> vyberte spôsobilé zálohy, potom <i>Naviazať</i>; pridajú sa ako
+         odpočítacie riadky (netto so stornom DPH, ak existuje daňový doklad, inak brutto).</p>
+      <h4>Záloh-aware sprievodca zálohou <small>(rozširuje štandardný „Vytvoriť faktúry“)</small></h4>
+      <p><b>Čo robí:</b> pri zálohových objednávkach prepne štandardného sprievodcu zálohou na metódu
+         <i>dodané</i>, aby tok záloh zostal konzistentný.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Dokumentácia</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="advance_invoice_cheat_sheet.html">Interaktívny ťahák</a> — prejdite tok
+            proforma → platba → daňový doklad → konečná faktúra → vysporiadanie a sledujte, ako sa
+            plnia účtovné zápisy (CZ/SK, s/bez daňového dokladu, krátkodobá/dlhodobá).</li>
+        <li><a href="advance_invoice_reference.html">Referencia</a> — ten istý tok ako súvislý text
+            s vypracovanými účtovnými zápismi
+            (zdroj: <a href="../../docs/advance_invoice_cheat_sheet.rst">docs/advance_invoice_cheat_sheet.rst</a>).</li>
+        <li><a href="../../docs/index.rst">docs/index.rst</a> — prehľad funkcií a konfigurácie.</li>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — história verzií.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

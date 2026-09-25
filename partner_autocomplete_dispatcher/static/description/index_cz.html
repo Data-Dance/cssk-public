@@ -1,0 +1,62 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Dispečer doplňování partnerů</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Dispečer poskytovatelů doplňování partnerů pro jednotlivé společnosti</h3>
+    <div class="oe_span12">
+      <p>Technický rámec, který mění doplňování partnerů v Odoo na <b>zásuvný registr poskytovatelů
+         pro jednotlivé společnosti</b>. Namísto jediné pevně zadrátované obohacovací služby si každá
+         společnost zvolí svého <b>poskytovatele doplňování</b> a dispečer mu předá vyhledávání podle
+         jména, vyhledávání podle DIČ i obohacení společnosti.</p>
+      <p>Samotný modul přináší pouze registr a výchozího poskytovatele, který nedělá nic; konkrétní
+         poskytovatelé (např. <code>partner_autocomplete_ares_cz</code> pro český registr ARES) se do
+         něj zaregistrují a stanou se volitelnými. Podporuje rovněž obohacení při importu dat a
+         hromadnou akci <i>Aktualizovat</i> na kontaktech.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Registr poskytovatelů</b> (<code>partner.autocomplete.provider.registry</code>) a
+            abstraktní rozhraní poskytovatele (našeptávání podle jména, čtení podle DIČ, obohacení
+            společnosti), které doplňkové moduly rozšiřují.</li>
+        <li><b>Výběr poskytovatele pro každou společnost</b> — každá <code>res.company</code> si volí
+            svého poskytovatele doplňování; vyhledávání se předá jemu namísto standardní služby IAP
+            od Odoo.</li>
+        <li>Obohacení při <b>importu dat</b> přes pole <code>import_enrich_company</code> na
+            partnerech.</li>
+        <li>Základ pro obohacení podřízených kontaktů a bankovních účtů vrácených poskytovateli.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Nainstalujte tento modul společně s alespoň jedním poskytovatelem. V <i>Nastavení ▸ Obecná
+         nastavení ▸ Kontakty</i> zapněte <i>Doplňování partnerů</i> a zvolte poskytovatele pro
+         aktuální společnost. Od té chvíle doplňování a obohacení partnerů využívá zvoleného
+         poskytovatele. Pouze s tímto modulem výchozí poskytovatel nevrací nic — slouží k rozšíření.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

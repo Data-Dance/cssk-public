@@ -1,0 +1,78 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK EC Sales List — Shared Framework</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">The country-neutral engine behind the Slovak Súhrnný výkaz and Czech Souhrnné hlášení</h3>
+    <div class="oe_span12">
+      <p>This is the country-neutral engine behind the Slovak <b>Súhrnný výkaz</b> and Czech
+         <b>Souhrnné hlášení</b> (EC sales list / recapitulative statement). The two have the
+         <b>same row shape</b> — one aggregated line per (member-state, customer VAT, transaction
+         code) — so a single line model serves both; country modules ship only the codes, XML
+         template and schema.</p>
+      <p>Depends on <b>Odoo core only</b> (<code>account</code>, <code>mail</code>,
+         <code>l10n_cssk_core</code>) — no <code>account_reports</code> — so it is
+         Community/Enterprise- and 18.0/19.0-clean.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.ec.summary.statement.version</code> — versioned template + schema + types.</li>
+        <li><code>cssk.ec.summary.statement</code> (mail.thread; draft → preview → exported →
+            submitted) with <code>action_compute_lines</code> and <code>action_export_xml</code>.</li>
+        <li><code>cssk.ec.summary.statement.line</code> — the aggregated line.</li>
+        <li><code>account.tax.cssk_ec_summary_code</code> — marks intra-EU supply taxes and their
+            transaction code.</li>
+        <li><b>Mandatory VIES preflight</b> before export (hard block — a submitted EC list with an
+            invalid VAT is penalised in both jurisdictions).</li>
+        <li>XSD-validated XML export pipeline (VIES preflight → QWeb render → XSD validate →
+            attach).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Tag each intra-EU supply tax with its EC transaction code (a deployment step), then create
+         a statement for a period from <i>Accounting ▸ Reporting ▸ EC Sales List ▸ New EC Sales
+         List</i>, <b>Compute</b> the aggregated lines, review them, run the <b>VIES preflight</b>
+         and <b>Export XML</b> for submission. Eligibility is driven entirely by the tagged taxes.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Wizards</h2>
+    <div class="oe_span12">
+      <h4>Create EC Sales List <small>(Accounting ▸ Reporting ▸ EC Sales List ▸ New EC Sales List)</small></h4>
+      <p><b>What it does:</b> creates an EC sales list statement for a period and computes it in one
+         step (<code>cssk.ec.summary.wizard</code>).</p>
+      <p><b>How to use:</b> open the wizard, pick the company, the version (filtered to the company's
+         fiscal country), the statement type, the period type (monthly / quarterly) and the
+         from/to dates, then <i>Create</i>. The statement is created, its lines are computed and the
+         new statement form opens for review and export.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Statutory Slovak annual-leave (dovolenka) accrual plans, modelled in
+        DAYS (added_value_type='day') and attached to the SK holiday leave type
+        (l10n_sk_leave_type_dovolenka) via time_off_type_id.
+
+        Legal basis - Zákon č. 311/2001 Z. z. Zákonník práce, §100-§117:
+          * §103 ods. 1  základná výmera dovolenky = 4 týždne
+                         => 20 dní pri 5-dňovom pracovnom týždni.
+          * §103 ods. 2  5 týždňov (25 dní) pre zamestnanca, ktorý do konca
+                         kalendárneho roka dovŕši 33 rokov veku, alebo ktorý sa
+                         trvale stará o dieťa. Nárok vzniká už v roku dovŕšenia
+                         33 rokov (aj keď narodeniny sú v decembri).
+          * §103 ods. 3  8 týždňov (40 dní) pre pedagogických a odborných
+                         zamestnancov, vysokoškolských učiteľov, výskumných a
+                         umeleckých pracovníkov.
+          * §101         dovolenka za kalendárny rok patrí zamestnancovi, ktorý
+                         vykonával prácu aspoň 60 dní; ak pracovný pomer netrval
+                         celý rok, patrí POMERNÁ ČASŤ = 1/12 výmery za každý celý
+                         kalendárny mesiac trvania pracovného pomeru.
+          * §105         kto neodpracoval 60 dní: dovolenka za odpracované dni =
+                         1/12 ročnej výmery za každých 21 odpracovaných dní.
+          * §113         čerpanie/prenos: nevyčerpanú dovolenku možno preniesť do
+                         nasledujúceho roka (can_be_carryover); prenesenú, no ani
+                         v nasledujúcom roku nevyčerpanú dovolenku zamestnávateľ
+                         nariadi vyčerpať, inak (praktický default) prepadá.
+                         Modelované jednoročným prenosovým oknom: na úrovni plánu
+                         accrual_validity=364 DNÍ OD dátumu prenosu (1. 1.), takže
+                         okno sa uzavrie ~31. 12., teda TESNE PRED ďalším prenosom
+                         1. 1. (12-mesačné okno by kolidovalo s prenosom v ten istý
+                         deň a v Odoo by prepadávanie driftovalo na 2-ročný rytmus;
+                         364 dní dáva čistý jednoročný prepad v každom cykle).
+
+        Proration model (assumption, documented in README/CHANGELOG):
+          The annual entitlement is accrued MONTHLY at 1/12 per whole calendar
+          month (added_value = annual/12, frequency='monthly',
+          accrued_gain_time='end'). A full year => 20/25/40 days; a partial year
+          => the pomerná časť of §101 automatically. maximum_leave_yearly caps
+          each year at the statutory annual figure so rounding of 1/12 never
+          overshoots. The §105 "za odpracované dni" (1/12 per 21 worked days for
+          <60 worked days) is a special sub-case NOT auto-derived here.
+
+        Sources (confirmed 2025/2026, unchanged for 2026):
+          - Zákonník práce §100-§117 (Slov-Lex 311/2001 Z. z.)
+          - Národný inšpektorát práce - ip.gov.sk (dovolenka)
+          - podnikajte.sk / pravnenoviny.sk - Dovolenka 2025/2026
+    -->
+
+    <!-- 4 týždne = 20 dní (základná výmera, §103 ods. 1) -->
+    <record id="l10n_sk_accrual_plan_dovolenka_4w" model="hr.leave.accrual.plan">
+        <field name="name">Statutory annual leave — 4 weeks (20 days)</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_dovolenka"/>
+        <field name="accrued_gain_time">end</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="True"/>
+    </record>
+    <record id="l10n_sk_accrual_level_dovolenka_4w" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_dovolenka_4w"/>
+        <field name="added_value">1.66667</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">monthly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">20</field>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- §113: unused dovolenka carried into the following year is forfeited
+             if still unused a year later. accrual_validity counts 364 DAYS FROM
+             the 1 Jan carryover date, so the window closes ~31 Dec, i.e. JUST
+             BEFORE the next 1 Jan carryover. This avoids the collision that a
+             12-month window has (expiry == carryover on 1 Jan overwrites Odoo's
+             single expiry-tracking field and drifts to a 2-year rhythm); 364
+             days gives a clean one-year forfeit every cycle. -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+
+    <!-- 5 týždňov = 25 dní (33+ / trvalá starostlivosť o dieťa, §103 ods. 2) -->
+    <record id="l10n_sk_accrual_plan_dovolenka_5w" model="hr.leave.accrual.plan">
+        <field name="name">Annual leave — 5 weeks (25 days), age 33+ / parent</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_dovolenka"/>
+        <field name="accrued_gain_time">end</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="True"/>
+    </record>
+    <record id="l10n_sk_accrual_level_dovolenka_5w" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_dovolenka_5w"/>
+        <field name="added_value">2.08333</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">monthly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">25</field>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- §113: one-year carryover window, then forfeit (364 days from carryover, so it expires ~31 Dec, just before the next 1 Jan carryover). -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+
+    <!-- 8 týždňov = 40 dní (pedagóg / akademik / výskum, §103 ods. 3) -->
+    <record id="l10n_sk_accrual_plan_dovolenka_8w" model="hr.leave.accrual.plan">
+        <field name="name">Annual leave — 8 weeks (40 days), teaching staff</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_dovolenka"/>
+        <field name="accrued_gain_time">end</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="True"/>
+    </record>
+    <record id="l10n_sk_accrual_level_dovolenka_8w" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_dovolenka_8w"/>
+        <field name="added_value">3.33333</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">monthly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">40</field>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- §113: one-year carryover window, then forfeit (364 days from carryover, so it expires ~31 Dec, just before the next 1 Jan carryover). -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+</odoo>

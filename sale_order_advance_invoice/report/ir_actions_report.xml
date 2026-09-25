@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- The filename must distinguish advance invoices from orders
+         ("Zálohová faktúra - ADV00001", not "Objednávka - ADV00001").
+         print_report_name is a translated field: the XML write only covers
+         en_US, so the post_init hook / migration force the expression for
+         every installed language (core sale ships translated expressions). -->
+    <record id="sale.action_report_saleorder" model="ir.actions.report">
+        <field name="print_report_name">object._get_saleorder_report_filename()</field>
+    </record>
+
+</odoo>

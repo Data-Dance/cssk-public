@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        hr.payroll.structure has no type_id / report_id. Rules are linked
+        through the rule_ids m2m instead of a struct_id on each rule, so this
+        file is loaded AFTER the salary rules.
+    -->
+    <record id="hr_payroll_structure_sk_employee_salary" model="hr.payroll.structure">
+        <field name="name">Slovakia: Regular Pay</field>
+        <field name="code">SKMONTHLY</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="l10n_sk_agreement_type">none</field>
+        <field name="rule_ids" eval="[(6, 0, [
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_basic_salary_rule'),
+            ref('l10n_sk_holiday_allowance'),
+            ref('l10n_sk_obstacle_allowance'),
+            ref('l10n_sk_employer_obstacle_allowance'),
+            ref('l10n_sk_meal_voucher_employee'),
+            ref('l10n_sk_meal_voucher_employer'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_gross_salary_rule'),
+            ref('l10n_sk_sickness_insurance_employee'),
+            ref('l10n_sk_sickness_insurance_employer'),
+            ref('l10n_sk_pension_contribution_employee'),
+            ref('l10n_sk_pension_contribution_employer'),
+            ref('l10n_sk_disability_insurance_employee'),
+            ref('l10n_sk_disability_insurance_employer'),
+            ref('l10n_sk_unemployment_insurance_employee'),
+            ref('l10n_sk_unemployment_insurance_employer'),
+            ref('l10n_sk_short_time_work_employer'),
+            ref('l10n_sk_guarantee_insurance_employer'),
+            ref('l10n_sk_accident_insurance_employer'),
+            ref('l10n_sk_reserve_fund_employer'),
+            ref('l10n_sk_health_insurance_employee'),
+            ref('l10n_sk_health_insurance_employer'),
+            ref('l10n_sk_health_doplatok_employee'),
+            ref('l10n_sk_tax_base'),
+            ref('l10n_sk_income_tax_employee'),
+            ref('l10n_sk_child_bonus'),
+            ref('l10n_sk_dohoda_oop_stub'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_attachment_of_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_assignment_of_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_child_support'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_deduction_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_reimbursement_salary_rule'),
+            ref('l10n_sk_wage_garnishment'),
+            ref('l10n_sk_sickness_compensation'),
+            ref('l10n_sk_annual_tax_settlement'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_net_salary'),
+            ref('l10n_sk_social_security_total_employee'),
+            ref('l10n_sk_social_security_total_employer'),
+            ref('l10n_sk_income_tax_total'),
+        ])]"/>
+    </record>
+
+    <record id="hr_payroll_structure_sk_dovp" model="hr.payroll.structure">
+        <field name="name">Slovakia: DoVP (agreement to perform work)</field>
+        <field name="code">SKDOVP</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="l10n_sk_agreement_type">dovp</field>
+        <!-- The SAME rule set as regular pay. What differs between the forms
+             is answered by the applicability table the rules consult, not by
+             giving each form its own rules. The OCA engine's rule_ids is a
+             Many2many, so sharing costs nothing. -->
+        <field name="rule_ids" eval="[(6, 0, [
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_basic_salary_rule'),
+            ref('l10n_sk_holiday_allowance'),
+            ref('l10n_sk_obstacle_allowance'),
+            ref('l10n_sk_employer_obstacle_allowance'),
+            ref('l10n_sk_meal_voucher_employee'),
+            ref('l10n_sk_meal_voucher_employer'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_gross_salary_rule'),
+            ref('l10n_sk_sickness_insurance_employee'),
+            ref('l10n_sk_sickness_insurance_employer'),
+            ref('l10n_sk_pension_contribution_employee'),
+            ref('l10n_sk_pension_contribution_employer'),
+            ref('l10n_sk_disability_insurance_employee'),
+            ref('l10n_sk_disability_insurance_employer'),
+            ref('l10n_sk_unemployment_insurance_employee'),
+            ref('l10n_sk_unemployment_insurance_employer'),
+            ref('l10n_sk_short_time_work_employer'),
+            ref('l10n_sk_guarantee_insurance_employer'),
+            ref('l10n_sk_accident_insurance_employer'),
+            ref('l10n_sk_reserve_fund_employer'),
+            ref('l10n_sk_health_insurance_employee'),
+            ref('l10n_sk_health_insurance_employer'),
+            ref('l10n_sk_health_doplatok_employee'),
+            ref('l10n_sk_tax_base'),
+            ref('l10n_sk_income_tax_employee'),
+            ref('l10n_sk_child_bonus'),
+            ref('l10n_sk_dohoda_oop_stub'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_attachment_of_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_assignment_of_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_child_support'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_deduction_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_reimbursement_salary_rule'),
+            ref('l10n_sk_wage_garnishment'),
+            ref('l10n_sk_sickness_compensation'),
+            ref('l10n_sk_annual_tax_settlement'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_net_salary'),
+            ref('l10n_sk_social_security_total_employee'),
+            ref('l10n_sk_social_security_total_employer'),
+            ref('l10n_sk_income_tax_total'),
+        ])]"/>
+    </record>
+
+    <record id="hr_payroll_structure_sk_dopc" model="hr.payroll.structure">
+        <field name="name">Slovakia: DoPČ (agreement on work activity)</field>
+        <field name="code">SKDOPC</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="l10n_sk_agreement_type">dopc</field>
+        <!-- The SAME rule set as regular pay. What differs between the forms
+             is answered by the applicability table the rules consult, not by
+             giving each form its own rules. The OCA engine's rule_ids is a
+             Many2many, so sharing costs nothing. -->
+        <field name="rule_ids" eval="[(6, 0, [
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_basic_salary_rule'),
+            ref('l10n_sk_holiday_allowance'),
+            ref('l10n_sk_obstacle_allowance'),
+            ref('l10n_sk_employer_obstacle_allowance'),
+            ref('l10n_sk_meal_voucher_employee'),
+            ref('l10n_sk_meal_voucher_employer'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_gross_salary_rule'),
+            ref('l10n_sk_sickness_insurance_employee'),
+            ref('l10n_sk_sickness_insurance_employer'),
+            ref('l10n_sk_pension_contribution_employee'),
+            ref('l10n_sk_pension_contribution_employer'),
+            ref('l10n_sk_disability_insurance_employee'),
+            ref('l10n_sk_disability_insurance_employer'),
+            ref('l10n_sk_unemployment_insurance_employee'),
+            ref('l10n_sk_unemployment_insurance_employer'),
+            ref('l10n_sk_short_time_work_employer'),
+            ref('l10n_sk_guarantee_insurance_employer'),
+            ref('l10n_sk_accident_insurance_employer'),
+            ref('l10n_sk_reserve_fund_employer'),
+            ref('l10n_sk_health_insurance_employee'),
+            ref('l10n_sk_health_insurance_employer'),
+            ref('l10n_sk_health_doplatok_employee'),
+            ref('l10n_sk_tax_base'),
+            ref('l10n_sk_income_tax_employee'),
+            ref('l10n_sk_child_bonus'),
+            ref('l10n_sk_dohoda_oop_stub'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_attachment_of_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_assignment_of_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_child_support'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_deduction_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_reimbursement_salary_rule'),
+            ref('l10n_sk_wage_garnishment'),
+            ref('l10n_sk_sickness_compensation'),
+            ref('l10n_sk_annual_tax_settlement'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_net_salary'),
+            ref('l10n_sk_social_security_total_employee'),
+            ref('l10n_sk_social_security_total_employer'),
+            ref('l10n_sk_income_tax_total'),
+        ])]"/>
+    </record>
+
+    <record id="hr_payroll_structure_sk_dobps" model="hr.payroll.structure">
+        <field name="name">Slovakia: DoBPŠ (student work agreement)</field>
+        <field name="code">SKDOBPS</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="l10n_sk_agreement_type">dobps</field>
+        <!-- The SAME rule set as regular pay. What differs between the forms
+             is answered by the applicability table the rules consult, not by
+             giving each form its own rules. The OCA engine's rule_ids is a
+             Many2many, so sharing costs nothing. -->
+        <field name="rule_ids" eval="[(6, 0, [
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_basic_salary_rule'),
+            ref('l10n_sk_holiday_allowance'),
+            ref('l10n_sk_obstacle_allowance'),
+            ref('l10n_sk_employer_obstacle_allowance'),
+            ref('l10n_sk_meal_voucher_employee'),
+            ref('l10n_sk_meal_voucher_employer'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_gross_salary_rule'),
+            ref('l10n_sk_sickness_insurance_employee'),
+            ref('l10n_sk_sickness_insurance_employer'),
+            ref('l10n_sk_pension_contribution_employee'),
+            ref('l10n_sk_pension_contribution_employer'),
+            ref('l10n_sk_disability_insurance_employee'),
+            ref('l10n_sk_disability_insurance_employer'),
+            ref('l10n_sk_unemployment_insurance_employee'),
+            ref('l10n_sk_unemployment_insurance_employer'),
+            ref('l10n_sk_short_time_work_employer'),
+            ref('l10n_sk_guarantee_insurance_employer'),
+            ref('l10n_sk_accident_insurance_employer'),
+            ref('l10n_sk_reserve_fund_employer'),
+            ref('l10n_sk_health_insurance_employee'),
+            ref('l10n_sk_health_insurance_employer'),
+            ref('l10n_sk_health_doplatok_employee'),
+            ref('l10n_sk_tax_base'),
+            ref('l10n_sk_income_tax_employee'),
+            ref('l10n_sk_child_bonus'),
+            ref('l10n_sk_dohoda_oop_stub'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_attachment_of_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_assignment_of_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_child_support'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_deduction_salary_rule'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_reimbursement_salary_rule'),
+            ref('l10n_sk_wage_garnishment'),
+            ref('l10n_sk_sickness_compensation'),
+            ref('l10n_sk_annual_tax_settlement'),
+            ref('l10n_sk_hr_payroll_structure_sk_employee_salary_net_salary'),
+            ref('l10n_sk_social_security_total_employee'),
+            ref('l10n_sk_social_security_total_employer'),
+            ref('l10n_sk_income_tax_total'),
+        ])]"/>
+    </record>
+</odoo>

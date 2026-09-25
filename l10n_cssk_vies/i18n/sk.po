@@ -1,0 +1,270 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_vies
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-05 15:21+0000\n"
+"PO-Revision-Date: 2026-09-05 15:21+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
+
+#. module: l10n_cssk_vies
+#. odoo-python
+#: code:addons/l10n_cssk_vies/models/res_partner.py:0
+msgid "%(names)s is valid."
+msgstr "%(names)s je platné."
+
+#. module: l10n_cssk_vies
+#. odoo-python
+#: code:addons/l10n_cssk_vies/models/res_partner.py:0
+msgid "%(names)s — consultation no. %(numbers)s"
+msgstr "%(names)s — číslo overenia %(numbers)s"
+
+#. module: l10n_cssk_vies
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vies.view_partner_form_vies
+msgid "As registered in VIES"
+msgstr "Ako je zapísané vo VIES"
+
+#. module: l10n_cssk_vies
+#. odoo-javascript
+#: code:addons/l10n_cssk_vies/static/src/xml/vies_status_badge.xml:0
+msgid "Check now"
+msgstr "Overiť teraz"
+
+#. module: l10n_cssk_vies
+#: model:ir.model,name:l10n_cssk_vies.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vies.view_partner_form_vies
+msgid "Consultation"
+msgstr "Overenie"
+
+#. module: l10n_cssk_vies
+#: model:ir.model,name:l10n_cssk_vies.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,help:l10n_cssk_vies.field_cssk_tax_authority__vies_request_date
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_partner__vies_request_date
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_users__vies_request_date
+msgid "Date VIES reports for the consultation (the service's own date)."
+msgstr "Dátum, ktorý VIES uvádza pre overenie (vlastný dátum služby)."
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#. odoo-python
+#: code:addons/l10n_cssk_vies/models/res_partner.py:0
+msgid ""
+"No answer for %(names)s. The service is often briefly unavailable; nothing "
+"was changed on the partner."
+msgstr ""
+"Žiadna odpoveď pre %(names)s. Služba býva krátkodobo nedostupná; na "
+"partnerovi sa nič nezmenilo."
+
+#. module: l10n_cssk_vies
+#. odoo-javascript
+#: code:addons/l10n_cssk_vies/static/src/js/vies_status_badge.js:0
+msgid "Not checked against VIES yet"
+msgstr "Zatiaľ neoverené voči VIES"
+
+#. module: l10n_cssk_vies
+#. odoo-python
+#: code:addons/l10n_cssk_vies/models/res_partner.py:0
+msgid "Not valid in VIES"
+msgstr "Neplatné vo VIES"
+
+#. module: l10n_cssk_vies
+#. odoo-javascript
+#: code:addons/l10n_cssk_vies/static/src/js/vies_status_badge.js:0
+msgid "Not valid in VIES — open the VIES tab"
+msgstr "Neplatné vo VIES — otvoriť záložku VIES"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,help:l10n_cssk_vies.field_cssk_tax_authority__vies_consultation_number
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_partner__vies_consultation_number
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_users__vies_consultation_number
+msgid ""
+"Official EU VIES request identifier returned for a valid qualified check — "
+"the legal proof that this VAT was confirmed."
+msgstr ""
+"Oficiálny identifikátor požiadavky EU VIES vrátený pri platnom "
+"kvalifikovanom overení — právny dôkaz, že IČ DPH bolo potvrdené."
+
+#. module: l10n_cssk_vies
+#: model:ir.model,name:l10n_cssk_vies.model_res_config_settings
+msgid "Provider"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vies.view_partner_form_vies
+msgid ""
+"The consultation number is the evidence that the check\n"
+"                        happened. It is what a tax authority asks for when a\n"
+"                        customer's VAT number later turns out to have been\n"
+"                        invalid."
+msgstr ""
+"Číslo overenia je dôkazom, že overenie prebehlo. Práve ho žiada správca "
+"dane, keď sa neskôr ukáže, že IČ DPH odberateľa bolo neplatné."
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_company__vies_use_direct
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_config_settings__vies_use_direct
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vies.res_config_settings_view_form_vies
+msgid "Use direct EU VIES (no IAP)"
+msgstr "Použiť priame EU VIES (bez IAP)"
+
+#. module: l10n_cssk_vies
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vies.view_partner_form_vies
+msgid "VIES"
+msgstr "VIES"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_tax_authority__vies_check_date
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_check_date
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_check_date
+msgid "VIES Checked On"
+msgstr "Overené vo VIES dňa"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_tax_authority__vies_consultation_number
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_consultation_number
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_consultation_number
+msgid "VIES Consultation No."
+msgstr "Číslo overenia VIES"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_tax_authority__vies_fault_date
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_fault_date
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_fault_date
+msgid "VIES Last Fault"
+msgstr "Posledná chyba VIES"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_tax_authority__vies_name_match
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_name_match
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_name_match
+msgid "VIES Name Match"
+msgstr "Zhoda názvu vo VIES"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_tax_authority__vies_address
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_address
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_address
+msgid "VIES Registered Address"
+msgstr "Adresa zapísaná vo VIES"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_tax_authority__vies_trader_name
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_trader_name
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_trader_name
+msgid "VIES Registered Name"
+msgstr "Názov zapísaný vo VIES"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_tax_authority__vies_request_date
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_request_date
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_request_date
+msgid "VIES Request Date"
+msgstr "Dátum požiadavky VIES"
+
+#. module: l10n_cssk_vies
+#. odoo-javascript
+#: code:addons/l10n_cssk_vies/static/src/js/vies_status_badge.js:0
+msgid "VIES Status"
+msgstr "Stav VIES"
+
+#. module: l10n_cssk_vies
+#. odoo-python
+#: code:addons/l10n_cssk_vies/models/res_partner.py:0
+msgid "VIES did not answer"
+msgstr "VIES neodpovedal"
+
+#. module: l10n_cssk_vies
+#. odoo-python
+#: code:addons/l10n_cssk_vies/models/res_partner.py:0
+msgid "VIES does not recognise the VAT number of %(names)s."
+msgstr "VIES nepozná IČ DPH subjektu %(names)s."
+
+#. module: l10n_cssk_vies
+#: model:ir.actions.server,name:l10n_cssk_vies.cron_check_vies_direct_ir_actions_server
+msgid "VIES: Refresh direct checks (CZ/SK)"
+msgstr "VIES: obnoviť priame overenia (CZ/SK)"
+
+#. module: l10n_cssk_vies
+#. odoo-python
+#: code:addons/l10n_cssk_vies/models/res_partner.py:0
+msgid "Valid in VIES"
+msgstr "Platné vo VIES"
+
+#. module: l10n_cssk_vies
+#. odoo-javascript
+#: code:addons/l10n_cssk_vies/static/src/js/vies_status_badge.js:0
+msgid "Valid in VIES — open the VIES tab"
+msgstr "Platné vo VIES — otvoriť záložku VIES"
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_company__vies_use_direct
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_config_settings__vies_use_direct
+msgid ""
+"Validate EU VAT numbers by calling the European Commission VIES service "
+"directly instead of routing through Odoo IAP. Stores the official "
+"consultation number returned by VIES as proof of check."
+msgstr ""
+"Overovať IČ DPH v EÚ priamym volaním služby VIES Európskej komisie namiesto "
+"smerovania cez Odoo IAP. Ukladá oficiálne číslo overenia vrátené službou "
+"VIES ako dôkaz o overení."
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,help:l10n_cssk_vies.field_cssk_tax_authority__vies_fault_date
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_partner__vies_fault_date
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_users__vies_fault_date
+msgid ""
+"When the last scheduled direct VIES check for this partner faulted (service "
+"unreachable / busy). Lets the scheduled refresh rotate faulting partners out"
+" of its batch window instead of retrying them forever."
+msgstr ""
+"Kedy naposledy zlyhalo plánované priame overenie VIES pre tohto partnera "
+"(služba nedostupná alebo zaneprázdnená). Umožňuje plánovanej obnove vyradiť "
+"chybujúcich partnerov z dávky namiesto donekonečna opakovaných pokusov."
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,help:l10n_cssk_vies.field_cssk_tax_authority__vies_check_date
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_partner__vies_check_date
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_users__vies_check_date
+msgid "When this partner's VAT was last validated directly against VIES."
+msgstr "Kedy bolo IČ DPH tohto partnera naposledy overené priamo voči VIES."
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,help:l10n_cssk_vies.field_cssk_tax_authority__vies_name_match
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_partner__vies_name_match
+#: model:ir.model.fields,help:l10n_cssk_vies.field_res_users__vies_name_match
+msgid ""
+"Whether the registered trader name matches this partner (VALID / INVALID / "
+"NOT_PROCESSED)."
+msgstr ""
+"Či sa zapísaný názov subjektu zhoduje s týmto partnerom (VALID / INVALID / "
+"NOT_PROCESSED)."

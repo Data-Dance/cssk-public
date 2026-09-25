@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sale_order_manual_payment_wizard_form" model="ir.ui.view">
+        <field name="name">sale.order.manual.payment.wizard.form</field>
+        <field name="model">sale.order.manual.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Register Payment">
+                <group>
+                    <field name="sale_order_id"/>
+                    <field name="partner_id"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="amount_remaining"/>
+                    <field name="amount"/>
+                    <field name="payment_date"/>
+                    <field name="journal_id" options="{'no_create': True}"/>
+                    <field name="payment_method_line_id" options="{'no_create': True}"/>
+                    <field name="memo"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_create_payment"
+                        type="object"
+                        class="btn-primary"
+                        string="Create Payment"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sale_order_manual_payment_wizard" model="ir.actions.act_window">
+        <field name="name">Register Payment</field>
+        <field name="res_model">sale.order.manual.payment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

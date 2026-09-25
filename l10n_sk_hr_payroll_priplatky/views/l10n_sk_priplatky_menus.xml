@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_l10n_sk_priplatky_root"
+              name="Slovak Wage Surcharges"
+              parent="hr.menu_human_resources_configuration"
+              sequence="95"
+              groups="hr.group_hr_manager"/>
+
+    <menuitem id="menu_l10n_sk_minimum_wage"
+              name="Minimum Wage Claims"
+              parent="menu_l10n_sk_priplatky_root"
+              action="l10n_sk_minimum_wage_action"
+              sequence="10"/>
+
+    <menuitem id="menu_l10n_sk_wage_surcharge_rate"
+              name="Surcharge Rates"
+              parent="menu_l10n_sk_priplatky_root"
+              action="l10n_sk_wage_surcharge_rate_action"
+              sequence="20"/>
+</odoo>

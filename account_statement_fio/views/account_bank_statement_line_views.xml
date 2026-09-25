@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="account_bank_statement_line_view_form_fio" model="ir.ui.view">
+        <field name="name">account.bank.statement.line.form.fio</field>
+        <field name="model">account.bank.statement.line</field>
+        <!-- account has no statement-line form of its own; the anchor is the
+             one account_statement_import_base already extends. -->
+        <field name="inherit_id"
+               ref="account_statement_import_base.account_bank_statement_line_form" />
+        <field name="arch" type="xml">
+            <field name="unique_import_id" position="after">
+                <field name="fio_movement_id" readonly="1" />
+                <field name="fio_instruction_id" readonly="1" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

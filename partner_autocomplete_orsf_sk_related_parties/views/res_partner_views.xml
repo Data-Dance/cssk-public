@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_partner_form_orsf_sk_related_parties" model="ir.ui.view">
+        <field name="name">res.partner.form.orsf_sk.related.parties</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="orsf_sk_related_parties" string="Related parties (SK)"
+                      invisible="country_id and country_code != 'SK'">
+                    <div class="oe_button_box">
+                        <button name="action_orsf_sk_fetch_related_parties"
+                                type="object" class="btn-secondary"
+                                string="Fetch from register"/>
+                    </div>
+                    <div class="text-muted mt8">
+                        One partner at a time — ORSF gates the ownership graph and
+                        asks callers not to bulk-fetch persons (GDPR Art. 6(1)(f)).
+                        A shared officer is a lead, not a finding: the § 17 ods. 5
+                        test is wider than the register.
+                        <field name="orsf_sk_related_parties_fetched_at" readonly="1"/>
+                    </div>
+                    <field name="orsf_sk_related_party_ids" nolabel="1" readonly="1">
+                        <list create="0" delete="0">
+                            <field name="degree"/>
+                            <field name="related_name"/>
+                            <field name="related_ico"/>
+                            <field name="link_person"/>
+                            <field name="link_role"/>
+                            <field name="related_partner_id"/>
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

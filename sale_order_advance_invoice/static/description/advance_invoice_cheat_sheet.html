@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Zálohové faktury · Interaktivní účetní tahák</title>
+<style>
+  :root{
+    --bg:#f6f7fa; --card:#fff; --ink:#1d2433; --muted:#6b7280; --line:#e5e7eb;
+    --primary:#714b67; --primary-2:#8f6b85; --accent:#017e84;
+    --debit:#1f7a4d; --credit:#b4341f; --asset:#eef6ff; --exp:#fdf2f2; --inc:#eefaf0; --liab:#fff7ed; --other:#f3f0fb;
+    --flash:#fff3bf;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;padding:26px 22px}
+  header h1{margin:0 0 6px;font-size:22px;font-weight:700}
+  header p{margin:0;opacity:.92;max-width:62em}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 18px 60px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0;
+    box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  h2{font-size:17px;margin:0 0 12px}
+  h3{font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:18px 0 8px}
+  .controls{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{border:0;background:#fff;padding:8px 14px;cursor:pointer;font:inherit;color:var(--ink)}
+  .seg button.active{background:var(--primary);color:#fff}
+  .seg label{font-size:12px;color:var(--muted);padding:8px 10px;border-right:1px solid var(--line);background:#fafafa;
+    display:flex;align-items:center}
+  .layout{display:grid;grid-template-columns:minmax(290px,1fr) minmax(420px,1.4fr);gap:18px}
+  @media(max-width:880px){.layout{grid-template-columns:1fr}}
+  .steps{list-style:none;margin:0;padding:0}
+  .steps li{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-bottom:8px;cursor:pointer;
+    display:flex;gap:10px;align-items:flex-start;background:#fff;transition:.15s}
+  .steps li:hover{border-color:var(--primary-2)}
+  .steps li.done{opacity:.62;background:#fbfbfc}
+  .steps li.next{border-color:var(--primary);box-shadow:0 0 0 2px rgba(113,75,103,.12)}
+  .dot{flex:0 0 22px;height:22px;border-radius:50%;background:#eceaf0;color:var(--primary);font-size:12px;
+    display:flex;align-items:center;justify-content:center;font-weight:700;margin-top:1px}
+  .steps li.done .dot{background:var(--primary);color:#fff}
+  .steps .t{font-weight:600}
+  .steps .n{font-size:12.5px;color:var(--muted)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--accent);
+    border-radius:20px;padding:2px 8px;margin-top:4px}
+  .btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .btns button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit}
+  .btns button.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .btns button:disabled{opacity:.45;cursor:default}
+  .taccts{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px}
+  .tacct{border:1px solid var(--line);border-radius:9px;overflow:hidden;font-size:12.5px}
+  .tacct .hd{padding:6px 8px;font-weight:700;display:flex;justify-content:space-between;gap:6px;border-bottom:1px solid var(--line)}
+  .tacct .hd .code{font-variant-numeric:tabular-nums}
+  .tacct.asset .hd{background:var(--asset)} .tacct.expense .hd{background:var(--exp)}
+  .tacct.income .hd{background:var(--inc)} .tacct.liability .hd{background:var(--liab)}
+  .tacct.other .hd{background:var(--other)}
+  .tacct .nm{font-weight:500;color:var(--muted);font-size:10.5px;display:block}
+  .ledger{display:grid;grid-template-columns:1fr 1fr;min-height:30px}
+  .ledger .col{padding:4px 6px}
+  .ledger .col.d{border-right:1px dashed var(--line)}
+  .ledger .row{font-variant-numeric:tabular-nums;text-align:right}
+  .ledger .d .row{color:var(--debit)} .ledger .c .row{color:var(--credit)}
+  .ledger .row.flash{background:var(--flash);border-radius:4px}
+  .bal{border-top:1px solid var(--line);padding:5px 8px;display:flex;justify-content:space-between;font-weight:700;
+    font-variant-numeric:tabular-nums;background:#fcfcfd}
+  .bal.zero{color:var(--muted)}
+  .je{margin-top:12px;border:1px dashed var(--line);border-radius:9px;padding:10px 12px;background:#fcfbfd;min-height:42px}
+  .je table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+  .je td{padding:3px 6px}.je td.amt{text-align:right;width:118px;white-space:nowrap}
+  .je .d{color:var(--debit)}.je .c{color:var(--credit)}
+  table.ref{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  table.ref th,table.ref td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+  table.ref th{background:#faf7f9}
+  .legend{font-size:12.5px;color:var(--muted);margin-top:8px}
+  .ab{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:680px){.ab{grid-template-columns:1fr}}
+  .pill{font-size:11px;background:#eceaf0;color:var(--primary);border-radius:20px;padding:2px 9px;font-weight:700}
+  .doccard{border:1px solid var(--accent);border-radius:9px;margin-bottom:10px;overflow:hidden}
+  .doccard .ch{background:#e6f4f4;color:var(--accent);font-weight:700;font-size:12px;padding:5px 10px}
+  .doccard .cb{display:flex;flex-wrap:wrap;gap:6px 14px;padding:8px 10px;font-size:13px;align-items:baseline}
+  .docpill{font-size:11px;font-weight:700;border-radius:20px;padding:3px 9px;border:1px solid var(--line);color:var(--muted);background:#fff}
+  .docpill.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .doccard .fig{margin-left:auto;color:var(--muted);font-size:12px}
+  .doccard .fig b{color:var(--ink);font-variant-numeric:tabular-nums}
+  code{background:#f0eef2;border-radius:4px;padding:1px 5px;font-size:12.5px}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="h1"></h1>
+  <p id="intro"></p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="controls">
+      <div class="seg" id="locale">
+        <label id="loc_label"></label>
+        <button data-v="cz" class="active"></button>
+        <button data-v="sk"></button>
+      </div>
+      <div class="seg" id="scenario">
+        <label id="scenario_label"></label>
+        <button data-v="both" class="active"></button>
+        <button data-v="mixed"></button>
+        <button data-v="neither"></button>
+      </div>
+      <div class="seg" id="term">
+        <label id="term_label"></label>
+        <button data-v="short" class="active"></button>
+        <button data-v="long"></button>
+      </div>
+      <span class="pill" id="vatpill"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 id="sec_entries"></h2>
+    <div class="layout">
+      <div>
+        <ol class="steps" id="steps"></ol>
+        <div class="btns">
+          <button class="primary" id="next"></button>
+          <button id="play"></button>
+          <button id="reset"></button>
+        </div>
+        <div class="je" id="je"></div>
+      </div>
+      <div>
+        <div class="doccard" id="card"></div>
+        <div class="taccts" id="board"></div>
+        <p class="legend" id="boardlegend"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 id="sec_whatA"></h2>
+    <div class="ab" id="whatA"></div>
+  </div>
+
+  <div class="card">
+    <h2 id="sec_ref"></h2>
+    <table class="ref" id="ref"></table>
+    <p class="legend" id="reflegend"></p>
+  </div>
+
+  <p class="legend" id="footer"></p>
+</div>
+
+<script>
+// Account roles. The net received-advance account is 324 (short-term) or 475
+// (long-term); the step builder picks the key, so the board shows whichever is used.
+const ACCOUNTS = [
+  {code:'221', cz:'Bankovní účet', sk:'Bankový účet', kind:'asset'},
+  {code:'311', cz:'Odběratelé', sk:'Odberatelia', kind:'asset'},
+  {key:'CLR', code:'324001', cz:'Zálohy – zúčtovací (clearing)', sk:'Preddavky – zúčtovací (clearing)', kind:'asset'},
+  {key:'324', code:'324000', cz:'Přijaté provozní zálohy', sk:'Prijaté preddavky', kind:'liability'},
+  {key:'475', code:'475000', cz:'Dlouhodobé přijaté zálohy', sk:'Dlhodobé prijaté preddavky', kind:'liability'},
+  {code:'343', cz:'DPH', sk:'DPH', kind:'other'},
+  {key:'604', code:'604', cz:'Tržby za zboží', sk:'Tržby za tovar', kind:'income'},
+];
+const KEY = a => a.key || a.code;
+const byKey = k => ACCOUNTS.find(a => KEY(a) === k);
+const accCode = a => a.code;
+const accKind = a => a.kind;
+const NAME = (k,loc)=>{const a=byKey(k);return a?a[loc]:k;};
+const CUR = {cz:'CZK', sk:'€'};
+const f = n => (Math.round(n*100)/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fc = (n,loc) => f(n)+' '+CUR[loc];
+
+const I18N = {
+  cz:{
+    title:'Zálohové faktury – účtování (zálohová / proforma faktura)',
+    intro:'Interaktivní účetní tahák pro českou a slovenskou praxi vydaných záloh v Odoo 19.0. Příklad používá dvě zálohové faktury, každou na 1/3 plnění. Zálohová (proforma) faktura se neúčtuje; DPH vzniká přijetím platby, kdy se vystavuje daňový doklad k přijaté platbě; na konečné (vyúčtovací) faktuře se zálohy i jejich DPH odečtou. Zvolte scénář a procházejte kroky – sledujte, jak se zápisy promítají do T‑účtů.',
+    loc_label:'Lokalizace', loc_cz:'Česko (CZ)', loc_sk:'Slovensko (SK)',
+    sc_label:'Daňové doklady', sc_both:'Obě zálohy', sc_mixed:'Kombinace', sc_neither:'Žádná',
+    term_label:'Splatnost zálohy', term_short:'Krátkodobá (324)', term_long:'Dlouhodobá (475)',
+    vat:'DPH', sec_entries:'Účetní zápisy – krok za krokem',
+    btn_next:'Další krok »', btn_play:'Přehrát vše', btn_reset:'Reset',
+    je_hint:'Klikněte na krok (nebo „Další“) pro zaúčtování zápisu.', je_dr:'Má dáti', je_cr:'Dal',
+    bal_md:'Má dáti', bal_d:'Dal',
+    card_title:'Stav dokladů a peněz',
+    doc_proforma:'Zálohová faktura', doc_taxdoc:'Daňový doklad', doc_final:'Vyúčtovací faktura',
+    doc_proforma_short:'Zálohová', doc_taxdoc_short:'Daň. doklad', doc_nodoc_short:'bez DD',
+    fig_paid:'Zaplaceno', fig_vat:'DPH přiznáno', fig_collect:'Zbývá uhradit',
+    boardlegend:'<b style="color:var(--debit)">Má dáti (debet)</b> &nbsp;|&nbsp; <b style="color:var(--credit)">Dal (kredit)</b>. Zúčtovací účet <code>324001</code> se po zaúčtování daňového dokladu páruje s platbou a vrací se na <b>0</b>.',
+    sec_whatA:'Tři doklady jedné zálohy',
+    colA_h:'Postup podle zákona (tento modul)',
+    colA:['<b>Zálohová / proforma faktura</b> je jen výzva k platbě – <b>není</b> účetní ani daňový doklad a <b>neúčtuje se</b>.',
+          'Přijetím platby vzniká povinnost přiznat <b>DPH</b>; do 15 dnů se vystaví <b>daňový doklad k přijaté platbě</b>.',
+          'Na <b>vyúčtovací faktuře</b> se zaúčtuje celé plnění, odečte se záloha a <b>vrátí se DPH</b> přiznaná ze zálohy – daň se odvede jen jednou.',
+          'Krátkodobé přijaté zálohy <code>324</code>, dlouhodobé <code>475</code>; clearing <code>324001</code> spáruje platbu s daňovým dokladem.'],
+    colB_h:'Časté chyby',
+    colB:['Účtování zálohové (proforma) faktury jako pohledávky – nesprávně, není to účetní doklad.',
+          'Nevystavení daňového dokladu k přijaté platbě do 15 dnů od přijetí úhrady.',
+          'Dvojí odvod DPH – ze zálohy i z celé konečné faktury – když se na vyúčtování DPH ze zálohy nevrátí.'],
+    sec_ref:'Rychlý přehled – účetní zápisy',
+    ref_h:['Operace','Má dáti (debet)','Dal (kredit)'],
+    ref:[
+      ['Zálohová / proforma faktura','— (neúčtuje se)','—'],
+      ['Přijetí platby zálohy','221 Banka','324001 (clearing)'],
+      ['Daňový doklad k přijaté platbě','324001','324 (základ) + 343 (DPH)'],
+      ['Spárování platby a dokladu','324001 → 0','—'],
+      ['Vyúčtovací (konečná) faktura','311','604 + 343'],
+      ['Odečet zálohy na vyúčtování','324 + 343 (vratka DPH)','311'],
+      ['Dlouhodobá záloha (varianta)','475 místo 324','—'],
+    ],
+    ref_legend:'Účty: 221 banka, 311 odběratelé, 324 přijaté provozní zálohy (krátkodobé), 475 dlouhodobé přijaté zálohy, 343 DPH, 604 tržby. 324001 je zúčtovací (clearing) podúčet dodaný lokalizací.',
+    footer:'Vytvořeno pro sale_order_advance_invoice + l10n_cz/sk_sale_order_advance_invoice. Částky jsou ilustrativní: dvě zálohy po 1000, celé plnění 3000.',
+  },
+  sk:{
+    title:'Preddavkové faktúry – účtovanie (zálohová / proforma faktúra)',
+    intro:'Interaktívny účtovný ťahák pre českú a slovenskú prax vydaných preddavkov v Odoo 19.0. Príklad používa dve preddavkové faktúry, každú na 1/3 plnenia. Zálohová (proforma) faktúra sa neúčtuje; DPH vzniká prijatím platby, kedy sa vystavuje faktúra k prijatej platbe; na konečnej (vyúčtovacej) faktúre sa preddavky aj ich DPH odpočítajú. Zvoľte scenár a prechádzajte kroky – sledujte, ako sa zápisy premietajú do T‑účtov.',
+    loc_label:'Lokalizácia', loc_cz:'Česko (CZ)', loc_sk:'Slovensko (SK)',
+    sc_label:'Daňové doklady', sc_both:'Oba preddavky', sc_mixed:'Kombinácia', sc_neither:'Žiadny',
+    term_label:'Splatnosť preddavku', term_short:'Krátkodobý (324)', term_long:'Dlhodobý (475)',
+    vat:'DPH', sec_entries:'Účtovné zápisy – krok za krokom',
+    btn_next:'Ďalší krok »', btn_play:'Prehrať všetko', btn_reset:'Reset',
+    je_hint:'Kliknite na krok (alebo „Ďalší“) pre zaúčtovanie zápisu.', je_dr:'Má dať', je_cr:'Dal',
+    bal_md:'Má dať', bal_d:'Dal',
+    card_title:'Stav dokladov a peňazí',
+    doc_proforma:'Zálohová faktúra', doc_taxdoc:'Faktúra k prijatej platbe', doc_final:'Vyúčtovacia faktúra',
+    doc_proforma_short:'Zálohová', doc_taxdoc_short:'Fakt. k platbe', doc_nodoc_short:'bez DD',
+    fig_paid:'Zaplatené', fig_vat:'DPH priznané', fig_collect:'Zostáva uhradiť',
+    boardlegend:'<b style="color:var(--debit)">Má dať (debet)</b> &nbsp;|&nbsp; <b style="color:var(--credit)">Dal (kredit)</b>. Zúčtovací účet <code>324001</code> sa po zaúčtovaní faktúry k prijatej platbe páruje s platbou a vracia sa na <b>0</b>.',
+    sec_whatA:'Tri doklady jedného preddavku',
+    colA_h:'Postup podľa zákona (tento modul)',
+    colA:['<b>Zálohová / proforma faktúra</b> je len výzva na platbu – <b>nie je</b> účtovný ani daňový doklad a <b>neúčtuje sa</b>.',
+          'Prijatím platby vzniká povinnosť priznať <b>DPH</b>; do 15 dní sa vystaví <b>faktúra k prijatej platbe</b>.',
+          'Na <b>vyúčtovacej faktúre</b> sa zaúčtuje celé plnenie, odpočíta sa preddavok a <b>vráti sa DPH</b> priznaná z preddavku – daň sa odvedie len raz.',
+          'Krátkodobé prijaté preddavky <code>324</code>, dlhodobé <code>475</code>; clearing <code>324001</code> spáruje platbu s daňovým dokladom.'],
+    colB_h:'Časté chyby',
+    colB:['Účtovanie zálohovej (proforma) faktúry ako pohľadávky – nesprávne, nie je to účtovný doklad.',
+          'Nevystavenie faktúry k prijatej platbe do 15 dní od prijatia úhrady.',
+          'Dvojitý odvod DPH – z preddavku aj z celej konečnej faktúry – keď sa na vyúčtovaní DPH z preddavku nevráti.'],
+    sec_ref:'Rýchly prehľad – účtovné zápisy',
+    ref_h:['Operácia','Má dať (debet)','Dal (kredit)'],
+    ref:[
+      ['Zálohová / proforma faktúra','— (neúčtuje sa)','—'],
+      ['Prijatie platby preddavku','221 Banka','324001 (clearing)'],
+      ['Faktúra k prijatej platbe','324001','324 (základ) + 343 (DPH)'],
+      ['Spárovanie platby a dokladu','324001 → 0','—'],
+      ['Vyúčtovacia (konečná) faktúra','311','604 + 343'],
+      ['Odpočet preddavku na vyúčtovaní','324 + 343 (vrátenie DPH)','311'],
+      ['Dlhodobý preddavok (variant)','475 namiesto 324','—'],
+    ],
+    ref_legend:'Účty: 221 banka, 311 odberatelia, 324 prijaté preddavky (krátkodobé), 475 dlhodobé prijaté preddavky, 343 DPH, 604 tržby. 324001 je zúčtovací (clearing) podúčet dodaný lokalizáciou.',
+    footer:'Vytvorené pre sale_order_advance_invoice + l10n_cz/sk_sale_order_advance_invoice. Sumy sú ilustratívne: dva preddavky po 1000, celé plnenie 3000.',
+  },
+};
+const T = () => I18N[state.locale];
+
+let state = {locale:'cz', scenario:'both', term:'short', applied:0, steps:[]};
+
+const vatFor = loc => loc==='sk'?0.23:0.21;
+
+function buildSteps(scenario, term, vat){
+  // Two advance invoices, each 1/3 of the full supply (net 1000 each; supply net 3000).
+  const net=1000, fnet=3000;
+  const v = x => x*vat;                 // VAT on x
+  const g = x => x*(1+vat);             // gross of x
+  const adv_v = v(net), adv_g = g(net); // per-advance VAT / gross
+  const netKey = term==='long' ? '475' : '324';
+
+  // Per-advance building blocks (3 steps each): issue → payment → tax document / none.
+  const issue = (i, paidSoFar) => ({
+    t:{cz:`Zálohová faktura #${i} vystavena (1/3)`,sk:`Zálohová faktúra #${i} vystavená (1/3)`},
+    n:{cz:'Není účetní doklad – neúčtuje se',sk:'Nie je účtovný doklad – neúčtuje sa'},
+    badge:{cz:'výzva k platbě',sk:'výzva na platbu'}, L:[],
+    card:{['proforma'+i]:true, paid:paidSoFar}});
+
+  const payClearing = (i, paidNow) => ({   // payment that will be taxed (via clearing)
+    t:{cz:`Přijetí platby zálohy #${i} (${f(adv_g)})`,sk:`Prijatie platby preddavku #${i} (${f(adv_g)})`},
+    n:{cz:'Banka proti zúčtovacímu účtu 324001',sk:'Banka proti zúčtovaciemu účtu 324001'},
+    L:[['221',adv_g,0],['CLR',0,adv_g]], card:{paid:paidNow}});
+
+  const payDirect = (i, paidNow) => ({     // payment with no tax document (straight to liability)
+    t:{cz:`Přijetí platby zálohy #${i} (${f(adv_g)})`,sk:`Prijatie platby preddavku #${i} (${f(adv_g)})`},
+    n:{cz:'Bez daňového dokladu → rovnou na účet záloh',sk:'Bez daňového dokladu → rovno na účet preddavkov'},
+    L:[['221',adv_g,0],[netKey,0,adv_g]], card:{paid:paidNow}});
+
+  const taxDoc = (i, vatSoFar) => ({
+    t:{cz:`Daňový doklad k přijaté platbě #${i} (${f(net)} + DPH ${f(adv_v)})`,sk:`Faktúra k prijatej platbe #${i} (${f(net)} + DPH ${f(adv_v)})`},
+    n:{cz:'DUZP = den přijetí platby; 324001 se páruje → 0',sk:'Dátum dodania = deň prijatia platby; 324001 sa páruje → 0'},
+    badge:{cz:'do 15 dnů od platby',sk:'do 15 dní od platby'},
+    L:[['CLR',adv_g,0],[netKey,0,net],['343',0,adv_v]], card:{['taxdoc'+i]:true, vat:vatSoFar}});
+
+  const noDoc = (i) => ({
+    t:{cz:`Záloha #${i}: bez daňového dokladu`,sk:`Preddavok #${i}: bez daňového dokladu`},
+    n:{cz:'Dodání ve stejném období / neplátce → doklad netřeba',sk:'Dodanie v rovnakom období / neplatiteľ → doklad netreba'},
+    badge:{cz:'neúčtuje se',sk:'neúčtuje sa'}, L:[], card:{}});
+
+  const finalInv = () => ({
+    t:{cz:`Vyúčtovací faktura – celé plnění ${f(fnet)} + DPH`,sk:`Vyúčtovacia faktúra – celé plnenie ${f(fnet)} + DPH`},
+    n:{cz:'Plná tržba a plná DPH',sk:'Plná tržba a plná DPH'},
+    badge:{cz:'vyúčtovací faktura',sk:'vyúčtovacia faktúra'},
+    L:[['311',g(fnet),0],['604',0,fnet],['343',0,v(fnet)]], card:{finalinv:true}});
+
+  const collect = g(fnet) - 2*adv_g;   // remaining receivable after deducting both advances
+
+  if(scenario==='neither'){
+    return [
+      issue(1,0), payDirect(1,adv_g), noDoc(1),
+      issue(2,adv_g), payDirect(2,2*adv_g), noDoc(2),
+      finalInv(),
+      {t:{cz:'Odečet obou záloh (bez DPH)',sk:'Odpočet oboch preddavkov (bez DPH)'},
+        n:{cz:'Snižuje pohledávku o zaplacené zálohy',sk:'Znižuje pohľadávku o zaplatené preddavky'},
+        L:[[netKey,2*adv_g,0],['311',0,2*adv_g]], card:{collect}},
+    ];
+  }
+  if(scenario==='mixed'){
+    return [
+      issue(1,0), payClearing(1,adv_g), taxDoc(1,adv_v),
+      issue(2,adv_g), payDirect(2,2*adv_g), noDoc(2),
+      finalInv(),
+      {t:{cz:'Odečet obou záloh + vratka DPH ze zálohy #1',sk:'Odpočet oboch preddavkov + vrátenie DPH z preddavku #1'},
+        n:{cz:'#1: základ + vratka DPH; #2: brutto bez DPH',sk:'#1: základ + vrátenie DPH; #2: brutto bez DPH'},
+        L:[[netKey,net,0],['343',adv_v,0],[netKey,adv_g,0],['311',0,2*adv_g]], card:{collect}},
+    ];
+  }
+  // scenario === 'both'
+  return [
+    issue(1,0), payClearing(1,adv_g), taxDoc(1,adv_v),
+    issue(2,adv_g), payClearing(2,2*adv_g), taxDoc(2,2*adv_v),
+    finalInv(),
+    {t:{cz:'Odečet obou záloh + vratka DPH ze záloh',sk:'Odpočet oboch preddavkov + vrátenie DPH z preddavkov'},
+      n:{cz:'DPH ze záloh se vrací → odvede se jen jednou',sk:'DPH z preddavkov sa vracia → odvedie sa len raz'},
+      L:[[netKey,2*net,0],['343',2*adv_v,0],['311',0,2*adv_g]], card:{collect}},
+  ];
+}
+
+function applyI18n(){
+  const t=T(), loc=state.locale;
+  document.documentElement.lang = loc==='sk'?'sk':'cs';
+  document.getElementById('h1').textContent=t.title;
+  document.getElementById('intro').textContent=t.intro;
+  document.getElementById('loc_label').textContent=t.loc_label;
+  document.querySelector('#locale button[data-v="cz"]').textContent=t.loc_cz;
+  document.querySelector('#locale button[data-v="sk"]').textContent=t.loc_sk;
+  document.getElementById('scenario_label').textContent=t.sc_label;
+  document.querySelector('#scenario button[data-v="both"]').textContent=t.sc_both;
+  document.querySelector('#scenario button[data-v="mixed"]').textContent=t.sc_mixed;
+  document.querySelector('#scenario button[data-v="neither"]').textContent=t.sc_neither;
+  document.getElementById('term_label').textContent=t.term_label;
+  document.querySelector('#term button[data-v="short"]').textContent=t.term_short;
+  document.querySelector('#term button[data-v="long"]').textContent=t.term_long;
+  document.getElementById('vatpill').textContent=t.vat+' '+(vatFor(loc)*100)+'%';
+  document.getElementById('sec_entries').textContent=t.sec_entries;
+  document.getElementById('next').textContent=t.btn_next;
+  document.getElementById('play').textContent=t.btn_play;
+  document.getElementById('reset').textContent=t.btn_reset;
+  document.getElementById('boardlegend').innerHTML=t.boardlegend;
+  document.getElementById('sec_whatA').textContent=t.sec_whatA;
+  document.getElementById('whatA').innerHTML=
+    `<div><h3>${t.colA_h}</h3><ul>${t.colA.map(i=>'<li>'+i+'</li>').join('')}</ul></div>`+
+    `<div><h3>${t.colB_h}</h3><ul>${t.colB.map(i=>'<li>'+i+'</li>').join('')}</ul></div>`;
+  document.getElementById('sec_ref').textContent=t.sec_ref;
+  document.getElementById('ref').innerHTML=
+    `<tr><th>${t.ref_h[0]}</th><th>${t.ref_h[1]}</th><th>${t.ref_h[2]}</th></tr>`+
+    t.ref.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+  document.getElementById('reflegend').textContent=t.ref_legend;
+  document.getElementById('footer').textContent=t.footer;
+}
+
+function rebuild(){
+  state.steps = buildSteps(state.scenario, state.term, vatFor(state.locale));
+  state.applied = 0;
+  applyI18n(); renderSteps(); renderBoard(); renderJE(null); renderCard();
+}
+
+function renderSteps(){
+  const ol = document.getElementById('steps'); ol.innerHTML='';
+  const loc = state.locale;
+  state.steps.forEach((s,i)=>{
+    const li=document.createElement('li');
+    li.className = i<state.applied?'done':(i===state.applied?'next':'');
+    li.innerHTML = `<span class="dot">${i<state.applied?'✓':(i+1)}</span>
+      <span><span class="t">${s.t[loc]}</span>${s.n[loc]?` <span class="n">— ${s.n[loc]}</span>`:''}
+      ${s.badge?`<br><span class="badge">${s.badge[loc]}</span>`:''}</span>`;
+    li.onclick = ()=>applyTo(i+1);
+    ol.appendChild(li);
+  });
+  document.getElementById('next').disabled = state.applied>=state.steps.length;
+}
+
+function postedLines(upto){
+  const map={}; ACCOUNTS.forEach(a=>map[KEY(a)]={d:[],c:[],bal:0});
+  for(let i=0;i<upto;i++){
+    state.steps[i].L.forEach(([k,d,c])=>{
+      if(d) map[k].d.push({v:d,step:i});
+      if(c) map[k].c.push({v:c,step:i});
+      map[k].bal += d - c;
+    });
+  }
+  return map;
+}
+
+function renderBoard(){
+  const board=document.getElementById('board'); board.innerHTML='';
+  const loc=state.locale, t=T(), map=postedLines(state.applied), last=state.applied-1;
+  const active=new Set(); state.steps.forEach(s=>s.L.forEach(([k])=>active.add(k)));
+  ACCOUNTS.filter(a=>active.has(KEY(a))).forEach(a=>{
+    const m=map[KEY(a)];
+    const rows=arr=>arr.map(x=>`<div class="row ${x.step===last?'flash':''}">${f(x.v)}</div>`).join('')||'<div class="row" style="color:#cfd3da">·</div>';
+    const bal=m.bal;
+    const div=document.createElement('div');
+    div.className='tacct '+accKind(a);
+    div.innerHTML=`<div class="hd"><span class="code">${accCode(a)}</span></div>
+      <div class="nm" style="padding:0 8px 4px">${a[loc]}</div>
+      <div class="ledger"><div class="col d">${rows(m.d)}</div><div class="col c">${rows(m.c)}</div></div>
+      <div class="bal ${Math.abs(bal)<0.005?'zero':''}">${Math.abs(bal)<0.005?'0.00 '+CUR[loc]:(bal>0?fc(bal,loc)+' '+t.bal_md:fc(-bal,loc)+' '+t.bal_d)}</div>`;
+    board.appendChild(div);
+  });
+}
+
+function renderJE(i){
+  const je=document.getElementById('je'), t=T();
+  if(i==null){je.innerHTML=`<em style="color:var(--muted)">${t.je_hint}</em>`;return;}
+  const s=state.steps[i], loc=state.locale;
+  if(!s.L.length){
+    je.innerHTML=`<b>${s.t[loc]}</b><br><em style="color:var(--muted)">${s.n[loc]||''}</em>`;
+    return;
+  }
+  const rows=s.L.map(([k,d,c])=>`<tr>
+     <td>${accCode(byKey(k))} ${NAME(k,loc)}</td>
+     <td class="amt d">${d?fc(d,loc):''}</td><td class="amt c">${c?fc(c,loc):''}</td></tr>`).join('');
+  je.innerHTML=`<b>${s.t[loc]}</b>
+    <table><tr><td></td><td class="amt"><b>${t.je_dr}</b></td><td class="amt"><b>${t.je_cr}</b></td></tr>${rows}</table>`;
+}
+
+function renderCard(){
+  const el=document.getElementById('card'), t=T(), loc=state.locale;
+  // merge cumulative card snapshots up to the applied step
+  const c={};
+  for(let i=0;i<state.applied;i++){ if(state.steps[i].card) Object.assign(c,state.steps[i].card); }
+  const pill=(on,label)=>`<span class="docpill ${on?'on':''}">${on?'✓ ':''}${label}</span>`;
+  const figs=[];
+  if(c.paid!=null)    figs.push(`${t.fig_paid}: <b>${fc(c.paid,loc)}</b>`);
+  if(c.vat!=null)     figs.push(`${t.fig_vat}: <b>${fc(c.vat,loc)}</b>`);
+  if(c.collect!=null) figs.push(`${t.fig_collect}: <b>${fc(c.collect,loc)}</b>`);
+  el.innerHTML=`<div class="ch">${t.card_title}</div>
+    <div class="cb">
+      ${pill(c.proforma1,t.doc_proforma_short+' #1')} ${pill(c.taxdoc1,t.doc_taxdoc_short+' #1')}
+      ${pill(c.proforma2,t.doc_proforma_short+' #2')} ${pill(c.taxdoc2,t.doc_taxdoc_short+' #2')}
+      ${pill(c.finalinv,t.doc_final)}
+      <span class="fig">${figs.join(' &nbsp; ')}</span>
+    </div>`;
+}
+
+function applyTo(n){
+  state.applied=n; renderSteps(); renderBoard(); renderJE(n>0?n-1:null); renderCard();
+}
+
+let timer=null;
+function play(){
+  if(timer){clearInterval(timer);timer=null;return;}
+  if(state.applied>=state.steps.length) applyTo(0);
+  timer=setInterval(()=>{
+    if(state.applied>=state.steps.length){clearInterval(timer);timer=null;return;}
+    applyTo(state.applied+1);
+  },800);
+}
+
+document.getElementById('locale').onclick=e=>{if(e.target.dataset.v){
+  document.querySelectorAll('#locale button').forEach(b=>b.classList.toggle('active',b===e.target));
+  state.locale=e.target.dataset.v; if(timer){clearInterval(timer);timer=null;} rebuild();}};
+document.getElementById('scenario').onclick=e=>{if(e.target.dataset.v){
+  document.querySelectorAll('#scenario button').forEach(b=>b.classList.toggle('active',b===e.target));
+  state.scenario=e.target.dataset.v; if(timer){clearInterval(timer);timer=null;} rebuild();}};
+document.getElementById('term').onclick=e=>{if(e.target.dataset.v){
+  document.querySelectorAll('#term button').forEach(b=>b.classList.toggle('active',b===e.target));
+  state.term=e.target.dataset.v; if(timer){clearInterval(timer);timer=null;} rebuild();}};
+document.getElementById('next').onclick=()=>applyTo(state.applied+1);
+document.getElementById('reset').onclick=()=>{if(timer){clearInterval(timer);timer=null;}applyTo(0);};
+document.getElementById('play').onclick=play;
+
+rebuild();
+</script>
+</body>
+</html>

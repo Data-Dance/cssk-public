@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+  <!--
+    SK DPH — the vzor in force UNTIL 30. 6. 2025 (DPHv21, confirmed line by line
+    against the official data/dph2021.xsd).
+
+    This record used to be called "DPH 2024" and carried the 2025 grid with only
+    its validity changed, on the reasoning that the grid is tag-driven and
+    therefore rate-agnostic. That reasoning was wrong, and the way it was wrong
+    is worth stating because it is not obvious:
+
+      A tag lives on the TAX. A line belongs to a PERIOD. Where a later vzor
+      SPLITS a line by rate, the tag a document carries is a property of the tax
+      AND of the period the document falls in, and no property of the tax alone
+      can decide it.
+
+    dph2021.xsd defines r01..r37 flat — no lettered variants. dph2025.xsd adds
+    r01a/r05a/r09a/r09b/r11a..e/r18a/r20a/r22a/r23a..c, splitting single bands by
+    rate. With the 2025 grid dated to 2024, a reverse charge tagged 09b filed on
+    a line that did not exist while it was in force. Measured on filed returns:
+    the MRP agenda's FY2024 put 804.03 of base and 160.81 of tax on r09b where
+    the filing uses r09; the i6 agenda has 3 486 documents and 6 162 041.79 of
+    base in the affected classifications, every year from 2013 populated.
+
+    The repair is this grid — 2021's lines, each collecting the union of the
+    tags 2025 split it into ('09|09a|09b'). Multi-tag formulas exist for exactly
+    this: the earlier form's single band IS the sum of the later form's parts,
+    and the version can say so because the version is the period.
+
+    HOW THE UNIONS WERE DERIVED — not guessed. The 2025 version already groups
+    every deduction line by band in its own internal aggregates:
+
+        r18_total  = r18  + r20  + r22  + r23a     <- reduced, § 27/2
+        r18a_total = r18a + r20a + r22a + r23b     <- reduced
+        r19_total  = r19  + r21  + r23  + r23c     <- standard
+
+    Read down the columns instead of across and the structure falls out: four
+    CATEGORIES of three bands each — (r18,r18a,r19), (r20,r20a,r21),
+    (r22,r22a,r23), (r23a,r23b,r23c). 2021 has six deduction lines, i.e. three
+    categories of two bands, so 2025 added a fourth category outright. Each 2021
+    line therefore collects its category's two reduced bands or its one standard
+    band, and the fourth category has no 2021 home at all — correctly, since the
+    taxes carrying 23a/23b/23c did not exist before the vzor that introduced
+    them.
+
+    The same rule then applies to the output bands, which is what settles the one
+    open question: the reduced line collects both reduced sub-bands (01|01a) and
+    the standard line collects the standard one (03). The standard half is
+    EVIDENCED — the MRP agenda filed r03/r04 in 25 periods from 2022-12 to
+    2025-12, across the rate change and across the vzor change, so the standard
+    band never moved. The reduced half is derived from the structure above and
+    not from any filing: neither reference agenda has ever had a reduced-rate
+    supply (r01/r01a/r02/r02a/r05/r06 are empty in all 38 filed returns), so this
+    is inert for them and still owes an accountant's confirmation before a
+    reduced-rate agenda is imported.
+
+    The r09/r10 boundary is evidenced on both sides: r09/r10 filed in 15 periods
+    from 2023-02 to 2025-06, r09b/r10b in 6 periods from 2025-07 to 2025-12. Not
+    one r09 after June 2025, not one r09b before July.
+
+    VALIDITY starts 2021-01-01, which is when DPHv21 — the vzor this grid IS,
+    line for line — came into force. It used to start 2011-01-01, on the
+    reasoning that the single-band placement holds back to the 20 % rate; that
+    claimed ten years of forms we do not hold and cannot check.
+
+    The rule now: **a version claims only the periods whose XSD we have.**
+    `data/dph2021.xsd` (DPHv21 v1.2) and `data/dph2025.xsd` (DPHv25) are the
+    two we hold, so those are the two eras. A period before 2021 resolves to no
+    version, which is the honest answer — there is no point reconstructing a
+    form nobody can validate against, and a computed figure that cannot be
+    checked is worth less than a visible gap.
+
+    Filing-grade XML for DPHv21 is DONE: `report/l10n_sk_vat_return_templates.xml`
+    carries `dph_2021`, built element for element from dph2021.xsd's own `telo`
+    (38 elements, r01..r37 flat plus splneniePodmienok), and the version binds
+    both that template and the schema. It used to reuse the 2025 template,
+    which emits the lettered elements and could therefore only validate against
+    the wrong schema — and 18 of the 24 periods of the reference agenda are
+    pre-July, so that follow-up covered three quarters of the filed history.
+  -->
+      <!-- ``r_deduction_total``: rate-agnostic deduction total, internal — the
+         tlačivo has no such row. For legacy systems that file "odpočítaná daň
+         celkom" as one number; mapping that onto a single per-rate half drops
+         reduced-rate deductions silently. Full rationale in
+         cssk_vat_return_legacy_version_data.xml. -->
+  <record id="dph_version_2024" model="cssk.vat.return.version">
+        <field name="name">DPH (vzor do 30. 6. 2025)</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2021-01-01</field>
+        <field name="valid_to">2025-06-30</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_vat_return.dph_2021"/>
+        <field name="xml_root_element">dokument</field>
+        <field name="xml_schema_filename">dph2021.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_vat_return/data/dph2021.xsd"/>
+        <field name="own_tax_line_code">r32</field>
+        <field name="excess_line_code">r33</field>
+        <field name="diff_line_code">r36</field>
+        <!-- The daň = základ × sadzba kontrola, as version DATA. Every rate
+             that can legitimately reach a line over this record's whole
+             validity is listed, because the rate changed (20/10 -> 23/19/5 on
+             1. 1. 2025) six months BEFORE the form did: January to June 2025 is
+             the current rate on the old grid, and that window is the reason
+             this record exists rather than being a copy of the 2024 one.
+
+             0 % is deliberately NOT listed on the § 69 bands. The i6 agenda has
+             zero-rated documents in those classifications from 2015 to 2021 and
+             it is not established that they belong on r09/r10 at all — a
+             kontrola that flags them is the point, not a false alarm to
+             silence. -->
+        <field name="rate_pairs" eval="[
+            ['r01', 'r02', [5.0, 10.0, 19.0]],
+            ['r03', 'r04', [20.0, 23.0]],
+            ['r05', 'r06', [5.0, 10.0, 19.0]],
+            ['r07', 'r08', [20.0, 23.0]],
+            ['r09', 'r10', [5.0, 10.0, 19.0, 20.0, 23.0]],
+            ['r11', 'r12', [5.0, 10.0, 19.0, 20.0, 23.0]],
+        ]"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'r01', 'name': 'r01', 'kind': 'tags',
+                    'tag_formula': '-01|01a', 'sequence': 1}),
+            (0, 0, {'code': 'r02', 'name': 'r02', 'kind': 'tags',
+                    'tag_formula': '-02|02a', 'sequence': 2}),
+            (0, 0, {'code': 'r03', 'name': 'r03', 'kind': 'tags',
+                    'tag_formula': '-03', 'sequence': 3}),
+            (0, 0, {'code': 'r04', 'name': 'r04', 'kind': 'tags',
+                    'tag_formula': '-04', 'sequence': 4}),
+            (0, 0, {'code': 'r05', 'name': 'r05', 'kind': 'tags',
+                    'tag_formula': '05|05a', 'sequence': 5}),
+            (0, 0, {'code': 'r06', 'name': 'r06', 'kind': 'tags',
+                    'tag_formula': '-06|06a', 'sequence': 6}),
+            (0, 0, {'code': 'r07', 'name': 'r07', 'kind': 'tags',
+                    'tag_formula': '07', 'sequence': 7}),
+            (0, 0, {'code': 'r08', 'name': 'r08', 'kind': 'tags',
+                    'tag_formula': '-08', 'sequence': 8}),
+            (0, 0, {'code': 'r09', 'name': 'r09', 'kind': 'tags',
+                    'tag_formula': '09|09a|09b', 'sequence': 9}),
+            (0, 0, {'code': 'r10', 'name': 'r10', 'kind': 'tags',
+                    'tag_formula': '-10|10a|10b', 'sequence': 10}),
+            (0, 0, {'code': 'r11', 'name': 'r11', 'kind': 'tags',
+                    'tag_formula': '11|11a|11b|11c|11d|11e', 'sequence': 11}),
+            (0, 0, {'code': 'r12', 'name': 'r12', 'kind': 'tags',
+                    'tag_formula': '-12|12a|12b|12c|12d|12e', 'sequence': 12}),
+            (0, 0, {'code': 'r13', 'name': 'r13', 'kind': 'tags',
+                    'tag_formula': '-13', 'sequence': 13}),
+            (0, 0, {'code': 'r14', 'name': 'r14', 'kind': 'tags',
+                    'tag_formula': '-14', 'sequence': 14}),
+            (0, 0, {'code': 'r15', 'name': 'r15', 'kind': 'tags',
+                    'tag_formula': '-15', 'sequence': 15}),
+            (0, 0, {'code': 'r16', 'name': 'r16', 'kind': 'tags',
+                    'tag_formula': '-16', 'sequence': 16}),
+            (0, 0, {'code': 'r18', 'name': 'r18', 'kind': 'tags',
+                    'tag_formula': '18|18a', 'sequence': 18}),
+            (0, 0, {'code': 'r19', 'name': 'r19', 'kind': 'tags',
+                    'tag_formula': '19', 'sequence': 19}),
+            (0, 0, {'code': 'r20', 'name': 'r20', 'kind': 'tags',
+                    'tag_formula': '20|20a', 'sequence': 20}),
+            (0, 0, {'code': 'r21', 'name': 'r21', 'kind': 'tags',
+                    'tag_formula': '21', 'sequence': 21}),
+            (0, 0, {'code': 'r22', 'name': 'r22', 'kind': 'tags',
+                    'tag_formula': '22|22a', 'sequence': 22}),
+            (0, 0, {'code': 'r23', 'name': 'r23', 'kind': 'tags',
+                    'tag_formula': '23', 'sequence': 23}),
+            (0, 0, {'code': 'r24', 'name': 'r24 — Rozdiel základu (§25)',
+                    'kind': 'tags', 'tag_formula': '-24|+24_PR', 'sequence': 24}),
+            (0, 0, {'code': 'r25', 'name': 'r25 — Rozdiel dane (§25)',
+                    'kind': 'tags', 'tag_formula': '-25', 'sequence': 25}),
+            (0, 0, {'code': 'r26', 'name': 'r26 — Rozdiel základu (§25a)',
+                    'kind': 'tags', 'tag_formula': '-26', 'sequence': 26}),
+            (0, 0, {'code': 'r27', 'name': 'r27 — Rozdiel dane (§25a)',
+                    'kind': 'tags', 'tag_formula': '-27', 'sequence': 27}),
+            (0, 0, {'code': 'r28', 'name': 'r28 — Oprava odpočítanej dane (§53)',
+                    'kind': 'tags', 'tag_formula': '-28', 'sequence': 28}),
+            (0, 0, {'code': 'r29', 'name': 'r29 — Oprava odpočítanej dane (§53b)',
+                    'kind': 'tags', 'tag_formula': '-29', 'sequence': 29}),
+            (0, 0, {'code': 'r17', 'name': 'r17 — Daň celkom', 'kind': 'aggregate',
+                    'aggregate_formula': 'r02 + r04 + r06 + r08 + r10 + r12 + r16',
+                    'sequence': 60}),
+            (0, 0, {'code': 'r18_total', 'name': '(internal) odpočet — znížená',
+                    'kind': 'aggregate',
+                    'aggregate_formula': 'r18 + r20 + r22', 'sequence': 61}),
+            (0, 0, {'code': 'r19_total', 'name': '(internal) odpočet — základná',
+                    'kind': 'aggregate',
+                    'aggregate_formula': 'r19 + r21 + r23', 'sequence': 62}),
+            (0, 0, {'code': 'r_deduction_total',
+                    'name': '(internal) odpočet celkom — obe sadzby',
+                    'kind': 'aggregate',
+                    'aggregate_formula': 'r18_total + r19_total',
+                    'sequence': 63}),
+            (0, 0, {'code': 'r30', 'name': 'r30 — Odpočet pri registrácii',
+                    'kind': 'manual', 'sequence': 70}),
+            (0, 0, {'code': 'r31', 'name': 'r31 — Vrátenie dane cestujúcim',
+                    'kind': 'manual', 'sequence': 71}),
+            (0, 0, {'code': 'r34', 'name': 'r34 — Nadmerný odpočet odpočítaný',
+                    'kind': 'manual', 'sequence': 72}),
+            (0, 0, {'code': 'r36', 'name': 'r36 — Rozdiel oproti poslednej známej dani',
+                    'kind': 'manual', 'sequence': 73}),
+            (0, 0, {'code': 'r37', 'name': 'r37 — Daň na úhradu (+/-)',
+                    'kind': 'manual', 'sequence': 74}),
+            (0, 0, {'code': 'r_net', 'name': '(internal) čistá daň',
+                    'kind': 'aggregate',
+                    'aggregate_formula': 'r17 - r18_total - r19_total + r25 + r27 + r28 + r29 - r30 - r31',
+                    'sequence': 80}),
+            (0, 0, {'code': 'r32', 'name': 'r32 — Vlastná daňová povinnosť',
+                    'kind': 'aggregate',
+                    'aggregate_formula': 'r_net if r_net &gt; 0 else 0.0',
+                    'sequence': 81}),
+            (0, 0, {'code': 'r33', 'name': 'r33 — Nadmerný odpočet (§79/2)',
+                    'kind': 'aggregate',
+                    'aggregate_formula': '-r_net if r_net &lt; 0 else 0.0',
+                    'sequence': 82}),
+            (0, 0, {'code': 'r35', 'name': 'r35 — Vlastná daň na úhradu',
+                    'kind': 'aggregate',
+                    'aggregate_formula': 'max(0.0, r32 - r34)', 'sequence': 83}),
+        ]"/>
+        <field name="statement_type_ids" eval="[
+            (0, 0, {'code': 'rdp', 'name': 'Riadny', 'fa_xml_value': 'R',
+                    'sequence': 10}),
+            (0, 0, {'code': 'odp', 'name': 'Opravný', 'fa_xml_value': 'O',
+                    'sequence': 20}),
+            (0, 0, {'code': 'ddp', 'name': 'Dodatočný', 'fa_xml_value': 'D',
+                    'sequence': 30}),
+        ]"/>
+    </record>
+</data>
+</odoo>

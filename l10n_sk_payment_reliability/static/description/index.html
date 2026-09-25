@@ -1,0 +1,57 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">SK Supplier Reliability — FS open-data provider</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovak provider for the supplier-reliability check: registered bank accounts and the tax-reliability index from FS open data</h3>
+    <div class="oe_span12">
+      <p>This app is the Slovak country provider for the shared CZ/SK supplier-reliability check
+         (<code>l10n_cssk_payment_reliability</code>). It queries the Slovak Financial Administration
+         open-data API (<code>iz.opendata.financnasprava.sk</code>) to verify a supplier's registered
+         bank accounts and tax-reliability index.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Registered bank accounts</b> — dataset <code>ds_dph_iban</code> (the accounts a VAT
+            payer notified to the tax authority), looked up by <b>IČ DPH</b>.</li>
+        <li><b>Tax reliability index</b> — dataset <code>ds_iz_ran</code> (<i>index daňovej
+            spoľahlivosti</i>: vysoko spoľahlivý / spoľahlivý / menej spoľahlivý), looked up by
+            <b>IČO</b>.</li>
+        <li>Plugs into the shared reliability base, so the result appears wherever the base surfaces
+            the check (partner / vendor bill).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>The provider needs an FS open-data <b>API key</b>. Set it in
+         <i>Settings ▸ Accounting ▸ "FS open-data API key"</i> (register at
+         <code>opendata.financnasprava.sk</code>). Without a key the provider is inert and the base
+         reports "not checked". With the key configured, the supplier-reliability check on partners
+         and vendor bills is answered from the Slovak datasets.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

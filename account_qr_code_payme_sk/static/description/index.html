@@ -1,0 +1,59 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">payme (Slovakia)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">The Slovak payme payment QR code on your invoices</h3>
+    <div class="oe_span12">
+      <p>This app adds the Slovak <b>payme</b> payment QR code to Odoo invoices. payme is the
+         Slovak Banking Association payment-link standard: the QR code carries a
+         <code>https://payme.sk/...</code> link that opens the customer's banking app with the
+         payment pre-filled (IBAN, amount, currency, payment identification, creditor name and an
+         optional message).</p>
+      <p>The link is assembled locally from the invoice data per the SBA <i>Payment Link</i>
+         standard 2.0 and rendered as a QR code. It registers as an extra payment-QR method on
+         <code>res.partner.bank</code> and reuses Odoo's standard QR-on-invoice plumbing, so it
+         runs on both Community and Enterprise.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>New <b>payme (Slovakia)</b> payment-QR method on every bank account.</li>
+        <li>Builds the payme payment link per the SBA <i>Payment Link</i> standard 2.0.</li>
+        <li>Encodes IBAN, amount, currency (EUR), payment identification, creditor name and an
+            optional message from the invoice.</li>
+        <li>Branded payme QR frame on the printed invoice.</li>
+        <li>Eligibility checks: EUR currency, IBAN account in a SEPA country, and a beneficiary name present.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Settings ▸ Invoicing ▸ Customer Payments</i> — enable <b>QR Codes</b>. On a customer
+         invoice, open <i>Other Info ▸ Payment QR-code</i> and pick <b>payme (Slovakia)</b>.
+         The QR code is rendered on the invoice PDF; the customer scans it in their banking app to pay.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

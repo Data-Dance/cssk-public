@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_wage_garnishment_notice_view_form" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.notice.form</field>
+        <field name="model">hr.wage.garnishment.notice</field>
+        <field name="arch" type="xml">
+            <form string="Statutory Notice">
+                <group>
+                    <group>
+                        <field name="notice_type"/>
+                        <field name="employee_id"/>
+                        <field name="garnishment_ids" widget="many2many_tags"
+                               domain="[('employee_id', '=', employee_id)]"/>
+                        <field name="recipient_partner_id"/>
+                    </group>
+                    <group>
+                        <field name="event_date" invisible="notice_type not in ('employment_start', 'employment_end')"/>
+                        <field name="date_from" invisible="notice_type not in ('settlement', 'enquiry')"/>
+                        <field name="date_to" invisible="notice_type not in ('settlement', 'enquiry')"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </group>
+                <field name="note" placeholder="Anything to add to the notice…"/>
+                <footer>
+                    <button name="action_print" type="object" string="Print" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_notice_action" model="ir.actions.act_window">
+        <field name="name">Statutory Notice</field>
+        <field name="res_model">hr.wage.garnishment.notice</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

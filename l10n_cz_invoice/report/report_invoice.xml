@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_invoice_document_cz" inherit_id="account.report_invoice_document">
+
+        <!--
+            No customer DIČ block here, deliberately.
+
+            In Czech usage *DIČ* IS the VAT number (CZ + IČO), and core already
+            prints it: `account.report_invoice_document` outputs
+            `company.account_fiscal_country_id.vat_label`, which for Czechia is
+            "DIČ" (res.country.CZ.vat_label = {"cs_CZ": "DIČ", "en_US": "VAT"}).
+
+            This block used to print `l10n_cssk_dic`, a second field holding the
+            same number without its country prefix, so the duplication was not
+            obvious. Sourcing it from `vat` made it plain — the invoice showed
+            the identical number twice.
+
+            Slovakia is the case that genuinely needs two lines: there DIČ and
+            IČ DPH are different identifiers, and `l10n_sk_invoice` prints the
+            DIČ from `l10n_sk_base`'s own field.
+        -->
+
+        <!-- Payment symbols (variabilní/konstantní/specifický) in the info row -->
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div class="col-auto col-3 mw-100 mb-2"
+                 t-if="o.l10n_cssk_variable_symbol and o.company_id.country_code == 'CZ'"
+                 name="l10n_cz_variable_symbol">
+                <strong>Variabilní symbol</strong>
+                <div t-field="o.l10n_cssk_variable_symbol" />
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2"
+                 t-if="o.l10n_cssk_constant_symbol and o.company_id.country_code == 'CZ'"
+                 name="l10n_cz_constant_symbol">
+                <strong>Konstantní symbol</strong>
+                <div t-field="o.l10n_cssk_constant_symbol" />
+            </div>
+            <div class="col-auto col-3 mw-100 mb-2"
+                 t-if="o.l10n_cssk_specific_symbol and o.company_id.country_code == 'CZ'"
+                 name="l10n_cz_specific_symbol">
+                <strong>Specifický symbol</strong>
+                <div t-field="o.l10n_cssk_specific_symbol" />
+            </div>
+        </xpath>
+
+        <!-- Mandatory statutory phrases -->
+        <xpath expr="//div[@name='comment']" position="after">
+            <p t-if="o.l10n_cz_legal_notes and o.company_id.country_code == 'CZ'"
+               name="l10n_cz_legal_notes" class="mt-2"
+               style="white-space: pre-line;">
+                <span t-field="o.l10n_cz_legal_notes" />
+            </p>
+        </xpath>
+
+    </template>
+</odoo>

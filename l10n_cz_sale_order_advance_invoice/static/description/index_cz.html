@@ -1,0 +1,81 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Zálohové faktury — česká lokalizace</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Napojení zálohových faktur na českou účtovou osnovu a daňové doklady k přijatým platbám</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace propojuje zemně neutrální tok <code>sale_order_advance_invoice</code> s českou
+         účtovou osnovou (<code>l10n_cz</code>) tak, aby se přijaté zálohy a jejich daňové doklady
+         účtovaly na zákonné účty.</p>
+      <p>Po instalaci nastaví pro každou společnost na české účtové osnově deník daňových dokladů a
+         účty přijatých záloh. Stávající ruční nastavení se zachová — doplní se jen prázdná pole.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Vytvoří zúčtovací (clearing) účet záloh <b>324001</b> (Přijaté zálohy – zúčtování /
+            daňový doklad) — standardní česká osnova zúčtovatelný clearingový účet nemá, proto jej
+            tento modul dodává.</li>
+        <li>Napojí krátkodobý účet přijatých záloh <b>324000</b> (Přijaté provozní zálohy) a
+            dlouhodobý účet přijatých záloh <b>475000</b> (Dlouhodobé přijaté zálohy).</li>
+        <li>Nastaví deník daňových dokladů <b>TDADV</b> (Daňové doklady k přijatým platbám) pro
+            daňový doklad k přijaté platbě.</li>
+        <li>Idempotentní instalační hook: doplní se jen prázdná pole, ruční nastavení se nikdy
+            nepřepíše.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Nainstalujte modul na společnost již vedenou na české osnově (<code>l10n_cz</code>).
+         Instalační hook deník a účty zapojí automaticky — žádné ruční nastavení není potřeba.
+         Vlastní tok zálohových faktur poskytuje <code>sale_order_advance_invoice</code>:</p>
+      <ol>
+        <li><b>Zálohová (proforma) faktura</b> — výzva k platbě; neúčtuje se.</li>
+        <li><b>Přijetí platby</b> — banka 221 proti zúčtovacímu účtu 324001.</li>
+        <li><b>Daňový doklad k přijaté platbě</b> (do 15 dnů od platby) — 324001 / 324000 (základ)
+            + 343 (DPH); zúčtovací účet se spáruje s platbou a vrátí na nulu.</li>
+        <li><b>Vyúčtovací faktura</b> — celé plnění (311 / 604 + 343) s odečtem zálohy a vratkou
+            DPH již přiznané ze zálohy.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Dokumentace</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="../../docs/index.rst">docs/index.rst</a> — český přehled zapojení účtů (účty,
+            deník a účetní tok).</li>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — historie verzí.</li>
+        <li>Interaktivní tahák k podkladovému toku najdete v modulu
+            <code>sale_order_advance_invoice/static/description/</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

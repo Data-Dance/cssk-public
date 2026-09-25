@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Mzdové zvýhodnenia per the Zákonník práce (zákon č. 311/2001 Z. z.).
+
+        Only one vintage is shipped, effective 1 June 2023: zákon č. 1/2023
+        Z. z. re-linked the night / Saturday / Sunday / difficult-work
+        surcharges to a PERCENTAGE of the minimum hourly wage. Before that
+        date they were fixed euro amounts that these percentage fields cannot
+        express, so earlier periods are deliberately not back-filled — the
+        percentages themselves have not moved since, only the minimum hourly
+        wage they apply to, and that lives in l10n.sk.minimum.wage.
+
+        Every figure is a statutory MINIMUM. An employer paying more should
+        raise the percentage here (or in a copy of this record dated from the
+        agreement) rather than patch the salary rules.
+    -->
+    <record id="wage_surcharge_rate_2023" model="l10n.sk.wage.surcharge.rate">
+        <field name="date_from" eval="datetime(2023, 6, 1).date()"/>
+        <!-- % of the minimum hourly wage -->
+        <field name="noc_pct">40</field>
+        <field name="noc_risk_pct">50</field>
+        <field name="noc_reduced_pct">35</field>
+        <field name="sobota_pct">50</field>
+        <field name="sobota_reduced_pct">45</field>
+        <field name="nedela_pct">100</field>
+        <field name="nedela_reduced_pct">90</field>
+        <field name="stazeny_pct">20</field>
+        <field name="pohotovost_pct">20</field>
+        <!-- % of average earnings (priemerný zárobok, § 134) -->
+        <field name="sviatok_pct">100</field>
+        <field name="nadcas_pct">25</field>
+        <field name="nadcas_risk_pct">35</field>
+        <field name="standard_weekly_hours">40</field>
+    </record>
+</odoo>

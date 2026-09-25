@@ -1,0 +1,40 @@
+kv_dph_2014.xsd  79661b4ffc950c2b885567da9353c0e1  20481
+kv_dph_2016.xsd  68ade6077ccaa1a5475473012ff204b7  20989
+kv_dph_2023.xsd  937f0bfa758cd7956e17531e1ea8812f  21003
+kv_dph_2025.xsd  07aea6ed1ad2c82174a7e2777a3c615f  21351
+
+Verified byte-identical to the published copies on 2026-08-19, fetched from
+https://ekr.financnasprava.sk/Formulare/XSD/<filename>
+
+WHY THIS FILE EXISTS. The KV schemas stamp a VINTAGE, not a REVISION. Each
+carries version="<year>" and (except 2014) an "Ucinnost" line naming the first
+period it applies to — but a REVISED kv_dph_2025.xsd would still say
+version="2025" and Ucinnost 1.1.2025, so it is indistinguishable from the copy
+we hold. Nothing in the file changes when the file changes. The same trap as
+the Czech `verzePis`, where a stale literal validates exactly as cleanly as a
+current one; here it is the whole schema rather than one attribute.
+
+So "our copy is current" is answerable only by comparing against what is
+published, and only at the instant you compare. These digests turn that into
+something a later run can check rather than a fact that was true once.
+
+REFRESH PROCEDURE
+  1. For each file above, fetch
+     https://ekr.financnasprava.sk/Formulare/XSD/<filename>
+     and compare the md5 with the line here.
+  2. Check the status code, not the size: a miss returns 404 with a ~1 245-byte
+     HTML error page, which parses as neither XSD nor nothing. Anything that
+     tests presence by size installs an error page as a form.
+  3. Probe for a NEWER vintage separately — kv_dph_2026.xsd and so on. A new
+     vzor is a new file here, unlike the Czech side where the single file is
+     overwritten in place. Absence of a newer file is a 404, present ones 200.
+  4. If a digest moved: replace the file, update this line, and re-run the
+     export tests. There is no changelog; diffing the two copies is the only
+     way to see what changed.
+
+LOWER BOUNDS. 2016, 2023 and 2025 date themselves through their Ucinnost
+lines. kv_dph_2014.xsd carries NO Ucinnost, so its lower bound cannot come
+from the file: 2014-01-01 in the version record is the statutory start of the
+kontrolný výkaz obligation (§ 78a zákona č. 222/2004 Z. z.), and there is
+nothing in the schema to check it against. Recorded here because that makes it
+the one date in the module that no automated check can defend.

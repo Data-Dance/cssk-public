@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.vzp.cz/PrehledPlatbyZamestnavatele/v1"
+	targetNamespace="http://xmlns.vzp.cz/PrehledPlatbyZamestnavatele/v1" elementFormDefault="qualified">
+	<xsd:annotation>
+		<xsd:documentation>$Revision: 08 $</xsd:documentation>
+		<xsd:documentation>$Date: 2025-12-08 $</xsd:documentation>
+		<xsd:documentation>$Author: Všeobecná zdravotní pojišťovna ČR, Michal Holinka $</xsd:documentation>
+		<xsd:documentation>
+			Definice "Přehled platby zaměstnavatele",
+			určená k podání na portálech ZP, případně zasláním do datové schránky príslušné ZP
+			platná od 1.1.2026
+		</xsd:documentation>
+	</xsd:annotation>
+
+
+	<xsd:element name="prehledPlatbyZamestnavatele" type="prehledPlatbyZamestnavateleTyp" />
+	<xsd:complexType name="prehledPlatbyZamestnavateleTyp">
+		<xsd:sequence>
+			<xsd:element name="identifikacePredmetuPodaniText" type="string60Typ" fixed="Přehled platby zaměstnavatele pro ZP 2026+">
+				<xsd:annotation>
+					<xsd:documentation>Tag pro pohodlné rozpoznání předmětu a verze podání liským uživatelem.Musí být uveden formou konstanty v každém zaslaném dokumentu
+						podání dle XSD.(Konstanta k verzi)</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<xsd:element name="identifikacePredmetuPodaniKod" type="string60Typ" fixed="1079e224-84f4-46e4-99e8-6095bd282301">
+				<xsd:annotation>
+					<xsd:documentation>Tag pro spolehlivé a přesné rozpoznání předmětu a verze podání strojovým rozpoznáváním na úrovni souboru.Musí být uveden formou
+						konstanty v každém zaslaném dokumentu podání dle definičního XSD.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+
+			<xsd:element name="interniIdentifikacePodaniPodavatele" type="string60Typ" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Tag pro uložení interního identifikátoru podání u podavatele. Doporučen unikátní řetězec pro snadné rozpoznání / korelaci odpovědí.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="kodZdravotniPojistovny" type="kodZdravotniPojistovnyTyp" minOccurs="1" />
+			<xsd:element name="typPrehledu" type="typPrehleduTyp" minOccurs="1" />
+			<xsd:element name="identifikaceZamestnavatele" type="identifikaceZamestnavateleTyp" minOccurs="1" />
+			<xsd:element name="udajePlatby" type="udajePlatbyTyp" minOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="identifikaceZamestnavateleTyp">
+		<xsd:annotation>
+			<xsd:documentation>Identifikace - název a adresa sídla organizační jednotky, která bude plnit povinnosti plátce pojistného.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="identifikacniCisloPlatce" type="identifikacniCisloPlatceTyp" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Číslo plátce pojistného ve tvaru:
+						IČaa:IČ - identifikační číslo zaměstnavatele (8 míst)
+						aa - číslo vnitřní organizační jednotky (2 místa)aa = 00 až 98
+						- Zaměstnavatel s přiděleným IČ určí každému dílčímu plátci (účtárně) pořadové číslo a zajistí,
+						aby nedošlo k duplicitě(IČ00 až IČ98).
+						Pokud má plátce jen jednu účtárnu, použije se číslo plátce IČ00.aa = 99 - Zvláštní číslo plátce pojistného.
+						Je určeno pro zaměstnavatele, který nemá IČ, nebo pro zaměstnavatele, který má více než99 účtáren.
+						Tvar čísla NNNNNNNN99 přiděluje VZP ČR
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nazevPlatce" type="string80Typ">
+				<xsd:annotation>
+					<xsd:documentation>Název plátce či organizační jednotky, která bude plnit povinnosti plátce pojistného.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<xsd:element name="adresaPlatceUlice" type="string60Typ" />
+			<xsd:element name="adresaPlatceCisloPopisneOrientacni" type="string60Typ" />
+			<xsd:element name="adresaPlatcePsc" type="pscTyp" minOccurs="1" />
+			<xsd:element name="adresaPlatceObec" type="string60Typ" minOccurs="1" />
+			<xsd:element name="adresaPlatceTelefon" type="telefonTyp" minOccurs="0" />
+
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="udajePlatbyTyp">
+		<xsd:sequence>
+			<xsd:element name="mesicHlaseni" type="mesicObdobiTyp" minOccurs="1" />
+			<xsd:element name="rokHlaseni" type="rokObdobiTyp" minOccurs="1" />
+			<xsd:element name="pocetZamestnancu" type="xsd:positiveInteger" minOccurs="1" />
+			<xsd:element name="soucetZakladuPojistneho" type="castkaTyp" minOccurs="1" />
+			<xsd:element name="soucetPojistneho" type="xsd:nonNegativeInteger" minOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+	<xsd:simpleType name="kodZdravotniPojistovnyTyp">
+		<xsd:annotation>
+			<xsd:documentation>
+				Identifikuje, které ZP je podání určeno
+				Kódy ZP k 1.1.2026 a zkratk příslušné ZP
+				111 = VZP
+				201 = VoZP
+				205 = ČPZP
+				207 = OZP
+				209 = ZPŠ
+				211 = ZPMV
+				213 = RBP
+			</xsd:documentation>
+		</xsd:annotation>
+
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="111" />
+			<xsd:enumeration value="201" />
+			<xsd:enumeration value="205" />
+			<xsd:enumeration value="207" />
+			<xsd:enumeration value="209" />
+			<xsd:enumeration value="211" />
+			<xsd:enumeration value="213" />
+		</xsd:restriction>
+
+	</xsd:simpleType>
+
+
+	<xsd:simpleType name="typPrehleduTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="radny">
+				<xsd:annotation>
+					<xsd:documentation>Řádný přehled platby zaměstnavatele</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="opravny">
+				<xsd:annotation>
+					<xsd:documentation>Opravný přehled platby zaměstnavatele</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="castkaTyp">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="14" />
+			<xsd:fractionDigits value="2" />
+			<xsd:minInclusive value="0.00" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="string60Typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="60" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="rokObdobiTyp">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="2000" />
+			<xsd:maxInclusive value="2099" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="mesicObdobiTyp">
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="([1-9]|1[0-2])" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="string80Typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="string16Typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="16" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="cisloPojistenceTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="10" />
+			<xsd:minLength value="8" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="prijmeniJmenoPlneTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="telefonTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\d{1,30}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="emailTyp">
+		<xsd:annotation>
+			<xsd:documentation>http://www.regular-expressions.info/email.html</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern
+				value="[a-z0-9,!#\\$%&amp;'\*\+/=\?\^_`\{\|}~-]+(\.[a-z0-9,!#\\$%&amp;'\*\+/=\?\^_`\{\|}~-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,})" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ciselnaHodnotaTyp">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="14" />
+			<xsd:fractionDigits value="2" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="identifikacniCisloPlatceTyp">
+		<xsd:restriction base="xsd:string">
+			<!-- Přesně 10 číslic -->
+			<xsd:pattern value="\d{10}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="pscTyp">
+		<xsd:restriction base="xsd:string">
+			<!-- PSČ bez mezery: přesně 5 číslic -->
+			<xsd:pattern value="\d{5}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

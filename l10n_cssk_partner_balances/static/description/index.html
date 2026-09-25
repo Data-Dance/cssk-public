@@ -1,0 +1,94 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Partner Balance Confirmation (Saldokonto)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Signable open-item balance confirmations and the mutual set-off (zápočet) agreement, on Odoo core only</h3>
+    <div class="oe_span12">
+      <p>Slovak/Czech <b>saldokonto</b> — <i>odsúhlasenie / potvrdenie zostatkov pohľadávok a
+         záväzkov</i>. A stored document that <b>snapshots</b> a partner's open receivables and
+         payables as of a chosen date (reproducible — re-opening an old confirmation shows what
+         was sent), tracks a state machine (draft → sent → agreed / disputed) and prints a PDF
+         for the partner to countersign.</p>
+      <p>Depends on <b>Odoo core only</b> (<code>account</code> + <code>mail</code> +
+         <code>l10n_cssk_core</code>). It complements OCA <code>partner_statement</code>
+         (aging / activity view) by adding the signable confirmation document the aging report
+         does not provide, plus a full <b>mutual-offset (zápočet)</b> agreement.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Balance confirmation (saldokonto):</b> <code>cssk.partner.confirmation</code> +
+            lines — a snapshot of open AR/AP move lines, totals, a state machine
+            (<code>SALDO/YYYY/NNNN</code> sequence), chatter and a PDF. Disputed lines can be
+            <code>blocked</code> (excluded from totals, still shown on the PDF).</li>
+        <li><b>Mutual offsetting (zápočet):</b> <code>cssk.partner.netting.agreement</code> —
+            loads a partner's open receivables and payables and <b>auto-allocates</b> the offset
+            up to the netting amount = <code>min(receivables, payables)</code>.</li>
+        <li>On posting, the netting builds a <b>clearing journal entry</b> (credit AR / debit
+            AP) and <b>reconciles</b> the offset invoices (partial offsetting supported);
+            <code>ZAP/YYYY/NNNN</code> sequence; undo via <i>cancel with reversal</i>.</li>
+        <li>Two legal modes: <b>Bilateral</b> (<i>dohoda o vzájomnom započítaní</i> — both
+            parties sign before it takes effect) and <b>Unilateral</b>
+            (<i>jednostranné započítanie</i> — a one-sided set-off effective on delivery, no
+            countersignature).</li>
+        <li>Bilingual SK/EN PDF for both documents; the zápočet PDF switches wording between
+            the bilateral agreement (two signatures) and the unilateral set-off notice (single
+            signature, effective on delivery).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Accounting ▸ Customers ▸ Balance Confirmations</i> for the saldokonto, and
+         <i>Accounting ▸ Vendors ▸ Netting Agreements (zápočet)</i> for the mutual set-off.
+         Create a document individually, or use the wizards below to issue confirmations in
+         bulk / build a netting agreement for a partner. Compute, review, send / post, and print
+         the PDF for countersigning.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Wizards</h2>
+    <div class="oe_span12">
+      <h4>Generate Balance Confirmations <small>(Accounting ▸ Customers ▸ Balance Confirmations ▸ Generate Confirmations)</small></h4>
+      <p><b>What it does:</b> issues balance confirmations for many partners at once.</p>
+      <p><b>How to use:</b> pick the company, the as-of date and the confirmation type
+         (receivables only / payables only / both); leave the partner list empty to issue for
+         every partner with an open balance, then <i>Generate</i>. Each confirmation is created
+         and computed, and the result list opens.</p>
+      <h4>Create Netting Agreement <small>(Accounting ▸ Vendors ▸ Netting Agreements (zápočet) ▸ Create Netting Agreement)</small></h4>
+      <p><b>What it does:</b> creates a netting agreement for a partner, auto-allocating the
+         offset across the open AR/AP up to the balanced netting amount.</p>
+      <p><b>How to use:</b> pick the company, the partner and the agreement date, then
+         <i>Create</i>. The wizard loads the partner's open receivables and payables, computes
+         <code>min(receivables, payables)</code> and greedily allocates that offset across the
+         lines (raising if the partner has no mutually offsettable balances), then opens the new
+         agreement to confirm / post.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

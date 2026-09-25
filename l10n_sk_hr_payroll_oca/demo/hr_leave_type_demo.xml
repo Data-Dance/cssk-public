@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Demo: a ready-to-use Slovak leave type with the payroll code preset, so a
+        demo database shows the time-off -> payroll integration out of the box.
+        Approve an hr.leave of this type in a period and the OCA payslip derives a
+        DOVOLENKA worked-day line (paid at priemerný zárobok).
+    -->
+    <record id="demo_leave_type_sk_holiday" model="hr.leave.type">
+        <field name="name">Holiday (demo)</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">hr</field>
+        <field name="allocation_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_sk_payroll_code">DOVOLENKA</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!--
+        Demo employee + a start-of-year statutory dovolenka allocation. Shows the
+        4-week (20-day) základná výmera granted on 1 Jan as an initial regular
+        allocation (§103 ods. 1 Zákonníka práce). The install accrual plans
+        (data/hr_leave_accrual_plan_data.xml) model the monthly 1/12 accrual /
+        pomerná časť; this demo uses a plain 20-day regular allocation so a demo
+        DB shows the entitlement without needing the accrual cron to run.
+    -->
+    <record id="demo_sk_dovolenka_employee" model="hr.employee">
+        <field name="name">Holiday Employee (demo)</field>
+    </record>
+    <record id="demo_sk_dovolenka_allocation" model="hr.leave.allocation">
+        <field name="name">Annual leave 2026 — statutory 4 weeks (demo)</field>
+        <field name="holiday_status_id" ref="demo_leave_type_sk_holiday"/>
+        <field name="employee_id" ref="demo_sk_dovolenka_employee"/>
+        <field name="allocation_type">regular</field>
+        <field name="number_of_days">20</field>
+        <field name="date_from">2026-01-01</field>
+        <field name="state">confirm</field>
+    </record>
+</odoo>

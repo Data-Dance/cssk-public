@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Show only the tax offices of the company's fiscal country. -->
+    <record id="cssk_tax_authority_fiscal_country_rule" model="ir.rule">
+        <field name="name">Tax authority: current fiscal country only</field>
+        <field name="model_id" ref="model_cssk_tax_authority"/>
+        <field name="domain_force">
+            [('country_code', '=',
+              (user.company_id.account_fiscal_country_id.code
+               or user.company_id.country_id.code))]
+        </field>
+        <field name="global" eval="True"/>
+    </record>
+</odoo>

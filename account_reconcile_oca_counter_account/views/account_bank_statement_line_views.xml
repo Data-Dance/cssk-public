@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="bank_statement_line_form_reconcile_counter_account"
+            model="ir.ui.view">
+        <field name="name">account.bank.statement.line.reconcile.counter.account</field>
+        <field name="model">account.bank.statement.line</field>
+        <field name="inherit_id"
+               ref="account_reconcile_oca.bank_statement_line_form_reconcile_view" />
+        <field name="arch" type="xml">
+            <!-- After the reference, which is where the eye already is when
+                 deciding who a payment came from. Anchored on @name: `string`
+                 is a translated attribute and is refused as a selector. -->
+            <field name="payment_ref" position="after">
+                <field name="account_number" readonly="1"
+                       invisible="not account_number" />
+                <field name="partner_bank_id" readonly="1"
+                       invisible="not partner_bank_id" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

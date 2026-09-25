@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Slovak time-off types, each tagged with a stable payroll code
+        (l10n_sk_payroll_code) the salary rules key on. The payroll engine's
+        _compute_leave_days (overridden in models/hr_payslip.py) turns a
+        validated hr.leave of one of these types into a worked-day line keyed
+        by that code:
+
+          DOVOLENKA  holiday          paid at priemerný zárobok (insurable+tax)
+          PN         sickness         employer sick-pay náhrada (days 1..14)
+          OCR        family care      unpaid (Sociálna poisťovňa pays)
+          NEPLATENE  unpaid leave     unpaid -> BASIC prorates
+          OBSTACLE   paid obstacle    paid at priemerný zárobok (insurable+tax)
+
+        requires_allocation=False keeps them usable without an allocation step;
+        request_unit='day' so a full-day absence maps to whole worked days.
+        These are starter types — a deployment may re-tag its own leave types
+        by setting l10n_sk_payroll_code instead.
+    -->
+    <record id="l10n_sk_leave_type_dovolenka" model="hr.leave.type">
+        <field name="name">Holiday</field>
+        <field name="l10n_sk_payroll_code">DOVOLENKA</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <record id="l10n_sk_leave_type_pn" model="hr.leave.type">
+        <field name="name">Sick Leave (PN)</field>
+        <field name="l10n_sk_payroll_code">PN</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <record id="l10n_sk_leave_type_ocr" model="hr.leave.type">
+        <field name="name">Family Care (OČR)</field>
+        <field name="l10n_sk_payroll_code">OCR</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <record id="l10n_sk_leave_type_neplatene" model="hr.leave.type">
+        <field name="name">Unpaid Leave</field>
+        <field name="l10n_sk_payroll_code">NEPLATENE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <record id="l10n_sk_leave_type_obstacle" model="hr.leave.type">
+        <field name="name">Paid Work Obstacle</field>
+        <field name="l10n_sk_payroll_code">OBSTACLE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <!-- ==================================================================
+         § 142 — prekážky v práci NA STRANE ZAMESTNÁVATEĽA.
+
+         Kept apart from l10n_sk_leave_type_obstacle (§ 141, the EMPLOYEE's
+         side) because the money differs: § 141 reasons are all paid at the
+         full priemerný zárobok, while these four carry their own statutory
+         rates (100 / 50 / 100 / 60 %). Recording a prestoj-for-weather as a
+         plain paid obstacle overpays it by half the náhrada.
+
+         requires_allocation=False: an employer-side obstacle is not an
+         entitlement the employee draws down, it is something that happens to
+         them.
+         ================================================================== -->
+    <record id="l10n_sk_leave_type_employer_prestoj" model="hr.leave.type">
+        <field name="name">Employer Obstacle — Downtime / prestoj (§ 142 ods. 1)</field>
+        <field name="l10n_sk_payroll_code">PREKAZKA_PRESTOJ</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_employer_pocasie" model="hr.leave.type">
+        <field name="name">Employer Obstacle — Adverse Weather (§ 142 ods. 2)</field>
+        <field name="l10n_sk_payroll_code">PREKAZKA_POCASIE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_employer_ine" model="hr.leave.type">
+        <field name="name">Employer Obstacle — Other (§ 142 ods. 3)</field>
+        <field name="l10n_sk_payroll_code">PREKAZKA_INE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_employer_vazne" model="hr.leave.type">
+        <field name="name">Employer Obstacle — Serious Operational Reasons (§ 142 ods. 4)</field>
+        <field name="l10n_sk_payroll_code">PREKAZKA_VAZNE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <!-- §166 — materská / rodičovská / otcovská dovolenka.
+         The employer pays NOTHING: materské, rodičovský príspevok and otcovské
+         are dávky of the Sociálna poisťovňa. The absence is recorded so the
+         wage prorates down and so the SP filings have something to derive
+         from — rodičovská in particular drives a prerušenie povinného
+         poistenia, which is why it is not folded into OČR. -->
+    <record id="l10n_sk_leave_type_materska" model="hr.leave.type">
+        <field name="name">Maternity Leave (materská, § 166 ods. 1)</field>
+        <field name="l10n_sk_payroll_code">MATERSKA</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_rodicovska" model="hr.leave.type">
+        <field name="name">Parental Leave (rodičovská, § 166 ods. 2)</field>
+        <field name="l10n_sk_payroll_code">RODICOVSKA</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_otcovska" model="hr.leave.type">
+        <field name="name">Paternity Leave (otcovská, § 166 ods. 3)</field>
+        <field name="l10n_sk_payroll_code">OTCOVSKA</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <!-- Further statutory absences that need no new money rule: each carries
+         an EXISTING payroll code, so the payslip treats it exactly as the
+         bucket it belongs to. The point of a separate type is that HR can
+         record and report what actually happened.
+
+           darovanie krvi        § 138        paid at priemerný zárobok
+           vzdelávanie (platené) § 140 ods. 3 paid at priemerný zárobok
+           vzdelávanie (nepl.)   § 140        unpaid
+           karanténa                          paid as a PN (náhrada príjmu)
+
+         § 140 ships BOTH a paid and an unpaid variant on purpose: the statute
+         says the employer *may* grant paid study leave, so which applies is
+         the employer's decision and not something to encode as automatic.
+
+         Karanténa carries the PN code deliberately — the money is identical
+         to a sickness absence, and giving it a code of its own would take it
+         out of the sick-pay rule for no gain. -->
+    <record id="l10n_sk_leave_type_darovanie_krvi" model="hr.leave.type">
+        <field name="name">Blood Donation (darovanie krvi, § 138)</field>
+        <field name="l10n_sk_payroll_code">OBSTACLE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_vzdelavanie" model="hr.leave.type">
+        <field name="name">Study Leave, paid (vzdelávanie, § 140)</field>
+        <field name="l10n_sk_payroll_code">OBSTACLE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_vzdelavanie_unpaid" model="hr.leave.type">
+        <field name="name">Study Leave, unpaid (vzdelávanie, § 140)</field>
+        <field name="l10n_sk_payroll_code">NEPLATENE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_karantena" model="hr.leave.type">
+        <field name="name">Quarantine / Isolation (karanténa)</field>
+        <field name="l10n_sk_payroll_code">PN</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <!-- §§ 136-137 — prekážky z dôvodu VŠEOBECNÉHO ZÁUJMU, the third family
+         alongside § 141 (the employee's own) and § 142 (the employer's).
+         Paid at priemerný zárobok, so they ride the OBSTACLE code; the
+         separate types exist because the reason is a different one in law
+         and an employer has to be able to record which it was.
+
+         § 138 darovanie krvi is the same family and is already above. Výkon
+         mimoriadnej služby / vojenské cvičenie is NOT here — who pays and
+         who reimburses has moved over the years, so it is a question for the
+         practitioner rather than a guess in data. -->
+    <record id="l10n_sk_leave_type_verejna_funkcia" model="hr.leave.type">
+        <field name="name">Public Office (výkon verejnej funkcie, § 136)</field>
+        <field name="l10n_sk_payroll_code">OBSTACLE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_obcianska_povinnost" model="hr.leave.type">
+        <field name="name">Civic Duty (občianska povinnosť, § 137)</field>
+        <field name="l10n_sk_payroll_code">OBSTACLE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="False"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+</odoo>

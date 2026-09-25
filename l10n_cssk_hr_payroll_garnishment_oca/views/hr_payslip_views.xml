@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_payslip_view_form_garnishment" model="ir.ui.view">
+        <field name="name">hr.payslip.form.garnishment</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="payroll.hr_payslip_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Garnishments" name="cssk_garnishment"
+                      invisible="not l10n_cssk_garnishment_line_ids">
+                    <field name="l10n_cssk_garnishment_net" readonly="1"/>
+                    <field name="l10n_cssk_garnishment_line_ids" readonly="1">
+                        <list>
+                            <field name="case_number"/>
+                            <field name="claim_class"/>
+                            <field name="payee_partner_id"/>
+                            <field name="amount_second_third"/>
+                            <field name="amount_first_third"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="state" widget="badge"/>
+                            <field name="currency_id" column_invisible="True"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

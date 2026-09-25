@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      The official 514-2023.xsd is shipped and loaded into the pipeline, but it
+      is internally defective (see the model): it is run as a NON-FATAL check
+      while structural conformance to its element model is the authoritative
+      gate. Root element is <MZSR>.
+    -->
+    <record id="davka514_version_2023" model="cssk.payroll.declaration.version">
+        <field name="name">dávka 514 (2023+)</field>
+        <field name="code">sk_health</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2023-01-01</field>
+        <field name="xml_template_ref_id"
+               ref="l10n_sk_hr_payroll_health.davka514_xml"/>
+        <field name="xml_root_element">MZSR</field>
+        <field name="xml_schema_module">l10n_sk_hr_payroll_health</field>
+        <field name="xml_schema_filename">data/514-2023.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_hr_payroll_health/data/514-2023.xsd"/>
+    </record>
+
+</odoo>

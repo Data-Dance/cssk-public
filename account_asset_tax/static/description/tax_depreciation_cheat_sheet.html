@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="Docutils 0.23: https://docutils.sourceforge.io/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dual Depreciation (danove vs ucetni/uctovne odpisy) - Accounting Cheat Sheet</title>
+<style type="text/css">
+
+/* Minimal style sheet for the HTML output of Docutils.                    */
+/*                                                                         */
+/* :Author: Günter Milde, based on html4css1.css by David Goodger          */
+/* :Id: $Id: minimal.css 10018 2025-03-06 16:19:15Z milde $                                                               */
+/* :Copyright: © 2015, 2021 Günter Milde.                                  */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+
+/* This CSS3 stylesheet defines rules for Docutils elements without        */
+/* HTML equivalent. It is required to make the document semantics visible. */
+/*                                                                         */
+/* .. _validates: http://jigsaw.w3.org/css-validator/validator$link        */
+
+/* titles */
+p.topic-title,
+p.admonition-title,
+p.system-message-title {
+  font-weight: bold;
+}
+p.sidebar-title,
+p.rubric {
+  font-weight: bold;
+  font-size: larger;
+}
+p.rubric {
+  color: maroon;
+}
+p.subtitle,
+p.section-subtitle,
+p.sidebar-subtitle {
+  font-weight: bold;
+  margin-top: -0.5em;
+}
+h1 + p.subtitle {
+  font-size: 1.6em;
+}
+a.toc-backref {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Warnings, Errors */
+.system-messages h2,
+.system-message-title,
+pre.problematic,
+span.problematic {
+  color: red;
+}
+
+/* Inline Literals */
+.docutils.literal {
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+/* do not wrap at hyphens and similar: */
+.literal > span.pre { white-space: nowrap; }
+
+/* keep line-breaks (\n) visible */
+.pre-wrap { white-space: pre-wrap; }
+
+/* Lists */
+
+/* compact and simple lists: no margin between items */
+.simple  li, .simple  ul, .simple  ol, .simple  > li p,
+.compact li, .compact ul, .compact ol, .compact > li p,
+dl.simple  > dd, dl.compact > dd, dl.docinfo > dd {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Nested Paragraphs */
+p:first-child { margin-top: 0; }
+p:last-child { margin-bottom: 0; }
+details > p:last-child { margin-bottom: 1em; }
+
+/* Table of Contents */
+.contents ul.auto-toc { /* section numbers present */
+  list-style-type: none;
+}
+
+/* Enumerated Lists */
+ol.arabic     { list-style: decimal }
+ol.loweralpha { list-style: lower-alpha }
+ol.upperalpha { list-style: upper-alpha }
+ol.lowerroman { list-style: lower-roman }
+ol.upperroman { list-style: upper-roman }
+
+/* Definition Lists and Derivatives */
+dt .classifier { font-style: italic }
+dt .classifier:before {
+  font-style: normal;
+  margin: 0.5em;
+  content: ":";
+}
+/* Field Lists and similar */
+/* bold field name, content starts on the same line */
+dl.field-list,
+dl.option-list,
+dl.docinfo {
+  display: flow-root;
+}
+dl.field-list > dt,
+dl.option-list > dt,
+dl.docinfo > dt {
+  font-weight: bold;
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.25em;
+}
+/* Offset for field content (corresponds to the --field-name-limit option) */
+dl.field-list > dd,
+dl.option-list > dd,
+dl.docinfo > dd {
+  margin-left:  9em; /* ca. 14 chars in the test examples, fit all Docinfo fields */
+}
+/* start nested lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+/* start field-body on a new line after long field names */
+dl.field-list > dd > *:first-child,
+dl.option-list > dd > *:first-child
+{
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+}
+
+/* Bibliographic Fields (docinfo) */
+dl.docinfo pre.address {
+  font: inherit;
+  margin: 0;
+}
+dl.docinfo > dd.authors > p { margin: 0; }
+
+/* Option Lists */
+dl.option-list > dt { font-weight: normal; }
+span.option { white-space: nowrap; }
+
+/* Footnotes and Citations  */
+
+.footnote, .citation { margin: 1em 0; } /* default paragraph skip (Firefox) */
+/* hanging indent */
+.citation { padding-left: 2em; }
+.footnote { padding-left: 1.7em; }
+.footnote.superscript { padding-left: 1.0em; }
+.citation > .label { margin-left: -2em; }
+.footnote > .label { margin-left: -1.7em; }
+.footnote.superscript > .label { margin-left: -1.0em; }
+
+.footnote > .label + *,
+.citation > .label + * {
+  display: inline-block;
+  margin-top: 0;
+  vertical-align: top;
+}
+.footnote > .backrefs + *,
+.citation > .backrefs + * {
+  margin-top: 0;
+}
+.footnote > .label + p, .footnote > .backrefs + p,
+.citation > .label + p, .citation > .backrefs + p {
+  display: inline;
+  vertical-align: inherit;
+}
+
+.backrefs { user-select: none; }
+.backrefs > a { font-style: italic; }
+
+/* superscript footnotes */
+a[role="doc-noteref"].superscript,
+.footnote.superscript > .label,
+.footnote.superscript > .backrefs {
+  vertical-align: super;
+  font-size: smaller;
+  line-height: 1;
+}
+a[role="doc-noteref"].superscript > .fn-bracket,
+.footnote.superscript > .label > .fn-bracket {
+  /* hide brackets in display but leave for copy/paste */
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+}
+[role="doc-noteref"].superscript + [role="doc-noteref"].superscript {
+  padding-left: 0.15em; /* separate consecutive footnote references */
+  /* TODO: unfortunately, "+" also selects with text between the references. */
+}
+
+/* Alignment */
+.align-left   {
+  text-align: left;
+  margin-right: auto;
+}
+.align-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.align-right  {
+  text-align: right;
+  margin-left: auto;
+}
+.align-top    { vertical-align: top; }
+.align-middle { vertical-align: middle; }
+.align-bottom { vertical-align: bottom; }
+
+/* reset inner alignment in figures and tables */
+figure.align-left, figure.align-right,
+table.align-left, table.align-center, table.align-right {
+  text-align: inherit;
+}
+
+/* Text Blocks */
+.topic { margin: 1em 2em; }
+.sidebar,
+.admonition,
+.system-message {
+  margin: 1em 2em;
+  border: thin solid;
+  padding: 0.5em 1em;
+}
+div.line-block { display: block; }
+div.line-block div.line-block, pre { margin-left: 2em; }
+
+/* Code line numbers: don't copy with drag-and-drop */
+pre.code .ln { display: none; }
+pre.code code:before {
+  content: attr(data-lineno);
+  font-size: small;
+  color: gray;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+}
+td, th {
+  border: thin solid silver;
+  padding: 0 1ex;
+}
+.borderless td, .borderless th {
+  border: 0;
+  padding: 0;
+  padding-right: 0.5em /* separate table cells */
+}
+
+table > caption, figcaption {
+  text-align: left;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+table.captionbelow {
+  caption-side: bottom;
+}
+
+/* MathML (see "math.css" for --math-output=HTML) */
+math .boldsymbol { font-weight: bold; }
+math.boxed, math .boxed {padding: 0.25em; border: thin solid; }
+/* style table similar to AMS "align" or "aligned" environment: */
+mtable.cases > mtr > mtd { text-align: left; }
+mtable.ams-align > mtr > mtd { padding-left: 0; padding-right: 0; }
+mtable.ams-align > mtr > mtd:nth-child(2n) { text-align: left; }
+mtable.ams-align > mtr > mtd:nth-child(2n+1) { text-align: right; }
+mtable.ams-align > mtr > mtd:nth-child(2n+3) { padding-left: 2em; }
+.mathscr mi, mi.mathscr {
+  font-family: STIX, XITSMathJax_Script, rsfs10,
+               "Asana Math", Garamond, cursive;
+}
+
+/* Document Header and Footer */
+header { border-bottom: 1px solid black; }
+footer { border-top: 1px solid black; }
+
+/* Images are block-level by default in Docutils */
+/* New HTML5 block elements: set display for older browsers */
+img, svg, header, footer, main, aside, nav, section, figure, video, details {
+  display: block;
+}
+svg { width: auto; height: auto; }  /* enable scaling of SVG images */
+/* inline images */
+
+p img, p svg, p video,
+h1 img, h2 img, h3 img, h4 img, h5 img, h6 img,
+h1 svg, h2 svg, h3 svg, h4 svg, h5 svg, h6 svg {
+  display: inline;
+}
+
+</style>
+<style type="text/css">
+
+/* CSS31_ style sheet for the output of Docutils HTML writers.             */
+/* Rules for easy reading and pre-defined style variants.                  */
+/*                                                                         */
+/* :Author: Günter Milde, based on html4css1.css by David Goodger          */
+/* :Id: $Id: plain.css 10079 2025-04-10 12:01:48Z milde $                                                               */
+/* :Copyright: © 2015 Günter Milde.                                        */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+/* .. _CSS3: https://www.w3.org/Style/CSS/                                 */
+
+
+/* Document Structure */
+/* ****************** */
+
+/* "page layout" */
+body {
+  margin: 0;
+  background-color: #dbdbdb;
+  --field-indent: 9em; /* default indent of fields in field lists */
+}
+main, footer, header {
+  line-height:1.6;
+  /* avoid long lines --> better reading */
+  /* optimum is 45…75 characters/line <http://webtypography.net/2.1.2> */
+  /* OTOH: lines should not be too short because of missing hyphenation, */
+  max-width: 50rem;
+  padding: 1px 2%; /* 1px on top avoids grey bar above title (mozilla) */
+  margin: auto;
+}
+main {
+  counter-reset: table figure;
+  background-color: white;
+}
+footer, header {
+  font-size: smaller;
+  padding: 0.5em 2%;
+  border: none;
+}
+
+/* Table of Contents */
+ul.auto-toc > li > p {
+  padding-left: 1em;
+  text-indent: -1em;
+}
+nav.contents ul {
+  padding-left: 1em;
+}
+main > nav.contents ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B29\ ';
+}
+main > nav.contents ul ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B1D\ ';
+}
+
+/* Transitions */
+hr.docutils {
+  width: 80%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  clear: both;
+}
+
+/* Paragraphs */
+
+/* vertical space (parskip) */
+p, ol, ul, dl, li,
+.footnote, .citation,
+div > math,
+table {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+h1, h2, h3, h4, h5, h6,
+dd, details > p:last-child {
+  margin-bottom: 0.5em;
+}
+
+/* Lists */
+/* ===== */
+
+/* Definition Lists */
+/* Indent lists nested in definition lists */
+dd > ul:only-child, dd > ol:only-child { padding-left: 1em; }
+
+/* Description Lists */
+/* styled like in most dictionaries, encyclopedias etc. */
+dl.description {
+  display: flow-root;
+}
+dl.description > dt {
+  font-weight: bold;
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.3em;
+}
+dl.description > dd:after {
+  display: table;
+  content: "";
+  clear: left; /* clearfix for empty descriptions */
+}
+
+/* Field Lists */
+
+dl.field-list > dd,
+dl.docinfo > dd {
+  margin-left: var(--field-indent); /* adapted in media queries or HTML */
+}
+
+/* example for custom field-name width */
+dl.field-list.narrow > dd {
+  --field-indent: 5em;
+}
+/* run-in: start field-body on same line after long field names */
+dl.field-list.run-in > dd p {
+  display: block;
+}
+
+/* Bibliographic Fields */
+
+/* generally, bibliographic fields use dl.docinfo */
+/* but dedication and abstract are placed into divs */
+div.abstract p.topic-title {
+  text-align: center;
+}
+div.dedication {
+  margin: 2em 5em;
+  text-align: center;
+  font-style: italic;
+}
+div.dedication p.topic-title {
+  font-style: normal;
+}
+
+/* disclosures */
+details { padding-left: 1em; }
+summary { margin-left: -1em; }
+
+/* Text Blocks */
+/* =========== */
+
+/* Literal Blocks */
+pre.literal-block, pre.doctest-block,
+pre.math, pre.code {
+  font-family: monospace;
+}
+
+/* Block Quotes and Topics */
+bockquote { margin: 1em 2em; }
+blockquote p.attribution {
+  text-align: right;
+  margin-left: 20%;
+}
+
+/* Tables */
+/* ====== */
+
+/* th { vertical-align: bottom; } */
+
+table tr { text-align: left; }
+
+/* "booktabs" style (no vertical lines) */
+table.booktabs {
+  border: 0;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.booktabs * {
+  border: 0;
+}
+table.booktabs th {
+  border-bottom: thin solid;
+}
+
+/* numbered tables (counter defined in div.document) */
+table.numbered > caption:before {
+  counter-increment: table;
+  content: "Table " counter(table) ": ";
+  font-weight: bold;
+}
+
+/* Explicit Markup Blocks */
+/* ====================== */
+
+/* Footnotes and Citations */
+/* ----------------------- */
+
+/* line on the left */
+.footnote-list {
+  border-left: solid thin;
+  padding-left: 0.25em;
+}
+
+/* Directives */
+/* ---------- */
+
+/* Body Elements */
+/* ~~~~~~~~~~~~~ */
+
+/* Images and Figures */
+
+/* let content flow to the side of aligned images and figures */
+figure.align-left,
+img.align-left,
+svg.align-left,
+video.align-left,
+div.align-left,
+object.align-left {
+  clear: left;
+  float: left;
+  margin-right: 1em;
+}
+figure.align-right,
+img.align-right,
+svg.align-right,
+video.align-right,
+div.align-right,
+object.align-right {
+  clear: right;
+  float: right;
+  margin-left: 1em;
+}
+/* Stop floating sidebars, images and figures */
+h1, h2, h3, h4, footer, header { clear: both; }
+
+/* Numbered figures */
+figure.numbered > figcaption > p:before {
+  counter-increment: figure;
+  content: "Figure " counter(figure) ": ";
+  font-weight: bold;
+}
+
+/* Admonitions and System Messages */
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.error p.admonition-title,
+.warning p.admonition-title,
+div.error {
+  color: red;
+}
+
+/* Sidebar */
+/* Move right. In a layout with fixed margins, */
+/* it can be moved into the margin.            */
+aside.sidebar {
+  width: 30%;
+  max-width: 26em;
+  float: right;
+  clear: right;
+  margin-left: 1em;
+  margin-right: -1%;
+  background-color: #fffffa;
+}
+
+
+/* Code */
+pre.code { padding: 0.7ex }
+pre.code, code { background-color: #eeeeee }
+/* basic highlighting: for a complete scheme, see */
+/* https://docutils.sourceforge.io/sandbox/stylesheets/ */
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+
+/* Epigraph           */
+/* Highlights         */
+/* Pull-Quote         */
+/* Compound Paragraph */
+/* Container          */
+
+/* Inline Markup */
+/* ============= */
+
+sup, sub { line-height: 0.8; } /* do not add leading for lines with sup/sub */
+
+/* Inline Literals                                          */
+/* possible values: normal, nowrap, pre, pre-wrap, pre-line */
+/*   span.docutils.literal { white-space: pre-wrap; }       */
+
+/* Hyperlink References */
+a { text-decoration: none; }
+
+/* External Targets       */
+/*   span.target.external */
+/* Internal Targets       */
+/*   span.target.internal */
+/* Footnote References    */
+/*   a[role="doc-noteref"] */
+/* Citation References    */
+/*   a.citation-reference */
+
+</style>
+</head>
+<body class="with-toc">
+<main id="dual-depreciation-danove-vs-ucetni-uctovne-odpisy-accounting-cheat-sheet">
+<h1 class="title">Dual Depreciation (danove vs ucetni/uctovne odpisy) - Accounting Cheat Sheet</h1>
+
+<p>This cheat sheet shows, group by group and method by method, how the
+<span class="docutils literal">account_asset_tax</span> engine lays out the <strong>tax-depreciation</strong> plan (danove
+odpisy) that runs <em>in parallel</em> with the ordinary <strong>accounting-depreciation</strong>
+plan (ucetni / uctovne odpisy) on Czech and Slovak assets. It mirrors the style
+of the <em>Method A</em> and <em>Advance Invoice</em> cheat sheets in this repository.</p>
+<p>Every worked example below is also encoded as an automated test
+(<span class="docutils literal">account_asset_tax/tests/test_engine.py</span>), so the documentation and the
+software cannot drift apart.</p>
+<nav class="contents local" id="contents" role="doc-toc">
+<ul class="simple">
+<li><p><a class="reference internal" href="#what-dual-depreciation-means" id="toc-entry-1">What &quot;dual depreciation&quot; means</a></p></li>
+<li><p><a class="reference internal" href="#the-two-boards-side-by-side" id="toc-entry-2">The two boards side by side</a></p></li>
+<li><p><a class="reference internal" href="#depreciation-groups" id="toc-entry-3">Depreciation groups</a></p>
+<ul>
+<li><p><a class="reference internal" href="#czech-republic-zakon-586-1992-sb-ss-30-1" id="toc-entry-4">Czech Republic - zakon 586/1992 Sb. SS 30(1)</a></p></li>
+<li><p><a class="reference internal" href="#slovakia-zakon-595-2003-z-z-ss-26-1" id="toc-entry-5">Slovakia - zakon 595/2003 Z.z. SS 26(1)</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#method-walk-throughs" id="toc-entry-6">Method walk-throughs</a></p>
+<ul>
+<li><p><a class="reference internal" href="#cz-straight-line-ss-31-full-first-year-no-proration" id="toc-entry-7">CZ straight-line (SS 31) - full first year, no proration</a></p></li>
+<li><p><a class="reference internal" href="#cz-accelerated-ss-32" id="toc-entry-8">CZ accelerated (SS 32)</a></p></li>
+<li><p><a class="reference internal" href="#cz-extraordinary-ss-30a-emission-free-vehicles" id="toc-entry-9">CZ extraordinary (SS 30a) - emission-free vehicles</a></p></li>
+<li><p><a class="reference internal" href="#sk-straight-line-ss-27-monthly-proration-remainder" id="toc-entry-10">SK straight-line (SS 27) - monthly proration + remainder</a></p></li>
+<li><p><a class="reference internal" href="#sk-accelerated-ss-28-the-as-if-full-year-trap" id="toc-entry-11">SK accelerated (SS 28) - the &quot;as-if full year&quot; trap</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#lifecycle-events" id="toc-entry-12">Lifecycle events</a></p></li>
+<li><p><a class="reference internal" href="#component-depreciation" id="toc-entry-13">Component depreciation</a></p></li>
+<li><p><a class="reference internal" href="#year-end-reconciliation-dppo" id="toc-entry-14">Year-end reconciliation (DPPO)</a></p></li>
+<li><p><a class="reference internal" href="#the-odoo-model-map" id="toc-entry-15">The Odoo model map</a></p></li>
+<li><p><a class="reference internal" href="#configuration" id="toc-entry-16">Configuration</a></p></li>
+<li><p><a class="reference internal" href="#sources" id="toc-entry-17">Sources</a></p></li>
+</ul>
+</nav>
+<section id="what-dual-depreciation-means">
+<h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink">What &quot;dual depreciation&quot; means</a></h2>
+<p>Czech and Slovak income-tax law makes every depreciable asset carry <strong>two</strong>
+independent depreciation plans that almost never coincide:</p>
+<table>
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 40.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr><th class="head"><p>Plan</p></th>
+<th class="head"><p>Accounting depreciation (ucetni / uctovne)</p></th>
+<th class="head"><p>Tax depreciation (danove)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p>Governed by</p></td>
+<td><p>Accounting act (CZ 563/1991 Sb. / SK 431/2002 Z.z.) + the company's own
+depreciation policy</p></td>
+<td><p>Income-tax act (CZ 586/1992 Sb. / SK 595/2003 Z.z.)</p></td>
+</tr>
+<tr><td><p>Useful life</p></td>
+<td><p>Management estimate of real wear</p></td>
+<td><p>Fixed by the statutory group (odpisova skupina)</p></td>
+</tr>
+<tr><td><p>Posted to the GL?</p></td>
+<td><p><strong>Yes</strong> - monthly to account 551</p></td>
+<td><p><strong>No</strong> - it is a tax-base figure only</p></td>
+</tr>
+<tr><td><p>Can be suspended?</p></td>
+<td><p>No</p></td>
+<td><p>Yes (CZ shifts the calendar; SK extends the life)</p></td>
+</tr>
+<tr><td><p>Where it surfaces</p></td>
+<td><p>Profit &amp; loss, balance sheet</p></td>
+<td><p>Corporate income-tax return (DPPO) as an adjustment</p></td>
+</tr>
+</tbody>
+</table>
+<p>Because only the accounting plan hits the ledger, this module keeps the tax plan
+as a <strong>non-posted board</strong> (<span class="docutils literal">account.asset.tax.line</span> records). The difference
+between the two plans is what the year-end tax return reconciles.</p>
+</section>
+<section id="the-two-boards-side-by-side">
+<h2><a class="toc-backref" href="#toc-entry-2" role="doc-backlink">The two boards side by side</a></h2>
+<p>A machine bought for 100 000 (CZ group 2, 5-year tax life), depreciated for
+accounting over 8 years straight-line, in service in March 2026:</p>
+<pre class="literal-block">Year   Accounting (posted 551)   Tax (not posted)   Difference   DPPO line
+2026         12 500                 11 000             +1 500       150 (add-back)
+2027         12 500                 22 250             -9 750       250 (deduction)
+2028         12 500                 22 250             -9 750       250
+2029         12 500                 22 250             -9 750       250
+2030         12 500                 22 250             -9 750       250
+2031         12 500                  0                +12 500       150
+2032         12 500                  0                +12 500       150
+2033         12 500                  0                +12 500       150
+----------------------------------------------------------------------
+total       100 000                100 000               0</pre>
+<ul class="simple">
+<li><p><strong>Accounting &gt; Tax</strong> in a year -&gt; the excess is a <strong>non-deductible add-back</strong>
+(CZ DPPO radek 50; SK DPPO <strong>line 150</strong>).</p></li>
+<li><p><strong>Tax &gt; Accounting</strong> in a year -&gt; the excess is an extra <strong>deduction</strong>
+(SK DPPO <strong>line 250</strong>).</p></li>
+<li><p>Over the whole life the two columns sum to the same base, so the timing
+difference reverses to zero (the source of <em>deferred tax</em> for audited
+entities).</p></li>
+</ul>
+</section>
+<section id="depreciation-groups">
+<h2><a class="toc-backref" href="#toc-entry-3" role="doc-backlink">Depreciation groups</a></h2>
+<section id="czech-republic-zakon-586-1992-sb-ss-30-1">
+<h3><a class="toc-backref" href="#toc-entry-4" role="doc-backlink">Czech Republic - zakon 586/1992 Sb. SS 30(1)</a></h3>
+<table>
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 14.0%" />
+<col style="width: 38.0%" />
+<col style="width: 19.0%" />
+<col style="width: 19.0%" />
+</colgroup>
+<thead>
+<tr><th class="head"><p>Group</p></th>
+<th class="head"><p>Tax life</p></th>
+<th class="head"><p>Examples</p></th>
+<th class="head"><p>Linear SS 31 (1st / next / increased)</p></th>
+<th class="head"><p>Accelerated SS 32 (k1 / kn / k-incr.)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p>1</p></td>
+<td><p>3 y</p></td>
+<td><p>tools, computers</p></td>
+<td><p>20 / 40 / 33.3 %</p></td>
+<td><p>3 / 4 / 3</p></td>
+</tr>
+<tr><td><p>2</p></td>
+<td><p>5 y</p></td>
+<td><p>machines, cars</p></td>
+<td><p>11 / 22.25 / 20 %</p></td>
+<td><p>5 / 6 / 5</p></td>
+</tr>
+<tr><td><p>3</p></td>
+<td><p>10 y</p></td>
+<td><p>furnaces, large machinery</p></td>
+<td><p>5.5 / 10.5 / 10 %</p></td>
+<td><p>10 / 11 / 10</p></td>
+</tr>
+<tr><td><p>4</p></td>
+<td><p>20 y</p></td>
+<td><p>towers, pipelines</p></td>
+<td><p>2.15 / 5.15 / 5.0 %</p></td>
+<td><p>20 / 21 / 20</p></td>
+</tr>
+<tr><td><p>5</p></td>
+<td><p>30 y</p></td>
+<td><p>buildings, halls</p></td>
+<td><p>1.4 / 3.4 / 3.4 %</p></td>
+<td><p>30 / 31 / 30</p></td>
+</tr>
+<tr><td><p>6</p></td>
+<td><p>50 y</p></td>
+<td><p>hotels, admin buildings</p></td>
+<td><p>1.02 / 2.02 / 2.0 %</p></td>
+<td><p>50 / 51 / 50</p></td>
+</tr>
+</tbody>
+</table>
+<p>The method (linear vs accelerated) is chosen <strong>per asset and cannot change</strong> for
+its whole life (SS 30(2)).</p>
+</section>
+<section id="slovakia-zakon-595-2003-z-z-ss-26-1">
+<h3><a class="toc-backref" href="#toc-entry-5" role="doc-backlink">Slovakia - zakon 595/2003 Z.z. SS 26(1)</a></h3>
+<table>
+<colgroup>
+<col style="width: 10.0%" />
+<col style="width: 14.0%" />
+<col style="width: 46.0%" />
+<col style="width: 30.0%" />
+</colgroup>
+<thead>
+<tr><th class="head"><p>Group</p></th>
+<th class="head"><p>Tax life</p></th>
+<th class="head"><p>Examples</p></th>
+<th class="head"><p>Accelerated SS 28 (k1 / kn / k-incr.)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p>0</p></td>
+<td><p>2 y</p></td>
+<td><p>electric vehicles, e-bikes/e-scooters (from 2025)</p></td>
+<td><ul class="simple">
+<li><p>(linear only)</p></li>
+</ul>
+</td>
+</tr>
+<tr><td><p>1</p></td>
+<td><p>4 y</p></td>
+<td><p>cars, notebooks, phones</p></td>
+<td><ul class="simple">
+<li><p>(linear only)</p></li>
+</ul>
+</td>
+</tr>
+<tr><td><p>2</p></td>
+<td><p>6 y</p></td>
+<td><p>machines, furniture</p></td>
+<td><p>6 / 7 / 6</p></td>
+</tr>
+<tr><td><p>3</p></td>
+<td><p>8 y</p></td>
+<td><p>furnaces, generators</p></td>
+<td><p>8 / 9 / 8</p></td>
+</tr>
+<tr><td><p>4</p></td>
+<td><p>12 y</p></td>
+<td><p>boilers, ships, aircraft</p></td>
+<td><ul class="simple">
+<li><p>(linear only)</p></li>
+</ul>
+</td>
+</tr>
+<tr><td><p>5</p></td>
+<td><p>20 y</p></td>
+<td><p>industrial buildings</p></td>
+<td><ul class="simple">
+<li><p>(linear only)</p></li>
+</ul>
+</td>
+</tr>
+<tr><td><p>6</p></td>
+<td><p>40 y</p></td>
+<td><p>hotels, admin buildings</p></td>
+<td><ul class="simple">
+<li><p>(linear only)</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Slovak linear rate is simply <span class="docutils literal">entry price / life</span> (no rate table). The
+accelerated method is <strong>only</strong> available for groups 2 and 3 (since 1.1.2015).</p>
+</section>
+</section>
+<section id="method-walk-throughs">
+<h2><a class="toc-backref" href="#toc-entry-6" role="doc-backlink">Method walk-throughs</a></h2>
+<section id="cz-straight-line-ss-31-full-first-year-no-proration">
+<h3><a class="toc-backref" href="#toc-entry-7" role="doc-backlink">CZ straight-line (SS 31) - full first year, no proration</a></h3>
+<p><em>Golden test:</em> <span class="docutils literal">test_cz_linear_full_first_year_no_proration</span>.</p>
+<p>Group 2 machine, base 100 000, in service <strong>March</strong> 2026. The first year still
+gets the <strong>full</strong> table rate - CZ bakes the &quot;half&quot; into the lower first-year
+rate, so the in-service month is irrelevant:</p>
+<pre class="literal-block">Y1  100000 * 11%    = 11 000     residual 89 000
+Y2  100000 * 22.25% = 22 250     residual 66 750
+Y3  100000 * 22.25% = 22 250     residual 44 500
+Y4  100000 * 22.25% = 22 250     residual 22 250
+Y5  100000 * 22.25% = 22 250     residual      0</pre>
+<p>A <strong>first depreciator</strong> of a group 1-3 asset may elect an increased first-year
+rate (SS 31(1) b/c/d, +10/+15/+20 %). For group 2 the first-year/next rates
+become 21/19.75 (+10 %), 26/18.5 (+15 %) or 31/17.25 (+20 %); each table still
+sums to 100 %. Set it via <em>Increased First-Year Rate</em> on the asset.</p>
+</section>
+<section id="cz-accelerated-ss-32">
+<h3><a class="toc-backref" href="#toc-entry-8" role="doc-backlink">CZ accelerated (SS 32)</a></h3>
+<p><em>Golden test:</em> <span class="docutils literal">test_cz_accelerated_known_series</span>.</p>
+<p>Same machine, accelerated. Year 1 = base / k1; later years =
+<span class="docutils literal">2 * residual / (kn - years_done)</span>:</p>
+<pre class="literal-block">Y1  100000 / 5                 = 20 000   residual 80 000
+Y2  2 * 80000 / (6 - 1)        = 32 000   residual 48 000
+Y3  2 * 48000 / (6 - 2)        = 24 000   residual 24 000
+Y4  2 * 24000 / (6 - 3)        = 16 000   residual  8 000
+Y5  2 *  8000 / (6 - 4)        =  8 000   residual      0</pre>
+</section>
+<section id="cz-extraordinary-ss-30a-emission-free-vehicles">
+<h3><a class="toc-backref" href="#toc-entry-9" role="doc-backlink">CZ extraordinary (SS 30a) - emission-free vehicles</a></h3>
+<p><em>Golden test:</em> <span class="docutils literal">test_cz_extraordinary_60_40_split</span>.</p>
+<p>Only zero-emission vehicles acquired 1.1.2024 - 31.12.2028, by the first
+depreciator. 100 % over <strong>24 months</strong>, computed monthly starting the month after
+the asset is put into use: 60 % spread over months 1-12, 40 % over months 13-24.
+For a 600 000 EV in service March 2026 -&gt; 30 000/month Apr 2026-Mar 2027, then
+20 000/month Apr 2027-Mar 2028.</p>
+</section>
+<section id="sk-straight-line-ss-27-monthly-proration-remainder">
+<h3><a class="toc-backref" href="#toc-entry-10" role="doc-backlink">SK straight-line (SS 27) - monthly proration + remainder</a></h3>
+<p><em>Golden tests:</em> <span class="docutils literal">test_sk_linear_monthly_proration_and_remainder</span>,
+<span class="docutils literal">test_sk_linear_january_no_remainder</span>.</p>
+<p>Slovakia prorates the first year by <strong>whole months</strong> from the in-service month
+to year end; the unclaimed slice is deducted in the year <strong>after</strong> the end of
+the life. Group 1 car, base 12 000 (annual 3 000), in service <strong>March</strong> (10
+months):</p>
+<pre class="literal-block">Y1 (2026)  3000 * 10/12 = 2 500   residual 9 500   &lt;- prorated
+Y2 (2027)  3000          = 3 000   residual 6 500
+Y3 (2028)  3000          = 3 000   residual 3 500
+Y4 (2029)  3000          = 3 000   residual   500
+Y5 (2030)    500 (remainder)        residual     0   &lt;- life + 1</pre>
+<p>If the same asset is put into use in <strong>January</strong>, year 1 is the full 3 000 and
+there is no remainder line (life = 4 years exactly).</p>
+</section>
+<section id="sk-accelerated-ss-28-the-as-if-full-year-trap">
+<h3><a class="toc-backref" href="#toc-entry-11" role="doc-backlink">SK accelerated (SS 28) - the &quot;as-if full year&quot; trap</a></h3>
+<p><em>Golden test:</em> <span class="docutils literal">test_sk_accelerated_uses_full_first_year_residual</span>.</p>
+<p>The actual first-year charge is prorated, <strong>but</strong> the residual that feeds the
+year-2 formula is computed as if the <em>full</em> first-year charge had been taken
+(SS 28(2)). Group 2 machine, base 60 000, in service March (10 months):</p>
+<pre class="literal-block">full Y1 = 60000 / 6 = 10 000   (used only to build the residual)
+Y1 actual = 10000 * 10/12      =  8 333.33
+Y2 = 2 * (60000 - 10000)/(7-1) = 16 666.67   &lt;- 50000, not 51666.67
+Y3 = 2 * 35000 / (7 - 2)       = 13 333.33
+Y4 = 2 * 21666.67 / (7 - 3)    = 10 000.00
+Y5 = 2 * 11666.67 / (7 - 4)    =  6 666.67
+Y6 = 2 *  5000 / (7 - 5)       =  3 333.33
+Y7  remainder                  =  1 666.67   &lt;- life + 1</pre>
+</section>
+</section>
+<section id="lifecycle-events">
+<h2><a class="toc-backref" href="#toc-entry-12" role="doc-backlink">Lifecycle events</a></h2>
+<table>
+<colgroup>
+<col style="width: 22.0%" />
+<col style="width: 39.0%" />
+<col style="width: 39.0%" />
+</colgroup>
+<thead>
+<tr><th class="head"><p>Event</p></th>
+<th class="head"><p>Czech Republic</p></th>
+<th class="head"><p>Slovakia</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p>Technical improvement</p></td>
+<td><p>Threshold <strong>80 000 CZK</strong> / asset / year (SS 33). Raises the entry price;
+linear then uses the <em>increased-price</em> rate, accelerated the
+<em>increased-residual</em> coefficient.</p></td>
+<td><p>Threshold <strong>1 700 EUR</strong> / asset / year (SS 29). Raises the residual;
+accelerated recomputes from the increased residual (SS 28(3)).</p></td>
+</tr>
+<tr><td><p>Suspension</p></td>
+<td><p>Voluntary (SS 26(8)); the calendar simply <strong>shifts</strong> - the life is not
+extended.</p></td>
+<td><p>Whole tax periods only (SS 22(9)); the total life is <strong>extended</strong> by the
+interruption. Mandatory when the asset is not used for taxable income.</p></td>
+</tr>
+<tr><td><p>Disposal</p></td>
+<td><p>Only <strong>half</strong> the annual charge in the year of disposal (SS 26(7)).</p></td>
+<td><p>Pro-rata to the month of disposal; remaining tax residual is handled per
+the disposal reason.</p></td>
+</tr>
+<tr><td><p>Method change</p></td>
+<td><p>Forbidden for the asset's whole life (SS 30(2)).</p></td>
+<td><p>Forbidden (SS 26(3)); accelerated only ever for groups 2 &amp; 3.</p></td>
+</tr>
+</tbody>
+</table>
+<p>These events re-invoke the engine from the event date with an adjusted base /
+residual; filed (closed) years are frozen and never recomputed.</p>
+</section>
+<section id="component-depreciation">
+<h2><a class="toc-backref" href="#toc-entry-13" role="doc-backlink">Component depreciation</a></h2>
+<p>Component depreciation (komponentní / komponentné odpisovanie) — splitting a
+building into separately-depreciated components — is an <strong>accounting</strong> method
+(ČÚS / SK postupy). For <strong>tax</strong> purposes the asset stays whole: one tax board on
+the building as a single entry. So nothing special is needed here — model the
+components as the host framework's accounting assets, and keep <strong>one tax asset</strong>
+for the whole building. The larger accounting-vs-tax gap that component
+depreciation creates simply flows through the reconciliation below.</p>
+</section>
+<section id="year-end-reconciliation-dppo">
+<h2><a class="toc-backref" href="#toc-entry-14" role="doc-backlink">Year-end reconciliation (DPPO)</a></h2>
+<p>For each fiscal year the accountant compares the posted <strong>accounting</strong>
+depreciation with the <strong>tax</strong> board:</p>
+<ul class="simple">
+<li><p>SK DPPO <strong>Table B</strong> lists the annual tax depreciation per asset.</p></li>
+<li><p><span class="docutils literal">sum(accounting) - sum(tax)</span> for the year:</p>
+<ul>
+<li><p>positive -&gt; <strong>add-back</strong> (SK line 150 / CZ radek 50)</p></li>
+<li><p>negative -&gt; <strong>deduction</strong> (SK line 250)</p></li>
+</ul>
+</li>
+</ul>
+<p>The bridge module exposes this comparison (it needs the accounting board, which
+is edition-specific); the core keeps only the tax side.</p>
+</section>
+<section id="the-odoo-model-map">
+<h2><a class="toc-backref" href="#toc-entry-15" role="doc-backlink">The Odoo model map</a></h2>
+<table>
+<colgroup>
+<col style="width: 34.0%" />
+<col style="width: 22.0%" />
+<col style="width: 44.0%" />
+</colgroup>
+<thead>
+<tr><th class="head"><p>Model / field</p></th>
+<th class="head"><p>Module</p></th>
+<th class="head"><p>Role</p></th>
+</tr>
+</thead>
+<tbody>
+<tr><td><p><span class="docutils literal">account.asset.tax.class</span></p></td>
+<td><p>core</p></td>
+<td><p>One statutory group (code, life, rates, coefficients, allowed methods)</p></td>
+</tr>
+<tr><td><p><span class="docutils literal">account.asset.tax.line</span></p></td>
+<td><p>core</p></td>
+<td><p>One year (or SS 30a month) of the <strong>non-posted</strong> tax board</p></td>
+</tr>
+<tr><td><p><span class="docutils literal">account.asset.tax.mixin</span></p></td>
+<td><p>core</p></td>
+<td><p>Tax fields + the engine orchestration, mixed into <span class="docutils literal">account.asset</span></p></td>
+</tr>
+<tr><td><p><span class="docutils literal">engine.depreciation</span></p></td>
+<td><p>core</p></td>
+<td><p>Pure-Python calculator (no ORM) - all statutory maths lives here</p></td>
+</tr>
+<tr><td><p><span class="docutils literal">asset_id</span> on the tax line, <span class="docutils literal">tax_line_ids</span> O2m</p></td>
+<td><p>bridge</p></td>
+<td><p>The asset &lt;-&gt; tax-line relation (kept out of core so it fits both editions)</p></td>
+</tr>
+<tr><td><p><span class="docutils literal">_tax_get_entry_value</span> / <span class="docutils literal">_tax_get_in_service_date</span></p></td>
+<td><p>bridge</p></td>
+<td><p>Read the base &amp; start date from the EE or OCA asset fields</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="configuration">
+<h2><a class="toc-backref" href="#toc-entry-16" role="doc-backlink">Configuration</a></h2>
+<ol class="arabic simple">
+<li><p>Install the <strong>core</strong> <span class="docutils literal">account_asset_tax</span> plus the matching <strong>bridge</strong>:</p>
+<ul class="simple">
+<li><p>Enterprise (<span class="docutils literal">account_asset</span>) -&gt; <span class="docutils literal">account_asset_tax_ee</span></p></li>
+<li><p>Community + OCA (<span class="docutils literal">account_asset_management</span>) -&gt; <span class="docutils literal">account_asset_tax_oca</span></p></li>
+</ul>
+</li>
+<li><p>Install the <strong>country data</strong> layer: <span class="docutils literal">l10n_cz_account_asset_tax</span> and/or
+<span class="docutils literal">l10n_sk_account_asset_tax</span> (loads the groups &amp; coefficients).</p></li>
+<li><p>On an asset, open the <strong>Tax Depreciation</strong> page, tick <em>Track Tax
+Depreciation</em>, pick the <strong>group</strong> and <strong>method</strong>, confirm the <strong>tax entry
+value</strong>, and press <strong>Compute Tax Board</strong>.</p></li>
+</ol>
+</section>
+<section id="sources">
+<h2><a class="toc-backref" href="#toc-entry-17" role="doc-backlink">Sources</a></h2>
+<ul class="simple">
+<li><p>CZ - zakon 586/1992 Sb., consolidated text valid 01.04.2026-31.12.2026
+(zakonyprolidi.cz, verze 156); SS 30, 30a, 31, 32, 33.</p></li>
+<li><p>SK - zakon 595/2003 Z.z., consolidated text valid from 01.01.2026
+(slov-lex.sk); SS 22, 26, 27, 28, 29; Financna sprava FAQ on rovnomerne /
+zrychlene odpisovanie.</p></li>
+<li><p>Software reference model: KROS Omega asset card (two plans; tax plan feeds
+DPPO Table B + lines 150/250).</p></li>
+</ul>
+</section>
+</main>
+</body>
+</html>

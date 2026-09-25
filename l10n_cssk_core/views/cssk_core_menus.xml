@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Dedicated parent grouping all statutory reports under Accounting ▸
+         Reporting, so they don't intermix with the built-in (Enterprise)
+         account reports. Defined here in the always-installed core so the
+         grouping is present on Community as well. -->
+    <menuitem id="menu_cssk_reports_root"
+              name="Statutory Reports"
+              parent="account.menu_finance_reports"
+              sequence="70"/>
+
+    <!-- Root configuration menu shared by all l10n_cssk_* modules. -->
+    <menuitem id="menu_cssk_root"
+              name="CZ/SK Localization"
+              parent="account.menu_finance_configuration"
+              sequence="90"/>
+
+    <menuitem id="menu_cssk_tax_authority"
+              name="Tax Authorities"
+              parent="menu_cssk_root"
+              action="cssk_tax_authority_action"
+              sequence="10"/>
+
+    <menuitem id="menu_cssk_person_type"
+              name="Person / Entity Types"
+              parent="menu_cssk_root"
+              action="cssk_person_type_action"
+              sequence="20"/>
+
+    <!-- Under Reporting rather than Configuration: this is work an accountant
+         does, not something they set up.
+
+         The COMPARISON list is the landing screen and the rows sit beneath
+         it: on a real agenda one filing produces several hundred rows, and
+         opening on those answers "what is wrong" while hiding "how much
+         landed", which is the question a migration is actually judged by. -->
+    <menuitem id="menu_cssk_filing_comparison"
+              name="Filed vs computed"
+              parent="menu_cssk_reports_root"
+              sequence="90"/>
+
+    <menuitem id="menu_cssk_filing_comparison_list"
+              name="Comparisons"
+              parent="menu_cssk_filing_comparison"
+              action="action_cssk_filing_comparison"
+              sequence="10"/>
+
+    <menuitem id="menu_cssk_filing_discrepancy"
+              name="Rows to review"
+              parent="menu_cssk_filing_comparison"
+              action="action_cssk_filing_discrepancy"
+              sequence="20"/>
+
+</odoo>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      PREHLAD_2026 XML — matches the official Finančná správa schema
+      prehlad2026.xsd (root <dokument>, no target namespace,
+      elementFormDefault="qualified"). Employer-aggregate only. Every element
+      of every sequence is emitted (the XSD has no minOccurs=0); unused lines
+      carry an empty value (optDec / optDate / optInt allow the empty string).
+      Amounts come from the SK income-tax rule codes; see the model.
+    -->
+    <template id="prehlad_xml">
+        <dokument>
+            <hlavicka>
+                <dic t-out="p['dic']"/>
+                <druhPrehladu>
+                    <riadny t-out="p['riadny']"/>
+                    <opravny t-out="p['opravny']"/>
+                </druhPrehladu>
+                <zdanovacieObdobie>
+                    <mesiac t-out="p['mesiac']"/>
+                    <rok t-out="p['rok']"/>
+                </zdanovacieObdobie>
+                <datumZisteniaOP/>
+                <fo>
+                    <priezvisko/>
+                    <meno/>
+                    <titul/>
+                    <titulZa/>
+                </fo>
+                <po>
+                    <obchodneMeno t-out="p['nazov']"/>
+                    <pravnaForma t-out="p['pravna_forma']"/>
+                </po>
+                <sidlo>
+                    <ulica t-out="p['ulica']"/>
+                    <cislo t-out="p['cislo']"/>
+                    <psc t-out="p['psc']"/>
+                    <obec t-out="p['obec']"/>
+                    <stat t-out="p['stat']"/>
+                </sidlo>
+                <podava>
+                    <priezvisko/>
+                    <meno/>
+                    <titul/>
+                    <titulZa/>
+                    <rodneCislo/>
+                    <datumNarodenia/>
+                    <dic t-out="p['dic']"/>
+                    <obchodneMeno t-out="p['nazov']"/>
+                    <pravnaForma t-out="p['pravna_forma']"/>
+                    <ulica t-out="p['ulica']"/>
+                    <cislo t-out="p['cislo']"/>
+                    <psc t-out="p['psc']"/>
+                    <obec t-out="p['obec']"/>
+                    <stat t-out="p['stat']"/>
+                </podava>
+                <tel t-out="p['tel']"/>
+                <email t-out="p['email']"/>
+            </hlavicka>
+            <telo>
+                <cast1>
+                    <r00 t-out="p['r00']"/>
+                    <r01>
+                        <datum t-out="p['r01_datum']"/>
+                        <suma t-out="p['r01_suma']"/>
+                    </r01>
+                    <r01a>
+                        <mesiacRok/>
+                        <suma/>
+                    </r01a>
+                    <r01b/>
+                    <r02/>
+                    <r03/>
+                    <r04 t-out="p['r04']"/>
+                    <r05 t-out="p['r05']"/>
+                    <r06/>
+                    <r07/>
+                    <r08 t-out="p['r08']"/>
+                    <r08b>0</r08b>
+                </cast1>
+                <cast2>
+                    <rA t-out="p['rA']"/>
+                    <rB t-out="p['rB']"/>
+                    <rC t-out="p['rC']"/>
+                    <rD/>
+                    <rE/>
+                    <rF/>
+                </cast2>
+                <cast3>
+                    <poukazatBonus>
+                        <ziadam>0</ziadam>
+                        <suma/>
+                    </poukazatBonus>
+                    <poukazatPremiu>
+                        <ziadam>0</ziadam>
+                        <suma/>
+                    </poukazatPremiu>
+                    <poukazatBonusNaUroky>
+                        <ziadam>0</ziadam>
+                        <suma/>
+                    </poukazatBonusNaUroky>
+                    <sposobPlatby>
+                        <poukazka>0</poukazka>
+                        <ucet>1</ucet>
+                    </sposobPlatby>
+                    <IBAN t-out="p['iban']"/>
+                </cast3>
+            </telo>
+            <vyhotovil>
+                <meno t-out="p['zostavil']"/>
+                <tel t-out="p['tel']"/>
+                <datumVyhotovenia t-out="p['datum_vyhotovenia']"/>
+            </vyhotovil>
+        </dokument>
+    </template>
+</odoo>

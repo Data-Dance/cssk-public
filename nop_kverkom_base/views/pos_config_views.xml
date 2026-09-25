@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_config_view_form_inherit_nop" model="ir.ui.view">
+        <field name="name">pos.config.form.nop_kverkom</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <separator string="NOP KVERKOM (QR Platby)"/>
+                    <group>
+                        <group string="Identity">
+                            <field name="nop_environment"/>
+                            <field name="nop_iban_id"
+                                   required="nop_environment"
+                                   invisible="not nop_environment"/>
+                            <field name="nop_merchant_name"
+                                   required="nop_environment"
+                                   invisible="not nop_environment"/>
+                            <field name="nop_vatsk" readonly="1" invisible="not nop_environment"/>
+                            <field name="nop_pokladnica_id_ext" readonly="1"
+                                   invisible="not nop_environment"/>
+                            <field name="nop_erp_api_url" readonly="1"
+                                   invisible="not nop_environment"/>
+                        </group>
+                        <group string="Sync status" invisible="not nop_environment">
+                            <field name="nop_last_sync_at" readonly="1"/>
+                            <field name="nop_last_sync_error" readonly="1"/>
+                        </group>
+                    </group>
+                    <group invisible="not nop_environment">
+                        <group string="Integration certificates" name="int_cert">
+                            <field name="nop_has_int_cert" invisible="1"/>
+                            <field name="nop_int_client_cert_pem"
+                                   filename="nop_int_client_cert_filename" string="Client cert"/>
+                            <field name="nop_int_client_cert_filename" invisible="1"/>
+                            <field name="nop_int_client_key_pem"
+                                   filename="nop_int_client_key_filename" string="Client key"
+                                   password="True"/>
+                            <field name="nop_int_client_key_filename" invisible="1"/>
+                            <field name="nop_int_ca_bundle_pem"
+                                   filename="nop_int_ca_bundle_filename" string="CA bundle"/>
+                            <field name="nop_int_ca_bundle_filename" invisible="1"/>
+                        </group>
+                        <group string="Production certificates" name="prod_cert">
+                            <field name="nop_has_prod_cert" invisible="1"/>
+                            <field name="nop_prod_client_cert_pem"
+                                   filename="nop_prod_client_cert_filename" string="Client cert"/>
+                            <field name="nop_prod_client_cert_filename" invisible="1"/>
+                            <field name="nop_prod_client_key_pem"
+                                   filename="nop_prod_client_key_filename" string="Client key"
+                                   password="True"/>
+                            <field name="nop_prod_client_key_filename" invisible="1"/>
+                            <field name="nop_prod_ca_bundle_pem"
+                                   filename="nop_prod_ca_bundle_filename" string="CA bundle"/>
+                            <field name="nop_prod_ca_bundle_filename" invisible="1"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-warning"
+                         invisible="not nop_environment or (nop_environment == 'int' and nop_has_int_cert) or (nop_environment == 'prod' and nop_has_prod_cert)"
+                         role="alert">
+                        No client certificate configured for the currently-selected NOP environment.
+                    </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

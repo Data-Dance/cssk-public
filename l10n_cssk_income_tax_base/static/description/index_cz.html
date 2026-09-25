@@ -1,0 +1,81 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Přiznání k dani z příjmů — rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Národně neutrální jádro přiznání k dani z příjmů právnických osob (DPPDP9): verzované definice řádků, evaluátor výsledku hospodaření + agregátů a XML ověřené proti XSD</h3>
+    <div class="oe_span12">
+      <p>Sdílené, národně neutrální jádro přiznání k dani z příjmů právnických osob (DPPDP9),
+         odpovídající rámcům pro přiznání k DPH a účetní závěrku. Závisí pouze na jádru Odoo
+         (<code>account</code> + <code>mail</code> + <code>l10n_cssk_core</code>), takže je bez
+         závislosti na EE a funguje na Odoo 18.0 a 19.0.</p>
+      <p>Národní vrstva (např. <code>l10n_sk_dppo</code>) dodává konkrétní sadu řádků, mapování
+         hlavičky a oficiální schéma. Transformace účetní → daňové (řádky úprav) je doménou
+         účetního — tento rámec automaticky počítá výsledek hospodaření a vzorcovou kostru a
+         zbytek přebírá jako ruční zadání.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.income.tax.version</code> + definice řádků — tři druhy řádků:
+            <b>account</b> (výsledek hospodaření před zdaněním), <b>aggregate</b> (vzorcová
+            kostra daňového výpočtu nad kódy řádků) a <b>manual</b> (úpravy účetního —
+            připočitatelné / odčitatelné položky); plus typy podání. Nová legislativa se dodává
+            jako nový záznam verze.</li>
+        <li><code>cssk.income.tax.return</code> (mail.thread) — evaluátor s ručními přepisy
+            zachovanými a vstupujícími do závislých agregačních řádků při přepočtu.</li>
+        <li>Stavový automat podání (koncept → podáno) s podporou dodatečného / opravného
+            přiznání.</li>
+        <li>Export zákonného XML ověřeného proti XSD.</li>
+        <li>Volitelný účetní zápis daňové rezervy / splatné daně (591/341) — zaúčtovat a
+            stornovat.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Výkazy ▸ Daň z příjmů (DPPDP9).</i> Volbou <b>Generovat</b> vytvořte
+         přiznání za období a verzi; výsledek hospodaření a vzorcová kostra se vypočítají
+         automaticky. Otevřete přiznání, zadejte ruční řádky úprav (připočitatelné /
+         odčitatelné položky), <b>Vypočítejte</b> agregáty a poté <b>Exportujte XML</b> k
+         podání. Volitelně zaúčtujte daňovou rezervu.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Průvodci</h2>
+    <div class="oe_span12">
+      <h4>Generovat přiznání k dani z příjmů <small>(Účetnictví ▸ Výkazy ▸ Daň z příjmů (DPPDP9) ▸ Generovat)</small></h4>
+      <p><b>Co dělá:</b> v jednom kroku vytvoří přiznání DPPDP9 za období a verzi a vypočítá
+         jeho řádky.</p>
+      <p><b>Jak používat:</b> zvolte společnost, verzi, typ podání (filtrovaný podle verze) a
+         období (od / do), poté <i>Vytvořit</i>; průvodce sestaví
+         <code>cssk.income.tax.return</code>, vypočítá řádky a otevře jej. Konec období musí
+         být v den začátku nebo později.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

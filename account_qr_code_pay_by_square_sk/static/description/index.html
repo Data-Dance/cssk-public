@@ -1,0 +1,59 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">PAY by square (Slovakia)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">The Slovak PAY by square payment QR code on your invoices — generated fully offline</h3>
+    <div class="oe_span12">
+      <p>This app adds the Slovak <b>PAY by square</b> payment QR code to Odoo invoices.
+         PAY by square is the Slovak Banking Association standard supported by every Slovak
+         banking app: the customer scans the code printed on the invoice and the payment form
+         is pre-filled with the IBAN, amount, currency, beneficiary and message.</p>
+      <p>The code is built <b>offline</b> — the PAY by square sequence (CRC32 checksum,
+         LZMA1/XZ compression, base32 encoding) is produced entirely in Python with <b>no
+         external service</b>. It registers as an extra payment-QR method on
+         <code>res.partner.bank</code> and reuses Odoo's standard QR-on-invoice plumbing, so it
+         runs on both Community and Enterprise.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>New <b>PAY by square (Slovakia)</b> payment-QR method on every bank account.</li>
+        <li>Pure-offline generator per the SBA <i>PAY by square</i> specification 1.1.0 — no network dependency.</li>
+        <li>Encodes IBAN, amount, currency, beneficiary name and the payment message
+            (variable symbol / structured reference) from the invoice.</li>
+        <li>Branded QR frame on the printed invoice.</li>
+        <li>Eligibility checks: EUR currency, IBAN account in a SEPA country, and a beneficiary name present.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Settings ▸ Invoicing ▸ Customer Payments</i> — enable <b>QR Codes</b>. On a customer
+         invoice, open <i>Other Info ▸ Payment QR-code</i> and pick <b>PAY by square (Slovakia)</b>.
+         The QR code is rendered on the invoice PDF; the customer scans it in their banking app to pay.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

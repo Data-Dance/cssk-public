@@ -1,0 +1,81 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Účtovná závierka — zdieľaný rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Národne neutrálne jadro slovenskej Súvahy / VZS a českej Rozvahy / VZZ — stromy riadkov z obratov účtov, porovnávacie obdobie a XML overené voči XSD</h3>
+    <div class="oe_span12">
+      <p>Národne neutrálne jadro slovenskej <b>Súvahy</b> (súvaha) / <b>Výkazu ziskov a strát
+         (VZS)</b> a českej <b>Rozvahy</b> / <b>Výkazu zisku a ztráty (VZZ)</b>. Hierarchický
+         strom riadkov, kde sa listové riadky počítajú z <b>obratov a zostatkov účtov</b> a
+         nadradené riadky agregujú, pre bežné a porovnávacie (minulé) obdobie.</p>
+      <p><b>Bez závislosti na EE:</b> evaluátor číta zostatky <code>account.move.line</code>
+         priamo (podľa <code>account.account.code</code>), takže <b>nezávisí</b> na enterprise
+         engine <code>account_reports</code>. Funguje na Community aj Enterprise, na Odoo 18.0
+         a 19.0. Národné moduly dodávajú definície riadkov (mapovanie účtov), XML šablónu a
+         schému.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.fs.statement.version</code> — definície riadkov + druh výkazu (súvaha /
+            výkaz ziskov a strát) + šablóna + schéma. Nová legislatíva sa dodáva ako nový
+            záznam verzie.</li>
+        <li><code>cssk.fs.statement.line.def</code> — tri druhy riadkov: <b>accounts</b>
+            (vzorec nad účtami; súvaha = stav k dátumu, výkaz ziskov a strát = za obdobie),
+            <b>aggregate</b> (vzorec nad kódmi riadkov) a <b>manual</b>.</li>
+        <li><code>cssk.fs.statement</code> (mail.thread) — počíta bežné <b>aj porovnávacie
+            (minulé) obdobie</b>, s ručnými prepismi jednotlivých riadkov zachovanými pri
+            prepočte.</li>
+        <li>Export zákonného XML overeného voči XSD.</li>
+      </ul>
+      <p><i>Poznámka k rozsahu:</i> toto jadro počíta jednu (čistú) hodnotu na riadok.
+         Trojstĺpcové členenie slovenskej Súvahy <b>Brutto / Korekcia / Netto</b> a varianty
+         Poznámky / mikro sú nadstavby.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p><i>Účtovníctvo ▸ Výkazy ▸ Účtovná závierka.</i> Voľbou <b>Nová účtovná závierka</b>
+         vytvorte výkaz za obdobie, skontrolujte detail po riadkoch (bežné vs minulé obdobie),
+         upravte ručné riadky, prepočítajte a potom <b>Exportujte XML</b>. Sada riadkov,
+         mapovanie účtov a schéma pochádzajú z nainštalovaného národného modulu; verzie výkazov
+         sú v koreňovej ponuke lokalizácie.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Vytvoriť účtovnú závierku <small>(Účtovníctvo ▸ Výkazy ▸ Účtovná závierka ▸ Nová účtovná závierka)</small></h4>
+      <p><b>Čo robí:</b> v jednom kroku vytvorí účtovnú závierku za obdobie a vypočíta ju.</p>
+      <p><b>Ako používať:</b> zvoľte spoločnosť, verziu výkazu (filtrovanú podľa daňovej krajiny
+         spoločnosti) a obdobie (od / do), potom <i>Vytvoriť</i>; sprievodca zostaví
+         <code>cssk.fs.statement</code>, spustí výpočet a otvorí nový výkaz.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

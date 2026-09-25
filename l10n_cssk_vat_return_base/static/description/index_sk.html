@@ -1,0 +1,79 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Daňové priznanie k DPH — spoločný rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Krajinovo neutrálny engine pre slovenské DPHv25 a české DPHDP3 — číslované riadky z daňových značiek, XML overené proti XSD</h3>
+    <div class="oe_span12">
+      <p>Krajinovo neutrálny engine pre slovenské <b>daňové priznanie k DPH</b> (DPHv25) a české
+         <b>přiznání k DPH</b> (DPHDP3). Priznanie je pevná sada číslovaných riadkov (<i>riadky</i>),
+         z ktorých každý sa vypočíta ako súčet zostatkov položiek so znamienkom, ktoré nesú dané
+         <b>daňové značky</b>, plus agregačné riadky (súčty) nad inými riadkami.</p>
+      <p><b>Čisté CE:</b> daňové značky aj pomocná funkcia
+         (<code>account.account.tag._get_tax_tags</code>) sú v Odoo CE; tento modul prináša vlastný
+         malý vyhodnocovač, takže <b>nezávisí</b> od EE enginu <code>account_reports</code>. Funguje na
+         Community aj Enterprise, na Odoo 18.0 a 19.0. Krajinové moduly dodávajú definície riadkov,
+         XML šablónu a schému.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.vat.return.version</code> — verzované definície riadkov + XML šablóna + schéma +
+            typy priznania.</li>
+        <li><code>cssk.vat.return.line.def</code> — riadok je buď <b>tags</b> (vzorec daňových značiek,
+            napr. <code>-03</code>, kde úvodné <code>-</code> je znamienko), <b>aggregate</b> (vzorec nad
+            kódmi iných riadkov, napr. <code>r04 + r06</code>) alebo <b>manual</b>.</li>
+        <li><code>cssk.vat.return</code> (mail.thread; návrh → náhľad → exportované → podané)
+            s vyhodnocovačom daňových značiek a <code>action_export_xml</code>, ktorý tvorí XML overené
+            proti XSD.</li>
+        <li><code>cssk.vat.return.line</code> — vypočítaná hodnota každého riadku.</li>
+        <li>Vlastný vyhodnocovač daňových značiek — bez závislosti od EE enginu
+            <code>account_reports</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p><i>Účtovníctvo ▸ Výkazy ▸ Daňové priznanie k DPH.</i> Pomocou <b>Nové priznanie k DPH</b>
+         vytvorte priznanie za obdobie (vypočíta sa jedným krokom), skontrolujte číslované riadky
+         naplnené z účtovných zápisov obdobia a potom <b>Exportujte XML</b> pre portál finančnej
+         správy. Definície riadkov, šablóna a schéma pochádzajú z nainštalovaného krajinového modulu;
+         spravujte ich v ponuke <i>Verzie priznania k DPH</i>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Vytvoriť priznanie k DPH <small>(Účtovníctvo ▸ Výkazy ▸ Daňové priznanie k DPH ▸ Nové priznanie k DPH)</small></h4>
+      <p><b>Čo robí:</b> vytvorí priznanie k DPH za obdobie a jedným krokom ho vypočíta.</p>
+      <p><b>Ako používať:</b> zvoľte spoločnosť, <i>verziu</i> priznania a <i>typ priznania</i>, typ
+         obdobia (mesačné / štvrťročné) a dátumy obdobia, potom stlačte <b>Vytvoriť</b>. Priznanie sa
+         vytvorí a jeho riadky sa ihneď vypočítajú; otvorí sa formulár nového priznania.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

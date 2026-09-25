@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Wage-surcharge rules for the OCA payroll engine.
+
+        All of them sit in the ALW category so they roll into GROSS
+        (= BASIC + ALW) and are therefore insurable and taxable, which is what
+        the law requires of a mzdové zvýhodnenie. Sequences 60–67 run before
+        GROSS (100); the minimum-wage top-up runs at 75, after every surcharge
+        but still before GROSS.
+
+        The arithmetic lives in the base module — these rules only pick the
+        code and hand it to the payslip mixin, so both engines compute the
+        same numbers from the same dated data.
+
+        Hours come from a payslip input of the same code (the OCA engine has no
+        work-entry stack); the input is declared on each rule so the engine
+        prefills it. The mixin will prefer a worked-days line of that code if
+        one exists, which is how the Enterprise bridge feeds the same rules.
+    -->
+
+    <!-- ============================================================= NIGHT -->
+    <record id="l10n_sk_priplatok_noc" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Night Work Surcharge</field>
+        <field name="code">PRIPLATOK_NOC</field>
+        <field name="sequence">60</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_surcharge_hours('NOC') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_surcharge_amount('NOC')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Night hours', 'code': 'NOC'})]"/>
+    </record>
+
+    <!-- ========================================================== SATURDAY -->
+    <record id="l10n_sk_priplatok_sobota" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Saturday Work Surcharge</field>
+        <field name="code">PRIPLATOK_SOBOTA</field>
+        <field name="sequence">61</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_surcharge_hours('SOBOTA') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_surcharge_amount('SOBOTA')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Saturday hours', 'code': 'SOBOTA'})]"/>
+    </record>
+
+    <!-- ============================================================ SUNDAY -->
+    <record id="l10n_sk_priplatok_nedela" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Sunday Work Surcharge</field>
+        <field name="code">PRIPLATOK_NEDELA</field>
+        <field name="sequence">62</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_surcharge_hours('NEDELA') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_surcharge_amount('NEDELA')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Sunday hours', 'code': 'NEDELA'})]"/>
+    </record>
+
+    <!-- ==================================================== PUBLIC HOLIDAY -->
+    <!-- § 122 ods. 1 — 100 % of average earnings. Only the uplift: whether the
+         base pay for those hours is already in BASIC depends on how the site
+         models public holidays in the resource calendar. -->
+    <record id="l10n_sk_priplatok_sviatok" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Public Holiday Work Surcharge</field>
+        <field name="code">PRIPLATOK_SVIATOK</field>
+        <field name="sequence">63</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_surcharge_hours('SVIATOK') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_surcharge_amount('SVIATOK')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Public holiday hours worked', 'code': 'SVIATOK'})]"/>
+    </record>
+
+    <!-- ========================================================== OVERTIME -->
+    <!-- § 121 ods. 1 entitles the employee to "mzda a mzdové zvýhodnenie".
+         Overtime hours fall outside the scheduled time a monthly salary pays
+         for, so the wage part is an explicit line rather than an assumed part
+         of BASIC. -->
+    <record id="l10n_sk_nadcas_mzda" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Overtime Pay</field>
+        <field name="code">NADCAS_MZDA</field>
+        <field name="sequence">64</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_surcharge_hours('NADCAS') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_overtime_base_amount()
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Overtime hours', 'code': 'NADCAS'})]"/>
+    </record>
+
+    <record id="l10n_sk_priplatok_nadcas" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Overtime Surcharge</field>
+        <field name="code">PRIPLATOK_NADCAS</field>
+        <field name="sequence">65</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_surcharge_hours('NADCAS') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_surcharge_amount('NADCAS')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- ============================================ DIFFICULT CONDITIONS -->
+    <record id="l10n_sk_priplatok_stazeny" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Difficult Conditions Compensation</field>
+        <field name="code">PRIPLATOK_STAZENY</field>
+        <field name="sequence">66</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_surcharge_hours('STAZENY') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_surcharge_amount('STAZENY')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Difficult-conditions hours', 'code': 'STAZENY'})]"/>
+    </record>
+
+    <!-- =========================================================== STANDBY -->
+    <record id="l10n_sk_priplatok_pohotovost" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Standby Compensation</field>
+        <field name="code">PRIPLATOK_POHOTOVOST</field>
+        <field name="sequence">67</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_surcharge_hours('POHOTOVOST') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_surcharge_amount('POHOTOVOST')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Inactive standby hours (off site)', 'code': 'POHOTOVOST'})]"/>
+    </record>
+
+    <!-- ================================================ MINIMUM WAGE CLAIM -->
+    <!-- § 120 ods. 1 a 3 — doplatok do minimálneho mzdového nároku for the
+         job's stupeň náročnosti. The comparison is made on categories.BASIC
+         alone: every surcharge above, the overtime pay and the wage
+         replacements sit in ALW and § 120 ods. 3 keeps all of them out of the
+         comparison, which is precisely what stops a night-shift surcharge from
+         papering over a sub-minimum base wage. -->
+    <record id="l10n_sk_min_wage_topup" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
+        <field name="name">Minimum Wage Top-up</field>
+        <field name="code">MIN_WAGE_TOPUP</field>
+        <field name="sequence">75</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_min_wage_topup(categories.BASIC) &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_min_wage_topup(categories.BASIC)
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- Attach every rule above to the Slovak structure. -->
+    <record id="l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary" model="hr.payroll.structure">
+        <field name="rule_ids" eval="[(4, ref('l10n_sk_priplatok_noc')),
+                                      (4, ref('l10n_sk_priplatok_sobota')),
+                                      (4, ref('l10n_sk_priplatok_nedela')),
+                                      (4, ref('l10n_sk_priplatok_sviatok')),
+                                      (4, ref('l10n_sk_nadcas_mzda')),
+                                      (4, ref('l10n_sk_priplatok_nadcas')),
+                                      (4, ref('l10n_sk_priplatok_stazeny')),
+                                      (4, ref('l10n_sk_priplatok_pohotovost')),
+                                      (4, ref('l10n_sk_min_wage_topup'))]"/>
+    </record>
+</odoo>

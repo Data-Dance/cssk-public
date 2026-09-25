@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+    xmlns="http://schemas.cssz.cz/ELDP09"
+
+   
+targetNamespace="http://schemas.cssz.cz/ELDP09"
+
+    elementFormDefault="qualified"
+
+    attributeFormDefault="unqualified">
+
+ 
+
+  <xs:element name="RELDP">
+
+    <xs:complexType>
+
+      <xs:sequence minOccurs="1"
+maxOccurs="1500">
+
+        <xs:element ref="eldp09"/>
+
+      </xs:sequence>
+
+      <xs:attribute name="version"
+type="xs:string" use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:element name="eldp09">
+
+    <xs:complexType>
+
+      <xs:sequence>
+
+        <xs:element ref="client"
+minOccurs="1" maxOccurs="1"/>
+
+        <xs:element ref="items"
+minOccurs="1" maxOccurs="1"/>
+
+        <xs:element ref="comp"
+minOccurs="1" maxOccurs="1"/>
+
+      </xs:sequence>
+
+      <xs:attribute name="sqnr"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="yer"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="typ" type="xs:integer"
+use="required"/>
+
+      <xs:attribute name="dre"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="tco"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="dep"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="nam" type="xs:string"
+use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:element name="client">
+
+    <xs:complexType>
+
+      <xs:sequence>
+
+        <xs:element ref="name"
+minOccurs="1" maxOccurs="1"/>
+
+        <xs:element ref="adr"
+minOccurs="1" maxOccurs="1"/>
+
+        <xs:element ref="birth"
+minOccurs="1" maxOccurs="1"/>
+
+      </xs:sequence>
+
+      <xs:attribute name="bno"
+type="rodneCislo" use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:element name="items">
+
+    <xs:complexType>
+
+      <xs:sequence>
+
+        <xs:element ref="t1"
+minOccurs="1" maxOccurs="3"/>
+
+      </xs:sequence>
+
+      <xs:attribute name="coun"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="sdex"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="sinc"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="sdar"
+type="xs:string" use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:element name="comp">
+
+    <xs:complexType>
+
+      <xs:attribute name="nam" type="xs:string"
+use="required"/>
+
+      <xs:attribute name="id"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="vs"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="cre"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="fro" type="xs:string"
+use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:element name="name">
+
+    <xs:complexType>
+
+      <xs:attribute name="sur"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="fir"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="tit"
+type="xs:string" use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:element name="adr">
+
+    <xs:complexType>
+
+      <xs:attribute name="cit"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="str"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="num"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="pos"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="pnu"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="cnt"
+type="xs:string" use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:element name="birth">
+
+    <xs:complexType>
+
+      <xs:attribute name="dat"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="nam" type="xs:string"
+use="required"/>
+
+      <xs:attribute name="cit"
+type="xs:string" use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:element name="t1">
+
+    <xs:complexType>
+
+      <xs:attribute name="row"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="cod"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="sre"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="fro"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="to"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="din"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="m1"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m2"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m3"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m4"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m5"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m6"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m7"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m8"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m9"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m10" type="mesicBezPojisteni"
+use="required"/>
+
+      <xs:attribute name="m11"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m12"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="m13"
+type="mesicBezPojisteni" use="required"/>
+
+      <xs:attribute name="inc"
+type="xs:integer" use="required"/>
+
+      <xs:attribute name="dex"
+type="xs:string" use="required"/>
+
+      <xs:attribute name="dar"
+type="xs:string" use="required"/>
+
+    </xs:complexType>
+
+  </xs:element>
+
+ 
+
+  <xs:simpleType name="rodneCislo">
+
+    <xs:restriction base="xs:string">
+
+      <xs:pattern value="(\d{9,10})"/>
+
+    </xs:restriction>
+
+  </xs:simpleType>
+
+ 
+
+  <xs:simpleType name="mesicBezPojisteni">
+
+    <xs:restriction base="xs:string">
+
+      <xs:enumeration value=""/>
+
+      <xs:enumeration value="x"/>
+
+      <xs:enumeration value="X"/>
+
+    </xs:restriction>
+
+  </xs:simpleType>
+
+ 
+
+</xs:schema>

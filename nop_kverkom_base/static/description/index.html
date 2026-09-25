@@ -1,0 +1,69 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">NOP KVERKOM Base</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Transport layer for Slovak QR Platby: mTLS REST client and transaction ledger</h3>
+    <div class="oe_span12">
+      <p>Base integration with the Slovak <b>National Operator of Payments (NOP)</b>, operated by
+         KVERKOM, for instant bank-to-bank <b>QR Platby</b>. This module ships the mTLS REST client
+         and the authoritative transaction ledger; it carries <b>no Point of Sale or invoicing
+         logic</b> of its own — POS and invoice integrations are delivered by separate modules that
+         depend on this one.</p>
+      <p>Each <code>pos.config</code> is bound 1:1 to one NOP <i>pokladnica</i> (cash register), as
+         the Slovak eKasa framework requires: one mTLS client certificate identifies one physical
+         till. The certificate subject (VATSK and POKLADNICA id) is parsed automatically, with
+         separate certificate slots for the Integration and Production environments.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>pos.config</code> extension holding the NOP identity (VATSK, POKLADNICA id,
+            environment), the merchant IBAN/name and per-environment mTLS material (client
+            certificate, private key, CA bundle).</li>
+        <li><code>nop.transaction</code> — the authoritative ledger of payment notifications received
+            from the bank through NOP, with a full state machine (draft, pending, received,
+            confirmed, mismatch, cancelled, expired, refund pending, refunded …).</li>
+        <li><code>NopClient</code> service — an mTLS-authenticated REST client wrapping
+            <code>generateNewTransactionId</code>, <code>getAllTransactions</code> and
+            <code>getTransactionHistory</code>.</li>
+        <li>Data-integrity hash verification (SHA-256 of IBAN|AMOUNT|EUR|endToEndId); notifications
+            whose hash or amount does not match are flagged <b>mismatch</b>.</li>
+        <li>Rate-limited polling (<code>FOR UPDATE SKIP LOCKED</code>) plus a safety-net cron that
+            drains pending transactions, and a non-confirmation receipt report.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Accounting ▸ Configuration ▸ NOP KVERKOM</i> lists the transaction ledger and the
+         <i>Refunds owed</i> view. Configure a till on its Point of Sale configuration record: pick
+         the NOP environment, upload the eKasa client certificate/key/CA for that environment, and
+         select the merchant IBAN — the VATSK and POKLADNICA id are extracted from the certificate
+         automatically. Install a dependent module (e.g. <code>pos_nop_qr_platba_sk</code>) to
+         expose the actual QR payment flow.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

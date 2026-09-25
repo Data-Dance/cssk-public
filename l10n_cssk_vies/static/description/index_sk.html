@@ -1,0 +1,62 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK VIES — priame overenie v EÚ &amp; dôkaz o overení</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Overenie IČ DPH priamo proti službe VIES Európskej komisie s uchovaním úradného čísla overenia</h3>
+    <div class="oe_span12">
+      <p>Jadro <code>base_vat</code> v Odoo 19 overuje európske IČ DPH cez <b>Odoo IAP</b>
+         (<code>vies.api.odoo.com</code>) a ukladá iba logickú hodnotu <code>vies_valid</code>.
+         Vlastná (self-hosted) inštancia bez IAP nezíska žiadne overenie VIES a chýba záznam o tom,
+         <i>kedy</i> bolo číslo potvrdené, aj úradné <b>číslo overenia</b>, ktoré je právnym dôkazom
+         overenia pre účely oslobodenia pri dodaní do EÚ (<i>overenie IČ DPH</i> SK).</p>
+      <p>Tento modul volá REST službu VIES Európskej komisie <b>priamo</b> — bez účtu Odoo, bez IAP —
+         a uloží číslo overenia aj zvyšok dôkazu na partnera. Funguje na Community aj Enterprise.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Priame EÚ VIES</b> — voliteľne podľa spoločnosti (<i>Použiť priame EÚ VIES</i>); volá
+            REST službu VIES Európskej komisie priamo, bez IAP.</li>
+        <li><b>Dôkaz o overení</b> — uloží <b>číslo overenia</b> VIES
+            (<code>requestIdentifier</code>), časovú pečiatku overenia, dátum dopytu VIES a zapísaný
+            názov / adresu platiteľa + výsledok zhody názvu na partnerovi.</li>
+        <li>Ručná akcia <b>Overiť VIES (priamo)</b> na partnerovi.</li>
+        <li>Denný <b>cron</b>, ktorý obnovuje zastarané overenia u spoločností v priamom režime.</li>
+        <li>Prechodné chyby VIES (výpadok systému členského štátu, obmedzenie frekvencie) sú hlásené
+            ako <i>fault</i> — partner sa nikdy ticho neprepne na <i>neplatný</i> ani sa nezmaže
+            dôkaz.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>V <i>Nastavenia ▸ Účtovníctvo</i> zapnite pre spoločnosť <i>Použiť priame EÚ VIES</i>. Na
+         ľubovoľnom partnerovi s európskym IČ DPH stlačte <b>Overiť VIES (priamo)</b>: pri platnom
+         kvalifikovanom overení sa doplní číslo overenia a zapísaný názov / adresa. Denný cron znovu
+         overí partnerov, ktorých posledné overenie je staršie než nastavené okno.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

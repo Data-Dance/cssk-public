@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Súhrnný výkaz XML template — matches the OFFICIAL FS SR schema
+      svdph20.xsd (root 'dokument', generic eForm hlavicka/telo, no namespace).
+      telo is a grid of pages (strana), each with EXACTLY 12 zaznam (supply
+      records) + 12 zaznamCast2 records. Lines are chunked into pages of 12 and
+      padded with empty records. pole/funkcia attributes are schema defaults
+      (omitted).
+      NB: zaznamCast2 is the call-off-stock register (§ 8a — kodStatu/idCislo of
+      the agreed acquirer, idCislo2 substituted acquirer, vratenieTovaru, oprava
+      storno), NOT credit-note corrections. We do not support the call-off-stock
+      regime, so these are always emitted empty (XSD requires the 12 slots).
+    -->
+    <template id="sdv_2025">
+        <dokument>
+            <hlavicka>
+                <identifikacneCislo>
+                    <kodStatu>SK</kodStatu>
+                    <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                </identifikacneCislo>
+                <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
+                <druhSV>
+                    <riadny t-out="'1' if statement.statement_type_id.fa_xml_value == 'R' else ''"/>
+                    <opravny t-out="'1' if statement.statement_type_id.fa_xml_value == 'O' else ''"/>
+                    <dodatocny t-out="'1' if statement.statement_type_id.fa_xml_value == 'D' else ''"/>
+                </druhSV>
+                <obdobie>
+                    <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
+                    <stvrtrok t-out="str((statement.date_from.month - 1) // 3 + 1) if statement.period_type == 'quarter' else ''"/>
+                    <rok t-out="str(statement.date_from.year)"/>
+                </obdobie>
+                <obchodneMeno>
+                    <riadok t-out="company.name or ''"/>
+                    <riadok/>
+                    <riadok/>
+                    <riadok/>
+                </obchodneMeno>
+                <adresa>
+                    <ulica t-out="company.street or ''"/>
+                    <cislo t-out="company.street2 or ''"/>
+                    <psc t-out="company.zip or ''"/>
+                    <obec t-out="company.city or ''"/>
+                    <tel t-out="company.phone or ''"/>
+                    <email t-out="company.email or ''"/>
+                </adresa>
+                <celkovaHodnota t-out="'%d' % sum(statement._sv_whole(a) for a in lines.mapped('total_amount'))"/>
+                <konatel/>
+                <datumVyhlasenia>
+                    <den/>
+                    <mesiac/>
+                    <rok/>
+                </datumVyhlasenia>
+            </hlavicka>
+            <telo>
+                <t t-set="n" t-value="len(lines)"/>
+                <t t-foreach="range((n + 11) // 12)" t-as="p">
+                    <strana>
+                        <t t-foreach="range(12)" t-as="i">
+                            <t t-set="idx" t-value="p * 12 + i"/>
+                            <t t-set="rec" t-value="lines[idx] if idx &lt; n else None"/>
+                            <zaznam>
+                                <kodStatu t-out="rec.partner_country_code if rec else ''"/>
+                                <idCislo t-out="(rec.partner_vat[2:] if rec.partner_vat[:2].isalpha() else rec.partner_vat) if rec else ''"/>
+                                <hodnota t-out="('%d' % statement._sv_whole(rec.total_amount)) if rec else ''"/>
+                                <!-- kód: only '1' (trojstranný) / '2' (služba); goods are
+                                     reported BEZ KÓDU (poučenie SVDPHv20) → blank for any
+                                     other internal code. -->
+                                <kod t-out="rec.transaction_code if (rec and rec.transaction_code in ('1', '2')) else ''"/>
+                            </zaznam>
+                        </t>
+                        <t t-foreach="range(12)" t-as="i">
+                            <zaznamCast2>
+                                <kodStatu/>
+                                <idCislo/>
+                                <idCislo2/>
+                                <vratenieTovaru/>
+                                <oprava/>
+                            </zaznamCast2>
+                        </t>
+                    </strana>
+                </t>
+            </telo>
+        </dokument>
+    </template>
+
+    <!--
+      Súhrnný výkaz XML template for the 2010-2019 vzor — the OFFICIAL FS SR
+      schema svdph2010.xsd. Same root and same eForm shape as the 2020 one, and
+      four structural differences that make them different documents:
+
+        * telo/strana holds EXACTLY 27 zaznam and NO zaznamCast2. The call-off
+          stock register (§ 8a) did not exist: it arrives with the Quick Fixes
+          on 1. 1. 2020, which is what separates the two vintages.
+        * strana opens with `oznacenie` (page N of M), dropped in 2020.
+        * hlavicka carries `pocet2Stran`, also dropped in 2020.
+        * `tel` and `fax` are STRUCTURED (predcislie + cislo), not the plain
+          strings the 2020 vzor took, and 2020 replaced fax with email
+          outright. A phone we hold as one string goes in `cislo`.
+
+      Filing a 2019 period in the 2020 structure is not a near miss — the
+      portal takes the vzor in force for the period, and 27 vs 12 records per
+      page reshapes every page of the document.
+    -->
+    <template id="sdv_2010">
+        <dokument>
+            <hlavicka>
+                <identifikacneCislo>
+                    <kodStatu>SK</kodStatu>
+                    <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                </identifikacneCislo>
+                <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
+                <druhSV>
+                    <riadny t-out="'1' if statement.statement_type_id.fa_xml_value == 'R' else ''"/>
+                    <opravny t-out="'1' if statement.statement_type_id.fa_xml_value == 'O' else ''"/>
+                    <dodatocny t-out="'1' if statement.statement_type_id.fa_xml_value == 'D' else ''"/>
+                </druhSV>
+                <obdobie>
+                    <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
+                    <stvrtrok t-out="str((statement.date_from.month - 1) // 3 + 1) if statement.period_type == 'quarter' else ''"/>
+                    <rok t-out="str(statement.date_from.year)"/>
+                </obdobie>
+                <obchodneMeno>
+                    <riadok t-out="company.name or ''"/>
+                    <riadok/>
+                    <riadok/>
+                    <riadok/>
+                </obchodneMeno>
+                <adresa>
+                    <ulica t-out="company.street or ''"/>
+                    <cislo t-out="company.street2 or ''"/>
+                    <psc t-out="company.zip or ''"/>
+                    <obec t-out="company.city or ''"/>
+                    <tel>
+                        <predcislie/>
+                        <cislo t-out="company.phone or ''"/>
+                    </tel>
+                    <fax>
+                        <predcislie/>
+                        <cislo/>
+                    </fax>
+                </adresa>
+                <celkovaHodnota t-out="'%d' % sum(statement._sv_whole(a) for a in lines.mapped('total_amount'))"/>
+                <pocet2Stran t-out="str((len(lines) + 26) // 27)"/>
+                <konatel/>
+                <datumVyhlasenia>
+                    <den/>
+                    <mesiac/>
+                    <rok/>
+                </datumVyhlasenia>
+            </hlavicka>
+            <telo>
+                <t t-set="n" t-value="len(lines)"/>
+                <t t-set="pages" t-value="(n + 26) // 27"/>
+                <t t-foreach="range(pages)" t-as="p">
+                    <strana>
+                        <oznacenie>
+                            <aktualna t-out="str(p + 1)"/>
+                            <celkovo t-out="str(pages)"/>
+                        </oznacenie>
+                        <t t-foreach="range(27)" t-as="i">
+                            <t t-set="idx" t-value="p * 27 + i"/>
+                            <t t-set="rec" t-value="lines[idx] if idx &lt; n else None"/>
+                            <zaznam>
+                                <kodStatu t-out="rec.partner_country_code if rec else ''"/>
+                                <idCislo t-out="(rec.partner_vat[2:] if rec.partner_vat[:2].isalpha() else rec.partner_vat) if rec else ''"/>
+                                <hodnota t-out="('%d' % statement._sv_whole(rec.total_amount)) if rec else ''"/>
+                                <!-- kód: only '1' (trojstranný) / '2' (služba);
+                                     goods are reported BEZ KÓDU → blank. -->
+                                <kod t-out="rec.transaction_code if (rec and rec.transaction_code in ('1', '2')) else ''"/>
+                            </zaznam>
+                        </t>
+                    </strana>
+                </t>
+            </telo>
+        </dokument>
+    </template>
+</odoo>

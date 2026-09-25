@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="ir_cron_match_advance_statement_lines" model="ir.cron">
+        <field name="name">Advance Invoices: match bank statement lines</field>
+        <field name="model_id" ref="account.model_account_bank_statement_line" />
+        <field name="state">code</field>
+        <field name="code">model._cron_match_advance_statement_lines()</field>
+        <field name="interval_number">15</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True" />
+    </record>
+
+</odoo>

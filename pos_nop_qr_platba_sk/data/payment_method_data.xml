@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="payment_method_qr_platba_sk" model="payment.method">
+        <field name="name">QR Platba (SK)</field>
+        <field name="code">qr_platba_sk</field>
+        <field name="sequence">10</field>
+        <field name="support_refund">none</field>
+        <field name="support_tokenization" eval="False"/>
+    </record>
+</odoo>

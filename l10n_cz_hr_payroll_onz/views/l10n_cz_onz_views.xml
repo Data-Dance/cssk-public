@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_l10n_cz_onz_list" model="ir.ui.view">
+        <field name="name">l10n.cz.onz.list</field>
+        <field name="model">l10n.cz.onz</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id"/>
+                <field name="event_type"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_l10n_cz_onz_form" model="ir.ui.view">
+        <field name="name">l10n.cz.onz.form</field>
+        <field name="model">l10n.cz.onz</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_generate" type="object"
+                            string="Generate"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_submit" type="object"
+                            string="Mark Submitted"
+                            invisible="state != 'generated'"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="event_type"/>
+                        </group>
+                        <group>
+                            <field name="version_id"/>
+                            <field name="xml_attachment_id"/>
+                        </group>
+                    </group>
+                    <field name="employee_ids" widget="many2many_tags"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_cz_onz" model="ir.actions.act_window">
+        <field name="name">ONZ (registration)</field>
+        <field name="res_model">l10n.cz.onz</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_l10n_cz_onz"
+              name="CZ ONZ (registration)"
+              parent="l10n_cssk_payroll_declaration_base.menu_cssk_payroll_declaration_root"
+              action="action_l10n_cz_onz"
+              sequence="20"/>
+
+</odoo>

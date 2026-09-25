@@ -1,0 +1,57 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">🌐 <a href="index.html">EN</a> · <b>CZ</b> · <a href="index_sk.html">SK</a></p>
+    <h2 class="oe_slogan">Česko — INTRASTAT-CZ (CE / OCA)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Oficiální CSV Celní správy pro InstatOnline nad enginem OCA intrastat_product</h3>
+    <div class="oe_span12">
+      <p>
+        Tenká česká národní vrstva nad výkazovým enginem OCA <code>intrastat_product</code>. Engine sbírá pohyby zboží
+        v rámci EU a počítá seskupené řádky výkazu; tento modul je vykresluje jako oficiální CSV Celní správy pro
+        InstatOnline — soubor nahrávaný na celnisprava.gov.cz → InstatOnline — prostřednictvím sdíleného rendereru
+        <code>l10n_cssk_intrastat_base</code>. Rozložení sloupců CSV, konstantní pole a formátování čísel reprodukují
+        oficiální výstup Odoo EE <code>l10n_cz_intrastat</code>. Český výkaz nemá XSD; portál InstatOnline validuje
+        soubor až při nahrání. Toto je komunitní/OCA adaptér, záměrně NEpojmenovaný <code>l10n_cz_intrastat</code>, aby
+        nekolidoval s nativním modulem Odoo Enterprise téhož jména — jedna edice instaluje právě jeden z těchto dvou.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Dědí z enginu OCA <code>intrastat.product.declaration</code> a doplňuje pouze český souborový výstup; sběr a výpočet ponechává na OCA.</li>
+        <li>Vytváří oficiální CSV Celní správy pro nahrání na celnisprava.gov.cz → InstatOnline.</li>
+        <li>Mapuje vypočtené řádky výkazu na sdílený CSV renderer v <code>l10n_cssk_intrastat_base</code> (DIČ partnera, země, země původu, kódy transakce/dopravy/Incoterm, CN8, hmotnost, doplňkové jednotky a hodnota v měně společnosti).</li>
+        <li>Jednosměrné výkazy: přijetí se zapisují jako <code>A</code>, odeslání jako <code>D</code>.</li>
+        <li>Příloha se zapisuje s příponou <code>.csv</code>, protože český výkaz se podává jako CSV, nikoli XML.</li>
+        <li>Výstup reprodukuje rozložení, konstantní pole a formátování čísel oficiálního Odoo EE <code>l10n_cz_intrastat</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>
+        Modul nainstalujte pro českou společnost. Vytvořte a vypočtěte výkaz INTRASTAT standardním postupem OCA
+        <code>intrastat_product</code> a poté vygenerujte soubor výkazu: pro české společnosti modul vytvoří CSV pro
+        InstatOnline a připojí jej s názvem <code>.csv</code>. Výsledný soubor nahrajte na celnisprava.gov.cz →
+        InstatOnline, kde jej portál validuje při nahrání.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

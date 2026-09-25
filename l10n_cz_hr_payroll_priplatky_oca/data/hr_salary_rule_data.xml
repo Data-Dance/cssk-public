@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The five statutory Czech surcharges as OCA-engine salary rules.
+
+        Each rule is a thin call into the engine-neutral mixin, so both
+        engines run byte-identical arithmetic and a statutory change is a data
+        change on l10n.cz.wage.surcharge.rate rather than an edit here.
+
+        Hours reach a rule either from a worked-days line or from a payslip
+        input of the same code; the OCA engine has no work-entry stack, so in
+        practice the inputs declared below are the route.
+    -->
+    <record id="l10n_cz_priplatek_prescas" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
+        <field name="name">Overtime Surcharge (§ 114)</field>
+        <field name="code">PRIPLATEK_PRESCAS</field>
+        <field name="sequence">60</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_cz_surcharge_hours('PRESCAS') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_cz_surcharge_amount('PRESCAS')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Overtime hours', 'code': 'PRESCAS'})]"/>
+    </record>
+    <record id="l10n_cz_priplatek_svatek" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
+        <field name="name">Public Holiday Surcharge (§ 115)</field>
+        <field name="code">PRIPLATEK_SVATEK</field>
+        <field name="sequence">61</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_cz_surcharge_hours('SVATEK') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_cz_surcharge_amount('SVATEK')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Public holiday hours', 'code': 'SVATEK'})]"/>
+    </record>
+    <record id="l10n_cz_priplatek_nocni" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
+        <field name="name">Night Work Surcharge (§ 116)</field>
+        <field name="code">PRIPLATEK_NOCNI</field>
+        <field name="sequence">62</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_cz_surcharge_hours('NOCNI') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_cz_surcharge_amount('NOCNI')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Night hours', 'code': 'NOCNI'})]"/>
+    </record>
+    <record id="l10n_cz_priplatek_vikend" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
+        <field name="name">Saturday/Sunday Surcharge (§ 118)</field>
+        <field name="code">PRIPLATEK_VIKEND</field>
+        <field name="sequence">63</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_cz_surcharge_hours('VIKEND') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_cz_surcharge_amount('VIKEND')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Weekend hours', 'code': 'VIKEND'})]"/>
+    </record>
+    <record id="l10n_cz_priplatek_ztizene" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
+        <field name="name">Difficult Environment Surcharge (§ 117)</field>
+        <field name="code">PRIPLATEK_ZTIZENE</field>
+        <field name="sequence">64</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_cz_surcharge_hours('ZTIZENE') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_cz_surcharge_amount('ZTIZENE')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+        <field name="input_ids" eval="[(0, 0, {'name': 'Difficult-environment hours', 'code': 'ZTIZENE'})]"/>
+    </record>
+</odoo>

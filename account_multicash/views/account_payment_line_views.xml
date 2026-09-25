@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_payment_line_form_multicash" model="ir.ui.view">
+        <field name="name">account.payment.line.form.multicash</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_form"/>
+        <field name="arch" type="xml">
+            <field name="communication" position="after">
+                <field name="variable_symbol"/>
+                <field name="constant_symbol"/>
+                <field name="specific_symbol"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

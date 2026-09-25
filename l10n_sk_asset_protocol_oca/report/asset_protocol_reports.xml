@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_zaradovaci_protokol" model="ir.actions.report">
+        <field name="name">Protokol o zaradení majetku</field>
+        <field name="model">account.asset</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sk_asset_protocol.report_zaradovaci_protokol</field>
+        <field name="report_file">l10n_sk_asset_protocol.report_zaradovaci_protokol</field>
+        <field name="binding_model_id" ref="account_asset_management.model_account_asset"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_vyradovaci_protokol" model="ir.actions.report">
+        <field name="name">Protokol o vyradení majetku</field>
+        <field name="model">account.asset</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sk_asset_protocol.report_vyradovaci_protokol</field>
+        <field name="report_file">l10n_sk_asset_protocol.report_vyradovaci_protokol</field>
+        <field name="binding_model_id" ref="account_asset_management.model_account_asset"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

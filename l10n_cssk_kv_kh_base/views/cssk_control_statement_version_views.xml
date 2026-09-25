@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_control_statement_version_view_list" model="ir.ui.view">
+        <field name="name">cssk.control.statement.version.list</field>
+        <field name="model">cssk.control.statement.version</field>
+        <field name="arch" type="xml">
+            <list string="Control Statement Versions">
+                <field name="country_id"/>
+                <field name="name"/>
+                <field name="valid_from"/>
+                <field name="valid_to"/>
+                <field name="xml_root_element"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_control_statement_version_view_form" model="ir.ui.view">
+        <field name="name">cssk.control.statement.version.form</field>
+        <field name="model">cssk.control.statement.version</field>
+        <field name="arch" type="xml">
+            <form string="Control Statement Version">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="country_id"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="xml_root_element"/>
+                            <field name="xml_template_ref_id"/>
+                            <field name="xml_schema_data" filename="xml_schema_filename"/>
+                            <field name="xml_schema_filename" readonly="1"/>
+                            <field name="threshold_value"/>
+                            <field name="threshold_currency_id"/>
+                            <field name="allow_monthly"/>
+                            <field name="allow_quarterly"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sections" name="sections">
+                            <field name="section_code_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="section_model"/>
+                                    <field name="aggregation"/>
+                                    <field name="threshold_behavior"/>
+                                </list>
+                            </field>
+                        </page>
+<!-- The "Submission Types" page lived here while a version owned its
+                         types. They are scoped by COUNTRY now — the same three
+                         served every Slovak vzor from 2014 to 2025 — so editing
+                         them from one version would have been editing every
+                         version's. They have their own list instead. -->
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_control_statement_version_action" model="ir.actions.act_window">
+        <field name="name">Control Statement Versions</field>
+        <field name="res_model">cssk.control.statement.version</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Submission types, on their own now that a version does not own them.
+         Grouped by country, because country is what distinguishes them: the
+         Slovak three (R / O / D) served every vzor from 2014 to 2025 and the
+         Czech three (B / O / E) are a different set. -->
+    <record id="cssk_control_statement_type_view_list" model="ir.ui.view">
+        <field name="name">cssk.control.statement.type.list</field>
+        <field name="model">cssk.control.statement.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="country_id"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="fa_xml_value"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_control_statement_type_action" model="ir.actions.act_window">
+        <field name="name">Control Statement Submission Types</field>
+        <field name="res_model">cssk.control.statement.type</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>

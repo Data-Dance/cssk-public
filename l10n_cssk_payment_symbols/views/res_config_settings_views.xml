@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="res_config_settings_view_form_cssk_symbols" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.cssk.symbols</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <!-- Own block: this module must not depend on l10n_cssk_core's
+                 settings block, it installs standalone. -->
+            <xpath expr="//block[@id='default_accounts']" position="after">
+                <block
+                    title="Czech / Slovak Payment Symbols"
+                    id="l10n_cssk_payment_symbols_settings"
+                >
+                    <setting
+                        id="cssk_refund_vs_policy"
+                        string="Credit note variable symbol"
+                        help="Own document number, or the reversed invoice's symbol (customers often net payments by the original symbol)."
+                    >
+                        <field name="l10n_cssk_refund_vs_policy" />
+                    </setting>
+                    <setting
+                        id="cssk_default_constant_symbol"
+                        string="Default constant symbol"
+                        help="Preset on customer documents, e.g. 0008 goods, 0308 services."
+                    >
+                        <field name="l10n_cssk_default_constant_symbol" />
+                    </setting>
+                    <setting
+                        id="cssk_payment_reference_use_vs"
+                        string="Payment reference = variable symbol"
+                        help="Customer documents use the variable symbol as payment reference on posting — QR codes, UBL and bank matching then carry it automatically."
+                    >
+                        <field name="l10n_cssk_payment_reference_use_vs" />
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

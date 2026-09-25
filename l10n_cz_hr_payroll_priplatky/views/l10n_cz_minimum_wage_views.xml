@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_cz_minimum_wage_view_list" model="ir.ui.view">
+        <field name="name">l10n.cz.minimum.wage.list</field>
+        <field name="model">l10n.cz.minimum.wage</field>
+        <field name="arch" type="xml">
+            <list string="Czech Minimum Wage">
+                <field name="date_from"/>
+                <field name="amount_monthly"/>
+                <field name="amount_hourly"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="l10n_cz_minimum_wage_view_form" model="ir.ui.view">
+        <field name="name">l10n.cz.minimum.wage.form</field>
+        <field name="model">l10n.cz.minimum.wage</field>
+        <field name="arch" type="xml">
+            <form string="Czech Minimum Wage">
+                <sheet>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="amount_monthly"/>
+                        <field name="amount_hourly"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_cz_minimum_wage" model="ir.actions.act_window">
+        <field name="name">Czech Minimum Wage</field>
+        <field name="res_model">l10n.cz.minimum.wage</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

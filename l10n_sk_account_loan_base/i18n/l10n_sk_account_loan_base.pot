@@ -1,0 +1,248 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_account_loan_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-05 23:01+0000\n"
+"PO-Revision-Date: 2026-08-05 23:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model,name:l10n_sk_account_loan_base.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model,name:l10n_sk_account_loan_base.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model,name:l10n_sk_account_loan_base.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_long_term_account_id
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_long_term_account_id
+msgid "Dlhodobý záväzok z finančného prenájmu (474)."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__l10n_sk_lease_months
+msgid "Doba trvania nájmu (mesiace)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#. odoo-python
+#: code:addons/l10n_sk_account_loan_base/models/l10n_sk_lease_mixin.py:0
+msgid ""
+"Doba trvania nájmu je %(actual)s mesiacov, čo je menej ako zákonné minimum "
+"%(required)s mesiacov (60 %% doby odpisovania). Nejde o finančný prenájom "
+"podľa § 2 písm. s) — daňový režim bude iný."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_vat_treatment__service
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_vat_treatment__service
+msgid "Dodanie služby"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_vat_treatment__goods
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_vat_treatment__goods
+msgid "Dodanie tovaru (§ 8 ods. 1 písm. c)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__l10n_sk_lease_months
+msgid "Dopĺňa bridge podľa polí konkrétneho enginu."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__l10n_sk_vat_treatment
+msgid ""
+"Finančný prenájom je DODANÍM TOVARU, ak zo zmluvy vyplýva prevod vlastníctva najneskôr zaplatením poslednej splátky — vtedy daňová povinnosť vzniká RAZ, dňom odovzdania predmetu nájmu, z celej dohodnutej ceny.\n"
+"\n"
+"Inak ide o DODANIE SLUŽBY a daň sa uplatňuje z každej splátky.\n"
+"\n"
+"Od 1. 1. 2025 sa posudzuje ekonomická podstata, nie znenie zmluvy: rozhoduje, či je uplatnenie opcie pre nájomcu jedinou ekonomicky racionálnou voľbou (v nadväznosti na C-164/16 Mercedes-Benz)."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__id
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_account_loan_base.res_config_settings_view_form
+msgid "Interest and leased asset"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__l10n_sk_lease_term_warning
+msgid "Lease term warning"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_is_sk_company
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_is_sk_company
+msgid "Slovak chart in use (technical)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_account_loan_base.res_config_settings_view_form
+msgid "Lease liability"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_leased_asset_account_id
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_leased_asset_account_id
+msgid "Leased asset"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_short_term_account_id
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_short_term_account_id
+msgid "Leasing — current portion"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_interest_account_id
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_interest_account_id
+msgid "Leasing — interest expense"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_long_term_account_id
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_long_term_account_id
+msgid "Leasing — long-term liability"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#. odoo-python
+#: code:addons/l10n_sk_account_loan_base/models/l10n_sk_lease_mixin.py:0
+msgid "Odpisová skupina %s (%s rokov)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_depreciation_group__1
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_depreciation_group__1
+msgid "Odpisová skupina 1 (4 rokov)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_depreciation_group__2
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_depreciation_group__2
+msgid "Odpisová skupina 2 (6 rokov)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_depreciation_group__3
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_depreciation_group__3
+msgid "Odpisová skupina 3 (8 rokov)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_depreciation_group__4
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_depreciation_group__4
+msgid "Odpisová skupina 4 (12 rokov)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_depreciation_group__5
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_depreciation_group__5
+msgid "Odpisová skupina 5 (20 rokov)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_depreciation_group__6
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_depreciation_group__6
+msgid "Odpisová skupina 6 (40 rokov)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__l10n_sk_depreciation_group
+msgid "Odpisová skupina predmetu"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__l10n_sk_vat_treatment
+msgid "Režim DPH"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model,name:l10n_sk_account_loan_base.model_l10n_sk_lease_mixin
+msgid "Slovak finančný prenájom — statutory qualifiers"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_account_loan_base.res_config_settings_view_form
+msgid "Slovak leasing (finančný prenájom)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__l10n_sk_depreciation_group
+msgid ""
+"Slúži len na overenie 60 % podmienky. Samotné odpisovanie je od 1. 1. 2015 "
+"bežné — lízingové odpisy boli zrušené zákonom 333/2014, takže prenajatý "
+"majetok sa odpisuje počas doby odpisovania v príslušnej odpisovej skupine (§"
+" 26 ods. 8)."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_is_sk_company
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_is_sk_company
+msgid "Technical — hides the Slovak leasing settings on other charts."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_account_loan_base.res_config_settings_view_form
+msgid ""
+"Záväzok z finančného prenájmu — dlhodobá časť (474) a časť splatná do "
+"jedného roka (474100)."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_account_loan_base.res_config_settings_view_form
+msgid ""
+"Úrok obsiahnutý v splátke (562) a účet, na ktorý sa zaradí prenajatý majetok"
+" (022)."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_interest_account_id
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_interest_account_id
+msgid "Úrok obsiahnutý v splátke (562)."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_leased_asset_account_id
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_leased_asset_account_id
+msgid "Účet, na ktorý sa zaradí prenajatý majetok (022 pre vozidlá)."
+msgstr ""
+
+#. module: l10n_sk_account_loan_base
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_company__l10n_sk_loan_short_term_account_id
+#: model:ir.model.fields,help:l10n_sk_account_loan_base.field_res_config_settings__l10n_sk_loan_short_term_account_id
+msgid "Časť záväzku splatná do jedného roka (474100)."
+msgstr ""

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="action_depreciation_schedule" model="ir.actions.client">
+        <field name="name">Depreciation Schedule</field>
+        <field name="tag">account_asset_board.depreciation_schedule</field>
+    </record>
+
+    <menuitem
+        id="menu_depreciation_schedule"
+        name="Depreciation Schedule (dynamic)"
+        action="action_depreciation_schedule"
+        parent="account_asset_management.menu_finance_assets"
+        sequence="60"
+        groups="account.group_account_user"
+    />
+
+    <menuitem
+        id="menu_depreciation_analysis"
+        action="account_asset_line_action_analysis"
+        parent="account_asset_management.menu_finance_assets"
+        sequence="61"
+        groups="account.group_account_user"
+    />
+
+</odoo>

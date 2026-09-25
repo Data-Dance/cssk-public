@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_hr_payroll_cz_annual_tax_recon_form" model="ir.ui.view">
+        <field name="name">hr.payroll.cz.annual.tax.recon.form</field>
+        <field name="model">hr.payroll.cz.annual.tax.recon</field>
+        <field name="arch" type="xml">
+            <form string="Annual Tax Reconciliation">
+                <header>
+                    <button name="action_compute" type="object"
+                            string="Compute" class="oe_highlight" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id" />
+                            <field name="year" />
+                            <field name="company_id"
+                                   groups="base.group_multi_company" />
+                            <field name="currency_id" invisible="1" />
+                        </group>
+                    </group>
+                    <group string="Non-taxable Parts (§15)">
+                        <field name="l10n_cz_pension_contrib" />
+                        <field name="l10n_cz_life_insurance" />
+                        <field name="l10n_cz_mortgage_interest" />
+                        <field name="l10n_cz_gifts" />
+                        <field name="l10n_cz_union_dues" />
+                        <field name="l10n_cz_education" />
+                        <field name="l10n_cz_spouse_credit" />
+                    </group>
+                    <group string="Computed Reconciliation">
+                        <group>
+                            <field name="l10n_cz_annual_gross_base" />
+                            <field name="l10n_cz_nontaxable_total" />
+                            <field name="l10n_cz_annual_tax_base" />
+                            <field name="l10n_cz_annual_tax" />
+                            <field name="l10n_cz_annual_slevy" />
+                            <field name="l10n_cz_annual_tax_after_slevy" />
+                            <field name="l10n_cz_annual_child_benefit" />
+                        </group>
+                        <group>
+                            <field name="l10n_cz_annual_final_tax" />
+                            <field name="l10n_cz_annual_bonus" />
+                            <field name="l10n_cz_advances_withheld" />
+                            <field name="l10n_cz_bonus_paid" />
+                            <field name="l10n_cz_overpayment" />
+                            <field name="l10n_cz_bonus_doplatek" />
+                            <field name="l10n_cz_settlement_total" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hr_payroll_cz_annual_tax_recon_list" model="ir.ui.view">
+        <field name="name">hr.payroll.cz.annual.tax.recon.list</field>
+        <field name="model">hr.payroll.cz.annual.tax.recon</field>
+        <field name="arch" type="xml">
+            <list string="Annual Tax Reconciliation">
+                <field name="employee_id" />
+                <field name="year" />
+                <field name="l10n_cz_annual_final_tax" />
+                <field name="l10n_cz_overpayment" />
+                <field name="l10n_cz_settlement_total" />
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+
+    <record id="action_hr_payroll_cz_annual_tax_recon" model="ir.actions.act_window">
+        <field name="name">Annual Tax Reconciliation</field>
+        <field name="res_model">hr.payroll.cz.annual.tax.recon</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="menu_hr_payroll_cz_annual_tax_recon"
+        name="CZ Annual Tax Reconciliation"
+        parent="payroll.payroll_menu_root"
+        action="action_hr_payroll_cz_annual_tax_recon"
+        sequence="90"
+    />
+</odoo>

@@ -1,0 +1,112 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Tax Depreciation — CZ/SK dual depreciation</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">A second, non-posted tax-depreciation board (daňové odpisy) alongside accounting depreciation</h3>
+    <div class="oe_span12">
+      <p>Czech and Slovak income-tax law require every asset to carry two parallel depreciation
+         plans: the <b>accounting</b> plan (posted to account 551) and the <b>tax</b> plan
+         (daňové odpisy), which is a tax-base figure only and is <b>never posted</b> to the
+         general ledger. It only adjusts the income-tax base (DPPO add-back / deduction).</p>
+      <p>This app adds the tax board, computed by a verified pure-Python engine implementing
+         CZ §31/§32/§30a and SK §27/§28. Install <b>core + one bridge</b>
+         (<code>account_asset_tax_ee</code> for Enterprise, <code>account_asset_tax_oca</code>
+         for OCA/Community) <b>+ the country data layer</b>
+         (<code>l10n_cz_account_asset_tax</code> / <code>l10n_sk_account_asset_tax</code>).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Parallel <b>tax depreciation board</b> per asset, independent of the posted
+            accounting plan.</li>
+        <li>Statutory engine with <b>no Odoo import</b> (<code>engine/depreciation.py</code>),
+            unit-tested in isolation and reused unchanged by both framework bridges.</li>
+        <li>Country coefficients/groups supplied by thin data layers (CZ §31/§32/§30a,
+            SK §27/§28).</li>
+        <li>Lifecycle events: technical improvement, suspension, disposal — re-plan from the
+            event date.</li>
+        <li>Period <b>reconciliation for the DPPO</b> (§23 add-back / deduction) with optional
+            deferred-tax posting and XLSX/PDF export.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Open any asset to see its tax board next to the accounting board. Use the wizards below
+         to compute boards in batch, backfill mid-life assets, record events, file a year, and
+         reconcile the period for the income-tax return.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Wizards</h2>
+    <div class="oe_span12">
+      <h4>Compute Tax Depreciation Boards</h4>
+      <p><b>What it does:</b> (re)computes the tax board for a selection of assets.</p>
+      <p><b>How to use:</b> select assets (or open the wizard), run <i>Compute</i>; the boards are
+         rebuilt from each asset's entry value, in-service date, group and method.</p>
+      <h4>Backfill Tax Depreciation</h4>
+      <p><b>What it does:</b> initialises the tax board on an asset that is already part-way
+         through its life.</p>
+      <p><b>How to use:</b> open the asset, launch <i>Backfill</i>, enter the years already
+         elapsed / accumulated tax depreciation, then <i>Backfill</i> to seed the board.</p>
+      <h4>Tax Depreciation Event Wizard</h4>
+      <p><b>What it does:</b> records a lifecycle event — technical improvement, suspension or
+         disposal — and re-plans the board from that point.</p>
+      <p><b>How to use:</b> on the asset, open the event wizard, pick the event type and date,
+         enter any amount (e.g. improvement value), then <i>Apply</i>.</p>
+      <h4>Close Tax Depreciation Year</h4>
+      <p><b>What it does:</b> freezes the board up to a filed fiscal year so later edits cannot
+         alter an already-submitted DPPO.</p>
+      <p><b>How to use:</b> open <i>Close Tax Depreciation Year</i>, choose the year, then
+         <i>File Year</i>.</p>
+      <h4>Tax Depreciation Reconciliation (DPPO)</h4>
+      <p><b>What it does:</b> reconciles accounting vs tax depreciation for a fiscal period — the
+         §23 add-back / deduction feeding the income-tax return.</p>
+      <p><b>How to use:</b> open the reconciliation wizard for the period, <i>Compute</i>, review
+         the per-asset lines, optionally <i>Post deferred tax</i>, and <i>Export XLSX</i> /
+         <i>Print PDF</i>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Documentation</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="cheat_sheet.html">Interactive cheat sheet</a> — build the board year by year,
+            switch country/group/method, apply lifecycle events, watch the DPPO tally.</li>
+        <li><a href="tax_depreciation_cheat_sheet.html">Tax depreciation cheat sheet</a> —
+            static reference with worked examples of every group and method
+            (source: <a href="../../docs/tax_depreciation_cheat_sheet.rst">docs/tax_depreciation_cheat_sheet.rst</a>).</li>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — release history.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The § 120 difficulty level is a property of the post, so it is set on
+        the job and inherited by contracts created against it.
+    -->
+    <record id="view_hr_job_form_l10n_sk_priplatky" model="ir.ui.view">
+        <field name="name">hr.job.form.l10n_sk_priplatky</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr.view_hr_job_form"/>
+        <field name="arch" type="xml">
+            <field name="contract_type_id" position="after">
+                <field name="l10n_sk_wage_level" groups="hr.group_hr_user"/>
+            </field>
+        </field>
+    </record>
+</odoo>

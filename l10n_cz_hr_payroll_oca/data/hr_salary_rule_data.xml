@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Czech monthly payslip chain for standard employment (pracovní poměr).
+        Every numeric value comes from hr.rule.parameter (see
+        hr_rule_parameter_data.xml), sourced from docs/cz_payroll_legal.md.
+        Superhrubá mzda is abolished: the tax base equals the gross wage.
+
+        Engine mapping:
+          * rules attach to the structure via rule_ids m2m (no struct_id).
+          * contract.wage is the full monthly wage.
+          * payslip.rule_parameter(code) is the dated-parameter accessor.
+          * BrowsableObject supports attribute access only:
+            categories.X, worked_days.WORK100, inputs.X, result_rules.X.total,
+            and 'CODE' in obj.dict.
+          * relativedelta is injected into the rule namespace by hr_payslip.py.
+
+        result_rate defaults to 100, so line total = result * result_qty * result_rate/100.
+    -->
+
+    <!-- 1. BASIC -->
+    <record id="cz_basic_salary_rule" model="hr.salary.rule">
+        <field name="category_id" ref="BASIC"/>
+        <field name="name">Basic Salary</field>
+        <field name="sequence">1</field>
+        <field name="code">BASIC</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+# Prorate the monthly wage by worked/scheduled time so mid-month hires and
+# leavers are paid correctly. l10n_cz_worked_ratio() returns 1.0 for a full
+# month (BASIC == contract.wage, unchanged) and &lt; 1.0 for a partial month.
+result = contract.wage * payslip.l10n_cz_worked_ratio()
+        </field>
+    </record>
+
+    <!-- 80. MEAL ALLOWANCE (stravenkový paušál) - exempt up to statutory limit.
+         Memo category MEALEE: kept OUT of taxable GROSS; added back at NET. -->
+    <record id="cz_meal_allowance_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_meal_employee"/>
+        <field name="name">Meal Allowance</field>
+        <field name="sequence">80</field>
+        <field name="code">MEAL</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result_qty = worked_days.WORK100.number_of_days if 'WORK100' in worked_days.dict else 0.0
+result = min(contract.l10n_cz_meal_allowance, payslip.rule_parameter('l10n_cz_meal_exempt'))
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 85. HOLIDAY PAY (náhrada mzdy za dovolenou, §222 zákoníku práce).
+         Paid at the FULL průměrný výdělek (not reduced) and IS subject to
+         pojistné + daň, so it lands in GROSS (category parented to ALW, sequence
+         &lt; 100). BASIC has already been prorated DOWN by the holiday hours
+         (l10n_cz_worked_ratio subtracts every absence), so this náhrada replaces
+         the wage for those hours -> no net GROSS cut. Hours are driven from the
+         CZHOLIDAY leave-derived worked-day line.
+         Source: §222 + §351-362 (average earnings); MPSV X.4.5. -->
+    <record id="cz_holiday_nahrada_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_holiday_nahrada"/>
+        <field name="name">Holiday Pay</field>
+        <field name="sequence">85</field>
+        <field name="code">HOLIDAYNAHRADA</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_cz_leave_hours('CZHOLIDAY') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+hours = payslip.l10n_cz_leave_hours('CZHOLIDAY')
+phv = payslip.l10n_cz_average_hourly_earnings()
+result = round(hours * phv, 2)
+result_name = 'Holiday Pay'
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 86. PAID OBSTACLE (náhrada mzdy za překážky v práci - lékař / doprovod,
+         §199 zákoníku práce + NV 590/2006 Sb.). Paid at the FULL průměrný
+         výdělek; insurable + taxable (GROSS). BASIC has been prorated down by
+         the CZOBSTACLE hours, so this replaces the wage for those hours. Hours
+         driven from the CZOBSTACLE leave line. -->
+    <record id="cz_obstacle_nahrada_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_obstacle_nahrada"/>
+        <field name="name">Paid Obstacle</field>
+        <field name="sequence">86</field>
+        <field name="code">OBSTACLENAHRADA</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_cz_leave_hours('CZOBSTACLE') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+hours = payslip.l10n_cz_leave_hours('CZOBSTACLE')
+phv = payslip.l10n_cz_average_hourly_earnings()
+result = round(hours * phv, 2)
+result_name = 'Paid Obstacle Compensation'
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 90. SICKNESS COMPENSATION (náhrada mzdy, first 14 calendar days).
+         Employer pays 60 % of the reduced average hourly earnings; the PHV is
+         reduced by the hourly redukční hranice (90/60/30 bands). Hours are
+         driven from the CZSICK leave-derived worked-day line, falling back to
+         the manual SICK_HOURS input. Memo category SICKNAHRADA: kept OUT of
+         GROSS (not subject to pojistné) and added back at NET. Simplification:
+         not run through income tax (see readme/ROADMAP). No waiting period
+         (paid from day 1 since 2019). -->
+    <record id="cz_sick_nahrada_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_sick_nahrada"/>
+        <field name="name">Sickness Compensation</field>
+        <field name="sequence">90</field>
+        <field name="code">SICKNAHRADA</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip.l10n_cz_leave_hours('CZSICK') &gt; 0 or 'SICK_HOURS' in inputs.dict</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+phv = payslip.l10n_cz_average_hourly_earnings()
+rh1 = payslip.rule_parameter('l10n_cz_sick_rh1')
+rh2 = payslip.rule_parameter('l10n_cz_sick_rh2')
+rh3 = payslip.rule_parameter('l10n_cz_sick_rh3')
+reduced = (min(phv, rh1) * 0.90
+           + (min(phv, rh2) - min(phv, rh1)) * 0.60
+           + (min(phv, rh3) - min(phv, rh2)) * 0.30)
+# Drive the missed hours from the CZSICK leave; fall back to the manual input.
+hours = payslip.l10n_cz_leave_hours('CZSICK')
+if not hours and 'SICK_HOURS' in inputs.dict:
+    hours = inputs.SICK_HOURS.amount
+nahrada = reduced * 0.60 * hours
+# náhrada mzdy is rounded up to whole crowns
+result = int(-(-nahrada // 1))
+result_name = inputs.SICK_HOURS.name if 'SICK_HOURS' in inputs.dict else 'Sickness Compensation'
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 100. GROSS (base = gross; superhrubá abolished) -->
+    <record id="cz_gross_salary_rule" model="hr.salary.rule">
+        <field name="category_id" ref="GROSS"/>
+        <field name="name">Gross Salary</field>
+        <field name="sequence">100</field>
+        <field name="code">GROSS</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.BASIC + categories.ALW
+        </field>
+    </record>
+
+    <!-- 110. SOCIAL INSURANCE (Employee) 7.1 % with 48x annual cap (YTD) -->
+    <record id="cz_social_ee_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_social_employee"/>
+        <field name="name">Social Insurance (Employee)</field>
+        <field name="sequence">110</field>
+        <field name="code">SOCIALEE</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+# Dohody: social insurance is due only once the monthly income reaches the
+# rozhodný příjem. A single notified DPP (oznámená dohoda) uses the higher 25 %
+# average-wage threshold; a non-notified DPP falls back to the general rozhodný
+# příjem, same as DPČ. Standard employment is always insured.
+agr = contract.l10n_cz_agreement_type
+if agr == 'dpp':
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+elif agr == 'dpc':
+    thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
+else:
+    thr = 0.0
+result = agr == 'standard' or categories.GROSS &gt;= thr
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+gross = categories.GROSS
+cap = payslip.rule_parameter('l10n_cz_social_max_base')
+prior = payslip.search([
+    ('employee_id', '=', payslip.employee_id.id),
+    ('state', '=', 'done'),
+    ('date_from', '&gt;=', payslip.date_from + relativedelta(day=1, month=1)),
+    ('date_to', '&lt;=', payslip.date_from + relativedelta(day=31, months=-1)),
+])
+ytd = sum(p.get_salary_line_total('GROSS') for p in prior)
+remaining = max(cap - ytd, 0)
+result = min(gross, remaining)
+result_rate = -payslip.rule_parameter('l10n_cz_social_rate_ee')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 111. SOCIAL INSURANCE (Employer) 24.8 % with the same 48x annual cap -->
+    <record id="cz_social_er_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_social_employer"/>
+        <field name="name">Social Insurance (Employer)</field>
+        <field name="sequence">111</field>
+        <field name="code">SOCIALER</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+# Employer social insurance follows the same rozhodný-příjem gate as the employee.
+agr = contract.l10n_cz_agreement_type
+if agr == 'dpp':
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+elif agr == 'dpc':
+    thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
+else:
+    thr = 0.0
+result = agr == 'standard' or categories.GROSS &gt;= thr
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+gross = categories.GROSS
+cap = payslip.rule_parameter('l10n_cz_social_max_base')
+prior = payslip.search([
+    ('employee_id', '=', payslip.employee_id.id),
+    ('state', '=', 'done'),
+    ('date_from', '&gt;=', payslip.date_from + relativedelta(day=1, month=1)),
+    ('date_to', '&lt;=', payslip.date_from + relativedelta(day=31, months=-1)),
+])
+ytd = sum(p.get_salary_line_total('GROSS') for p in prior)
+remaining = max(cap - ytd, 0)
+result = min(gross, remaining)
+result_rate = payslip.rule_parameter('l10n_cz_social_rate_er')
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <!-- 112. EMPLOYER SOCIAL-INSURANCE DISCOUNT (sleva na pojistném, §7a 589/1992).
+         5 % of the monthly assessment base (capped at 1.5x avg wage) for an eligible
+         part-time employee (8-30 h/week; under-21 exempt from the hours band).
+         Negative line in its own SOCIAL_DISCOUNT category -> reduces EMPLOYERCOST
+         but leaves the gross SOCIALER/SOCIALERTOT premium untouched (for PVPOJ). -->
+    <record id="cz_social_discount_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_social_discount"/>
+        <field name="name">Social Insurance Discount (Employer)</field>
+        <field name="sequence">112</field>
+        <field name="code">SOCIAL_DISCOUNT</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+cat = contract.l10n_cz_social_discount_category
+result = False
+if cat and cat != 'none':
+    cal = contract.resource_calendar_id
+    if 'hours_per_week' in cal._fields:
+        hpw = cal.hours_per_week
+    else:
+        weeks = 2.0 if cal.two_weeks_calendar else 1.0
+        hpw = (sum(a.hour_to - a.hour_from for a in cal.attendance_ids) / weeks) if cal.attendance_ids else 0.0
+    hmin = payslip.rule_parameter('l10n_cz_social_disc_hours_min')
+    hmax = payslip.rule_parameter('l10n_cz_social_disc_hours_max')
+    parttime_ok = cat == 'under21' or (hmin &lt;= hpw &lt;= hmax)
+    cap = payslip.rule_parameter('l10n_cz_avg_wage') * payslip.rule_parameter('l10n_cz_social_disc_base_mult')
+    base = categories.GROSS
+    result = bool(parttime_ok and 0 &lt; base &lt;= cap)
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+cap = payslip.rule_parameter('l10n_cz_avg_wage') * payslip.rule_parameter('l10n_cz_social_disc_base_mult')
+base = min(categories.GROSS, cap)
+result = -base
+result_rate = payslip.rule_parameter('l10n_cz_social_disc_rate')
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 120. HEALTH INSURANCE (Employee) 4.5 % with min-base top-up.
+         If gross &lt; min wage and the employee is NOT state-insured, the employee
+         bears the full 13.5 % shortfall on (min_base - gross) on top of 4.5 % of gross. -->
+    <record id="cz_health_ee_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_health_employee"/>
+        <field name="name">Health Insurance (Employee)</field>
+        <field name="sequence">120</field>
+        <field name="code">HEALTHEE</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+# Health insurance is due for dohody only once the income reaches the threshold.
+agr = contract.l10n_cz_agreement_type
+if agr == 'dpp':
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+elif agr == 'dpc':
+    thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
+else:
+    thr = 0.0
+result = agr == 'standard' or categories.GROSS &gt;= thr
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+gross = categories.GROSS
+min_base = payslip.rule_parameter('l10n_cz_health_min_base')
+rate_ee = payslip.rule_parameter('l10n_cz_health_rate_ee')
+# The minimum-assessment-base top-up applies to standard employment only; dohody
+# are assessed on their actual income.
+if contract.l10n_cz_is_state_insured or contract.l10n_cz_agreement_type != 'standard' or gross &gt;= min_base:
+    result = gross
+    result_rate = -rate_ee
+else:
+    rate_total = rate_ee + payslip.rule_parameter('l10n_cz_health_rate_er')
+    result = -(gross * rate_ee / 100.0 + (min_base - gross) * rate_total / 100.0)
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 121. HEALTH INSURANCE (Employer) 9 % of actual gross (no min-base top-up) -->
+    <record id="cz_health_er_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_health_employer"/>
+        <field name="name">Health Insurance (Employer)</field>
+        <field name="sequence">121</field>
+        <field name="code">HEALTHER</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+# Employer health insurance follows the same threshold gate as the employee.
+agr = contract.l10n_cz_agreement_type
+if agr == 'dpp':
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+elif agr == 'dpc':
+    thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
+else:
+    thr = 0.0
+result = agr == 'standard' or categories.GROSS &gt;= thr
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.GROSS
+result_rate = payslip.rule_parameter('l10n_cz_health_rate_er')
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <!-- 130. TAX BASE (= gross; NO superhrubá) -->
+    <record id="cz_tax_base_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_tax_base"/>
+        <field name="name">Tax Base</field>
+        <field name="sequence">130</field>
+        <field name="code">TAXBASE</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.GROSS
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 170. INCOME TAX ADVANCE (15 % / 23 % two-band).
+         Monthly base rounded UP to whole 100 Kč (§38h ZDP). -->
+    <record id="cz_income_tax_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_income_tax"/>
+        <field name="name">Income Tax Advance</field>
+        <field name="sequence">170</field>
+        <field name="code">INCOMETAX</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+# Advance (zálohová) tax applies to standard employment, to insured dohody
+# (income &gt;= threshold), or to any dohoda where the taxpayer declaration is
+# signed. Below-threshold dohody without a declaration are taxed by the final
+# withholding tax (WHTAX) instead.
+agr = contract.l10n_cz_agreement_type
+if agr == 'dpp':
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+elif agr == 'dpc':
+    thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
+else:
+    thr = 0.0
+result = agr == 'standard' or categories.GROSS &gt;= thr or contract.l10n_cz_tax_declaration
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+raw = categories.TAXBASE
+# round up to whole 100 (ceil): -(-x // 100) * 100
+base = int(-(-raw // 100.0)) * 100
+thr = payslip.rule_parameter('l10n_cz_tax_threshold_month')
+r1 = payslip.rule_parameter('l10n_cz_tax_rate_1')
+r2 = payslip.rule_parameter('l10n_cz_tax_rate_2')
+tax = r1 / 100.0 * min(base, thr) + r2 / 100.0 * max(base - thr, 0)
+result = -tax
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 175. WITHHOLDING TAX (srážková daň, daň vybíraná srážkou) - the final 15 %
+         tax on a below-threshold dohoda when no taxpayer declaration is signed
+         (§ 6 odst. 4 ZDP). Base and tax rounded down to whole CZK. No credits.
+         Sources (2025/2026 limits & treatment):
+         https://www.finance.cz/clanky/553494-prace-na-dohody-dpp-dpc-v-roce-2026-jak-se-zmeni-limity-a-zdaneni-prace-na-dohodu/
+         https://www.mesec.cz/clanky/dohoda-o-pracovni-cinnosti-dpc-2025-jak-na-dane-a-pojistne-odvody/ -->
+    <record id="cz_wh_tax_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_wh_tax"/>
+        <field name="name">Withholding Tax</field>
+        <field name="sequence">175</field>
+        <field name="code">WHTAX</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+agr = contract.l10n_cz_agreement_type
+if agr not in ('dpp', 'dpc') or contract.l10n_cz_tax_declaration:
+    result = False
+else:
+    if agr == 'dpp':
+        thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+    else:
+        thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
+    result = categories.GROSS &lt; thr
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+# Srážková daň uses the same 15 % statutory rate as the first income-tax band.
+rate = payslip.rule_parameter('l10n_cz_tax_rate_1')
+base = int(categories.GROSS)
+result = -int(base * rate / 100.0)
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 171. TAX CREDITS (slevy) - only if prohlášení poplatníka signed.
+         Credit cannot exceed the tax advance. Positive line (offsets DED). -->
+    <record id="cz_tax_credit_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_tax_credit"/>
+        <field name="name">Tax Credits</field>
+        <field name="sequence">171</field>
+        <field name="code">TAXCREDIT</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.l10n_cz_tax_declaration</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+credits = payslip.rule_parameter('l10n_cz_credit_taxpayer')
+if contract.l10n_cz_claim_ztpp:
+    credits += payslip.rule_parameter('l10n_cz_credit_ztpp')
+if contract.l10n_cz_disability == '1_2':
+    credits += payslip.rule_parameter('l10n_cz_credit_disab_12')
+elif contract.l10n_cz_disability == '3':
+    credits += payslip.rule_parameter('l10n_cz_credit_disab_3')
+tax = -result_rules.INCOMETAX.total
+result = min(credits, tax)
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 172. CHILD TAX BENEFIT (daňové zvýhodnění) - the part that offsets the
+         remaining tax after credits. Positive line (offsets DED). -->
+    <record id="cz_child_benefit_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_child_benefit"/>
+        <field name="name">Child Tax Benefit</field>
+        <field name="sequence">172</field>
+        <field name="code">CHILDBEN</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.l10n_cz_tax_declaration and (contract.l10n_cz_children_t1 + contract.l10n_cz_children_t2 + contract.l10n_cz_children_t3) &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+p1 = payslip.rule_parameter('l10n_cz_child_1')
+p2 = payslip.rule_parameter('l10n_cz_child_2')
+p3 = payslip.rule_parameter('l10n_cz_child_3')
+benefit = contract.l10n_cz_children_t1 * p1 + contract.l10n_cz_children_t2 * p2 + contract.l10n_cz_children_t3 * p3
+# ZTP/P children double the benefit. Precise per-child tier doubling is P2;
+# approximated here by adding one extra 1st-tier amount per ZTP/P child.
+benefit += contract.l10n_cz_children_ztpp * p1
+tax_after = max(-result_rules.INCOMETAX.total - result_rules.TAXCREDIT.total, 0)
+result = min(benefit, tax_after)
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 173. CHILD TAX BONUS (daňový bonus, payout) - the surplus of the child
+         benefit over the tax, paid to the employee if monthly income &gt;= 1/2 min wage.
+         Monthly bonus cap abolished (2024). Positive line in ALW (take-home). -->
+    <record id="cz_child_bonus_rule" model="hr.salary.rule">
+        <field name="category_id" ref="ALW"/>
+        <field name="name">Child Tax Bonus</field>
+        <field name="sequence">173</field>
+        <field name="code">CHILDBONUS</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.l10n_cz_tax_declaration and (contract.l10n_cz_children_t1 + contract.l10n_cz_children_t2 + contract.l10n_cz_children_t3) &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+p1 = payslip.rule_parameter('l10n_cz_child_1')
+p2 = payslip.rule_parameter('l10n_cz_child_2')
+p3 = payslip.rule_parameter('l10n_cz_child_3')
+benefit = contract.l10n_cz_children_t1 * p1 + contract.l10n_cz_children_t2 * p2 + contract.l10n_cz_children_t3 * p3
+benefit += contract.l10n_cz_children_ztpp * p1
+bonus = benefit - result_rules.CHILDBEN.total
+threshold = payslip.rule_parameter('l10n_cz_bonus_min_income_month')
+if categories.GROSS &gt;= threshold and bonus &gt; 0:
+    result = bonus
+else:
+    result = 0
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 174. Garnishments (input-driven). Real nezabavitelná-částka logic is P3. -->
+    <record id="cz_attachment_of_salary_rule" model="hr.salary.rule">
+        <field name="category_id" ref="DED"/>
+        <field name="name">Attachment of Salary</field>
+        <field name="sequence">174</field>
+        <field name="code">ATTACH_SALARY</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = 'ATTACH_SALARY' in inputs.dict</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -inputs.ATTACH_SALARY.amount
+result_name = inputs.ATTACH_SALARY.name
+        </field>
+    </record>
+
+    <record id="cz_assignment_of_salary_rule" model="hr.salary.rule">
+        <field name="category_id" ref="DED"/>
+        <field name="name">Assignment of Salary</field>
+        <field name="sequence">174</field>
+        <field name="code">ASSIG_SALARY</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = 'ASSIG_SALARY' in inputs.dict</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -inputs.ASSIG_SALARY.amount
+result_name = inputs.ASSIG_SALARY.name
+        </field>
+    </record>
+
+    <record id="cz_child_support_rule" model="hr.salary.rule">
+        <field name="category_id" ref="DED"/>
+        <field name="name">Child Support</field>
+        <field name="code">CHILD_SUPPORT</field>
+        <field name="sequence">174</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = 'CHILD_SUPPORT' in inputs.dict</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -inputs.CHILD_SUPPORT.amount
+result_name = inputs.CHILD_SUPPORT.name
+        </field>
+    </record>
+
+    <!-- 180. WAGE GARNISHMENT (exekuční srážky ze mzdy) with the 2026
+         nezabavitelná částka. Computed on the statutory net wage: subtract the
+         protected amount (base = 85 % of (living minimum + normative rent +
+         energy flat); +1/4 per dependent; total rounded up to whole crowns).
+         The remainder (zbytek) up to the 1.9x limit is split into thirds;
+         anything above the limit is seized in full. Přednostní (priority)
+         claims draw from 2 thirds + the unlimited part; nepřednostní from 1
+         third + the unlimited part. Input-driven via GARNISHMENT_PREF /
+         GARNISHMENT_NONPREF (claim amount + name). Simplification: one active
+         claim per payslip; the multi-claim priority waterfall is out of scope.
+
+         PREFERRED PATH: when l10n_cssk_hr_payroll_garnishment_base is
+         installed the rule instead delegates to the garnishment register,
+         which applies the full § 279/§ 280 waterfall across every order on
+         file for the employee — maintenance first out of the second third,
+         everything else by pořadí, pro-rata at equal rank, and the fully
+         seizable part above the limit split between the thirds. The
+         input-driven code below remains as the fallback for databases that
+         have not adopted the register. -->
+    <record id="cz_garnishment_rule" model="hr.salary.rule">
+        <field name="category_id" ref="DED"/>
+        <field name="name">Wage Garnishment</field>
+        <field name="sequence">180</field>
+        <field name="code">GARNISHMENT</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = ('GARNISHMENT_PREF' in inputs.dict or 'GARNISHMENT_NONPREF' in inputs.dict
+          or ('hr.wage.garnishment' in payslip.env
+              and payslip.env['hr.wage.garnishment']._payslip_has_orders(payslip)))</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+# Statutory net wage (čistá mzda): gross less insurance and net income tax.
+net = (categories.GROSS + categories.SOCIALEE + categories.HEALTHEE
+       + categories.INCOMETAX + categories.TAXCREDIT + categories.CHILDBEN
+       + categories.WHTAX)
+# Prefer the garnishment register, but ONLY for employees who actually
+# have an order on file. Installing the register must not silently
+# disable the input-driven path for everyone else — a site can migrate
+# employee by employee. Where both exist, the register wins.
+_has_register = ('hr.wage.garnishment' in payslip.env
+                 and payslip.env['hr.wage.garnishment']._payslip_has_orders(payslip))
+if _has_register:
+    # Full multi-claim waterfall across all active orders.
+    result = -payslip.env['hr.wage.garnishment']._payslip_amount(payslip, net)
+elif 'GARNISHMENT_PREF' in inputs.dict or 'GARNISHMENT_NONPREF' in inputs.dict:
+    # Legacy single-claim fallback (see the comment above the record).
+    base_sum = (payslip.rule_parameter('l10n_cz_garnish_subsistence')
+                + payslip.rule_parameter('l10n_cz_garnish_normative_rent')
+                + payslip.rule_parameter('l10n_cz_garnish_energy'))
+    base_neza = base_sum * payslip.rule_parameter('l10n_cz_garnish_base_pct') / 100.0
+    neza = base_neza + contract.l10n_cz_garnishment_dependents * (base_neza / 4.0)
+    # total protected amount rounded up to whole crowns
+    neza = int(-(-neza // 1))
+    limit = payslip.rule_parameter('l10n_cz_garnish_unlimited_limit')
+    zbytek = net - neza
+    if zbytek &lt;= 0:
+        result = 0.0
+    else:
+        if zbytek &gt;= limit:
+            nadlimit = zbytek - limit
+            thirds_base = limit
+        else:
+            nadlimit = 0.0
+            thirds_base = int(zbytek // 3) * 3
+        third = thirds_base / 3.0
+        if 'GARNISHMENT_PREF' in inputs.dict:
+            claim = inputs.GARNISHMENT_PREF.amount
+            result_name = inputs.GARNISHMENT_PREF.name
+            pool = 2 * third + nadlimit
+        else:
+            claim = inputs.GARNISHMENT_NONPREF.amount
+            result_name = inputs.GARNISHMENT_NONPREF.name
+            pool = third + nadlimit
+        result = -min(claim, pool)
+else:
+    result = 0.0
+        </field>
+    </record>
+
+    <!-- 198. DEDUCTION (input) -->
+    <record id="cz_deduction_rule" model="hr.salary.rule">
+        <field name="category_id" ref="DED"/>
+        <field name="name">Deduction</field>
+        <field name="sequence">198</field>
+        <field name="code">DEDUCTION</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = 'DEDUCTION' in inputs.dict</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -inputs.DEDUCTION.amount
+result_name = inputs.DEDUCTION.name
+        </field>
+    </record>
+
+    <!-- 199. REIMBURSEMENT (input) -->
+    <record id="cz_reimbursement_rule" model="hr.salary.rule">
+        <field name="category_id" ref="ALW"/>
+        <field name="name">Reimbursement</field>
+        <field name="sequence">199</field>
+        <field name="code">REIMBURSEMENT</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = 'REIMBURSEMENT' in inputs.dict</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = inputs.REIMBURSEMENT.amount
+result_name = inputs.REIMBURSEMENT.name
+        </field>
+    </record>
+
+    <!-- 196. ANNUAL TAX SETTLEMENT (roční zúčtování záloh na daň, §38ch/§38ča).
+         Input-driven: the přeplatek (+ doplatek na daňovém bonusu) computed on
+         the hr.payroll.cz.annual.tax.recon record is posted here (usually the
+         March payslip) and increases net pay. Zero on standard monthly payslips
+         (no input line). Positive line in ALW. -->
+    <record id="cz_annual_tax_settlement_rule" model="hr.salary.rule">
+        <field name="category_id" ref="ALW"/>
+        <field name="name">Annual Tax Settlement</field>
+        <field name="sequence">196</field>
+        <field name="code">ANNUAL_TAX_SETTLEMENT</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = 'ANNUAL_TAX_SETTLEMENT' in inputs.dict</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = inputs.ANNUAL_TAX_SETTLEMENT.amount
+result_name = inputs.ANNUAL_TAX_SETTLEMENT.name or 'Annual Tax Reconciliation'
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 200. NET. MEAL is a memo category (exempt), added back on top of DED/ALW. -->
+    <record id="cz_net_salary_rule" model="hr.salary.rule">
+        <field name="category_id" ref="NET"/>
+        <field name="name">Net Salary</field>
+        <field name="sequence">200</field>
+        <field name="code">NET</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = max(
+    0,
+    BASIC + categories.ALW + categories.DED + result_rules.MEAL.total
+    + categories.SICKNAHRADA
+)
+        </field>
+    </record>
+
+    <!-- 500+. Reporting totals -->
+    <record id="cz_social_ee_total_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_social_employee_total"/>
+        <field name="name">Social Insurance Total (Employee)</field>
+        <field name="code">SOCIALEETOT</field>
+        <field name="sequence">500</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.SOCIALEE
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <record id="cz_social_er_total_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_social_employer_total"/>
+        <field name="name">Social Insurance Total (Employer)</field>
+        <field name="code">SOCIALERTOT</field>
+        <field name="sequence">500</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.SOCIALER
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <record id="cz_health_ee_total_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_health_employee_total"/>
+        <field name="name">Health Insurance Total (Employee)</field>
+        <field name="code">HEALTHEETOT</field>
+        <field name="sequence">501</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.HEALTHEE
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <record id="cz_health_er_total_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_health_employer_total"/>
+        <field name="name">Health Insurance Total (Employer)</field>
+        <field name="code">HEALTHERTOT</field>
+        <field name="sequence">501</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.HEALTHER
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <record id="cz_income_tax_total_rule" model="hr.salary.rule">
+        <field name="category_id" ref="hr_payroll_income_tax_total"/>
+        <field name="name">Income Tax Total</field>
+        <field name="code">INCOMETAXTOT</field>
+        <field name="sequence">510</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = -categories.INCOMETAX
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <!-- 520. TOTAL EMPLOYER COST -->
+    <record id="cz_employer_cost_rule" model="hr.salary.rule">
+        <field name="category_id" ref="COMP"/>
+        <field name="name">Total Employer Cost</field>
+        <field name="code">EMPLOYERCOST</field>
+        <field name="sequence">520</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = GROSS + categories.SOCIALER + categories.HEALTHER + categories.SOCIAL_DISCOUNT
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
+    <!-- ==================== EMPLOYER-OBSTACLE NÁHRADA (§§ 207-209) ==========
+         Unlike the § 199 employee-side obstacles, which are paid at the FULL
+         průměrný výdělek, these four carry their own statutory rates, so each
+         reason has its own worked-day code and reads its own dated percentage:
+
+           CZPROSTOJ       § 207 a)  prostoj                    nejméně  80 %
+           CZPOVETRNOST    § 207 b)  povětrnostní vlivy         nejméně  60 %
+           CZJINEPREKAZKY  § 208     jiné překážky                      100 %
+           CZCASTECNA      § 209     částečná nezaměstnanost    nejméně  60 %
+
+         BASIC has been prorated down for these hours (they are in
+         CZ_ABSENCE_CODES), and this rule pays them back — at the statutory
+         rate, not automatically in full. Insurable + taxable, so into GROSS.
+         Source: §§ 207-209 zákona č. 262/2006 Sb.; § 351 (průměrný výdělek). -->
+    <record id="cz_employer_obstacle_nahrada_rule" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_cz_hr_payroll_oca.hr_payroll_obstacle_nahrada"/>
+        <field name="name">Employer Work Obstacle (§§ 207-209)</field>
+        <field name="sequence">87</field>
+        <field name="code">PREKAZKANAHRADA</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+result = payslip.l10n_cz_leave_hours(
+    ('CZPROSTOJ', 'CZPOVETRNOST', 'CZJINEPREKAZKY', 'CZCASTECNA')) &gt; 0
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+_rates = (
+    ('CZPROSTOJ', 'l10n_cz_prekazka_prostoj_pct'),
+    ('CZPOVETRNOST', 'l10n_cz_prekazka_povetrnost_pct'),
+    ('CZJINEPREKAZKY', 'l10n_cz_prekazka_jine_pct'),
+    ('CZCASTECNA', 'l10n_cz_prekazka_castecna_pct'),
+)
+_phv = payslip.l10n_cz_average_hourly_earnings()
+_total = 0.0
+for _code, _param in _rates:
+    _hours = payslip.l10n_cz_leave_hours(_code)
+    if _hours:
+        _total += _hours * _phv * payslip.rule_parameter(_param) / 100.0
+result = round(_total, 2)
+result_name = 'Employer Obstacle Compensation'
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+</odoo>

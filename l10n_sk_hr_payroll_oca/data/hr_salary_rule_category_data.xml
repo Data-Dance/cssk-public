@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The payroll engine ships no default salary-rule categories, so we
+        define the ones the Slovak rules rely on (BASIC/GROSS/NET/ALW/DED/COMP)
+        here and reference them locally.
+    -->
+    <record id="BASIC" model="hr.salary.rule.category">
+        <field name="name">Basic</field>
+        <field name="code">BASIC</field>
+    </record>
+    <record id="ALW" model="hr.salary.rule.category">
+        <field name="name">Allowance</field>
+        <field name="code">ALW</field>
+    </record>
+    <record id="DED" model="hr.salary.rule.category">
+        <field name="name">Deduction</field>
+        <field name="code">DED</field>
+    </record>
+    <record id="GROSS" model="hr.salary.rule.category">
+        <field name="name">Gross</field>
+        <field name="code">GROSS</field>
+    </record>
+    <record id="NET" model="hr.salary.rule.category">
+        <field name="name">Net</field>
+        <field name="code">NET</field>
+    </record>
+    <record id="COMP" model="hr.salary.rule.category">
+        <field name="name">Company Contribution</field>
+        <field name="code">COMP</field>
+    </record>
+
+    <!-- Slovakia-specific categories -->
+    <!-- Meal allowance is EXEMPT from GROSS and the assessment bases, so this
+         category has NO parent (isolated). NET adds the employee meal share
+         explicitly; it must NOT roll into ALW/GROSS. -->
+    <record id="hr_payroll_meal_vouchers_employee" model="hr.salary.rule.category">
+        <field name="name">Meal Vouchers (Employee)</field>
+        <field name="code">MEALEMPLOYEE</field>
+    </record>
+
+    <record id="hr_payroll_meal_vouchers_employer" model="hr.salary.rule.category">
+        <field name="name">Meal Vouchers (Employer)</field>
+        <field name="code">MEALEMPLOYER</field>
+    </record>
+
+    <record id="hr_payroll_social_security_employee" model="hr.salary.rule.category">
+        <field name="name">Social Security (Employee)</field>
+        <field name="code">SOCIALEMPLOYEE</field>
+        <field name="parent_id" ref="DED"/>
+    </record>
+
+    <record id="hr_payroll_social_security_employer" model="hr.salary.rule.category">
+        <field name="name">Social Security (Employer)</field>
+        <field name="code">SOCIALEMPLOYER</field>
+    </record>
+
+    <record id="hr_payroll_social_security_employee_total" model="hr.salary.rule.category">
+        <field name="name">Social Security Total (Employee)</field>
+        <field name="code">SOCIALEMPLOYEETOTAL</field>
+        <field name="parent_id" ref="DED"/>
+    </record>
+
+    <record id="hr_payroll_social_security_employer_total" model="hr.salary.rule.category">
+        <field name="name">Social Security Total (Employer)</field>
+        <field name="code">SOCIALEMPLOYERTOTAL</field>
+    </record>
+
+    <record id="hr_payroll_income_tax_employee" model="hr.salary.rule.category">
+        <field name="name">Income Tax</field>
+        <field name="code">INCOMETAX</field>
+        <field name="parent_id" ref="DED"/>
+    </record>
+
+    <record id="hr_payroll_income_tax_employee_total" model="hr.salary.rule.category">
+        <field name="name">Income Tax Total</field>
+        <field name="code">INCOMETAXTOTAL</field>
+    </record>
+
+    <!-- Income tax base = gross − employee social − employee health. Isolated
+         (no parent) so it does not leak into GROSS/NET; consumed by the tax and
+         child-bonus rules via result_rules.TAXBASE.total. -->
+    <record id="hr_payroll_taxbase" model="hr.salary.rule.category">
+        <field name="name">Income Tax Base</field>
+        <field name="code">TAXBASE</field>
+    </record>
+
+    <!-- Child tax bonus is a credit added to net pay (can exceed the tax and be
+         paid out). Isolated so NET adds it explicitly. -->
+    <record id="hr_payroll_child_bonus" model="hr.salary.rule.category">
+        <field name="name">Child Tax Bonus</field>
+        <field name="code">CHILDBONUS</field>
+    </record>
+
+    <!-- Meal allowance: kept OUT of GROSS and the assessment bases (legal
+         exemption). Isolated categories; NET handles them explicitly. -->
+    <record id="hr_payroll_meal_employer_cost" model="hr.salary.rule.category">
+        <field name="name">Meal Allowance (Employer cost)</field>
+        <field name="code">MEALEMPLOYERCOST</field>
+    </record>
+
+    <!-- Wage garnishment (exekučné zrážky). Parented under DED so the NET rule
+         (which sums categories.DED) subtracts it. -->
+    <record id="hr_payroll_garnishment" model="hr.salary.rule.category">
+        <field name="name">Wage Garnishment</field>
+        <field name="code">GARNISHMENT</field>
+        <field name="parent_id" ref="DED"/>
+    </record>
+
+    <!-- Sickness compensation (náhrada príjmu pri PN). A positive amount that
+         increases net pay; parented under DED so NET picks it up, but kept OUT
+         of GROSS (exempt from the assessment bases). -->
+    <record id="hr_payroll_sickness_comp" model="hr.salary.rule.category">
+        <field name="name">Sickness Compensation</field>
+        <field name="code">SICKCOMP</field>
+        <field name="parent_id" ref="DED"/>
+    </record>
+
+    <!-- Annual tax reconciliation settlement (ročné zúčtovanie preddavkov na
+         daň). A signed amount that adjusts net pay in the reconciliation month:
+         positive = preplatok (refund), negative = nedoplatok. Parented under DED
+         so the NET rule (which sums categories.DED) picks it up. -->
+    <record id="hr_payroll_annual_settlement" model="hr.salary.rule.category">
+        <field name="name">Annual Tax Settlement</field>
+        <field name="code">ANNUALSETTLEMENT</field>
+        <field name="parent_id" ref="DED"/>
+    </record>
+
+    <!-- Neutral bucket for deferred / stub rules (always 0). -->
+    <record id="hr_payroll_stub" model="hr.salary.rule.category">
+        <field name="name">Deferred / Stub</field>
+        <field name="code">STUB</field>
+    </record>
+</odoo>

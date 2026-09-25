@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_asset_tax_register" model="ir.actions.report">
+        <field name="name">Tax Depreciation Register</field>
+        <field name="model">account.asset.tax.register</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_asset_tax.report_asset_tax_register</field>
+        <field name="report_file">account_asset_tax.report_asset_tax_register</field>
+        <field name="print_report_name">'Tax Depreciation Register %s' % (object.fiscal_year)</field>
+    </record>
+
+    <template id="report_asset_tax_register">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <t t-set="data" t-value="doc.get_register()" />
+                    <t t-set="register" t-value="data[0]" />
+                    <t t-set="totals" t-value="data[1]" />
+                    <t t-set="cur" t-value="doc.company_id.currency_id" />
+                    <div class="page">
+                        <h2>Daňové odpisy — registr / Tax Depreciation Register</h2>
+                        <p>
+                            <strong>Zdaňovacie obdobie / Tax period:</strong>
+                            <span t-esc="doc.fiscal_year" /> —
+                            <span t-field="doc.company_id.name" />
+                        </p>
+                        <p t-if="not register" class="text-muted">
+                            Žiadne daňové odpisy v tomto období / No tax depreciation in this period.
+                        </p>
+                        <t t-foreach="register" t-as="grp">
+                            <h4 t-esc="grp['group'].display_name or 'Bez skupiny / No group'" />
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Majetok / Asset</th>
+                                        <th class="text-end">Vstupná cena / Input</th>
+                                        <th class="text-end">Počiatočná ZC / Opening</th>
+                                        <th class="text-end">Odpis / Depreciation</th>
+                                        <th class="text-end">Účtovný odpis / Book</th>
+                                        <th class="text-end">Rozdiel / Difference</th>
+                                        <th class="text-end">Oprávky / Accum.</th>
+                                        <th class="text-end">Konečná ZC / Closing</th>
+                                        <th>Metóda / Method</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="grp['lines']" t-as="ln">
+                                        <td t-esc="ln['asset']" />
+                                        <td class="text-end">
+                                            <span t-out="ln['input']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-out="ln['opening']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-out="ln['amount']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-out="ln['book']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-out="ln['difference']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-out="ln['accumulated']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-out="ln['closing']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td t-esc="ln['method']" />
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr style="font-weight: bold;">
+                                        <td>Spolu / Subtotal</td>
+                                        <td class="text-end">
+                                            <span t-out="grp['input']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td />
+                                        <td class="text-end">
+                                            <span t-out="grp['amount']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-out="grp['book']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-out="grp['difference']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td />
+                                        <td class="text-end">
+                                            <span t-out="grp['closing']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                        </td>
+                                        <td />
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </t>
+                        <table t-if="register" class="table table-sm">
+                            <tr style="font-weight: bold; border-top: 2px solid #000;">
+                                <td>CELKOM / TOTAL</td>
+                                <td class="text-end">
+                                    <span t-out="totals['input']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="totals['amount']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="totals['book']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="totals['difference']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                </td>
+                                <td class="text-end">
+                                    <span t-out="totals['closing']" t-options='{"widget": "monetary", "display_currency": cur}' />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

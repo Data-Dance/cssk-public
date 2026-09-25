@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_l10n_cz_kh_a1_company" model="ir.rule">
+        <field name="name">KH section A1: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_kh_a1"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_cz_kh_a2_company" model="ir.rule">
+        <field name="name">KH section A2: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_kh_a2"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_cz_kh_a4_company" model="ir.rule">
+        <field name="name">KH section A4: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_kh_a4"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_cz_kh_a5_company" model="ir.rule">
+        <field name="name">KH section A5: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_kh_a5"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_cz_kh_b1_company" model="ir.rule">
+        <field name="name">KH section B1: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_kh_b1"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_cz_kh_b2_company" model="ir.rule">
+        <field name="name">KH section B2: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_kh_b2"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_cz_kh_b3_company" model="ir.rule">
+        <field name="name">KH section B3: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_kh_b3"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

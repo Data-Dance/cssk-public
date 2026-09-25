@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.vzp.cz/hromadneOznameniZamestnavatele/v1"
+	targetNamespace="http://xmlns.vzp.cz/hromadneOznameniZamestnavatele/v1" elementFormDefault="qualified">
+	<xsd:annotation>
+		<xsd:documentation>$Revision: 08 $</xsd:documentation>
+		<xsd:documentation>$Date: 2025-12-08 $</xsd:documentation>
+		<xsd:documentation>$Author: Všeobecná zdravotní pojišťovna ČR, Michal Holinka $</xsd:documentation>
+		<xsd:documentation>
+			Definice "Hromadného oznámení zaměstnavatele",
+			určená k podání na portálech ZP, případně zasláním do datové schránky príslušné ZP
+			platná od 1.1.2026
+		</xsd:documentation>
+	</xsd:annotation>
+
+
+	<xsd:element name="hromadneOznameniZamestnavatele" type="oznameniOPojistencichZamestnavateleTyp" />
+
+	<xsd:complexType name="oznameniOPojistencichZamestnavateleTyp">
+		<xsd:sequence>
+
+			<xsd:element name="identifikacePredmetuPodaniText" type="string60Typ" fixed="Hromadné oznámení zaměstnavatele 2026+">
+				<xsd:annotation>
+					<xsd:documentation>
+						Tag pro pohodlné rozpoznání předmětu a verze podání liským uživatelem.
+						Musí být uveden formou konstanty v každém zaslaném dokumentu podání dle XSD.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<xsd:element name="identifikacePredmetuPodaniKod" type="string60Typ" fixed="882b97d9-3a41-4552-887b-3942ae92c3ea">
+				<xsd:annotation>
+					<xsd:documentation>Tag pro spolehlivé a přesné rozpoznání předmětu a verze podání strojovým rozpoznáváním na úrovni souboru.Musí být uveden formou
+						konstanty v každém zaslaném dokumentu podání dle definičního XSD.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<xsd:element name="interniIdentifikacePodaniPodavatele" type="string60Typ" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>
+						Tag pro uložení interního identifikátoru podání podavatele. Zdravotní pojišťovna tento tag nevyhodnocuje.
+						Doporučen unikátní řetězec pro každé podání a kontrola na straně podavatele.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+
+			<xsd:element name="kodZdravotniPojistovny" type="kodZdravotniPojistovnyTyp" minOccurs="1" />
+			<xsd:element name="identifikaceZamestnavatele" type="identifikaceZamestnavateleTyp" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Číslo plátce pojistného / zaměstnavatele a další identifikátory za kterého oznámení podáváno
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="seznamZmenZamestnancu" type="seznamZmenZamestnancuTyp" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="seznamZmenZamestnancuTyp">
+		<xsd:sequence>
+			<xsd:element name="zmenaZamestance" type="zmenaZamestnanceTyp" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="zmenaZamestnanceTyp">
+		<xsd:sequence>
+			<xsd:element name="kodzmeny" type="kodZmenyZamestnaceTyp" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Kód změny (jednoznakový údaj)- viz typ Kod zmenyZamestnanceTyp
+
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="datumZmeny" type="xsd:date" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Datum, kdy nastala u pojištěnce změna
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="cisloPojistence" type="cisloPojistenceTyp" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Číslo pojištěnce (rodné číslo):
+						- U zaměstnanců s trvalým pobytem na území ČR se zásadně vyplňuje číslo pojištěnce z průkazu pojištěnce. Ve většině případů je
+						toto číslo shodné s rodným číslem. Existují však případy, kdy jde o zvláštní číslo přidělené zdravotní pojišťovnou.
+						- Při prvním ohlášení nástupu zaměstnance, který nemá na území ČR trvalý pobyt (zaměstnanci - občané EU i občané třetích zemí), se do
+						položky číslo pojištěnce zapíše pohlaví a datum narození tímto způsobem:
+						Příklad: M05071980 (muž narozený 5. 7. 1980)
+						Z12101982 (žena narozená 12. 10. 1982)
+						Při dalších hlášeních o tomto zaměstnanci, který již má pojišťovnou přiděleno číslo pojištěnce, se uvede číslo pojištěnce (z průkazu pojištěnce
+						nebo z oznámení od příslušné ZP).
+						U cizinců, kteří mají průkaz o povolení k pobytu cizince se neuvádí rodné číslo z tohoto dokladu.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+
+			<xsd:element name="jmeno" type="string60Typ" minOccurs="1" />
+			<xsd:element name="prijmeni" type="string60Typ" minOccurs="1" />
+			<xsd:element name="adresa" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ulice" type="string60Typ" minOccurs="0" />
+						<xsd:element name="obec" type="string60Typ" minOccurs="0" />
+						<xsd:element name="psc" type="pscTyp" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+
+
+	<xsd:complexType name="identifikaceZamestnavateleTyp">
+		<xsd:annotation>
+			<xsd:documentation>Identifikace - název a adresa sídla organizační jednotky, která bude plnit povinnosti plátce pojistného.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="identifikacniCisloPlatce" type="identifikacniCisloPlatceTyp" minOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>
+						Číslo plátce pojistného ve tvaru:
+						IČaa:IČ - identifikační číslo zaměstnavatele (8 míst)
+						aa - číslo vnitřní organizační jednotky (2 místa)aa = 00 až 98
+						- Zaměstnavatel s přiděleným IČ určí každému dílčímu plátci (účtárně) pořadové číslo a zajistí,
+						aby nedošlo k duplicitě(IČ00 až IČ98).
+						Pokud má plátce jen jednu účtárnu, použije se číslo plátce IČ00.aa = 99 - Zvláštní číslo plátce pojistného.
+						Je určeno pro zaměstnavatele, který nemá IČ, nebo pro zaměstnavatele, který má více než99 účtáren.
+						Tvar čísla NNNNNNNN99 přiděluje VZP ČR
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="nazevPlatce" type="string80Typ">
+				<xsd:annotation>
+					<xsd:documentation>Název plátce či organizační jednotky, která bude plnit povinnosti plátce pojistného.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+
+			<xsd:element name="adresaPlatceUlice" type="string60Typ" />
+			<xsd:element name="adresaPlatceCisloPopisneOrientacni" type="string60Typ" />
+			<xsd:element name="adresaPlatcePsc" type="pscTyp" minOccurs="1" />
+			<xsd:element name="adresaPlatceObec" type="string60Typ" minOccurs="1" />
+			<xsd:element name="adresaPlatceTelefon" type="telefonTyp" minOccurs="0" />
+
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="kodZmenyZamestnaceTyp">
+		<xsd:annotation>
+			<xsd:documentation>
+				Jednoznakový kod:
+				P - nástup do zaměstnání. Použije se v případě nástupu do zaměstnání zaměstnance s trvalým pobytem na území ČR nebo zaměstnance
+				s dlouhodobým pobytem, který má již přiděleno číslo pojištěnce a při přestupu od jiné zdravotní pojišťovny.
+				A - nástup do zaměstnání občana EU pojištěného v ČR, který má již přiděleno číslo pojištěnce příslušnou zdravotní pojišťovnou;
+				E - první přihlášení zaměstnance - občana EU pojištěného v ČR;
+				C - první přihlášení zaměstnance - cizince ze zemí mimo EU, který nemá trvalý pobyt na území ČR;
+				O - ukončení zaměstnání (u zaměstnance přihlášeného kódy „P", „A", „E" nebo „C"). Použije se v případech ukončení zaměstnání, přestupu
+				k jiné zdravotní pojišťovně či ukončení pojištění v ČR.
+				Q - jednodenní zaměstnání. Použije se v případě, kdy zaměstnání vznikne a zanikne v jeden den
+
+				Skutečnosti rozhodné pro platbu pojistného státem:
+				M - nástup zaměstnankyně na mateřskou dovolenou nebo osoby na rodičovskou dovolenou,
+				- začátek nepřítomnosti v práci, po kterou se osobě poskytuje peněžitá pomoc v mateřství podle předpisů o nemocenském pojištění,
+				- začátek pobírání rodičovského příspěvku;
+				U - ukončení mateřské nebo rodičovské dovolené,
+				- ukončení nepřítomnosti v práci, po kterou se osobě poskytuje peněžitá pomoc v mateřství podle předpisů o nemocenském pojištění,
+				- ukončení pobírání rodičovského příspěvku;
+				D - přiznání důchodu (starobního, invalidního, vdovského, vdoveckého),
+				- nástup důchodce do zaměstnání (oznámení se provede na dvou řádcích, na jednom kódem P, na druhém kódem D);
+				H - odejmutí důchodu (starobního, invalidního, vdovského, vdoveckého),
+				- ukončení výplaty vdovského či vdoveckého důchodu;
+				I - nástup uchazeče o zaměstnání do zaměstnání (oznámení se provede na dvou řádcích, na jednom kódem P, na druhém kódem I);
+				J - ukončení evidence uchazeče o zaměstnání;
+				G - nástup nezaopatřeného dítěte, tj. studenta střední nebo vysoké školy do zaměstnání v průběhu studia (oznámení se provede na dvou řádcích, na
+				jednom kódem P, na druhém kódem G),
+				- přiznání nezaopatřenosti dítěte v průběhu zaměstnání, počátek studia na střední nebo vysoké škole atd.;
+				F - ukončení nezaopatřenosti dítěte;
+				L - začátek nároku na zařazení do kategorie „L" - osoba bez příjmu ze zaměstnání nebo samostatné výdělečné činnosti, pečující osobně,celodenně
+				a řádně alespoň o 1 dítě do 7 let věku nebo nejméně o 2 děti do 15 let věku podle § 7 odst. 1 písm. l) zákona č. 48/1997 Sb., ve znění pozdějších
+				předpisů;
+				T - ztráta nároku na zařazení do kategorie „L";
+				N - výplata dávek nemocenského pojištění po ukončení zaměstnání ( je-li tato skutečnost zaměstnavateli známa);
+				K - ukončení výplaty dávek nemocenského pojištění u zaměstnance, kterému byly dávky vypláceny po ukončení zaměstnání ( je-li tato skutečnost
+				zaměstnavateli známa);
+				S - zahájení vyplácení penze z doplňkového penzijního spoření;
+				R - ukončení vyplácení penze z doplňkového penzijního spoření;
+				W - přihlášení manžela/ky nebo registrovaného partnera státního zaměstnance podle zákona o státní službě;
+				V - odhlášení manžela/ky nebo registrovaného partnera státního zaměstnance podle zákona o státní službě.
+
+				Opravy:
+				X - oprava v položce číslo pojištěnce: zaměstnavatel uvede na jednom řádku zaměstnance s kódem „X", chybné číslo pojištěnce, příjmení a
+				jméno, datum změny (původní). Dojde ke zrušení chybného čísla pojištěnce. Na dalším řádku uvede s kódem „P" správné číslo pojištěnce,
+				případně na následujících řádcích ostatní hlášení, která byla provedena pod špatným číslem pojištěnce;
+				Y - oprava v položce datum přihlášení;
+				Z - oprava v položce datum odhlášení
+
+				Podrobnější info o kodech a jejich použití viz. dokument Poučení - Hromadne oznamení zaměstnavatele
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="P" />
+			<xsd:enumeration value="A" />
+			<xsd:enumeration value="E" />
+			<xsd:enumeration value="C" />
+			<xsd:enumeration value="O" />
+			<xsd:enumeration value="Q" />
+			<xsd:enumeration value="M" />
+			<xsd:enumeration value="U" />
+			<xsd:enumeration value="D" />
+			<xsd:enumeration value="H" />
+			<xsd:enumeration value="I" />
+			<xsd:enumeration value="J" />
+			<xsd:enumeration value="G" />
+			<xsd:enumeration value="F" />
+			<xsd:enumeration value="L" />
+			<xsd:enumeration value="T" />
+			<xsd:enumeration value="N" />
+			<xsd:enumeration value="K" />
+			<xsd:enumeration value="S" />
+			<xsd:enumeration value="R" />
+			<xsd:enumeration value="W" />
+			<xsd:enumeration value="V" />
+			<xsd:enumeration value="X" />
+			<xsd:enumeration value="Y" />
+			<xsd:enumeration value="Z" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="kodZdravotniPojistovnyTyp">
+		<xsd:annotation>
+			<xsd:documentation>
+				Kody ZP k 1.1.2026 a zkratky příslušné ZP
+				111 = VZP
+				201 = VoZP
+				205 = ČPZP
+				207 = OZP
+				209 = ZPŠ
+				211 = ZPMV
+				213 = RBP
+			</xsd:documentation>
+		</xsd:annotation>
+
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="111" />
+			<xsd:enumeration value="201" />
+			<xsd:enumeration value="205" />
+			<xsd:enumeration value="207" />
+			<xsd:enumeration value="209" />
+			<xsd:enumeration value="211" />
+			<xsd:enumeration value="213" />
+		</xsd:restriction>
+
+	</xsd:simpleType>
+
+	<xsd:simpleType name="string80Typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="string60Typ">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="60" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="mesicObdobiTyp">
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="([1-9]|1[0-2])" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="cisloPojistenceTyp">
+		<xsd:restriction base="xsd:string">
+
+			<!-- Rodné číslo: 9 nebo 10 číslic -->
+			<xsd:pattern value="\d{9}" />
+			<xsd:pattern value="\d{10}" />
+
+			<!-- Identifikátor cizince: MDDMMYYYY nebo ZDDMMYYYY -->
+			<xsd:pattern value="[MZ]\d{2}\d{2}\d{4}" />
+
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="telefonTyp">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\d{1,30}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="pscTyp">
+		<xsd:restriction base="xsd:string">
+			<!-- PSČ bez mezery: přesně 5 číslic -->
+			<xsd:pattern value="\d{5}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="identifikacniCisloPlatceTyp">
+		<xsd:restriction base="xsd:string">
+			<!-- Přesně 10 číslic -->
+			<xsd:pattern value="\d{10}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

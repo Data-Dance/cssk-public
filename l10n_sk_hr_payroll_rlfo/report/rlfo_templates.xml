@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      RLFO / RLZEC (Registračný list zamestnancov zamestnávateľa) — hromadný
+      XML matching the official Sociálna poisťovňa schema RLZEC-v2026.xsd (root
+      <spRegListZec>, ns http://socpoist.sk/xsd/rlzec2026,
+      elementFormDefault="qualified", attributes unqualified). Registration
+      (prihláška, typRL=PA) and de-registration (odhláška, typRL=OD) events.
+    -->
+    <template id="rlfo_xml">
+        <spRegListZec xmlns="http://socpoist.sk/xsd/rlzec2026">
+            <typDoc t-out="typ_doc"/>
+            <zamestnavatel>
+                <identifikacia>
+                    <variabilnySymbol t-out="variabilny_symbol"/>
+                    <identifikator>
+                        <ico t-out="ico"/>
+                    </identifikator>
+                    <nazov t-out="nazov"/>
+                </identifikacia>
+            </zamestnavatel>
+            <zoznamRLZec>
+                <regListyZec>
+                    <t t-foreach="events" t-as="ev">
+                        <regListZec t-att-typRL="ev['typ_rl']">
+                            <identFO>
+                                <rc t-out="ev['rc']"/>
+                                <priezvisko t-out="ev['priezvisko']"/>
+                                <meno t-out="ev['meno']"/>
+                                <datumNarodenia t-if="ev['dat_narodenia']"
+                                                t-out="ev['dat_narodenia']"/>
+                            </identFO>
+                            <typRegListuFO>
+                                <prihlaska t-if="ev['typ_rl'] == 'PA'">
+                                    <identFODopl>
+                                        <zamSUcastou>false</zamSUcastou>
+                                        <par7ods2>false</par7ods2>
+                                    </identFODopl>
+                                    <typPoistPrihl>
+                                        <zecPrihl t-att-typZec="ev['typ_zec']">
+                                            <datVznikPoist
+                                                t-out="ev['dat_vznik_poist']"/>
+                                        </zecPrihl>
+                                    </typPoistPrihl>
+                                </prihlaska>
+                                <odhlaska t-if="ev['typ_rl'] == 'OD'">
+                                    <typPoistOdhl>
+                                        <zecDOdhl t-if="ev['is_dohoda']"
+                                                  t-att-typZec="ev['typ_zec']">
+                                            <zanik
+                                                t-att-datVzniku="ev['dat_vzniku']"
+                                                t-att-datZaniku="ev['dat_zaniku']"/>
+                                        </zecDOdhl>
+                                        <zecNPOdhl t-if="not ev['is_dohoda'] and ev['is_zecn']">
+                                            <zanik
+                                                t-att-datVzniku="ev['dat_vzniku']"
+                                                t-att-datZaniku="ev['dat_zaniku']"/>
+                                        </zecNPOdhl>
+                                        <zecPPOdhl t-if="not ev['is_dohoda'] and not ev['is_zecn']"
+                                                   t-att-typZec="ev['typ_zec']">
+                                            <zanik
+                                                t-att-datVzniku="ev['dat_vzniku']"
+                                                t-att-datZaniku="ev['dat_zaniku']"/>
+                                        </zecPPOdhl>
+                                    </typPoistOdhl>
+                                </odhlaska>
+                            </typRegListuFO>
+                        </regListZec>
+                    </t>
+                </regListyZec>
+            </zoznamRLZec>
+            <vystavenie>
+                <zostavil t-out="fo['zostavil']"/>
+                <tel t-out="fo['tel']"/>
+                <mail t-out="fo['mail']"/>
+                <datumVyst t-out="datum_vystavenia"/>
+            </vystavenie>
+        </spRegListZec>
+    </template>
+</odoo>

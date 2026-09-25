@@ -1,0 +1,62 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Bankové formáty CZ/SK — spoločné stavitele</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Jednotný zdroj pravdy pre české/slovenské formáty platobných súborov ABO a MultiCash</h3>
+    <div class="oe_span12">
+      <p>Tento modul je spoločná knižnica za českými/slovenskými exportérmi bankových súborov Data
+         Dance. Stavajú na ňom Community (<code>account_payment_order</code>) aj Enterprise
+         (<code>account_batch_payment</code>) varianty <code>account_abo</code> /
+         <code>account_multicash</code>, takže logika formátu je na jednom mieste.</p>
+      <p><b>Neobsahuje žiadne modely Odoo</b> — len čisté pomocné funkcie importované cez
+         <code>odoo.addons.account_cz_bankfile_base.utils.*</code>. Stavitele prijímajú zoznam
+         normalizovaných záznamov <code>BankPaymentItem</code>, takže edíciám špecifické vrstvy ich
+         napĺňajú buď z <code>account.payment.line</code> (CE), alebo z <code>account.payment</code>
+         (EE) bez duplikovania logiky formátu.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>utils.abo.build_abo_file</code> — zostaví súbor úhrad vo formáte ABO.</li>
+        <li><code>utils.multicash.build_multicash_file</code> — zostaví súbory MultiCash CFD / CFU /
+            CFA / MT101.</li>
+        <li><code>utils.common</code> — parsovanie českého čísla účtu, normalizovaná položka
+            <code>BankPaymentItem</code> odovzdávaná staviteľom a resolver symbolov VS/KS/SS
+            (<code>resolve_symbol</code>: explicitná hodnota, inak token načítaný zo správy pre
+            prijímateľa).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Ide o knižničnú závislosť, nie koncovú aplikáciu. Inštaluje sa automaticky ako závislosť
+         modulov <code>account_abo</code> / <code>account_multicash</code>. Na opätovné použitie
+         staviteľov vo vlastnej vrstve zostavte zoznam <code>BankPaymentItem</code> a zavolajte
+         príslušnú funkciu <code>build_*</code> importovanú z
+         <code>odoo.addons.account_cz_bankfile_base.utils.*</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

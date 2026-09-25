@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <template id="report_inventarizacny_zapis">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Inventarizačný zápis</h2>
+                        <p class="text-muted">
+                            podľa § 30 ods. 3 zákona č. 431/2002 Z. z. o účtovníctve
+                        </p>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Účtovná jednotka:</strong>
+                                <span t-field="doc.company_id.name"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Inventarizácia:</strong>
+                                <span t-field="doc.name"/><br/>
+                                <strong>Ku dňu:</strong>
+                                <span t-field="doc.date_as_of"/>
+                            </div>
+                        </div>
+
+                        <h4>Výsledky porovnania skutočného a účtovného stavu</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Inventúrny súpis</th>
+                                    <th>Druh</th>
+                                    <th>Účet</th>
+                                    <th class="text-end">Účtovný stav</th>
+                                    <th class="text-end">Skutočný stav</th>
+                                    <th class="text-end">Rozdiel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.supis_ids" t-as="supis">
+                                    <td><span t-field="supis.name"/></td>
+                                    <td><span t-field="supis.inventory_type"/></td>
+                                    <td><span t-field="supis.account_id.code"/></td>
+                                    <td class="text-end">
+                                        <span t-field="supis.book_amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="supis.actual_amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="supis.difference"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"><strong>Spolu</strong></td>
+                                    <td class="text-end"><strong><span t-field="doc.book_amount"
+                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong></td>
+                                    <td class="text-end"><strong><span t-field="doc.actual_amount"
+                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong></td>
+                                    <td class="text-end"><strong><span t-field="doc.difference"
+                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <p t-if="doc.comparison_note"><span t-field="doc.comparison_note"/></p>
+
+                        <h4>Posúdenie reálnosti ocenenia (§ 26)</h4>
+                        <p>
+                            <span t-field="doc.valuation_note"/>
+                            <span t-if="not doc.valuation_note" class="text-muted">
+                                Neuvedené.
+                            </span>
+                        </p>
+
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p>Zápis vyhotovil:
+                                    <strong><span t-field="doc.approved_by_id.name"/></strong>
+                                </p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpisový záznam</p>
+                            </div>
+                            <div class="col-6">
+                                <p>Za účtovnú jednotku:</p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpisový záznam</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,42 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">🌐 <a href="index.html">EN</a> · <a href="index_cz.html">CZ</a> · <b>SK</b></p>
+    <h2 class="oe_slogan">CZ Kontrolní hlášení (DPHKH1)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">České kontrolné hlásenie DPH na zdieľanom rámci KV/KH, s rozdelením na limite 10 000 Kč a exportom XML EPO Pisemnost / DPHKH1</h3>
+    <div class="oe_span12">
+      <p>Česká národná vrstva zdieľaného rámca pre kontrolné hlásenie (<code>l10n_cssk_kv_kh_base</code>). Resolver na úrovni riadkov zaraďuje zaúčtované riadky dokladov do oddielov českého kontrolného hlásenia (Kontrolní hlášení, DPHKH1) a modul exportuje XML EPO Pisemnost / DPHKH1 na podanie. Ide o české Kontrolní hlášení (KH) — iný formulár než slovenský Kontrolný výkaz DPH (KV DPH).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Resolver na úrovni riadkov zaraďuje zaúčtované riadky dokladov do oddielov kontrolného hlásenia.</li>
+        <li>Limit 10 000 Kč na doklad rozdeľuje detailné oddiely (A4/B2, nad limit) od súhrnov (A5/B3, do limitu).</li>
+        <li>Dodania a nadobudnutia v režime prenesenia daňovej povinnosti (§92a) smerujú do A1/B1; nadobudnutie tovaru z iného členského štátu do A2.</li>
+        <li>Exportuje XML EPO Pisemnost / DPHKH1: VetaD/VetaP, riadky VetaA1/A2/A4/B1/B2 za jednotlivé doklady, súhrny VetaA5/B3 a kontrolné súčty VetaC vypočítané z oddielov.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Nainštalujte modul pre českú spoločnosť a vytvorte kontrolné hlásenie za vykazované obdobie. Výpočet riadkov naplní oddiely A1–B3 zo zaúčtovaných riadkov dokladov a uplatní rozdelenie podľa limitu 10 000 Kč na doklad medzi detailné a súhrnné oddiely. Exportom hlásenia vznikne XML EPO Pisemnost / DPHKH1, validované voči oficiálnemu XSD EPO DPHKH1 (<code>data/dphkh1_epo2.xsd</code>) načítanému na zázname verzie. Poznámka k rozsahu (v1): rozhodovací strom resolvera — najmä zoznam komodít v režime prenesenia daňovej povinnosti (§92a) a opravy výšky dane u pohľadávok za dlžníkmi v insolvencii (§44) — vyžaduje validáciu českým účtovníkom.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

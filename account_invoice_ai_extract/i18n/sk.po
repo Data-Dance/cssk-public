@@ -1,0 +1,832 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_invoice_ai_extract
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-05 23:02+0000\n"
+"PO-Revision-Date: 2026-08-05 23:02+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_move_form_ai_extract
+msgid "<span class=\"o_stat_text\">AI Extraction</span>"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.constraint,message:account_invoice_ai_extract.constraint_account_invoice_ai_tax_map_rate_company_uniq
+msgid "A mapping for this VAT rate already exists for this company."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_auto_create_bank
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_auto_create_bank
+msgid "AI Auto-create Bank Account"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_auto_create_partner
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_auto_create_partner
+msgid "AI Auto-create Supplier"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_auto_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_auto_extract
+msgid "AI Auto-extract on Email"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_confidence_threshold
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_confidence_threshold
+msgid "AI Confidence Threshold"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_expense_account_id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_expense_account_id
+msgid "AI Default Expense Account"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_bank_statement_line__ai_extract_extraction_id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_move__ai_extract_extraction_id
+msgid "AI Extraction"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_flag_period_mismatch
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_flag_period_mismatch
+msgid "AI Flag Unusual Tax Point"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model,name:account_invoice_ai_extract.model_account_invoice_ai_extraction
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "AI Invoice Extraction"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model,name:account_invoice_ai_extract.model_account_invoice_ai_extraction_run
+msgid "AI Invoice Extraction Run"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.actions.act_window,name:account_invoice_ai_extract.action_ai_extraction
+#: model:ir.ui.menu,name:account_invoice_ai_extract.menu_ai_extractions
+msgid "AI Invoice Extractions"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_journal_id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_journal_id
+msgid "AI Invoice Journal"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_model_id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_model_id
+msgid "AI Invoice Model"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_provider_id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_provider_id
+msgid "AI Invoice Provider"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.ui.menu,name:account_invoice_ai_extract.menu_ai_tax_map
+msgid "AI Invoice VAT Mapping"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model,name:account_invoice_ai_extract.model_account_invoice_ai_tax_map
+msgid "AI Invoice VAT-rate → Tax mapping"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.actions.act_window,name:account_invoice_ai_extract.action_ai_tax_map
+msgid "AI Invoice — VAT Rate Mapping"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.actions.server,name:account_invoice_ai_extract.cron_ai_extract_sweep_ir_actions_server
+msgid "AI Invoice: process pending extractions"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "AI Model"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__model_id
+msgid "AI Model Used"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "AI Provider"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__provider_id
+msgid "AI Provider Override"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_reverse_charge_rate
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_reverse_charge_rate
+msgid "AI Reverse-charge Rate"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__ai_extract_tax_map_ids
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__ai_extract_tax_map_ids
+msgid "AI VAT-rate mapping"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid ""
+"AI extraction complete — confidence %(conf).0f%%, %(in)s in / %(out)s out "
+"tokens, $%(cost).4f."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/account_move.py:0
+msgid "Attach a PDF to this bill first."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid ""
+"Attach the supplier's extracted IBAN as a bank account (when not already "
+"present)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_company__ai_extract_auto_create_bank
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_config_settings__ai_extract_auto_create_bank
+msgid ""
+"Attach the supplier's extracted IBAN as a bank account on the partner (when "
+"not already present). Disable if bank accounts must be validated and entered"
+" manually."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "Auto-create Bank Account"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "Auto-create Supplier"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Auto-created from AI invoice extraction %s."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "Auto-extract on Email"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_company__ai_extract_auto_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_config_settings__ai_extract_auto_extract
+msgid ""
+"Automatically queue an AI extraction when a PDF arrives on a draft vendor "
+"bill (e.g. via the vendor-bills email alias)."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model,name:account_invoice_ai_extract.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__company_id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__company_id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__company_id
+msgid "Company"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__confidence
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__confidence
+msgid "Confidence"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Confidence %.2f below threshold %.2f."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "Confidence Threshold"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model,name:account_invoice_ai_extract.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavenia konfigurácie"
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__cost
+msgid "Cost (USD)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__create_uid
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__create_uid
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__create_date
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__create_date
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__total_cost
+msgid "Cumulative cost across all runs of this extraction."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "Default Expense Account"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__display_name
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__display_name
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__display_name
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__tax_id
+msgid "Domestic input tax"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Draft vendor bill %s ready."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields.selection,name:account_invoice_ai_extract.selection__account_invoice_ai_extraction__state__duplicate
+msgid "Duplicate"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Duplicate of %s."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields.selection,name:account_invoice_ai_extract.selection__account_invoice_ai_extraction__state__error
+msgid "Error"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__error_message
+msgid "Error Message"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_move_form_ai_extract
+msgid "Extract with AI"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields.selection,name:account_invoice_ai_extract.selection__account_invoice_ai_extraction__state__extracted
+msgid "Extracted"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields.selection,name:account_invoice_ai_extract.selection__account_invoice_ai_extraction__state__extracting
+msgid "Extracting"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__extraction_id
+msgid "Extraction"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid ""
+"Extractions below this confidence are parked for review instead of creating "
+"a draft bill"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_company__ai_extract_confidence_threshold
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_config_settings__ai_extract_confidence_threshold
+msgid ""
+"Extractions below this confidence are parked for review instead of creating "
+"a draft bill."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "Flag Unusual Tax Point"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__provider_id
+msgid ""
+"Force a specific provider for this extraction. Leave empty to use the "
+"company / default provider."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_move__id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_company__id
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_has_error
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid ""
+"If no supplier matches the extracted VAT, create a draft partner instead of "
+"parking for review"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_company__ai_extract_auto_create_partner
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_config_settings__ai_extract_auto_create_partner
+msgid ""
+"If no supplier matches the extracted VAT, create a draft partner instead of "
+"parking the extraction for review."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_ai_extraction_form
+msgid "Input"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__input_tokens
+msgid "Input Tokens"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__input_tokens
+msgid "Input tokens"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Invoice %s (%s%% VAT)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model,name:account_invoice_ai_extract.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný záznam"
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__cost
+msgid "Last Run Cost (USD)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__write_uid
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__write_uid
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__write_date
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__write_date
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__input_tokens
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__output_tokens
+msgid "Last run."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__model_id
+msgid "Model"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__raw_json
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_ai_extraction_form
+msgid "Model output"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_company__ai_extract_model_id
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_config_settings__ai_extract_model_id
+msgid ""
+"Model used to read invoice PDFs. Leave empty to use the provider's default "
+"model. A small model (e.g. Haiku) is usually enough for clean digital "
+"invoices; escalate to a larger model for scanned documents."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid ""
+"Model used to read invoice PDFs; empty = provider default. Haiku is usually "
+"enough for clean digital invoices."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__name
+msgid "Name"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields.selection,name:account_invoice_ai_extract.selection__account_invoice_ai_extraction__state__needs_review
+msgid "Needs Review"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Needs review: %s"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "No AI provider configured."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "No supplier matched VAT '%s' (auto-create is disabled)."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_ai_extraction_form
+msgid "Output"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__output_tokens
+msgid "Output Tokens"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__output_tokens
+msgid "Output tokens"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields.selection,name:account_invoice_ai_extract.selection__account_invoice_ai_extraction__state__pending
+msgid "Pending"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid ""
+"Per-line rounding left the bill %(d).2f off the invoice's printed total "
+"%(t).2f; added a rounding line so the total matches exactly."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_company__ai_extract_flag_period_mismatch
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_config_settings__ai_extract_flag_period_mismatch
+msgid ""
+"Post a review warning when the taxable supply date (tax point) falls outside"
+" the expected window around the bill date: after the bill date, or earlier "
+"than the month before it. A supply date in the bill's month or the previous "
+"month (e.g. a last-month invoice issued early this month) is normal and is "
+"not flagged."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_ai_extraction_form
+msgid "Process"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__provider_id
+msgid "Provider"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "Purchase Journal"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid ""
+"Queue an AI extraction when a PDF arrives on a draft vendor bill (vendor-"
+"bills alias)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid ""
+"Rate the buyer self-assesses on reverse-charge (EU) purchases; the fiscal "
+"position remaps it to the reverse-charge tax"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_ai_extraction_form
+msgid "Re-run"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields.selection,name:account_invoice_ai_extract.selection__account_invoice_ai_extraction__state__resolved
+msgid "Resolved"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid "Reverse-charge Rate"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Rounding difference (invoice total)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__run_count
+msgid "Run Count"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction_run__run_date
+msgid "Run Date"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__run_ids
+msgid "Runs"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__attachment_id
+msgid "Source PDF"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__state
+msgid "State"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid ""
+"Swapped the taxable supply date and the due date — the extracted supply date"
+" was after the due date, which almost always means the two were transposed. "
+"Verify against the invoice."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "The model did not return an invoice extraction."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__model_id
+msgid "The provider model that actually ran this extraction."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_ai_extraction_form
+msgid "Total"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__total_cost
+msgid "Total Cost (USD)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_ai_extraction_list
+msgid "Total cost"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Totals failed reconciliation: %s"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid "Unknown supplier"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.view_ai_extraction_form
+msgid "Usage history"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_tax_map__rate_percent
+msgid "VAT rate (%)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_company__ai_extract_reverse_charge_rate
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_res_config_settings__ai_extract_reverse_charge_rate
+msgid ""
+"VAT rate the buyer self-assesses on reverse-charge purchases. EU supplier "
+"invoices show 0%% VAT; on a reverse-charge fiscal position their lines are "
+"taxed at this standard rate, which the fiscal position then remaps to the "
+"reverse-charge tax."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__move_id
+msgid "Vendor Bill"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid ""
+"Warn when the taxable supply date is after the bill date, or earlier than "
+"the month before it; a supply date in the bill's month or the previous month"
+" is normal and not flagged"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,field_description:account_invoice_ai_extract.field_account_invoice_ai_extraction__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model:ir.model.fields,help:account_invoice_ai_extract.field_account_invoice_ai_extraction__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#: model_terms:ir.ui.view,arch_db:account_invoice_ai_extract.res_config_settings_view_form_ai_extract
+msgid ""
+"muk_ai provider used to read invoice PDFs (defaults to the company / global "
+"provider)"
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid ""
+"⚠ Reverse-charge mismatch — model suggested %(m)s, applied tax implies "
+"%(a)s. Please review the fiscal position / taxes."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid ""
+"⚠ Tax-point check: taxable supply date %(s)s is after the bill date %(b)s — "
+"unusual for a received invoice; verify the tax point before posting."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid ""
+"⚠ Tax-point check: taxable supply date %(s)s is older than the month before "
+"the bill date %(b)s — verify the tax point before posting."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid ""
+"⚠ The extracted line items over-counted the invoice total (likely a subtotal"
+" row was double-counted) — the bill was rebuilt from the VAT summary so the "
+"total is correct. Review the line detail."
+msgstr ""
+
+#. module: account_invoice_ai_extract
+#. odoo-python
+#: code:addons/account_invoice_ai_extract/models/ai_extraction.py:0
+msgid ""
+"⚠ Total check: the bill total %(c).2f does not match the invoice's printed "
+"amount due %(t).2f (off by %(d).2f) — the extraction may be incomplete; "
+"review before posting."
+msgstr ""

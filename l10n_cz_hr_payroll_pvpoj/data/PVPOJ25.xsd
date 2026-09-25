@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.cssz.cz/POJ/PVPOJ2025"
+  targetNamespace="http://schemas.cssz.cz/POJ/PVPOJ2025"
+  xmlns:bt="http://schemas.cssz.cz/baseTypes/v2"
+  elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+
+  <xs:import namespace="http://schemas.cssz.cz/baseTypes/v2" schemaLocation="baseTypes2.xsd" />
+
+  <xs:element name="pvpoj" type="pvpojType" />
+  <xs:complexType name="pvpojType">
+    <xs:sequence>
+      <xs:element name="VENDOR" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:attribute name="productName" type="xs:string" />
+          <xs:attribute name="productVersion" type="xs:string" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="SENDER" minOccurs="0" maxOccurs="1">
+        <xs:complexType>
+          <xs:attribute name="EmailNotifikace" type="xs:string" />
+          <xs:attribute name="ISDSreport" type="xs:string" />
+          <xs:attribute name="VerzeProtokolu" type="xs:string" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="1" maxOccurs="1" name="prehled" type="prehledType" />
+    </xs:sequence>
+    <xs:attribute name="partialAccept" type="xs:string" />
+  </xs:complexType>
+
+  <xs:element name="prehled" type="prehledType" />
+  <xs:complexType name="prehledType">
+    <xs:sequence>
+      <xs:element name="okres" type="okresType" />
+      <xs:element name="obdobi" type="obdobiType" />
+      <xs:element name="zamestnavatel" type="zamestnavatelType" />
+      <!-- minOccurs="0" pro Storno -->
+      <xs:element minOccurs="0" name="pojistne" type="pojistneType" />
+      <xs:element minOccurs="0" name="slevaZamestnavatele" type="slevaType">
+        <xs:annotation>
+          <xs:documentation>Sleva na pojistném zaměstnavatele</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="slevyZamestnancu" type="slevaType">
+        <xs:annotation>
+          <xs:documentation>Slevy na pojistném zaměstnanců</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="pojistneUhrada" type="xs:integer">
+        <xs:annotation>
+          <xs:documentation>Pojistné k úhradě = pojistneCelkem - pojistneSleva</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="platebniUdaje" type="platebniUdajeType" />
+      <xs:element minOccurs="0" name="pracovnik" type="pracovnikType" />
+      <xs:element name="datumVyplneni" type="datumType">
+        <xs:annotation>
+          <xs:documentation>Datum vyplnění</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="slevaZamestnanci" type="slevaZamestnanciType" />
+      <xs:element minOccurs="0" name="poznamka" type="poznamkaType">
+        <xs:annotation>
+          <xs:documentation>Poznámka, která může být vyplněna v případě storna nebo opravy.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="verze" use="required">
+      <xs:annotation>
+        <xs:documentation>Verze přehledu "2025.0"</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="bt:simpleNDType">
+          <xs:minLength value="1" />
+          <xs:maxLength value="10" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="typPrehledu" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Typ podání:
+          •„N“ (řádný)
+          •„S“ (storno)
+          •„Z“  (oprava)
+        </xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="bt:simpleAType">
+          <xs:minLength value="1" />
+          <xs:maxLength value="1" />
+          <xs:enumeration value="N" />
+          <xs:enumeration value="S" />
+          <xs:enumeration value="Z" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="corrIDStorna">
+      <xs:annotation>
+        <xs:documentation>Odkaz na záznam, který je stornován - pouze pro storno</xs:documentation>
+      </xs:annotation>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="32" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="adresaType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ulice" type="uliceType">
+        <xs:annotation>
+          <xs:documentation>Ulice</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="cisloDomu" type="cisloDomuType">
+        <xs:annotation>
+          <xs:documentation>Číslo domu</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="obec" type="obecType">
+        <xs:annotation>
+          <xs:documentation>Obec</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="PSC" type="PSCType">
+        <xs:annotation>
+          <xs:documentation>PSČ</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="stat" type="statType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pracovnikType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="jmeno" type="jmenoType">
+        <xs:annotation>
+          <xs:documentation>Jméno kontaktního pracovníka</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="prijmeni" type="prijmeniType">
+        <xs:annotation>
+          <xs:documentation>Příjmení kontaktního pracovníka</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="telefon" type="telefonType">
+        <xs:annotation>
+          <xs:documentation>Telefon kontaktního pracovníka</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="email" type="emailType">
+        <xs:annotation>
+          <xs:documentation>e-mail kontaktního pracovníka</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="platebniUdajeType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="bankaCisloUctu" type="bankaCisloUctuType">
+        <xs:annotation>
+          <xs:documentation>Číslo účtu (nebo) IBAN</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="pojistneType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="zakladZamestnavateleA" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Vyměřovací základ zaměstnavatele podle § 5a odst. 1 písm. a)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="pojistneZamestnavateleA" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Pojistné za zaměstnavatele vypočteno automaticky</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="zakladZamestnavateleB" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Vyměřovací základ zaměstnavatele podle § 5a odst. 1 písm. b)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="pojistneZamestnavateleB" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Pojistné za zaměstnavatele vypočteno automaticky</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="zakladZamestnavateleC" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Vyměřovací základ zaměstnavatele podle § 5a odst. 1 písm. c)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="pojistneZamestnavateleC" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Pojistné za zaměstnavatele vypočteno automaticky</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pojistneZamestnavateleCelkem" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Pojistné za zaměstnavatele celkem</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pojistneZamestnance" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Pojistné za zaměstnance</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pojistneCelkem" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Pojistné celkem</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="zamestnavatelType">
+    <xs:sequence>
+      <xs:element name="vs" type="vs10Type">
+        <xs:annotation>
+          <xs:documentation>Variabilní symbol zaměstnavatele</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="IC" type="ICType">
+        <xs:annotation>
+          <xs:documentation>Identifikační číslo plátce</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="nazev" type="nazevType">
+        <xs:annotation>
+          <xs:documentation>Název zaměstnavatele</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="adresa" type="adresaType">
+        <xs:annotation>
+          <xs:documentation>Adresa zaměstnavatele</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="okresType">
+    <xs:sequence>
+      <xs:element name="kodOSSZ">
+        <xs:annotation>
+          <xs:documentation>Kód OSSZ</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="bt:simpleNType">
+            <xs:minInclusive value="100" />
+            <xs:maxInclusive value="999" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element minOccurs="0" name="nazevOSSZ">
+        <xs:annotation>
+          <xs:documentation>Místně příslušná OSSZ (ÚP PSSZ) </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="bt:simpleL2Type">
+            <xs:maxLength value="200" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="obdobiType">
+    <xs:sequence>
+      <xs:element name="mesic" type="mesicType">
+        <xs:annotation>
+          <xs:documentation>Vykazované období – měsíc</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="rok" type="rokType">
+        <xs:annotation>
+          <xs:documentation>Vykazované období – rok</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="slevaType">
+    <xs:sequence>
+      <xs:element name="pocetZamestnancu" type="pocetZamestnancuType">
+        <xs:annotation>
+          <xs:documentation>Počet zaměstnanců</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="uhrnVymerovacichZakladu" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Úhrn vyměřovacích základů zaměstnanců</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="pojistneSleva" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Sleva na pojistném zaměstnavatele / Úhrn slev na pojistném zaměstnanců</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="slevaZamestnanciType">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="zamestnanec" type="slevaZamestnanecType">
+        <xs:annotation>
+          <xs:documentation>Údaje o zaměstnancích, za které je uplatňována sleva na pojistném
+            zaměstnavatele</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="slevaZamestnanecType">
+    <xs:sequence>
+      <xs:element name="jmeno" type="jmenoType">
+        <xs:annotation>
+          <xs:documentation>Jméno</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="prijmeni" type="prijmeniType">
+        <xs:annotation>
+          <xs:documentation>Příjmení</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="rodneCislo" type="rodneCisloType">
+        <xs:annotation>
+          <xs:documentation>Rodné číslo / Evidenční číslo pojištěnce</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="datumNarozeni" type="datumType">
+        <xs:annotation>
+          <xs:documentation>Datum narození</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="vymerovaciZaklad" type="castkaType">
+        <xs:annotation>
+          <xs:documentation>Vyměřovací základ zaměstnance (v Kč)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="duvodSlevy" type="duvodSlevyType">
+        <xs:annotation>
+          <xs:documentation>Kód/písmeno důvodu uplatnění slevy</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="kratsiPracovniDoba" type="kratsiPracovniDobaType">
+        <xs:annotation>
+          <xs:documentation>Rozsah kratší pracovní (služební) doby (v hod.)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="mesicType">
+    <xs:restriction base="bt:simpleNNType">
+      <xs:minLength value="1" />
+      <xs:maxLength value="2" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="rokType">
+    <xs:restriction base="bt:simpleNType">
+      <xs:minInclusive value="2025" />
+      <xs:maxExclusive value="2100" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="vs10Type">
+    <xs:restriction base="bt:simpleNType">
+      <xs:pattern value="[0-9]{10}" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="jmenoType">
+    <xs:restriction base="bt:simpleA_ZX_SP_Type">
+      <xs:maxLength value="100" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="prijmeniType">
+    <xs:restriction base="bt:simpleA_ZX_SP_Type">
+      <xs:maxLength value="100" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="telefonType">
+    <xs:restriction base="bt:simpleA_NN_ZZ_SP_Type">
+      <xs:maxLength value="33" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="emailType">
+    <xs:restriction base="xs:string">
+      <xs:maxLength value="250" />
+      <xs:pattern value="([^@]+@[^\.]+\..+)?" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="datumType">
+    <xs:restriction base="xs:date" />
+  </xs:simpleType>
+  <xs:simpleType name="poznamkaType">
+    <xs:restriction base="bt:simpleL2Type">
+      <xs:maxLength value="200" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ICType">
+    <xs:restriction base="bt:simpleA_NN_ZZType">
+      <xs:maxLength value="35" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="nazevType">
+    <xs:restriction base="bt:simpleL2Type">
+      <xs:minLength value="1" />
+      <xs:maxLength value="144" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="uliceType">
+    <xs:restriction base="bt:simpleA_NN_ZZ_SP_Type">
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="cisloDomuType">
+    <xs:union memberTypes="bt:simpleAType bt:simpleNNType bt:simpleZZType">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:maxLength value="12" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  <xs:simpleType name="obecType">
+    <xs:restriction base="bt:simpleA_NN_ZZ_SP_Type">
+      <xs:minLength value="1" />
+      <xs:maxLength value="50" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="PSCType">
+    <xs:restriction base="bt:simpleA_NN_ZZType">
+      <xs:minLength value="1" />
+      <xs:maxLength value="11" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="statType">
+    <xs:restriction base="bt:simpleAType">
+      <xs:minLength value="2" />
+      <xs:maxLength value="2" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="castkaType">
+    <xs:restriction base="bt:simpleNNType">
+      <xs:minLength value="1" />
+      <xs:maxLength value="12" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="bankaCisloUctuType">
+    <xs:restriction base="bt:simpleA_NN_ZZType">
+      <xs:maxLength value="34" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="pocetZamestnancuType">
+    <xs:restriction base="bt:simpleNNType">
+      <xs:minLength value="1" />
+      <xs:maxLength value="6" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="rodneCisloType">
+    <xs:restriction base="bt:simpleNNType">
+      <xs:minLength value="9" />
+      <xs:maxLength value="10" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="duvodSlevyType">
+    <xs:restriction base="xs:string">
+      <xs:length value="1" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="kratsiPracovniDobaType">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0" />
+      <xs:totalDigits value="4" />
+      <xs:fractionDigits value="2" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>

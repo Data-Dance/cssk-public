@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form_cz_dd" model="ir.ui.view">
+        <field name="name">res.config.settings.form.cz.datadance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="l10n_cssk_core.res_config_settings_view_form_cssk" />
+        <field name="arch" type="xml">
+            <!-- Inject the CZ-suite toggles INTO the shared CZ/SK localization
+                 block (defined by l10n_cssk_core), rather than creating a second
+                 "Czech localization" block on the Accounting settings page. -->
+            <xpath expr="//block[@id='l10n_cssk_settings']" position="inside">
+                <!-- Community-only: Enterprise ships automatic exchange rates
+                     and deferred revenue/expense, so hide these on EE. -->
+                <setting id="cz_dd_fx" string="Exchange-rate sync (ČNB)"
+                         invisible="l10n_cssk_is_enterprise"
+                         help="Czech National Bank daily fixing.">
+                    <field name="module_currency_rate_update_cz" />
+                </setting>
+                <setting id="cz_dd_cutoff" string="Časové rozlišení (deferrals)"
+                         invisible="l10n_cssk_is_enterprise"
+                         help="Prepaid/deferred expenses &amp; revenues (381–385).">
+                    <field name="module_l10n_cz_account_cutoff" />
+                </setting>
+                <setting id="cz_dd_reliability" string="Supplier reliability check"
+                         help="Verify the supplier's tax reliability + registered bank account (ADIS) before paying.">
+                    <field name="module_l10n_cz_payment_reliability" />
+                </setting>
+                <setting id="cz_dd_assets" string="Dual depreciation"
+                         help="Separate tax vs accounting depreciation.">
+                    <field name="module_l10n_cz_account_asset_tax" />
+                </setting>
+                <setting id="cz_dd_methoda" string="Method A inventory"
+                         help="Perpetual inventory (required for audited companies).">
+                    <field name="module_l10n_cz_stock_account_method_a" />
+                </setting>
+                <setting id="cz_dd_advance" string="Advance invoices"
+                         help="Zálohové faktury + tax documents.">
+                    <field name="module_l10n_cz_sale_order_advance_invoice" />
+                </setting>
+                <!-- Roční podání. Nejsou součástí veřejného repozitáře; přepínač
+                     zůstává neaktivní, dokud modul není v addons path. -->
+                <setting id="cz_dd_fs" string="Účetní závěrka (Rozvaha, VZZ)"
+                         help="Rozvaha a Výkaz zisku a ztráty ve struktuře pro sbírku listin. Součást předplatného Data Dance.">
+                    <field name="module_l10n_cz_fs" />
+                </setting>
+                <setting id="cz_dd_dppo" string="Přiznání k dani z příjmů (DPPDP9)"
+                         help="Přiznání k dani z příjmů právnických osob. Součást předplatného Data Dance.">
+                    <field name="module_l10n_cz_dppo" />
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

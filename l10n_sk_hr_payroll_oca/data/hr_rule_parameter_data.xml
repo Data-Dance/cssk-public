@@ -1,0 +1,1073 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Dated statutory parameters for the Slovak payroll (2025 + 2026).
+        Every figure is sourced in docs/sk_payroll_legal.md (master table) and
+        docs/sk_gaps_todo.md. All rates/ceilings that a salary rule needs live
+        here so the 2025 <-> 2026 differences are data-driven, not code edits.
+
+        NOTE (v18.0.2.0.0): all statutory rates and ceilings are defined here as
+        dated values, keyed by effective date, so annual updates are data-only.
+    -->
+
+    <!-- ===================================================================
+         Social insurance
+         =================================================================== -->
+
+    <!-- Maximum monthly social-insurance assessment base (applies to all
+         social sub-funds EXCEPT accident insurance, which is uncapped, and
+         does NOT apply to health insurance). -->
+    <record id="rule_parameter_monthly_taxable_max" model="hr.rule.parameter">
+        <field name="name">Slovakia: Maximum monthly social assessment base</field>
+        <field name="code">l10n_sk_monthly_taxable_max</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_monthly_taxable_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">15730</field>
+        <field name="rule_parameter_id" ref="rule_parameter_monthly_taxable_max"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_monthly_taxable_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">16764</field>
+        <field name="rule_parameter_id" ref="rule_parameter_monthly_taxable_max"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Social sub-fund rates (%). Stable across 2025 & 2026; parameterised for
+         maintainability (single 2025-01-01 value each). -->
+    <record id="rule_parameter_social_sickness_ee" model="hr.rule.parameter">
+        <field name="name">Slovakia: Sickness insurance rate (employee)</field>
+        <field name="code">l10n_sk_social_sickness_ee</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_sickness_ee_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_sickness_ee"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_sickness_er" model="hr.rule.parameter">
+        <field name="name">Slovakia: Sickness insurance rate (employer)</field>
+        <field name="code">l10n_sk_social_sickness_er</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_sickness_er_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_sickness_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_pension_ee" model="hr.rule.parameter">
+        <field name="name">Slovakia: Old-age pension rate (employee)</field>
+        <field name="code">l10n_sk_social_pension_ee</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_pension_ee_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_pension_ee"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_pension_er" model="hr.rule.parameter">
+        <field name="name">Slovakia: Old-age pension rate (employer)</field>
+        <field name="code">l10n_sk_social_pension_er</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_pension_er_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">14</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_pension_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_disability_ee" model="hr.rule.parameter">
+        <field name="name">Slovakia: Disability insurance rate (employee)</field>
+        <field name="code">l10n_sk_social_disability_ee</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_disability_ee_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">3</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disability_ee"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_disability_er" model="hr.rule.parameter">
+        <field name="name">Slovakia: Disability insurance rate (employer)</field>
+        <field name="code">l10n_sk_social_disability_er</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_disability_er_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">3</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disability_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_unemployment_ee" model="hr.rule.parameter">
+        <field name="name">Slovakia: Unemployment insurance rate (employee)</field>
+        <field name="code">l10n_sk_social_unemployment_ee</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_unemployment_ee_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">1</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_unemployment_ee"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_unemployment_er" model="hr.rule.parameter">
+        <field name="name">Slovakia: Unemployment insurance rate (employer)</field>
+        <field name="code">l10n_sk_social_unemployment_er</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_unemployment_er_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_unemployment_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_shorttime_er" model="hr.rule.parameter">
+        <field name="name">Slovakia: Short-time-work financing rate (employer)</field>
+        <field name="code">l10n_sk_social_shorttime_er</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_shorttime_er_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_shorttime_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_guarantee_er" model="hr.rule.parameter">
+        <field name="name">Slovakia: Guarantee insurance rate (employer)</field>
+        <field name="code">l10n_sk_social_guarantee_er</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_guarantee_er_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.25</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_guarantee_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- Accident insurance is charged on the FULL gross (no ceiling). -->
+    <record id="rule_parameter_social_accident_er" model="hr.rule.parameter">
+        <field name="name">Slovakia: Accident insurance rate (employer, uncapped)</field>
+        <field name="code">l10n_sk_social_accident_er</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_accident_er_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.8</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_accident_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_social_reserve_er" model="hr.rule.parameter">
+        <field name="name">Slovakia: Reserve fund rate (employer)</field>
+        <field name="code">l10n_sk_social_reserve_er</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_reserve_er_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">4.75</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_reserve_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Health insurance (uncapped). 2026: employee 4% -> 5%.
+         =================================================================== -->
+    <record id="rule_parameter_health_rate_employee" model="hr.rule.parameter">
+        <field name="name">Slovakia: Health insurance rate (employee, standard)</field>
+        <field name="code">l10n_sk_health_rate_employee</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_health_rate_employee_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employee"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_rate_employee_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employee"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_health_rate_employer" model="hr.rule.parameter">
+        <field name="name">Slovakia: Health insurance rate (employer, standard)</field>
+        <field name="code">l10n_sk_health_rate_employer</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_health_rate_employer_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">11</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employer"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- ZŤP / disabled halved employee rate (2% 2025 -> 2.5% 2026). Employer
+         5.5% both years. -->
+    <record id="rule_parameter_health_rate_employee_ztp" model="hr.rule.parameter">
+        <field name="name">Slovakia: Health insurance rate (employee, ZŤP)</field>
+        <field name="code">l10n_sk_health_rate_employee_ztp</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_health_rate_employee_ztp_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">2</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employee_ztp"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_rate_employee_ztp_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">2.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employee_ztp"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_health_rate_employer_ztp" model="hr.rule.parameter">
+        <field name="name">Slovakia: Health insurance rate (employer, ZŤP)</field>
+        <field name="code">l10n_sk_health_rate_employer_ztp</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_health_rate_employer_ztp_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">5.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employer_ztp"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- Health minimum monthly assessment base (subsistence minimum / životné
+         minimum). Combined ee+er premium must reach the premium computed on
+         this base; shortfall is topped up (doplatok). -->
+    <record id="rule_parameter_health_min_base" model="hr.rule.parameter">
+        <field name="name">Slovakia: Health minimum monthly base (subsistence minimum)</field>
+        <field name="code">l10n_sk_health_min_base</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_health_min_base_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">273.99</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_min_base"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_min_base_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">284.13</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_min_base"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Health OOP (odvodová odpočítateľná položka na zdravotné poistenie):
+         reduces ONLY the employee's health assessment base, for a regular
+         employment relationship, when claimed in writing. Max 380 €/month,
+         reduced by 2 € of base per 1 € of monthly income above 380 €, reaching
+         0 € at 570 €. Employer base is NOT reduced. Unchanged 2025 -> 2026.
+         Slope (2 per 1) is derived as max / (end - max) = 380 / 190 = 2.
+         Source: VšZP <https://www.vszp.sk/platitelia/platenie-poistneho/odpocitatelna-polozka/>,
+         podnikajte.sk odvody 2026, epravo (minimálne zdravotné odvody 2025).
+         Still valid in 2026 per VšZP "Zmeny od 01.01.2026". -->
+    <record id="rule_parameter_health_oop_max" model="hr.rule.parameter">
+        <field name="name">Slovakia: Health OOP maximum monthly amount</field>
+        <field name="code">l10n_sk_health_oop_max</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_health_oop_max_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">380</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_oop_max"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_health_oop_phaseout_end" model="hr.rule.parameter">
+        <field name="name">Slovakia: Health OOP phase-out end (monthly income)</field>
+        <field name="code">l10n_sk_health_oop_phaseout_end</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_health_oop_phaseout_end_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">570</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_oop_phaseout_end"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Income tax
+         =================================================================== -->
+
+    <!-- Non-taxable part per taxpayer (NČZD) — monthly full amount. -->
+    <record id="rule_parameter_nczd_monthly" model="hr.rule.parameter">
+        <field name="name">Slovakia: Monthly non-taxable part per taxpayer (NČZD)</field>
+        <field name="code">l10n_sk_nczd_monthly</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_nczd_monthly_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">479.48</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_monthly"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_monthly_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">497.23</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_monthly"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- NČZD high-income taper. Annual tax base at/below the threshold => full
+         NČZD; above => NČZD_annual = max(0, taper_const - 0.25 * annual_base).
+         taper_const chosen for continuity at the threshold:
+           2025: 44.2 × ŽM(273.99) = 12110.36 ; threshold 25426.27 (92.8×)
+           2026: 43.95 × ŽM(284.13) = 12487.51 ; threshold 26083.13 (91.8×)
+         (The reform lowered the taper multiplier 92.8× -> 91.8×.) -->
+    <record id="rule_parameter_nczd_taper_threshold" model="hr.rule.parameter">
+        <field name="name">Slovakia: NČZD taper threshold (annual tax base)</field>
+        <field name="code">l10n_sk_nczd_taper_threshold</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_nczd_taper_threshold_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">25426.27</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_threshold"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_taper_threshold_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">26083.13</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_threshold"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_nczd_taper_const" model="hr.rule.parameter">
+        <field name="name">Slovakia: NČZD taper constant (annual)</field>
+        <field name="code">l10n_sk_nczd_taper_const</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_nczd_taper_const_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">12110.36</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_const"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_taper_const_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">12487.51</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_const"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Income-tax bands as a list of [rate_fraction, monthly_ceiling] pairs,
+         applied progressively to the MONTHLY base after NČZD. The top band uses
+         a large sentinel ceiling. Monthly ceilings = annual / 12.
+           2025: 19% <= 3961.50 ; 25% above
+           2026: 19% <= 3665.28 ; 25% <= 5029.10 ; 30% <= 6250.86 ; 35% above
+         2026 30%/35% bands VERIFIED against Finančná správa (154.8×/212.4×/264.0×
+         ŽM) and corroborated by PwC, KPMG, Accace, Grant Thornton — see README. -->
+    <record id="rule_parameter_income_tax_bands" model="hr.rule.parameter">
+        <field name="name">Slovakia: Income tax bands (monthly)</field>
+        <field name="code">l10n_sk_income_tax_bands</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_income_tax_bands_2025" model="hr.rule.parameter.value">
+        <!-- Monthly 19%/25% boundary = 176.8 × ŽM(273.99) / 12 = 48441.43/12. -->
+        <field name="parameter_value">[[0.19, 4036.79], [0.25, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_income_tax_bands_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 3665.28], [0.25, 5029.10], [0.30, 6250.86], [0.35, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Annual tax reconciliation (ročné zúčtovanie preddavkov na daň, §38
+         zákona č. 595/2003 Z. z.). Annual counterparts of the monthly NČZD /
+         tax-band parameters, used by the l10n.sk.tax.reconciliation model.
+         =================================================================== -->
+
+    <!-- Annual NČZD na daňovníka (full amount below the taper threshold).
+           2025: 21× ŽM 273,99 = 5 753,79 € (monthly advance 479,48 €)
+           2026: 21× ŽM 284,13 = 5 966,73 € (monthly advance 497,23 €)
+         The taper (threshold 25 426,27 / 26 083,13, const 12 110,36 / 12 487,51)
+         reuses l10n_sk_nczd_taper_threshold / l10n_sk_nczd_taper_const above.
+         Source: Finančná správa "Nezdaniteľná časť základu dane na daňovníka za
+         rok 2025" <https://podpora.financnasprava.sk/844317>, podnikajte.sk
+         "Nezdaniteľné časti základu dane 2025", jaspis.sk. -->
+    <record id="rule_parameter_nczd_annual" model="hr.rule.parameter">
+        <field name="name">Slovakia: Annual non-taxable part per taxpayer (NČZD)</field>
+        <field name="code">l10n_sk_nczd_annual</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_nczd_annual_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">5753.79</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_annual"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_annual_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">5966.73</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_annual"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Annual income-tax bands [rate_fraction, annual_ceiling] applied
+         progressively to the annual base after NČZD.
+           2025: 19% <= 48 441,43 (176,8× ŽM 273,99) ; 25% above
+           2026: 19% <= 43 983,36 (154,8×) ; 25% <= 60 349,20 (212,4×) ;
+                 30% <= 75 010,32 (264,0×) ; 35% above  [ŽM 284,13]
+         2026 multipliers per the consolidation reform (Finančná správa; PwC,
+         KPMG, Accace). The 2026 annual ceilings are the monthly ceilings × 12,
+         keeping the RZ consistent with the monthly advance rule. -->
+    <record id="rule_parameter_income_tax_bands_annual" model="hr.rule.parameter">
+        <field name="name">Slovakia: Income tax bands (annual)</field>
+        <field name="code">l10n_sk_income_tax_bands_annual</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_income_tax_bands_annual_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 48441.43], [0.25, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands_annual"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_income_tax_bands_annual_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 43983.36], [0.25, 60349.20], [0.30, 75010.32], [0.35, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands_annual"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- DDS / III. pilier annual deductible cap (§11 ods. 8 ZDP): 180 €/year,
+         stable 2025 & 2026. Source: Finančná správa "Zníženie základu dane o
+         príspevky na DDS (III. pilier)" <https://podpora.financnasprava.sk/609555>,
+         danovecentrum.sk. -->
+    <record id="rule_parameter_dds_annual_cap" model="hr.rule.parameter">
+        <field name="name">Slovakia: DDS (III. pilier) annual deductible cap</field>
+        <field name="code">l10n_sk_dds_annual_cap</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_dds_annual_cap_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">180</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dds_annual_cap"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Child tax bonus (daňový bonus na dieťa)
+         =================================================================== -->
+    <record id="rule_parameter_child_bonus_under_15" model="hr.rule.parameter">
+        <field name="name">Slovakia: Child tax bonus per child &lt; 15y</field>
+        <field name="code">l10n_sk_child_bonus_under_15</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_child_bonus_under_15_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">100</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_under_15"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_child_bonus_15_18" model="hr.rule.parameter">
+        <field name="name">Slovakia: Child tax bonus per child 15–17y</field>
+        <field name="code">l10n_sk_child_bonus_15_18</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_child_bonus_15_18_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">50</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_15_18"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- Percentage-of-(partial)-tax-base caps indexed by number of children
+         (1..6+). The bonus may not exceed this % of the partial tax base. -->
+    <record id="rule_parameter_child_bonus_pct_caps" model="hr.rule.parameter">
+        <field name="name">Slovakia: Child tax bonus %-of-base caps (1..6+ children)</field>
+        <field name="code">l10n_sk_child_bonus_pct_caps</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_child_bonus_pct_caps_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">[29, 36, 43, 50, 57, 64]</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_pct_caps"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- High-income taper: for annual tax base above the threshold the monthly
+         bonus is reduced by taper_coeff × (monthly_base − threshold/12).
+         2026 threshold €27,432; coeff 0.10 (1/10 of the excess). -->
+    <record id="rule_parameter_child_bonus_taper_threshold" model="hr.rule.parameter">
+        <field name="name">Slovakia: Child bonus taper threshold (annual tax base)</field>
+        <field name="code">l10n_sk_child_bonus_taper_threshold</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_child_bonus_taper_threshold_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">25740</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_taper_threshold"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_bonus_taper_threshold_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">27432</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_taper_threshold"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_child_bonus_taper_coeff" model="hr.rule.parameter">
+        <field name="name">Slovakia: Child bonus taper coefficient</field>
+        <field name="code">l10n_sk_child_bonus_taper_coeff</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_child_bonus_taper_coeff_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.10</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_taper_coeff"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Meal allowance (stravné)
+         =================================================================== -->
+    <record id="rule_parameter_stravne_5_12h" model="hr.rule.parameter">
+        <field name="name">Slovakia: Meal allowance, 5–12 h</field>
+        <field name="code">l10n_sk_stravne_5_12h</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_stravne_5_12h_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">8.30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_stravne_5_12h_2025_apr" model="hr.rule.parameter.value">
+        <field name="parameter_value">8.80</field>
+        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
+        <field name="date_from" eval="datetime(2025, 4, 1).date()"/>
+    </record>
+    <record id="rule_parameter_stravne_5_12h_2025_dec" model="hr.rule.parameter.value">
+        <field name="parameter_value">9.30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
+        <field name="date_from" eval="datetime(2025, 12, 1).date()"/>
+    </record>
+    <record id="rule_parameter_stravne_5_12h_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">9.30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Employer's meal contribution as % of stravné. Legal minimum is 55%;
+         the max tax-deductible is also 55% of stravné (= €5.12 at €9.30). -->
+    <record id="rule_parameter_meal_employer_pct" model="hr.rule.parameter">
+        <field name="name">Slovakia: Employer meal contribution (% of meal allowance)</field>
+        <field name="code">l10n_sk_meal_employer_pct</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_meal_employer_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">55</field>
+        <field name="rule_parameter_id" ref="rule_parameter_meal_employer_pct"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- Minimum meal-voucher value as % of stravné (75%). -->
+    <record id="rule_parameter_meal_voucher_min_pct" model="hr.rule.parameter">
+        <field name="name">Slovakia: Minimum meal voucher value (% of meal allowance)</field>
+        <field name="code">l10n_sk_meal_voucher_min_pct</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_meal_voucher_min_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">75</field>
+        <field name="rule_parameter_id" ref="rule_parameter_meal_voucher_min_pct"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Agreements (dohody: DoVP / DoPČ).
+         The pension odvodová odpočítateľná položka (OOP) for pensioners/students
+         reduces the assessment base for old-age (starobné), disability
+         (invalidné) and the solidarity reserve fund by up to 200 €/month; a
+         mandatory seasonal-DoPČ OOP (762 €/mo from 2026) applies to seasonal
+         work. It does NOT reduce accident or guarantee insurance, and only one
+         such agreement per month may claim it.
+         Source: Sociálna poisťovňa "Poistné pri dohodároch"
+         <https://www.socpoist.sk/socialne-poistenie/platenie-poistneho/poistne-pri-dohodaroch-zamestnavatelzamestnanec>,
+         podnikajte.sk "Odvody z dohody od 2025".
+         =================================================================== -->
+    <record id="rule_parameter_dohoda_oop" model="hr.rule.parameter">
+        <field name="name">Slovakia: Agreement OOP (students/pensioners), monthly</field>
+        <field name="code">l10n_sk_dohoda_oop</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_dohoda_oop_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">200</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dohoda_oop"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_dohoda_oop_seasonal" model="hr.rule.parameter">
+        <field name="name">Slovakia: Seasonal DoPČ OOP, monthly</field>
+        <field name="code">l10n_sk_dohoda_oop_seasonal</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_dohoda_oop_seasonal_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">762</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dohoda_oop_seasonal"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Wage garnishment (exekučné zrážky)
+         Životné minimum plnoletej fyzickej osoby (na povinného), dated by its
+         legal validity (1 July each year). Used as the base for the
+         nezabaviteľná suma. 273.99 from 1.7.2024, 284.13 from 1.7.2025.
+         Source: finsider.sk "Životné minimum 2026", MPSVR SR.
+         =================================================================== -->
+    <record id="rule_parameter_zivotne_minimum" model="hr.rule.parameter">
+        <field name="name">Slovakia: Subsistence minimum (adult individual), monthly</field>
+        <field name="code">l10n_sk_zivotne_minimum</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_zivotne_minimum_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">273.99</field>
+        <field name="rule_parameter_id" ref="rule_parameter_zivotne_minimum"/>
+        <field name="date_from" eval="datetime(2024, 7, 1).date()"/>
+    </record>
+    <record id="rule_parameter_zivotne_minimum_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">284.13</field>
+        <field name="rule_parameter_id" ref="rule_parameter_zivotne_minimum"/>
+        <field name="date_from" eval="datetime(2025, 7, 1).date()"/>
+    </record>
+    <!-- 295.13 → 295.22 from 1.7.2026; základná suma 140 % = 413.31 €.
+         Source: podnikajte.sk "Životné minimum od 1.7.2026 do 30.6.2027". -->
+    <record id="rule_parameter_zivotne_minimum_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">295.22</field>
+        <field name="rule_parameter_id" ref="rule_parameter_zivotne_minimum"/>
+        <field name="date_from" eval="datetime(2026, 7, 1).date()"/>
+    </record>
+
+    <!-- Basic non-seizable amount (základná nepostihnuteľná suma na povinného)
+         as a coefficient of životné minimum. 140% since 1.11.2020.
+         Source: danovy-poradca.sk, finsider.sk; Nariadenie vlády 268/2006. -->
+    <record id="rule_parameter_garnishment_basic_coeff" model="hr.rule.parameter">
+        <field name="name">Slovakia: Garnishment basic non-seizable coefficient (× subsistence minimum)</field>
+        <field name="code">l10n_sk_garnishment_basic_coeff</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_garnishment_basic_coeff_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.40</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnishment_basic_coeff"/>
+        <field name="date_from" eval="datetime(2020, 11, 1).date()"/>
+    </record>
+
+    <!-- Basic non-seizable amount for a PRIORITY claim (§ 2 ods. 2 NV
+         268/2006): 100 % of the subsistence minimum, i.e. a priority creditor
+         may reach deeper than an ordinary one. Applying the 140 % ordinary
+         coefficient to priority claims under-deducts and is a defect.
+         Source: jaspis.sk "Exekučné zrážky zo mzdy zamestnanca od 1.7.2026". -->
+    <record id="rule_parameter_garnishment_priority_coeff" model="hr.rule.parameter">
+        <field name="name">Slovakia: Garnishment priority non-seizable coefficient (× subsistence minimum)</field>
+        <field name="code">l10n_sk_garnishment_priority_coeff</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_garnishment_priority_coeff_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.00</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnishment_priority_coeff"/>
+        <field name="date_from" eval="datetime(2020, 11, 1).date()"/>
+    </record>
+
+    <!-- Per-dependant non-seizable amount as a coefficient of the BASIC
+         non-seizable amount (25% each). -->
+    <record id="rule_parameter_garnishment_dependent_coeff" model="hr.rule.parameter">
+        <field name="name">Slovakia: Garnishment per-dependant coefficient (× basic)</field>
+        <field name="code">l10n_sk_garnishment_dependent_coeff</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_garnishment_dependent_coeff_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.25</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnishment_dependent_coeff"/>
+        <field name="date_from" eval="datetime(2020, 11, 1).date()"/>
+    </record>
+
+    <!-- Multiple of the basic non-seizable amount above which the remainder of
+         the net wage is seized without limitation (3× basic). -->
+    <record id="rule_parameter_garnishment_unlimited_mult" model="hr.rule.parameter">
+        <field name="name">Slovakia: Garnishment unlimited-seizure multiple (× basic)</field>
+        <field name="code">l10n_sk_garnishment_unlimited_mult</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_garnishment_unlimited_mult_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">3</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnishment_unlimited_mult"/>
+        <field name="date_from" eval="datetime(2020, 11, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Sickness compensation (náhrada príjmu pri PN) — employer-paid
+         Days 1–3 at 25%, days 4..employer_days at 55% of the (capped) DVZ.
+         employer_days: 10 in 2025, 14 from 1.1.2026 (statutory extension).
+         Source: podnikajte.sk "PN zamestnanca od 1.1.2026", MPSVR SR;
+         Zákonník práce §... / zákon 462/2003 Z. z.
+         =================================================================== -->
+    <record id="rule_parameter_pn_rate_tier1" model="hr.rule.parameter">
+        <field name="name">Slovakia: Sick-pay (PN) rate, days 1–3 (%)</field>
+        <field name="code">l10n_sk_pn_rate_tier1</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_pn_rate_tier1_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">25</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_rate_tier1"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_pn_rate_tier2" model="hr.rule.parameter">
+        <field name="name">Slovakia: Sick-pay (PN) rate, days 4+ (%)</field>
+        <field name="code">l10n_sk_pn_rate_tier2</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_pn_rate_tier2_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">55</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_rate_tier2"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_pn_tier1_days" model="hr.rule.parameter">
+        <field name="name">Slovakia: Sick-pay (PN) tier-1 day count</field>
+        <field name="code">l10n_sk_pn_tier1_days</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_pn_tier1_days_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">3</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_tier1_days"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_pn_employer_days" model="hr.rule.parameter">
+        <field name="name">Slovakia: Employer-paid sick-leave (PN) day count</field>
+        <field name="code">l10n_sk_pn_employer_days</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_pn_employer_days_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">10</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_employer_days"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_pn_employer_days_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">14</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_employer_days"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Maximum daily assessment base (max DVZ). 2026 = 100.2083
+         (= 2 × 1524 × 12 / 365); 2025 ≈ 94.0274 (= 2 × 1430 × 12 / 365).
+         Source: podnikajte.sk "Maximálne nemocenské dávky 2026". -->
+    <record id="rule_parameter_pn_max_dvz" model="hr.rule.parameter">
+        <field name="name">Slovakia: Maximum daily assessment base (max DVZ)</field>
+        <field name="code">l10n_sk_pn_max_dvz</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_pn_max_dvz_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">94.0274</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_max_dvz"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_pn_max_dvz_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">100.2083</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_max_dvz"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         Minimum hourly wage (minimálna mzda za hodinu, 40h/week).
+         = monthly minimum wage / 174. Floor for priemerný zárobok (§134):
+         if priemerný hodinový zárobok is below it, it is raised to it.
+           2025: 816 € / 174 = 4.6897 -> 4.690
+           2026: 915 € / 174 = 5.2586 -> 5.259
+         Sources: minimalnamzda.sk "Minimálna hodinová mzda 2026"
+         <https://www.minimalnamzda.sk/hodinova.php>,
+         podnikajte.sk "Minimálna mzda od 1.1.2026"
+         <https://www.podnikajte.sk/pracovne-pravo-bozp/minimalna-mzda-od-1-1-2026>,
+         danovy-poradca.sk "Minimálna mzda 2026".
+         =================================================================== -->
+    <record id="rule_parameter_min_hourly_wage" model="hr.rule.parameter">
+        <field name="name">Slovakia: Minimum hourly wage (40h/week)</field>
+        <field name="code">l10n_sk_min_hourly_wage</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_min_hourly_wage_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">4.690</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_hourly_wage"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_min_hourly_wage_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">5.259</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_hourly_wage"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- ==================== YEAR 2024 (validated vs MRP mrpmapd.phc) ==================== -->
+    <record id="rule_parameter_social_sickness_ee_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_sickness_ee"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_sickness_er_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_sickness_er"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_pension_ee_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_pension_ee"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_pension_er_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">14</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_pension_er"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_disability_ee_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">3</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disability_ee"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_disability_er_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">3</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disability_er"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_unemployment_ee_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">1</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_unemployment_ee"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_unemployment_er_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_unemployment_er"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_shorttime_er_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_shorttime_er"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_guarantee_er_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.25</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_guarantee_er"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_accident_er_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.8</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_accident_er"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_reserve_er_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">4.75</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_reserve_er"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_rate_employee_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employee"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_rate_employee_ztp_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">2</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employee_ztp"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_rate_employer_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">11</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employer"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_rate_employer_ztp_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">5.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employer_ztp"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_min_base_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">268.88</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_min_base"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_oop_max_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">380</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_oop_max"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_oop_phaseout_end_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">570</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_oop_phaseout_end"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_monthly_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">470.54</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_monthly"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_annual_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">5646.48</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_annual"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_taper_threshold_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">24952.06</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_threshold"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_taper_const_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">11884.50</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_const"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_income_tax_bands_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 3961.50], [0.25, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_income_tax_bands_annual_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 47537.98], [0.25, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands_annual"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_monthly_taxable_max_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">9128.0</field>
+        <field name="rule_parameter_id" ref="rule_parameter_monthly_taxable_max"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_min_hourly_wage_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">4.310</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_hourly_wage"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_dohoda_oop_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">200</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dohoda_oop"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_dds_annual_cap_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">180</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dds_annual_cap"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_meal_employer_pct_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">55</field>
+        <field name="rule_parameter_id" ref="rule_parameter_meal_employer_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_meal_voucher_min_pct_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">75</field>
+        <field name="rule_parameter_id" ref="rule_parameter_meal_voucher_min_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_stravne_5_12h_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">7.30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_bonus_under_15_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">140</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_under_15"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_bonus_15_18_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">140</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_15_18"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_bonus_pct_caps_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">[20, 27, 34, 41, 48, 55]</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_pct_caps"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_bonus_taper_threshold_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">1000000000</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_taper_threshold"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_bonus_taper_coeff_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">0.0</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_taper_coeff"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_pn_rate_tier1_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">25</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_rate_tier1"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_pn_rate_tier2_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">55</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_rate_tier2"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_pn_tier1_days_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">3</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_tier1_days"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_pn_employer_days_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">10</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_employer_days"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_pn_max_dvz_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">79.6274</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pn_max_dvz"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_zivotne_minimum_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">268.88</field>
+        <field name="rule_parameter_id" ref="rule_parameter_zivotne_minimum"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         §134 ods. 3 Zákonníka práce — the determining-period hours test.
+         If the employee did not work at least this many hours in the previous
+         quarter, the probable earnings (pravdepodobný zárobok) are used
+         instead of the average. Parameterised rather than inlined so BOTH
+         engines read one number: they previously diverged on the fallback
+         divisor, which silently moved every náhrada by ~1 %.
+         =================================================================== -->
+    <record id="rule_parameter_avg_earnings_min_hours" model="hr.rule.parameter">
+        <field name="name">Slovakia: Average earnings — minimum hours in the determining period</field>
+        <field name="code">l10n_sk_avg_earnings_min_hours</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_avg_earnings_min_hours_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">168</field>
+        <field name="rule_parameter_id" ref="rule_parameter_avg_earnings_min_hours"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         § 142 Zákonníka práce — PREKÁŽKY V PRÁCI NA STRANE ZAMESTNÁVATEĽA.
+         Náhrada mzdy as a percentage of priemerný zárobok. These are statutory
+         MINIMA: a collective agreement or the employer may pay more, which is
+         why they are dated parameters rather than literals in a rule body.
+
+           ods. 1  prestoj (porucha stroja, dodávka surovín, chybné podklady),
+                   if the employee was not reassigned          — 100 %
+           ods. 2  nepriaznivé poveternostné vplyvy            — najmenej 50 %
+           ods. 3  iné prekážky na strane zamestnávateľa       — 100 %
+           ods. 4  vážne prevádzkové dôvody vymedzené v písomnej dohode so
+                   zástupcami zamestnancov                     — najmenej 60 %
+
+         Until now every one of these landed on the generic OBSTACLE bucket and
+         was therefore paid at the full 100 %, overpaying a prestoj-for-weather
+         by half the náhrada.
+         =================================================================== -->
+    <record id="rule_parameter_prekazka_prestoj_pct" model="hr.rule.parameter">
+        <field name="name">Slovakia: Employer obstacle — prestoj (%)</field>
+        <field name="code">l10n_sk_prekazka_prestoj_pct</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_prekazka_prestoj_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">100</field>
+        <field name="rule_parameter_id" ref="rule_parameter_prekazka_prestoj_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_prekazka_pocasie_pct" model="hr.rule.parameter">
+        <field name="name">Slovakia: Employer obstacle — adverse weather (%)</field>
+        <field name="code">l10n_sk_prekazka_pocasie_pct</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_prekazka_pocasie_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">50</field>
+        <field name="rule_parameter_id" ref="rule_parameter_prekazka_pocasie_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_prekazka_ine_pct" model="hr.rule.parameter">
+        <field name="name">Slovakia: Employer obstacle — other (%)</field>
+        <field name="code">l10n_sk_prekazka_ine_pct</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_prekazka_ine_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">100</field>
+        <field name="rule_parameter_id" ref="rule_parameter_prekazka_ine_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_prekazka_vazne_pct" model="hr.rule.parameter">
+        <field name="name">Slovakia: Employer obstacle — serious operational reasons (%)</field>
+        <field name="code">l10n_sk_prekazka_vazne_pct</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_prekazka_vazne_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">60</field>
+        <field name="rule_parameter_id" ref="rule_parameter_prekazka_vazne_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+</odoo>

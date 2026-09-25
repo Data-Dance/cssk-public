@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="payroll_kpi_kanban" model="ir.ui.view">
+        <field name="name">payroll.kpi.kanban</field>
+        <field name="model">payroll.kpi</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard" create="0" edit="0"
+                    records_draggable="0" group_create="0" default_order="sequence">
+                <field name="name" />
+                <field name="value" />
+                <field name="kind" />
+                <field name="currency_id" />
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex flex-column align-items-center justify-content-center text-center p-3">
+                            <div class="fs-1 fw-bold text-primary">
+                                <t t-if="record.kind.raw_value == 'money'">
+                                    <field name="value" widget="monetary"
+                                           options="{'currency_field': 'currency_id'}" />
+                                </t>
+                                <t t-else="">
+                                    <field name="value" widget="integer" />
+                                </t>
+                            </div>
+                            <div class="text-muted text-uppercase small mt-1">
+                                <field name="name" />
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="payroll_kpi_action" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">payroll.kpi</field>
+        <field name="view_mode">kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No payroll data yet</p>
+            <p>Headline payroll figures appear here once payslips are computed.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_payroll_kpi"
+              name="Dashboard"
+              parent="payroll.payroll_menu_root"
+              action="payroll_kpi_action"
+              sequence="1" />
+
+</odoo>

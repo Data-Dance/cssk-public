@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="eldp_version_2015" model="cssk.payroll.declaration.version">
+        <field name="name">ELDP 2015 (v1.3)</field>
+        <field name="code">sk_eldp</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2015-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_hr_payroll_eldp.eldp_xml"/>
+        <field name="xml_root_element">spELDPZec</field>
+        <field name="xml_schema_module">l10n_sk_hr_payroll_eldp</field>
+        <field name="xml_schema_filename">data/ELDP-v2015_1.3.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_hr_payroll_eldp/data/ELDP-v2015_1.3.xsd"/>
+    </record>
+
+</odoo>

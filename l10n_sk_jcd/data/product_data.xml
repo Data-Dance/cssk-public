@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo noupdate="1">
+    <!-- Service product carrying the duty onto a stock.landed.cost. -->
+    <record id="product_customs_duty" model="product.product">
+        <field name="name">Clo (colný poplatok)</field>
+        <field name="type">service</field>
+        <field name="landed_cost_ok" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="sale_ok" eval="False"/>
+    </record>
+</odoo>

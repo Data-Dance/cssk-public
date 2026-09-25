@@ -1,0 +1,84 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Advance Invoices — Czech Localization</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Czech chart wiring for advance invoices (zálohové faktury) and tax documents on received payments</h3>
+    <div class="oe_span12">
+      <p>This app connects the country-neutral <code>sale_order_advance_invoice</code> flow to the
+         Czech chart of accounts (<code>l10n_cz</code>), so that received advances and their tax
+         documents post to the statutory accounts.</p>
+      <p>On install it configures, for every company on the Czech chart template, the dedicated
+         tax-documents journal and the received-advance accounts. Existing manual configuration is
+         preserved — only empty fields are filled.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Creates the reconcilable advance-clearing account <b>324001</b> (Přijaté zálohy –
+            zúčtování / daňový doklad) — the standard Czech chart has no reconcilable clearing
+            account, so this module ships one.</li>
+        <li>Wires the short-term received-advance account <b>324000</b> (Přijaté provozní zálohy)
+            and the long-term received-advance account <b>475000</b> (Dlouhodobé přijaté zálohy).</li>
+        <li>Sets up the tax-documents journal <b>TDADV</b> (Daňové doklady k přijatým platbám) for
+            the tax document issued on a received payment.</li>
+        <li>Idempotent post-install hook: only empty fields are filled, so manual configuration is
+            never overwritten.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install the module on a company already on the Czech chart (<code>l10n_cz</code>). The
+         post-install hook wires the journal and accounts automatically — no manual configuration
+         is required. The advance-invoice workflow itself is provided by
+         <code>sale_order_advance_invoice</code>:</p>
+      <ol>
+        <li><b>Zálohová (proforma) faktura</b> — a request for payment; not posted.</li>
+        <li><b>Received payment</b> — bank 221 against the clearing account 324001.</li>
+        <li><b>Daňový doklad k přijaté platbě</b> (tax document for the received payment, within
+            15 days) — 324001 / 324000 (base) + 343 (VAT); the clearing account is reconciled
+            against the payment and returns to zero.</li>
+        <li><b>Final invoice</b> — the full supply (311 / 604 + 343) with deduction of the advance
+            and reversal of the VAT already declared on the advance.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Documentation</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="../../docs/index.rst">docs/index.rst</a> — Czech account-wiring reference
+            (accounts, journal and the accounting flow).</li>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — release history.</li>
+        <li>The interactive cheat sheet for the underlying flow lives in
+            <code>sale_order_advance_invoice/static/description/</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      KVDPH XML template — matches the OFFICIAL FS SR schema
+      kv_dph_2025.xsd (root KVDPH_2025, namespace, attribute-based rows).
+      Section rows other than A.1 are mapped best-effort from the available
+      model fields; verify each section's attribute semantics with a SK
+      accountant against the official schema annotations.
+    -->
+    <!--
+      The 2023 vzor, for periods beginning 1. 7. 2023 up to the 2025 form.
+      The two schemas are the SAME shape — identical sections A1/A2/B1/B2/
+      B31/B32/C1/C2/D1/D2 and identical field names — and differ in the root
+      element and namespace (KVDPH_2023 against KVDPH_2025), plus two complex
+      types the 2025 schema adds. So this template is the 2025 one with its
+      root changed: a 2023 period exported under the 2025 root would carry
+      correct figures and be rejected on submission, which is the failure this
+      exists to prevent.
+    -->
+    <template id="kvdph_2023">
+        <KVDPH_2023 xmlns="https://ekr.financnasprava.sk/Formulare/XSD/kv_dph_2023.xsd">
+            <Identifikacia>
+                <IcDphPlatitela t-out="company.vat or ''"/>
+                <Druh t-out="statement.statement_type_id.fa_xml_value or 'R'"/>
+                <Obdobie>
+                    <Rok t-out="statement.date_from.year"/>
+                    <Mesiac t-if="statement.period_type == 'month'"
+                            t-out="statement.date_from.month"/>
+                    <Stvrtrok t-if="statement.period_type == 'quarter'"
+                              t-out="(statement.date_from.month - 1) // 3 + 1"/>
+                </Obdobie>
+                <Nazov t-out="company.name or ''"/>
+                <Stat t-out="company.country_id.code or 'SK'"/>
+                <Obec t-out="company.city or ''"/>
+                <PSC t-if="company.zip" t-out="company.zip"/>
+                <Ulica t-if="company.street" t-out="company.street"/>
+            </Identifikacia>
+            <Transakcie>
+                <t t-foreach="sections_by_code.get('A.1', [])" t-as="row">
+                    <A1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or None"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"/>
+                </t>
+                <t t-foreach="sections_by_code.get('A.2', [])" t-as="row">
+                    <A2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or ''"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-TK="row.goods_code or None"
+                        t-att-TD="row.goods_kind or None"
+                        t-att-Mn="('%.2f' % row.quantity) if row.uom_code else None"
+                        t-att-MJ="row.uom_code or None"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.1', [])" t-as="row">
+                    <B1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or None"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-O="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.2', [])" t-as="row">
+                    <B2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or ''"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-O="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.3.1', [])" t-as="row">
+                    <B31 t-att-KOpr="row.kod_opravy or None"
+                         t-att-Z="'%.2f' % row.total_tax_base"
+                         t-att-D="'%.2f' % row.total_tax_amount"
+                         t-att-O="'%.2f' % row.total_deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.3.2', [])" t-as="row">
+                    <B32 t-att-KOpr="row.kod_opravy or None"
+                         t-att-Dod="row.partner_vat or ''"
+                         t-att-Z="'%.2f' % row.total_tax_base"
+                         t-att-D="'%.2f' % row.total_tax_amount"
+                         t-att-O="'%.2f' % row.total_deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('C.1', [])" t-as="row">
+                    <C1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or None"
+                        t-att-FO="row.entry_ref_original_xml or row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_xml"
+                        t-att-ZR="'%.2f' % row.tax_base_amount"
+                        t-att-DR="'%.2f' % row.tax_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('C.2', [])" t-as="row">
+                    <C2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or None"
+                        t-att-FO="row.entry_ref_original_xml or row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_xml"
+                        t-att-ZR="'%.2f' % row.tax_base_amount"
+                        t-att-DR="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-OR="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('D.1', [])" t-as="row">
+                    <D1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-SumaObratov="'%.2f' % row.total_tax_base"
+                        t-att-Z="'%.2f' % row.total_tax_base"
+                        t-att-D="'%.2f' % row.total_tax_amount"
+                        t-att-ZZn="'%.2f' % 0.0"
+                        t-att-DZn="'%.2f' % 0.0"/>
+                </t>
+                <t t-foreach="sections_by_code.get('D.2', [])" t-as="row">
+                    <D2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Z="'%.2f' % row.tax_base_basic"
+                        t-att-D="'%.2f' % row.tax_amount_basic"
+                        t-att-ZZn="'%.2f' % row.tax_base_lower"
+                        t-att-DZn="'%.2f' % row.tax_amount_lower"/>
+                </t>
+            </Transakcie>
+        </KVDPH_2023>
+    </template>
+
+    <!--
+      KV DPH, the ORIGINAL vzor. The kontrolny vykaz obligation itself began
+      1. 1. 2014 (§ 78a zakona c. 222/2004 Z. z.), which is where valid_from
+      comes from — the form's own introduction, not the earliest period any
+      particular agenda happens to contain. Unlike the 2016 schema this file
+      carries no "Ucinnost" line, so the date is statutory knowledge rather
+      than something the schema states.
+
+      ONE structural difference from every later vintage, and it is the reason
+      this template exists rather than being an alias: the form has a single
+      aggregate B3 (ref maxOccurs="2", attributes Z/D/O/KOpr) where 1. 4. 2016
+      introduced the B31 / B32 split. Every other section and attribute is
+      identical, verified across the three schemas.
+    -->
+    <template id="kvdph_2014">
+        <KVDPH xmlns="https://ekr.financnasprava.sk/Formulare/XSD/kv_dph_2014.xsd">
+            <Identifikacia>
+                <IcDphPlatitela t-out="company.vat or ''"/>
+                <Druh t-out="statement.statement_type_id.fa_xml_value or 'R'"/>
+                <Obdobie>
+                    <Rok t-out="statement.date_from.year"/>
+                    <Mesiac t-if="statement.period_type == 'month'"
+                            t-out="statement.date_from.month"/>
+                    <Stvrtrok t-if="statement.period_type == 'quarter'"
+                              t-out="(statement.date_from.month - 1) // 3 + 1"/>
+                </Obdobie>
+                <Nazov t-out="company.name or ''"/>
+                <Stat t-out="company.country_id.code or 'SK'"/>
+                <Obec t-out="company.city or ''"/>
+                <PSC t-if="company.zip" t-out="company.zip"/>
+                <Ulica t-if="company.street" t-out="company.street"/>
+            </Identifikacia>
+            <Transakcie>
+                <t t-foreach="sections_by_code.get('A.1', [])" t-as="row">
+                    <A1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or None"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"/>
+                </t>
+                <t t-foreach="sections_by_code.get('A.2', [])" t-as="row">
+                    <A2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or ''"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-TK="row.goods_code or None"
+                        t-att-TD="row.goods_kind or None"
+                        t-att-Mn="('%.2f' % row.quantity) if row.uom_code else None"
+                        t-att-MJ="row.uom_code or None"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.1', [])" t-as="row">
+                    <B1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or None"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-O="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.2', [])" t-as="row">
+                    <B2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or ''"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-O="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.3', [])" t-as="row">
+                    <B3 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Z="'%.2f' % row.total_tax_base"
+                        t-att-D="'%.2f' % row.total_tax_amount"
+                        t-att-O="'%.2f' % row.total_deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('C.1', [])" t-as="row">
+                    <C1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or None"
+                        t-att-FO="row.entry_ref_original_xml or row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_xml"
+                        t-att-ZR="'%.2f' % row.tax_base_amount"
+                        t-att-DR="'%.2f' % row.tax_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('C.2', [])" t-as="row">
+                    <C2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or None"
+                        t-att-FO="row.entry_ref_original_xml or row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_xml"
+                        t-att-ZR="'%.2f' % row.tax_base_amount"
+                        t-att-DR="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-OR="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('D.1', [])" t-as="row">
+                    <D1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-SumaObratov="'%.2f' % row.total_tax_base"
+                        t-att-Z="'%.2f' % row.total_tax_base"
+                        t-att-D="'%.2f' % row.total_tax_amount"
+                        t-att-ZZn="'%.2f' % 0.0"
+                        t-att-DZn="'%.2f' % 0.0"/>
+                </t>
+                <t t-foreach="sections_by_code.get('D.2', [])" t-as="row">
+                    <D2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Z="'%.2f' % row.tax_base_basic"
+                        t-att-D="'%.2f' % row.tax_amount_basic"
+                        t-att-ZZn="'%.2f' % row.tax_base_lower"
+                        t-att-DZn="'%.2f' % row.tax_amount_lower"/>
+                </t>
+            </Transakcie>
+        </KVDPH>
+    </template>
+
+    <!--
+      KV DPH, vzor effective 1. 4. 2016 — the schema says so itself:
+      "Ucinnost: 1.4.2016 ... Pouzije sa ... za zdanovacie obdobia, ktore sa
+      zacinaju najskor 1.4.2016". rf-elements-06 pinned the same boundary
+      independently from 231 filed runs, by PERIOD rather than by document
+      date; the form and the customer's filings agreeing without either being
+      derived from the other is what makes the date safe.
+
+      Section set and every attribute are IDENTICAL to 2023's — checked
+      attribute by attribute across the three schemas, not assumed. The only
+      difference anywhere is ONP on C1/C2, which 2023 added for oprava
+      nedobytnej pohladavky and which this template does not emit in any
+      vintage. So this record exists for the ROOT ELEMENT and namespace, which
+      are what a submission is validated against.
+    -->
+    <template id="kvdph_2016">
+        <KVDPH_2016 xmlns="https://ekr.financnasprava.sk/Formulare/XSD/kv_dph_2016.xsd">
+            <Identifikacia>
+                <IcDphPlatitela t-out="company.vat or ''"/>
+                <Druh t-out="statement.statement_type_id.fa_xml_value or 'R'"/>
+                <Obdobie>
+                    <Rok t-out="statement.date_from.year"/>
+                    <Mesiac t-if="statement.period_type == 'month'"
+                            t-out="statement.date_from.month"/>
+                    <Stvrtrok t-if="statement.period_type == 'quarter'"
+                              t-out="(statement.date_from.month - 1) // 3 + 1"/>
+                </Obdobie>
+                <Nazov t-out="company.name or ''"/>
+                <Stat t-out="company.country_id.code or 'SK'"/>
+                <Obec t-out="company.city or ''"/>
+                <PSC t-if="company.zip" t-out="company.zip"/>
+                <Ulica t-if="company.street" t-out="company.street"/>
+            </Identifikacia>
+            <Transakcie>
+                <t t-foreach="sections_by_code.get('A.1', [])" t-as="row">
+                    <A1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or None"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"/>
+                </t>
+                <t t-foreach="sections_by_code.get('A.2', [])" t-as="row">
+                    <A2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or ''"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-TK="row.goods_code or None"
+                        t-att-TD="row.goods_kind or None"
+                        t-att-Mn="('%.2f' % row.quantity) if row.uom_code else None"
+                        t-att-MJ="row.uom_code or None"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.1', [])" t-as="row">
+                    <B1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or None"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-O="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.2', [])" t-as="row">
+                    <B2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or ''"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-O="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.3.1', [])" t-as="row">
+                    <B31 t-att-KOpr="row.kod_opravy or None"
+                         t-att-Z="'%.2f' % row.total_tax_base"
+                         t-att-D="'%.2f' % row.total_tax_amount"
+                         t-att-O="'%.2f' % row.total_deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.3.2', [])" t-as="row">
+                    <B32 t-att-KOpr="row.kod_opravy or None"
+                         t-att-Dod="row.partner_vat or ''"
+                         t-att-Z="'%.2f' % row.total_tax_base"
+                         t-att-D="'%.2f' % row.total_tax_amount"
+                         t-att-O="'%.2f' % row.total_deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('C.1', [])" t-as="row">
+                    <C1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or None"
+                        t-att-FO="row.entry_ref_original_xml or row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_xml"
+                        t-att-ZR="'%.2f' % row.tax_base_amount"
+                        t-att-DR="'%.2f' % row.tax_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('C.2', [])" t-as="row">
+                    <C2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or None"
+                        t-att-FO="row.entry_ref_original_xml or row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_xml"
+                        t-att-ZR="'%.2f' % row.tax_base_amount"
+                        t-att-DR="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-OR="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('D.1', [])" t-as="row">
+                    <D1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-SumaObratov="'%.2f' % row.total_tax_base"
+                        t-att-Z="'%.2f' % row.total_tax_base"
+                        t-att-D="'%.2f' % row.total_tax_amount"
+                        t-att-ZZn="'%.2f' % 0.0"
+                        t-att-DZn="'%.2f' % 0.0"/>
+                </t>
+                <t t-foreach="sections_by_code.get('D.2', [])" t-as="row">
+                    <D2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Z="'%.2f' % row.tax_base_basic"
+                        t-att-D="'%.2f' % row.tax_amount_basic"
+                        t-att-ZZn="'%.2f' % row.tax_base_lower"
+                        t-att-DZn="'%.2f' % row.tax_amount_lower"/>
+                </t>
+            </Transakcie>
+        </KVDPH_2016>
+    </template>
+
+    <template id="kvdph_2025v1">
+        <KVDPH_2025 xmlns="https://ekr.financnasprava.sk/Formulare/XSD/kv_dph_2025.xsd">
+            <Identifikacia>
+                <IcDphPlatitela t-out="company.vat or ''"/>
+                <Druh t-out="statement.statement_type_id.fa_xml_value or 'R'"/>
+                <Obdobie>
+                    <Rok t-out="statement.date_from.year"/>
+                    <Mesiac t-if="statement.period_type == 'month'"
+                            t-out="statement.date_from.month"/>
+                    <Stvrtrok t-if="statement.period_type == 'quarter'"
+                              t-out="(statement.date_from.month - 1) // 3 + 1"/>
+                </Obdobie>
+                <Nazov t-out="company.name or ''"/>
+                <Stat t-out="company.country_id.code or 'SK'"/>
+                <Obec t-out="company.city or ''"/>
+                <PSC t-if="company.zip" t-out="company.zip"/>
+                <Ulica t-if="company.street" t-out="company.street"/>
+            </Identifikacia>
+            <Transakcie>
+                <t t-foreach="sections_by_code.get('A.1', [])" t-as="row">
+                    <A1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or None"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"/>
+                </t>
+                <t t-foreach="sections_by_code.get('A.2', [])" t-as="row">
+                    <A2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or ''"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-TK="row.goods_code or None"
+                        t-att-TD="row.goods_kind or None"
+                        t-att-Mn="('%.2f' % row.quantity) if row.uom_code else None"
+                        t-att-MJ="row.uom_code or None"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.1', [])" t-as="row">
+                    <B1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or None"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-O="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.2', [])" t-as="row">
+                    <B2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or ''"
+                        t-att-F="row.entry_ref_xml"
+                        t-att-Den="row.supply_date.strftime('%Y-%m-%d') if row.supply_date else ''"
+                        t-att-Z="'%.2f' % row.tax_base_amount"
+                        t-att-D="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-O="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.3.1', [])" t-as="row">
+                    <B31 t-att-KOpr="row.kod_opravy or None"
+                         t-att-Z="'%.2f' % row.total_tax_base"
+                         t-att-D="'%.2f' % row.total_tax_amount"
+                         t-att-O="'%.2f' % row.total_deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('B.3.2', [])" t-as="row">
+                    <B32 t-att-KOpr="row.kod_opravy or None"
+                         t-att-Dod="row.partner_vat or ''"
+                         t-att-Z="'%.2f' % row.total_tax_base"
+                         t-att-D="'%.2f' % row.total_tax_amount"
+                         t-att-O="'%.2f' % row.total_deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('C.1', [])" t-as="row">
+                    <C1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Odb="row.partner_vat or None"
+                        t-att-FO="row.entry_ref_original_xml or row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_xml"
+                        t-att-ZR="'%.2f' % row.tax_base_amount"
+                        t-att-DR="'%.2f' % row.tax_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('C.2', [])" t-as="row">
+                    <C2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Dod="row.partner_vat or None"
+                        t-att-FO="row.entry_ref_original_xml or row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_xml"
+                        t-att-ZR="'%.2f' % row.tax_base_amount"
+                        t-att-DR="'%.2f' % row.tax_amount"
+                        t-att-S="'%d' % round(row.tax_rate)"
+                        t-att-OR="'%.2f' % row.deducted_amount"/>
+                </t>
+                <t t-foreach="sections_by_code.get('D.1', [])" t-as="row">
+                    <D1 t-att-KOpr="row.kod_opravy or None"
+                        t-att-SumaObratov="'%.2f' % row.total_tax_base"
+                        t-att-Z="'%.2f' % row.total_tax_base"
+                        t-att-D="'%.2f' % row.total_tax_amount"
+                        t-att-ZZn="'%.2f' % 0.0"
+                        t-att-DZn="'%.2f' % 0.0"/>
+                </t>
+                <t t-foreach="sections_by_code.get('D.2', [])" t-as="row">
+                    <D2 t-att-KOpr="row.kod_opravy or None"
+                        t-att-Z="'%.2f' % row.tax_base_basic"
+                        t-att-D="'%.2f' % row.tax_amount_basic"
+                        t-att-ZZn="'%.2f' % row.tax_base_lower"
+                        t-att-DZn="'%.2f' % row.tax_amount_lower"/>
+                </t>
+            </Transakcie>
+        </KVDPH_2025>
+    </template>
+</odoo>

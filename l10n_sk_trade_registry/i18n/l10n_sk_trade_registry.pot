@@ -1,0 +1,607 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_trade_registry
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-05 15:32+0000\n"
+"PO-Revision-Date: 2026-09-05 15:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_sk_trade_registry
+#. odoo-python
+#: code:addons/l10n_sk_trade_registry/models/res_partner.py:0
+msgid "%s has no IČO to look up."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid "<span> — subjekt podľa registra neobchoduje.</span>"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields.selection,name:l10n_sk_trade_registry.selection__res_partner__l10n_sk_register_status__active
+msgid "Aktívna"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_legal_form
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_legal_form
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_legal_form
+msgid ""
+"As the register words it — spoločnosť s ručením obmedzeným, akciová "
+"spoločnosť, and so on."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid "Ask ORSF to re-read the registers"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid ""
+"Aspoň jeden predmet podnikania je pozastavený — subjekt\n"
+"                        je aktívny, ale túto činnosť vykonávať nesmie."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_has_suspended_activity
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_has_suspended_activity
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_has_suspended_activity
+msgid ""
+"At least one predmet podnikania is under an open-ended suspension — the "
+"subject is active but may not do that work."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model,name:l10n_sk_trade_registry.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model,name:l10n_sk_trade_registry.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__create_date
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__create_date
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__is_current
+msgid "Current"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_established_on
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_established_on
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_established_on
+msgid "Date the subject was entered in the register."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_dissolved_on
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_dissolved_on
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_dissolved_on
+msgid "Date the subject was struck from the register."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__display_name
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__display_name
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__display_name
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__filed_on
+msgid "Dátum podania"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__approved_on
+msgid "Dátum schválenia"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_established_on
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_established_on
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_established_on
+msgid "Dátum vzniku"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__prepared_on
+msgid "Dátum zostavenia"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_dissolved_on
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_dissolved_on
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_dissolved_on
+msgid "Dátum zániku"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_size_category
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_size_category
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_size_category
+msgid "Employee band from the register (e.g. 1 000–1 999 zamestnancov)."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_filing_years_overdue
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_filing_years_overdue
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_filing_years_overdue
+msgid ""
+"Full years between the last filed period and the one that should have been "
+"filed by now. Zero when up to date, and zero when nothing is known."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_history_ids
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_history_ids
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_history_ids
+msgid "História"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__id
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__id
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__id
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model,name:l10n_sk_trade_registry.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__kind
+msgid "Kind"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__consolidated
+msgid "Konsolidovaná"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__write_date
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__write_date
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_company__l10n_sk_trade_registry_synced
+msgid "Last synced § 3a statement"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid ""
+"Metadata only — ORSF carries no figures. Whether and when\n"
+"                        a customer filed is still a credit fact."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_last_filing_period
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_last_filing_period
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_last_filing_period
+msgid "Most recent accounting period filed to RÚZ."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields.selection,name:l10n_sk_trade_registry.selection__res_partner__l10n_sk_register_status__unknown
+msgid "Neznámy"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_inactive
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_inactive
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_register_inactive
+msgid "Not trading"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#. odoo-python
+#: code:addons/l10n_sk_trade_registry/models/res_partner.py:0
+msgid "ORSF declined the refresh."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#. odoo-python
+#: code:addons/l10n_sk_trade_registry/models/res_partner.py:0
+msgid ""
+"ORSF is re-reading IČO %(ico)s from the source registers. It takes about a "
+"minute — run Update again after that."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__period
+msgid "Obdobie"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_number
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_company__l10n_sk_register_number
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_number
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_register_number
+msgid "Oddiel and vložka as the register writes them — e.g. Sro/3586/B."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__valid_to
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__valid_to
+msgid "Platné do"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__valid_from
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__valid_from
+msgid "Platné od"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_last_filing_period
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_last_filing_period
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_last_filing_period
+msgid "Posledná závierka"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields.selection,name:l10n_sk_trade_registry.selection__res_partner__l10n_sk_register_status__suspended
+msgid "Pozastavená"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__suspended_to
+msgid "Pozastavené do"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__suspended_from
+msgid "Pozastavené od"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid "Predchádzajúce názvy a sídla"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields.selection,name:l10n_sk_trade_registry.selection__l10n_sk_register_history__kind__address
+msgid "Predchádzajúce sídlo"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields.selection,name:l10n_sk_trade_registry.selection__l10n_sk_register_history__kind__name
+msgid "Predchádzajúci názov"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__name
+msgid "Predmet podnikania"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_activity_ids
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_activity_ids
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_activity_ids
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid "Predmety podnikania"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_legal_form
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_legal_form
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_legal_form
+msgid "Právna forma"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_account_bank_statement_line__l10n_sk_register_warning
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_account_move__l10n_sk_register_warning
+msgid ""
+"Raised when the register shows the counterparty as dissolved, deleted or "
+"suspended."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#. odoo-python
+#: code:addons/l10n_sk_trade_registry/models/res_partner.py:0
+msgid "Refresh not accepted"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#. odoo-python
+#: code:addons/l10n_sk_trade_registry/models/res_partner.py:0
+msgid "Refresh requested"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_name
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_company__l10n_sk_register_name
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_name
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_register_name
+msgid "Register"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid "Register (SK)"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_checked_on
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_checked_on
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_register_checked_on
+msgid "Register checked"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_office
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_company__l10n_sk_register_office
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_office
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_register_office
+msgid "Registrový súd"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_filing_years_overdue
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_filing_years_overdue
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_filing_years_overdue
+msgid "Roky bez závierky"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_nace
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_nace
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_nace
+msgid "SK NACE"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model,name:l10n_sk_trade_registry.model_l10n_sk_register_activity
+msgid "SK Register — predmet podnikania"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model,name:l10n_sk_trade_registry.model_l10n_sk_register_history
+msgid "SK Register — previous name or seat"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model,name:l10n_sk_trade_registry.model_l10n_sk_register_filing
+msgid "SK Register — účtovná závierka (RÚZ)"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_account_bank_statement_line__l10n_sk_register_warning
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_account_move__l10n_sk_register_warning
+msgid "SK register warning"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_activity__source
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__source
+msgid "Source"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_nace
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_nace
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_nace
+msgid ""
+"Statistical classification of the main activity. Not the same as a predmet "
+"podnikania: NACE says what the subject is counted as, a predmet podnikania "
+"is what it is authorised to do."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid "Stav"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_status
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_status
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_register_status
+msgid "Stav v registri"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_l10n_sk_register_activity__is_current
+msgid ""
+"Still in force today: begun, not ended, and not under a suspension that has "
+"no end date yet."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_has_suspended_activity
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_has_suspended_activity
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_has_suspended_activity
+msgid "Suspended activity"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#. odoo-python
+#: code:addons/l10n_sk_trade_registry/models/res_partner.py:0
+msgid "The ORSF provider module is not installed."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_office
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_company__l10n_sk_register_office
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_office
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_register_office
+msgid ""
+"The authority keeping the entry — e.g. Mestský súd Bratislava III, or the "
+"Okresný úrad for a živnostník."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_name
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_company__l10n_sk_register_name
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_name
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_register_name
+msgid ""
+"The register the subject is entered in, as the register itself names it — "
+"e.g. Obchodný register, Živnostenský register."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_trade_registry_statement
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_company__l10n_sk_trade_registry_statement
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_trade_registry_statement
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_trade_registry_statement
+msgid ""
+"The sentence § 3a Obchodného zákonníka requires on business documents. "
+"Composed from the register coordinates; overwrite it freely — an edit sticks"
+" until the coordinates change again."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_company__l10n_sk_trade_registry_synced
+msgid ""
+"The value this module last wrote into Trade Registry. It is how the module "
+"tells its own output apart from wording a person typed, so it never "
+"overwrites the second and never leaves the first stale."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.constraint,message:l10n_sk_trade_registry.constraint_l10n_sk_register_filing_partner_period_uniq
+msgid "This filing period is already recorded for this partner."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_inactive
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_inactive
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_register_inactive
+msgid ""
+"True when the register shows the subject as zrušená, vymazaná or "
+"pozastavená."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_filing__filing_type
+msgid "Typ"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_size_category
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_size_category
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_size_category
+msgid "Veľkostná kategória"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields.selection,name:l10n_sk_trade_registry.selection__res_partner__l10n_sk_register_status__deleted
+msgid "Vymazaná"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_status
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_status
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_register_status
+msgid ""
+"What the register says about the subject's existence. A subject shown as "
+"zrušená no longer trades, whatever the contact record says."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_checked_on
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_checked_on
+#: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_register_checked_on
+msgid ""
+"When the register was last read for this partner. A status is only as good "
+"as its date."
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_l10n_sk_register_history__value
+msgid "Znenie"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields.selection,name:l10n_sk_trade_registry.selection__res_partner__l10n_sk_register_status__dissolved
+msgid "Zrušená"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.actions.act_window,name:l10n_sk_trade_registry.action_partner_l10n_sk_register_inactive
+msgid "Zrušené subjekty (SK)"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid "Zápis"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_trade_registry_statement
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_company__l10n_sk_trade_registry_statement
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_trade_registry_statement
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_trade_registry_statement
+msgid "§ 3a statement"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_filing_ids
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_filing_ids
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_filing_ids
+msgid "Účtovné závierky"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_partner_form_l10n_sk_trade_registry
+msgid "Účtovné závierky (RÚZ)"
+msgstr ""
+
+#. module: l10n_sk_trade_registry
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_register_number
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_company__l10n_sk_register_number
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_number
+#: model:ir.model.fields,field_description:l10n_sk_trade_registry.field_res_users__l10n_sk_register_number
+msgid "Číslo zápisu"
+msgstr ""

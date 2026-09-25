@@ -1,0 +1,85 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Slovensko — Daňové priznanie k DPH</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenské daňové priznanie k DPH (DPHv25) počítané CE-čisto z daňových značiek l10n_sk, s exportom XML DPH pre FS SR</h3>
+    <div class="oe_span12">
+      <p>Táto aplikácia vytvára slovenské <b>daňové priznanie k DPH</b> (formulár DPHv25) nad
+         spoločným rámcom <code>l10n_cssk_vat_return_base</code>. Definície riadkov kopírujú vzorce
+         daňových značiek výkazu DPH z <code>l10n_sk</code>, takže hodnoty jednotlivých riadkov
+         zodpovedajú tomu, čo by vypočítal vlastný výkaz Odoo — avšak s evaluátorom čistým pre
+         Community, ktorý <b>nevyžaduje</b> <code>account_reports</code>.</p>
+      <p>Modul zároveň prináša sprievodcu opravou podľa § 53b na úpravu odpočítania DPH pri dlho
+         nezaplatených prijatých faktúrach a exportuje XML <code>DPH</code> Finančnej správy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Základ dane / daň na výstupe podľa kategórie — <code>sk01</code>, <code>sk03</code>
+            (základná), <code>sk05</code> (znížená).</li>
+        <li>Odpočítanie dane (na vstupe) — <code>sk19</code>, <code>sk20</code>.</li>
+        <li>Agregáty: celkový základ / daň na výstupe, celkové odpočítanie, čistá DPH.</li>
+        <li>Export XML <code>DPH</code> pre FS SR (šablóna + náhradné XSD — pred ostrým podaním
+            nahraďte oficiálnou schémou).</li>
+        <li>Oprava odpočítanej dane podľa § 53b pri prijatých faktúrach nezaplatených viac než
+            100 dní po splatnosti, so zrkadlovým zápisom opätovného uplatnenia po opätovnom
+            zaplatení.</li>
+      </ul>
+      <p><b>Stav — funkčné jadro.</b> Riadky čistej daňovej povinnosti, ktoré Odoo počíta pomocou
+         <code>sum</code> / vlastných enginov (sk_30+), sú mimo rozsahu jednoduchého evaluátora
+         značiek a agregátov a vyžadujú rozšírenú podporu enginu alebo ručné zadanie. Dodané XSD je
+         náhradné; sémantika riadkov a výpočet čistej povinnosti zatiaľ vyžadujú overenie účtovníkom.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Vytvorte daňové priznanie k DPH za obdobie, vypočítajte ho na naplnenie riadkov z účtovných
+         zápisov obdobia voči reálnym daňovým značkám <code>l10n_sk</code>, skontrolujte hodnoty
+         riadkov a následne exportujte XML <code>DPH</code> pre portál FS. Pri dlho nezaplatených
+         prijatých faktúrach spustite pred výpočtom priznania sprievodcu § 53b (nižšie), ktorý
+         vygeneruje opravu na riadku r29.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Oprava odpočítanej dane podľa § 53b <small>(Účtovníctvo ▸ Účtovníctvo ▸ Oprava odpočítanej dane (§ 53b))</small></h4>
+      <p><b>Čo robí:</b> generuje opravu odpočítanej dane na vstupe podľa § 53b (riadok r29
+         daňového priznania) pri prijatých faktúrach nezaplatených viac než 100 dní po splatnosti.
+         Oprava je úmerná nezaplatenej časti faktúry a nesie daňovú značku r29, takže ju priznanie
+         zachytí.</p>
+      <p><b>Ako používať:</b> otvorte položku menu, zvoľte <i>ku dňu</i> (k tomuto dňu sa posudzuje
+         100-dňová lehota), prah dní po splatnosti (predvolene 100), denník opráv a nákladový
+         protiúčet (zvyčajne 548). Vyhovujúce faktúry sa zobrazia iba na čítanie; tlačidlom
+         <i>Vygenerovať opravy</i> sa zaúčtuje jeden opravný zápis na faktúru. Po opätovnom zaplatení
+         opravenej faktúry použite na faktúre akciu <i>§ 53b znovu uplatnenie</i>, ktorá zaúčtuje
+         zrkadlový zápis vracajúci odpočet.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

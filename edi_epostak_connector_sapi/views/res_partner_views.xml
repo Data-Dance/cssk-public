@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form_epostak" model="ir.ui.view">
+        <field name="name">res.partner.form.epostak</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account_edi_ubl_cii.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <field name="peppol_endpoint" position="after">
+                <button name="action_epostak_check_peppol"
+                    type="object"
+                    string="Check Peppol reachability"
+                    class="btn-link ps-0"
+                    icon="fa-search"
+                    groups="edi_base.group_edi_user"
+                    invisible="not peppol_eas or not peppol_endpoint"/>
+            </field>
+        </field>
+    </record>
+</odoo>

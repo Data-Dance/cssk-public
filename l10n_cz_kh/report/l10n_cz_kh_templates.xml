@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Kontrolní hlášení (DPHKH1) — EPO Pisemnost format, mirroring Odoo EE
+      the official EPO structure for the form. Per-document rows
+      A1/A2/A4/B1/B2, aggregates A5/B3, and the VetaC control totals computed
+      from the sections. Validated against the official DPHKH1 EPO XSD
+      (data/dphkh1_epo2.xsd).
+    -->
+    <template id="dphkh1_2025">
+        <Pisemnost nazevSW="Odoo / Data Dance">
+            <DPHKH1 verzePis="03.01.14">
+                <VetaD
+                    dokument="KH1"
+                    t-att-rok="statement.date_from.strftime('%Y')"
+                    t-att-mesic="('%d' % statement.date_from.month) if statement.period_type == 'month' else None"
+                    t-att-ctvrt="('%d' % ((statement.date_from.month - 1) // 3 + 1)) if statement.period_type == 'quarter' else None"
+                    t-att-khdph_forma="statement.statement_type_id.fa_xml_value"
+                    k_uladis="DPH"/>
+                <VetaP
+                    t-att-dic="(company.vat or '')[2:] if (company.vat or '')[:2].upper() == 'CZ' else (company.vat or '')"
+                    t-att-c_ufo="company.l10n_cssk_tax_authority_id.submission_code or ''"
+                    t-att-c_pracufo="company.l10n_cz_tax_office_id.workplace_code or None"
+                    t-att-zkrobchjm="(company.name or '')[:20]"
+                    typ_ds="P"/>
+
+                <t t-foreach="sections_by_code['A1']" t-as="r">
+                    <VetaA1 t-att-dic_odb="r.partner_vat_stripped"
+                            t-att-c_evid_dd="r.entry_ref"
+                            t-att-duzp="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
+                            t-att-zakl_dane1="'%.0f' % r.base_std"
+                            t-att-kod_pred_pl="r.supplies_code or '1'"/>
+                </t>
+                <t t-foreach="sections_by_code['A2']" t-as="r">
+                    <VetaA2 t-att-k_stat="r.partner_country_code"
+                            t-att-vatid_dod="r.partner_vat_stripped"
+                            t-att-c_evid_dd="r.entry_ref"
+                            t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
+                            t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"/>
+                </t>
+                <t t-foreach="sections_by_code['A4']" t-as="r">
+                    <VetaA4 t-att-dic_odb="r.partner_vat_stripped"
+                            t-att-c_evid_dd="r.entry_ref"
+                            t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
+                            t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
+                            kod_rezim_pl="0" zdph_44="N"/>
+                </t>
+                <t t-foreach="sections_by_code['A5']" t-as="r">
+                    <VetaA5 t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"/>
+                </t>
+                <t t-foreach="sections_by_code['B1']" t-as="r">
+                    <VetaB1 t-att-dic_dod="r.partner_vat_stripped"
+                            t-att-c_evid_dd="r.entry_ref"
+                            t-att-duzp="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
+                            t-att-kod_pred_pl="r.supplies_code or '1'"
+                            t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"/>
+                </t>
+                <t t-foreach="sections_by_code['B2']" t-as="r">
+                    <VetaB2 t-att-dic_dod="r.partner_vat_stripped"
+                            t-att-c_evid_dd="r.entry_ref"
+                            t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
+                            t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
+                            pomer="N" zdph_44="N"/>
+                </t>
+                <t t-foreach="sections_by_code['B3']" t-as="r">
+                    <VetaB3 t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"/>
+                </t>
+
+                <t t-set="out_std" t-value="sum(sections_by_code['A4'].mapped('base_std')) + sum(sections_by_code['A5'].mapped('base_std'))"/>
+                <t t-set="out_red" t-value="sum(sections_by_code['A4'].mapped('base_red')) + sum(sections_by_code['A5'].mapped('base_red'))"/>
+                <t t-set="in_std" t-value="sum(sections_by_code['B2'].mapped('base_std')) + sum(sections_by_code['B3'].mapped('base_std'))"/>
+                <t t-set="in_red" t-value="sum(sections_by_code['B2'].mapped('base_red')) + sum(sections_by_code['B3'].mapped('base_red'))"/>
+                <VetaC
+                    t-att-obrat23="'%.0f' % out_std"
+                    t-att-obrat5="'%.0f' % out_red"
+                    t-att-pln23="'%.0f' % in_std"
+                    t-att-pln5="'%.0f' % in_red"
+                    t-att-rez_pren23="'%.0f' % sum(sections_by_code['A1'].mapped('base_std'))"
+                    t-att-pln_rez_pren="'%.0f' % sum(sections_by_code['B1'].mapped('base_std'))"
+                    t-att-celk_zd_a2="'%.0f' % sum(sections_by_code['A2'].mapped('base_std'))"/>
+            </DPHKH1>
+        </Pisemnost>
+    </template>
+</odoo>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <record id="view_account_asset_form_sk_protocol" model="ir.ui.view">
+        <field name="name">account.asset.form.sk.protocol</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset_management.account_asset_view_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Protokoly (SK)" name="l10n_sk_protocol">
+                    <group>
+                        <group string="Zaradenie">
+                            <field name="l10n_sk_inventory_number"/>
+                            <field name="l10n_sk_location"/>
+                            <field name="l10n_sk_responsible_person_id"/>
+                            <field name="l10n_sk_commissioning_note"/>
+                        </group>
+                        <group string="Vyradenie">
+                            <field name="l10n_sk_disposal_method"/>
+                            <field name="l10n_sk_disposal_reason"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="res_company_view_form_l10n_sk_base" model="ir.ui.view">
+        <field name="name">res.company.form.l10n_sk.base</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="l10n_sk_dic" invisible="country_code != 'SK'"/>
+            </field>
+        </field>
+    </record>
+    <!--
+        l10n_sk puts its own `income_tax_id` after `currency_id`. This module
+        makes that field a related on the same partner value as `l10n_sk_dic`,
+        so leaving both visible shows one number twice, under two names.
+
+        Hidden by inheriting l10n_sk's OWN view rather than by anchoring on the
+        field from a second inherit of `base.view_company_form`: two sibling
+        inherits of one base view are applied in (priority, id) order, so
+        anchoring on a node the sibling injects only resolves while the ids
+        happen to fall the right way. Inheriting the view that owns the node
+        makes it an ordering question the ORM already answers.
+    -->
+    <record id="res_company_view_form_l10n_sk_base_hide_income_tax_id" model="ir.ui.view">
+        <field name="name">res.company.form.l10n_sk.base.hide.income.tax.id</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_sk.view_company_form_inherit_l10n_ck"/>
+        <field name="arch" type="xml">
+            <field name="income_tax_id" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

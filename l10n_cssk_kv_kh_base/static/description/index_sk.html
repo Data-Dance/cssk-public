@@ -1,0 +1,83 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Kontrolný výkaz — zdieľaný rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Abstraktné jadro slovenského KV DPH a českého Kontrolného hlásenia (KH DPH) — verziované šablóny, mixiny riadkov a export XML overeného voči XSD</h3>
+    <div class="oe_span12">
+      <p>Národne neutrálne jadro slovenského <b>Kontrolného výkazu DPH (KV DPH)</b> a českého
+         <b>Kontrolného hlásenia (KH DPH)</b>. Národné moduly (<code>l10n_sk_kv_dph</code> /
+         <code>l10n_cz_kh_dph</code>) zapájajú svoje konkrétne sady oddielov, prahy a XML
+         schémy.</p>
+      <p>Zámerne závisí iba od <b>jadra Odoo</b> (<code>account</code>, <code>mail</code>,
+         <code>l10n_cssk_core</code>) — <b>bez</b> <code>account.report</code> /
+         <code>account_reports</code> — takže výkaz aj jeho export XML sú bez závislosti od
+         Community / Enterprise, na Odoo 18.0 a 19.0.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.control.statement.version</code> — verziovaná šablóna + register oddielov
+            + typy podania + prah. Legislatívne zmeny sa dodávajú ako nové záznamy verzie, nie
+            nové moduly.</li>
+        <li><code>cssk.control.statement</code> — agregát výkazu (mail.thread; koncept → náhľad
+            → exportované → podané), s <code>action_compute_lines</code> a
+            <code>action_export_xml</code> (vykreslenie QWeb + validácia XSD cez
+            <code>lxml</code>).</li>
+        <li>Tri mixiny riadkov — detail / súhrn / rekonciliácia — na dedenie konkrétnymi
+            modelmi oddielov.</li>
+        <li><code>account.move.line</code> — uložený <code>cssk_control_section_code</code>
+            (počítaný národne prepísateľným resolverom, <b>najprv prenesenie daňovej
+            povinnosti</b>) + prepis pre viaceré sadzby DPH.</li>
+        <li><code>account.tax</code> — <code>cssk_control_section_default</code> +
+            <code>cssk_control_is_reverse_charge</code>; <code>account.journal</code> — prepis
+            predvoleného oddielu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p><i>Účtovníctvo ▸ Výkazy ▸ Kontrolný výkaz DPH.</i> Voľbou <b>Nový kontrolný výkaz</b>
+         vytvorte výkaz za obdobie, <b>Vypočítajte</b> na naplnenie oddielov z účtovných zápisov
+         obdobia, skontrolujte detail po oddieloch a potom <b>Exportujte XML</b>. Konkrétna sada
+         oddielov, prahy a schéma pochádzajú z nainštalovaného národného modulu; verzie výkazov
+         sú v koreňovej ponuke lokalizácie.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Vytvoriť kontrolný výkaz DPH <small>(Účtovníctvo ▸ Výkazy ▸ Kontrolný výkaz DPH ▸ Nový kontrolný výkaz)</small></h4>
+      <p><b>Čo robí:</b> v jednom kroku vytvorí kontrolný výkaz za obdobie a vypočíta ho.</p>
+      <p><b>Ako používať:</b> zvoľte spoločnosť, verziu výkazu (filtrovanú podľa daňovej krajiny
+         spoločnosti), typ podania, typ obdobia (mesačné / štvrťročné) a obdobie (od / do),
+         potom <i>Vytvoriť</i>; sprievodca zostaví <code>cssk.control.statement</code>, spustí
+         výpočet a otvorí nový výkaz.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

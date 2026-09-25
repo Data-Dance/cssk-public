@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_partner_form_cssk_reliability" model="ir.ui.view">
+        <field name="name">res.partner.form.cssk.reliability</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form" />
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="cssk_tax_reliability"
+                       invisible="not cssk_tax_reliability" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

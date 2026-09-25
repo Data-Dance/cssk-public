@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- noupdate="1" so the `active` flag the user toggles in the UI
+         survives subsequent module upgrades. Initial install creates
+         the record with the defaults below; after that it's the user's. -->
+    <data noupdate="1">
+        <!-- Inbound poll. ePošťák hands documents out of the participant
+             mailbox over a REST cursor; the base _poll_provider re-triggers
+             this cron when the connector reports has_more, so the interval
+             only governs the idle cadence. -->
+        <record id="cron_epostak_get_messages" model="ir.cron">
+            <field name="name">ePošťák: Poll Inbound Documents</field>
+            <field name="model_id" ref="edi_base.model_edi_message"/>
+            <field name="state">code</field>
+            <field name="code">model._get_messages("epostak")</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="active">True</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+
+    <t t-name="l10n_cssk_vies.ViesStatusBadge">
+        <span class="o_vies_control d-inline-flex align-items-center" t-ref="root">
+            <button type="button"
+                    class="btn btn-link p-0 o_vies_check_now"
+                    t-att-disabled="state.busy"
+                    t-on-click="checkNow">
+                <i t-attf-class="fa {{ state.busy ? 'fa-circle-o-notch fa-spin' : 'fa-refresh' }} me-1"
+                   aria-hidden="true"/>
+                <span>Check now</span>
+            </button>
+
+            <span t-if="checked"
+                  class="o_vies_status_badge ms-1"
+                  role="button"
+                  tabindex="0"
+                  t-att-title="title"
+                  t-att-aria-label="title"
+                  t-on-click="() => this.openViesPage()"
+                  t-on-keydown="onKeydown">
+                <i t-if="valid" class="fa fa-check text-success" aria-hidden="true"/>
+                <i t-else="" class="fa fa-times text-danger" aria-hidden="true"/>
+            </span>
+            <span t-else="" class="text-muted ms-2" t-att-title="title">—</span>
+        </span>
+    </t>
+
+</templates>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        hr.payroll.structure has no type_id / report_id. Rules are linked through
+        the rule_ids m2m instead of a struct_id on each rule, so this file is
+        loaded AFTER the salary rules.
+    -->
+    <record id="hr_payroll_structure_cz_employee_salary" model="hr.payroll.structure">
+        <field name="name">Czech Republic: Regular Pay</field>
+        <field name="code">CZMONTHLY</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+        <field name="rule_ids" eval="[(6, 0, [
+            ref('cz_basic_salary_rule'),
+            ref('cz_meal_allowance_rule'),
+            ref('cz_holiday_nahrada_rule'),
+            ref('cz_obstacle_nahrada_rule'),
+            ref('cz_employer_obstacle_nahrada_rule'),
+            ref('cz_sick_nahrada_rule'),
+            ref('cz_gross_salary_rule'),
+            ref('cz_social_ee_rule'),
+            ref('cz_social_er_rule'),
+            ref('cz_social_discount_rule'),
+            ref('cz_health_ee_rule'),
+            ref('cz_health_er_rule'),
+            ref('cz_tax_base_rule'),
+            ref('cz_income_tax_rule'),
+            ref('cz_wh_tax_rule'),
+            ref('cz_tax_credit_rule'),
+            ref('cz_child_benefit_rule'),
+            ref('cz_child_bonus_rule'),
+            ref('cz_attachment_of_salary_rule'),
+            ref('cz_assignment_of_salary_rule'),
+            ref('cz_child_support_rule'),
+            ref('cz_garnishment_rule'),
+            ref('cz_deduction_rule'),
+            ref('cz_reimbursement_rule'),
+            ref('cz_annual_tax_settlement_rule'),
+            ref('cz_net_salary_rule'),
+            ref('cz_social_ee_total_rule'),
+            ref('cz_social_er_total_rule'),
+            ref('cz_health_ee_total_rule'),
+            ref('cz_health_er_total_rule'),
+            ref('cz_income_tax_total_rule'),
+            ref('cz_employer_cost_rule'),
+        ])]"/>
+    </record>
+</odoo>

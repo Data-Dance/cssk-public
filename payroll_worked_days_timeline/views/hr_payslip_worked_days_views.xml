@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <record id="hr_payslip_worked_days_timeline" model="ir.ui.view">
+        <field name="name">hr.payslip.worked_days.timeline</field>
+        <field name="model">hr.payslip.worked_days</field>
+        <field name="type">timeline</field>
+        <field name="arch" type="xml">
+            <timeline date_start="date_from"
+                      date_stop="date_to"
+                      default_group_by="employee_id"
+                      event_open_popup="true"
+                      zoomKey="ctrlKey"
+                      colors="#5cb85c: code == 'WORK100'">
+                <field name="employee_id" />
+                <field name="code" />
+                <field name="number_of_days" />
+                <field name="number_of_hours" />
+            </timeline>
+        </field>
+    </record>
+
+    <record id="hr_payslip_worked_days_pivot" model="ir.ui.view">
+        <field name="name">hr.payslip.worked_days.pivot</field>
+        <field name="model">hr.payslip.worked_days</field>
+        <field name="arch" type="xml">
+            <pivot string="Worked Days">
+                <field name="employee_id" type="row" />
+                <field name="code" type="row" />
+                <field name="date_from" interval="month" type="col" />
+                <field name="number_of_hours" type="measure" />
+                <field name="number_of_days" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="hr_payslip_worked_days_list" model="ir.ui.view">
+        <field name="name">hr.payslip.worked_days.list</field>
+        <field name="model">hr.payslip.worked_days</field>
+        <field name="arch" type="xml">
+            <list string="Worked Days">
+                <field name="employee_id" />
+                <field name="date_from" />
+                <field name="date_to" optional="hide" />
+                <field name="code" />
+                <field name="name" optional="hide" />
+                <field name="number_of_days" sum="Days" />
+                <field name="number_of_hours" sum="Hours" />
+                <field name="payslip_id" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_payslip_worked_days_search" model="ir.ui.view">
+        <field name="name">hr.payslip.worked_days.search</field>
+        <field name="model">hr.payslip.worked_days</field>
+        <field name="arch" type="xml">
+            <search string="Worked Days">
+                <field name="employee_id" />
+                <field name="code" />
+                <filter name="work100" string="Worked (WORK100)"
+                        domain="[('code', '=', 'WORK100')]" />
+                <group>
+                    <filter name="grp_employee" string="Employee"
+                            context="{'group_by': 'employee_id'}" />
+                    <filter name="grp_code" string="Code"
+                            context="{'group_by': 'code'}" />
+                    <filter name="grp_period" string="Period"
+                            context="{'group_by': 'date_from:month'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_payslip_worked_days_action" model="ir.actions.act_window">
+        <field name="name">Worked Days (Timeline)</field>
+        <field name="res_model">hr.payslip.worked_days</field>
+        <field name="view_mode">timeline,pivot,list</field>
+        <field name="search_view_id" ref="hr_payslip_worked_days_search" />
+        <field name="context">{'search_default_grp_employee': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No worked-day lines yet</p>
+            <p>Worked-day inputs appear here once payslips are computed. Use the
+               timeline to review, per employee over time, the days and hours
+               that fed each payroll calculation.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_payroll_worked_days_timeline"
+              name="Worked Days Timeline"
+              parent="payroll.payroll_menu_root"
+              action="hr_payslip_worked_days_action"
+              sequence="25" />
+
+</odoo>

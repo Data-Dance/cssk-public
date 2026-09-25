@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="dphdp3_xml">
+    <Pisemnost nazevSW="Odoo / Data Dance">
+      <DPHDP3 verzePis="02.01">
+        <VetaD
+            dokument="DP3"
+            t-att-rok="statement.date_from.strftime('%Y')"
+            t-att-mesic="('%d' % statement.date_from.month) if statement.period_type == 'month' else None"
+            t-att-ctvrt="('%d' % ((statement.date_from.month - 1) // 3 + 1)) if statement.period_type == 'quarter' else None"
+            t-att-dapdph_forma="statement.statement_type_id.fa_xml_value"
+            typ_platce="P"
+            k_uladis="DPH"/>
+        <VetaP
+            t-att-dic="(company.vat or '')[2:] if (company.vat or '')[:2].upper() == 'CZ' else (company.vat or '')"
+            t-att-c_ufo="company.l10n_cssk_tax_authority_id.submission_code or ''"
+            t-att-c_pracufo="company.l10n_cz_tax_office_id.workplace_code or None"
+            t-att-zkrobchjm="(company.name or '')[:20]"
+            typ_ds="P"/>
+        <Veta1
+                    t-att-dan23="'%.0f' % values.get('dan23', 0.0)"
+                    t-att-dan5="'%.0f' % values.get('dan5', 0.0)"
+                    t-att-dan_dzb23="'%.0f' % values.get('dan_dzb23', 0.0)"
+                    t-att-dan_dzb5="'%.0f' % values.get('dan_dzb5', 0.0)"
+                    t-att-dan_pdop_nrg="'%.0f' % values.get('dan_pdop_nrg', 0.0)"
+                    t-att-dan_psl23_e="'%.0f' % values.get('dan_psl23_e', 0.0)"
+                    t-att-dan_psl23_z="'%.0f' % values.get('dan_psl23_z', 0.0)"
+                    t-att-dan_psl5_e="'%.0f' % values.get('dan_psl5_e', 0.0)"
+                    t-att-dan_psl5_z="'%.0f' % values.get('dan_psl5_z', 0.0)"
+                    t-att-dan_pzb23="'%.0f' % values.get('dan_pzb23', 0.0)"
+                    t-att-dan_pzb5="'%.0f' % values.get('dan_pzb5', 0.0)"
+                    t-att-dan_rpren23="'%.0f' % values.get('dan_rpren23', 0.0)"
+                    t-att-dan_rpren5="'%.0f' % values.get('dan_rpren5', 0.0)"
+                    t-att-dov_zb23="'%.0f' % values.get('dov_zb23', 0.0)"
+                    t-att-dov_zb5="'%.0f' % values.get('dov_zb5', 0.0)"
+                    t-att-obrat23="'%.0f' % values.get('obrat23', 0.0)"
+                    t-att-obrat5="'%.0f' % values.get('obrat5', 0.0)"
+                    t-att-p_dop_nrg="'%.0f' % values.get('p_dop_nrg', 0.0)"
+                    t-att-p_sl23_e="'%.0f' % values.get('p_sl23_e', 0.0)"
+                    t-att-p_sl23_z="'%.0f' % values.get('p_sl23_z', 0.0)"
+                    t-att-p_sl5_e="'%.0f' % values.get('p_sl5_e', 0.0)"
+                    t-att-p_sl5_z="'%.0f' % values.get('p_sl5_z', 0.0)"
+                    t-att-p_zb23="'%.0f' % values.get('p_zb23', 0.0)"
+                    t-att-p_zb5="'%.0f' % values.get('p_zb5', 0.0)"
+                    t-att-rez_pren23="'%.0f' % values.get('rez_pren23', 0.0)"
+                    t-att-rez_pren5="'%.0f' % values.get('rez_pren5', 0.0)"/>
+                <Veta2
+                    t-att-dod_dop_nrg="'%.0f' % values.get('dod_dop_nrg', 0.0)"
+                    t-att-dod_zb="'%.0f' % values.get('dod_zb', 0.0)"
+                    t-att-pln_ost="'%.0f' % values.get('pln_ost', 0.0)"
+                    t-att-pln_rez_pren="'%.0f' % values.get('pln_rez_pren', 0.0)"
+                    t-att-pln_sluzby="'%.0f' % values.get('pln_sluzby', 0.0)"
+                    t-att-pln_vyvoz="'%.0f' % values.get('pln_vyvoz', 0.0)"
+                    t-att-pln_zaslani="'%.0f' % values.get('pln_zaslani', 0.0)"/>
+                <Veta3
+                    t-att-dov_osv="'%.0f' % values.get('dov_osv', 0.0)"
+                    t-att-opr_dluz="'%.0f' % values.get('opr_dluz', 0.0)"
+                    t-att-opr_verit="'%.0f' % values.get('opr_verit', 0.0)"
+                    t-att-tri_dozb="'%.0f' % values.get('tri_dozb', 0.0)"
+                    t-att-tri_pozb="'%.0f' % values.get('tri_pozb', 0.0)"/>
+                <Veta4
+                    t-att-dov_cu="'%.0f' % values.get('dov_cu', 0.0)"
+                    t-att-nar_maj="'%.0f' % values.get('nar_maj', 0.0)"
+                    t-att-nar_zdp23="'%.0f' % values.get('nar_zdp23', 0.0)"
+                    t-att-nar_zdp5="'%.0f' % values.get('nar_zdp5', 0.0)"
+                    t-att-od_maj="'%.0f' % values.get('od_maj', 0.0)"
+                    t-att-od_zdp23="'%.0f' % values.get('od_zdp23', 0.0)"
+                    t-att-od_zdp5="'%.0f' % values.get('od_zdp5', 0.0)"
+                    t-att-odkr_maj="'%.0f' % values.get('odkr_maj', 0.0)"
+                    t-att-odkr_zdp23="'%.0f' % values.get('odkr_zdp23', 0.0)"
+                    t-att-odkr_zdp5="'%.0f' % values.get('odkr_zdp5', 0.0)"
+                    t-att-odp_cu="'%.0f' % values.get('odp_cu', 0.0)"
+                    t-att-odp_cu_nar="'%.0f' % values.get('odp_cu_nar', 0.0)"
+                    t-att-odp_rez_nar="'%.0f' % values.get('odp_rez_nar', 0.0)"
+                    t-att-odp_rezim="'%.0f' % values.get('odp_rezim', 0.0)"
+                    t-att-odp_sum_kr="'%.0f' % values.get('odp_sum_kr', 0.0)"
+                    t-att-odp_sum_nar="'%.0f' % values.get('odp_sum_nar', 0.0)"
+                    t-att-odp_tuz23="'%.0f' % values.get('odp_tuz23', 0.0)"
+                    t-att-odp_tuz23_nar="'%.0f' % values.get('odp_tuz23_nar', 0.0)"
+                    t-att-odp_tuz5="'%.0f' % values.get('odp_tuz5', 0.0)"
+                    t-att-odp_tuz5_nar="'%.0f' % values.get('odp_tuz5_nar', 0.0)"
+                    t-att-pln23="'%.0f' % values.get('pln23', 0.0)"
+                    t-att-pln5="'%.0f' % values.get('pln5', 0.0)"/>
+                <Veta5
+                    t-att-koef_p20_nov="'%.0f' % values.get('koef_p20_nov', 0.0)"
+                    t-att-koef_p20_vypor="'%.0f' % values.get('koef_p20_vypor', 0.0)"
+                    t-att-odp_uprav_kf="'%.0f' % values.get('odp_uprav_kf', 0.0)"
+                    t-att-pln_nkf="'%.0f' % values.get('pln_nkf', 0.0)"
+                    t-att-plnosv_kf="'%.0f' % values.get('plnosv_kf', 0.0)"
+                    t-att-plnosv_nkf="'%.0f' % values.get('plnosv_nkf', 0.0)"
+                    t-att-vypor_odp="'%.0f' % values.get('vypor_odp', 0.0)"/>
+                <Veta6
+                    t-att-dan_vrac="'%.0f' % values.get('dan_vrac', 0.0)"
+                    t-att-dan_zocelk="'%.0f' % values.get('dan_zocelk', 0.0)"
+                    t-att-dano="'%.0f' % values.get('dano', 0.0)"
+                    t-att-dano_da="'%.0f' % values.get('dano_da', 0.0)"
+                    t-att-dano_no="'%.0f' % values.get('dano_no', 0.0)"
+                    t-att-odp_zocelk="'%.0f' % values.get('odp_zocelk', 0.0)"
+                    t-att-uprav_odp="'%.0f' % values.get('uprav_odp', 0.0)"/>
+            
+      </DPHDP3>
+    </Pisemnost>
+  </template>
+</odoo>

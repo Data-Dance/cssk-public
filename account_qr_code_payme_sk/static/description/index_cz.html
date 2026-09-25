@@ -1,0 +1,58 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">payme (Slovensko)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenský platební QR kód payme na vašich fakturách</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace přidává na faktury Odoo slovenský platební QR kód <b>payme</b>. payme je
+         standard platebního odkazu Slovenské bankovní asociace: QR kód nese odkaz
+         <code>https://payme.sk/...</code>, který otevře bankovní aplikaci zákazníka s předvyplněnou
+         platbou (IBAN, částka, měna, identifikace platby, jméno příjemce a volitelná zpráva).</p>
+      <p>Odkaz se sestaví lokálně z údajů faktury podle standardu SBA <i>Payment Link</i> 2.0 a
+         vykreslí jako QR kód. Registruje se jako další metoda platebního QR kódu na
+         <code>res.partner.bank</code> a využívá standardní mechanismus QR kódu na faktuře v Odoo,
+         takže funguje na Community i Enterprise.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Nová metoda platebního QR kódu <b>payme (Slovensko)</b> na každém bankovním účtu.</li>
+        <li>Sestavuje platební odkaz payme podle standardu SBA <i>Payment Link</i> 2.0.</li>
+        <li>Kóduje IBAN, částku, měnu (EUR), identifikaci platby, jméno příjemce a volitelnou zprávu z faktury.</li>
+        <li>Brandovaný rámeček QR kódu payme na vytištěné faktuře.</li>
+        <li>Kontroly způsobilosti: měna EUR, účet IBAN v zemi SEPA a vyplněné jméno příjemce.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Nastavení ▸ Fakturace ▸ Platby zákazníků</i> — zapněte <b>QR kódy</b>. Na faktuře
+         zákazníka otevřete <i>Další informace ▸ Platební QR kód</i> a zvolte
+         <b>payme (Slovensko)</b>. QR kód se vykreslí na PDF faktury; zákazník jej naskenuje
+         ve své bankovní aplikaci a zaplatí.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

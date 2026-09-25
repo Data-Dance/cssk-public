@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_asset_tax_reconciliation_form" model="ir.ui.view">
+        <field name="name">account.asset.tax.reconciliation.form</field>
+        <field name="model">account.asset.tax.reconciliation</field>
+        <field name="arch" type="xml">
+            <form string="Tax Depreciation Reconciliation (DPPO)">
+                <field name="currency_id" invisible="1"/>
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="tax_rate"/>
+                        <field name="post_deferred_immediately"/>
+                    </group>
+                    <group>
+                        <field name="total_accounting"/>
+                        <field name="total_tax"/>
+                        <field name="total_addback"/>
+                        <field name="total_deduction"/>
+                        <field name="total_deferred_tax"/>
+                    </group>
+                </group>
+                <button name="action_compute" type="object" string="Compute"
+                        class="btn-primary"/>
+                <button name="action_post_deferred_tax" type="object"
+                        string="Post Deferred Tax (draft)"
+                        invisible="not line_ids"
+                        help="Create a draft journal entry truing the 481 deferred-tax balance to the computed closing position."/>
+                <button name="action_export_xlsx" type="object"
+                        string="Export XLSX" invisible="not line_ids"/>
+                <button name="action_print_pdf" type="object"
+                        string="Print PDF" invisible="not line_ids"/>
+                <field name="xlsx_file" invisible="1"/>
+                <field name="xlsx_filename" invisible="1"/>
+                <field name="line_ids" readonly="1">
+                    <list string="Reconciliation">
+                        <field name="asset_name"/>
+                        <field name="tax_class_name"/>
+                        <field name="accounting_amount" sum="Accounting"/>
+                        <field name="tax_amount" sum="Tax"/>
+                        <field name="difference"/>
+                        <field name="addback" sum="Add-back (150)"/>
+                        <field name="deduction" sum="Deduction (250)"/>
+                        <field name="accounting_residual" optional="hide"/>
+                        <field name="tax_residual" optional="hide"/>
+                        <field name="temp_difference" optional="show"/>
+                        <field name="deferred_tax" sum="Deferred tax" optional="show"/>
+                        <field name="currency_id" column_invisible="1"/>
+                        <button name="action_open_asset" type="object"
+                                string="Open" icon="fa-external-link"/>
+                    </list>
+                </field>
+                <footer>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_asset_tax_reconciliation" model="ir.actions.act_window">
+        <field name="name">Tax Depreciation Reconciliation (DPPO)</field>
+        <field name="res_model">account.asset.tax.reconciliation</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_account_asset_tax_reconciliation"
+              name="Tax Depreciation Reconciliation"
+              action="action_account_asset_tax_reconciliation"
+              parent="account.menu_finance_reports"
+              sequence="90"
+              groups="account.group_account_manager"/>
+
+</odoo>

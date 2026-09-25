@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_reconciliation" model="ir.actions.report">
+        <field name="name">Tax Depreciation Reconciliation (DPPO)</field>
+        <field name="model">account.asset.tax.reconciliation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_asset_tax.report_reconciliation_document</field>
+        <field name="report_file">account_asset_tax.report_reconciliation_document</field>
+        <field name="print_report_name">'DPPO Table B %s' % (object.date_to or '')</field>
+    </record>
+
+    <template id="report_reconciliation_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Tax Depreciation Reconciliation (DPPO)</h2>
+                        <p>
+                            <strong>Period:</strong>
+                            <span t-field="o.date_from"/> – <span t-field="o.date_to"/>
+                            &amp;nbsp; · &amp;nbsp; <strong>Income tax rate:</strong>
+                            <span t-out="o.tax_rate"/> %
+                        </p>
+                        <table class="table table-sm o_main_table">
+                            <thead>
+                                <tr>
+                                    <th>Asset</th>
+                                    <th>Tax group</th>
+                                    <th class="text-end">Accounting</th>
+                                    <th class="text-end">Tax</th>
+                                    <th class="text-end">Add-back (150)</th>
+                                    <th class="text-end">Deduction (250)</th>
+                                    <th class="text-end">Temp. diff</th>
+                                    <th class="text-end">Deferred tax</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.line_ids" t-as="l">
+                                    <td t-out="l.asset_name"/>
+                                    <td t-out="l.tax_class_name"/>
+                                    <td class="text-end">
+                                        <span t-out="l.accounting_amount"
+                                              t-options='{"widget": "monetary", "display_currency": l.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="l.tax_amount"
+                                              t-options='{"widget": "monetary", "display_currency": l.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="l.addback"
+                                              t-options='{"widget": "monetary", "display_currency": l.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="l.deduction"
+                                              t-options='{"widget": "monetary", "display_currency": l.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="l.temp_difference"
+                                              t-options='{"widget": "monetary", "display_currency": l.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="l.deferred_tax"
+                                              t-options='{"widget": "monetary", "display_currency": l.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr style="font-weight:bold;border-top:2px solid #000">
+                                    <td colspan="2">Total</td>
+                                    <td class="text-end">
+                                        <span t-out="o.total_accounting"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="o.total_tax"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="o.total_addback"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-out="o.total_deduction"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                    <td/>
+                                    <td class="text-end">
+                                        <span t-out="o.total_deferred_tax"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <p class="text-muted" style="font-size:11px">
+                            Tax depreciation is not posted to the general ledger; it adjusts the
+                            income-tax base (add-back / deduction). Deferred tax is the temporary
+                            difference × the income-tax rate.
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

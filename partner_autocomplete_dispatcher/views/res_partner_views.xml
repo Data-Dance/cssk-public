@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_partner_form_dispatcher">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="inside">
+                    <field name="partner_autocomplete_provider" invisible="1"/>
+                    <field name="bank_ids" invisible="1">
+                        <list>
+                            <field name="acc_number"/>
+                        </list>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+        <record id="action_update_partner_info" model="ir.actions.server">
+            <field name="name">Update</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="binding_model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">
+records._update_partner_info()
+            </field>
+        </record>
+    </data>
+</odoo>

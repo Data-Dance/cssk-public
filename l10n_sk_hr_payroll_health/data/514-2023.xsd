@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:element name="MZSR" nillable="true">
+<xs:complexType>
+<xs:sequence>
+<xs:element maxOccurs="1" minOccurs="0" name="Identification" nillable="true">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element minOccurs="1" name="PatternOfRate">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa charakter dávky, N – nová (prvotný výkaz) dávka, O – opravná dávka (v plnom rozsahu nahrádza novú dávku), A – aditívna (rozdielová) dávka (dopĺňa novú dávku alebo opravnú dávku) 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Z]"/><xs:minLength value="1"/><xs:maxLength value="1"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="TypeOfRate">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa typ dávky, pre túto dávku je to nemenná hodnota 514.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:enumeration value="514"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="IDCode">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa osem až desaťmiestne číslo, ak má IČO menej ako osem znakov, dopĺňa sa len vpredu (na začiatku) nulami tak, aby malo osem znakov, ak ide o fyzickú osobu, uvádza sa deväťmiestne alebo desaťmiestne rodné číslo bez lomky a dopĺňa sa nula na konci.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]"/><xs:minLength value="8"/><xs:maxLength value="10"/></xs:restriction></xs:simpleType></xs:element>
+				<xs:element minOccurs="1" name="CodeOfPayer">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa číslo pridelené zdravotnou poisťovňou (variabilný symbol).
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]"/><xs:minLength value="10"/><xs:maxLength value="10"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="CodeOfHealthInsuranceCompany">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa štvormiestny kód zdravotnej poisťovne. Na prvé dve miesta sa uvádza číselný kód zdravotnej poisťovne, na druhé dve miesta sa uvádza číselný kód pobočky (ak zdravotná poisťovňa pobočku nemá, uvedú sa dve nuly).
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]"/><xs:minLength value="4"/><xs:maxLength value="4"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" maxOccurs="unbounded" name="DateOfSending">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa dátum odoslania dávky. Hodnota za zadáva v tvare RRRRMMDD, kde RRRR označuje príslušný rok, MM označuje príslušný mesiac a DD označuje príslušný deň.  
+                        </xs:documentation>
+            </xs:annotation>
+<xs:simpleType><xs:restriction base="xs:date"><xs:pattern value="(20)\d\d(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="SerialNumberOfRate">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa poradové číslo dávky v danom mesiaci. 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="6"/><xs:maxInclusive value="6"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="NumberOfRecords">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa počet poistencov v tele dávky (t. j. v prílohe). 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="6"/><xs:maxInclusive value="6"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="NumberOfDataMedium">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa počet médií, na ktorých je dávka doručená. 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="3"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="SerialNumberOfDataMedium">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa poradové číslo média (1,2,3,…). 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="3"/></xs:restriction></xs:simpleType></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+<xs:element maxOccurs="1" minOccurs="0" name="CorporateBody" nillable="true">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element minOccurs="1" name="Period">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celé číslo v tvare RRRRMM, kde RRRR označuje príslušný rok, MM označuje príslušný mesiac.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:gYearMonth"><xs:pattern value="[0-9]"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="DateOfPayment">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa deň určený na výplatu, uvádzajú sa iba čísla od 1 do 31.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:gDay">
+				</xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="CorporateBodyFullName">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa názov platiteľa poistného (názov právnickej osoby alebo fyzickej osoby).
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[a-z][A-Z][0-9]"/><xs:minLength value="1"/><xs:maxLength value="80"/></xs:restriction></xs:simpleType></xs:element>
+				<xs:element minOccurs="1" name="CompanyIDCode">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa osem až desaťmiestne číslo, ak má IČO menej ako osem znakov, dopĺňa sa len vpredu (na začiatku) nulami tak, aby malo osem znakov, ak ide o fyzickú osobu, uvádza sa deväťmiestne alebo desaťmiestne rodné číslo bez lomky a dopĺňa sa nula na konci. 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]"/><xs:minLength value="8"/><xs:maxLength value="10"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="CodeOfPayerSec">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa číslo pridelené zdravotnou poisťovňou (variabilný symbol).
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]"/><xs:minLength value="10"/><xs:maxLength value="10"/></xs:restriction></xs:simpleType></xs:element>
+				<xs:element minOccurs="1" name="CompanyIDTaxCode">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa daňové identifikačné číslo.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9]"/><xs:minLength value="12"/><xs:maxLength value="12"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="NumberOfPhone">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa telefónne číslo platiteľa v tvare +421XXXXXXXXX.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[0-9][+]"/><xs:minLength value="13"/><xs:maxLength value="13"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="NumberOfFax">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa faxové číslo platiteľa v tvare +421XXXXXXXXX. 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9][+]"/><xs:minInclusive value="13"/><xs:maxInclusive value="13"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="Email">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa emailová adresa platiteľa. 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[a-z][A-Z][0-9][.][@]"/><xs:minLength value="5"/><xs:maxLength value="75"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="BankCode">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa kód banky platiteľa. 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[a-z][A-Z][0-9][.]"/><xs:minInclusive value="4"/><xs:maxInclusive value="4"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="AccountNumberPrefix">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa predčíslie bankového účtu. Predčíslie účtu sa uvádza ako číslo v súlade s opatrením Národnej banky Slovenska č. 7/2003.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="6"/></xs:restriction></xs:simpleType></xs:element>
+				<xs:element minOccurs="0" name="AccountNumber">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa číslo bankového účtu. Číslo účtu sa uvádza ako číslo v súlade s opatrením Národnej banky Slovenska č. 7/2003.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="10"/></xs:restriction></xs:simpleType></xs:element>
+
+<xs:element minOccurs="1" name="IBAN">
+		<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa IBAN v súlade s nariadením Európskeho parlamentu a Rady (EÚ) č. 260/2012 zo 14. marca 2012, ktorým sa ustanovujú technické a obchodné požiadavky na úhrady a inkasá v eurách a ktorým sa mení a dopĺňa nariadenie (ES) č. 924/2009.
+                        </xs:documentation>
+                </xs:annotation>
+		<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[A-Z]{2}[0-9]{1,32}"/><xs:minLength value="5"/><xs:maxLength value="34"/></xs:restriction></xs:simpleType></xs:element>
+		
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+<xs:element maxOccurs="1" minOccurs="0" name="InsuranceBody" nillable="true">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element minOccurs="1" name="TotalNumberOfInsurancePersons">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa počet zamestnancov aj keď v danom mesiaci nemá zamestnávateľ povinnosť za zamestnanca odviesť preddavky (zamestnávateľ má povinnosť podať mesačný výkaz aj keď má len jedného zamestnanca a za tohto je celé obdobie platiteľom štát podľa § 11 ods. 7 písm. m) a s) zákona). 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="7"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="RateOfInsurance1">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa sadzba poistného za zamestnancov bez zdravotného postihnutia - zamestnávateľ.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:minInclusive value="0"/><xs:totalDigits value="4"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="RateOfInsurance2">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa sadzba poistného za zamestnancov bez zdravotného postihnutia - zamestnanec.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:minInclusive value="0"/><xs:totalDigits value="4"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="RateOfInsurance3">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa sadzba poistného za zamestnancov so zdravotným postihnutím - zamestnávateľ.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:minInclusive value="0"/><xs:totalDigits value="4"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="RateOfInsurance4">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa sadzba poistného za zamestnancov so zdravotným postihnutím - zamestnanec.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:minInclusive value="0"/><xs:totalDigits value="4"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="NumberOfInsurancePersons1">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celkový počet zamestnancov bez zdravotného postihnutia, za ktorých sa vypočítava a platí preddavok (aj v prípade zamestnanca, ak bol platiteľom poistného podľa § 11 ods. 7 písm. m) a s) zákona len určitú časť mesiaca a aj v prípade uplatnenia odpočítateľnej položky).
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="7"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="NumberOfInsurancePersons2">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celkový počet zamestnancov so zdravotným postihnutím, za ktorých sa vypočítava a platí preddavok (aj zamestnanca, ak bol platiteľom poistného podľa § 11 ods. 7 písm. m) a s) zákona len určitú časť mesiaca a aj v prípade uplatnenia odpočítateľnej položky).
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="7"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="NumberOfDays1">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celkový počet kalendárnych dní v mesiaci, počas ktorých sa osoba považuje za zamestnanca bez zdravotného postihnutia na účely zdravotného poistenia, za ktoré sa vypočítava a platí preddavok, aj v prípade uplatnenia odpočítateľnej položky (neuvádzajú sa dni, počas ktorých je platiteľom štát podľa § 11 ods. 7 písm. m) a s) zákona).
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="8"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="NumberOfDays2">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celkový počet kalendárnych dní v mesiaci, počas ktorých sa osoba považuje za zamestnanca so zdravotným postihnutím na účely zdravotného poistenia, za ktoré sa vypočítava a platí preddavok, aj v prípade uplatnenia odpočítateľnej položky (neuvádzajú sa dni, počas ktorých je platiteľom štát podľa § 11 ods. 7 písm. m) a s) zákona).
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="8"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="TotalReceipt1">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celková výška príjmu celkom - vymeriavací základ zamestnávateľa – zamestnanci bez zdravotného postihnutia.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+				<xs:element minOccurs="1" name="TotalReceipt2">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celková výška príjmu celkom - vymeriavací základ zamestnávateľa – zamestnanci so zdravotným postihnutím. 
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="BaseOfAssess1">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa vymeriavací základ zamestnancov – zamestnanci bez zdravotného postihnutia.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"> <xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="BaseOfAssess2">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa vymeriavací základ zamestnancov – zamestnanci so zdravotným postihnutím.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="DepositOfInsurance1">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa preddavok  – zamestnanci bez zdravotného postihnutia - zamestnávateľ.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="DepositOfInsurance2">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa preddavok  – zamestnanci bez zdravotného postihnutia - zamestnanec, vrátane dopočtu do sumy minimálneho preddavku
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="DepositOfInsurance3">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa preddavok  – zamestnanci so zdravotným postihnutím - zamestnávateľ.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="DepositOfInsurance4">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa preddavok  – zamestnanci so zdravotným postihnutím - zamestnanec.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="1" name="TotalDepositOfInsurance">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa preddavok na poistné celkom.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"> <xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="Notice">
+			    <xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa označenie právnej formy: FO = fyzická osoba, PO = právnická osoba.
+                         </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:string"><xs:pattern value="[a-z][A-Z][0-9][.][@]"/><xs:minLength value="1"/><xs:maxLength value="20"/></xs:restriction></xs:simpleType></xs:element>
+			<xs:element minOccurs="0" name="TotalNumberOfPersons">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celkový počet zamestnancov spĺňajúcich definíciu zamestnanca podľa § 11 ods. 3 zákona poistených vo všetkých zdravotných poisťovniach, za ktorých zamestnávateľ odvádza preddavky aj keď v danom mesiaci nemá zamestnávateľ povinnosť za zamestnanca odviesť preddavky.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="7"/></xs:restriction></xs:simpleType></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="PersonData" nillable="true">
+	<xs:complexType>
+	<xs:sequence>
+			<xs:element minOccurs="1" name="SerialNumberOfLine">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa poradové číslo riadku.
+                        </xs:documentation>
+            </xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="6"/></xs:restriction></xs:simpleType></xs:element>
+		<xs:element minOccurs="1" name="IdentificationNumberOfInsured">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa 9- alebo 10-miestne rodné číslo zamestnanca bez lomky. 
+                        </xs:documentation>
+            </xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="9"/><xs:maxInclusive value="10"/></xs:restriction></xs:simpleType></xs:element>
+		<xs:element minOccurs="1" name="NumberOfDays">
+			<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa počet dní, za ktoré sa za zamestnanca vypočítava a platí preddavok, aj v prípade uplatnenia odpočítateľnej položky.
+                        </xs:documentation>
+            </xs:annotation>
+			<xs:simpleType><xs:restriction base="xs:integer"><xs:pattern value="[0-9]"/><xs:minInclusive value="1"/><xs:maxInclusive value="2"/></xs:restriction></xs:simpleType></xs:element>
+		<xs:element minOccurs="1" name="TariffOfDeposit1">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa sadzba preddavkov za zamestnávateľa.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:minInclusive value="0"/><xs:totalDigits value="4"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+		<xs:element minOccurs="1" name="TariffOfDeposit2">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa sadzba preddavkov za zamestnanca.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:minInclusive value="0"/><xs:totalDigits value="4"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+		<xs:element minOccurs="1" name="TotalReceiptOfEmployee">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celková výška príjmu zamestnanca, na vyplatenie ktorého vznikol zamestnancovi nárok a je predmetom vymeriavacieho základu. Ak nie je vyplnená položka 15, potom  položka TotalReceiptOfEmployee je zároveň vymeriavací základ zamestnávateľa.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+				<xs:element minOccurs="1" name="BaseOfAssessOfEmployee">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa vymeriavací základ preddavku na poistné podľa § 13 ods. 1 (u zamestnanca podľa § 11 ods. 7 písm. m) a s) zákona sa uvádza nulový vymeriavací základ). Ak sa vypláca príjem počas poberania napr. nemocenského alebo materského, uvádza sa skutočný vymeriavací základ.
+
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+		<xs:element minOccurs="1" name="DepositOfEmployer">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa preddavok za zamestnávateľa.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+		<xs:element minOccurs="1" name="DepositOfEmployee">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa preddavok za zamestnanca, určený z vymeriavcieho základu zamestnanca (bez prípadného dopočtu do sumy minimálneho preddavku)..
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+		<xs:element minOccurs="1" name="DepositOfTotal">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celkový úhrn preddavkov. Ide o súčet položiek 8, 9 a 17.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+
+<xs:element minOccurs="1" name="ReceiptOfEmployee">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celková výška príjmu zamestnanca pre uplatnenie odpočítateľnej položky; za obdobia pred januárom 2015 sa uvedie 0.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+
+<xs:element minOccurs="1" name="TotalReceiptOfOther">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celková výška ďalších príjmov zamestnanca (napr. príjmy z dohôd vykonávaných mimo pracovného pomeru, príjmy vyplatené po skončení pracovného pomeru, príjem zamestnanca podľa § 11 ods. 7 písm. v) zákona), okrem príjmu uvedeného v položkách ReceiptOfEmployee a ReceiptExempt. Ak takýto príjem zamestnanec nemá, uvedie sa 0; za obdobia pred januárom 2015 sa uvedie 0.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element> 
+<xs:element minOccurs="1" name="OP">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa celková výška odpočítateľnej položky u zamestnanca. Ak sa odpočítateľná položka neuplatňuje, uvedie sa 0; za obdobia pred januárom 2015 sa uvedie 0.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element>
+
+<xs:element minOccurs="0" name="ReceiptExempt">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa suma peňažného plnenia, oslobodená od povinnosti platiť poistné podľa  § 5 ods. 7 písm. n) a o) zákona č. 595/2003 Z. z. v znení účinnom do 31. decembra 2020 a § 38em ods. 1 zákona, najviac vo výške 500 eur.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="5"/><xs:fractionDigits value="2"/><xs:maxInclusive value="500"/>
+</xs:restriction></xs:simpleType></xs:element>
+
+
+<xs:element minOccurs="0" name="BaseOfAssessKurzarbeit">
+				<xs:annotation>
+                        <xs:documentation>
+                          Uvádza sa vymeriavací základ zamestnávateľa, ktorému sa poskytuje podpora v čase skrátenej práce a na základe nariadenia vlády SR tento zamestnávateľ nemá povinnosť platiť preddavky na poistné v určenom rozsahu. Vymeriavací základ zamestnávateľa je príjem zamestnanca, znížený o tento rozsah. Vypočítava sa ako rozdiel celkovej výšky príjmu zamestnanca a poskytnutej podpory v čase skrátenej práce. Ak zamestnávateľ nemá povinnosť platiť preddavky na poistné v plnom rozsahu, uvedie sa 0. Ak nedochádza k oslobodeniu od povinnosti platiť preddavky na poistné v určenom rozsahu, položka sa nevypĺňa.
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element> 
+				
+<xs:element minOccurs="1" name="NotAppliedMinimum">
+				<xs:annotation>
+                        <xs:documentation>
+                         Uvádza sa hodnota TRUE v prípade, ak za celý mesiac zamestnanec spĺňa podmienky podľa § 16a ods. 2 zákona alebo ak si zamestnanec u zamestnávateľa uplatnil postup v zmysle § 16a ods. 5 zákona a neuplatňuje si dopočet do minimálneho preddavku, inak sa uvádza hodnota FALSE
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:boolean"></xs:restriction></xs:simpleType></xs:element> 
+				
+				
+<xs:element minOccurs="1" name="DepositOffEmployeeAdd">
+				<xs:annotation>
+                        <xs:documentation>
+                           Ak má položka NotAppliedMinimum  hodnotu TRUE, uvádza sa 0.  Ak má položka NotAppliedMinimum hodnotu FALSE, uvádza sa suma kladného rozdielu medzi sumou minimálneho preddavku za tohto zamestnanca a súčtom položiek 8 a 9. Ak je suma tohto rozdielu záporná, uvádza sa 0..
+                        </xs:documentation>
+                </xs:annotation>
+				<xs:simpleType><xs:restriction base="xs:decimal"><xs:totalDigits value="12"/><xs:fractionDigits value="2"/></xs:restriction></xs:simpleType></xs:element> 
+				
+				
+
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:sequence>
+</xs:complexType>
+</xs:element>
+</xs:schema>

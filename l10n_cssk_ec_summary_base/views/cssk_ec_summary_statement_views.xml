@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_ec_summary_statement_view_list" model="ir.ui.view">
+        <field name="name">cssk.ec.summary.statement.list</field>
+        <field name="model">cssk.ec.summary.statement</field>
+        <field name="arch" type="xml">
+            <list string="EC Sales Lists">
+                <field name="name"/>
+                <field name="country_id"/>
+                <field name="version_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="period_type"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'submitted'"
+                       decoration-info="state == 'exported'"
+                       decoration-muted="state == 'legacy'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_ec_summary_statement_view_form" model="ir.ui.view">
+        <field name="name">cssk.ec.summary.statement.form</field>
+        <field name="model">cssk.ec.summary.statement</field>
+        <field name="arch" type="xml">
+            <form string="EC Sales List">
+                <header>
+                    <button name="action_compute_lines" type="object"
+                            string="Compute"
+                            invisible="state not in ('draft', 'preview')"/>
+                    <button name="action_export_xml" type="object"
+                            string="Export XML" class="btn-primary"
+                            invisible="state in ('draft', 'submitted', 'legacy')"/>
+                    <button name="action_submit" type="object"
+                            string="Mark Submitted" class="btn-primary"
+                            invisible="state != 'exported'"/>
+                    <button name="action_create_submission" type="object"
+                            string="File it" class="btn-primary"
+                            invisible="state not in ('exported', 'submitted')"
+                            help="Open a delivery for this filing. With only the
+                                  manual channel installed this records who filed
+                                  it on the portal and holds the receipts."/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state not in ('exported', 'submitted')"
+                            confirm="Reset this filing to draft? The originally filed copy is kept."/>
+                    <button name="action_create_amendment" type="object"
+                            string="Dodatočný / opravný"
+                            invisible="state != 'submitted'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,preview,exported,submitted"/>
+                    <field name="submission_state" widget="badge" optional="show"
+                           invisible="not submission_state"
+                           decoration-success="submission_state in ('accepted',)"
+                           decoration-info="submission_state in ('delivered',)"
+                           decoration-danger="submission_state in ('rejected','failed')"/>
+                </header>
+                <sheet>
+                    <!-- A filing can have SEVERAL comparisons, one per
+                         basis — itself recomputed, the ledger, another filing
+                         — so this leads to the list of them rather than to
+                         one. Hidden at zero: a stat button reading 0 invites
+                         a click that lands on an empty list. -->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_cssk_open_comparisons" type="object"
+                                class="oe_stat_button" icon="fa-balance-scale"
+                                invisible="cssk_comparison_count == 0">
+                            <field name="cssk_comparison_count"
+                                   widget="statinfo" string="Comparisons"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="country_id"/>
+                            <field name="version_id"/>
+                            <field name="statement_type_id"/>
+                            <field name="original_return_id" readonly="1"
+                                   invisible="not original_return_id"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="period_type"/>
+                            <field name="xml_attachment_id"/>
+                            <field name="submitted_attachment_id"
+                                   invisible="not submitted_attachment_id"/>
+                            <field name="submitted_date"
+                                   invisible="not submitted_date"/>
+                            <field name="submission_reference"/>
+                            <field name="filed_history_ids" widget="many2many_tags"
+                                   invisible="not filed_history_ids"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom" create="false"
+                                      delete="false"
+                                      decoration-warning="is_overridden">
+                                    <field name="partner_country_code"
+                                           readonly="1"/>
+                                    <field name="partner_vat" readonly="1"/>
+                                    <field name="transaction_code" readonly="1"/>
+                                    <field name="supplies_count" readonly="1"/>
+                                    <field name="total_amount" readonly="1"/>
+                                    <field name="source_reconciles" string="✓"
+                                           widget="boolean"/>
+                                    <button name="action_view_source_lines"
+                                            type="object" icon="fa-search-plus"
+                                            string="Documents"
+                                            invisible="not source_move_line_ids"/>
+                                    <field name="is_overridden"
+                                           widget="boolean_toggle"/>
+                                    <field name="manual_value"
+                                           readonly="not is_overridden"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_ec_summary_statement_action" model="ir.actions.act_window">
+        <field name="name">EC Sales Lists</field>
+        <field name="res_model">cssk.ec.summary.statement</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Drill-down target: the EU-supply journal items behind an SV/SHV record -->
+    <record id="view_move_line_ec_audit" model="ir.ui.view">
+        <field name="name">account.move.line.ec.audit</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <list string="Source documents" create="false" delete="false"
+                  edit="false" default_order="move_id, id">
+                <field name="move_id" string="Document"/>
+                <field name="partner_id"/>
+                <field name="name" string="Description"/>
+                <field name="date"/>
+                <field name="price_subtotal" string="Amount" sum="Total"/>
+                <field name="tax_ids" widget="many2many_tags" string="Tax"/>
+            </list>
+        </field>
+    </record>
+
+</odoo>

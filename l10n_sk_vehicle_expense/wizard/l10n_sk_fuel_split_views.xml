@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_l10n_sk_fuel_split_form" model="ir.ui.view">
+        <field name="name">l10n.sk.fuel.split.form</field>
+        <field name="model">l10n.sk.fuel.split</field>
+        <field name="arch" type="xml">
+            <form string="Split fuel">
+                <p class="text-muted">
+                    Presunie daňovo neuznanú časť nákladu na PHL na osobitný účet.
+                    Celková suma faktúry, DPH ani záväzok sa nemenia. Obmedzenie
+                    odpočtu DPH podľa § 85n zabezpečuje sadzba dane na riadku
+                    (23 % vozidlo — 50 % odpočet), nie tento sprievodca.
+                </p>
+                <group>
+                    <field name="move_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="income_ratio"/>
+                    <field name="nondeductible_account_id"/>
+                    <field name="line_ids" widget="many2many"
+                           domain="[('move_id', '=', move_id), ('display_type', '=', 'product')]"/>
+                </group>
+                <footer>
+                    <button name="action_split" type="object" string="Split" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cssk_filing_comparison_list" model="ir.ui.view">
+        <field name="name">cssk.filing.comparison.list</field>
+        <field name="model">cssk.filing.comparison</field>
+        <field name="arch" type="xml">
+            <!-- Coloured by the DERIVED state, which is the whole reason this
+                 model exists: a reader wants "is this filing settled" before
+                 any individual row. Green is nothing to answer, red is
+                 nothing answered yet, amber is half-done. -->
+            <list decoration-success="state == 'clean'"
+                  decoration-info="state == 'resolved'"
+                  decoration-danger="state == 'open'"
+                  decoration-warning="state == 'in_progress'">
+                <field name="date_from" optional="show"/>
+                <field name="date_to" optional="hide"/>
+                <field name="res_model" optional="show"/>
+                <field name="filing_name"/>
+                <field name="legacy_source" optional="show"/>
+                <field name="basis" optional="hide"/>
+                <field name="basis_label" optional="show"/>
+                <field name="row_count" optional="show"/>
+                <field name="agree_count" optional="show"/>
+                <field name="finding_count" optional="show"/>
+                <field name="open_count" optional="show"/>
+                <field name="asked_count" optional="hide"/>
+                <field name="answered_count" optional="hide"/>
+                <field name="stale_count" optional="hide"/>
+                <field name="difference_total" sum="Difference" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'clean'"
+                       decoration-info="state == 'resolved'"
+                       decoration-danger="state == 'open'"
+                       decoration-warning="state == 'in_progress'"/>
+                <field name="signed_off_uid" optional="show"/>
+                <field name="last_run_date" optional="hide"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cssk_filing_comparison_form" model="ir.ui.view">
+        <field name="name">cssk.filing.comparison.form</field>
+        <field name="model">cssk.filing.comparison</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_cssk_sign_off" type="object"
+                            string="Sign off" class="btn-primary"
+                            invisible="signed_off_uid"/>
+                    <button name="action_cssk_unsign" type="object"
+                            string="Withdraw sign-off"
+                            invisible="not signed_off_uid"/>
+                    <button name="action_open_filing" type="object"
+                            string="Open the filing" icon="fa-arrow-right"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="open,in_progress,resolved"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Signed off"
+                            bg_color="text-bg-success"
+                            invisible="not signed_off_uid"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_rows" type="object"
+                                class="oe_stat_button" icon="fa-list-ul">
+                            <field name="row_count" widget="statinfo"
+                                   string="Rows"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="filing_name" readonly="1"/></h1>
+                        <h3><field name="basis_label" readonly="1"
+                                   invisible="not basis_label"/></h3>
+                    </div>
+                    <group>
+                        <group string="The filing">
+                            <field name="res_model" readonly="1"/>
+                            <field name="legacy_source" readonly="1"/>
+                            <field name="company_id" readonly="1"/>
+                            <field name="date_from" readonly="1"/>
+                            <field name="date_to" readonly="1"/>
+                            <field name="basis" readonly="1"/>
+                        </group>
+                        <group string="The result">
+                            <field name="agree_count" readonly="1"/>
+                            <field name="finding_count" readonly="1"/>
+                            <field name="open_count" readonly="1"/>
+                            <field name="asked_count" readonly="1"/>
+                            <field name="answered_count" readonly="1"/>
+                            <field name="stale_count" readonly="1"/>
+                            <field name="difference_total" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <!-- The sign-off is a human act and the state is not. Said
+                         here because a green badge on an unread comparison is
+                         exactly the thing a reader would otherwise take for
+                         somebody's approval. -->
+                    <div class="alert alert-secondary" role="alert"
+                         invisible="signed_off_uid">
+                        The status above is computed from the rows. It says
+                        nobody still has to answer anything — not that anybody
+                        has looked.
+                    </div>
+                    <group invisible="not signed_off_uid">
+                        <field name="signed_off_uid" readonly="1"/>
+                        <field name="signed_off_date" readonly="1"/>
+                    </group>
+                    <group string="Last run">
+                        <field name="last_run_uid" readonly="1"/>
+                        <field name="last_run_date" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="The comparison" name="rows">
+                            <field name="line_ids" readonly="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cssk_filing_comparison_search" model="ir.ui.view">
+        <field name="name">cssk.filing.comparison.search</field>
+        <field name="model">cssk.filing.comparison</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="filing_name"/>
+                <field name="res_model"/>
+                <field name="legacy_source"/>
+                <filter name="needs_answer" string="Needs an answer"
+                        domain="[('state', 'in', ['open', 'in_progress'])]"/>
+                <filter name="clean" string="Everything agrees"
+                        domain="[('state', '=', 'clean')]"/>
+                <filter name="unsigned" string="Not signed off"
+                        domain="[('signed_off_uid', '=', False)]"/>
+                <separator/>
+                <filter name="group_state" string="Result" domain="[]"
+                        context="{'group_by': 'state'}"/>
+                <filter name="group_form" string="Form" domain="[]"
+                        context="{'group_by': 'res_model'}"/>
+                <filter name="group_basis" string="Compared against" domain="[]"
+                        context="{'group_by': 'basis'}"/>
+                <filter name="group_source" string="Source system" domain="[]"
+                        context="{'group_by': 'legacy_source'}"/>
+                <filter name="group_period" string="Period" domain="[]"
+                        context="{'group_by': 'date_from'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cssk_filing_comparison" model="ir.actions.act_window">
+        <field name="name">Comparisons</field>
+        <field name="res_model">cssk.filing.comparison</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No comparison has been run yet.</p>
+            <p>
+                One entry per migrated filing put beside what the ledger
+                produces for the same period. The status is computed from the
+                rows, so this answers "how much of the migration landed"
+                without opening any of them.
+            </p>
+        </field>
+    </record>
+</odoo>

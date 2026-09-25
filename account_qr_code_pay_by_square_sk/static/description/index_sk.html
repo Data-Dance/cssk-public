@@ -1,0 +1,60 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">PAY by square (Slovensko)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenský platobný QR kód PAY by square na vašich faktúrach — generovaný úplne offline</h3>
+    <div class="oe_span12">
+      <p>Táto aplikácia pridáva na faktúry Odoo slovenský platobný QR kód <b>PAY by square</b>.
+         PAY by square je štandard Slovenskej bankovej asociácie podporovaný všetkými slovenskými
+         bankovými aplikáciami: zákazník naskenuje kód vytlačený na faktúre a platobný formulár
+         sa predvyplní číslom účtu IBAN, sumou, menou, príjemcom a správou.</p>
+      <p>Kód sa zostavuje <b>offline</b> — sekvencia PAY by square (kontrolný súčet CRC32,
+         kompresia LZMA1/XZ, kódovanie base32) vzniká celá v Pythone <b>bez externej služby</b>.
+         Registruje sa ako ďalšia metóda platobného QR kódu na <code>res.partner.bank</code> a
+         využíva štandardný mechanizmus QR kódu na faktúre v Odoo, takže funguje na Community
+         aj Enterprise.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Nová metóda platobného QR kódu <b>PAY by square (Slovensko)</b> na každom bankovom účte.</li>
+        <li>Čisto offline generátor podľa špecifikácie SBA <i>PAY by square</i> 1.1.0 — bez sieťovej závislosti.</li>
+        <li>Kóduje IBAN, sumu, menu, meno príjemcu a správu k platbe (variabilný symbol /
+            štruktúrovaná referencia) z faktúry.</li>
+        <li>Brandovaný rámček QR kódu na vytlačenej faktúre.</li>
+        <li>Kontroly oprávnenosti: mena EUR, účet IBAN v krajine SEPA a vyplnené meno príjemcu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p><i>Nastavenia ▸ Fakturácia ▸ Platby zákazníkov</i> — zapnite <b>QR kódy</b>. Na faktúre
+         zákazníka otvorte <i>Ďalšie informácie ▸ Platobný QR kód</i> a zvoľte
+         <b>PAY by square (Slovensko)</b>. QR kód sa vykreslí na PDF faktúry; zákazník ho
+         naskenuje vo svojej bankovej aplikácii a zaplatí.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

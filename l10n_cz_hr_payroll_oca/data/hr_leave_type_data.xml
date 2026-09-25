@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        CZ absence taxonomy for the OCA engine.
+
+        Each CZ absence is recorded as an ``hr.leave`` of a dedicated leave type
+        carrying a stable ``l10n_cz_payroll_code``. When a leave is validated the
+        OCA payslip derives one worked-day line per leave type from the resource
+        calendar (hr.payslip._compute_leave_days, overridden here to key by
+        l10n_cz_payroll_code). The salary rules then read absence hours per code
+        (CZHOLIDAY / CZSICK / CZOCR / CZUNPAID / CZOBSTACLE) and decide paid/unpaid
+        + rate. This maps 1:1 onto Odoo master's unified Time Type
+        (see docs/master_work_entry_analysis.md).
+
+        requires_allocation=False keeps the technical v1 simple (payroll only reads
+        the resulting leave); real dovolená allocation management is out of scope.
+    -->
+    <record id="leave_type_cz_holiday" model="hr.leave.type">
+        <field name="name">Holiday</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZHOLIDAY</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_sick" model="hr.leave.type">
+        <field name="name">Sickness</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZSICK</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_ocr" model="hr.leave.type">
+        <field name="name">Family Care</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZOCR</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_unpaid" model="hr.leave.type">
+        <field name="name">Unpaid Leave</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZUNPAID</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_obstacle" model="hr.leave.type">
+        <field name="name">Paid Obstacle - Doctor Visit / Escort</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">hour</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- §§ 207-209 — překážky na straně ZAMĚSTNAVATELE. Kept apart from
+         leave_type_cz_obstacle (§ 199, the EMPLOYEE's side) because the money
+         differs: § 199 reasons are paid at the full průměrný výdělek, these
+         four at 80 / 60 / 100 / 60 %. requires_allocation=False — an
+         employer-side obstacle is not an entitlement the employee draws down,
+         it is something that happens to them. -->
+    <record id="leave_type_cz_employer_prostoj" model="hr.leave.type">
+        <field name="name">Employer Obstacle — Downtime / prostoj (§ 207 a, 80 %)</field>
+        <field name="l10n_cz_payroll_code">CZPROSTOJ</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_employer_povetrnost" model="hr.leave.type">
+        <field name="name">Employer Obstacle — Adverse Weather (§ 207 b, 60 %)</field>
+        <field name="l10n_cz_payroll_code">CZPOVETRNOST</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_employer_jine" model="hr.leave.type">
+        <field name="name">Employer Obstacle — Other (§ 208, 100 %)</field>
+        <field name="l10n_cz_payroll_code">CZJINEPREKAZKY</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_employer_castecna" model="hr.leave.type">
+        <field name="name">Employer Obstacle — Short-time Working (§ 209, 60 %)</field>
+        <field name="l10n_cz_payroll_code">CZCASTECNA</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- §§ 195-196 — mateřská / rodičovská / otcovská.
+         The employer pays NOTHING: peněžitá pomoc v mateřství, rodičovský
+         příspěvek and otcovská are dávky of ČSSZ. The absence is recorded so
+         the wage prorates down and so the ČSSZ filings have something to
+         derive from; kept apart from OČR because the vyloučené doby differ. -->
+    <record id="leave_type_cz_materska" model="hr.leave.type">
+        <field name="name">Maternity Leave (mateřská, § 195)</field>
+        <field name="l10n_cz_payroll_code">CZMATERSKA</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_rodicovska" model="hr.leave.type">
+        <field name="name">Parental Leave (rodičovská, § 196)</field>
+        <field name="l10n_cz_payroll_code">CZRODICOVSKA</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_otcovska" model="hr.leave.type">
+        <field name="name">Paternity Leave (otcovská)</field>
+        <field name="l10n_cz_payroll_code">CZOTCOVSKA</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- §§ 201-203 — překážky z důvodu OBECNÉHO ZÁJMU, the third family
+         alongside § 199 (the employee's own) and §§ 207-209 (the employer's).
+         Paid at průměrný výdělek, so they ride the CZOBSTACLE code; the
+         separate types exist because the reason differs in law and an
+         employer has to be able to record which it was.
+
+         Dárcovství krve is here because the Slovak counterpart (§ 138) was
+         added first and the two must not drift apart. Vojenské cvičení
+         (§ 204) is NOT here — who pays and who reimburses has moved over the
+         years, so it is a question for the practitioner. -->
+    <record id="leave_type_cz_darovani_krve" model="hr.leave.type">
+        <field name="name">Blood Donation (dárcovství krve, § 203)</field>
+        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_verejna_funkce" model="hr.leave.type">
+        <field name="name">Public Office (výkon veřejné funkce, § 201)</field>
+        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_obecny_zajem" model="hr.leave.type">
+        <field name="name">Other Acts in the Public Interest (§ 202)</field>
+        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!-- Completing the Czech absence set against the Slovak one. Both were
+         added on the SK side first and the two must not drift apart:
+
+           § 232 zvyšování kvalifikace, paid and unpaid   CZOBSTACLE / CZUNPAID
+           karanténa                                      CZSICK
+
+         § 232 ships BOTH variants for the same reason § 140 does on the
+         Slovak side: paid study leave depends on the employer having agreed
+         to the qualification increase, so which applies is a decision rather
+         than something to encode as automatic.
+
+         Karanténa carries the CZSICK code because the money is identical to a
+         nemoc — náhrada mzdy for the first 14 days — and a code of its own
+         would only take it out of the sick-pay rule. -->
+    <record id="leave_type_cz_vzdelavani" model="hr.leave.type">
+        <field name="name">Study Leave, paid (zvyšování kvalifikace, § 232)</field>
+        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_vzdelavani_unpaid" model="hr.leave.type">
+        <field name="name">Study Leave, unpaid (zvyšování kvalifikace, § 232)</field>
+        <field name="l10n_cz_payroll_code">CZUNPAID</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="leave_type_cz_karantena" model="hr.leave.type">
+        <field name="name">Quarantine / Isolation (karanténa)</field>
+        <field name="l10n_cz_payroll_code">CZSICK</field>
+        <field name="requires_allocation" eval="False"/>
+        <field name="leave_validation_type">no_validation</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

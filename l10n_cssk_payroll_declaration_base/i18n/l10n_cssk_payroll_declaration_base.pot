@@ -1,0 +1,523 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_payroll_declaration_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-06 21:14+0000\n"
+"PO-Revision-Date: 2026-07-06 21:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "%s is marked submitted and cannot be deleted. Reset it to draft first."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.constraint,message:l10n_cssk_payroll_declaration_base.constraint_cssk_payroll_employee_declaration_unique_employee_sheet
+msgid "An employee can only have one declaration per sheet."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__vz_base
+msgid "Assessment base for the period, taken from GROSS."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__insured_days
+msgid "Calendar days the employer owes insurance for (annex pocDni)."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.ui.menu,name:l10n_cssk_payroll_declaration_base.menu_cssk_payroll_declaration_config
+msgid "Configuration"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__country_id
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__res_id
+msgid "Declaration Model Id"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__res_model
+msgid "Declaration Model Name"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.actions.act_window,name:l10n_cssk_payroll_declaration_base.action_cssk_payroll_declaration_version
+#: model:ir.ui.menu,name:l10n_cssk_payroll_declaration_base.menu_cssk_payroll_declaration_version
+msgid "Declaration Versions"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "Declaration generated and XSD-validated."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__cssk_payroll_declaration_mixin__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__cssk_payroll_employee_declaration__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_eldp__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_hoz__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_onz__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pppz__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pvpoj__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_vyuctovani__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__employee_id
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__line_ids
+msgid "Employee declarations"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__lines_count
+msgid "Employees"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_root_element
+msgid "Expected root element, e.g. 'pvpoj' / 'mvpp'."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__submitted_attachment_id
+msgid "Filed XML"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__filed_history_ids
+msgid "Filed history"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "Generate the XML before marking the declaration submitted."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__cssk_payroll_declaration_mixin__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__cssk_payroll_employee_declaration__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_eldp__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_hoz__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_onz__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pppz__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pvpoj__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_vyuctovani__state__generated
+msgid "Generated"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__worked_hours
+msgid "Hours from the employee's payslips for the period (annex pocetHodin)."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__id
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__id
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__insured_days
+msgid "Insured Days"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "Marked <b>submitted</b>. Filed copy: %s"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__month
+msgid "Month"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__name
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
+"No declaration version is configured for %s in this period. Check the "
+"shipped version data."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
+"No payroll engine is installed (hr.payslip is unavailable), so there are no "
+"payslips to aggregate."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "No payslips found for %(company)s in %(month)s/%(year)s."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_schema_data
+msgid ""
+"Optional copy of the XSD for download/reference; validation loads "
+"xml_schema_filename from disk to resolve imports."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__payment_date
+msgid ""
+"Payday reported to the authority (SK denVyplaty). Defaults to the period "
+"end."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__payment_date
+msgid "Payment Date"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model,name:l10n_cssk_payroll_declaration_base.model_cssk_payroll_declaration_mixin
+msgid "Payroll Declaration Mixin"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model,name:l10n_cssk_payroll_declaration_base.model_cssk_payroll_declaration_version
+msgid "Payroll Declaration Version"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.ui.menu,name:l10n_cssk_payroll_declaration_base.menu_cssk_payroll_declaration_root
+msgid "Payroll Declarations"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model,name:l10n_cssk_payroll_declaration_base.model_cssk_payroll_employee_declaration
+msgid "Payroll Employee Declaration"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__values_json
+msgid "Per-employee salary-rule totals for the period, {code: total}."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_template_ref_id
+msgid "QWeb template (ir.ui.view) that renders this version's XML."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "Rendered XML root <%(got)s> does not match expected <%(exp)s>."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__code
+msgid ""
+"Report code shared with the declaration model, e.g. 'cz_pvpoj' / 'sk_mvp'. "
+"Selects the version for a report."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "Reset the declaration to draft before regenerating it."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "Reset to draft (from %s). Filed copy preserved: %s"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__state
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__state
+msgid "State"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__submission_reference
+msgid "Submission Reference"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__cssk_payroll_declaration_mixin__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_eldp__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_hoz__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_onz__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pppz__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pvpoj__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_vyuctovani__state__submitted
+msgid "Submitted"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__submitted_date
+msgid "Submitted Date"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_schema_module
+msgid ""
+"Technical name of the module shipping the XSD in its data/ directory (so "
+"relative xs:import schemaLocations resolve on disk)."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
+"The %(code)s XML failed XSD validation:\n"
+"%(err)s"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "There is no generated XML to submit."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
+"This declaration was marked submitted on %s and is locked. Reset it to draft"
+" to change it (the filed copy is preserved)."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__valid_from
+msgid "Valid From"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__valid_to
+msgid "Valid To"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__values_json
+msgid "Values Json"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__version_id
+msgid "Version"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__vz_base
+msgid "Vz Base"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__worked_hours
+msgid "Worked Hours"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_template_ref_id
+msgid "XML template"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_schema_filename
+msgid "XSD path relative to xml_schema_module, e.g. 'data/PVPOJ25.xsd'."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__xml_attachment_id
+msgid "Xml Attachment"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_root_element
+msgid "Xml Root Element"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_schema_data
+msgid "Xml Schema Data"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_schema_filename
+msgid "Xml Schema Filename"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_schema_module
+msgid "Xml Schema Module"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__year
+msgid "Year"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "You must be logged in a %s company to use this feature."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
+"%(report)s does not accept a %(kind)s filing. This authority accepts: "
+"%(supported)s."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.module.module,shortdesc:base.module_l10n_cssk_payroll_declaration_base
+msgid "CZ/SK Payroll e-Reporting — Declaration Base"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_reference
+msgid "Correction Reference"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_type
+msgid "Correction Type"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.module.module,summary:base.module_l10n_cssk_payroll_declaration_base
+msgid ""
+"Engine-neutral base for Czech/Slovak payroll authority e-submissions: XSD-"
+"validated XML export, a submission state machine and an hr.payslip adapter "
+"that works on both the payroll and the hr_payroll engines."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__is_correction
+msgid "Is Correction"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
+"There is no submitted %(report)s for %(month)s/%(year)s to amend. File the "
+"regular declaration first, or set this one back to Regular."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""

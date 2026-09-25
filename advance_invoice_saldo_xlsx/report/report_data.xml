@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl-3.0). -->
+<odoo>
+
+    <record id="report_advance_saldo_xlsx" model="ir.actions.report">
+        <field name="name">Open Advances Saldo (XLSX)</field>
+        <field name="model">advance.saldo.xlsx.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">advance_invoice_saldo_xlsx.saldo</field>
+        <field name="report_file">advance_invoice_saldo_xlsx.saldo</field>
+        <field name="print_report_name">'Advances Saldo - %s' % (object.company_id.name)</field>
+    </record>
+
+</odoo>

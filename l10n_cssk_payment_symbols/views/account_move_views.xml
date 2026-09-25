@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_move_form_cssk_symbols" model="ir.ui.view">
+        <field name="name">account.move.form.cssk.symbols</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <!-- Odoo's own cs_CZ catalogue renders core's ``payment_reference``
+                 as "Variabilní symbol" (addons/account/i18n/cs.po), which
+                 labels a free-text field for the variable symbol while the real
+                 one — digits-only and length-checked — sits beside it. A user
+                 who types the VS into the wrong one produces a payment the
+                 recipient cannot match, and nothing warns.
+
+                 Restating the label is a no-op in English (it is the string
+                 core already uses) and exists so the label becomes a term of
+                 THIS view, translated from this module's own catalogue. That is
+                 what lets cs_CZ say "Reference platby" without touching core.
+                 Slovak core is already correct ("Referencia platby").
+
+                 ``payment_reference`` appears TWICE in ``view_move_form`` and
+                 an unqualified spec silently takes the first: once in the main
+                 sheet for vendor bills (line 1066 of core's
+                 account_move_views.xml), once in Other Info for customer
+                 invoices (line 1528). Relabelling only the first left customer
+                 invoices — where a Czech VS matters most, since it is what the
+                 customer is asked to quote — covered by the catalogue override
+                 alone. Both are pinned here, on @invisible: it is not a
+                 translated attribute, so unlike @string it is valid as a
+                 selector (``_valid_inheritance`` refuses translated ones), and
+                 it fails loudly if core ever reorders these.
+
+                 The conditions are 19.0's, not 18.0's: core dropped
+                 ``out_receipt`` from the vendor-bill branch between the two, so
+                 copying 18.0's selectors across would match nothing and fail at
+                 install. -->
+            <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('in_invoice', 'in_refund', 'in_receipt')&quot;]"
+                   position="attributes">
+                <attribute name="string">Payment Reference</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('out_invoice', 'out_refund')&quot;]"
+                   position="attributes">
+                <attribute name="string">Payment Reference</attribute>
+            </xpath>
+
+            <!-- The symbols follow ``payment_reference`` on every document type
+                 that has one, which means placing them TWICE for the same
+                 reason. Each copy carries the visibility condition of the node
+                 it follows, so exactly one is ever shown. ``out_receipt`` gets
+                 none because core shows it no ``payment_reference`` in this
+                 form at all. -->
+            <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('in_invoice', 'in_refund', 'in_receipt')&quot;]"
+                   position="after">
+                <field
+                    name="l10n_cssk_variable_symbol"
+                    invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt')"
+                />
+                <field
+                    name="l10n_cssk_constant_symbol"
+                    invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt')"
+                />
+                <field
+                    name="l10n_cssk_specific_symbol"
+                    invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt')"
+                />
+            </xpath>
+            <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('out_invoice', 'out_refund')&quot;]"
+                   position="after">
+                <field
+                    name="l10n_cssk_variable_symbol"
+                    invisible="move_type not in ('out_invoice', 'out_refund')"
+                />
+                <field
+                    name="l10n_cssk_constant_symbol"
+                    invisible="move_type not in ('out_invoice', 'out_refund')"
+                />
+                <field
+                    name="l10n_cssk_specific_symbol"
+                    invisible="move_type not in ('out_invoice', 'out_refund')"
+                />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

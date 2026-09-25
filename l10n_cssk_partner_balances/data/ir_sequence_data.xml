@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="seq_cssk_partner_confirmation" model="ir.sequence">
+        <field name="name">Partner Balance Confirmation</field>
+        <field name="code">cssk.partner.confirmation</field>
+        <field name="prefix">SALDO/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <record id="seq_cssk_partner_netting" model="ir.sequence">
+        <field name="name">Partner Netting Agreement</field>
+        <field name="code">cssk.partner.netting.agreement</field>
+        <field name="prefix">ZAP/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+</odoo>

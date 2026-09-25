@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="orsf_sk_related_party_view_list" model="ir.ui.view">
+        <field name="name">orsf.sk.related.party.list</field>
+        <field name="model">orsf.sk.related.party</field>
+        <field name="arch" type="xml">
+            <list string="Related parties" create="0">
+                <field name="degree"/>
+                <field name="related_name"/>
+                <field name="related_ico"/>
+                <field name="link_person"/>
+                <field name="link_role"/>
+                <field name="related_partner_id"/>
+                <field name="fetched_at" optional="hide"/>
+                <field name="source" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="orsf_sk_related_party_view_form" model="ir.ui.view">
+        <field name="name">orsf.sk.related.party.form</field>
+        <field name="model">orsf.sk.related.party</field>
+        <field name="arch" type="xml">
+            <form string="Related party">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="related_name"/>
+                            <field name="related_ico"/>
+                            <field name="related_partner_id"/>
+                        </group>
+                        <group>
+                            <field name="link_person"/>
+                            <field name="link_role"/>
+                            <field name="degree"/>
+                            <field name="fetched_at"/>
+                            <field name="source"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

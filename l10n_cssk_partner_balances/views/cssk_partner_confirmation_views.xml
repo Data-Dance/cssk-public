@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_partner_confirmation_view_list" model="ir.ui.view">
+        <field name="name">cssk.partner.confirmation.list</field>
+        <field name="model">cssk.partner.confirmation</field>
+        <field name="arch" type="xml">
+            <list string="Balance Confirmations">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="as_of_date"/>
+                <field name="confirmation_type"/>
+                <field name="net_balance"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'agreed'"
+                       decoration-danger="state == 'disputed'"
+                       decoration-info="state == 'sent'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_partner_confirmation_view_form" model="ir.ui.view">
+        <field name="name">cssk.partner.confirmation.form</field>
+        <field name="model">cssk.partner.confirmation</field>
+        <field name="arch" type="xml">
+            <form string="Balance Confirmation">
+                <header>
+                    <button name="action_compute_lines" type="object"
+                            string="Compute"
+                            invisible="state not in ('draft', 'sent')"/>
+                    <button name="action_print" type="object"
+                            string="Print" invisible="state == 'draft'"/>
+                    <button name="action_send" type="object"
+                            string="Mark Sent" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_agreed" type="object"
+                            string="Agreed" class="btn-primary"
+                            invisible="state != 'sent'"/>
+                    <button name="action_disputed" type="object"
+                            string="Disputed"
+                            invisible="state != 'sent'"/>
+                    <button name="action_reset_draft" type="object"
+                            string="Reset to Draft"
+                            invisible="state in ('draft', 'cancelled')"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,sent,agreed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="partner_id"/>
+                            <field name="partner_contact_id"/>
+                            <field name="responsible_user_id"/>
+                        </group>
+                        <group>
+                            <field name="as_of_date"/>
+                            <field name="confirmation_type"/>
+                            <field name="total_receivable"/>
+                            <field name="total_payable"/>
+                            <field name="net_balance"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Open items" name="lines">
+                            <field name="line_ids"
+                                   readonly="state in ('agreed', 'disputed')">
+                                <list decoration-muted="blocked">
+                                    <field name="move_name"/>
+                                    <field name="move_date"/>
+                                    <field name="date_maturity"/>
+                                    <field name="account_type"/>
+                                    <field name="amount_residual"/>
+                                    <field name="blocked"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Note" name="note">
+                            <field name="note" placeholder="Notes…"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_partner_confirmation_action" model="ir.actions.act_window">
+        <field name="name">Balance Confirmations</field>
+        <field name="res_model">cssk.partner.confirmation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

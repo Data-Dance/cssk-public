@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_cssk_ec_summary"
+              name="EC Sales List"
+              parent="l10n_cssk_core.menu_cssk_reports_root"
+              action="cssk_ec_summary_statement_action"
+              sequence="82"/>
+
+    <menuitem id="menu_cssk_ec_summary_version"
+              name="EC Sales List Versions"
+              parent="l10n_cssk_core.menu_cssk_root"
+              action="cssk_ec_summary_version_action"
+              sequence="40"/>
+
+</odoo>

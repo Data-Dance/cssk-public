@@ -1,0 +1,77 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Slovensko — Peppol BIS Billing 3.0 (eFaktúra)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Export elektronických faktúr vo formáte Peppol BIS Billing 3.0 / UBL 2.1 pre slovenské spoločnosti</h3>
+    <div class="oe_span12">
+      <p>Tento modul zapína formát elektronickej faktúry Peppol BIS Billing 3.0 (UBL 2.1 / EN 16931)
+         pre slovenské spoločnosti, v predstihu pred povinným režimom slovenskej elektronickej
+         fakturácie (tuzemské B2B od 1. januára 2027).</p>
+      <p>Slovensko nemá <b>žiadne národné CIUS pre fakturáciu</b>: predpísanou faktúrou je
+         nemodifikovaný Peppol BIS Billing 3.0, ktorý Odoo svojím <code>account.edi.xml.ubl_bis3</code>
+         už vytvára správne. Tento modul je preto zámerne tenký — len dopĺňa slovenské medzery.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Registrácia formátu.</b> <code>SK</code> v jadre Odoo chýba v
+            <code>PEPPOL_DEFAULT_COUNTRIES</code>, takže všeobecný formát Peppol sa slovenským
+            partnerom neponúka. Tento modul registruje <code>ubl_bis3_sk</code> pre <code>SK</code>
+            a nastaví ho ako automaticky navrhnutý predvolený formát pre slovenských partnerov.</li>
+        <li><b>Rozširovací bod.</b> <code>account.edi.xml.ubl_sk</code> dedí zo všeobecného Peppol
+            builderu — stabilné miesto na neskoršie doplnenie slovenských špecifík, bez odchýlky
+            v CustomizationID.</li>
+        <li><b>Variabilný symbol (VS).</b> Mapovaný na <code>cac:PaymentMeans/cbc:PaymentID</code>
+            (BT-83): explicitná platobná referencia, ak je nastavená, inak číselný koniec čísla
+            faktúry, normalizovaný na posledných 10 číslic.</li>
+        <li>Automaticky sa nainštaluje, hneď ako sú prítomné slovenská osnova aj engine UBL/CII,
+            podľa vzoru <code>l10n_ro_edi</code> / <code>l10n_pl_edi</code>.</li>
+      </ul>
+      <p><b>Mimo rozsahu</b> (rieši certifikovaný prístupový bod Peppol, nie ERP): slovenský
+         Tax Data Document (TDD, <code>urn:peppol:taxdata:sk-1</code>) a 5-rohové CTC hlásenie
+         Finančnej správe.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Slovenskí partneri dostanú <code>invoice_edi_format = "Slovakia (Peppol BIS 3.0)"</code>
+         automaticky. Zabezpečte, aby spoločnosť mala platné IČ DPH a slovenský IBAN na príslušnom
+         bankovom účte, a potom faktúru odošlite obvyklým spôsobom — súbor UBL 2.1 sa vygeneruje
+         vo formáte Peppol BIS Billing 3.0.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Dokumentácia</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — história verzií.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

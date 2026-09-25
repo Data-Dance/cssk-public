@@ -1,0 +1,62 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Czech Republic — VAT Return (DPHDP3)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">The Czech VAT return computed from the l10n_cz tax tags and exported as EPO Pisemnost/DPHDP3 XML</h3>
+    <div class="oe_span12">
+      <p>This app is the Czech country layer for the shared VAT-return framework
+         (<code>l10n_cssk_vat_return_base</code>). It produces the Czech <b>VAT return</b>
+         (přiznání k DPH / DPHDP3): the DPHDP3 line set is mapped to the <code>l10n_cz</code>
+         tax tags (<code>VAT n Base</code> / <code>VAT n Tax</code>), and the 48 tag-based
+         lines auto-compute from the posted move-line tags.</p>
+      <p>It is <b>CE-clean</b> — it reads the core <code>l10n_cz</code> tax tags directly and
+         does <b>not</b> depend on the Enterprise <code>account_reports</code> engine, so it
+         runs on both Community and Enterprise. Export is the EPO <b>Pisemnost / DPHDP3</b>
+         XML (VetaD / VetaP / Veta1–Veta6), mirroring the Odoo Enterprise export structure.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>DPHDP3 line set (obrat23/dan23/…) mapped to the <code>l10n_cz</code> tax tags;
+            the 48 base/tax lines auto-compute from the move-line tags.</li>
+        <li>EPO <b>Pisemnost / DPHDP3</b> XML export (VetaD / VetaP / Veta1–Veta6).</li>
+        <li>CE-clean: reads tax tags directly, no <code>account_reports</code> dependency —
+            works on Community and Enterprise.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Accounting ▸ Reporting ▸ Czech Republic ▸ Přiznání k DPH.</i> Create a return for
+         a period, <b>Compute</b> to populate the tag-based lines from the period's postings,
+         review the lines, then <b>Export XML</b> for the EPO portal.</p>
+      <p><b>Scope note (v1):</b> the 48 base/tax lines auto-compute; the deduction-claim lines
+         (krácení coefficient) and the totals are entered/reviewed by the accountant. The
+         official EPO XSD is not yet wired (the export validates the root element and is
+         well-formed); add it for submission-grade validation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

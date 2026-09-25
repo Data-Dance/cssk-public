@@ -1,0 +1,465 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_hr_payroll_health
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-06 21:45+0000\n"
+"PO-Revision-Date: 2026-07-06 21:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: Slovak (https://www.transifex.com/)\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_needaction
+msgid "Action Needed"
+msgstr "Potrebná akcia"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Označenie aktivity výnimky"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model,name:l10n_sk_hr_payroll_health.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
+msgid ""
+"Company '%(company)s' needs a health payer number for the dávka 514. Set it "
+"on the company."
+msgstr ""
+"Spoločnosť '%(company)s' potrebuje číslo platiteľa poistného pre dávku 514. "
+"Nastavte ho na spoločnosti."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
+msgid ""
+"Company '%(company)s' needs an 8-12 digit IČO (Company Registry) for the "
+"dávka 514 identification block."
+msgstr ""
+"Spoločnosť '%(company)s' potrebuje 8- až 12-miestne IČO (Company Registry) "
+"pre identifikačný blok dávky 514."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__country_id
+msgid "Country"
+msgstr "Krajina"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__create_uid
+msgid "Created by"
+msgstr "Vytvoril(a)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__create_date
+msgid "Created on"
+msgstr "Vytvorené dňa"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__date_from
+msgid "Date From"
+msgstr "Dátum od"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__date_to
+msgid "Date To"
+msgstr "Dátum do"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_res_company__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__res_company__l10n_sk_health_insurer_code__24
+msgid "Dôvera (24)"
+msgstr "Dôvera (24)"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
+msgid ""
+"Employee '%(name)s' needs a 9-10 digit birth number in the Identification "
+"No. field for the dávka 514 employee row."
+msgstr ""
+"Zamestnanec '%(name)s' potrebuje 9- až 10-miestne rodné číslo v poli "
+"Identifikačné č. pre riadok zamestnanca v dávke 514."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__line_ids
+msgid "Employee declarations"
+msgstr "Hlásenia zamestnancov"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__lines_count
+msgid "Employees"
+msgstr "Zamestnanci"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__filed_history_ids
+msgid "Filed history"
+msgstr "História podaní"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_follower_ids
+msgid "Followers"
+msgstr "Odberatelia"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odberatelia (partneri)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona písma font awesome, napr. fa-tasks"
+
+#. module: l10n_sk_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_health.view_l10n_sk_health_form
+msgid "Generate"
+msgstr "Generovať"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__insurer_code
+msgid ""
+"Health insurance company this dávka 514 is addressed to. Defaults from the "
+"company configuration."
+msgstr ""
+"Zdravotná poisťovňa, ktorej je táto dávka 514 určená. Predvolené z "
+"nastavenia spoločnosti."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__insurer_code
+msgid "Health insurer"
+msgstr "Zdravotná poisťovňa"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_res_company__l10n_sk_health_insurer_code
+msgid "Health insurer (dávka 514)"
+msgstr "Zdravotná poisťovňa (dávka 514)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_res_company__l10n_sk_health_payer_number
+msgid "Health payer number"
+msgstr "Číslo platiteľa poistného"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_res_company__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona indikujúca výnimočnú aktivitu."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak označené, potom nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_has_error
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je začiarknuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_is_follower
+msgid "Is Follower"
+msgstr "Je odberateľ"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil(a)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené dňa"
+
+#. module: l10n_sk_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_health.view_l10n_sk_health_form
+msgid "Mark Submitted"
+msgstr "Označiť ako odoslané"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__month
+msgid "Month"
+msgstr "Mesiac"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mojej aktivity"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín ďalšej aktivity"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_summary
+msgid "Next Activity Summary"
+msgstr "Zhrnutie ďalšej aktivity"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ ďalšej aktivity"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__payment_date
+msgid ""
+"Payday reported to the authority (SK denVyplaty). Defaults to the period "
+"end."
+msgstr ""
+"Dátum výplaty hlásený úradu (SK denVyplaty). Predvolene je to koniec "
+"obdobia."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_res_company__l10n_sk_health_payer_number
+msgid ""
+"Payer number assigned to the employer by the health insurer — the payer-"
+"number item of the dávka 514 identification block."
+msgstr ""
+"Číslo platiteľa pridelené zamestnávateľovi zdravotnou poisťovňou — položka "
+"čísla platiteľa v identifikačnom bloku dávky 514."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__payment_date
+msgid "Payment Date"
+msgstr "Dátum výplaty"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
+msgid "Rendered dávka 514 root <%(got)s> does not match expected <%(exp)s>."
+msgstr ""
+"Vykreslený koreň dávky 514 <%(got)s> nezodpovedá očakávanému <%(exp)s>."
+
+#. module: l10n_sk_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_health.view_l10n_sk_health_form
+msgid "Reset to Draft"
+msgstr "Vrátiť do konceptu"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný užívateľ"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_health.menu_l10n_sk_health
+msgid "SK dávka 514 (health)"
+msgstr "SK dávka 514 (zdravotné)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model,name:l10n_sk_hr_payroll_health.model_l10n_sk_health
+msgid "SK dávka 514 monthly health-insurance advance statement"
+msgstr "SK dávka 514 – mesačný výkaz preddavkov na poistné"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
+msgid "Select the target health insurer on the dávka 514."
+msgstr "Vyberte cieľovú zdravotnú poisťovňu v dávke 514."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav založený na aktivitách\n"
+"Po termíne: termín vypršal\n"
+"Dnešné: termín aktivity je dnes\n"
+"Budúce: budúce aktivity."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__submission_reference
+msgid "Submission Reference"
+msgstr "Referencia podania"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__submitted_date
+msgid "Submitted Date"
+msgstr "Dátum odoslania"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_res_company__l10n_sk_health_insurer_code
+msgid ""
+"Target health insurance company for the monthly dávka 514. The dávka 514 "
+"structure is common to all three insurers; only this code and the payer/bank"
+" details differ."
+msgstr ""
+"Cieľová zdravotná poisťovňa pre mesačnú dávku 514. Štruktúra dávky 514 je "
+"spoločná pre všetky tri poisťovne; líši sa len tento kód a údaje o "
+"platiteľovi/banke."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výnimočnej aktivity v zázname."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__res_company__l10n_sk_health_insurer_code__27
+msgid "Union (27)"
+msgstr "Union (27)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__version_id
+msgid "Version"
+msgstr "Verzia"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__res_company__l10n_sk_health_insurer_code__25
+msgid "VšZP (25)"
+msgstr "VšZP (25)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__website_message_ids
+msgid "Website Messages"
+msgstr "Správy webstránok"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie webstránok"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "Príloha XML"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__year
+msgid "Year"
+msgstr "Rok"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.actions.act_window,name:l10n_sk_hr_payroll_health.action_l10n_sk_health
+msgid "dávka 514 (health)"
+msgstr "dávka 514 (zdravotné)"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
+msgid ""
+"dávka 514 NumberOfRecords (%(declared)s) does not match the number of "
+"PersonData rows (%(rows)s)."
+msgstr ""
+"NumberOfRecords dávky 514 (%(declared)s) nezodpovedá počtu riadkov "
+"PersonData (%(rows)s)."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
+msgid "dávka 514 XML is missing the <%s> block."
+msgstr "V XML dávky 514 chýba blok <%s>."

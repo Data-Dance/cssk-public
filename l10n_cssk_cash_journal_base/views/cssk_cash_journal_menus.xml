@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_cssk_cash_journal_root"
+              name="Cash Journal"
+              parent="account.menu_finance"
+              sequence="55"
+              groups="account.group_account_user"/>
+    <menuitem id="menu_cssk_cash_journal_line"
+              name="Cash Journal (peňažný denník)"
+              parent="menu_cssk_cash_journal_root"
+              action="action_cssk_cash_journal_line"
+              sequence="10"/>
+    <menuitem id="menu_cssk_cash_journal_generate"
+              name="Generate"
+              parent="menu_cssk_cash_journal_root"
+              action="action_cssk_cash_journal_generate"
+              sequence="20"/>
+    <menuitem id="menu_cssk_cash_journal_review"
+              name="Needs Review"
+              parent="menu_cssk_cash_journal_root"
+              action="action_cssk_cash_journal_line_review"
+              sequence="30"/>
+    <menuitem id="menu_cssk_cash_category"
+              name="Categories"
+              parent="menu_cssk_cash_journal_root"
+              action="action_cssk_cash_category"
+              sequence="40"
+              groups="account.group_account_manager"/>
+</odoo>

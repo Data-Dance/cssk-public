@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_cz_wage_surcharge_rate_view_list" model="ir.ui.view">
+        <field name="name">l10n.cz.wage.surcharge.rate.list</field>
+        <field name="model">l10n.cz.wage.surcharge.rate</field>
+        <field name="arch" type="xml">
+            <list string="Czech Wage Surcharges">
+                <field name="date_from"/>
+                <field name="prescas_pct"/>
+                <field name="svatek_pct"/>
+                <field name="nocni_pct"/>
+                <field name="vikend_pct"/>
+                <field name="ztizene_pct"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="l10n_cz_wage_surcharge_rate_view_form" model="ir.ui.view">
+        <field name="name">l10n.cz.wage.surcharge.rate.form</field>
+        <field name="model">l10n.cz.wage.surcharge.rate</field>
+        <field name="arch" type="xml">
+            <form string="Czech Wage Surcharges">
+                <sheet>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="standard_weekly_hours"/>
+                    </group>
+                    <group string="Percentage of average earnings (průměrný výdělek)">
+                        <field name="prescas_pct"/>
+                        <field name="svatek_pct"/>
+                        <field name="nocni_pct"/>
+                        <field name="nocni_agreed_pct"/>
+                        <field name="vikend_pct"/>
+                        <field name="vikend_agreed_pct"/>
+                    </group>
+                    <group string="Percentage of the basic minimum wage rate">
+                        <field name="ztizene_pct"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_cz_wage_surcharge_rate" model="ir.actions.act_window">
+        <field name="name">Czech Wage Surcharges</field>
+        <field name="res_model">l10n.cz.wage.surcharge.rate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

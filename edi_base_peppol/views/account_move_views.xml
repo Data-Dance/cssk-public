@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_peppol" model="ir.ui.view">
+        <field name="name">account.move.form.peppol</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_peppol_send" type="object"
+                    string="Send via Peppol"
+                    invisible="not peppol_active"
+                    groups="edi_base.group_edi_user"
+                    help="Generate a Peppol BIS 3.0 UBL document for this posted
+                    customer invoice/credit note and queue it for sending
+                    through the installed transport provider. Auto-send on post
+                    can be enabled in Settings &gt; EDI &gt; Peppol BIS3."/>
+                <button name="action_peppol_invoice_response" type="object"
+                    string="Peppol Response…"
+                    invisible="not peppol_ir_can_respond"
+                    groups="edi_base.group_edi_user"
+                    help="Send a Peppol Invoice Response (accept / reject /
+                    dispute) back to the supplier for this received vendor
+                    bill."/>
+                <field name="peppol_active" invisible="1"/>
+                <field name="peppol_ir_can_respond" invisible="1"/>
+                <field name="peppol_status" widget="badge"
+                    invisible="not peppol_status"/>
+                <field name="peppol_response" widget="badge"
+                    invisible="not peppol_response"/>
+                <field name="peppol_ir_status" widget="badge"
+                    invisible="not peppol_ir_status"
+                    decoration-success="peppol_ir_status in ('AP','PD')"
+                    decoration-danger="peppol_ir_status == 'RE'"
+                    decoration-warning="peppol_ir_status in ('UQ','CA')"/>
+                <field name="peppol_ir_sent_status" widget="badge"
+                    string="Peppol Response Sent"
+                    invisible="not peppol_ir_sent_status"
+                    decoration-danger="peppol_ir_sent_status == 'RE'"
+                    decoration-warning="peppol_ir_sent_status in ('UQ','CA')"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Peppol Messages" name="peppol_messages"
+                    invisible="not peppol_message_ids"
+                    groups="edi_base.group_edi_user">
+                    <field name="peppol_message_ids" readonly="1">
+                        <list>
+                            <field name="message_type"/>
+                            <field name="name"/>
+                            <field name="direction"/>
+                            <field name="state"/>
+                            <field name="sender_gln" string="From"/>
+                            <field name="receiver_gln" string="To"/>
+                            <field name="message_date"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

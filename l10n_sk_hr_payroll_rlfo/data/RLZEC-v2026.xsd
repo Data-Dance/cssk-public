@@ -1,0 +1,1256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:rlzec2026="http://socpoist.sk/xsd/rlzec2026" targetNamespace="http://socpoist.sk/xsd/rlzec2026" elementFormDefault="qualified"	attributeFormDefault="unqualified" version="2026">
+	<xs:element name="spRegListZec" type="rlzec2026:spRegListZecType">
+		<xs:annotation>
+			<xs:documentation>Registračný list zamestnancov zamestnávateľa - hromadný - verzia 2026</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="spRegListZecType">
+		<xs:annotation>
+			<xs:documentation>Registračný list zamestnancov zamestnávateľa </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="typDoc">
+				<xs:annotation>
+					<xs:documentation>Kód typu dokumentu v Sociálnej poisťovni</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+						<xs:whiteSpace value="collapse"/>
+						<xs:enumeration value="RLZEC0001"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="zamestnavatel" type="rlzec2026:ZamestnavatelType">
+				<xs:annotation>
+					<xs:documentation>Údaje zamestnávateľa (oddiel 4)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zoznamRLZec" type="rlzec2026:ZoznamRLZecType"/>
+			<xs:element name="vystavenie" type="rlzec2026:VystavenieType">
+				<xs:annotation>
+					<xs:documentation>Údaje o vystavení</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ZamestnavatelType">
+		<xs:annotation>
+			<xs:documentation>Zamestnávateľ</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identifikacia" type="rlzec2026:IdentifikaciaType">
+				<xs:annotation>
+					<xs:documentation>Základná identifikácia zamestnávateľa (oddiel 4)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fOsoba" type="rlzec2026:FOsobaBaseType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Doplňujúce identifikačné údaje zamestnávateľa FO (oddiel 4)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ZoznamRLZecType">
+		<xs:annotation>
+			<xs:documentation>Zoznam registračných listov zamestnancov</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="regListyZec" type="rlzec2026:RegListyZecType">
+				<xs:annotation>
+					<xs:documentation>Registračné listy zamestnancov</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegListyZecType">
+		<xs:annotation>
+			<xs:documentation>Registračné listy zamestnancov</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="regListZec" type="rlzec2026:RegListZecType" maxOccurs="300"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RegListZecType">
+		<xs:annotation>
+			<xs:documentation>Registračný list zamestnanca</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identFO" type="rlzec2026:IdentifikaciaFO">
+				<xs:annotation>
+					<xs:documentation>Identifikácia FO (oddiely 1 a 4)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="typRegListuFO">
+				<xs:annotation>
+					<xs:documentation>Jedna z možností podľa typu reg. listu: Prihláška - Prerušenie - Zmena - Odhláška - Zrušenie prihlásenia</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="prihlaska">
+							<xs:annotation>
+								<xs:documentation>Prihláška poistenia</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="identFODopl" type="rlzec2026:IdentifikaciaFODoplnok">
+										<xs:annotation>
+											<xs:documentation>Doplňujúce identifikačné údaje FO (oddiely 2 a 5)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="adresa" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Adresa trvalého pobytu FO (dlhodobého u cudzinca)</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:complexContent>
+												<xs:extension base="rlzec2026:AdresaType"/>
+											</xs:complexContent>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="korAdresa" type="rlzec2026:AdresaSKontaktomType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Korešpondenčná adresa FO (oddiel 3)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="typPoistPrihl">
+										<xs:annotation>
+											<xs:documentation>Jedna z možností podľa voľby v záhlaví tlačiva: zamestnanec</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="zecPrihl">
+													<xs:annotation>
+														<xs:documentation>Prihláška zamestnanca (oddiely 5, 6 a 7)</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="ucet" type="rlzec2026:UcetType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Bankové spojenie zamestnanca (oddiel 6)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="datVznikPoist" type="rlzec2026:DatumType">
+																<xs:annotation>
+																	<xs:documentation>Dátum vzniku poistenia v tvare DD.MM.RRRR (časť oddielu 7)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="datVznikPV" type="rlzec2026:DatumType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Dátum vzniku právneho vzťahu (časť oddielu 7)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="zanik" type="rlzec2026:PoistenieZanikZecPaType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Zánik poistenia, dátum v tvare DD.MM.RRRR. Vyplňte aj dátum vzniku poistenia. (časť oddielu 7)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="datOznUplatnOop" type="rlzec2026:DatumType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Dátum oznámenia uplatnenia OOP (odvodovej odpočítateľnej položky). (časť oddielu 7)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="miestoVykonuPrace" type="rlzec2026:MiestoVykonuPraceType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Miesto výkonu práce (časť oddielu 5)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="druhVykonavanejPrace" type="rlzec2026:DruhVykonavanejPraceType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Druh vykonávanej práce (časť oddielu 5)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="rozsahPracovnehoCasu" type="rlzec2026:RozsahValueType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Rozsah pracovného času (časť oddielu 5)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													<xs:attribute name="typZec" type="rlzec2026:ZamestnanecType" use="required"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zmena">
+							<xs:annotation>
+								<xs:documentation>Zmena údajov poistenia s atribútom dátum uplatnenia (dátum vzniku zmeny)</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="identFODoplZmena" type="rlzec2026:IdentifikaciaFODoplnokZmena" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Zmenené doplňujúce identifikačné údaje FO (časť oddielu 2 a 5)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="adresa" type="rlzec2026:AdresaType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Adresa trvalého pobytu FO (dlhodobého u cudzinca) (časť oddielu 2)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="korAdresa" type="rlzec2026:AdresaSKontaktomType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Zmena korešpondenčnej adresy FO (oddiel 3)</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="typPoistZmena">
+										<xs:annotation>
+											<xs:documentation>Jedna z možností podľa voľby v záhlaví: zamestnanec</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="zecZmena">
+													<xs:annotation>
+														<xs:documentation>Zmenené údaje zamestnanca  (oddiely 5, 6 a 7)</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="ucet" type="rlzec2026:UcetType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Bankové spojenie zamestnanca (oddiel 6)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="md" type="rlzec2026:MDType" minOccurs="0"/>
+															<xs:element name="rd" type="rlzec2026:RDType" minOccurs="0"/>
+															<xs:element name="datOznUplatnOop" type="rlzec2026:DatumType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Dátum oznámenia uplatnenia OOP (odvodovej odpočítateľnej položky). (časť oddielu 7)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="datOznUkoncUplatnOop" type="rlzec2026:DatumType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Dátum oznámenia ukončenia uplatňovania OOP (odvodovej odpočítateľnej položky). (časť oddielu 7)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="miestoVykonuPrace" type="rlzec2026:MiestoVykonuPraceType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Miesto výkonu práce (časť oddielu 5)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="druhVykonavanejPrace" type="rlzec2026:DruhVykonavanejPraceType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Druh vykonávanej práce (časť oddielu 5)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="rozsahPracovnehoCasu" type="rlzec2026:RozsahValueType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Rozsah pracovného času (časť oddielu 5)</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													<xs:attribute name="typZec"	type="rlzec2026:ZamestnanecType" use="required"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="datUplatnenia" type="rlzec2026:DatumType" use="required"/>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="prerusenie">
+							<xs:annotation>
+								<xs:documentation>Prerušenie poistenia (časť oddielu 7)</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="typPoistPrerus">
+										<xs:annotation>
+											<xs:documentation>Jedna z možností podľa typu FO: zamestnanec</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="zecPrerus">
+												<xs:annotation>
+												<xs:documentation>Prerušenie zamestnanca</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+												<xs:complexContent>
+												<xs:extension base="rlzec2026:PrerusenieType">
+												<xs:attribute name="typZec" type="rlzec2026:ZamestnanecType" use="required"/>
+												</xs:extension>
+												</xs:complexContent>
+												</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="odhlaska">
+							<xs:annotation>
+								<xs:documentation>Odhláška poistenia (časť oddielu 7)</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="typPoistOdhl">
+										<xs:annotation>
+											<xs:documentation>Jedna z možností podľa typu FO</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:choice>
+												<xs:element name="zecPPOdhl">
+													<xs:annotation>
+														<xs:documentation>Odhláška poistenia pre zamestnanca s pravidelným mesačným príjmom s uvedením typu zamestnanca (časť oddielu 7)</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="zanik" type="rlzec2026:PoistenieZanikType">
+																<xs:annotation>
+																	<xs:documentation>Zánik poistenia, dátum v tvare DD.MM.RRRR. Vždy uvádzajte aj dátum vzniku poistenia.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+														<xs:attribute name="typZec"	type="rlzec2026:ZamestnanecType" use="required"/>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="zecNPOdhl">
+													<xs:annotation>
+														<xs:documentation>Odhláška poistenia pre zamestnanca  v pracovnom pomere s nepravidelným príjmom (časť oddielu 7)</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="zanik" type="rlzec2026:PoistenieZanikType">
+																<xs:annotation>
+																	<xs:documentation>Zánik poistenia, dátum v tvare DD.MM.RRRR. Vždy uvádzajte aj dátum vzniku poistenia.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												<xs:element name="zecDOdhl">
+													<xs:annotation>
+														<xs:documentation>Odhláška poistenia pre zamestnanca na dohodu (časť oddielu 7) </xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="zanik" type="rlzec2026:PoistenieZanikDType">
+																<xs:annotation>
+																	<xs:documentation>Zánik poistenia, dátum v tvare DD.MM.RRRR. Vždy uvádzajte aj dátum vzniku poistenia.</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+															<xs:element name="datVznikPV" type="rlzec2026:DatumType" minOccurs="0">
+																<xs:annotation>
+																	<xs:documentation>Dátum vzniku právneho vzťahu</xs:documentation>
+																</xs:annotation>
+															</xs:element>
+														</xs:sequence>
+														<xs:attribute name="typZec"	type="rlzec2026:ZamestnanecType" use="required"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:choice>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="zruseniePrihlasky">
+							<xs:annotation>
+								<xs:documentation>Zrušenie prihlásenia poistenia</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="typPoistZrus">
+										<xs:annotation>
+											<xs:documentation>Zrušenie prihlásenia</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="zecZrus">
+													<xs:annotation>
+														<xs:documentation>Zrušenie prihlásenia zamestnanca (časť oddielu 7)</xs:documentation>
+													</xs:annotation>
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="poistenie">
+																<xs:annotation>
+																	<xs:documentation>Dátum vzniku a zrušenia prihlásenia zamestnanca</xs:documentation>
+																</xs:annotation>
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="datVznikPoist" type="rlzec2026:DatumType" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Oznámený dátum vzniku poistenia zamestnanca v tvare DD.MM.RRRR</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="datZruseniaPoist" type="rlzec2026:DatumType">
+																			<xs:annotation>
+																				<xs:documentation>Dátum zrušenia prihlásenia zamestnanca v tvare DD.MM.RRRR, musí byť totožný s dátumom vzniku</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																		<xs:element name="datVznikPV" type="rlzec2026:DatumType" minOccurs="0">
+																			<xs:annotation>
+																				<xs:documentation>Dátum vzniku právneho vzťahu</xs:documentation>
+																			</xs:annotation>
+																		</xs:element>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+														<xs:attribute name="typZec"	type="rlzec2026:ZamestnanecType" use="required"/>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="typRL" type="rlzec2026:TypRLType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="AdresaType">
+		<xs:annotation>
+			<xs:documentation>Adresa - jedna z možností: Adresa s ulicou, Adresa bez ulice</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>Adresa s ulicou</xs:documentation>
+				</xs:annotation>
+				<xs:element name="ulica" type="rlzec2026:UlicaType">
+					<xs:annotation>
+						<xs:documentation>Ulica</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="supCislo" type="rlzec2026:SupCisloType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Súpisné číslo</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="oCislo" type="rlzec2026:OCisloType">
+					<xs:annotation>
+						<xs:documentation>Orientačné číslo</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="obec" type="rlzec2026:ObecType">
+					<xs:annotation>
+						<xs:documentation>Obec</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="psc" type="rlzec2026:PostovyKodType">
+					<xs:annotation>
+						<xs:documentation>PSČ alebo poštový kód zahraničnej adresy</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="stat" type="rlzec2026:StatType">
+					<xs:annotation>
+						<xs:documentation>Štát - akronym2 podľa číselníka štátov ŠÚ SR</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>Adresa bez ulice</xs:documentation>
+				</xs:annotation>
+				<xs:element name="supCislo" type="rlzec2026:SupCisloType">
+					<xs:annotation>
+						<xs:documentation>Súpisné číslo</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="obec" type="rlzec2026:ObecType">
+					<xs:annotation>
+						<xs:documentation>Obec</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="psc" type="rlzec2026:PostovyKodType">
+					<xs:annotation>
+						<xs:documentation>PSČ alebo poštový kód zahraničnej adresy</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="stat" type="rlzec2026:StatType">
+					<xs:annotation>
+						<xs:documentation>Štát - akronym2 podľa číselníka štátov ŠÚ SR</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="AdresaSKontaktomType">
+		<xs:annotation>
+			<xs:documentation>Korešpondenčná adresa (oddiel 3)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="adresa" type="rlzec2026:AdresaType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Korešpondenčná adresa FO - uvádzať v prípade, ak nie je totožná s adresou trvalého pobytu</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IdentifikaciaType">
+		<xs:annotation>
+			<xs:documentation>Základná identifikácia zamestnávateľa (oddiel 4)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="variabilnySymbol" type="rlzec2026:ICType">
+				<xs:annotation>
+					<xs:documentation>Identifikačné číslo zamestnávateľa pridelené Sociálnou poisťovňou</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="identifikator" type="rlzec2026:IdentifikatorType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>IČO alebo DIČ zamestnávateľa, nepovinný len v prípade zahraničného zamestnávateľa</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="nazov">
+				<xs:annotation>
+					<xs:documentation>Názov zamestnávateľa</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="144"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IdentifikatorType">
+		<xs:annotation>
+			<xs:documentation>IČO alebo DIČ zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ico" type="rlzec2026:ICOType"/>
+			<xs:element name="dic" type="rlzec2026:DICType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="ICOType">
+		<xs:annotation>
+			<xs:documentation>IČO - Identifikačné číslo organizácie pridelené Štatistickým úradom SR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="8"/>
+			<xs:maxLength value="12"/>
+			<xs:pattern value="[0-9]{8,12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DICType">
+		<xs:annotation>
+			<xs:documentation>DIČ - Daňové identifikačné číslo pridelené daňovým úradom</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="13"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="UcetType">
+		<xs:annotation>
+			<xs:documentation>Bankové spojenie FO (oddiel 6)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="iban" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Medzinárodné číslo účtu</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="34"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="bic" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>BIC</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="8"/>
+						<xs:maxLength value="11"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="sposobVyplaty" type="rlzec2026:SposobVyplatyType"/>
+			<xs:element name="nazovPrijemcu" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Názov príjemcu</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="255"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>	
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FOsobaBaseType">
+		<xs:annotation>
+			<xs:documentation>Základné údaje o FO (zamestnávateľ) </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="rc" type="rlzec2026:RCType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PrerusenieType">
+		<xs:annotation>
+			<xs:documentation>Údaje o prerušení poistenia (oddiel 7)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="vznikPrerus" type="rlzec2026:PrerusenieVznikType">
+				<xs:annotation>
+					<xs:documentation>Dátum vzniku prerušenia v tvare DD.MM.RRRR a dôvod prerušenia</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zanikPrerus" type="rlzec2026:PrerusenieZanikType">
+				<xs:annotation>
+					<xs:documentation>Dátum zániku prerušenia v tvare DD.MM.RRRR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vznik_zanikPrerus">
+				<xs:annotation>
+					<xs:documentation>Súčasne oznamovaný vznik a zánik prerušenia (Krátkodobé prerušenie) </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="vznikPrerus" type="rlzec2026:PrerusenieVznikType">
+							<xs:annotation>
+								<xs:documentation>Dátum vzniku prerušenia v tvare DD.MM.RRRR a dôvod prerušenia</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="zanikPrerus" type="rlzec2026:PrerusenieZanikType">
+							<xs:annotation>
+								<xs:documentation>Dátum zániku prerušenia v tvare DD.MM.RRRR</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="MDType">
+		<xs:annotation>
+			<xs:documentation>Začiatok alebo koniec MD (oddiel 7)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="zacMD" type="rlzec2026:ZacMD_RDType">
+				<xs:annotation>
+					<xs:documentation>Dátum vzniku materskej dovolenky v tvare DD.MM.RRRR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="konMD" type="rlzec2026:KonMD_RDType">
+				<xs:annotation>
+					<xs:documentation>Dátum zániku materskej dovolenky v tvare DD.MM.RRRR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zac_konMD">
+				<xs:annotation>
+					<xs:documentation>Súčasne oznamovaný vzinik a zanik materskej dovolenky</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="zacMD" type="rlzec2026:ZacMD_RDType">
+							<xs:annotation>
+								<xs:documentation>Dátum vzniku materskej dovolenky v tvare DD.MM.RRRR</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="konMD" type="rlzec2026:KonMD_RDType">
+							<xs:annotation>
+								<xs:documentation>Dátum zániku materskej dovolenky v tvare DD.MM.RRRR</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="RDType">
+		<xs:annotation>
+			<xs:documentation>Začiatok alebo koniec RD (oddiel 7)</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="zacRD" type="rlzec2026:ZacMD_RDType">
+				<xs:annotation>
+					<xs:documentation>Dátum vzniku rodičovskej dovolenky v tvare DD.MM.RRRR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="konRD" type="rlzec2026:KonMD_RDType">
+				<xs:annotation>
+					<xs:documentation>Dátum zániku rodičovskej dovolenky v tvare DD.MM.RRRR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zac_konRD">
+				<xs:annotation>
+					<xs:documentation>Súčasne oznamovaný vzinik a zanik rodičovskej dovolenky</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="zacRD" type="rlzec2026:ZacMD_RDType">
+							<xs:annotation>
+								<xs:documentation>Dátum vzniku  rodičovskej dovolenky v tvare DD.MM.RRRR</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="konRD" type="rlzec2026:KonMD_RDType">
+							<xs:annotation>
+								<xs:documentation>Dátum zániku rodičovskej dovolenky v tvare DD.MM.RRRR</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ZacMD_RDType">
+		<xs:annotation>
+			<xs:documentation>Začiatok MD, RD</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="datZac" type="rlzec2026:DatumType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="KonMD_RDType">
+		<xs:annotation>
+			<xs:documentation>Koniec MD, RD</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="datKon" type="rlzec2026:DatumType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="PrerusenieVznikType">
+		<xs:annotation>
+			<xs:documentation>Údaje o vzniku prerušenia (oddiel 7)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="datVzniku" type="rlzec2026:DatumType" use="required"/>
+		<xs:attribute name="dovod" use="required">
+			<xs:annotation>
+				<xs:documentation>
+		Do atribútu sa uvádza iba číselná hodnota (napr.: 1), predstavujúca textové vyjadrenie prerušenia. V prípade zaslania XML súboru sú povolené iba hodnoty pre zamestnanca. Dôvody platné výlučne pre SZČO v číselníku nie sú vôbec uvedené.
+		Číselník platný k času zapracovania noviel "OOP, výkon sezónnej práce, zber analytických údajov" je uvedený nižšie.
+		V prípade zmien hodnôt v budúcnosti, nasledovný zoznam nemusí byť platný. Aktuálny zoznam dôvodov prerušenia je možné nájsť priamo v poučení RLFO na stránke www.socpoist.sk, v časti "Formuláre".
+		
+        1 - zamestnanec - čerpanie pracovného voľna bez náhrady mzdy alebo služobného voľna bez nároku na plat alebo služobný príjem,
+        2 - zamestnanec - dlhodobé uvoľnenie z pracovného pomeru, štátnozamestnaneckého pomeru alebo zo služobného pomeru na výkon verejnej funkcie alebo na výkon odborovej funkcie podľa osobitných predpisov,
+        3 - zamestnanec - neospravedlnená neprítomnosť v práci,
+        4 - zamestnanec/SZČO - prerušenie od 15. dňa potreby osobného a celodenného ošetrovania fyzickej osoby uvedenej v § 39 ods. 1 písm. a) prvom bode zákona v znení neskorších prepisov alebo prerušenie od 15. dňa potreby osobnej a celodennej starostlivosti o dieťa uvedené v § 39 ods. 1 písm. b) zákona v znení neskorších predpisov do skončenia potreby tohto ošetrovania alebo tejto starostlivosti. (Upozornenie: Za obdobie do 31. marca 2021 prerušenie poistenia nastáva od 11. dňa potreby osobného a celodenného ošetrovania fyzickej osoby uvedenej v § 39 ods. 1 písm. a) zákona v znení účinnom do 31. marca 2021 alebo od 11. dňa potreby osobnej a celodennej starostlivosti o dieťa uvedené v § 39 ods. 1 písm. b) zákona v znení účinnom do 31. marca 2021),
+        5 - zamestnanec/SZČO - výkon väzby alebo výkon trestu odňatia slobody,
+        6 - zamestnanec - čerpanie rodičovskej dovolenky,
+        8 - zamestnanec/SZČO - trvanie dočasnej pracovnej neschopnosti odo dňa nasledujúceho po uplynutí 52 týždňov,
+        9 - zamestnanec - neospravedlnená neprítomnosť v práci z dôvodu jeho účasti na štrajku,
+		12 - zamestnanec/SZČO – prerušenie od 91. dňa osobného a celodenného ošetrovania fyzickej osoby uvedenej v § 39  ods. 1 písm. a) druhom bode  zákona v znení neskorších predpisov do skončenia tohto ošetrovania. (Upozornenie: Tento dôvod prerušenia uvádzať iba za obdobie od 1. apríla 2021).
+		13 - prerušenie odo dňa nasledujúceho po uplynutí predĺženého podporného obdobia na čerpanie nemocenského, v prípadoch kedy podporné obdobie uplynulo počas trvania krízovej situácie, resp. v lehote šiestich mesiacov od jej skončenia podľa § 293fec zákona o sociálnom poistení v znení zákona č. 130/2021 Z. z. (Upozornenie: Tento dôvod prerušenia uvádzať iba za obdobia od 1. mája 2021, ak uplynulo predĺžené podporné obdobie a dočasná práceneschopnosť trvá.)
+        </xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:totalDigits value="2"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="PrerusenieZanikType">
+		<xs:annotation>
+			<xs:documentation>Údaje o ukončení prerušenia (časť oddielu 7)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="datZaniku" type="rlzec2026:DatumType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="PoistenieZanikType">
+		<xs:annotation>
+			<xs:documentation>Údaje o zániku poistenia s uvedením vzniku poistenia(časť oddielu 7)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="datVzniku" type="rlzec2026:DatumType" use="required"/>
+		<xs:attribute name="datZaniku" type="rlzec2026:DatumType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="PoistenieZanikDType">
+		<xs:annotation>
+			<xs:documentation>Údaje o zániku poistenia(časť oddielu 7)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="datVzniku" type="rlzec2026:DatumType" use="optional"/>
+		<xs:attribute name="datZaniku" type="rlzec2026:DatumType" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="PoistenieZanikZecPaType">
+		<xs:annotation>
+			<xs:documentation>Údaje o zániku poistenia(časť oddielu 7)</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="datZaniku" type="rlzec2026:DatumType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="IdentifikaciaFO">
+		<xs:annotation>
+			<xs:documentation>Identifikačné údaje FO</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="icpv" type="rlzec2026:ICPVType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifikačné číslo právneho vzťahu</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="rc" type="rlzec2026:RCType">
+				<xs:annotation>
+					<xs:documentation>Rodné číslo FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="priezvisko" type="rlzec2026:PriezviskoType">
+				<xs:annotation>
+					<xs:documentation>Priezvisko FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="meno" type="rlzec2026:MenoType">
+				<xs:annotation>
+					<xs:documentation>Krstné meno FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="datumNarodenia" type="rlzec2026:DatumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Dátum narodenia FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="priznakCudzinec" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Príznak cudzinec</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="telefon" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Telefón</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="email" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Email</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IdentifikaciaFODoplnok">
+		<xs:annotation>
+			<xs:documentation>Doplňujúce identifikačné údaje FO</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="rodPriezvisko" type="rlzec2026:PriezviskoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Rodné priezvisko FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="miestoNarodenia" type="rlzec2026:ObecType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Miesto narodenia FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="statP" type="rlzec2026:StatType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Štátna príslušnosť - akronym2 podľa číselníka štátov ŠÚ SR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="statNarodenia" type="rlzec2026:StatType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Štát narodenia - akronym2 podľa číselníka štátov ŠÚ SR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pohlavie" type="rlzec2026:PohlavieType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Pohlavie FO: 0 - neuvedené, 1 - muž, 2 - žena</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zamSUcastou" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Zamestnanec, ktorý je štatutárnym orgánom alebo členom štatutárneho orgánu zamestnávateľa a má najmenej 50% účasť na majetku zamestnávateľa</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="par7ods2" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Zamestnanec zamestnávateľa podľa § 7 ods. 2</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="obecPolicajt" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Príslušník obecnej polície v pracovnom pomere</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zecPomer" type="rlzec2026:ZecPomerType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Typ právneho vzťahu (časť oddielu 5)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="trener" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Tréner zapísaný do RFO v športe</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IdentifikaciaFODoplnokZmena">
+		<xs:annotation>
+			<xs:documentation>Zmena doplňujúcich identifikačných údajov FO</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="rodPriezvisko" type="rlzec2026:PriezviskoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Rodné priezvisko FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="miestoNarodenia" type="rlzec2026:ObecType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Miesto narodenia FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="statP" type="rlzec2026:StatType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Štátna príslušnosť - akronym2 podľa číselníka štátov ŠÚ SR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pohlavie" type="rlzec2026:PohlavieType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Pohlavie FO: 0 - neuvedené, 1 - muž, 2 - žena</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zamSUcastou" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Zamestnanec, ktorý je štatutárnym orgánom alebo členom štatutárneho orgánu zamestnávateľa a má najmenej 50% účasť na majetku zamestnávateľa</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="par7ods2" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Zamestnanec zamestnávateľa podľa § 7 ods. 2</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="obecPolicajt" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Príslušník obecnej polície v pracovnom pomere</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="statNarodenia" type="rlzec2026:StatType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Štát narodenia - akronym2 podľa číselníka štátov ŠÚ SR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="zecPomer" type="rlzec2026:ZecPomerType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Typ právneho vzťahu (časť oddielu 5)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="trener" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Tréner zapísaný do RFO v športe</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DatumType">
+		<xs:annotation>
+			<xs:documentation>Dátum vo formáte DD.MM.RRRR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((0[1-9])|([1-2][0-9])|(3[0-1]))\.((0[1-9])|(1[0-2]))\.[0-9]{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PriezviskoType">
+		<xs:annotation>
+			<xs:documentation> Priezvisko podľa štandardov ŠÚ SR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="36"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MenoType">
+		<xs:annotation>
+			<xs:documentation>Meno podľa štandardov ŠÚ SR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="24"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ICType">
+		<xs:annotation>
+			<xs:documentation>Identifikačné číslo pridelené SP</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+			<xs:pattern value="[0-9]{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RCType">
+		<xs:annotation>
+			<xs:documentation>Rodné číslo</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+			<xs:pattern value="[0-9]{9,10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PostovyKodType">
+		<xs:annotation>
+			<xs:documentation>Globálny (celosvetový) formát pre poštový kód (http://en.wikipedia.org/wiki/Postal_code#Formats)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="13"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ObecType">
+		<xs:annotation>
+			<xs:documentation>Názov obce podľa štandardov ŠÚ SR	 </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="50"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatType">
+		<xs:annotation>
+			<xs:documentation>Dvojznakový akronym štátu podľa štandardov ŠÚ SR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:whiteSpace value="collapse"/>
+			<xs:pattern value="[A-Z]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VzValueType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Výška vymeriavacieho základu</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StavFOType">
+		<xs:annotation>
+			<xs:documentation>Rodinný stav: 0 - neuvedený, 1 - slobodný(á), 2 - ženatý, vydatá, 3 - rozvedený(á), 4 - vdova, vdovec, 5 - druh, družka</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+			<xs:enumeration value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PohlavieType">
+		<xs:annotation>
+			<xs:documentation>Pohlavie FO: 0 - neuvedené, 1 - muž, 2 - žena</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ZamestnanecType">
+		<xs:annotation>
+			<xs:documentation>
+				Do atribútu sa uvádza iba kódové označenie (napr.: ZEC), predstavujúce textové vyjadrenie typu zamestnanca. Číselník platný k času zapracovania novely "OOP, výkon sezónnej práce, zber analytických údajov" je uvedený nižšie.
+				V prípade zmien hodnôt v budúcnosti, nasledovný zoznam nemusí byť platný.
+				Aktuálny zoznam kódového označenia typu zamestnanca, je možné nájsť priamo na stránke esluzby.socpoist.sk v časti, kde sú zverejnené XSD schémy.
+				
+				ZEC - Zamestnanec - pravidelný príjem
+				ZECN - Zamestnanec - nepravidelný príjem
+				ZECD1 - DoVP (Dohoda o vykonaní práce) – pravidelný príjem
+				ZECD1N - DoVP - nepravidelný príjem
+				ZECD2 - DoPČ (Dohoda o pracovnej činnosti) – pravidelný príjem
+				ZECD2N - DoPČ – nepravidelný príjem
+				ZECD3 - DoBPŠ (Dohoda o brigádnickej práci študentov) – pravidelný príjem
+				ZECD3N - DoBPŠ – nepravidelný príjem
+				ZECD4 - DoBPŠ bez dôchodkového poistenia - pravidelný príjem (do 31.12.2022)
+				ZECD4N - DoBPŠ bez dôchodkového poistenia - nepravidelný príjem (do 31.12.2022)
+				ZECDDPP - DoBPŠ len na dôchodkové poistenie - pravidelný príjem (do 31.12.2022)
+				ZECDDPN - DoBPŠ len na dôchodkové poistenie - nepravidelný príjem (do 31.12.2022)
+				ZECD - Dohoda do 31.12.2012
+				ZECDN - Zamestnanec - dlhodobo nezamestnaný UP,GP
+				ZECDNDP - Zamestnanec - dlhodobo nezamestnaný len na DP
+				ZECDNNPDPPVN - Zamestnanec - dlhodobo nezamestnaný len na NP,DP,PvN
+				ZECDNSDP - Zamestnanec - dlhodobo nezamestnaný DP,UP,GP
+				ZECNRO - Zamestnanec - nezamestnaný NRO
+				ZECD1B - DoVP (Dohoda o vykonaní práce) bez dôchodkového poistenia – pravidelný príjem (do 31.12.2022)
+				ZECD1NB - DoVP bez dôchodkového poistenia – nepravidelný príjem (do 31.12.2022)
+				ZECD2B - DoPČ (Dohoda o pracovnej činnosti) bez dôchodkového poistenia – pravidelný príjem (do 31.12.2022)
+				ZECD2NB - DoPČ bez dôchodkového poistenia – nepravidelný príjem (do 31.12.2022)
+				ZECD1DPP - DoVP len na dôchodkové poistenie - pravidelný príjem (do 31.12.2022)
+				ZECD1DPN - DoVP len na dôchodkové poistenie - nepravidelný príjem (do 31.12.2022)
+				ZECD2DPP - DoPČ len na dôchodkové poistenie - pravidelný príjem (do 31.12.2022)
+				ZECD2DPN - DoPČ len na dôchodkové poistenie - nepravidelný príjem (do 31.12.2022)
+				ZECDVSP - Dohoda o pracovnej činnosti na výkon sezónnej práce
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="TypRLType">
+		<xs:annotation>
+			<xs:documentation>Typ registračného listu: PA - prihláška, OD- odhláška, ZM - zmena, PE - prerušenie, ZP - zrušenie prihlášky</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:whiteSpace value="collapse"/>
+			<xs:enumeration value="PA">
+				<xs:annotation>
+					<xs:documentation>prihláška</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="OD">
+				<xs:annotation>
+					<xs:documentation>odhláška</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZM">
+				<xs:annotation>
+					<xs:documentation>zmena</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="PE">
+				<xs:annotation>
+					<xs:documentation>prerušenie</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZP">
+				<xs:annotation>
+					<xs:documentation>zrušenie prihlásenia</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UlicaType">
+		<xs:annotation>
+			<xs:documentation>Ulica</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SupCisloType">
+		<xs:annotation>
+			<xs:documentation>Súpisné číslo</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:positiveInteger">
+			<xs:totalDigits value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OCisloType">
+		<xs:annotation>
+			<xs:documentation>Orientačné číslo</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="5"/>
+			<xs:pattern value="[0-9a-zA-Z/ \-]{1,5}"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="VystavenieType">
+		<xs:annotation>
+			<xs:documentation>Vystavenie formulára</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="zostavil">
+				<xs:annotation>
+					<xs:documentation>Formulár vyplnil (meno a priezvisko)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="tel">
+				<xs:annotation>
+					<xs:documentation>Telefón</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="mail">
+				<xs:annotation>
+					<xs:documentation>Email</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="255"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="datumVyst" type="rlzec2026:DatumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Dátum vystavenia v tvare DD.MM.RRRR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ZecPomerType">
+		<xs:annotation>
+			<xs:documentation>Typ právneho vzťahu: 1 - štátnozamestnanecký pomer, 2 - pracovný pomer, 3 - v právnom vzťahu a na základe zmluvy o profesionálnom vykonávaní športu,
+			4 - iný právny vzťah</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="1"/>
+			<xs:enumeration value="2"/>
+			<xs:enumeration value="3"/>
+			<xs:enumeration value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ICPVType">
+		<xs:annotation>
+			<xs:documentation>Identifikačné číslo právneho vzťahu</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RozsahValueType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Rozsah pracovného času</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MiestoVykonuPraceType">
+		<xs:annotation>
+			<xs:documentation>Miesto výkonu práce</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="6"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DruhVykonavanejPraceType">
+		<xs:annotation>
+			<xs:documentation>Druh vykonávanej práce</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="7"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SposobVyplatyType">
+		<xs:annotation>
+			<xs:documentation>Spôsob výplaty mzdy: 0 - na účet, 1 - v hotovosti</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="0"/>
+			<xs:enumeration value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

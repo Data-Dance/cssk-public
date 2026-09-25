@@ -1,0 +1,63 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Slovensko — Súhrnný výkaz</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenský súhrnný výkaz s kódmi 0/1/2 a exportom XML SDV Finančnej správy SR</h3>
+    <div class="oe_span12">
+      <p>Táto aplikácia vytvára slovenský <b>súhrnný výkaz</b> nad spoločným rámcom
+         <code>l10n_cssk_ec_summary_base</code>. Dodania v rámci EÚ sa agregujú podľa
+         (krajina, IČ DPH, kód plnenia) a exportujú ako XML <code>SDV</code> Finančnej
+         správy SR.</p>
+      <p>Závisí od <code>l10n_sk</code> a spoločného rámca — <b>nevyžaduje</b>
+         <code>account_reports</code> — takže funguje na Community aj Enterprise, na Odoo 18.0
+         aj 19.0.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Kódy plnenia: <b>0</b> = tovar (dodanie tovaru), <b>1</b> = trojstranný obchod
+            (prostredná osoba), <b>2</b> = služby (dodanie služby).</li>
+        <li>Export XML <code>SDV</code> Finančnej správy SR (šablóna + náhradné XSD).</li>
+        <li>Predbežné overenie IČ DPH odberateľov cez VIES pred exportom.</li>
+        <li>CE-čistá: bez závislosti na <code>account_reports</code> — funguje na Community
+            aj Enterprise, 18.0 aj 19.0.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Označte dane dodaní v rámci EÚ pomocou <code>account.tax.cssk_ec_summary_code</code>
+         (0 % tovar v rámci Spoločenstva → <code>0</code>, služby → <code>2</code>). Dodania
+         odberateľom registrovaným v EÚ s týmito daňami sa potom agregujú podľa (krajina,
+         IČ DPH, kód). Vytvorte výkaz za obdobie, <b>Vypočítať</b>, skontrolujte a potom
+         <b>Exportovať XML</b> pre portál FS.</p>
+      <p><b>Stav:</b> agregácia, overenie VIES a export <code>SDV</code> validovaný voči XSD
+         fungujú. Názvy elementov XSD / šablóny sú <b>náhradné</b> (pozri základný modul) —
+         pred ostrým podaním nahraďte oficiálnou schémou FS SR. Trojstranný obchod (kód 1,
+         len prostredná osoba) vyžaduje krajinový override a potvrdenie účtovníkom.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

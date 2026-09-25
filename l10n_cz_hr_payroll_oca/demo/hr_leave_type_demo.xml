@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Demo: a ready-to-use Czech leave type with the payroll code preset, so a
+        demo database shows the time-off -> payroll integration out of the box.
+        Approve an hr.leave of this type in a period and the OCA payslip derives a
+        CZHOLIDAY worked-day line (paid at průměrný výdělek).
+    -->
+    <record id="demo_leave_type_cz_holiday" model="hr.leave.type">
+        <field name="name">Holiday (demo)</field>
+        <field name="requires_allocation">no</field>
+        <field name="leave_validation_type">hr</field>
+        <field name="request_unit">day</field>
+        <field name="time_type">leave</field>
+        <field name="l10n_cz_payroll_code">CZHOLIDAY</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    <!--
+        Demo start-of-year dovolená allocation so a demo DB shows an initial
+        balance. Regular allocation of 20 days = 4 týdny = 160 h at 8 h/day
+        (§ 212 odst. 1 minimum výměra). The statutory hours-based accrual plans
+        (accrual_plan_cz_holiday_4w / _5w) can instead be assigned to an
+        'accrual' allocation to accrue § 213 odst. 4 per worked week.
+    -->
+    <record id="demo_alloc_cz_holiday_jan" model="hr.leave.allocation">
+        <field name="name">Statutory annual leave (demo) — 4 weeks / 160 h</field>
+        <field name="holiday_status_id" ref="demo_leave_type_cz_holiday"/>
+        <field name="employee_id" ref="hr.employee_admin"/>
+        <field name="allocation_type">regular</field>
+        <field name="number_of_days">20</field>
+        <field name="state">confirm</field>
+        <field name="date_from" eval="time.strftime('%Y-01-01')"/>
+    </record>
+    <function model="hr.leave.allocation" name="action_approve"
+        eval="[[ref('demo_alloc_cz_holiday_jan')]]"/>
+</odoo>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_epostak_sapi" model="ir.ui.view">
+        <field name="name">res.config.settings.epostak.sapi</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="edi_epostak_base.view_res_config_settings_epostak"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='epostak_mode_block']" position="after">
+                <block title="Credentials (Sandbox)" name="epostak_creds_sandbox"
+                    invisible="epostak_mode != 'sandbox'">
+                    <setting class="col-12 col-lg-12">
+                        <field name="epostak_sapi_sandbox_base_url"
+                            placeholder="https://dev.epostak.sk/sapi/v1"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_sapi_sandbox_client_id"
+                            placeholder="00000000-0000-0000-0000-000000000000"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_sapi_sandbox_client_secret"
+                            password="True" placeholder="sk_live_test_…"/>
+                    </setting>
+                    <setting class="col-12 col-lg-12">
+                        <field name="epostak_api_sandbox_base_url"
+                            placeholder="https://dev.epostak.sk/api/v1"/>
+                    </setting>
+                </block>
+                <block title="Credentials (Production)" name="epostak_creds_prod"
+                    invisible="epostak_mode != 'production'">
+                    <setting class="col-12 col-lg-12">
+                        <field name="epostak_sapi_prod_base_url"
+                            placeholder="https://epostak.sk/sapi/v1"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_sapi_prod_client_id"
+                            placeholder="00000000-0000-0000-0000-000000000000"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_sapi_prod_client_secret"
+                            password="True" placeholder="sk_live_…"/>
+                    </setting>
+                    <setting class="col-12 col-lg-12">
+                        <field name="epostak_api_prod_base_url"
+                            placeholder="https://epostak.sk/api/v1"/>
+                    </setting>
+                </block>
+                <block title="Connection" name="epostak_connection">
+                    <setting string="Test the connection"
+                        help="Mints an access token against the active environment.">
+                        <button name="action_epostak_test_connection"
+                            type="object" string="Test Connection"
+                            class="btn-secondary"/>
+                    </setting>
+                </block>
+                <block title="Transfer Tuning" name="epostak_tuning">
+                    <setting class="col-12 col-lg-12">
+                        <field name="epostak_sapi_scope"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_sapi_status_tracking"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_sapi_limit"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_sapi_max_pages"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_sapi_timeout"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

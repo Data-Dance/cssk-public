@@ -1,0 +1,61 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ Časové rozlišení — výchozí účty</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Předvyplní výchozí účty časového rozlišení (OCA cut-off) českými účty 381/383/384/385</h3>
+    <div class="oe_span12">
+      <p>Tenká spojka mezi českou účtovou osnovou (<code>l10n_cz</code>) a OCA enginem časového
+         rozlišení (<code>account_cutoff_start_end_dates</code>). Předvyplní výchozí účty časového
+         rozlišení společnosti českými účty <i>časového rozlišení</i>, takže rozlišování nákladů a
+         výnosů funguje rovnou.</p>
+      <p>Licencováno pod <b>AGPL-3</b>, protože závisí na AGPL OCA enginu časového rozlišení.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Nastaví na společnosti čtyři výchozí účty <i>časového rozlišení</i>:
+          <ul>
+            <li>náklady příštích období → <b>381</b> Náklady příštích období</li>
+            <li>výnosy příštích období → <b>384</b> Výnosy příštích období</li>
+            <li>výdaje příštích období → <b>383</b> Výdaje příštích období</li>
+            <li>příjmy příštích období → <b>385</b> Příjmy příštích období</li>
+          </ul>
+        </li>
+        <li>Zvolí výchozí deník pro časové rozlišení, pokud žádný není nastaven.</li>
+        <li><code>post_init_hook</code> doplní výchozí účty u českých společností, které měly osnovu
+            <code>l10n_cz</code> načtenou již před instalací tohoto modulu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Nainstalujte na společnost s českou osnovou; výchozí účty časového rozlišení se nastaví
+         automaticky. Poté použijte standardní OCA průvodce časového rozlišení (z modulu
+         <code>account_cutoff_start_end_dates</code>) k zachycení nákladů příštích období a výnosů
+         příštích období — zaúčtují se na české účty 381 / 383 / 384 / 385.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

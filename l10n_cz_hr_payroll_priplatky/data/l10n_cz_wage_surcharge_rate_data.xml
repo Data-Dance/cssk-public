@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Příplatky ke mzdě per the zákoník práce (zákon č. 262/2006 Sb.),
+        private-sector *mzda*. Every figure is a statutory MINIMUM ("nejméně").
+
+        Four of the five are percentages of PRŮMĚRNÝ VÝDĚLEK; only § 117
+        (ztížené pracovní prostředí) is a percentage of the minimum wage. This
+        is the mirror image of Slovakia, where most surcharges key off the
+        minimum wage — which is why the Slovak percentages could not simply be
+        re-pointed at Czech bases.
+
+        One vintage is shipped. These percentages have not moved for years;
+        what moves is the minimum wage behind § 117 and each employee's
+        average earnings, and both live elsewhere. An employer paying more
+        than the minimum should raise the figure here, or add a record dated
+        from the agreement, rather than patch the salary rules.
+
+        The two *_agreed_pct fields are left EMPTY on purpose. § 116 and § 118
+        allow a different minimum to be agreed, but no such agreement exists
+        by default, and a populated default would quietly apply somebody
+        else's collective agreement to every employee.
+    -->
+    <record id="wage_surcharge_rate_2024" model="l10n.cz.wage.surcharge.rate">
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+        <!-- % of average earnings (průměrný výdělek) -->
+        <field name="prescas_pct">25</field>
+        <field name="svatek_pct">100</field>
+        <field name="nocni_pct">10</field>
+        <field name="vikend_pct">10</field>
+        <!-- % of the basic minimum wage rate, per aggravating influence -->
+        <field name="ztizene_pct">10</field>
+        <field name="standard_weekly_hours">40</field>
+    </record>
+</odoo>

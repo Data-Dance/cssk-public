@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="mail_template_leave_expiry" model="mail.template">
+        <field name="name">Time Off: Expiring Leave Reminder</field>
+        <field name="model_id" ref="hr_holidays.model_hr_leave_allocation"/>
+        <field name="subject">You have leave expiring on {{ format_date(object.carried_over_days_expiration_date) }}</field>
+        <field name="email_from">{{ (object.holiday_status_id.company_id.email_formatted or user.email_formatted) }}</field>
+        <field name="email_to">{{ object.employee_id.work_email }}</field>
+        <field name="lang">{{ object.employee_id.user_id.lang or object.employee_id.lang }}</field>
+        <field name="description">Sent to an employee whose carried-over leave is about to expire.</field>
+        <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 13px;">
+    <p style="margin: 0px; padding: 0px;">
+        Hello <t t-out="object.employee_id.name or ''">Employee</t>,
+        <br/><br/>
+        You have
+        <span style="font-weight: bold;" t-out="object._l10n_cssk_expiry_amount_and_unit()[0]">5</span>
+        <t t-out="object._l10n_cssk_expiry_amount_and_unit()[1]">day(s)</t> of
+        <span style="font-weight: bold;" t-out="object.holiday_status_id.display_name or ''">Annual Leave</span>
+        that will expire on
+        <span style="font-weight: bold;" t-out="format_date(object.carried_over_days_expiration_date) or ''">12/31/2026</span>.
+        <br/><br/>
+        Please schedule this time off before then, otherwise it will be forfeited.
+        <br/><br/>
+        Kind regards,
+    </p>
+</div>
+        </field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+</odoo>

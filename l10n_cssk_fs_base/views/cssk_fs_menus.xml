@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_cssk_fs_balance" name="Balance sheet"
+              parent="l10n_cssk_core.menu_cssk_reports_root"
+              action="cssk_fs_balance_action" sequence="74"/>
+    <menuitem id="menu_cssk_fs_pl" name="Income statement"
+              parent="l10n_cssk_core.menu_cssk_reports_root"
+              action="cssk_fs_pl_action" sequence="75"/>
+    <menuitem id="menu_cssk_fs_cashflow" name="Cash flow statement"
+              parent="l10n_cssk_core.menu_cssk_reports_root"
+              action="cssk_fs_cashflow_action" sequence="76"/>
+    <menuitem id="menu_cssk_fs_equity" name="Statement of changes in equity"
+              parent="l10n_cssk_core.menu_cssk_reports_root"
+              action="cssk_fs_equity_action" sequence="77"/>
+
+    <menuitem id="menu_cssk_fs_version"
+              name="Financial Statement Versions"
+              parent="l10n_cssk_core.menu_cssk_root"
+              action="cssk_fs_version_action"
+              sequence="60"/>
+
+</odoo>

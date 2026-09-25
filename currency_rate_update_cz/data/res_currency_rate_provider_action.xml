@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+-->
+<odoo>
+    <!-- The re-run. `post_init_hook` fires exactly once, and the common reason
+         the provider list is still empty is a database where the foreign
+         currency was activated after the module was installed — at which point
+         there is finally something to fetch and nothing left to notice it.
+         Bound to the provider list so it is reachable from the empty screen
+         that prompts the question. -->
+    <record id="action_cz_default_provider" model="ir.actions.server">
+        <field name="name">Create the Czech default provider</field>
+        <field name="model_id" ref="currency_rate_update.model_res_currency_rate_provider"/>
+        <field name="binding_model_id" ref="currency_rate_update.model_res_currency_rate_provider"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_cz_ensure_default_provider()</field>
+    </record>
+</odoo>

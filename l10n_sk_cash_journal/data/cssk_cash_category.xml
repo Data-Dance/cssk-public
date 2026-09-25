@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+
+     The členenie of the statutory peňažný denník, per opatrenie MF SR
+     č. MF/27076/2007-74, § 4 (jednoduché účtovníctvo), which is also a
+     serviceable členenie for daňová evidencia under § 6 ods. 11 ZDP — there the
+     form is free, but the breakdown still has to be "potrebné na zistenie
+     základu dane".
+
+     Names are Slovak in the source and left untranslated: these are the
+     statute's own column headings, and an English paraphrase of a legal term
+     serves nobody who files this form. See CLAUDE.md on source language.
+
+     ``tax_return_code`` names the DPFO typ B slot each category feeds:
+     ``t1r2`` is tabuľka 1 riadok 2 (príjmy zo živnosti, § 6 ods. 1 písm. b),
+     which is where a tradesman's income and expenses belong; a company with
+     other § 6 sources retags its own categories.
+  -->
+<odoo>
+    <!-- ========================= PRÍJMY ========================= -->
+    <record id="cat_p_tovar" model="cssk.cash.category">
+        <field name="code">P1</field>
+        <field name="name">Príjmy z predaja tovaru</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">10</field>
+        <field name="note">Opatrenie MF/27076/2007-74, § 4 — príjmy zahŕňané do základu dane, predaj tovaru.</field>
+    </record>
+    <record id="cat_p_vyrobky" model="cssk.cash.category">
+        <field name="code">P2</field>
+        <field name="name">Príjmy z predaja výrobkov a služieb</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="cat_p_ostatne" model="cssk.cash.category">
+        <field name="code">P3</field>
+        <field name="name">Ostatné príjmy zahŕňané do základu dane</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">30</field>
+    </record>
+
+    <!-- ============= PRÍJMY NEOVPLYVŇUJÚCE ZÁKLAD DANE ========== -->
+    <record id="cat_pn_vklad" model="cssk.cash.category">
+        <field name="code">PN1</field>
+        <field name="name">Vklad podnikateľa</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">40</field>
+    </record>
+    <record id="cat_pn_uver" model="cssk.cash.category">
+        <field name="code">PN2</field>
+        <field name="name">Prijatý úver alebo pôžička</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">50</field>
+    </record>
+    <record id="cat_pn_dph" model="cssk.cash.category">
+        <field name="code">PN3</field>
+        <field name="name">Nadmerný odpočet DPH</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">60</field>
+        <field name="note">DPH nie je príjmom platiteľa — § 3 ZDP.</field>
+    </record>
+    <record id="cat_pn_ostatne" model="cssk.cash.category">
+        <field name="code">PN9</field>
+        <field name="name">Ostatné príjmy neovplyvňujúce základ dane</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">income</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">70</field>
+    </record>
+
+    <!-- ========= VÝDAVKY ZAHŔŇANÉ DO ZÁKLADU DANE =============== -->
+    <record id="cat_v_zasoby" model="cssk.cash.category">
+        <field name="code">V1</field>
+        <field name="name">Zásoby</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="cat_v_sluzby" model="cssk.cash.category">
+        <field name="code">V2</field>
+        <field name="name">Služby</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">110</field>
+    </record>
+    <record id="cat_v_mzdy" model="cssk.cash.category">
+        <field name="code">V3</field>
+        <field name="name">Mzdy</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">120</field>
+    </record>
+    <record id="cat_v_poistne_podnikatel" model="cssk.cash.category">
+        <field name="code">V4</field>
+        <field name="name">Poistné a príspevky platené podnikateľom</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">130</field>
+        <field name="note">Daňový výdavok podľa § 19 ods. 3 písm. i) ZDP — na rozdiel od ČR, kde je pojistné podnikatele nedaňové (§ 25 odst. 1 písm. g) ZDP).</field>
+    </record>
+    <record id="cat_v_poistne_zamestnavatel" model="cssk.cash.category">
+        <field name="code">V5</field>
+        <field name="name">Poistné a príspevky platené zamestnávateľom</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">140</field>
+    </record>
+    <record id="cat_v_socfond" model="cssk.cash.category">
+        <field name="code">V6</field>
+        <field name="name">Tvorba sociálneho fondu</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">150</field>
+    </record>
+    <record id="cat_v_ostatne" model="cssk.cash.category">
+        <field name="code">V9</field>
+        <field name="name">Ostatné výdavky zahŕňané do základu dane</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">160</field>
+    </record>
+
+    <!-- ======= VÝDAVKY NEOVPLYVŇUJÚCE ZÁKLAD DANE =============== -->
+    <record id="cat_vn_osobna_spotreba" model="cssk.cash.category">
+        <field name="code">VN1</field>
+        <field name="name">Osobná spotreba — výber podnikateľa</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">200</field>
+    </record>
+    <record id="cat_vn_majetok" model="cssk.cash.category">
+        <field name="code">VN2</field>
+        <field name="name">Nákup dlhodobého majetku</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">210</field>
+        <field name="note">Úhrada za majetok nie je výdavkom; do základu dane vstupuje odpisom (§ 19 ods. 3 písm. a) ZDP) — kategória Z1.</field>
+    </record>
+    <record id="cat_vn_dph" model="cssk.cash.category">
+        <field name="code">VN3</field>
+        <field name="name">Odvod DPH</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">220</field>
+        <field name="note">DPH nie je daňovým výdavkom platiteľa — § 21 ods. 1 písm. i) ZDP.</field>
+    </record>
+    <record id="cat_vn_dan_z_prijmov" model="cssk.cash.category">
+        <field name="code">VN4</field>
+        <field name="name">Daň z príjmov a preddavky na daň</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">230</field>
+    </record>
+    <record id="cat_vn_uver" model="cssk.cash.category">
+        <field name="code">VN5</field>
+        <field name="name">Splátka úveru alebo pôžičky (istina)</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">240</field>
+        <field name="note">Úrok je daňovým výdavkom (V9), istina nie.</field>
+    </record>
+    <record id="cat_vn_ostatne" model="cssk.cash.category">
+        <field name="code">VN9</field>
+        <field name="name">Ostatné výdavky neovplyvňujúce základ dane</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">250</field>
+    </record>
+
+    <!-- ================= PRIEBEŽNÉ POLOŽKY ===================== -->
+    <record id="cat_c_priebezne" model="cssk.cash.category">
+        <field name="code">C1</field>
+        <field name="name">Priebežné položky</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">transit</field>
+        <field name="taxable" eval="False"/>
+        <field name="sequence">300</field>
+        <field name="note">Prevody medzi pokladnicou a bankovým účtom a medzi účtami — opatrenie MF/27076/2007-74, § 4.</field>
+    </record>
+
+    <!-- ============== NEPEŇAŽNÉ (ÚPRAVY ZÁKLADU DANE) =========== -->
+    <record id="cat_z_odpisy" model="cssk.cash.category">
+        <field name="code">Z1</field>
+        <field name="name">Odpisy dlhodobého majetku</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="non_cash" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">400</field>
+    </record>
+    <record id="cat_z_uprava_zd" model="cssk.cash.category">
+        <field name="code">Z2</field>
+        <field name="name">Úprava základu dane (§ 17 ods. 8, § 51a ZDP)</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="kind">expense</field>
+        <field name="taxable" eval="True"/>
+        <field name="non_cash" eval="True"/>
+        <field name="tax_return_code">t1r2</field>
+        <field name="sequence">410</field>
+        <field name="note">Pri skončení činnosti, prechode na paušálne výdavky alebo na podvojné účtovníctvo.</field>
+    </record>
+</odoo>

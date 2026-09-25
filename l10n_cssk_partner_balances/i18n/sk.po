@@ -1,0 +1,1173 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-28 21:46+0000\n"
+"PO-Revision-Date: 2026-06-13 20:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid "(sporné)"
+msgstr "(sporné)"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid "<strong>Dodávateľ / Veriteľ:</strong><br/>"
+msgstr "<strong>Dodávateľ / Veriteľ:</strong><br/>"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "<strong>Navrhovateľ / Proposing party:</strong><br/>"
+msgstr "<strong>Navrhovateľ / Proposing party:</strong><br/>"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid "<strong>Odberateľ / Partner:</strong><br/>"
+msgstr "<strong>Odberateľ / Partner:</strong><br/>"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "<strong>Partner / Counterparty:</strong><br/>"
+msgstr "<strong>Partner / Protistrana:</strong><br/>"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid ""
+"A unilateral set-off can be posted once it has been sent (delivered) to the "
+"counterparty."
+msgstr "Jednostranné započítanie možno zaúčtovať až po jeho odoslaní (doručení) protistrane."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__account_type
+msgid "Account Type"
+msgstr "Typ účtu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_needaction
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akciu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_ids
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_exception_decoration
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorácia výnimočnej aktivity"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_state
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_type_icon
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation__state__agreed
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+msgid "Agreed"
+msgstr "Dohodnuté"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__agreement_id
+msgid "Agreement"
+msgstr "Dohoda"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__agreement_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__agreement_date
+msgid "Agreement Date"
+msgstr "Dátum dohody"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__amount_residual
+msgid "Amount Residual"
+msgstr "Zostatková suma"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__amount_residual_currency
+msgid "Amount Residual Currency"
+msgstr "Zostatková suma v mene"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__amount_to_offset
+msgid "Amount To Offset"
+msgstr "Suma na zápočet"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__amount_to_offset
+msgid "Amount of this line to offset (≤ open amount; partial allowed)."
+msgstr ""
+"Suma tohto riadku na zápočet (≤ otvorená suma; čiastočný zápočet povolený)."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__as_of_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__as_of_date
+msgid "As Of Date"
+msgstr "K dátumu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+msgid "Balance Confirmation"
+msgstr "Odsúhlasenie zostatkov"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.actions.report,name:l10n_cssk_partner_balances.action_report_partner_confirmation
+msgid "Balance Confirmation (Saldokonto)"
+msgstr "Odsúhlasenie zostatkov (saldokonto)"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.actions.act_window,name:l10n_cssk_partner_balances.cssk_partner_confirmation_action
+#: model:ir.ui.menu,name:l10n_cssk_partner_balances.menu_cssk_partner_confirmation
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_list
+msgid "Balance Confirmations"
+msgstr "Odsúhlasenia zostatkov"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement__netting_mode__bilateral
+msgid "Bilateral agreement"
+msgstr "Dvojstranná dohoda"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__netting_mode
+msgid ""
+"Bilateral: both parties sign the agreement before it is posted.\n"
+"Unilateral: a one-sided declaration of set-off that takes legal effect on "
+"delivery to the counterparty — no countersignature required. Permitted for "
+"mutual, like-kind, due and eligible claims that are not excluded from set-"
+"off; verify these conditions hold before using it."
+msgstr ""
+"Bilaterálny: obe strany dohodu podpíšu pred jej zaúčtovaním.\n"
+"Jednostranný: jednostranné vyhlásenie o započítaní, ktoré nadobúda právne "
+"účinky doručením protistrane — bez potreby podpisu druhej strany. Prípustné "
+"pri vzájomných, rovnorodých, splatných a spôsobilých pohľadávkach, ktoré nie "
+"sú zo započítania vylúčené; pred použitím overte, že sú tieto podmienky "
+"splnené."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__blocked
+msgid "Blocked"
+msgstr "Blokované"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_netting_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "Cancel the posted agreement (with reversal) instead."
+msgstr "Namiesto toho zrušte zaúčtovanú dohodu (storno-zápisom)."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Cancel with reversal"
+msgstr "Zrušiť storno-zápisom"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation__state__cancelled
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement__state__cancelled
+msgid "Cancelled"
+msgstr "Zrušené"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__clearing_journal_id
+msgid "Clearing Journal"
+msgstr "Zúčtovací denník"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+msgid "Compute"
+msgstr "Vypočítať"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Confirm"
+msgstr "Potvrdiť"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__confirmation_id
+msgid "Confirmation"
+msgstr "Potvrdenie"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__confirmation_type
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__confirmation_type
+msgid "Confirmation Type"
+msgstr "Typ potvrdenia"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement__state__confirmed
+msgid "Confirmed"
+msgstr "Potvrdené"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__partner_contact_id
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid ""
+"Countersignature applies to a bilateral agreement only; a unilateral set-off "
+"is posted directly once sent."
+msgstr "Podpis druhej strany sa vzťahuje iba na dvojstrannú dohodu; jednostranné započítanie sa zaúčtuje priamo po odoslaní."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement__state__countersigned
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Countersigned"
+msgstr "Odsúhlasené protistranou"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_netting_wizard_view_form
+msgid "Create"
+msgstr "Vytvoriť"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.actions.act_window,name:l10n_cssk_partner_balances.cssk_netting_wizard_action
+#: model:ir.model,name:l10n_cssk_partner_balances.model_cssk_netting_wizard
+#: model:ir.ui.menu,name:l10n_cssk_partner_balances.menu_cssk_partner_netting_wizard
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_netting_wizard_view_form
+msgid "Create Netting Agreement"
+msgstr "Vytvoriť zápočet"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__company_currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__company_currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__date_maturity
+msgid "Date Maturity"
+msgstr "Dátum splatnosti"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation__state__disputed
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+msgid "Disputed"
+msgstr "Sporné"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__blocked
+msgid "Disputed item: excluded from totals but still shown on the PDF."
+msgstr "Sporná položka: vylúčená zo súčtov, ale stále zobrazená v PDF."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid ""
+"Dohoda o vzájomnom započítaní pohľadávok a záväzkov<br/>\n"
+"                            <small class=\"text-muted\">Agreement on mutual "
+"set-off of receivables and payables</small>"
+msgstr "Dohoda o vzájomnom započítaní pohľadávok a záväzkov<br/>\n<small class=\"text-muted\">Agreement on mutual set-off of receivables and payables</small>"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "Doklad / Document"
+msgstr "Doklad / Document"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement__state__draft
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "Dátum"
+msgstr "Dátum"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_follower_ids
+msgid "Followers"
+msgstr "Sledovatelia"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledovatelia (partneri)"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_type_icon
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font awesome napr. fa-tasks"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__full_amount
+msgid "Full Amount"
+msgstr "Celá suma"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_wizard_view_form
+msgid "Generate"
+msgstr "Generovať"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.actions.act_window,name:l10n_cssk_partner_balances.cssk_partner_confirmation_wizard_action
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_wizard_view_form
+msgid "Generate Balance Confirmations"
+msgstr "Vytvoriť odsúhlasenia zostatkov"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.ui.menu,name:l10n_cssk_partner_balances.menu_cssk_partner_confirmation_wizard
+msgid "Generate Confirmations"
+msgstr "Vytvoriť odsúhlasenia"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model,name:l10n_cssk_partner_balances.model_cssk_partner_confirmation_wizard
+msgid "Generate Partner Balance Confirmations"
+msgstr "Vytvoriť odsúhlasenia zostatkov partnerov"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__has_message
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_exception_icon
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_exception_icon
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označujúca výnimočnú aktivitu."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_needaction
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_has_sms_error
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu pri doručení."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__is_balanced
+msgid "Is Balanced"
+msgstr "Je vyrovnané"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_is_follower
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledovateľ"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "IČ DPH:"
+msgstr "IČ DPH:"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__clearing_journal_id
+msgid "Journal for the clearing entry. Defaults to a general journal."
+msgstr "Denník pre zápočtový zápis. Predvolene všeobecný denník."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_wizard_view_form
+msgid "Leave empty for all partners with open balances"
+msgstr "Ponechajte prázdne pre všetkých partnerov s otvorenými zostatkami"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__partner_ids
+msgid "Leave empty to issue for every partner with an open balance."
+msgstr ""
+"Ponechajte prázdne pre vystavenie pre každého partnera s otvoreným zostatkom."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__line_ids
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__line_ids
+msgid "Line"
+msgstr "Riadok"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__line_currency_id
+msgid "Line Currency"
+msgstr "Mena riadku"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_netting_wizard_view_form
+msgid ""
+"Loads the partner's open receivables and payables and\n"
+"                    auto-allocates the offset up to the netting amount."
+msgstr "Načíta otvorené pohľadávky a záväzky partnera a\nautomaticky rozvrhne zápočet až do výšky sumy zápočtu."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Mark Sent"
+msgstr "Označiť ako odoslané"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_has_error
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba pri doručení správy"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_ids
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__move_id
+msgid "Move"
+msgstr "Účtovný zápis"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__move_date
+msgid "Move Date"
+msgstr "Dátum zápisu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__move_line_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__move_line_id
+msgid "Move Line"
+msgstr "Riadok zápisu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_line__move_name
+msgid "Move Name"
+msgstr "Názov zápisu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__my_activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mojej aktivity"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__name
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__net_balance
+msgid "Net Balance"
+msgstr "Čistý zostatok"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Netting Agreement"
+msgstr "Dohoda o započítaní"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.actions.act_window,name:l10n_cssk_partner_balances.cssk_partner_netting_action
+#: model:ir.ui.menu,name:l10n_cssk_partner_balances.menu_cssk_partner_netting
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_list
+msgid "Netting Agreements"
+msgstr "Dohody o započítaní"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__netting_amount
+msgid "Netting Amount"
+msgstr "Suma zápočtu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__netting_mode
+msgid "Netting Mode"
+msgstr "Režim zápočtu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín ďalšej aktivity"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_summary
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_summary
+msgid "Next Activity Summary"
+msgstr "Súhrn ďalšej aktivity"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_type_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ ďalšej aktivity"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "No general journal found for the clearing entry."
+msgstr "Pre zápočtový zápis sa nenašiel žiadny všeobecný denník."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__note
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__note
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Note"
+msgstr "Poznámka"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Notes…"
+msgstr "Poznámky…"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__move_name
+msgid "Number"
+msgstr "Číslo"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_needaction_counter
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_has_error_counter
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou pri doručení"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid "Odsúhlasenie zostatkov / Balance confirmation"
+msgstr "Odsúhlasenie zostatkov / Balance confirmation"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "Only a countersigned agreement can be posted."
+msgstr "Zaúčtovať možno iba dohodu odsúhlasenú protistranou."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "Only a posted agreement can be reversed."
+msgstr "Stornovať možno iba zaúčtovanú dohodu."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_confirmation.py:0
+msgid "Only draft/sent confirmations can be recomputed."
+msgstr "Prepočítať možno iba potvrdenia v stave návrh/odoslané."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__full_amount
+msgid "Open amount of the source line (absolute)."
+msgstr "Otvorená suma zdrojového riadku (absolútna)."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+msgid "Open items"
+msgstr "Otvorené položky"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid ""
+"Oznámenie o jednostrannom započítaní pohľadávok a záväzkov<br/>\n"
+"                            <small class=\"text-muted\">Notice of unilateral "
+"set-off of receivables and payables</small>"
+msgstr "Oznámenie o jednostrannom započítaní pohľadávok a záväzkov<br/>\n<small class=\"text-muted\">Notice of unilateral set-off of receivables and payables</small>"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_netting_wizard__partner_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__partner_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation_wizard__partner_ids
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__partner_id
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model,name:l10n_cssk_partner_balances.model_cssk_partner_confirmation
+msgid "Partner Balance Confirmation"
+msgstr "Odsúhlasenie zostatkov partnera"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model,name:l10n_cssk_partner_balances.model_cssk_partner_confirmation_line
+msgid "Partner Balance Confirmation Line"
+msgstr "Riadok odsúhlasenia zostatkov partnera"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model,name:l10n_cssk_partner_balances.model_cssk_partner_netting_agreement
+msgid "Partner Netting Agreement (set-off)"
+msgstr "Dohoda o započítaní s partnerom (zápočet)"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model,name:l10n_cssk_partner_balances.model_cssk_partner_netting_agreement_line
+msgid "Partner Netting Agreement Line"
+msgstr "Riadok dohody o započítaní"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation_line__account_type__liability_payable
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement_line__side__payable
+msgid "Payable"
+msgstr "Záväzok"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__payable_line_ids
+msgid "Payable Line"
+msgstr "Riadok záväzku"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__payable_total
+msgid "Payable Total"
+msgstr "Záväzky spolu"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Payables (záväzky)"
+msgstr "Záväzky"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation__confirmation_type__payable
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation_wizard__confirmation_type__payable
+msgid "Payables only"
+msgstr "Iba záväzky"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__partner_contact_id
+msgid "Person at the partner to address the confirmation to."
+msgstr "Osoba u partnera, ktorej má byť adresované potvrdenie."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "Pohľadávky / Receivables"
+msgstr "Pohľadávky / Receivables"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Post"
+msgstr "Zaúčtovať"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement__state__posted
+msgid "Posted"
+msgstr "Zaúčtované"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+msgid "Print"
+msgstr "Tlač"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation_line__account_type__asset_receivable
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement_line__side__receivable
+msgid "Receivable"
+msgstr "Pohľadávka"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__receivable_line_ids
+msgid "Receivable Line"
+msgstr "Riadok pohľadávky"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__receivable_total
+msgid "Receivable Total"
+msgstr "Pohľadávky spolu"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid ""
+"Receivable and payable amounts to offset must be equal and non-zero (the "
+"netting amount). Receivables=%(r)s, payables=%(p)s."
+msgstr "Sumy pohľadávok a záväzkov na zápočet musia byť rovnaké a nenulové (suma zápočtu). Pohľadávky=%(r)s, záväzky=%(p)s."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Receivables (pohľadávky)"
+msgstr "Pohľadávky"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation__confirmation_type__both
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation_wizard__confirmation_type__both
+msgid "Receivables and payables"
+msgstr "Pohľadávky a záväzky"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation__confirmation_type__receivable
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation_wizard__confirmation_type__receivable
+msgid "Receivables only"
+msgstr "Iba pohľadávky"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__net_balance
+msgid "Receivables − payables (positive = partner owes us)."
+msgstr "Pohľadávky − záväzky (kladné = partner nám dlhuje)."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_confirmation_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "Reset to Draft"
+msgstr "Nastaviť na návrh"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__responsible_user_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__responsible_user_id
+msgid "Responsible"
+msgstr "Zodpovedný"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_user_id
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný používateľ"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "Reversal of zápočet %s"
+msgstr "Storno zápočtu %s"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba pri doručení SMS"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid "Saldo / Net"
+msgstr "Saldo / Netto"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_confirmation__state__sent
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement__state__sent
+msgid "Sent"
+msgstr "Odoslané"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.actions.report,name:l10n_cssk_partner_balances.action_report_partner_netting
+msgid "Set-off (Zápočet)"
+msgstr "Započítanie (zápočet)"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement_line__side
+msgid "Side"
+msgstr "Strana"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "Splatnosť"
+msgstr "Splatnosť"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__state
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_state
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "Stav na základe aktivít\nPo termíne: Dátum už uplynul\nDnes: Dátum aktivity je dnes\nNaplánované: Budúce aktivity."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__payable_total
+msgid "Sum of amounts to offset on the payable side."
+msgstr "Súčet súm na zápočet na strane záväzkov."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__receivable_total
+msgid "Sum of amounts to offset on the receivable side."
+msgstr "Súčet súm na zápočet na strane pohľadávok."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid "Suma / Amount"
+msgstr "Suma / Amount"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__netting_amount
+msgid "The mutually offset amount = min(receivables, payables)."
+msgstr "Vzájomne započítaná suma = min(pohľadávky, záväzky)."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "This action requires state '%(exp)s' (current: '%(cur)s')."
+msgstr "Táto akcia vyžaduje stav '%(exp)s' (aktuálny: '%(cur)s')."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/wizard/cssk_netting_wizard.py:0
+msgid ""
+"This partner has no mutually offsettable balances (needs both open "
+"receivables and payables)."
+msgstr "Tento partner nemá vzájomne započítateľné zostatky (sú potrebné otvorené pohľadávky aj záväzky)."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.cssk_partner_netting_view_form
+msgid "This reverses the clearing entry. Continue?"
+msgstr "Týmto sa stornuje zápočtový zápis. Pokračovať?"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__total_payable
+msgid "Total Payable"
+msgstr "Záväzky spolu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__total_receivable
+msgid "Total Receivable"
+msgstr "Pohľadávky spolu"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid "Typ"
+msgstr "Typ"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__activity_exception_decoration
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výnimočnej aktivity v zázname."
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid ""
+"Týmto Vám oznamujeme jednostranné započítanie nižšie\n"
+"                            uvedených pohľadávok a záväzkov podľa § 358 a "
+"nasl.\n"
+"                            Obchodného zákonníka. Započítanie nadobúda "
+"účinnosť dňom\n"
+"                            doručenia tohto oznámenia.\n"
+"                            <span class=\"text-muted\">We hereby give notice "
+"of the\n"
+"                            unilateral set-off of the receivables and "
+"payables listed\n"
+"                            below; it takes effect upon delivery of this "
+"notice.</span>"
+msgstr "Týmto Vám oznamujeme jednostranné započítanie nižšie uvedených pohľadávok a záväzkov podľa § 358 a nasl. Obchodného zákonníka. Započítanie nadobúda účinnosť dňom doručenia tohto oznámenia.\n<span class=\"text-muted\">We hereby give notice of the unilateral set-off of the receivables and payables listed below; it takes effect upon delivery of this notice.</span>"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields.selection,name:l10n_cssk_partner_balances.selection__cssk_partner_netting_agreement__netting_mode__unilateral
+msgid "Unilateral set-off"
+msgstr "Jednostranný zápočet"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "Use 'Cancel with reversal' on a posted agreement."
+msgstr "Pri zaúčtovanej dohode použite 'Zrušiť storno-zápisom'."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_confirmation__website_message_ids
+#: model:ir.model.fields,field_description:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__website_message_ids
+msgid "Website Messages"
+msgstr "Správy webu"
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_confirmation__website_message_ids
+#: model:ir.model.fields,help:l10n_cssk_partner_balances.field_cssk_partner_netting_agreement__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie webu"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "Započítaná suma / Set-off amount"
+msgstr "Započítaná suma / Set-off amount"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid ""
+"Zmluvné strany sa dohodli na vzájomnom započítaní nižšie\n"
+"                            uvedených pohľadávok a záväzkov.\n"
+"                            <span class=\"text-muted\">The parties agree to "
+"mutually\n"
+"                            set off the receivables and payables listed "
+"below.</span>"
+msgstr "Zmluvné strany sa dohodli na vzájomnom započítaní nižšie uvedených pohľadávok a záväzkov.\n<span class=\"text-muted\">The parties agree to mutually set off the receivables and payables listed below.</span>"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "Zápočet %(agr)s — %(ref)s"
+msgstr "Zápočet %(agr)s — %(ref)s"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "Zápočet %s"
+msgstr "Zápočet %s"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid "Záväzky / Payables"
+msgstr "Záväzky / Payables"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid ""
+"____________________________<br/>\n"
+"                                Za dodávateľa / For the supplier"
+msgstr "____________________________<br/>\nZa dodávateľa / For the supplier"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid ""
+"____________________________<br/>\n"
+"                                Za navrhovateľa / For the proposing party"
+msgstr "____________________________<br/>\nZa navrhovateľa / For the proposing party"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid ""
+"____________________________<br/>\n"
+"                                Za odberateľa / For the partner"
+msgstr "____________________________<br/>\nZa odberateľa / For the partner"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid ""
+"____________________________<br/>\n"
+"                                Za partnera / For the counterparty"
+msgstr "____________________________<br/>\nZa partnera / For the counterparty"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_confirmation
+msgid ""
+"—\n"
+"                            k dátumu / as of"
+msgstr "—\nk dátumu / as of"
+
+#. module: l10n_cssk_partner_balances
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_partner_balances.report_partner_netting
+msgid ""
+"—\n"
+"                            zo dňa / dated"
+msgstr "—\nzo dňa / dated"
+
+#~ msgid "Netting Agreements (zápočet)"
+#~ msgstr "Dohody o započítaní (zápočet)"
+
+#~ msgid "Partner Netting Agreement (zápočet)"
+#~ msgstr "Dohoda o započítaní s partnerom"
+
+#~ msgid "Bilateral agreement (dohoda o vzájomnom započítaní)"
+#~ msgstr "Dvojstranná dohoda (dohoda o vzájomnom započítaní)"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid ""
+"A posted netting agreement cannot be deleted. Cancel it with reversal "
+"instead."
+msgstr ""
+"Zaúčtovanú dohodu o zápočte nemožno zmazať. Namiesto toho ju zrušte "
+"storno zápisom."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_confirmation.py:0
+msgid ""
+"An agreed or disputed confirmation is a statutory record and cannot be "
+"deleted. Cancel it instead."
+msgstr ""
+"Odsúhlasené alebo rozporované potvrdenie je zákonný záznam a nemožno "
+"ho zmazať. Namiesto toho ho zrušte."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.module.module,shortdesc:base.module_l10n_cssk_partner_balances
+msgid "CZ/SK Partner Balance Confirmation (Saldokonto)"
+msgstr "CZ/SK odsúhlasenie saldokonta partnerov"
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "Clearing entry lines do not match the agreement lines."
+msgstr "Riadky zápočtového dokladu nezodpovedajú riadkom dohody."
+
+#. module: l10n_cssk_partner_balances
+#: model:ir.module.module,summary:base.module_l10n_cssk_partner_balances
+msgid ""
+"Saldokonto / odsúhlasenie (potvrdenie) zostatkov pohľadávok a záväzkov — a "
+"stored, state-tracked confirmation of a partner's open AR/AP as of a date, "
+"with a PDF for countersigning."
+msgstr ""
+"Saldokonto / odsúhlasenie (potvrdenie) zostatkov pohľadávok a "
+"záväzkov — uložené potvrdenie otvorených pohľadávok a záväzkov "
+"partnera k dátumu so sledovaným stavom a s PDF na protipodpis."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid ""
+"The amount to offset for %(move)s (%(amount)s) exceeds its open amount "
+"(%(residual)s)."
+msgstr ""
+"Suma na započítanie pre %(move)s (%(amount)s) prevyšuje jeho "
+"neuhradenú sumu (%(residual)s)."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid "The amount to offset for %s must be positive."
+msgstr "Suma na započítanie pre %s musí byť kladná."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid ""
+"The lines of a netting agreement can only be changed in draft (%s). Reset it"
+" to draft first."
+msgstr ""
+"Riadky dohody o zápočte možno meniť len v stave návrh (%s). Najprv "
+"ju vráťte do návrhu."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_confirmation.py:0
+msgid ""
+"The lines of an agreed or disputed confirmation are frozen (%s). Reset it to"
+" draft first."
+msgstr ""
+"Riadky odsúhlaseného alebo rozporovaného potvrdenia sú zmrazené "
+"(%s). Najprv ho vráťte do návrhu."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_netting.py:0
+msgid ""
+"The open amount of %(move)s (%(residual)s) no longer covers the agreed "
+"offset of %(amount)s. Update the agreement lines."
+msgstr ""
+"Neuhradená suma dokladu %(move)s (%(residual)s) už nepokrýva "
+"dohodnutý zápočet %(amount)s. Aktualizujte riadky dohody."
+
+#. module: l10n_cssk_partner_balances
+#. odoo-python
+#: code:addons/l10n_cssk_partner_balances/models/cssk_partner_confirmation.py:0
+msgid "This action requires state %(exp)s (current: '%(cur)s')."
+msgstr "Táto akcia vyžaduje stav %(exp)s (aktuálny: „%(cur)s“)."

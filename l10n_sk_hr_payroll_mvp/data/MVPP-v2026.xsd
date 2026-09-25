@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Dokument: XML Schema pre Mesacny vykaz poistneho a príspevkov - verzia 2026 -->
+<xs:schema xmlns:mvpp2026="http://socpoist.sk/xsd/mvpp2026" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://socpoist.sk/xsd/mvpp2026" elementFormDefault="qualified" version="2026">
+	<xs:element name="mvpp" type="mvpp2026:MVPPType">
+		<xs:annotation>
+			<xs:documentation>Mesačný výkaz poistného a príspevkov - verzia 2026 </xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="MVPPType">
+		<xs:annotation>
+			<xs:documentation>Mesačný výkaz poistného a príspevkov</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="typDoc">
+				<xs:annotation>
+					<xs:documentation>Kód typu dokumentu v SP</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="30"/>
+						<xs:enumeration value="MVP00001"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="obdobie" type="mvpp2026:obdobieType">
+				<xs:annotation>
+					<xs:documentation>Obdobie (MMRRRR)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="denVyplaty" type="mvpp2026:DatumType">
+			 <xs:annotation>
+			   <xs:documentation>Deň, ktorý je určený na výplatu príjmov zamestnancov(DD.MM.RRRR)</xs:documentation>
+			 </xs:annotation>
+			</xs:element>
+			<xs:element name="typVykazu">
+				<xs:annotation>
+					<xs:documentation>Typ výkazu (R-Riadny, O-Opravný)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+						<xs:enumeration value="R"/>
+						<xs:enumeration value="O"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="zamestnavatel" type="mvpp2026:ZamestnavatelType">
+				<xs:annotation>
+					<xs:documentation>Zamestnávateľ - právnická osoba alebo fyzická osoba</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="poistne" type="mvpp2026:PoistneUhrnType">
+				<xs:annotation>
+					<xs:documentation>Súhrn poistného a príspevkov</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fOsoba" type="mvpp2026:FOsobaType">
+				<xs:annotation>
+					<xs:documentation>FO, ktorá plní povinnosti voči SP (mzdová účtovníčka)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="vystavenie" type="mvpp2026:VystavenieType"/>
+			<xs:element name="priloha" type="mvpp2026:PrilohaType">
+				<xs:annotation>
+					<xs:documentation>Mesačný výkaz poistného a príspevkov - príloha</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>	
+	<xs:complexType name="IdentifikaciaType">
+		<xs:annotation>
+			<xs:documentation>Identifikačné údaje zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="variabilnySymbol">
+				<xs:annotation>
+					<xs:documentation>Identifikačné číslo zamestnávateľa pridelené v SP</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="10"/>
+						<xs:pattern value="[0-9]{10}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="identifikator" type="mvpp2026:identifikatorType"/>
+			<xs:element name="nazov">
+				<xs:annotation>
+					<xs:documentation>Názov zamestnávateľa</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					  <xs:minLength value="1"/>
+						<xs:maxLength value="144"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="tel" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Telefón</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="50"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="mail" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>e-mail</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="255"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="identifikatorType">
+		<xs:annotation>
+			<xs:documentation>Identifikátor zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ico">
+				<xs:annotation>
+					<xs:documentation> IČO (identifikačné číslo organizácie) </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="8"/>
+						<xs:maxLength value="12"/>
+						<xs:pattern value="[0-9]{8,12}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="dic">
+				<xs:annotation>
+					<xs:documentation>DIČ (Daňové identifikačné číslo)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+            <xs:maxLength value="13"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="rc" type="mvpp2026:RC">
+				<xs:annotation>
+					<xs:documentation>Rodné číslo</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="obdobieType">
+		<xs:annotation>
+			<xs:documentation>Obdobie v tvare MMRRRR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="6"/>
+			<xs:pattern value="(0[1-9]|1[0-2])2[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PoistneUhrnType">
+		<xs:annotation>
+			<xs:documentation>Celková výška poistného zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="np">
+				<xs:annotation>
+					<xs:documentation>Nemocenské poistenie</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="npZamtel" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Nemocenské poistenie: zamestnávateľ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="npZamnec" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Nemocenské poistenie: zamestnanec</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="sp">
+				<xs:annotation>
+					<xs:documentation>Starobné poistenie a starobné dôchodkové sporenie (SP a SDS)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="spZamtel" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Starobné poistenie a starobné dôchodkové sporenie (SP a SDS): zamestnávateľ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="spZamnec" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Starobné poistenie: zamestnanec</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ip">
+				<xs:annotation>
+					<xs:documentation>Invalidné poistenie</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ipZamtel" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Invalidné poistenie: zamestnávateľ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="ipZamnec" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Invalidné poistenie: zamestnanec</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pvn">
+				<xs:annotation>
+					<xs:documentation>Poistenie v nezamestnanosti</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pvnZamtel" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Poistenie v nezamestnanosti: zamestnávateľ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="pvnZamnec" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Poistenie v nezamestnanosti: zamestnanec</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="up">
+				<xs:annotation>
+					<xs:documentation>Úrazové poistenie</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="upZamtel" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Úrazové poistenie: zamestnávateľ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="upZamnec" type="mvpp2026:PoistneValueType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Úrazové poistenie: zamestnanec (!!! položka sa nevyužíva !!!)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="gp">
+				<xs:annotation>
+					<xs:documentation>Garančné poistenie</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="gpZamtel" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Garančné poistenie: zamestnávateľ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="gpZamnec" type="mvpp2026:PoistneValueType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Garančné poistenie: zamestnanec (!!! položka sa nevyužíva !!!)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="rfs">
+				<xs:annotation>
+					<xs:documentation>Rezervný fond solidarity</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="rfsZamtel" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Poistné do rezervného fondu solidarity: zamestnávateľ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="rfsZamnec" type="mvpp2026:PoistneValueType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Poistné do rezervného fondu solidarity: zamestnanec (!!! položka sa nevyužíva !!!)</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="osp" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Osobitné sociálne poistenie (!!! CELY ELEMENT NEUVADZAT VOBEC ak nejde o obec so zriadenou policiou !!!)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ospZamnec" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Poistné na osobitné sociálne poistenie: zamestnanec</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="pfp" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Poistné na financovanie podpory v čase skrátenej práce: zamestnávateľ. (!!! CELY ELEMENT NEUVADZAT VOBEC ak ide o zamestnanca s právnym vzťahom „Štátnozamestnanecký pomer“ alebo „Iný právny vzťah“ !!!)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="pfpZamtel" type="mvpp2026:PoistneValueType">
+							<xs:annotation>
+								<xs:documentation>Poistné na financovanie podpory v čase skrátenej práce : zamestnávateľ</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>		
+			<xs:element name="spoluPoistne" type="mvpp2026:PoistneSumaType">
+				<xs:annotation>
+					<xs:documentation>Spolu poistné a príspevky (poistné a príspevky k úhrade)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PoistneZamestnancaType">
+		<xs:annotation>
+			<xs:documentation>Poistné jedného zamestnanca</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="pc" type="xs:positiveInteger" use="required">
+			<xs:annotation>
+				<xs:documentation>Poradové číslo</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="rc" type="mvpp2026:RC" use="required">
+			<xs:annotation>
+				<xs:documentation>Rodné číslo zamestnanca</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="icpv" type="mvpp2026:ICPV" use="optional">
+			<xs:annotation>
+				<xs:documentation>ICPV zamestnanca</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>				
+		<xs:attribute name="pocDni" use="required">
+			<xs:annotation>
+				<xs:documentation>Počet kalendárnych dní, za ktoré je zamestnávateľ povinný platiť poistné</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:maxInclusive value="999"/>
+					<xs:minInclusive value="-99"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="typZec" type="mvpp2026:ZamestnanecType" use="required">
+			<xs:annotation>
+				<xs:documentation>Typ vzťahu zamestnanca k zamestnávateľovi</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vynimkaVZ" use="required">
+			<xs:annotation>
+				<xs:documentation>Výnimka výšky vymeriavacieho základu 0 - bez výnimky, 1 - zamestnanec s viacerými pracovnými pomermi a maximálnym vymeriavacím základom (zamestnávateľ odvádza v plnej výške, zamestnanec žiadne alebo nižšie odvody ako je čiastka stanovená zákonom)</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:length value="1"/>
+					<xs:enumeration value="0">
+						<xs:annotation>
+							<xs:documentation>0 - bez výnimky</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+					<xs:enumeration value="1">
+						<xs:annotation>
+							<xs:documentation>1 - zamestnanec s viacerými pracovnými pomermi a maximálnym vymeriavacím základom (zamestnávateľ odvádza v plnej výške, zamestnanec žiadne alebo nižšie odvody ako je čiastka stanovená zákonom)</xs:documentation>
+						</xs:annotation>
+					</xs:enumeration>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="rozsahSP" use="optional">
+			<xs:annotation>
+				<xs:documentation>Osobný rozsah sociálneho poistenia v tvare jeden znak za každý typ poistenia v poradí ako na sumárnej strane: NP, SP a SDS, IP, PvN, UP, GP, RFS.
+Význam znakov: 1 - vodiaci znak, 2 - zúčtovanie rozdielov v odvode poistného za predchádzajúce obdobie za daný typ poistenia.
+Celý element sa neuádza ak sa neoznamuje situácia vyžadujúca hodnotu 2. V prípade použitia hodnoty 2 na konkrétne fony je potrebné ostatné vyplniť hodnotou 1. Vymyslená situácia: 1122111 </xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:length value="7"/>
+					<xs:pattern value="[1-2]{7}"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="vzNp" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnávateľa na NP</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzSp" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnávateľa na SP a SDS </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzIp" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnávateľa na IP</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzPvn" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnávateľa na PvN </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzUp" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnávateľa na UP</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzGp" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnávateľa na GP</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzRfs" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnávateľa na RFS</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzZecNp" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnanca na NP</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzZecSp" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnanca na SP a SDS </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzZecIp" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnanca na IP</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzZecPvn" type="mvpp2026:VzValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnanca na PvN </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzZecUp" type="mvpp2026:VzValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnanca na UP (!!! položka sa nevyužíva !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzZecGp" type="mvpp2026:VzValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnanca na GP (!!! položka sa nevyužíva !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzZecRfs" type="mvpp2026:VzValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnanca na RFS (!!! položka sa nevyužíva !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzZecOsp" type="mvpp2026:VzValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ zamestnanca na osobitné sociálne poistenie</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="npZamtel" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Nemocenské poistenie: zamestnávateľ</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="npZamnec" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Nemocenské poistenie: zamestnanec</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="spZamtel" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Starobné poistenie a starobné dôchodkové sporenie (SP a SDS): zamestnávateľ</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="spZamnec" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Starobné poistenie: zamestnanec</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ipZamtel" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Invalidné poistenie: zamestnávateľ</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ipZamnec" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Invalidné poistenie: zamestnanec</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="pvnZamtel" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Poistenie v nezamestnanosti: zamestnávateľ</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="pvnZamnec" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Poistenie v nezamestnanosti: zamestnanec</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="upZamtel" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Úrazové poistenie: zamestnávateľ</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="upZamnec" type="mvpp2026:PoistneValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Úrazové poistenie: zamestnanec (!!! položka sa nevyužíva !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="gpZamtel" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Garančné poistenie: zamestnávateľ</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="gpZamnec" type="mvpp2026:PoistneValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Garančné poistenie: zamestnanec (!!! položka sa nevyužíva !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="rfsZamtel" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Rezervný fond solidarity: zamestnávateľ</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="rfsZamnec" type="mvpp2026:PoistneValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Rezervný fond solidarity: zamestnanec (!!! položka sa nevyužíva !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="ospZamnec" type="mvpp2026:PoistneValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Osobitné sociálne poistenie: zamestnanec (!!! ATRIBUT NEUVADZAT VOBEC ak nejde o obec so zriadenou policiou !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vzPfp" type="mvpp2026:PoistneValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Vymeriavací základ na poistné na financovanie podpory v čase skrátenej práce: zamestnávateľ. (!!! CELY ELEMENT NEUVADZAT VOBEC ak ide o zamestnanca s právnym vzťahom „Štátnozamestnanecký pomer“ alebo „Iný právny vzťah“ !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="pfpZamtel" type="mvpp2026:PoistneValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Poistné na financovanie podpory v čase skrátenej práce: zamestnávateľ. (!!! CELY ELEMENT NEUVADZAT VOBEC ak ide o zamestnanca s právnym vzťahom „Štátnozamestnanecký pomer“ alebo „Iný právny vzťah“ !!!)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="pocDniStrajku" use="optional">
+			<xs:annotation>
+				<xs:documentation>Počet dní štrajku</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:integer">
+					<xs:maxInclusive value="31"/>
+					<xs:minInclusive value="0"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="pocDniObdobia" use="optional">
+		 <xs:annotation>
+		   <xs:documentation>Počet dní obdobia podľa § 26</xs:documentation>
+		 </xs:annotation>
+		 <xs:simpleType>
+				<xs:restriction base="xs:positiveInteger">
+					<xs:maxInclusive value="31"/>
+				</xs:restriction>
+		 </xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="vylucDobyObdobieOd" type="mvpp2026:DatumType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Kalendárne dni vylúčených dôb - obdobie od(DD.MM.RRRR)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vylucDobyObdobieDo" type="mvpp2026:DatumType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Kalendárne dni vylúčených dôb - obdobie do(DD.MM.RRRR)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="vylucDobyTrva" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Kalendárne dni vylúčených dôb - trvá</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="pocetHodin" type="mvpp2026:PoistneValueType" use="required">
+			<xs:annotation>
+				<xs:documentation>Počet hodín</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="sumaVyplNahradyMzdy" type="mvpp2026:PoistneValueType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Suma vyplatenej náhrady mzdy</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="obdobieVyplNahradyMzdyOd" type="mvpp2026:DatumType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Obdobie vyplácania mzdy z vážnych prevádzkových dôvodov - obdobie od(DD.MM.RRRR)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="obdobieVyplNahradyMzdyDo" type="mvpp2026:DatumType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Obdobie vyplácania mzdy z vážnych prevádzkových dôvodov - obdobie do(DD.MM.RRRR)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="trener" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Tréner zapísaný do RFO v športe</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>	   
+	</xs:complexType>
+	<xs:complexType name="PoistneZamestnancovType">
+		<xs:annotation>
+			<xs:documentation>Poistné zamestnancov zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="poistneZamestnanca" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Poistné zamestnanca</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="mvpp2026:PoistneZamestnancaType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PrilohaType">
+		<xs:annotation>
+			<xs:documentation>Príloha mesačného výkazu poistného a príspevkov</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="poistneZamestnancov" type="mvpp2026:PoistneZamestnancovType">
+				<xs:annotation>
+					<xs:documentation>Poistné zamestnancov</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="VzValueType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Výška vymeriavacieho základu zamestnanca</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PoistneValueType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Výška poistného zamestnanca za typ poistenia</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="10"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PoistneSumaType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Sumárna výška poistného za typ postenia</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="11"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RC" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Rodné číslo</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+			<xs:pattern value="[0-9]{9,10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ICPV" final="restriction">
+		<xs:annotation>
+			<xs:documentation>ICPV</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>	
+	<xs:complexType name="UcetType">
+		<xs:annotation>
+			<xs:documentation>Bankové spojenie </xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="iban">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					  <xs:minLength value="1"/>
+						<xs:maxLength value="34"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VystavenieType">
+		<xs:annotation>
+			<xs:documentation>Údaje o vystavení formulára</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="zostavil">
+				<xs:annotation>
+					<xs:documentation>Formulár vyplnil</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					  <xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="datum" type="mvpp2026:DatumType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Dátum vystavenia (DD.MM.RRRR)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ZamestnavatelType">
+		<xs:annotation>
+			<xs:documentation>Údaje zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identifikacia" type="mvpp2026:IdentifikaciaType"/>
+			<xs:element name="ucet" type="mvpp2026:UcetType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Bankový účet zamestnávateľa</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ZamestnanecType">
+		<xs:annotation>
+			<xs:documentation>Typ vzťahu FO k zamestnávateľovi</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ZEC">
+				<xs:annotation>
+					<xs:documentation>Zamestnanec pravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECN">
+				<xs:annotation>
+					<xs:documentation>Zamestnanec nepravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD1">
+				<xs:annotation>
+					<xs:documentation>DoVP (Dohoda o vykonaní práce) – pravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD1N">
+				<xs:annotation>
+					<xs:documentation>DoVP - nepravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD2">
+				<xs:annotation>
+					<xs:documentation>DoPČ (Dohoda o pracovnej činnosti) – pravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD2N">
+				<xs:annotation>
+					<xs:documentation>DoPČ - nepravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD3">
+				<xs:annotation>
+					<xs:documentation>DoBPŠ (Dohoda o brigádnickej práci študentov) – pravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD3V">
+				<xs:annotation>
+					<xs:documentation>DoBPŠ - pravidelný príjem výnimka</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD3N">
+				<xs:annotation>
+					<xs:documentation>DoBPŠ - nepravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD3NV">
+				<xs:annotation>
+					<xs:documentation>DoBPŠ - nepravidelný príjem výnimka</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD4">
+				<xs:annotation>
+					<xs:documentation>DoBPŠ bez dôchodkového poistenia - pravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECD4N">
+				<xs:annotation>
+					<xs:documentation>DoBPŠ bez dôchodkového poistenia - nepravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECDN">
+				<xs:annotation>
+					<xs:documentation>Zamestnanec - dlhodobo nezamestnaný UP,GP</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+      <xs:enumeration value="ZECNRO">
+				<xs:annotation>
+					<xs:documentation>Nezamestnaný NRO</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>      
+      <xs:enumeration value="ZECD1B">
+				<xs:annotation>
+					<xs:documentation>DoVP (Dohoda o vykonaní práce) bez dôchodkového poistenia – pravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+      <xs:enumeration value="ZECD1V">
+				<xs:annotation>
+					<xs:documentation>DoVP pravidelný príjem výnimka</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+      <xs:enumeration value="ZECD2B">
+				<xs:annotation>
+					<xs:documentation>DoPČ (Dohoda o pracovnej činnosti) bez dôchodkového poistenia – pravidelný príjem</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+      <xs:enumeration value="ZECD2V">
+				<xs:annotation>
+					<xs:documentation>DoPČ pravidelný príjem výnimka</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="ZECDVSP">
+				<xs:annotation>
+					<xs:documentation>Dohoda o pracovnej činnosti na výkone sezónnej práce</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>			
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DatumType">
+		<xs:annotation>
+			<xs:documentation> Dátum vo formáte DD.MM.RRRR
+     			 </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="collapse"/>
+			<xs:pattern value="((0[1-9])|([1-2][0-9])|(3[0-1]))\.((0[1-9])|(1[0-2]))\.[0-9]{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FOsobaType">
+		<xs:annotation>
+			<xs:documentation>FO, ktorá plní povinnosti voči SP (mzdová účtovníčka)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="priezvisko">
+			 <xs:simpleType>
+      		<xs:annotation>
+      			<xs:documentation> Priezvisko podľa štandardov ŠÚ SR</xs:documentation>
+      		</xs:annotation>
+      		<xs:restriction base="xs:string">
+      		  <xs:minLength value="1"/>
+      			<xs:maxLength value="36"/>
+      			<xs:whiteSpace value="collapse"/>
+      		</xs:restriction>
+      	</xs:simpleType>
+			</xs:element>
+			<xs:element name="meno">
+			 <xs:simpleType>
+      		<xs:annotation>
+      			<xs:documentation> Meno podľa štandardov ŠÚ SR</xs:documentation>
+      		</xs:annotation>
+      		<xs:restriction base="xs:string">
+      		  <xs:minLength value="1"/>
+      			<xs:maxLength value="24"/>
+      			<xs:whiteSpace value="collapse"/>
+      		</xs:restriction>
+      	</xs:simpleType>
+      </xs:element>
+  		<xs:element name="tel">
+  			<xs:annotation>
+  				<xs:documentation>Telefón</xs:documentation>
+  			</xs:annotation>
+  			<xs:simpleType>
+  				<xs:restriction base="xs:string">
+  					<xs:maxLength value="50"/>
+  					<xs:whiteSpace value="collapse"/>
+  				</xs:restriction>
+  			</xs:simpleType>
+  		</xs:element>
+  		<xs:element name="mail">
+  			<xs:annotation>
+  				<xs:documentation>e-mail</xs:documentation>
+  			</xs:annotation>
+  			<xs:simpleType>
+  				<xs:restriction base="xs:string">
+  					<xs:maxLength value="255"/>
+  					<xs:whiteSpace value="collapse"/>
+  				</xs:restriction>
+  			</xs:simpleType>
+  		</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      PVPOJ (Přehled o výši pojistného) XML — matches the official ČSSZ schema
+      PVPOJ25.xsd (root <pvpoj>, ns http://schemas.cssz.cz/POJ/PVPOJ2025,
+      elementFormDefault="qualified"). Employer-aggregate: the numbers are the
+      company sums from SOCIALERTOT / SOCIALEETOT. When any payslip carries a
+      SOCIAL_DISCOUNT line (§7a sleva na pojistném) the optional aggregate
+      slevaZamestnavatele block and the per-employee slevaZamestnanci annex are
+      emitted (see the model); otherwise they are omitted (all minOccurs="0")
+      and pojistneUhrada equals pojistneCelkem.
+    -->
+    <template id="pvpoj_xml">
+        <pvpoj xmlns="http://schemas.cssz.cz/POJ/PVPOJ2025">
+            <prehled verze="2025.0" typPrehledu="N">
+                <okres>
+                    <kodOSSZ t-out="company.l10n_cz_ossz_code"/>
+                </okres>
+                <obdobi>
+                    <mesic t-out="mesic"/>
+                    <rok t-out="rok"/>
+                </obdobi>
+                <zamestnavatel>
+                    <vs t-out="company.l10n_cz_ossz_vs"/>
+                    <t t-if="company.company_registry or company.vat">
+                        <IC t-out="company.company_registry or company.vat"/>
+                    </t>
+                    <nazev t-out="company.name"/>
+                    <adresa>
+                        <t t-if="company.street">
+                            <ulice t-out="company.street"/>
+                        </t>
+                        <t t-if="company.street2">
+                            <cisloDomu t-out="company.street2"/>
+                        </t>
+                        <obec t-out="company.city"/>
+                        <PSC t-out="psc"/>
+                        <stat t-out="(company.country_id.code or 'CZ')"/>
+                    </adresa>
+                </zamestnavatel>
+                <pojistne>
+                    <zakladZamestnavateleA t-out="zaklad_zamestnavatele_a"/>
+                    <pojistneZamestnavateleA t-out="pojistne_zamestnavatele_a"/>
+                    <pojistneZamestnavateleCelkem t-out="pojistne_zamestnavatele_celkem"/>
+                    <pojistneZamestnance t-out="pojistne_zamestnance"/>
+                    <pojistneCelkem t-out="pojistne_celkem"/>
+                </pojistne>
+                <t t-if="has_discount">
+                    <slevaZamestnavatele>
+                        <pocetZamestnancu t-out="sleva_pocet"/>
+                        <uhrnVymerovacichZakladu t-out="sleva_uhrn_vz"/>
+                        <pojistneSleva t-out="sleva_pojistne"/>
+                    </slevaZamestnavatele>
+                </t>
+                <pojistneUhrada t-out="pojistne_uhrada"/>
+                <datumVyplneni t-out="today"/>
+                <t t-if="has_discount">
+                    <slevaZamestnanci>
+                        <zamestnanec t-foreach="sleva_zamestnanci" t-as="z">
+                            <jmeno t-out="z['jmeno']"/>
+                            <prijmeni t-out="z['prijmeni']"/>
+                            <datumNarozeni t-out="z['datum_narozeni']"/>
+                            <vymerovaciZaklad t-out="z['vymerovaci_zaklad']"/>
+                            <duvodSlevy t-out="z['duvod_slevy']"/>
+                            <t t-if="z['kratsi_pracovni_doba']">
+                                <kratsiPracovniDoba t-out="z['kratsi_pracovni_doba']"/>
+                            </t>
+                        </zamestnanec>
+                    </slevaZamestnanci>
+                </t>
+            </prehled>
+        </pvpoj>
+    </template>
+</odoo>

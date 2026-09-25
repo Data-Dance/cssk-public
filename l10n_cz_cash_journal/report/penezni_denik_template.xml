@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     Peněžní deník pro daňovou evidenci (§ 7b ZDP) a zápis podle § 7b odst. 4.
+     Statutory documents: Czech throughout, per CLAUDE.md. -->
+<odoo>
+    <template id="report_penezni_denik">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page" style="font-size: 9px;">
+                    <h3 class="mb-0">Peněžní deník</h3>
+                    <p class="text-muted mb-2">
+                        <span t-esc="company.name"/> ·
+                        období <span t-esc="date_from"/> – <span t-esc="date_to"/>
+                    </p>
+                    <table class="table table-sm table-bordered" style="font-size: 8px;">
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Datum</th>
+                                <th rowspan="2">Doklad</th>
+                                <th rowspan="2">Text</th>
+                                <th colspan="2" class="text-center">Pokladna</th>
+                                <th colspan="2" class="text-center">Banka</th>
+                                <th colspan="2" class="text-center">Průběžné položky</th>
+                                <th colspan="2" class="text-center">DPH</th>
+                                <th t-foreach="columns" t-as="column" rowspan="2"
+                                    class="text-end" t-esc="column[1]"/>
+                                <th rowspan="2" class="text-end">Zůstatek pokladna</th>
+                                <th rowspan="2" class="text-end">Zůstatek banka</th>
+                            </tr>
+                            <tr>
+                                <th class="text-end">příjem</th>
+                                <th class="text-end">výdej</th>
+                                <th class="text-end">příjem</th>
+                                <th class="text-end">výdej</th>
+                                <th class="text-end">příjem</th>
+                                <th class="text-end">výdej</th>
+                                <th class="text-end">příjem</th>
+                                <th class="text-end">výdej</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3"><strong>Počáteční stav</strong></td>
+                                <td colspan="8"/>
+                                <td t-foreach="columns" t-as="column"/>
+                                <td class="text-end">
+                                    <span t-esc="opening_cash"
+                                          t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="opening_bank"
+                                          t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                            </tr>
+                            <tr t-foreach="lines" t-as="line">
+                                <td t-esc="line['row'].date"/>
+                                <td>
+                                    <span t-esc="line['row'].number"/>
+                                    <span t-if="line['row'].ref"> · <span t-esc="line['row'].ref"/></span>
+                                </td>
+                                <td>
+                                    <span t-esc="line['row'].label"/>
+                                    <span t-if="line['row'].needs_review" class="text-danger"> ⚠</span>
+                                </td>
+                                <t t-foreach="['pokladna_prijem', 'pokladna_vydej',
+                                               'banka_prijem', 'banka_vydej',
+                                               'prubezne_prijem', 'prubezne_vydej',
+                                               'dph_prijem', 'dph_vydej']" t-as="key">
+                                    <td class="text-end">
+                                        <span t-if="line['cells'][key]" t-esc="line['cells'][key]"
+                                              t-options='{"widget": "float", "precision": 2}'/>
+                                    </td>
+                                </t>
+                                <td t-foreach="columns" t-as="column" class="text-end">
+                                    <span t-if="line['cells'][column[0]]"
+                                          t-esc="line['cells'][column[0]]"
+                                          t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="line['cash']"
+                                          t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                                <td class="text-end">
+                                    <span t-esc="line['bank']"
+                                          t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"><strong>Celkem</strong></td>
+                                <t t-foreach="['pokladna_prijem', 'pokladna_vydej',
+                                               'banka_prijem', 'banka_vydej',
+                                               'prubezne_prijem', 'prubezne_vydej',
+                                               'dph_prijem', 'dph_vydej']" t-as="key">
+                                    <td class="text-end">
+                                        <strong t-esc="totals[key]"
+                                                t-options='{"widget": "float", "precision": 2}'/>
+                                    </td>
+                                </t>
+                                <td t-foreach="columns" t-as="column" class="text-end">
+                                    <strong t-esc="totals[column[0]]"
+                                            t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                                <td class="text-end">
+                                    <strong t-esc="closing_cash"
+                                            t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                                <td class="text-end">
+                                    <strong t-esc="closing_bank"
+                                            t-options='{"widget": "float", "precision": 2}'/>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_zapis_o_zjisteni">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h3>Zápis o zjištění skutečného stavu</h3>
+                        <p class="text-muted">
+                            podle § 7b odst. 4 zákona č. 586/1992 Sb., o daních z příjmů
+                        </p>
+                        <p>
+                            Poplatník: <strong t-esc="doc.company_id.name"/><br/>
+                            Zjištění k datu: <strong t-esc="doc.date_to"/>
+                        </p>
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Položka</th>
+                                    <th class="text-end">Stav na začátku období</th>
+                                    <th class="text-end">Stav na konci období</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids.filtered(lambda l: l.section == 'd')"
+                                    t-as="line">
+                                    <td t-esc="line.label"/>
+                                    <td class="text-end">
+                                        <span t-esc="line.opening_value"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="line.closing_value"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>
+                            Zjištěné rozdíly se podle § 7b odst. 4 upraví podle
+                            § 24 a § 25 zákona.
+                        </p>
+                        <p class="mt-5">
+                            Datum: ..............................
+                            &amp;nbsp;&amp;nbsp;&amp;nbsp;
+                            Podpis: ..............................
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

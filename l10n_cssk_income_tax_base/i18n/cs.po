@@ -1,0 +1,1137 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-28 22:38+0000\n"
+"PO-Revision-Date: 2026-06-13 20:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "%s — splatná daň z príjmov"
+msgstr "%s — splatná daň z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "A provision entry already exists (%s). Reverse it first."
+msgstr "Zápis rezervy již existuje (%s). Nejprve jej stornujte."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__account_formula
+msgid "Account Formula"
+msgstr "Vzorec účtů"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_expense_code
+msgid ""
+"Account-code prefix for the income-tax expense (MD) — 591 Splatná daň z "
+"príjmov / Daň z příjmů splatná."
+msgstr ""
+"Předčíslí účtového kódu pro náklad na daň z příjmů (MD) — 591 Splatná daň z "
+"príjmov / Daň z příjmů splatná."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_payable_code
+msgid ""
+"Account-code prefix for the income-tax payable (D) — 341 Daň z príjmov / Daň "
+"z příjmů."
+msgstr ""
+"Předčíslí účtového kódu pro závazek z daně z příjmů (D) — 341 Daň z "
+"príjmov / Daň z příjmů."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_line_def__kind__account
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return_line__kind__account
+msgid "Accounting result (P&L)"
+msgstr "Výsledek hospodaření (VZZ)"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akci"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__active
+msgid "Active"
+msgstr "Aktivní"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimky aktivity"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return_line__kind__aggregate
+msgid "Aggregate"
+msgstr "Souhrn"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__aggregate_formula
+msgid "Aggregate Formula"
+msgstr "Agregační vzorec"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_line_def__kind__aggregate
+msgid "Aggregate of other lines"
+msgstr "Souhrn ostatních řádků"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Amended / corrective"
+msgstr "Dodatečné / opravné"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__amendment_ids
+msgid "Amendments"
+msgstr "Opravná podání"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__original_return_id
+msgid "Amends"
+msgstr "Opravuje"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.view_move_line_dppo_audit
+msgid "Balance"
+msgstr "Zůstatek"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return__state__cancelled
+msgid "Cancelled"
+msgstr "Zrušeno"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__code
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__code
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__code
+msgid "Code"
+msgstr "Kód"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__account_formula
+msgid ""
+"Comma-separated P&L account-code prefixes for kind=account. Each prefix "
+"contributes −(its period balance) so revenues−expenses = profit; a leading "
+"'-' flips the sign (adds the component back). E.g. '5,6,-591,-592' = "
+"výsledok hospodárenia pred zdanením (profit before income tax, adding back "
+"income-tax accounts 591/592)."
+msgstr ""
+"Předčíslí účtových kódů výsledovky oddělená čárkami pro kind=account. Každé "
+"předčíslí přispívá −(svým zůstatkem za období), takže výnosy−náklady = zisk; "
+"úvodní '-' obrací znaménko (komponentu přičte zpět). Např. '5,6,-591,-592' = "
+"výsledok hospodárenia pred zdanením (zisk před zdaněním, s přičtením účtů "
+"daně z příjmů 591/592)."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Compute"
+msgstr "Vypočítat"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Compute the return before exporting."
+msgstr "Před exportem přiznání vypočítejte."
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Compute the return before posting the provision."
+msgstr "Před zaúčtováním rezervy přiznání vypočítejte."
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Computed income tax (line %(c)s) is %(a)s — nothing to provision."
+msgstr "Vypočtená daň z příjmů (řádek %(c)s) je %(a)s — není co zaúčtovat do rezervy."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_line_code
+msgid ""
+"Computed line whose value is the bookable current income tax posted as the "
+"year-end provision — e.g. 'r1050' (SK DPPO daňová povinnosť) / 'r340' (CZ "
+"DPPDP9 celková daňová povinnost)."
+msgstr ""
+"Vypočítaný řádek, jehož hodnotou je zaúčtovatelná splatná daň z příjmů "
+"zaúčtovaná jako rezerva ke konci roku — např. 'r1050' (SK DPPO daňová "
+"povinnosť) / 'r340' (CZ DPPDP9 celková daňová povinnost)."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__country_id
+msgid "Country"
+msgstr "Země"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__company_currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_amount
+msgid ""
+"Current income tax to provision = value of the version's provision_line_code "
+"(e.g. r1050 / r340)."
+msgstr ""
+"Splatná daň z příjmů k zaúčtování do rezervy = hodnota pole "
+"provision_line_code dané verze (např. r1050 / r340)."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__date_from
+msgid "Date From"
+msgstr "Datum od"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__date_to
+msgid "Date To"
+msgstr "Datum do"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Daň z príjmov — záväzok"
+msgstr "Daň z příjmů — závazek"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__formula_note
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Derivation"
+msgstr "Odvození"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.view_move_line_dppo_audit
+msgid "Description"
+msgstr "Popis"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.view_move_line_dppo_audit
+msgid "Document"
+msgstr "Doklad"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Documents"
+msgstr "Doklady"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return__state__draft
+msgid "Draft"
+msgstr "Koncept"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__value
+msgid "Effective value: the computed result, or the manual override."
+msgstr "Efektivní hodnota: vypočtený výsledek nebo ruční přepis."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__xml_root_element
+msgid "Expected root element, e.g. 'dokument'."
+msgstr "Očekávaný kořenový element, např. 'dokument'."
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Export XML"
+msgstr "Exportovat XML"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return__state__exported
+msgid "Exported"
+msgstr "Exportováno"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__fa_xml_value
+msgid "Fa Xml Value"
+msgstr "Hodnota v XML FS"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__country_id
+msgid "Fiscal Country"
+msgstr "Fiskální země"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome např. fa-tasks"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__aggregate_formula
+msgid "Formula over line codes for kind=aggregate, e.g. 'r100 + r110'."
+msgstr "Vzorec nad kódy řádků pro kind=aggregate, např. 'r100 + r110'."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__has_source
+msgid "Has Source"
+msgstr "Má zdroj"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__in_xml
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__in_xml
+msgid "In Xml"
+msgstr "V XML"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.ui.menu,name:l10n_cssk_income_tax_base.menu_cssk_income_tax_root
+msgid "Income Tax (DPPO)"
+msgstr "Daň z příjmů (DPPO)"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model,name:l10n_cssk_income_tax_base.model_cssk_income_tax_return
+msgid "Income Tax Return"
+msgstr "Přiznání k dani z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model,name:l10n_cssk_income_tax_base.model_cssk_income_tax_return_line
+msgid "Income Tax Return Line"
+msgstr "Řádek přiznání k dani z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model,name:l10n_cssk_income_tax_base.model_cssk_income_tax_line_def
+msgid "Income Tax Return Line Definition"
+msgstr "Definice řádku přiznání k dani z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model,name:l10n_cssk_income_tax_base.model_cssk_income_tax_type
+msgid "Income Tax Return Submission Type"
+msgstr "Typ podání přiznání k dani z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model,name:l10n_cssk_income_tax_base.model_cssk_income_tax_version
+msgid "Income Tax Return Version"
+msgstr "Verze přiznání k dani z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.actions.act_window,name:l10n_cssk_income_tax_base.cssk_income_tax_return_action
+msgid "Income Tax Returns (DPPO)"
+msgstr "Přiznání k dani z příjmů (DPPO)"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/account_move_line.py:0
+msgid "Income tax return (DPPO)"
+msgstr "Přiznání k DPPO"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Income-tax provision (591/341)"
+msgstr "Rezerva na daň z příjmů (591/341)"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__is_leaf
+msgid "Is Leaf"
+msgstr "Je koncový řádek"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model,name:l10n_cssk_income_tax_base.model_account_move_line
+msgid "Journal Item"
+msgstr "Položka deníku"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_journal_id
+msgid ""
+"Journal for the year-end income-tax provision entry. Defaults to the "
+"company's first general journal."
+msgstr ""
+"Deník pro zaúčtování rezervy na daň z příjmů ke konci roku. Výchozí je první "
+"obecný deník společnosti."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__kind
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__kind
+msgid "Kind"
+msgstr "Druh"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__line_ids
+msgid "Line"
+msgstr "Řádek"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__line_def_ids
+msgid "Line Def"
+msgstr "Definice řádku"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Lines"
+msgstr "Řádky"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_line_def__kind__manual
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return_line__kind__manual
+msgid "Manual"
+msgstr "Ruční"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__manual_value
+msgid "Manual Value"
+msgstr "Ruční hodnota"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Mark Submitted"
+msgstr "Označit jako podané"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba při doručování zpráv"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_ids
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__name
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__name
+msgid "Name"
+msgstr "Název"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid ""
+"No %(label)s account (code prefix %(p)s) found for %(co)s — set it "
+"explicitly on the return."
+msgstr "Pro %(co)s nebyl nalezen účet %(label)s (předčíslí kódu %(p)s) — nastavte jej explicitně na přiznání."
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "No general journal found for the provision entry."
+msgstr "Pro zaúčtování rezervy nebyl nalezen žádný obecný deník."
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "No provision entry to reverse."
+msgstr "Žádná rezerva ke stornování."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou při doručení"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Only draft returns can be recomputed."
+msgstr "Přepočítat lze pouze přiznání ve stavu koncept."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__is_overridden
+msgid "Override"
+msgstr "Přepis"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_payable_account_id
+msgid "Override; defaults to the version's 341 code prefix."
+msgstr "Přepis; výchozí je předpona kódu 341 dané verze."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_expense_account_id
+msgid "Override; defaults to the version's 591 code prefix."
+msgstr "Přepis; výchozí je předpona kódu 591 dané verze."
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Post tax provision"
+msgstr "Zaúčtovat daňovou rezervu"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid ""
+"Post the year-end income-tax provision (MD 591 / D 341) for the computed tax?"
+msgstr ""
+"Zaúčtovat roční rezervu na daň z příjmů (MD 591 / D 341) na vypočtenou daň?"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Posted income-tax provision %(amt)s: %(exp)s / %(pay)s (%(mv)s)."
+msgstr "Zaúčtována rezerva na daň z příjmů %(amt)s: %(exp)s / %(pay)s (%(mv)s)."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return__state__preview
+msgid "Preview"
+msgstr "Náhled"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_amount
+msgid "Provision Amount"
+msgstr "Výše rezervy"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_expense_code
+msgid "Provision Expense Code"
+msgstr "Kód nákladového účtu rezervy"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_journal_id
+msgid "Provision Journal"
+msgstr "Deník rezervy"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_line_code
+msgid "Provision Line Code"
+msgstr "Kód řádku rezervy"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_payable_code
+msgid "Provision Payable Code"
+msgstr "Kód závazkového účtu rezervy"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_move_id
+msgid "Provision entry"
+msgstr "Zaúčtování rezervy"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_posted
+msgid "Provision posted"
+msgstr "Rezerva zaúčtována"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__xml_template_ref_id
+msgid "QWeb template (ir.ui.view) that renders this version's statutory XML."
+msgstr "QWeb šablona (ir.ui.view), která generuje statutární XML této verze."
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Rendered XML root <%(got)s> does not match expected <%(exp)s>."
+msgstr "Vygenerovaný kořenový element XML <%(got)s> neodpovídá očekávanému <%(exp)s>."
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Reset this filing to draft? The originally filed copy is kept."
+msgstr ""
+"Vrátit toto podání do konceptu? Původně podaná kopie zůstane zachována."
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Reset to Draft"
+msgstr "Vrátit do konceptu"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_user_id
+msgid "Responsible User"
+msgstr "Odpovědný uživatel"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__return_id
+msgid "Return"
+msgstr "Přiznání"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Reversal of %s"
+msgstr "Storno %s"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Reverse provision"
+msgstr "Stornovat rezervu"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Reverse the posted income-tax provision entry?"
+msgstr "Stornovat zaúčtovaný zápis rezervy na daň z příjmů?"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Rows tie out"
+msgstr "Řádky souhlasí"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba při doručování SMS"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__sequence
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__sequence
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid ""
+"Set 'provision_line_code' on the version (e.g. r1050 / r340) to post the "
+"income-tax provision."
+msgstr "Pro zaúčtování rezervy na daň z příjmů nastavte na verzi 'provision_line_code' (např. r1050 / r340)."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__source_domain
+msgid "Source Domain"
+msgstr "Doména zdroje"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__source_reconciles
+msgid "Source Reconciles"
+msgstr "Zdroje souhlasí"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.view_move_line_dppo_audit
+msgid "Source documents"
+msgstr "Zdrojové doklady"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Source documents — %s %s"
+msgstr "Zdrojové doklady — %s %s"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "Splatná daň z príjmov"
+msgstr "Splatná daň z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__code
+msgid "Stable line code, e.g. 'r100'."
+msgstr "Stabilní kód řádku, např. 'r100'."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__statement_type_id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__statement_type_ids
+msgid "Statement Type"
+msgstr "Typ výkazu"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr "Stav na základě aktivit\nPo termínu: Datum již uplynulo\nDnes: Datum aktivity je dnes\nNaplánováno: Budoucí aktivity."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__submission_reference
+msgid "Submission Reference"
+msgstr "Reference podání"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__submission_reference
+msgid "Submission identifier / confirmation number from the FS portal."
+msgstr "Identifikátor podání / potvrzovací číslo z portálu FS."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return__state__submitted
+msgid "Submitted"
+msgstr "Podáno"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__submitted_date
+msgid "Submitted Date"
+msgstr "Datum podání"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_expense_account_id
+msgid "Tax expense account"
+msgstr "Účet daňového nákladu"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_payable_account_id
+msgid "Tax payable account"
+msgstr "Účet daňového závazku"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__country_id
+msgid "The country to use the tax reports from for this company"
+msgstr "Země, jejíž daňové výkazy se pro tuto společnost použijí"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__submitted_attachment_id
+msgid "The exact XML that was submitted; preserved across reset-to-draft."
+msgstr "Přesné XML, které bylo podáno; zachováno i po vrácení do konceptu."
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid ""
+"The income-tax return XML failed schema validation:\n"
+"%s"
+msgstr "XML přiznání k dani z příjmů neprošlo validací schématu:\n%s"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__original_return_id
+msgid "The originally-filed return this amended / corrective return amends."
+msgstr "Původně podané přiznání, které toto opravné přiznání mění."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__is_overridden
+msgid ""
+"Tick to enter a manual value — used for the tax-adjustment lines and to "
+"correct a computed line. Preserved and fed into dependent aggregate lines on "
+"recompute."
+msgstr ""
+"Zaškrtněte pro zadání ruční hodnoty — používá se pro řádky daňových úprav a "
+"pro opravu vypočítaného řádku. Zachová se a při přepočtu vstupuje do "
+"závislých souhrnných řádků."
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.view_move_line_dppo_audit
+msgid "Total"
+msgstr "Celkem"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výjimečné aktivity v záznamu."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__unreconciled_count
+msgid "Unreconciled Count"
+msgstr "Počet nesouhlasících řádků"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "Unreconciled rows"
+msgstr "Nesouhlasící řádky"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__valid_from
+msgid "Valid From"
+msgstr "Platné od"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__valid_to
+msgid "Valid To"
+msgstr "Platné do"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__value
+msgid "Value"
+msgstr "Hodnota"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_type__fa_xml_value
+msgid "Value emitted in the statutory XML for this type."
+msgstr "Hodnota vystavená ve statutárním XML pro tento typ."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__version_id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__version_id
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__version_id
+msgid "Version"
+msgstr "Verze"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__website_message_ids
+msgid "Website Messages"
+msgstr "Zprávy webu"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace webu"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__in_xml
+msgid "Whether this line maps to an element in the statutory XML."
+msgstr "Zda se tento řádek mapuje na element ve statutárním XML."
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__xml_template_ref_id
+msgid "XML template"
+msgstr "XML šablona"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "XML příloha"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__xml_root_element
+msgid "Xml Root Element"
+msgstr "Kořenový element XML"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__xml_schema_data
+msgid "Xml Schema Data"
+msgstr "Data XSD schématu"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__xml_schema_filename
+msgid "Xml Schema Filename"
+msgstr "Název souboru XML schématu"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "id"
+msgstr "id"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "income-tax expense"
+msgstr "náklad na daň z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "income-tax payable"
+msgstr "závazek z daně z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "manual input"
+msgstr "ruční vstup"
+
+#~ msgid "Cancel"
+#~ msgstr "Zrušit"
+
+#~ msgid "Create"
+#~ msgstr "Vytvořit"
+
+#~ msgid "Generate"
+#~ msgstr "Generovat"
+
+#~ msgid "Generate Income Tax Return"
+#~ msgstr "Vytvořit přiznání k dani z příjmů"
+
+#~ msgid "Income Tax Returns"
+#~ msgstr "Přiznání k dani z příjmů"
+
+#~ msgid "External id of the QWeb template that renders this version."
+#~ msgstr "Externí id QWeb šablony, která generuje tuto verzi."
+
+#~ msgid "Xml Template Ref"
+#~ msgstr "Odkaz na XML šablonu"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_line_def__kind__asset_diff
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return_line__kind__asset_diff
+msgid "Asset book-vs-tax depreciation difference"
+msgstr "Rozdíl účetních a daňových odpisů majetku"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.module.module,shortdesc:base.module_l10n_cssk_income_tax_base
+msgid "CZ/SK Income Tax Return — framework"
+msgstr "CZ/SK přiznání k dani z příjmů — rámec"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid ""
+"Company '%(company)s' has neither a Tax ID (DIČ) nor a VAT number set, but "
+"the income-tax return XML must carry the filer's tax identification. Set "
+"'Tax ID (DIČ)' or 'Tax ID' (VAT) on the company (Settings → Users & "
+"Companies → Companies → %(company)s) and export again."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.module.module,summary:base.module_l10n_cssk_income_tax_base
+msgid ""
+"Country-neutral framework for the corporate income-tax return (DPPO): "
+"versioned line definitions, accounting-result + aggregate evaluator, manual-"
+"override UI and XSD-validated XML export. Country layers supply the line set"
+" + schema."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "File it"
+msgstr "Podat"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return__state__legacy
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy
+msgid "Historical filing"
+msgstr "Historické podání"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__min_tax_bands
+msgid "Minimum-tax bands"
+msgstr "Pásma minimální daně"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid ""
+"Open a delivery for this filing. With only the"
+"                                   manual channel installed this records who"
+" filed                                   it on the portal and holds the "
+"receipts."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__rate_bands
+msgid "Rate bands"
+msgstr "Pásma sazeb"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__rate_bands
+msgid ""
+"Statutory income-tax rate schedule keyed on the revenue line (SK: § 15 by "
+"r560): ordered [upper_bound, rate_percent] pairs, upper_bound inclusive, "
+"null = top band (must be last). Example (SK 2025): [[100000.0, 10.0], "
+"[5000000.0, 21.0], [null, 24.0]]."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__min_tax_bands
+msgid ""
+"Statutory minimum tax (SK: § 46b minimálna daň / daňová licencia) keyed on the same revenue line: ordered [upper_bound, amount] pairs, upper_bound inclusive, null = top band (must be last).\n"
+"\n"
+"A band may carry a third element naming a condition that turnover cannot express — the SK daňová licencia puts 480 € and 960 € at the SAME bound and tells them apart by whether the taxpayer was a platiteľ DPH on the last day of the period: [[500000.0, 480.0, 'not_vat_payer'], [500000.0, 960.0, 'vat_payer'], [null, 2880.0]]. Bands are tried in order and one whose condition does not hold is skipped.\n"
+"\n"
+"Leave empty for forms without a minimum tax."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "recomputed"
+msgstr "přepočteno"
+
+#. module: l10n_cssk_income_tax_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
+msgid "✓"
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__filed_history_ids
+msgid "Filed history"
+msgstr "Historie podání"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed "
+"XML' is the latest one; after a reset → recompute → resubmit cycle "
+"the previously-filed copies stay reachable here."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy
+msgid ""
+"This filing was not produced here — it records what was actually "
+"submitted for a period that predates this system, loaded from a "
+"migration. It is a historical fact, so it can never be exported, "
+"submitted or recomputed, and it is invisible to anything that looks "
+"for 'the return of the previous period'. It CAN be amended: a "
+"dodatočné filed later against a historical period is an ordinary "
+"submittable return.\n\nSetting this puts the record in state "
+"'Historical filing', which is terminal — the two are written "
+"together and cannot come apart."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_source
+msgid "Source system"
+msgstr "Zdrojový systém"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' "
+"— or how it was captured if by hand."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_reference
+msgid "Source reference"
+msgstr "Zdrojová reference"
+
+#. module: l10n_cssk_income_tax_base
+#: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced "
+"it."
+msgstr ""
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "income-tax return"
+msgstr "přiznání k dani z příjmů"

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_purchase_advance_payment_link_wizard_form" model="ir.ui.view">
+        <field name="name">purchase.advance.payment.link.wizard.form</field>
+        <field name="model">purchase.advance.payment.link.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Link Payment">
+                <group>
+                    <field name="order_id" />
+                    <field name="available_payment_ids" invisible="1" />
+                    <field name="payment_id" />
+                </group>
+                <footer>
+                    <button
+                        name="action_link"
+                        string="Link"
+                        type="object"
+                        class="btn-primary"
+                        data-hotkey="q"
+                    />
+                    <button
+                        string="Cancel"
+                        class="btn-secondary"
+                        special="cancel"
+                        data-hotkey="x"
+                    />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record
+        id="action_purchase_advance_payment_link_wizard"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Link Payment</field>
+        <field name="res_model">purchase.advance.payment.link.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

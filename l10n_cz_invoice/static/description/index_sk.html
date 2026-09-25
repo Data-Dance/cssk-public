@@ -1,0 +1,44 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">🌐 <a href="index.html">EN</a> · <a href="index_cz.html">CZ</a> · <b>SK</b></p>
+    <h2 class="oe_slogan">CZ Faktúra (zákonné PDF)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">DIČ odberateľa, platobné symboly a povinné zákonné texty na českej faktúre</h3>
+    <div class="oe_span12">
+      <p>Česká národná vrstva, ktorá dopĺňa zákonný obsah faktúry do faktúry v Odoo, nad rámec jadra a modulu <code>l10n_cz</code> (ktorý už tlačí IČO a údaj o zápise v obchodnom registri). Dopĺňa DIČ odberateľa, české platobné symboly a povinné náležitosti faktúry — prenesenie daňovej povinnosti (§92a), dodanie do iného členského štátu / oslobodené plnenie (§64) a vývoz (§66) — na tlačenej faktúre.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Tlačí <b>DIČ</b> odberateľa vedľa IČO / DIČ DPH, ktoré už zobrazuje základná česká vrstva (zdroj je <code>l10n_cssk_core</code>).</li>
+        <li>Dopĺňa do informačného riadka faktúry české <b>platobné symboly</b> — variabilný symbol, konštantný symbol a špecifický symbol.</li>
+        <li>Automaticky rozpozná a vytlačí povinné <b>zákonné texty</b>: prenesenie daňovej povinnosti (§92a), dodanie do iného členského štátu / oslobodené plnenie (§64) a vývoz (§66).</li>
+        <li>Príznak <b>prenesenie daňovej povinnosti (§92a)</b> na úrovni dane riadi text §92a; má odlišný názov, aby nekolidoval s poľom EE modulu <code>l10n_cz_reports</code> (ktoré sa rovnako zohľadňuje, ak je tento modul nainštalovaný).</li>
+        <li>Voľne písaná <b>ručná zákonná poznámka</b> tlačená navyše k automaticky rozpoznanému textu.</li>
+        <li>Automatické rozpoznávanie textov (nulová sadzba + krajina partnera + príznak §92a na dani) je heuristika s najlepším úsilím — nechajte si mapovanie potvrdiť účtovníkom.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Nainštalujte modul v českej spoločnosti. Na odberateľských faktúrach sa DIČ odberateľa a vyplnené platobné symboly zobrazia na PDF automaticky. Na príslušnej dani zaškrtnite <b>prenesenie daňovej povinnosti (§92a)</b>, aby sa vytlačil text §92a; texty §64 a §66 sa odvodzujú z daní s nulovou sadzbou a z krajiny odberateľa. Akýkoľvek ďalší text napíšte do poľa <b>ručná zákonná poznámka na faktúre</b>, aby sa rovnako vytlačil.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_cssk_control_statement"
+              name="VAT Control Statement"
+              parent="l10n_cssk_core.menu_cssk_reports_root"
+              action="cssk_control_statement_action"
+              sequence="80"/>
+
+    <menuitem id="menu_cssk_control_statement_version"
+              name="Control Statement Versions"
+              parent="l10n_cssk_core.menu_cssk_root"
+              action="cssk_control_statement_version_action"
+              sequence="30"/>
+
+    <menuitem id="menu_cssk_control_statement_type"
+              name="Control Statement Types"
+              parent="l10n_cssk_core.menu_cssk_root"
+              action="cssk_control_statement_type_action"
+              sequence="31"/>
+
+</odoo>

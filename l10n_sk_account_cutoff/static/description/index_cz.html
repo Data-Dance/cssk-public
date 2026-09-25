@@ -1,0 +1,59 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovensko — výchozí účty časového rozlišení</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Předvyplní výchozí účty OCA modulu časového rozlišení slovenskými účty 381/383/384/385</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace je tenkým propojením mezi slovenskou účtovou osnovou (<code>l10n_sk</code>)
+         a enginem časového rozlišení OCA (<code>account_cutoff_start_end_dates</code>). Mapuje
+         výchozí účty časového rozlišení společnosti na slovenské účty <i>časového rozlíšenia</i>,
+         takže funkce časového rozlišení funguje okamžitě.</p>
+      <p>Nové společnosti dostanou mapování při načtení slovenské osnovy (přes šablonu osnovy);
+         stávající slovenské společnosti při instalaci (post-init hook). Deník časového rozlišení
+         se nastaví na obecný deník, pokud existuje. Modul je licencován <b>AGPL-3</b>, protože
+         závisí na AGPL enginu OCA.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Náklady příštích období → <b>381</b> Náklady budúcich období.</li>
+        <li>Výnosy příštích období → <b>384</b> Výnosy budúcich období.</li>
+        <li>Výdaje příštích období → <b>383</b> Výdavky budúcich období.</li>
+        <li>Příjmy příštích období → <b>385</b> Príjmy budúcich období.</li>
+        <li>Nastaví deník časového rozlišení na existující obecný deník; aplikuje se na nové
+            slovenské společnosti přes šablonu osnovy a na stávající přes post-init hook.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Nainstalujte modul na databázi používající slovenskou účtovou osnovu. Výchozí účty
+         časového rozlišení jsou pak přednastaveny, takže <i>Účetnictví ▸ Časové rozlišení</i>
+         (časové rozlíšenie) funguje bez další konfigurace. Mapování lze zkontrolovat či přepsat
+         v <i>Nastavení ▸ Účetnictví ▸ Časové rozlišení</i>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

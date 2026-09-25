@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      ELDP (Evidenčný list dôchodkového poistenia) — hromadný XML matching the
+      official Sociálna poisťovňa schema ELDP-v2015_1.3.xsd (root <spELDPZec>,
+      ns http://socpoist.sk/xsd/eldpzec, elementFormDefault="qualified"). One
+      <eldpZec> per employee with the year's pension assessment base.
+    -->
+    <template id="eldp_xml">
+        <spELDPZec xmlns="http://socpoist.sk/xsd/eldpzec">
+            <zamestnavatel>
+                <identifikacia>
+                    <icz t-out="icz"/>
+                    <identifikator>
+                        <ico t-out="ico"/>
+                    </identifikator>
+                    <nazov t-out="nazov"/>
+                </identifikacia>
+                <korAdresa>
+                    <ulica t-if="ulica" t-out="ulica"/>
+                    <obec t-out="obec"/>
+                    <psc t-out="psc"/>
+                </korAdresa>
+            </zamestnavatel>
+            <zoznamELDPZec>
+                <eldpZec t-foreach="eldp_rows" t-as="row">
+                    <poistenec>
+                        <rc t-out="row['rc']"/>
+                        <priezvisko t-out="row['priezvisko']"/>
+                        <meno t-out="row['meno']"/>
+                        <datNarodenia t-out="row['dat_narodenia']"/>
+                    </poistenec>
+                    <poistVztah>
+                        <datVzniku t-out="row['dat_vzniku']"/>
+                        <trva t-if="row['trva']">1</trva>
+                        <datZaniku t-if="not row['trva']"
+                                   t-out="row['dat_zaniku']"/>
+                    </poistVztah>
+                    <obdobiaPoist>
+                        <vzZaObdobiePoist
+                            t-att-rok="row['rok']"
+                            t-att-znakPoist="row['znak_poist']"
+                            t-att-datOd="row['dat_od']"
+                            t-att-datDo="row['dat_do']"
+                            t-att-vzDP="row['vz_dp']"
+                            t-att-dniVyluc="row['dni_vyluc']"/>
+                    </obdobiaPoist>
+                </eldpZec>
+            </zoznamELDPZec>
+            <datOdoslania t-out="dat_odoslania"/>
+            <kontakt>
+                <priezvisko t-out="kontakt['priezvisko']"/>
+                <meno t-out="kontakt['meno']"/>
+                <email t-out="kontakt['email']"/>
+                <telCislo t-out="kontakt['tel']"/>
+            </kontakt>
+        </spELDPZec>
+    </template>
+</odoo>

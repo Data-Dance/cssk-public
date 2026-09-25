@@ -1,0 +1,323 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:annotation>
+		<xsd:documentation>HLASENIEv23</xsd:documentation>
+	</xsd:annotation>
+	<!--  prazdny retazec  -->
+	<xsd:simpleType name="emptyStr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value=""/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  nepovinna boolovska hodnota  -->
+	<xsd:simpleType name="optBool">
+		<xsd:union memberTypes="xsd:boolean emptyStr"/>
+	</xsd:simpleType>
+	<!-- povinna boolovska hodnota 0 alebo 1 -->
+	<xsd:simpleType name="only_0_1">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="1"/>
+			<xsd:pattern value="[0-1]"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  nepovinne cele cislo  -->
+	<xsd:simpleType name="optInt">
+		<xsd:union memberTypes="xsd:integer emptyStr"/>
+	</xsd:simpleType>
+	<!--  nepovinne desatinne cislo  -->
+	<xsd:simpleType name="optDec">
+		<xsd:union memberTypes="decimalWithTwoDec emptyStr"/>
+	</xsd:simpleType>
+	<!--  cislo tvaru N (12.2)  -->
+	<xsd:simpleType name="decimalWithTwoDec">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="12"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  povinny datum v jednom poli (v celku)  -->
+	<xsd:simpleType name="oneFieldDate">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\d\d?\.\d\d?\.\d\d\d\d"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  nepovinny datum v jednom poli (v celku)  -->
+	<xsd:simpleType name="optOneFieldDate">
+		<xsd:union memberTypes="oneFieldDate emptyStr"/>
+	</xsd:simpleType>
+	<xsd:element name="dokument">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="hlavicka" type="hlavickaType"/>
+				<xsd:element name="telo" type="teloType"/>
+			</xsd:sequence>
+			<xsd:attribute name="appendixRemoved" type="xsd:unsignedByte" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="hlavickaType">
+		<xsd:sequence>
+			<xsd:element name="dic" type="xsd:string"/>
+			<xsd:element name="druhHlasenia" type="druhHlaseniaType"/>
+			<xsd:element name="zdanovacieObdobie" type="zdanovacieObdobieType"/>
+			<xsd:element name="fo" type="foType"/>
+			<xsd:element name="po" type="poType"/>
+			<xsd:element name="sidlo" type="sidloType"/>
+			<xsd:element name="dedicZastupca" type="dedicZastupcaType"/>
+			<xsd:element name="tel" type="xsd:string"/>
+			<xsd:element name="email" type="xsd:string"/>
+			<xsd:element name="datumZuctovania" type="optOneFieldDate"/>
+			<xsd:element name="osobitneZaznamy" type="osobitneZaznamyType"/>			
+			<xsd:element name="vypracoval" type="vypracovalType"/>
+			<xsd:element name="pocetStranC4" type="optInt"/>
+			<xsd:element name="pocetStranC5" type="optInt"/>
+			<xsd:element name="pocetZamC4" type="optInt"/>
+			<xsd:element name="pocetZamC5" type="optInt"/>
+			<xsd:element name="pocetZamBonus33a" type="optInt"/>
+			<xsd:element name="suma33a" type="optDec"/>
+			<xsd:element name="pocetZamRekreacia" type="optInt"/>
+			<xsd:element name="sumaRekreacia" type="optDec"/>			
+			<xsd:element name="datumVyhlasenia" type="optOneFieldDate"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="druhHlaseniaType">
+		<xsd:sequence>
+			<xsd:element name="rh" type="only_0_1"/>
+			<xsd:element name="oh" type="only_0_1"/>
+			<xsd:element name="dh" type="only_0_1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="zdanovacieObdobieType">
+		<xsd:sequence>
+			<xsd:element name="rok" type="optInt"/>
+			<xsd:element name="datumDDP" type="optOneFieldDate"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="foType">
+		<xsd:sequence>
+			<xsd:element name="priezvisko" type="xsd:string"/>
+			<xsd:element name="meno" type="xsd:string"/>
+			<xsd:element name="titul" type="xsd:string"/>
+			<xsd:element name="titulZa" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="poType">
+		<xsd:sequence>
+			<xsd:element name="obchodneMeno" type="xsd:string"/>
+			<xsd:element name="pravnaForma" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="sidloType">
+		<xsd:sequence>
+			<xsd:element name="ulica" type="xsd:string"/>
+			<xsd:element name="cislo" type="xsd:string"/>
+			<xsd:element name="psc" type="xsd:string"/>
+			<xsd:element name="obec" type="xsd:string"/>
+			<xsd:element name="stat" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="vypracovalType">
+		<xsd:sequence>
+			<xsd:element name="kto" type="xsd:string"/>
+			<xsd:element name="dna" type="optOneFieldDate"/>
+			<xsd:element name="tel" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="dedicZastupcaType">
+		<xsd:sequence>
+			<xsd:element name="priezvisko" type="xsd:string"/>
+			<xsd:element name="meno" type="xsd:string"/>
+			<xsd:element name="titul" type="xsd:string"/>
+			<xsd:element name="titulZa" type="xsd:string"/>
+			<xsd:element name="rodneCislo" type="xsd:string"/>
+			<xsd:element name="datumNarodenia" type="optOneFieldDate"/>
+			<xsd:element name="dic" type="xsd:string"/>
+			<xsd:element name="obchodneMeno" type="poType"/>			
+			<xsd:element name="ulica" type="xsd:string"/>
+			<xsd:element name="cislo" type="xsd:string"/>
+			<xsd:element name="psc" type="xsd:string"/>
+			<xsd:element name="obec" type="xsd:string"/>
+			<xsd:element name="stat" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="osobitneZaznamyType">
+		<xsd:sequence>
+			<xsd:element name="uvadzam" type="only_0_1"/>
+			<xsd:element name="zaznam" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="teloType">
+		<xsd:sequence>
+			<xsd:element name="cast1" type="cast1Type"/>
+			<xsd:element name="cast2" type="cast2Type"/>
+			<xsd:element name="cast3" type="cast3Type"/>
+			<xsd:element name="cast4" type="cast4Type" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="cast5" type="cast5Type" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="ziadostVrateniePreplatku" type="castVrateniePoplatku"/>
+			<xsd:element name="detiZoznam" type="detiZoznamType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cast1Type">
+		<xsd:sequence>
+			<xsd:element name="r00" type="optDec"/>
+			<xsd:element name="r01" type="optDec"/>
+			<xsd:element name="r01a" type="optDec"/>
+			<xsd:element name="r02" type="optDec"/>
+			<xsd:element name="r03" type="optDec"/>
+			<xsd:element name="r04" type="optDec"/>
+			<xsd:element name="r05" type="optDec"/>
+			<xsd:element name="r06" type="optDec"/>
+			<xsd:element name="r07" type="optDec"/>
+			<xsd:element name="r08" type="optDec"/>
+			<xsd:element name="r09" type="optDec"/>
+			<xsd:element name="r10" type="optDec"/>
+			<xsd:element name="r11" type="optDec"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cast2Type">
+		<xsd:sequence>
+			<xsd:element name="r12" type="optDec"/>
+			<xsd:element name="r13" type="optDec"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cast3Type">
+		<xsd:sequence>
+			<xsd:element name="rA" type="optDec"/>
+			<xsd:element name="rB" type="optDec"/>
+			<xsd:element name="rC" type="optDec"/>
+			<xsd:element name="rD" type="optDec"/>
+			<xsd:element name="rE" type="optDec"/>
+			<xsd:element name="rF" type="optDec"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="castVrateniePoplatku">
+		<xsd:sequence>
+			<xsd:element name="ziadam"   type="only_0_1"/>
+			<xsd:element name="poukazka" type="only_0_1"/>
+			<xsd:element name="ucet" 	 type="only_0_1"/>
+			<xsd:element name="iban" 	 type="xsd:string"/>
+			<xsd:element name="datum" 	 type="optOneFieldDate"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cast4Type">
+		<xsd:sequence>
+			<xsd:element name="strana" type="stranaType"/>
+			<xsd:element name="stlpec1" type="stlpecType"/>
+			<xsd:element name="stlpec2" type="stlpecType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="cast5Type">
+		<xsd:sequence>
+			<xsd:element name="c5strana" type="c5stranaType"/>
+			<xsd:element name="c5stlpec1" type="c5stlpecType"/>
+			<xsd:element name="c5stlpec2" type="c5stlpecType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="stranaType">
+		<xsd:sequence>
+			<xsd:element name="aktualna" type="optInt"/>
+			<xsd:element name="celkovo" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="stlpecType">
+		<xsd:sequence>
+			<xsd:element name="rodneCislo" type="optInt"/>
+			<xsd:element name="ic" type="xsd:string"/>
+			<xsd:element name="priezvisko" type="xsd:string"/>
+			<xsd:element name="meno" type="xsd:string"/>
+			<xsd:element name="ulica" type="xsd:string"/>
+			<xsd:element name="cislo" type="xsd:string"/>
+			<xsd:element name="psc" type="xsd:string"/>
+			<xsd:element name="obec" type="xsd:string"/>
+			<xsd:element name="stat" type="xsd:string"/>
+			<xsd:element name="kodStatu" type="optInt"/>
+			<xsd:element name="r3a" type="optDec"/>
+			<xsd:element name="r3b" type="optDec"/>
+			<xsd:element name="r4" type="r4Type"/>
+			<xsd:element name="r5a" type="optDec"/>
+			<xsd:element name="r5b" type="optDec"/>
+			<xsd:element name="r6" type="optDec"/>
+			<xsd:element name="r7suma" type="optDec"/>
+			<xsd:element name="r7deti" type="optInt"/>
+			<xsd:element name="r8ano" type="only_0_1"/>
+			<xsd:element name="detiZoznam" type="detiZoznamStranaType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="c5stranaType">
+		<xsd:sequence>
+			<xsd:element name="c5aktualna" type="optInt"/>
+			<xsd:element name="c5celkovo" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="c5stlpecType">
+		<xsd:sequence>
+			<xsd:element name="c5rodneCislo" type="optInt"/>
+			<xsd:element name="c5ic" type="xsd:string"/>
+			<xsd:element name="c5doplnUdaj" type="only_0_1"/>
+			<xsd:element name="c5priezvisko" type="xsd:string"/>
+			<xsd:element name="c5meno" type="xsd:string"/>
+			<xsd:element name="c5ulica" type="xsd:string"/>
+			<xsd:element name="c5cislo" type="xsd:string"/>
+			<xsd:element name="c5psc" type="xsd:string"/>
+			<xsd:element name="c5obec" type="xsd:string"/>
+			<xsd:element name="c5stat" type="xsd:string"/>
+			<xsd:element name="c5kodStatu" type="optInt"/>
+			<xsd:element name="c5r3a" type="optDec"/>
+			<xsd:element name="c5r3b" type="optDec"/>
+			<xsd:element name="c5r3c" type="optDec"/>
+			<xsd:element name="c5r4a" type="optDec"/>
+			<xsd:element name="c5r4b" type="optDec"/>
+			<xsd:element name="c5r5" type="optDec"/>
+			<xsd:element name="c5r6" type="optDec"/>
+			<xsd:element name="c5r7suma" type="optDec"/>
+			<xsd:element name="c5r7sumaDds" type="optDec"/>						
+			<xsd:element name="c5r8suma" type="optDec"/>
+			<xsd:element name="c5r8deti" type="optInt"/>
+			<xsd:element name="c5r9" type="optDec"/>
+			<xsd:element name="c5r10" type="optDec"/>
+			<xsd:element name="detiZoznam" type="detiZoznamStranaType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="r4Type">
+		<xsd:sequence>
+			<xsd:element name="box00" type="only_0_1"/>
+			<xsd:element name="box01" type="only_0_1"/>
+			<xsd:element name="box02" type="only_0_1"/>
+			<xsd:element name="box03" type="only_0_1"/>
+			<xsd:element name="box04" type="only_0_1"/>
+			<xsd:element name="box05" type="only_0_1"/>
+			<xsd:element name="box06" type="only_0_1"/>
+			<xsd:element name="box07" type="only_0_1"/>
+			<xsd:element name="box08" type="only_0_1"/>
+			<xsd:element name="box09" type="only_0_1"/>
+			<xsd:element name="box10" type="only_0_1"/>
+			<xsd:element name="box11" type="only_0_1"/>
+			<xsd:element name="box12" type="only_0_1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="detiZoznamType">
+		<xsd:sequence>	
+			<xsd:element name="dietaUdaje" type="dietaUdajeType" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="dietaUdajeType">
+		<xsd:sequence>
+			<xsd:element name="zamRodneCislo" type="optInt"/>
+			<xsd:element name="zamIc" type="xsd:string"/>
+			<xsd:element name="dietaRodneCislo" type="optInt"/>
+			<xsd:element name="dietaMenoPriezv" type="xsd:string"/>
+			<xsd:element name="dietaMesiace" type="r4Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="detiZoznamStranaType">
+		<xsd:sequence>
+			<xsd:element name="dietaUdaje" type="dietaUdajeStranaType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="dietaUdajeStranaType">
+		<xsd:sequence>
+			<xsd:element name="dietaRodneCislo" type="optInt"/>
+			<xsd:element name="dietaMenoPriezv" type="xsd:string"/>
+			<xsd:element name="dietaMesiace" type="r4Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,60 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovensko — INTRASTAT-SK (CE / OCA)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Oficiální XML INTRASTAT-SK INSTAT Finanční správy nad enginem OCA intrastat_product, počítáno CE-čistě</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace je tenká národní vrstva nad deklaračním enginem OCA
+         <code>intrastat_product</code>. Engine shromažďuje pohyby zboží v rámci EU a počítá
+         seskupené řádky výkazu; tento modul je vykresluje jako oficiální XML
+         <b>INTRASTAT-SK INSTAT (instat62)</b> slovenské Finanční správy přes sdílený renderer
+         <code>l10n_cssk_intrastat_base</code>.</p>
+      <p>Jde o adaptér pro Community / OCA, licencovaný pod <b>AGPL-3</b>, protože dědí z AGPL
+         enginu OCA. Sdílený renderer INSTAT je pod LGPL-3, takže varianta pro Enterprise — která
+         místo toho jede na Odoo EE <code>account_intrastat</code> — jej může znovu použít bez
+         přejímání AGPL.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Národní adaptér nad deklaračním enginem OCA <code>intrastat_product</code>, CE-čistě
+            (bez závislosti na Enterprise <code>account_intrastat</code>).</li>
+        <li>Vykresluje oficiální XML INTRASTAT-SK <b>INSTAT (instat62)</b> FS SR přes sdílený
+            renderer <code>l10n_cssk_intrastat_base</code>.</li>
+        <li>Řádky výkazu pro přijetí / odeslání zboží počítané spodním enginem OCA.</li>
+        <li>Renderer INSTAT pod LGPL-3 je sdílený s variantou pro EE, takže oba adaptéry vydávají
+            totožné zákonné XML.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Nainstalujte společně s enginem OCA <code>intrastat_product</code> na slovenské účtové
+         osnově. Vytvořte v enginu OCA výkaz INTRASTAT za vykazované období, vygenerujte / spočítejte
+         jeho řádky a poté exportujte XML INTRASTAT-SK INSTAT pro portál Finanční správy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

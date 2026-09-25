@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      HLASENIEv23 XML — matches the official Finančná správa schema
+      data/rh2023.xsd (root <dokument>, no target namespace,
+      elementFormDefault="qualified"). Annual employer wrap-up under § 39
+      ods. 9 zák. 595/2003 Z. z.: an aggregate part (telo/cast1..cast3) plus a
+      full per-employee annex Časť V (telo/cast5, two employees per page).
+      Every annex/aggregate element is an optional type (optDec/optInt/string),
+      so unused lines carry the empty string; c5doplnUdaj / druhHlasenia flags
+      are mandatory 0/1. Amounts come from the SK income-tax rule codes; see the
+      model.
+    -->
+
+    <!-- One Časť V column (c5stlpecType). ``col`` is a dict; a blank trailing
+         column supplies only 'empty' + 'dopln_udaj' so col.get(...) empties. -->
+    <template id="hlasenie_c5_column">
+        <c5rodneCislo t-out="col.get('rodne_cislo')"/>
+        <c5ic/>
+        <c5doplnUdaj t-out="col.get('dopln_udaj')"/>
+        <c5priezvisko t-out="col.get('priezvisko')"/>
+        <c5meno t-out="col.get('meno')"/>
+        <c5ulica t-out="col.get('ulica')"/>
+        <c5cislo/>
+        <c5psc t-out="col.get('psc')"/>
+        <c5obec t-out="col.get('obec')"/>
+        <c5stat t-out="col.get('stat')"/>
+        <c5kodStatu/>
+        <c5r3a t-out="col.get('r3a')"/>
+        <c5r3b/>
+        <c5r3c/>
+        <c5r4a t-out="col.get('r4a')"/>
+        <c5r4b/>
+        <c5r5/>
+        <c5r6 t-out="col.get('r6')"/>
+        <c5r7suma/>
+        <c5r7sumaDds/>
+        <c5r8suma t-out="col.get('r8suma')"/>
+        <c5r8deti/>
+        <c5r9/>
+        <c5r10/>
+    </template>
+
+    <template id="hlasenie_xml">
+        <dokument>
+            <hlavicka>
+                <dic t-out="h['dic']"/>
+                <druhHlasenia>
+                    <!-- druhHlaseniaType is three mutually exclusive 0/1
+                         flags: riadne / opravné / dodatočné. All three used to
+                         be literals, so only a riadne hlásenie could be
+                         produced. -->
+                    <rh t-out="'1' if correction_type == 'regular' else '0'"/>
+                    <oh t-out="'1' if correction_type == 'corrective' else '0'"/>
+                    <dh t-out="'1' if correction_type == 'supplementary' else '0'"/>
+                </druhHlasenia>
+                <zdanovacieObdobie>
+                    <rok t-out="h['rok']"/>
+                    <datumDDP/>
+                </zdanovacieObdobie>
+                <fo>
+                    <priezvisko/>
+                    <meno/>
+                    <titul/>
+                    <titulZa/>
+                </fo>
+                <po>
+                    <obchodneMeno t-out="h['nazov']"/>
+                    <pravnaForma t-out="h['pravna_forma']"/>
+                </po>
+                <sidlo>
+                    <ulica t-out="h['ulica']"/>
+                    <cislo t-out="h['cislo']"/>
+                    <psc t-out="h['psc']"/>
+                    <obec t-out="h['obec']"/>
+                    <stat t-out="h['stat']"/>
+                </sidlo>
+                <dedicZastupca>
+                    <priezvisko/>
+                    <meno/>
+                    <titul/>
+                    <titulZa/>
+                    <rodneCislo/>
+                    <datumNarodenia/>
+                    <dic/>
+                    <obchodneMeno>
+                        <obchodneMeno/>
+                        <pravnaForma/>
+                    </obchodneMeno>
+                    <ulica/>
+                    <cislo/>
+                    <psc/>
+                    <obec/>
+                    <stat/>
+                </dedicZastupca>
+                <tel t-out="h['tel']"/>
+                <email t-out="h['email']"/>
+                <datumZuctovania/>
+                <osobitneZaznamy>
+                    <uvadzam>0</uvadzam>
+                    <zaznam/>
+                </osobitneZaznamy>
+                <vypracoval>
+                    <kto t-out="h['vypracoval']"/>
+                    <dna t-out="h['datum']"/>
+                    <tel t-out="h['tel']"/>
+                </vypracoval>
+                <pocetStranC4 t-out="h['pocet_stran_c4']"/>
+                <pocetStranC5 t-out="h['pocet_stran_c5']"/>
+                <pocetZamC4 t-out="h['pocet_zam_c4']"/>
+                <pocetZamC5 t-out="h['pocet_zam_c5']"/>
+                <pocetZamBonus33a/>
+                <suma33a/>
+                <pocetZamRekreacia/>
+                <sumaRekreacia/>
+                <datumVyhlasenia/>
+            </hlavicka>
+            <telo>
+                <cast1>
+                    <r00 t-out="b['r00']"/>
+                    <r01 t-out="b['r01']"/>
+                    <r01a/>
+                    <r02/>
+                    <r03/>
+                    <r04 t-out="b['r04']"/>
+                    <r05 t-out="b['r05']"/>
+                    <r06 t-out="b['r06']"/>
+                    <r07/>
+                    <r08/>
+                    <r09/>
+                    <r10/>
+                    <r11/>
+                </cast1>
+                <cast2>
+                    <r12/>
+                    <r13/>
+                </cast2>
+                <cast3>
+                    <rA/>
+                    <rB/>
+                    <rC/>
+                    <rD/>
+                    <rE/>
+                    <rF/>
+                </cast3>
+                <cast5 t-foreach="pages" t-as="page">
+                    <c5strana>
+                        <c5aktualna t-out="page['aktualna']"/>
+                        <c5celkovo t-out="page['celkovo']"/>
+                    </c5strana>
+                    <c5stlpec1>
+                        <t t-call="l10n_sk_hr_payroll_hlasenie.hlasenie_c5_column">
+                            <t t-set="col" t-value="page['col1']"/>
+                        </t>
+                    </c5stlpec1>
+                    <c5stlpec2>
+                        <t t-call="l10n_sk_hr_payroll_hlasenie.hlasenie_c5_column">
+                            <t t-set="col" t-value="page['col2']"/>
+                        </t>
+                    </c5stlpec2>
+                </cast5>
+                <ziadostVrateniePreplatku>
+                    <ziadam>0</ziadam>
+                    <poukazka>0</poukazka>
+                    <ucet>1</ucet>
+                    <iban t-out="b['iban']"/>
+                    <datum/>
+                </ziadostVrateniePreplatku>
+            </telo>
+        </dokument>
+    </template>
+</odoo>

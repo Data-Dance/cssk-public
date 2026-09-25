@@ -1,0 +1,66 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">SK bankovní kurzy — sdílené stažení/parsování</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Sdílené stažení &amp; parsování kurzů VÚB / Tatra banka, využívané poskytovateli SK pro Community i Enterprise</h3>
+    <div class="oe_span12">
+      <p>Tento modul je jediným zdrojem pravdy pro feedy směnných kurzů slovenských komerčních bank.
+         Poskytuje sdílené pomocné funkce pro stažení a parsování <i>kurzového lístku</i> <b>VÚB</b> a
+         RSS feedu <b>Tatra banky</b>, na nichž stavějí slovenští poskytovatelé kurzů pro Community
+         (OCA <code>currency_rate_update</code>) i Enterprise (<code>currency_rate_live</code>) — takže
+         žádná edice nemusí duplikovat logiku feedů.</p>
+      <p>Kurzy jsou vyjádřeny jako <code>1 EUR = X</code> cizí měny. Parsovací funkce vracejí
+         <code>{date: {ccy: rate_str}}</code> — formát, který OCA
+         <code>res.currency.rate.provider</code> (CE) konzumuje přímo a který se snadno převede na
+         <code>{ccy: (rate, date)}</code> používaný Enterprise <code>currency_rate_live</code> (EE).
+         Modul nedefinuje <b>žádné modely</b>; jde o knihovnu čistých pomocných funkcí importovanou
+         přes <code>odoo.addons.currency_rate_sk_base.utils.sk_rates</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>fetch_vub_text</code> / <code>parse_vub</code> — textový feed <i>kurzového lístku</i>
+            VÚB, používá kurz <b>Devíza stred</b> (střední) pro účetní ocenění.</li>
+        <li><code>fetch_tb_text</code> / <code>parse_tb</code> — RSS feed kurzů Tatra banky,
+            parsovaný za rozsah dat.</li>
+        <li>Seznamy podporovaných měn pro jednotlivé banky (<code>VUB_CURRENCIES</code> / <code>TB_CURRENCIES</code>).</li>
+        <li>User-Agent napodobující prohlížeč, aby koncové body bank (Tatra banka je za Cloudflare)
+            požadavek neodmítly.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Jde o základní knihovnu; nepoužívá se přímo. Nainstalujte poskytovatele slovenských kurzů
+         pro danou edici, který na ní závisí (most OCA <code>currency_rate_update</code> na Community,
+         most <code>currency_rate_live</code> na Enterprise), a aktualizaci kurzů nastavte tam.
+         Volání pomocných funkcí z vlastního kódu:</p>
+      <pre>from odoo.addons.currency_rate_sk_base.utils import sk_rates
+text = sk_rates.fetch_vub_text()
+rates = sk_rates.parse_vub(text, sk_rates.VUB_CURRENCIES)</pre>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

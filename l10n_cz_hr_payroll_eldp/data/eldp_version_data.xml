@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="eldp_version_2009" model="cssk.payroll.declaration.version">
+        <field name="name">ELDP09</field>
+        <field name="code">cz_eldp</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="valid_from">2009-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_hr_payroll_eldp.eldp_xml"/>
+        <field name="xml_root_element">RELDP</field>
+        <field name="xml_schema_module">l10n_cz_hr_payroll_eldp</field>
+        <field name="xml_schema_filename">data/ELDP09.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_cz_hr_payroll_eldp/data/ELDP09.xsd"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,62 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovakia — Súhrnný výkaz (EC Sales List)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">The Slovak EC sales list with codes 0/1/2 and the FS SR SDV XML export</h3>
+    <div class="oe_span12">
+      <p>This app produces the Slovak <b>EC sales list</b> (súhrnný výkaz) on top of the shared
+         <code>l10n_cssk_ec_summary_base</code> framework. Intra-EU supplies are aggregated per
+         (country, VAT number, transaction code) and exported as the FS SR <code>SDV</code> XML.</p>
+      <p>It depends on <code>l10n_sk</code> plus the shared framework — it does <b>not</b> depend
+         on <code>account_reports</code> — so it runs on both Community and Enterprise, on Odoo
+         18.0 and 19.0.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Transaction codes: <b>0</b> = goods (dodanie tovaru), <b>1</b> = triangulation
+            (trojstranný obchod – prostredná osoba), <b>2</b> = services (dodanie služby).</li>
+        <li>FS SR <code>SDV</code> XML export (template + stand-in XSD).</li>
+        <li>VIES preflight on the customers' VAT numbers before export.</li>
+        <li>CE-clean: no <code>account_reports</code> dependency — works on Community and
+            Enterprise, 18.0 and 19.0.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Tag the intra-EU supply taxes with <code>account.tax.cssk_ec_summary_code</code> (0 %
+         intra-community goods → <code>0</code>, services → <code>2</code>). Supplies to
+         EU-registered customers using those taxes are then aggregated per (country, VAT, code).
+         Create a statement for the period, <b>Compute</b>, review, then <b>Export XML</b> for the
+         FS portal.</p>
+      <p><b>Status:</b> aggregation, VIES preflight and the XSD-validated <code>SDV</code> export
+         work. The XSD / template element names are a <b>stand-in</b> (see the base module) —
+         replace with the official FS SR schema before live filing. Triangulation (code 1, middle
+         party only) needs a country override + accountant sign-off.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

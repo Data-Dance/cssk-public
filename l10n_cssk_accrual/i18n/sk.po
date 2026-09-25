@@ -1,0 +1,504 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-28 21:46+0000\n"
+"PO-Revision-Date: 2026-06-13 20:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__accrual_account_id
+msgid "Accrual Account"
+msgstr "Účet dohadnej položky"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__accrual_type
+msgid "Accrual Type"
+msgstr "Typ dohadnej položky"
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "Accrual estimate %s"
+msgstr "Dohadná položka %s"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akciu"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorácia výnimky aktivity"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__invoice_id
+msgid "Actual Invoice"
+msgstr "Skutočná faktúra"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_cssk_accrual
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_accrual.cssk_accrual_estimate_view_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "Cancel the estimate first — it has a posted entry."
+msgstr "Najprv stornujte odhad — má zaúčtovaný zápis."
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "Cancellation of %s"
+msgstr "Storno %s"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__state__cancelled
+msgid "Cancelled"
+msgstr "Zrušené"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__counterpart_account_id
+msgid "Counterpart Account"
+msgstr "Protiúčet"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__date
+msgid "Date"
+msgstr "Dátum"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__date
+msgid "Date the estimate is booked (usually the period end)."
+msgstr "Dátum zaúčtovania odhadu (zvyčajne koniec obdobia)."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__label
+msgid "Description"
+msgstr "Popis"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__state__draft
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__move_id
+msgid "Estimate Entry"
+msgstr "Účtovný zápis odhadu"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model,name:l10n_cssk_accrual.model_cssk_accrual_estimate
+msgid "Estimated Accrual (dohadná položka)"
+msgstr "Dohadná položka (odhad)"
+
+#. module: l10n_cssk_accrual
+#: model:ir.actions.act_window,name:l10n_cssk_accrual.cssk_accrual_estimate_action
+#: model:ir.ui.menu,name:l10n_cssk_accrual.menu_cssk_accrual_estimate
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_accrual.cssk_accrual_estimate_view_list
+msgid "Estimated Accruals"
+msgstr "Dohadné položky"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__accrual_type__payable
+msgid "Estimated payable (389 / 326)"
+msgstr "Odhadovaný záväzok (389 / 326)"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__accrual_type__receivable
+msgid "Estimated receivable (388)"
+msgstr "Odhadovaná pohľadávka (388)"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__accrual_account_id
+msgid ""
+"Estimated-items account: CZ 389 (pasívny) / 388 (aktívny), SK 326 "
+"(nevyfakturované dodávky). Should be reconcilable."
+msgstr ""
+"Účet dohadných položiek: CZ 389 (pasívny) / 388 (aktívny), SK 326 "
+"(nevyfakturované dodávky). Mal by umožňovať párovanie."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__counterpart_account_id
+msgid ""
+"Expense account (for an estimated payable) or income account (for an "
+"estimated receivable)."
+msgstr ""
+"Nákladový účet (pre odhadovaný záväzok) alebo výnosový účet (pre odhadovanú "
+"pohľadávku)."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_follower_ids
+msgid "Followers"
+msgstr "Sledujúci"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledujúci (partneri)"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, napr. fa-tasks"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označujúca výnimočnú aktivitu."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_cssk_accrual
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_accrual.cssk_accrual_estimate_view_form
+msgid "Internal note…"
+msgstr "Interná poznámka…"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledujúci"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__journal_id
+msgid "Journal"
+msgstr "Denník"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mojej aktivity"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín ďalšej aktivity"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_summary
+msgid "Next Activity Summary"
+msgstr "Súhrn ďalšej aktivity"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ ďalšej aktivity"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__note
+msgid "Note"
+msgstr "Poznámka"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "Only a draft estimate can be posted."
+msgstr "Zaúčtovať možno iba odhad v stave návrh."
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "Only a posted estimate can be settled."
+msgstr "Vyrovnať možno iba zaúčtovaný odhad."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__partner_id
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_cssk_accrual
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_accrual.cssk_accrual_estimate_view_form
+msgid "Post Estimate"
+msgstr "Zaúčtovať odhad"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__state__posted
+msgid "Posted"
+msgstr "Zaúčtované"
+
+#. module: l10n_cssk_accrual
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_accrual.cssk_accrual_estimate_view_form
+msgid "Reset to Draft"
+msgstr "Nastaviť na návrh"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný používateľ"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "Select the actual invoice to settle this estimate against."
+msgstr "Vyberte skutočnú faktúru, voči ktorej sa tento odhad vyrovná."
+
+#. module: l10n_cssk_accrual
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_accrual.cssk_accrual_estimate_view_form
+msgid "Settle (link invoice)"
+msgstr "Vyrovnať (prepojiť faktúru)"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__state__settled
+msgid "Settled"
+msgstr "Vyrovnané"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základe aktivít\n"
+"Po termíne: Termín už uplynul\n"
+"Dnes: Dátum aktivity je dnes\n"
+"Naplánované: Budúce aktivity."
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "The estimate amount must be positive."
+msgstr "Suma odhadu musí byť kladná."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__invoice_id
+msgid ""
+"The real invoice, once received. Settling reverses the estimate at this "
+"invoice's date so only the difference stays in the period."
+msgstr ""
+"Skutočná faktúra po jej prijatí. Vyrovnanie stornuje odhad k dátumu tejto "
+"faktúry, takže v období zostane iba rozdiel."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__reversal_move_id
+msgid "True-up / Reversal Entry"
+msgstr "Vyrovnávací / storno zápis"
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "True-up of %(est)s vs %(inv)s"
+msgstr "Vyrovnanie %(est)s voči %(inv)s"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výnimočnej aktivity v zázname."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,field_description:l10n_cssk_accrual.field_cssk_accrual_estimate__website_message_ids
+msgid "Website Messages"
+msgstr "Správy webu"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie webu"
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__label
+msgid "What is being accrued (printed on the journal items)."
+msgstr "Čo sa odhaduje (vytlačené na riadkoch účtovného zápisu)."
+
+#~ msgid "Estimated Accruals (dohadné)"
+#~ msgstr "Dohadné položky"
+
+#~ msgid "Estimated payable (dohadný účet pasívny / 389 / 326)"
+#~ msgstr "Dohadný účet pasívny (389 / 326)"
+
+#. module: l10n_cssk_accrual
+#: model:ir.module.module,shortdesc:base.module_l10n_cssk_accrual
+msgid "CZ/SK Estimated Accruals (dohadné položky)"
+msgstr "CZ/SK dohadné položky (odhady)"
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid ""
+"Cannot reverse accrual %(name)s on %(date)s: that date falls in a locked "
+"period (%(locks)s). Adjust the lock date or use a later reversal date."
+msgstr ""
+"Dohadnú položku %(name)s nemožno stornovať k %(date)s: tento dátum "
+"spadá do uzamknutého obdobia (%(locks)s). Upravte dátum uzamknutia "
+"alebo použite neskorší dátum storna."
+
+#. module: l10n_cssk_accrual
+#: model:ir.module.module,summary:base.module_l10n_cssk_accrual
+msgid ""
+"Estimated unbilled items — book an estimate to the accrual account (CZ "
+"388/389, SK 326), then link the actual invoice to true it up."
+msgstr ""
+"Odhad nevyfakturovaných položiek — zaúčtujte odhad na účet dohadných "
+"položiek (CZ 388/389, SK 326) a následne naň naviažte skutočnú "
+"faktúru na dorovnanie."
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid ""
+"Only a draft or posted estimate can be cancelled (%(name)s is %(state)s)."
+msgstr ""
+"Zrušiť možno len odhad v stave návrh alebo zaúčtovaný (%(name)s je "
+"%(state)s)."
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid ""
+"The accrual account %(account)s of %(name)s must allow reconciliation, "
+"otherwise the estimate cannot be cleared against its reversal when settled."
+msgstr ""
+"Účet dohadných položiek %(account)s záznamu %(name)s musí povoľovať "
+"párovanie, inak nemožno odhad pri vysporiadaní spárovať s jeho "
+"stornom."
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid ""
+"The accrual line of %(name)s on account %(account)s is already reconciled "
+"(moves: %(moves)s). Unreconcile it first if you really want to reverse this "
+"estimate."
+msgstr ""
+"Riadok dohadnej položky %(name)s na účte %(account)s je už spárovaný "
+"(doklady: %(moves)s). Ak naozaj chcete tento odhad stornovať, najprv "
+"zrušte párovanie."

@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 2 -->
+<xs:schema xmlns:eldpzec="http://socpoist.sk/xsd/eldpzec" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://socpoist.sk/xsd/eldpzec" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
+	<xs:element name="spELDPZec" type="eldpzec:spELDPZecType">
+		<xs:annotation>
+			<xs:documentation>Evidenčný list dôchodkového poistenia zamestnancov zamestnávateľa - hromadný - verzia 1.1 (2015)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="spELDPZecType">
+		<xs:annotation>
+			<xs:documentation>Hromadný ELDP zamestnancov zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="zamestnavatel" type="eldpzec:ZamestnavatelType"/>
+			<xs:element name="zoznamELDPZec" type="eldpzec:ZoznamELDPZecType"/>
+			<xs:element name="datOdoslania" type="eldpzec:DatumType">
+				<xs:annotation>
+					<xs:documentation>Dátum odoslania ELDP do Sociálnej poisťovne</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="kontakt" type="eldpzec:KontaktOsobaType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Email, telefón kontaktnej osoby vyhotoviteľa ELDP</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="KontaktOsobaType">
+		<xs:annotation>
+			<xs:documentation>Meno, priezvisko, email, telefón kontaktnej osoby vyhotoviteľa ELDP</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="priezvisko" type="eldpzec:PriezviskoType">
+				<xs:annotation>
+					<xs:documentation>Priezvisko kontaktnej osoby</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="meno" type="eldpzec:MenoType">
+				<xs:annotation>
+					<xs:documentation>Meno kontaktnej osoby</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="email">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="64"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="telCislo">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ZoznamELDPZecType">
+		<xs:sequence>
+			<xs:element name="eldpZec" type="eldpzec:ELDPZecType" maxOccurs="1000">
+				<xs:annotation>
+					<xs:documentation>Údaje ELDP za zamestnanca (max. 1000 zamestnancov)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ELDPZecType">
+		<xs:sequence>
+			<xs:element name="poistenec" type="eldpzec:IdentifikaciaPoistencaType">
+				<xs:annotation>
+					<xs:documentation>Údaje poistenca </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="poistVztah">
+				<xs:annotation>
+					<xs:documentation>Údaje o poistnom vzťahu </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="datVzniku" type="eldpzec:DatumType">
+							<xs:annotation>
+								<xs:documentation>Dátum vzniku poistného vzťahu</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:choice>
+							<xs:element name="datZaniku" type="eldpzec:DatumType">
+								<xs:annotation>
+									<xs:documentation>Dátum zániku poistného vzťahu</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="trva">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="1"/>
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:element>
+						</xs:choice>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="obdobiaPoist">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="vzZaObdobiePoist" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:attribute name="rok" type="eldpzec:RokType" use="required">
+									<xs:annotation>
+										<xs:documentation>Kalendárny rok obdobia poistenia</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="znakPoist" type="eldpzec:ZnakPoistType" use="optional">
+									<xs:annotation>
+										<xs:documentation>Znak poistenia</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="datOd" type="eldpzec:DatumType" use="optional">
+									<xs:annotation>
+										<xs:documentation>Dátum začiatku v položke obdobia poistenia</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="datDo" type="eldpzec:DatumType" use="optional">
+									<xs:annotation>
+										<xs:documentation>Dátum konca v položke obdobia poistenia </xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="vzDP" type="eldpzec:VzValueType" use="optional">
+									<xs:annotation>
+										<xs:documentation>Vymeriavací základ dôchodkového poistenia</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="vzVyluc" type="eldpzec:VzValueType" use="optional">
+									<xs:annotation>
+										<xs:documentation>Vymeriavací základ počas vylúčených dôb </xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="dniVyluc" type="xs:integer" use="optional">
+									<xs:annotation>
+										<xs:documentation>Kalendárne dni vylúčených dôb</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="datDovrseniaDV" type="eldpzec:DatumType" use="optional">
+						<xs:annotation>
+							<xs:documentation>Dátum dovŕšenia dôchodkového veku poistenca (uvádza sa, ak bol dosiahnutý počas obdobia poistného vzťahu). Pri vyhotovení ELDP je obdobie dôchodkového poistenia zapísané do dvoch riadkov (osobitne do dňa predchádzajúceho dňu dovŕšenia dôchodkového veku a osobitne odo dňa dovŕšenia dôchodkového veku)</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="opravny" use="optional">
+			<xs:annotation>
+				<xs:documentation>Informácia, či ide o opravný ELDP ("1" - opravný ELDP, "0" alebo neuvedený atribút - riadny ELDP)</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="0"/>
+					<xs:enumeration value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="IdentifikaciaPoistencaType">
+		<xs:annotation>
+			<xs:documentation>Údaje totožnosti poistenca</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="rc" type="eldpzec:RCType">
+				<xs:annotation>
+					<xs:documentation>Rodné číslo FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="priezvisko" type="eldpzec:PriezviskoType">
+				<xs:annotation>
+					<xs:documentation>Priezvisko FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="meno" type="eldpzec:MenoType">
+				<xs:annotation>
+					<xs:documentation>Krstné meno FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="titul" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Tituly pred aj za menom</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="20"/>
+						<xs:whiteSpace value="collapse"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="rodPriezvisko" type="eldpzec:PriezviskoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Rodné priezvisko FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="predPriezvisko" type="eldpzec:PriezviskoType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Predošlé priezvisko FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="miestoNarodenia" type="eldpzec:ObecType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Miesto narodenia FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="datNarodenia" type="eldpzec:DatumType">
+				<xs:annotation>
+					<xs:documentation>Dátum narodenia FO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="adresa" type="eldpzec:AdresaType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Adresa trvalého pobytu </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AdresaType">
+		<xs:annotation>
+			<xs:documentation>Adresa poistenca - všeobecná (tuzemsnko aj zahraničie) (nepovinné údaje: ulica, súp. číslo, orient. číslo, štat, povinné: psč, obec)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ulica" type="eldpzec:UlicaType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ulica</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="supCislo" type="eldpzec:SupCisloType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Súpisné číslo</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="oCislo" type="eldpzec:OCisloType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Orientačné číslo</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="obec" type="eldpzec:ObecType">
+				<xs:annotation>
+					<xs:documentation>Obec</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="psc" type="eldpzec:PostovyKodType">
+				<xs:annotation>
+					<xs:documentation>PSČ, resp. poštový kód pri zahraničnej adrese</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stat" type="eldpzec:StatType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Štát - akronym2 podľa číselníka štátov ŠÚ SR</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AdresaTType">
+		<xs:annotation>
+			<xs:documentation>Adresa tuzemská bez uvedenia štátu  (nepovinné údaje: ulica, súp. číslo, orient. číslo, povinné: psč, obec)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ulica" type="eldpzec:UlicaType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Ulica</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="supCislo" type="eldpzec:SupCisloType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Súpisné číslo</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="oCislo" type="eldpzec:OCisloType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Orientačné číslo</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="obec" type="eldpzec:ObecType">
+				<xs:annotation>
+					<xs:documentation>Obec</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="psc" type="eldpzec:PSCType">
+				<xs:annotation>
+					<xs:documentation>PSČ</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DatumType">
+		<xs:annotation>
+			<xs:documentation> Dátum vo formáte DD.MM.RRRR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="((0[1-9])|([1-2][0-9])|(3[0-1]))\.((0[1-9])|(1[0-2]))\.[1-2][0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RokType">
+		<xs:annotation>
+			<xs:documentation> Rok vo formáte RRRR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[1-2][0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PriezviskoType">
+		<xs:annotation>
+			<xs:documentation> Priezvisko podľa štandardov ŠÚ SR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="36"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MenoType">
+		<xs:annotation>
+			<xs:documentation> Meno podľa štandardov ŠÚ SR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="24"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ICType">
+		<xs:annotation>
+			<xs:documentation> Identifikačné číslo pridelené SP</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+			<xs:pattern value="[0-9]{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="RCType">
+		<xs:annotation>
+			<xs:documentation>Rodné číslo</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+			<xs:pattern value="[0-9]{9,10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="UlicaType">
+		<xs:annotation>
+			<xs:documentation>Ulica</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SupCisloType">
+		<xs:annotation>
+			<xs:documentation>Súpisné číslo</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:positiveInteger">
+			<xs:totalDigits value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="OCisloType">
+		<xs:annotation>
+			<xs:documentation>Orientačné číslo</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PSCType">
+		<xs:annotation>
+			<xs:documentation>PSČ</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="5"/>
+			<xs:pattern value="[0-9]{5}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="PostovyKodType">
+		<xs:annotation>
+			<xs:documentation>Globálny (celosvetový) formát pre poštový kód (http://en.wikipedia.org/wiki/Postal_code#Formats)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="15"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ObecType">
+		<xs:annotation>
+			<xs:documentation>Názov obce podľa štandardov ŠÚ SR	 </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+			<xs:whiteSpace value="collapse"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="StatType">
+		<xs:annotation>
+			<xs:documentation>Dvojznakový akronym štátu podľa štandardov ŠÚ SR</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+			<xs:whiteSpace value="collapse"/>
+			<xs:pattern value="[A-Z]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="VzValueType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Výška vymeriavacieho základu</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="12"/>
+			<xs:fractionDigits value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ZnakPoistType" final="restriction">
+		<xs:annotation>
+			<xs:documentation>Znak poistenia: A - zamestnanec, C - SZČO, S - DPO, MD - materská dovolenka, RD - rodičovská dovolenka, VS -vojenská služba
+(základná služba, náhradná služba, zdokonaľovacia služba), CS - civilná služba</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="A"/>
+			<xs:enumeration value="C"/>
+			<xs:enumeration value="S"/>
+			<xs:enumeration value="MD"/>
+			<xs:enumeration value="RD"/>
+			<xs:enumeration value="VS"/>
+			<xs:enumeration value="CS"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ZamestnavatelType">
+		<xs:annotation>
+			<xs:documentation>Údaje zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="identifikacia" type="eldpzec:IdentifikaciaZamestnavatelaType"/>
+			<xs:element name="korAdresa" type="eldpzec:AdresaTType">
+				<xs:annotation>
+					<xs:documentation>Adresa zamestnávateľa (tuzemský formát adresy)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IdentifikaciaZamestnavatelaType">
+		<xs:annotation>
+			<xs:documentation>Identifikačné údaje zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="icz">
+				<xs:annotation>
+					<xs:documentation>Identifikačné číslo zamestnávateľa pridelené v SP</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="10"/>
+						<xs:pattern value="[0-9]{10}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="identifikator" type="eldpzec:identifikatorZamestnavatelaType"/>
+			<xs:element name="nazov">
+				<xs:annotation>
+					<xs:documentation>Názov zamestnávateľa</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:maxLength value="144"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="identifikatorZamestnavatelaType">
+		<xs:annotation>
+			<xs:documentation>Identifikátor zamestnávateľa</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="ico">
+				<xs:annotation>
+					<xs:documentation> IČO (identifikačné číslo organizácie) </xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="8"/>
+						<xs:pattern value="[0-9]{8}"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="dic">
+				<xs:annotation>
+					<xs:documentation>DIČ (Daňové identifikačné číslo)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="13"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

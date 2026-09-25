@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Souhrnné hlášení (DPHSHV) — EPO Pisemnost format, mirroring Odoo EE
+      the official EPO structure: VetaD + VetaP + one VetaR per
+      reported line. Header hand-mapped from the company/period. The export is
+      validated against the official EPO DPHSHV XSD (data/dphshv_epo2.xsd),
+      loaded onto the version record.
+    -->
+    <template id="dphshv_2025">
+        <Pisemnost nazevSW="Odoo / Data Dance">
+            <DPHSHV verzePis="02.01">
+                <VetaD
+                    dokument="SHV"
+                    t-att-rok="statement.date_from.strftime('%Y')"
+                    t-att-mesic="('%d' % statement.date_from.month) if statement.period_type == 'month' else None"
+                    t-att-ctvrt="('%d' % ((statement.date_from.month - 1) // 3 + 1)) if statement.period_type == 'quarter' else None"
+                    t-att-shvies_forma="statement.statement_type_id.fa_xml_value"
+                    k_uladis="DPH"/>
+                <VetaP
+                    t-att-dic="(company.vat or '')[2:] if (company.vat or '')[:2].upper() == 'CZ' else (company.vat or '')"
+                    t-att-c_ufo="company.l10n_cssk_tax_authority_id.submission_code or ''"
+                    t-att-zkrobchjm="(company.name or '')[:20]"
+                    typ_ds="P"/>
+                <t t-foreach="lines" t-as="line">
+                    <VetaR
+                        t-att-k_stat="line.partner_country_code"
+                        t-att-c_vat="(line.partner_vat[2:] if (line.partner_vat or '')[:2].isalpha() else line.partner_vat) if line.partner_vat else ''"
+                        t-att-k_pln_eu="line.transaction_code"
+                        t-att-pln_pocet="'%d' % line.supplies_count"
+                        t-att-pln_hodnota="'%.0f' % line.total_amount"/>
+                </t>
+            </DPHSHV>
+        </Pisemnost>
+    </template>
+</odoo>

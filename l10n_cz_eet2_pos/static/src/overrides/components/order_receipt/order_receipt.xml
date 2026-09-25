@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="l10n_cz_eet2_pos.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('before-footer')]" position="after">
+            <t t-if="order.l10n_cz_eet2_pok">
+                <div class="pos-receipt-order-data pt-2">
+                    <div><b>EET 2.0</b></div>
+                    <div>POK: <t t-esc="order.l10n_cz_eet2_pok"/></div>
+                    <t t-if="order.l10n_cz_eet2_is_test">
+                        <div>NEPRODUKČNÍ / TEST</div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<templates xml:space="preserve">
+
+    <t t-name="account_asset_board.DepreciationSchedule">
+        <div class="o_action o_account_asset_board_schedule">
+            <Layout display="{ controlPanel: {} }">
+                <t t-set-slot="layout-actions">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <label class="mb-0" for="aab_date_from">From</label>
+                        <input
+                            type="date"
+                            id="aab_date_from"
+                            class="form-control form-control-sm w-auto"
+                            t-att-value="state.dateFrom"
+                            t-on-change="(ev) => this.onDateChange('dateFrom', ev)"
+                        />
+                        <label class="mb-0" for="aab_date_to">To</label>
+                        <input
+                            type="date"
+                            id="aab_date_to"
+                            class="form-control form-control-sm w-auto"
+                            t-att-value="state.dateTo"
+                            t-on-change="(ev) => this.onDateChange('dateTo', ev)"
+                        />
+                    </div>
+                </t>
+                <div class="table-responsive px-3 py-2" t-if="state.data">
+                    <table class="table table-sm table-hover o_list_table">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th class="text-end">Acquisition Value</th>
+                                <th class="text-end">Opening Depreciated Value</th>
+                                <th class="text-end">+ Depreciation</th>
+                                <th class="text-end">Disposals / Decreases</th>
+                                <th class="text-end">Closing Depreciated Value</th>
+                                <th class="text-end">Residual at End</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t
+                                t-foreach="state.data.groups"
+                                t-as="group"
+                                t-key="group.profile_id"
+                            >
+                                <tr
+                                    class="table-active fw-bold"
+                                    style="cursor: pointer;"
+                                    t-on-click="() => this.toggleGroup(group.profile_id)"
+                                >
+                                    <td>
+                                        <i
+                                            t-att-class="state.folded[group.profile_id] ? 'fa fa-caret-right me-1' : 'fa fa-caret-down me-1'"
+                                        />
+                                        <t t-out="group.profile" />
+                                    </td>
+                                    <td
+                                        class="text-end"
+                                        t-out="fmt(group.totals.acquisition_value)"
+                                    />
+                                    <td
+                                        class="text-end"
+                                        t-out="fmt(group.totals.opening_depreciated)"
+                                    />
+                                    <td
+                                        class="text-end"
+                                        t-out="fmt(group.totals.period_depreciation)"
+                                    />
+                                    <td
+                                        class="text-end"
+                                        t-out="fmt(group.totals.disposal)"
+                                    />
+                                    <td
+                                        class="text-end"
+                                        t-out="fmt(group.totals.closing_depreciated)"
+                                    />
+                                    <td
+                                        class="text-end"
+                                        t-out="fmt(group.totals.residual)"
+                                    />
+                                </tr>
+                                <t t-if="!state.folded[group.profile_id]">
+                                    <tr
+                                        t-foreach="group.assets"
+                                        t-as="asset"
+                                        t-key="asset.id"
+                                        style="cursor: pointer;"
+                                        t-on-click="() => this.openAsset(asset.id)"
+                                    >
+                                        <td class="ps-4">
+                                            <a
+                                                href="#"
+                                                class="text-decoration-none"
+                                                t-on-click.prevent=""
+                                            >
+                                                <t t-if="asset.code">
+                                                    <t t-out="asset.code" /> -
+                                                </t>
+                                                <t t-out="asset.name" />
+                                            </a>
+                                        </td>
+                                        <td
+                                            class="text-end"
+                                            t-out="fmt(asset.acquisition_value)"
+                                        />
+                                        <td
+                                            class="text-end"
+                                            t-out="fmt(asset.opening_depreciated)"
+                                        />
+                                        <td
+                                            class="text-end"
+                                            t-out="fmt(asset.period_depreciation)"
+                                        />
+                                        <td class="text-end" t-out="fmt(asset.disposal)" />
+                                        <td
+                                            class="text-end"
+                                            t-out="fmt(asset.closing_depreciated)"
+                                        />
+                                        <td class="text-end" t-out="fmt(asset.residual)" />
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                        <tfoot t-if="state.data.groups.length">
+                            <tr class="fw-bold border-top">
+                                <td>Total</td>
+                                <td
+                                    class="text-end"
+                                    t-out="fmt(state.data.totals.acquisition_value)"
+                                />
+                                <td
+                                    class="text-end"
+                                    t-out="fmt(state.data.totals.opening_depreciated)"
+                                />
+                                <td
+                                    class="text-end"
+                                    t-out="fmt(state.data.totals.period_depreciation)"
+                                />
+                                <td
+                                    class="text-end"
+                                    t-out="fmt(state.data.totals.disposal)"
+                                />
+                                <td
+                                    class="text-end"
+                                    t-out="fmt(state.data.totals.closing_depreciated)"
+                                />
+                                <td
+                                    class="text-end"
+                                    t-out="fmt(state.data.totals.residual)"
+                                />
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <p
+                        t-if="!state.data.groups.length"
+                        class="text-muted fst-italic"
+                    >No assets in the selected period.</p>
+                </div>
+            </Layout>
+        </div>
+    </t>
+
+</templates>

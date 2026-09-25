@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<odoo>
+    <template id="report_invoice_document_debit_note" inherit_id="account.report_invoice_document">
+        <xpath expr="//t[@t-set='layout_document_title']" position="after">
+            <t t-if="o.move_type == 'out_invoice' and o.debit_origin_id" t-set="layout_document_title">
+                <span t-if="o.state == 'posted'">Debit Note</span>
+                <span t-elif="o.state == 'draft'">Draft Debit Note</span>
+                <span t-else="">Cancelled Debit Note</span>
+                <span t-if="o.name and o.name != '/'" t-field="o.name"/>
+            </t>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,94 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Odsúhlasenie zostatkov partnerov (Saldokonto)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Podpisovateľné odsúhlasenia zostatkov otvorených položiek a dohoda o vzájomnom započítaní, iba na jadre Odoo</h3>
+    <div class="oe_span12">
+      <p>Slovenské/české <b>saldokonto</b> — <i>odsúhlasenie / potvrdenie zostatkov pohľadávok a
+         záväzkov</i>. Uložený dokument, ktorý <b>zachytáva</b> otvorené pohľadávky a záväzky
+         partnera k zvolenému dátumu (reprodukovateľne — opätovné otvorenie starého odsúhlasenia
+         ukáže, čo bolo odoslané), sleduje stavový automat (koncept → odoslané → odsúhlasené /
+         sporné) a tlačí PDF na podpis partnera.</p>
+      <p>Závisí iba od <b>jadra Odoo</b> (<code>account</code> + <code>mail</code> +
+         <code>l10n_cssk_core</code>). Dopĺňa OCA <code>partner_statement</code> (pohľad
+         vekovej štruktúry / aktivít) o podpisovateľný dokument odsúhlasenia, ktorý zostava
+         vekovej štruktúry neposkytuje, plus úplnú <b>dohodu o vzájomnom započítaní (zápočet)</b>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>Odsúhlasenie zostatkov (saldokonto):</b> <code>cssk.partner.confirmation</code> +
+            riadky — snímka otvorených položiek pohľadávok/záväzkov, súčty, stavový automat
+            (číselný rad <code>SALDO/YYYY/NNNN</code>), diskusia a PDF. Sporné riadky možno
+            <code>zablokovať</code> (vylúčiť zo súčtov, na PDF zostávajú).</li>
+        <li><b>Vzájomné započítanie (zápočet):</b> <code>cssk.partner.netting.agreement</code> —
+            načíta otvorené pohľadávky a záväzky partnera a <b>automaticky alokuje</b> započítanie
+            až do výšky = <code>min(pohľadávky, záväzky)</code>.</li>
+        <li>Pri zaúčtovaní zápočet zostaví <b>zúčtovací účtovný zápis</b> (Dal pohľadávky / Má
+            dať záväzky) a <b>vyrovná</b> započítané faktúry (podporuje čiastočné započítanie);
+            číselný rad <code>ZAP/YYYY/NNNN</code>; vrátenie cez <i>storno s reverzáciou</i>.</li>
+        <li>Dva právne režimy: <b>dvojstranný</b> (<i>dohoda o vzájomnom započítaní</i> — obe
+            strany podpíšu, kým nadobudne účinnosť) a <b>jednostranný</b>
+            (<i>jednostranné započítanie</i> — jednostranný zápočet účinný doručením, bez
+            podpisu druhej strany, podľa § 358 Obchodného zákonníka).</li>
+        <li>Dvojjazyčné SK/EN PDF pre oba dokumenty; PDF zápočtu prepína text medzi
+            dvojstrannou dohodou (dva podpisy) a oznámením o jednostrannom započítaní (jeden
+            podpis, účinné doručením).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p><i>Účtovníctvo ▸ Odberatelia ▸ Odsúhlasenia zostatkov</i> pre saldokonto a
+         <i>Účtovníctvo ▸ Dodávatelia ▸ Dohody o započítaní (zápočet)</i> pre vzájomné
+         započítanie. Dokument vytvorte jednotlivo, alebo použite nižšie uvedených sprievodcov
+         na hromadné vydanie odsúhlasení / zostavenie dohody o započítaní pre partnera.
+         Vypočítajte, skontrolujte, odošlite / zaúčtujte a vytlačte PDF na podpis.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Sprievodcovia</h2>
+    <div class="oe_span12">
+      <h4>Generovať odsúhlasenia zostatkov <small>(Účtovníctvo ▸ Odberatelia ▸ Odsúhlasenia zostatkov ▸ Generovať odsúhlasenia)</small></h4>
+      <p><b>Čo robí:</b> vydá odsúhlasenia zostatkov pre viacerých partnerov naraz.</p>
+      <p><b>Ako používať:</b> zvoľte spoločnosť, dátum (k) a typ odsúhlasenia (len pohľadávky /
+         len záväzky / oboje); ak ponecháte zoznam partnerov prázdny, vydá sa pre každého
+         partnera s otvoreným zostatkom, potom <i>Generovať</i>. Každé odsúhlasenie sa vytvorí a
+         vypočíta a otvorí sa zoznam výsledkov.</p>
+      <h4>Vytvoriť dohodu o započítaní <small>(Účtovníctvo ▸ Dodávatelia ▸ Dohody o započítaní (zápočet) ▸ Vytvoriť dohodu o započítaní)</small></h4>
+      <p><b>Čo robí:</b> vytvorí dohodu o započítaní pre partnera a automaticky alokuje
+         započítanie cez otvorené pohľadávky/záväzky až do vyrovnanej výšky.</p>
+      <p><b>Ako používať:</b> zvoľte spoločnosť, partnera a dátum dohody, potom <i>Vytvoriť</i>.
+         Sprievodca načíta otvorené pohľadávky a záväzky partnera, vypočíta
+         <code>min(pohľadávky, záväzky)</code> a túto sumu hladovo alokuje cez riadky (vyvolá
+         chybu, ak partner nemá vzájomne započítateľné zostatky), a otvorí novú dohodu na
+         potvrdenie / zaúčtovanie.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

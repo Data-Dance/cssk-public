@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_submission_view_list" model="ir.ui.view">
+        <field name="name">cssk.submission.list</field>
+        <field name="model">cssk.submission</field>
+        <field name="arch" type="xml">
+            <list string="Statutory Submissions">
+                <field name="name"/>
+                <field name="statement_display" string="Filing"/>
+                <field name="channel"/>
+                <field name="external_ref" optional="show"/>
+                <field name="sent_date" optional="hide"/>
+                <field name="delivered_date" optional="show"/>
+                <field name="accepted_date" optional="show"/>
+                <field name="attempt_count" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company"
+                       optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'accepted'"
+                       decoration-info="state in ('delivered', 'sending')"
+                       decoration-warning="state == 'queued'"
+                       decoration-danger="state in ('failed', 'rejected')"
+                       decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_submission_view_form" model="ir.ui.view">
+        <field name="name">cssk.submission.form</field>
+        <field name="model">cssk.submission</field>
+        <field name="arch" type="xml">
+            <form string="Statutory Submission">
+                <header>
+                    <button name="action_queue" type="object" string="Queue"
+                            class="oe_highlight"
+                            invisible="state not in ('draft', 'failed') or channel == 'pfs_manual'"
+                            groups="l10n_cssk_submission_base.group_cssk_submission_manager"/>
+                    <button name="action_attest_manual" type="object"
+                            string="Attest filing" class="oe_highlight"
+                            invisible="channel != 'pfs_manual' or state in ('delivered', 'accepted', 'cancelled')"
+                            groups="l10n_cssk_submission_base.group_cssk_submission_manager"
+                            help="Record that this was filed on the PFS portal, and by whom."/>
+                    <button name="action_send" type="object" string="Send now"
+                            invisible="state != 'queued'"
+                            groups="l10n_cssk_submission_base.group_cssk_submission_manager"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('delivered', 'accepted', 'cancelled')"
+                            groups="l10n_cssk_submission_base.group_cssk_submission_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,queued,delivered,accepted"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <!-- Said plainly, because the distinction is the whole point
+                         of the model and an accountant must not read "delivered"
+                         as "the filing counts". -->
+                    <div class="alert alert-info" role="status"
+                         invisible="state != 'delivered'">
+                        The channel confirmed it took this filing. Acceptance by
+                        the authority is a separate step and has not been
+                        recorded yet.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="state != 'failed'">
+                        <field name="last_error" readonly="1" nolabel="1"/>
+                    </div>
+                    <group>
+                        <group string="Filing">
+                            <field name="statement_display" readonly="1"/>
+                            <field name="channel"
+                                   readonly="state != 'draft'"/>
+                            <field name="payload_attachment_id"
+                                   readonly="1" widget="many2one"/>
+                            <field name="sealed_attachment_id" readonly="1"
+                                   invisible="not sealed_attachment_id"/>
+                            <field name="company_id"
+                                   groups="base.group_multi_company"/>
+                            <field name="res_model" invisible="1"/>
+                            <field name="res_id" invisible="1"/>
+                        </group>
+                        <group string="Authority">
+                            <field name="external_ref"/>
+                            <field name="sent_date"/>
+                            <field name="delivered_date"/>
+                            <field name="accepted_date"/>
+                            <field name="evidence_user_id"
+                                   invisible="not evidence_user_id"/>
+                        </group>
+                    </group>
+                    <group string="Delivery" name="delivery"
+                           invisible="state in ('draft', 'accepted')">
+                        <field name="attempt_count"/>
+                        <field name="next_retry"
+                               invisible="state != 'queued'"/>
+                        <field name="message_id" invisible="not message_id"/>
+                        <field name="correlation_id"
+                               invisible="not correlation_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Receipts" name="receipts">
+                            <!-- Potvrdenky and doručenky live here rather than
+                                 with the channel provider: these are what proves
+                                 the filing in a daňová kontrola, and they have to
+                                 survive losing the provider. -->
+                            <field name="receipt_attachment_ids"
+                                   widget="many2many_binary" nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_submission_view_search" model="ir.ui.view">
+        <field name="name">cssk.submission.search</field>
+        <field name="model">cssk.submission</field>
+        <field name="arch" type="xml">
+            <search string="Statutory Submissions">
+                <field name="name"/>
+                <field name="external_ref"/>
+                <field name="statement_display"/>
+                <filter name="filter_open" string="Not yet accepted"
+                        domain="[('state', 'in', ['draft', 'queued', 'sending', 'delivered'])]"/>
+                <filter name="filter_attention" string="Needs attention"
+                        domain="[('state', 'in', ['failed', 'rejected'])]"/>
+                <filter name="filter_accepted" string="Accepted"
+                        domain="[('state', '=', 'accepted')]"/>
+                <separator/>
+                <filter name="group_state" string="Status" domain="[]"
+                        context="{'group_by': 'state'}"/>
+                <filter name="group_channel" string="Channel" domain="[]"
+                        context="{'group_by': 'channel'}"/>
+                <filter name="group_model" string="Filing type" domain="[]"
+                        context="{'group_by': 'res_model'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="cssk_submission_action" model="ir.actions.act_window">
+        <field name="name">Statutory Submissions</field>
+        <field name="res_model">cssk.submission</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_open': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No submissions yet</p>
+            <p>
+                A submission records how a statutory filing reached the
+                authority and what came back. Create one from the filing
+                itself once it has been exported.
+            </p>
+        </field>
+    </record>
+
+</odoo>

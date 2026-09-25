@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_edi_root"
+        name="EDI"
+        sequence="90"
+        groups="edi_base.group_edi_user"/>
+
+    <menuitem id="menu_edi_messages"
+        name="Messages"
+        parent="menu_edi_root"
+        action="action_edi_message"
+        sequence="10"
+        groups="edi_base.group_edi_user"/>
+
+    <!-- Configuration > Settings -->
+    <record id="action_edi_config_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'module': 'edi_base'}</field>
+    </record>
+
+    <menuitem id="menu_edi_config"
+        name="Configuration"
+        parent="menu_edi_root"
+        sequence="50"
+        groups="edi_base.group_edi_manager"/>
+
+    <menuitem id="menu_edi_config_settings"
+        name="Settings"
+        parent="menu_edi_config"
+        action="action_edi_config_settings"
+        sequence="10"
+        groups="base.group_system"/>
+</odoo>

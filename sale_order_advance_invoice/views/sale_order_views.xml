@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sale_order_form_advance_invoice" model="ir.ui.view">
+        <field name="name">sale.order.form.advance.invoice</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Shown on regular orders in 'sale' state: trigger advance invoice creation -->
+            <xpath expr="//header/button[@id='create_invoice']" position="attributes">
+                <attribute name="invisible" add="is_advance_invoice" separator=" or "/>
+            </xpath>
+
+            <xpath expr="//header/button[@id='create_invoice_percentage']" position="attributes">
+                <attribute name="invisible" add="is_advance_invoice" separator=" or "/>
+            </xpath>
+
+            <xpath expr="//header/button[@id='create_invoice']" position="after">
+                <button
+                    name="action_create_invoice_direct_for_advance"
+                    type="object"
+                    string="Create Invoice"
+                    class="btn-primary"
+                    invisible="not is_advance_invoice or advance_invoice_accounting_status != 'waiting'"/>
+            </xpath>
+
+            <xpath expr="//header/button[@id='create_invoice']" position="after">
+                <button
+                    name="%(sale_order_advance_invoice.action_view_sale_advance_invoice_wizard)d"
+                    type="action"
+                    class="btn-primary"
+                    string="Create Advance Invoice"
+                    invisible="is_advance_invoice or state != 'sale'"/>
+            </xpath>
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field
+                    name="advance_invoice_date_due"
+                    invisible="not is_advance_invoice"/>
+                <field
+                    name="advance_invoice_long_term"
+                    invisible="not is_advance_invoice"
+                    readonly="state not in ('draft', 'sent')"/>
+                <field
+                    name="advance_invoice_paid_date"
+                    readonly="1"
+                    invisible="not is_advance_invoice or not advance_invoice_paid_date"/>
+                <field
+                    name="advance_invoice_payment_status"
+                    widget="badge"
+                    readonly="1"
+                    invisible="not is_advance_invoice"
+                    decoration-muted="advance_invoice_payment_status in ('none', 'cancelled')"
+                    decoration-warning="advance_invoice_payment_status == 'paid_partially'"
+                    decoration-success="advance_invoice_payment_status == 'paid_fully'"
+                    decoration-danger="advance_invoice_payment_status == 'overpaid'"/>
+                <field
+                    name="advance_invoice_partner_bank_id"
+                    domain="[('partner_id.ref_company_ids', 'parent_of', company_id)]"
+                    invisible="not is_advance_invoice"/>
+                <field
+                    name="advance_invoice_display_qr_code"
+                    invisible="1"/>
+                <field
+                    name="advance_invoice_qr_code_method"
+                    invisible="not advance_invoice_display_qr_code"/>
+            </xpath>
+
+            <div name="button_box" position="inside">
+                <field name="show_manual_transfer_link" invisible="1"/>
+
+                <!-- Shown on regular orders when linked advance invoices exist -->
+                <button
+                    name="action_view_advance_invoices"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-file-text-o"
+                    invisible="is_advance_invoice or advance_invoice_count == 0">
+                    <field name="advance_invoice_count" widget="statinfo" string="Advance Invoices"/>
+                </button>
+
+                <!-- Shown on advance invoices: navigate back to the parent order -->
+                <button
+                    name="action_view_parent_order"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-shopping-cart"
+                    string="Parent Order"
+                    invisible="not is_advance_invoice or not advance_invoice_parent_order_id"/>
+
+                <button
+                    name="%(sale_order_advance_invoice.action_sale_order_manual_transfer_link_wizard)d"
+                    type="action"
+                    class="oe_stat_button"
+                    icon="fa-link"
+                    string="Link Manual Transfer"
+                    groups="account.group_account_invoice"
+                    invisible="not show_manual_transfer_link"/>
+
+                <button
+                    name="action_register_manual_payment"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-money"
+                    string="Register Payment"
+                    groups="account.group_account_invoice"
+                    invisible="not show_manual_transfer_link"/>
+
+            </div>
+        </field>
+    </record>
+
+    <record id="view_sale_order_form_accounting_status" model="ir.ui.view">
+        <field name="name">sale.order.form.accounting.status</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <field
+                    name="advance_invoice_accounting_status"
+                    widget="statusbar"
+                    statusbar_visible="nothing_to_account,waiting,accounted"
+                    invisible="not is_advance_invoice"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_sale_order_form_advance_tracking_amount" model="ir.ui.view">
+        <field name="name">sale.order.form.advance.tracking.amount</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='so_button_below_order_lines']/button[@name='action_open_discount_wizard']" position="attributes">
+                <attribute name="invisible" add="is_advance_invoice" separator=" or "/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='discount']" position="attributes">
+                <attribute name="column_invisible">parent.is_advance_invoice</attribute>
+                <attribute name="invisible" add="is_advance_tracking" separator=" or "/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='price_subtotal'][not(@optional)]" position="attributes">
+                <attribute name="invisible" add="is_advance_tracking" separator=" or "/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='price_total'][not(@optional)]" position="attributes">
+                <attribute name="invisible" add="is_advance_tracking" separator=" or "/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Hide advance invoices from standard Quotations and Orders lists -->
+    <record id="sale.action_quotations" model="ir.actions.act_window">
+        <field name="domain">[('is_advance_invoice', '=', False)]</field>
+    </record>
+
+    <record id="sale.action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="domain">[('is_advance_invoice', '=', False)]</field>
+    </record>
+
+    <record id="sale.action_orders" model="ir.actions.act_window">
+        <field name="domain">[('is_advance_invoice', '=', False)]</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <record id="res_config_settings_view_form_jcd" model="ir.ui.view">
+        <field name="name">res.config.settings.form.l10n.sk.jcd</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block id="invoicing_settings" position="after">
+                <block title="Dovoz tovaru (JCD)" id="l10n_sk_jcd_settings"
+                       invisible="not l10n_sk_jcd_is_sk_company">
+                    <field name="l10n_sk_jcd_is_sk_company" invisible="1"/>
+                    <setting id="l10n_sk_jcd_accounts" string="Účty a produkty"
+                             help="Zúčtovací účet pre pomyselný základ dane pri dovoze a služobný produkt, cez ktorý sa clo pripočíta k obstarávacej cene zásob.">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="l10n_sk_jcd_clearing_account_id" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_sk_jcd_clearing_account_id"/>
+                            </div>
+                            <div class="row">
+                                <label for="l10n_sk_jcd_duty_product_id" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_sk_jcd_duty_product_id"/>
+                            </div>
+                        </div>
+                    </setting>
+                    <setting id="l10n_sk_jcd_regime" string="Predvolený režim dane"
+                             help="§ 84a ods. 3 je podmienený statusom platiteľa, nie voľbou pri zásielke.">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="l10n_sk_jcd_default_regime" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_sk_jcd_default_regime"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>

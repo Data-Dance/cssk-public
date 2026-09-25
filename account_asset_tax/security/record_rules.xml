@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- account.asset.tax.class is statutory shared data (country-scoped),
+         deliberately not company-restricted. -->
+    <record id="rule_account_asset_tax_line_company" model="ir.rule">
+        <field name="name">Asset tax line: multi-company</field>
+        <field name="model_id" ref="model_account_asset_tax_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_account_asset_tax_event_company" model="ir.rule">
+        <field name="name">Asset tax event: multi-company</field>
+        <field name="model_id" ref="model_account_asset_tax_event"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sends what is `queued` for providers that registered dispatch "cron"
+         in PROVIDER_DISPATCH_MAP. It is inert on a database where every
+         provider is dispatched by job, which is why it can ship in edi_base
+         rather than in a provider module: the registry, not the installed
+         module set, decides what it touches. -->
+    <record id="cron_edi_send_queued" model="ir.cron">
+        <field name="name">EDI: send queued messages (no job runner)</field>
+        <field name="model_id" ref="model_edi_message"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_queued()</field>
+        <field name="interval_number">2</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

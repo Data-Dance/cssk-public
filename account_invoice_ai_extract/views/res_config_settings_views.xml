@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_ai_extract" model="ir.ui.view">
+        <field name="name">res.config.settings.form.ai.extract</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <block title="AI Invoice Extraction" name="ai_extract_block">
+                    <setting string="AI Provider"
+                             help="muk_ai provider used to read invoice PDFs (defaults to the company / global provider)">
+                        <field name="ai_extract_provider_id"/>
+                    </setting>
+                    <setting string="AI Model"
+                             help="Model used to read invoice PDFs; empty = provider default. Haiku is usually enough for clean digital invoices.">
+                        <field name="ai_extract_model_id"/>
+                    </setting>
+                    <setting string="Purchase Journal">
+                        <field name="ai_extract_journal_id"/>
+                    </setting>
+                    <setting string="Default Expense Account">
+                        <field name="ai_extract_expense_account_id"/>
+                    </setting>
+                    <setting string="Confidence Threshold"
+                             help="Extractions below this confidence are parked for review instead of creating a draft bill">
+                        <field name="ai_extract_confidence_threshold"/>
+                    </setting>
+                    <setting string="Auto-create Supplier"
+                             help="If no supplier matches the extracted VAT, create a draft partner instead of parking for review">
+                        <field name="ai_extract_auto_create_partner"/>
+                    </setting>
+                    <setting string="Auto-create Bank Account"
+                             help="Attach the supplier's extracted IBAN as a bank account (when not already present)">
+                        <field name="ai_extract_auto_create_bank"/>
+                    </setting>
+                    <setting string="Auto-extract on Email"
+                             help="Queue an AI extraction when a PDF arrives on a draft vendor bill (vendor-bills alias)">
+                        <field name="ai_extract_auto_extract"/>
+                    </setting>
+                    <setting string="Reverse-charge Rate"
+                             help="Rate the buyer self-assesses on reverse-charge (EU) purchases; the fiscal position remaps it to the reverse-charge tax">
+                        <field name="ai_extract_reverse_charge_rate"/>
+                    </setting>
+                    <setting string="Flag Unusual Tax Point"
+                             help="Warn when the taxable supply date is after the bill date, or earlier than the month before it; a supply date in the bill's month or the previous month is normal and not flagged">
+                        <field name="ai_extract_flag_period_mismatch"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

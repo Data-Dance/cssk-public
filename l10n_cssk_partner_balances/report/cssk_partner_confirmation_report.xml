@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_partner_confirmation" model="ir.actions.report">
+        <field name="name">Balance Confirmation (Saldokonto)</field>
+        <field name="model">cssk.partner.confirmation</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_cssk_partner_balances.report_partner_confirmation</field>
+        <field name="report_file">l10n_cssk_partner_balances.report_partner_confirmation</field>
+        <field name="binding_model_id" ref="model_cssk_partner_confirmation"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_partner_confirmation">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Odsúhlasenie zostatkov / Balance confirmation</h2>
+                        <p>
+                            <strong t-out="doc.name"/> —
+                            k dátumu / as of
+                            <strong t-out="doc.as_of_date"/>
+                        </p>
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Dodávateľ / Veriteľ:</strong><br/>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact"}'/>
+                                <div>IČ DPH:
+                                    <span t-out="doc.company_id.vat or ''"/>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <strong>Odberateľ / Partner:</strong><br/>
+                                <span t-field="doc.partner_id"
+                                      t-options='{"widget": "contact"}'/>
+                                <div>IČ DPH:
+                                    <span t-out="doc.partner_id.vat or ''"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-sm mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Doklad / Document</th>
+                                    <th>Dátum</th>
+                                    <th>Splatnosť</th>
+                                    <th>Typ</th>
+                                    <th class="text-end">Suma / Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line"
+                                    t-att-class="'text-muted' if line.blocked else ''">
+                                    <td t-out="line.move_name"/>
+                                    <td t-out="line.move_date"/>
+                                    <td t-out="line.date_maturity or ''"/>
+                                    <td t-out="dict(line._fields['account_type'].selection).get(line.account_type, '')"/>
+                                    <td class="text-end">
+                                        <span t-out="line.amount_residual"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        <span t-if="line.blocked"> (sporné)</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row">
+                            <div class="col-6 offset-6">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Pohľadávky / Receivables</td>
+                                        <td class="text-end">
+                                            <span t-field="doc.total_receivable"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Záväzky / Payables</td>
+                                        <td class="text-end">
+                                            <span t-field="doc.total_payable"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Saldo / Net</th>
+                                        <th class="text-end">
+                                            <span t-field="doc.net_balance"/>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-6 text-center">
+                                ____________________________<br/>
+                                Za dodávateľa / For the supplier
+                            </div>
+                            <div class="col-6 text-center">
+                                ____________________________<br/>
+                                Za odberateľa / For the partner
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

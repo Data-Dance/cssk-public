@@ -1,0 +1,55 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Vrubopis DD</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Úpravy Data Dance pro odběratelské vrubopisy v Odoo</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace přidává úpravy Data Dance nad jádrovým modulem
+         <code>account_debit_note</code>. Zpřehledňuje práci s odběratelskými vrubopisy (opravný
+         daňový doklad zvyšující) a správně označuje tištěný doklad.</p>
+      <p>Jde o tenkou vrstvu pro UI a sestavu — <b>nemění</b> způsob zaúčtování ani číslování
+         vrubopisů; pouze upravuje formulář faktury, akci v nabídce a sestavu faktury.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Tištěný doklad faktury má název <b>Vrubopis</b> (včetně variant koncept / zrušeno),
+            jakmile zaúčtovaná odběratelská faktura nese <code>debit_origin_id</code>.</li>
+        <li>Standardní tlačítko <b>Stornovat</b> je na formuláři faktury skryté (vrubopisy se
+            vytvářejí vyhrazeným postupem pro vrubopisy, nikoli stornem).</li>
+        <li>Akce <i>Dobropisy</i> u odběratelů je rozšířena tak, aby zobrazovala i doklady s
+            <code>debit_origin_id</code>, takže vrubopisy jsou dostupné ze stejného místa.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Nainstalujte nad <code>account_debit_note</code>. Vytvořte vrubopis ze zaúčtované
+         odběratelské faktury standardním postupem Odoo <i>Přidat vrubopis</i>; výsledný doklad se
+         vytiskne s názvem <b>Vrubopis</b> a zobrazí se vedle dobropisů v seznamu u odběratele.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

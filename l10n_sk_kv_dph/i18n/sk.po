@@ -1,0 +1,977 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-21 13:24+0000\n"
+"PO-Revision-Date: 2026-06-13 20:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"%(n)d odberateľ(ov) v oddiele D.2 nemá IČ DPH ani IČO, ale podľa vlastného "
+"záznamu ide o podnikateľa: %(names)s. Ak IČO chýba len v evidencii, doplňte "
+"ho — dodanie potom patrí do A.1 (IČ DPH sa v A.1 neuvádza povinne). D.2 je "
+"súhrn, takže v samotnom výkaze odberateľa nevidno."
+msgstr ""
+"%(n)d odberateľ(ov) v oddiele D.2 nemá IČ DPH ani IČO, ale podľa vlastného "
+"záznamu ide o podnikateľa: %(names)s. Ak IČO chýba len v evidencii, doplňte "
+"ho — dodanie potom patrí do A.1 (IČ DPH sa v A.1 neuvádza povinne). D.2 je "
+"súhrn, takže v samotnom výkaze odberateľa nevidno."
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"%(sec)s: %(n)d row(s) whose counterparty IČ DPH is not Slovak — this section"
+" reports domestic supplies only (the form types it SK+10 digits), so the "
+"document belongs in another section or the partner's country/VAT disagree: "
+"%(refs)s"
+msgstr ""
+"%(sec)s: %(n)d riadok(ov), ktorých IČ DPH protistrany nie je slovenské — "
+"tento oddiel vykazuje len tuzemské dodania (formulár ho typuje ako SK + 10 "
+"číslic), takže doklad patrí do iného oddielu alebo si krajina a IČ DPH "
+"partnera odporujú: %(refs)s"
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"%(sec)s: %(n)d row(s) whose document reference is longer than the 32 "
+"characters the form allows — shorten it on the document; it is cross-matched"
+" against the supplier's own filing, so it cannot be truncated here: %(refs)s"
+msgstr ""
+"%(sec)s: %(n)d riadok(ov), ktorých referencia dokladu je dlhšia než 32 "
+"znakov povolených formulárom — skráťte ju na doklade; krížovo sa porovnáva s"
+" podaním dodávateľa, takže ju nemožno skrátiť tu: %(refs)s"
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"%(sec)s: %(n)d row(s) without the counterparty's IČ DPH — set the VAT number"
+" on the partner (Contacts → partner → Tax ID): %(refs)s"
+msgstr ""
+"%(sec)s: %(n)d riadok(ov) bez IČ DPH protistrany — nastavte IČ DPH na "
+"partnerovi (Kontakty → partner → IČ DPH): %(refs)s"
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"%(sec)s: %(n)d row(s) without the supply date (Den) — set the "
+"invoice/delivery date on the document: %(refs)s"
+msgstr ""
+"%(sec)s: %(n)d riadok(ov) bez dátumu dodania (Den) — nastavte na doklade "
+"dátum faktúry/dodania: %(refs)s"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "A.1"
+msgstr "A.1"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "A.2"
+msgstr "A.2"
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"A.2: %(n)d row(s) of § 69 ods. 12 goods whose unit converts to none of kg, "
+"t, m, ks — the only units the form accepts; invoice them in one of those: "
+"%(refs)s"
+msgstr ""
+"A.2: %(n)d riadok(ov) tovaru podľa § 69 ods. 12, ktorého mernú jednotku "
+"nemožno previesť na kg, t, m ani ks — iné jednotky tlačivo neprijíma; "
+"fakturujte v niektorej z nich: %(refs)s"
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"A.2: %(n)d row(s) of § 69 ods. 12 písm. f)/g) goods without the 4-digit "
+"commodity code — set it on the product (KV DPH commodity code, or its "
+"intrastat/HS code): %(refs)s"
+msgstr ""
+"A.2: %(n)d riadok(ov) tovaru podľa § 69 ods. 12 písm. f)/g) bez "
+"štvormiestneho číselného kódu tovaru — doplňte ho na produkte (Číselný kód "
+"tovaru (KV DPH) alebo kód Intrastat/HS): %(refs)s"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Šablóna účtovej osnovy"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "B.1"
+msgstr "B.1"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "B.2"
+msgstr "B.2"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "B.3.1"
+msgstr "B.3.1"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "B.3.2"
+msgstr "B.3.2"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "C.1"
+msgstr "C.1"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "C.2"
+msgstr "C.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__kod_opravy
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__kod_opravy
+msgid ""
+"Correction code — filled only in an amended KV DPH (1 = cancellation of the "
+"original data, 2 = new / corrected data)."
+msgstr ""
+"Kód opravy — vypĺňa sa len v dodatočnom KV DPH (1 = storno pôvodných údajov,"
+" 2 = nové / opravené údaje)."
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__create_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__create_date
+msgid "Created on"
+msgstr "Vytvorené dňa"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__company_currency_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__company_currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "D.1"
+msgstr "D.1"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "D.2"
+msgstr "D.2"
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid "D.2: odberateľ vyzerá ako zdaniteľná osoba"
+msgstr "D.2: odberateľ vyzerá ako zdaniteľná osoba"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__deducted_amount
+msgid "Deducted Amount"
+msgstr "Odpočítaná suma"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_product__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_res_company__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_sk_kv_dph
+#: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
+msgid "Documents"
+msgstr "Doklady"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__goods_kind
+msgid "Druh tovaru (TD)"
+msgstr "Druh tovaru (TD)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__entry_ref
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__entry_ref
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__entry_ref
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__entry_ref
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__entry_ref
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__entry_ref
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__entry_ref
+msgid "Entry Ref"
+msgstr "Referencia záznamu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__entry_ref_original
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__entry_ref_original
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__entry_ref_original
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__entry_ref_original
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__entry_ref_original
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__entry_ref_original
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__entry_ref_original
+msgid "Entry Ref Original"
+msgstr "Referencia pôvodného záznamu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__entry_ref_original_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__entry_ref_original_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__entry_ref_original_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__entry_ref_original_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__entry_ref_original_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__entry_ref_original_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__entry_ref_original_xml
+msgid "Entry Ref Original Xml"
+msgstr "Číslo pôvodného dokladu (XML)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__entry_ref_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__entry_ref_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__entry_ref_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__entry_ref_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__entry_ref_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__entry_ref_xml
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__entry_ref_xml
+msgid "Entry Ref Xml"
+msgstr "Číslo dokladu (XML)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_cn_code
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_cn_code
+msgid ""
+"First four digits of the Spoločný colný sadzobník code, reported in A.2 for "
+"§ 69 ods. 12 písm. f) and g). Leave empty to take it from the product's "
+"intrastat / HS code when one is installed."
+msgstr ""
+"Prvé štyri číslice kódu podľa Spoločného colného sadzobníka, uvádzané v A.2 "
+"pri tovare podľa § 69 ods. 12 písm. f) a g). Ak zostane prázdne, použije sa "
+"kód Intrastat / HS produktu, ak je taký modul nainštalovaný."
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__product_code
+msgid "HS code (4-digit)"
+msgstr "Kód HS (4-miestny)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_product__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_res_company__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__goods_kind__io
+msgid "IO — integrované obvody"
+msgstr "IO — integrované obvody"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_account_move
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__move_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__move_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__move_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__move_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__move_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__move_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__move_id
+msgid "Journal Entry"
+msgstr "Účtovný zápis"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_account_move_line
+msgid "Journal Item"
+msgstr "Položka účtovného zápisu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_a1
+msgid "KV DPH Section A.1"
+msgstr "Oddiel KV DPH A.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_a2
+msgid "KV DPH Section A.2"
+msgstr "Oddiel KV DPH A.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_b1
+msgid "KV DPH Section B.1"
+msgstr "Oddiel KV DPH B.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_b2
+msgid "KV DPH Section B.2"
+msgstr "Oddiel KV DPH B.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_b3
+msgid "KV DPH Section B.3 (vintage to 31. 3. 2016)"
+msgstr "KV DPH oddiel B.3 (vzor do 31. 3. 2016)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_b31
+msgid "KV DPH Section B.3.1"
+msgstr "Oddiel KV DPH B.3.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_b32
+msgid "KV DPH Section B.3.2"
+msgstr "Oddiel KV DPH B.3.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_c1
+msgid "KV DPH Section C.1"
+msgstr "Oddiel KV DPH C.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_c2
+msgid "KV DPH Section C.2"
+msgstr "Oddiel KV DPH C.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_d1
+msgid "KV DPH Section D.1"
+msgstr "Oddiel KV DPH D.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_section_d2
+msgid "KV DPH Section D.2"
+msgstr "Oddiel KV DPH D.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__kod_opravy
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__kod_opravy
+msgid "Kod Opravy"
+msgstr "Kód opravy"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__goods_code
+msgid "Kód tovaru (TK)"
+msgstr "Kód tovaru (TK)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__write_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené dňa"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__goods_kind__mt
+msgid "MT — mobilné telefóny"
+msgstr "MT — mobilné telefóny"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_account_bank_statement_line__l10n_sk_kv_is_simplified
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_account_move__l10n_sk_kv_is_simplified
+msgid ""
+"Mark received documents that are simplified invoices / receipts (zjednodušená faktúra, bloček z e-kasy). Their input VAT is reported in KV DPH section B.3 — aggregated in B.3.1 below the 3 000 EUR period threshold, or per supplier in B.3.2 at/above it.\n"
+"NB: toggling this on an already-posted move does not auto-recompute the section tag; recompute the statement (or the line) afterwards."
+msgstr ""
+"Označte prijaté doklady, ktoré sú zjednodušenými faktúrami / dokladmi (zjednodušená faktúra, bloček z e-kasy). Ich daň na vstupe sa vykazuje v oddiele B.3 KV DPH — súhrnne v B.3.1 pod prahom 3 000 EUR za obdobie, alebo podľa dodávateľa v B.3.2 pri jeho dosiahnutí/prekročení.\n"
+"Pozn.: zapnutie tohto na už zaúčtovanom doklade automaticky neprepočíta značku oddielu; následne prepočítajte výkaz (alebo riadok)."
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__uom_code
+msgid "Merná jednotka (MJ)"
+msgstr "Merná jednotka (MJ)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__quantity
+msgid "Množstvo (Mn)"
+msgstr "Množstvo (Mn)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__move_line_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__move_line_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__move_line_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__move_line_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__move_line_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__move_line_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__move_line_id
+msgid "Move Line"
+msgstr "Položka zápisu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__is_overridden
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__is_overridden
+msgid "Override"
+msgstr "Prepísať"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__partner_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__partner_id
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__partner_country_code
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__partner_country_code
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__partner_country_code
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__partner_country_code
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__partner_country_code
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__partner_country_code
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__partner_country_code
+msgid "Partner Country Code"
+msgstr "Kód krajiny partnera"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__partner_vat
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__partner_vat
+msgid "Partner Vat"
+msgstr "IČ DPH partnera"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__partner_vat_stripped
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__partner_vat_stripped
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__partner_vat_stripped
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__partner_vat_stripped
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__partner_vat_stripped
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__partner_vat_stripped
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__partner_vat_stripped
+msgid "Partner Vat Stripped"
+msgstr "IČ DPH partnera (bez kódu krajiny)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_product_template
+msgid "Product"
+msgstr "Produkt"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_product_product
+msgid "Product Variant"
+msgstr "Variant produktu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__entry_ref_original
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__entry_ref_original
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__entry_ref_original
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__entry_ref_original
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__entry_ref_original
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__entry_ref_original
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__entry_ref_original
+msgid ""
+"Reference of the original document for corrections (SK C.1/C.2, CZ negative "
+"rows)."
+msgstr ""
+"Referencia pôvodného dokladu pre opravy (SK C.1/C.2, CZ záporné riadky)."
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__row_count
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__row_count
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__row_count
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__row_count
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__row_count
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__row_count
+msgid "Row Count"
+msgstr "Počet riadkov"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_b3_mixin
+msgid "SK KV DPH B.3 (mixin)"
+msgstr "SK KV DPH B.3 (mixin)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_l10n_sk_kv_dph_detail_mixin
+msgid "SK KV DPH detail section (mixin)"
+msgstr "SK KV DPH detailný oddiel (mixin)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_rc_goods
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_rc_goods
+msgid ""
+"Set on goods whose domestic supply is reverse-charged under § 69 ods. 12 "
+"písm. f) to i). Oddiel A.2 of the kontrolný výkaz then reports, per invoice,"
+" the commodity code (f, g) or the kind of goods (h, i), and the quantity "
+"with its unit. Leave empty for everything else, including the other § 69 "
+"ods. 12 supplies (scrap, construction work), for which A.2 carries only the "
+"base."
+msgstr ""
+"Nastavte pri tovare, ktorého tuzemské dodanie podlieha prenesenej daňovej "
+"povinnosti podľa § 69 ods. 12 písm. f) až i). Oddiel A.2 kontrolného výkazu "
+"potom pri každej faktúre uvedie číselný kód tovaru (f, g) alebo druh tovaru "
+"(h, i) a množstvo s mernou jednotkou. Pri všetkom ostatnom nechajte prázdne,"
+" aj pri ostatných dodaniach podľa § 69 ods. 12 (odpad, šrot, stavebné "
+"práce), pri ktorých A.2 obsahuje len základ dane."
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_bank_statement_line__l10n_sk_kv_is_simplified
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move__l10n_sk_kv_is_simplified
+msgid "Simplified invoice (KV DPH B.3)"
+msgstr "Zjednodušená faktúra (KV DPH B.3)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_a1_ids
+msgid "Sk Section A1"
+msgstr "Oddiel A.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_a2_ids
+msgid "Sk Section A2"
+msgstr "Oddiel A.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_b1_ids
+msgid "Sk Section B1"
+msgstr "Oddiel B.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_b2_ids
+msgid "Sk Section B2"
+msgstr "Oddiel B.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_b31_ids
+msgid "Sk Section B31"
+msgstr "Oddiel B.3.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_b32_ids
+msgid "Sk Section B32"
+msgstr "Oddiel B.3.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_c1_ids
+msgid "Sk Section C1"
+msgstr "Oddiel C.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_c2_ids
+msgid "Sk Section C2"
+msgstr "Oddiel C.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_d1_ids
+msgid "Sk Section D1"
+msgstr "Oddiel D.1"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__sk_section_d2_ids
+msgid "Sk Section D2"
+msgstr "Oddiel D.2"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__source_reconciles
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__source_reconciles
+msgid "Source Reconciles"
+msgstr "Zdrojové párovania"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__source_move_line_ids
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__source_move_line_ids
+msgid "Source lines"
+msgstr "Zdrojové riadky"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__statement_id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__statement_id
+msgid "Statement"
+msgstr "Výkaz"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__supply_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__supply_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__supply_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__supply_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__supply_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__supply_date
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__supply_date
+msgid "Supply Date"
+msgstr "Deň dodania"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__tax_amount
+msgid "Tax Amount"
+msgstr "Suma dane"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__tax_amount_basic
+msgid "Tax Amount Basic"
+msgstr "Suma dane (základná sadzba)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__tax_amount_lower
+msgid "Tax Amount Lower"
+msgstr "Suma dane (znížená sadzba)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__tax_base_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__tax_base_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__tax_base_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__tax_base_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__tax_base_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__tax_base_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__tax_base_amount
+msgid "Tax Base Amount"
+msgstr "Základ dane"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__tax_base_basic
+msgid "Tax Base Basic"
+msgstr "Základ dane (základná sadzba)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__tax_base_lower
+msgid "Tax Base Lower"
+msgstr "Základ dane (znížená sadzba)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__tax_rate
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__tax_rate
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__tax_rate
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__tax_rate
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__tax_rate
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__tax_rate
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__tax_rate
+msgid "Tax Rate"
+msgstr "Sadzba dane"
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"The kontrolný výkaz cannot be exported — the official KVDPH form requires data that is missing:\n"
+"%s"
+msgstr ""
+"Kontrolný výkaz nemožno exportovať — oficiálny formulár KVDPH vyžaduje údaje, ktoré chýbajú:\n"
+"%s"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__entry_ref_xml
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__entry_ref_xml
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__entry_ref_xml
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__entry_ref_xml
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__entry_ref_xml
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__entry_ref_xml
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__entry_ref_xml
+msgid ""
+"The reference as the STATEMENT can carry it: the KV DPH schema types it "
+"'\\S{1,32}', which forbids whitespace outright."
+msgstr ""
+"Číslo dokladu v tvare, ktorý výkaz prijme: schéma KV DPH ho definuje ako "
+"'\\S{1,32}', čo medzery úplne vylučuje."
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_detail_mixin__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b1__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__is_overridden
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__is_overridden
+msgid ""
+"Tick to manually correct this row's amounts. The correction is preserved "
+"across recompute and re-applied to the row with the same identity (partner "
+"VAT / document / rate)."
+msgstr ""
+"Zaškrtnite na ručnú opravu súm v tomto riadku. Oprava sa pri prepočte "
+"zachová a znovu použije na riadok s rovnakou identitou (IČ DPH partnera / "
+"doklad / sadzba)."
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__total_deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__total_deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__total_deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__total_deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__total_deducted_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__total_deducted_amount
+msgid "Total Deducted Amount"
+msgstr "Odpočítaná suma spolu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__total_tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__total_tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__total_tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__total_tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__total_tax_amount
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__total_tax_amount
+msgid "Total Tax Amount"
+msgstr "Suma dane spolu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__total_tax_base
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b31__total_tax_base
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b32__total_tax_base
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b3__total_tax_base
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__total_tax_base
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__total_tax_base
+msgid "Total Tax Base"
+msgstr "Základ dane spolu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_rc_goods
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_rc_goods
+msgid "Tovar podľa § 69 ods. 12 (KV DPH A.2)"
+msgstr "Tovar podľa § 69 ods. 12 (KV DPH A.2)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_cssk_control_statement
+msgid "VAT Control Statement (KV DPH / KH DPH)"
+msgstr "Kontrolný výkaz DPH (KV DPH)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__uom_code__kg
+msgid "kg"
+msgstr "kg"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__uom_code__ks
+msgid "ks"
+msgstr "ks"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__uom_code__m
+msgid "m"
+msgstr "m"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__uom_code__t
+msgid "t"
+msgstr "t"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a2__rc_goods
+msgid "§ 69 ods. 12 goods"
+msgstr "Tovar podľa § 69 ods. 12"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__rc_goods__f
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__product_template__l10n_sk_kv_rc_goods__f
+msgid "§ 69 ods. 12 písm. f) — obilniny a technické plodiny"
+msgstr "§ 69 ods. 12 písm. f) — obilniny a technické plodiny"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__rc_goods__g
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__product_template__l10n_sk_kv_rc_goods__g
+msgid "§ 69 ods. 12 písm. g) — kovy"
+msgstr "§ 69 ods. 12 písm. g) — kovy"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__rc_goods__h
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__product_template__l10n_sk_kv_rc_goods__h
+msgid "§ 69 ods. 12 písm. h) — mobilné telefóny"
+msgstr "§ 69 ods. 12 písm. h) — mobilné telefóny"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__rc_goods__i
+#: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__product_template__l10n_sk_kv_rc_goods__i
+msgid "§ 69 ods. 12 písm. i) — integrované obvody"
+msgstr "§ 69 ods. 12 písm. i) — integrované obvody"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_cn_code
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_cn_code
+msgid "Číselný kód tovaru (KV DPH)"
+msgstr "Číselný kód tovaru (KV DPH)"

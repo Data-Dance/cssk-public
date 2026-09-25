@@ -1,0 +1,66 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Intrastat — generátor XML INSTAT (základ)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Generátor XML INTRASTAT-SK INSTAT (instat62) nezávislý od edície, zdieľaný adaptérmi pre Community (OCA) aj Enterprise</h3>
+    <div class="oe_span12">
+      <p>Generátor a validátor XML <b>INSTAT (instat62)</b> pre <b>INTRASTAT-SK</b>, nezávislý
+         od edície a bez závislostí. Vykresľuje a validuje oficiálnu správu Finančnej správy
+         INTRASTAT-SK (<code>intrastat.financnasprava.sk</code>, schéma <code>instat62.xsd</code>
+         pribalená v <code>data/</code>) z normalizovanej hlavičky + slovníkov riadkov.</p>
+      <p>Závisí iba od <code>base</code> — <b>bez</b> závislosti od OCA intrastat enginu alebo
+         Odoo Enterprise <code>account_intrastat</code> — takže je LGPL-3 a môžu ho importovať
+         tak AGPL Community adaptér (<code>l10n_sk_intrastat</code>), ako aj proprietárny
+         Enterprise adaptér. Nemá žiadne používateľské rozhranie; ide o zdieľanú knižnicu na
+         vykresľovanie.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.instat.builder</code> (AbstractModel) s dvomi vstupnými bodmi:
+            <code>build_instat_xml(header, lines)</code> pre jedno hlásenie / jeden tok
+            (Community adaptér) a <code>build_instat_envelope(env_header, decl_groups)</code>
+            pre jednu obálku s viacerými hláseniami, napr. prijatie + odoslanie (Enterprise
+            adaptér).</li>
+        <li>Oba validujú vykreslené XML voči pribalenému <code>instat62.xsd</code> a pri chybe
+            vyvolajú výnimku.</li>
+        <li>Prevod <code>netMass</code> / <code>quantityInSU</code> / <code>invoicedAmount</code>
+            na celé čísla podľa schémy.</li>
+        <li>Normalizované vykreslenie Party / Address pre odosielateľa obálky a PSI každého
+            hlásenia.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Tento modul nedodáva žiadne ponuky ani pohľady. Adaptéry INTRASTAT-SK pre Community /
+         Enterprise volajú <code>self.env["cssk.instat.builder"].build_instat_xml(header,
+         lines)</code> (alebo <code>build_instat_envelope(...)</code>) s normalizovanou
+         hlavičkou a slovníkmi riadkov opísanými v <code>models/cssk_instat_builder.py</code> a
+         validované XML vložia do hlásenia.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

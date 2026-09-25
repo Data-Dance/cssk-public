@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_cssk_partner_confirmation_company" model="ir.rule">
+        <field name="name">Partner balance confirmation: multi-company</field>
+        <field name="model_id" ref="model_cssk_partner_confirmation"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_cssk_partner_confirmation_line_company" model="ir.rule">
+        <field name="name">Partner balance confirmation line: multi-company</field>
+        <field name="model_id" ref="model_cssk_partner_confirmation_line"/>
+        <field name="domain_force">[('confirmation_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_cssk_partner_netting_agreement_company" model="ir.rule">
+        <field name="name">Partner netting agreement: multi-company</field>
+        <field name="model_id" ref="model_cssk_partner_netting_agreement"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_cssk_partner_netting_agreement_line_company" model="ir.rule">
+        <field name="name">Partner netting agreement line: multi-company</field>
+        <field name="model_id" ref="model_cssk_partner_netting_agreement_line"/>
+        <field name="domain_force">[('agreement_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

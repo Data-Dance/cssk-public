@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+        Country-scope the payroll and time-off configuration, the same way the
+        accounting localization scopes its config: a company only sees the
+        salary structures and leave types of its own country (records whose
+        country_id is empty stay global and visible to everyone).
+
+        These are global record rules (no group), evaluated against the
+        countries of the user's active companies (``company_ids`` = activated
+        companies, as used by the payroll engine's own multi-company rules).
+        They filter the configuration lists AND the struct_id / leave-type
+        selections everywhere, so no per-view domain is needed.
+    -->
+    <record id="hr_payroll_structure_country_rule" model="ir.rule">
+        <field name="name">Payroll Structure: country scope</field>
+        <field name="model_id" ref="payroll.model_hr_payroll_structure"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('country_id', '=', False),
+             ('country_id', 'in',
+              user.env['res.company'].browse(company_ids).country_id.ids)]
+        </field>
+    </record>
+
+    <record id="hr_leave_type_country_rule" model="ir.rule">
+        <field name="name">Time Off Type: country scope</field>
+        <field name="model_id" ref="hr_holidays.model_hr_leave_type"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('country_id', '=', False),
+             ('country_id', 'in',
+              user.env['res.company'].browse(company_ids).country_id.ids)]
+        </field>
+    </record>
+</odoo>

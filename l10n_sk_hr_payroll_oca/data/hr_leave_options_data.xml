@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        OPTIONAL / ALTERNATIVE Slovak leave configuration.
+
+        This file ships three kinds of records:
+
+        A) HOLIDAY "full entitlement at start of year" accrual plans  [ARCHIVED]
+           An ALTERNATIVE to the default monthly 1/12 dovolenka accrual
+           (hr_leave_accrual_plan_data.xml). These grant the WHOLE annual
+           entitlement (20 / 25 / 40 days) at once on 1 January
+           (frequency='yearly' on 1 Jan, accrued_gain_time='start'). They ship
+           ARCHIVED (active=False) so they never interfere with the default
+           monthly plans; an administrator archives the monthly plan and
+           un-archives the matching year-start plan to switch a company over.
+
+        B) OČR (ošetrovné) statutory-limit plan                       [ACTIVE]
+        C) Paid-obstacle (§141) per-reason leave types + annual-limit plans
+                                                                      [ACTIVE]
+           Ošetrovné is a nemocenská dávka paid by the Sociálna poisťovňa, NOT
+           by the employer — the employer only records the absence. hr.leave
+           allocations cannot be shipped as install data (employee_id is a
+           required field and no employee exists on a fresh install), so the
+           statutory day-caps are modelled here as accrual plans whose
+           maximum_leave_yearly carries the legal number.
+
+           ONE LEAVE TYPE PER CAPPED REASON (section C). The caps must not
+           share a leave type: Odoo pools every allocation of the same type
+           into one balance, so hanging 7 + 7 + 10 days off the generic
+           OBSTACLE type would enforce a single 24-day pool and let somebody
+           book twelve consecutive days of vyšetrenie. Each capped reason
+           therefore gets its own leave type with requires_allocation=True,
+           which makes the cap a hard limit at booking time.
+
+           The GENERIC l10n_sk_leave_type_obstacle keeps
+           requires_allocation=False on purpose: it carries the per-EVENT
+           §141 reasons that have no annual quota (svadba, úmrtie, narodenie
+           dieťaťa, darovanie krvi §138). Requiring an allocation there would
+           make a funeral day unbookable once an unrelated quota ran out.
+
+           All of these carry the same l10n_sk_payroll_code (OBSTACLE), so the
+           split is invisible to payroll — the salary rules key on the code,
+           not on the leave type.
+
+           OČR (section B) deliberately keeps requires_allocation=False: its
+           14-day cap is the krátkodobé ošetrovné, and a hard block would
+           reject a legitimate dlhodobé ošetrovné (§42 ods. 5, up to 90 days),
+           which is not modelled here.
+
+        =====================================================================
+        OČR / ošetrovné — zák. č. 461/2003 Z. z. o sociálnom poistení
+        =====================================================================
+          * Krátkodobé ošetrovné (§39 ods. 1 písm. a, §42 ods. 4): dávka zo
+            Sociálnej poisťovne, najviac 14 KALENDÁRNYCH DNÍ od vzniku potreby
+            osobného a celodenného ošetrovania/starostlivosti. (2025/2026)
+          * Dlhodobé ošetrovné (§39 ods. 1 písm. b, §42 ods. 5): v úhrne najviac
+            90 DNÍ za 12 mesiacov od vzniku prvého nároku; vystriedanie
+            poistencov v tom istom prípade najskôr po 30 dňoch.
+          * Oprávnené osoby (§39): dieťa, manžel/manželka, rodič, rodič
+            manžela/manželky a ďalší vymedzení rodinní príslušníci.
+          => Cap encoded below = 14 (krátkodobé). The 90-day dlhodobé limit is
+             a Sociálna poisťovňa benefit duration, documented here only.
+
+        =====================================================================
+        Prekážky v práci s náhradou mzdy — §141 (a §138) Zákonníka práce,
+        zák. č. 311/2001 Z. z.  (dôležité osobné prekážky v práci)
+        =====================================================================
+        Reason                                | Limit / rok | Náhrada mzdy
+        ......................................|.............|..............
+        Vyšetrenie/ošetrenie v zdrav. zar.    | 7 dní       | ÁNO (platené)
+        Sprevádzanie rodinného príslušníka    | 7 dní       | ÁNO (platené)
+        Sprevádzanie zdrav. postih. dieťaťa   | 10 dní      | ÁNO (platené)
+        Vlastná svadba                        | 1 deň       | ÁNO (platené)
+        Svadba dieťaťa/rodiča                 | 1 deň       | NIE
+        Úmrtie manžela/dieťaťa                | 2 dni +1deň | ÁNO (platené)
+                                              | na pohreb   |
+        Úmrtie rodiča/súrodenca               | 1 deň (+1   | ÁNO (platené)
+                                              | ak zariaďuje|
+                                              | pohreb)     |
+        Úmrtie prarodiča/vnuka/inej bl. osoby | najviac 1 d | ÁNO (platené)
+        Narodenie dieťaťa (preprava manželky) | nevyhn. čas | ÁNO (platené)
+        Sťahovanie v tej istej obci           | 1 deň       | NIE (bez náhr.)
+        Sťahovanie do inej obce               | 2 dni       | NIE (bez náhr.)
+        Darovanie krvi / biol. materiálu(§138)| nevyhn. čas | ÁNO (platené)
+
+        The three reasons carrying a concrete ANNUAL number (vyšetrenie 7 dní,
+        sprevádzanie 7 dní, sprevádzanie ZŤP dieťaťa 10 dní) each get their own
+        leave type + plan below. The remaining one/two-day reasons are
+        PER-EVENT, not annual caps, so they are booked against the generic
+        l10n_sk_leave_type_obstacle, which needs no allocation.
+
+        Sources (confirmed 2025/2026):
+          - Zákon č. 461/2003 Z. z. §39, §42 (Slov-Lex; Sociálna poisťovňa)
+          - Zákonník práce §138, §141 (Slov-Lex 311/2001 Z. z.)
+          - podnikajte.sk — Prekážky v práci (§141, §142)
+          - socpoist.sk — Ošetrovné (krátkodobé/dlhodobé)
+        Note: novela ZP účinná od 1.1.2026 rozšírila §141 ods. 2 písm. c);
+        day-limits above are unchanged. Human review recommended before use.
+    -->
+
+    <!-- ============================================================== -->
+    <!-- A) HOLIDAY: full annual entitlement granted on 1 January       -->
+    <!--    ARCHIVED alternative to the monthly 1/12 accrual plans.     -->
+    <!-- ============================================================== -->
+
+    <!-- 20 dní (4 týždne, §103 ods. 1) granted on 1 Jan -->
+    <record id="l10n_sk_accrual_plan_dovolenka_start_4w" model="hr.leave.accrual.plan">
+        <field name="name">Annual leave — 20 days, full grant on 1 January (archived)</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_dovolenka"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="True"/>
+        <field name="active" eval="False"/>
+    </record>
+    <record id="l10n_sk_accrual_level_dovolenka_start_4w" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_dovolenka_start_4w"/>
+        <field name="added_value">20</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">yearly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">20</field>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- §113: unused dovolenka carried into the following year is forfeited
+             if still unused a year later. accrual_validity counts 364 days from the
+             1 Jan carryover, so the window closes ~31 Dec, just before the next
+             1 Jan carryover -> a clean one-year forfeit every cycle. -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+
+    <!-- 25 dní (5 týždňov, §103 ods. 2) granted on 1 Jan -->
+    <record id="l10n_sk_accrual_plan_dovolenka_start_5w" model="hr.leave.accrual.plan">
+        <field name="name">Annual leave — 25 days, full grant on 1 January (archived)</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_dovolenka"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="True"/>
+        <field name="active" eval="False"/>
+    </record>
+    <record id="l10n_sk_accrual_level_dovolenka_start_5w" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_dovolenka_start_5w"/>
+        <field name="added_value">25</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">yearly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">25</field>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- §113: one-year carryover window, then forfeit (364 days from carryover, so it expires ~31 Dec, just before the next 1 Jan carryover). -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+
+    <!-- 40 dní (8 týždňov, §103 ods. 3) granted on 1 Jan -->
+    <record id="l10n_sk_accrual_plan_dovolenka_start_8w" model="hr.leave.accrual.plan">
+        <field name="name">Annual leave — 40 days, full grant on 1 January (archived)</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_dovolenka"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="True"/>
+        <field name="active" eval="False"/>
+    </record>
+    <record id="l10n_sk_accrual_level_dovolenka_start_8w" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_dovolenka_start_8w"/>
+        <field name="added_value">40</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">yearly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">40</field>
+        <field name="action_with_unused_accruals">all</field>
+        <!-- §113: one-year carryover window, then forfeit (364 days from carryover, so it expires ~31 Dec, just before the next 1 Jan carryover). -->
+        <field name="accrual_validity" eval="True"/>
+        <field name="accrual_validity_count">364</field>
+        <field name="accrual_validity_type">day</field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- B) OČR: krátkodobé ošetrovné cap = 14 dní (SP benefit)  ACTIVE -->
+    <!-- ============================================================== -->
+    <record id="l10n_sk_accrual_plan_ocr_short_14d" model="hr.leave.accrual.plan">
+        <field name="name">Short-term family care (OČR) — 14 days/year limit</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_ocr"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="False"/>
+    </record>
+    <record id="l10n_sk_accrual_level_ocr_short_14d" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_ocr_short_14d"/>
+        <field name="added_value">14</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">yearly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">14</field>
+        <field name="action_with_unused_accruals">lost</field>
+    </record>
+
+    <!-- ============================================================== -->
+    <!-- C) Paid obstacles §141 - annual caps                    ACTIVE -->
+    <!-- ============================================================== -->
+
+    <!-- One leave type per capped reason, each with requires_allocation=True
+         so the statutory day-cap is enforced when the leave is booked. They
+         all carry the OBSTACLE payroll code, so the payslip cannot tell them
+         apart from the generic paid obstacle. -->
+    <record id="l10n_sk_leave_type_obstacle_exam" model="hr.leave.type">
+        <field name="name">Paid Obstacle — Medical Examination (7 days/year)</field>
+        <field name="l10n_sk_payroll_code">OBSTACLE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="True"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_obstacle_accompany" model="hr.leave.type">
+        <field name="name">Paid Obstacle — Accompanying a Family Member (7 days/year)</field>
+        <field name="l10n_sk_payroll_code">OBSTACLE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="True"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+    <record id="l10n_sk_leave_type_obstacle_accompany_disabled" model="hr.leave.type">
+        <field name="name">Paid Obstacle — Accompanying a Disabled Child ZŤP (10 days/year)</field>
+        <field name="l10n_sk_payroll_code">OBSTACLE</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="company_id" eval="False"/>
+        <field name="requires_allocation" eval="True"/>
+        <field name="request_unit">day</field>
+        <field name="leave_validation_type">no_validation</field>
+    </record>
+
+    <!-- Vyšetrenie/ošetrenie v zdravotníckom zariadení: 7 dní/rok -->
+    <record id="l10n_sk_accrual_plan_obstacle_exam_7d" model="hr.leave.accrual.plan">
+        <field name="name">Work obstacle — medical examination, 7 days/year</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_obstacle_exam"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="False"/>
+    </record>
+    <record id="l10n_sk_accrual_level_obstacle_exam_7d" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_obstacle_exam_7d"/>
+        <field name="added_value">7</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">yearly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">7</field>
+        <field name="action_with_unused_accruals">lost</field>
+    </record>
+
+    <!-- Sprevádzanie rodinného príslušníka: 7 dní/rok -->
+    <record id="l10n_sk_accrual_plan_obstacle_accompany_7d" model="hr.leave.accrual.plan">
+        <field name="name">Work obstacle — accompanying a family member, 7 days/year</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_obstacle_accompany"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="False"/>
+    </record>
+    <record id="l10n_sk_accrual_level_obstacle_accompany_7d" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_obstacle_accompany_7d"/>
+        <field name="added_value">7</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">yearly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">7</field>
+        <field name="action_with_unused_accruals">lost</field>
+    </record>
+
+    <!-- Sprevádzanie zdravotne postihnutého dieťaťa: 10 dní/rok -->
+    <record id="l10n_sk_accrual_plan_obstacle_accompany_disabled_10d" model="hr.leave.accrual.plan">
+        <field name="name">Work obstacle — accompanying a disabled child (ZŤP), 10 days/year</field>
+        <field name="time_off_type_id" ref="l10n_sk_leave_type_obstacle_accompany_disabled"/>
+        <field name="accrued_gain_time">start</field>
+        <field name="carryover_date">year_start</field>
+        <field name="can_be_carryover" eval="False"/>
+    </record>
+    <record id="l10n_sk_accrual_level_obstacle_accompany_disabled_10d" model="hr.leave.accrual.level">
+        <field name="accrual_plan_id" ref="l10n_sk_accrual_plan_obstacle_accompany_disabled_10d"/>
+        <field name="added_value">10</field>
+        <field name="added_value_type">day</field>
+        <field name="frequency">yearly</field>
+        <field name="cap_accrued_time" eval="False"/>
+        <field name="cap_accrued_time_yearly" eval="True"/>
+        <field name="maximum_leave_yearly">10</field>
+        <field name="action_with_unused_accruals">lost</field>
+    </record>
+</odoo>

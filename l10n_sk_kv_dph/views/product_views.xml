@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_form_sk_kv" model="ir.ui.view">
+        <field name="name">product.template.form.sk.kv</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="account.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <group name="accounting" position="inside">
+                <field name="l10n_sk_kv_rc_goods"/>
+                <field name="l10n_sk_kv_cn_code"
+                       invisible="l10n_sk_kv_rc_goods not in ('f', 'g')"/>
+            </group>
+        </field>
+    </record>
+
+</odoo>

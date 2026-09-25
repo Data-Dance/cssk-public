@@ -1,0 +1,783 @@
+# Translation of Odoo Server.
+# Slovak translation.
+# This file contains the translation of the following modules:
+# 	* purchase_order_advance_invoice
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-12 13:57+0000\n"
+"PO-Revision-Date: 2026-09-12 13:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid ""
+"A tax document can only be registered while the advance is waiting for one "
+"(paid amount not yet accounted)."
+msgstr ""
+"Daňový doklad možno zaevidovať len vtedy, keď preddavok naň čaká "
+"(uhradená suma zatiaľ nie je zaúčtovaná)."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_accounting_status__accounted
+msgid "Accounted"
+msgstr "Zaúčtované"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_accounted_amount
+msgid "Accounted Amount"
+msgstr "Zaúčtovaná suma"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__accounting_date
+msgid "Accounting Date"
+msgstr "Dátum účtovania"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_accounting_status
+msgid "Accounting Status"
+msgstr "Stav zaúčtovania"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__order_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__order_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__order_id
+msgid "Advance Invoice"
+msgstr "Zálohová faktúra"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_count
+msgid "Advance Invoice Count"
+msgstr "Počet zálohových faktúr"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__advance_ids
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_ids
+msgid "Advance Invoices"
+msgstr "Zálohové faktúry"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_payment_ids
+msgid "Advance Payments"
+msgstr "Platby preddavkov"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid "Advance Tax Document"
+msgstr "Daňový doklad k preddavku"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_tax_doc_ids
+msgid "Advance Tax Documents"
+msgstr "Daňové doklady k preddavkom"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/account_move.py:0
+msgid "Advance invoices can only be linked on a draft bill."
+msgstr "Zálohové faktúry možno prepojiť len na faktúre v stave návrh."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "Advance tax document overdue — chase %(supplier)s"
+msgstr "Daňový doklad k preddavku je po termíne — urgovať dodávateľa %(supplier)s"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+msgid "Advances"
+msgstr "Preddavky"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/account_move_link_purchase_advance_wizard.py:0
+msgid "Advances can only be deducted on a draft vendor bill."
+msgstr "Preddavky možno odpočítať len na prijatej faktúre v stave návrh."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__amount
+msgid "Amount (Tax Included)"
+msgstr "Suma (s DPH)"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__amount_paid
+msgid "Amount Paid"
+msgstr "Uhradená suma"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__amount_remaining
+msgid "Amount Remaining"
+msgstr "Zostáva uhradiť"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_order__advance_deducted_amount
+msgid "Amount already deducted on final vendor bills."
+msgstr "Suma už odpočítaná na konečných prijatých faktúrach."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__available_advance_ids
+msgid "Available Advance"
+msgstr "Dostupný preddavok"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__available_journal_ids
+msgid "Available Journal"
+msgstr "Dostupný denník"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__available_payment_ids
+msgid "Available Payment"
+msgstr "Dostupná platba"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__available_payment_method_line_ids
+msgid "Available Payment Method Line"
+msgstr "Dostupný riadok spôsobu platby"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_order__advance_invoice_long_term
+msgid ""
+"Books the net advance on the long-term account when the localization "
+"configures one."
+msgstr "Zaúčtuje čistý preddavok na dlhodobý účet, ak ho lokalizácia nastaví."
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_account_move_link_purchase_advance_wizard_form
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_link_wizard_form
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_wizard_form
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_tax_doc_wizard_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_accounting_status__cancel
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__cancelled
+msgid "Cancelled"
+msgstr "Zrušené"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Clearing account"
+msgstr "Zúčtovací účet"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__company_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavenia"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid ""
+"Configure the paid-advances account on the company first (Received Advance "
+"Invoices settings)."
+msgstr ""
+"Najprv nastavte na spoločnosti účet poskytnutých preddavkov "
+"(nastavenia Prijaté zálohové faktúry)."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+msgid ""
+"Configure the paid-advances clearing account on the company first (Received "
+"Advance Invoices settings)."
+msgstr ""
+"Najprv nastavte na spoločnosti zúčtovací účet poskytnutých preddavkov "
+"(nastavenia Prijaté zálohové faktúry)."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid ""
+"Configure the received-advances journal and accounts on the company first "
+"(Received Advance Invoices settings)."
+msgstr ""
+"Najprv nastavte na spoločnosti denník a účty prijatých preddavkov "
+"(nastavenia Prijaté zálohové faktúry)."
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_tax_doc_wizard_form
+msgid "Create Draft Bill"
+msgstr "Vytvoriť návrh prijatej faktúry"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_wizard_form
+msgid "Create Payment"
+msgstr "Vytvoriť platbu"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__create_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__create_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__create_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__create_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__create_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__create_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__create_date
+msgid "Created on"
+msgstr "Vytvorené dňa"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__currency_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_account_move_link_purchase_advance_wizard_form
+msgid "Deduct"
+msgstr "Odpočítať"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_account_move_link_purchase_advance_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_account_move_link_purchase_advance_wizard_form
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_move_form_purchase_advance
+msgid "Deduct Advance Invoices"
+msgstr "Odpočítať zálohové faktúry"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_account_move_link_purchase_advance_wizard
+msgid "Deduct Received Advance Invoices on a Vendor Bill"
+msgstr "Odpočítať prijaté zálohové faktúry na prijatej faktúre"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_line__advance_deduction_order_id
+msgid "Deducted Advance"
+msgstr "Odpočítaný preddavok"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_deducted_amount
+msgid "Deducted Amount"
+msgstr "Odpočítaná suma"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "Deduction of advance %(name)s"
+msgstr "Odpočet preddavku %(name)s"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__display_name
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__invoice_date
+msgid "Document Date"
+msgstr "Dátum dokladu"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__paid_fully
+msgid "Fully Paid"
+msgstr "Plne uhradené"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_line__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_bank_statement_line__is_advance_purchase_tax_document
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move__is_advance_purchase_tax_document
+msgid "Is Advance Purchase Tax Document"
+msgstr "Je daňový doklad k prijatému preddavku"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__journal_id
+msgid "Journal"
+msgstr "Denník"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný zápis"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_account_move_line
+msgid "Journal Item"
+msgstr "Účtovný riadok"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__write_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__write_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__write_uid
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__write_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__write_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__write_date
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené dňa"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_link_wizard_form
+msgid "Link"
+msgstr "Prepojiť"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_purchase_advance_payment_link_wizard
+msgid "Link Existing Payment to Received Advance Invoice"
+msgstr "Prepojiť existujúcu platbu s prijatou zálohovou faktúrou"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_purchase_advance_payment_link_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_link_wizard_form
+msgid "Link Payment"
+msgstr "Prepojiť platbu"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_long_term
+msgid "Long-term Advance"
+msgstr "Dlhodobý preddavok"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__memo
+msgid "Memo"
+msgstr "Poznámka"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_company__advance_paid_account_id
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_config_settings__advance_paid_account_id
+msgid "Net paid advances (e.g. 314000 — poskytnuté zálohy / preddavky)."
+msgstr "Čisté poskytnuté preddavky (napr. 314000 — poskytnuté zálohy / preddavky)."
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Net paid advances (e.g. 314000); optional long-term variant."
+msgstr "Čisté poskytnuté preddavky (napr. 314000); voliteľný dlhodobý variant."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "New"
+msgstr "Nové"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__none
+msgid "Not Paid"
+msgstr "Neuhradené"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_accounting_status__nothing_to_account
+msgid "Nothing to Account"
+msgstr "Niet čo zaúčtovať"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_company__advance_paid_account_lt_id
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_config_settings__advance_paid_account_lt_id
+msgid ""
+"Optional long-term variant; falls back to the short-term account when empty."
+msgstr "Voliteľný dlhodobý variant; ak je prázdny, použije sa krátkodobý účet."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__payment_id
+msgid ""
+"Outbound payment already booked against the paid-advances clearing account."
+msgstr ""
+"Odchádzajúca platba už zaúčtovaná na zúčtovacom účte poskytnutých "
+"preddavkov."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__overpaid
+msgid "Overpaid"
+msgstr "Preplatené"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_list
+msgid "Paid"
+msgstr "Uhradené"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__advance_paid_account_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__advance_paid_account_id
+msgid "Paid Advances Account"
+msgstr "Účet poskytnutých preddavkov"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__advance_paid_account_lt_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__advance_paid_account_lt_id
+msgid "Paid Advances Account (Long-term)"
+msgstr "Účet poskytnutých preddavkov (dlhodobé)"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__advance_paid_clearing_account_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__advance_paid_clearing_account_id
+msgid "Paid Advances Clearing Account"
+msgstr "Zúčtovací účet poskytnutých preddavkov"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_paid_date
+msgid "Paid Date"
+msgstr "Dátum úhrady"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Paid advances account"
+msgstr "Účet poskytnutých preddavkov"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_parent_order_id
+msgid "Parent Purchase Order"
+msgstr "Nadradená objednávka"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_payment_status__paid_partially
+msgid "Partially Paid"
+msgstr "Čiastočne uhradené"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_link_wizard__payment_id
+msgid "Payment"
+msgstr "Platba"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__amount
+msgid "Payment Amount"
+msgstr "Suma platby"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__payment_date
+msgid "Payment Date"
+msgstr "Dátum platby"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__payment_method_line_id
+msgid "Payment Method"
+msgstr "Spôsob platby"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_payment_status
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Payment Status"
+msgstr "Stav úhrady"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid "Payment sent for Advance Invoice %(name)s on %(paid_date)s"
+msgstr "Platba zálohovej faktúry %(name)s odoslaná dňa %(paid_date)s"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "Payments can only be linked to received advance invoices."
+msgstr "Platby možno prepojiť len s prijatými zálohovými faktúrami."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__accounting_date
+msgid ""
+"Period in which the input VAT is claimed — may differ from the tax point "
+"(e.g. the document arrived the next month, or the SK end-of-calendar-year "
+"rule). Defaults to the document date."
+msgstr ""
+"Obdobie, v ktorom sa uplatňuje odpočítanie dane — môže sa líšiť od "
+"daňového bodu (napr. doklad prišiel nasledujúci mesiac, alebo podľa "
+"slovenského pravidla ku koncu kalendárneho roka). Predvolene dátum "
+"dokladu."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_purchase_order
+msgid "Purchase Order"
+msgstr "Objednávka"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_company__advance_purchase_journal_id
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_config_settings__advance_purchase_journal_id
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid ""
+"Purchase journal for the suppliers' tax documents on sent advance payments "
+"(e.g. PDADV)."
+msgstr ""
+"Nákupný denník pre daňové doklady dodávateľov k odoslaným preddavkom "
+"(napr. PDADV)."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_bank_statement_line__advance_purchase_order_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move__advance_purchase_order_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__is_advance_invoice
+msgid "Received Advance Invoice"
+msgstr "Prijatá zálohová faktúra"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_purchase_order_advance
+#: model:ir.ui.menu,name:purchase_order_advance_invoice.menu_account_purchase_order_advance
+#: model:ir.ui.menu,name:purchase_order_advance_invoice.menu_purchase_order_advance
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_list
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Received Advance Invoices"
+msgstr "Prijaté zálohové faktúry"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.server,name:purchase_order_advance_invoice.ir_cron_chase_advance_tax_documents_ir_actions_server
+msgid "Received Advance Invoices: chase overdue tax documents"
+msgstr "Prijaté zálohové faktúry: urgovať daňové doklady po termíne"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_company__advance_purchase_journal_id
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_res_config_settings__advance_purchase_journal_id
+msgid "Received Advance Tax Documents Journal"
+msgstr "Denník prijatých daňových dokladov k preddavkom"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_company__advance_paid_clearing_account_id
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_res_config_settings__advance_paid_clearing_account_id
+msgid ""
+"Reconcilable clearing account (e.g. 314001) carrying both the advance "
+"payment and the tax document's payable leg. Must be of payable type: it is "
+"the payment-term leg of the vendor bill."
+msgstr ""
+"Zúčtovací účet so spárovaním (napr. 314001), ktorý nesie platbu "
+"preddavku aj záväzkovú stranu daňového dokladu. Musí byť záväzkového "
+"typu: je to strana platobných podmienok prijatej faktúry."
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid ""
+"Reconcilable payable-type account (e.g. 314001) carrying the advance payment"
+" and the tax document's payable leg."
+msgstr ""
+"Účet záväzkového typu so spárovaním (napr. 314001), ktorý nesie platbu "
+"preddavku a záväzkovú stranu daňového dokladu."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_purchase_advance_payment_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_payment_wizard_form
+msgid "Register Payment"
+msgstr "Zaevidovať platbu"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_purchase_advance_payment_wizard
+msgid "Register Payment for Received Advance Invoice"
+msgstr "Zaevidovať platbu prijatej zálohovej faktúry"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.actions.act_window,name:purchase_order_advance_invoice.action_purchase_advance_tax_doc_wizard
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.view_purchase_advance_tax_doc_wizard_form
+msgid "Register Received Tax Document"
+msgstr "Zaevidovať prijatý daňový doklad"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model,name:purchase_order_advance_invoice.model_purchase_advance_tax_doc_wizard
+msgid "Register Received Tax Document for Advance Payment"
+msgstr "Zaevidovať prijatý daňový doklad k preddavku"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_link_wizard.py:0
+msgid "Select a payment to link."
+msgstr "Vyberte platbu na prepojenie."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_order__advance_invoice_expected_doc_date
+msgid ""
+"Statutory deadline for the supplier to issue the tax document on the "
+"received payment."
+msgstr ""
+"Zákonná lehota, do ktorej má dodávateľ vystaviť daňový doklad k "
+"prijatej platbe."
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Supplier"
+msgstr "Dodávateľ"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__supplier_ref
+msgid "Supplier's Document Number"
+msgstr "Číslo dokladu dodávateľa"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_order__advance_invoice_expected_doc_date
+msgid "Tax Document Expected By"
+msgstr "Daňový doklad očakávaný do"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Tax Document Overdue"
+msgstr "Daňový doklad po termíne"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_form_advance_invoice
+msgid "Tax Documents"
+msgstr "Daňové doklady"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.res_config_settings_view_form_purchase_advance
+msgid "Tax documents journal"
+msgstr "Denník daňových dokladov"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__taxable_supply_date
+msgid "Tax point: the day the supplier received the payment."
+msgstr "Daňový bod: deň, keď dodávateľ prijal platbu."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__taxable_supply_date
+msgid "Taxable Supply Date"
+msgstr "Deň dodania"
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid ""
+"The amount cannot exceed the paid amount that is not yet accounted "
+"(%(amount)s)."
+msgstr ""
+"Suma nesmie presiahnuť uhradenú sumu, ktorá zatiaľ nie je zaúčtovaná "
+"(%(amount)s)."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_tax_doc_wizard.py:0
+msgid "The amount must be positive."
+msgstr "Suma musí byť kladná."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_tax_doc_wizard__supplier_ref
+msgid ""
+"The evidence number exactly as the supplier wrote it — it is reported "
+"verbatim in KH B.2 / KV DPH B.2."
+msgstr ""
+"Evidenčné číslo presne tak, ako ho uviedol dodávateľ — vykazuje sa "
+"doslovne v KH B.2 / KV DPH B.2."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+msgid "The payment amount cannot exceed the unpaid amount."
+msgstr "Suma platby nesmie presiahnuť neuhradenú sumu."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+msgid "The payment amount must be positive."
+msgstr "Suma platby musí byť kladná."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid ""
+"The supplier's tax document for the payment of %(name)s was expected by "
+"%(date)s."
+msgstr "Daňový doklad dodávateľa k platbe %(name)s bol očakávaný do %(date)s."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/wizard/purchase_advance_payment_wizard.py:0
+msgid "This action is only available for received advance invoices."
+msgstr "Táto akcia je dostupná len pre prijaté zálohové faktúry."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/account_move.py:0
+msgid "This action is only available for vendor bills."
+msgstr "Táto akcia je dostupná len pre prijaté faktúry."
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_order__is_advance_invoice
+msgid ""
+"This order registers a received advance/proforma invoice — it is never "
+"posted itself; only its payment and the supplier's tax document on that "
+"payment are."
+msgstr ""
+"Táto objednávka eviduje prijatú zálohovú/proforma faktúru — sama sa "
+"nikdy neúčtuje; účtuje sa len jej platba a daňový doklad dodávateľa k "
+"tejto platbe."
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_list
+msgid "Total"
+msgstr "Celkom"
+
+#. module: purchase_order_advance_invoice
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Unpaid"
+msgstr "Neuhradené"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__partner_id
+msgid "Vendor"
+msgstr "Dodávateľ"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,field_description:purchase_order_advance_invoice.field_account_move_link_purchase_advance_wizard__move_id
+msgid "Vendor Bill"
+msgstr "Prijatá faktúra"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields.selection,name:purchase_order_advance_invoice.selection__purchase_order__advance_invoice_accounting_status__waiting
+#: model_terms:ir.ui.view,arch_db:purchase_order_advance_invoice.purchase_order_advance_search
+msgid "Waiting for Tax Document"
+msgstr "Čaká sa na daňový doklad"
+
+#. module: purchase_order_advance_invoice
+#: model:ir.model.fields,help:purchase_order_advance_invoice.field_purchase_advance_payment_wizard__partner_id
+msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+msgstr "Dodávateľa nájdete podľa názvu, IČ DPH, e-mailu alebo internej referencie."
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "advance_invoice_parent_order_id"
+msgstr ""
+
+#. module: purchase_order_advance_invoice
+#. odoo-python
+#: code:addons/purchase_order_advance_invoice/models/purchase_order.py:0
+msgid "advance_purchase_order_id"
+msgstr ""

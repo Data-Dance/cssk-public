@@ -1,0 +1,354 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_statement_fio
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-31 16:52+0000\n"
+"PO-Revision-Date: 2026-08-31 16:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "%(count)s new transaction(s) imported."
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid ""
+"<b>This range reaches further back than 90 days.</b>\n"
+"                        Fio serves it only while the full history is unlocked\n"
+"                        for this token: open internet banking, go to\n"
+"                        <b>Nastavení → API</b> and click the padlock on the token."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__journal_id
+msgid "Bank Journal"
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_list_fio_statement
+msgid "Bank feed"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__call_count
+msgid "Call Count"
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_bank_statement_line__fio_instruction_id
+msgid "Fio Instruction ID"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_pull_at
+msgid "Fio Last Pull At"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_statement_number
+msgid "Fio Last Statement Number"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_statement_year
+msgid "Fio Last Statement Year"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_bank_statement_line__fio_movement_id
+msgid "Fio Movement ID"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_pull_mode
+msgid "Fio Pull Mode"
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "Fio banka API"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.module.module,shortdesc:base.module_account_statement_fio
+msgid "Fio banka — bank statements"
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "Fio movement %s"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_overlap_days
+msgid "Fio re-read days"
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"Fio refused the request as reaching further back than 90 days without an "
+"unlocked history. Unlock it in internet banking (Nastavení → API, the "
+"padlock) and retry within ten minutes."
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"Fio serves movements older than %(days)s days only while the full history is"
+" unlocked for this token: open internet banking, go to Nastavení → API and "
+"click the padlock on this token. The unlock lasts ten minutes, so do it now "
+"and then tick the confirmation box."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_bank_statement_line__fio_movement_id
+msgid ""
+"Fio's ID pohybu — unique per movement, and the key this integration "
+"deduplicates on."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_bank_statement_line__fio_instruction_id
+msgid ""
+"Fio's ID pokynu. NOT unique: a transfer and its fee share one, and so do a "
+"payment and its later reversal — which is why it is never used for duplicate"
+" detection. It is also a different number from the batch id returned when a "
+"payment order is uploaded, so it cannot link a statement line back to a "
+"payment order either."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__statement_from
+msgid "First statement number"
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "Give both dates."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_create_statements
+msgid "Group Fio movements into statements"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_journal__fio_last_movement_id
+msgid ""
+"Highest Fio movement id imported so far. Informational — duplicate detection"
+" uses the statement line's import key."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__history_unlocked
+msgid "History unlocked in internet banking"
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "Imported transactions"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_journal__fio_overlap_days
+msgid ""
+"In movements mode, each run re-reads this many days before today. Movements "
+"already imported are dropped, so the overlap costs nothing and closes the "
+"hole a missed run would leave."
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"Journal %(name)s is set to be fed by the Fio banka API, but it has no Fio "
+"read token. Ask an administrator to paste one into the journal's Fio banka "
+"section — it is generated in internet banking under Nastavení → API."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_movement_id
+msgid "Last Fio movement"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__statement_to
+msgid "Last statement number"
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "Manual pull: %(count)s new transaction(s)."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__mode
+msgid "Mode"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__account_journal__fio_pull_mode__movements
+msgid "Movements (re-readable date range)"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__fio_statement_pull__mode__movements
+msgid "Movements in a date range"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_account_journal__fio_create_statements
+msgid ""
+"Movements mode only. Official statements always produce an "
+"account.bank.statement, because that is the point of them."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__needs_history_unlock
+msgid "Needs History Unlock"
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "Nothing new — Fio has no movements Odoo does not already have."
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "Nothing new — every movement Fio returned was already in Odoo."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__account_journal__fio_pull_mode__official
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__fio_statement_pull__mode__official
+msgid "Official numbered statements"
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "Pull"
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid "Pull a range…"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.actions.act_window,name:account_statement_fio.fio_statement_pull_action
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "Pull from Fio"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.module.module,summary:base.module_account_statement_fio
+msgid ""
+"Pull movements and official statements from the Fio banka API into bank "
+"journals. Community and Enterprise alike."
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid "Pull now"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields.selection,name:account_statement_fio.selection__account_journal__fio_pull_mode__bookmark
+msgid "Since the bookmark on the token"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__statement_year
+msgid "Statement Year"
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"That range holds more than 50 000 movements, which Fio will not serve at "
+"once. Pull it in shorter pieces."
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "The first date is after the last one."
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "The first statement number is after the last."
+msgstr ""
+
+#. module: account_statement_fio
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid "The scheduled Fio pull failed: %(error)s"
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "The unlock lasts <b>ten minutes</b>, so do it now — then:"
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid "This will make"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,help:account_statement_fio.field_fio_statement_pull__history_unlocked
+msgid ""
+"Tick this only after clicking the padlock on this token in Fio internet "
+"banking. The unlock lasts ten minutes."
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
+msgid ""
+"calls to Fio. The bank allows one call per token every 30\n"
+"                    seconds, so expect it to take roughly that many half-minutes."
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model,name:account_statement_fio.model_fio_statement_pull
+msgid "Pull Fio Bank Statements"
+msgstr ""

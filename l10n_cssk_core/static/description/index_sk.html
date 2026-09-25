@@ -1,0 +1,62 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">CZ/SK lokalizácia — Spoločné jadro</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Krajinovo neutrálny základ, na ktorom stavia každý český a slovenský zákonný modul</h3>
+    <div class="oe_span12">
+      <p>Toto je krajinovo neutrálny základ, na ktorom stavia každý ďalší modul
+         <code>l10n_cssk_*</code> / <code>l10n_sk_*</code> / <code>l10n_cz_*</code>. Zámerne závisí
+         <b>len od jadra Odoo</b> (<code>account</code> + <code>mail</code>) — bez
+         <code>account_reports</code> a bez výkazníckeho enginu OCA — takže sa inštaluje na Community
+         aj Enterprise a na 18.0 aj 19.0.</p>
+      <p>Sám osebe <b>neprináša žiadnu zákonnú logiku</b>; je spoločným základom pre
+         <code>l10n_cssk_kv_kh_base</code> (kontrolný výkaz), <code>l10n_cssk_ec_summary_base</code>
+         (súhrnný výkaz), <code>l10n_cssk_fs_base</code> (účtovná závierka) a jednotlivé národné
+         vrstvy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.tax.authority</code> — register daňových úradov (daňový úrad / finanční úřad)
+            s kódom používaným v zákonných XML podaniach.</li>
+        <li><code>cssk.person.type</code> — číselník typov osôb/subjektov (FO / PO …).</li>
+        <li>Rozšírenia <code>res.company</code> / <code>res.partner</code> nadväzujúce na tieto
+            registre.</li>
+        <li>Nastavenia a bezpečnostné lešenie.</li>
+        <li>Zdokumentované napojovacie body pre vlastné komponenty zákazníka (PAY by square,
+            dohľadanie RÚZ/FinStat).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Tento modul nainštalujte ako závislosť ľubovoľného českého/slovenského zákonného modulu —
+         sám nemá žiadny používateľský pracovný postup. Spoločná konfigurácia je pod
+         <i>Účtovníctvo ▸ Konfigurácia ▸ CZ/SK lokalizácia</i> (Daňové úrady, Typy osôb / subjektov);
+         rozšírenia firmy a partnera sa zobrazia na príslušných formulároch.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

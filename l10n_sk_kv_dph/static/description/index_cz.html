@@ -1,0 +1,64 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovensko — Kontrolní hlášení DPH (KV DPH)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenské kontrolní hlášení DPH sestavené z daňových značek a exportované jako oficiální XML KVDPH</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace vytváří slovenské <b>kontrolní hlášení DPH</b> (kontrolný výkaz DPH) nad
+         sdíleným rámcem <code>l10n_cssk_kv_kh_base</code>. Každý zdanitelný řádek zatřídí do
+         zákonných oddílů <b>A.1, A.2, B.1, B.2, B.3.1/B.3.2, C.1, C.2, D.1 a D.2</b> a exportuje
+         oficiální XML <code>KVDPH</code> slovenské finanční správy.</p>
+      <p>Údaje o DPH čte přímo z daňových značek na <code>account.move.line</code> — <b>nevyžaduje</b>
+         <code>account_reports</code> — takže funguje na Community i Enterprise, na Odoo 18.0 i 19.0.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Zatřiďovač oddílů na úrovni řádků: nejprve přenesení daňové povinnosti, poté tuzemská
+            plnění, zjednodušené faktury (B.3) a opravy (C.1/C.2).</li>
+        <li>Oddíl <b>B.1</b> respektuje oficiální <i>Poučení KVDPHv17</i>: přijatá plnění, u nichž je
+            příjemce osobou povinnou přiznat daň podle § 69 ods. 2, 3, 6, 7, 9 až 12 — včetně
+            samovyměření zahraničních služeb (§ 69 ods. 2 / § 15 ods. 1) a pořízení zboží z jiného
+            členského státu (§ 11) — s <b>hrubou</b> samovyměřenou daní (základ × sazba).</li>
+        <li>Rozdělení zjednodušených faktur B.3 podle prahu (B.3.1 pod / B.3.2 nad limitem období)
+            a rozdělení D.2 podle základní/snížené sazby.</li>
+        <li>Export XML <code>KVDPH</code> pro všechny oddíly, k přímému nahrání do portálu FS.</li>
+        <li>Podpora dodatečného kontrolního hlášení přes sdílený mixin uchovávání a oprav.</li>
+      </ul>
+      <p><b>Ověřeno proti 24 měsícům reálně podaných KV DPH (2024–2025):</b> všech
+         <b>24/24 období souhlasí</b> s podaným kontrolním hlášením na cent.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Výkazy ▸ Slovensko ▸ Kontrolní hlášení DPH.</i> Vytvořte výkaz za období,
+         <b>Vypočítat</b> pro naplnění oddílů z účetních zápisů období, zkontrolujte detail oddílů a
+         následně <b>Exportovat XML</b> pro portál FS. Daně s přenesením daňové povinnosti na vstupu
+         musí mít příznak <code>cssk_control_is_reverse_charge</code>, jinak se jejich řádky v oddílu
+         B.1 nezobrazí.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Export platieb MultiCash</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Export platieb vo formátoch MultiCash (CFD/CFU/CFA/MT101) pre české banky</h3>
+    <div class="oe_span12">
+      <p>Táto aplikácia generuje <b>súbory platieb vo formáte MultiCash</b> používané českými bankami
+         — Česká spořitelna, KB, ČSOB, Raiffeisenbank, UniCredit a ďalšími — z platobného príkazu OCA
+         <code>account.payment.order</code>. Je <b>čisto CE</b>: stavia na
+         <code>account_payment_order</code> a spoločných staviteľoch
+         <code>account_cz_bankfile_base</code>, <b>bez závislosti na Enterprise</b>.</p>
+      <p>Samotné vykreslenie súboru je delegované na <code>account_cz_bankfile_base</code>; tento
+         modul mu len odovzdáva normalizované platobné položky z riadkov platby a podľa platobnej
+         metódy určí cieľový formát.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><b>CFD</b> — tuzemské české úhrady a inkasá.</li>
+        <li><b>CFU</b> — urgentné tuzemské české úhrady.</li>
+        <li><b>CFA</b> — zahraničné (cezhraničné) platby.</li>
+        <li><b>MT101</b> — SWIFT Request For Transfer.</li>
+        <li>Variabilný / konštantný / špecifický symbol (VS / KS / SS) na každom riadku platby, s
+            náhradou, ktorá načíta token <code>VS:</code> / <code>KS:</code> / <code>SS:</code> zo
+            správy pre prijímateľa, ak je pole prázdne.</li>
+        <li>CFA / MT101 vyžadujú, aby banka denníka mala vyplnený BIC, inak je export zablokovaný s
+            jasným hlásením.</li>
+        <li>Registruje príslušné výstupné platobné metódy (a vstupnú CFD pre inkaso).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Nastavte v bankovom denníku platobnú metódu na požadovaný formát MultiCash
+         (<i>MultiCash CFD / CFU / CFA / MT101</i>). Vytvorte platobný príkaz z prijatých faktúr ako
+         obvykle (<i>Účtovníctvo ▸ Dodávatelia ▸ Platobné príkazy</i>), vyplňte symboly VS/KS/SS na
+         riadkoch (alebo ich nechajte prázdne a použite správu pre prijímateľa), potvrďte príkaz a
+         zvoľte <b>Generovať platobný súbor</b> — vznikne súbor podľa formátu (<code>.cfd</code> /
+         <code>.cfu</code> / <code>.cfa</code> / <code>.mt101</code>) na nahranie do banky.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

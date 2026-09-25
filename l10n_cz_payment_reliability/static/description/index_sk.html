@@ -1,0 +1,43 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">🌐 <a href="index.html">EN</a> · <a href="index_cz.html">CZ</a> · <b>SK</b></p>
+    <h2 class="oe_slogan">CZ Supplier Reliability — poskytovateľ ADIS</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Nespolehlivý plátce a zveřejněné účty z webovej služby ADIS MFČR</h3>
+    <div class="oe_span12">
+      <p>Tento modul implementuje český poskytovateľ pre <code>l10n_cssk_payment_reliability</code>. Dopytuje sa webovej služby SOAP ADIS českej Finančnej správy (<code>rozhraniCRPDPH</code>), aby zistil, či je dodávateľ nespoľahlivý platiteľ, a aby získal jeho zveřejněné účty z českého registra nespoľahlivých platiteľov DPH (nespolehlivý plátce). To podporuje kontrolu ručenia za daň (§109) na prijatých faktúrach. Nie je potrebný žiadny API kľúč — služba je otvorená.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Volá zverejnený koncový bod ADIS <code>adisrws.mfcr.cz/.../rozhraniCRPDPH.rozhraniCRPDPHSOAP</code>, operáciu <code>getStatusNespolehlivyPlatce</code>.</li>
+        <li>Mapovanie spoľahlivosti na daňové účely: <code>nespolehlivyPlatce</code> ANO → nespoľahlivý, NE → spoľahlivý, NENALEZEN → neznámy.</li>
+        <li>Zveřejněné účty: <code>standardníÚčet</code> (předčíslí/číslo/kódBanky) sa prevedie na IBAN, aby zodpovedal bankovému účtu na faktúre; <code>nestandardníÚčet</code> (už vo formáte IBAN) sa preberá tak, ako je.</li>
+        <li>Pri chybe siete alebo spracovania nevracia žiadny výsledok — stav dodávateľa zostáva neznámy, namiesto toho, aby modul zlyhal.</li>
+        <li>Žiadny API kľúč nie je potrebný — služba MFČR je otvorená a dopyty sú zdarma.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Nainštalujte tento modul spolu s <code>l10n_cssk_payment_reliability</code>. Pri partneroch, ktorí majú ako krajinu nastavenú Českú republiku (CZ) a vyplnené DIČ, zdieľaná kontrola spoľahlivosti automaticky použije tento poskytovateľ ADIS. Nie je čo nastavovať ani žiadny API kľúč zaobstarávať.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

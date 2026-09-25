@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <data>
+        <record id="res_config_settings_view_form_partner_autocomplete_provider_orsf_sk" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.partner.autocomplete.provider.orsf_sk</field>
+            <field name="model">res.config.settings</field>
+            <field eval="50" name="priority"/>
+            <field name="inherit_id" ref="partner_autocomplete_dispatcher.res_config_settings_view_form_partner_autocomplete_provider"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('partner-autocomplete-dispatcher')]" position="inside">
+                    <div class="orsf-sk-settings" invisible="partner_autocomplete_provider != 'partner.autocomplete.provider.orsf_sk'">
+
+                        <div class="mt16 row">
+                            <div class="col-12 text-muted">
+                                Data from
+                                <a href="https://orsf.sk" target="_blank">ORSF</a>
+                                (RPO, ORSR, ŽRSR, RÚZ, Finančná správa), licensed CC-BY 4.0.
+                            </div>
+                        </div>
+
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_base_url"/>
+                            <field class="oe_inline" name="config_orsf_sk_base_url" placeholder="https://api.orsf.sk/v1"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_api_token"/>
+                            <field class="oe_inline" name="config_orsf_sk_api_token" password="True" placeholder="optional — anonymous access works"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_login_email"/>
+                            <field class="oe_inline" name="config_orsf_sk_login_email" placeholder="only for persons/graph"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_login_password"/>
+                            <field class="oe_inline" name="config_orsf_sk_login_password" password="True"/>
+                        </div>
+                        <div class="mt16 row">
+                            <div class="col-12 text-muted">
+                                ORSF issues no API key for the person and ownership-graph
+                                endpoints, so signing in is the only way to reach them.
+                                The password is stored in <code>ir.config_parameter</code>,
+                                which is <strong>plain text</strong> in the database and in
+                                every backup — use a dedicated ORSF account, not a personal one.
+                            </div>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_timeout"/>
+                            <field class="oe_inline" name="config_orsf_sk_timeout" placeholder="15"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="orsf_sk_set_company_registry"/>
+                            <field class="oe_inline" name="orsf_sk_set_company_registry"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="orsf_sk_set_company_type"/>
+                            <field class="oe_inline" name="orsf_sk_set_company_type"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="orsf_sk_format_psc"/>
+                            <field class="oe_inline" name="orsf_sk_format_psc"/>
+                        </div>
+
+                        <field name="orsf_sk_missing_sk_modules" invisible="1"/>
+                        <div class="mt16 row" invisible="not orsf_sk_missing_sk_modules">
+                            <div class="col-12">
+                                <div class="alert alert-info mb-0" role="alert">
+                                    <i class="fa fa-info-circle me-1"/>
+                                    These register values already have fields of their own in
+                                    <field name="orsf_sk_missing_sk_modules" class="oe_inline fw-bold" readonly="1" nolabel="1"/>.
+                                    Install them and the mappings below point at those fields
+                                    automatically — no mapping to set up, and the values feed the
+                                    § 3a statement, the § 69/12 warning and the dissolved-partner
+                                    banner. Without them you can still aim each value at a field of
+                                    your own, but only this module will understand it.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt16 row">
+                            <div class="col-12 text-muted">
+                                <strong>Field mapping</strong> — where each register value is
+                                written. These are pointed at the standard SK fields automatically
+                                whenever the module owning them is installed; the button re-applies
+                                that. Aim one somewhere else and the value follows it; clear one and
+                                the value is not stored at all.
+                            </div>
+                        </div>
+                        <div class="mt16 row">
+                            <div class="col-12">
+                                <button name="action_orsf_apply_default_mappings"
+                                        type="object" class="btn btn-link ps-0"
+                                        icon="fa-magic"
+                                        string="Use the standard SK fields"/>
+                            </div>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_ico"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_ico"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_dic"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_dic"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_nace"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_nace"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_legal_form"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_legal_form"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_register"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_register"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_register_office"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_register_office"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_register_number"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_register_number"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_status"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_status"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_size"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_size"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_established_date"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_established_date"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_dissolved_date"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_dissolved_date"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_vat_registration"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_vat_registration"/>
+                        </div>
+                        <div class="mt16 row">
+                            <label class="col-3 col-lg-3 o_light_label" for="config_orsf_sk_mapping_vat_payer_since_date"/>
+                            <field class="oe_inline" name="config_orsf_sk_mapping_vat_payer_since_date"/>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

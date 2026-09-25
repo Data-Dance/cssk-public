@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form.l10n.sk.loan</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <block id="invoicing_settings" position="after">
+                <block
+                    title="Slovak leasing (finančný prenájom)"
+                    id="l10n_sk_loan_settings"
+                    invisible="not l10n_sk_loan_is_sk_company"
+                >
+                    <field name="l10n_sk_loan_is_sk_company" invisible="1" />
+                    <setting
+                        id="l10n_sk_loan_liability_accounts"
+                        string="Lease liability"
+                        help="Záväzok z finančného prenájmu — dlhodobá časť (474) a časť splatná do jedného roka (474100)."
+                    >
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label
+                                    for="l10n_sk_loan_long_term_account_id"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field name="l10n_sk_loan_long_term_account_id" />
+                            </div>
+                            <div class="row">
+                                <label
+                                    for="l10n_sk_loan_short_term_account_id"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field name="l10n_sk_loan_short_term_account_id" />
+                            </div>
+                        </div>
+                    </setting>
+                    <setting
+                        id="l10n_sk_loan_expense_accounts"
+                        string="Interest and leased asset"
+                        help="Úrok obsiahnutý v splátke (562) a účet, na ktorý sa zaradí prenajatý majetok (022)."
+                    >
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label
+                                    for="l10n_sk_loan_interest_account_id"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field name="l10n_sk_loan_interest_account_id" />
+                            </div>
+                            <div class="row">
+                                <label
+                                    for="l10n_sk_loan_leased_asset_account_id"
+                                    class="col-lg-4 o_light_label"
+                                />
+                                <field name="l10n_sk_loan_leased_asset_account_id" />
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </block>
+        </field>
+    </record>
+</odoo>

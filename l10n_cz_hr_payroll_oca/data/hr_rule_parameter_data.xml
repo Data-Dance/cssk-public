@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Czech payroll legal parameters. Values sourced from docs/cz_payroll_legal.md
+        (master parameter table, section 10). Each parameter carries a 2025-01-01 and a
+        2026-01-01 dated value; the engine picks the latest date_from <= payslip.date_to.
+    -->
+
+    <!-- Průměrná mzda (average wage) / month -->
+    <record id="rule_parameter_avg_wage" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Average wage</field>
+        <field name="code">l10n_cz_avg_wage</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_avg_wage_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">46557</field>
+        <field name="rule_parameter_id" ref="rule_parameter_avg_wage"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_avg_wage_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">48967</field>
+        <field name="rule_parameter_id" ref="rule_parameter_avg_wage"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Maximum annual social base (48x average wage) -->
+    <record id="rule_parameter_social_max_base" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Max annual social base (48x avg)</field>
+        <field name="code">l10n_cz_social_max_base</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_max_base_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">2234736</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_max_base"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_max_base_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">2350416</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_max_base"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Social insurance rate - employee (7.1 % = 6.5 pension + 0.6 sickness) -->
+    <record id="rule_parameter_social_rate_ee" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Social rate employee %</field>
+        <field name="code">l10n_cz_social_rate_ee</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_rate_ee_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">7.1</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_rate_ee"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_rate_ee_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">7.1</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_rate_ee"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Social insurance rate - employer (24.8 %) -->
+    <record id="rule_parameter_social_rate_er" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Social rate employer %</field>
+        <field name="code">l10n_cz_social_rate_er</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_rate_er_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">24.8</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_rate_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_rate_er_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">24.8</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_rate_er"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Health insurance rate - employee (4.5 %) -->
+    <record id="rule_parameter_health_rate_ee" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Health rate employee %</field>
+        <field name="code">l10n_cz_health_rate_ee</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_health_rate_ee_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">4.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_ee"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_rate_ee_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">4.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_ee"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Health insurance rate - employer (9 %) -->
+    <record id="rule_parameter_health_rate_er" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Health rate employer %</field>
+        <field name="code">l10n_cz_health_rate_er</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_health_rate_er_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">9.0</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_er"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_rate_er_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">9.0</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_rate_er"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Minimum health-insurance base (= minimum wage) -->
+    <record id="rule_parameter_health_min_base" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Min health base (= min wage)</field>
+        <field name="code">l10n_cz_health_min_base</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_health_min_base_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">20800</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_min_base"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_health_min_base_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">22400</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_min_base"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Income tax band 1 rate (15 %) -->
+    <record id="rule_parameter_tax_rate_1" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Income tax band 1 %</field>
+        <field name="code">l10n_cz_tax_rate_1</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_tax_rate_1_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">15</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_rate_1"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_tax_rate_1_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">15</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_rate_1"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Income tax band 2 rate (23 %) -->
+    <record id="rule_parameter_tax_rate_2" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Income tax band 2 %</field>
+        <field name="code">l10n_cz_tax_rate_2</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_tax_rate_2_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">23</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_rate_2"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_tax_rate_2_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">23</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_rate_2"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Monthly 23 % threshold (3x average wage) -->
+    <record id="rule_parameter_tax_threshold_month" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Monthly 23% threshold (3x avg)</field>
+        <field name="code">l10n_cz_tax_threshold_month</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_tax_threshold_month_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">139671</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_threshold_month"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_tax_threshold_month_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">146901</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_threshold_month"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Sleva na poplatníka (basic taxpayer credit) / month -->
+    <record id="rule_parameter_credit_taxpayer" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Taxpayer credit / month</field>
+        <field name="code">l10n_cz_credit_taxpayer</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_credit_taxpayer_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">2570</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_taxpayer"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_credit_taxpayer_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">2570</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_taxpayer"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Sleva na držitele ZTP/P / month -->
+    <record id="rule_parameter_credit_ztpp" model="hr.rule.parameter">
+        <field name="name">Czech Republic: ZTP/P holder credit / month</field>
+        <field name="code">l10n_cz_credit_ztpp</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_credit_ztpp_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">1345</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_ztpp"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_credit_ztpp_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">1345</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_ztpp"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Sleva na invaliditu I/II degree / month -->
+    <record id="rule_parameter_credit_disab_12" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Invalidity I/II credit / month</field>
+        <field name="code">l10n_cz_credit_disab_12</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_credit_disab_12_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">210</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_disab_12"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_credit_disab_12_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">210</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_disab_12"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Sleva na invaliditu III degree / month -->
+    <record id="rule_parameter_credit_disab_3" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Invalidity III credit / month</field>
+        <field name="code">l10n_cz_credit_disab_3</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_credit_disab_3_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">420</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_disab_3"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_credit_disab_3_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">420</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_disab_3"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Daňové zvýhodnění na 1. dítě / month -->
+    <record id="rule_parameter_child_1" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Child benefit 1st tier / month</field>
+        <field name="code">l10n_cz_child_1</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_child_1_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">1267</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_1"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_1_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">1267</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_1"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Daňové zvýhodnění na 2. dítě / month -->
+    <record id="rule_parameter_child_2" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Child benefit 2nd tier / month</field>
+        <field name="code">l10n_cz_child_2</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_child_2_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">1860</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_2"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_2_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">1860</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_2"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Daňové zvýhodnění na 3. a další dítě / month -->
+    <record id="rule_parameter_child_3" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Child benefit 3rd+ tier / month</field>
+        <field name="code">l10n_cz_child_3</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_child_3_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">2320</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_3"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_3_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">2320</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_3"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Daňový bonus - monthly income test (1/2 minimum wage) -->
+    <record id="rule_parameter_bonus_min_income_month" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Bonus monthly income test (1/2 min wage)</field>
+        <field name="code">l10n_cz_bonus_min_income_month</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_bonus_min_income_month_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">10400</field>
+        <field name="rule_parameter_id" ref="rule_parameter_bonus_min_income_month"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_bonus_min_income_month_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">11200</field>
+        <field name="rule_parameter_id" ref="rule_parameter_bonus_min_income_month"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- DPP notified-agreement insurance threshold (25 % avg, rounded to 500).
+         11,500 in 2025, 12,000 in 2026. A non-notified DPP uses the general
+         rozhodný příjem (l10n_cz_dpc_threshold) instead. -->
+    <record id="rule_parameter_dpp_threshold" model="hr.rule.parameter">
+        <field name="name">Czech Republic: DPP insurance threshold</field>
+        <field name="code">l10n_cz_dpp_threshold</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_dpp_threshold_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">11500</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dpp_threshold"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_dpp_threshold_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">12000</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dpp_threshold"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- DPČ / small-scale general insurance threshold (rozhodný příjem, ~1/10
+         average wage rounded to 500). 4,500 in 2025 and 2026. Also the ceiling
+         under which srážková daň applies to a dohoda without a declaration. -->
+    <record id="rule_parameter_dpc_threshold" model="hr.rule.parameter">
+        <field name="name">Czech Republic: DPČ insurance threshold</field>
+        <field name="code">l10n_cz_dpc_threshold</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_dpc_threshold_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">4500</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dpc_threshold"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_dpc_threshold_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">4500</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dpc_threshold"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Stravenkový paušál tax-exempt limit / shift -->
+    <record id="rule_parameter_meal_exempt" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Meal allowance tax-exempt limit / shift</field>
+        <field name="code">l10n_cz_meal_exempt</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_meal_exempt_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">123.90</field>
+        <field name="rule_parameter_id" ref="rule_parameter_meal_exempt"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_meal_exempt_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">129.50</field>
+        <field name="rule_parameter_id" ref="rule_parameter_meal_exempt"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Minimum wage / month -->
+    <record id="rule_parameter_min_wage" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Minimum wage / month</field>
+        <field name="code">l10n_cz_min_wage</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_min_wage_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">20800</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_wage"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_min_wage_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">22400</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_wage"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Minimum wage / hour (40h/week). Floor for the průměrný výdělek
+         (§357 zákoníku práce: the average earnings may not be lower than the
+         minimum-wage hourly rate). 2025 124.40 Kč/h; 2026 134.40 Kč/h.
+         Source: https://mpsv.gov.cz/minimalni-mzda -->
+    <record id="rule_parameter_min_wage_hourly" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Minimum wage / hour</field>
+        <field name="code">l10n_cz_min_wage_hourly</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_min_wage_hourly_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">124.40</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_wage_hourly"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_min_wage_hourly_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">134.40</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_wage_hourly"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- P3: Wage garnishment (exekuční srážky ze mzdy) - 2026 nezabavi-   -->
+    <!-- telná částka. From 1 Oct 2025 the "normativní náklady na bydlení" -->
+    <!-- was abolished; from 1 Jan 2026 the základní nezabavitelná částka  -->
+    <!-- = 85 % of (životní minimum jednotlivce + normativní nájemné +     -->
+    <!-- energetický paušál); per dependent = 1/4 of that base; the        -->
+    <!-- "srazit bez omezení" limit = 1.9x the same sum. These parameters  -->
+    <!-- encode the 2026 methodology (dated 2026-01-01). Sources:          -->
+    <!-- https://www.mesec.cz/clanky/exekucni-srazky-2026-nezabavitelne-castky-budou-vyssi-uz-od-lednove-vyplaty/ -->
+    <!-- https://www.finance.cz/clanky/553500-kolik-vam-musi-zustat-z-vyplaty-v-roce-2026-podivejte-se-na-novy-vypocet-nezabavitelne-castky/ -->
+    <!-- ================================================================ -->
+
+    <!-- Životní minimum jednotlivce / month (garnishment component) -->
+    <record id="rule_parameter_garnish_subsistence" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Garnishment - living minimum individual</field>
+        <field name="code">l10n_cz_garnish_subsistence</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_garnish_subsistence_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">4860</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnish_subsistence"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Normativní nájemné (1-person household, obec >= 70k) / month -->
+    <record id="rule_parameter_garnish_normative_rent" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Garnishment - normative rent</field>
+        <field name="code">l10n_cz_garnish_normative_rent</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_garnish_normative_rent_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">9430</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnish_normative_rent"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Energetický paušál (1-person household) / month -->
+    <record id="rule_parameter_garnish_energy" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Garnishment - energy flat</field>
+        <field name="code">l10n_cz_garnish_energy</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_garnish_energy_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">2300</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnish_energy"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Base percentage of the sum (85 % from 2026) -->
+    <record id="rule_parameter_garnish_base_pct" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Garnishment - base % of sum</field>
+        <field name="code">l10n_cz_garnish_base_pct</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_garnish_base_pct_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">85</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnish_base_pct"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Limit above which the remainder is seized without restriction
+         (1.9 x sum = 1.9 x 16590 = 31521 for 2026) -->
+    <record id="rule_parameter_garnish_unlimited_limit" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Garnishment - unlimited-seizure limit</field>
+        <field name="code">l10n_cz_garnish_unlimited_limit</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_garnish_unlimited_limit_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">31521</field>
+        <field name="rule_parameter_id" ref="rule_parameter_garnish_unlimited_limit"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- ================================================================ -->
+    <!-- P3: Sickness compensation (náhrada mzdy) - hourly redukční       -->
+    <!-- hranice for the first 14 calendar days (daily thresholds x       -->
+    <!-- 0.175). Bands: 90 % up to RH1, 60 % RH1..RH2, 30 % RH2..RH3, 0 % -->
+    <!-- above RH3; the employer pays 60 % of the reduced hourly earnings. -->
+    <!-- Sources:                                                          -->
+    <!-- https://www.mesec.cz/kalkulacky/nemocenske-nahrada-mzdy/          -->
+    <!-- https://www.finance.cz/wiki/dane-a-mzdy/nahrada-mzdy/             -->
+    <!-- ================================================================ -->
+
+    <!-- 1st hourly reduction threshold (denní 1552 / 1633 x 0.175) -->
+    <record id="rule_parameter_sick_rh1" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Sick pay reduction threshold 1 (hourly)</field>
+        <field name="code">l10n_cz_sick_rh1</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_sick_rh1_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">271.60</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh1"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_sick_rh1_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">285.775</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh1"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- 2nd hourly reduction threshold (denní 2328 / 2449 x 0.175) -->
+    <record id="rule_parameter_sick_rh2" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Sick pay reduction threshold 2 (hourly)</field>
+        <field name="code">l10n_cz_sick_rh2</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_sick_rh2_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">407.40</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh2"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_sick_rh2_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">428.575</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh2"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- 3rd hourly reduction threshold (denní 4656 / 4897 x 0.175) -->
+    <record id="rule_parameter_sick_rh3" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Sick pay reduction threshold 3 (hourly)</field>
+        <field name="code">l10n_cz_sick_rh3</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_sick_rh3_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">814.80</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh3"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_sick_rh3_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">856.975</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh3"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+    <!-- ================================================================ -->
+    <!-- Annual tax reconciliation (roční zúčtování, §38ch/§38ča ZDP).    -->
+    <!-- Annual figures = 12x the monthly ones where applicable. Sources: -->
+    <!-- https://www.pruvodcepodnikanim.cz/clanek/slevy-na-dani-a-nezdanitelne-polozky-2025/ -->
+    <!-- https://www.pruvodcepodnikanim.cz/clanek/slevy-na-dani-a-nezdanitelne-polozky-2026/ -->
+    <!-- https://www.podnikatel.cz/clanky/od-jake-vyse-mzdy-a-prijmu-se-bude-v-roce-2026-platit-23-sazba-dane-z-prijmu/ -->
+    <!-- ================================================================ -->
+
+    <!-- Annual 23% threshold (36x průměrná mzda): 2025 1676052, 2026 1762812 -->
+    <record id="rule_parameter_tax_threshold_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Annual 23% threshold (36x avg)</field>
+        <field name="code">l10n_cz_tax_threshold_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_tax_threshold_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">1676052</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_threshold_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_tax_threshold_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">1762812</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_threshold_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Sleva na poplatníka / year (30 840; always applied in full) -->
+    <record id="rule_parameter_credit_taxpayer_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Taxpayer credit / year</field>
+        <field name="code">l10n_cz_credit_taxpayer_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_credit_taxpayer_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">30840</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_taxpayer_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_credit_taxpayer_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">30840</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_taxpayer_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Sleva na držitele ZTP/P / year (12x 1345 = 16 140) -->
+    <record id="rule_parameter_credit_ztpp_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: ZTP/P holder credit / year</field>
+        <field name="code">l10n_cz_credit_ztpp_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_credit_ztpp_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">16140</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_ztpp_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_credit_ztpp_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">16140</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_ztpp_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Sleva na invaliditu I/II / year (12x 210 = 2 520) -->
+    <record id="rule_parameter_credit_disab_12_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Invalidity I/II credit / year</field>
+        <field name="code">l10n_cz_credit_disab_12_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_credit_disab_12_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">2520</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_disab_12_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_credit_disab_12_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">2520</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_disab_12_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Sleva na invaliditu III / year (12x 420 = 5 040) -->
+    <record id="rule_parameter_credit_disab_3_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Invalidity III credit / year</field>
+        <field name="code">l10n_cz_credit_disab_3_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_credit_disab_3_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">5040</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_disab_3_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_credit_disab_3_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">5040</field>
+        <field name="rule_parameter_id" ref="rule_parameter_credit_disab_3_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Daňové zvýhodnění na 1. dítě / year (12x 1267 = 15 204) -->
+    <record id="rule_parameter_child_1_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Child benefit 1st tier / year</field>
+        <field name="code">l10n_cz_child_1_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_child_1_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">15204</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_1_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_1_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">15204</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_1_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Daňové zvýhodnění na 2. dítě / year (12x 1860 = 22 320) -->
+    <record id="rule_parameter_child_2_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Child benefit 2nd tier / year</field>
+        <field name="code">l10n_cz_child_2_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_child_2_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">22320</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_2_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_2_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">22320</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_2_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Daňové zvýhodnění na 3.+ dítě / year (12x 2320 = 27 840) -->
+    <record id="rule_parameter_child_3_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Child benefit 3rd+ tier / year</field>
+        <field name="code">l10n_cz_child_3_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_child_3_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">27840</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_3_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_3_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">27840</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_3_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Annual daňový bonus income test (6x minimum wage): 2025 124800, 2026 134400 -->
+    <record id="rule_parameter_bonus_min_income_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Bonus annual income test (6x min wage)</field>
+        <field name="code">l10n_cz_bonus_min_income_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_bonus_min_income_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">124800</field>
+        <field name="rule_parameter_id" ref="rule_parameter_bonus_min_income_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_bonus_min_income_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">134400</field>
+        <field name="rule_parameter_id" ref="rule_parameter_bonus_min_income_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- §15 pension+life joint cap / year (48 000; DPS+ŽP+DIP) -->
+    <record id="rule_parameter_pension_max_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Pension/life deduction cap / year</field>
+        <field name="code">l10n_cz_pension_max_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_pension_max_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">48000</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pension_max_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_pension_max_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">48000</field>
+        <field name="rule_parameter_id" ref="rule_parameter_pension_max_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- §15 mortgage-interest cap / year (150 000; 300 000 for pre-2021 loans) -->
+    <record id="rule_parameter_mortgage_max_year" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Mortgage-interest deduction cap / year</field>
+        <field name="code">l10n_cz_mortgage_max_year</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_mortgage_max_year_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">150000</field>
+        <field name="rule_parameter_id" ref="rule_parameter_mortgage_max_year"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_mortgage_max_year_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">150000</field>
+        <field name="rule_parameter_id" ref="rule_parameter_mortgage_max_year"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- ==============================================================
+         Employer social-insurance discount (sleva na pojistném)
+         §7a-§7f zák. 589/1992 Sb., in force since 1.2.2023.
+         Discount = 5 % of the employee's monthly assessment base, capped at
+         1.5x the average wage; only for a shorter working time of 8-30 h/week
+         (except employees under 21) and up to 138 h/month.
+         ============================================================== -->
+
+    <!-- Discount rate (5 %) -->
+    <record id="rule_parameter_social_disc_rate" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Social discount rate %</field>
+        <field name="code">l10n_cz_social_disc_rate</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_disc_rate_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_rate"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_disc_rate_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_rate"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Monthly assessment-base cap as a multiple of the average wage (1.5x) -->
+    <record id="rule_parameter_social_disc_base_mult" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Social discount base cap (x avg wage)</field>
+        <field name="code">l10n_cz_social_disc_base_mult</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_disc_base_mult_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_base_mult"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_disc_base_mult_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_base_mult"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Shorter-working-time band: min 8 h/week -->
+    <record id="rule_parameter_social_disc_hours_min" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Social discount min hours/week</field>
+        <field name="code">l10n_cz_social_disc_hours_min</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_disc_hours_min_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">8</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_hours_min"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_disc_hours_min_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">8</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_hours_min"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Shorter-working-time band: max 30 h/week -->
+    <record id="rule_parameter_social_disc_hours_max" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Social discount max hours/week</field>
+        <field name="code">l10n_cz_social_disc_hours_max</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_disc_hours_max_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_hours_max"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_disc_hours_max_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_hours_max"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Monthly worked-hours cap (138 h) -->
+    <record id="rule_parameter_social_disc_hours_month_max" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Social discount max hours/month</field>
+        <field name="code">l10n_cz_social_disc_hours_month_max</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_disc_hours_month_max_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">138</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_hours_month_max"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_social_disc_hours_month_max_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">138</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_hours_month_max"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- §15 odst. 1 zák. č. 586/1992 Sb. — bezúplatná plnění (dary) are
+         deductible up to this percentage of the annual tax base. The 15 %
+         statutory ceiling has been temporarily raised to 30 % since 2020 and
+         the extension has been rolled forward repeatedly, so it is exactly the
+         kind of figure that must not sit in Python. -->
+    <record id="rule_parameter_gift_max_pct" model="hr.rule.parameter">
+        <field name="name">Czechia: Gift deduction cap (% of the annual tax base)</field>
+        <field name="code">l10n_cz_gift_max_pct</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_gift_max_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_gift_max_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         §§ 207-209 zákoníku práce — PŘEKÁŽKY NA STRANĚ ZAMĚSTNAVATELE.
+         Náhrada mzdy as a percentage of průměrný výdělek. Statutory MINIMA:
+         a collective agreement or an internal rule may set more, which is why
+         these are dated parameters and not literals in a rule body.
+
+           § 207 a)  prostoj (porucha na strojním zařízení, v dodávce surovin
+                     nebo pohonné síly, chybné pracovní podklady)  — nejméně 80 %
+           § 207 b)  přerušení práce pro nepříznivé povětrnostní vlivy nebo
+                     živelní událost                              — nejméně 60 %
+           § 208     jiné překážky na straně zaměstnavatele        — 100 %
+           § 209     částečná nezaměstnanost, dohodnutá s odborovou organizací
+                     nebo stanovená vnitřním předpisem            — nejméně 60 %
+
+         Until now every one of these had to be booked as the § 199 paid
+         obstacle, which pays the FULL průměrný výdělek — overpaying a prostoj
+         by a fifth and a short-time month by two fifths.
+         =================================================================== -->
+    <record id="rule_parameter_prekazka_prostoj_pct" model="hr.rule.parameter">
+        <field name="name">Czechia: Employer obstacle — prostoj (%)</field>
+        <field name="code">l10n_cz_prekazka_prostoj_pct</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_prekazka_prostoj_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">80</field>
+        <field name="rule_parameter_id" ref="rule_parameter_prekazka_prostoj_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_prekazka_povetrnost_pct" model="hr.rule.parameter">
+        <field name="name">Czechia: Employer obstacle — adverse weather (%)</field>
+        <field name="code">l10n_cz_prekazka_povetrnost_pct</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_prekazka_povetrnost_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">60</field>
+        <field name="rule_parameter_id" ref="rule_parameter_prekazka_povetrnost_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_prekazka_jine_pct" model="hr.rule.parameter">
+        <field name="name">Czechia: Employer obstacle — other (%)</field>
+        <field name="code">l10n_cz_prekazka_jine_pct</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_prekazka_jine_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">100</field>
+        <field name="rule_parameter_id" ref="rule_parameter_prekazka_jine_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <record id="rule_parameter_prekazka_castecna_pct" model="hr.rule.parameter">
+        <field name="name">Czechia: Employer obstacle — short-time working (%)</field>
+        <field name="code">l10n_cz_prekazka_castecna_pct</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_prekazka_castecna_pct_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">60</field>
+        <field name="rule_parameter_id" ref="rule_parameter_prekazka_castecna_pct"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+</odoo>

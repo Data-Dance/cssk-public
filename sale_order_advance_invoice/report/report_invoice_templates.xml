@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+
+        <!-- Replace "Invoice" / "Draft Invoice" / "Cancelled Invoice" titles
+             with "Tax Document" variants for advance-invoice tax documents. -->
+        <xpath expr="//t[@name='invoice_title']" position="replace">
+            <t t-if="o.is_advance_invoice_tax_document">Tax Document</t>
+            <t t-else="">Invoice</t>
+        </xpath>
+        <xpath expr="//t[@name='draft_invoice_title']" position="replace">
+            <t t-if="o.is_advance_invoice_tax_document">Draft Tax Document</t>
+            <t t-else="">Draft Invoice</t>
+        </xpath>
+        <xpath expr="//t[@name='cancelled_invoice_title']" position="replace">
+            <t t-if="o.is_advance_invoice_tax_document">Cancelled Tax Document</t>
+            <t t-else="">Cancelled Invoice</t>
+        </xpath>
+
+        <!-- Rename "Invoice Date" label to "Issue Date" for tax documents.
+             Anchor on the first label child positionally (t[1]) rather than on the
+             exact t-if attribute string, so the override survives other inheriting
+             views (e.g. a Studio relabel or a localization) that rewrite the
+             "Invoice Date" condition. -->
+        <xpath expr="//div[@name='invoice_date']/t[1]" position="replace">
+            <t t-if="o.move_type == 'out_invoice' and o.is_advance_invoice_tax_document"><strong>Issue Date</strong></t>
+            <t t-elif="o.move_type == 'out_invoice'"><strong>Invoice Date</strong></t>
+        </xpath>
+
+        <!-- Hide Due Date for tax documents. -->
+        <xpath expr="//div[@name='due_date']" position="attributes">
+            <attribute name="t-if">o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted' and not o.is_advance_invoice_tax_document</attribute>
+        </xpath>
+
+        <!-- Hide payment term note for tax documents. -->
+        <xpath expr="//span[@id='payment_terms_note_id']" position="attributes">
+            <attribute name="t-if">o.invoice_payment_term_id.note and not o.is_advance_invoice_tax_document</attribute>
+        </xpath>
+
+        <!-- Hide payment term schedule/details table for tax documents. -->
+        <xpath expr="//t[@t-if='o.invoice_payment_term_id.display_on_invoice and payment_term_details']" position="attributes">
+            <attribute name="t-if">o.invoice_payment_term_id.display_on_invoice and payment_term_details and not o.is_advance_invoice_tax_document</attribute>
+        </xpath>
+
+        <!-- Hide payment communication (reference + bank account) for tax documents. -->
+        <xpath expr="//p[@name='payment_communication']/.." position="attributes">
+            <attribute name="t-if">o.move_type in ('out_invoice', 'in_refund') and o.payment_reference and not o.is_advance_invoice_tax_document</attribute>
+        </xpath>
+
+        <!-- Hide QR code for tax documents. -->
+        <xpath expr="//t[@t-set='show_qr']" position="attributes">
+            <attribute name="t-value">o.display_qr_code and o.amount_residual and not o.is_advance_invoice_tax_document</attribute>
+        </xpath>
+
+        <!-- Rename "Taxable Supply" label to "Date Paid" for tax documents. -->
+        <xpath expr="//div[@name='taxable_supply_date']/strong" position="replace">
+            <strong t-if="o.is_advance_invoice_tax_document">Date Paid</strong>
+            <strong t-else="">Taxable Supply</strong>
+        </xpath>
+
+    </template>
+
+</odoo>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_fs_version_view_list" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.version.list</field>
+        <field name="model">cssk.fs.statement.version</field>
+        <field name="arch" type="xml">
+            <list string="Financial Statement Versions">
+                <field name="country_id"/>
+                <field name="name"/>
+                <field name="statement_kind"/>
+                <field name="valid_from"/>
+                <field name="xml_root_element"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_fs_version_view_form" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.version.form</field>
+        <field name="model">cssk.fs.statement.version</field>
+        <field name="arch" type="xml">
+            <form string="Financial Statement Version">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="country_id"/>
+                            <field name="statement_kind"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                            <field name="xml_root_element"/>
+                            <field name="xml_template_ref_id"/>
+                            <field name="xml_schema_data" filename="xml_schema_filename"/>
+                            <field name="xml_schema_filename" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lines" name="lines">
+                            <field name="line_def_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="level"/>
+                                    <field name="kind"/>
+                                    <field name="account_formula"/>
+                                    <field name="aggregate_formula"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_fs_version_action" model="ir.actions.act_window">
+        <field name="name">Financial Statement Versions</field>
+        <field name="res_model">cssk.fs.statement.version</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

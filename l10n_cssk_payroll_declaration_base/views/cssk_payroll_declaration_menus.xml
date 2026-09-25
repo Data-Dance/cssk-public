@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root menu shared by the country report modules. -->
+    <menuitem id="menu_cssk_payroll_declaration_root"
+              name="Payroll Declarations"
+              sequence="95"/>
+
+    <menuitem id="menu_cssk_payroll_declaration_config"
+              name="Configuration"
+              parent="menu_cssk_payroll_declaration_root"
+              sequence="90"/>
+
+    <menuitem id="menu_cssk_payroll_declaration_version"
+              name="Declaration Versions"
+              parent="menu_cssk_payroll_declaration_config"
+              action="action_cssk_payroll_declaration_version"
+              sequence="10"/>
+
+</odoo>

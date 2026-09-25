@@ -1,0 +1,73 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Daňové odpisy — most pro OCA</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Připojení CZ/SK plánu daňových odpisů k OCA account_asset_management (Community)</h3>
+    <div class="oe_span12">
+      <p>Tento most napojuje zemně neutrální jádro <code>account_asset_tax</code> na model OCA
+         <code>account_asset_management</code> — majetkový rámec vhodný pro Community, bez nutnosti
+         Enterprise. Přidává nezaúčtovaný <b>plán daňových odpisů</b>, vazby majetek ↔ daňový
+         řádek/událost a záložku <i>Daňové odpisy</i> na formuláři majetku.</p>
+      <p>Nainstalujte jej spolu s jádrem <code>account_asset_tax</code> a zemskou datovou vrstvou
+         (<code>l10n_cz_account_asset_tax</code> / <code>l10n_sk_account_asset_tax</code>). Je
+         <b>vzájemně vylučující</b> s mostem Enterprise <code>account_asset_tax_ee</code> —
+         nainstalovat lze pouze jednu implementaci majetku.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Vmíchá <code>account.asset.tax.mixin</code> do modelu majetku OCA a zpřístupní paralelní
+            plán daňových odpisů.</li>
+        <li>Daňová výchozí nastavení dědí ze šablony majetku (<code>account.asset.profile</code>).</li>
+        <li>Hook vyřazení nad postupem vyřazení OCA (<code>state='removed'</code>) zaznamenávající
+            daňovou událost vyřazení.</li>
+        <li>Čtečka účetní zůstatkové ceny pro odloženou daň a čtečka zaúčtovaných odpisů pro
+            vypořádání DPPO.</li>
+        <li>Tlačítka událostí životního cyklu a záložka <i>Daňové odpisy</i> na formuláři majetku.</li>
+      </ul>
+      <p><b>Ověřeno na Odoo 19 Community (19CE-TEST): 11 integračních testů zelených.</b></p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p>Otevřete libovolný majetek a uvidíte daňový plán vedle účetního plánu na záložce
+         <i>Daňové odpisy</i>. Průvodce hromadného výpočtu, doplnění, událostí životního cyklu,
+         uzávěrky roku a vypořádání DPPO poskytuje jádro <code>account_asset_tax</code> a pracují nad
+         plánem, který tento most připojuje.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Dokumentace</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><a href="../../CHANGELOG.md">CHANGELOG.md</a> — historie vydání.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

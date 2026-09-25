@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_asset_tax_class_list" model="ir.ui.view">
+        <field name="name">account.asset.tax.class.list</field>
+        <field name="model">account.asset.tax.class</field>
+        <field name="arch" type="xml">
+            <list string="Tax Depreciation Groups">
+                <field name="country_code"/>
+                <field name="code"/>
+                <field name="group_number"/>
+                <field name="name"/>
+                <field name="useful_life_years"/>
+                <field name="allow_linear"/>
+                <field name="allow_accelerated"/>
+                <field name="allow_extraordinary"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_account_asset_tax_class_form" model="ir.ui.view">
+        <field name="name">account.asset.tax.class.form</field>
+        <field name="model">account.asset.tax.class</field>
+        <field name="arch" type="xml">
+            <form string="Tax Depreciation Group">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Stroje a zariadenia"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="country_code"/>
+                            <field name="code"/>
+                            <field name="group_number"/>
+                            <field name="useful_life_years"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="allow_linear"/>
+                            <field name="allow_accelerated"/>
+                            <field name="allow_extraordinary"/>
+                        </group>
+                    </group>
+                    <group string="Straight-line rates (CZ §31, % of entry price)"
+                           invisible="not allow_linear or country_code != 'CZ'">
+                        <field name="linear_rate_first"/>
+                        <field name="linear_rate_next"/>
+                        <field name="linear_rate_increased"/>
+                    </group>
+                    <group string="Accelerated coefficients (CZ §32 / SK §28)"
+                           invisible="not allow_accelerated">
+                        <field name="accel_coeff_first"/>
+                        <field name="accel_coeff_next"/>
+                        <field name="accel_coeff_increased"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_account_asset_tax_class_search" model="ir.ui.view">
+        <field name="name">account.asset.tax.class.search</field>
+        <field name="model">account.asset.tax.class</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="cz" string="Czech" domain="[('country_code','=','CZ')]"/>
+                <filter name="sk" string="Slovak" domain="[('country_code','=','SK')]"/>
+                <separator/>
+                <filter name="group_country" string="Country" context="{'group_by':'country_code'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_account_asset_tax_class" model="ir.actions.act_window">
+        <field name="name">Tax Depreciation Groups</field>
+        <field name="res_model">account.asset.tax.class</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No tax depreciation groups yet</p>
+            <p>Install <b>l10n_cz_account_asset_tax</b> or <b>l10n_sk_account_asset_tax</b>
+               to load the statutory groups and coefficients.</p>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      MVPP (Mesačný výkaz poistného a príspevkov) XML — matches the official
+      Sociálna poisťovňa schema MVPP-v2026.xsd (root <mvpp>, ns
+      http://socpoist.sk/xsd/mvpp2026, elementFormDefault="qualified",
+      attributes unqualified). Aggregate summary (poistne) + full per-employee
+      annex (priloha). Amounts come from the SK social rule codes; see the model.
+    -->
+    <template id="mvpp_xml">
+        <mvpp xmlns="http://socpoist.sk/xsd/mvpp2026">
+            <typDoc t-out="typ_doc"/>
+            <obdobie t-out="obdobie"/>
+            <denVyplaty t-out="den_vyplaty"/>
+            <typVykazu t-out="typ_vykazu"/>
+            <zamestnavatel>
+                <identifikacia>
+                    <variabilnySymbol t-out="variabilny_symbol"/>
+                    <identifikator>
+                        <ico t-out="ico"/>
+                    </identifikator>
+                    <nazov t-out="nazov"/>
+                </identifikacia>
+            </zamestnavatel>
+            <poistne>
+                <np>
+                    <npZamtel t-out="funds['np']['zamtel']"/>
+                    <npZamnec t-out="funds['np']['zamnec']"/>
+                </np>
+                <sp>
+                    <spZamtel t-out="funds['sp']['zamtel']"/>
+                    <spZamnec t-out="funds['sp']['zamnec']"/>
+                </sp>
+                <ip>
+                    <ipZamtel t-out="funds['ip']['zamtel']"/>
+                    <ipZamnec t-out="funds['ip']['zamnec']"/>
+                </ip>
+                <pvn>
+                    <pvnZamtel t-out="funds['pvn']['zamtel']"/>
+                    <pvnZamnec t-out="funds['pvn']['zamnec']"/>
+                </pvn>
+                <up>
+                    <upZamtel t-out="funds['up']['zamtel']"/>
+                </up>
+                <gp>
+                    <gpZamtel t-out="funds['gp']['zamtel']"/>
+                </gp>
+                <rfs>
+                    <rfsZamtel t-out="funds['rfs']['zamtel']"/>
+                </rfs>
+                <pfp>
+                    <pfpZamtel t-out="pfp"/>
+                </pfp>
+                <spoluPoistne t-out="spolu_poistne"/>
+            </poistne>
+            <fOsoba>
+                <priezvisko t-out="fo['priezvisko']"/>
+                <meno t-out="fo['meno']"/>
+                <tel t-out="fo['tel']"/>
+                <mail t-out="fo['mail']"/>
+            </fOsoba>
+            <vystavenie>
+                <zostavil t-out="fo['zostavil']"/>
+                <datum t-out="datum_vystavenia"/>
+            </vystavenie>
+            <priloha>
+                <poistneZamestnancov>
+                    <poistneZamestnanca t-foreach="annex" t-as="row"
+                        t-att-pc="row['pc']"
+                        t-att-rc="row['rc']"
+                        t-att-pocDni="row['poc_dni']"
+                        t-att-typZec="row['typ_zec']"
+                        t-att-vynimkaVZ="row['vynimka_vz']"
+                        t-att-vzNp="row['vz']"
+                        t-att-vzSp="row['vz']"
+                        t-att-vzIp="row['vz']"
+                        t-att-vzPvn="row['vz']"
+                        t-att-vzUp="row['vz']"
+                        t-att-vzGp="row['vz']"
+                        t-att-vzRfs="row['vz']"
+                        t-att-vzZecNp="row['vz']"
+                        t-att-vzZecSp="row['vz']"
+                        t-att-vzZecIp="row['vz']"
+                        t-att-vzZecPvn="row['vz']"
+                        t-att-npZamtel="row['np_zamtel']"
+                        t-att-npZamnec="row['np_zamnec']"
+                        t-att-spZamtel="row['sp_zamtel']"
+                        t-att-spZamnec="row['sp_zamnec']"
+                        t-att-ipZamtel="row['ip_zamtel']"
+                        t-att-ipZamnec="row['ip_zamnec']"
+                        t-att-pvnZamtel="row['pvn_zamtel']"
+                        t-att-pvnZamnec="row['pvn_zamnec']"
+                        t-att-upZamtel="row['up_zamtel']"
+                        t-att-gpZamtel="row['gp_zamtel']"
+                        t-att-rfsZamtel="row['rfs_zamtel']"
+                        t-att-pocetHodin="row['poc_hodin']"/>
+                </poistneZamestnancov>
+            </priloha>
+        </mvpp>
+    </template>
+</odoo>

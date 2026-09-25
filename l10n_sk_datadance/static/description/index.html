@@ -1,0 +1,79 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovak Accounting Localization (Data Dance) — full suite</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">One-click meta-module for the Slovak statutory core, with cross-form reconciliation</h3>
+    <div class="oe_span12">
+      <p>Installing this app pulls in the <b>Slovak statutory core</b> in a single step: KV DPH
+         (control statement), Súhrnný výkaz (EC sales list), DPH priznanie (VAT return), Súvaha
+         + VZS (financial statements), DPPO (income tax), SK invoice, VIES, saldokonto + zápočet
+         and dohadné (accruals).</p>
+      <p>Optional workflow pieces (FX sync, deferrals, the supplier-reliability check, dual
+         depreciation, Method A inventory and advance invoices) are <b>selectable in
+         Settings → Accounting → Slovak localization</b> — tick the box to install. On top of
+         bundling, the module adds <b>cross-form reconciliation</b> between the filed statements
+         and the ledger.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Meta-installer for the Slovak statutory core (one dependency set).</li>
+        <li>Settings toggles for the optional workflow modules.</li>
+        <li>Cross-form reconciliation (porovnanie) between KV DPH, súhrnný výkaz, DPH priznanie,
+            VZS/DPPO and the ledger account 343.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install the module to provision the Slovak core. Open <i>Settings ▸ Accounting ▸ Slovak
+         localization (Data Dance)</i> to tick the optional pieces you need. The reconciliation
+         checks are launched from the statement forms (see Wizards).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Wizards</h2>
+    <div class="oe_span12">
+      <h4>SK cross-form reconciliation <small>(buttons on the statement forms — <code>l10n.sk.dph.reconciliation</code>)</small></h4>
+      <p><b>What it does:</b> an advisory comparison (porovnanie) between the Slovak statutory
+         statements that share the same tax-tagged move lines. KV ⊆ DP relationships are reported
+         as expected non-KV content; only structurally impossible cases are flagged.</p>
+      <p><b>How to use:</b> open a statement (out of <i>draft</i>) and press the matching button:</p>
+      <ul>
+        <li>On the <b>DPH priznanie</b> form — <i>Porovnať s účtovníctvom</i>: ties output VAT
+            (r17) and input deduction to account 343, and reports the base-vs-revenue (trieda 60)
+            gap as informational.</li>
+        <li>On the <b>Súhrnný výkaz</b> form — <i>Porovnať s priznaním</i>: ties EC-sales goods
+            (code 0) to priznanie r14.</li>
+        <li>On the <b>DPPO</b> form — <i>Porovnať s účtovnou závierkou</i>: ties the accounting
+            result before tax (VZS r56) to DPPO r100 (an exact tie).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

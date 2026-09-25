@@ -1,0 +1,66 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">SK Bank FX Rates — shared fetch/parse</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Shared VÚB / Tatra banka exchange-rate fetch &amp; parse, reused by the Community and Enterprise SK providers</h3>
+    <div class="oe_span12">
+      <p>This module is the single source of truth for the Slovak commercial-bank exchange-rate
+         feeds. It provides the shared <b>VÚB</b> <i>kurzový lístok</i> and <b>Tatra banka</b> RSS
+         fetch and parse helpers on which both the Community (OCA <code>currency_rate_update</code>)
+         and Enterprise (<code>currency_rate_live</code>) Slovak rate providers build — so neither
+         edition has to duplicate any feed logic.</p>
+      <p>Rates are expressed as <code>1 EUR = X</code> foreign currency. The parse functions return
+         <code>{date: {ccy: rate_str}}</code> — the format the OCA
+         <code>res.currency.rate.provider</code> (CE) consumes directly, and which is trivially
+         adapted to Enterprise <code>currency_rate_live</code>'s <code>{ccy: (rate, date)}</code> (EE).
+         The module defines <b>no models</b>; it is a library of pure helpers imported via
+         <code>odoo.addons.currency_rate_sk_base.utils.sk_rates</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>fetch_vub_text</code> / <code>parse_vub</code> — VÚB <i>kurzový lístok</i> text feed,
+            using the <b>Devíza stred</b> (middle) rate for accounting valuation.</li>
+        <li><code>fetch_tb_text</code> / <code>parse_tb</code> — Tatra banka exchange-rate RSS feed,
+            parsed over a date range.</li>
+        <li>Per-bank supported-currency lists (<code>VUB_CURRENCIES</code> / <code>TB_CURRENCIES</code>).</li>
+        <li>Browser-like User-Agent so the bank endpoints (Tatra banka sits behind Cloudflare) do not
+            reject the request.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>This is a base library; it is not used directly. Install the edition-specific Slovak rate
+         provider that depends on it (the OCA <code>currency_rate_update</code> bridge on Community,
+         the <code>currency_rate_live</code> bridge on Enterprise) and configure the rate update there.
+         To call the helpers from your own code:</p>
+      <pre>from odoo.addons.currency_rate_sk_base.utils import sk_rates
+text = sk_rates.fetch_vub_text()
+rates = sk_rates.parse_vub(text, sk_rates.VUB_CURRENCIES)</pre>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

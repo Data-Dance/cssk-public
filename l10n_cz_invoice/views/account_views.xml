@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_tax_form_cz_reverse_charge" model="ir.ui.view">
+        <field name="name">account.tax.form.cz.reverse.charge</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form" />
+        <field name="arch" type="xml">
+            <field name="type_tax_use" position="after">
+                <field name="l10n_cz_invoice_reverse_charge" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_move_form_cz_legal_note" model="ir.ui.view">
+        <field name="name">account.move.form.cz.legal.note</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <field name="narration" position="after">
+                <field name="l10n_cz_legal_note_manual"
+                       placeholder="Additional statutory note printed on the CZ invoice…"
+                       invisible="move_type not in ('out_invoice','out_refund')" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

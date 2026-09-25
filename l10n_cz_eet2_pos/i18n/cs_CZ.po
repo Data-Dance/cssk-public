@@ -1,0 +1,135 @@
+# Czech translation of the l10n_cz_eet2_pos module.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_eet2_pos
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-07-03 20:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Czech\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : (n%1!=0 ) ? 2 : 3;\n"
+
+#. module: l10n_cz_eet2_pos
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2_pos.pos_config_view_form_eet2
+msgid "Czech EET 2.0"
+msgstr "Elektronická evidence tržeb 2.0"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_config__display_name
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_order__display_name
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_payment_method__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_cz_eet2_pos
+#. odoo-javascript
+#: code:addons/l10n_cz_eet2_pos/static/src/overrides/components/order_receipt/order_receipt.xml:0
+msgid "EET 2.0"
+msgstr "EET 2.0"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_payment_method__l10n_cz_eet2_contact_payment
+msgid "EET 2.0 Contact Payment"
+msgstr "Kontaktní platba EET 2.0"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_config__l10n_cz_eet2_enabled
+msgid "EET 2.0 Enabled"
+msgstr "EET 2.0 povoleno"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_order__l10n_cz_eet2_transaction_id
+msgid "EET 2.0 Message"
+msgstr "Zpráva EET 2.0"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_order__l10n_cz_eet2_pok
+msgid "EET 2.0 POK"
+msgstr "POK EET 2.0"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_config__l10n_cz_eet2_id_pokl
+msgid "EET 2.0 PoS ID (id_pokl)"
+msgstr "ID pokladny EET 2.0 (id_pokl)"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_order__l10n_cz_eet2_state
+msgid "EET 2.0 Status"
+msgstr "Stav EET 2.0"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_config__l10n_cz_eet2_id_jednotky
+msgid "EET 2.0 Unit ID (id_jednotky)"
+msgstr "ID jednotky EET 2.0 (id_jednotky)"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_config__id
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_order__id
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_payment_method__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,help:l10n_cz_eet2_pos.field_pos_config__l10n_cz_eet2_id_pokl
+msgid ""
+"Identifier of this point of sale sent as id_pokl (<=20 chars). Falls back to"
+" the POS name if empty."
+msgstr "Identifikátor této pokladny odesílaný jako id_pokl (max. 20 znaků). Pokud je prázdný, použije se název pokladny."
+
+#. module: l10n_cz_eet2_pos
+#. odoo-javascript
+#: code:addons/l10n_cz_eet2_pos/static/src/overrides/components/order_receipt/order_receipt.xml:0
+msgid "NEPRODUKČNÍ / TEST"
+msgstr "NEPRODUKČNÍ / TEST"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,field_description:l10n_cz_eet2_pos.field_pos_order__l10n_cz_eet2_is_test
+msgid "Non-production response"
+msgstr "Neprodukční odpověď"
+
+#. module: l10n_cz_eet2_pos
+#. odoo-javascript
+#: code:addons/l10n_cz_eet2_pos/static/src/overrides/components/order_receipt/order_receipt.xml:0
+msgid "POK:"
+msgstr "POK:"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,help:l10n_cz_eet2_pos.field_pos_payment_method__l10n_cz_eet2_contact_payment
+msgid ""
+"Payments made in person / on premises (cash, card, QR) are recorded by EET "
+"2.0. Disable for remote payments that are out of scope (no physical "
+"contact)."
+msgstr "Osobní platby / platby na místě (hotovost, karta, QR) jsou evidovány v EET 2.0. Vypněte pro vzdálené platby, které nespadají do evidence (bez fyzického kontaktu)."
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model,name:l10n_cz_eet2_pos.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Konfigurace prodejního místa"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model,name:l10n_cz_eet2_pos.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "Objednávky prodejního místa"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model,name:l10n_cz_eet2_pos.model_pos_payment_method
+msgid "Point of Sale Payment Methods"
+msgstr "Platební metody prodejního místa"
+
+#. module: l10n_cz_eet2_pos
+#: model:ir.model.fields,help:l10n_cz_eet2_pos.field_pos_config__l10n_cz_eet2_id_jednotky
+msgid ""
+"Registrating-unit id for this POS. Falls back to the company default if "
+"empty."
+msgstr "ID evidenční jednotky pro tuto pokladnu. Pokud je prázdné, použije se výchozí hodnota společnosti."
+
+#. module: l10n_cz_eet2_pos
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2_pos.view_pos_order_form_eet2
+msgid "Resend to EET"
+msgstr "Znovu odeslat do EET"

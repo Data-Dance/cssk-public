@@ -1,0 +1,285 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_vehicle_expense
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-06 16:45+0000\n"
+"PO-Revision-Date: 2026-08-06 16:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model,name:l10n_sk_vehicle_expense.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_nondeductible_account_id
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_nondeductible_account_id
+msgid "Account for the non-deducted VAT and the non-tax share of the fuel."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/wizard/l10n_sk_fuel_split.py:0
+msgid "All selected lines must belong to this bill."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__line_ids
+msgid "Bill lines representing a purchase of fuel."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.view_l10n_sk_fuel_split_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model,name:l10n_sk_vehicle_expense.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model,name:l10n_sk_vehicle_expense.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.res_config_settings_view_form_vehicle
+msgid ""
+"Dva nezávislé režimy: DPH podľa § 85n (50 %, 1. 1. 2026 – 30. 6. 2028) a daň"
+" z príjmov podľa § 19 ods. 2 písm. l) (80 %)."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.res_config_settings_view_form_vehicle
+msgid "Flat rates"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__line_ids
+msgid "Fuel lines"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move_line__l10n_sk_fuel_split_done
+msgid "Fuel split done"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/wizard/l10n_sk_fuel_split.py:0
+msgid ""
+"Fuel split: tax-expense share %(ratio).0f %%, non-deductible part to account"
+" %(account)s. The § 85n VAT restriction is handled by the tax on the line."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/models/account_move.py:0
+msgid "Fuel splitting applies to vendor bills."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_fuel_income_ratio
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_fuel_income_ratio
+msgid "Fuel tax-expense share (%)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/wizard/l10n_sk_fuel_split.py:0
+msgid "Fuel — non-deductible share (%(pct).0f %%) of %(label)s"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model,name:l10n_sk_vehicle_expense.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model,name:l10n_sk_vehicle_expense.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_is_sk_company
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_is_sk_company
+msgid "Slovak chart in use (technical)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__move_id
+msgid "Move"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__nondeductible_account_id
+msgid "Non-deductible account"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_nondeductible_account_id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_nondeductible_account_id
+msgid "Non-deductible vehicle costs"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/wizard/l10n_sk_fuel_split.py:0
+msgid "Only a draft bill can be split."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.view_l10n_sk_fuel_split_form
+msgid ""
+"Presunie daňovo neuznanú časť nákladu na PHL na osobitný účet.\n"
+"                    Celková suma faktúry, DPH ani záväzok sa nemenia. Obmedzenie\n"
+"                    odpočtu DPH podľa § 85n zabezpečuje sadzba dane na riadku\n"
+"                    (23 % vozidlo — 50 % odpočet), nie tento sprievodca."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.view_l10n_sk_fuel_split_form
+msgid "Split"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.view_l10n_sk_fuel_split_form
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.view_move_form_fuel_split
+msgid "Split fuel"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/models/account_move.py:0
+msgid "Split fuel (§ 19 ods. 2 písm. l)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model,name:l10n_sk_vehicle_expense.model_l10n_sk_fuel_split
+msgid "Split fuel between its tax-deductible and non-deductible shares"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__income_ratio
+msgid "Tax-expense share (%)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_account_move_line__l10n_sk_fuel_split_done
+msgid ""
+"Technical — marks both halves of a fuel line that has already been split, so"
+" a second run cannot compound the reclassification."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/wizard/l10n_sk_fuel_split.py:0
+msgid "The selected lines carry no amount to split."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/wizard/l10n_sk_fuel_split.py:0
+msgid "The tax-expense share must be above 0 and at most 100 %."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_expense/wizard/l10n_sk_fuel_split.py:0
+msgid "These lines have already been split: %s"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_vat_ratio
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_vat_ratio
+msgid "Vehicle VAT deduction (%)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.res_config_settings_view_form_vehicle
+msgid "Vehicles and fuel"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__income_ratio
+msgid ""
+"§ 19 ods. 2 písm. l) bod 3 — paušál do výšky 80 %. Týka sa dane z príjmov; "
+"odpočet DPH rieši samostatne § 85n (50 %) cez sadzbu dane na riadku faktúry."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_res_company__l10n_sk_fuel_income_ratio
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_fuel_income_ratio
+msgid ""
+"§ 19 ods. 2 písm. l) bod 3: paušálne výdavky na spotrebované PHL do výšky 80"
+" %. Nezmenené zmenou DPH — obidva režimy sú nezávislé."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_vat_ratio
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_vat_ratio
+msgid ""
+"§ 85n: paušálny odpočet DPH pri osobných vozidlách (M1, L1e, L3e) "
+"používaných aj na súkromné účely — 50 % od 1. 1. 2026 do 30. 6. 2028. 100 % "
+"odpočet vyžaduje registráciu a elektronickú evidenciu jázd."
+msgstr ""

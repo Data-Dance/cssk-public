@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.form.cssk.cash.journal</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='accounting_reports']" position="after">
+                <block title="Cash Journal (peňažný denník)" id="cssk_cash_journal">
+                    <setting id="cssk_bookkeeping_regime_setting"
+                             string="Bookkeeping Regime"
+                             help="Single-entry regimes derive a cash journal from these double-entry books.">
+                        <field name="cssk_bookkeeping_regime"/>
+                    </setting>
+                    <setting id="cssk_cash_journal_start_setting"
+                             string="Cash Journal Starts"
+                             help="First date the denník covers; earlier payments are left alone.">
+                        <field name="cssk_cash_journal_start"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

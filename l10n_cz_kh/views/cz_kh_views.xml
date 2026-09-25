@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cssk_control_statement_view_form_cz" model="ir.ui.view">
+        <field name="name">cssk.control.statement.form.cz</field>
+        <field name="model">cssk.control.statement</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_kv_kh_base.cssk_control_statement_view_form"/>
+        <field name="arch" type="xml">
+            <page name="sections" position="inside">
+                <notebook>
+                    <page string="A.1" name="cz_a1">
+                        <field name="cz_a1_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="entry_ref"/>
+                                <field name="partner_vat_stripped" string="DIČ"/>
+                                <field name="supplies_code" string="Code"/>
+                                <field name="base_std"/>
+                                <field name="tax_std"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="A.2" name="cz_a2">
+                        <field name="cz_a2_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="entry_ref"/>
+                                <field name="partner_vat_stripped" string="DIČ"/>
+                                <field name="base_std"/>
+                                <field name="tax_std"/>
+                                <field name="base_red"/>
+                                <field name="tax_red"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="A.4" name="cz_a4">
+                        <field name="cz_a4_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="entry_ref"/>
+                                <field name="partner_vat_stripped" string="DIČ"/>
+                                <field name="base_std"/>
+                                <field name="tax_std"/>
+                                <field name="base_red"/>
+                                <field name="tax_red"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="A.5" name="cz_a5">
+                        <field name="cz_a5_ids"/>
+                    </page>
+                    <page string="B.1" name="cz_b1">
+                        <field name="cz_b1_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="entry_ref"/>
+                                <field name="partner_vat_stripped" string="DIČ"/>
+                                <field name="supplies_code" string="Code"/>
+                                <field name="base_std"/>
+                                <field name="tax_std"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="B.2" name="cz_b2">
+                        <field name="cz_b2_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="entry_ref"/>
+                                <field name="partner_vat_stripped" string="DIČ"/>
+                                <field name="base_std"/>
+                                <field name="tax_std"/>
+                                <field name="base_red"/>
+                                <field name="tax_red"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="B.3" name="cz_b3">
+                        <field name="cz_b3_ids"/>
+                    </page>
+                </notebook>
+            </page>
+        </field>
+    </record>
+
+    <!-- §92a kód předmětu plnění on the reverse-charge tax -->
+    <record id="view_tax_form_cz_kh" model="ir.ui.view">
+        <field name="name">account.tax.form.cz.kh</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <field name="type_tax_use" position="after">
+                <field name="cssk_control_is_reverse_charge" invisible="1"/>
+                <field name="cssk_kh_commodity_code"
+                       invisible="not cssk_control_is_reverse_charge"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- …and on the product, for §92 goods filed by commodity -->
+    <record id="view_product_template_form_cz_kh" model="ir.ui.view">
+        <field name="name">product.template.form.cz.kh</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="categ_id" position="after">
+                <field name="cssk_kh_commodity_code"/>
+            </field>
+        </field>
+    </record>
+</odoo>

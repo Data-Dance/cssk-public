@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_l10n_sk_par53b_wizard_form" model="ir.ui.view">
+        <field name="name">l10n.sk.par53b.wizard.form</field>
+        <field name="model">l10n.sk.par53b.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Oprava odpočítanej dane § 53b">
+                <p class="text-muted">
+                    Vygeneruje opravu odpočítanej dane (r29 daňového priznania)
+                    pre prijaté faktúry nezaplatené viac ako 100 dní po
+                    splatnosti (§ 53b zákona o DPH). Oprava je úmerná
+                    nezaplatenej časti faktúry.
+                </p>
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="date"/>
+                        <field name="threshold_days"/>
+                    </group>
+                    <group>
+                        <field name="journal_id"/>
+                        <field name="correction_account_id"/>
+                        <field name="bill_count"/>
+                    </group>
+                </group>
+                <field name="bill_ids" readonly="1">
+                    <list>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="invoice_date_due"/>
+                        <field name="amount_residual"/>
+                        <field name="company_id" column_invisible="1"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_generate" type="object" string="Vygenerovať opravy"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="Zrušiť" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_sk_par53b_wizard" model="ir.actions.act_window">
+        <field name="name">Oprava odpočítanej dane (§ 53b)</field>
+        <field name="res_model">l10n.sk.par53b.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_l10n_sk_par53b"
+              name="Oprava odpočítanej dane (§ 53b)"
+              parent="account.menu_finance_entries"
+              action="action_l10n_sk_par53b_wizard"
+              sequence="90"/>
+
+</odoo>

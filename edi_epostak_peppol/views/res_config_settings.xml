@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_config_settings_epostak_peppol" model="ir.ui.view">
+        <field name="name">res.config.settings.epostak.peppol</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="edi_base_peppol.view_res_config_settings_peppol"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='peppol']" position="inside">
+                <setting>
+                    <field name="peppol_transport"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

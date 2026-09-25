@@ -1,0 +1,62 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Bank File Formats — shared builders</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">The single source of truth for the Czech/Slovak ABO and MultiCash payment-file formats</h3>
+    <div class="oe_span12">
+      <p>This module is the shared library behind the Data Dance Czech/Slovak bank-file exporters.
+         Both the Community (<code>account_payment_order</code>) and Enterprise
+         (<code>account_batch_payment</code>) variants of <code>account_abo</code> /
+         <code>account_multicash</code> build on it, so the format logic lives in exactly one place.</p>
+      <p>There are <b>no Odoo models</b> here — only pure helpers, imported via
+         <code>odoo.addons.account_cz_bankfile_base.utils.*</code>. The builders take a list of
+         normalized <code>BankPaymentItem</code> records, so the edition-specific shims feed them from
+         either <code>account.payment.line</code> (CE) or <code>account.payment</code> (EE) without
+         duplicating any format logic.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>utils.abo.build_abo_file</code> — builds the ABO credit-transfer (úhrada) file.</li>
+        <li><code>utils.multicash.build_multicash_file</code> — builds MultiCash CFD / CFU / CFA /
+            MT101 files.</li>
+        <li><code>utils.common</code> — Czech account-number parsing, the normalized
+            <code>BankPaymentItem</code> passed to the builders, and the VS/KS/SS symbol resolver
+            (<code>resolve_symbol</code>: explicit value, else a token parsed from the payment
+            communication).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>This is a library dependency, not an end-user app. It is installed automatically as a
+         dependency of <code>account_abo</code> / <code>account_multicash</code>. To reuse the
+         builders from your own shim, build a list of <code>BankPaymentItem</code> and call the
+         relevant <code>build_*</code> helper imported from
+         <code>odoo.addons.account_cz_bankfile_base.utils.*</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: LGPL-3</small></p>
+    </div>
+  </div>
+</section>

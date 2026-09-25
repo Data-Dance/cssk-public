@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="res_config_settings_view_form_purchase_advance" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.purchase.advance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='default_accounts']" position="after">
+                <block
+                    title="Received Advance Invoices"
+                    id="purchase_advance_invoice_settings"
+                >
+                    <setting
+                        id="purchase_advance_journal"
+                        string="Tax documents journal"
+                        help="Purchase journal for the suppliers' tax documents on sent advance payments (e.g. PDADV)."
+                    >
+                        <field name="advance_purchase_journal_id" />
+                    </setting>
+                    <setting
+                        id="purchase_advance_clearing"
+                        string="Clearing account"
+                        help="Reconcilable payable-type account (e.g. 314001) carrying the advance payment and the tax document's payable leg."
+                    >
+                        <field name="advance_paid_clearing_account_id" />
+                    </setting>
+                    <setting
+                        id="purchase_advance_net"
+                        string="Paid advances account"
+                        help="Net paid advances (e.g. 314000); optional long-term variant."
+                    >
+                        <field name="advance_paid_account_id" />
+                        <field name="advance_paid_account_lt_id" />
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

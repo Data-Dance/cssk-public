@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <!--
+      ONE structure, not a vintage per year — and the difference from the
+      Slovak module next door is deliberate rather than an omission.
+
+      Czech EPO publishes a SINGLE dphkh1_epo2.xsd and overwrites it in place;
+      older structures are not published at all. Since 1. 10. 2019 every
+      kontrolní hlášení and následné KH must be submitted in the THEN-CURRENT
+      structure whatever period it covers, so a následné KH for 03/2021 filed
+      today goes in today's form. There is therefore nothing to resolve by
+      year and no older schema to fetch: a version that claimed only 2025+
+      simply refused to export periods it was perfectly able to file.
+
+      The schema is forked by PERIOD-CONDITIONAL FIELDS instead, which is why
+      it can serve every period at once: zakl_dane3/dan3 exist only for DPPD
+      up to 31. 12. 2023 (the abolished second reduced rate), and zdph_44="A"
+      still expresses an opravа under § 44 in the wording valid to 31. 3. 2019.
+      Those gates belong in the code, not in the file set.
+
+      valid_from is the form's own hard floor, stated by the schema itself:
+      "pro plnění s DUZP nižším než 1.1.2016 je nutné podat pomocí Výpisu z
+      evidence" — an older document goes on DPHEVD, a different form entirely,
+      not on an older kontrolní hlášení.
+
+      ⚠️ The structure version is NOT in the XSD (verzePis is a free
+      xs:string), so a refresh cannot be detected by validating. See
+      data/SCHEMA_VERSION and the procedure recorded there.
+    -->
+    <record id="cz_kh_version_2025" model="cssk.control.statement.version">
+        <field name="name">Kontrolní hlášení (aktuální struktura)</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="valid_from">2016-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_kh.dphkh1_2025"/>
+        <field name="xml_root_element">Pisemnost</field>
+        <field name="xml_schema_filename">dphkh1_epo2.xsd</field>
+        <field name="xml_schema_data" type="base64" file="l10n_cz_kh/data/dphkh1_epo2.xsd"/>
+        <field name="threshold_value">10000.0</field>
+        <field name="threshold_currency_id" ref="base.CZK"/>
+        <field name="section_code_ids" eval="[
+            (0,0,{'code':'A1','name':'A.1 — Plnění v režimu přenesení daňové povinnosti (§ 92a)','sequence':10,'aggregation':'detail','section_model':'l10n.cz.kh.a1'}),
+            (0,0,{'code':'A2','name':'A.2 — Přijatá plnění s povinností přiznat daň (§ 108 odst. 1)','sequence':20,'aggregation':'detail','section_model':'l10n.cz.kh.a2'}),
+            (0,0,{'code':'A4','name':'A.4 — Uskutečněná zdanitelná plnění nad 10 000 Kč','sequence':40,'aggregation':'detail','section_model':'l10n.cz.kh.a4'}),
+            (0,0,{'code':'A5','name':'A.5 — Uskutečněná zdanitelná plnění do 10 000 Kč','sequence':50,'aggregation':'single','section_model':'l10n.cz.kh.a5'}),
+            (0,0,{'code':'B1','name':'B.1 — Přijatá plnění v režimu přenesení daňové povinnosti (§ 92a)','sequence':60,'aggregation':'detail','section_model':'l10n.cz.kh.b1'}),
+            (0,0,{'code':'B2','name':'B.2 — Přijatá zdanitelná plnění nad 10 000 Kč','sequence':70,'aggregation':'detail','section_model':'l10n.cz.kh.b2'}),
+            (0,0,{'code':'B3','name':'B.3 — Přijatá zdanitelná plnění do 10 000 Kč','sequence':80,'aggregation':'single','section_model':'l10n.cz.kh.b3'}),
+        ]"/>
+    </record>
+
+    <record id="cz_kh_type_B" model="cssk.control.statement.type">
+        <field name="country_id" ref="base.cz"/>
+        <field name="code">B</field><field name="name">Řádné</field>
+        <field name="fa_xml_value">B</field>
+    </record>
+    <record id="cz_kh_type_O" model="cssk.control.statement.type">
+        <field name="country_id" ref="base.cz"/>
+        <field name="code">O</field><field name="name">Opravné</field>
+        <field name="fa_xml_value">O</field>
+    </record>
+    <record id="cz_kh_type_E" model="cssk.control.statement.type">
+        <field name="country_id" ref="base.cz"/>
+        <field name="code">E</field><field name="name">Následné</field>
+        <field name="fa_xml_value">E</field>
+    </record>
+
+</data>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_move_link_advance_invoice_wizard_form" model="ir.ui.view">
+        <field name="name">account.move.link.advance.invoice.wizard.form</field>
+        <field name="model">account.move.link.advance.invoice.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Link Advance Invoices">
+                <group>
+                    <field name="move_id"/>
+                    <field name="partner_id"/>
+                    <field name="available_advance_invoice_ids" invisible="1"/>
+                    <field
+                        name="advance_invoice_ids"
+                        widget="many2many_tags"
+                        options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button
+                        name="action_link_advance_invoices"
+                        type="object"
+                        class="btn-primary"
+                        string="Link"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_move_link_advance_invoice_wizard" model="ir.actions.act_window">
+        <field name="name">Link Advance Invoices</field>
+        <field name="res_model">account.move.link.advance.invoice.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

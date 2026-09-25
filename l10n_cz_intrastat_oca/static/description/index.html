@@ -1,0 +1,58 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">🌐 <b>EN</b> · <a href="index_cz.html">CZ</a> · <a href="index_sk.html">SK</a></p>
+    <h2 class="oe_slogan">Czechia — INTRASTAT-CZ (CE / OCA)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Official Celní správa InstatOnline CSV on the OCA intrastat_product engine</h3>
+    <div class="oe_span12">
+      <p>
+        Thin Czech country layer on the OCA <code>intrastat_product</code> declaration engine. The engine collects
+        intra-EU goods movements and computes the grouped declaration lines; this module renders them as the official
+        Celní správa InstatOnline CSV — the file uploaded at celnisprava.gov.cz → InstatOnline — via the shared
+        <code>l10n_cssk_intrastat_base</code> renderer. The CSV column layout, constant fields and number formatting
+        reproduce the official Odoo EE <code>l10n_cz_intrastat</code> output. The Czech declaration has no XSD; the
+        InstatOnline portal validates on upload. This is the Community/OCA adapter, intentionally NOT named
+        <code>l10n_cz_intrastat</code> to avoid colliding with Odoo Enterprise's native module of that name — one
+        edition installs exactly one of the two.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Subclasses the OCA <code>intrastat.product.declaration</code> engine and adds only the Czech file output, leaving gathering and computation to OCA.</li>
+        <li>Produces the official Celní správa InstatOnline CSV for upload at celnisprava.gov.cz → InstatOnline.</li>
+        <li>Maps the engine's computed declaration lines onto the shared CSV renderer in <code>l10n_cssk_intrastat_base</code> (partner VAT, country, origin country, transaction/transport/Incoterm codes, CN8, weight, supplementary units and company-currency value).</li>
+        <li>Single-direction declarations: arrivals are written as <code>A</code>, dispatches as <code>D</code>.</li>
+        <li>The attachment is written with a <code>.csv</code> extension, since the Czech declaration is filed as a CSV, not XML.</li>
+        <li>Output reproduces the official Odoo EE <code>l10n_cz_intrastat</code> layout, constant fields and number formatting.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>
+        Install this module for a Czech company. Create and compute an INTRASTAT declaration using the standard OCA
+        <code>intrastat_product</code> workflow, then generate the declaration file: for Czech companies the module
+        produces the InstatOnline CSV and attaches it with a <code>.csv</code> name. Upload the resulting file at
+        celnisprava.gov.cz → InstatOnline, where the portal validates it on upload.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

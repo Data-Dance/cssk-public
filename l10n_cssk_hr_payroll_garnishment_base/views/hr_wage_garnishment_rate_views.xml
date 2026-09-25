@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_wage_garnishment_rate_view_list" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.rate.list</field>
+        <field name="model">hr.wage.garnishment.rate</field>
+        <field name="arch" type="xml">
+            <list string="Garnishment Rates">
+                <field name="country_id"/>
+                <field name="date_from"/>
+                <field name="cz_subsistence" column_invisible="True"/>
+                <field name="sk_zivotne_minimum" column_invisible="True"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_rate_view_form" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.rate.form</field>
+        <field name="model">hr.wage.garnishment.rate</field>
+        <field name="arch" type="xml">
+            <form string="Garnishment Rate">
+                <sheet>
+                    <group>
+                        <field name="country_id"/>
+                        <field name="date_from"/>
+                        <field name="country_code" invisible="1"/>
+                    </group>
+                    <group string="Czech Republic (NV 595/2006 Sb.)" invisible="country_code != 'CZ'">
+                        <field name="cz_subsistence"/>
+                        <field name="cz_normative_rent"/>
+                        <field name="cz_energy"/>
+                        <field name="cz_base_pct"/>
+                        <field name="cz_dependent_fraction"/>
+                        <field name="cz_unlimited_limit"/>
+                    </group>
+                    <group string="Slovakia (NV 268/2006 Z. z.)" invisible="country_code != 'SK'">
+                        <field name="sk_zivotne_minimum"/>
+                        <field name="sk_basic_coeff"/>
+                        <field name="sk_priority_coeff"/>
+                        <field name="sk_maintenance_outer_coeff"/>
+                        <field name="sk_maintenance_inner_coeff"/>
+                        <field name="sk_fine_coeff"/>
+                        <field name="sk_dependent_coeff"/>
+                        <field name="sk_dependent_coeff_pensioner"/>
+                        <field name="sk_unlimited_mult"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_rate_action" model="ir.actions.act_window">
+        <field name="name">Garnishment Rates</field>
+        <field name="res_model">hr.wage.garnishment.rate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

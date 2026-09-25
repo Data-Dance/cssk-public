@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <record id="view_l10n_sk_jcd_list" model="ir.ui.view">
+        <field name="name">l10n.sk.jcd.list</field>
+        <field name="model">l10n.sk.jcd</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancelled'" decoration-success="state == 'posted'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="mrn"/>
+                <field name="customs_office_id"/>
+                <field name="customs_value" sum="Colná hodnota"/>
+                <field name="duty_amount" sum="Clo"/>
+                <field name="vat_base" sum="Základ dane"/>
+                <field name="vat_amount" sum="Daň"/>
+                <field name="vat_regime"/>
+                <field name="state" widget="badge"/>
+                <field name="currency_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_l10n_sk_jcd_form" model="ir.ui.view">
+        <field name="name">l10n.sk.jcd.form</field>
+        <field name="model">l10n.sk.jcd</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_post" type="object" string="Zaúčtovať"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Zrušiť"
+                            invisible="state != 'draft'"/>
+                    <button name="action_draft" type="object" string="Späť na návrh"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_move" type="object" class="oe_stat_button"
+                                icon="fa-book" invisible="not move_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Doklad</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="customs_document_ok or state != 'draft'">
+                        Bez MRN a priloženého dovozného dokladu potvrdeného colným
+                        orgánom nemožno odpočítať daň (§ 49 ods. 2 písm. d).
+                    </div>
+                    <group>
+                        <group string="Colné vyhlásenie">
+                            <field name="date"/>
+                            <field name="mrn"/>
+                            <field name="customs_office_id"/>
+                            <field name="customs_document_ok"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group string="Daň pri dovoze">
+                            <field name="vat_regime"/>
+                            <field name="vat_rate"/>
+                            <!-- Always visible: the whole point is that the
+                                 rate applied can differ from the band's name
+                                 on a back-dated declaration, and a difference
+                                 nobody is shown is a difference nobody
+                                 checks. -->
+                            <field name="vat_rate_effective"/>
+                            <field name="vat_base"/>
+                            <field name="vat_amount"/>
+                        </group>
+                        <group string="Hodnoty">
+                            <field name="customs_value"/>
+                            <field name="duty_amount"/>
+                            <field name="other_charges"/>
+                        </group>
+                        <group string="Väzby">
+                            <field name="supplier_invoice_ids" widget="many2many_tags"/>
+                            <field name="picking_ids" widget="many2many_tags"/>
+                            <field name="move_id" readonly="1"/>
+                            <field name="landed_cost_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_sk_jcd" model="ir.actions.act_window">
+        <field name="name">Colné vyhlásenia (JCD)</field>
+        <field name="res_model">l10n.sk.jcd</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_l10n_sk_jcd"
+              name="Colné vyhlásenia (JCD)"
+              parent="account.menu_finance_entries"
+              action="action_l10n_sk_jcd"
+              sequence="90"/>
+</odoo>

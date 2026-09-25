@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_partner_netting" model="ir.actions.report">
+        <field name="name">Set-off (Zápočet)</field>
+        <field name="model">cssk.partner.netting.agreement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_cssk_partner_balances.report_partner_netting</field>
+        <field name="report_file">l10n_cssk_partner_balances.report_partner_netting</field>
+        <field name="binding_model_id" ref="model_cssk_partner_netting_agreement"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_partner_netting">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <!-- Title depends on the legal mode -->
+                        <h2 t-if="doc.netting_mode == 'bilateral'">
+                            Dohoda o vzájomnom započítaní pohľadávok a záväzkov<br/>
+                            <small class="text-muted">Agreement on mutual set-off of receivables and payables</small>
+                        </h2>
+                        <h2 t-else="">
+                            Oznámenie o jednostrannom započítaní pohľadávok a záväzkov<br/>
+                            <small class="text-muted">Notice of unilateral set-off of receivables and payables</small>
+                        </h2>
+                        <p>
+                            <strong t-out="doc.name"/> —
+                            zo dňa / dated <strong t-out="doc.agreement_date"/>
+                        </p>
+
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <strong>Navrhovateľ / Proposing party:</strong><br/>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact"}'/>
+                                <div>IČ DPH: <span t-out="doc.company_id.vat or ''"/></div>
+                            </div>
+                            <div class="col-6">
+                                <strong>Partner / Counterparty:</strong><br/>
+                                <span t-field="doc.partner_id"
+                                      t-options='{"widget": "contact"}'/>
+                                <div>IČ DPH: <span t-out="doc.partner_id.vat or ''"/></div>
+                            </div>
+                        </div>
+
+                        <p class="mt-3" t-if="doc.netting_mode == 'bilateral'">
+                            Zmluvné strany sa dohodli na vzájomnom započítaní nižšie
+                            uvedených pohľadávok a záväzkov.
+                            <span class="text-muted">The parties agree to mutually
+                            set off the receivables and payables listed below.</span>
+                        </p>
+                        <p class="mt-3" t-else="">
+                            Týmto Vám oznamujeme jednostranné započítanie nižšie
+                            uvedených pohľadávok a záväzkov podľa § 358 a nasl.
+                            Obchodného zákonníka. Započítanie nadobúda účinnosť dňom
+                            doručenia tohto oznámenia.
+                            <span class="text-muted">We hereby give notice of the
+                            unilateral set-off of the receivables and payables listed
+                            below; it takes effect upon delivery of this notice.</span>
+                        </p>
+
+                        <h4 class="mt-4">Pohľadávky / Receivables</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Doklad / Document</th>
+                                    <th>Dátum</th>
+                                    <th>Splatnosť</th>
+                                    <th class="text-end">Započítaná suma / Set-off amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.receivable_line_ids" t-as="line">
+                                    <td t-out="line.move_name"/>
+                                    <td t-out="line.move_line_id.move_id.invoice_date or line.move_line_id.date"/>
+                                    <td t-out="line.move_line_id.date_maturity or ''"/>
+                                    <td class="text-end">
+                                        <span t-out="line.amount_to_offset"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h4 class="mt-3">Záväzky / Payables</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Doklad / Document</th>
+                                    <th>Dátum</th>
+                                    <th>Splatnosť</th>
+                                    <th class="text-end">Započítaná suma / Set-off amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.payable_line_ids" t-as="line">
+                                    <td t-out="line.move_name"/>
+                                    <td t-out="line.move_line_id.move_id.invoice_date or line.move_line_id.date"/>
+                                    <td t-out="line.move_line_id.date_maturity or ''"/>
+                                    <td class="text-end">
+                                        <span t-out="line.amount_to_offset"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row">
+                            <div class="col-6 offset-6">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <th>Započítaná suma / Set-off amount</th>
+                                        <th class="text-end">
+                                            <span t-field="doc.netting_amount"/>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Signatures: both parties (bilateral) vs one (unilateral) -->
+                        <div class="row mt-5" t-if="doc.netting_mode == 'bilateral'">
+                            <div class="col-6 text-center">
+                                ____________________________<br/>
+                                Za navrhovateľa / For the proposing party
+                            </div>
+                            <div class="col-6 text-center">
+                                ____________________________<br/>
+                                Za partnera / For the counterparty
+                            </div>
+                        </div>
+                        <div class="row mt-5" t-else="">
+                            <div class="col-6 text-center">
+                                ____________________________<br/>
+                                Za navrhovateľa / For the proposing party
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

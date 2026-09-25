@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <record id="action_report_penazny_dennik" model="ir.actions.report">
+        <field name="name">Peňažný denník</field>
+        <field name="model">cssk.cash.journal.line</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sk_cash_journal.report_penazny_dennik</field>
+        <field name="report_file">l10n_sk_cash_journal.report_penazny_dennik</field>
+        <field name="print_report_name">'Peňažný denník'</field>
+    </record>
+</odoo>

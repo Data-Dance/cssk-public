@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Remit straight from a multi-selection in the deductions list. -->
+    <record id="hr_wage_garnishment_line_view_list_account" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.line.list.account</field>
+        <field name="model">hr.wage.garnishment.line</field>
+        <field name="inherit_id" ref="l10n_cssk_hr_payroll_garnishment_base.hr_wage_garnishment_line_view_list"/>
+        <field name="arch" type="xml">
+            <list position="inside">
+                <header>
+                    <!-- Posting the entry needs account.move.create, so an
+                         HR-only user reaching this button failed on it. Offer
+                         it to the group that can actually complete it. -->
+                    <button name="action_remit" type="object" string="Remit to Payee"
+                            class="btn-primary" groups="account.group_account_user"/>
+                </header>
+            </list>
+            <field name="state" position="after">
+                <field name="move_id" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_remittance_view_form" model="ir.ui.view">
+        <field name="name">hr.wage.garnishment.remittance.form</field>
+        <field name="model">hr.wage.garnishment.remittance</field>
+        <field name="arch" type="xml">
+            <form string="Remit Wage Garnishments">
+                <group>
+                    <group>
+                        <field name="date_to"/>
+                        <field name="payee_partner_id"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group>
+                        <field name="line_count"/>
+                        <field name="total_amount"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </group>
+                <field name="line_ids" readonly="1">
+                    <list>
+                        <field name="date_to"/>
+                        <field name="employee_id"/>
+                        <field name="case_number"/>
+                        <field name="payee_partner_id"/>
+                        <field name="amount" sum="Total"/>
+                        <field name="currency_id" column_invisible="True"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_remit" type="object" string="Remit" class="btn-primary"
+                            invisible="line_count == 0"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_wage_garnishment_remittance_action" model="ir.actions.act_window">
+        <field name="name">Remit Garnishments</field>
+        <field name="res_model">hr.wage.garnishment.remittance</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_wage_garnishment_remittance"
+              name="Remit to Payees"
+              parent="l10n_cssk_hr_payroll_garnishment_base.menu_wage_garnishment_root"
+              action="hr_wage_garnishment_remittance_action"
+              groups="account.group_account_user"
+              sequence="25"/>
+</odoo>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      SK KV DPH 2025 version. Wires the 10 sections to their models and the
+      QWeb template. Load the official FS SR XSD onto xml_schema_data to enable
+      schema validation on export.
+    -->
+      <!--
+    KV DPH, vzor effective 1. 7. 2023 — the schema's own words: "Pouzije sa pri
+    podavani kontrolneho vykazu za zdanovacie obdobia, ktore sa zacinaju
+    najskor 1.7.2023". It runs until the 2025 vzor, whose schema says the same
+    of 1. 1. 2025, so the two meet without a gap.
+
+    The section set is IDENTICAL to 2025's — A1/A2/B1/B2/B31/B32/C1/C2/D1/D2,
+    same field names throughout — so this record exists for the ROOT ELEMENT
+    and namespace, which are what a submission is validated against. A period
+    from 2023-07 exported under KVDPH_2025 carries correct figures and is
+    rejected by the portal.
+
+    ⚠️ Periods before 2023-07 still resolve to NO version, and that is
+    deliberate: we hold kv_dph_2023.xsd and kv_dph_2025.xsd and nothing
+    earlier. A version claims only the periods whose schema we have, because a
+    computed figure nobody can validate is worth less than a visible gap.
+  -->
+  <!--
+    KV DPH, the ORIGINAL vzor. The kontrolný výkaz obligation began
+    1. 1. 2014 (§ 78a zákona č. 222/2004 Z. z.), and that is where valid_from
+    comes from: the FORM's own introduction, not the earliest period a
+    particular agenda happens to hold. The distinction matters to whoever
+    verifies this — a period before valid_from is out of scope and should be
+    reported as unmeasured, whereas a period after it that produces nothing is
+    a gap. Unlike kv_dph_2016.xsd this schema carries no "Ucinnost" line, so
+    the date is statutory knowledge rather than something the file states.
+
+    ONE structural difference from every later vintage: a single aggregate
+    B.3 where 1. 4. 2016 introduced the B.3.1 / B.3.2 split. Read off the
+    schema (ref B3 maxOccurs="2", attributes Z/D/O/KOpr, no supplier
+    attribute) rather than off the Odoo models, which are richer than the form
+    here and would have suggested B.3 needs a partner.
+  -->
+  <record id="kvdph_version_2014" model="cssk.control.statement.version">
+        <field name="name">KV DPH 2014</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2014-01-01</field>
+        <field name="valid_to">2016-03-31</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_kv_dph.kvdph_2014"/>
+        <field name="xml_root_element">KVDPH</field>
+        <field name="xml_schema_filename">kv_dph_2014.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_kv_dph/data/kv_dph_2014.xsd"/>
+        <field name="threshold_value">3000.0</field>
+        <field name="threshold_currency_id" ref="base.EUR"/>
+        <field name="section_code_ids" eval="[
+            (0, 0, {'code': 'A.1', 'name': 'A.1 — Vyhotovené faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.a1',
+                    'aggregation': 'detail', 'sequence': 10}),
+            (0, 0, {'code': 'A.2', 'name': 'A.2 — Tuzemský prenos DP',
+                    'section_model': 'l10n.sk.kv.dph.section.a2',
+                    'aggregation': 'detail', 'sequence': 20}),
+            (0, 0, {'code': 'B.1', 'name': 'B.1 — Prijaté prenos DP',
+                    'section_model': 'l10n.sk.kv.dph.section.b1',
+                    'aggregation': 'detail', 'sequence': 30}),
+            (0, 0, {'code': 'B.2', 'name': 'B.2 — Prijaté faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.b2',
+                    'aggregation': 'detail', 'sequence': 40}),
+            (0, 0, {'code': 'B.3', 'name': 'B.3 — Zjednodušené faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.b3',
+                    'aggregation': 'single', 'sequence': 50}),
+            (0, 0, {'code': 'C.1', 'name': 'C.1 — Opravy vyhotovených',
+                    'section_model': 'l10n.sk.kv.dph.section.c1',
+                    'aggregation': 'detail', 'sequence': 70}),
+            (0, 0, {'code': 'C.2', 'name': 'C.2 — Opravy prijatých',
+                    'section_model': 'l10n.sk.kv.dph.section.c2',
+                    'aggregation': 'detail', 'sequence': 80}),
+            (0, 0, {'code': 'D.1', 'name': 'D.1 — ERP / e-kasa',
+                    'section_model': 'l10n.sk.kv.dph.section.d1',
+                    'aggregation': 'single', 'sequence': 90}),
+            (0, 0, {'code': 'D.2', 'name': 'D.2 — Ostatné (podľa sadzby)',
+                    'section_model': 'l10n.sk.kv.dph.section.d2',
+                    'aggregation': 'single', 'sequence': 100}),
+        ]"/>
+    </record>
+
+  <!--
+    KV DPH, vzor effective 1. 4. 2016 — the schema states it: "Ucinnost:
+    1.4.2016 ... Pouzije sa ... za zdanovacie obdobia, ktore sa zacinaju
+    najskor 1.4.2016". rf-elements-06 pinned the same boundary independently
+    from 231 filed runs, by PERIOD rather than by document date. The form and
+    the customer's filings agreeing without either being derived from the
+    other is what makes this date safe rather than merely plausible.
+
+    This vzor introduces the B.3.1 / B.3.2 split. From here to 2023 the
+    section set and every attribute are identical to the later vintages —
+    verified attribute by attribute across all four schemas, the only
+    difference anywhere being ONP on C1/C2, added in 2023 for oprava
+    nedobytnej pohľadávky and emitted by no template. So this record exists
+    for the ROOT ELEMENT and namespace, which are what the portal validates.
+  -->
+  <record id="kvdph_version_2016" model="cssk.control.statement.version">
+        <field name="name">KV DPH 2016</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2016-04-01</field>
+        <field name="valid_to">2023-06-30</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_kv_dph.kvdph_2016"/>
+        <field name="xml_root_element">KVDPH_2016</field>
+        <field name="xml_schema_filename">kv_dph_2016.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_kv_dph/data/kv_dph_2016.xsd"/>
+        <field name="threshold_value">3000.0</field>
+        <field name="threshold_currency_id" ref="base.EUR"/>
+        <field name="section_code_ids" eval="[
+            (0, 0, {'code': 'A.1', 'name': 'A.1 — Vyhotovené faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.a1',
+                    'aggregation': 'detail', 'sequence': 10}),
+            (0, 0, {'code': 'A.2', 'name': 'A.2 — Tuzemský prenos DP',
+                    'section_model': 'l10n.sk.kv.dph.section.a2',
+                    'aggregation': 'detail', 'sequence': 20}),
+            (0, 0, {'code': 'B.1', 'name': 'B.1 — Prijaté prenos DP',
+                    'section_model': 'l10n.sk.kv.dph.section.b1',
+                    'aggregation': 'detail', 'sequence': 30}),
+            (0, 0, {'code': 'B.2', 'name': 'B.2 — Prijaté faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.b2',
+                    'aggregation': 'detail', 'sequence': 40}),
+            (0, 0, {'code': 'B.3.1', 'name': 'B.3.1 — Zjednodušené (do limitu)',
+                    'section_model': 'l10n.sk.kv.dph.section.b31',
+                    'aggregation': 'single', 'threshold_behavior': 'below',
+                    'sequence': 50}),
+            (0, 0, {'code': 'B.3.2', 'name': 'B.3.2 — Zjednodušené (nad limit)',
+                    'section_model': 'l10n.sk.kv.dph.section.b32',
+                    'aggregation': 'per_partner', 'threshold_behavior': 'above',
+                    'sequence': 60}),
+            (0, 0, {'code': 'C.1', 'name': 'C.1 — Opravy vyhotovených',
+                    'section_model': 'l10n.sk.kv.dph.section.c1',
+                    'aggregation': 'detail', 'sequence': 70}),
+            (0, 0, {'code': 'C.2', 'name': 'C.2 — Opravy prijatých',
+                    'section_model': 'l10n.sk.kv.dph.section.c2',
+                    'aggregation': 'detail', 'sequence': 80}),
+            (0, 0, {'code': 'D.1', 'name': 'D.1 — ERP / e-kasa',
+                    'section_model': 'l10n.sk.kv.dph.section.d1',
+                    'aggregation': 'single', 'sequence': 90}),
+            (0, 0, {'code': 'D.2', 'name': 'D.2 — Ostatné (podľa sadzby)',
+                    'section_model': 'l10n.sk.kv.dph.section.d2',
+                    'aggregation': 'single', 'sequence': 100}),
+        ]"/>
+    </record>
+
+  <record id="kvdph_version_2023" model="cssk.control.statement.version">
+        <field name="name">KV DPH 2023</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2023-07-01</field>
+        <field name="valid_to">2024-12-31</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_kv_dph.kvdph_2023"/>
+        <field name="xml_root_element">KVDPH_2023</field>
+        <field name="xml_schema_filename">kv_dph_2023.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_kv_dph/data/kv_dph_2023.xsd"/>
+        <field name="threshold_value">3000.0</field>
+        <field name="threshold_currency_id" ref="base.EUR"/>
+        <field name="section_code_ids" eval="[
+            (0, 0, {'code': 'A.1', 'name': 'A.1 — Vyhotovené faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.a1',
+                    'aggregation': 'detail', 'sequence': 10}),
+            (0, 0, {'code': 'A.2', 'name': 'A.2 — Tuzemský prenos DP',
+                    'section_model': 'l10n.sk.kv.dph.section.a2',
+                    'aggregation': 'detail', 'sequence': 20}),
+            (0, 0, {'code': 'B.1', 'name': 'B.1 — Prijaté prenos DP',
+                    'section_model': 'l10n.sk.kv.dph.section.b1',
+                    'aggregation': 'detail', 'sequence': 30}),
+            (0, 0, {'code': 'B.2', 'name': 'B.2 — Prijaté faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.b2',
+                    'aggregation': 'detail', 'sequence': 40}),
+            (0, 0, {'code': 'B.3.1', 'name': 'B.3.1 — Zjednodušené (do limitu)',
+                    'section_model': 'l10n.sk.kv.dph.section.b31',
+                    'aggregation': 'single', 'threshold_behavior': 'below',
+                    'sequence': 50}),
+            (0, 0, {'code': 'B.3.2', 'name': 'B.3.2 — Zjednodušené (nad limit)',
+                    'section_model': 'l10n.sk.kv.dph.section.b32',
+                    'aggregation': 'per_partner', 'threshold_behavior': 'above',
+                    'sequence': 60}),
+            (0, 0, {'code': 'C.1', 'name': 'C.1 — Opravy vyhotovených',
+                    'section_model': 'l10n.sk.kv.dph.section.c1',
+                    'aggregation': 'detail', 'sequence': 70}),
+            (0, 0, {'code': 'C.2', 'name': 'C.2 — Opravy prijatých',
+                    'section_model': 'l10n.sk.kv.dph.section.c2',
+                    'aggregation': 'detail', 'sequence': 80}),
+            (0, 0, {'code': 'D.1', 'name': 'D.1 — ERP / e-kasa',
+                    'section_model': 'l10n.sk.kv.dph.section.d1',
+                    'aggregation': 'single', 'sequence': 90}),
+            (0, 0, {'code': 'D.2', 'name': 'D.2 — Ostatné (podľa sadzby)',
+                    'section_model': 'l10n.sk.kv.dph.section.d2',
+                    'aggregation': 'single', 'sequence': 100}),
+        ]"/>
+    </record>
+
+  <record id="kvdph_version_2025v1" model="cssk.control.statement.version">
+        <field name="name">KV DPH 2025</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_kv_dph.kvdph_2025v1"/>
+        <field name="xml_root_element">KVDPH_2025</field>
+        <field name="xml_schema_filename">kv_dph_2025.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_kv_dph/data/kv_dph_2025.xsd"/>
+        <field name="threshold_value">3000.0</field>
+        <field name="threshold_currency_id" ref="base.EUR"/>
+        <field name="section_code_ids" eval="[
+            (0, 0, {'code': 'A.1', 'name': 'A.1 — Vyhotovené faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.a1',
+                    'aggregation': 'detail', 'sequence': 10}),
+            (0, 0, {'code': 'A.2', 'name': 'A.2 — Tuzemský prenos DP',
+                    'section_model': 'l10n.sk.kv.dph.section.a2',
+                    'aggregation': 'detail', 'sequence': 20}),
+            (0, 0, {'code': 'B.1', 'name': 'B.1 — Prijaté prenos DP',
+                    'section_model': 'l10n.sk.kv.dph.section.b1',
+                    'aggregation': 'detail', 'sequence': 30}),
+            (0, 0, {'code': 'B.2', 'name': 'B.2 — Prijaté faktúry',
+                    'section_model': 'l10n.sk.kv.dph.section.b2',
+                    'aggregation': 'detail', 'sequence': 40}),
+            (0, 0, {'code': 'B.3.1', 'name': 'B.3.1 — Zjednodušené (do limitu)',
+                    'section_model': 'l10n.sk.kv.dph.section.b31',
+                    'aggregation': 'single', 'threshold_behavior': 'below',
+                    'sequence': 50}),
+            (0, 0, {'code': 'B.3.2', 'name': 'B.3.2 — Zjednodušené (nad limit)',
+                    'section_model': 'l10n.sk.kv.dph.section.b32',
+                    'aggregation': 'per_partner', 'threshold_behavior': 'above',
+                    'sequence': 60}),
+            (0, 0, {'code': 'C.1', 'name': 'C.1 — Opravy vyhotovených',
+                    'section_model': 'l10n.sk.kv.dph.section.c1',
+                    'aggregation': 'detail', 'sequence': 70}),
+            (0, 0, {'code': 'C.2', 'name': 'C.2 — Opravy prijatých',
+                    'section_model': 'l10n.sk.kv.dph.section.c2',
+                    'aggregation': 'detail', 'sequence': 80}),
+            (0, 0, {'code': 'D.1', 'name': 'D.1 — ERP / e-kasa',
+                    'section_model': 'l10n.sk.kv.dph.section.d1',
+                    'aggregation': 'single', 'sequence': 90}),
+            (0, 0, {'code': 'D.2', 'name': 'D.2 — Ostatné (podľa sadzby)',
+                    'section_model': 'l10n.sk.kv.dph.section.d2',
+                    'aggregation': 'single', 'sequence': 100}),
+        ]"/>
+    </record>
+
+  <!--
+    Submission types: riadny / opravný / dodatočný. Declared ONCE, against the
+    country, because that is the axis they actually vary on. They used to be
+    repeated inline on every version record — the same three on all four vzory
+    from 2014 to 2025 — which made a filing list grouped by "Typ výkazu" show
+    Riadny and Dodatočný once per vzor in use.
+  -->
+    <record id="kv_dph_type_rdp" model="cssk.control.statement.type">
+        <field name="country_id" ref="base.sk"/>
+        <field name="code">rdp</field>
+        <field name="name">Riadny</field>
+        <field name="fa_xml_value">R</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="kv_dph_type_odp" model="cssk.control.statement.type">
+        <field name="country_id" ref="base.sk"/>
+        <field name="code">odp</field>
+        <field name="name">Opravný</field>
+        <field name="fa_xml_value">O</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="kv_dph_type_ddp" model="cssk.control.statement.type">
+        <field name="country_id" ref="base.sk"/>
+        <field name="code">ddp</field>
+        <field name="name">Dodatočný</field>
+        <field name="fa_xml_value">D</field>
+        <field name="sequence">30</field>
+    </record>
+
+</odoo>

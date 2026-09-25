@@ -1,0 +1,59 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovakia — Deferrals default accounts (časové rozlíšenie)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Pre-fills the OCA cut-off / deferral default accounts with the Slovak 381/383/384/385 accounts</h3>
+    <div class="oe_span12">
+      <p>This app is thin glue between the Slovak chart of accounts (<code>l10n_sk</code>) and
+         the OCA cut-off / deferral engine (<code>account_cutoff_start_end_dates</code>). It maps
+         the company's default cut-off accounts to the Slovak <i>časové rozlíšenie</i> accounts so
+         the deferral feature works out of the box.</p>
+      <p>New companies receive the mapping when the SK chart loads (via the chart template);
+         existing SK companies get it on install (post-init hook). The cut-off journal is set to a
+         general journal if one exists. It is licensed <b>AGPL-3</b> because it depends on the
+         AGPL OCA cut-off engine.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Prepaid expense → <b>381</b> Náklady budúcich období.</li>
+        <li>Deferred revenue → <b>384</b> Výnosy budúcich období.</li>
+        <li>Accrued expense → <b>383</b> Výdavky budúcich období.</li>
+        <li>Accrued revenue → <b>385</b> Príjmy budúcich období.</li>
+        <li>Sets the cut-off journal to an existing general journal; applies to new SK companies
+            via the chart template and to existing ones via a post-init hook.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Install the module on a database using the Slovak chart of accounts. The deferral
+         default accounts are then pre-set, so <i>Accounting ▸ Cut-offs</i> (časové rozlíšenie)
+         works with no further configuration. The mapping can be reviewed or overridden in
+         <i>Settings ▸ Accounting ▸ Cut-offs</i>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: AGPL-3</small></p>
+    </div>
+  </div>
+</section>

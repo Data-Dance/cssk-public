@@ -1,0 +1,361 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* partner_autocomplete_orsf_sk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-05 15:32+0000\n"
+"PO-Revision-Date: 2026-09-05 15:32+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: partner_autocomplete_orsf_sk
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk/models/res_config_settings.py:0
+msgid ""
+"%s mappings pointed at their standard SK field. Values whose field is "
+"missing are left unmapped — install the module that owns them."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk/models/res_partner.py:0
+msgid "%s not in the register"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk/models/res_partner.py:0
+msgid "%s updated"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk/models/res_partner.py:0
+msgid "%s without a usable IČO"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid "(RPO, ORSR, ŽRSR, RÚZ, Finančná správa), licensed CC-BY 4.0."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid ""
+".\n"
+"                                    Install them and the mappings below point at those fields\n"
+"                                    automatically — no mapping to set up, and the values feed the\n"
+"                                    § 3a statement, the § 69/12 warning and the dissolved-partner\n"
+"                                    banner. Without them you can still aim each value at a field of\n"
+"                                    your own, but only this module will understand it."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk/models/res_partner.py:0
+msgid ""
+". Identity only — run Update on a partner to refresh its register "
+"coordinates, VAT paragraph and activities."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid ""
+"<i class=\"fa fa-info-circle me-1\"/>\n"
+"                                    These register values already have fields of their own in"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid ""
+"<strong>Field mapping</strong> — where each register value is\n"
+"                                written. These are pointed at the standard SK fields automatically\n"
+"                                whenever the module owning them is installed; the button re-applies\n"
+"                                that. Aim one somewhere else and the value follows it; clear one and\n"
+"                                the value is not stored at all."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model,name:partner_autocomplete_orsf_sk.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model,name:partner_autocomplete_orsf_sk.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_dic
+msgid "DIČ"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid "Data from"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_partner_autocomplete_provider_orsf_sk__display_name
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_partner_autocomplete_provider_registry__display_name
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_company__display_name
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_vat_registration
+msgid "Druh registrácie DPH (§)"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_established_date
+msgid "Dátum vzniku"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_dissolved_date
+msgid "Dátum zániku"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_partner_autocomplete_provider_orsf_sk__id
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_partner_autocomplete_provider_registry__id
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_company__id
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__id
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_ico
+msgid "IČO"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_base_url
+msgid "Leave empty to use https://api.orsf.sk/v1."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__orsf_sk_missing_sk_modules
+msgid "Missing SK modules"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid "ORSF"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_base_url
+msgid "ORSF API base URL"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_api_token
+msgid "ORSF API token"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_login_email
+msgid "ORSF account e-mail"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_login_password
+msgid "ORSF account password"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk/models/res_partner.py:0
+msgid "ORSF bulk refresh"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#. odoo-python
+#: code:addons/partner_autocomplete_orsf_sk/models/res_config_settings.py:0
+msgid "ORSF field mapping"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_login_password
+msgid ""
+"ORSF issues no API key for its gated endpoints, so a sign-in is the only way"
+" in. Stored in ir.config_parameter, which is PLAIN TEXT in the database and "
+"in every backup — use a dedicated ORSF account for this, never a personal "
+"one."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid ""
+"ORSF issues no API key for the person and ownership-graph\n"
+"                                endpoints, so signing in is the only way to reach them.\n"
+"                                The password is stored in <code>ir.config_parameter</code>,\n"
+"                                which is <strong>plain text</strong> in the database and in\n"
+"                                every backup — use a dedicated ORSF account, not a personal one."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_company__orsf_sk_format_psc
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__orsf_sk_format_psc
+msgid ""
+"ORSF returns the postal code as five digits; Slovak documents write it "
+"grouped 3+2."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_company__orsf_sk_set_company_registry
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__orsf_sk_set_company_registry
+msgid "ORSF: fill Company ID"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_company__orsf_sk_format_psc
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__orsf_sk_format_psc
+msgid "ORSF: format PSČ as 851 01"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_company__orsf_sk_set_company_type
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__orsf_sk_set_company_type
+msgid "ORSF: set company type"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_login_email
+msgid ""
+"Only the person and graph endpoints need an account; everything this module "
+"does otherwise works anonymously."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_api_token
+msgid ""
+"Optional Bearer token from your ORSF account. Raises the request quota and "
+"unlocks the full address of a sole trader, which ORSF otherwise withholds "
+"(addressLocked). Anonymous access works without one. This is an API token, "
+"never an account password."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model,name:partner_autocomplete_orsf_sk.model_partner_autocomplete_provider_orsf_sk
+msgid "Partner Autocomplete Provider (ORSF SK)"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_vat_payer_since_date
+msgid "Platiteľ DPH od"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model,name:partner_autocomplete_orsf_sk.model_res_config_settings
+msgid "Provider"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_legal_form
+msgid "Právna forma"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.actions.server,name:partner_autocomplete_orsf_sk.action_orsf_bulk_refresh
+msgid "Refresh identity from ORSF (bulk)"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_register
+msgid "Register"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_register_office
+msgid "Registrový súd"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_timeout
+msgid "Request timeout (s)"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_nace
+msgid "SK NACE"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_timeout
+msgid "Seconds to wait for ORSF before giving up. Defaults to 15."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_company__orsf_sk_set_company_type
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__orsf_sk_set_company_type
+msgid ""
+"Set the contact to Individual for a sole trader (živnostník) and to Company "
+"for everything else, following the register."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_status
+msgid "Stav subjektu"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid "Use the standard SK fields"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_size
+msgid "Veľkostná kategória"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__orsf_sk_missing_sk_modules
+msgid ""
+"Which sibling modules would give these register values a ready-made field."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_company__orsf_sk_set_company_registry
+#: model:ir.model.fields,help:partner_autocomplete_orsf_sk.field_res_config_settings__orsf_sk_set_company_registry
+msgid ""
+"Write the IČO into the standard Company ID field (company_registry) as well "
+"as into any mapped field."
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid "https://api.orsf.sk/v1"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid "only for persons/graph"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model_terms:ir.ui.view,arch_db:partner_autocomplete_orsf_sk.res_config_settings_view_form_partner_autocomplete_provider_orsf_sk
+msgid "optional — anonymous access works"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model,name:partner_autocomplete_orsf_sk.model_partner_autocomplete_provider_registry
+msgid "partner.autocomplete.provider.registry"
+msgstr ""
+
+#. module: partner_autocomplete_orsf_sk
+#: model:ir.model.fields,field_description:partner_autocomplete_orsf_sk.field_res_config_settings__config_orsf_sk_mapping_register_number
+msgid "Číslo zápisu"
+msgstr ""

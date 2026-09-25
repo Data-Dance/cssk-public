@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_garnishment" model="ir.ui.view">
+        <field name="name">res.config.settings.form.garnishment</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='default_accounts']" position="after">
+                <block title="Wage Garnishments" id="cssk_garnishment"
+                       invisible="not company_id">
+                    <setting string="Remittance"
+                             help="Where the garnishment liability is booked and moved onto the bailiff's payable.">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="l10n_cssk_garnishment_journal_id" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_cssk_garnishment_journal_id"/>
+                            </div>
+                            <div class="row">
+                                <label for="l10n_cssk_garnishment_account_id" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_cssk_garnishment_account_id"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

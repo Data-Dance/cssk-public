@@ -1,0 +1,34 @@
+svdph2010.xsd  52ee9ba8e6ee5b73b45aca7becb1ecc6  6639
+svdph20.xsd    8c4f040dd50a049b05cdbcc7eee8bccb  6897
+
+Both verified byte-identical to the published copies on 2026-09-09, fetched
+from https://ekr.financnasprava.sk/Formulare/XSD/<file>
+
+TWO VZORY, and the split is real. FS SR keeps one XSD per vzor and keeps the
+old ones, so a period is filed in the structure in force AT THE TIME — unlike
+the Czech side, which overwrites one file in place and files every period in
+the current structure.
+
+  svdph2010.xsd   1. 1. 2010 – 31. 12. 2019
+  svdph20.xsd     1. 1. 2020 – open
+
+What separates them is the Quick Fixes (smernica 2018/1910, § 8a zákona
+o DPH) from 1. 1. 2020: the SV gains a call-off-stock register
+(`zaznamCast2`), and the page goes from 27 records to 12 + 12. The 2020 vzor
+also drops `oznacenie` and `pocet2Stran`, and replaces the structured fax with
+an email address. Same root (`dokument`) in both, so the root element cannot
+tell you which one you are holding.
+
+NEITHER FILE CAN PROVE IT IS CURRENT. `svdph2010.xsd` stamps itself only
+"Suhrnny vykaz (dan z pridanej hodnoty)" — no vintage, no revision.
+`svdph20.xsd` adds "2020", a vintage and not a revision. A file revised in
+place therefore validates exactly as before and says nothing about it, which
+is why the digests are pinned here rather than trusted from the annotation.
+
+REFRESH PROCEDURE
+  1. Fetch both names above and compare the md5 with the lines here.
+  2. Check the STATUS CODE, not the size: a miss returns 404 with a
+     ~1 245-byte HTML error page, which is a perfectly plausible file size.
+  3. Probe for a newer vintage as well as a _v2 suffix on an existing name —
+     FS SR published a DPPO revision as dppo2025_v2.xsd beside an unchanged
+     dppo2025.xsd, and a digest comparison on a pinned name cannot see that.

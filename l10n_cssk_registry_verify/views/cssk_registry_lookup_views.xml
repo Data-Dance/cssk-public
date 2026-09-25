@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_registry_lookup_view_list" model="ir.ui.view">
+        <field name="name">cssk.registry.lookup.list</field>
+        <field name="model">cssk.registry.lookup</field>
+        <field name="arch" type="xml">
+            <list string="Register lookups" create="false" edit="false">
+                <field name="fetched_at"/>
+                <field name="country_code"/>
+                <field name="registry"/>
+                <field name="registry_name"/>
+                <field name="outcome"/>
+                <field name="active_subject" string="Active"/>
+                <field name="source"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_registry_lookup_view_search" model="ir.ui.view">
+        <field name="name">cssk.registry.lookup.search</field>
+        <field name="model">cssk.registry.lookup</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="registry"/>
+                <field name="registry_name"/>
+                <filter name="verified" string="Verified"
+                        domain="[('outcome', '=', 'verified')]"/>
+                <filter name="absent" string="Not in the register"
+                        domain="[('outcome', '=', 'absent')]"/>
+                <filter name="dissolved" string="Dissolved"
+                        domain="[('outcome', '=', 'verified'), ('active_subject', '=', False)]"/>
+                <separator/>
+                <filter name="group_country" string="Country" domain="[]"
+                        context="{'group_by': 'country_code'}"/>
+                <filter name="group_outcome" string="Outcome" domain="[]"
+                        context="{'group_by': 'outcome'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="cssk_registry_lookup_action" model="ir.actions.act_window">
+        <field name="name">Register lookups</field>
+        <field name="res_model">cssk.registry.lookup</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No register lookup cached yet</p>
+            <p>
+                Answers from the state registers are cached here so a signup burst
+                cannot hammer them. A failure to reach a register is deliberately
+                never cached.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="cssk_registry_lookup_menu"
+              name="Register lookups"
+              parent="l10n_cssk_core.menu_cssk_root"
+              action="cssk_registry_lookup_action"
+              sequence="80"/>
+
+</odoo>

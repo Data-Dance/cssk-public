@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Vyúčtování daně ze závislé činnosti (DPZVD6) EPO XML — matches the
+      official Finanční správa schema dpzvd6_epo2.xsd (root <Pisemnost>, NO
+      namespace, elementFormDefault/attributeFormDefault unqualified). The
+      VetaD / VetaP / VetaO rows are passed as attribute dictionaries from the
+      model so only the populated columns are emitted.
+    -->
+    <template id="vyuctovani_xml">
+        <Pisemnost nazevSW="Odoo" verzeSW="19.0">
+            <DPZVD6 t-att-verzePis="verze_pis">
+                <VetaD t-att="vetad"/>
+                <VetaP t-att="vetap"/>
+                <VetaO t-foreach="vetao" t-as="o" t-att="o"/>
+            </DPZVD6>
+        </Pisemnost>
+    </template>
+</odoo>

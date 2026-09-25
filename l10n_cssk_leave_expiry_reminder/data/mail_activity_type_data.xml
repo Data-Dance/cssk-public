@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="mail_activity_type_expiring_leave" model="mail.activity.type">
+        <field name="name">Expiring Leave</field>
+        <field name="summary">Carried-over leave is about to expire</field>
+        <field name="category">default</field>
+        <field name="icon">fa-clock-o</field>
+        <field name="decoration_type">warning</field>
+        <field name="res_model">hr.employee</field>
+    </record>
+
+</odoo>

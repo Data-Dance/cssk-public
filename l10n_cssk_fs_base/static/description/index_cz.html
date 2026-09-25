@@ -1,0 +1,80 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Účetní závěrka — sdílený rámec</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Národně neutrální jádro slovenské Súvahy / VZS a české Rozvahy / VZZ — stromy řádků z obratů účtů, srovnávací období a XML ověřené proti XSD</h3>
+    <div class="oe_span12">
+      <p>Národně neutrální jádro slovenské <b>Súvahy</b> (rozvaha) / <b>Výkazu ziskov a
+         strát</b> (výsledovka) a české <b>Rozvahy</b> / <b>Výkazu zisku a ztráty (VZZ)</b>.
+         Hierarchický strom řádků, kde se listové řádky počítají z <b>obratů a zůstatků
+         účtů</b> a nadřazené řádky agregují, pro běžné a srovnávací (minulé) období.</p>
+      <p><b>Bez závislosti na EE:</b> evaluátor čte zůstatky <code>account.move.line</code>
+         přímo (podle <code>account.account.code</code>), takže <b>nezávisí</b> na enterprise
+         enginu <code>account_reports</code>. Funguje na Community i Enterprise, na Odoo 18.0 a
+         19.0. Národní moduly dodávají definice řádků (mapování účtů), XML šablonu a schéma.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li><code>cssk.fs.statement.version</code> — definice řádků + druh výkazu (rozvaha /
+            výsledovka) + šablona + schéma. Nová legislativa se dodává jako nový záznam
+            verze.</li>
+        <li><code>cssk.fs.statement.line.def</code> — tři druhy řádků: <b>accounts</b>
+            (vzorec nad účty; rozvaha = stav k datu, výsledovka = za období), <b>aggregate</b>
+            (vzorec nad kódy řádků) a <b>manual</b>.</li>
+        <li><code>cssk.fs.statement</code> (mail.thread) — počítá běžné <b>i srovnávací
+            (minulé) období</b>, s ručními přepisy jednotlivých řádků zachovanými při
+            přepočtu.</li>
+        <li>Export zákonného XML ověřeného proti XSD.</li>
+      </ul>
+      <p><i>Poznámka k rozsahu:</i> toto jádro počítá jednu (čistou) hodnotu na řádek.
+         Třísloupcové členění slovenské Súvahy <b>Brutto / Korekcia / Netto</b> a varianty
+         Poznámky / mikro jsou nadstavby.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Výkazy ▸ Účetní závěrka.</i> Volbou <b>Nová účetní závěrka</b>
+         vytvořte výkaz za období, zkontrolujte detail po řádcích (běžné vs minulé období),
+         upravte ruční řádky, přepočítejte a poté <b>Exportujte XML</b>. Sada řádků, mapování
+         účtů a schéma pocházejí z nainstalovaného národního modulu; verze výkazů jsou v
+         kořenové nabídce lokalizace.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Průvodci</h2>
+    <div class="oe_span12">
+      <h4>Vytvořit účetní závěrku <small>(Účetnictví ▸ Výkazy ▸ Účetní závěrka ▸ Nová účetní závěrka)</small></h4>
+      <p><b>Co dělá:</b> v jednom kroku vytvoří účetní závěrku za období a vypočítá ji.</p>
+      <p><b>Jak používat:</b> zvolte společnost, verzi výkazu (filtrovanou podle daňové země
+         společnosti) a období (od / do), poté <i>Vytvořit</i>; průvodce sestaví
+         <code>cssk.fs.statement</code>, spustí výpočet a otevře nový výkaz.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_asset_tax_backfill_form" model="ir.ui.view">
+        <field name="name">account.asset.tax.backfill.form</field>
+        <field name="model">account.asset.tax.backfill</field>
+        <field name="arch" type="xml">
+            <form string="Backfill Tax Depreciation">
+                <field name="currency_id" invisible="1"/>
+                <p class="text-muted">
+                    Set up tax depreciation on an asset that is already part-way
+                    through its life. The full statutory board is laid out, every
+                    year up to the filed fiscal year is frozen, and the open tail is
+                    left to be claimed going forward.
+                </p>
+                <group>
+                    <group>
+                        <field name="asset_display" readonly="1"/>
+                        <field name="tax_class_id" options="{'no_create': True}"/>
+                        <field name="tax_method"/>
+                    </group>
+                    <group>
+                        <field name="tax_entry_value"/>
+                        <field name="tax_in_service_date"/>
+                        <field name="filed_through_year"/>
+                        <field name="expected_residual"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_backfill" type="object" string="Backfill"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_asset_tax_backfill" model="ir.actions.act_window">
+        <field name="name">Backfill Tax Depreciation</field>
+        <field name="res_model">account.asset.tax.backfill</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

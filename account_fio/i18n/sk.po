@@ -1,0 +1,497 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* account_fio
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-31 16:52+0000\n"
+"PO-Revision-Date: 2026-08-31 16:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid ""
+"A Fio token is a 64-character string (§2 of the API documentation). Got "
+"%(length)s characters — the value was probably truncated when it was copied."
+msgstr ""
+"Token Fio je 64-znakový reťazec (§2 dokumentácie API). Zadaných %(length)s "
+"znakov — hodnota sa pravdepodobne pri kopírovaní skrátila."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid ""
+"Another Fio operation is running on %(name)s. Fio allows one call per token "
+"every 30 seconds, so this one has to wait — try again shortly."
+msgstr ""
+"Na %(name)s práve prebieha iná operácia Fio. Fio povoľuje jedno volanie na "
+"token za 30 sekúnd, takže táto musí počkať — skúste to prosím o chvíľu "
+"znova."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid ""
+"Cannot tell what format the payment file is in, so Fio cannot be told "
+"either."
+msgstr ""
+"Nedá sa určiť formát platobného súboru, takže ho nemožno oznámiť ani Fio."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid ""
+"Confirmed by %(user)s: the batch IS in Fio internet banking and must not be "
+"sent again."
+msgstr ""
+"Potvrdil %(user)s: dávka V internet bankingu Fio JE a nesmie byť odoslaná "
+"znova."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid ""
+"Confirmed by %(user)s: the batch is NOT in Fio internet banking, so it can "
+"be sent again."
+msgstr ""
+"Potvrdil %(user)s: dávka v internet bankingu Fio NIE JE, takže ju možno "
+"odoslať znova."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid ""
+"Connected. Fio reports account %(account)s/%(bank)s (%(iban)s), currency "
+"%(currency)s."
+msgstr ""
+"Pripojené. Fio hlási účet %(account)s/%(bank)s (%(iban)s), mena "
+"%(currency)s."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid "Fio %(label)s expires"
+msgstr "Platnosť tokenu Fio (%(label)s) končí"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_account_number
+msgid "Fio Account Number"
+msgstr "Číslo účtu podľa Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_bic
+msgid "Fio BIC"
+msgstr "BIC podľa Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_bank_code
+msgid "Fio Bank Code"
+msgstr "Kód banky podľa Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_fio_upload_mixin__fio_id_instruction
+msgid "Fio Batch Number"
+msgstr "Číslo dávky Fio"
+
+#. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_list_fio
+msgid "Fio Connections"
+msgstr "Pripojenia Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_currency
+msgid "Fio Currency"
+msgstr "Mena podľa Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_download_format
+msgid "Fio Download Format"
+msgstr "Formát sťahovania Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_iban
+msgid "Fio IBAN"
+msgstr "IBAN podľa Fio"
+
+#. module: account_fio
+#: model:ir.model.fields.selection,name:account_fio.selection__account_journal__fio_download_format__json
+msgid "Fio JSON"
+msgstr "Fio JSON"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_last_read_at
+msgid "Fio Last Read Call"
+msgstr "Posledné volanie Fio na čítanie"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_last_write_at
+msgid "Fio Last Submit Call"
+msgstr "Posledné volanie Fio na zadávanie"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_token_read
+msgid "Fio Read Token"
+msgstr "Token Fio na čítanie"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_token_read_expiry
+msgid "Fio Read Token Expires"
+msgstr "Platnosť tokenu Fio na čítanie do"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_has_token_read
+msgid "Fio Read Token Set"
+msgstr "Token Fio na čítanie nastavený"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_fio_upload_mixin__fio_response
+msgid "Fio Response"
+msgstr "Odpoveď Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_token_write
+msgid "Fio Submit Token"
+msgstr "Token Fio na zadávanie"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_token_write_expiry
+msgid "Fio Submit Token Expires"
+msgstr "Platnosť tokenu Fio na zadávanie do"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_has_token_write
+msgid "Fio Submit Token Set"
+msgstr "Token Fio na zadávanie nastavený"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_fio_upload_mixin__fio_upload_state
+msgid "Fio Upload"
+msgstr "Odoslanie do Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_fio_upload_mixin__fio_uploaded_at
+msgid "Fio Uploaded At"
+msgstr "Odoslané do Fio dňa"
+
+#. module: account_fio
+#: model:ir.model.fields.selection,name:account_fio.selection__account_journal__fio_download_format__xml
+msgid "Fio XML"
+msgstr "Fio XML"
+
+#. module: account_fio
+#: model:ir.model.fields,help:account_fio.field_account_journal__fio_download_format
+msgid ""
+"Fio XML is schema-backed and its dates are unambiguous; the JSON encoding "
+"returns epoch milliseconds where the documentation promises a date string. "
+"Change this only if you have a reason."
+msgstr ""
+"Fio XML má schému a jeho dátumy sú jednoznačné; kódovanie JSON vracia "
+"milisekundy od epochy tam, kde dokumentácia sľubuje reťazec s dátumom. Meňte"
+" len vtedy, ak máte dôvod."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid ""
+"Fio allows one call per token every %(interval)s seconds; the next one is "
+"possible in %(wait)s s."
+msgstr ""
+"Fio povoľuje jedno volanie na token za %(interval)s sekúnd; ďalšie je možné "
+"o %(wait)s s."
+
+#. module: account_fio
+#: model:ir.actions.act_window,name:account_fio.fio_journal_action
+#: model:ir.ui.menu,name:account_fio.fio_account_menu
+msgid "Fio banka"
+msgstr "Fio banka"
+
+#. module: account_fio
+#: model:ir.module.module,summary:base.module_account_fio
+msgid ""
+"Fio banka API tokens per bank journal, with the mandatory 30-second throttle"
+" and token-expiry watch."
+msgstr ""
+"Tokeny Fio banka API na bankovom denníku, s povinným 30-sekundovým odstupom "
+"volaní a strážením platnosti tokenov."
+
+#. module: account_fio
+#: model:ir.module.module,shortdesc:base.module_account_fio
+msgid "Fio banka — connection"
+msgstr "Fio banka — pripojenie"
+
+#. module: account_fio
+#: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_read_expiry
+msgid ""
+"Fio caps a token's validity at 180 days and refuses to issue one without an "
+"expiry."
+msgstr ""
+"Fio obmedzuje platnosť tokenu na najviac 180 dní a bez dátumu konca "
+"platnosti token nevydá."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid ""
+"Fio does not accept this file: its root element is <%(tag)s>. Expected Fio's"
+" own <Import>, a pain.001 or a pain.008."
+msgstr ""
+"Fio tento súbor neprijíma: jeho koreňový prvok je <%(tag)s>. Očakávaný "
+"vlastný <Import> Fio, pain.001 alebo pain.008."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid "Fio keeps this account in %(fio)s while the journal is in %(journal)s."
+msgstr ""
+"Fio vedie tento účet v mene %(fio)s, zatiaľ čo denník je v mene %(journal)s."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid ""
+"No Fio read token on %(name)s. Generate one in Fio internet banking under "
+"Nastavení → API."
+msgstr ""
+"Na %(name)s nie je token Fio na čítanie. Vygenerujte ho v internet bankingu "
+"Fio v Nastavení → API."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid ""
+"No Fio submit token on %(name)s. Generate one in Fio internet banking with "
+"the right 'Sledování účtu a zadávání platebních a inkasních příkazů'."
+msgstr ""
+"Na %(name)s nie je token Fio na zadávanie. Vygenerujte ho v internet "
+"bankingu Fio s právom „Sledování účtu a zadávání platebních a inkasních "
+"příkazů“."
+
+#. module: account_fio
+#: model_terms:ir.actions.act_window,help:account_fio.fio_journal_action
+msgid "No bank journal is connected to Fio yet"
+msgstr "Zatiaľ nie je k Fio pripojený žiadny bankový denník"
+
+#. module: account_fio
+#: model:ir.model.fields.selection,name:account_fio.selection__fio_upload_mixin__fio_upload_state__not_sent
+msgid "Not sent"
+msgstr "Neodoslané"
+
+#. module: account_fio
+#: model_terms:ir.actions.act_window,help:account_fio.fio_journal_action
+msgid ""
+"Open a bank journal and paste a token from Fio internet banking\n"
+"                (Nastavení → API) into its <b>Fio banka</b> section."
+msgstr ""
+"Otvorte bankový denník a vložte token z internet bankingu Fio\n"
+"                (Nastavení → API) do jeho časti <b>Fio banka</b>."
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_res_partner__fio_payment_reason
+msgid "Platební titul"
+msgstr "Platobný titul"
+
+#. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_list_fio
+msgid "Read token"
+msgstr "Token na čítanie"
+
+#. module: account_fio
+#: model:ir.model.fields.selection,name:account_fio.selection__fio_upload_mixin__fio_upload_state__sent
+msgid "Sent to Fio"
+msgstr "Odoslané do Fio"
+
+#. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_list_fio
+msgid "Submit token"
+msgstr "Token na zadávanie"
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid ""
+"The Fio %(label)s on %(name)s expires on %(date)s (field %(field)s). "
+"Generate a new one in internet banking; it becomes usable 5 minutes after "
+"authorisation."
+msgstr ""
+"Platnosť tokenu Fio (%(label)s) na %(name)s končí %(date)s (pole %(field)s)."
+" Vygenerujte nový v internet bankingu; použiteľný je 5 minút po autorizácii."
+
+#. module: account_fio
+#: model:ir.model.fields,help:account_fio.field_fio_upload_mixin__fio_id_instruction
+msgid ""
+"The idInstruction Fio returned for the uploaded batch. It is the batch's "
+"number in internet banking, and is NOT the same number as the instruction id"
+" that later appears on statement lines."
+msgstr ""
+"Hodnota idInstruction, ktorú Fio vrátilo pre odoslanú dávku. Je to číslo "
+"dávky v internet bankingu a NIE JE to to isté číslo ako ID pokynu, ktoré sa "
+"neskôr objavuje na riadkoch výpisu."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid "The payment file is not valid XML."
+msgstr "Platobný súbor nie je platné XML."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid ""
+"The previous upload's answer was lost, so nobody knows whether Fio holds "
+"this batch. Check internet banking for an unauthorised batch and record what"
+" you found — there is a button for each answer — before sending anything."
+msgstr ""
+"Odpoveď na predchádzajúce odoslanie sa stratila, takže nikto nevie, či Fio "
+"túto dávku má. Skôr než čokoľvek odošlete, skontrolujte v internet bankingu,"
+" či tam nie je neautorizovaná dávka, a zaznamenajte, čo ste zistili — pre "
+"každú odpoveď je tlačidlo."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid "There is no payment file to send."
+msgstr "Nie je čo odoslať — chýba platobný súbor."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid ""
+"This record has no bank journal, so there is nothing to tell Fio which "
+"account the money leaves."
+msgstr ""
+"Tento záznam nemá bankový denník, takže nie je čím Fio oznámiť, z ktorého "
+"účtu peniaze odchádzajú."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid "This record is not ready to be sent to Fio."
+msgstr "Tento záznam nie je pripravený na odoslanie do Fio."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid ""
+"This token belongs to Fio account %(fio)s, but journal %(journal)s is "
+"configured with %(journal_account)s. One token serves one account — using it"
+" here would import another account's movements."
+msgstr ""
+"Tento token patrí k účtu Fio %(fio)s, ale denník %(journal)s má nastavený "
+"účet %(journal_account)s. Jeden token slúži jednému účtu — jeho použitie tu "
+"by naimportovalo pohyby cudzieho účtu."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid ""
+"This was already sent to Fio as batch %(batch)s. Sending it again would "
+"create a second batch, and authorising both in internet banking would pay "
+"everything twice."
+msgstr ""
+"Toto už bolo do Fio odoslané ako dávka %(batch)s. Opätovné odoslanie by "
+"vytvorilo druhú dávku a autorizácia oboch v internet bankingu by všetko "
+"zaplatila dvakrát."
+
+#. module: account_fio
+#: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_write
+msgid ""
+"Token with the right 'Sledování účtu a zadávání platebních a inkasních "
+"příkazů'. Used only when a payment order is sent. Keep it separate from the "
+"read token: a token that can only read cannot pay anyone, and each token has"
+" its own 30-second budget."
+msgstr ""
+"Token s právom „Sledování účtu a zadávání platebních a inkasních příkazů“. "
+"Používa sa iba pri odoslaní platobného príkazu. Držte ho oddelene od tokenu "
+"na čítanie: token, ktorý vie len čítať, nikomu nezaplatí, a každý token má "
+"vlastný 30-sekundový rozpočet volaní."
+
+#. module: account_fio
+#: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_read
+msgid ""
+"Token with the right 'Sledování účtu'. Used by the statement pull. Generate "
+"it in Fio internet banking under Nastavení → API; it becomes usable 5 "
+"minutes after authorisation."
+msgstr ""
+"Token s právom „Sledování účtu“. Používa ho sťahovanie výpisov. Vygenerujte "
+"ho v internet bankingu Fio v Nastavení → API; použiteľný je 5 minút po "
+"autorizácii."
+
+#. module: account_fio
+#: model:ir.model.fields.selection,name:account_fio.selection__fio_upload_mixin__fio_upload_state__unknown
+msgid "Unknown — check the bank"
+msgstr "Neznáme — overte v banke"
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/fio_upload_mixin.py:0
+msgid ""
+"Upload to Fio ended without an answer: %(error)s<br/><br/>The batch may or "
+"may not exist in the bank. Check internet banking before sending again."
+msgstr ""
+"Odoslanie do Fio skončilo bez odpovede: %(error)s<br/><br/>Dávka v banke byť"
+" môže, ale nemusí. Pred opätovným odoslaním skontrolujte internet banking."
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid "read token"
+msgstr "token na čítanie"
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid "submit token"
+msgstr "token na zadávanie"
+
+#. module: account_fio
+#: model:ir.model.fields,help:account_fio.field_res_partner__fio_payment_reason
+msgid ""
+"ČNB payment reason used as the default on foreign payments to this partner, "
+"where Fio requires one. Set it on the partner because it follows what you "
+"buy from them, not what any single invoice happens to be."
+msgstr ""
+"Platobný titul ČNB použitý ako predvolený pri zahraničných platbách tomuto "
+"partnerovi, kde ho Fio vyžaduje. Nastavuje sa na partnerovi, pretože sa "
+"odvíja od toho, čo od neho nakupujete, nie od jednotlivej faktúry."
+
+#. module: account_fio
+#: model:ir.model,name:account_fio.model_fio_upload_mixin
+msgid "Fio Payment Upload"
+msgstr "Odoslanie platby do Fio"
+
+#. module: account_fio
+#: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_write_expiry
+msgid ""
+"Fio caps a token's validity at 180 days and refuses to issue one without an "
+"expiry, so every token has one — but the API does not report it. Copy it "
+"from internet banking when you paste the token: left empty, the expiry "
+"warning cannot fire and payment orders will start failing without notice."
+msgstr ""
+"Fio obmedzuje platnosť tokenu na 180 dní a bez dátumu platnosti "
+"token nevydá, takže ho má každý token — API ho však nehlási. "
+"Skopírujte ho z internetbankingu spolu s tokenom: ak zostane "
+"prázdny, upozornenie na expiráciu sa nespustí a platobné príkazy "
+"začnú bez varovania zlyhávať."
+
+#. module: account_fio
+#: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_read_expiry
+msgid ""
+"Fio caps a token's validity at 180 days and refuses to issue one without an "
+"expiry, so every token has one — but the API does not report it. Copy it "
+"from internet banking when you paste the token: left empty, the expiry "
+"warning cannot fire and the feed will stop without notice."
+msgstr ""
+"Fio obmedzuje platnosť tokenu na 180 dní a bez dátumu platnosti "
+"token nevydá, takže ho má každý token — API ho však nehlási. "
+"Skopírujte ho z internetbankingu spolu s tokenom: ak zostane "
+"prázdny, upozornenie na expiráciu sa nespustí a sťahovanie výpisov "
+"sa bez varovania zastaví."

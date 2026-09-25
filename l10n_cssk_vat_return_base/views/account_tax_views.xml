@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+    <!-- A historical rate is archived on purpose, which means the only way to
+         reach one is to look for archived taxes deliberately. The filter is
+         what makes "the tax exists, is correct, and does not appear in the
+         dropdown" a discoverable state rather than a puzzle. -->
+    <record id="view_account_tax_search_cssk_historic" model="ir.ui.view">
+        <field name="name">account.tax.search.cssk.historic</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_account_tax_search"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="after">
+                <separator/>
+                <filter name="cssk_historic"
+                        string="Historical rate"
+                        domain="[('cssk_historic_valid_from', '!=', False)]"/>
+            </filter>
+        </field>
+    </record>
+
+    <record id="view_account_tax_form_cssk_historic" model="ir.ui.view">
+        <field name="name">account.tax.form.cssk.historic</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <field name="type_tax_use" position="after">
+                <field name="cssk_historic_valid_from"/>
+                <field name="cssk_historic_valid_to"
+                       invisible="not cssk_historic_valid_from"/>
+                <field name="cssk_historic_source_tax_id"
+                       invisible="not cssk_historic_valid_from"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

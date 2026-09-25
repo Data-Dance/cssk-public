@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Súhrnný výkaz → reconcile with the DPH priznanie -->
+    <record id="cssk_ec_summary_statement_view_form_reconcile" model="ir.ui.view">
+        <field name="name">cssk.ec.summary.statement.form.reconcile</field>
+        <field name="model">cssk.ec.summary.statement</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form"/>
+        <field name="arch" type="xml">
+            <button name="action_export_xml" position="after">
+                <button name="action_reconcile_dph" type="object"
+                        string="Porovnať s priznaním"
+                        invisible="state == 'draft'"/>
+            </button>
+        </field>
+    </record>
+
+    <!-- DPH priznanie → reconcile with the ledger (účet 343 + tržby) -->
+    <record id="cssk_vat_return_view_form_reconcile" model="ir.ui.view">
+        <field name="name">cssk.vat.return.form.reconcile</field>
+        <field name="model">cssk.vat.return</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_vat_return_base.cssk_vat_return_view_form"/>
+        <field name="arch" type="xml">
+            <button name="action_export_xml" position="after">
+                <button name="action_reconcile_books" type="object"
+                        string="Porovnať s účtovníctvom"
+                        invisible="state == 'draft'"/>
+            </button>
+        </field>
+    </record>
+
+</odoo>

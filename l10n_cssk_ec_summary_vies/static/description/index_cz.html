@@ -1,0 +1,68 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">CZ/SK Souhrnné hlášení — ověření VIES</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Ověření odběratelů souhrnného hlášení vůči EU VIES při exportu a zápis konzultačního čísla ke každému řádku</h3>
+    <div class="oe_span12">
+      <p>Propojovací modul, který napojuje CZ/SK <b>souhrnné hlášení</b> (rekapitulační výkaz —
+         <i>Souhrnné hlášení</i>) na <b>přímé ověření EU VIES</b>. Jsou-li nainstalovány oba
+         moduly <code>l10n_cssk_ec_summary_base</code> a <code>l10n_cssk_vies</code>, provádí
+         export souhrnného hlášení <b>skutečné ověření VIES</b> — nikoli jen formátovou
+         kontrolu — pro společnosti používající přímé EU VIES a <b>zaznamenává</b> oficiální
+         konzultační číslo, časové razítko kontroly a platnost ke každému vykazovanému řádku,
+         takže opětovné otevření podaného výkazu ukáže přesně to, co bylo potvrzeno.</p>
+      <p>Modul se <code>auto_install</code> aktivuje, jsou-li přítomny obě jeho závislosti, a
+         přidává do tabulky řádků souhrnného hlášení tři sloupce pouze pro čtení.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Při exportu se DIČ každého vykazovaného řádku ověří vůči EU VIES (pouze pokud má
+            společnost zapnuto <i>Použít přímé EU VIES</i>).</li>
+        <li>Řádek, jehož DIČ VIES vyhodnotí jako <b>neplatné</b>, export tvrdě zablokuje —
+            podání s neplatným DIČ je sankcionováno.</li>
+        <li>Oficiální <b>konzultační číslo</b> (<code>requestIdentifier</code>), <b>datum
+            kontroly</b> a <b>platnost</b> se ukládají ke každému řádku jako důkaz ověření ke
+            dni podání.</li>
+        <li>Dočasný výpadek VIES <b>neblokuje</b> zákonné podání; dotčené řádky se exportují
+            bez čerstvého potvrzení a chybějící kontrola se zapíše do diskuse výkazu, aby ji
+            bylo možné zopakovat.</li>
+        <li>Tvrdá kontrola přítomnosti/formátu z modulu <code>l10n_cssk_ec_summary_base</code>
+            probíhá jako první a je beze změny.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Výkazy ▸ Souhrnné hlášení.</i> Sestavte a vypočtěte výkaz jako obvykle
+         a poté jej exportujte. Pokud společnost používá přímé EU VIES, každý řádek se při
+         exportu ověří vůči VIES: neplatná čísla export zastaví, konzultační číslo / datum
+         kontroly / platnost se zapíšou k řádku a nedostupné VIES se zaznamená do diskuse, aniž
+         by podání zablokovalo. Pro spuštění kontroly zapněte <i>Použít přímé EU VIES</i> v
+         nastavení VIES (<code>l10n_cssk_vies</code>).</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

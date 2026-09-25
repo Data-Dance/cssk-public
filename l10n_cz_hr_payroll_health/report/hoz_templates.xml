@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      HOZ (Hromadné oznámení zaměstnavatele) XML — matches the official VZP/ZP
+      schema HOZ_2025_v8.xsd (root <hromadneOznameniZamestnavatele>, ns
+      http://xmlns.vzp.cz/hromadneOznameniZamestnavatele/v1,
+      elementFormDefault="qualified"). One <zmenaZamestance> per enrol/terminate
+      event. The two identifikacePredmetuPodani* tags are XSD "fixed" constants
+      and must appear verbatim.
+    -->
+    <template id="hoz_xml">
+        <hromadneOznameniZamestnavatele xmlns="http://xmlns.vzp.cz/hromadneOznameniZamestnavatele/v1">
+            <identifikacePredmetuPodaniText>Hromadné oznámení zaměstnavatele 2026+</identifikacePredmetuPodaniText>
+            <identifikacePredmetuPodaniKod>882b97d9-3a41-4552-887b-3942ae92c3ea</identifikacePredmetuPodaniKod>
+            <kodZdravotniPojistovny t-out="insurer_code"/>
+            <identifikaceZamestnavatele>
+                <identifikacniCisloPlatce t-out="employer['identifikacniCisloPlatce']"/>
+                <nazevPlatce t-out="employer['nazevPlatce']"/>
+                <adresaPlatceUlice t-out="employer['adresaPlatceUlice']"/>
+                <adresaPlatceCisloPopisneOrientacni t-out="employer['adresaPlatceCisloPopisneOrientacni']"/>
+                <adresaPlatcePsc t-out="employer['adresaPlatcePsc']"/>
+                <adresaPlatceObec t-out="employer['adresaPlatceObec']"/>
+                <t t-if="employer.get('adresaPlatceTelefon')">
+                    <adresaPlatceTelefon t-out="employer['adresaPlatceTelefon']"/>
+                </t>
+            </identifikaceZamestnavatele>
+            <seznamZmenZamestnancu>
+                <zmenaZamestance t-foreach="hoz_changes" t-as="c">
+                    <kodzmeny t-out="c['kodzmeny']"/>
+                    <datumZmeny t-out="c['datumZmeny']"/>
+                    <cisloPojistence t-out="c['cisloPojistence']"/>
+                    <jmeno t-out="c['jmeno']"/>
+                    <prijmeni t-out="c['prijmeni']"/>
+                    <t t-if="c.get('adresa')">
+                        <adresa>
+                            <t t-if="c['adresa'].get('ulice')">
+                                <ulice t-out="c['adresa']['ulice']"/>
+                            </t>
+                            <t t-if="c['adresa'].get('obec')">
+                                <obec t-out="c['adresa']['obec']"/>
+                            </t>
+                            <t t-if="c['adresa'].get('psc')">
+                                <psc t-out="c['adresa']['psc']"/>
+                            </t>
+                        </adresa>
+                    </t>
+                </zmenaZamestance>
+            </seznamZmenZamestnancu>
+        </hromadneOznameniZamestnavatele>
+    </template>
+</odoo>

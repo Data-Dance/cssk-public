@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cssk_cash_journal_generate_form" model="ir.ui.view">
+        <field name="name">cssk.cash.journal.generate.form</field>
+        <field name="model">cssk.cash.journal.generate</field>
+        <field name="arch" type="xml">
+            <form string="Generate the Cash Journal">
+                <p>
+                    Rebuilds the denník from the posted payments of the period.
+                    Rows typed by hand, and rows already closed by the
+                    accounting lock date, are left alone.
+                </p>
+                <group>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object" string="Generate"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cssk_cash_journal_generate" model="ir.actions.act_window">
+        <field name="name">Generate Cash Journal</field>
+        <field name="res_model">cssk.cash.journal.generate</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

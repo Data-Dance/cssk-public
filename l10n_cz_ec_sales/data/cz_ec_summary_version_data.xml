@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <record id="dphshv_version_2025" model="cssk.ec.summary.statement.version">
+        <field name="name">Souhrnné hlášení 2025</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="valid_from">2010-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_ec_sales.dphshv_2025"/>
+        <field name="xml_root_element">Pisemnost</field>
+        <field name="xml_schema_filename">dphshv_epo2.xsd</field>
+        <field name="xml_schema_data" type="base64" file="l10n_cz_ec_sales/data/dphshv_epo2.xsd"/>
+    </record>
+
+    <record id="dphshv_type_B" model="cssk.ec.summary.statement.type">
+        <field name="version_id" ref="dphshv_version_2025"/>
+        <field name="code">B</field><field name="name">Řádné</field>
+        <field name="fa_xml_value">B</field>
+    </record>
+    <record id="dphshv_type_O" model="cssk.ec.summary.statement.type">
+        <field name="version_id" ref="dphshv_version_2025"/>
+        <field name="code">O</field><field name="name">Opravné</field>
+        <field name="fa_xml_value">O</field>
+    </record>
+    <record id="dphshv_type_E" model="cssk.ec.summary.statement.type">
+        <field name="version_id" ref="dphshv_version_2025"/>
+        <field name="code">E</field><field name="name">Následné (dodatečné)</field>
+        <field name="fa_xml_value">E</field>
+    </record>
+
+</data>
+</odoo>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <template id="report_inventurny_supis">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Inventúrny súpis</h2>
+                        <p class="text-muted">
+                            podľa § 30 ods. 2 zákona č. 431/2002 Z. z. o účtovníctve
+                        </p>
+
+                        <!-- § 30 ods. 2 písm. a) -->
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Účtovná jednotka:</strong>
+                                <span t-field="doc.company_id.name"/><br/>
+                                <span t-field="doc.company_id.partner_id.l10n_sk_dic"
+                                      t-if="'l10n_sk_dic' in doc.company_id.partner_id._fields"/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Súpis:</strong> <span t-field="doc.name"/><br/>
+                                <strong>Inventarizácia:</strong>
+                                <span t-field="doc.inventarizacia_id.name"/><br/>
+                                <strong>Druh inventúry:</strong>
+                                <span t-field="doc.inventory_type"/>
+                            </div>
+                        </div>
+
+                        <!-- § 30 ods. 2 písm. b), c), d): the three dates -->
+                        <table class="table table-sm table-borderless mb-3">
+                            <tr>
+                                <td><strong>Deň začatia inventúry</strong></td>
+                                <td><span t-field="doc.inventarizacia_id.date_start"/></td>
+                                <td><strong>Deň, ku ktorému bola vykonaná</strong></td>
+                                <td><span t-field="doc.inventarizacia_id.date_as_of"/></td>
+                                <td><strong>Deň skončenia</strong></td>
+                                <td><span t-field="doc.inventarizacia_id.date_end"/></td>
+                            </tr>
+                        </table>
+
+                        <!-- § 30 ods. 2 písm. f) -->
+                        <p t-if="doc.location">
+                            <strong>Miesto uloženia majetku:</strong>
+                            <span t-field="doc.location"/>
+                        </p>
+                        <p t-if="doc.account_id">
+                            <strong>Účet:</strong>
+                            <span t-field="doc.account_id.code"/> —
+                            <span t-field="doc.account_id.name"/>
+                        </p>
+
+                        <!-- § 30 ods. 2 písm. e): množstvo a cena -->
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Popis</th>
+                                    <th class="text-end">Množstvo</th>
+                                    <th>Jednotka</th>
+                                    <th class="text-end">Cena za jednotku</th>
+                                    <th class="text-end">Hodnota</th>
+                                    <th>Poznámka</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.quantity"/></td>
+                                    <td><span t-field="line.uom_name"/></td>
+                                    <td class="text-end">
+                                        <span t-field="line.unit_price"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="line.amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td><span t-field="line.note"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4"><strong>Skutočný stav spolu</strong></td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.actual_amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong>
+                                    </td>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">Účtovný stav</td>
+                                    <td class="text-end">
+                                        <span t-field="doc.book_amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><strong>Rozdiel</strong></td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.difference"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong>
+                                    </td>
+                                    <td/>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <p t-if="doc.note">
+                            <strong>Poznámky:</strong> <span t-field="doc.note"/>
+                        </p>
+
+                        <!-- § 30 ods. 2 písm. g) and i): the two signatures -->
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p>
+                                    Hmotne zodpovedná osoba:
+                                    <strong><span t-field="doc.responsible_person_id.name"/></strong>
+                                </p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpisový záznam</p>
+                            </div>
+                            <div class="col-6">
+                                <p>
+                                    Skutočný stav zistil:
+                                    <strong><span t-field="doc.counted_by_id.name"/></strong>
+                                </p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpisový záznam</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

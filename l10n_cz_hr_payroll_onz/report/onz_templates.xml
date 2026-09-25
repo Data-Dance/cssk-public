@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      ONZ (Oznámení o nástupu do zaměstnání) XML — matches the official ČSSZ
+      schema ONZ2022_20230616.xsd (root <ONZ>, ns http://schemas.cssz.cz/ONZ2022,
+      elementFormDefault="qualified", attributes unqualified; imports
+      baseTypes2.xsd). One <employee> per registration event; the per-element
+      attribute dicts come from the model so only populated columns are emitted.
+    -->
+    <template id="onz_xml">
+        <ONZ xmlns="http://schemas.cssz.cz/ONZ2022"
+             t-att-version="onz_version" partialAccept="A">
+            <employee t-foreach="onz_employees" t-as="e" t-att="e['employee']">
+                <client t-att="e['client']">
+                    <name t-att="e['name']"/>
+                    <birth t-att="e['birth']"/>
+                    <fdr t-att="e['fdr']"/>
+                </client>
+                <comp t-att="e['comp']"/>
+                <job t-att="e['job']"/>
+            </employee>
+        </ONZ>
+    </template>
+</odoo>

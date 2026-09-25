@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Daňové vs účetní odpisy · Interaktivní účetní tahák</title>
+<style>
+  :root{
+    --bg:#f6f7fa; --card:#fff; --ink:#1d2433; --muted:#6b7280; --line:#e5e7eb;
+    --primary:#714b67; --primary-2:#8f6b85; --accent:#017e84;
+    --tax:#0b6e99; --acc:#714b67; --add:#b4341f; --ded:#1f7a4d;
+    --asset:#eef6ff; --flash:#fff3bf;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  header{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;padding:26px 22px}
+  header h1{margin:0 0 6px;font-size:22px;font-weight:700}
+  header p{margin:0;opacity:.92;max-width:64em}
+  .wrap{max-width:1180px;margin:0 auto;padding:20px 18px 60px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0;
+    box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  h2{font-size:17px;margin:0 0 12px}
+  h3{font-size:14px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:18px 0 8px}
+  .controls{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+  .seg button{border:0;background:#fff;padding:8px 13px;cursor:pointer;font:inherit;color:var(--ink)}
+  .seg button.active{background:var(--primary);color:#fff}
+  .seg button:disabled{opacity:.35;cursor:not-allowed}
+  .seg label{font-size:12px;color:var(--muted);padding:8px 10px;border-right:1px solid var(--line);background:#fafafa;
+    display:flex;align-items:center}
+  .fld{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+  .fld input,.fld select{font:inherit;font-size:13px;color:var(--ink);border:1px solid var(--line);border-radius:8px;
+    padding:6px 8px}
+  .fld input[type=number]{width:104px;text-align:right;font-variant-numeric:tabular-nums}
+  .fld input[type=range]{width:150px}
+  .layout{display:grid;grid-template-columns:minmax(280px,1fr) minmax(440px,1.55fr);gap:18px}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}}
+  .steps{list-style:none;margin:0;padding:0;max-height:360px;overflow:auto}
+  .steps li{border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-bottom:7px;cursor:pointer;
+    display:flex;gap:10px;align-items:flex-start;background:#fff;transition:.15s}
+  .steps li:hover{border-color:var(--primary-2)}
+  .steps li.done{opacity:.62;background:#fbfbfc}
+  .steps li.next{border-color:var(--primary);box-shadow:0 0 0 2px rgba(113,75,103,.12)}
+  .dot{flex:0 0 22px;height:22px;border-radius:50%;background:#eceaf0;color:var(--primary);font-size:12px;
+    display:flex;align-items:center;justify-content:center;font-weight:700;margin-top:1px}
+  .steps li.done .dot{background:var(--primary);color:#fff}
+  .steps .t{font-weight:600}
+  .steps .n{font-size:12px;color:var(--muted)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--accent);
+    border-radius:20px;padding:2px 8px;margin-top:3px}
+  .btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .btns button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 14px;cursor:pointer;font:inherit}
+  .btns button.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+  .btns button:disabled{opacity:.45;cursor:default}
+  .assetcard{border:1px solid var(--accent);border-radius:9px;margin-bottom:12px;overflow:hidden}
+  .assetcard .ch{background:#e6f4f4;color:var(--accent);font-weight:700;font-size:12px;padding:5px 10px}
+  .assetcard .cb{display:flex;flex-wrap:wrap;gap:6px 16px;padding:8px 10px;font-size:13px;align-items:baseline}
+  .assetcard .cb b{font-variant-numeric:tabular-nums}
+  .assetcard .mut{color:var(--muted);font-size:11.5px}
+  table.board{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+  table.board th,table.board td{border:1px solid var(--line);padding:5px 8px;text-align:right}
+  table.board th{background:#faf7f9;text-align:right;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+  table.board td.y,table.board th.y{text-align:left}
+  table.board tr.hidden{display:none}
+  table.board td.tax{color:var(--tax);font-weight:600}
+  table.board td.acc{color:var(--acc)}
+  table.board td.add{color:var(--add);font-weight:600}
+  table.board td.ded{color:var(--ded);font-weight:600}
+  table.board tr.flash td{background:var(--flash)}
+  table.board tr.tot td{font-weight:700;background:#fcfcfd;border-top:2px solid var(--line)}
+  table.board .note{font-size:10.5px;color:var(--muted);font-variant-numeric:normal}
+  .tally{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .tally .box{border:1px solid var(--line);border-radius:9px;padding:8px 10px;text-align:center}
+  .tally .box .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em}
+  .tally .box .v{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:2px}
+  .tally .add .v{color:var(--add)} .tally .ded .v{color:var(--ded)}
+  .je{margin-top:12px;border:1px dashed var(--line);border-radius:9px;padding:10px 12px;background:#fcfbfd;min-height:42px;font-size:13px}
+  .je b{font-variant-numeric:tabular-nums}
+  table.ref{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  table.ref th,table.ref td{border:1px solid var(--line);padding:7px 9px;text-align:left;font-variant-numeric:tabular-nums}
+  table.ref th{background:#faf7f9}
+  .legend{font-size:12.5px;color:var(--muted);margin-top:10px}
+  .ab{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:680px){.ab{grid-template-columns:1fr}}
+  .ab ul{margin:6px 0 0;padding-left:18px} .ab li{margin-bottom:5px}
+  .pill{font-size:11px;background:#eceaf0;color:var(--primary);border-radius:20px;padding:2px 9px;font-weight:700}
+  code{background:#f0eef2;border-radius:4px;padding:1px 5px;font-size:12.5px}
+</style>
+</head>
+<body>
+<header>
+  <h1 id="h1"></h1>
+  <p id="intro"></p>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="controls">
+      <div class="seg" id="locale">
+        <label id="loc_label"></label>
+        <button data-v="cz" class="active"></button>
+        <button data-v="sk"></button>
+      </div>
+      <span class="fld"><span id="group_label"></span>
+        <select id="group"></select></span>
+      <div class="seg" id="method">
+        <label id="method_label"></label>
+        <button data-v="linear" class="active"></button>
+        <button data-v="accelerated"></button>
+        <button data-v="extraordinary"></button>
+      </div>
+      <span class="fld"><span id="month_label"></span>
+        <input type="range" id="month" min="1" max="12" value="3"/>
+        <b id="month_val" style="color:var(--ink)"></b></span>
+      <span class="fld"><span id="value_label"></span>
+        <input type="number" id="value" step="1000"/></span>
+      <span class="fld"><span id="accyears_label"></span>
+        <input type="number" id="accyears" min="1" max="60"/></span>
+      <span class="fld" id="ify_wrap"><span id="ify_label"></span>
+        <select id="ify">
+          <option value="0">—</option>
+          <option value="10">+10 %</option>
+          <option value="15">+15 %</option>
+          <option value="20">+20 %</option>
+        </select></span>
+    </div>
+    <div class="controls" style="margin-top:12px">
+      <div class="seg" id="event">
+        <label id="event_label"></label>
+        <button data-v="none" class="active"></button>
+        <button data-v="improvement"></button>
+        <button data-v="suspension"></button>
+        <button data-v="disposal"></button>
+      </div>
+      <span class="pill" id="eventpill"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 id="sec_board"></h2>
+    <div class="layout">
+      <div>
+        <ol class="steps" id="steps"></ol>
+        <div class="btns">
+          <button class="primary" id="next"></button>
+          <button id="play"></button>
+          <button id="reset"></button>
+        </div>
+        <div class="je" id="je"></div>
+      </div>
+      <div>
+        <div class="assetcard" id="asset"></div>
+        <table class="board" id="board"></table>
+        <div class="tally" id="tally"></div>
+        <p class="legend" id="boardlegend"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 id="sec_what"></h2>
+    <div class="ab" id="what"></div>
+  </div>
+
+  <div class="card">
+    <h2 id="sec_ref"></h2>
+    <table class="ref" id="ref"></table>
+    <p class="legend" id="reflegend"></p>
+  </div>
+
+  <p class="legend" id="footer"></p>
+</div>
+
+<script>
+/* ============================================================= *
+ *  Tax-depreciation engine — JS port of account_asset_tax/engine/
+ *  depreciation.py. The amounts here match the Python golden tests.
+ * ============================================================= */
+const START_YEAR = 2026;
+
+const GROUPS = {
+  cz:{
+    1:{life:3, r1:20,   rn:40,   ri:33.3, k1:3, kn:4, ki:3, accel:true, extra:true},
+    2:{life:5, r1:11,   rn:22.25,ri:20,   k1:5, kn:6, ki:5, accel:true, extra:true},
+    3:{life:10,r1:5.5,  rn:10.5, ri:10,   k1:10,kn:11,ki:10,accel:true},
+    4:{life:20,r1:2.15, rn:5.15, ri:5,    k1:20,kn:21,ki:20,accel:true},
+    5:{life:30,r1:1.4,  rn:3.4,  ri:3.4,  k1:30,kn:31,ki:30,accel:true},
+    6:{life:50,r1:1.02, rn:2.02, ri:2,    k1:50,kn:51,ki:50,accel:true},
+  },
+  sk:{
+    0:{life:2},
+    1:{life:4},
+    2:{life:6, k1:6,kn:7,ki:6, accel:true},
+    3:{life:8, k1:8,kn:9,ki:8, accel:true},
+    4:{life:12},
+    5:{life:20},
+    6:{life:40},
+  },
+};
+
+function line(i, fy, amt, cum, base, note){
+  return {i:i, fy:fy, amt:amt, cum:cum, res:base-cum, note:note||''};
+}
+function lastDayMonth(y,m){ return new Date(y, m, 0).getDate(); }
+
+// CZ §31 increased-first-year rate tables (first / next %), keyed [percent][group].
+const CZ_IFY = {
+  10:{1:[30,35],   2:[21,19.75], 3:[15.4,9.4]},
+  15:{1:[35,32.5], 2:[26,18.5],  3:[19,9]},
+  20:{1:[40,30],   2:[31,17.25], 3:[24.4,8.4]},
+};
+function czLinear(base, G, vr){
+  const out=[]; let cum=0;
+  const r1 = vr ? vr[0] : G.r1, rn = vr ? vr[1] : G.rn;
+  for(let i=1;i<=G.life;i++){
+    let amt = (i===1?r1:rn)/100*base;
+    if(i===G.life) amt = base-cum;
+    cum+=amt; out.push(line(i, START_YEAR+i-1, amt, cum, base, i===1?(vr?('§31 +1. rok'):'§31 1. rok'):'§31'));
+  }
+  return out;
+}
+function czAccel(base, G){
+  const out=[]; let cum=0, res=base;
+  for(let i=1;i<=G.life;i++){
+    let amt;
+    if(i===1) amt=base/G.k1;
+    else if(i===G.life) amt=res;
+    else amt=2*res/(G.kn-(i-1));
+    cum+=amt; res=base-cum;
+    out.push(line(i, START_YEAR+i-1, amt, cum, base, i===1?'§32 1/k₁':'§32 2·ZC/(k−n)'));
+  }
+  return out;
+}
+function czExtra(base, startMonth){
+  // 24 monthly slices (60% then 40%), then aggregated by calendar year
+  const monthly=[]; let cum=0;
+  let m=startMonth+1, y=START_YEAR; if(m>12){m=1;y++;}
+  const a=base*0.6/12, b=base*0.4/12;
+  for(let k=1;k<=24;k++){
+    let amt = k<=12?a:b; if(k===24) amt=base-cum; cum+=amt;
+    monthly.push({y:y, amt:amt}); m++; if(m>12){m=1;y++;}
+  }
+  // aggregate by year
+  const byY={}; monthly.forEach(x=>byY[x.y]=(byY[x.y]||0)+x.amt);
+  const out=[]; let c=0, i=0;
+  Object.keys(byY).map(Number).sort((p,q)=>p-q).forEach(fy=>{
+    i++; c+=byY[fy]; out.push(line(i, fy, byY[fy], c, base, '§30a 60/40'));
+  });
+  return out;
+}
+function skLinear(base, G, startMonth){
+  const annual=base/G.life, months=13-startMonth;
+  const first=annual*months/12, remainder=annual-first;
+  const out=[]; let cum=0;
+  for(let i=1;i<=G.life;i++){
+    let amt = i===1?first:annual;
+    if(i===G.life && remainder===0) amt=base-cum;
+    cum+=amt; out.push(line(i, START_YEAR+i-1, amt, cum, base, i===1?('§27 '+months+'/12'):'§27'));
+  }
+  if(remainder>1e-9){
+    const i=G.life+1, amt=base-cum; cum+=amt;
+    out.push(line(i, START_YEAR+i-1, amt, cum, base, '§27 zvyšok 1. roka'));
+  }
+  return out;
+}
+function skAccel(base, G, startMonth){
+  const months=13-startMonth;
+  const fullFirst=base/G.k1, actualFirst=fullFirst*months/12, remainder=fullFirst-actualFirst;
+  const out=[]; let cum=actualFirst, formRes=base-fullFirst;
+  out.push(line(1, START_YEAR, actualFirst, cum, base, '§28 '+months+'/12 (ZC z plného 1/k₁)'));
+  for(let i=2;i<=G.life;i++){
+    let amt = i===G.life?formRes:2*formRes/(G.kn-(i-1));
+    formRes-=amt; cum+=amt;
+    out.push(line(i, START_YEAR+i-1, amt, cum, base, '§28 2·ZC/(k−n)'));
+  }
+  if(remainder>1e-9){
+    const i=G.life+1, amt=base-cum; cum+=amt;
+    out.push(line(i, START_YEAR+i-1, amt, cum, base, '§28 zvyšok 1. roka'));
+  }
+  return out;
+}
+function computeSchedule(loc, method, base, G, startMonth, vr){
+  if(base<=0) return [];
+  if(loc==='cz'){
+    if(method==='linear') return czLinear(base, G, vr);
+    if(method==='accelerated') return czAccel(base, G);
+    if(method==='extraordinary') return czExtra(base, startMonth);
+  } else {
+    if(method==='linear') return skLinear(base, G, startMonth);
+    if(method==='accelerated') return skAccel(base, G, startMonth);
+  }
+  return [];
+}
+
+/* ---- lifecycle events (ports of the engine functions) ---- */
+function baseOf(lines){ return lines.length?lines[0].amt+lines[0].res:0; }
+function reindex(prefix, tail, base, startI, startFy, notes){
+  const out=prefix.slice(); let cum=prefix.length?prefix[prefix.length-1].cum:0;
+  tail.forEach((amt,off)=>{ cum+=amt; out.push(line(startI+off, startFy+off, amt, cum, base, notes&&notes[off]||'')); });
+  return out;
+}
+function rebuildPrefix(prefix, base){
+  const out=[]; let cum=0;
+  prefix.forEach(l=>{ cum+=l.amt; out.push(line(l.i,l.fy,l.amt,cum,base,l.note)); });
+  return out;
+}
+function accelTail(residual, kIncr){
+  const out=[]; let res=residual, n=0;
+  while(res>1e-6 && n<kIncr){
+    const denom = n===0?kIncr:(kIncr-n);
+    let amt = denom>0?2*res/denom:res;
+    if(amt>=res || denom<=1) amt=res;
+    out.push(amt); res-=amt; n++;
+  }
+  if(res>1e-6) out.push(res);
+  return out;
+}
+function applyImprovement(lines, loc, method, G, yearI, amount){
+  const base=baseOf(lines);
+  const prefix=lines.filter(l=>l.i<yearI);
+  const cumBefore=prefix.length?prefix[prefix.length-1].cum:0;
+  const resBefore=base-cumBefore;
+  const newBase=base+amount, newRes=resBefore+amount;
+  const startFy=START_YEAR+yearI-1;
+  let tail=[], notes=[];
+  if(method==='linear'){
+    const annual = loc==='cz' ? newBase*G.ri/100 : newBase/G.life;
+    let res=newRes; while(res>1e-6){ const a=annual<res?annual:res; tail.push(a); res-=a; }
+    notes=tail.map(()=>loc==='cz'?'TZ §31 zvýš. sazba':'TZ §26(5) zvýš. cena');
+  } else {
+    const kIncr=G.ki||G.kn;
+    tail=accelTail(newRes,kIncr);
+    notes=tail.map((_,j)=>j===0?'TZ 2·ZC/k_zv':'TZ 2·ZC/(k_zv−n)');
+  }
+  return reindex(rebuildPrefix(prefix,newBase), tail, newBase, yearI, startFy, notes);
+}
+function applySuspension(lines, yearI){
+  const base=baseOf(lines);
+  const pending=lines.map(l=>l.amt), pn=lines.map(l=>l.note);
+  const out=[]; let cum=0, src=0, i=1, fy=lines.length?lines[0].fy:START_YEAR;
+  while(src<pending.length || i===yearI){
+    let amt,note;
+    if(i===yearI){amt=0;note='prerušené / přerušeno';}
+    else {amt=pending[src];note=pn[src];src++;}
+    cum+=amt; out.push(line(i,fy,amt,cum,base,note)); i++; fy++;
+  }
+  return out;
+}
+function applyDisposal(lines, loc, dispFy, dispMonth){
+  const base=baseOf(lines);
+  const prefix=lines.filter(l=>l.fy<dispFy);
+  const dl=lines.find(l=>l.fy===dispFy);
+  const out=rebuildPrefix(prefix,base); let cum=out.length?out[out.length-1].cum:0;
+  if(dl){
+    let amt,note;
+    if(loc==='cz'){ amt=dl.amt/2; note='§26(7) polovičný odpis'; }
+    else { const mu=Math.max(dispMonth-1,0); amt=dl.amt*mu/12; note='§22 '+mu+'/12 do vyradenia'; }
+    cum+=amt; out.push(line(dl.i,dispFy,amt,cum,base,note));
+  }
+  return {lines:out, residual:base-cum};
+}
+
+/* accounting depreciation: monthly straight-line over `years`, first year
+   prorated from the in-service month (illustrative company policy). */
+function accountingByYear(base, years, startMonth, stopFy){
+  const monthly=base/(years*12); const byY={};
+  let y=START_YEAR, m=startMonth, left=years*12;
+  while(left>0){
+    if(stopFy && y>stopFy) break;
+    byY[y]=(byY[y]||0)+monthly; left--; m++; if(m>12){m=1;y++;}
+  }
+  return byY;
+}
+
+/* ============================================================= *
+ *  i18n
+ * ============================================================= */
+const CUR={cz:'Kč', sk:'€'};
+const f = n => (Math.round(n*100)/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fc = (n,loc) => f(n)+' '+CUR[loc];
+
+const I18N={
+ cz:{
+  title:'Daňové vs účetní odpisy (dvojí odpisování) – CZ/SK',
+  intro:'Interaktivní účetní tahák k modulu account_asset_tax pro Odoo 19.0. Každý dlouhodobý majetek vede souběžně dva odpisové plány: účetní (účtuje se na 551) a daňový (neúčtuje se, jen upravuje základ daně). Zvolte zemi, odpisovou skupinu, metodu a měsíc zařazení a krok za krokem sledujte, jak vzniká daňový odpisový plán a jeho rozdíl proti účetním odpisům (řádek 150 / 250 v DPPO).',
+  loc_label:'Země', group_label:'Odpisová skupina', method_label:'Metoda',
+  m_linear:'Rovnoměrné', m_accel:'Zrychlené', m_extra:'Mimořádné §30a',
+  month_label:'Měsíc zařazení', value_label:'Vstupní cena', accyears_label:'Účetní doba (roky)',
+  ify_label:'Zvýšený 1. rok (§31)',
+  event_label:'Událost', e_none:'Žádná', e_imp:'Technické zhodnocení', e_susp:'Přerušení', e_disp:'Vyřazení',
+  sec_board:'Odpisový plán – rok za rokem',
+  btn_next:'Další rok »', btn_play:'Přehrát vše', btn_reset:'Reset',
+  th_year:'Rok', th_tax:'Daňový odpis', th_taxres:'Daň. ZC', th_acc:'Účetní odpis', th_diff:'Rozdíl', th_dppo:'DPPO',
+  je_hint:'Klikněte na rok (nebo „Další rok“) pro jeho zaúčtování.',
+  tot:'Celkem', tally_tax:'Daňové odpisy Σ', tally_add:'Připočet (ř. 150) Σ', tally_ded:'Odpočet (ř. 250) Σ',
+  ev_imp:'TZ +50 % vstupní ceny ve 3. roce', ev_susp:'Přerušení odpisu ve 3. roce (plán se posune)',
+  ev_disp:'Vyřazení v polovině 3. roku (CZ: poloviční odpis)', ev_none:'Čistý zákonný plán',
+  card_title:'Karta majetku', c_group:'Skupina', c_method:'Metoda', c_base:'Vstupní cena', c_taxres:'Daňová ZC', c_accres:'Účetní ZC',
+  boardlegend:'<b style="color:var(--tax)">Daňový odpis</b> se neúčtuje (jen základ daně). <b style="color:var(--acc)">Účetní odpis</b> se účtuje na 551. Když je účetní > daňový → <b style="color:var(--add)">připočitatelná položka (ř. 150)</b>; když daňový > účetní → <b style="color:var(--ded)">odpočitatelná položka (ř. 250)</b>. Účetní odpis je zde ilustrativní lineární plán.',
+  sec_what:'Daňové vs účetní odpisy',
+  colT_h:'Daňové odpisy (daňové)',
+  colT:['Zákonné skupiny a sazby (zákon 586/1992 Sb. §26–33).',
+        'Neúčtují se – jen upravují základ daně v DPPO.',
+        'První rok plná roční sazba bez ohledu na měsíc (CZ).',
+        'Metodu nelze po dobu odpisování změnit (§30 odst. 2).',
+        'Lze přerušit (§26 odst. 8); při vyřazení poloviční odpis (§26 odst. 7).'],
+  colA_h:'Účetní odpisy (účetní)',
+  colA:['Vlastní odpisový plán podle skutečného opotřebení (zákon 563/1991 Sb.).',
+        'Účtují se měsíčně na účet 551.',
+        'Nelze přerušit; doba dle odhadu životnosti.',
+        'Rozdíl proti daňovým je zdrojem odložené daně u auditovaných jednotek.'],
+  sec_ref:'Odpisové skupiny a koeficienty',
+  ref_h:['Sk.','Doba','Rovnoměrné §31 (1./další/zvýš.)','Zrychlené §32 (k₁/kₙ/k_zv)'],
+  reflegend:'CZ ověřeno proti zákonu 586/1992 Sb. (konsolidované znění 2026). Mimořádné odpisy §30a: jen bezemisní vozidla pořízená 2024–2028, 100 % za 24 měsíců (60 % + 40 %).',
+  footer:'Vytvořeno pro account_asset_tax + l10n_cz/sk_account_asset_tax. Daňové částky odpovídají automatickým testům enginu (tests/test_engine.py).',
+ },
+ sk:{
+  title:'Daňové vs účtovné odpisy (dvojité odpisovanie) – CZ/SK',
+  intro:'Interaktívny účtovný ťahák k modulu account_asset_tax pre Odoo 19.0. Každý dlhodobý majetok vedie súbežne dva odpisové plány: účtovný (účtuje sa na 551) a daňový (neúčtuje sa, len upravuje základ dane). Zvoľte krajinu, odpisovú skupinu, metódu a mesiac zaradenia a krok za krokom sledujte, ako vzniká daňový odpisový plán a jeho rozdiel oproti účtovným odpisom (riadok 150 / 250 v DPPO).',
+  loc_label:'Krajina', group_label:'Odpisová skupina', method_label:'Metóda',
+  m_linear:'Rovnomerné', m_accel:'Zrýchlené', m_extra:'Mimoriadne §30a',
+  month_label:'Mesiac zaradenia', value_label:'Vstupná cena', accyears_label:'Účtovná doba (roky)',
+  ify_label:'Zvýšený 1. rok (§31)',
+  event_label:'Udalosť', e_none:'Žiadna', e_imp:'Technické zhodnotenie', e_susp:'Prerušenie', e_disp:'Vyradenie',
+  sec_board:'Odpisový plán – rok za rokom',
+  btn_next:'Ďalší rok »', btn_play:'Prehrať všetko', btn_reset:'Reset',
+  th_year:'Rok', th_tax:'Daňový odpis', th_taxres:'Daň. ZC', th_acc:'Účtovný odpis', th_diff:'Rozdiel', th_dppo:'DPPO',
+  je_hint:'Kliknite na rok (alebo „Ďalší rok“) pre jeho zaúčtovanie.',
+  tot:'Spolu', tally_tax:'Daňové odpisy Σ', tally_add:'Pripočet (r. 150) Σ', tally_ded:'Odpočet (r. 250) Σ',
+  ev_imp:'TZ +50 % vstupnej ceny v 3. roku', ev_susp:'Prerušenie odpisu v 3. roku (plán sa posunie + predĺži)',
+  ev_disp:'Vyradenie v polovici 3. roka (SK: pomerný odpis)', ev_none:'Čistý zákonný plán',
+  card_title:'Karta majetku', c_group:'Skupina', c_method:'Metóda', c_base:'Vstupná cena', c_taxres:'Daňová ZC', c_accres:'Účtovná ZC',
+  boardlegend:'<b style="color:var(--tax)">Daňový odpis</b> sa neúčtuje (len základ dane). <b style="color:var(--acc)">Účtovný odpis</b> sa účtuje na 551. Keď je účtovný > daňový → <b style="color:var(--add)">pripočítateľná položka (r. 150)</b>; keď daňový > účtovný → <b style="color:var(--ded)">odpočítateľná položka (r. 250)</b>. Účtovný odpis je tu ilustračný lineárny plán.',
+  sec_what:'Daňové vs účtovné odpisy',
+  colT_h:'Daňové odpisy (daňové)',
+  colT:['Zákonné skupiny a sadzby (zákon 595/2003 Z.z. §22–29).',
+        'Neúčtujú sa – len upravujú základ dane v DPPO.',
+        'Prvý rok pomerná (alikvotná) časť podľa mesiaca zaradenia (SK).',
+        'Metódu nemožno počas odpisovania zmeniť (§26 ods. 3).',
+        'Možno prerušiť (§22 ods. 9) – doba sa predĺži; zrýchlené len skupiny 2 a 3.'],
+  colA_h:'Účtovné odpisy (účtovné)',
+  colA:['Vlastný odpisový plán podľa skutočného opotrebenia (zákon 431/2002 Z.z.).',
+        'Účtujú sa mesačne na účet 551.',
+        'Nemožno prerušiť; doba podľa odhadu životnosti.',
+        'Rozdiel oproti daňovým je zdrojom odloženej dane u auditovaných jednotiek.'],
+  sec_ref:'Odpisové skupiny a koeficienty',
+  ref_h:['Sk.','Doba','Rovnomerné (sadzba = 1/doba)','Zrýchlené §28 (k₁/kₙ/k_zv)'],
+  reflegend:'SK overené proti zákonu 595/2003 Z.z. (konsolidované znenie 2026). Zrýchlené odpisovanie len pre skupiny 2 a 3. Skupina 0 (2 r.): elektromobily, e-bicykle/e-kolobežky (od 2025).',
+  footer:'Vytvorené pre account_asset_tax + l10n_cz/sk_account_asset_tax. Daňové sumy zodpovedajú automatickým testom enginu (tests/test_engine.py).',
+ },
+};
+const T=()=>I18N[state.locale];
+
+const DEFAULTS={cz:{group:2,value:100000,accyears:8},sk:{group:1,value:60000,accyears:6}};
+let state={locale:'cz',group:2,method:'linear',month:3,value:100000,accyears:8,event:'none',increased:'0',applied:0,rows:[]};
+
+const methodAllowed=(loc,grp,method)=>{
+  const G=GROUPS[loc][grp];
+  if(method==='linear') return true;
+  if(method==='accelerated') return !!G.accel;
+  if(method==='extraordinary') return loc==='cz' && !!G.extra;
+  return false;
+};
+
+/* build the comparison rows (tax vs accounting per fiscal year) */
+function buildRows(){
+  const loc=state.locale, G=GROUPS[loc][state.group];
+  const vr=(loc==='cz' && state.method==='linear' && state.increased
+            && CZ_IFY[state.increased] && CZ_IFY[state.increased][state.group])
+           ? CZ_IFY[state.increased][state.group] : null;
+  let tax=computeSchedule(loc, state.method, state.value, G, state.month, vr);
+  const eventYearI=3, eventFy=START_YEAR+2;
+  let dispFy=null;
+  if(state.event==='improvement') tax=applyImprovement(tax, loc, state.method, G, eventYearI, state.value*0.5);
+  else if(state.event==='suspension') tax=applySuspension(tax, eventYearI);
+  else if(state.event==='disposal'){ const r=applyDisposal(tax, loc, eventFy, 6); tax=r.lines; dispFy=eventFy; }
+
+  const taxByY={}, noteByY={}; tax.forEach(l=>{taxByY[l.fy]=(taxByY[l.fy]||0)+l.amt; noteByY[l.fy]=l.note;});
+  const accStop = dispFy; // disposal also stops the accounting plan
+  let acc=accountingByYear(state.value, state.accyears, state.month, accStop);
+  // on disposal, prorate the accounting charge of the disposal year too
+  if(dispFy && acc[dispFy]!=null){
+    const full=acc[dispFy]; acc[dispFy]= loc==='cz' ? full : full*5/12; // illustrative
+  }
+  const years=Array.from(new Set([...Object.keys(taxByY),...Object.keys(acc)].map(Number))).sort((a,b)=>a-b);
+  let cumTax=0,cumAcc=0;
+  return years.map(fy=>{
+    const t=taxByY[fy]||0, a=acc[fy]||0, diff=a-t; cumTax+=t; cumAcc+=a;
+    return {fy:fy, tax:t, acc:a, diff:diff, taxres:state.value-cumTax,
+            add:diff>0?diff:0, ded:diff<0?-diff:0, note:noteByY[fy]||'', cumTax:cumTax, cumAcc:cumAcc};
+  });
+}
+
+function $(id){return document.getElementById(id);}
+function fillGroupSelect(){
+  const sel=$('group'), loc=state.locale;
+  sel.innerHTML='';
+  Object.keys(GROUPS[loc]).map(Number).forEach(g=>{
+    const G=GROUPS[loc][g];
+    const o=document.createElement('option'); o.value=g; o.textContent=g+' · '+G.life+(state.locale==='sk'?' r.':' let');
+    if(g===state.group) o.selected=true; sel.appendChild(o);
+  });
+}
+function syncMethodButtons(){
+  const loc=state.locale;
+  ['linear','accelerated','extraordinary'].forEach(mk=>{
+    const b=document.querySelector('#method button[data-v="'+mk+'"]');
+    const ok=methodAllowed(loc,state.group,mk);
+    b.disabled=!ok; b.style.display = (mk==='extraordinary' && loc==='sk')?'none':'';
+    b.classList.toggle('active', state.method===mk);
+  });
+}
+
+function applyI18n(){
+  const t=T(), loc=state.locale;
+  document.documentElement.lang = loc==='sk'?'sk':'cs';
+  $('h1').textContent=t.title; $('intro').textContent=t.intro;
+  $('loc_label').textContent=t.loc_label;
+  document.querySelector('#locale button[data-v="cz"]').textContent='Česko (CZ)';
+  document.querySelector('#locale button[data-v="sk"]').textContent='Slovensko (SK)';
+  $('group_label').textContent=t.group_label;
+  $('method_label').textContent=t.method_label;
+  document.querySelector('#method button[data-v="linear"]').textContent=t.m_linear;
+  document.querySelector('#method button[data-v="accelerated"]').textContent=t.m_accel;
+  document.querySelector('#method button[data-v="extraordinary"]').textContent=t.m_extra;
+  $('month_label').textContent=t.month_label; $('month_val').textContent=state.month;
+  $('value_label').textContent=t.value_label+' ('+CUR[loc]+')';
+  $('accyears_label').textContent=t.accyears_label;
+  $('ify_label').textContent=t.ify_label;
+  // the increased-first-year election applies only to CZ straight-line, groups 1–3
+  const ifyOk = (loc==='cz' && state.method==='linear' && [1,2,3].includes(state.group));
+  $('ify_wrap').style.display = ifyOk ? '' : 'none';
+  $('ify').value = ifyOk ? state.increased : '0';
+  $('event_label').textContent=t.event_label;
+  document.querySelector('#event button[data-v="none"]').textContent=t.e_none;
+  document.querySelector('#event button[data-v="improvement"]').textContent=t.e_imp;
+  document.querySelector('#event button[data-v="suspension"]').textContent=t.e_susp;
+  document.querySelector('#event button[data-v="disposal"]').textContent=t.e_disp;
+  $('eventpill').textContent={none:t.ev_none,improvement:t.ev_imp,suspension:t.ev_susp,disposal:t.ev_disp}[state.event];
+  $('sec_board').textContent=t.sec_board;
+  $('next').textContent=t.btn_next; $('play').textContent=t.btn_play; $('reset').textContent=t.btn_reset;
+  $('boardlegend').innerHTML=t.boardlegend;
+  $('sec_what').textContent=t.sec_what;
+  $('what').innerHTML=
+    `<div><h3>${t.colT_h}</h3><ul>${t.colT.map(i=>'<li>'+i+'</li>').join('')}</ul></div>`+
+    `<div><h3>${t.colA_h}</h3><ul>${t.colA.map(i=>'<li>'+i+'</li>').join('')}</ul></div>`;
+  $('sec_ref').textContent=t.sec_ref;
+  renderRef();
+  $('reflegend').textContent=t.reflegend; $('footer').textContent=t.footer;
+}
+
+function renderRef(){
+  const t=T(), loc=state.locale, G=GROUPS[loc];
+  let head=`<tr><th>${t.ref_h[0]}</th><th>${t.ref_h[1]}</th><th>${t.ref_h[2]}</th><th>${t.ref_h[3]}</th></tr>`;
+  let body=Object.keys(G).map(Number).map(g=>{
+    const x=G[g];
+    const lin = loc==='cz' ? `${x.r1} / ${x.rn} / ${x.ri} %` : `${f(100/x.life)} %`;
+    const acc = x.accel ? `${x.k1} / ${x.kn} / ${x.ki}` : '—';
+    return `<tr><td>${g}</td><td>${x.life}</td><td>${lin}</td><td>${acc}</td></tr>`;
+  }).join('');
+  $('ref').innerHTML=head+body;
+}
+
+function rebuild(){
+  // clamp/repair method when locale or group changes
+  if(!methodAllowed(state.locale,state.group,state.method)) state.method='linear';
+  // the increased-first-year election only survives on CZ straight-line, groups 1–3
+  if(!(state.locale==='cz' && state.method==='linear' && [1,2,3].includes(state.group)))
+    state.increased='0';
+  state.rows=buildRows(); state.applied=0;
+  fillGroupSelect(); syncMethodButtons(); applyI18n();
+  renderSteps(); renderBoard(); renderTally(); renderAsset(); renderJE(null);
+}
+
+function renderSteps(){
+  const ol=$('steps'); ol.innerHTML=''; const t=T();
+  state.rows.forEach((r,i)=>{
+    const li=document.createElement('li');
+    li.className=i<state.applied?'done':(i===state.applied?'next':'');
+    const dppo = r.add>0?`<span class="badge" style="background:var(--add)">ř.150 +${f(r.add)}</span>`
+              : r.ded>0?`<span class="badge" style="background:var(--ded)">ř.250 +${f(r.ded)}</span>`:'';
+    li.innerHTML=`<span class="dot">${i<state.applied?'✓':(i+1)}</span>
+      <span><span class="t">${r.fy}</span> <span class="n">— ${t.th_tax}: ${fc(r.tax,state.locale)}</span>
+      ${r.note?`<br><span class="n">${r.note}</span>`:''} ${dppo}</span>`;
+    li.onclick=()=>applyTo(i+1);
+    ol.appendChild(li);
+  });
+  $('next').disabled = state.applied>=state.rows.length;
+}
+
+function renderBoard(){
+  const t=T(), loc=state.locale;
+  let head=`<tr><th class="y">${t.th_year}</th><th>${t.th_tax}</th><th>${t.th_taxres}</th>
+    <th>${t.th_acc}</th><th>${t.th_diff}</th><th>${t.th_dppo}</th></tr>`;
+  let rows=state.rows.map((r,i)=>{
+    const hidden=i>=state.applied?'hidden':''; const flash=(i===state.applied-1)?'flash':'';
+    const dppo = r.add>0?`<span class="add">ř.150 +${f(r.add)}</span>`
+              : r.ded>0?`<span class="ded">ř.250 +${f(r.ded)}</span>`:'—';
+    return `<tr class="${hidden} ${flash}">
+      <td class="y">${r.fy}${r.note?`<div class="note">${r.note}</div>`:''}</td>
+      <td class="tax">${fc(r.tax,loc)}</td>
+      <td>${fc(r.taxres,loc)}</td>
+      <td class="acc">${fc(r.acc,loc)}</td>
+      <td class="${r.diff>0?'add':(r.diff<0?'ded':'')}">${r.diff?fc(r.diff,loc):'—'}</td>
+      <td>${dppo}</td></tr>`;
+  }).join('');
+  // totals row (only when fully revealed)
+  if(state.applied>=state.rows.length && state.rows.length){
+    const sT=state.rows.reduce((s,r)=>s+r.tax,0), sA=state.rows.reduce((s,r)=>s+r.acc,0);
+    rows+=`<tr class="tot"><td class="y">${t.tot}</td><td>${fc(sT,loc)}</td><td></td>
+      <td>${fc(sA,loc)}</td><td>${fc(sA-sT,loc)}</td><td></td></tr>`;
+  }
+  $('board').innerHTML=head+rows;
+}
+
+function renderTally(){
+  const t=T(), loc=state.locale, upto=state.rows.slice(0,state.applied);
+  const sTax=upto.reduce((s,r)=>s+r.tax,0), sAdd=upto.reduce((s,r)=>s+r.add,0), sDed=upto.reduce((s,r)=>s+r.ded,0);
+  $('tally').innerHTML=
+    `<div class="box"><div class="k">${t.tally_tax}</div><div class="v" style="color:var(--tax)">${fc(sTax,loc)}</div></div>`+
+    `<div class="box add"><div class="k">${t.tally_add}</div><div class="v">${fc(sAdd,loc)}</div></div>`+
+    `<div class="box ded"><div class="k">${t.tally_ded}</div><div class="v">${fc(sDed,loc)}</div></div>`;
+}
+
+function renderAsset(){
+  const t=T(), loc=state.locale, G=GROUPS[loc][state.group];
+  const mlabel={linear:t.m_linear,accelerated:t.m_accel,extraordinary:t.m_extra}[state.method];
+  const upto=state.rows.slice(0,state.applied);
+  const taxres = upto.length?upto[upto.length-1].taxres:state.value;
+  const accDone = upto.reduce((s,r)=>s+r.acc,0);
+  $('asset').innerHTML=`<div class="ch">${t.card_title}</div>
+    <div class="cb">
+      <span class="mut">${t.c_group}:</span> <b>${state.group} (${G.life}${loc==='sk'?' r.':' let'})</b>
+      <span class="mut">${t.c_method}:</span> <b>${mlabel}</b>
+      <span class="mut">${t.c_base}:</span> <b>${fc(state.value,loc)}</b>
+      <span class="mut">${t.c_taxres}:</span> <b style="color:var(--tax)">${fc(taxres,loc)}</b>
+      <span class="mut">${t.c_accres}:</span> <b style="color:var(--acc)">${fc(state.value-accDone,loc)}</b>
+    </div>`;
+}
+
+function renderJE(i){
+  const je=$('je'), t=T(), loc=state.locale;
+  if(i==null){ je.innerHTML=`<em style="color:var(--muted)">${t.je_hint}</em>`; return; }
+  const r=state.rows[i];
+  const dppo = r.add>0?`<span class="add" style="color:var(--add)"><b>${fc(r.add,loc)}</b> — ${loc==='cz'?'připočet ř. 150':'pripočet r. 150'}</span>`
+            : r.ded>0?`<span class="ded" style="color:var(--ded)"><b>${fc(r.ded,loc)}</b> — ${loc==='cz'?'odpočet ř. 250':'odpočet r. 250'}</span>`
+            : (loc==='cz'?'účetní = daňový (bez úpravy)':'účtovný = daňový (bez úpravy)');
+  je.innerHTML=`<b>${r.fy}</b>${r.note?` <span style="color:var(--muted)">· ${r.note}</span>`:''}<br>
+    <span style="color:var(--tax)">${t.th_tax}: <b>${fc(r.tax,loc)}</b></span> &nbsp;·&nbsp;
+    <span style="color:var(--acc)">${t.th_acc}: <b>${fc(r.acc,loc)}</b></span><br>${dppo}`;
+}
+
+function applyTo(n){ state.applied=n; renderSteps(); renderBoard(); renderTally(); renderAsset(); renderJE(n>0?n-1:null); }
+
+let timer=null;
+function play(){
+  if(timer){clearInterval(timer);timer=null;return;}
+  if(state.applied>=state.rows.length) applyTo(0);
+  timer=setInterval(()=>{ if(state.applied>=state.rows.length){clearInterval(timer);timer=null;return;} applyTo(state.applied+1); },650);
+}
+function stop(){ if(timer){clearInterval(timer);timer=null;} }
+
+$('locale').onclick=e=>{if(e.target.dataset.v){stop();
+  document.querySelectorAll('#locale button').forEach(b=>b.classList.toggle('active',b===e.target));
+  state.locale=e.target.dataset.v;
+  const d=DEFAULTS[state.locale]; state.group=d.group; state.value=d.value; state.accyears=d.accyears;
+  $('value').value=state.value; $('accyears').value=state.accyears;
+  rebuild();}};
+$('group').onchange=e=>{stop(); state.group=Number(e.target.value); rebuild();};
+$('method').onclick=e=>{if(e.target.dataset.v && !e.target.disabled){stop();
+  state.method=e.target.dataset.v; rebuild();}};
+$('month').oninput=e=>{state.month=Number(e.target.value); $('month_val').textContent=state.month; stop(); state.rows=buildRows(); state.applied=0; renderSteps(); renderBoard(); renderTally(); renderAsset(); renderJE(null);};
+$('value').onchange=e=>{state.value=Math.max(0,Number(e.target.value)||0); stop(); rebuild();};
+$('accyears').onchange=e=>{state.accyears=Math.max(1,Number(e.target.value)||1); stop(); rebuild();};
+$('ify').onchange=e=>{state.increased=e.target.value; stop(); rebuild();};
+$('event').onclick=e=>{if(e.target.dataset.v){stop();
+  document.querySelectorAll('#event button').forEach(b=>b.classList.toggle('active',b===e.target));
+  state.event=e.target.dataset.v; rebuild();}};
+$('next').onclick=()=>applyTo(state.applied+1);
+$('reset').onclick=()=>{stop();applyTo(0);};
+$('play').onclick=play;
+
+// init inputs
+$('value').value=state.value; $('accyears').value=state.accyears; $('month').value=state.month;
+rebuild();
+</script>
+</body>
+</html>
