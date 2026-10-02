@@ -8,6 +8,26 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- **Dispatch by the partner's country.** A provider declares the countries
+  whose register it reads (``_autocomplete_country_codes``); a search for a
+  partner in one of them goes there whatever the company's own provider is,
+  and anything else still goes to the company's choice. The country comes
+  from the search's ``query_country_id``, else the VAT prefix. Each suggestion
+  is stamped with the provider that produced it, and ``enrich_by_duns`` goes
+  back to that provider: a Czech and a Slovak IČO are both eight digits. With
+  two companies in two countries sharing contacts, neither could autocomplete
+  a partner from the other country before.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Country dispatch (19.0.1.1.0, 2026-09-27).** 18.0 still dispatches by the
+  company's provider only. 18.0 is what DURWEN runs, so port with its upgrade
+  rehearsal (see the 18.0.2.0.0 notes) rather than straight to production.
+
 Fixed
 ~~~~~
 

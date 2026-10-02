@@ -128,6 +128,14 @@
                 <field name="name" string="Description"/>
                 <field name="date"/>
                 <field name="balance" string="Balance" sum="Total"/>
+                <!-- What a row is checked against. VAT and VAT deducted
+                     differ exactly where the deduction is partial by its
+                     tax repartition (fuel at 50 %). -->
+                <field name="company_currency_id" column_invisible="1"/>
+                <field name="cssk_audit_base" optional="show"/>
+                <field name="cssk_audit_rate" optional="show"/>
+                <field name="cssk_audit_tax" optional="show"/>
+                <field name="cssk_audit_deducted" optional="show"/>
                 <field name="tax_tag_ids" widget="many2many_tags"
                        string="Tax tags" optional="show"/>
             </list>

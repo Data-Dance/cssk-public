@@ -16,6 +16,21 @@ class AccountMoveLine(models.Model):
         for line in self:
             line.amount_tax = line.price_total - line.price_subtotal
 
+    @api.depends(
+        "move_id.invoice_line_ids.price_unit",
+        "move_id.invoice_line_ids.quantity",
+        "move_id.invoice_line_ids.discount",
+        "move_id.invoice_line_ids.tax_ids",
+        "move_id.invoice_line_ids.sale_line_ids",
+    )
+    def _compute_currency_rate(self):
+        super()._compute_currency_rate()
+        for move in self.move_id:
+            rates = move._advance_currency_rates()
+            for line in self.filtered(lambda l, m=move: l.move_id == m):
+                if line in rates:
+                    line.currency_rate = rates[line]
+
 
 class AccountMove(models.Model):
     _inherit = "account.move"
@@ -35,6 +50,90 @@ class AccountMove(models.Model):
                     lambda o: o.is_advance_invoice
                 )
             )
+
+    def _advance_currency_rates(self):
+        """Rates for the lines of a foreign-currency invoice that deducts advances.
+
+        An advance's tax document declared its VAT in the company currency at
+        the rate of ITS date (§ 38 ZDPH), and a received advance is a
+        non-monetary item carried at that rate. So the deduction gives back
+        exactly what the tax document declared, and the part of the supply the
+        advance paid for is valued at the same rate: only the remainder is
+        converted at the invoice's own rate. A fully covered supply then nets to
+        zero VAT and leaves nothing on the receivable in either currency.
+
+        Coverage is matched by the taxes the lines carry, as the deductions are
+        split per rate (``sale.order._advance_deduction_tax_groups``). Supply
+        lines at taxes no deduction carries keep the invoice's rate.
+
+        Returns ``{line: rate}`` for the lines to revalue only.
+        """
+        self.ensure_one()
+        rates = {}
+        if (self.move_type != "out_invoice"
+                or not self.currency_id
+                or self.currency_id == self.company_currency_id
+                or not self.invoice_currency_rate):
+            return rates
+        lines = self.invoice_line_ids.filtered(lambda l: l.display_type == "product")
+        if self.state != "draft":
+            # currency_rate is not stored and the balances are: a posted
+            # invoice reports the rate each line was booked at, whatever has
+            # happened to an advance's tax document since.
+            company_currency = self.company_currency_id
+            return {
+                line: abs(line.amount_currency / line.balance)
+                for line in lines
+                if line.balance and company_currency.compare_amounts(
+                    line.balance,
+                    company_currency.round(line.amount_currency / self.invoice_currency_rate))
+            }
+
+        def net(line):
+            # Net of tax, but not price_subtotal: the rate is read while the
+            # invoice is being built, before the subtotals are, and a rate read
+            # too early is the one its balance and taxes keep.
+            price = line.price_unit * (1.0 - (line.discount or 0.0) / 100.0)
+            return line.tax_ids.compute_all(
+                price, currency=self.currency_id, quantity=line.quantity,
+                product=line.product_id, partner=self.partner_id,
+            )["total_excluded"]
+
+        covered = {}
+        deductions = self.env["account.move.line"]
+        for line in lines:
+            advance = line.sale_line_ids.filtered("is_advance_tracking").advance_source_order_id
+            if len(advance) != 1:
+                continue
+            rate = advance._advance_tax_document_rate(self.currency_id)
+            if not rate:
+                continue
+            rates[line] = rate
+            deductions |= line
+            # A deduction is a negative line: its amount is what it covers.
+            entry = covered.setdefault(frozenset(line.tax_ids.ids), [0.0, 0.0])
+            entry[0] -= net(line)
+            entry[1] -= net(line) / rate
+        for key, (amount, value) in covered.items():
+            supply = (lines - deductions).filtered(
+                lambda l, k=key: frozenset(l.tax_ids.ids) == k)
+            total = sum(net(line) for line in supply)
+            if total <= 0.0 or amount <= 0.0:
+                continue
+            if amount >= total:
+                target = value * total / amount
+            else:
+                target = value + (total - amount) / self.invoice_currency_rate
+            for line in supply:
+                rates[line] = total / target
+        return rates
+
+    def _get_product_base_line_currency_rate(self, product_line):
+        # Taxes follow the rate of their own base line, so the VAT a deduction
+        # gives back is converted at the advance's rate like its base.
+        if self.move_type == "out_invoice" and product_line.currency_rate:
+            return product_line.currency_rate
+        return super()._get_product_base_line_currency_rate(product_line)
 
     @api.constrains('journal_id', 'move_type')
     def _check_journal_move_type(self):

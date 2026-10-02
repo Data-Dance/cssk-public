@@ -8,6 +8,41 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-09-27
+-------------------------
+
+Added
+~~~~~
+
+- **The check runs again at payment.** The §69 ods. 14 SK / §109 CZ liability
+  attaches to *paying* an unregistered account, and weeks can pass between a
+  bill and its payment. Posting an outbound supplier payment now checks the
+  account it actually pays and keeps the same snapshot on the payment, with a
+  banner and a chatter note. It warns and never blocks, like the bill check.
+- **Daily re-check of unpaid bills** (cron *Supplier reliability: re-check
+  unpaid bills*): posted vendor bills not yet paid are checked again once their
+  last check is a week old, so a supplier that drops its registered account or
+  its rating before payment is noticed.
+- A **VAT-deregistration listing** hook (``_cssk_get_vat_deregistration``),
+  snapshotted on bills and payments and warned about. ``None`` (unavailable)
+  and ``False`` (not listed) are kept apart: a register that did not answer is
+  not a clean record.
+
+Fixed
+~~~~~
+
+- A register failure inside the bill-post check was swallowed without a
+  savepoint, so a database error there left the cursor aborted under a
+  "successful" post. The check now runs in its own savepoint, as do the new
+  payment and scheduled checks.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Payment check, daily re-check, deregistration hook and the savepoint fix
+  (19.0.1.1.0, 2026-09-27).** 18.0 carries this module and still checks at
+  bill posting only; the savepoint fix applies to its ``_post`` hook as well.
+
 [19.0.1.0.4] — 2026-09-13
 -------------------------
 

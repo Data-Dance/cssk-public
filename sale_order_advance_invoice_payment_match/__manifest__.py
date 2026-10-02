@@ -1,6 +1,6 @@
 {
     "name": "Advance Invoices — Bank Statement Matching",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "summary": "Match incoming bank statement lines to advance invoices by "
                "variable symbol and register the payment automatically.",
     "description": """

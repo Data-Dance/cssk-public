@@ -16,6 +16,10 @@
                         <label class="col-3 col-lg-3 o_light_label" for="config_ares_cz_mapping_ico" string="IČO"/>
                         <field class="oe_inline" name="config_ares_cz_mapping_ico"/>
                     </div>
+                    <div class="mt16 row" invisible="partner_autocomplete_provider != 'partner.autocomplete.provider.ares_cz'">
+                        <label class="col-3 col-lg-3 o_light_label" for="config_ares_cz_mapping_nace" string="NACE"/>
+                        <field class="oe_inline" name="config_ares_cz_mapping_nace"/>
+                    </div>
                 </xpath></field>
         </record>
     </data>

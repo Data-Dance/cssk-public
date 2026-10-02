@@ -11,6 +11,8 @@ import logging
 from odoo import _, models
 from odoo.exceptions import UserError
 
+from .epostak_connector import EpostakApiError
+
 _logger = logging.getLogger(__name__)
 
 # The BIS Billing 3.0 document types a deployment on this stack actually
@@ -46,7 +48,20 @@ class ResPartner(models.Model):
                 )
             )
 
-        result = connector._check_capabilities(participant, BIS3_DOCUMENT_TYPES)
+        try:
+            result = connector._check_capabilities(participant, BIS3_DOCUMENT_TYPES)
+        except EpostakApiError as e:
+            # EpostakApiError is a plain Exception, so letting it escape a
+            # button hands the user an RPC traceback instead of a dialog. The
+            # provider's own message is usually the actionable part, so keep it.
+            raise UserError(
+                _(
+                    "Could not check %(partner)s against the Peppol directory:"
+                    "\n\n%(error)s",
+                    partner=partner.display_name,
+                    error=e,
+                )
+            ) from e
         found = bool(result.get("found"))
         accepts = bool(result.get("accepts"))
         ready = result.get("networkReady")

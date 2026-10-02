@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cssk_submission_view_form_epo" model="ir.ui.view">
+        <field name="name">cssk.submission.form.epo</field>
+        <field name="model">cssk.submission</field>
+        <field name="inherit_id" ref="l10n_cssk_submission_base.cssk_submission_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_queue']" position="before">
+                <button name="action_epo_check" type="object" string="Check with EPO"
+                        invisible="channel != 'cz_epo' or state in ('delivered', 'accepted', 'cancelled')"
+                        groups="l10n_cssk_submission_base.group_cssk_submission_manager"
+                        help="Sign and send to EPO in test mode: every check, nothing filed."/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="EPO check" name="epo_check"
+                      invisible="channel != 'cz_epo'">
+                    <group>
+                        <field name="epo_check_date"/>
+                        <field name="epo_check_result"/>
+                        <field name="epo_check_attachment_id"/>
+                        <field name="epo_transfer_id" invisible="not epo_transfer_id"/>
+                    </group>
+                    <field name="epo_check_summary" nolabel="1"
+                           invisible="not epo_check_summary"/>
+                    <div class="text-muted">
+                        EPO's checks are a subset of the tax office's: a clean
+                        result is not a guarantee that the filing will be
+                        accepted.
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

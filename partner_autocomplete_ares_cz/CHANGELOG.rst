@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.2.0] — 2026-09-29
+-------------------------
+
+Added
+~~~~~
+
+- **Prevailing activity (CZ-NACE 2025)** from ARES's copy of the statistical
+  register (``czNacePrevazujici``), onto a configurable partner field, by default
+  ``nace_code`` (``partner_nace``). One extra request, only when mapped.
+
+Added
+~~~~~
+
+- Declares **CZ**, so a Czech partner is looked up in ARES from any company
+  (``partner_autocomplete_dispatcher`` 19.0.1.1.0).
+
 Added
 ~~~~~
 

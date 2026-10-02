@@ -1,6 +1,6 @@
 {
     "name": "Czechia — Peněžní deník (daňová evidence)",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.4",
     "summary": "Czech cash journal for daňová evidence (§ 7b ZDP): the členění "
                "vendors settled on, the peněžní deník, and the figures for "
                "Příloha č. 1 including oddíl D.",
@@ -43,5 +43,6 @@ for. The year-end stock-take required by § 7b odst. 4 is recorded with it.
         "wizard/l10n_cz_cash_priloha_views.xml",
         "views/l10n_cz_cash_journal_menus.xml",
     ],
+    "post_init_hook": "post_init_hook",
     "installable": True,
 }

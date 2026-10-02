@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-09-30
+-------------------------
+
+Fixed
+~~~~~
+
+- **Companies whose Slovak chart was loaded after this module was installed
+  were never wired** with the advance accounts and journal. That includes a
+  fresh database where both go in in one run, because the install hook ran
+  before the chart existed. The spec is now applied whenever the ``sk`` chart
+  is loaded, and the migration wires the companies left out. Only empty
+  settings are filled.
+
 Changed
 ~~~~~~~
 

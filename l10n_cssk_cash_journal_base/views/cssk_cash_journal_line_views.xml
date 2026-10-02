@@ -14,6 +14,8 @@
                 <field name="partner_id" readonly="1"/>
                 <field name="category_id"/>
                 <field name="kind"/>
+                <field name="money_direction" optional="hide"/>
+                <field name="counter_entry" optional="hide"/>
                 <field name="payment_kind" optional="show"/>
                 <field name="amount" sum="Total"/>
                 <field name="amount_tax" sum="VAT" optional="show"/>
@@ -50,6 +52,8 @@
                         <group>
                             <field name="category_id"/>
                             <field name="kind"/>
+                            <field name="money_direction"/>
+                            <field name="counter_entry"/>
                             <field name="taxable"/>
                             <field name="non_cash"/>
                             <field name="payment_kind"/>
@@ -93,6 +97,8 @@
                 <separator/>
                 <filter name="taxable" string="Affects the tax base" domain="[('taxable', '=', True)]"/>
                 <filter name="non_cash" string="Non-cash" domain="[('non_cash', '=', True)]"/>
+                <separator/>
+                <filter name="storno" string="Storno (counter entry)" domain="[('counter_entry', '=', True)]"/>
                 <separator/>
                 <filter name="needs_review" string="Needs review" domain="[('needs_review', '=', True)]"/>
                 <filter name="manual" string="Manual" domain="[('manual', '=', True)]"/>

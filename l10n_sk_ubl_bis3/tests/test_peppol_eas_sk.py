@@ -40,13 +40,33 @@ class TestSlovakPeppolEas(TransactionCase):
         self.assertEqual(partner.peppol_eas, '0245')
         self.assertEqual(partner.peppol_endpoint, "2020317068")
 
-    def test_the_dic_is_derived_from_the_vat_number_when_absent(self):
-        """IČ DPH is 'SK' + the DIČ, so an existing database needs nothing
-        re-entered for its participant id to come out right."""
+    def test_the_dic_is_never_derived_from_the_vat_number(self):
+        """The inverse of what this module first did.
+
+        Deriving the DIČ as the VAT number minus its SK prefix assumed the two
+        always agree. The ePošťák sandbox firms disprove it — a synthetic IČ DPH
+        stands in for a DIČ that fails base_vat's checksum, so deriving gives
+        4536197523 where the participant is 4536197514 — and whether real
+        subjects diverge (VAT groups, § 5 registrations) is an open question.
+        A wrong participant identifier is worse than none, so there is no
+        fallback: no stored DIČ, no 0245 endpoint.
+        """
         partner = self._partner(vat="SK2020317068")
         self.assertFalse(partner.l10n_sk_dic)
+        self.assertEqual(partner._l10n_sk_get_dic(), "")
+        self.assertNotEqual(
+            partner.peppol_endpoint, "2020317068",
+            "the DIČ must not be invented from the VAT number")
+
+    def test_the_sandbox_case_that_withdrew_the_derivation(self):
+        """The concrete number that made this a defect rather than a theory:
+        a synthetic IČ DPH whose digits are not the firm's DIČ."""
+        partner = self._partner(l10n_sk_dic="4536197514")
+        partner.with_context(no_vat_validation=True).vat = "SK4536197523"
         self.assertEqual(partner.peppol_eas, '0245')
-        self.assertEqual(partner.peppol_endpoint, "2020317068")
+        self.assertEqual(
+            partner.peppol_endpoint, "4536197514",
+            "the recorded DIČ wins; the VAT digits are not the DIČ")
 
     def test_the_endpoint_follows_the_dic(self):
         """_peppol_eas_endpoint_depends must name l10n_sk_dic, or correcting a
@@ -108,3 +128,21 @@ class TestSlovakPeppolEas(TransactionCase):
         info = self.env['res.partner']._get_ubl_cii_formats_info()
         self.assertLess(
             info['ubl_bis3_sk']['sequence'], info['ubl_bis3']['sequence'])
+
+    def test_export_refuses_a_slovak_party_without_a_dic(self):
+        """With no derivation, a missing DIČ must fail at export with a message
+        naming the partner -- not at the access point, where an unknown
+        participant reads as a malformed request."""
+        partner = self._partner(l10n_sk_dic="2020317068")
+        self.assertEqual(partner.peppol_eas, '0245')
+        partner.l10n_sk_dic = False
+        builder = self.env['account.edi.xml.ubl_sk']
+        invoice = self.env['account.move'].new({
+            'move_type': 'out_invoice',
+            'partner_id': partner.id,
+            'company_id': self.env.company.id,
+        })
+        constraints = builder._l10n_sk_peppol_constraints(invoice, {})
+        self.assertIn('l10n_sk_ubl_bis3_customer_dic_required', constraints)
+        self.assertIn(
+            "DIČ", constraints['l10n_sk_ubl_bis3_customer_dic_required'])

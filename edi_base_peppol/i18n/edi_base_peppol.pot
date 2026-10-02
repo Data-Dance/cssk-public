@@ -1,0 +1,646 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* edi_base_peppol
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-01 14:31+0000\n"
+"PO-Revision-Date: 2026-10-01 14:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "%(kind)s sent via Peppol: %(link)s (%(state)s)."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"%s cannot be responded to via Peppol: it must be a vendor bill received over"
+" Peppol, with both parties Peppol-addressable and a transport provider "
+"installed."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "%s does not send e-invoices."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "%s has no Peppol address."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "%s is a Slovak business in the mandate but has no Peppol address."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"%s is not eligible for Peppol sending: it must be a posted customer "
+"invoice/credit note, a Peppol transport provider must be installed, and both"
+" your company and the customer must have a Peppol address (EAS + endpoint) "
+"configured."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "%s is set to receive e-invoices but has no Peppol address."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"A Peppol document for %(name)s is already being sent (status: %(state)s). "
+"Manage it from the linked EDI message before re-sending."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_send_enabled
+msgid ""
+"A permission for this company, not a routing decision: it says e-invoicing MAY be used, never that a given invoice will be. Which documents actually leave through Peppol is decided per contact, by 'Invoice sending' on the contact, and for contacts that state no preference by the Peppol scope below.\n"
+"\n"
+"Off: no customer invoice or credit note of this company ever goes out through Peppol, whatever a contact is set to — the invoice says so on its Peppol badge. Receiving vendor bills is unaffected; that is the provider's inbound poll, not this."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_res_config_settings_peppol
+msgid ""
+"A permission, not a routing decision. On, this\n"
+"                            company <b>may</b> e-invoice; which documents\n"
+"                            actually do is set per contact, in\n"
+"                            <i>Invoice sending</i> on the contact\n"
+"                            (\"by e-invoice (Peppol)\"), and for contacts that\n"
+"                            state no preference by the scope below.\n"
+"                            <br/>\n"
+"                            Off, no customer invoice or credit note of this\n"
+"                            company goes out through Peppol, whatever a contact\n"
+"                            says — each invoice shows why on its Peppol badge.\n"
+"                            Receiving vendor bills is unaffected."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"A reason (coded clarification or free text) is required when the Invoice "
+"Response is Rejected, Under query or Conditionally accepted."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/wizards/peppol_invoice_response_wizard.py:0
+msgid ""
+"A reason (coded or free text) is required when the response is Rejected, "
+"Under query or Conditionally accepted."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ap
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ap
+msgid "Accepted"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ab
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ab
+msgid "Acknowledged"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_edi_peppol_invoice_response_wizard__action_ids
+msgid ""
+"Action(s) suggested to the supplier so the document can be accepted when re-"
+"sent (e.g. issue a credit note)."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_send_enabled
+msgid "Allow e-invoicing via Peppol"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__res_company__peppol_scope__addressable
+msgid "Any customer with a Peppol address"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_auto_send
+msgid "Auto-send Peppol on Invoice Post"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_peppol_invoice_response_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"Cannot generate the Peppol BIS3 document for %(name)s:\n"
+"%(errors)s"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_reason
+msgid ""
+"Clarification the buyer gave with the Invoice Response — the reason for a "
+"rejection/query/conditional acceptance."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__code
+msgid "Code"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_edi_peppol_invoice_response_wizard__reason_ids
+msgid ""
+"Coded reason(s) for the response — required when rejecting, querying or "
+"conditionally accepting."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ca
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ca
+msgid "Conditionally accepted"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "Consumer (B2C): not in the Slovak mandate."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "Cross-border customer (%s): not in the Slovak mandate."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__description
+msgid "Description"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.module.module,shortdesc:base.module_edi_base_peppol
+msgid "EDI Base: Peppol BIS 3.0"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_auto_send
+msgid ""
+"Every posted customer document routed to Peppol is generated and queued at "
+"once. Off: use the 'Send via Peppol' button."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_edi_peppol_invoice_response_wizard__note
+msgid "Free-text clarification sent to the supplier."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid ""
+"Generate a Peppol BIS 3.0 UBL document for this posted                     "
+"customer invoice/credit note and queue it for sending                     "
+"through the installed transport provider. Auto-send on post"
+"                     can be enabled in Settings > EDI > Peppol BIS3."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_route
+msgid ""
+"How this customer document goes out, by the company's Peppol settings and "
+"the customer."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ip
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ip
+msgid "In process"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/edi_message.py:0
+msgid "Inbound Peppol message has no XML attachment."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__invoice_sending_method
+msgid "Invoice Sending Method"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_purchase_journal_id
+msgid ""
+"Journal for inbound Peppol vendor bills. Empty: the company's first purchase"
+" journal."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_response
+msgid ""
+"Latest Peppol Message Level Response (MLR) received for this document — the "
+"delivery/acceptance code and description returned by the network (e.g. 'AB —"
+" Acknowledged')."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_status
+msgid ""
+"Latest business-level Peppol Invoice Response received from the buyer for a "
+"customer invoice we sent (accepted / rejected / under query / …)."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__list_identifier
+msgid "List"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__move_id
+msgid "Move"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__name
+msgid "Name"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"No Peppol transport provider is installed to send %s. Install a provider "
+"module such as edi_editel_peppol."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/edi_message.py:0
+msgid ""
+"No purchase journal found for company %s to book the inbound Peppol "
+"document."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "Not sent via Peppol: %s"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__note
+msgid "Note"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_peppol_invoice_response_wizard_form
+msgid "Optional free-text clarification sent to the supplier…"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_route__pdf
+msgid "PDF"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__pd
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__pd
+msgid "Paid"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_active
+msgid "Peppol Active"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_edi_message_search_peppol
+msgid "Peppol BIS3"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_res_config_settings_peppol
+msgid "Peppol BIS3 (this company)"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_response
+msgid "Peppol Delivery Response"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_message__peppol_move_id
+msgid "Peppol Document"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_message_ids
+msgid "Peppol EDI Messages"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_status
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_peppol_invoice_response_wizard_form
+msgid "Peppol Invoice Response"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/edi_message.py:0
+msgid ""
+"Peppol Invoice Response received: <strong>%(label)s</strong> (%(code)s) "
+"%(reason)s — from %(sender)s."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"Peppol Invoice Response sent: <strong>%(label)s</strong> (%(code)s) — "
+"%(link)s."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_can_respond
+msgid "Peppol Ir Can Respond"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_purchase_journal_id
+msgid "Peppol Purchase Journal"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_reason
+msgid "Peppol Response Reason"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_sent_status
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "Peppol Response Sent"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "Peppol Response…"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__peppol_sending_warning
+msgid "Peppol Sending Warning"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_status
+msgid "Peppol Status"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_edi_peppol_clarification
+msgid "Peppol clarification code (Invoice Response reason/action)"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/edi_message.py:0
+msgid ""
+"Peppol delivery response received: <strong>%(code)s</strong> %(desc)s (from "
+"%(sender)s)."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_route__peppol
+msgid "Peppol e-invoice"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_scope
+msgid "Peppol scope"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_route__blocked
+msgid "Peppol, but blocked"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.module.module,summary:base.module_edi_base_peppol
+msgid ""
+"Provider-neutral Peppol BIS Billing 3.0: send/receive invoices and credit "
+"notes, and business responses (MLR / Invoice Response), over any EDI "
+"transport provider"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__reason_ids
+msgid "Reasons"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__re
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__re
+msgid "Rejected"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__action_ids
+msgid "Requested actions"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__response_code
+msgid "Response"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_peppol_invoice_response_wizard_form
+msgid "Send Response"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_edi_peppol_invoice_response_wizard
+msgid "Send a Peppol Invoice Response"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid ""
+"Send a Peppol Invoice Response (accept / reject /                     "
+"dispute) back to the supplier for this received vendor                     "
+"bill."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "Send via Peppol"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_route
+msgid "Sent as"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"Sent by Odoo's own Peppol service (the contact's invoice sending), not "
+"through the EDI provider."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_scope
+msgid ""
+"Slovak mandate: a document goes through Peppol only when both parties are "
+"Slovak and the customer is a business or a public body; consumers, Czech and"
+" other foreign customers get the PDF."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__res_company__peppol_scope__sk_mandate
+msgid "Slovak mandate: domestic B2B and B2G only"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_status
+msgid "State of the most recent outbound Peppol message for this document."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_clarification__list_identifier__opstatusaction
+msgid "Status action"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_clarification__list_identifier__opstatusreason
+msgid "Status reason"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "The Slovak mandate applies to a Slovak company."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_edi_peppol_invoice_response_wizard__response_code
+msgid ""
+"The business decision to communicate to the supplier: Rejected, Under query "
+"(dispute), Conditionally accepted, Accepted, …"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "The contact's invoice sending is set to %s."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_edi_message__peppol_move_id
+msgid ""
+"The customer invoice/refund this Peppol message was generated from "
+"(outbound), or the vendor bill created from it (inbound)."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move_send.py:0
+msgid "The e-invoice could not be sent"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_sent_status
+msgid ""
+"The last business-level Peppol Invoice Response WE sent to the supplier for "
+"this received vendor bill (accepted / rejected / disputed)."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/res_partner.py:0
+msgid ""
+"This customer is a Slovak business: from 1. 1. 2027 its invoices must be "
+"e-invoices, so sending them by email does not meet the mandate."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_active
+msgid ""
+"True when this posted customer invoice/refund can be sent as a Peppol BIS3 "
+"document (a transport provider is installed and both parties have a Peppol "
+"address)."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_can_respond
+msgid ""
+"True when this vendor bill arrived via Peppol and we can send a business "
+"Invoice Response (accept/reject/dispute) back to the supplier."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__uq
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__uq
+msgid "Under query"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_edi_peppol_clarification__list_identifier
+msgid ""
+"Which Peppol clarification list this code belongs to — a reason for the "
+"response status, or a requested action."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_route_reason
+msgid "Why"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "awaiting manual send"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__res_partner__invoice_sending_method__edi_peppol
+msgid "by e-invoice (Peppol)"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "no country"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "queued"
+msgstr ""

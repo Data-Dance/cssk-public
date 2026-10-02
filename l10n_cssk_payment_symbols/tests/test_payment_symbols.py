@@ -125,6 +125,36 @@ class TestPaymentSymbols(AccountTestInvoicingCommon):
         line2 = self._st_line(payment_ref="uhrada VS: 4455 dakujeme")
         self.assertEqual(line2.variable_symbol, "4455")
 
+    def test_st_line_symbols_only_in_the_end_to_end_id(self):
+        """OCA CAMT puts EndToEndId in ref; the label is free text."""
+        cases = [
+            ("?/VS53155/SS/KS", ("53155", False, False)),  # Fio
+            ("/VS53101/SS/KS", ("53101", False, False)),
+            ("/VS26001001/SS55510022/KS", ("26001001", "55510022", False)),
+            ("/VS26004101/SS0/KS0008", ("26004101", False, "0008")),
+        ]
+        for ref, (vs, ss, ks) in cases:
+            line = self._st_line(payment_ref="Syntetická úhrada objednávky", ref=ref)
+            self.assertEqual(
+                (line.variable_symbol, line.specific_symbol, line.constant_symbol),
+                (vs, ss, ks), ref)
+            self.assertTrue(line.payment_ref.startswith(vs + " - "), ref)
+
+    def test_st_line_label_wins_over_ref(self):
+        line = self._st_line(payment_ref="VS 111", ref="/VS222/SS/KS")
+        self.assertEqual(line.variable_symbol, "111")
+
+    def test_st_line_card_order_number_is_not_a_vs(self):
+        """Tatra banka CardPay: EndToEndId is the e-shop order number."""
+        line = self._st_line(payment_ref="CardPay", ref="000053228")
+        self.assertFalse(line.variable_symbol)
+        line = self._st_line(payment_ref="Platba", ref="2428500179")
+        self.assertFalse(line.variable_symbol)
+
+    def test_st_line_symbols_from_the_narration(self):
+        line = self._st_line(payment_ref="x", narration="<p>/VS998877/SS/KS</p>")
+        self.assertEqual(line.variable_symbol, "998877")
+
     def test_st_line_no_symbols_noop(self):
         line = self._st_line(payment_ref="plain label without symbols")
         self.assertFalse(line.variable_symbol)

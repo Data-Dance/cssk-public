@@ -54,6 +54,49 @@ Added
 - Tests covering format registration, builder mapping, auto-suggestion, and
   export content (CustomizationID, IČ DPH, IBAN, VS).
 
+19.0.3.0.0 (2026-09-26)
+=======================
+
+* **The DIČ is no longer derived from the VAT number.** 19.0.2.0.0 filled the
+  ``0245`` endpoint from ``vat`` minus its ``SK`` prefix when no DIČ was
+  recorded, on the premise that an IČ DPH simply *is* ``SK`` + the DIČ, so no
+  existing database would need data entered. Withdrawn: the cost of that
+  premise being wrong is not a blank field but a participant identifier
+  belonging to somebody else.
+
+  It is already wrong in one place we can point at. The ePošťák sandbox firms
+  carry a **synthetic** IČ DPH, because their real DIČ fails ``base_vat``'s SK
+  checksum and the nearest valid number was substituted — so deriving gives
+  ``4536197523`` where the participant is ``4536197514``, and on that database
+  the derivation would have overwritten a hand-set, working identifier with a
+  wrong one. Whether real subjects diverge as well — VAT groups under § 4b,
+  § 5 non-resident registrations, legacy numbering — is **an open question and
+  is now assumed possible** rather than assumed away.
+
+  Consequences, all deliberate:
+
+  - A partner with no recorded DIČ gets **no** ``0245`` endpoint, and keeps
+    whatever scheme core computes. It is not given a fabricated one.
+  - ``_l10n_sk_peppol_constraints`` refuses the export, naming the party, so the
+    failure lands at export with something actionable rather than at the access
+    point — where an unknown participant is reported as a *validation* error and
+    reads as a malformed payload.
+  - The 19.0.2.0.0 migration now skips any partner without a recorded DIČ, and
+    logs each one. On most databases that log **is** the list of contacts whose
+    DIČ has to be entered before they can be e-invoiced. Budget for that ahead
+    of January 2027; it is data entry, not a code change.
+
+* ``19.0.3.0.0``: removes a capability. Endpoints already stored are untouched,
+  but partners that would previously have been given a derived one now need the
+  DIČ recorded.
+
+* Note for whoever audits this: ``account_invoice_ai_extract`` makes the same
+  ``vat[2:]`` assumption at ``models/ai_extraction.py:216``, independently and
+  predating this module. It is left alone — there the derived value is a
+  best-effort hint for matching a supplier on an extracted invoice, not a
+  statutory identifier published on a network — but if the § 4b answer ever
+  comes back "they diverge", that site wants revisiting too.
+
 19.0.2.0.0 (2026-09-16)
 =======================
 

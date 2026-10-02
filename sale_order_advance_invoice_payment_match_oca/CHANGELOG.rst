@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.0.1] — 2026-09-29
+-------------------------
+
+Fixed
+~~~~~
+
+- **Matching ran inside OCA's proposal compute.** OCA calls
+  ``_do_auto_reconcile(reconcile_if_possible=False)`` to compute the
+  reconciliation proposal; the override applied advances there too, nested
+  inside the first application, and skipped super() so the proposal was
+  never set (``AttributeError: 'bool' object has no attribute 'get'``).
+  It now matches only when actually reconciling.
+
 Changed
 ~~~~~~~
 

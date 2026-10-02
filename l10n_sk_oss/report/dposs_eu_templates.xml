@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      DPOSS_EUv01 - Daňové priznanie k DPH - Úprava pre Úniu. The XML is the
+      EU-wide OSSVATReturnMSCON structure; validated against
+      data/dposs_eu01.xsd on every export (see data/SCHEMA_VERSION).
+
+      The `vun:` PREFIX is deliberate, not cosmetic. It is namespace-equivalent
+      to a default namespace for the schema, but the eForm's own XML loader
+      (form.555.xmlfdf.js, loadxmlfinal) looks elements up with
+      getElementsByTagName('vun:OSSVATReturnMSCON') — by qualified NAME — so a
+      document without the prefix validates and then loads into the portal
+      form as an empty return.
+
+      Element order follows the eForm serializer (createxmlfinal): the five
+      grand totals are always present, Balances only when there is one.
+      GrandTotal* are sums of VAT on this quarter's supplies; Balances are per
+      member state INCLUDING corrections; TotalVATAmountDue sums the positive
+      balances only.
+    -->
+    <template id="dposs_eu_2021">
+        <vun:OSSVATReturnMSCON xmlns:vun="urn:ec.europa.eu:taxud:frsr:vatunion:v1.0">
+            <vun:TraderID>
+                <vun:VATNumber issuedBy="SK" t-out="sk_vat"/>
+            </vun:TraderID>
+            <vun:Period>
+                <vun:Year t-out="statement.year"/>
+                <vun:Quarter t-out="statement.quarter"/>
+                <vun:StartDate t-if="statement.partial_date_from"
+                               t-out="iso_date(statement.partial_date_from)"/>
+                <vun:EndDate t-if="statement.partial_date_to"
+                             t-out="iso_date(statement.partial_date_to)"/>
+            </vun:Period>
+            <vun:NilVatReturn t-out="'1' if statement.is_nil else '0'"/>
+            <vun:Supplies t-if="rows">
+                <t t-foreach="msid_rows" t-as="r">
+                    <vun:MSIDSupplies>
+                        <vun:SupplyType t-out="sk_supply_type[r.supply_type]"/>
+                        <vun:MSCONCountrycode t-out="oss_code(r.member_state_id.code)"/>
+                        <vun:VATRate t-att-type="sk_rate_type.get(r.rate_type)"
+                                     t-out="fmt_rate(r.vat_rate)"/>
+                        <vun:TaxableAmount currency="EUR" t-out="fmt(r.taxable_amount)"/>
+                        <vun:VATAmount currency="EUR" t-out="fmt(r.vat_amount)"/>
+                    </vun:MSIDSupplies>
+                </t>
+                <t t-foreach="mest_rows" t-as="r">
+                    <t t-set="origin_code" t-value="oss_code(r.origin_country_id.code)"/>
+                    <t t-set="origin_vat" t-value="split_vat(r.origin_vat)"/>
+                    <vun:MSESTSupplies>
+                        <vun:EUTraderID t-if="r.origin_vat">
+                            <vun:VATIdentificationNumber
+                                t-att-issuedBy="origin_vat[0] or origin_code"
+                                t-out="origin_vat[1]"/>
+                        </vun:EUTraderID>
+                        <vun:CountryCode t-else="" t-out="origin_code"/>
+                        <vun:VATReturnDetails>
+                            <vun:SupplyType t-out="sk_supply_type[r.supply_type]"/>
+                            <vun:MSCONCountrycode t-out="oss_code(r.member_state_id.code)"/>
+                            <vun:VATRate t-att-type="sk_rate_type.get(r.rate_type)"
+                                         t-out="fmt_rate(r.vat_rate)"/>
+                            <vun:TaxableAmount currency="EUR" t-out="fmt(r.taxable_amount)"/>
+                            <vun:VATAmount currency="EUR" t-out="fmt(r.vat_amount)"/>
+                        </vun:VATReturnDetails>
+                    </vun:MSESTSupplies>
+                </t>
+            </vun:Supplies>
+            <vun:Corrections t-if="corrections">
+                <t t-foreach="corrections" t-as="c">
+                    <vun:Correction>
+                        <vun:Period>
+                            <vun:Year t-out="c.year"/>
+                            <vun:Quarter t-out="c.quarter"/>
+                        </vun:Period>
+                        <vun:MSCONCountryCode t-out="oss_code(c.member_state_id.code)"/>
+                        <vun:TotalVATAmountCorrection currency="EUR" t-out="fmt(c.vat_amount)"/>
+                    </vun:Correction>
+                </t>
+            </vun:Corrections>
+            <vun:GrandTotalMSIDServices currency="EUR" t-out="fmt(grand_msid_services)"/>
+            <vun:GrandTotalMSIDGoods currency="EUR" t-out="fmt(grand_msid_goods)"/>
+            <vun:GrandTotalMSESTServices currency="EUR" t-out="fmt(grand_mest_services)"/>
+            <vun:GrandTotalMSESTGoods currency="EUR" t-out="fmt(grand_mest_goods)"/>
+            <vun:GrandTotal currency="EUR" t-out="fmt(grand_total)"/>
+            <vun:Balances t-if="balances">
+                <t t-foreach="balances" t-as="b">
+                    <vun:Balance>
+                        <vun:MSCONCountryCode t-out="b[0]"/>
+                        <vun:BalanceOfVATDue currency="EUR" t-out="fmt(b[1])"/>
+                    </vun:Balance>
+                </t>
+            </vun:Balances>
+            <vun:TotalVATAmountDue currency="EUR" t-out="fmt(total_due)"/>
+        </vun:OSSVATReturnMSCON>
+    </template>
+</odoo>

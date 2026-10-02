@@ -125,7 +125,7 @@ cross-localisation fixes.
   two. This is the single biggest structural difference between the stacks.
 
 - ✅ **Minimum-wage data + validation (levels 1–6).**
-  *Ours:* `l10n.sk.minimum.wage` in `l10n_sk_hr_payroll_priplatky` — 2024/2025/
+  *Ours:* `l10n.sk.minimum.wage` in `l10n_sk_hr_payroll_surcharges` — 2024/2025/
   2026 × six stupne náročnosti, monthly and hourly — plus a `MIN_WAGE_TOPUP`
   rule paying the doplatok to the claim for the contract's level.
   *Note:* monthly-paid and hourly-paid employees are measured against different
@@ -136,7 +136,7 @@ cross-localisation fixes.
   employee's own schedule.
 
 - ✅ **Wage surcharges (príplatky) — night/weekend/holiday/overtime.**
-  *Ours:* `l10n_sk_hr_payroll_priplatky` (+ `_oca` / `_dd` bridges): night
+  *Ours:* `l10n_sk_hr_payroll_surcharges` (+ `_oca` / `_dd` bridges): night
   § 122a, Saturday § 122b, Sunday § 122c, public holiday § 122, overtime § 121
   (pay + uplift), difficult conditions § 123, standby § 96 ods. 5, with the
   risky-work and collective-agreement rate variants.

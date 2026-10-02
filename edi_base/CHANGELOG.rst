@@ -5,6 +5,37 @@ Changelog
 All notable changes to **edi_base** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.8.0] — 2026-09-29
+-------------------------
+
+Changed
+~~~~~~~
+
+- **A message belongs to its company, and is sent and processed as it.** A new
+  message without a company takes the company of the document it links to (not
+  the user's current company). Outbound sends run with the connector in the
+  message's company, and inbound processing and reprocessing run in the
+  message's company, which a provider may have routed away from the polling
+  company. So a connector can take credentials and the sender's identity from
+  ``env.company`` in a database with several companies.
+- An inbound stub a provider parks (state ``error`` at creation, e.g. a
+  receiver it cannot route) is stored and acknowledged but not processed.
+
+[19.0.1.7.1] — 2026-09-28
+-------------------------
+
+Fixed
+~~~~~
+
+- **EDI orders failed with** ``'res.partner' object has no attribute
+  'product_edi_code_priority'``. 1.7.0 removed the field on the premise that
+  nothing read it; ``_resolve_product`` did, on every inbound line. The
+  lookup order is now fixed at the one every partner carried — the field's
+  default, ``barcode__supplier_code__default_code``: barcode, then the
+  sender's ``product.supplierinfo`` code, then ``default_code``. The 1.7.0
+  note below that "no module in the family ever read it" was wrong; the
+  column is gone either way, so there is nothing to migrate.
+
 [19.0.1.7.0] — 2026-09-24
 -------------------------
 

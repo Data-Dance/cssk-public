@@ -25,19 +25,22 @@ class TestViesCron(TransactionCase):
         )
 
     def _run_cron(self, status="valid", **kw):
-        """Run the cron with the network layer fully mocked; return the list
-        of partner VATs that were actually checked."""
+        """Run the cron with only the HTTP call mocked; return the list of
+        partner VATs that were actually checked. Mocking below
+        ``_check_vies_direct`` keeps the logging — which is what drives the
+        batch window — in the test."""
         checked = []
 
-        def fake_check(partner, store=True):
-            checked.append(partner.vat)
-            return status
+        def fake_query(_partner, vat, requester_vat=None, trader_name=None):
+            checked.append(vat)
+            return {"valid": True, "requestIdentifier": "X"} if status == "valid" \
+                else None
 
         PartnerCls = type(self.env["res.partner"])
         CronCls = type(self.env["ir.cron"])
         with patch.object(
-            PartnerCls, "_check_vies_direct", autospec=True,
-            side_effect=fake_check,
+            PartnerCls, "_vies_query_direct", autospec=True,
+            side_effect=fake_query,
         ), patch.object(
             CronCls, "_commit_progress", return_value=float("inf"),
         ), patch(f"{MODULE}.time.sleep") as mock_sleep:

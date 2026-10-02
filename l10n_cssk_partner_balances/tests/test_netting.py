@@ -296,3 +296,75 @@ class TestNetting(AccountTestInvoicingCommon):
         # Reversal reopens the offset: balances restored.
         self.assertAlmostEqual(ap_line.amount_residual, -600.0, places=2)
         self.assertAlmostEqual(ar_line.amount_residual, 1000.0, places=2)
+
+
+@tagged("post_install", "-at_install")
+class TestNettingForeignCurrency(AccountTestInvoicingCommon):
+    """A zápočet in a foreign currency: offset in that currency, booked at the
+    agreement date's rate, the difference to each invoice's own rate going to
+    exchange differences on reconciliation."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.company_data["company"]
+        cls.eur = cls.env.ref("base.EUR")
+        cls.eur.active = True
+        if cls.company.currency_id == cls.eur:
+            cls.skipTest(cls, "the test company must not keep its books in EUR")
+        Rate = cls.env["res.currency.rate"]
+        Rate.search([("currency_id", "=", cls.eur.id),
+                     ("company_id", "in", [cls.company.id, False])]).unlink()
+        Rate.create({"currency_id": cls.eur.id, "name": "2026-06-01",
+                     "rate": 1 / 25.0, "company_id": cls.company.id})
+        Rate.create({"currency_id": cls.eur.id, "name": "2026-06-20",
+                     "rate": 1 / 24.0, "company_id": cls.company.id})
+
+    def _doc(self, move_type, amount):
+        move = self.init_invoice(
+            move_type, partner=self.partner_a, invoice_date="2026-06-10",
+            amounts=[amount], taxes=self.env["account.tax"], currency=self.eur)
+        move.action_post()
+        return move
+
+    def _agreement(self, currency):
+        wizard = self.env["cssk.netting.wizard"].create({
+            "company_id": self.company.id, "partner_id": self.partner_a.id,
+            "agreement_date": "2026-06-30", "currency_id": currency.id,
+        })
+        return self.env["cssk.partner.netting.agreement"].browse(
+            wizard.action_create()["res_id"])
+
+    def test_offset_in_euro_at_the_agreement_rate(self):
+        invoice = self._doc("out_invoice", 1000.0)
+        bill = self._doc("in_invoice", 600.0)
+        agreement = self._agreement(self.eur)
+        self.assertEqual(agreement.netting_currency_id, self.eur)
+        self.assertAlmostEqual(agreement.netting_amount, 600.0)
+        agreement.action_confirm()
+        agreement.action_send()
+        agreement.action_countersigned()
+        agreement.action_post()
+
+        clearing = agreement.move_id.line_ids
+        self.assertEqual(set(clearing.currency_id.ids), {self.eur.id})
+        self.assertEqual(sorted(clearing.mapped("amount_currency")), [-600.0, 600.0])
+        # booked at the agreement date's rate: 600 EUR x 24
+        self.assertEqual(sorted(clearing.mapped("balance")), [-14400.0, 14400.0])
+        # the bill is settled in full, in the currency and in the books
+        self.assertEqual(bill.payment_state, "paid")
+        self.assertAlmostEqual(invoice.amount_residual, 400.0)
+        # The partial offset settles 600 EUR of the invoice at ITS rate (25),
+        # the difference to the agreement's rate going to exchange
+        # differences: what stays open is 400 EUR at 25.
+        self.assertAlmostEqual(invoice.amount_residual_signed, 10000.0)
+
+    def test_only_items_in_the_currency_can_be_offset_in_it(self):
+        invoice = self._doc("out_invoice", 1000.0)
+        company_bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-10",
+            amounts=[600.0], taxes=self.env["account.tax"], post=True)
+        with self.assertRaises(UserError):
+            # nothing on the payable side in EUR
+            self._agreement(self.eur)
+        self.assertTrue(invoice and company_bill)

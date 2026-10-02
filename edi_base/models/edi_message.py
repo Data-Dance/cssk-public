@@ -481,7 +481,36 @@ class EdiMessage(models.Model):
     # ORM overrides
     # ------------------------------------------------------------------
 
+    @api.model
+    def _company_from_links(self, vals):
+        """The company of the document a new message is created for.
+
+        A message belongs to its document's company, not to whichever company
+        the user happened to be in: the connector takes the sender's identity
+        and credentials from it (``_enqueue_send``). The first linked record
+        with a company decides.
+        """
+        for name, value in vals.items():
+            field = self._fields.get(name)
+            if (not value or not field or field.type != "many2one"
+                    or not isinstance(value, int)
+                    # A partner restricted to a company says nothing about
+                    # which company a document is exchanged for.
+                    or field.comodel_name in ("res.partner", "res.users", "res.company")):
+                continue
+            # sudo: a record rule hiding the document from the creator must not
+            # silently leave the message in the creator's company.
+            record = self.env[field.comodel_name].sudo().browse(value)
+            if "company_id" in record._fields and record.exists() and record.company_id:
+                return record.company_id
+        return self.env["res.company"]
+
     def create(self, vals_list):
+        for vals in ([vals_list] if isinstance(vals_list, dict) else vals_list):
+            if not vals.get("company_id"):
+                company = self._company_from_links(vals)
+                if company:
+                    vals["company_id"] = company.id
         records = super().create(vals_list)
         for rec in records:
             if rec.direction == "in" and rec._get_xml_content():
@@ -633,10 +662,9 @@ class EdiMessage(models.Model):
 
         ``article_ean`` on an inbound order is a GTIN — i.e. our own
         product's barcode/default_code — so it must resolve regardless of
-        whether the sending partner is known to us. The partner's
-        ``product_edi_code_priority`` (when set) is tried first because it
-        can point at buyer-specific supplier codes; we then always fall back
-        to a direct barcode/default_code match on the GTIN.
+        whether the sending partner is known to us. Between the barcode and
+        the ``default_code`` match, a known partner's own codes
+        (``product.supplierinfo.product_code``) are tried as well.
 
         For numeric codes (GTIN / UPC / EAN), tries both the literal form
         and a leading-zero-stripped form — partners frequently disagree on
@@ -657,39 +685,30 @@ class EdiMessage(models.Model):
                     candidates.add(stripped.zfill(target_len))
         candidates = list(candidates)
 
-        # 1. Partner-specific priority — may point at buyer supplier codes.
-        priority = partner.product_edi_code_priority if partner else None
-        if priority:
-            for field in priority.split("__"):
-                if field in ("default_code", "barcode"):
-                    product = self.env["product.product"].search(
-                        [(field, "in", candidates)], limit=1
-                    )
-                    if product:
-                        return product
-                elif field == "supplier_code" and partner:
-                    supplierinfo = (
-                        self.env["product.supplierinfo"]
-                        .search(
-                            [
-                                ("product_code", "in", candidates),
-                                ("partner_id", "=", partner.id),
-                            ]
-                        )
-                        .sorted("date_end")
-                    )
-                    if supplierinfo:
-                        return (
-                            supplierinfo[-1].product_id
-                            or supplierinfo[-1].product_tmpl_id.product_variant_id
-                        )
-
-        # 2. Fallback: the GTIN is our own product code regardless of who
-        #    sent the order — match it on barcode/default_code directly.
-        product = self.env["product.product"].search(
-            ["|", ("barcode", "in", candidates), ("default_code", "in", candidates)],
-            limit=1,
-        )
+        # Barcode first, then the sender's own code for the product, then
+        # our internal reference — the order every partner carried while
+        # ``res.partner.product_edi_code_priority`` existed (its default).
+        Product = self.env["product.product"]
+        product = Product.search([("barcode", "in", candidates)], limit=1)
+        if product:
+            return product
+        if partner:
+            supplierinfo = (
+                self.env["product.supplierinfo"]
+                .search(
+                    [
+                        ("product_code", "in", candidates),
+                        ("partner_id", "=", partner.id),
+                    ]
+                )
+                .sorted("date_end")
+            )
+            if supplierinfo:
+                return (
+                    supplierinfo[-1].product_id
+                    or supplierinfo[-1].product_tmpl_id.product_variant_id
+                )
+        product = Product.search([("default_code", "in", candidates)], limit=1)
         return product or False
 
     # ------------------------------------------------------------------
@@ -1012,6 +1031,18 @@ class EdiMessage(models.Model):
                 )
                 continue
 
+            # A provider may park a stub it cannot place (e.g. a receiver it
+            # cannot route to a company): it is stored with its payload, so it
+            # is acknowledged like any other, but nothing processes it.
+            if msg.state == "error":
+                if raw_id:
+                    self._dispatch_ack(connector, raw_id)
+                continue
+            # Processed as the company the message belongs to, which the
+            # provider may have routed away from the polling company.
+            if msg.company_id:
+                msg = msg.with_company(msg.company_id)
+
             # Phase 2: dispatch lookup/processing.
             #
             # Default path: isolate the dispatch under a savepoint so a failure
@@ -1117,6 +1148,8 @@ class EdiMessage(models.Model):
                     "state": "received",
                 }
             )
+            if rec.company_id:
+                rec = rec.with_company(rec.company_id)
             rec._lookup_related_records()
 
     SENDABLE_STATES = ("draft", "ready", "queued", "error")
@@ -1136,6 +1169,10 @@ class EdiMessage(models.Model):
         self.ensure_one()
         if connector is None:
             connector = self.env[self._get_connector_name()]
+        if self.company_id:
+            # The connector reads its credentials and the sender's identity
+            # from env.company; a job inherits the context it is queued with.
+            connector = connector.with_company(self.company_id)
         self.write(
             {
                 "state": "queued",
@@ -1201,6 +1238,8 @@ class EdiMessage(models.Model):
         ], limit=limit, order="id")
         for message in messages:
             connector = self.env[message._get_connector_name()]
+            if message.company_id:
+                connector = connector.with_company(message.company_id)
             try:
                 # Each message in its own savepoint: one unsendable document
                 # must not hold up the rest of the run, and the failure belongs

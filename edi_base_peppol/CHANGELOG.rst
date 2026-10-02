@@ -5,6 +5,78 @@ Changelog
 All notable changes to **edi_base_peppol** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.5.1] — 2026-10-01
+-------------------------
+
+Added
+~~~~~
+
+- **Slovak translation, 101/101 terms** (``i18n/sk.po`` + ``.pot``, the module's
+  first catalogue). Verified by loading it into a database and reading the
+  strings back in ``sk_SK`` — field labels, help, both selection sets and the
+  view text — not only by the exporter's own count, which was green while three
+  groups were still English.
+
+Changed
+~~~~~~~
+
+- **Renamed the company switch to "Allow e-invoicing via Peppol"** and said in
+  the form what it means. "Send e-invoices via Peppol" read like the routing
+  decision, which it is not, and competed for meaning with the per-contact
+  ``Invoice sending`` field that actually makes that decision — it was taken for
+  a duplicate of it. The field now states that it is a permission: on, the
+  company MAY e-invoice; which documents do is per contact, and for contacts
+  with no preference by ``Peppol scope``. Off, nothing of this company's goes
+  out through Peppol whatever a contact says, and each invoice shows why on its
+  Peppol badge. Also spelled out that **receiving vendor bills is unaffected** —
+  the switch is outbound only, which was not obvious from either the label or
+  the help.
+
+[19.0.1.5.0] — 2026-10-01
+-------------------------
+
+Added
+~~~~~
+
+- **The e-invoice is a delivery channel on the contact.** Odoo's *Invoice
+  sending* (``invoice_sending_method``, Accounting tab, now visible outside debug
+  mode) gains *by e-invoice (Peppol)*, keyed ``edi_peppol`` so it is never
+  confused with Odoo's own ``account_peppol``. An explicit choice on the contact
+  wins: e-invoice routes to Peppol even outside the company's scope, any other
+  method gives the PDF. With nothing chosen, the company's scope decides. A
+  Slovak business inside the mandate that is set to another method shows a
+  warning on the contact.
+- **Send & Print** offers the e-invoice, checked by default instead of email
+  when the invoice routes to Peppol, and sends through the installed EDI
+  provider. If ``account_peppol`` is installed too, its method is dropped from
+  the defaults: one invoice, one access point.
+
+[19.0.1.4.0] — 2026-09-29
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Peppol is per company.** Sending is enabled per company, and so are
+  auto-send and the purchase journal for inbound bills (they were
+  database-wide parameters). One database can hold a company that must send
+  e-invoices and one that must not.
+- **Every customer document says how it goes out:** Peppol e-invoice, PDF, or
+  "Peppol, but blocked", with the reason, on the invoice. Under the company
+  scope *Slovak mandate* only a domestic document to a business or public body
+  (a company, or a partner with a VAT number) is an e-invoice; consumers, Czech
+  and other foreign customers get the PDF, and a Slovak business without a
+  Peppol address is *blocked* and noted in the chatter when auto-send is on.
+  The scope *any customer with a Peppol address* is the former behaviour.
+
+Upgrade note
+~~~~~~~~~~~~
+
+- The migration enables sending for every company whose partner has a Peppol
+  address, keeps the former scope, copies the auto-send flag to every company
+  and gives the configured purchase journal to its company: nothing changes
+  until a company is switched to the Slovak mandate.
+
 [19.0.1.3.0] — 2026-08-22
 -------------------------
 

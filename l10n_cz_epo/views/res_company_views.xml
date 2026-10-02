@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_company_view_form_cz_epo_channel" model="ir.ui.view">
+        <field name="name">res.company.form.cz.epo.channel</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_cz_statutory.res_company_view_form_cz_epo_filer"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='cz_epo_filer']/group" position="after">
+                <group string="Sending to EPO"
+                       groups="l10n_cssk_submission_base.group_cssk_submission_manager">
+                    <field name="l10n_cz_epo_certificate_id"/>
+                    <field name="l10n_cz_epo_allow_filing"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

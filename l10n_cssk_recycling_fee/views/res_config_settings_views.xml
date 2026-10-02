@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.l10n_cssk_recycling_fee</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='invoicing_settings']" position="after">
+                <block title="Recycling Fee" id="l10n_cssk_recycling_fee_block">
+                    <setting
+                        id="l10n_cssk_recycling_fee_presentation"
+                        string="Recycling fee presentation"
+                        help="How the CZ/SK recycling fee sits in the price on sale documents."
+                    >
+                        <field name="recycling_fee_presentation" widget="radio" />
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

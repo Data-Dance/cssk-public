@@ -27,6 +27,10 @@ class PartnerAutocompleteProvider(models.AbstractModel):
     _inherit = "partner.autocomplete.provider"
     _name = "partner.autocomplete.provider.ares_cz"
 
+    @api.model
+    def _autocomplete_country_codes(self):
+        return ("CZ",)
+
     #: ARES answers a miss with 404 and ``{"kod": "NENALEZENO"}``.
     ARES_BASE = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty"
     ARES_TIMEOUT = 15
@@ -69,6 +73,48 @@ class PartnerAutocompleteProvider(models.AbstractModel):
         if body.get("kod"):
             return ("absent" if body["kod"] == "NENALEZENO" else "unavailable"), None
         return "ok", body
+
+    ARES_RES_BASE = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-res"
+
+    #: Mapping parameter -> partner field it points at by default, when that
+    #: field exists (it lives in a module this one does not depend on).
+    DEFAULT_MAPPINGS = {"ares_cz.mapping.nace": "nace_code"}
+
+    @api.model
+    def _ares_apply_default_mappings(self):
+        """Point unset mappings at their default field where it exists."""
+        ICP = self.env["ir.config_parameter"].sudo()
+        for parameter, field_name in self.DEFAULT_MAPPINGS.items():
+            if ICP.get_param(parameter):
+                continue
+            field = self.env["ir.model.fields"].sudo().search(
+                [("model", "=", "res.partner"), ("name", "=", field_name)], limit=1)
+            if field:
+                ICP.set_param(parameter, str(field.id))
+
+    @api.model
+    def _ares_prevailing_nace(self, ico):
+        """The subject's prevailing activity in CZ-NACE 2025, from ARES's copy
+        of the statistical register (RES), or ``""``.
+
+        The basic ARES record lists activities without saying which one
+        prevails; RES does (``czNacePrevazujici``, the 2025 classification
+        that tax filings use from 1. 1. 2026). One extra request, so it is
+        made only when a field is mapped to receive it.
+        """
+        try:
+            response = requests.get(
+                f"{self.ARES_RES_BASE}/{ico}", timeout=self.ARES_TIMEOUT,
+                headers={"Accept": "application/json"})
+            if response.status_code != 200:
+                return ""
+            records = response.json().get("zaznamy") or []
+        except (RequestException, ValueError, AttributeError) as err:
+            _logger.info("ARES RES request for %s failed: %s", ico, err)
+            return ""
+        primary = next((r for r in records if r.get("primarniZaznam")),
+                       records[0] if records else {})
+        return primary.get("czNacePrevazujici") or ""
 
     @api.model
     def _ares_lookup_probe(self, ico):
@@ -133,6 +179,11 @@ class PartnerAutocompleteProvider(models.AbstractModel):
             mapping_pairs = [
                 ("ares_cz.mapping.ico", record.get("ico")),
             ]
+            if record.get("ico") and self.env["ir.config_parameter"].sudo().get_param(
+                    "ares_cz.mapping.nace"):
+                mapping_pairs.append((
+                    "ares_cz.mapping.nace",
+                    self._ares_prevailing_nace(record["ico"])))
             self._enrich_dynamic_mapping(result, mapping_pairs)
 
         except HTTPError as http_err:

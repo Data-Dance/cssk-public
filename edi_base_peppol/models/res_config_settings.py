@@ -4,20 +4,11 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
+    # All per company: the settings edit the current company.
+    peppol_send_enabled = fields.Boolean(
+        related="company_id.peppol_send_enabled", readonly=False)
+    peppol_scope = fields.Selection(related="company_id.peppol_scope", readonly=False)
     peppol_auto_send = fields.Boolean(
-        string="Auto-send Peppol on Invoice Post",
-        config_parameter="peppol.auto_send",
-        default=False,
-        help="When enabled, every posted customer invoice/credit note whose "
-        "customer has a Peppol address is automatically generated as BIS3 UBL "
-        "and queued for sending via the installed transport provider. When "
-        "off, use the 'Send via Peppol' button on the invoice.",
-    )
+        related="company_id.peppol_auto_send", readonly=False)
     peppol_purchase_journal_id = fields.Many2one(
-        "account.journal",
-        string="Peppol Purchase Journal",
-        config_parameter="peppol.purchase_journal_id",
-        domain="[('type', '=', 'purchase')]",
-        help="Journal used to book inbound Peppol vendor bills. Leave empty "
-        "to use the company's first purchase journal.",
-    )
+        related="company_id.peppol_purchase_journal_id", readonly=False)

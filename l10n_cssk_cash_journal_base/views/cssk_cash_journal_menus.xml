@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- A section of Accounting > Accounting, not a child of the Invoicing
+         root: Enterprise's accountant moves account's own submenus into its
+         Accounting app and leaves anything else hanging off menu_finance
+         behind, where nobody finds it. -->
     <menuitem id="menu_cssk_cash_journal_root"
               name="Cash Journal"
-              parent="account.menu_finance"
-              sequence="55"
+              parent="account.menu_finance_entries"
+              sequence="15"
               groups="account.group_account_user"/>
     <menuitem id="menu_cssk_cash_journal_line"
               name="Cash Journal (peňažný denník)"
@@ -15,6 +19,11 @@
               parent="menu_cssk_cash_journal_root"
               action="action_cssk_cash_journal_generate"
               sequence="20"/>
+    <menuitem id="menu_cssk_cash_journal_print"
+              name="Print"
+              parent="menu_cssk_cash_journal_root"
+              action="action_cssk_cash_journal_print"
+              sequence="25"/>
     <menuitem id="menu_cssk_cash_journal_review"
               name="Needs Review"
               parent="menu_cssk_cash_journal_root"

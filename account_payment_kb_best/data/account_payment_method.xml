@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <record id="account_payment_method_kb_best_domestic_out" model="account.payment.method">
+        <field name="name">KB BEST (domestic transfer)</field>
+        <field name="code">kb_best_domestic</field>
+        <field name="payment_type">outbound</field>
+        <field name="bank_account_required" eval="True" />
+    </record>
+    <record id="account_payment_method_kb_best_domestic_in" model="account.payment.method">
+        <field name="name">KB BEST (domestic direct debit / inkaso)</field>
+        <field name="code">kb_best_domestic</field>
+        <field name="payment_type">inbound</field>
+        <field name="bank_account_required" eval="True" />
+    </record>
+    <record id="account_payment_method_kb_best_foreign" model="account.payment.method">
+        <field name="name">KB BEST (foreign / SEPA transfer)</field>
+        <field name="code">kb_best_foreign</field>
+        <field name="payment_type">outbound</field>
+        <field name="bank_account_required" eval="True" />
+    </record>
+</odoo>

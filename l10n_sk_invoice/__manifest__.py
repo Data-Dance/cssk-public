@@ -32,7 +32,7 @@ mapping for your tax setup; a manual note field is provided for edge cases.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.0.4",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk", "l10n_cssk_core", "l10n_sk_base", "l10n_cssk_payment_symbols"],

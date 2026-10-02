@@ -1,0 +1,517 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_vat_status
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-29 09:15+0000\n"
+"PO-Revision-Date: 2026-09-29 09:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid ""
+"%(line)s: no non-payer variant of %(taxes)s could be generated — its "
+"repartition is not the Czech chart's shape; set the tax by hand"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid "%(move)s (%(status)s on %(date)s): %(lines)s"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_status.view_move_form_cz_vat_status
+msgid "Apply VAT status taxes"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model,name:l10n_cz_vat_status.model_l10n_cz_vat_status_period
+msgid "CZ company VAT status (from date)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model,name:l10n_cz_vat_status.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_bank_statement_line__l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move__l10n_cz_vat_status
+msgid "Company VAT status"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_bank_statement_line__l10n_cz_vat_status_is_tax_document
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move__l10n_cz_vat_status_is_tax_document
+msgid "Daňový doklad"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_tax__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_cssk_control_statement__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_cssk_statutory_submission_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_cssk_vat_return__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__event_date
+msgid "Event date"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_account_bank_statement_line__l10n_cz_vat_status_is_tax_document
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_account_move__l10n_cz_vat_status_is_tax_document
+msgid ""
+"False when the document must not be presented as a daňový doklad because the"
+" company was not a plátce on its DUZP."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_l10n_cz_vat_status_period__date_from
+msgid ""
+"First day the status applies. It applies until the day before the next row's"
+" date. Enter the day the Act names, which is not always the date of the "
+"decision — see Legal basis."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_tax__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_cssk_control_statement__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_cssk_statutory_submission_mixin__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_cssk_vat_return__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__account_move__l10n_cz_vat_status__identified
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__status__identified
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__res_company__l10n_cz_vat_status_today__identified
+msgid "Identifikovaná osoba (§ 6g–6l)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_res_company__l10n_cz_vat_status_note_identified
+msgid "Invoice statement (identifikovaná osoba)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_res_company__l10n_cz_vat_status_note_non_payer
+msgid "Invoice statement (neplátce)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model,name:l10n_cz_vat_status.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model,name:l10n_cz_vat_status.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_status.res_company_view_form_cz_vat_status
+msgid ""
+"Leave this empty and the company is a plátce DPH, as\n"
+"                        before. Otherwise record every change from the start:\n"
+"                        days before the first row count as plátce. Each row\n"
+"                        applies from its first day until the day before the\n"
+"                        next row. Choosing a legal basis and the event date\n"
+"                        proposes the first day the Act gives."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__legal_basis
+msgid "Legal basis"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__account_move__l10n_cz_vat_status__non_payer
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__status__non_payer
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__res_company__l10n_cz_vat_status_today__non_payer
+msgid "Neplátce"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__non_payer_initial
+msgid "Nikdy nebyl registrován"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__account_tax__l10n_cz_vat_status_kind__nondeductible
+msgid "No deduction (VAT to cost)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_tax__l10n_cz_vat_status_kind
+msgid "Non-payer variant"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__note
+msgid "Note"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid ""
+"On %(date)s the company is “%(status)s”, and %(n)d line(s) carry taxes that "
+"status does not allow. Use “Apply VAT status taxes” to replace them."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid "Only a draft document's taxes can be changed."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__account_move__l10n_cz_vat_status__payer
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__status__payer
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__res_company__l10n_cz_vat_status_today__payer
+msgid "Plátce DPH (§ 6–6f)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_tax__l10n_cz_vat_status_source_id
+msgid "Plátce tax"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_res_company__l10n_cz_vat_status_note_identified
+msgid ""
+"Printed on an invoice dated while the company is an identifikovaná osoba."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_res_company__l10n_cz_vat_status_note_non_payer
+msgid ""
+"Printed on an invoice dated while the company is not registered for VAT. A "
+"legal entity may prefer 'Nejsme plátci DPH.'; empty prints nothing."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_l10n_cz_vat_status_period__decision_ref
+msgid "Reference of the tax office's decision, where there is one."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_status.res_company_view_form_cz_vat_status
+msgid "Regenerate non-payer taxes"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__account_tax__l10n_cz_vat_status_kind__selfassessed
+msgid "Self-assessed, no deduction (identifikovaná osoba)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_account_bank_statement_line__l10n_cz_vat_status_declared_date_note
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_account_move__l10n_cz_vat_status_declared_date_note
+msgid ""
+"Set when the document records a VAT period declared that is ignored because "
+"the company was not a plátce on the document's deciding date."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model,name:l10n_cz_vat_status.model_cssk_statutory_submission_mixin
+msgid "Statutory filing submission / retention"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model,name:l10n_cz_vat_status.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid ""
+"The VAT period declared (%(declared)s) is not applied: on %(date)s the "
+"company is “%(status)s”, which has no deduction to claim later (§ 72 odst. 1"
+" zákona o DPH). The document is reported, and its VAT stays on its account, "
+"in the period of its tax point."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.constraint,message:l10n_cz_vat_status.constraint_l10n_cz_vat_status_period_company_date_uniq
+msgid "The company already has a VAT status starting on that day."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/cssk_control_statement.py:0
+msgid ""
+"The company was not a VAT payer on any day of %(from)s – %(to)s "
+"(%(detail)s). Only a plátce files a kontrolní hlášení (§ 101c zákona o DPH)."
+" If the tax office asks for one, answer the výzva with “B – Nemám povinnost "
+"podat KH”."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/cssk_vat_return.py:0
+msgid ""
+"The company's VAT status changes within this period: %(detail)s. Each "
+"document was taxed by the status on its DUZP; typ_platce is filed as "
+"%(typ)s, the status on the last day. Check with the tax office whether the "
+"change needs a separate filing for part of the period."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/cssk_control_statement.py:0
+msgid ""
+"The company's VAT status changes within this period: %(detail)s. Only "
+"documents dated on plátce days were included (§ 101c)."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid ""
+"The company's VAT status history changed, and this document's VAT-deferral "
+"entries should now be %(what)s, but that failed: %(error)s. Correct them by "
+"hand (or reset and repost the document once the period is open)."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_account_bank_statement_line__l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_account_move__l10n_cz_vat_status
+msgid ""
+"The company's VAT status on this document's DUZP. Empty when the company "
+"records no VAT-status history."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_l10n_cz_vat_status_period__date_to
+msgid "The day before the next row starts; empty for the current one."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_l10n_cz_vat_status_period__event_date
+msgid ""
+"The day the Act counts from: the day the turnover was exceeded, the day the "
+"decision was notified (oznámení), the day it became final (právní moc), or "
+"the day of the first acquisition or supply."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/l10n_cz_vat_status_period.py:0
+msgid "The legal basis “%(basis)s” does not lead to the status “%(status)s”."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_account_tax__l10n_cz_vat_status_source_id
+msgid ""
+"The tax this one stands in for while the company is not a VAT payer. "
+"Generated by l10n_cz_vat_status; a document dated in a plátce period gets "
+"this source tax back."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid ""
+"These documents carry taxes the company's VAT status does not allow on their DUZP. Use “Apply VAT status taxes” on each, or correct the status history:\n"
+"%s"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model,name:l10n_cz_vat_status.model_cssk_control_statement
+msgid "VAT Control Statement (KV DPH / KH DPH)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model,name:l10n_cz_vat_status.model_cssk_vat_return
+msgid "VAT Return"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_bank_statement_line__l10n_cz_vat_status_declared_date_note
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move__l10n_cz_vat_status_declared_date_note
+msgid "VAT period declared: not applied"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__status
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_status.res_company_view_form_cz_vat_status
+msgid "VAT status"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_res_company__l10n_cz_vat_status_period_ids
+msgid "VAT status history"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_bank_statement_line__l10n_cz_vat_status_print_note
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move__l10n_cz_vat_status_print_note
+msgid "VAT status statement"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_res_company__l10n_cz_vat_status_today
+msgid "VAT status today"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_bank_statement_line__l10n_cz_vat_status_warning
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_account_move__l10n_cz_vat_status_warning
+msgid "VAT status warning"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__date_from
+msgid "Valid from"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__date_to
+msgid "Valid until"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,help:l10n_cz_vat_status.field_l10n_cz_vat_status_period__legal_basis
+msgid ""
+"Why the status changed. Together with the event date it proposes the first "
+"day of the new status, since the Act words each transition differently (dnem"
+" / dnem následujícím / od 1. ledna)."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid "created"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#. odoo-python
+#: code:addons/l10n_cz_vat_status/models/account_move.py:0
+msgid "withdrawn"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__non_payer_106_8
+msgid "§ 106 odst. 8 písm. a) – zrušení registrace z moci úřední (právní moc)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__non_payer_106b
+msgid "§ 106b – zánik registrace plátce"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__non_payer_107_3
+msgid ""
+"§ 107 odst. 3 – zrušení registrace identifikované osoby z moci úřední "
+"(právní moc)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__non_payer_107b_3
+msgid "§ 107b odst. 3 – zrušení registrace na žádost (den po oznámení)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__non_payer_107b_4
+msgid ""
+"§ 107b odst. 4 – zrušení registrace identifikované osoby na žádost (den po "
+"oznámení)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__identified_107b_5
+msgid "§ 107b odst. 5 – po zrušení registrace plátce"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__payer_6_1
+msgid "§ 6 odst. 1 – obrat překročen, plátce od 1. 1."
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__payer_6_2
+msgid "§ 6 odst. 2 – obrat překročen, plátce dnem následujícím"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__payer_other
+msgid "§ 6a–6ea – jiný důvod"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__payer_6f
+msgid "§ 6f / § 94a – dobrovolná registrace (den po oznámení)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__identified_6g
+msgid "§ 6g – první pořízení zboží z jiného členského státu"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__identified_6h
+msgid "§ 6h – přijetí plnění od osoby neusazené v tuzemsku"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__identified_6i
+msgid "§ 6i – poskytnutí služby do jiného členského státu (§ 9 odst. 1)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields.selection,name:l10n_cz_vat_status.selection__l10n_cz_vat_status_period__legal_basis__identified_6k_6l
+msgid "§ 6j–6l / § 97a – registrace na přihlášku (den po oznámení)"
+msgstr ""
+
+#. module: l10n_cz_vat_status
+#: model:ir.model.fields,field_description:l10n_cz_vat_status.field_l10n_cz_vat_status_period__decision_ref
+msgid "Č. j. rozhodnutí"
+msgstr ""

@@ -109,3 +109,25 @@ class TestParseNationalAccount(TestCase):
                 FakeBank("AT611904300234573201", "iban"), ("CZ", "SK"),
             )
         self.assertIn("CZ/SK", str(caught.exception))
+
+
+class TestNationalAccountKey(TestCase):
+    """The key statement imports pair a file's account with a journal by."""
+
+    def test_iban_and_national_forms_agree(self):
+        from odoo.addons.account_cz_bankfile_base.utils.common import (
+            national_account_key,
+        )
+        key = ('0800', '19', '2000145399')
+        self.assertEqual(national_account_key('CZ65 0800 0000 1920 0014 5399'), key)
+        self.assertEqual(national_account_key('19-2000145399/0800'), key)
+        self.assertEqual(national_account_key('000019-2000145399/0800'), key)
+
+    def test_sk_accepted_other_refused(self):
+        from odoo.addons.account_cz_bankfile_base.utils.common import (
+            national_account_key,
+        )
+        self.assertEqual(national_account_key('SK3112000000198742637541'),
+                         ('1200', '19', '8742637541'))
+        self.assertIsNone(national_account_key('DE89370400440532013000'))
+        self.assertIsNone(national_account_key(''))

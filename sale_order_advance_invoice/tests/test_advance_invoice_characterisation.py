@@ -149,14 +149,17 @@ class TestAdvanceInvoiceCharacterisation(AdvanceInvoiceCommon):
             "the document's rates are the advance's, not the order's",
         )
 
-    def test_deducting_a_lump_sum_advance_leaves_vat_behind(self):
-        """WRONG, AND PINNED: the deduction reverses one rate, so a fully
-        advanced order still bills VAT.
+    def test_a_lump_sum_advance_settles_the_vat_difference(self):
+        """A lump-sum advance is taxed at ONE rate, the advance product's; the
+        order here is at two. The deduction gives back exactly the VAT the tax
+        document declared, and the final invoice settles the difference
+        between the order's VAT and the advance's: nothing is left behind,
+        nothing is charged twice.
 
-        The order carries 480 of VAT and the advance charged 375 of it, so the
-        final invoice nets the goods to zero and asks for the 105 difference -
-        from a customer who has already paid the whole gross amount. Itemising
-        the advance is what closes this; see ``test_advance_invoice_items``.
+        The amount depends on the chart's default rate (15 % without a chart:
+        480 - 375 = 105 due; CZ 21 %: 480 - 525 = 45 back; SK 23 %: 95 back),
+        so the test states the rule, not a number. Itemising the advance
+        makes the difference zero; see ``test_advance_invoice_items``.
         """
         self._configure_advance_accounts()
         order = self._order()
@@ -164,12 +167,12 @@ class TestAdvanceInvoiceCharacterisation(AdvanceInvoiceCommon):
         advance.action_confirm()
         self._pay(advance)
         advance.action_create_invoice_direct_for_advance()
-        advance.invoice_ids.filtered(lambda m: m.state == "draft").action_post()
+        tax_doc = advance.invoice_ids.filtered(lambda m: m.state == "draft")
+        tax_doc.action_post()
 
         invoice = order._create_invoices(final=True)
         self.assertAlmostEqual(invoice.amount_untaxed, 0.0, places=2)
+        # Signed: a larger advance VAT turns the final document into a refund.
         self.assertAlmostEqual(
-            invoice.amount_total, 105.0, places=2,
-            msg="if this changes, the lump-sum deduction has started following"
-                " the order's rates and this characterisation is out of date",
-        )
+            invoice.amount_total_signed, order.amount_tax - tax_doc.amount_tax,
+            places=2)

@@ -5,6 +5,21 @@ Changelog
 All notable changes to **edi_epostak_base** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.0.1] — 2026-10-01
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Rewrote the ePošťák Firm ID help, which was correct but unactionable.** It
+  opened "Only for integrator keys (sk_int_*)", which a direct customer reads as
+  "not me" — and the secret is write-only, so they cannot check. A standalone
+  customer with an ``sk_int_*`` key left the field empty on that reading and
+  every call failed ``400 BAD_REQUEST``. The help now says to read *Configured
+  key* in the form instead of inferring from the contract (a direct customer can
+  still be issued an integrator key), names the 400 it causes, and points at
+  Test Connection for the UUIDs.
+
 [19.0.1.0.0] — 2026-08-22
 -------------------------
 

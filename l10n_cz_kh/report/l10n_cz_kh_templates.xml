@@ -16,13 +16,14 @@
                     t-att-mesic="('%d' % statement.date_from.month) if statement.period_type == 'month' else None"
                     t-att-ctvrt="('%d' % ((statement.date_from.month - 1) // 3 + 1)) if statement.period_type == 'quarter' else None"
                     t-att-khdph_forma="statement.statement_type_id.fa_xml_value"
+                    t-att-d_zjist="statement.cz_kh_discovery_date.strftime('%d.%m.%Y') if statement.cz_kh_discovery_date else None"
+                    t-att-c_jed_vyzvy="statement.cz_kh_notice_number or None"
+                    t-att-vyzva_odp="statement.cz_kh_notice_answer or None"
                     k_uladis="DPH"/>
-                <VetaP
-                    t-att-dic="(company.vat or '')[2:] if (company.vat or '')[:2].upper() == 'CZ' else (company.vat or '')"
-                    t-att-c_ufo="company.l10n_cssk_tax_authority_id.submission_code or ''"
-                    t-att-c_pracufo="company.l10n_cz_tax_office_id.workplace_code or None"
-                    t-att-zkrobchjm="(company.name or '')[:20]"
-                    typ_ds="P"/>
+                <VetaP t-att="company._l10n_cz_epo_vetap()"/>
+                <!-- An answer to a výzva (vyzva_odp) may carry no rows in
+                     A, B or C: only the taxpayer and the header. -->
+                <t t-if="not statement.cz_kh_notice_answer">
 
                 <t t-foreach="sections_by_code['A1']" t-as="r">
                     <VetaA1 t-att-dic_odb="r.partner_vat_stripped"
@@ -45,7 +46,8 @@
                             t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
                             t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
                             t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
-                            kod_rezim_pl="0" zdph_44="N"/>
+                            kod_rezim_pl="0"
+                            t-att-zdph_44="r.move_id.l10n_cz_bad_debt or 'N'"/>
                 </t>
                 <t t-foreach="sections_by_code['A5']" t-as="r">
                     <VetaA5 t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
@@ -65,7 +67,8 @@
                             t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
                             t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
                             t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
-                            pomer="N" zdph_44="N"/>
+                            pomer="N"
+                            t-att-zdph_44="r.move_id.l10n_cz_bad_debt or 'N'"/>
                 </t>
                 <t t-foreach="sections_by_code['B3']" t-as="r">
                     <VetaB3 t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
@@ -84,6 +87,7 @@
                     t-att-rez_pren23="'%.0f' % sum(sections_by_code['A1'].mapped('base_std'))"
                     t-att-pln_rez_pren="'%.0f' % sum(sections_by_code['B1'].mapped('base_std'))"
                     t-att-celk_zd_a2="'%.0f' % sum(sections_by_code['A2'].mapped('base_std'))"/>
+                </t>
             </DPHKH1>
         </Pisemnost>
     </template>

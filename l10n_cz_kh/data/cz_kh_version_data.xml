@@ -60,9 +60,17 @@
         <field name="code">O</field><field name="name">Opravné</field>
         <field name="fa_xml_value">O</field>
     </record>
+    <!-- N is "následné", E is "následné/opravné" (dphkh1_epo2.xsd,
+         khdph_forma). E used to be labelled plain "Následné", so there was
+         no way to file N at all. -->
+    <record id="cz_kh_type_N" model="cssk.control.statement.type">
+        <field name="country_id" ref="base.cz"/>
+        <field name="code">N</field><field name="name">Následné</field>
+        <field name="fa_xml_value">N</field>
+    </record>
     <record id="cz_kh_type_E" model="cssk.control.statement.type">
         <field name="country_id" ref="base.cz"/>
-        <field name="code">E</field><field name="name">Následné</field>
+        <field name="code">E</field><field name="name">Následné/opravné</field>
         <field name="fa_xml_value">E</field>
     </record>
 

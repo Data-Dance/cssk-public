@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!--
+        The statutory sentence goes UNDER the product description of each line,
+        so it stays attached to the item it belongs to (MŽP guideline of
+        26. 10. 2021, point 2.1: the fee is stated per item, and a bare note at
+        the end of the invoice "je z hlediska plnění zákonné povinnosti
+        nedostatečné"). The text is built in Python, where the verbatim CZ/SK
+        wording lives next to the rule that chooses it.
+    -->
+    <template
+        id="report_invoice_document"
+        inherit_id="account.report_invoice_document"
+        priority="110"
+    >
+        <xpath expr="//td[@name='account_invoice_line_name']" position="inside">
+            <t t-if="o.recycling_fee_statutory">
+                <t t-foreach="line._get_recycling_fee_texts()" t-as="fee_text">
+                    <div class="text-muted small o_recycling_fee" t-out="fee_text" />
+                </t>
+            </t>
+        </xpath>
+    </template>
+
+    <!--
+        OCA's "Eco Part Unit" column and "Including Eco Part" total would repeat
+        the fee in English and — worse — add portable-battery fees into a
+        printed total, which CZ § 85 odst. 3 / SK § 46 ods. 2 forbid. On a
+        document with a CZ/SK fee they give way to ours.
+    -->
+    <template
+        id="report_invoice_document_hide_oca"
+        inherit_id="account_ecotax.report_invoice_document"
+        priority="110"
+    >
+        <xpath expr="//th[@name='th_ecotax']" position="attributes">
+            <attribute name="t-if">o.amount_ecotax and not o.recycling_fee_statutory</attribute>
+        </xpath>
+        <xpath expr="//td[span[@t-field='line.ecotax_amount_unit']]" position="attributes">
+            <attribute name="t-if">o.amount_ecotax and not o.recycling_fee_statutory</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="document_tax_totals"
+        inherit_id="account_ecotax.document_tax_totals"
+        priority="110"
+    >
+        <xpath expr="//tr[@name='ecotax_line']" position="attributes">
+            <attribute name="t-if">o and o._name == 'account.move' and o.amount_ecotax and not o.recycling_fee_statutory</attribute>
+        </xpath>
+        <xpath expr="//tr[@name='ecotax_line']" position="after">
+            <t t-set="recycling_fee_total"
+               t-value="o and o._name == 'account.move' and o._get_recycling_fee_total_text()" />
+            <tr t-if="recycling_fee_total" name="recycling_fee_total">
+                <td t-out="recycling_fee_total[0]" />
+                <td class="text-end" t-out="recycling_fee_total[1]" />
+            </tr>
+        </xpath>
+    </template>
+</odoo>

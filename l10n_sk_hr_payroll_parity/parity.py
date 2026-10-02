@@ -265,7 +265,7 @@ SCENARIOS = [
         "doc": "Night, Saturday and Sunday hours at the 2026 minimum hourly wage "
         "of 5.259. Also proves the surcharges reach GROSS on both engines, "
         "which is what makes them insurable and taxable.",
-        "requires": ["l10n_sk_hr_payroll_priplatky"],
+        "requires": ["l10n_sk_hr_payroll_surcharges"],
         "wage": 2000.0,
         "period": ((2026, 6, 1), (2026, 6, 30)),
         "version": {"l10n_sk_tax_declaration_signed": True},
@@ -282,7 +282,7 @@ SCENARIOS = [
         "key": "min_wage_topup",
         "doc": "A sub-minimum salary in a full month: the doplatok brings 800 EUR "
         "up to the 2026 monthly minimum of 915.",
-        "requires": ["l10n_sk_hr_payroll_priplatky"],
+        "requires": ["l10n_sk_hr_payroll_surcharges"],
         "wage": 800.0,
         "period": ((2026, 6, 1), (2026, 6, 30)),
         "version": {"l10n_sk_tax_declaration_signed": True},
@@ -294,7 +294,7 @@ SCENARIOS = [
         "doc": "Exactly the monthly minimum wage in a 176-hour month. Nothing is "
         "owed, even though 915/176 falls under the 5.259 hourly figure — the "
         "monthly-versus-hourly trap, asserted on both engines.",
-        "requires": ["l10n_sk_hr_payroll_priplatky"],
+        "requires": ["l10n_sk_hr_payroll_surcharges"],
         "wage": 915.0,
         "period": ((2026, 6, 1), (2026, 6, 30)),
         "version": {"l10n_sk_tax_declaration_signed": True},

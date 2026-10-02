@@ -8,6 +8,40 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.0.0] — 2026-09-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The VIES proof belongs to the company that asked, and every check is
+  kept.** The consultation number VIES issues identifies the *requester*, but
+  it was stored on the shared partner, so with two companies sharing contacts
+  each overwrote the other's proof, and a check left no trace once the next
+  one ran (the chatter tracked only the number). Each check — valid, invalid
+  or no answer — is now a ``cssk.vies.check`` row with the requesting company
+  and its VAT, the checked VAT, the consultation number, what VIES returned
+  and the user. The partner's VIES fields are computed from the current
+  company's latest check; the VIES tab lists the whole trail. Users can read
+  the log, not write it.
+- The scheduled refresh picks partners by the log, per company: one company
+  checking a partner no longer takes it out of another company's window.
+
+Migration
+~~~~~~~~~
+
+- Stored proofs become log rows (19.0.2.0.0). The requesting company was never
+  recorded: with one company it is that one, otherwise the rows carry no
+  company and serve every company until it checks for itself. The old partner
+  columns are left in place.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Per-company check log (19.0.2.0.0, 2026-09-27).** 18.0 still stores the
+  proof on the shared partner. Port the model, the computed fields and the
+  migration together; the migration is what keeps existing proofs.
+
 [19.0.1.0.2] — 2026-09-06
 -------------------------
 

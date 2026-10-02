@@ -8,6 +8,31 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.2.0] — 2026-09-28
+-------------------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- *Original document number* and the drill-down audit columns
+  (19.0.2.2.0, 2026-09-28).
+
+Added
+~~~~~
+
+- **Original document number** (``cssk_control_original_ref``) on credit
+  notes and on entries marked as a correction, for a credit note created by
+  hand because it could not be raised from the invoice — it has no link to
+  follow. Shown on *Other Info* for Czech and Slovak companies when there is
+  no linked original. ``_cssk_control_original()`` returns the linked
+  original: a reversal's ``reversed_entry_id`` or a debit note's
+  ``debit_origin_id``.
+- **Base, rate, VAT and VAT deducted** in the drill-down behind every control
+  statement row (the *Documents* button). VAT and VAT deducted differ exactly
+  where a deduction is partial by its tax repartition — fuel at 50 %, one leg
+  on the VAT account and one onto the expense — which is what an accountant
+  checks a B.3.1 total against. Display only; nothing filed changes.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

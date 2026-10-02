@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cssk_fs_statement_form_ju" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.form.ju.zavierka</field>
+        <field name="model">cssk.fs.statement</field>
+        <field name="inherit_id" ref="l10n_cssk_fs_base.cssk_fs_statement_view_form"/>
+        <field name="arch" type="xml">
+            <field name="date_to" position="after">
+                <field name="cssk_first_zavierka"
+                       invisible="version_id != %(l10n_sk_single_entry_closing.uzfo_v14)d"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="action_cssk_fs_uzfo" model="ir.actions.act_window">
+        <field name="name">Účtovná závierka v JÚ (Úč FO)</field>
+        <field name="res_model">cssk.fs.statement</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('version_id', '=', %(l10n_sk_single_entry_closing.uzfo_v14)d)]</field>
+        <field name="context">{'default_version_id': %(l10n_sk_single_entry_closing.uzfo_v14)d}</field>
+    </record>
+
+    <menuitem id="menu_cssk_fs_uzfo"
+              name="Účtovná závierka v JÚ (Úč FO)"
+              parent="l10n_cssk_cash_journal_base.menu_cssk_cash_journal_root"
+              action="action_cssk_fs_uzfo"
+              sequence="70"/>
+</odoo>

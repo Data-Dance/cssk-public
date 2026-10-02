@@ -8,6 +8,60 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.16.0] — 2026-09-29
+--------------------------
+
+Added
+~~~~~
+
+- **A hook to read the period rule as if no declared period were recorded.**
+  With the context key ``cssk_period_ignore_declared_date``,
+  ``_cssk_period_move_ids`` treats every document's *VAT period declared*
+  (``cssk_vat_deduction_date``) as empty. A module that knows the date does
+  not apply to some documents takes their period from that pass instead of
+  restating the fallback rule — ``l10n_cz_vat_status`` does, for documents
+  dated while the company was not a plátce. Without the key nothing changes.
+
+[19.0.1.15.1] — 2026-09-28
+--------------------------
+
+Fixed
+~~~~~
+
+- **Every test filling an invoice through ``odoo.tests.Form`` failed once this
+  module was installed** (``'M2MProxy' object has no attribute 'new'`` from
+  ``init_invoice``), in any module's suite. 19.0.1.15.0 put the VAT-deferral
+  entries on the move form as an ``account.move`` → ``account.move``
+  one2many; ``Form`` then builds the move form again one level down, where it
+  turns ``invoice_line_ids`` into a many2many in the field info it shares with
+  the top level. The form now shows a count and a button instead.
+
+[19.0.1.15.0] — 2026-09-28
+--------------------------
+
+Added
+~~~~~
+
+- **VAT declared in a later period can wait off 343.** With the new company
+  setting *VAT declared in a later period* (an account; empty = off), a
+  document whose *VAT period declared* date falls in a later month than its
+  accounting date gets two journal entries: the tax moves from its VAT
+  account to the chosen account on the booking date and back on the
+  declaration date, the second posting itself on that date when it is still
+  ahead. Until now the return followed the declaration date and the ledger
+  did not, so 343 disagreed with the return of both periods. The entries
+  carry no taxes and no tax tags, so no return reads them; they keep the
+  source line's currency and amounts, so they move the balance without any
+  exchange difference. Resetting, cancelling or re-dating the document
+  withdraws them (cancelled, not deleted) and rebuilds where needed.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Deferral of VAT declared in a later period (19.0.1.15.0, 2026-09-28).**
+  18.0 has ``cssk_vat_deduction_date`` too; the feature ports as is apart from
+  the usual 19→18 checks on ``auto_post`` and ``use_in_tax_closing``.
+
 [19.0.1.13.1] — 2026-09-17
 --------------------------
 

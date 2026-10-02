@@ -8,6 +8,15 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.0.0] — 2026-09-29
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The NACE code moved to** ``partner_nace`` (``res.partner.nace_code``), one
+  field for every country. ``l10n_sk_nace`` is gone; it was installed nowhere.
+
 [19.0.1.0.1] — 2026-09-13
 -------------------------
 

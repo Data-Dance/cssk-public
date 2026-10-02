@@ -56,7 +56,8 @@ class TestCzSelfAssessedDeduction(AccountTestInvoicingCommon):
     def test_the_band_comes_from_the_declaration_not_the_rate(self):
         """ř43 is základní and ř44 snížená, and the tax already says which.
 
-        Derived from the declaration tag (ř3/ř5/ř10/ř12 against ř4/ř6/ř11/ř13)
+        Derived from the declaration tag (ř3/ř5/ř7/ř10/ř12 against
+        ř4/ř6/ř8/ř11/ř13)
         rather than from a rate literal, so a chart that adds a rate needs no
         change here. Asserting it stops someone 'simplifying' it into a list of
         rates, which is the version that breaks silently.
@@ -71,13 +72,13 @@ class TestCzSelfAssessedDeduction(AccountTestInvoicingCommon):
                 lambda r: r.repartition_type == "base"))
             if "VAT 43 Base" in names:
                 self.assertTrue(
-                    names & {"VAT 3 Base", "VAT 5 Base",
+                    names & {"VAT 3 Base", "VAT 5 Base", "VAT 7 Base",
                              "VAT 10 Base", "VAT 12 Base"},
                     "%s claims the základní deduction without declaring on a "
                     "základní line" % tax.name)
             if "VAT 44 Base" in names:
                 self.assertTrue(
-                    names & {"VAT 4 Base", "VAT 6 Base",
+                    names & {"VAT 4 Base", "VAT 6 Base", "VAT 8 Base",
                              "VAT 11 Base", "VAT 13 Base"},
                     "%s claims the snížená deduction without declaring on a "
                     "snížená line" % tax.name)

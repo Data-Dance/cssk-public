@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **A brutto / korekce row drilled into half its accounts.** A row filed in
+  three columns reports its NETTO, but its source-document domain named only
+  the gross accounts (``account_formula``), so the drill-down omitted the
+  oprávky / opravné položky and the row showed as unreconciled whenever any
+  existed. The correction accounts are now part of the row's source domain.
+  Surfaced by the CZ Rozvaha taking the brutto / korekce split for DPPDP9
+  VetaUA; it applied to the Slovak Súvaha rows all along.
+
 [19.0.1.4.5] — 2026-09-17
 -------------------------
 

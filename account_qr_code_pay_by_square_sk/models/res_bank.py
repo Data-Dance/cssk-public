@@ -221,6 +221,12 @@ class ResPartnerBank(models.Model):
             structured_communication,
         )
 
+    def _get_qr_method_home_country(self):
+        # Slovak scheme: preferred automatically only between Slovak parties,
+        # so a foreign EUR invoice falls through to SEPA QR. See
+        # account_qr_code_frame_provider's _qr_method_suits.
+        return dict(super()._get_qr_method_home_country(), skpaybysquare_qr="SK")
+
     @api.model
     def _get_available_qr_methods(self):
         rslt = super()._get_available_qr_methods()

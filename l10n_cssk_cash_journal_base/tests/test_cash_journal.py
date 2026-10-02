@@ -42,6 +42,10 @@ class TestCashJournalCommon(AccountTestInvoicingCommon):
             "VN1", "Osobná spotreba", "expense", taxable=False)
         cls.cat_transit = category("C1", "Priebežné položky", "transit",
                                    taxable=False)
+        cls.cat_loan_in = category(
+            "PN2", "Prijatý úver", "income", taxable=False)
+        cls.cat_loan_out = category(
+            "VN5", "Splátka istiny", "expense", taxable=False)
         cls.cat_depreciation = category(
             "Z1", "Odpisy", "expense", non_cash=True)
 
@@ -535,6 +539,366 @@ class TestCashJournalAllocation(TestCashJournalCommon):
         self._generate()
         second = {row.move_line_id.id: row.number for row in self._rows()}
         self.assertEqual(first, second)
+
+
+class TestCashJournalDirectionVersusCategory(TestCashJournalCommon):
+    """Where the money went is not where the amount belongs.
+
+    Both cases below were live defects, found when a cooperating accountant
+    asked which side of a document (MD/D) the denník should read. The answer is
+    neither: the line's sign gives the direction, the category gives the column.
+    """
+
+    def test_a_refunded_sale_reduces_income_instead_of_adding_an_expense(self):
+        """1000 sold and 200 refunded is príjmy 800, not 1000 against 200.
+
+        The tax base was right either way; the gross columns of DPFO tabuľka 1
+        were not, and the sales column of the book read 1200.
+        """
+        sale = self._invoice(lines=[(1000.0, self.income_account)])
+        self._pay(sale, payment_date="2026-03-01")
+        refund = self._invoice(
+            move_type="out_refund", lines=[(200.0, self.income_account)])
+        self._pay(refund, payment_date="2026-03-05")
+        self._generate()
+
+        rows = self._rows()
+        self.assertEqual(len(rows), 2)
+        storno = rows.filtered("counter_entry")
+        self.assertEqual(len(storno), 1)
+        self.assertEqual(storno.kind, "income",
+                         "a refunded sale stays in its sales category")
+        self.assertEqual(storno.money_direction, "out",
+                         "and the money really did leave the bank")
+        self.assertAlmostEqual(storno.amount, 200.0, places=2)
+        self.assertAlmostEqual(storno.amount_classified, -200.0, places=2)
+        self.assertAlmostEqual(storno.amount_signed, -200.0, places=2)
+
+        figures = self.env["cssk.cash.figures"]._cssk_flows(
+            self.company,
+            fields.Date.to_date("2026-01-01"),
+            fields.Date.to_date("2026-12-31"))
+        self.assertAlmostEqual(figures["income"], 800.0, places=2)
+        self.assertAlmostEqual(figures["expense"], 0.0, places=2)
+        self.assertAlmostEqual(figures["money_income"], 1000.0, places=2)
+        self.assertAlmostEqual(figures["money_expense"], 200.0, places=2,
+                               msg="the money columns still follow the money")
+
+    def test_a_refund_from_a_supplier_reduces_expenses(self):
+        """The mirror case: money in, against an expense category."""
+        bill = self._invoice(
+            move_type="in_invoice", lines=[(500.0, self.expense_account)])
+        self._pay(bill, payment_date="2026-04-01")
+        credit = self._invoice(
+            move_type="in_refund", lines=[(120.0, self.expense_account)])
+        self._pay(credit, payment_date="2026-04-10")
+        self._generate()
+
+        storno = self._rows().filtered("counter_entry")
+        self.assertEqual(storno.kind, "expense")
+        self.assertEqual(storno.money_direction, "in")
+        figures = self.env["cssk.cash.figures"]._cssk_flows(
+            self.company,
+            fields.Date.to_date("2026-01-01"),
+            fields.Date.to_date("2026-12-31"))
+        self.assertAlmostEqual(figures["expense"], 380.0, places=2)
+        self.assertAlmostEqual(figures["income"], 0.0, places=2)
+
+    def test_an_account_mapped_to_a_transit_category_is_a_transit_row(self):
+        """'261 Peniaze na ceste' mapped by hand, not configured in Odoo.
+
+        It used to come out as an expense and land in "výdavky neovplyvňujúce
+        základ dane" — harmless for the tax base, wrong in the book.
+        """
+        on_the_way = self.expense_account.copy({
+            "code": "%s5" % self.expense_account.code,
+            "cssk_cash_category_id": self.cat_transit.id,
+            "reconcile": True,
+        })
+        move = self.env["account.move"].create({
+            "journal_id": self.bank_journal.id,
+            "date": fields.Date.to_date("2026-05-20"),
+            "line_ids": [
+                (0, 0, {
+                    "account_id": on_the_way.id,
+                    "name": "na ceste", "debit": 300.0, "credit": 0.0,
+                }),
+                (0, 0, {
+                    "account_id": self.bank_journal.default_account_id.id,
+                    "name": "na ceste", "debit": 0.0, "credit": 300.0,
+                }),
+            ],
+        })
+        move.action_post()
+        self._generate()
+        row = self._rows()
+        self.assertEqual(len(row), 1)
+        self.assertEqual(row.kind, "transit")
+        self.assertEqual(row.money_direction, "out")
+        self.assertFalse(row.taxable)
+
+        figures = self.env["cssk.cash.figures"]._cssk_flows(
+            self.company,
+            fields.Date.to_date("2026-01-01"),
+            fields.Date.to_date("2026-12-31"))
+        self.assertAlmostEqual(figures["transit_out"], 300.0, places=2)
+        self.assertAlmostEqual(figures["expense"], 0.0, places=2)
+
+
+class TestCashJournalTwoWayAccounts(TestCashJournalCommon):
+    """An account that moves both ways needs a category for each direction.
+
+    Raised by a cooperating accountant asking whether a pôžička — neither income
+    nor expense, but a receivable or a liability — shows up in the book at all.
+    It did, in one column: a loan of 10 000 received and 2 500 repaid netted to
+    7 500 of "príjmy neovplyvňujúce ZD" and left "výdavky neovplyvňujúce ZD"
+    empty. Her own chart has a worse case in ``343``, where an odvod DPH and a
+    nadmerný odpočet share one account.
+    """
+
+    def _loan_account(self, both_ways=True):
+        account = self.env["account.account"].create({
+            "name": "Bankový úver",
+            "code": "461100",
+            "account_type": "liability_non_current",
+            "reconcile": True,
+            "cssk_cash_category_id": self.cat_loan_out.id if both_ways
+            else self.cat_loan_in.id,
+        })
+        if both_ways:
+            account.cssk_cash_category_in_id = self.cat_loan_in
+        return account
+
+    def _bank_move(self, account, amount, incoming, date):
+        bank = self.bank_journal.default_account_id
+        move = self.env["account.move"].create({
+            "journal_id": self.bank_journal.id,
+            "date": fields.Date.to_date(date),
+            "line_ids": [
+                (0, 0, {
+                    "account_id": bank.id, "name": "úver",
+                    "debit": amount if incoming else 0.0,
+                    "credit": 0.0 if incoming else amount,
+                }),
+                (0, 0, {
+                    "account_id": account.id, "name": "úver",
+                    "debit": 0.0 if incoming else amount,
+                    "credit": amount if incoming else 0.0,
+                }),
+            ],
+        })
+        move.action_post()
+        return move
+
+    def test_a_loan_and_its_instalment_land_in_opposite_columns(self):
+        account = self._loan_account()
+        self._bank_move(account, 10000.0, True, "2026-05-02")
+        self._bank_move(account, 500.0, False, "2026-06-02")
+        self._generate()
+
+        rows = self._rows().sorted("date")
+        self.assertEqual(rows.mapped("kind"), ["income", "expense"])
+        self.assertEqual(rows.mapped("money_direction"), ["in", "out"])
+        self.assertEqual(rows.mapped("category_id"),
+                         self.cat_loan_in | self.cat_loan_out)
+        self.assertFalse(any(rows.mapped("counter_entry")),
+                         "neither is a storno — the account simply moves both ways")
+        self.assertFalse(any(rows.mapped("taxable")))
+        self.assertFalse(any(rows.mapped("needs_review")))
+
+        figures = self.env["cssk.cash.figures"]._cssk_flows(
+            self.company,
+            fields.Date.to_date("2026-01-01"),
+            fields.Date.to_date("2026-12-31"))
+        self.assertAlmostEqual(figures["income_all"], 10000.0, places=2)
+        self.assertAlmostEqual(figures["expense_all"], 500.0, places=2)
+        self.assertAlmostEqual(figures["income"], 0.0, places=2)
+        self.assertAlmostEqual(figures["expense"], 0.0, places=2)
+
+    def test_a_one_way_mapping_on_a_two_way_account_is_flagged(self):
+        """Better to ask than to net two columns into one silently."""
+        account = self._loan_account(both_ways=False)
+        self._bank_move(account, 10000.0, True, "2026-05-02")
+        self._bank_move(account, 500.0, False, "2026-06-02")
+        self._generate()
+
+        rows = self._rows().sorted("date")
+        flagged = rows.filtered("needs_review")
+        self.assertEqual(len(flagged), 1)
+        self.assertEqual(flagged.money_direction, "out")
+        self.assertIn("direction", flagged.review_reason)
+
+    def test_a_dobropis_is_still_a_storno(self):
+        """The reversal case must keep netting its own column.
+
+        This is what separates the two: a payment matched to a credit note
+        reverses an earlier entry, an instalment on a loan does not.
+        """
+        sale = self._invoice(lines=[(1000.0, self.income_account)])
+        self._pay(sale, payment_date="2026-03-01")
+        refund = self._invoice(
+            move_type="out_refund", lines=[(200.0, self.income_account)])
+        self._pay(refund, payment_date="2026-03-05")
+        self._generate()
+        storno = self._rows().filtered("counter_entry")
+        self.assertEqual(storno.kind, "income")
+        self.assertFalse(storno.needs_review,
+                         "a dobropis is a storno, not a configuration problem")
+
+
+class TestCashJournalPartialAllocation(TestCashJournalCommon):
+    """The three models the internal directive may choose between."""
+
+    def _paid_in_part(self, model, payment=500.0):
+        """Rows of ONE invoice under ``model``, as (base, VAT).
+
+        Filtered to the invoice, because regeneration rebuilds the whole period
+        and a test that measures every row would also count the invoices its
+        earlier assertions created.
+        """
+        self.company.cssk_cash_partial_allocation = model
+        invoice = self._invoice(
+            lines=[(1000.0, self.income_account)], taxes=self.tax_sale_a)
+        self._pay(invoice, amount=payment)
+        self._generate()
+        rows = self._rows().filtered(lambda row: row.source_move_id == invoice)
+        return sum(rows.mapped("amount")), sum(rows.mapped("amount_tax"))
+
+    def test_pro_rata_is_the_default(self):
+        self.assertEqual(self.company.cssk_cash_partial_allocation, "prorata")
+        rate = self.tax_sale_a.amount / 100.0
+        base, tax = self._paid_in_part("prorata")
+        self.assertAlmostEqual(base + tax, 500.0, places=2)
+        self.assertAlmostEqual(base, 500.0 / (1 + rate), places=2)
+
+    def test_vat_first_settles_the_whole_vat(self):
+        """POHODA's model: the first payment pays the VAT off."""
+        rate = self.tax_sale_a.amount / 100.0
+        base, tax = self._paid_in_part("vat_first")
+        self.assertAlmostEqual(tax, 1000.0 * rate, places=2)
+        self.assertAlmostEqual(base, 500.0 - 1000.0 * rate, places=2)
+        self.assertAlmostEqual(base + tax, 500.0, places=2)
+
+    def test_base_first_settles_the_base(self):
+        base, tax = self._paid_in_part("base_first")
+        self.assertAlmostEqual(base, 500.0, places=2)
+        self.assertAlmostEqual(tax, 0.0, places=2)
+
+    def test_a_full_payment_is_the_same_under_every_model(self):
+        rate = self.tax_sale_a.amount / 100.0
+        gross = 1000.0 * (1 + rate)
+        results = [self._paid_in_part(model, payment=gross)
+                   for model in ("prorata", "vat_first", "base_first")]
+        for base, tax in results:
+            self.assertAlmostEqual(base, 1000.0, places=2)
+            self.assertAlmostEqual(tax, 1000.0 * rate, places=2)
+
+
+class TestCashJournalAdvances(TestCashJournalCommon):
+    """A received advance is taxable income when the money arrives.
+
+    Confirmed by the cooperating accountant: "prijatá záloha sa považuje za
+    zdaniteľný príjem", classified by what the advance is for — which is why a
+    zálohová faktúra should be posted to the account the final supply will land
+    on. That is the opposite of the VAT treatment, where an advance invoice is
+    not a taxable event of its own.
+    """
+
+    def test_an_advance_invoice_carries_the_final_category(self):
+        advance = self._invoice(lines=[(300.0, self.income_account)])
+        self._pay(advance, payment_date="2026-02-20")
+        self._generate()
+        row = self._rows()
+        self.assertEqual(row.category_id, self.cat_sales)
+        self.assertTrue(row.taxable, "taxable income at receipt")
+        self.assertFalse(row.needs_review)
+
+    def test_a_payment_with_no_document_still_asks_which_category(self):
+        """Nothing says what the advance is for, so it cannot be guessed."""
+        payment = self.env["account.payment"].create({
+            "payment_type": "inbound",
+            "partner_type": "customer",
+            "partner_id": self.partner_a.id,
+            "amount": 400.0,
+            "date": fields.Date.to_date("2026-02-25"),
+            "journal_id": self.bank_journal.id,
+        })
+        payment.action_post()
+        self._generate()
+        row = self._rows()
+        self.assertTrue(row.needs_review)
+        self.assertIn("advance", row.review_reason)
+
+
+class TestCashJournalPrinting(TestCashJournalCommon):
+    """The spreadsheet the accountant asked for, beside the PDF."""
+
+    def _wizard(self):
+        return self.env["cssk.cash.journal.print"].create({
+            "company_id": self.company.id,
+            "date_from": fields.Date.to_date("2026-01-01"),
+            "date_to": fields.Date.to_date("2026-12-31"),
+            "output": "xlsx",
+        })
+
+    def test_the_spreadsheet_renders_with_both_sheets(self):
+        invoice = self._invoice(
+            lines=[(1000.0, self.income_account)], taxes=self.tax_sale_a)
+        self._pay(invoice)
+        self._generate()
+        wizard = self._wizard()
+        content, extension = self.env["ir.actions.report"]._render_xlsx(
+            "l10n_cssk_cash_journal_base.dennik_xlsx", wizard.ids, data=None)
+        self.assertEqual(extension, "xlsx")
+        self.assertTrue(content)
+        self.assertEqual(content[:2], b"PK", "a real xlsx archive")
+
+    def test_the_spreadsheet_holds_the_rows_of_the_period(self):
+        invoice = self._invoice(lines=[(1000.0, self.income_account)])
+        self._pay(invoice, payment_date="2026-03-15")
+        older = self._invoice(
+            lines=[(50.0, self.income_account)], invoice_date="2025-01-10")
+        self._pay(older, payment_date="2025-02-01")
+        self._generate("2025-01-01", "2026-12-31")
+        wizard = self._wizard()
+        self.assertEqual(
+            len(wizard._cssk_rows()), 1,
+            "the period on the wizard decides, not everything in the book")
+
+    def test_a_pdf_needs_a_country_layout(self):
+        """The base has no layout of its own; it says so instead of crashing."""
+        wizard = self._wizard()
+        wizard.output = "pdf"
+        if not wizard._cssk_pdf_report():
+            with self.assertRaises(UserError):
+                wizard.action_print()
+
+
+class TestCashJournalAccountForm(TestCashJournalCommon):
+    """The mapping has a page of its own on the account form.
+
+    Worth a test because the inbound field existed for days with no UI at all —
+    added for two-way accounts, reachable only from the chart mapping or the
+    shell — and because an inherited page that stops matching its anchor fails
+    silently at install on the next Odoo version.
+    """
+
+    def test_the_account_form_has_a_cash_journal_page_with_both_fields(self):
+        arch = self.env["account.account"].get_view(
+            self.env.ref("account.view_account_form").id, "form")["arch"]
+        self.assertIn('name="cssk_cash_journal"', arch)
+        self.assertIn('name="cssk_cash_category_id"', arch)
+        self.assertIn('name="cssk_cash_category_in_id"', arch,
+                      "the inbound category needs somewhere to be set")
+
+    def test_both_fields_are_writable_from_the_form(self):
+        account = self.expense_account
+        account.write({
+            "cssk_cash_category_id": self.cat_loan_out.id
+            if hasattr(self, "cat_loan_out") else self.cat_goods.id,
+            "cssk_cash_category_in_id": self.cat_other_income.id,
+        })
+        self.assertTrue(account.cssk_cash_category_in_id)
 
 
 class TestCashCategoryConstraints(TestCashJournalCommon):

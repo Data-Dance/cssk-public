@@ -6,6 +6,14 @@
         <field name="inherit_id"
                ref="l10n_cssk_kv_kh_base.cssk_control_statement_view_form"/>
         <field name="arch" type="xml">
+            <field name="statement_type_id" position="after">
+                <field name="cz_kh_filing_code" invisible="1"/>
+                <field name="cz_country_code" invisible="1"/>
+                <field name="cz_kh_discovery_date"
+                       invisible="cz_country_code != 'CZ' or cz_kh_filing_code not in ('N', 'E')"/>
+                <field name="cz_kh_notice_number" invisible="cz_country_code != 'CZ'"/>
+                <field name="cz_kh_notice_answer" invisible="cz_country_code != 'CZ'"/>
+            </field>
             <page name="sections" position="inside">
                 <notebook>
                     <page string="A.1" name="cz_a1">

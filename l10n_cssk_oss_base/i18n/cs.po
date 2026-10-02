@@ -1,0 +1,1119 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-28 11:31+0000\n"
+"PO-Revision-Date: 2026-09-28 11:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"%(move)s, line '%(line)s', carries the OSS tag but %(n)s OSS taxes, so its "
+"member state and rate cannot be determined. Correct the document (one OSS "
+"tax per line) and compute again."
+msgstr ""
+"%(move)s, řádek '%(line)s', nese štítek OSS, ale %(n)s daní OSS, takže nelze"
+" určit stát spotřeby ani sazbu. Opravte doklad (jedna daň OSS na řádek) a "
+"vypočítejte znovu."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"%(move)s: the member state of consumption of its OSS supply cannot be "
+"determined (tax %(tax)s belongs to no single OSS fiscal position, and the "
+"document has neither a fiscal position with a country nor a customer "
+"country)."
+msgstr ""
+"%(move)s: nelze určit stát spotřeby jeho plnění OSS (daň %(tax)s nepatří "
+"jediné fiskální pozici OSS a doklad nemá fiskální pozici se státem ani stát "
+"zákazníka)."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"%(rate)s from the company rate table (fixing %(day)s). The OSS return must "
+"use the ECB rate for the last day of the period — check it and confirm."
+msgstr ""
+"%(rate)s z kurzovního lístku společnosti (fixace %(day)s). Přiznání OSS musí"
+" použít kurz ECB k poslednímu dni období — ověřte jej a potvrďte."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "%s is not an EU member state"
+msgstr "%s není členským státem EU"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "%s rate not confirmed as the ECB reference rate"
+msgstr "Kurz %s není potvrzen jako referenční kurz ECB"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"A correction must concern a quarter from Q3 2021 up to the one before this "
+"return."
+msgstr ""
+"Oprava se musí týkat čtvrtletí od 3. čtvrtletí 2021 do čtvrtletí "
+"předcházejícího tomuto přiznání."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"A row cannot be negative. A credit note that corrects an earlier quarter "
+"must name its original invoice (it then becomes a correction of that "
+"quarter); otherwise enter the correction by hand."
+msgstr ""
+"Řádek nemůže být záporný. Dobropis opravující dřívější čtvrtletí musí "
+"odkazovat na původní fakturu (pak se stane opravou tohoto čtvrtletí); jinak "
+"zadejte opravu ručně."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"A supply consumed in the member state it is made from belongs on that "
+"state's domestic return, not on the OSS return."
+msgstr ""
+"Plnění spotřebované ve státě, ze kterého je uskutečněno, patří do tuzemského"
+" přiznání tohoto státu, ne do přiznání OSS."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akci"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__active
+msgid "Active"
+msgstr "Aktivní"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimky aktivity"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid ""
+"Amounts not invoiced in EUR are converted at the\n"
+"                                ECB reference rate for the last day of the quarter\n"
+"                                (or the next day of publication). Rates proposed\n"
+"                                from the company's rate table must be checked\n"
+"                                and confirmed before export."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__taxable_amount
+msgid "Base change (EUR)"
+msgstr "Změna základu (EUR)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__state__cancelled
+msgid "Cancelled"
+msgstr "Zrušeno"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model,name:l10n_cssk_oss_base.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_rate__source__table
+msgid "Company rate table (to confirm)"
+msgstr "Kurzovní lístek společnosti (k potvrzení)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__cssk_comparison_count
+msgid "Comparisons"
+msgstr "Porovnání"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Compute"
+msgstr "Vypočítat"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Compute the OSS return before exporting."
+msgstr "Před exportem přiznání OSS vypočítejte."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Computed VAT differs from the VAT booked"
+msgstr "Vypočtená daň se liší od zaúčtované daně"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Confirm ECB rates"
+msgstr "Potvrdit kurzy ECB"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Correction %s"
+msgstr "Oprava %s"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Correction %s is out of time"
+msgstr "Oprava %s je po lhůtě"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Correction %s must be filed by %s"
+msgstr "Opravu %s je nutné podat do %s"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__correction_ids
+msgid "Corrections"
+msgstr "Opravy"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__total_corrections
+msgid "Corrections (EUR)"
+msgstr "Opravy (EUR)"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Corrections of earlier quarters"
+msgstr "Opravy předchozích čtvrtletí"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__country_id
+msgid "Country"
+msgstr "Země"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__currency_id
+msgid "Currency"
+msgstr "Měna"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__active_submission_id
+msgid "Current submission"
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__date_from
+msgid "Date From"
+msgstr "Datum od"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__date_to
+msgid "Date To"
+msgstr "Datum do"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_rate__fixing_date
+msgid ""
+"Day of the ECB fixing used: the reference date, or the next day of "
+"publication when none was published for it."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__submission_state
+msgid "Delivery"
+msgstr "Doručení"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Documents"
+msgstr "Doklady"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__state__draft
+msgid "Draft"
+msgstr "Koncept"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_rate__source__ecb
+msgid "ECB reference rate"
+msgstr "Referenční kurz ECB"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Enter the ECB rate for %s first."
+msgstr "Nejprve zadejte kurz ECB pro %s."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Enter the ECB reference rate for %s."
+msgstr "Zadejte referenční kurz ECB k %s."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_correction__is_manual
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_line__is_manual
+msgid "Entered by hand; kept when the return is recomputed."
+msgstr "Zadáno ručně; při přepočtu přiznání zůstává."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__eur_currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__eur_currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__eur_currency_id
+msgid "Eur Currency"
+msgstr "Měna EUR"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__rate_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Exchange rates"
+msgstr "Směnné kurzy"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Export XML"
+msgstr "Exportovat XML"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__state__exported
+msgid "Exported"
+msgstr "Exportováno"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "File it"
+msgstr "Podat"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__filed_history_ids
+msgid "Filed history"
+msgstr "Historie podání"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__fixing_date
+msgid "Fixing Date"
+msgstr "Datum fixace"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__form_code
+msgid "Form Code"
+msgstr "Kód formuláře"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_line__supply_type__goods
+msgid "Goods"
+msgstr "Zboží"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__legacy
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__state__legacy
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Historical filing"
+msgstr "Historické podání"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_rate__rate
+msgid "How many units of the currency one euro buys."
+msgstr "Kolik jednotek měny odpovídá jednomu euru."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimku aktivity."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu doručení."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_correction__taxable_amount
+msgid "Informational: neither form asks for the base of a correction."
+msgstr "Informativní: žádný z formulářů základ opravy nevyžaduje."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__move_line_ids
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__move_line_ids
+msgid "Journal items"
+msgstr "Účetní položky"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_rate__reference_date
+msgid ""
+"Last day of the quarter the converted amounts belong to — this return's, or "
+"the corrected quarter's."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__is_manual
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__is_manual
+msgid "Manual"
+msgstr "Ruční"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Mark Submitted"
+msgstr "Označit jako podané"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__member_state_id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__member_state_id
+msgid "Member state of consumption"
+msgstr "Stát spotřeby"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__country_id
+msgid "Member state of identification"
+msgstr "Stát identifikace"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_version__country_id
+msgid ""
+"Member state of identification whose tax administration receives this form."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_line__origin_country_id
+msgid ""
+"Member state of identification, or the member state of a fixed establishment"
+" / from which the goods were dispatched."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručení zprávy"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_ids
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__name
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__name
+msgid "Name"
+msgstr "Název"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Negative row %s"
+msgstr "Záporný řádek %s"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__is_nil
+msgid "Nil return"
+msgstr "Nulové přiznání"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "No exchange rate for %s"
+msgstr "Chybí směnný kurz pro %s"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou doručení"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_version_view_form
+msgid "OSS Return Version"
+msgstr "Verze přiznání OSS"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.actions.act_window,name:l10n_cssk_oss_base.cssk_oss_return_version_action
+#: model:ir.ui.menu,name:l10n_cssk_oss_base.menu_cssk_oss_return_version
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_version_view_list
+msgid "OSS Return Versions"
+msgstr "Verze přiznání OSS"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.ui.menu,name:l10n_cssk_oss_base.menu_cssk_oss_return
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "OSS VAT Return"
+msgstr "Přiznání k DPH OSS"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model,name:l10n_cssk_oss_base.model_cssk_oss_return
+msgid "OSS VAT Return (Union scheme)"
+msgstr "Přiznání k DPH OSS (režim Unie)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model,name:l10n_cssk_oss_base.model_cssk_oss_return_correction
+msgid "OSS VAT Return Correction"
+msgstr "Oprava v přiznání k DPH OSS"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model,name:l10n_cssk_oss_base.model_cssk_oss_return_rate
+msgid "OSS VAT Return Exchange Rate"
+msgstr "Směnný kurz přiznání k DPH OSS"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model,name:l10n_cssk_oss_base.model_cssk_oss_return_line
+msgid "OSS VAT Return Supply Row"
+msgstr "Řádek plnění přiznání k DPH OSS"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model,name:l10n_cssk_oss_base.model_cssk_oss_return_version
+msgid "OSS VAT Return Version"
+msgstr "Verze přiznání k DPH OSS"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.actions.act_window,name:l10n_cssk_oss_base.cssk_oss_return_action
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_list
+msgid "OSS VAT Returns"
+msgstr "Přiznání k DPH OSS"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "OSS VAT return"
+msgstr "přiznání k DPH OSS"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "OSS journal items"
+msgstr "Účetní položky OSS"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Only a draft return can be recomputed."
+msgstr "Přepočítat lze jen přiznání ve stavu koncept."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__partial_date_from
+msgid ""
+"Only when the registration began during the quarter (or the member state of "
+"identification changed): the first day the return covers. Emitted as the "
+"form's period start date."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__partial_date_to
+msgid ""
+"Only when the registration ended during the quarter: the last day the return"
+" covers."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__state__preview
+msgid "Preview"
+msgstr "Náhled"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__quarter__1
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_correction__quarter__1
+msgid "Q1"
+msgstr "1. čtvrtletí"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__quarter__2
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_correction__quarter__2
+msgid "Q2"
+msgstr "2. čtvrtletí"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__quarter__3
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_correction__quarter__3
+msgid "Q3"
+msgstr "3. čtvrtletí"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__quarter__4
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_correction__quarter__4
+msgid "Q4"
+msgstr "4. čtvrtletí"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__quarter
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__quarter
+msgid "Quarter"
+msgstr "Čtvrtletí"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__rate_type
+msgid "Rate Type"
+msgstr "Typ sazby"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Rate type unknown for %s"
+msgstr "Neznámý typ sazby u %s"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_line__rate_type__reduced
+msgid "Reduced"
+msgstr "Snížená"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__reference_date
+msgid "Reference Date"
+msgstr "Referenční datum"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__partial_date_from
+msgid "Registered from"
+msgstr "Registrován od"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__partial_date_to
+msgid "Registered until"
+msgstr "Registrován do"
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Reset this filing to draft? The originally filed copy is kept."
+msgstr "Vrátit podání do konceptu? Původně podaná kopie zůstane zachována."
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Reset to Draft"
+msgstr "Vrátit do konceptu"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__activity_user_id
+msgid "Responsible User"
+msgstr "Odpovědný uživatel"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__return_id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__return_id
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__return_id
+msgid "Return"
+msgstr "Přiznání"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__legacy_stated_codes
+msgid "Rows the source states"
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručení SMS"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_line__supply_type__services
+msgid "Services"
+msgstr "Služby"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Set standard / reduced on the row."
+msgstr "Na řádku nastavte základní / sníženou sazbu."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__source
+msgid "Source"
+msgstr "Zdroj"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__legacy_reference
+msgid "Source reference"
+msgstr "Zdrojová reference"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__legacy_source
+msgid "Source system"
+msgstr "Zdrojový systém"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return_line__rate_type__standard
+msgid "Standard"
+msgstr "Základní"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav podle aktivit\n"
+"Po termínu: Termín již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Naplánováno: Budoucí aktivity."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__structure_version
+msgid "Structure Version"
+msgstr "Verze struktury"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_version__structure_version
+msgid ""
+"Structure version the XML declares, where the form carries one (EPO "
+"verzePis). Pinned by hand in the country module's data/SCHEMA_VERSION: "
+"nothing in the XSD can say it is stale."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__submission_reference
+msgid "Submission Reference"
+msgstr "Reference podání"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__submission_reference
+msgid "Submission identifier / confirmation number from the FS portal."
+msgstr "Identifikátor podání / potvrzovací číslo z portálu FS."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__submission_ids
+msgid "Submissions"
+msgstr "Podání"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__state__submitted
+msgid "Submitted"
+msgstr "Podáno"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__submitted_date
+msgid "Submitted Date"
+msgstr "Datum odeslání"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__total_due
+msgid ""
+"Sum of the POSITIVE per-member-state balances. A member state whose "
+"corrections exceed this quarter's VAT ends negative; that amount is refunded"
+" by that state and is not netted against the others — the EU return "
+"structure's 'Total VAT amount due' and the Finančná správa eForm both sum "
+"the positive balances only."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__origin_country_id
+msgid "Supplied from"
+msgstr "Dodáno ze státu"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+msgid "Supplies"
+msgstr "Plnění"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "Supply %s to the state it is made from"
+msgstr "Plnění %s do státu, ze kterého je uskutečněno"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__supply_type
+msgid "Supply Type"
+msgstr "Druh plnění"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__taxable_amount
+msgid "Taxable amount (EUR)"
+msgstr "Základ daně (EUR)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__booked_vat
+msgid ""
+"The OSS VAT actually posted on the documents in scope, converted the same "
+"way. Checked against the computed VAT by a kontrola."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"The Union scheme OSS return exists from the third quarter of 2021; earlier "
+"quarters were filed on the MOSS return."
+msgstr ""
+"Přiznání OSS v režimu Unie existuje od 3. čtvrtletí 2021; dřívější čtvrtletí"
+" se podávala v přiznání MOSS."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_version__form_code
+msgid ""
+"The authority's own code for the form, e.g. OSSEI1 (EPO) or DPOSS_EUv01 "
+"(Finančná správa)."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__country_id
+msgid "The country to use the tax reports from for this company"
+msgstr "Země, jejíž daňové výkazy se pro tuto společnost použijí"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__submitted_attachment_id
+msgid "The exact XML that was submitted; preserved across reset-to-draft."
+msgstr "Přesné XML, které bylo podáno; zachováno i po vrácení do konceptu."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"The three years for correcting the original return ran out on %s. The "
+"correction goes to the member state of consumption directly."
+msgstr ""
+"Tříletá lhůta pro opravu původního přiznání uplynula %s. Oprava se podává "
+"přímo státu spotřeby."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"The three-year correction period ends before this return is due; file it no "
+"later than %s."
+msgstr ""
+"Tříletá lhůta pro opravu končí před lhůtou pro podání tohoto přiznání; "
+"podejte jej nejpozději %s."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_list
+msgid "Total"
+msgstr "Celkem"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výjimky aktivity v záznamu."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__rate
+msgid "Units per 1 EUR"
+msgstr "Jednotek za 1 EUR"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__vat_amount
+msgid "VAT (EUR)"
+msgstr "Daň (EUR)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__booked_vat
+msgid "VAT booked (EUR)"
+msgstr "Zaúčtovaná daň (EUR)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__vat_amount
+msgid "VAT correction (EUR)"
+msgstr "Oprava daně (EUR)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__total_due
+msgid "VAT due (EUR)"
+msgstr "Splatná daň (EUR)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__origin_vat
+msgid "VAT no. there"
+msgstr "DIČ v tomto státě"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__total_vat
+msgid "VAT on supplies (EUR)"
+msgstr "Daň z plnění (EUR)"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_line__origin_vat
+msgid ""
+"VAT or tax reference number assigned by the 'supplied from' state, when that"
+" is not the member state of identification."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__valid_from
+msgid "Valid From"
+msgstr "Platné od"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__valid_to
+msgid "Valid To"
+msgstr "Platné do"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_line__vat_rate
+msgid "Vat Rate"
+msgstr "Sazba DPH"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__version_id
+msgid "Version"
+msgstr "Verze"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__website_message_ids
+msgid "Website Messages"
+msgstr "Zprávy z webu"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace z webu"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
+msgstr ""
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__xml_template_ref_id
+msgid "XML template"
+msgstr "Šablona XML"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "XML příloha"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__xml_root_element
+msgid "Xml Root Element"
+msgstr "Kořenový element XML"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__xml_schema_data
+msgid "Xml Schema Data"
+msgstr "Data XSD schématu"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__xml_schema_filename
+msgid "Xml Schema Filename"
+msgstr "Název souboru XML schématu"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__year
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__year
+msgid "Year"
+msgstr "Rok"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid ""
+"computed %(c).2f EUR, booked %(b).2f EUR — check for OSS tax lines edited by"
+" hand or taxes with a wrong rate."
+msgstr ""
+"vypočteno %(c).2f EUR, zaúčtováno %(b).2f EUR — zkontrolujte ručně upravené "
+"daňové řádky OSS nebo daně s chybnou sazbou."
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "id"
+msgstr "id"
+
+#. module: l10n_cssk_oss_base
+#. odoo-python
+#: code:addons/l10n_cssk_oss_base/models/cssk_oss_return.py:0
+msgid "recomputed"
+msgstr "přepočítáno"

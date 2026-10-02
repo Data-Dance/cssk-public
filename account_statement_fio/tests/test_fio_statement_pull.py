@@ -272,18 +272,45 @@ class TestFioStatementPull(FioCommon):
         self._pull(statement_xml([movement(movement_id=5)]))
         self.assertEqual(self.journal.fio_last_movement_id, "77")
 
-    def test_a_movement_in_the_wrong_currency_is_imported_with_a_warning(self):
-        """A Fio account is single-currency, so this should not happen.
+    def test_a_movement_in_the_wrong_currency_is_refused(self):
+        """Fio reports a movement in its account's currency, so a mismatch is
+        a journal configured for the wrong currency. Importing it used to book
+        100 EUR as 100 CZK with only a log line to say so."""
+        with self.assertRaises(UserError) as caught:
+            self._pull(statement_xml([movement(currency="EUR")]))
+        self.assertIn("EUR", str(caught.exception))
+        self.assertFalse(self.env["account.bank.statement.line"].search_count([
+            ("journal_id", "=", self.journal.id)]))
 
-        If it does, the amount is taken as delivered and the original kept in
-        raw_data — guessing at foreign_currency_id would book it wrong.
-        """
-        with self.assertLogs(
-            "odoo.addons.account_statement_fio.models.account_journal", "WARNING",
-        ) as logged:
-            lines = self._pull(statement_xml([movement(currency="EUR")]))
-        self.assertEqual(len(lines), 1)
-        self.assertIn("EUR", "".join(logged.output))
+    def _foreign_currency(self, code="EUR"):
+        currency = self.env["res.currency"].with_context(active_test=False).search(
+            [("name", "=", code)], limit=1)
+        currency.active = True
+        return currency
+
+    def test_a_card_payment_abroad_keeps_its_original_amount(self):
+        eur = self._foreign_currency()
+        lines = self._pull(statement_xml([movement(
+            amount="-512.40", columns={18: "20.00 EUR"})]))
+        self.assertEqual(lines.foreign_currency_id, eur)
+        self.assertAlmostEqual(lines.amount_currency, -20.0)
+        self.assertAlmostEqual(lines.amount, -512.40)
+
+    def test_a_no_break_space_in_the_amount_is_read(self):
+        self._foreign_currency()
+        lines = self._pull(statement_xml([movement(
+            amount="-30512.40", columns={18: "1\u00a0200.00 EUR"})]))
+        self.assertAlmostEqual(lines.amount_currency, -1200.0)
+
+    def test_an_unreadable_specification_is_left_alone(self):
+        self._foreign_currency()
+        lines = self._pull(statement_xml([movement(
+            columns={18: "platba kartou 20 EUR Wien"})]))
+        self.assertFalse(lines.foreign_currency_id)
+
+    def test_a_specification_in_the_journal_currency_adds_nothing(self):
+        lines = self._pull(statement_xml([movement(columns={18: "15.00 CZK"})]))
+        self.assertFalse(lines.foreign_currency_id)
 
     def test_explanations_are_actionable(self):
         from odoo.addons.account_fio_base.utils.client import (

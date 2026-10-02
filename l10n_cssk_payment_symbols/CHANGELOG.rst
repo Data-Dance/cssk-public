@@ -33,6 +33,19 @@ Fixed
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-09-29
+-------------------------
+
+Fixed
+~~~~~
+
+- **Symbols carried only in the CAMT reference were missed.** OCA's CAMT
+  import puts ``Ustrd`` in the label and ``EndToEndId`` (or the structured
+  reference) in ``ref``, and a SEPA payment from a Czech or Slovak bank often
+  carries its symbols only there (``/VS53101/SS/KS``, Fio ``?/VS53155/SS/KS``)
+  while the label is free text. The reference and the note are now read after
+  the label. An all-zero symbol (``SS0``) counts as none.
+
 Changed
 ~~~~~~~
 

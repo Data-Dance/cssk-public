@@ -36,7 +36,7 @@ localization** — tick to install.
         "l10n_cssk_accrual",
         # § 29 zákona 431/2002 makes inventarizácia mandatory for every účtovná
         # jednotka as at the závierka date, so it belongs in the core bundle.
-        "l10n_sk_inventarizacia",
+        "l10n_sk_inventory_verification",
     ],
     "data": [
         "security/ir.model.access.csv",

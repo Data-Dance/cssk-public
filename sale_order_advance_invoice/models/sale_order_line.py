@@ -115,6 +115,13 @@ class SaleOrderLine(models.Model):
                 'price_unit': advance.amount_untaxed,
                 'extra_tax_data': False,
             })
+            # Give back the VAT at the taxes the tax document charged, not at
+            # the advance product's defaults: a 21 % advance deducted at 15 %
+            # bills the customer the difference again. Advances at several
+            # rates are split per rate later (_split_advance_deduction_lines).
+            groups = self.order_id._advance_deduction_tax_groups(advance)
+            if len(groups) == 1:
+                res['tax_ids'] = [Command.set(groups[0][0].ids)]
         elif company.advance_received_account_id:
             # No posted tax document: deduct the gross advance amount using the
             # product's default income account (from super()).  The clearing

@@ -18,6 +18,16 @@ class PartnerAutocompleteProvider(models.AbstractModel):
     _name = "partner.autocomplete.provider"
 
     @api.model
+    def _autocomplete_country_codes(self):
+        """Countries whose register this provider reads.
+
+        A partner in one of them is looked up here whatever the company's own
+        provider is, so a Slovak company can still autocomplete a Czech
+        partner from ARES. Empty: used only as a company's chosen provider.
+        """
+        return ()
+
+    @api.model
     def read_by_vat(self, vat):
         """Hook for extension"""
         return []

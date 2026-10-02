@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
-
-    <record id="advance_invoice_journal" model="account.journal">
-        <field name="name">Tax Documents for Advance Invoices</field>
-        <field name="code">TDADV</field>
-        <field name="type">general</field>
-    </record>
-
+<odoo>
+    <!-- The advance tax-document journal (TDADV) of the installing company.
+         Not a <record>: a company may already have a TDADV journal (the
+         localization helpers create one per company), and inserting a second
+         breaks the per-company code uniqueness on install or upgrade. The
+         function adopts the existing journal, or creates it, and gives it the
+         xmlid. Runs on every install and upgrade; idempotent. -->
+    <function model="res.company" name="_advance_invoice_journal_ensure_xmlid"/>
 </odoo>

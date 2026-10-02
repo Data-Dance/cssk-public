@@ -87,15 +87,21 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
     def _cssk_row_vals(self, statement, group):
         move = group["move"]
         line = group["line"]
-        original = move.reversed_entry_id
+        # The corrected document: Odoo's link where there is one, else the
+        # number typed on a credit note created by hand (which has no link to
+        # follow). Without either a C.1 / C.2 row has no FO, and the export
+        # refuses it rather than filing the credit note's own number as its
+        # original, which is what the template used to fall back to.
+        original = move._cssk_control_original()
+        manual = move.cssk_control_original_ref or False
         if self._kv_inbound:
             entry_ref = move.ref or move.name
             entry_ref_original = (
-                (original.ref or original.name) if original else False
+                (original.ref or original.name) if original else manual
             )
         else:
             entry_ref = move.name
-            entry_ref_original = original.name if original else False
+            entry_ref_original = original.name if original else manual
         vals = {
             "statement_id": statement.id,
             "move_line_id": line.id,

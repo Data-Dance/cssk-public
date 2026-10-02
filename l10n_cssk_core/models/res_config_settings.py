@@ -10,6 +10,9 @@ class ResConfigSettings(models.TransientModel):
         string="Default Tax Authority",
     )
 
+    cssk_vat_deferral_account_id = fields.Many2one(
+        related="company_id.cssk_vat_deferral_account_id", readonly=False)
+
     # True on Enterprise (account_accountant / account_reports installed). Used
     # to hide Community-only options (e.g. account_usability) that are redundant
     # or duplicate Enterprise's own menus.

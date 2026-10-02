@@ -68,6 +68,25 @@
                             <field name="vies_name_match" readonly="1" />
                         </group>
                     </group>
+                    <!--
+                        Every check, by every company this user can see. The
+                        fields above are this company's latest; this is the
+                        trail behind them.
+                    -->
+                    <field name="vies_check_ids" readonly="1" nolabel="1">
+                        <list create="0" delete="0" edit="0"
+                              decoration-danger="result == 'invalid'"
+                              decoration-muted="result == 'fault'">
+                            <field name="check_date" />
+                            <field name="company_id" groups="base.group_multi_company" />
+                            <field name="result" />
+                            <field name="consultation_number" />
+                            <field name="request_date" optional="hide" />
+                            <field name="trader_name" optional="hide" />
+                            <field name="fault_reason" optional="hide" />
+                            <field name="user_id" optional="show" />
+                        </list>
+                    </field>
                     <div class="text-muted">
                         The consultation number is the evidence that the check
                         happened. It is what a tax authority asks for when a

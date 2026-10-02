@@ -12,6 +12,18 @@
                              help="Single-entry regimes derive a cash journal from these double-entry books.">
                         <field name="cssk_bookkeeping_regime"/>
                     </setting>
+                    <setting id="cssk_cash_partial_allocation_setting"
+                             string="Partial Payment Allocation"
+                             help="Which part of a part payment settles the VAT. Fix it in the internal directive and keep it for the whole year.">
+                        <field name="cssk_cash_partial_allocation"/>
+                    </setting>
+                    <setting id="cssk_map_chart_setting"
+                             string="Map the Chart"
+                             help="Set the denník category on every account the country mapping knows. Never overwrites a category you chose; safe to run again.">
+                        <button name="action_cssk_map_chart_categories" type="object"
+                                string="Map chart to cash journal categories"
+                                class="btn-link"/>
+                    </setting>
                     <setting id="cssk_cash_journal_start_setting"
                              string="Cash Journal Starts"
                              help="First date the denník covers; earlier payments are left alone.">

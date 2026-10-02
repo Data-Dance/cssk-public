@@ -8,6 +8,20 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.0.1] — 2026-09-29
+-------------------------
+
+Fixed
+~~~~~
+
+- **A bank line without a partner never paid an advance.** Its partner was
+  set after the suspense leg had been rewritten to the payment's account,
+  and the resulting resync rebuilt the entry and tried to delete a posted
+  line ("You can't delete a posted journal item"). The error was caught and
+  only logged, so automatic and wizard matches silently did nothing - in
+  exactly the usual case for a match by variable symbol. The partner is now
+  set first.
+
 Changed
 ~~~~~~~
 

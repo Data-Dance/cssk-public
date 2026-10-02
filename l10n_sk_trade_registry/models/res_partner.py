@@ -87,12 +87,6 @@ class ResPartner(models.Model):
         string="Číslo zápisu",
         help="Oddiel and vložka as the register writes them — e.g. Sro/3586/B.",
     )
-    l10n_sk_nace = fields.Char(
-        string="SK NACE",
-        help="Statistical classification of the main activity. Not the same "
-        "as a predmet podnikania: NACE says what the subject is counted as, "
-        "a predmet podnikania is what it is authorised to do.",
-    )
     l10n_sk_legal_form = fields.Char(
         string="Právna forma",
         help="As the register words it — spoločnosť s ručením obmedzeným, "

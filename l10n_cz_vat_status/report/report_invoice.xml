@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        A document the company issues while it is not a plátce is not a daňový
+        doklad: § 28 odst. 1 puts that duty on a plátce, and § 29 lists what a
+        daňový doklad carries — among them the DUZP (písm. h)), the rate and
+        the tax (písm. k), l)). Core prints the title "Invoice" (Faktura),
+        which claims nothing, and prints no tax column once the lines carry no
+        tax; what is left to suppress is the "Taxable Supply" date, the one
+        element that exists only because of VAT. The customary statement goes
+        below the notes.
+
+        The exception is an identifikovaná osoba's § 9 odst. 1 service to
+        another member state, for which § 28 odst. 3 does require a daňový
+        doklad; `l10n_cz_vat_status_is_tax_document` stays True there.
+    -->
+    <template id="report_invoice_document_cz_vat_status"
+              inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@name='taxable_supply_date']" position="attributes">
+            <attribute name="t-if">o.taxable_supply_date and o.show_taxable_supply_date and o.l10n_cz_vat_status_is_tax_document</attribute>
+        </xpath>
+        <xpath expr="//div[@name='comment']" position="after">
+            <p t-if="o.l10n_cz_vat_status_print_note"
+               name="l10n_cz_vat_status_note" class="mt-2">
+                <strong t-out="o.l10n_cz_vat_status_print_note"/>
+            </p>
+        </xpath>
+    </template>
+</odoo>

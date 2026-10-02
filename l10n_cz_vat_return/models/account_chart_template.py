@@ -21,4 +21,5 @@ class AccountChartTemplate(models.AbstractModel):
             companies = company or self.env.company
             companies._cz_tag_selfassessed_deduction()
             companies._cz_fix_refund_repartition_accounts()
+            companies._cz_map_intra_community_purchase_taxes()
         return result

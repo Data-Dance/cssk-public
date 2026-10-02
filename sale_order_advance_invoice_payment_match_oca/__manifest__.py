@@ -1,6 +1,6 @@
 {
     "name": "Advance Invoices — Bank Statement Matching (OCA Reconcile)",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "summary": "Runs the advance-invoice matching inside the OCA "
                "reconciliation widget's auto-reconcile.",
     "description": """

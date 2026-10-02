@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-09-28
+-------------------------
+
+Changed
+~~~~~~~
+
+- The revaluation runs with ``cssk_actual_rates``: a company on a fixed
+  monthly rate (``currency_rate_update_cz``) is revalued at ČNB's actual rate
+  of the revaluation date. Inert for a company on daily rates.
+
 [19.0.1.0.0] — 2026-07-04
 -------------------------
 

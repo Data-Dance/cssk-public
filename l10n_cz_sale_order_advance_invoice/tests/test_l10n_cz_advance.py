@@ -39,3 +39,18 @@ class TestL10nCzAdvanceWiring(TransactionCase):
         apply_advance_invoice_spec(self.env, "cz", CZ_SPEC)
         after = {c.id: c.advance_received_account_id.id for c in companies}
         self.assertEqual(before, after, "re-applying the spec must not change config")
+
+    def test_a_company_whose_chart_comes_later_is_wired(self):
+        """The hook only saw companies that had the chart at install time; a
+        chart loaded afterwards (a new company, or one install run doing both)
+        must be wired as it loads."""
+        company = self.env["res.company"].create({
+            "name": "Later s.r.o.", "country_id": self.env.ref("base.cz").id})
+        self.env.user.company_ids |= company
+        self.env["account.chart.template"].try_loading("cz", company, install_demo=False)
+        clearing = company.advance_received_account_id.with_company(company)
+        self.assertEqual(clearing.code, "324001")
+        self.assertTrue(clearing, "advance clearing account must be set")
+        self.assertTrue(company.advance_tax_doc_account_id)
+        self.assertEqual(company.advance_invoice_journal_id.code, "TDADV")
+        self.assertEqual(company.advance_invoice_journal_id.company_id, company)

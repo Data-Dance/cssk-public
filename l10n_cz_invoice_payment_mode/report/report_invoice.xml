@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Forma úhrady beside the payment symbols, where a Czech reader looks
+        for it. account_payment_mode prints only the mode's free-text note,
+        at the foot and only when one is set.
+    -->
+    <template id="report_invoice_document_forma_uhrady"
+              inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='informations']" position="inside">
+            <div class="col-auto col-3 mw-100 mb-2"
+                 t-if="o.payment_mode_id and o.company_id.country_code == 'CZ'"
+                 name="l10n_cz_forma_uhrady">
+                <strong>Forma úhrady</strong>
+                <div t-field="o.payment_mode_id.name"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

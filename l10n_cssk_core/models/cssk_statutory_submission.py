@@ -921,8 +921,18 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         deliberately: a ``= False`` leaf reached through a ``move_id.`` path
         does not match the rows with no tax point at all, which silently drops
         every entry, bank and cash document out of the statement.
+
+        With the context key ``cssk_period_ignore_declared_date`` the rule is
+        evaluated as if no document recorded a ``cssk_vat_deduction_date``.
+        That is a hook for a module that knows a declared period does not
+        apply to some documents (``l10n_cz_vat_status``: a non-payer has no
+        deduction to defer); it takes the answer for those documents from
+        this pass, so the fallback rule stays written down once, here.
         """
         Move = self.env["account.move"]
+        honour_declared = (
+            "cssk_vat_deduction_date" in Move._fields
+            and not self.env.context.get("cssk_period_ignore_declared_date"))
         base = [("company_id", "=", company.id), ("state", "=", "posted")]
         by_date = [("date", ">=", date_from), ("date", "<=", date_to)]
         if "taxable_supply_date" not in Move._fields:
@@ -940,7 +950,7 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
             ("date", ">=", date_from),
             ("date", "<=", date_to),
         ]
-        if "cssk_vat_deduction_date" in Move._fields:
+        if honour_declared:
             # An EXPLICITLY RECORDED declaration period wins over the tax point
             # on the output side too, and only where one is recorded — a
             # document raised in Odoo leaves the field empty and follows the
@@ -1009,18 +1019,22 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         invoice_like = ["in_invoice", "in_refund", "in_receipt", "out_receipt"]
         claim_base = base + [("move_type", "not in", tax_point_types)]
         if "cssk_vat_deduction_date" in Move._fields:
+            undeclared = (
+                [("cssk_vat_deduction_date", "=", False)] if honour_declared
+                else [])
             declared = [
                 "&", "&",
                 ("cssk_vat_deduction_date", "!=", False),
                 ("cssk_vat_deduction_date", ">=", date_from),
                 ("cssk_vat_deduction_date", "<=", date_to),
             ]
-            claim_side = Move.search(claim_base + declared)
+            claim_side = (Move.search(claim_base + declared)
+                          if honour_declared else Move.browse())
             # No declaration: an entry falls back to its tax point, everything
             # else to its accounting date.
             claim_side |= Move.search(
                 claim_base
-                + [("cssk_vat_deduction_date", "=", False)]
+                + undeclared
                 + [("move_type", "not in", invoice_like)]
                 + [
                     "|",
@@ -1036,7 +1050,7 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
             )
             claim_side |= Move.search(
                 claim_base
-                + [("cssk_vat_deduction_date", "=", False)]
+                + undeclared
                 + [("move_type", "in", invoice_like)]
                 + [("date", ">=", date_from), ("date", "<=", date_to)]
             )

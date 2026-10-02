@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Control Statement — Shared Framework",
-    "version": "19.0.2.1.5",
+    "version": "19.0.2.2.0",
     "summary": "Abstract framework for the Slovak KV DPH and Czech KH DPH VAT "
                "control statements: versioned templates, section/summary/"
                "reconciliation row mixins, move-line section assignment and an "
@@ -51,6 +51,7 @@ section-resolution algorithm.
         "views/cssk_control_statement_version_views.xml",
         "views/cssk_control_statement_views.xml",
         "views/cssk_kv_kh_menus.xml",
+        "views/account_move_views.xml",
     ],
     "installable": True,
 }

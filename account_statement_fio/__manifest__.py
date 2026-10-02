@@ -51,7 +51,7 @@ the label, so matching works either way — the same arrangement as
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Bank",
-    "version": "19.0.2.3.3",
+    "version": "19.0.2.4.0",
     "license": "AGPL-3",
     "depends": ["account_fio", "account_fio_base", "account_statement_import_base"],
     "data": [

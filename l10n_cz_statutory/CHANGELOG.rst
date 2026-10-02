@@ -8,6 +8,54 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-09-29
+-------------------------
+
+Changed
+~~~~~~~
+
+- Depends on ``partner_nace``: the company's activity code for the returns is
+  its partner's NACE code.
+
+Fixed
+~~~~~
+
+- The competent-office preflight (``c_ufo``) applied to every Czech
+  submission, so an OSS return could not be exported where this module is
+  installed — although OSSEI1 carries no ``c_ufo`` at all. A form now
+  declines it through ``_cz_requires_tax_authority()``.
+
+[19.0.1.2.0] — 2026-09-28
+-------------------------
+
+Added
+~~~~~
+
+- **Bad-debt VAT corrections** — ``account.move.l10n_cz_bad_debt``: *P* for a
+  correction under § 46 and following (creditor) or § 74b (debtor, § 74a
+  before 2025), *A* for the old § 44, which a constraint allows only when the
+  corrected supply is dated up to 31. 3. 2019. On the invoice's *Other Info*
+  page, readonly once posted. The taxes stay the ordinary ones; the flag is
+  what the VAT return and the kontrolní hlášení read.
+
+- **Who files, once for every Czech EPO VAT form.**
+  ``res.company._l10n_cz_epo_vetap()`` builds the ``VetaP`` of DPHDP3, the
+  kontrolní hlášení and the souhrnné hlášení, which used to carry only the
+  DIČ, the office and the name with ``typ_ds="P"`` hard-coded:
+
+  * ``typ_ds`` follows the company's person type, so a natural person files
+    as **F** with titul / jméno / příjmení instead of an obchodní jméno;
+  * the seat address (ulice, číslo popisné / orientační split off the street,
+    obec, PSČ without spaces), telephone and e-mail;
+  * the **oprávněná osoba** (name and vztah k právnické osobě) and who
+    **sestavil** the filing;
+  * a **zástupce** filing for the client — typically a tax adviser — with the
+    kód podepisující osoby, IČO or name, and evidenční číslo / datum narození.
+
+  Set on the company form, page *EPO podání*. Sizes and codes are the XSDs'.
+- ``res.company._l10n_cz_typ_platce(date)``: the DPHDP3 ``typ_platce``, "P"
+  unless a module recording the company's VAT status says otherwise.
+
 [19.0.1.1.2] — 2026-09-13
 -------------------------
 

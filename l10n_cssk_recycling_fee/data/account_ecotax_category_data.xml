@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+     The categories are the ones both countries transpose from EU law, so one
+     set serves CZ and SK and the English wording is the common source:
+
+     * EEE 1-6: Directive 2012/19/EU, Annex III — CZ příloha č. 1 zákona
+       č. 542/2020 Sb. (skupiny elektrozařízení), SK príloha č. 6 časť II zákona
+       č. 79/2015 Z. z. (kategórie elektrozariadení).
+     * Batteries: the five categories of Regulation (EU) 2023/1542, Art. 3.
+
+     A scheme's tariff is finer than this (per product group, per weight band);
+     that granularity belongs on the classification, which points here.
+-->
+<odoo noupdate="1">
+    <record id="categ_eee_1" model="account.ecotax.category">
+        <field name="code">EEE1</field>
+        <field name="name">Temperature exchange equipment</field>
+    </record>
+    <record id="categ_eee_2" model="account.ecotax.category">
+        <field name="code">EEE2</field>
+        <field name="name">Screens, monitors and equipment with screens over 100 cm²</field>
+    </record>
+    <record id="categ_eee_3" model="account.ecotax.category">
+        <field name="code">EEE3</field>
+        <field name="name">Lamps</field>
+    </record>
+    <record id="categ_eee_4" model="account.ecotax.category">
+        <field name="code">EEE4</field>
+        <field name="name">Large equipment (any external dimension over 50 cm)</field>
+    </record>
+    <record id="categ_eee_5" model="account.ecotax.category">
+        <field name="code">EEE5</field>
+        <field name="name">Small equipment (no external dimension over 50 cm)</field>
+    </record>
+    <record id="categ_eee_6" model="account.ecotax.category">
+        <field name="code">EEE6</field>
+        <field name="name">Small IT and telecommunication equipment (no external dimension over 50 cm)</field>
+    </record>
+    <record id="categ_bat_portable" model="account.ecotax.category">
+        <field name="code">BAT-P</field>
+        <field name="name">Portable batteries</field>
+        <field name="description">Separate disclosure of the take-back cost is prohibited (CZ § 85 odst. 3, SK § 46 ods. 2).</field>
+    </record>
+    <record id="categ_bat_lmt" model="account.ecotax.category">
+        <field name="code">BAT-LMT</field>
+        <field name="name">LMT batteries (light means of transport)</field>
+    </record>
+    <record id="categ_bat_sli" model="account.ecotax.category">
+        <field name="code">BAT-SLI</field>
+        <field name="name">SLI (automotive) batteries</field>
+    </record>
+    <record id="categ_bat_industrial" model="account.ecotax.category">
+        <field name="code">BAT-IND</field>
+        <field name="name">Industrial batteries</field>
+    </record>
+    <record id="categ_bat_ev" model="account.ecotax.category">
+        <field name="code">BAT-EV</field>
+        <field name="name">Electric vehicle batteries</field>
+    </record>
+</odoo>

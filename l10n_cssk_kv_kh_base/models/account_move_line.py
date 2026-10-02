@@ -436,6 +436,70 @@ class AccountMoveLine(models.Model):
             changed += lines._cssk_recompute_section_codes()
         return changed
 
+    # --- drill-down audit columns (display only, never filed) ---------------
+    # What an accountant checks a row against, per journal item: the base,
+    # the rate, the whole VAT and the part of it deducted. The last two differ
+    # exactly where a deduction is partial by its tax repartition — fuel
+    # receipts at 50 %, one leg on the VAT account and one on the expense —
+    # which is the error these columns exist to make visible.
+    cssk_audit_base = fields.Monetary(
+        string="Base", compute="_compute_cssk_audit",
+        currency_field="company_currency_id")
+    cssk_audit_rate = fields.Float(
+        string="Rate %", compute="_compute_cssk_audit")
+    cssk_audit_tax = fields.Monetary(
+        string="VAT", compute="_compute_cssk_audit",
+        currency_field="company_currency_id")
+    cssk_audit_deducted = fields.Monetary(
+        string="VAT deducted", compute="_compute_cssk_audit",
+        currency_field="company_currency_id")
+
+    def _compute_cssk_audit(self):
+        for line in self:
+            base = tax = deducted = rate = 0.0
+            if line.tax_ids and not line.tax_line_id:
+                base, tax = line._cssk_base_and_tax_amounts()
+                rate = line._cssk_tax_rate()
+                deducted = line._cssk_deducted_tax_amount()
+            line.cssk_audit_base = base
+            line.cssk_audit_rate = rate
+            line.cssk_audit_tax = tax
+            line.cssk_audit_deducted = deducted
+
+    def _cssk_deducted_tax_amount(self):
+        """The VAT of this base line that lands on a VAT account as a
+        deduction: its tax's legs that the tax closing settles
+        (``use_in_tax_closing``) with a positive factor.
+
+        A full deduction is the whole tax. A partial one by repartition (50 %
+        on 343, 50 % onto the expense) is its 343 half. A self-assessed tax is
+        its deduction leg — the output leg carries a negative factor — which
+        is the whole tax, as the section reports it. Signed like
+        :meth:`_cssk_base_and_tax_amounts`.
+        """
+        self.ensure_one()
+        taxes = self._cssk_taxes_for_amounts()
+        if not taxes:
+            return 0.0
+        # The refund repartition can differ from the invoice one — which legs
+        # land on a VAT account is exactly what is being read — so a credit
+        # note is computed with its own.
+        res = taxes.compute_all(
+            self.balance,
+            currency=self.company_id.currency_id,
+            quantity=1.0,
+            partner=self.partner_id,
+            is_refund=self.move_id.move_type in ("out_refund", "in_refund"),
+            handle_price_include=False,
+        )
+        Rep = self.env["account.tax.repartition.line"]
+        amount = 0.0
+        for tax_res in res["taxes"]:
+            rep = Rep.browse(tax_res.get("tax_repartition_line_id"))
+            if rep and rep.use_in_tax_closing and rep.factor_percent > 0:
+                amount += tax_res["amount"]
+        return self._cssk_direction_sign() * amount
+
     def _cssk_base_and_tax_amounts(self):
         """Return ``(base, tax)`` in **company currency** for this base line,
         signed per :meth:`_cssk_direction_sign`.

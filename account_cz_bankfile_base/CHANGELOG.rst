@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- ``utils.common.national_account_key`` — ``(bank, prefix, number)`` of a CZ/SK
+  account whether written as an IBAN or as ``prefix-number/bank``. The statement
+  imports (``account_statement_import_mt940``,
+  ``account_statement_import_kb_best``) pair a file's account with its journal
+  by it, because a string comparison cannot pair the two spellings of the same
+  account.
+
 [19.0.1.3.1] — 2026-09-13
 -------------------------
 

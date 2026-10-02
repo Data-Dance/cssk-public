@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?><xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified">
+  <xs:simpleType xmlns:xalan="http://xml.apache.org/xslt" name="dateInMultiFormat">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="(([1-9])|((0[1-9])|([12][0-9]))|(3[0-1]))\.((0?[1-9])|(1[0-2]))\.((19[0-9]{2})|(2[0-9]{3}))"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element xmlns:xalan="http://xml.apache.org/xslt" name="Pisemnost">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="OSSEI1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="1" minOccurs="1" name="VetaD">
+                <xs:complexType>
+                  <xs:attribute fixed="OSS" name="k_uladis" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Musí obsahovat "OSS" - Daň z přidané hodnoty k OSS. &lt;br&gt; ("OSS")</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute fixed="EI1" name="dokument" use="required"/>
+                  <xs:attribute name="electronic_interface" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>	ano - 1, ne - 0. Musí obsahovat 1 nebo 0. &lt;br&gt;(yes - 1, no - 0.  Must contain 1 or 0).
+</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="1"/>
+                        <xs:fractionDigits value="0"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="quarter" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Kalendářní čtvrtletí zdaňovacího období DPH v OSS, uveďte číslicí v rozsahu 1 až 4, k vyplněné hodnotě nepřipisujte tečku. &lt;br&gt;
+(The taxable period has to be provided, the calendar quarter with a value of 1 to 4, without a dot.) 
+  </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="1"/>
+                        <xs:fractionDigits value="0"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="year" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Kalendářní rok kvartálu, za který  podáváte daňové přiznání. &lt;br&gt;
+(The year of the calendar quarter. (without a dot).)
+</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="4"/>
+                        <xs:fractionDigits value="0"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="period_start_date" type="dateInMultiFormat" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Pokud je daňové přiznání podáváno pouze za část vyplněného zdaňovacího období, v případě stěhování, anebo v případě registrace v průběhu zdaňovacího období.&lt;br&gt;
+(Start date of period, to be used only in case of a MSID change or registration during the quarter.)
+</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="period_end_date" type="dateInMultiFormat" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Pokud je daňové přiznání podáváno pouze za část vyplněného zdaňovacího období, v případě stěhování, anebo ukončení registrace v průběhu zdaňovacího období. &lt;br&gt;
+(End date of period, to be used only in case of a MSID change or an end of registration during the quarter.)
+</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="vat_number" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Kmenová část DIČ (tj. DIČ bez počátečního CZ) sloužící jako identifikátor pro subjekty registrované k režimu EU.
+(Root (numeric part) of the Czech VAT ID. Must have 8 - 10 numbers.)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="12"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="account_name" use="optional">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="70"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="iban_code" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Kód IBAN - mezinárodní číslo účtu. IBAN má následující strukturu: první dva znaky tvoří kód země (možno použít pouze kódy zemí členských států Evropské unie), další dva znaky je kontrolní číslo a dalších 10 až 30 znaků (čísla nebo písmena bez diakritiky) tvoří kód banky a číslo účtu v rámci banky. &lt;br&gt;(IBAN)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="34"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="bic_code" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Swift adresa dané banky BIC (Bank Identifier Code = bankovní identifikační kód) je osmi nebo jedenáctimístný údaj. Může obsahovat pouze velká písmena v prvních šesti znacích, další znaky mohou být kromě velkých písmen i číslice. &lt;br&gt;(Bank Identifier Code)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="11"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="company_name" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Jméno daňového subjektu registrovaného k OSS.&lt;br&gt; (Name of the taxable person.)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="255"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="trans" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Vznikla-li daňová povinnost, uveďte A. Nevznikla-li daňová povinnost uveďte N.&lt;br&gt;
+					("A" - supplies or corrections of past periods were made during this taxable period. "N" - no supplies nor corrections of past periods were made during this taxable period.)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="1"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="dic_puv" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>  Vyplňte, pokud je daňové přiznání (DAP) podáváno za osobu, u které došlo ke změně DIČ. Zde uveďte kmenovou (číselnou) část DIČ platného ve zdaňovacím období (ZO), za které je podáváno DAP. Jedná s o tzv. konečné nebo opožděné DAP. &lt;br&gt;(Fill in only case the VAT ID was changed. Fill in the root (numeric part) of the VAT ID valid during the tax period, for which the VAT return is being submitted. The VAT return is either the final VAT return or a late VAT return.)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:pattern value="[0-9]{1,10}"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="1" minOccurs="1" name="VetaP">
+                <xs:complexType>
+                  <xs:attribute name="dic" use="required">
+                    <xs:annotation>
+                      <xs:documentation> Kmenová část daňového identifikačního čísla (pouze číselná část).&lt;br&gt;
+(Root of the Czech VAT ID.)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="10"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="VetaR">
+                <xs:complexType>
+                  <xs:attribute name="country" use="required">
+                    <xs:annotation>
+                      <xs:documentation> Identifikace státu sídla nebo státu provozovny / státu zahájení přepravy daňového subjektu - člen EU. &lt;br&gt;
+					Pro hodnotu této položky zvolte „XI“ (Severní Irsko – použitelné pouze pro dodání zboží) nebo použijte číselník Země. Z číselníku se vkládá položka kod2_eu. &lt;br&gt;
+					(Code of the Member State of Consumption - EU member. Fill in „XI“ (Northern Ireland – may be used only for supply of goods) or choose a country code. (Click on „zde“ on the line below.)) &lt;br&gt;
+					 &lt;br&gt;
+Pro popis číselníku Země klikněte &lt;a href="https://mojedane.gov.cz/pmd/dokumentace/ciselniky/ukazka/zeme"&gt;zde&lt;/a&gt;.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="2"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="vat_number" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Identifikátor DPH (kmenová část) z členského státu identifikace nebo členského státu  provozovny dodavatele. Kód země členského státu musí být uveden v položce country i v případě, že osoba povinná k dani nemá v daném členském státě, ze kterého je odesíláno nebo přepravováno zboží, identifikační číslo pro DPH nebo daňové registrační číslo. V případě poskytnutí služby vyberete identifikační číslo pro DPH přidělené členským státem, ze kterého byla poskytnuta služba. Služby lze poskytovat pouze z členského státu, kde máte sídlo nebo stálou provozovnu. V případě dálkového prodeje zboží vyberte identifikační číslo pro DPH přidělené členským státem, ze kterého bylo zboží odesláno. Zboží lze odesílat z členského státu kde máte sídlo, stálou nebo nestálou provozovnu. Pokud v členském státě zahájení přepravy nemáte stálou nebo nestálou provozovnu a přidělené identifikační číslo pro DPH, vyberte pouze kód státu. 
+ &lt;br&gt; 
+(VAT identification number (root part) of the supplier which can be the place of business or fixed establishment. If the taxable person does not have a VAT identification or tax identification number in the Member State from which goods are dispatched or transported, the country code of that Member State must still be provided. For services, please choose the VAT ID assigned by the member state, from which the service was supplied. Services may be supplied from a member state of the seat or fixed establishment. For distance sale of goods, please select the VAT ID assigned by the member state, from which the goods were sent. The goods maybe sent from the member state of the seat, fixed establishment or an establishment used for the dispatch of goods. If you do not have an establishment and a VAT ID in the member state from which goods were dispatched, select only the country code.)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="12"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="tin" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>
+				 Pokud nemáte v JČS VAT ID, je možné uvést TIN = tax identification number – daňové registrační číslo z JČS. Kód země členského státu musí být uveden v položce country i v případě, že osoba povinná k dani nemá v daném členském státě, ze kterého je odesíláno nebo přepravováno zboží, identifikační číslo pro DPH nebo daňové registrační číslo. V případě poskytnutí služby vyberete daňové registrační číslo přidělené členským státem, ze kterého byla poskytnuta služba. Služby lze poskytovat pouze z členského státu, kde máte sídlo nebo stálou provozovnu.  V případě dálkového prodeje zboží vyberte identifikační číslo pro DPH přidělené členským státem, ze kterého bylo zboží odesláno. Zboží lze odesílat z členského státu kde máte sídlo, stálou nebo nestálou provozovnu. Pokud v členském státě zahájení přepravy nemáte stálou nebo nestálou provozovnu a přidělené identifikační číslo pro DPH, vyberte pouze kód státu.  Pozn.: Ve státě identifikace, což pro osoby usazené v EU je členský stát sídla musíte mít identifikační číslo pro DPH. &lt;br&gt; 
+ (TIN - Tax Identification Number of the Member state of establishment, if the VAT identification number is not available. In case the taxable person person does not have a VAT identification or tax identification number in the Member State from which goods are dispatched or transported, the country code of that Member State must still be provided. For services, please choose the TIN assigned by the member state, from which the service was supplied. Services may be supplied from a member state of the seat or fixed establishment.  For distance sale of goods, please select the TIN assigned by the member state, from which the goods were sent. The goods maybe sent from the member state of the seat, fixed establishment or an establishment used for the dispatch of goods.   If you do not have an establishment and a TIN in the member state from which goods were dispatched, select only the country code.   Please note that in the member state of identification, which for a person established in the EU is the member state of the seat, you must have a VAT ID. </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="40"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="state_consumption" use="required">
+                    <xs:annotation>
+                      <xs:documentation>
+					Identifikace státu spotřeby - člen EU. &lt;br&gt;
+                  Pro hodnotu této položky použijte číselník Země nebo zvolte „XI“ (Severní Irsko – použitelné pouze pro dodání zboží).
+                  Z číselníku se vkládá položka kod2_eu. Nelze deklarovat poskytnutí služby do členského státu, ve kterém máte sídlo nebo stálou provozovnu. DPH z poskytnutých služeb s místem plnění v těchto státech se uvádí do tuzemských daňových přiznání dotčených států.  &lt;br&gt;
+                  (Code of the Member State of Consumption - EU member. Fill in „XI“ (Northern Ireland – may be used only for supply of goods) or choose a country code. (Click on „zde“, on the line below.) The provision of services to the member state of the seat or fixed establishment cannot be declared. VAT from these supplies is declared in the domestic VAT returns of these member states.) 
+					&lt;br&gt;
+Pro popis číselníku Země klikněte &lt;a href="https://mojedane.gov.cz/pmd/dokumentace/ciselniky/ukazka/zeme"&gt;zde&lt;/a&gt;.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="2"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="vat_rate_type_code" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Položka musí být vyplněna. "Z" - základní, "S" - snížená.&lt;br&gt; ("Z" - basic, "S" - reduced.)
+					</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="1"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="vat_rate" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Sazba DPH státu spotřeby, typu sazby a období, vybraná ze seznamu sazeb "Sazby členských států".&lt;br&gt; (VAT rate, corresponding with the State of Consumption, Rate type and Period.)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="5"/>
+                        <xs:fractionDigits value="2"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="taxable_amount" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Základ daně (EUR) (Tax base (EUR))
+</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="13"/>
+                        <xs:fractionDigits value="2"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="vat_amount" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Částka daně DPH. Výpočet Základ daně * Sazba, uvádějte NEZAOKROUHLENĚ.&lt;br&gt; (Tax base * the VAT rate. Without rounding. Item must be provided.)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="13"/>
+                        <xs:fractionDigits value="2"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="supply_type_code" use="required">
+                    <xs:annotation>
+                      <xs:documentation>"G" - zboží, "S" – služby.&lt;br&gt; (Supply type code, "G" - goods, "S" - services). </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="1"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+              <xs:element maxOccurs="unbounded" minOccurs="0" name="VetaO">
+                <xs:complexType>
+                  <xs:attribute name="quarter" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Čtvrtletí (Quarter)
+Kalendářní čtvrtletí zdaňovacího období opravy DPH v OSS, uveďte číslicí v rozsahu 1 až 4, k vyplněné hodnotě nepřipisujte tečku. Musí být větší než Q2 2021 &lt;br&gt;(The calendar quarter with a value of 1 to 4, without a dot. Must be higher than Q2 2021.) </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="1"/>
+                        <xs:fractionDigits value="0"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="year" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Kalendářní rok opravy DPH k OSS, bez tečky.&lt;br&gt; (The year of the OSS VAT return has to be provided, without a dot.) </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="4"/>
+                        <xs:fractionDigits value="0"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="state_consumption" use="required">
+                    <xs:annotation>
+                      <xs:documentation>	Identifikace státu spotřeby - oprava - člen EU. &lt;br&gt; 
+					Pro hodnotu této položky zvolte „XI“ (Severní Irsko – použitelné pouze pro dodání zboží) nebo použijte číselník Země. 
+					Z číselníku se vkládá položka kod2_eu.  &lt;br&gt; 
+					(Code of the Member State of Consumption - Correction - EU member. 
+					Fill in „XI“ (Northern Ireland – may be used only for supply of goods) or choose a country code. 
+					(Click on „zde“, on the line below.))  
+					&lt;br&gt;
+Pro popis číselníku Země klikněte &lt;a href="https://mojedane.gov.cz/pmd/dokumentace/ciselniky/ukazka/zeme"&gt;zde&lt;/a&gt;.</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:minLength value="0"/>
+                        <xs:maxLength value="2"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="correction" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Částka opravy daně za dané období a stát spotřeby, zadána rozdílem (EUR).&lt;br&gt; (Corrrection amount, plus or minus (EUR).)</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:decimal">
+                        <xs:totalDigits value="13"/>
+                        <xs:fractionDigits value="2"/>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="verzePis" type="xs:string"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element maxOccurs="1" minOccurs="0" name="Kontrola">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:any maxOccurs="unbounded" minOccurs="0" processContents="lax"/>
+            </xs:sequence>
+            <xs:anyAttribute processContents="lax"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="verzeSW" type="xs:string"/>
+      <xs:attribute name="nazevSW" type="xs:string"/>
+      <xs:anyAttribute processContents="lax"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

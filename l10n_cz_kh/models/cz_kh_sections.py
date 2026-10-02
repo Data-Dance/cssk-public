@@ -113,11 +113,16 @@ class L10nCzKhRowMixin(models.AbstractModel):
         transaction, and treating it as one buries good detail rows in the
         aggregate.
         """
-        if abs(self._cz_doc_total(bucket)) <= threshold:
-            return False
+        line = bucket.get("line")
+        # A bad-debt correction (§ 46 / § 74b, old § 44) is reported on its
+        # own row with zdph_44 set, whatever it is worth: an aggregate row has
+        # no zdph_44 to carry the flag. The DIČ condition still holds, A.4
+        # cannot identify a customer who has none.
+        if not (line and line.move_id.l10n_cz_bad_debt):
+            if abs(self._cz_doc_total(bucket)) <= threshold:
+                return False
         if self._cz_code != "A4":
             return True
-        line = bucket.get("line")
         return bool(line and line._cssk_partner_vat_stripped())
 
     @api.model

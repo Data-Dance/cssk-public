@@ -9,7 +9,7 @@
             <xpath expr="//block[@id='account_vendor_bills']" position="inside">
                 <setting id="cssk_reliability_autocheck_setting"
                          string="Supplier reliability check (CZ/SK)"
-                         help="On vendor-bill posting, check the supplier's tax reliability and registered bank accounts; warn on risk (never blocks).">
+                         help="Check the supplier's tax reliability, VAT-deregistration listing and registered bank accounts when a vendor bill or a supplier payment is posted, and daily for unpaid bills; warn on risk (never blocks).">
                     <field name="cssk_reliability_autocheck" />
                 </setting>
             </xpath>

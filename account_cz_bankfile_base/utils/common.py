@@ -142,6 +142,33 @@ def parse_cz_account(partner_bank):
     return prefix, account, bank_code
 
 
+class _AccNumber:
+    """Duck-typed ``res.partner.bank`` for a bare account string."""
+
+    def __init__(self, acc_number):
+        self.acc_number = acc_number
+
+    def __bool__(self):
+        return bool(self.acc_number)
+
+
+def national_account_key(acc_number, countries=('CZ', 'SK')):
+    """``(bank, prefix, number)`` of a CZ/SK account in either spelling.
+
+    The same Czech account is written ``CZ65 0800 0000 1920 0014 5399``,
+    ``19-2000145399/0800`` or, in a bank statement, ``0800/192000145399`` —
+    and a string comparison, sanitized or not, pairs none of them. Statement
+    imports compare this key instead when looking for the journal a file
+    belongs to. ``None`` for anything that is neither form.
+    """
+    try:
+        _country, prefix, number, bank = parse_national_account(
+            _AccNumber(acc_number), countries=countries)
+    except ValueError:
+        return None
+    return bank, prefix.lstrip('0'), number.lstrip('0') or '0'
+
+
 def fold_to_ascii(text):
     """Strip diacritics, return ASCII-only text."""
     if not text:

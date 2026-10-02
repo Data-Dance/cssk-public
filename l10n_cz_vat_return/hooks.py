@@ -27,6 +27,9 @@ def post_init_hook(env):
         # and omits it on the refund side, so a reverse-charge correction
         # leaves its VAT on the base account. See the method.
         companies._cz_fix_refund_repartition_accounts()
+        # l10n_cz maps nothing onto its intra-Community acquisition taxes, so
+        # an EU vendor bill keeps the domestic VAT. See the method.
+        companies._cz_map_intra_community_purchase_taxes()
         _logger.info(
             "l10n_cz_vat_return: historical VAT rates prepared for %s company "
             "(companies)", len(companies),

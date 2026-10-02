@@ -1,6 +1,6 @@
 {
     "name": "CZ Localization — Statutory Reference Data",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.3.0",
     "summary": "Czech statutory reference registries: finanční úřady (seeded "
                "from the official l10n_cz.tax_office codelist) and person types.",
     "description": """
@@ -22,9 +22,11 @@ loads on a Slovak database.
     "website": "https://www.datadance.eu",
     "license": "AGPL-3",
     "category": "Accounting/Localizations",
-    "depends": ["l10n_cz", "l10n_cssk_core"],
+    "depends": ["l10n_cz", "l10n_cssk_core", "partner_nace"],
     "data": [
         "data/cz_person_type_data.xml",
+        "views/res_company_views.xml",
+        "views/account_move_views.xml",
     ],
     "post_init_hook": "_seed_cz_tax_authorities",
     "installable": True,

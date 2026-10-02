@@ -26,8 +26,12 @@ Features
 * **Never blocks** the payment: paying an unregistered account or an unreliable
   payer stays possible (you may instead remit the VAT directly to the tax office
   under §69b SK / §109a CZ); you are only warned and it is documented.
-* Optional **auto-check on posting** of a vendor bill (per company), failing
-  safe — a register hiccup never blocks posting.
+* **VAT-deregistration listing** where the country provides it (SK: the list of
+  VAT payers with grounds for cancelling their registration).
+* Optional **auto-check** (per company) when a vendor bill is posted, **again
+  when an outbound supplier payment is posted** — against the account actually
+  paid, since that is what the liability attaches to — and **daily for bills
+  still unpaid**. Fails safe: a register hiccup never blocks posting.
 
 Usage
 =====

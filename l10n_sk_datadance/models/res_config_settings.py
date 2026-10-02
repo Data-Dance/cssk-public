@@ -48,7 +48,7 @@ class ResConfigSettings(models.TransientModel):
         # a preset chosen ON a document, which this is not. See the module README.
         string="Účtovné vzory pre interné doklady"     # AGPL — must stay a toggle
     )
-    module_l10n_sk_zavierka = fields.Boolean(
+    module_l10n_sk_fiscal_year_closing = fields.Boolean(
         string="Účtovná závierka (701/702/710)"         # AGPL — must stay a toggle
     )
     module_l10n_sk_account_loan_oca = fields.Boolean(

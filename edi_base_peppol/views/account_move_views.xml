@@ -22,6 +22,10 @@
                     dispute) back to the supplier for this received vendor
                     bill."/>
                 <field name="peppol_active" invisible="1"/>
+                <field name="peppol_route" widget="badge"
+                    invisible="not peppol_route or state != 'posted'"
+                    decoration-info="peppol_route == 'peppol'"
+                    decoration-danger="peppol_route == 'blocked'"/>
                 <field name="peppol_ir_can_respond" invisible="1"/>
                 <field name="peppol_status" widget="badge"
                     invisible="not peppol_status"/>
@@ -37,6 +41,12 @@
                     invisible="not peppol_ir_sent_status"
                     decoration-danger="peppol_ir_sent_status == 'RE'"
                     decoration-warning="peppol_ir_sent_status in ('UQ','CA')"/>
+            </xpath>
+            <xpath expr="//page[@id='other_tab']/group[1]" position="before">
+                <group name="peppol_route" invisible="not peppol_route">
+                    <field name="peppol_route"/>
+                    <field name="peppol_route_reason" invisible="not peppol_route_reason"/>
+                </group>
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Peppol Messages" name="peppol_messages"

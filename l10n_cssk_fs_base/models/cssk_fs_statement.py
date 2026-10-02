@@ -291,8 +291,15 @@ class CSSKFsStatement(models.Model):
     def _fs_source_domain(self, ldef):
         """A small, serialisable account.move.line domain for the leaf's source
         journal items (re-queried on drill-down instead of storing the ids — a
-        balance-sheet leaf can span a year of postings)."""
-        codes = sorted(set(re.findall(r"[0-9]+", ldef.account_formula or "")))
+        balance-sheet leaf can span a year of postings).
+
+        The correction accounts belong to the row too: its reported figure is
+        the NETTO, gross plus the (credit) correction balances, so drilling
+        into the gross accounts alone shows documents that do not add up to
+        the row and flags every depreciated asset row as unreconciled."""
+        codes = sorted(set(re.findall(
+            r"[0-9]+", "%s,%s" % (ldef.account_formula or "",
+                                  ldef.account_formula_correction or ""))))
         if not codes:
             return []
         acc_dom = ["|"] * (len(codes) - 1) + [

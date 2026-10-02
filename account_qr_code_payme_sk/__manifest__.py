@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "payme (Slovakia)",
-    "version": "19.0.1.1.3",
+    "version": "19.0.1.2.0",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

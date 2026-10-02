@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tax_form_cz_vat_status" model="ir.ui.view">
+        <field name="name">account.tax.form.cz.vat.status</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <field name="tax_scope" position="after">
+                <field name="l10n_cz_vat_status_source_id"
+                       invisible="not l10n_cz_vat_status_source_id" readonly="1"/>
+                <field name="l10n_cz_vat_status_kind"
+                       invisible="not l10n_cz_vat_status_kind" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>

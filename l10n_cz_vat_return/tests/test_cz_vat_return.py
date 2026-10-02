@@ -52,6 +52,48 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
         self.assertEqual(ret.state, "exported")
         self.assertTrue(ret.xml_attachment_id)
 
+    def _root(self, ret):
+        import base64
+
+        from lxml import etree
+        return etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
+
+    def test_filer_block_and_payer_type(self):
+        """VetaP comes from the company (l10n_cz_statutory), typ_platce from
+        the company's status on the last day of the period."""
+        self.company.write({"phone": "+420 511 447 174", "email": "a@b.cz"})
+        self.company.partner_id.nace_code = "62101"
+        ret = self._return()
+        ret.action_export_xml()
+        root = self._root(ret)
+        # c_okec: the prevailing CZ-NACE 2025 activity (EPO: serious error if
+        # missing); d_poddp: the filing date.
+        self.assertEqual(root.find(".//VetaD").get("c_okec"), "62101")
+        self.assertRegex(root.find(".//VetaD").get("d_poddp") or "", r"^\d{2}\.\d{2}\.\d{4}$")
+        self.assertEqual(root.find(".//VetaP").get("typ_ds"), "P")
+        self.assertEqual(root.find(".//VetaP").get("email"), "a@b.cz")
+        self.assertEqual(root.find(".//VetaD").get("typ_platce"), "P")
+
+    def test_a_dodatecne_priznani_needs_its_discovery_date(self):
+        from odoo.exceptions import UserError
+
+        ret = self._return()
+        ret.statement_type_id = self.env.ref("l10n_cz_vat_return.dphdp3_type_D")
+        with self.assertRaisesRegex(UserError, "d_zjist"):
+            ret.action_export_xml()
+        ret.cz_discovery_date = "2025-07-20"
+        ret.action_export_xml()
+        veta_d = self._root(ret).find(".//VetaD")
+        self.assertEqual(veta_d.get("dapdph_forma"), "D")
+        self.assertEqual(veta_d.get("d_zjist"), "20.07.2025")
+
+    def test_d_and_e_are_what_the_form_calls_them(self):
+        self.assertEqual(
+            self.env.ref("l10n_cz_vat_return.dphdp3_type_D").name, "Dodatečné")
+        self.assertEqual(
+            self.env.ref("l10n_cz_vat_return.dphdp3_type_E").name,
+            "Dodatečné/opravné")
+
     def test_standard_sale_populates_base_and_tax(self):
         from odoo import Command
         self.assertTrue(self.tax21, "CZ 21% sale tax present")

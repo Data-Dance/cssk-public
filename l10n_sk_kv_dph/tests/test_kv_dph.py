@@ -1550,6 +1550,90 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         self.assertEqual(a1_rows[0].get("S"), str(int(round(self.rate_s))))
         self.assertEqual(root.findtext(".//k:Identifikacia/k:Obdobie/k:Rok", namespaces=ns), "2026")
 
+    def _credit(self, **vals):
+        credit = self.init_invoice(
+            "out_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[500.0], taxes=self.tax_sale)
+        credit.write(vals)
+        credit.action_post()
+        return credit
+
+    def _c1_fo(self, st):
+        st.action_export_xml()
+        root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
+        return [el.get("FO") for el in root.iter() if etree.QName(el).localname == "C1"]
+
+    # --- C.1 / C.2: the invoice being corrected (FO) ------------------
+    # Asked for by an accountant: "niekedy nie je možné vystaviť dobropis z
+    # určitej faktúry, potom sa vytvára manuálne". Such a C.1 row used to file
+    # the credit note's OWN number as FO, silently.
+
+    def test_an_unlinked_credit_note_blocks_the_export(self):
+        self._credit()
+        st = self._make_statement()
+        st.action_compute_lines()
+        with self.assertRaisesRegex(UserError, "invoice being corrected"):
+            st.action_export_xml()
+
+    def test_a_number_of_spaces_is_no_number(self):
+        self._credit(cssk_control_original_ref="   ")
+        st = self._make_statement()
+        st.action_compute_lines()
+        with self.assertRaisesRegex(UserError, "invoice being corrected"):
+            st.action_export_xml()
+
+    def test_the_typed_number_is_filed_as_the_original(self):
+        credit = self._credit(cssk_control_original_ref="FV2026/0042")
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertEqual(
+            st._collect_sections_by_code()["C.1"].entry_ref_original,
+            "FV2026/0042")
+        self.assertEqual(self._c1_fo(st), ["FV2026/0042"])
+        self.assertTrue(credit.name)
+
+    def test_the_drill_down_shows_a_half_deduction(self):
+        """Fuel at 50 %: one leg on the VAT account, one onto the expense.
+        The drill-down columns show the whole VAT and the deducted half, so
+        an accountant can see the split the row totals hide."""
+        vat_leg = self.tax_purchase.invoice_repartition_line_ids.filtered(
+            lambda r: r.repartition_type == "tax")[:1]
+
+        def legs():
+            return [
+                Command.create({"repartition_type": "base"}),
+                Command.create({"repartition_type": "tax", "factor_percent": 50,
+                                "account_id": vat_leg.account_id.id,
+                                "tag_ids": [Command.set(vat_leg.tag_ids.ids)]}),
+                Command.create({"repartition_type": "tax", "factor_percent": 50}),
+            ]
+        half = self.tax_purchase.copy({
+            "name": "%s PHM 50 %%" % self.tax_purchase.name,
+            "invoice_repartition_line_ids": [Command.clear()] + legs(),
+            "refund_repartition_line_ids": [Command.clear()] + legs(),
+        })
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-12",
+            amounts=[100.0], taxes=half, post=True)
+        line = bill.invoice_line_ids
+        rate = half.amount
+        self.assertAlmostEqual(line.cssk_audit_base, 100.0)
+        self.assertAlmostEqual(line.cssk_audit_rate, rate)
+        self.assertAlmostEqual(line.cssk_audit_tax, rate)
+        self.assertAlmostEqual(line.cssk_audit_deducted, rate / 2)
+
+    def test_a_linked_original_wins_over_the_typed_number(self):
+        invoice = self.init_invoice(
+            "out_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[500.0], taxes=self.tax_sale, post=True)
+        credit = invoice._reverse_moves([{"invoice_date": "2026-06-19"}])
+        credit.cssk_control_original_ref = "SOMETHING-ELSE"
+        credit.action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertEqual(self._c1_fo(st), [invoice.name.replace(" ", "")])
+
+
 
 @tagged("post_install", "-at_install")
 class TestSkKvDphRateResolution(AccountTestInvoicingCommon):
@@ -2362,3 +2446,4 @@ class TestKvCashBasis(AccountTestInvoicingCommon):
         row = self._statement("2026-06-01", "2026-06-30").sk_section_b2_ids
         self.assertEqual(len(row), 1)
         self.assertAlmostEqual(row.tax_amount, 100.0, 2, "only the due half")
+

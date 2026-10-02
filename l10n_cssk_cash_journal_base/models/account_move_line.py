@@ -22,12 +22,19 @@ class AccountMoveLine(models.Model):
         help="Overrides the account's category when this line is paid.",
     )
 
-    def _cssk_cash_category(self):
+    def _cssk_cash_category(self, direction=None):
         """The category this line contributes to the denník, or an empty set.
 
-        Resolution order is line, then account. A line with neither resolves to
-        nothing, and the caller turns that into a row flagged for review rather
-        than into a guess.
+        Resolution order is the line's own override, then the account — and on
+        the account, the direction decides: ``in`` prefers
+        ``cssk_cash_category_in_id`` where the accountant has set one, because a
+        loan account or ``343`` means a different column each way. A line with
+        nothing resolves to nothing, and the caller turns that into a row
+        flagged for review rather than into a guess.
         """
         self.ensure_one()
-        return self.cssk_cash_category_id or self.account_id.cssk_cash_category_id
+        if self.cssk_cash_category_id:
+            return self.cssk_cash_category_id
+        if direction == "in" and self.account_id.cssk_cash_category_in_id:
+            return self.account_id.cssk_cash_category_in_id
+        return self.account_id.cssk_cash_category_id

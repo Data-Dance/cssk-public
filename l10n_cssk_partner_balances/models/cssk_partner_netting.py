@@ -20,6 +20,15 @@ class CSSKPartnerNettingAgreement(models.Model):
         "res.company", required=True, default=lambda s: s.env.company
     )
     currency_id = fields.Many2one(related="company_id.currency_id")
+    netting_currency_id = fields.Many2one(
+        "res.currency", string="Currency", required=True,
+        default=lambda s: s.env.company.currency_id, tracking=True,
+        help="The currency the claims are set off in. In the company's own "
+        "currency any open item can be offset at its booked amount. In a "
+        "foreign currency only items in that currency qualify; they are "
+        "offset in that currency and the clearing entry is booked at the "
+        "rate of the agreement date, the difference to each invoice's own "
+        "rate going to exchange differences when it is reconciled.")
     partner_id = fields.Many2one(
         "res.partner", required=True, tracking=True,
         domain="[('parent_id', '=', False)]",
@@ -59,15 +68,15 @@ class CSSKPartnerNettingAgreement(models.Model):
     )
 
     receivable_total = fields.Monetary(
-        compute="_compute_totals", store=True, currency_field="currency_id",
+        compute="_compute_totals", store=True, currency_field="netting_currency_id",
         help="Sum of amounts to offset on the receivable side.",
     )
     payable_total = fields.Monetary(
-        compute="_compute_totals", store=True, currency_field="currency_id",
+        compute="_compute_totals", store=True, currency_field="netting_currency_id",
         help="Sum of amounts to offset on the payable side.",
     )
     netting_amount = fields.Monetary(
-        compute="_compute_totals", store=True, currency_field="currency_id",
+        compute="_compute_totals", store=True, currency_field="netting_currency_id",
         help="The mutually offset amount = min(receivables, payables).",
     )
     is_balanced = fields.Boolean(compute="_compute_totals", store=True)
@@ -109,7 +118,8 @@ class CSSKPartnerNettingAgreement(models.Model):
             agr.payable_total = pay
             agr.netting_amount = min(recv, pay)
             agr.is_balanced = (
-                agr.currency_id.compare_amounts(recv, pay) == 0 and recv > 0
+                agr.netting_currency_id.compare_amounts(recv, pay) == 0
+                and recv > 0
             )
 
     @api.model_create_multi
@@ -179,8 +189,8 @@ class CSSKPartnerNettingAgreement(models.Model):
         # (e.g. a payment arrived meanwhile): fail loudly rather than post a
         # clearing entry that no longer matches the signed agreement.
         for line in self.line_ids.filtered("amount_to_offset"):
-            residual = line.move_line_id.amount_residual
-            if self.currency_id.compare_amounts(
+            residual = line._cssk_open_amount()
+            if self.netting_currency_id.compare_amounts(
                 line.amount_to_offset, abs(residual)
             ) > 0:
                 raise UserError(
@@ -245,14 +255,24 @@ class CSSKPartnerNettingAgreement(models.Model):
 
     def _build_clearing_move(self):
         """Direct offset: credit each receivable account, debit each payable
-        account, by the line's amount to offset. Balances by construction."""
+        account, by the line's amount to offset. Balances by construction.
+
+        In a foreign currency the lines carry that currency and its amounts,
+        and the company-currency balance is the amount at the agreement
+        date's rate — the day the set-off takes effect. Converting line by
+        line can leave a rounding cent between the sides, which goes onto
+        the last line so the entry balances.
+        """
         self.ensure_one()
+        company_currency = self.company_id.currency_id
+        foreign = self.netting_currency_id != company_currency
         move_lines = []
         for index, line in enumerate(
             self.line_ids.filtered(lambda l: l.amount_to_offset)
         ):
             amount = line.amount_to_offset
             ml = line.move_line_id
+            sign = -1 if line.side == "receivable" else 1
             common = {
                 "account_id": ml.account_id.id,
                 "partner_id": ml.partner_id.id,
@@ -262,11 +282,27 @@ class CSSKPartnerNettingAgreement(models.Model):
                 "name": _("Zápočet %(agr)s — %(ref)s")
                 % {"agr": self.name, "ref": ml.move_id.name or ""},
             }
-            if line.side == "receivable":
+            if foreign:
+                common.update({
+                    "currency_id": self.netting_currency_id.id,
+                    "amount_currency": sign * amount,
+                    "balance": sign * self.netting_currency_id._convert(
+                        amount, company_currency, self.company_id,
+                        self.agreement_date),
+                })
+            elif line.side == "receivable":
                 common.update({"credit": amount, "debit": 0.0})
             else:
                 common.update({"debit": amount, "credit": 0.0})
             move_lines.append((0, 0, common))
+        if foreign and move_lines:
+            gap = company_currency.round(
+                sum(vals["balance"] for _c, _i, vals in move_lines))
+            if not company_currency.is_zero(gap):
+                # Onto the largest line, where a cent cannot flip its sign
+                # against its amount in currency.
+                biggest = max(move_lines, key=lambda c: abs(c[2]["balance"]))
+                biggest[2]["balance"] -= gap
         return self.env["account.move"].create(
             {
                 "move_type": "entry",
@@ -317,6 +353,9 @@ class CSSKPartnerNettingAgreementLine(models.Model):
     company_currency_id = fields.Many2one(
         related="agreement_id.currency_id"
     )
+    netting_currency_id = fields.Many2one(
+        related="agreement_id.netting_currency_id"
+    )
     # ``restrict`` is DELIBERATE here, and it is the one place in this
     # localisation where it is right — so it is worth saying why, since the
     # identical declaration was wrong on the control-statement sections and on
@@ -339,11 +378,11 @@ class CSSKPartnerNettingAgreementLine(models.Model):
     )
     full_amount = fields.Monetary(
         compute="_compute_full_amount", store=True,
-        currency_field="company_currency_id",
+        currency_field="netting_currency_id",
         help="Open amount of the source line (absolute).",
     )
     amount_to_offset = fields.Monetary(
-        currency_field="company_currency_id",
+        currency_field="netting_currency_id",
         help="Amount of this line to offset (≤ open amount; partial allowed).",
     )
 
@@ -383,29 +422,46 @@ class CSSKPartnerNettingAgreementLine(models.Model):
                     else False
                 )
 
-    @api.depends("move_line_id.amount_residual")
+    def _cssk_open_amount(self):
+        """The open amount of the source item in the agreement's currency:
+        booked amounts for a company-currency set-off, the item's own
+        currency amounts for a foreign one."""
+        self.ensure_one()
+        ml = self.move_line_id
+        if self.netting_currency_id and \
+                self.netting_currency_id != ml.company_currency_id:
+            return ml.amount_residual_currency
+        return ml.amount_residual
+
+    @api.depends("move_line_id.amount_residual",
+                 "move_line_id.amount_residual_currency",
+                 "agreement_id.netting_currency_id")
     def _compute_full_amount(self):
         for line in self:
-            line.full_amount = abs(line.move_line_id.amount_residual)
+            line.full_amount = abs(line._cssk_open_amount())
 
     @api.onchange("move_line_id")
     def _onchange_move_line_id(self):
         for line in self:
             if line.move_line_id and not line.amount_to_offset:
-                line.amount_to_offset = abs(
-                    line.move_line_id.amount_residual
-                )
+                line.amount_to_offset = abs(line._cssk_open_amount())
 
     @api.constrains("amount_to_offset", "move_line_id")
     def _check_amount_to_offset(self):
         for line in self:
-            currency = line.move_line_id.company_currency_id
+            currency = line.netting_currency_id or line.move_line_id.company_currency_id
+            if currency != line.move_line_id.company_currency_id \
+                    and line.move_line_id.currency_id != currency:
+                raise ValidationError(_(
+                    "%(move)s is not in %(currency)s, the currency of the "
+                    "set-off: only items in that currency can be offset in it.",
+                    move=line.move_name, currency=currency.name))
             if currency.compare_amounts(line.amount_to_offset, 0.0) <= 0:
                 raise ValidationError(
                     _("The amount to offset for %s must be positive.")
                     % line.move_name
                 )
-            residual = abs(line.move_line_id.amount_residual)
+            residual = abs(line._cssk_open_amount())
             if currency.compare_amounts(line.amount_to_offset, residual) > 0:
                 raise ValidationError(
                     _("The amount to offset for %(move)s (%(amount)s) "

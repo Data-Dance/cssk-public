@@ -8,6 +8,27 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-09-27
+-------------------------
+
+Added
+~~~~~
+
+- **Zoznam platiteľov DPH, u ktorých nastali dôvody na zrušenie registrácie**
+  (§ 81 ods. 4 písm. b) ZDPH), from the FS open-data API. The dataset slug
+  ``ds_dphz`` and its ``ic_dph`` column are **not verified against the live
+  API** (it needs a key and none was at hand), so the module first asks
+  ``/lists/ds_dphz`` which columns are searchable and reports the check as
+  *unavailable* — never as a clean record — when that does not confirm it.
+  Verify with a real key before relying on it.
+
+Fixed
+~~~~~
+
+- Two tests had never run: ``setUpClass`` died on the IČO ``12345678``, which
+  fails the checksum ``l10n_cssk_core`` enforces since 19.0.1.7.0, and a
+  German fixture VAT failed ``base_vat`` once it was reached.
+
 [19.0.1.0.3] — 2026-09-13
 -------------------------
 

@@ -5,18 +5,16 @@
       <DPHDP3 verzePis="02.01">
         <VetaD
             dokument="DP3"
+            t-att-c_okec="company.partner_id.nace_code or None"
+            t-att-d_poddp="datetime.date.today().strftime('%d.%m.%Y')"
             t-att-rok="statement.date_from.strftime('%Y')"
             t-att-mesic="('%d' % statement.date_from.month) if statement.period_type == 'month' else None"
             t-att-ctvrt="('%d' % ((statement.date_from.month - 1) // 3 + 1)) if statement.period_type == 'quarter' else None"
             t-att-dapdph_forma="statement.statement_type_id.fa_xml_value"
-            typ_platce="P"
+            t-att-d_zjist="statement.cz_discovery_date.strftime('%d.%m.%Y') if statement.cz_discovery_date else None"
+            t-att-typ_platce="company._l10n_cz_typ_platce(statement.date_to)"
             k_uladis="DPH"/>
-        <VetaP
-            t-att-dic="(company.vat or '')[2:] if (company.vat or '')[:2].upper() == 'CZ' else (company.vat or '')"
-            t-att-c_ufo="company.l10n_cssk_tax_authority_id.submission_code or ''"
-            t-att-c_pracufo="company.l10n_cz_tax_office_id.workplace_code or None"
-            t-att-zkrobchjm="(company.name or '')[:20]"
-            typ_ds="P"/>
+        <VetaP t-att="company._l10n_cz_epo_vetap()"/>
         <Veta1
                     t-att-dan23="'%.0f' % values.get('dan23', 0.0)"
                     t-att-dan5="'%.0f' % values.get('dan5', 0.0)"

@@ -11,7 +11,7 @@ module shipping the official XSD and validating its export against it:
   pojištění (``ELDP09.xsd``).
 * ``l10n_cz_hr_payroll_health`` — the monthly Přehled o platbě pojistného
   (PPPZ) and the bulk enrol/terminate notification (HOZ), per health insurer.
-* ``l10n_cz_hr_payroll_vyuctovani`` — the annual Vyúčtování daně z příjmů ze
+* ``l10n_cz_hr_payroll_annual_tax_settlement`` — the annual Vyúčtování daně z příjmů ze
   závislé činnosti for the Finanční správa (EPO ``dpzvd6_epo2.xsd``).
 
 Not implemented anywhere in the stack yet:
@@ -19,7 +19,7 @@ Not implemented anywhere in the stack yet:
 * Wage surcharges (příplatky) for přesčas, svátek, noční práce, víkend and
   ztížené pracovní prostředí (§§ 114–118 zákoníku práce), and the zaručená
   mzda groups. The Slovak side has these in
-  ``l10n_sk_hr_payroll_priplatky``; the Czech equivalent is not built. The two
+  ``l10n_sk_hr_payroll_surcharges``; the Czech equivalent is not built. The two
   statutes differ in shape — Czech příplatky are percentages of the průměrný
   výdělek rather than of the minimum wage — so the Slovak module cannot simply
   be pointed at CZ.

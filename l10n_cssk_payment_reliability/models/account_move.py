@@ -35,6 +35,12 @@ class AccountMove(models.Model):
     cssk_registered_accounts = fields.Char(
         string="Registered Accounts (at check)", readonly=True, copy=False
     )
+    cssk_vat_deregistration = fields.Char(
+        string="VAT Deregistration Listing", readonly=True, copy=False,
+        help="Set when the supplier was on the tax authority's list of VAT "
+        "payers with grounds for cancelling their registration at the time "
+        "of the check.",
+    )
     cssk_reliability_warning = fields.Text(
         string="Reliability Warning", readonly=True, copy=False
     )
@@ -64,43 +70,7 @@ class AccountMove(models.Model):
         a point-in-time snapshot on the bill. Warns; never blocks."""
         self.ensure_one()
         partner = self.partner_id.commercial_partner_id
-        # One provider query per check (CZ ADIS answers both in one response).
-        accounts, reliability = partner._cssk_get_reliability_data()
-
-        vals = {"cssk_reliability_checked_on": fields.Datetime.now()}
-        warnings = []
-
-        if accounts is None:
-            vals["cssk_bank_acc_status"] = "unknown"
-            vals["cssk_registered_accounts"] = False
-        else:
-            vals["cssk_registered_accounts"] = ", ".join(accounts) or False
-            paid = self.partner_bank_id.sanitized_acc_number
-            if not paid:
-                vals["cssk_bank_acc_status"] = "no_account"
-            elif paid in accounts:
-                vals["cssk_bank_acc_status"] = "registered"
-            else:
-                vals["cssk_bank_acc_status"] = "not_registered"
-                warnings.append(
-                    _(
-                        "The bank account %s is NOT among the accounts the "
-                        "supplier registered with the tax authority. Paying an "
-                        "unregistered account can make you liable for the "
-                        "supplier's unpaid VAT (§69 ods. 14 SK / §109 CZ); you "
-                        "may instead remit the VAT directly to the tax office."
-                    )
-                    % paid
-                )
-
-        if reliability is not None:
-            vals["cssk_supplier_reliability"] = reliability
-            if reliability in ("less_reliable", "unreliable"):
-                label = dict(CSSK_RELIABILITY).get(reliability, reliability)
-                warnings.append(
-                    _("The supplier's tax-reliability rating is '%s'.") % label
-                )
-
+        vals, warnings = partner._cssk_reliability_verdict(self.partner_bank_id)
         vals["cssk_reliability_warning"] = "\n".join(warnings) or False
         self.write(vals)
         if warnings:
@@ -113,6 +83,42 @@ class AccountMove(models.Model):
             )
         return True
 
+    def _cron_cssk_recheck_open_bills(self, stale_days=7, limit=200):
+        """Re-check unpaid vendor bills whose last check is stale.
+
+        A supplier can become unreliable, or drop the account it registered,
+        between the bill and its payment — and the payment is what the
+        liability attaches to. So bills still waiting to be paid are checked
+        again on a schedule, not only once when posted.
+        """
+        cutoff = fields.Datetime.subtract(fields.Datetime.now(), days=stale_days)
+        companies = self.env["res.company"].search([
+            ("cssk_reliability_autocheck", "=", True),
+            ("account_fiscal_country_id.code", "in", ("SK", "CZ")),
+        ])
+        if not companies:
+            return
+        bills = self.search([
+            ("company_id", "in", companies.ids),
+            ("move_type", "in", ("in_invoice", "in_refund")),
+            ("state", "=", "posted"),
+            ("payment_state", "in", ("not_paid", "partial")),
+            "|",
+            ("cssk_reliability_checked_on", "=", False),
+            ("cssk_reliability_checked_on", "<", cutoff),
+        ], limit=limit, order="cssk_reliability_checked_on asc nulls first, id")
+        for bill in bills:
+            try:
+                with self.env.cr.savepoint():
+                    bill.with_company(bill.company_id)._cssk_run_reliability_check()
+            except Exception:  # one register hiccup must not stop the batch
+                _logger.exception(
+                    "Scheduled supplier reliability check failed for %s",
+                    bill.name,
+                )
+            if not self.env["ir.cron"]._commit_progress(1):
+                return
+
     def _post(self, soft=True):
         moves = super()._post(soft=soft)
         for move in moves:
@@ -120,8 +126,11 @@ class AccountMove(models.Model):
                 move._cssk_is_reliability_relevant()
                 and move.company_id.cssk_reliability_autocheck
             ):
+                # In a savepoint, so a database error inside the check cannot
+                # leave the cursor aborted under a successful post.
                 try:
-                    move._cssk_run_reliability_check()
+                    with self.env.cr.savepoint():
+                        move._cssk_run_reliability_check()
                 except Exception:  # never block posting on a register hiccup
                     _logger.exception(
                         "Supplier reliability check failed for %s", move.name

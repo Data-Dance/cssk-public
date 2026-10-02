@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="recycling_fee_report_view_list" model="ir.ui.view">
+        <field name="name">recycling.fee.report.list</field>
+        <field name="model">recycling.fee.report</field>
+        <field name="arch" type="xml">
+            <list create="false" edit="false" delete="false">
+                <field name="date" />
+                <field name="move_id" />
+                <field name="partner_id" optional="show" />
+                <field name="product_id" />
+                <field name="country_id" />
+                <field name="categ_id" />
+                <field name="classification_id" />
+                <field name="collector_id" optional="hide" />
+                <field name="product_status" optional="hide" />
+                <field name="pieces" sum="Pieces" />
+                <field name="weight_kg" sum="Weight" />
+                <field name="fee_amount" sum="Fee" />
+                <field name="currency_id" column_invisible="True" />
+                <field name="company_id" groups="base.group_multi_company" optional="hide" />
+            </list>
+        </field>
+    </record>
+
+    <record id="recycling_fee_report_view_pivot" model="ir.ui.view">
+        <field name="name">recycling.fee.report.pivot</field>
+        <field name="model">recycling.fee.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Recycling Fees" sample="1">
+                <field name="country_id" type="row" />
+                <field name="categ_id" type="row" />
+                <field name="date" interval="quarter" type="col" />
+                <field name="pieces" type="measure" />
+                <field name="weight_kg" type="measure" />
+                <field name="fee_amount" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="recycling_fee_report_view_graph" model="ir.ui.view">
+        <field name="name">recycling.fee.report.graph</field>
+        <field name="model">recycling.fee.report</field>
+        <field name="arch" type="xml">
+            <graph string="Recycling Fees" type="bar" sample="1">
+                <field name="categ_id" />
+                <field name="fee_amount" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="recycling_fee_report_view_search" model="ir.ui.view">
+        <field name="name">recycling.fee.report.search</field>
+        <field name="model">recycling.fee.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id" />
+                <field name="classification_id" />
+                <field name="categ_id" />
+                <field name="partner_id" />
+                <field name="move_id" />
+                <filter name="country_cz" string="Czech Republic" domain="[('country_id.code', '=', 'CZ')]" />
+                <filter name="country_sk" string="Slovakia" domain="[('country_id.code', '=', 'SK')]" />
+                <separator />
+                <filter name="household" string="Household" domain="[('product_status', '=', 'M')]" />
+                <filter name="professional" string="Professional" domain="[('product_status', '=', 'P')]" />
+                <separator />
+                <filter name="filter_date" string="Date" date="date" />
+                <separator />
+                <filter name="group_country" string="Scheme Country" context="{'group_by': 'country_id'}" />
+                <filter name="group_category" string="Category" context="{'group_by': 'categ_id'}" />
+                <filter name="group_classification" string="Classification" context="{'group_by': 'classification_id'}" />
+                <filter name="group_collector" string="Collective Scheme" context="{'group_by': 'collector_id'}" />
+                <filter name="group_date" string="Month" context="{'group_by': 'date:month'}" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_recycling_fee_report" model="ir.actions.act_window">
+        <field name="name">Recycling Fees</field>
+        <field name="res_model">recycling.fee.report</field>
+        <field name="view_mode">pivot,list,graph</field>
+        <field name="context">{'search_default_filter_date': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No recycling fee on posted customer invoices yet.</p>
+            <p>Give products a classification with a scheme country and dated rates;
+               every posted customer invoice and credit note then appears here, per
+               category, in pieces, kilograms and fee.</p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_recycling_fee_report"
+        name="Recycling Fees"
+        parent="account.account_reports_management_menu"
+        action="action_recycling_fee_report"
+        sequence="60"
+    />
+</odoo>

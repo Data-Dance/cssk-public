@@ -8,6 +8,14 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Changed
+~~~~~~~
+
+- **Two modules were renamed to English**, and the suite follows them:
+  ``l10n_sk_zavierka`` is now ``l10n_sk_fiscal_year_closing`` (the settings
+  toggle is now ``module_l10n_sk_fiscal_year_closing``), and
+  ``l10n_sk_inventarizacia`` is now ``l10n_sk_inventory_verification``.
+
 [19.0.1.4.3] — 2026-09-17
 -------------------------
 

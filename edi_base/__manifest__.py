@@ -2,7 +2,7 @@
     "name": "EDI Base",
     "summary": "Shared infrastructure for EDI integrations (Editel, GRiT, ...)",
     "author": "Data Dance s.r.o.",
-    "version": "19.0.1.7.0",
+    "version": "19.0.1.8.0",
     # queue_job is deliberately NOT here. Dispatch goes through
     # ``_dispatch_send`` / ``_dispatch_ack``, which do nothing on their own;
     # ``edi_base_queue_job`` overrides them with ``with_delay``, and a provider

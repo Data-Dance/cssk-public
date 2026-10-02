@@ -469,18 +469,12 @@ class EdiMessage(models.Model):
     def _peppol_purchase_journal(self, company):
         """Return the purchase journal to book inbound Peppol bills into.
 
-        Prefers the configured ``peppol.purchase_journal_id`` (scoped to the
-        company), else the company's first purchase journal."""
+        Prefers the company's configured Peppol purchase journal, else the
+        company's first purchase journal."""
         Journal = self.env["account.journal"]
-        param = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("peppol.purchase_journal_id")
-        )
-        if param:
-            journal = Journal.browse(int(param)).exists()
-            if journal and journal.company_id == company:
-                return journal
+        journal = company.sudo().peppol_purchase_journal_id
+        if journal and journal.company_id == company:
+            return journal
         return Journal.search(
             [
                 *Journal._check_company_domain(company),

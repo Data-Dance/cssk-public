@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form.recycling.fee</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <field name="recycling_fee_presentation" invisible="1" />
+                <button
+                    name="action_update_recycling_fee_lines"
+                    type="object"
+                    string="Update Recycling Fee"
+                    invisible="recycling_fee_presentation != 'on_top' or state == 'cancel'"
+                />
+            </header>
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="after">
+                <field name="is_recycling_fee_line" column_invisible="True" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

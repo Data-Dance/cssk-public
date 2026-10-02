@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Cash Journal — Shared Framework (peňažný denník / peněžní deník)",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.5.0",
     "summary": "Country-neutral single-entry cash journal derived from ordinary "
                "double-entry books: payments become dated, categorised denník "
                "rows, with the year-end balances the tax return asks for.",
@@ -57,7 +57,7 @@ the personal income-tax return (SK DPFO typ B tabuľka 1/1a, CZ Příloha č. 1)
     "website": "https://www.datadance.eu",
     "license": "AGPL-3",
     "category": "Accounting/Localizations",
-    "depends": ["account", "l10n_cssk_core"],
+    "depends": ["account", "l10n_cssk_core", "report_xlsx"],
     "data": [
         "security/ir.model.access.csv",
         "security/record_rules.xml",
@@ -66,6 +66,8 @@ the personal income-tax return (SK DPFO typ B tabuľka 1/1a, CZ Příloha č. 1)
         "views/account_views.xml",
         "views/res_config_settings_views.xml",
         "wizard/cssk_cash_journal_generate_views.xml",
+        "wizard/cssk_cash_journal_print_views.xml",
+        "report/cssk_cash_journal_reports.xml",
         "views/cssk_cash_journal_menus.xml",
     ],
     "installable": True,

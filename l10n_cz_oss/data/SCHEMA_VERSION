@@ -1,0 +1,40 @@
+ossei1_epo2.xsd  b2251602a5c0c81abab1211c5c00a77c  25579
+
+OSSEI1  01.01.04  ze dne 13. 12. 2021
+"DAP OSS - režim EU - Přiznání k DPH platné od 1.7.2021"
+
+Fetched 2026-09-28 from
+  https://adisspr.mfcr.cz/adis/jepo/schema/ossei1_epo2.xsd
+(HTTP 200, 25 579 bytes, Last-Modified: Thu, 06 Aug 2026 03:01:00 GMT — the
+portal re-stamps every schema on its deployments, so that header says nothing
+about when the structure changed.) The structure version and date were read
+the same day from
+  https://adisspr.mfcr.cz/dpr/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=OSSEI1
+
+WHY A FILE AND NOT A FIELD IN THE SCHEMA: there isn't one. As on every EPO
+form, `verzePis` is a bare `xs:string` and the XSD carries no stamp, so a
+stale schema and a stale `verzePis` literal both validate perfectly. This
+file is the only place a refresh becomes visible.
+
+THE FORM CODE, AND THE ONES NEXT TO IT. EPO publishes the OSS forms as
+ossXX1_epo2.xsd. Probed 2026-09-28:
+  ossei1_epo2.xsd  200  25 579 B  režim EU (Union scheme)   <- this module
+  ossni1_epo2.xsd  200  17 378 B  režim mimo EU (non-Union) — not built
+  ossii1_epo2.xsd  200  18 746 B  dovozní režim (import)   — not built
+  ossdi1_epo2.xsd  200  19 956 B  MOSS, 1. 1. 2015 – 30. 6. 2021 — not built
+Every other name tried (ossui1, osseu1, ossmu1, …) answered **404 with a
+196-byte body** — NOT the "200 with zero bytes" that CLAUDE.md records for
+this portal. Whichever it does on the day, test presence by status code AND
+a non-zero size.
+
+REFRESH PROCEDURE
+  1. Fetch the URL above with plain curl (no auth, no JS) and compare the md5
+     with the first line of this file.
+  2. Read Verze / Ze dne on the popis_struktury_detail page above and compare
+     with the second line.
+  3. If either moved: replace data/ossei1_epo2.xsd, update this file, update
+     `structure_version` on the version record in data/cz_oss_version_data.xml
+     (it is `noupdate`, so an existing database needs the field changed by a
+     migration or by hand), and re-run the export tests.
+  4. There is no changelog. Diffing the two XSDs is the only way to see what
+     changed.

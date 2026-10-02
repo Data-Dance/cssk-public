@@ -262,3 +262,26 @@ class TestEpostakMetadata(TransactionCase):
         )
         self.assertEqual(msg.provider_mode, self.connector._get_mode())
         self.assertEqual(msg.is_test_mode, msg.provider_mode == "sandbox")
+
+    def test_send_does_not_need_a_job_runner(self):
+        """A standalone cssk-public customer has no queue_job: edi_base does not
+        depend on it, and the bridge edi_base_queue_job is proprietary and so is
+        not in the public repo at all.
+
+        ePošťák must therefore dispatch by cron. If this ever defaulted back to
+        'queue', every invoice on such a database would sit in 'queued' for ever
+        with nothing to pick it up, and nothing would raise.
+        """
+        EdiMessage = self.env["edi.message"]
+        EdiMessage._register_hook()
+        self.assertEqual(
+            EdiMessage.PROVIDER_DISPATCH_MAP.get("epostak"),
+            "cron",
+            "epostak must not rely on the proprietary job bridge",
+        )
+        # And the cron that drains 'queued' has to exist, in edi_base, which IS
+        # public. Registering the mode without it would be the same outage.
+        self.assertTrue(
+            self.env.ref("edi_base.cron_edi_send_queued", raise_if_not_found=False),
+            "edi_base must ship the cron that sends queued messages",
+        )

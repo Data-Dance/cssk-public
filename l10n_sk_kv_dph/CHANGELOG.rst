@@ -8,6 +8,30 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.1.0] — 2026-09-28
+-------------------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **FO of an unlinked credit note (19.0.2.1.0, 2026-09-28).** 18.0's template
+  still falls back to the credit note's own number. Port with
+  ``l10n_cssk_kv_kh_base`` 19.0.2.2.0 (the field it reads).
+
+Fixed
+~~~~~
+
+- **A credit note created by hand filed its own number as the corrected
+  invoice.** C.1 / C.2 take FO from the linked original, and the template fell
+  back to the credit note's own number when there was none — silently, since
+  the attribute is required and was always filled. FO now comes from the link,
+  else from the *Original document number* typed on the credit note, and the
+  export refuses a C.1 / C.2 row with neither, naming the documents. A row
+  with kód opravy 1 is exempt and keeps the old fallback: it re-files a row
+  exactly as it was filed before, which may have been filed that way. A kód 2
+  row is new data and needs the real original.
+- Debit notes (``debit_origin_id``) now count as linked to their original.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

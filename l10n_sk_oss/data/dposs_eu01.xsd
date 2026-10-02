@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:vun="urn:ec.europa.eu:taxud:frsr:vatunion:v1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:ec.europa.eu:taxud:frsr:vatunion:v1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xsd:simpleType name="MSCountryCode_Type">
+		<xsd:annotation>
+			<xsd:documentation>List of the MS code (non ISO codes for EL).
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AT"/>
+			<xsd:enumeration value="BE"/>
+			<xsd:enumeration value="BG"/>
+			<xsd:enumeration value="CY"/>
+			<xsd:enumeration value="CZ"/>
+			<xsd:enumeration value="DK"/>
+			<xsd:enumeration value="EE"/>
+			<xsd:enumeration value="FI"/>
+			<xsd:enumeration value="FR"/>
+			<xsd:enumeration value="DE"/>
+			<xsd:enumeration value="EL"/>
+			<xsd:enumeration value="HU"/>
+			<xsd:enumeration value="HR"/>
+			<xsd:enumeration value="IE"/>
+			<xsd:enumeration value="IT"/>
+			<xsd:enumeration value="LV"/>
+			<xsd:enumeration value="LT"/>
+			<xsd:enumeration value="LU"/>
+			<xsd:enumeration value="MT"/>
+			<xsd:enumeration value="NL"/>
+			<xsd:enumeration value="PL"/>
+			<xsd:enumeration value="PT"/>
+			<xsd:enumeration value="RO"/>
+			<xsd:enumeration value="SK"/>
+			<xsd:enumeration value="SI"/>
+			<xsd:enumeration value="ES"/>
+			<xsd:enumeration value="SE"/>
+			<xsd:enumeration value="XI"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MSCurrCode_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+			The appropriate currency code from the ISO 4217 three-byte alpha version for the currency in which a monetary amount is expressed. Currency codes are limited to those of Member States.
+Valid entries are:
+BGN Bulgaria, Leva 
+CZK Czechia, Koruny 
+DKK Denmark, Kroner 
+EEK Estonia, Krooni 
+EUR Euro Member Countries, Euro 
+GBP United Kingdom, Pounds 
+HUF Hungary, Forint 
+HRK Croatia, Kuna 
+LTL Lithuania, Litai 
+LVL Latvia, Lati 
+PLN Poland, Zlotych 
+RON Romania, New Lei 
+SEK Sweden, Kronor 
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BGN"/>
+			<xsd:enumeration value="CZK"/>
+			<xsd:enumeration value="DKK"/>
+			<xsd:enumeration value="EEK"/>
+			<xsd:enumeration value="EUR"/>
+			<xsd:enumeration value="GBP"/>
+			<xsd:enumeration value="HUF"/>
+			<xsd:enumeration value="HRK"/>
+			<xsd:enumeration value="LTL"/>
+			<xsd:enumeration value="LVL"/>
+			<xsd:enumeration value="PLN"/>
+			<xsd:enumeration value="RON"/>
+			<xsd:enumeration value="SEK"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="EUCountryIsoCodeAlpha2_Type">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">The set of ISO 3166 alpha 2 country code values for the
+				EU member states, with the exception of the Hellenic Republic which is represented
+				by a non-standard code.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="vun:MSCountryCode_Type"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="DefaultVATNumber_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Z0-9\+\*]{1,12}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="VATNumber_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:DefaultVATNumber_Type">
+				<xsd:attribute name="issuedBy" type="vun:EUCountryIsoCodeAlpha2_Type" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="EUVATID_Type">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:pattern value="EU[0-9]{9}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="VoesNumber_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:EUVATID_Type">
+				<xsd:attribute name="issuedBy" type="vun:MSCountryCode_Type" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="IMVATID_Type">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:pattern value="IM[0-9]{10}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="INVATID_Type">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:pattern value="IN[0-9]{10}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="IOSSNumber_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:IMVATID_Type">
+				<xsd:attribute name="issuedBy" type="vun:MSCountryCode_Type" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="IntNumber_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:INVATID_Type">
+				<xsd:attribute name="issuedBy" type="vun:MSCountryCode_Type" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="IOSSNumbers_Type">
+		<xsd:sequence>
+			<xsd:element name="IOSSNumber" type="vun:IOSSNumber_Type"/>
+			<xsd:element name="IntNumber" type="vun:IntNumber_Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TraderID_Type">
+		<xsd:sequence>
+			<xsd:element name="VATNumber" type="vun:VATNumber_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="RestrictedDateTime_Type">
+		<xsd:restriction base="xsd:dateTime">
+			<xsd:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3}){0,1}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Month_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="01">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">January</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="02">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">February</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="03">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">March</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="04">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">April</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="05">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">May</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="06">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">June</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="07">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">July</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="08">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">August</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="09">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">September</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="10">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">October</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="11">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">November</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="12">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">December</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Quarter_Type">
+		<xsd:restriction base="xsd:int">
+			<xsd:enumeration value="1">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">January to March</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="2">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">April to June</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="3">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">July to September</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="4">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">October to December</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Year_Type">
+		<xsd:restriction base="xsd:gYear">
+			<xsd:pattern value="[0-9]{4}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Period_Type">
+		<xsd:sequence>
+			<xsd:element name="Year" type="vun:Year_Type"/>
+			<xsd:element name="Quarter" type="vun:Quarter_Type"/>
+			<xsd:element name="StartDate" type="vun:RestrictedDate_Type" minOccurs="0"/>
+			<xsd:element name="EndDate" type="vun:RestrictedDate_Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Period2_Type">
+		<xsd:sequence>
+			<xsd:element name="Year" type="vun:Year_Type" minOccurs="0"/>
+			<xsd:element name="Quarter" type="vun:Quarter_Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="RestrictedDate_Type">
+		<xsd:restriction base="xsd:date">
+			<xsd:pattern value="\d{4}-\d{2}-\d{2}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AmountPositive_Type">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="2"/>
+			<xsd:minInclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="EurAmountPositive_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:AmountPositive_Type">
+				<xsd:attribute name="currency" type="vun:MSCurrCode_Type" use="required" fixed="EUR"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="Amount_Type">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="EurAmount_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:Amount_Type">
+				<xsd:attribute name="currency" type="vun:MSCurrCode_Type" use="required" fixed="EUR"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="NilVatReturn_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="Supply_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:SupplyTypeType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="SupplyTypeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="SERVICES">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Supply of Services</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="GOODS">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Supply of Goods</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Rate_Type">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:maxExclusive value="100"/>
+			<xsd:minExclusive value="0"/>
+			<xsd:fractionDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="VATRateType_Type">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="REDUCED">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The "Reduced" VAT Rate type</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="STANDARD">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">The "Default" VAT Rate type</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="VATRate_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:Rate_Type">
+				<xsd:attribute name="type" type="vun:VATRateType_Type" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="VATReturnDetail_Type">
+		<xsd:sequence>
+			<xsd:element name="SupplyType" type="vun:Supply_Type" minOccurs="0"/>
+			<xsd:element name="MSCONCountrycode" type="vun:EUCountryIsoCodeAlpha2_Type" minOccurs="0"/>
+			<xsd:element name="VATRate" type="vun:VATRate_Type" minOccurs="0"/>
+			<xsd:element name="TaxableAmount" type="vun:EurAmountPositive_Type" minOccurs="0"/>
+			<xsd:element name="VATAmount" type="vun:EurAmountPositive_Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="VATReturnDetails_Type">
+		<xsd:sequence>
+			<xsd:element name="VATReturnDetail" type="vun:VATReturnDetail_Type" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MSESTSupplies_Type">
+		<xsd:sequence>
+			<xsd:element name="MSESTSupply" type="vun:MSESTSupply_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="CmVATNumberOrTIN_Type">
+		<xsd:annotation>
+			<xsd:documentation>A tax identifier, VAT or other</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="VATNumberOrTIN_Type">
+		<xsd:simpleContent>
+			<xsd:extension base="vun:CmVATNumberOrTIN_Type">
+				<xsd:attribute name="issuedBy" type="vun:EUCountryIsoCodeAlpha2_Type" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="EUTraderID_Type">
+		<xsd:choice>
+			<xsd:element name="VATIdentificationNumber" type="vun:VATNumber_Type" minOccurs="0"/>
+			<xsd:element name="TaxReferenceNumber" type="vun:VATNumber_Type" minOccurs="0"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="MSESTSupply_Type">
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="EUTraderID" type="vun:EUTraderID_Type"/>
+				<xsd:element name="CountryCode" type="vun:MSCountryCode_Type"/>
+			</xsd:choice>	
+			<xsd:element name="VATReturnDetails" type="vun:VATReturnDetail_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MSCONSupply_Type">
+		<xsd:sequence>
+			<xsd:element name="MSIDSupplies" type="vun:VATReturnDetail_Type" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="MSESTSupplies" type="vun:MSESTSupply_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Correction_Type">
+		<xsd:sequence>
+			<xsd:element name="Period" type="vun:Period2_Type"/>
+			<xsd:element name="MSCONCountryCode" type="vun:EUCountryIsoCodeAlpha2_Type" minOccurs="0"/>
+			<xsd:element name="TotalVATAmountCorrection" type="vun:EurAmount_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Corrections_Type">
+		<xsd:sequence>
+			<xsd:element name="Correction" type="vun:Correction_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Balance_Type">
+		<xsd:sequence>
+			<xsd:element name="MSCONCountryCode" type="vun:EUCountryIsoCodeAlpha2_Type" minOccurs="0"/>
+			<xsd:element name="BalanceOfVATDue" type="vun:EurAmount_Type" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Balances_Type">
+		<xsd:sequence>
+			<xsd:element name="Balance" type="vun:Balance_Type" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OSSVATReturnMSCON_Type">
+		<xsd:sequence>
+			<xsd:element name="TraderID" type="vun:TraderID_Type"/>
+			<xsd:element name="Period" type="vun:Period_Type"/>
+			<xsd:element name="NilVatReturn" type="vun:NilVatReturn_Type" minOccurs="0"/>
+			<xsd:element name="Supplies" type="vun:MSCONSupply_Type" minOccurs="0"/>
+			<xsd:element name="Corrections" type="vun:Corrections_Type" minOccurs="0"/>
+			<xsd:element name="GrandTotalMSIDServices" type="vun:EurAmountPositive_Type" minOccurs="0"/>
+			<xsd:element name="GrandTotalMSIDGoods" type="vun:EurAmountPositive_Type" minOccurs="0"/>
+			<xsd:element name="GrandTotalMSESTServices" type="vun:EurAmountPositive_Type" minOccurs="0"/>
+			<xsd:element name="GrandTotalMSESTGoods" type="vun:EurAmountPositive_Type" minOccurs="0"/>
+			<xsd:element name="GrandTotal" type="vun:EurAmountPositive_Type" minOccurs="0"/>
+			<xsd:element name="Balances" type="vun:Balances_Type" minOccurs="0"/>
+			<xsd:element name="TotalVATAmountDue" type="vun:EurAmount_Type"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="OSSVATReturnMSCON" type="vun:OSSVATReturnMSCON_Type"/>
+</xsd:schema>

@@ -95,6 +95,24 @@ class CsskCashJournalLine(models.Model):
             ("transit", "Transit (priebežná položka)"),
         ],
         required=True, index=True,
+        help="Which column of the book the amount is classified in. It follows "
+             "the category, not the direction the money moved — a refunded sale "
+             "stays in its sales column and reduces it.",
+    )
+    money_direction = fields.Selection(
+        [("in", "In"), ("out", "Out"), ("none", "No money")],
+        required=True, default="none", index=True,
+        help="Which way the money actually moved. Apart from ``kind`` because "
+             "the two genuinely differ: a refunded sale is money going OUT of "
+             "an INCOME category.",
+    )
+    counter_entry = fields.Boolean(
+        string="Storno",
+        help="The money moved against its category: a refunded sale, a refund "
+             "received from a supplier. The amount reduces its own column "
+             "instead of appearing in the opposite one — which is how POHODA "
+             "and Money show a storno, and what the tax return's gross "
+             "príjmy/výdavky columns need.",
     )
     category_id = fields.Many2one(
         "cssk.cash.category", string="Category", index=True,
@@ -127,7 +145,16 @@ class CsskCashJournalLine(models.Model):
     amount_signed = fields.Monetary(
         compute="_compute_amount_signed", store=True,
         currency_field="currency_id",
-        help="Positive for income, negative for an expense. For totals.",
+        help="Positive for income, negative for an expense, and the other way "
+             "round for a storno. Summing it over a category gives what that "
+             "column of the book is really worth.",
+    )
+    amount_classified = fields.Monetary(
+        compute="_compute_amount_signed", store=True,
+        currency_field="currency_id",
+        help="The amount as its own column carries it: negative for a storno. "
+             "This is what the grid prints and what the tax return's gross "
+             "columns add up.",
     )
 
     journal_id = fields.Many2one(
@@ -166,10 +193,20 @@ class CsskCashJournalLine(models.Model):
     )
     review_reason = fields.Char(copy=False)
 
-    @api.depends("amount", "kind")
+    @api.depends("amount", "kind", "counter_entry", "money_direction")
     def _compute_amount_signed(self):
         for row in self:
-            row.amount_signed = -row.amount if row.kind == "expense" else row.amount
+            classified = -row.amount if row.counter_entry else row.amount
+            row.amount_classified = classified
+            if row.kind == "expense":
+                row.amount_signed = -classified
+            elif row.kind == "income":
+                row.amount_signed = classified
+            else:
+                # A transit leg is neither; the sign follows the money, which is
+                # what makes the two priebežné columns reconcile.
+                row.amount_signed = (
+                    row.amount if row.money_direction == "in" else -row.amount)
 
     # ------------------------------------------------------------------
     # Generation
@@ -590,7 +627,8 @@ class CsskCashJournalLine(models.Model):
                 rows.append(self._cssk_unmatched_row(
                     base, kind, unmatched, line))
             else:
-                rows.append(self._cssk_transit_row(base, unmatched, line))
+                rows.append(
+                    self._cssk_transit_row(base, kind, unmatched, line))
         return rows
 
     @api.model
@@ -651,14 +689,16 @@ class CsskCashJournalLine(models.Model):
     def _cssk_split_document(self, term_line, amount, kind, base):
         """Split ``amount`` paid on one document across that document's lines.
 
-        **Pro rata across every line and every VAT rate**, which is Odoo's own
-        cash-basis convention (``account_reports_cash_basis`` scales each line
-        by the matched fraction of the receivable). POHODA instead settles the
-        VAT in full out of the first partial payment. Neither is dictated by any
-        statute we could establish — the SK JÚ opatrenie (§ 19 ods. 5) leaves
-        the allocation to an internal rule, and the CZ answer cites § 37 odst. 2
-        ZDPH but is not public — so the choice is ours and this is **one
-        overridable method** on purpose.
+        **How the payment divides between base and VAT is the company's
+        choice**, set once in its internal directive and kept for the whole
+        year, the same way for income and expenses. All three models a
+        cooperating accountant confirmed as permissible are implemented in
+        ``_cssk_split_base_and_tax``: pro rata (Odoo's own convention, and the
+        default here), VAT first (POHODA's), and base first.
+
+        **Across the document's lines the split is always pro rata**, because
+        the directive governs the base-versus-VAT question, not which of five
+        expense lines a part payment bought first.
 
         Each line keeps **its own direction**: a negative line on an invoice (a
         deduction, a returned deposit) becomes a row in the opposite column
@@ -688,8 +728,8 @@ class CsskCashJournalLine(models.Model):
                   document.display_name),
             )]
 
-        base_amount = currency.round(amount * total_base / gross)
-        tax_amount = currency.round(amount - base_amount)
+        base_amount, tax_amount = self._cssk_split_base_and_tax(
+            document.company_id, amount, total_base, total_tax, currency)
         base_parts = dict(self._cssk_allocate(base_lines, base_amount, currency))
         tax_parts = dict(self._cssk_allocate(base_lines, tax_amount, currency))
 
@@ -710,14 +750,90 @@ class CsskCashJournalLine(models.Model):
             rows.append(row)
         return rows
 
+    @api.model
+    def _cssk_split_base_and_tax(self, company, amount, total_base, total_tax,
+                                 currency):
+        """Divide one payment between the tax base and the VAT.
+
+        Returns ``(base_amount, tax_amount)`` adding up to ``amount``. The model
+        comes from ``company.cssk_cash_partial_allocation``:
+
+        ``prorata``
+            each in the proportion it has on the document. Odoo's own
+            convention, and the default.
+        ``vat_first``
+            the payment settles the whole VAT before anything reaches the base
+            — what POHODA does.
+        ``base_first``
+            the mirror of it.
+
+        A payment of the full amount gives the same answer under all three, so
+        the choice only shows on a part payment — which is why the statute lets
+        the entity pick one, provided it keeps it for the year and applies it to
+        both sides.
+        """
+        model = company.cssk_cash_partial_allocation or "prorata"
+        gross = total_base + total_tax
+        if model == "vat_first":
+            tax_amount = min(amount, total_tax)
+            base_amount = currency.round(amount - tax_amount)
+            return base_amount, currency.round(tax_amount)
+        if model == "base_first":
+            base_amount = min(amount, total_base)
+            tax_amount = currency.round(amount - base_amount)
+            return currency.round(base_amount), tax_amount
+        base_amount = currency.round(amount * total_base / gross)
+        return base_amount, currency.round(amount - base_amount)
+
     # -- row builders --------------------------------------------------
 
     def _cssk_category_row(self, base, kind, amount, line):
-        """A row whose category comes from a document line or a direct account."""
-        category = line._cssk_cash_category()
+        """A row whose category comes from a document line or a direct account.
+
+        ``kind`` arrives as the direction the money moved for this part. It is
+        kept as ``money_direction``, and the row's classification is taken from
+        the **category**, because the two are not the same thing:
+
+        * a **refunded sale** is money going out of an income category. Booking
+          it as an expense keeps the tax base right and puts both gross columns
+          of the tax return wrong — príjmy unreduced and výdavky inflated — and
+          adds the refund to the sales column of the book.
+        * an account the accountant maps to a **transit** category is a
+          priebežná položka whichever way the money went, not an expense.
+
+        Both were live defects, found when a cooperating accountant asked which
+        side (MD/D) to read a document from. The answer is neither: read the
+        line's sign for the direction and the category for the column.
+
+        **A category whose side contradicts the direction means one of two very
+        different things**, and telling them apart is the third thing that
+        question exposed:
+
+        * the money reverses an earlier entry in the same column — a payment
+          matched to a dobropis, or a reversal entry. That is a storno: it
+          belongs in its own column with a minus.
+        * the account simply moves both ways — a loan received and repaid,
+          ``343`` paying VAT over and receiving the nadmerný odpočet back. Those
+          are two columns of the book, and netting them into one understates
+          both. The accountant says so by giving the account a category per
+          direction; until then the row is flagged, because guessing which of
+          the two cases it is would be worse than asking.
+        """
+        direction = "in" if kind == "income" else "out"
+        category = line._cssk_cash_category(direction)
+        mismatch = bool(
+            category and category.kind in ("income", "expense")
+            and category.kind != kind
+        )
+        reversal = bool(
+            line.move_id.move_type in ("out_refund", "in_refund")
+            or line.move_id.reversed_entry_id
+        )
         vals = dict(
             base,
-            kind=kind,
+            kind=category.kind if category else kind,
+            money_direction=direction,
+            counter_entry=mismatch,
             amount=amount,
             category_id=category.id,
             taxable=category.taxable,
@@ -732,16 +848,38 @@ class CsskCashJournalLine(models.Model):
                 ),
                 "taxable": False,
             })
+        elif mismatch and not reversal:
+            vals.update({
+                "needs_review": True,
+                # Two whole sentences rather than the raw ``in``/``out`` code
+                # spliced into one: a translation cannot inflect a word it is
+                # handed from outside.
+                "review_reason": _(
+                    "Money came in through %(account)s, which is categorised "
+                    "as %(category)s. Set the category for that direction on "
+                    "the account — a loan or a VAT account needs one for each.",
+                    account=line.account_id.display_name,
+                    category=category.display_name,
+                ) if direction == "in" else _(
+                    "Money went out through %(account)s, which is categorised "
+                    "as %(category)s. Set the category for that direction on "
+                    "the account — a loan or a VAT account needs one for each.",
+                    account=line.account_id.display_name,
+                    category=category.display_name,
+                ),
+            })
         return vals
 
-    def _cssk_transit_row(self, base, amount, line):
+    def _cssk_transit_row(self, base, kind, amount, line):
         """Money that moved with nothing yet matched behind it."""
-        category = line._cssk_cash_category()
+        category = line._cssk_cash_category("in" if kind == "income" else "out")
         transit = category if category.kind == "transit" else \
             self.env["cssk.cash.category"]
         vals = dict(
             base,
             kind="transit",
+            money_direction="in" if kind == "income" else "out",
+            counter_entry=False,
             amount=amount,
             category_id=transit.id,
             taxable=False,
@@ -769,10 +907,15 @@ class CsskCashJournalLine(models.Model):
         faktúra itself is not a taxable event. Whether it is taxable here is the
         accountant's call, so it is flagged unless the account itself says.
         """
-        category = line._cssk_cash_category()
+        direction = "in" if kind == "income" else "out"
+        category = line._cssk_cash_category(direction)
         vals = dict(
             base,
-            kind=kind,
+            kind=category.kind if category else kind,
+            money_direction=direction,
+            counter_entry=bool(
+                category and category.kind in ("income", "expense")
+                and category.kind != kind),
             amount=amount,
             category_id=category.id,
             taxable=category.taxable if category else False,
@@ -794,6 +937,8 @@ class CsskCashJournalLine(models.Model):
         return dict(
             base,
             kind=kind,
+            money_direction="in" if kind == "income" else "out",
+            counter_entry=False,
             amount=amount,
             taxable=False,
             non_cash=False,
@@ -834,7 +979,8 @@ class CsskCashJournalLine(models.Model):
         )
         vals = []
         for line in lines:
-            category = line._cssk_cash_category()
+            category = line._cssk_cash_category(
+                "in" if line.balance < 0 else "out")
             if not category.non_cash or not line.balance:
                 continue
             vals.append({
@@ -844,6 +990,8 @@ class CsskCashJournalLine(models.Model):
                 "label": line.name or "",
                 "partner_id": line.partner_id.id,
                 "kind": category.kind,
+                "money_direction": "none",
+                "counter_entry": False,
                 "category_id": category.id,
                 "taxable": category.taxable,
                 "non_cash": True,

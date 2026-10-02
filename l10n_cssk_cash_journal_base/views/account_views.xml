@@ -1,12 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!--
+      The denník mapping gets a page of its own on the account form rather than
+      two more fields under the account type. It is a page's worth of subject:
+      two categories with opposite directions, a rule about which wins, and a
+      note about the accounts that are deliberately left unmapped. Squeezed into
+      the Accounting page it read as clutter, and the inbound field had nowhere
+      to go at all — it was added for two-way accounts and never reached the
+      form, so the only way to set it was the chart mapping or the shell.
+
+      The page is ALWAYS shown, deliberately. Hiding it unless the company keeps
+      a single-entry regime was the first idea and is a trap: the regime defaults
+      to podvojné účtovníctvo, so a fresh install would hide the page everywhere
+      and the module would look like it had done nothing. An accountant also maps
+      the chart before switching regime, not after.
+    -->
     <record id="view_account_form" model="ir.ui.view">
-        <field name="name">account.account.form.cssk.cash.category</field>
+        <field name="name">account.account.form.cssk.cash.journal</field>
         <field name="model">account.account</field>
         <field name="inherit_id" ref="account.view_account_form"/>
         <field name="arch" type="xml">
+            <page name="accounting" position="after">
+                <page name="cssk_cash_journal" string="Cash Journal">
+                    <group>
+                        <group string="Peňažný denník / peněžní deník">
+                            <field name="cssk_cash_category_id"
+                                   options="{'no_quick_create': True}"/>
+                            <field name="cssk_cash_category_in_id"
+                                   options="{'no_quick_create': True}"/>
+                        </group>
+                        <group>
+                            <div class="text-muted">
+                                <p>
+                                    Payments that touch this account are filed
+                                    in the denník under the category above.
+                                </p>
+                                <p>
+                                    Set the second one only where money coming
+                                    IN means a different column from money
+                                    going out — a loan account receives the loan
+                                    and pays the instalments, and
+                                    <b>343</b> pays the VAT over and receives
+                                    the nadmerný odpočet back. Leave it empty
+                                    and one category covers both directions.
+                                </p>
+                                <p>
+                                    A line of a paid document can override
+                                    both, for a bill that splits across two
+                                    columns.
+                                </p>
+                            </div>
+                        </group>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+
+    <record id="view_account_list" model="ir.ui.view">
+        <field name="name">account.account.list.cssk.cash.journal</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_list"/>
+        <field name="arch" type="xml">
             <field name="account_type" position="after">
-                <field name="cssk_cash_category_id"/>
+                <field name="cssk_cash_category_id" optional="hide"/>
+                <field name="cssk_cash_category_in_id" optional="hide"/>
             </field>
         </field>
     </record>

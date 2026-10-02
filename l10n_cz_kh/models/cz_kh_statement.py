@@ -28,6 +28,25 @@ class CSSKControlStatement(models.Model):
     cz_b2_ids = fields.One2many("l10n.cz.kh.b2", "statement_id")
     cz_b3_ids = fields.One2many("l10n.cz.kh.b3", "statement_id")
 
+    # VetaD of a následné kontrolní hlášení / a response to a výzva.
+    cz_kh_filing_code = fields.Char(related="statement_type_id.fa_xml_value")
+    cz_country_code = fields.Char(related="country_id.code")
+    cz_kh_discovery_date = fields.Date(
+        string="Důvody zjištěny dne",
+        help="d_zjist — the day the reasons for a následné kontrolní hlášení "
+        "were found. A následné hlášení needs this or the č.j. výzvy.")
+    cz_kh_notice_number = fields.Char(
+        string="Č.j. výzvy", size=32,
+        help="c_jed_vyzvy — the reference of the tax office's výzva, in the "
+        "form 99999999/99/9999-99999-999999, when the hlášení answers one.")
+    cz_kh_notice_answer = fields.Selection(
+        [("B", "B – Nemám povinnost podat KH"),
+         ("P", "P – Potvrzuji správnost naposledy podaného KH")],
+        string="Odpověď na výzvu",
+        help="vyzva_odp — the quick answer to a výzva when nothing changes. "
+        "The hlášení then carries no rows at all, only the taxpayer and the "
+        "header, and the č.j. výzvy is required.")
+
     def _collect_sections_by_code(self):
         self.ensure_one()
         if self.country_id.code == "CZ":
@@ -74,7 +93,17 @@ class CSSKControlStatement(models.Model):
             if rec.country_id.code != "CZ":
                 continue
             problems = []
-            sections = rec._collect_sections_by_code()
+            if rec.cz_kh_notice_answer and not rec.cz_kh_notice_number:
+                problems.append(_(
+                    "An answer to a výzva (vyzva_odp) needs the č.j. výzvy."))
+            if (rec.cz_kh_filing_code in ("N", "E") and not rec.cz_kh_discovery_date
+                    and not rec.cz_kh_notice_number):
+                problems.append(_(
+                    "A následné kontrolní hlášení needs the date the reasons "
+                    "were found (d_zjist) or the č.j. výzvy."))
+            # A výzva answer carries no rows, so there is nothing to check.
+            sections = (
+                {} if rec.cz_kh_notice_answer else rec._collect_sections_by_code())
             for code in _KH_VAT_SECTIONS:
                 # partner_vat_stripped is what the template renders as
                 # dic_odb/dic_dod — guard exactly what the XSD will see.

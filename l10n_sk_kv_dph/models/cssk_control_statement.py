@@ -194,6 +194,26 @@ class CSSKControlStatement(models.Model):
                         "%(refs)s",
                         sec=code, n=len(bad),
                         refs=self._kv_offenders_detail(bad)))
+            # C.1 / C.2 name the corrected invoice (FO), and the form requires
+            # it. A credit note created by hand has no link to it, so without
+            # the number typed on the document there is nothing true to file.
+            # Kód opravy 1 re-files a row exactly as it was filed before (a
+            # snapshot), and older filings put the credit note's own number in
+            # FO when there was no link — so that row repeats it and is not
+            # held to this. Kód 2 is a new or changed row and needs the real
+            # original like any other. Checked on the value the XML carries,
+            # whitespace stripped: a number of spaces is no number.
+            for code in ("C.1", "C.2"):
+                bad = [r for r in sections.get(code, [])
+                       if not r.entry_ref_original_xml and r.kod_opravy != "1"]
+                if bad:
+                    problems.append(_(
+                        "%(sec)s: %(n)d row(s) without the number of the "
+                        "invoice being corrected — the credit note is not "
+                        "linked to it; enter it on the credit note (Other Info "
+                        "→ Original document number) and recompute: %(refs)s",
+                        sec=code, n=len(bad),
+                        refs=self._kv_offenders_detail(bad)))
             # A.2 goods under § 69 ods. 12 písm. f) to i): the form wants the
             # commodity code (f, g) and the quantity in kg / t / m / ks. Both
             # attributes are optional in the SCHEMA — which is how their

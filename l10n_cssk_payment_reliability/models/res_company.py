@@ -8,9 +8,10 @@ class ResCompany(models.Model):
     _inherit = "res.company"
 
     cssk_reliability_autocheck = fields.Boolean(
-        string="Auto-check supplier reliability on bill posting",
+        string="Auto-check supplier reliability",
         default=True,
-        help="When a vendor bill is posted, automatically check the supplier's "
-        "tax reliability and registered bank accounts and warn if there is a "
-        "risk. Never blocks posting or payment.",
+        help="Check the supplier's tax reliability, VAT-deregistration listing "
+        "and registered bank accounts when a vendor bill or an outbound "
+        "supplier payment is posted, and daily for bills still unpaid; warn "
+        "if there is a risk. Never blocks posting or payment.",
     )

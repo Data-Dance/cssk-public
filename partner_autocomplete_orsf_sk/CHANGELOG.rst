@@ -8,6 +8,21 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-09-29
+-------------------------
+
+Changed
+~~~~~~~
+
+- The register's NACE maps onto ``res.partner.nace_code`` (``partner_nace``) by
+  default, re-applied on upgrade without overwriting a chosen mapping.
+
+Added
+~~~~~
+
+- Declares **SK**, so a Slovak partner is looked up in ORSF from any company
+  (``partner_autocomplete_dispatcher`` 19.0.1.1.0).
+
 [19.0.1.1.0] — 2026-09-14
 -------------------------
 

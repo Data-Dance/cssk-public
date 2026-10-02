@@ -5,6 +5,7 @@ import json
 import re
 
 from odoo import api, fields, models
+from odoo.tools import html2plaintext
 
 # Token forms seen in bank labels: "VS:1234567890", "VS 123", "VS=123",
 # "/VS/123" (structured remittance), "VS123".
@@ -72,17 +73,32 @@ class AccountBankStatementLine(models.Model):
         or a re-import having prefixed already)."""
         details = vals.get("transaction_details")
         payment_ref = vals.get("payment_ref") or ""
+        # The label first, then the other texts a bank format carries. OCA's
+        # CAMT import puts Ustrd in payment_ref and the structured reference or
+        # EndToEndId in ref, and a SEPA payment from a Czech or Slovak bank
+        # often has its symbols ONLY there ("/VS53101/SS/KS", Fio
+        # "?/VS53155/SS/KS") while Ustrd is free text.
+        texts = [
+            payment_ref,
+            vals.get("ref") or "",
+            html2plaintext(vals.get("narration") or ""),
+        ]
         for field_name, keys in _DETAIL_KEYS.items():
             value = vals.get(field_name)
             if not value and details:
                 value = self._l10n_cssk_find_detail_value(details, keys)
-            if not value and payment_ref:
-                match = _TOKEN_RES[field_name].search(payment_ref)
+            for text in texts:
+                if value:
+                    break
+                match = text and _TOKEN_RES[field_name].search(text)
                 value = match.group(1) if match else False
             if value:
                 value = re.sub(r"\D", "", str(value))[
                     : _MAX_DIGITS[field_name]
                 ]
+            # "SS0" is a bank's way of saying there is none.
+            if value and not value.strip("0"):
+                value = False
             if value:
                 vals[field_name] = value
         variable_symbol = vals.get("variable_symbol")

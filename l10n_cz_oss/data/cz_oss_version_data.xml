@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <!--
+      ONE open-ended version, like every Czech EPO form here: EPO publishes a
+      single ossei1_epo2.xsd and overwrites it in place, and a return for an
+      old quarter is filed in the then-current structure. valid_from is the
+      scheme's first day — OSSEI1 itself says "Q3 2021 a výše"; earlier
+      quarters went on the MOSS form OSSDI1, which is not built.
+
+      The structure version (verzePis) is NOT in the XSD. See
+      data/SCHEMA_VERSION for where it was read and how to refresh it.
+    -->
+    <record id="cz_oss_version_ossei1" model="cssk.oss.return.version">
+        <field name="name">DAP OSS — režim EU (OSSEI1)</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="form_code">OSSEI1</field>
+        <field name="structure_version">01.01.04</field>
+        <field name="valid_from">2021-07-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_oss.ossei1_2021"/>
+        <field name="xml_root_element">Pisemnost</field>
+        <field name="xml_schema_filename">ossei1_epo2.xsd</field>
+        <field name="xml_schema_data" type="base64" file="l10n_cz_oss/data/ossei1_epo2.xsd"/>
+    </record>
+
+</data>
+</odoo>

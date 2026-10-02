@@ -33,6 +33,12 @@
                         help="Tax office used by default on statutory filings for this company.">
                         <field name="l10n_cssk_tax_authority_id"/>
                     </setting>
+                    <setting
+                        id="cssk_vat_deferral"
+                        string="VAT declared in a later period"
+                        help="Move VAT declared in a later period than it is booked to this account until then, so 343 agrees with each VAT return. Empty: off.">
+                        <field name="cssk_vat_deferral_account_id"/>
+                    </setting>
                 </block>
             </xpath>
         </field>

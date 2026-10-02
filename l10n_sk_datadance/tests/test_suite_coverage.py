@@ -16,7 +16,7 @@ from odoo.tests import TransactionCase, tagged
 # bundle, and how. Adding a module to the collection without adding it here is
 # the mistake this catches.
 EXPECTED_HARD_DEPENDENCIES = {
-    "l10n_sk_inventarizacia",
+    "l10n_sk_inventory_verification",
 }
 # Bridges: glue that exists only where two optional pieces are both installed,
 # and that installs itself when they are. Neither a dependency nor a toggle of
@@ -27,7 +27,7 @@ EXPECTED_AUTO_INSTALL = {
 }
 EXPECTED_TOGGLES = {
     "l10n_sk_account_move_template",
-    "l10n_sk_zavierka",
+    "l10n_sk_fiscal_year_closing",
     "l10n_sk_account_loan_oca",
     "l10n_sk_asset_protocol_oca",
     "l10n_sk_jcd",

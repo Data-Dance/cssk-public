@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_payment_mode_form_pay_on_post" model="ir.ui.view">
+        <field name="name">account.payment.mode.form.pay.on.post</field>
+        <field name="model">account.payment.mode</field>
+        <field name="inherit_id" ref="account_payment_mode.account_payment_mode_form"/>
+        <field name="arch" type="xml">
+            <field name="fixed_journal_id" position="after">
+                <field name="pay_on_post"
+                       invisible="bank_account_link != 'fixed'"/>
+            </field>
+        </field>
+    </record>
+</odoo>

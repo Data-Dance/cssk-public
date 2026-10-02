@@ -13,8 +13,10 @@ So the move is made here, once, explicitly, and only where it is safe:
 
 * the partner must be Slovak;
 * it must currently be on ``9950``;
-* a DIČ must be derivable, either stored or from an ``SK`` + ten digits VAT
-  number — flipping the scheme without a number to publish would leave the old
+* a DIČ must be RECORDED on the partner. It is deliberately not derived from
+  the VAT number (see ``_l10n_sk_get_dic``), so on most databases this is the
+  condition that skips rows, and the log is the list of contacts needing the
+  DIČ entered before they can be e-invoiced. Flipping the scheme without a number to publish would leave the old
   IČ DPH sitting in ``peppol_endpoint`` labelled as a DIČ, because
   ``_compute_peppol_endpoint`` keeps the previous value when the new one is
   empty;
@@ -52,7 +54,7 @@ def migrate(cr, version):
     for partner in candidates:
         dic = partner._l10n_sk_get_dic()
         if not dic:
-            skipped.append((partner.id, "no DIČ and none derivable"))
+            skipped.append((partner.id, "no DIČ recorded — enter it to publish this partner on Peppol"))
             continue
         # What core would have put there for 9950 is the sanitised VAT.
         expected = (partner.vat or "").strip().upper().replace(" ", "")

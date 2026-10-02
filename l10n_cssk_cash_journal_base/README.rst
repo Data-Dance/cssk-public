@@ -30,6 +30,8 @@ Architecture
 * ``res.company.cssk_bookkeeping_regime`` — ``pu`` by default, so installing
   this module changes nothing until someone chooses a single-entry regime.
 * ``cssk.cash.journal.generate`` — regeneration over a period.
+* ``cssk.cash.journal.print`` — the book as a PDF (national layout, from the
+  country module) or as a spreadsheet (rows plus totals per category).
 
 How a row comes to exist
 ========================
@@ -63,13 +65,31 @@ Two decisions worth knowing
 Status
 ======
 
-**Functional, tested live on Community 19.0** (25 tests: full and partial
+**Functional, tested live on Community 19.0** (37 tests: full and partial
 payments, VAT apart from the base, pro-rata rounding, a receipt net of a
 deducted charge, a negative document line, zero-balance counterparts, the
 outstanding-account chain, direct bank charges, money moved in a misc journal,
 bank-to-till transfers, unmatched receipts as possible advances, unmapped
 accounts, non-cash rows, idempotent regeneration, stable numbering, lock and
-start dates, category constraints).
+start dates, category constraints, and direction-versus-category: a refunded sale, a refund
+from a supplier, and a hand-mapped transit account; two-way accounts such as a
+loan or ``343``; the three partial-payment models; advances; and the
+spreadsheet).
+
+**An account may carry a category per direction.** A loan account receives the
+loan and pays the instalments, ``343`` pays the VAT over and receives the
+nadmerný odpočet back — two columns of the book, so the account can name one for
+each. A direction whose category contradicts it, and which is not a reversal, is
+flagged rather than netted.
+
+**The partial-payment model is the company's choice** — pro rata, VAT first or
+base first — fixed in its internal directive, kept for the year and applied to
+income and expenses alike.
+
+**Direction is not classification.** ``money_direction`` says which way the money
+went and ``kind`` says which column the amount belongs in; they differ for a
+storno (a refunded sale is money out of an income category), which
+``counter_entry`` marks and ``amount_classified`` carries negative.
 
 **Known gaps:** write-offs and realised exchange differences reach the book as
 review-flagged rows rather than a considered treatment; multi-currency payments

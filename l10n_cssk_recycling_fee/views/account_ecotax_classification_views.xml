@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="ecotax_classification_form" model="ir.ui.view">
+        <field name="name">account.ecotax.classification.form.recycling.fee</field>
+        <field name="model">account.ecotax.classification</field>
+        <field name="inherit_id" ref="account_ecotax.ecotax_classification_form" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="before">
+                <field name="country_id" options="{'no_create': True}" />
+                <field name="currency_id" invisible="not country_id" />
+                <field name="disclose" invisible="not country_id" />
+            </field>
+            <field name="ecotax_coef" position="attributes">
+                <attribute name="readonly">rate_ids</attribute>
+            </field>
+            <field name="default_fixed_ecotax" position="attributes">
+                <attribute name="readonly">rate_ids</attribute>
+            </field>
+            <group name="ecotax_settings" position="after">
+                <separator string="Dated Rates" invisible="not country_id" />
+                <field name="rate_ids" invisible="not country_id" nolabel="1">
+                    <list editable="bottom">
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="amount" />
+                        <field name="currency_id" column_invisible="True" />
+                        <field name="ecotax_type" column_invisible="True" />
+                    </list>
+                </field>
+            </group>
+        </field>
+    </record>
+
+    <record id="ecotax_classification_tree" model="ir.ui.view">
+        <field name="name">account.ecotax.classification.list.recycling.fee</field>
+        <field name="model">account.ecotax.classification</field>
+        <field name="inherit_id" ref="account_ecotax.ecotax_classification_tree" />
+        <field name="arch" type="xml">
+            <field name="ecotax_type" position="after">
+                <field name="country_id" optional="show" />
+                <field name="disclose" optional="hide" />
+            </field>
+        </field>
+    </record>
+</odoo>

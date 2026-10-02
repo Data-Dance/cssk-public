@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="view_account_payment_form_cssk_reliability" model="ir.ui.view">
+        <field name="name">account.payment.form.cssk.reliability</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning" role="alert"
+                     invisible="not cssk_reliability_warning">
+                    <strong>⚠ Supplier reliability:</strong>
+                    <field name="cssk_reliability_warning" readonly="1" nolabel="1"
+                           class="mb-0" style="white-space: pre-line;" />
+                </div>
+            </xpath>
+            <!--
+                The form carries three partner_bank_id nodes (customer,
+                vendor, company), and an unqualified spec would anchor on the
+                customer one. @string cannot select in view inheritance, so
+                the vendor node is picked by its visibility condition.
+            -->
+            <xpath expr="//field[@name='partner_bank_id'][contains(@invisible, &quot;partner_type != 'supplier'&quot;)]"
+                   position="after">
+                <field name="cssk_bank_acc_status"
+                       invisible="partner_type != 'supplier' or payment_type != 'outbound' or not cssk_reliability_checked_on" />
+                <field name="cssk_supplier_reliability"
+                       invisible="partner_type != 'supplier' or payment_type != 'outbound' or not cssk_supplier_reliability" />
+                <field name="cssk_vat_deregistration"
+                       invisible="not cssk_vat_deregistration" />
+                <field name="cssk_reliability_checked_on"
+                       invisible="not cssk_reliability_checked_on" />
+                <button name="action_cssk_check_reliability" type="object"
+                        string="Check supplier reliability" class="btn-link"
+                        icon="fa-shield"
+                        invisible="partner_type != 'supplier' or payment_type != 'outbound'" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

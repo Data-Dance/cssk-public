@@ -1,4 +1,4 @@
-from odoo import Command, fields, models
+from odoo import api, Command, fields, models
 
 
 class ResCompany(models.Model):
@@ -114,6 +114,33 @@ class ResCompany(models.Model):
         # Flush so subsequent company-dependent code searches see the new accounts.
         self.env.flush_all()
         return created
+
+    ADVANCE_JOURNAL_XMLID = ("sale_order_advance_invoice", "advance_invoice_journal")
+
+    @api.model
+    def _advance_invoice_journal_ensure_xmlid(self):
+        """Give the installing company's TDADV journal the module's xmlid,
+        adopting a journal that already exists rather than inserting another.
+
+        A database may hold a TDADV journal without the xmlid - created by a
+        localization helper, by hand, or by an earlier version - and a data
+        record would then try to insert a second one and fail on the
+        per-company code uniqueness. An xmlid that already points at a live
+        journal is left alone.
+        """
+        module, name = self.ADVANCE_JOURNAL_XMLID
+        IMD = self.env["ir.model.data"].sudo()
+        existing = IMD.search([("module", "=", module), ("name", "=", name)], limit=1)
+        if existing and self.env["account.journal"].browse(existing.res_id).exists():
+            return
+        journal = self.env.company._get_or_create_advance_invoice_journal({})
+        if existing:
+            existing.write({"model": "account.journal", "res_id": journal.id})
+        else:
+            IMD.create({
+                "module": module, "name": name, "model": "account.journal",
+                "res_id": journal.id, "noupdate": True,
+            })
 
     def _get_or_create_advance_invoice_journal(self, spec):
         """Return a dedicated journal for advance tax documents, creating it if

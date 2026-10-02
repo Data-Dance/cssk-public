@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template id="report_internal_document_body">
+        <t t-call="web.external_layout">
+            <t t-set="labels" t-value="o._cssk_internal_document_labels()"/>
+            <t t-set="currency" t-value="o.company_currency_id"/>
+            <t t-set="poster" t-value="o._cssk_internal_document_poster()"/>
+            <div class="page">
+                <h2>
+                    <span t-out="labels['title']"/>
+                    <span t-field="o.name"/>
+                </h2>
+                <p t-if="o.state != 'posted'" class="text-danger fw-bold" name="draft_mark"
+                   t-out="labels['draft']"/>
+
+                <table class="table table-sm table-borderless mb-4" name="requisites">
+                    <tr>
+                        <th class="w-25"><span t-out="labels['number']"/></th>
+                        <td><span t-field="o.name"/></td>
+                    </tr>
+                    <tr>
+                        <th><span t-out="labels['entity']"/></th>
+                        <td>
+                            <span t-field="o.company_id.name"/>
+                            <t t-if="o.company_id.company_registry">,
+                                <span t-out="labels['company_id']"/>
+                                <span t-field="o.company_id.company_registry"/>
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><span t-out="labels['journal']"/></th>
+                        <td><span t-field="o.journal_id.name"/></td>
+                    </tr>
+                    <tr>
+                        <th><span t-out="labels['content']"/></th>
+                        <td><span t-out="o._cssk_internal_document_content()"/></td>
+                    </tr>
+                    <tr>
+                        <th><span t-out="labels['participants']"/></th>
+                        <td><span t-out="', '.join(o._cssk_internal_document_participants())"/></td>
+                    </tr>
+                    <tr>
+                        <th><span t-out="labels['amount']"/></th>
+                        <td><span t-out="o._cssk_internal_document_amount()" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                    </tr>
+                    <tr>
+                        <th><span t-out="labels['prepared']"/></th>
+                        <td><span t-out="context_timestamp(o.create_date).date()" t-options="{'widget': 'date'}"/></td>
+                    </tr>
+                    <tr>
+                        <th><span t-out="labels['occurred']"/></th>
+                        <td><span t-field="o.date"/></td>
+                    </tr>
+                </table>
+
+                <table class="table table-sm o_main_table" name="lines">
+                    <thead>
+                        <tr>
+                            <th><span t-out="labels['account']"/></th>
+                            <th><span t-out="labels['label']"/></th>
+                            <th><span t-out="labels['partner']"/></th>
+                            <th><span t-out="labels['analytic']"/></th>
+                            <th class="text-end"><span t-out="labels['debit']"/></th>
+                            <th class="text-end"><span t-out="labels['credit']"/></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.line_ids.sorted(lambda l: (l.credit > 0, l.account_id.code or ''))"
+                            t-as="line">
+                            <td>
+                                <span t-field="line.account_id.code"/>
+                                <span t-field="line.account_id.name"/>
+                            </td>
+                            <td><span t-field="line.name"/></td>
+                            <td><span t-out="line.partner_id.display_name or ''"/></td>
+                            <td><span t-out="line._cssk_analytic_label()"/></td>
+                            <td class="text-end">
+                                <span t-if="line.debit" t-out="line.debit"
+                                      t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-if="line.credit" t-out="line.credit"
+                                      t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="fw-bold">
+                            <td colspan="4"><span t-out="labels['total']"/></td>
+                            <td class="text-end"><span t-out="sum(o.line_ids.mapped('debit'))" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                            <td class="text-end"><span t-out="sum(o.line_ids.mapped('credit'))" t-options="{'widget': 'monetary', 'display_currency': currency}"/></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="row mt-5" name="signatures">
+                    <div class="col-6">
+                        <p class="mb-1" t-out="labels['responsible']"/>
+                        <p class="mb-4" t-out="o.create_uid.name"/>
+                        <p>..............................................</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="mb-1" t-out="labels['booked']"/>
+                        <p class="mb-4" t-out="poster.name or ''"/>
+                        <p>..............................................</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_internal_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_cssk_internal_document.report_internal_document_body"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_internal_document" model="ir.actions.report">
+        <field name="name">Interní / interný doklad</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_cssk_internal_document.report_internal_document</field>
+        <field name="report_file">l10n_cssk_internal_document.report_internal_document</field>
+        <field name="print_report_name">'%s - %s' % (object._cssk_internal_document_labels()['title'], (object.name or '').replace('/', '-'))</field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

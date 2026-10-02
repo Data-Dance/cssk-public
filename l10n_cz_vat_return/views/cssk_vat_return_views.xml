@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cssk_vat_return_view_form_cz" model="ir.ui.view">
+        <field name="name">cssk.vat.return.form.cz</field>
+        <field name="model">cssk.vat.return</field>
+        <field name="inherit_id" ref="l10n_cssk_vat_return_base.cssk_vat_return_view_form"/>
+        <field name="arch" type="xml">
+            <field name="statement_type_id" position="after">
+                <field name="cz_filing_code" invisible="1"/>
+                <field name="cz_country_code" invisible="1"/>
+                <field name="cz_discovery_date"
+                       invisible="cz_country_code != 'CZ' or cz_filing_code not in ('D', 'E')"
+                       required="cz_country_code == 'CZ' and cz_filing_code in ('D', 'E')"/>
+            </field>
+        </field>
+    </record>
+</odoo>

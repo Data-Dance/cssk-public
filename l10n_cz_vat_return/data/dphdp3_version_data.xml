@@ -33,9 +33,14 @@
   <record id="dphdp3_type_O" model="cssk.vat.return.type">
     <field name="version_id" ref="dphdp3_version_2025"/><field name="code">O</field>
     <field name="name">Opravné</field><field name="fa_xml_value">O</field></record>
+  <!-- D is "dodatečné", E is "dodatečné/opravné" (dphdp3_epo2.xsd,
+       dapdph_forma). E used to be labelled plain "Dodatečné". -->
+  <record id="dphdp3_type_D" model="cssk.vat.return.type">
+    <field name="version_id" ref="dphdp3_version_2025"/><field name="code">D</field>
+    <field name="name">Dodatečné</field><field name="fa_xml_value">D</field></record>
   <record id="dphdp3_type_E" model="cssk.vat.return.type">
     <field name="version_id" ref="dphdp3_version_2025"/><field name="code">E</field>
-    <field name="name">Dodatečné</field><field name="fa_xml_value">E</field></record>
+    <field name="name">Dodatečné/opravné</field><field name="fa_xml_value">E</field></record>
   <record id="dphdp3_ld_dan23" model="cssk.vat.return.line.def">
     <field name="version_id" ref="dphdp3_version_2025"/><field name="code">dan23</field>
     <field name="name">R1 output_tax</field><field name="sequence">10</field>
@@ -183,11 +188,13 @@
   <record id="dphdp3_ld_opr_verit" model="cssk.vat.return.line.def">
     <field name="version_id" ref="dphdp3_version_2025"/><field name="code">opr_verit</field>
     <field name="name">R33 value</field><field name="sequence">330</field>
-    <field name="kind">tags</field><field name="tag_formula">VAT 33</field></record>
+    <field name="kind">tags</field><field name="tag_formula">VAT 33</field>
+    <field name="line_filter">cz_bad_debt_creditor</field></record>
   <record id="dphdp3_ld_opr_dluz" model="cssk.vat.return.line.def">
     <field name="version_id" ref="dphdp3_version_2025"/><field name="code">opr_dluz</field>
     <field name="name">R34 value</field><field name="sequence">340</field>
-    <field name="kind">manual</field></record>
+    <field name="kind">tags</field><field name="tag_formula">VAT 34</field>
+    <field name="line_filter">cz_bad_debt_debtor</field></record>
   <record id="dphdp3_ld_odp_tuz23" model="cssk.vat.return.line.def">
     <field name="version_id" ref="dphdp3_version_2025"/><field name="code">odp_tuz23</field>
     <field name="name">R40 reduced_claim</field><field name="sequence">400</field>

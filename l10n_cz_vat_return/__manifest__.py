@@ -54,7 +54,7 @@ rate created by hand rather than duplicating it.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.6.0",
+    "version": "19.0.1.10.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_vat_return_base", "l10n_cz", "l10n_cz_statutory"],
@@ -62,6 +62,7 @@ rate created by hand rather than duplicating it.
     "data": [
         "report/dphdp3_report.xml",
         "data/dphdp3_version_data.xml",
+        "views/cssk_vat_return_views.xml",
     ],
     "installable": True,
 }

@@ -20,6 +20,10 @@ This module adds, on top of core:
 * **Proof of check** — stores the VIES **consultation number** (``requestIdentifier``),
   the check timestamp, the VIES request date, and the registered trader name +
   name-match result on the partner.
+* A **check log** per partner and company: every check (valid, invalid or
+  no answer) with the requesting company, its VAT number, the consultation
+  number and what VIES returned. The proof shown on the partner is the current
+  company's latest check, so companies sharing contacts keep their own.
 * A manual **Check VIES (direct)** action and a daily cron that refreshes stale
   checks for companies in direct mode.
 
@@ -28,11 +32,13 @@ fault — never silently flipping a partner to *invalid*.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.2",
+    "version": "19.0.2.0.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["base_vat", "l10n_cssk_core"],
     "data": [
+        "security/ir.model.access.csv",
+        "security/cssk_vies_check_security.xml",
         "data/ir_cron.xml",
         "views/res_partner_views.xml",
         "views/res_config_settings_views.xml",

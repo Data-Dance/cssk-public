@@ -23,11 +23,11 @@ Installing this module in ONE database proves half the property and is not
 evidence of parity. Both runs must be green::
 
     # OCA engine
-    odoo-bin -d <db-oca> -i l10n_sk_hr_payroll_priplatky_oca,l10n_sk_hr_payroll_parity \
+    odoo-bin -d <db-oca> -i l10n_sk_hr_payroll_surcharges_oca,l10n_sk_hr_payroll_parity \
              --test-enable --test-tags=/l10n_sk_hr_payroll_parity --stop-after-init
 
     # Enterprise engine
-    odoo-bin -d <db-ee>  -i l10n_sk_hr_payroll_priplatky_ee,l10n_sk_hr_payroll_parity \
+    odoo-bin -d <db-ee>  -i l10n_sk_hr_payroll_surcharges_ee,l10n_sk_hr_payroll_parity \
              --test-enable --test-tags=/l10n_sk_hr_payroll_parity --stop-after-init
 
 The static half of the same contract needs no database::

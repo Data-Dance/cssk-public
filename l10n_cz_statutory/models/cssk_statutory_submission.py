@@ -44,8 +44,19 @@ class CsskStatutorySubmissionMixin(models.AbstractModel):
             # statements, and those carry no c_ufo at all.
             if company.account_fiscal_country_id.code != "CZ":
                 continue
+            if not rec._cz_requires_tax_authority():
+                continue
             rec._cz_check_tax_authority(company)
         return res
+
+    def _cz_requires_tax_authority(self):
+        """Whether this form carries the competent office (``c_ufo``).
+
+        Every form this module was written for does. The OSS return does not:
+        the special schemes are administered by one office for everyone, and
+        OSSEI1 has no ``c_ufo`` at all — so it overrides this.
+        """
+        return True
 
     def _cz_check_tax_authority(self, company):
         """Raise a named error unless ``company`` can render a valid c_ufo."""

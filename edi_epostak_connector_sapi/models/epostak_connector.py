@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 
 import requests
 
-from odoo import _, models
+from odoo import SUPERUSER_ID, _, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.edi_epostak_base.models.epostak_connector import (
@@ -47,6 +47,15 @@ _TOKEN_CACHE = {}
 # Re-mint this many seconds before the token actually expires, so a request
 # that is slow to leave does not arrive with a just-expired token.
 TOKEN_SKEW = 60
+
+# ePošťák issues two shapes of secret: sk_live_* identifies a single firm, so
+# the firm is implied; sk_int_* is an integrator credential speaking for many,
+# and needs X-Firm-Id on every call to pick one.
+INTEGRATOR_SECRET_PREFIX = "sk_int_"
+
+# Listing the firms an integrator may act for is gated on its own scope,
+# which the ordinary documents:* token deliberately does not carry.
+FIRMS_SCOPE = "firms:manage"
 
 DEFAULT_TIMEOUT = 60
 DEFAULT_LIMIT = 20          # API allows 1..100 per page
@@ -161,7 +170,43 @@ class EpostakConnectorSapi(models.TransientModel):
                     cfg["mode"],
                 )
             )
+        self._assert_firm_scope(cfg)
         return cfg
+
+    def _assert_firm_scope(self, cfg):
+        """Refuse an integrator key that does not say which firm it acts for.
+
+        An ``sk_int_*`` secret speaks for several firms, so every request has to
+        name the one it is acting for in ``X-Firm-Id``. Without it the API
+        answers 400 BAD_REQUEST on each call -- correct, and its message is even
+        a good one, but it reaches the user as a traceback from whichever button
+        they happened to press. Decide it here instead: the check is free, it
+        runs before any HTTP call, and it can name the field to fill.
+
+        Kept out of ``_validate_config`` as its own method so ``_list_firms``
+        can skip it -- that call is how you find the firm id, so it has to work
+        before one is configured.
+        """
+        if (
+            cfg.get("client_secret", "").startswith(INTEGRATOR_SECRET_PREFIX)
+            and not cfg.get("firm_id")
+        ):
+            raise UserError(
+                _(
+                    "The ePošťák client secret configured for the %(mode)s "
+                    "environment is an integrator key (sk_int_*), which acts on "
+                    "behalf of firms rather than being one, so every request "
+                    "must name the firm it is acting for.\n\n"
+                    "Set Settings ▸ EDI ▸ ePošťák ▸ ePošťák Firm ID to the "
+                    "UUID of the firm this database invoices as — the Test "
+                    "Connection button there lists the firms this key may act "
+                    "for.\n\n"
+                    "If this database has its own ePošťák contract instead, the "
+                    "secret should be a firm key (sk_live_*), and the Firm ID "
+                    "stays empty.",
+                    mode=cfg["mode"],
+                )
+            )
 
     def _clear_token_cache(self):
         """Drop cached access tokens (called when settings change)."""
@@ -181,7 +226,11 @@ class EpostakConnectorSapi(models.TransientModel):
         A client_credentials mint has no such shared state and is cheap
         against the 200/min token budget.
         """
-        key = (cfg["mode"], cfg["client_id"])
+        # Keyed by scope as well: a token minted for firms:manage must not be
+        # handed to a send, nor a documents-only token to the firm listing --
+        # the API answers 403 INSUFFICIENT_SCOPE on the mismatch, which would
+        # look like a permissions problem rather than a cache one.
+        key = (cfg["mode"], cfg["client_id"], cfg["scope"])
         cached = _TOKEN_CACHE.get(key)
         if (
             not force_refresh
@@ -281,6 +330,7 @@ class EpostakConnectorSapi(models.TransientModel):
         message = ""
         retryable = None
         correlation = ""
+        hint = ""
         try:
             body = response.json()
         except ValueError:
@@ -313,7 +363,18 @@ class EpostakConnectorSapi(models.TransientModel):
             # status-code heuristic when it is present.
             if isinstance(body.get("retryable"), bool):
                 retryable = body["retryable"]
-            correlation = str(body.get("correlation_id") or "")
+            # The two surfaces spell the support handle differently:
+            # correlation_id on SAPI, request_id/requestId on the Enterprise
+            # errors. Both are what support asks for first.
+            correlation = str(
+                body.get("correlation_id")
+                or body.get("request_id")
+                or body.get("requestId")
+                or ""
+            )
+            # Several Enterprise errors carry an actionable fix_hint. It is the
+            # most useful sentence in the body, so do not drop it.
+            hint = str(body.get("fix_hint") or "")
         if not message:
             message = (response.text or "") or response.reason or ""
         message = EpostakConnectorSapi._sanitise(message)
@@ -327,7 +388,12 @@ class EpostakConnectorSapi(models.TransientModel):
                 retry_after = None
         # The correlation id is what ePošťák support asks for first, so keep
         # it in the message the user actually sees on the message record.
-        parts = (code, message, "[%s]" % correlation if correlation else "")
+        parts = (
+            code,
+            message,
+            hint,
+            "[%s]" % correlation if correlation else "",
+        )
         return {
             "code": code,
             "message": " ".join(filter(None, parts)).strip(),
@@ -374,7 +440,9 @@ class EpostakConnectorSapi(models.TransientModel):
 
             if response.status_code == 401 and attempt == 0:
                 # Cached token rejected — mint a new one and try once more.
-                _TOKEN_CACHE.pop((cfg["mode"], cfg["client_id"]), None)
+                _TOKEN_CACHE.pop(
+                    (cfg["mode"], cfg["client_id"], cfg["scope"]), None
+                )
                 continue
             break
 
@@ -604,6 +672,162 @@ class EpostakConnectorSapi(models.TransientModel):
     # Transport: poll inbound
     # ------------------------------------------------------------------
 
+    # ------------------------------------------------------------------
+    # Inbound health
+    # ------------------------------------------------------------------
+    #
+    # Sending reports itself: a failure lands on the invoice's edi.message and
+    # the user sees it. Receiving had NO user-facing signal at all -- the base
+    # _poll_provider swallows any exception from _poll_inbound into the log, and
+    # a misconfiguration here returned an empty result and said nothing. So with
+    # the Firm ID blank, sending failed loudly while receiving quietly stopped.
+    # These three parameters are what Settings reads to show otherwise.
+
+    PARAM_POLL_AT = "epostak.inbound.last_poll"
+    PARAM_POLL_OK = "epostak.inbound.last_ok"
+    PARAM_POLL_ERROR = "epostak.inbound.last_error"
+    PARAM_POLL_COUNT = "epostak.inbound.last_count"
+    PARAM_POLL_STREAK = "epostak.inbound.fail_streak"
+    PARAM_POLL_ACTIVITY_AFTER = "epostak.inbound.fail_activity_after"
+
+    #: Marker on the activity we raise, so we recognise our own and never
+    #: stack a second one. Matched on, so it must not be translated.
+    POLL_ACTIVITY_MARKER = "[ePostak-inbound]"
+    DEFAULT_ACTIVITY_AFTER = 3
+
+    def _record_poll(self, error=None, count=0):
+        """Remember how the last inbound poll went, for Settings to show.
+
+        Written even on the failure paths, which is the whole point: a stale
+        "last OK" timestamp is the only evidence a user gets that receiving has
+        stopped. Never raises -- this is bookkeeping around a poll that may
+        already be failing.
+        """
+        try:
+            ICP = self.env["ir.config_parameter"].sudo()
+            now = fields.Datetime.to_string(fields.Datetime.now())
+            ICP.set_param(self.PARAM_POLL_AT, now)
+            ICP.set_param(self.PARAM_POLL_ERROR, error or "")
+            if error:
+                streak = int(ICP.get_param(self.PARAM_POLL_STREAK, "0") or "0") + 1
+                ICP.set_param(self.PARAM_POLL_STREAK, str(streak))
+                self._poll_failure_activity(error, streak)
+                return
+            ICP.set_param(self.PARAM_POLL_OK, now)
+            ICP.set_param(self.PARAM_POLL_COUNT, str(count))
+            ICP.set_param(self.PARAM_POLL_STREAK, "0")
+            self._poll_failure_resolved()
+        except Exception:  # noqa: BLE001
+            _logger.exception("Could not record the ePošťák inbound poll state")
+
+    def _poll_activity_anchor(self):
+        """What the failure activity hangs on: our own company partner.
+
+        ``res.company`` carries no activity mixin, and there is no document to
+        attach to — a poll that fetches nothing has produced no record. The
+        company partner is both a valid target and the right subject: it *is*
+        the Peppol participant that is not receiving.
+        """
+        return self.env.company.partner_id
+
+    def _poll_activity_user(self):
+        """Who gets told. An EDI manager if there is one, else an EDI user,
+        else the admin — never nobody, which would make the activity invisible
+        and defeat the point."""
+        Users = self.env["res.users"].sudo()
+        for group in ("edi_base.group_edi_manager", "edi_base.group_edi_user"):
+            grp = self.env.ref(group, raise_if_not_found=False)
+            if grp and grp.user_ids:
+                return grp.user_ids[0]
+        return (
+            self.env.ref("base.user_admin", raise_if_not_found=False)
+            or Users.browse(SUPERUSER_ID)
+        )
+
+    def _poll_failure_activity(self, error, streak):
+        """Raise ONE to-do once inbound has failed repeatedly.
+
+        The Settings line already records every failure, but it only reaches
+        someone who opens Settings and notices the date is old. This is the part
+        that reaches a person who never looks.
+
+        Deliberately not on the first failure: a single blip is normal and an
+        activity per poll would train everyone to ignore them. Deliberately only
+        one: it is re-used until the poll succeeds again, then closed by
+        :meth:`_poll_failure_resolved`.
+        """
+        ICP = self.env["ir.config_parameter"].sudo()
+        after = int(
+            ICP.get_param(self.PARAM_POLL_ACTIVITY_AFTER, self.DEFAULT_ACTIVITY_AFTER)
+            or self.DEFAULT_ACTIVITY_AFTER
+        )
+        if after <= 0 or streak < after:
+            return
+        anchor = self._poll_activity_anchor()
+        if not anchor:
+            return
+        Activity = self.env["mail.activity"].sudo()
+        model_id = self.env["ir.model"]._get_id(anchor._name)
+        existing = Activity.search([
+            ("res_model_id", "=", model_id),
+            ("res_id", "=", anchor.id),
+            ("summary", "like", self.POLL_ACTIVITY_MARKER),
+        ], limit=1)
+        note = _(
+            "ePošťák inbound polling has failed %(streak)s times in a row, so "
+            "incoming documents are not being received.\n\n"
+            "Last error: %(error)s\n\n"
+            "Check Settings ▸ EDI ▸ ePošťák — 'Last inbound poll' shows the "
+            "same detail, and 'Poll inbound now' retries immediately.",
+            streak=streak,
+            error=(error or "")[:500],
+        )
+        if existing:
+            # Keep one activity and let it carry the current count, rather than
+            # adding one per failed poll.
+            existing.write({"note": note})
+            return
+        try:
+            Activity.create({
+                "res_model_id": model_id,
+                "res_id": anchor.id,
+                "activity_type_id": self.env.ref(
+                    "mail.mail_activity_data_todo").id,
+                "summary": "%s %s" % (
+                    self.POLL_ACTIVITY_MARKER,
+                    _("Incoming ePošťák documents are not arriving"),
+                ),
+                "note": note,
+                "user_id": self._poll_activity_user().id,
+                "date_deadline": fields.Date.context_today(self),
+            })
+            _logger.warning(
+                "ePošťák: raised an inbound-failure activity after %s "
+                "consecutive failures", streak,
+            )
+        except Exception:  # noqa: BLE001
+            _logger.exception("Could not raise the ePošťák inbound activity")
+
+    def _poll_failure_resolved(self):
+        """Close our activity once documents are arriving again.
+
+        Without this the admin is left with a stale to-do about a problem that
+        fixed itself, which is how people learn to ignore them.
+        """
+        anchor = self._poll_activity_anchor()
+        if not anchor:
+            return
+        Activity = self.env["mail.activity"].sudo()
+        open_ones = Activity.search([
+            ("res_model_id", "=", self.env["ir.model"]._get_id(anchor._name)),
+            ("res_id", "=", anchor.id),
+            ("summary", "like", self.POLL_ACTIVITY_MARKER),
+        ])
+        if open_ones:
+            open_ones.action_feedback(
+                feedback=_("Inbound polling succeeded again; closed automatically.")
+            )
+
     def _poll_inbound(self):
         """Pull new documents out of the participant mailbox.
 
@@ -611,11 +835,17 @@ class EpostakConnectorSapi(models.TransientModel):
         comes from ``GET /document/receive/{id}``. Documents whose payload
         cannot be fetched are simply left unacknowledged — they stay RECEIVED
         and reappear on the next poll rather than being silently dropped.
+
+        Every exit records the outcome through :meth:`_record_poll`.
         """
         try:
             cfg = self._validate_config()
         except UserError as e:
-            _logger.warning("ePošťák is not configured: %s", e)
+            # ERROR, not warning: a configuration fault is never transient, and
+            # this one stops inbound completely. It is also the exact shape of
+            # the ticket that prompted this -- an integrator key with no Firm ID.
+            _logger.error("ePošťák inbound poll skipped, not configured: %s", e)
+            self._record_poll(error=str(e))
             return {"messages": [], "has_more": False}
 
         participant_id = self._epostak_own_participant_id()
@@ -635,8 +865,9 @@ class EpostakConnectorSapi(models.TransientModel):
                     participant_id=participant_id,
                     params=params,
                 )
-            except EpostakApiError:
+            except EpostakApiError as e:
                 _logger.exception("ePošťák inbound listing failed")
+                self._record_poll(error=str(e), count=len(messages))
                 # Hand back what we already fetched and stop. has_more stays
                 # False on purpose: the connector re-returns payloads the base
                 # may discard as duplicates, so re-triggering the cron on a
@@ -657,6 +888,7 @@ class EpostakConnectorSapi(models.TransientModel):
             # re-trigger the cron for the remainder.
             has_more = bool(page_token)
 
+        self._record_poll(count=len(messages))
         return {"messages": messages, "has_more": has_more}
 
     def _fetch_inbound_document(self, cfg, participant_id, doc):
@@ -848,6 +1080,73 @@ class EpostakConnectorSapi(models.TransientModel):
     # ------------------------------------------------------------------
     # Participant capability lookup (Enterprise API)
     # ------------------------------------------------------------------
+
+    def _list_firms(self):
+        """The firms this credential may act for.
+
+        Returns ``[{'id', 'name', 'peppol_id', 'peppol_status'}, ...]``. The
+        Peppol id is what makes the answer usable: an integrator acting for
+        several firms picks the right one by matching its own Peppol address,
+        where two firms can easily share a similar name.
+
+        Deliberately does NOT go through ``_validate_config``: this call is how
+        a deployment finds the firm id that validation insists on, so requiring
+        one first would be a closed loop. It also must not carry ``X-Firm-Id``
+        -- it is scoped to the credential, not to one firm.
+
+        Enterprise API only. Not restricted to integrator keys: verified
+        against the sandbox 2026-10-01, a firm key returns its own single firm.
+        The gate is the ``firms:manage`` scope, not the shape of the key.
+        """
+        cfg = self._get_sapi_config()
+        if not cfg["client_id"] or not cfg["client_secret"]:
+            raise UserError(
+                _(
+                    "ePošťák credentials are not configured for the %s "
+                    "environment.",
+                    cfg["mode"],
+                )
+            )
+        # /firms is gated on firms:manage, which our ordinary token does not
+        # carry -- the default scope is documents:* by design, since least
+        # privilege is right for the credential that sends invoices all day.
+        # Mint a separate, narrower token just for this call. Verified against
+        # the sandbox 2026-10-01: without it the endpoint answers 403
+        # INSUFFICIENT_SCOPE naming exactly this scope.
+        cfg = dict(cfg, scope=FIRMS_SCOPE)
+        return self._parse_firms(
+            self._request(cfg, "GET", "%s/firms" % cfg["api_url"])
+        )
+
+    @staticmethod
+    def _parse_firms(data):
+        """Shape the /firms body into our own rows.
+
+        Split from the HTTP call so the parsing is testable against a captured
+        response rather than only against a live integrator key, which we do
+        not have one of here.
+        """
+        rows = data if isinstance(data, list) else (
+            data.get("firms") or data.get("items") or []
+        )
+        firms = []
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            firm_id = row.get("id") or row.get("firmId") or row.get("firm_id")
+            if firm_id:
+                firms.append({
+                    "id": str(firm_id),
+                    "name": str(row.get("name") or row.get("companyName") or ""),
+                    # IČO is what a Slovak user recognises their own company by;
+                    # the Peppol id is DIČ-derived and the name may be a
+                    # sandbox variant, so dropping this left no reliable way to
+                    # match a firm to the company in front of you.
+                    "ico": str(row.get("ico") or ""),
+                    "peppol_id": str(row.get("peppolId") or ""),
+                    "peppol_status": str(row.get("peppolStatus") or ""),
+                })
+        return firms
 
     def _check_capabilities(self, participant_id, document_types=None):
         """Ask the Peppol directory whether a participant can receive a type.

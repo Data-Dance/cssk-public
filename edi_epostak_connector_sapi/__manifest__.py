@@ -3,7 +3,7 @@
     "summary": "Concrete REST connector for the ePošťák Peppol access point "
     "(SAPI-SK 1.0): send and receive UBL, acknowledge, track delivery",
     "author": "Data Dance s.r.o.",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.1.0",
     "depends": [
         "edi_epostak_base",
             ],

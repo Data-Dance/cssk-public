@@ -25,8 +25,8 @@ module shipping the official XSD and validating its export against it:
 Wage surcharges (mzdové zvýhodnenia / príplatky) for night, Saturday, Sunday,
 public-holiday, overtime, difficult-conditions and standby work, and the
 minimum wage claims for the six stupne náročnosti, are likewise a separate
-family: install ``l10n_sk_hr_payroll_priplatky_oca`` (it pulls in the
-engine-neutral ``l10n_sk_hr_payroll_priplatky`` base and installs itself
+family: install ``l10n_sk_hr_payroll_surcharges_oca`` (it pulls in the
+engine-neutral ``l10n_sk_hr_payroll_surcharges`` base and installs itself
 automatically alongside this module).
 
 Deferred (out of scope for this pass):

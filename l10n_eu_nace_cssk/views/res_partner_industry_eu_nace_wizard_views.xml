@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="partner_industry_nace_wizard_view_form_cssk" model="ir.ui.view">
+        <field name="name">res.partner.industry.eu.nace.wizard.form.cssk</field>
+        <field name="model">res.partner.industry.eu.nace.wizard</field>
+        <field name="inherit_id" ref="l10n_eu_nace.partner_industry_nace_wizard_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/p" position="after">
+                <group>
+                    <field name="nace_version" widget="radio"/>
+                    <field name="include_cz_subclasses" invisible="nace_version != '2.1'"/>
+                    <field name="archive_other_version"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

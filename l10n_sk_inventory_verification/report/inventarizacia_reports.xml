@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_report_inventurny_supis" model="ir.actions.report">
+        <field name="name">Inventúrny súpis</field>
+        <field name="model">l10n.sk.inventurny.supis</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sk_inventory_verification.report_inventurny_supis</field>
+        <field name="report_file">l10n_sk_inventory_verification.report_inventurny_supis</field>
+        <field name="binding_model_id" ref="model_l10n_sk_inventurny_supis"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_inventarizacny_zapis" model="ir.actions.report">
+        <field name="name">Inventarizačný zápis</field>
+        <field name="model">l10n.sk.inventarizacia</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sk_inventory_verification.report_inventarizacny_zapis</field>
+        <field name="report_file">l10n_sk_inventory_verification.report_inventarizacny_zapis</field>
+        <field name="binding_model_id" ref="model_l10n_sk_inventarizacia"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

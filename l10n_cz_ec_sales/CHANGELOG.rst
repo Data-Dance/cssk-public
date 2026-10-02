@@ -8,6 +8,12 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- The filer block (``VetaP``) comes from ``l10n_cz_statutory``, without the
+  e-mail and telephone this form's XSD does not have.
+
 Changed
 ~~~~~~~
 

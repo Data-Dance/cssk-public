@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+
+     UZFOv14 XML — the official envelope of the JÚ závierka, transcribed from
+     form.300.sk.xsd (pinned in data/SCHEMA_VERSION). The element order is the
+     schema's `xsd:sequence` and is strict: hlavicka's datumK, dic, ico, skNace,
+     uctovnaZavierka, zaObdobie, bPredObdobie, nazovUJ, miestoPodnikania,
+     zostaveneDna, then telo's ucFo1 r01..r12 and ucFo2 r01..r21.
+
+     `uctovnaZavierka` and `riadokType/s1,s2` are emptyStringOrBoolean and
+     optionalDecimal respectively, so an absent figure is an empty element
+     rather than a zero — which is how the eForm itself leaves a row the filer
+     did not fill.
+
+     THE PODPISOVÝ ZÁZNAM IS DELIBERATELY ABSENT. § 17 ods. 2 písm. g) requires
+     one, and the official vysvetlivky then say: "Podpisový záznam fyzickej
+     osoby … sa uvádza len v listinnej podobe. Pri ukladaní účtovnej závierky v
+     elektronickej podobe sa podpisový záznam neuvádza."
+  -->
+<odoo>
+    <template id="uzfo_v14_template">
+        <dokument>
+            <hlavicka>
+                <datumK>
+                    <den t-out="'%02d' % statement.date_to.day"/>
+                    <mesiac t-out="'%02d' % statement.date_to.month"/>
+                    <rok t-out="statement.date_to.year"/>
+                </datumK>
+                <dic t-out="(company.vat or '').replace('SK', '').replace(' ', '')"/>
+                <ico t-out="company.company_registry or ''"/>
+                <skNace>
+                    <k1>00</k1><k2>00</k2><k3>0</k3>
+                </skNace>
+                <!-- Riadna závierka. A mimoriadna one (konkurz, likvidácia,
+                     skončenie podnikania) or a priebežná one is the filer's
+                     declaration, not something the books can tell. -->
+                <uctovnaZavierka>
+                    <riadna>1</riadna>
+                    <mimoriadna/>
+                    <priebezna/>
+                </uctovnaZavierka>
+                <zaObdobie>
+                    <od>
+                        <mesiac t-out="'%02d' % statement.date_from.month"/>
+                        <rok t-out="statement.date_from.year"/>
+                    </od>
+                    <do>
+                        <mesiac t-out="'%02d' % statement.date_to.month"/>
+                        <rok t-out="statement.date_to.year"/>
+                    </do>
+                </zaObdobie>
+                <bPredObdobie>
+                    <od>
+                        <mesiac t-out="'%02d' % statement.date_from.month"/>
+                        <rok t-out="statement.date_from.year - 1"/>
+                    </od>
+                    <do>
+                        <mesiac t-out="'%02d' % statement.date_to.month"/>
+                        <rok t-out="statement.date_to.year - 1"/>
+                    </do>
+                </bPredObdobie>
+                <!-- Exactly two `riadok` elements, minOccurs=maxOccurs=2. The
+                     schema rejected a riadok1/riadok2 guess, which is what a
+                     pinned schema is for. -->
+                <nazovUJ>
+                    <riadok t-out="company.name[:36]"/>
+                    <riadok t-out="company.name[36:72] or ''"/>
+                </nazovUJ>
+                <miestoPodnikania>
+                    <ulica t-out="company.street or ''"/>
+                    <cislo t-out="company.street2 or ''"/>
+                    <psc t-out="(company.zip or '').replace(' ','')"/>
+                    <obec t-out="company.city or ''"/>
+                    <telefon t-out="company.phone or ''"/>
+                    <email t-out="company.email or ''"/>
+                </miestoPodnikania>
+                <zostaveneDna t-out="statement.date_to.strftime('%d.%m.%Y')"/>
+            </hlavicka>
+            <telo>
+                <!-- Výkaz o príjmoch a výdavkoch Úč FO 1-01: one column, the
+                     period's own figures out of the peňažný denník. -->
+                <ucFo1>
+                    <t t-foreach="range(1, 13)" t-as="row">
+                        <t t-set="code" t-value="'f%02d' % row"/>
+                        <t t-set="tag" t-value="'r%02d' % row"/>
+                        <t t-raw="'&lt;%s&gt;%s&lt;/%s&gt;' % (tag, whole(current.get(code)), tag)"/>
+                    </t>
+                </ucFo1>
+                <!-- Výkaz o majetku a záväzkoch Úč FO 2-01: s1 the preceding
+                     period, s2 the current one. § 22 ods. 4 and vysvetlivky
+                     pt. 16 leave s1 EMPTY on the first závierka of a new unit
+                     and where the unit kept podvojné účtovníctvo before, which
+                     is what `prior_empty` carries. -->
+                <ucFo2>
+                    <t t-foreach="range(1, 22)" t-as="row">
+                        <t t-set="code" t-value="'m%02d' % row"/>
+                        <t t-set="tag" t-value="'r%02d' % row"/>
+                        <t t-set="s1" t-value="'' if prior_empty else whole(prior.get(code))"/>
+                        <t t-raw="'&lt;%s&gt;&lt;s1&gt;%s&lt;/s1&gt;&lt;s2&gt;%s&lt;/s2&gt;&lt;/%s&gt;' % (tag, s1, whole(current.get(code)), tag)"/>
+                    </t>
+                </ucFo2>
+            </telo>
+        </dokument>
+    </template>
+</odoo>

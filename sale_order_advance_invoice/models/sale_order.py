@@ -732,6 +732,24 @@ class SaleOrder(models.Model):
             lambda move: move.move_type == 'out_invoice' and move.state == 'posted'
         ))
 
+    def _advance_tax_document_rate(self, currency):
+        """The rate, per company-currency unit, the advance's VAT was declared at.
+
+        Taken from its posted tax documents in ``currency`` as a whole, so an
+        advance paid in instalments on different days deducts at the rate its
+        documents averaged. 0.0 when there is none: an advance without a tax
+        document declared no VAT to give back.
+        """
+        self.ensure_one()
+        docs = self.invoice_ids.filtered(
+            lambda m: m.move_type == 'out_invoice' and m.state == 'posted'
+            and m.currency_id == currency
+        )
+        value = sum(docs.mapped('amount_untaxed_signed'))
+        if self.company_id.currency_id.is_zero(value):
+            return 0.0
+        return sum(docs.mapped('amount_untaxed')) / value
+
     def _advance_deduction_tax_groups(self, advance):
         """The advance's net amount broken down by the taxes it charged.
 

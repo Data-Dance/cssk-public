@@ -73,8 +73,8 @@ class L10nCzCashDenik(models.AbstractModel):
         for row in rows:
             cells = dict.fromkeys(totals, 0.0)
             gross = row.amount + row.amount_tax
-            incoming = row.kind == "income" or (
-                row.kind == "transit" and row.amount_signed >= 0)
+            # The money columns follow the money, not the classification.
+            incoming = row.money_direction == "in"
 
             if not row.non_cash:
                 if row.kind == "transit":
@@ -94,7 +94,8 @@ class L10nCzCashDenik(models.AbstractModel):
 
             column = self._cz_column_for(row)
             if column:
-                cells[column] = row.amount
+                # Negative for a storno (dobropis), as POHODA shows it.
+                cells[column] = row.amount_classified
 
             for key, value in cells.items():
                 totals[key] += value
@@ -117,12 +118,12 @@ class L10nCzCashDenik(models.AbstractModel):
 
     @api.model
     def _cz_column_for(self, row):
+        if row.kind == "transit":
+            return None
         code = row.category_id.code
         for key, _heading, codes in DENIK_COLUMNS:
             if codes and code in codes:
                 return key
-        if row.kind == "transit":
-            return None
         if row.kind == "income":
             return "p_ostatni" if row.taxable else "pn"
         return "v_ostatni" if row.taxable else "vn"

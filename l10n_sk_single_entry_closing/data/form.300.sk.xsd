@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>UzFo_2014</xsd:documentation>
+	</xsd:annotation>
+	<!-- komplexny typ nad standardnym retazcom (podla w3) s atributom 'funkcia'-->
+	<xsd:complexType name="xsdStringHlavickaType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="hlavickaAttribGroup"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- komplexny typ nad standardnym retazcom (podla w3) -->
+	<xsd:complexType name="xsdStringTeloType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- skupina atributov specificka pre elementy hlavicky -->
+	<xsd:attributeGroup name="hlavickaAttribGroup">
+		<xsd:attribute name="pole" type="xsd:string" default="y"/>
+		<xsd:attribute name="funkcia" type="xsd:string" default="udajeOOsobe"/>
+	</xsd:attributeGroup>
+	<!-- cislo tvaru N (2) -->
+	<xsd:simpleType name="optDecimalWithTwoDigit">
+		<xsd:union memberTypes="decimalWithTwoDigit emptyStr"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="decimalWithTwoDigit">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- cislo tvaru N (1) -->
+	<xsd:simpleType name="optDecimalWithOneDigit">
+		<xsd:union memberTypes="decimalWithOneDigit emptyStr"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="decimalWithOneDigit">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType> 
+	
+	<!-- korenovy element -->
+	<xsd:element name="dokument">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="hlavicka" type="hlavickaType"/>
+				<xsd:element name="telo" type="teloType"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!-- hlavicka -->
+	<xsd:complexType name="hlavickaType">
+		<xsd:sequence>
+			<xsd:element name="datumK" type="datumKType"/>
+			<xsd:element name="dic" type="xsdStringHlavickaType"/>
+			<xsd:element name="ico" type="xsdStringHlavickaType"/>
+			<xsd:element name="skNace" type="skNaceType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="uctovnaZavierka" type="uctovnaZavierkaType"/>
+			<xsd:element name="zaObdobie" type="zaObdobieType"/>
+			<xsd:element name="bPredObdobie" type="bPredObdobieType"/>
+			<xsd:element name="nazovUJ" type="nazovUJType"/>
+			<xsd:element name="miestoPodnikania" type="miestoPodnikaniaType"/>
+			<xsd:element name="zostaveneDna" type="xsdStringHlavickaType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="datumKType">
+		<xsd:sequence>
+			<xsd:element name="den" type="xsdStringHlavickaType"/>
+			<xsd:element name="mesiac" type="xsdStringHlavickaType"/>
+			<xsd:element name="rok" type="xsdStringHlavickaType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="uctovnaZavierkaType">
+		<xsd:sequence>
+			<xsd:element name="riadna" type="UVType"/>
+			<xsd:element name="mimoriadna" type="UVType"/>
+			<xsd:element name="priebezna" type="UVType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="UVType">
+		<xsd:simpleContent>
+			<xsd:extension base="emptyStringOrBoolean">
+				<xsd:attributeGroup ref="hlavickaAttribGroup"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="emptyStringOrBoolean">
+		<xsd:union memberTypes="emptyString xsd:boolean"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="emptyString">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value=""/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="zaObdobieType">
+		<xsd:sequence>
+			<xsd:element name="od" type="odDoType"/>
+			<xsd:element name="do" type="odDoType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="bPredObdobieType">
+		<xsd:sequence>
+			<xsd:element name="od" type="odDoType"/>
+			<xsd:element name="do" type="odDoType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="odDoType">
+		<xsd:sequence>
+			<xsd:element name="mesiac" type="xsdStringHlavickaType"/>
+			<xsd:element name="rok" type="xsdStringHlavickaType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="nazovUJType">
+		<xsd:sequence>
+			<xsd:element name="riadok" type="xsdStringHlavickaType" minOccurs="2" maxOccurs="2"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="miestoPodnikaniaType">
+		<xsd:sequence>
+			<xsd:element name="ulica" type="xsdStringHlavickaType"/>
+			<xsd:element name="cislo" type="xsdStringHlavickaType"/>
+			<xsd:element name="psc" type="xsdStringHlavickaType"/>
+			<xsd:element name="obec" type="xsdStringHlavickaType"/>
+			<xsd:element name="telefon" type="xsdStringHlavickaType"/>
+			<xsd:element name="email" type="xsdStringHlavickaType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- telo -->
+	<xsd:complexType name="teloType">
+		<xsd:sequence>
+			<xsd:element name="ucFo1">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="r01" type="optionalDecimalType"/>
+						<xsd:element name="r02" type="optionalDecimalType"/>
+						<xsd:element name="r03" type="optionalDecimalType"/>
+						<xsd:element name="r04" type="optionalDecimalType"/>
+						<xsd:element name="r05" type="optionalDecimalType"/>
+						<xsd:element name="r06" type="optionalDecimalType"/>
+						<xsd:element name="r07" type="optionalDecimalType"/>
+						<xsd:element name="r08" type="optionalDecimalType"/>
+						<xsd:element name="r09" type="optionalDecimalType"/>
+						<xsd:element name="r10" type="optionalDecimalType"/>
+						<xsd:element name="r11" type="optionalDecimalType"/>
+						<xsd:element name="r12" type="optionalDecimalType"/>
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ucFo2">
+				<xsd:complexType>
+					<xsd:sequence>
+
+						<xsd:element name="r01" type="riadokType"></xsd:element>
+						<xsd:element name="r02" type="riadokType"></xsd:element>
+						<xsd:element name="r03" type="riadokType"></xsd:element>
+						<xsd:element name="r04" type="riadokType"></xsd:element>
+						<xsd:element name="r05" type="riadokType"></xsd:element>
+						<xsd:element name="r06" type="riadokType"></xsd:element>
+						<xsd:element name="r07" type="riadokType"></xsd:element>
+						<xsd:element name="r08" type="riadokType"></xsd:element>
+						<xsd:element name="r09" type="riadokType"></xsd:element>
+						<xsd:element name="r10" type="riadokType"></xsd:element>
+						<xsd:element name="r11" type="riadokType"></xsd:element>
+						<xsd:element name="r12" type="riadokType"></xsd:element>
+						<xsd:element name="r13" type="riadokType"></xsd:element>
+						<xsd:element name="r14" type="riadokType"></xsd:element>
+						<xsd:element name="r15" type="riadokType"></xsd:element>
+						<xsd:element name="r16" type="riadokType"></xsd:element>
+						<xsd:element name="r17" type="riadokType"></xsd:element>
+						<xsd:element name="r18" type="riadokType"></xsd:element>
+						<xsd:element name="r19" type="riadokType"></xsd:element>
+						<xsd:element name="r20" type="riadokType"></xsd:element>
+						<xsd:element name="r21" type="riadokType"></xsd:element>
+
+
+
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+
+
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- prazdny retazec -->
+	<xsd:simpleType name="emptyStr">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value=""/>
+		</xsd:restriction>
+	</xsd:simpleType> 
+	<xsd:complexType name="optionalDecimalType">
+		<xsd:simpleContent>
+			<xsd:extension base="emptyStringOrDecimal">
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="emptyStringOrDecimal">
+		<xsd:union memberTypes="xsd:decimal emptyString"/>
+	</xsd:simpleType>
+	<xsd:complexType name="skNaceType">
+		<xsd:sequence>
+			<xsd:element name="k1" type="optDecimalWithTwoDigit"/>
+			<xsd:element name="k2" type="optDecimalWithTwoDigit"/>
+			<xsd:element name="k3" type="optDecimalWithOneDigit"/>
+		</xsd:sequence>
+	</xsd:complexType> 
+	
+	<xsd:complexType name="riadokType">
+		<xsd:sequence>
+			<xsd:element name="s1" type="optionalDecimalType"></xsd:element>
+			<xsd:element name="s2" type="optionalDecimalType"></xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+</xsd:schema>

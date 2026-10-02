@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 
-from odoo import models
+from odoo import _, models
 
 
 class AccountEdiXmlUbl_Sk(models.AbstractModel):
@@ -55,3 +55,41 @@ class AccountEdiXmlUbl_Sk(models.AbstractModel):
             payment_id = node.get('cbc:PaymentID')
             if payment_id is not None:
                 payment_id['_text'] = variable_symbol
+
+    # -------------------------------------------------------------------------
+    # A Slovak party must be identifiable before the document leaves
+    # -------------------------------------------------------------------------
+
+    def _export_invoice_constraints(self, invoice, vals):
+        # EXTENDS 'account.edi.xml.ubl_bis3'
+        constraints = super()._export_invoice_constraints(invoice, vals)
+        constraints.update(self._l10n_sk_peppol_constraints(invoice, vals))
+        return constraints
+
+    def _l10n_sk_peppol_constraints(self, invoice, vals):
+        """Refuse a Slovak party with no DIČ, here rather than at the gateway.
+
+        The DIČ is no longer guessed from the VAT number, so a partner without
+        one has no participant identifier — and the failure would otherwise
+        surface at the access point as a *validation* error on an unknown
+        participant, which reads as a malformed request and sends whoever is
+        debugging it looking at the payload instead of at the contact.
+
+        Named per party, so the message says which one to go and fix.
+        """
+        constraints = {}
+        for role, partner in (
+            ('supplier', invoice.company_id.partner_id.commercial_partner_id),
+            ('customer', invoice.commercial_partner_id),
+        ):
+            if partner.country_code != 'SK':
+                continue
+            if partner.peppol_eas == '0245' and not partner._l10n_sk_get_dic():
+                constraints[f'l10n_sk_ubl_bis3_{role}_dic_required'] = _(
+                    "%(partner)s is identified on Peppol by EAS 0245, which "
+                    "carries the Slovak DIČ, but no DIČ is recorded for it. "
+                    "Set 'DIČ' on the contact — it is not the VAT number and "
+                    "cannot be derived from it.",
+                    partner=partner.display_name,
+                )
+        return constraints

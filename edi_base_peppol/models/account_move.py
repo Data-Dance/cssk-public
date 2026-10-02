@@ -67,6 +67,14 @@ class AccountMove(models.Model):
         "Peppol BIS3 document (a transport provider is installed and both "
         "parties have a Peppol address).",
     )
+    peppol_route = fields.Selection(
+        [("peppol", "Peppol e-invoice"), ("pdf", "PDF"),
+         ("blocked", "Peppol, but blocked")],
+        string="Sent as", compute="_compute_peppol_active",
+        help="How this customer document goes out, by the company's Peppol "
+        "settings and the customer.")
+    peppol_route_reason = fields.Char(
+        string="Why", compute="_compute_peppol_active")
     peppol_status = fields.Char(
         compute="_compute_peppol_status",
         string="Peppol Status",
@@ -159,22 +167,68 @@ class AccountMove(models.Model):
         p = partner.commercial_partner_id
         return bool(p.peppol_eas and p.peppol_endpoint)
 
-    def _peppol_is_eligible(self):
-        """True if this move is a posted customer document, a transport
-        provider is installed, and both the company and the customer carry a
-        Peppol address (EAS + endpoint)."""
+    def _peppol_route(self):
+        """``(route, reason)`` for a customer document: ``peppol`` (goes out
+        through Peppol), ``pdf`` (is sent as a PDF, the way it always was), or
+        ``blocked`` (belongs on Peppol but cannot go: a missing address).
+        ``(False, "")`` for anything that is not a customer invoice or credit
+        note.
+
+        Under the Slovak mandate (company setting) only a domestic document
+        to a business or public body is an e-invoice; a consumer, a Czech or
+        any other foreign customer gets the PDF.
+        """
         self.ensure_one()
         if self.move_type not in ("out_invoice", "out_refund"):
-            return False
-        if self.state != "posted":
-            return False
-        if not self._peppol_provider():
-            return False
-        if not self._peppol_partner_addressable(self.partner_id):
-            return False
+            return False, ""
+        company = self.company_id.sudo()
+        if not company.peppol_send_enabled:
+            return "pdf", _("%s does not send e-invoices.", company.name)
+        customer = self.partner_id.commercial_partner_id
+        # The contact's own choice of channel wins over the company's scope.
+        method = customer.with_company(self.company_id).invoice_sending_method
+        if method == "edi_peppol":
+            if not self._peppol_partner_addressable(self.company_id.partner_id):
+                return "blocked", _("%s has no Peppol address.", company.name)
+            if not self._peppol_partner_addressable(customer):
+                return "blocked", _(
+                    "%s is set to receive e-invoices but has no Peppol address.",
+                    customer.name)
+            return "peppol", ""
+        if method == "peppol":
+            # Odoo's own account_peppol sends it; ours must not as well.
+            return "pdf", _("Sent by Odoo's own Peppol service (the contact's "
+                            "invoice sending), not through the EDI provider.")
+        if method:
+            label = dict(customer._fields["invoice_sending_method"]._description_selection(
+                self.env)).get(method, method)
+            return "pdf", _("The contact's invoice sending is set to %s.", label)
+        if company.peppol_scope == "sk_mandate":
+            if company.account_fiscal_country_id.code != "SK":
+                return "pdf", _("The Slovak mandate applies to a Slovak company.")
+            if customer.country_id.code != "SK":
+                return "pdf", _(
+                    "Cross-border customer (%s): not in the Slovak mandate.",
+                    customer.country_id.code or _("no country"))
+            if not (customer.is_company or customer.vat):
+                return "pdf", _("Consumer (B2C): not in the Slovak mandate.")
         if not self._peppol_partner_addressable(self.company_id.partner_id):
+            return "blocked", _("%s has no Peppol address.", company.name)
+        if not self._peppol_partner_addressable(customer):
+            if company.peppol_scope == "sk_mandate":
+                return "blocked", _(
+                    "%s is a Slovak business in the mandate but has no Peppol "
+                    "address.", customer.name)
+            return "pdf", _("%s has no Peppol address.", customer.name)
+        return "peppol", ""
+
+    def _peppol_is_eligible(self):
+        """True if this posted customer document is routed to Peppol and a
+        transport provider is installed."""
+        self.ensure_one()
+        if self.state != "posted" or not self._peppol_provider():
             return False
-        return True
+        return self._peppol_route()[0] == "peppol"
 
     @api.depends(
         "move_type",
@@ -183,10 +237,19 @@ class AccountMove(models.Model):
         "partner_id.commercial_partner_id.peppol_endpoint",
         "company_id.partner_id.peppol_eas",
         "company_id.partner_id.peppol_endpoint",
+        "company_id.peppol_send_enabled",
+        "company_id.peppol_scope",
+        "partner_id.commercial_partner_id.country_id",
+        "partner_id.commercial_partner_id.is_company",
+        "partner_id.commercial_partner_id.vat",
+        "partner_id.commercial_partner_id.invoice_sending_method",
     )
     def _compute_peppol_active(self):
         for move in self:
             move.peppol_active = move._peppol_is_eligible()
+            route, reason = move._peppol_route()
+            move.peppol_route = route
+            move.peppol_route_reason = reason
 
     @api.depends("peppol_message_ids.state", "peppol_message_ids.direction")
     def _compute_peppol_status(self):
@@ -357,21 +420,21 @@ class AccountMove(models.Model):
     # ------------------------------------------------------------------
 
     def _peppol_auto_send(self):
-        """Global opt-in flag (Settings > EDI). Off by default so the manual
-        button is the default flow; a deployment can flip it on to send every
-        eligible customer document automatically on post."""
-        param = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("peppol.auto_send", "False")
-        )
-        return param.lower() not in ("0", "false", "")
+        """The company's opt-in (Settings > EDI). Off by default, so the
+        manual button is the default flow."""
+        return self.company_id.sudo().peppol_auto_send
 
     def action_post(self):
         res = super().action_post()
         for move in self.filtered(lambda m: m._peppol_is_eligible()):
             if move._peppol_auto_send():
                 move._peppol_emit(queue_send=True, raise_on_error=False)
+        for move in self.filtered(lambda m: m._peppol_auto_send()):
+            route, reason = move._peppol_route()
+            if route == "blocked":
+                # Would have gone out on its own; say so rather than let a
+                # missing address pass for a sent e-invoice.
+                move.message_post(body=_("Not sent via Peppol: %s", reason))
         return res
 
     def action_peppol_send(self):

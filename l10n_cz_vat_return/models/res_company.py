@@ -43,8 +43,70 @@ CZ_HISTORIC_VAT_RATES = (
 )
 
 
+#: ``l10n_cz`` intra-Community acquisition tax -> the domestic purchase tax it
+#: replaces under the Intra-Community fiscal position. ``l10n_cz`` ships these
+#: four with an empty ``original_tax_ids`` (the Extra-Community ones are
+#: mapped), so the position maps nothing and an EU vendor bill keeps the
+#: domestic 21 % / 12 % charged by the supplier instead of self-assessing.
+CZ_INTRA_COMMUNITY_PURCHASE_MAP = {
+    "l10n_cz_21_acquisition_goods_eu": "l10n_cz_21_receipt_domestic_supplies",
+    "l10n_cz_12_purchase_goods_eu": "l10n_cz_12_receipt_domestic_supplies",
+    "l10n_cz_21_receipt_service_person_eu":
+        "l10n_cz_21_receipt_domestic_services",
+    "l10n_cz_12_receipt_service_person_eu":
+        "l10n_cz_12_receipt_domestic_service",
+}
+
+
 class ResCompany(models.Model):
     _inherit = "res.company"
+
+    def _cz_map_intra_community_purchase_taxes(self):
+        """Let the Intra-Community position replace the domestic purchase tax.
+
+        Found on an inter-company bill from a Slovak seller to a Czech buyer:
+        30.00 of goods came out at 36.30, the supplier being asked for Czech
+        21 % that the buyer has to self-assess instead. Every Czech vendor bill
+        from an EU supplier does the same, because ``map_tax`` passes a tax
+        through untouched when no destination names it as its original.
+
+        Goods map to ``EU G`` and services to ``EU S`` by the domestic tax the
+        product carries (``21% G`` / ``21% S``), which is the only signal of
+        goods-versus-service Odoo gives the position.
+
+        Only links are added, never removed, so a mapping a user has set up
+        by hand survives. Idempotent. Archived historical rate clones are left
+        alone: nothing picks them on a new document.
+        """
+        ChartTemplate = self.env["account.chart.template"]
+        touched = 0
+        for company in self:
+            if company.chart_template != "cz":
+                continue
+            ref = ChartTemplate.with_company(company).ref
+            for dest_xmlid, src_xmlid in CZ_INTRA_COMMUNITY_PURCHASE_MAP.items():
+                dest = ref(dest_xmlid, raise_if_not_found=False)
+                src = ref(src_xmlid, raise_if_not_found=False)
+                if not dest or not src:
+                    # A company whose chart lacks one of these has deleted it
+                    # or predates it; say so rather than leave the position
+                    # silently half-mapped.
+                    _logger.warning(
+                        "l10n_cz_vat_return: %s has no %s, intra-Community "
+                        "mapping not set", company.display_name,
+                        dest_xmlid if not dest else src_xmlid,
+                    )
+                    continue
+                if src in dest.original_tax_ids:
+                    continue
+                dest.original_tax_ids = [(4, src.id)]
+                touched += 1
+            if touched:
+                _logger.info(
+                    "l10n_cz_vat_return: %s intra-Community purchase tax "
+                    "mapping(s) added on %s", touched, company.display_name,
+                )
+        return touched
 
     def _cssk_historic_vat_rates(self):
         self.ensure_one()

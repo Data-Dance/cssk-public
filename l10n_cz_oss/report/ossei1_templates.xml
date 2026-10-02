@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      DAP OSS - režim EU - Přiznání k DPH (EPO OSSEI1), structure 01.01.04 of
+      13. 12. 2021 — see data/SCHEMA_VERSION. Validated against
+      data/ossei1_epo2.xsd on every export.
+
+      VetaR  one row per member state of consumption × rate × goods/services.
+             `country` is the state the supply is made FROM (the member state
+             of identification, CZ, unless goods were dispatched from, or a
+             service supplied from, an establishment elsewhere).
+      VetaO  one correction per earlier quarter × member state, VAT only,
+             signed. Amounts in EUR with two decimals.
+      trans  "A" when there are supplies or corrections, "N" for a nil return.
+    -->
+    <template id="ossei1_2021">
+        <Pisemnost nazevSW="Odoo / Data Dance">
+            <OSSEI1 t-att-verzePis="statement.version_id.structure_version">
+                <VetaD k_uladis="OSS" dokument="EI1"
+                       t-att-quarter="statement.quarter"
+                       t-att-year="statement.year"
+                       t-att-period_start_date="cz_date(statement.partial_date_from)"
+                       t-att-period_end_date="cz_date(statement.partial_date_to)"
+                       t-att-vat_number="dic"
+                       t-att-company_name="(company.name or '')[:255]"
+                       t-att-trans="'N' if statement.is_nil else 'A'"/>
+                <VetaP t-att-dic="dic"/>
+                <t t-foreach="rows" t-as="r">
+                    <t t-set="msid" t-value="r.origin_country_id == statement.country_id"/>
+                    <VetaR t-att-country="oss_code(r.origin_country_id.code)"
+                           t-att-vat_number="dic if msid else (vat_root(r.origin_vat) or None)"
+                           t-att-state_consumption="oss_code(r.member_state_id.code)"
+                           t-att-vat_rate_type_code="cz_rate_type.get(r.rate_type)"
+                           t-att-vat_rate="fmt_rate(r.vat_rate)"
+                           t-att-taxable_amount="fmt(r.taxable_amount)"
+                           t-att-vat_amount="fmt(r.vat_amount)"
+                           t-att-supply_type_code="cz_supply_type[r.supply_type]"/>
+                </t>
+                <t t-foreach="corrections" t-as="c">
+                    <VetaO t-att-quarter="c.quarter"
+                           t-att-year="c.year"
+                           t-att-state_consumption="oss_code(c.member_state_id.code)"
+                           t-att-correction="fmt(c.vat_amount)"/>
+                </t>
+            </OSSEI1>
+        </Pisemnost>
+    </template>
+</odoo>

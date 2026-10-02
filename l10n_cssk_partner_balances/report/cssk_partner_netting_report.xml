@@ -78,7 +78,7 @@
                                     <td t-out="line.move_line_id.date_maturity or ''"/>
                                     <td class="text-end">
                                         <span t-out="line.amount_to_offset"
-                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                              t-options='{"widget": "monetary", "display_currency": doc.netting_currency_id}'/>
                                     </td>
                                 </tr>
                             </tbody>
@@ -101,7 +101,7 @@
                                     <td t-out="line.move_line_id.date_maturity or ''"/>
                                     <td class="text-end">
                                         <span t-out="line.amount_to_offset"
-                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                              t-options='{"widget": "monetary", "display_currency": doc.netting_currency_id}'/>
                                     </td>
                                 </tr>
                             </tbody>

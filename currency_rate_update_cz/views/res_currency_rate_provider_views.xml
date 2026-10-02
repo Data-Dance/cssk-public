@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_currency_rate_provider_form_cnb_mode" model="ir.ui.view">
+        <field name="name">res.currency.rate.provider.form.cnb.mode</field>
+        <field name="model">res.currency.rate.provider</field>
+        <field name="inherit_id" ref="currency_rate_update.res_currency_rate_provider_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='options']//field[@name='service']" position="after">
+                <field name="cnb_rate_mode" invisible="service != 'CNB'"/>
+                <field name="cnb_monthly_reference"
+                       invisible="service != 'CNB' or cnb_rate_mode != 'monthly'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

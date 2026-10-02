@@ -8,6 +8,27 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Automatic QR method preference (2026-09-27).** 18.0 has the same
+  sequence-20 tie (PAY by square, payme, SEPA). Port ``qr_method_preference.py``
+  with the ``_get_qr_method_home_country`` entries in the two SK modules; check
+  18.0's ``account.move._generate_qr_code`` flow first.
+
+Added
+~~~~~
+
+- ``res.partner.bank._qr_method_suits``: a national QR method (declared by
+  its module through ``_get_qr_method_home_country``) is picked
+  **automatically** only when the issuer and the debtor are both in its
+  country, an unknown country not counting against it. PAY by square, payme
+  and core's SEPA QR all sit at sequence 20 and accept any EUR SEPA IBAN, so
+  the winner used to be module load order, and a Czech company's EUR invoice
+  to a German customer could print a Slovak code. An explicit per-invoice
+  *Payment QR-code* is not affected. If nothing preferred can be built, core's
+  own choice still applies.
+
 Changed
 ~~~~~~~
 

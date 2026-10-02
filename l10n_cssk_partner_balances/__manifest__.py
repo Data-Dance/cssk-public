@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Partner Balance Confirmation (Saldokonto)",
-    "version": "19.0.1.1.3",
+    "version": "19.0.1.2.0",
     "summary": "Saldokonto / odsúhlasenie (potvrdenie) zostatkov pohľadávok a "
                "záväzkov — a stored, state-tracked confirmation of a partner's "
                "open AR/AP as of a date, with a PDF for countersigning.",

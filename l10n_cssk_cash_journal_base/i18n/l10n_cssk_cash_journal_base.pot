@@ -1,0 +1,905 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_cash_journal_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-28 12:19+0000\n"
+"PO-Revision-Date: 2026-09-28 12:19+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/wizard/cssk_cash_journal_generate.py:0
+msgid "%(count)s of %(total)s rows need review."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/res_config_settings.py:0
+msgid "%s accounts mapped to cash journal categories."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/report/cssk_cash_journal_xlsx.py:0
+msgid "(no category)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.actions.act_window,help:l10n_cssk_cash_journal_base.action_cssk_cash_category
+msgid ""
+"A category is the <i>členenie</i> a payment is filed under in the\n"
+"               peňažný denník. The country modules ship the statutory\n"
+"               catalogues."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__non_cash
+msgid "A row that moved no money — depreciation, a tax-base adjustment."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_category__non_cash
+msgid ""
+"A row that moved no money: depreciation, the tax-base adjustments of SK § 17"
+" ods. 8 / CZ § 23 odst. 8. Generated from ordinary journal entries rather "
+"than from a payment."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__taxable
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__taxable
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Affects the tax base"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__amount
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__amount_classified
+msgid "Amount Classified"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__amount_signed
+msgid "Amount Signed"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_form
+msgid "Amounts"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__payment_kind__bank
+msgid "Bank (banka)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__res_company__cssk_cash_partial_allocation__base_first
+msgid "Base first, then the VAT"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_res_company__cssk_bookkeeping_regime
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid "Bookkeeping Regime"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.module.module,shortdesc:base.module_l10n_cssk_cash_journal_base
+msgid "CZ/SK Cash Journal — Shared Framework (peňažný denník / peněžní deník)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_generate_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_print_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__payment_kind__cash
+msgid "Cash (pokladnica)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.actions.act_window,name:l10n_cssk_cash_journal_base.action_cssk_cash_journal_line
+#: model:ir.ui.menu,name:l10n_cssk_cash_journal_base.menu_cssk_cash_journal_root
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_list
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Cash Journal"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.ui.menu,name:l10n_cssk_cash_journal_base.menu_cssk_cash_journal_line
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid "Cash Journal (peňažný denník)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.actions.act_window,name:l10n_cssk_cash_journal_base.action_cssk_cash_category
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_category_list
+msgid "Cash Journal Categories"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_account_account__cssk_cash_category_id
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_account_move_line__cssk_cash_category_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_category_form
+msgid "Cash Journal Category"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_account_account__cssk_cash_category_in_id
+msgid "Cash Journal Category (Money In)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model,name:l10n_cssk_cash_journal_base.model_cssk_cash_category
+msgid "Cash Journal Category (členenie peňažného denníka)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model,name:l10n_cssk_cash_journal_base.model_cssk_cash_figures
+msgid "Cash Journal Figures for the Income-Tax Return"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_form
+msgid "Cash Journal Row"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model,name:l10n_cssk_cash_journal_base.model_cssk_cash_journal_line
+msgid "Cash Journal Row (peňažný denník)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_res_company__cssk_cash_journal_start
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid "Cash Journal Starts"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model,name:l10n_cssk_cash_journal_base.model_report_l10n_cssk_cash_journal_base_dennik_xlsx
+msgid "Cash Journal XLSX"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.actions.act_window,name:l10n_cssk_cash_journal_base.action_cssk_cash_journal_line_review
+msgid "Cash Journal — Needs Review"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/report/cssk_cash_journal_xlsx.py:0
+msgid "Cash journal"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.ui.menu,name:l10n_cssk_cash_journal_base.menu_cssk_cash_category
+msgid "Categories"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__category_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Category"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_category.py:0
+msgid ""
+"Category %s is a transit (priebežná položka), so it cannot affect the tax "
+"base."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_category.py:0
+msgid ""
+"Category %s is a transit (priebežná položka), so it cannot be a non-cash "
+"category."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_account_account__cssk_cash_category_in_id
+msgid ""
+"Category to use when money comes IN through this account, where that is a "
+"different column from money going out. Leave it empty when one category "
+"covers both directions."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_generate__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_print__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__taxable
+msgid ""
+"Copied from the category when the row is generated, so that recategorising "
+"later cannot silently restate a filed year."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__country_id
+msgid "Country"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.module.module,summary:base.module_l10n_cssk_cash_journal_base
+msgid ""
+"Country-neutral single-entry cash journal derived from ordinary double-entry"
+" books: payments become dated, categorised denník rows, with the year-end "
+"balances the tax return asks for."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__date
+msgid "Date"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_generate__date_from
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_print__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_generate__date_to
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_print__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.actions.act_window,help:l10n_cssk_cash_journal_base.action_cssk_cash_category
+msgid "Define a category"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_account_account__cssk_cash_category_id
+msgid ""
+"Denník category for payments that touch this account, and for money going "
+"out where the inbound category below is set. A line of a paid document may "
+"override it."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__source_move_id
+msgid "Document"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid "Document %s has no amount to split the payment across."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__source_move_line_id
+msgid "Document Line"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__ref
+msgid "Document No."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__res_company__cssk_bookkeeping_regime__pu
+msgid "Double-entry (podvojné účtovníctvo / účetnictví)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_category__kind__expense
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__kind__expense
+msgid "Expense"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Expenses"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_res_company__cssk_cash_journal_start
+msgid ""
+"First date the denník covers. Earlier payments are left alone, which is what"
+" a mid-year migration needs."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid "First date the denník covers; earlier payments are left alone."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__res_company__cssk_bookkeeping_regime__pausal
+msgid "Flat-rate expenses (paušálne výdavky / paušální výdaje)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.ui.menu,name:l10n_cssk_cash_journal_base.menu_cssk_cash_journal_generate
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_generate_form
+msgid "Generate"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.actions.act_window,name:l10n_cssk_cash_journal_base.action_cssk_cash_journal_generate
+msgid "Generate Cash Journal"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.actions.act_window,help:l10n_cssk_cash_journal_base.action_cssk_cash_journal_line
+msgid ""
+"Generate it from the posted payments with\n"
+"               <i>Generate Cash Journal</i>."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_generate_form
+msgid "Generate the Cash Journal"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model,name:l10n_cssk_cash_journal_base.model_cssk_cash_journal_generate
+msgid "Generate the Cash Journal (peňažný denník)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_res_company__cssk_cash_partial_allocation
+msgid ""
+"How a part payment of an invoice is split between the tax base and the VAT. "
+"All three are permissible: the entity chooses one in its internal directive,"
+" keeps it for the whole year and applies it to income and expenses alike. "
+"Pro rata is Odoo's own convention; POHODA settles the VAT first."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__money_direction__in
+msgid "In"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_category__kind__income
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__kind__income
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Income"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_category__taxable
+msgid ""
+"Income or expense that enters the personal income-tax base. Clear it for "
+"what SK calls 'neovplyvňujúce základ dane' and POHODA files as PN/VN: an "
+"owner's withdrawal, a loan repayment, the VAT remittance, income tax paid."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/res_company.py:0
+msgid ""
+"Jednoduché účetnictví is not open to a Czech sole trader (§ 1f zákona "
+"563/1991 Sb. leaves it to small non-profits). Use tax records (daňová "
+"evidence) instead."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__kind
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__kind
+msgid "Kind"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__manual
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Manual"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid "Map chart to cash journal categories"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid "Map the Chart"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Money"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__money_direction
+msgid "Money Direction"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__move_id
+msgid "Money Entry"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__journal_id
+msgid "Money Journal"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__move_line_id
+msgid "Money Line"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid ""
+"Money came in through %(account)s, which is categorised as %(category)s. Set"
+" the category for that direction on the account — a loan or a VAT account "
+"needs one for each."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid "Money in transit through %s with no transit category."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid ""
+"Money went out through %(account)s, which is categorised as %(category)s. "
+"Set the category for that direction on the account — a loan or a VAT account"
+" needs one for each."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Month"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__needs_review
+#: model:ir.ui.menu,name:l10n_cssk_cash_journal_base.menu_cssk_cash_journal_review
+msgid "Needs Review"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Needs review"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_list
+msgid "Net"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__amount
+msgid ""
+"Net of VAT for a VAT payer, gross otherwise — whatever reaches the tax base."
+" Always positive; ``kind`` carries the direction."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid "No cash journal category on account %s."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__money_direction__none
+msgid "No money"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__non_cash
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__non_cash
+msgid "Non Cash"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Non-cash"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__payment_kind__none
+msgid "None"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__note
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_category_form
+msgid "Note"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/res_config_settings.py:0
+msgid ""
+"Nothing to map: either the chart is already mapped, or there is no default "
+"mapping for this country."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__number
+msgid "Number"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__money_direction__out
+msgid "Out"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_print__output
+msgid "Output"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_account_move_line__cssk_cash_category_id
+msgid "Overrides the account's category when this line is paid."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_print__output__pdf
+msgid "PDF"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_res_company__cssk_cash_partial_allocation
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid "Partial Payment Allocation"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__payment_kind
+msgid "Payment Kind"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid ""
+"Payment on %s is not matched to a document — an advance? Choose the "
+"category."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__amount_signed
+msgid ""
+"Positive for income, negative for an expense, and the other way round for a "
+"storno. Summing it over a category gives what that column of the book is "
+"really worth."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.ui.menu,name:l10n_cssk_cash_journal_base.menu_cssk_cash_journal_print
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_print_form
+msgid "Print"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.actions.act_window,name:l10n_cssk_cash_journal_base.action_cssk_cash_journal_print
+msgid "Print Cash Journal"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model,name:l10n_cssk_cash_journal_base.model_cssk_cash_journal_print
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_print_form
+msgid "Print the Cash Journal"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__res_company__cssk_cash_partial_allocation__prorata
+msgid "Pro rata over base and VAT"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_generate_form
+msgid ""
+"Rebuilds the denník from the posted payments of the period.\n"
+"                    Rows typed by hand, and rows already closed by the\n"
+"                    accounting lock date, are left alone."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_form
+msgid "Review"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__review_reason
+msgid "Review Reason"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__number
+msgid ""
+"Sequence within the year, assigned in date order when the denník is "
+"generated."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid ""
+"Set the denník category on every account the country mapping knows. Never "
+"overwrites a category you chose; safe to run again."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_category__code
+msgid "Short key the country module and the denník grid refer to."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__res_company__cssk_bookkeeping_regime__ju
+msgid "Single-entry accounting (jednoduché účtovníctvo, SK only)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid ""
+"Single-entry regimes derive a cash journal from these double-entry books."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_form
+msgid "Source"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_print__output__xlsx
+msgid "Spreadsheet"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__counter_entry
+msgid "Storno"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Storno (counter entry)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_category__tax_return_code
+msgid "Tax Return Code"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__res_company__cssk_bookkeeping_regime__de
+msgid "Tax records (daňová evidencia / daňová evidence)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__label
+msgid "Text"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__amount_tax
+msgid ""
+"The VAT part of the same payment. It never reaches the income-tax base for a"
+" VAT payer (SK § 21 ods. 1 písm. i), and is reported separately."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__amount_classified
+msgid ""
+"The amount as its own column carries it: negative for a storno. This is what"
+" the grid prints and what the tax return's gross columns add up."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_category__country_id
+msgid "The country whose statute this category comes from."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.actions.act_window,help:l10n_cssk_cash_journal_base.action_cssk_cash_journal_line
+msgid "The denník is empty"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__ref
+msgid ""
+"The doklad this row came from — the payment or the statement line, as the "
+"book's 'Doklad' column."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid "The entry has no counterpart amount to attribute the money to."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__source_move_id
+msgid "The invoice, bill or entry whose category this row carries."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__counter_entry
+msgid ""
+"The money moved against its category: a refunded sale, a refund received "
+"from a supplier. The amount reduces its own column instead of appearing in "
+"the opposite one — which is how POHODA and Money show a storno, and what the"
+" tax return's gross príjmy/výdavky columns need."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid "The reconciliation chain is longer than %s hops; resolve it by hand."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__needs_review
+msgid ""
+"The row is in the book but something about it could not be resolved. Never "
+"silently dropped."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid "The start date must not be after the end date."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/wizard/cssk_cash_journal_print.py:0
+msgid ""
+"There is no cash journal layout for %s. Install the country module, or print"
+" the spreadsheet instead."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/models/cssk_cash_journal_line.py:0
+msgid ""
+"There is nothing to regenerate: the period ends before the denník starts, or"
+" it is entirely closed by the accounting lock date (%s)."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "This Year"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_list
+msgid "Total"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/report/cssk_cash_journal_xlsx.py:0
+msgid "Totals per category"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Transit"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_category__kind__transit
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__cssk_cash_journal_line__kind__transit
+msgid "Transit (priebežná položka)"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_search
+msgid "Type"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__manual
+msgid "Typed by hand. Regeneration leaves these alone."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,field_description:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__amount_tax
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.view_cssk_cash_journal_line_list
+msgid "VAT"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields.selection,name:l10n_cssk_cash_journal_base.selection__res_company__cssk_cash_partial_allocation__vat_first
+msgid "VAT first, then the base"
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__kind
+msgid ""
+"Which column of the book the amount is classified in. It follows the "
+"category, not the direction the money moved — a refunded sale stays in its "
+"sales column and reduces it."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__payment_kind
+msgid "Which of the book's two money columns this row belongs to."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_cash_journal_base.res_config_settings_view_form
+msgid ""
+"Which part of a part payment settles the VAT. Fix it in the internal "
+"directive and keep it for the whole year."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_category__tax_return_code
+msgid ""
+"Which row of the personal income-tax return this category feeds — SK DPFO "
+"typ B tabuľka 1, CZ Příloha č. 1. The country module sets it; the figures "
+"report groups by it."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_journal_line__money_direction
+msgid ""
+"Which way the money actually moved. Apart from ``kind`` because the two "
+"genuinely differ: a refunded sale is money going OUT of an INCOME category."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#: model:ir.model.fields,help:l10n_cssk_cash_journal_base.field_cssk_cash_category__note
+msgid ""
+"Why this category exists — the statutory reference, or the internal "
+"directive that defines it."
+msgstr ""
+
+#. module: l10n_cssk_cash_journal_base
+#. odoo-python
+#: code:addons/l10n_cssk_cash_journal_base/report/cssk_cash_journal_xlsx.py:0
+msgid "yes"
+msgstr ""

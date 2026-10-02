@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Údaje podávajícího for the Czech EPO VAT forms (DPHDP3, kontrolní
+        hlášení, souhrnné hlášení). Only Czech companies file them.
+    -->
+    <record id="res_company_view_form_cz_epo_filer" model="ir.ui.view">
+        <field name="name">res.company.form.cz.epo.filer</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="EPO podání" name="cz_epo_filer"
+                      invisible="country_code != 'CZ'">
+                    <group>
+                        <field name="l10n_cz_epo_natural_person" invisible="1"/>
+                        <group string="Fyzická osoba"
+                               invisible="not l10n_cz_epo_natural_person">
+                            <field name="l10n_cz_epo_title"/>
+                            <field name="l10n_cz_epo_first_name"/>
+                            <field name="l10n_cz_epo_last_name"/>
+                        </group>
+                        <group string="Oprávněná osoba"
+                               invisible="l10n_cz_epo_natural_person">
+                            <field name="l10n_cz_epo_signatory_first_name"/>
+                            <field name="l10n_cz_epo_signatory_last_name"/>
+                            <field name="l10n_cz_epo_signatory_position"/>
+                        </group>
+                        <group string="Sestavil">
+                            <field name="l10n_cz_epo_preparer_first_name"/>
+                            <field name="l10n_cz_epo_preparer_last_name"/>
+                            <field name="l10n_cz_epo_preparer_phone"/>
+                        </group>
+                        <group string="Zástupce">
+                            <field name="l10n_cz_epo_agent_partner_id"/>
+                            <field name="l10n_cz_epo_agent_code"
+                                   required="l10n_cz_epo_agent_partner_id"/>
+                            <field name="l10n_cz_epo_agent_registration_number"
+                                   invisible="not l10n_cz_epo_agent_partner_id"/>
+                            <field name="l10n_cz_epo_agent_birth_date"
+                                   invisible="not l10n_cz_epo_agent_partner_id"/>
+                        </group>
+                    </group>
+                    <div class="text-muted">
+                        The address, telephone and e-mail come from the
+                        company's own contact details. Whether the filer is a
+                        natural person (typ_ds F) or a legal entity (P) follows
+                        the company's person type.
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

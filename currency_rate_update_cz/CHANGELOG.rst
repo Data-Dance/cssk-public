@@ -8,6 +8,56 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-09-28
+-------------------------
+
+Added
+~~~~~
+
+- **Fixed monthly rate (pevný kurz).** A ČNB provider can run in *Fixed
+  monthly rate* mode: one rate per month, dated the 1st, which Odoo then
+  applies to every document of the month (§ 24 odst. 6 ZoÚ; for VAT § 38
+  ZDPH). The rate is the fixing valid on the 1st or the last fixing of the
+  previous month, as chosen.
+- **The actual fixings are kept apart** (``cssk.currency.rate.actual``) for the
+  balance-sheet revaluation, which must use ČNB's rate of that day, not the
+  fixed one. Currency conversion reads them only under the context key
+  ``cssk_actual_rates``; nothing else sees them.
+
+Fixed
+~~~~~
+
+- An empty or truncated daily answer from ČNB no longer raises an
+  ``IndexError``; it is simply no fixing.
+
+[19.0.1.2.0] — 2026-09-28
+-------------------------
+
+Fixed
+~~~~~
+
+- **A range of dates fetched only its last day.** ``_obtain_rates`` sent the
+  daily feed ``date_to`` and nothing else, so *Update rates* from January to
+  June stored 30 June alone, and a back-dated document — a history import, a
+  late invoice, a company switching the provider on mid-year — took whatever
+  earlier rate happened to exist, where § 38 ZDPH wants the one valid on the
+  day of the tax point. A range now reads ČNB's yearly files (one request a
+  year, every fixing day, the column list re-read at each header because the
+  currency set changes mid-year — 2022 dropped the rouble in March). A range
+  starting on a weekend or holiday also takes the last fixing before it,
+  which is the rate valid then. A single day still uses the daily feed.
+- The provider tests built their provider once per class with ``new()``; the
+  first test's rollback emptied it, so the later tests ran against a provider
+  with no service that fetched nothing — and passed.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Range fetch through the yearly file (19.0.1.2.0, 2026-09-28).** 18.0 has
+  the same bug: its ``_obtain_rates`` also sends only ``date_to``
+  (``models/res_currency_rate_provider_CNB.py``). Port the provider change and
+  the per-test provider in the tests.
+
 [19.0.1.1.0] — 2026-09-13
 -------------------------
 

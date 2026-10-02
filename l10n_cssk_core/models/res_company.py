@@ -4,6 +4,16 @@ from odoo import fields, models
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    cssk_vat_deferral_account_id = fields.Many2one(
+        "account.account",
+        string="VAT declared in a later period",
+        check_company=True,
+        help="Optional. When a document's VAT is declared in a later period "
+        "than it is booked (its 'VAT period declared' date), the tax is moved "
+        "to this account on the booking date and back on the declaration "
+        "date, so the VAT accounts (343) agree with the return of every "
+        "period. Leave empty to keep the tax where it was booked.",
+    )
     l10n_cssk_tax_authority_id = fields.Many2one(
         "cssk.tax.authority",
         string="Tax Authority",
@@ -46,14 +56,14 @@ class ResCompany(models.Model):
     # second year onwards.
     #
     # Journals rather than a flag on account.move: OCA account_fiscal_year_closing
-    # (which l10n_sk_zavierka / l10n_cz_zavierka extend) already books its closing
+    # (which l10n_sk_fiscal_year_closing / l10n_cz_fiscal_year_closing extend) already books its closing
     # and opening moves through a configurable journal, so one mechanism covers
     # natively closed companies and ledgers migrated in from another system. It
     # also stays inspectable and fixable by the accountant, and needs no extra
     # stored column on a table that holds every line the company ever posted.
     #
     # Deliberately NOT keyed on accounts 701/702/710: l10n_sk ships those as
-    # off_balance and l10n_sk_zavierka retypes them (account_move_line.
+    # off_balance and l10n_sk_fiscal_year_closing retypes them (account_move_line.
     # _check_off_balance refuses to mix off-balance accounts with any other in
     # one entry, which makes the classic Czechoslovak close unpostable), so the
     # very codes such a rule would key on are the ones our own modules rewrite.

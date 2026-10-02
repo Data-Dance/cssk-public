@@ -41,10 +41,10 @@ a stiff sentence beats a confidently wrong one on a statutory document.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.1",
+    "version": "19.0.2.0.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
-    "depends": ["account", "l10n_sk"],
+    "depends": ["account", "l10n_sk", "partner_nace"],
     "data": [
         "security/ir.model.access.csv",
         "views/res_partner_views.xml",

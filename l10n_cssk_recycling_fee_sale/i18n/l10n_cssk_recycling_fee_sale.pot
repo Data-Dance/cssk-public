@@ -1,0 +1,130 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_recycling_fee_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-28 11:56+0000\n"
+"PO-Revision-Date: 2026-09-28 11:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee_sale.field_sale_order_line__is_recycling_fee_line
+msgid ""
+"A separate recycling-fee line generated for the 'on top' presentation. "
+"Regenerated from the product lines, never edited."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model,name:l10n_cssk_recycling_fee_sale.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model,name:l10n_cssk_recycling_fee_sale.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_sale_order__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_sale_order_line_ecotax__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_res_config_settings__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_sale_order__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_sale_order_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_sale_order_line_ecotax__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee_sale.field_sale_order__recycling_fee_presentation
+msgid ""
+"Included: the fee is part of the unit price and each line says 'z toho "
+"recyklační příspěvek …' — the presentation of MŽP's model invoices (unit "
+"price 'vč. příspěvku na recyklaci'). On top: prices exclude the fee and it "
+"is invoiced as its own line; the product line then states the fee as a "
+"separate item. Both satisfy CZ § 73 odst. 1 and SK § 34 ods. 1 písm. d), "
+"which require the fee to be stated separately, not how."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_sale_order_line__is_recycling_fee_line
+msgid "Is Recycling Fee Line"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_sale_order__recycling_fee_presentation
+msgid "Recycling Fee Presentation"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_res_company__recycling_fee_product_id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee_sale.field_res_config_settings__recycling_fee_product_id
+msgid "Recycling Fee Product"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee_sale/models/sale_order.py:0
+msgid "Recycling fee"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model,name:l10n_cssk_recycling_fee_sale.model_sale_order_line_ecotax
+msgid "Sale order line ecotax"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model,name:l10n_cssk_recycling_fee_sale.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model,name:l10n_cssk_recycling_fee_sale.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee_sale.field_res_company__recycling_fee_product_id
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee_sale.field_res_config_settings__recycling_fee_product_id
+msgid ""
+"Service product used for the separate fee lines when the fee is invoiced on "
+"top of the price. Its income account is where the fee is booked; its taxes "
+"are NOT used — each fee line takes the VAT of the goods it belongs to, since"
+" the fee is part of the consideration for that supply."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee_sale/models/sale_order.py:0
+msgid ""
+"Set the recycling fee product in the Invoicing settings of %(company)s "
+"first."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee_sale/models/sale_order.py:0
+msgid ""
+"The recycling fee of %(order)s is already invoiced and can no longer be "
+"regenerated."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee_sale
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee_sale.view_order_form
+msgid "Update Recycling Fee"
+msgstr ""

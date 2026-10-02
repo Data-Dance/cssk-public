@@ -9,6 +9,7 @@ from odoo import Command, fields
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.exceptions import UserError
 from odoo.tests import tagged
+from odoo.tools import date_utils
 
 
 @tagged("post_install", "-at_install")
@@ -53,7 +54,7 @@ class TestCzKh(AccountTestInvoicingCommon):
         today = fields.Date.context_today(self.env.user)
         st = self.env["cssk.control.statement"].create({
             "company_id": self.company.id, "version_id": self.version.id,
-            "date_from": today.replace(day=1), "date_to": today.replace(day=28),
+            "date_from": today.replace(day=1), "date_to": date_utils.end_of(today, "month"),
             "period_type": "month",
             "statement_type_id": self.env.ref("l10n_cz_kh.cz_kh_type_B").id,
         })

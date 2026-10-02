@@ -14,3 +14,13 @@ class ResConfigSettings(models.TransientModel):
         domain="[('model_id.model', '=', 'res.partner')]",
         config_parameter="ares_cz.mapping.ico",
     )
+    config_ares_cz_mapping_nace = fields.Many2one(
+        "ir.model.fields",
+        string="Prevailing activity (CZ-NACE 2025)",
+        ondelete="set null",
+        domain="[('model_id.model', '=', 'res.partner')]",
+        config_parameter="ares_cz.mapping.nace",
+        help="Partner field receiving the prevailing activity from the "
+        "statistical register (RES). Costs one more ARES request per lookup; "
+        "empty: not fetched.",
+    )

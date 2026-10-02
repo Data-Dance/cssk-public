@@ -82,8 +82,9 @@ class L10nSkCashDennik(models.AbstractModel):
         for row in rows:
             cells = dict.fromkeys(totals, 0.0)
             gross = row.amount + row.amount_tax
-            incoming = row.kind == "income" or (
-                row.kind == "transit" and row.amount_signed >= 0)
+            # The money columns follow the money, not the classification: a
+            # refunded sale leaves the bank even though it is an income row.
+            incoming = row.money_direction == "in"
 
             if row.non_cash:
                 pass  # a nepeňažný row moves no money and no money column
@@ -99,7 +100,9 @@ class L10nSkCashDennik(models.AbstractModel):
 
             column = self._sk_column_for(row, claimed)
             if column:
-                cells[column] = row.amount
+                # Negative for a storno, so a refund reduces its own column
+                # instead of being added to it.
+                cells[column] = row.amount_classified
 
             if not row.non_cash:
                 if row.payment_kind == "cash":
@@ -146,12 +149,12 @@ class L10nSkCashDennik(models.AbstractModel):
         book would not add up — so it falls into the catch-all column for its
         side, taxable or not.
         """
+        if row.kind == "transit":
+            return None
         code = row.category_id.code
         for key, _heading, codes in DENNIK_COLUMNS:
             if codes and code in codes:
                 return key
-        if row.kind == "transit":
-            return None
         if row.kind == "income":
             return "p_ostatne" if row.taxable else "pn"
         return "v_ostatne" if row.taxable else "vn"

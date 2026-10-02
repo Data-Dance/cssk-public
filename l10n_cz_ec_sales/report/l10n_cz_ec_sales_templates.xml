@@ -17,11 +17,7 @@
                     t-att-ctvrt="('%d' % ((statement.date_from.month - 1) // 3 + 1)) if statement.period_type == 'quarter' else None"
                     t-att-shvies_forma="statement.statement_type_id.fa_xml_value"
                     k_uladis="DPH"/>
-                <VetaP
-                    t-att-dic="(company.vat or '')[2:] if (company.vat or '')[:2].upper() == 'CZ' else (company.vat or '')"
-                    t-att-c_ufo="company.l10n_cssk_tax_authority_id.submission_code or ''"
-                    t-att-zkrobchjm="(company.name or '')[:20]"
-                    typ_ds="P"/>
+                <VetaP t-att="company._l10n_cz_epo_vetap(exclude=('email', 'c_telef'))"/>
                 <t t-foreach="lines" t-as="line">
                     <VetaR
                         t-att-k_stat="line.partner_country_code"

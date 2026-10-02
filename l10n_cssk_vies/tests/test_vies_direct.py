@@ -49,7 +49,7 @@ class TestViesDirect(TransactionCase):
         self.assertTrue(self.partner.vies_check_date)
 
     def test_invalid_clears_stale_proof(self):
-        self.partner.vies_consultation_number = "OLD123"
+        self.partner._apply_vies_direct_result(self.VALID_RESP, store=True)
         status = self.partner._apply_vies_direct_result(
             {"valid": False, "requestDate": "2026-06-11T00:00:00.000Z"}, store=True
         )
@@ -57,16 +57,22 @@ class TestViesDirect(TransactionCase):
         self.assertFalse(self.partner.vies_consultation_number)
         # The check still timestamps when it ran.
         self.assertTrue(self.partner.vies_check_date)
+        # ...and the earlier proof is still in the log.
+        self.assertIn(
+            "WAPIAAAAX3lU8bHe",
+            self.partner.vies_check_ids.mapped("consultation_number"))
 
     def test_transient_fault_preserves_proof(self):
-        self.partner.vies_consultation_number = "KEEP99"
-        self.partner.vies_check_date = "2026-06-01 08:00:00"
+        self.partner._apply_vies_direct_result(self.VALID_RESP, store=True)
         status = self.partner._apply_vies_direct_result(
             {"valid": False, "userError": "MS_UNAVAILABLE"}, store=True
         )
         self.assertEqual(status, "fault")
-        # Nothing overwritten on a service fault.
-        self.assertEqual(self.partner.vies_consultation_number, "KEEP99")
+        # The fault is logged but does not replace the last answer.
+        self.assertEqual(self.partner.vies_consultation_number, "WAPIAAAAX3lU8bHe")
+        self.assertTrue(self.partner.vies_fault_date)
+        self.assertEqual(
+            self.partner.vies_check_ids[:1].fault_reason, "MS_UNAVAILABLE")
 
     def test_store_false_writes_nothing(self):
         status = self.partner._apply_vies_direct_result(self.VALID_RESP, store=False)
@@ -104,3 +110,72 @@ class TestViesDirect(TransactionCase):
         ):
             status = self.partner._check_vies_direct(store=True)
         self.assertEqual(status, "fault")
+
+
+@tagged("post_install", "-at_install")
+class TestViesPerCompany(TransactionCase):
+    """Two companies sharing a partner keep their own proof."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner = cls.env["res.partner"].create(
+            {"name": "Shared EU s.r.o.", "vat": "SK2023456787"})
+        cls.company_a = cls.env.company
+        cls.company_a.vat = "SK2022749619"
+        cls.company_b = cls.env["res.company"].create({
+            "name": "Second Co", "country_id": cls.env.ref("base.cz").id,
+        })
+
+    def _answer(self, company, number):
+        partner = self.partner.with_company(company)
+        partner._apply_vies_direct_result(
+            dict(TestViesDirect.VALID_RESP, requestIdentifier=number), store=True)
+        return partner
+
+    def test_each_company_sees_its_own_consultation_number(self):
+        self._answer(self.company_a, "AAA")
+        self.assertFalse(
+            self.partner.with_company(self.company_b).vies_consultation_number)
+        self._answer(self.company_b, "BBB")
+        self.assertEqual(
+            self.partner.with_company(self.company_a).vies_consultation_number,
+            "AAA")
+        self.assertEqual(
+            self.partner.with_company(self.company_b).vies_consultation_number,
+            "BBB")
+        checks = self.partner.sudo().vies_check_ids
+        self.assertEqual(set(checks.mapped("company_id").ids),
+                         {self.company_a.id, self.company_b.id})
+
+    def test_the_log_records_the_requester(self):
+        self._answer(self.company_a, "AAA")
+        check = self.partner.sudo().vies_check_ids[:1]
+        self.assertEqual(check.requester_vat, "SK2022749619")
+        self.assertEqual(check.vat, "SK2023456787")
+        self.assertEqual(check.user_id, self.env.user)
+
+    def test_a_legacy_check_serves_until_the_company_checks(self):
+        self.env["cssk.vies.check"].create({
+            "partner_id": self.partner.id, "result": "valid",
+            "consultation_number": "LEGACY",
+        })
+        self.assertEqual(
+            self.partner.with_company(self.company_b).vies_consultation_number,
+            "LEGACY")
+        self._answer(self.company_b, "BBB")
+        self.assertEqual(
+            self.partner.with_company(self.company_b).vies_consultation_number,
+            "BBB")
+
+    def test_users_cannot_write_the_log(self):
+        from odoo.exceptions import AccessError
+
+        user = self.env["res.users"].create({
+            "name": "Clerk", "login": "vies_clerk",
+            "group_ids": [(6, 0, [self.env.ref("base.group_user").id])],
+        })
+        self._answer(self.company_a, "AAA")
+        check = self.partner.sudo().vies_check_ids[:1]
+        with self.assertRaises(AccessError):
+            check.with_user(user).write({"consultation_number": "FORGED"})

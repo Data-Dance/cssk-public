@@ -5,6 +5,7 @@
 
 import json
 import logging
+import re
 from datetime import timedelta
 
 from odoo import _, api, fields, models
@@ -18,6 +19,11 @@ from odoo.addons.account_fio_base.utils.client import (
 from odoo.addons.account_fio_base.utils.statement import parse_movements
 
 _logger = logging.getLogger(__name__)
+
+#: ``column_18`` of a movement in another currency: ``20.00 EUR``. Strict on
+#: purpose, the column is free text.
+_FIO_SPECIFICATION_RE = re.compile(
+    r"^\s*(?P<amount>-?\d[\d ]*(?:[.,]\d+)?)\s+(?P<currency>[A-Z]{3})\s*$")
 
 #: §3.1 — beyond this, Fio needs the history unlocked in internet banking.
 HISTORY_LIMIT_DAYS = 90
@@ -188,26 +194,66 @@ class AccountJournal(models.Model):
                 if transaction.get(key):
                     vals[field_name] = transaction[key]
         self._fio_check_currency(transaction)
+        vals.update(self._fio_foreign_amount_vals(transaction))
         return vals
 
     def _fio_check_currency(self, transaction):
-        """Warn when a movement is not in the journal's currency.
+        """Refuse a movement that is not in the journal's currency.
 
-        A Fio account is single-currency, so ``column_14`` should always match
-        and ``column_18`` carries the original amount of a card payment made
-        abroad. If that assumption is ever wrong the amount would be booked in
-        the wrong currency, so say so loudly rather than guessing at
-        ``foreign_currency_id``; the original text is preserved in ``raw_data``.
+        Fio reports every movement of an account in that account's currency
+        (``column_14``), and each currency is a separate Fio account with its
+        own token. A mismatch therefore means the journal is configured for
+        another currency than the account behind its token, and importing
+        would book, say, 100 EUR as 100 CZK. This used to log a warning and
+        import anyway; the cron isolates each journal, so refusing stops only
+        the misconfigured one.
         """
         currency = transaction.get("currency")
         journal_currency = self.currency_id or self.company_id.currency_id
         if currency and journal_currency and currency != journal_currency.name:
-            _logger.warning(
-                "Fio %s: movement %s is in %s but the journal is in %s. The "
-                "amount is imported as delivered; check it against the bank.",
-                self.display_name, transaction.get("movement_id"), currency,
-                journal_currency.name,
-            )
+            raise UserError(_(
+                "Fio journal %(journal)s is in %(journal_currency)s, but the "
+                "account behind its token reports movement %(movement)s in "
+                "%(currency)s. Each Fio currency account needs its own journal "
+                "in that currency, with that account's own API token.",
+                journal=self.display_name,
+                journal_currency=journal_currency.name,
+                movement=transaction.get("movement_id"),
+                currency=currency,
+            ))
+
+    def _fio_foreign_amount_vals(self, transaction):
+        """The original amount of a movement made in another currency.
+
+        Fio puts it in ``column_18`` (*Upřesnění*) as free text, e.g.
+        ``20.00 EUR`` for a card payment abroad. Only that exact shape is read,
+        and only for a currency Odoo has active; anything else stays in
+        ``raw_data`` and the line is imported in the account currency alone.
+        The sign follows the movement, since the text carries none reliably.
+        """
+        text = (transaction.get("specification") or "").replace("\u00a0", " ")
+        match = _FIO_SPECIFICATION_RE.match(text)
+        if not match:
+            return {}
+        code = match.group("currency")
+        journal_currency = self.currency_id or self.company_id.currency_id
+        if code == journal_currency.name:
+            return {}
+        currency = self.env["res.currency"].search([("name", "=", code)], limit=1)
+        if not currency:
+            return {}
+        try:
+            original = abs(float(match.group("amount").replace(" ", "")
+                                 .replace(",", ".")))
+        except ValueError:
+            return {}
+        if not original:
+            return {}
+        sign = -1 if float(transaction["amount"]) < 0 else 1
+        return {
+            "foreign_currency_id": currency.id,
+            "amount_currency": sign * original,
+        }
 
     # ------------------------------------------------------------------
     # importing

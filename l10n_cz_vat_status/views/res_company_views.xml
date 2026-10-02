@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_company_view_form_cz_vat_status" model="ir.ui.view">
+        <field name="name">res.company.form.cz.vat.status</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="VAT status" name="cz_vat_status"
+                      invisible="country_code != 'CZ'">
+                    <group>
+                        <group>
+                            <field name="l10n_cz_vat_status_today"/>
+                        </group>
+                        <group>
+                            <field name="l10n_cz_vat_status_note_non_payer"/>
+                            <field name="l10n_cz_vat_status_note_identified"/>
+                        </group>
+                    </group>
+                    <field name="l10n_cz_vat_status_period_ids">
+                        <list editable="bottom" default_order="date_from">
+                            <field name="legal_basis"/>
+                            <field name="event_date"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="status"/>
+                            <field name="decision_ref" optional="show"/>
+                            <field name="note" optional="hide"/>
+                        </list>
+                    </field>
+                    <div class="text-muted">
+                        Leave this empty and the company is a plátce DPH, as
+                        before. Otherwise record every change from the start:
+                        days before the first row count as plátce. Each row
+                        applies from its first day until the day before the
+                        next row. Choosing a legal basis and the event date
+                        proposes the first day the Act gives.
+                    </div>
+                    <button name="action_l10n_cz_vat_status_ensure_taxes"
+                            type="object" string="Regenerate non-payer taxes"
+                            class="btn btn-secondary mt-2"
+                            invisible="not l10n_cz_vat_status_period_ids"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

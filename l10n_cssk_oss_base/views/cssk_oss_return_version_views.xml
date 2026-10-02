@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_oss_return_version_view_list" model="ir.ui.view">
+        <field name="name">cssk.oss.return.version.list</field>
+        <field name="model">cssk.oss.return.version</field>
+        <field name="arch" type="xml">
+            <list string="OSS Return Versions">
+                <field name="country_id"/>
+                <field name="name"/>
+                <field name="form_code"/>
+                <field name="valid_from"/>
+                <field name="valid_to"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_oss_return_version_view_form" model="ir.ui.view">
+        <field name="name">cssk.oss.return.version.form</field>
+        <field name="model">cssk.oss.return.version</field>
+        <field name="arch" type="xml">
+            <form string="OSS Return Version">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="country_id"/>
+                            <field name="form_code"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="xml_root_element"/>
+                            <field name="structure_version"/>
+                            <field name="xml_template_ref_id"/>
+                            <field name="xml_schema_data" filename="xml_schema_filename"/>
+                            <field name="xml_schema_filename" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="cssk_oss_return_version_action" model="ir.actions.act_window">
+        <field name="name">OSS Return Versions</field>
+        <field name="res_model">cssk.oss.return.version</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

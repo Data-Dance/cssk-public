@@ -62,7 +62,7 @@ MAPPINGS = (
     # param suffix,        record key,          kind,               default field
     ("ico", "nationalId", "char", "company_registry"),
     ("dic", "taxId", "char", "l10n_sk_dic"),
-    ("nace", "nace", "char", "l10n_sk_nace"),
+    ("nace", "nace", "char", "nace_code"),
     ("legal_form", "legalForm", "char", "l10n_sk_legal_form"),
     ("register", "register", "char", "l10n_sk_register_name"),
     ("register_office", "registerOffice", "char", "l10n_sk_register_office"),
@@ -103,6 +103,10 @@ class PartnerAutocompleteProviderOrsfSk(models.AbstractModel):
     _inherit = "partner.autocomplete.provider"
     _name = "partner.autocomplete.provider.orsf_sk"
     _description = "Partner Autocomplete Provider (ORSF SK)"
+
+    @api.model
+    def _autocomplete_country_codes(self):
+        return ("SK",)
 
     # -- configuration -----------------------------------------------------
 
@@ -434,9 +438,19 @@ class PartnerAutocompleteProviderOrsfSk(models.AbstractModel):
         twenty contacts and then silently returns nothing, which is what makes
         this worth a separate path.
 
-        It carries **less** than the full record: no ``vatRegistration``, no
-        register office or číslo zápisu, no activities, filings or history. The
-        caller is expected to know it is trading depth for reach.
+        It carries **far** less than the full record — in fact it is an
+        existence check and nothing more. A probe of
+        ``POST https://api.orsf.sk/v1/lookup/batch`` on 2026-10-01 returned
+        exactly ``{"found": ..., "ico": ...}`` per entry: no ``taxId``, no
+        ``vatRegistration``, no register office or číslo zápisu, no activities,
+        filings or history, and **not even a name**.
+
+        So this cannot back a field refresh. Anything that needs a value — the
+        DIČ for a Peppol participant id, say — has to go through the full
+        record at 30 requests a minute, one IČO at a time. The earlier wording
+        here listed what batch omits and so read as though everything unlisted
+        was present, which made a ~1 200-partner DIČ backfill look like a dozen
+        requests when it is closer to forty minutes of polling.
 
         Returns ``{ico: record}``, omitting the ones ORSF does not have.
         """

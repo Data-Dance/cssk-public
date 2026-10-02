@@ -45,11 +45,28 @@
                     </setting>
                 </block>
                 <block title="Connection" name="epostak_connection">
+                    <setting string="Configured key"
+                        help="Which kind of credential is in use, and therefore
+                              whether the Firm ID applies. The secret itself is
+                              write-only, so this is the only way to see it.">
+                        <field name="epostak_key_kind" readonly="1"/>
+                    </setting>
                     <setting string="Test the connection"
                         help="Mints an access token against the active environment.">
                         <button name="action_epostak_test_connection"
                             type="object" string="Test Connection"
                             class="btn-secondary"/>
+                    </setting>
+                    <setting string="Last inbound poll"
+                        help="Receiving reports nothing by itself — a failed or
+                              never-run poll is otherwise only visible in the
+                              server log.">
+                        <field name="epostak_inbound_health" readonly="1"/>
+                        <div class="mt8">
+                            <button name="action_epostak_poll_inbound"
+                                type="object" string="Poll inbound now"
+                                class="btn-secondary"/>
+                        </div>
                     </setting>
                 </block>
                 <block title="Transfer Tuning" name="epostak_tuning">
@@ -58,6 +75,9 @@
                     </setting>
                     <setting>
                         <field name="epostak_sapi_status_tracking"/>
+                    </setting>
+                    <setting>
+                        <field name="epostak_inbound_fail_activity_after"/>
                     </setting>
                     <setting>
                         <field name="epostak_sapi_limit"/>

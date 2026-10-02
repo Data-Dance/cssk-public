@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "QR Code Frame Provider",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.1.0",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

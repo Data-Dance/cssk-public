@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_property_form_peppol_sending" model="ir.ui.view">
+        <field name="name">res.partner.form.peppol.sending</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <!-- The delivery channel is a business setting here, not a debug one. -->
+            <field name="invoice_sending_method" position="attributes">
+                <attribute name="groups"/>
+            </field>
+            <field name="invoice_sending_method" position="after">
+                <field name="peppol_sending_warning" invisible="not peppol_sending_warning"
+                       class="text-warning" nolabel="1" colspan="2"/>
+            </field>
+        </field>
+    </record>
+</odoo>

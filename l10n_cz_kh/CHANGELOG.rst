@@ -8,6 +8,29 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- **``zdph_44`` from the document** on A.4 and B.2 (N, P or A) instead of a
+  hard-coded N, and a flagged correction is reported on its own A.4 / B.2 row
+  **whatever its amount** — the A.5 / B.3 aggregate has no ``zdph_44`` to
+  carry the flag.
+
+- The filer block (``VetaP``) comes from ``l10n_cz_statutory``.
+- **Answering a výzva**: *Č.j. výzvy* (``c_jed_vyzvy``) and *Odpověď na výzvu*
+  (``vyzva_odp`` B — no obligation to file, P — last filing confirmed). An
+  answer carries no rows in A, B or C, as the form requires.
+- *Důvody zjištěny dne* (``d_zjist``) for a následné hlášení; the export
+  refuses a následné one with neither it nor the č.j. výzvy.
+
+Fixed
+~~~~~
+
+- **"Následné" exported E, which the form reads as "následné/opravné".**
+  ``khdph_forma`` is B / O / **N** následné / **E** následné/opravné; N did not
+  exist. Added, and E relabelled (migration 19.0.1.7.0). Statements already
+  exported are not touched.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

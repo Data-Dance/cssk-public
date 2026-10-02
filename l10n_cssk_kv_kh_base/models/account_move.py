@@ -50,6 +50,26 @@ class AccountMove(models.Model):
         "source knew it was a credit note and had nowhere to record it.",
     )
 
+    cssk_control_original_ref = fields.Char(
+        string="Original document number",
+        copy=False,
+        help="The number of the document this credit note or correction "
+        "corrects, for when it is not linked to it — a credit note created by "
+        "hand because it could not be raised from the invoice. The control "
+        "statement reports it as the original document of a C.1 / C.2 row "
+        "(Slovak kontrolný výkaz: poradové číslo pôvodnej faktúry). A linked "
+        "original always wins over this.",
+    )
+
+    def _cssk_control_original(self):
+        """The document this one corrects, when Odoo links it: a reversal's
+        ``reversed_entry_id`` or a debit note's ``debit_origin_id``."""
+        self.ensure_one()
+        original = self.reversed_entry_id
+        if not original and "debit_origin_id" in self._fields:
+            original = self.debit_origin_id
+        return original
+
     def _cssk_vat_document(self):
         """The document whose VAT each of these moves reports.
 

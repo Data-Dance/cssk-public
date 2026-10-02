@@ -8,6 +8,23 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.2.0] — 2026-09-28
+-------------------------
+
+Added
+~~~~~
+
+- **Zápočet in a foreign currency.** An agreement now has a currency
+  (default: the company's). In a foreign one only open items in that currency
+  can be offset; amounts are in that currency, and the clearing entry is
+  booked at the rate of the agreement date — the day the set-off takes
+  effect. Reconciling each invoice against its clearing line books the
+  difference to the invoice's own rate as an exchange difference, partial
+  offsets included (verified: 600 of 1 000 EUR booked at 25 and offset at 24
+  leaves 400 EUR open at 25). The proposal wizard and the PDF follow the
+  agreement's currency. Existing agreements take the company currency and
+  behave as before.
+
 [19.0.1.1.3] — 2026-09-17
 -------------------------
 

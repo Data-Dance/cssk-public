@@ -5,6 +5,41 @@ Changelog
 All notable changes to **account_statement_fio** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Currency mismatch refused + ``column_18`` foreign amount
+  (19.0.2.4.0, 2026-09-27).** 18.0 still logs a warning and imports a
+  wrong-currency movement as delivered. Port ``_fio_check_currency`` /
+  ``_fio_foreign_amount_vals`` and the four tests.
+
+[19.0.2.4.0] — 2026-09-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A movement in another currency than the journal's is refused, not imported.**
+  Fio reports each movement in its account's currency and every currency is a
+  separate account with its own token, so a mismatch means the journal is set
+  up for the wrong currency — and the old behaviour, a log warning and an
+  import "as delivered", booked 100 EUR as 100 CZK. The pull now stops with an
+  error naming both currencies; the scheduled pull isolates each journal, so
+  only the misconfigured one stops.
+
+Added
+~~~~~
+
+- The original amount of a movement made in another currency (``column_18``,
+  *Upřesnění*, e.g. ``20.00 EUR`` for a card payment abroad) fills the line's
+  ``foreign_currency_id`` / ``amount_currency``. Read only in that exact shape
+  and for an active currency (a no-break space as thousands separator is
+  accepted); anything else stays in ``raw_data``. Not yet checked against a
+  live multi-currency account.
+
 [19.0.2.3.3] — 2026-09-17
 -------------------------
 
@@ -37,9 +72,6 @@ Changed
   its statements arrive some other way.
 
 Carried over from 18.0 (18.0.2.3.0).
-
-[Unreleased]
-------------
 
 [19.0.2.3.2] — 2026-09-13
 -------------------------

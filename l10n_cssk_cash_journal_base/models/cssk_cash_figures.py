@@ -68,24 +68,40 @@ class CsskCashFigures(models.AbstractModel):
         for row in rows:
             if row.needs_review:
                 figures["needs_review"] += 1
+
+            # The money columns follow the money; the tax-return columns follow
+            # the classification. A refunded sale is money OUT of an INCOME
+            # category, so it belongs in both — as a payment out, and as a
+            # reduction of príjmy rather than an expense.
+            if not row.non_cash:
+                if row.money_direction == "in":
+                    figures["money_income"] += row.amount
+                    figures["vat_income"] += row.amount_tax
+                elif row.money_direction == "out":
+                    figures["money_expense"] += row.amount
+                    figures["vat_expense"] += row.amount_tax
+
             if row.kind == "transit":
-                key = "transit_in" if row.amount_signed >= 0 else "transit_out"
+                key = "transit_in" if row.money_direction == "in" \
+                    else "transit_out"
                 figures[key] += row.amount
                 continue
+
             side = "income" if row.kind == "income" else "expense"
-            figures["%s_all" % side] += row.amount
+            # ``amount_classified`` is negative for a storno, so a refund
+            # reduces its own side instead of inflating the other one.
+            classified = row.amount_classified
+            figures["%s_all" % side] += classified
             if row.taxable:
-                figures[side] += row.amount
-            if not row.non_cash:
-                figures["money_%s" % side] += row.amount
-                figures["vat_%s" % side] += row.amount_tax
+                figures[side] += classified
             code = row.category_id.tax_return_code
             if code:
                 figures["by_code"][code] = \
-                    figures["by_code"].get(code, 0.0) + row.amount
+                    figures["by_code"].get(code, 0.0) + classified
             if row.category_id:
                 figures["by_category"][row.category_id.id] = \
-                    figures["by_category"].get(row.category_id.id, 0.0) + row.amount
+                    figures["by_category"].get(row.category_id.id, 0.0) \
+                    + classified
         return figures
 
     # ------------------------------------------------------------------

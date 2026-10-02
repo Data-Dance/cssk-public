@@ -21,8 +21,9 @@ Odoo agrees: `PR #275798 <https://github.com/odoo/odoo/pull/275798>`_ reorders
 the same mapping to put ``0245`` first, with a ``TODO`` to point it at the DIČ
 field once `PR #280178 <https://github.com/odoo/odoo/pull/280178>`_ lands. Both
 are still open, and the mandate is January 2027, so this module does it now —
-and points ``0245`` at the real number rather than at upstream's interim of
-``company_registry`` filled from ``vat`` minus its prefix.
+and points ``0245`` at the recorded DIČ — not at upstream's interim of
+``company_registry`` filled from ``vat`` minus its prefix, which is the same
+guess this module tried and withdrew (see ``_l10n_sk_get_dic``).
 
 Done by overriding the two computes rather than by re-ordering
 ``EAS_MAPPING['SK']`` in place. That dict is a module-global, and Python imports
@@ -31,8 +32,6 @@ including ones where this module is not installed and whose registries
 therefore carry none of these overrides. A localisation must not change how
 another database identifies its partners.
 """
-
-import re
 
 from odoo import api, fields, models
 from odoo.addons.account_edi_ubl_cii.models.account_edi_common import EAS_MAPPING
@@ -88,24 +87,32 @@ class ResPartner(models.Model):
     # -------------------------------------------------------------------------
 
     def _l10n_sk_get_dic(self):
-        """The DIČ to publish as the Peppol endpoint, or ''.
+        """The stored DIČ, or ''. Never derived from the VAT number.
 
-        Falls back to deriving it from the VAT number because the IČ DPH *is*
-        ``SK`` + the DIČ, so a VAT payer needs nothing re-entered for its
-        participant id to be right. A subject registered for income tax but not
-        for VAT has no IČ DPH at all — which is the case the DIČ field exists
-        for — and there the stored value is the only source.
+        An earlier version of this derived the DIČ from ``vat`` minus its ``SK``
+        prefix, on the premise that an IČ DPH simply *is* ``SK`` + the DIČ, so
+        no existing database would need data entered. That premise is not safe
+        to rely on, and the cost of it being wrong is not a blank field but a
+        participant identifier belonging to somebody else.
+
+        It is already demonstrably wrong somewhere: the ePošťák sandbox firms
+        carry a synthetic IČ DPH, because their real DIČ fails ``base_vat``'s SK
+        checksum and the nearest valid number was substituted. Deriving there
+        yields ``4536197523`` where the correct participant is ``4536197514``,
+        and it would have overwritten a hand-set, working identifier with a
+        wrong one. Whether real subjects diverge too — VAT groups under § 4b,
+        § 5 non-resident registrations, legacy numbering — is **an open
+        question, not a settled no**, so this assumes they can.
+
+        So the DIČ must be recorded. Where it is missing this returns '', the
+        partner keeps whatever scheme core computes rather than being given a
+        fabricated ``0245``, and ``_l10n_sk_peppol_constraints`` refuses the
+        export with a message naming the partner.
         """
         self.ensure_one()
-        if 'l10n_sk_dic' in self._fields and (dic := (self.l10n_sk_dic or '').strip()):
-            return dic
-        # Exactly ten digits, not merely "digits": a malformed VAT such as
-        # 'SK123' would otherwise derive '123' and register the company on the
-        # network under an identifier that is nobody's.
-        vat = (self.vat or '').strip().upper().replace(' ', '')
-        if re.fullmatch(r'SK\d{10}', vat):
-            return vat[2:]
-        return ''
+        if 'l10n_sk_dic' not in self._fields:
+            return ''
+        return (self.l10n_sk_dic or '').strip()
 
     def _peppol_eas_endpoint_depends(self):
         # EXTENDS 'account_edi_ubl_cii' - the endpoint now moves with the DIČ.

@@ -39,6 +39,23 @@
                      the period settable only by server action or import. -->
                 <field name="cssk_vat_deduction_date"
                        invisible="move_type not in ('in_invoice', 'in_refund', 'out_invoice', 'out_refund')"/>
+                <!-- A count and a button, not the one2many itself: an
+                     account.move -> account.move one2many on this form makes
+                     odoo.tests.Form build the move form again one level down,
+                     where it rewrites invoice_line_ids to many2many in the
+                     field info it shares with the top level — and every
+                     test that fills an invoice through Form then fails. -->
+                <label for="cssk_vat_deferral_count" string="VAT deferral"
+                       invisible="not cssk_vat_deferral_count"/>
+                <div invisible="not cssk_vat_deferral_count">
+                    <button name="action_view_cssk_vat_deferral" type="object"
+                            class="btn-link p-0" icon="fa-exchange">
+                        <field name="cssk_vat_deferral_count" class="oe_inline"/>
+                        <span> entries</span>
+                    </button>
+                </div>
+                <field name="cssk_vat_deferral_origin_id"
+                       invisible="not cssk_vat_deferral_origin_id"/>
             </field>
         </field>
     </record>

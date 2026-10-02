@@ -1,0 +1,31 @@
+form.300.sk.xsd  b4878f4640ea0101943146d0a7c6b931  8482
+
+Verified byte-identical to the published copy on 2026-09-28, fetched twice
+independently from
+https://pfseform.financnasprava.sk/Formulare/eFormVzor/UV/form.300.sk.xsd
+
+WHERE IT LIVES. **Not** under https://ekr.financnasprava.sk/Formulare/XSD/,
+where every other schema in this repository comes from: 22 plausible names were
+probed there (uzfov14, UZFOv14, uvfov13, uvfo1v13, …) and every one returned
+404 with the authority's ~1 245-byte HTML error page, while a control fetch of
+kv_dph_2025.xsd on the same path returned 200. The schema is served beside the
+eForm instead, and the eForm names it itself:
+`if (… 'xsd') return 'form.300.sk.xsd';` in
+https://pfseform.financnasprava.sk/Formulare/eFormVzor/UV/form.300.html
+
+WHAT THIS SCHEMA IS. The whole JÚ závierka in one document: root `dokument`
+with `hlavicka` + `telo`, the telo carrying `ucFo1/r01…r12`
+(optionalDecimalType, one column) beside `ucFo2/r01…r21` (riadokType = s1
+bezprostredne predchádzajúce obdobie, s2 bežné obdobie). So the tlačivo's four
+printed columns collapse to two in XML: rows 01–15 use s1/s2 for the majetok
+columns 1/2, rows 16–21 for the záväzky columns 3/4.
+
+HOW IT STAMPS ITSELF — a vintage only: `<xsd:documentation>UzFo_2014
+</xsd:documentation>`. No version attribute and no fixed-value element, so
+nothing in the file would move if FS SR revised it in place. That is why the
+digest above is pinned and a test asserts it.
+
+REFRESH PROCEDURE. Re-fetch the URL above, compare size and md5 against this
+file, and only then replace it. If the digest moved, diff the structure before
+trusting an export: a schema that changed without changing its stamp is exactly
+the case this pin exists for.

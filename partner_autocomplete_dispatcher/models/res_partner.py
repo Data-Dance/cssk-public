@@ -242,35 +242,80 @@ class ResPartner(models.Model):
 
     # New methods after DnB
     @api.model
+    def _autocomplete_provider_for(self, country_code=None):
+        """The provider to ask about a partner in ``country_code``.
+
+        A provider that declares the country (``_autocomplete_country_codes``)
+        wins; otherwise the company's own choice. With two companies in two
+        countries sharing contacts, a per-company choice alone meant the Slovak
+        company could not autocomplete a Czech partner, and the other way
+        round.
+        """
+        if country_code:
+            registry = self.env["partner.autocomplete.provider.registry"]
+            for name, _label in registry._get_available_providers():
+                model = self.env.get(name)
+                if model is not None and country_code in (
+                    model._autocomplete_country_codes()
+                ):
+                    return name
+        return self.env.company.partner_autocomplete_provider
+
+    @api.model
+    def _autocomplete_country_code(self, query_country_id=None, vat=None):
+        if query_country_id:
+            country = self.env["res.country"].browse(query_country_id).exists()
+            if country:
+                return country.code
+        prefix = (vat or "").strip()[:2].upper()
+        if len(prefix) == 2 and prefix.isalpha():
+            # Greece's VAT prefix is EL, not its ISO code.
+            return "GR" if prefix == "EL" else prefix
+        return None
+
+    @api.model
+    def _autocomplete_stamp(self, provider, suggestions):
+        """Remember which provider produced each suggestion.
+
+        Core's widget passes the picked suggestion back to ``enrich_by_duns``
+        as ``enriched_company_data``, and that is the only way to send the
+        enrichment to the register it came from: a Czech and a Slovak IČO are
+        both eight digits.
+        """
+        for suggestion in suggestions or []:
+            if isinstance(suggestion, dict):
+                suggestion.setdefault("partner_autocomplete_provider", provider)
+        return suggestions
+
+    @api.model
     def autocomplete_by_name(self, query, query_country_id, timeout=15):
-        if (
-            self.env.company.partner_autocomplete_provider
-            == "partner.autocomplete.provider"
-        ):
+        provider = self._autocomplete_provider_for(
+            self._autocomplete_country_code(query_country_id))
+        if provider == "partner.autocomplete.provider":
             return super().autocomplete_by_name(query, query_country_id, timeout)
-        return self.env[self.env.company.partner_autocomplete_provider].autocomplete(
-            query,
-        )
+        return self._autocomplete_stamp(
+            provider, self.env[provider].autocomplete(query))
 
     @api.model
     def autocomplete_by_vat(self, vat, query_country_id, timeout=15):
-        if (
-            self.env.company.partner_autocomplete_provider
-            == "partner.autocomplete.provider"
-        ):
+        provider = self._autocomplete_provider_for(
+            self._autocomplete_country_code(query_country_id, vat))
+        if provider == "partner.autocomplete.provider":
             return super().autocomplete_by_vat(vat, query_country_id, timeout)
-        return self.env[self.env.company.partner_autocomplete_provider].read_by_vat(
-            vat,
-        )
+        return self._autocomplete_stamp(
+            provider, self.env[provider].read_by_vat(vat))
 
     @api.model
     def enrich_by_duns(self, duns, timeout=15):
-        if (
-            self.env.company.partner_autocomplete_provider
-            == "partner.autocomplete.provider"
-        ):
+        picked = self.env.context.get("enriched_company_data") or {}
+        provider = (
+            isinstance(picked, dict) and picked.get("partner_autocomplete_provider")
+        )
+        if not provider or self.env.get(provider) is None:
+            provider = self.env.company.partner_autocomplete_provider
+        if provider == "partner.autocomplete.provider":
             return super().enrich_by_duns(duns, timeout)
-        return self.env[self.env.company.partner_autocomplete_provider].enrich_company(
+        return self.env[provider].enrich_company(
             None,
             duns,
             None,

@@ -8,6 +8,69 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.7.1] — 2026-09-30
+-------------------------
+
+Fixed
+~~~~~
+
+- On a fresh database where the chart and this module are installed in one
+  run, loading the chart deletes the company's journals, the new TDADV
+  included, and left the module's journal xmlid pointing at nothing. After
+  every chart load the xmlid is re-adopted if it dangles.
+
+[19.0.2.7.0] — 2026-09-29
+-------------------------
+
+Fixed
+~~~~~
+
+- **Upgrade failed where a TDADV journal already existed without the module's
+  xmlid** (``duplicate key value violates unique constraint
+  account_journal_code_company_uniq``; found on adatex, where a localization
+  helper had created it). The journal is no longer a data record: a function run
+  on every install and upgrade adopts the company's existing TDADV journal, or
+  creates it, and gives it the xmlid. A live xmlid is left alone.
+
+Tests
+~~~~~
+
+- The lump-sum characterisation asserted 105, which holds only for a 15 %
+  default rate (no chart); on the CZ and SK charts it failed before 19.0.2.6.0
+  too. It now states the rule: the deduction gives back the advance's VAT and
+  the final invoice settles the difference to the order's VAT.
+- The foreign-currency tests set the DUZP as well: with ``l10n_cz`` the rate is
+  the DUZP's (§ 38 ZDPH), which defaults to today.
+- Run on both a CZ-chart and an SK-chart database.
+
+[19.0.2.6.0] — 2026-09-29
+-------------------------
+
+Fixed
+~~~~~
+
+- **A foreign-currency advance is deducted at the rate its VAT was declared
+  at.** The tax document for a received advance declares its VAT in CZK at
+  the rate of its own date (§ 38 ZDPH); the final invoice gave it back at the
+  final invoice's rate, so the return reversed a different amount than it had
+  declared. The deduction now uses the rate of the advance's posted tax
+  documents, and the part of the supply the advance paid for is valued at
+  that rate too (a received advance is a non-monetary item). Only the
+  uncovered remainder is converted at the invoice's rate, so a fully covered
+  supply nets to zero VAT and leaves nothing on the receivable in either
+  currency. A posted invoice keeps the rates it was booked at.
+- **A single-rate advance was deducted at the advance product's default
+  tax, not the tax it charged.** A 21 % advance deducted at 15 % billed the
+  customer the difference again. The deduction now carries the advance's own
+  taxes; advances at several rates were already split per rate.
+
+Known limitation
+~~~~~~~~~~~~~~~~
+
+- A credit note of such a final invoice is valued at its own rate.
+- An advance without a tax document (no VAT) is still deducted at the final
+  invoice's rate.
+
 [19.0.2.5.3] — 2026-09-13
 -------------------------
 

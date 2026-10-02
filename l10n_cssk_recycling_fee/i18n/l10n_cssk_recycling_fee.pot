@@ -1,0 +1,575 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_recycling_fee
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-28 11:56+0000\n"
+"PO-Revision-Date: 2026-09-28 11:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.actions.report,print_report_name:l10n_cssk_recycling_fee.action_recycling_fee_xlsx
+msgid "'Recycling fees'"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_account_ecotax_classification
+msgid "Account Ecotax Classification"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_account_move_line_ecotax
+msgid "Account move line ecotax"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__rate_amount
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__rate_amount
+msgid "Applied Rate"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__categ_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Category"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__classification_id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__classification_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Classification"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__collector_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Collective Scheme"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/report/recycling_fee_xlsx.py:0
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_ecotax_classification__currency_id
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__currency_id
+msgid ""
+"Currency of the rates: the currency the scheme bills the producer in. "
+"Invoices in another currency convert at the invoice date and print the "
+"original amount and the rate used."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields.selection,name:l10n_cssk_recycling_fee.selection__recycling_fee_report__move_type__out_refund
+msgid "Customer Credit Note"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields.selection,name:l10n_cssk_recycling_fee.selection__recycling_fee_report__move_type__out_invoice
+msgid "Customer Invoice"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Czech Republic"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__date
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Date"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.ecotax_classification_form
+msgid "Dated Rates"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_report_l10n_cssk_recycling_fee_recycling_fee_xlsx__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields.selection,name:l10n_cssk_recycling_fee.selection__recycling_fee_report__product_status__m
+msgid "Domestic"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_ecotax_line_mixin
+msgid "Ecotax Line Mixin"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__ecotax_type
+msgid "Ecotax Type"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__exchange_rate
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__exchange_rate
+msgid "Exchange Rate"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__fee_amount
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_list
+msgid "Fee"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__amount_total_rate_currency
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__amount_total_rate_currency
+msgid "Fee Total (Rate Currency)"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__amount_unit_rate_currency
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__amount_unit_rate_currency
+msgid "Fee per Piece (Rate Currency)"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__amount
+msgid ""
+"Fee per piece, or per kilogram for a weight-based classification, in the "
+"classification's currency and without VAT."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.actions.act_window,help:l10n_cssk_recycling_fee.action_recycling_fee_report
+msgid ""
+"Give products a classification with a scheme country and dated rates;\n"
+"               every posted customer invoice and credit note then appears here, per\n"
+"               category, in pieces, kilograms and fee."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Household"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.res_config_settings_view_form
+msgid "How the CZ/SK recycling fee sits in the price on sale documents."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_report_l10n_cssk_recycling_fee_recycling_fee_xlsx__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__ecotax_type
+msgid ""
+"If ecotax is weight based,the ecotax coef must take into account\n"
+"the weight unit of measure (kg by default)"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields.selection,name:l10n_cssk_recycling_fee.selection__res_company__recycling_fee_presentation__included
+msgid "Included in the price"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_res_company__recycling_fee_presentation
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_res_config_settings__recycling_fee_presentation
+msgid ""
+"Included: the fee is part of the unit price and each line says 'z toho "
+"recyklační příspěvek …' — the presentation of MŽP's model invoices (unit "
+"price 'vč. příspěvku na recyklaci'). On top: prices exclude the fee and it "
+"is invoiced as its own line; the product line then states the fee as a "
+"separate item. Both satisfy CZ § 73 odst. 1 and SK § 34 ods. 1 písm. d), "
+"which require the fee to be stated separately, not how."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__move_id
+msgid "Invoice"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__date_to
+msgid "Last day the rate applies. Leave empty for the rate in force."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/report/recycling_fee_xlsx.py:0
+msgid "Lines"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_ecotax_classification__country_id
+msgid ""
+"Market whose take-back law the fee belongs to (CZ or SK). A classification "
+"with a country is a statutory recycling fee: it is priced from the dated "
+"rates below, applied only by companies whose fiscal country matches, and "
+"printed with that country's statutory wording. Without a country the "
+"classification behaves exactly as in OCA account_ecotax."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Month"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__move_type
+msgid "Move Type"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.actions.act_window,help:l10n_cssk_recycling_fee.action_recycling_fee_report
+msgid "No recycling fee on posted customer invoices yet."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/models/account_move.py:0
+msgid ""
+"No recycling fee rate is valid on the invoice date for:\n"
+"%s"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields.selection,name:l10n_cssk_recycling_fee.selection__recycling_fee_report__ecotax_type__weight_based
+msgid "Per kg"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields.selection,name:l10n_cssk_recycling_fee.selection__recycling_fee_report__ecotax_type__fixed
+msgid "Per piece"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_move_line_ecotax__product_force_amount
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_ecotax_line_mixin__product_force_amount
+msgid ""
+"Per-piece fee fixed on the product, in the classification's currency. A "
+"distributor enters here the amount its supplier actually paid, which the law"
+" makes the ceiling of what may be shown."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/report/recycling_fee_xlsx.py:0
+msgid "Period"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__product_qty
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__product_qty
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__pieces
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_list
+msgid "Pieces"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__product_force_amount
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__product_force_amount
+msgid "Product Fixed Fee"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__product_status
+msgid "Product Status"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields.selection,name:l10n_cssk_recycling_fee.selection__recycling_fee_report__product_status__p
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Professional"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_move_line_ecotax__product_qty
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_ecotax_line_mixin__product_qty
+msgid "Quantity in the product's own unit of measure."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__amount
+msgid "Rate"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__ecotax_type
+msgid "Rate Basis"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__rate_currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__rate_currency_id
+msgid "Rate Currency"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_move_line_ecotax__rate_amount
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_ecotax_line_mixin__rate_amount
+msgid "Rate per piece or per kg that was in force on the document date."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification__rate_ids
+msgid "Rates"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.res_config_settings_view_form
+msgid "Recycling Fee"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_res_company__recycling_fee_presentation
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_res_config_settings__recycling_fee_presentation
+msgid "Recycling Fee Presentation"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_account_ecotax_classification_rate
+msgid "Recycling Fee Rate"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_recycling_fee_report
+msgid "Recycling Fee Report"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_bank_statement_line__recycling_fee_disclosed
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move__recycling_fee_disclosed
+msgid "Recycling Fee Shown"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_bank_statement_line__recycling_fee_statutory
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move__recycling_fee_statutory
+msgid "Recycling Fee Statutory"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model,name:l10n_cssk_recycling_fee.model_report_l10n_cssk_recycling_fee_recycling_fee_xlsx
+msgid "Recycling Fee XLSX"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.actions.act_window,name:l10n_cssk_recycling_fee.action_recycling_fee_report
+#: model:ir.ui.menu,name:l10n_cssk_recycling_fee.menu_recycling_fee_report
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_graph
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_pivot
+msgid "Recycling Fees"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.actions.report,name:l10n_cssk_recycling_fee.action_recycling_fee_xlsx
+msgid "Recycling Fees (XLSX)"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.res_config_settings_view_form
+msgid "Recycling fee presentation"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/report/recycling_fee_xlsx.py:0
+msgid "Recycling fee report"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/models/account_move.py:0
+msgid "Recycling fee total (excl. VAT)"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.actions.server,name:l10n_cssk_recycling_fee.ir_cron_refresh_recycling_fee_rate_ir_actions_server
+msgid "Recycling fee: roll over to the rate in force"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification__country_id
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__country_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Scheme Country"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields.selection,name:l10n_cssk_recycling_fee.selection__res_company__recycling_fee_presentation__on_top
+msgid "Separate line on top of the price"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification__disclose
+msgid "Show on Documents"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_search
+msgid "Slovakia"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_bank_statement_line__recycling_fee_disclosed
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_move__recycling_fee_disclosed
+msgid ""
+"Sum of the statutory recycling fees that are printed on this document. "
+"Portable-battery fees are excluded: they may not be shown."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/report/recycling_fee_xlsx.py:0
+msgid "Summary"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_bank_statement_line__recycling_fee_statutory
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_move__recycling_fee_statutory
+msgid ""
+"The document carries a CZ/SK statutory fee, so the CZ/SK presentation "
+"replaces OCA's generic 'Eco Part' column and total."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/models/account_ecotax_classification_rate.py:0
+msgid "The rate of %(classification)s ends before it starts."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#. odoo-python
+#: code:addons/l10n_cssk_recycling_fee/models/account_ecotax_classification_rate.py:0
+msgid "Two rates of %(classification)s overlap: %(first)s and %(second)s."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_ecotax_classification__disclose
+msgid ""
+"Uncheck for portable batteries: separate disclosure of their take-back cost "
+"is PROHIBITED (CZ § 85 odst. 3 zákona č. 542/2020 Sb.; SK § 46 ods. 2 and § "
+"48 ods. 1 písm. d) zákona č. 79/2015 Z. z.). The fee is still computed, kept"
+" in the price and reported to the scheme; it is only never printed."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_account_move_line_ecotax__exchange_rate
+#: model:ir.model.fields,help:l10n_cssk_recycling_fee.field_ecotax_line_mixin__exchange_rate
+msgid ""
+"Units of the rate currency per one unit of the document currency, as printed"
+" on the document. 1 when they are the same."
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__date_from
+msgid "Valid From"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_ecotax_classification_rate__date_to
+msgid "Valid To"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_recycling_fee.recycling_fee_report_view_list
+msgid "Weight"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_recycling_fee_report__weight_kg
+msgid "Weight (kg)"
+msgstr ""
+
+#. module: l10n_cssk_recycling_fee
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_account_move_line_ecotax__unit_weight
+#: model:ir.model.fields,field_description:l10n_cssk_recycling_fee.field_ecotax_line_mixin__unit_weight
+msgid "Weight per Piece (kg)"
+msgstr ""

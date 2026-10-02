@@ -385,7 +385,7 @@ class TestOrsfSkProvider(TransactionCase):
         self.assertEqual(self.param.get_param("orsf_sk.mapping.nace"), str(ref.id))
         # ...unless asked to.
         self.provider._orsf_apply_default_mappings(overwrite=True)
-        if "l10n_sk_nace" in self.env["res.partner"]._fields:
+        if "nace_code" in self.env["res.partner"]._fields:
             self.assertNotEqual(self.param.get_param("orsf_sk.mapping.nace"), str(ref.id))
 
     def test_status_and_vat_paragraph_are_parsed_not_written_raw(self):
@@ -398,7 +398,9 @@ class TestOrsfSkProvider(TransactionCase):
         with patch(GET, return_value=COMPANY):
             vals = self.provider.enrich_company(None, "31333532", None)
         self.assertEqual(vals["l10n_sk_register_status"], "active")
-        self.assertEqual(vals["l10n_sk_vat_registration_category"], "4")
+        # The § 4 category lives in l10n_sk_vat_registration, not a dependency.
+        if "l10n_sk_vat_registration_category" in self.env["res.partner"]._fields:
+            self.assertEqual(vals["l10n_sk_vat_registration_category"], "4")
 
     def test_dynamic_mapping_writes_char_and_date_values(self):
         fields_model = self.env["ir.model.fields"].sudo()

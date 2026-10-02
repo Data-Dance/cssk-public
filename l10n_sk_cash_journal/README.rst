@@ -30,6 +30,30 @@ Two things that are Slovak, not shared
   písm. a), in the 2026 and the 2027 wording. It was closed to Czech OSVČ. The
   company regime field offers ``ju`` only outside Czechia.
 
+Configuring the chart
+=====================
+
+**The official chart maps itself.** Loading ``l10n_sk``'s chart sets the denník
+category on 89 accounts, 15 of them in both directions, and installing this
+module maps a chart that already exists. The button in Accounting →
+Configuration re-applies it after the chart is extended. It never overwrites a
+category you chose, so everything below is about the accounts it cannot know.
+
+Map any remaining account to a denník column with *Cash Journal Category*. Three habits
+worth following, all of them learned from a practising accountant's questions:
+
+* **Give a two-way account a category for each direction.** ``461`` / ``479``
+  úvery: prijatý úver inbound, splátka istiny outbound. ``343`` DPH: nadmerný
+  odpočet inbound, odvod outbound. Mapped one way, the two columns net into one
+  and the book understates both; the row is flagged rather than guessed.
+* **Post a zálohová faktúra to the account the final supply will land on.** A
+  received advance is taxable income when the money arrives (and a paid one a
+  taxable expense), classified by what it is for — so the ordinary category
+  mapping produces the right column with no special case.
+* **Fix the partial-payment model once**, in the internal directive: pro rata,
+  VAT first or base first, kept for the whole year and used for income and
+  expenses alike. It is a setting under Accounting → Configuration.
+
 Balances come from account code prefixes
 ========================================
 

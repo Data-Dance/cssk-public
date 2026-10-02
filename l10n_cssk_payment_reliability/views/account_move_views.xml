@@ -22,6 +22,8 @@
                        invisible="move_type not in ('in_invoice','in_refund')" />
                 <field name="cssk_supplier_reliability"
                        invisible="move_type not in ('in_invoice','in_refund')" />
+                <field name="cssk_vat_deregistration"
+                       invisible="move_type not in ('in_invoice','in_refund') or not cssk_vat_deregistration" />
                 <field name="cssk_registered_accounts"
                        invisible="move_type not in ('in_invoice','in_refund') or not cssk_registered_accounts" />
                 <field name="cssk_reliability_checked_on"

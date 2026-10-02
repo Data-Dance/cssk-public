@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <!--
+      One version, open-ended: DPOSS_EUv01 is the first and only vzor of the
+      Slovak Union-scheme return, in force since the scheme began on
+      1. 7. 2021 (§ 68b zákona č. 222/2004 Z. z.). Unlike the SK VAT return
+      (a schema per vintage), there is nothing older to resolve by period:
+      quarters before Q3 2021 went on the MOSS return, a different form.
+    -->
+    <record id="sk_oss_version_dposs_eu01" model="cssk.oss.return.version">
+        <field name="name">DP DPH — úprava pre Úniu (DPOSS_EUv01)</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="form_code">DPOSS_EUv01</field>
+        <field name="valid_from">2021-07-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_oss.dposs_eu_2021"/>
+        <field name="xml_root_element">OSSVATReturnMSCON</field>
+        <field name="xml_schema_filename">dposs_eu01.xsd</field>
+        <field name="xml_schema_data" type="base64" file="l10n_sk_oss/data/dposs_eu01.xsd"/>
+    </record>
+
+</data>
+</odoo>

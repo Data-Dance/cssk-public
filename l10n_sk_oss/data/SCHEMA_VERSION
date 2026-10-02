@@ -1,0 +1,37 @@
+dposs_eu01.xsd  6e21d38ffc9da4295a1437e926844b21  16118
+
+DPOSS_EUv01 - Daňové priznanie k DPH - Úprava pre Úniu
+(eForm https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.555.html)
+
+Fetched 2026-09-28 from
+  https://ekr.financnasprava.sk/Formulare/XSD/dposs_eu01.xsd
+(HTTP 200, 16 118 bytes). The eForm page references the same schema as
+form.555.sk.xsd; fetched from
+  https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.555.sk.xsd
+the same day it was BYTE-IDENTICAL (same md5). The filename is Finančná
+správa's own — found in the eForm page, not guessed.
+
+WHAT IT IS. Not a Slovak structure: it is the EU OSS VAT return,
+targetNamespace urn:ec.europa.eu:taxud:frsr:vatunion:v1.0, root
+OSSVATReturnMSCON, version="1.0" on xsd:schema. That stamp is the EU
+structure's version, not a revision of this file, and nothing validates it —
+the digest above is what detects a silent revision.
+
+THE PREFIX MATTERS. The eForm's XML loader (Scripts/form.555.xmlfdf.js,
+function loadxmlfinal) finds elements by qualified name
+('vun:OSSVATReturnMSCON', 'vun:TraderID', ...). A document in a default
+namespace validates against this schema and loads into the portal form as
+an empty return. The template emits the `vun:` prefix for that reason.
+
+OTHER SCHEMES. Probed 2026-09-28: dposs_ioss01.xsd and dposs_neu01.xsd are
+404 (with the ~1 245-byte HTML error page — test by status code, never by
+size). The import and non-Union returns are not built here.
+
+REFRESH PROCEDURE
+  1. Fetch the ekr URL above and compare the md5 with the first line.
+  2. Check the status code, not the size.
+  3. Open the eForm page and check which XSD it references (grep '.xsd'); a
+     new vzor would appear as a new DPOSS_EUvNN form with a new schema name.
+  4. If the digest moved: replace data/dposs_eu01.xsd, update this file, and
+     re-read form.555.xmlfdf.js (createxmlfinal) for changes to element
+     order or to what the portal leaves out — the template mirrors it.

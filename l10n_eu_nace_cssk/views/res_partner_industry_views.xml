@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="res_partner_industry_view_tree_nace" model="ir.ui.view">
+        <field name="name">res.partner.industry.list.nace</field>
+        <field name="model">res.partner.industry</field>
+        <field name="inherit_id" ref="base.res_partner_industry_view_tree"/>
+        <field name="arch" type="xml">
+            <field name="full_name" position="after">
+                <field name="nace_code" optional="show"/>
+                <field name="nace_version" optional="show"/>
+                <field name="nace_country_id" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="res_partner_industry_view_form_nace" model="ir.ui.view">
+        <field name="name">res.partner.industry.form.nace</field>
+        <field name="model">res.partner.industry</field>
+        <field name="inherit_id" ref="base.res_partner_industry_view_form"/>
+        <field name="arch" type="xml">
+            <field name="full_name" position="after">
+                <field name="nace_code" invisible="not nace_version"/>
+                <field name="nace_version" invisible="not nace_version"/>
+                <field name="nace_country_id" invisible="not nace_country_id"/>
+            </field>
+        </field>
+    </record>
+</odoo>

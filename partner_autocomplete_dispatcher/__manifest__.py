@@ -6,7 +6,7 @@
     "license": "AGPL-3",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "summary": """
 Technical module serving as dispatcher for other modules
 Enables assigning these dependent modules to individual companies

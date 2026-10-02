@@ -198,7 +198,7 @@ class TestSkPayroll(TransactionCase):
 
         €500 a month is below the Slovak minimum wage for a full-time job, so
         a full-time fixture would be an unlawful contract — and
-        ``l10n_sk_hr_payroll_priplatky``, where installed, correctly tops it
+        ``l10n_sk_hr_payroll_surcharges``, where installed, correctly tops it
         up and shifts every figure below. Half time makes the same €500 gross
         a lawful wage without touching any of the OOP arithmetic, which is
         computed on the monthly gross and not on hours.

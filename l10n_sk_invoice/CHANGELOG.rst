@@ -8,6 +8,28 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **§43 vs §15 statutory note (2026-09-27).** The same compute exists on
+  18.0 (``models/account_move.py``: ``§43`` for any 0 % EU line). Port
+  ``_l10n_sk_zero_rated_kinds`` and its tests; check 18.0's ``l10n_sk`` tax
+  xmlids (``vy_eu_s`` / ``vy_eu_t``) before relying on them.
+
+Fixed
+~~~~~
+
+- **A zero-rated service to an EU customer printed the §43 goods exemption.**
+  The note keyed on "a 0 % tax and an EU customer with a VAT number", so a B2B
+  service — taxed in the customer's state under §15 ods. 1 with the customer
+  liable — was described as an exempt intra-Community supply of goods, next to
+  core's own "článok 196" reverse-charge note that says the opposite. Goods
+  and services are now told apart by the tax's scope (``0% EU M`` /
+  ``0% EU S``), falling back to the product type; a mixed invoice prints both
+  phrases. The triangular ``0% EU T`` no longer gets §43 (core's article 141
+  note stands), and §47 is cited only for exported goods, since a service to a
+  non-EU customer is outside Slovak VAT rather than exempt.
+
 [19.0.1.0.3] — 2026-09-15
 -------------------------
 

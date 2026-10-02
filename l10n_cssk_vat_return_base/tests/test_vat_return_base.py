@@ -1,6 +1,6 @@
-from unittest.mock import patch
-
 import base64
+import unittest
+from unittest.mock import patch
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.exceptions import UserError, ValidationError
@@ -139,9 +139,13 @@ class TestHistoricTaxNaming(TransactionCase):
         wherever some other module happened to have created one, which is why
         it looked fine until a full-install run said otherwise.
         """
-        group = self.env["account.tax.group"].search([], limit=1)
+        # Slovak like the probe tax: a group must share its tax's country, and
+        # on a CZ-chart database the first group found is Czech.
+        sk = self.env.ref("base.sk")
+        group = self.env["account.tax.group"].search(
+            [("country_id", "=", sk.id)], limit=1)
         return group or self.env["account.tax.group"].create({
-            "name": "CSSK test tax group"})
+            "name": "CSSK test tax group", "country_id": sk.id})
 
     def _probe_tax(self, name):
         """An ``account.tax`` that can be created without a chart of accounts.
@@ -818,7 +822,13 @@ class TestLegacyFilings(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.company_data["company"]
-        cls.version = cls.env.ref("l10n_sk_vat_return.dph_version_2025")
+        # The base module cannot depend on the SK return that provides the
+        # version; skip where it is not installed, as setup_country does for
+        # l10n_sk.
+        cls.version = cls.env.ref(
+            "l10n_sk_vat_return.dph_version_2025", raise_if_not_found=False)
+        if not cls.version:
+            raise unittest.SkipTest("l10n_sk_vat_return is not installed")
 
     def _return(self, legacy=False, date_from="2026-06-01", date_to="2026-06-30"):
         vals = {

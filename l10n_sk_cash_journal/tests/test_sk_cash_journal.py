@@ -76,6 +76,91 @@ class TestSkCashJournal(AccountTestInvoicingCommon):
             fields.Date.to_date("2026-12-31"),
         )
 
+    # -- the default chart mapping -------------------------------------
+
+    def _mapped(self, code):
+        account = self.env["account.account"].with_company(self.company).search([
+            ("company_ids", "in", self.company.id),
+            ("code", "=like", code + "%"),
+        ], limit=1)
+        self.assertTrue(account, "account %s is missing from the chart" % code)
+        return account
+
+    def test_loading_the_chart_maps_it_without_being_asked(self):
+        """The usual order is module first, chart second.
+
+        This company's chart was loaded by the test fixture, with no call to the
+        mapping at all — so if the accounts below carry categories, the chart
+        hook did it. Measured on a fresh database: 89 accounts outbound and 15
+        with an inbound category.
+        """
+        self.assertEqual(self._mapped("501").cssk_cash_category_id.code, "V1")
+        self.assertEqual(self._mapped("343").cssk_cash_category_in_id.code, "PN3")
+        mapped = self.env["account.account"].with_company(self.company).search_count([
+            ("company_ids", "in", self.company.id),
+            ("cssk_cash_category_id", "!=", False),
+        ])
+        self.assertGreater(mapped, 50, "the whole chart, not a handful")
+
+    def test_the_chart_maps_itself_on_install(self):
+        """An accountant should see a denník without mapping 40 accounts first."""
+        self.company._cssk_map_chart_categories()
+        self.assertEqual(
+            self._mapped("501").cssk_cash_category_id.code, "V1")
+        self.assertEqual(
+            self._mapped("604").cssk_cash_category_id.code, "P1")
+        self.assertEqual(
+            self._mapped("602").cssk_cash_category_id.code, "P2")
+        self.assertEqual(
+            self._mapped("518").cssk_cash_category_id.code, "V2")
+        self.assertEqual(
+            self._mapped("521").cssk_cash_category_id.code, "V3")
+
+    def test_poistne_podnikatela_is_mapped_as_a_tax_expense(self):
+        """526 is where the two countries part company (§ 19 ods. 3 písm. i)."""
+        self.company._cssk_map_chart_categories()
+        category = self._mapped("526").cssk_cash_category_id
+        self.assertEqual(category.code, "V4")
+        self.assertTrue(category.taxable)
+
+    def test_depreciation_is_mapped_to_the_non_cash_category(self):
+        self.company._cssk_map_chart_categories()
+        category = self._mapped("551").cssk_cash_category_id
+        self.assertEqual(category.code, "Z1")
+        self.assertTrue(category.non_cash)
+
+    def test_two_way_accounts_are_mapped_in_both_directions(self):
+        """343, 461 and 491 each mean a different column in each direction."""
+        self.company._cssk_map_chart_categories()
+        for code, out_code, in_code in (
+            ("343", "VN3", "PN3"),
+            ("461", "VN5", "PN2"),
+            ("491", "VN1", "PN1"),
+        ):
+            account = self._mapped(code)
+            self.assertEqual(account.cssk_cash_category_id.code, out_code, code)
+            self.assertEqual(
+                account.cssk_cash_category_in_id.code, in_code, code)
+
+    def test_receivables_payables_and_advances_are_left_unmapped(self):
+        """The engine follows those to the document; an advance needs judgment."""
+        self.company._cssk_map_chart_categories()
+        for code in ("311", "321"):
+            account = self._mapped(code)
+            self.assertFalse(account.cssk_cash_category_id, code)
+            self.assertFalse(account.cssk_cash_category_in_id, code)
+
+    def test_mapping_never_overwrites_a_choice_already_made(self):
+        account = self._mapped("501")
+        account.cssk_cash_category_id = self.env.ref(
+            "l10n_sk_cash_journal.cat_v_ostatne")
+        self.company._cssk_map_chart_categories()
+        self.assertEqual(account.cssk_cash_category_id.code, "V9",
+                         "the accountant's own decision outranks the default")
+        self.company._cssk_map_chart_categories(overwrite=True)
+        self.assertEqual(account.cssk_cash_category_id.code, "V1",
+                         "and can be reset deliberately")
+
     # -- the catalogue -------------------------------------------------
 
     def test_the_statutory_categories_are_installed(self):
@@ -222,6 +307,111 @@ class TestSkCashJournal(AccountTestInvoicingCommon):
         self.assertAlmostEqual(rows["r4"].opening_value, 0.0, places=2)
         self.assertAlmostEqual(rows["r4"].closing_value, 1000.0, places=2,
                                msg="an unpaid invoice is a pohľadávka at year end")
+
+    def test_a_refunded_sale_reduces_the_sales_column_and_tabulka_1(self):
+        """The accountant's dobropis question, end to end.
+
+        Measured before the fix: the sales column read 1200 and tabuľka 1 said
+        príjmy 1000 against výdavky 200. The statute wants the gross columns,
+        so a refund reduces príjmy and no expense appears.
+        """
+        sale = self._invoice(amount=1000.0)
+        self._pay(sale, payment_date="2026-03-01")
+        refund = self.env["account.move"].create({
+            "move_type": "out_refund",
+            "partner_id": self.partner_a.id,
+            "invoice_date": fields.Date.to_date("2026-03-04"),
+            "date": fields.Date.to_date("2026-03-04"),
+            "invoice_line_ids": [(0, 0, {
+                "name": "vrátenie",
+                "quantity": 1.0,
+                "price_unit": 200.0,
+                "account_id": self.income_account.id,
+                "tax_ids": [(5, 0, 0)],
+            })],
+        })
+        refund.action_post()
+        self._pay(refund, payment_date="2026-03-05")
+        self._generate()
+
+        values = self.env["report.l10n_sk_cash_journal.report_penazny_dennik"] \
+            ._sk_dennik_values(
+                self.company,
+                fields.Date.to_date("2026-01-01"),
+                fields.Date.to_date("2026-12-31"))
+        self.assertAlmostEqual(values["totals"]["p_vyrobky"], 800.0, places=2)
+        self.assertAlmostEqual(values["totals"]["banka_prijem"], 1000.0, places=2)
+        self.assertAlmostEqual(values["totals"]["banka_vydaj"], 200.0, places=2)
+        self.assertAlmostEqual(values["closing_bank"], 800.0, places=2)
+        for key in ("v_ostatne", "vn"):
+            self.assertAlmostEqual(
+                values["totals"][key], 0.0, places=2,
+                msg="a refunded sale is not an expense")
+
+        wizard = self.env["l10n.sk.cash.dpfo"].create({
+            "company_id": self.company.id,
+            "date_from": fields.Date.to_date("2026-01-01"),
+            "date_to": fields.Date.to_date("2026-12-31"),
+        })
+        wizard.action_compute()
+        figures = {line.code: line.value for line in wizard.line_ids}
+        self.assertAlmostEqual(figures["t1r10_prijmy"], 800.0, places=2)
+        self.assertAlmostEqual(figures["t1r10_vydavky"], 0.0, places=2)
+        self.assertAlmostEqual(figures["zaklad"], 800.0, places=2)
+
+    def test_a_loan_shows_in_both_neovplyvnujuce_columns(self):
+        """The accountant's pôžička question, in the statutory grid.
+
+        One account, two columns: PN2 when the loan arrives, VN5 when an
+        instalment leaves. Mapped one way it used to net into a single column.
+        """
+        loan = self.env["account.account"].create({
+            "name": "Bankový úver",
+            "code": "461900",
+            "account_type": "liability_non_current",
+            "reconcile": True,
+            "cssk_cash_category_id": self.env.ref(
+                "l10n_sk_cash_journal.cat_vn_uver").id,
+            "cssk_cash_category_in_id": self.env.ref(
+                "l10n_sk_cash_journal.cat_pn_uver").id,
+        })
+        bank = self.bank_journal.default_account_id
+        for amount, incoming, date in ((10000.0, True, "2026-05-02"),
+                                       (500.0, False, "2026-06-02")):
+            move = self.env["account.move"].create({
+                "journal_id": self.bank_journal.id,
+                "date": fields.Date.to_date(date),
+                "line_ids": [
+                    (0, 0, {"account_id": bank.id, "name": "úver",
+                            "debit": amount if incoming else 0.0,
+                            "credit": 0.0 if incoming else amount}),
+                    (0, 0, {"account_id": loan.id, "name": "úver",
+                            "debit": 0.0 if incoming else amount,
+                            "credit": amount if incoming else 0.0}),
+                ],
+            })
+            move.action_post()
+        self._generate()
+
+        values = self.env["report.l10n_sk_cash_journal.report_penazny_dennik"] \
+            ._sk_dennik_values(
+                self.company,
+                fields.Date.to_date("2026-01-01"),
+                fields.Date.to_date("2026-12-31"))
+        self.assertAlmostEqual(values["totals"]["pn"], 10000.0, places=2)
+        self.assertAlmostEqual(values["totals"]["vn"], 500.0, places=2)
+        self.assertAlmostEqual(values["closing_bank"], 9500.0, places=2)
+
+        wizard = self.env["l10n.sk.cash.dpfo"].create({
+            "company_id": self.company.id,
+            "date_from": fields.Date.to_date("2026-01-01"),
+            "date_to": fields.Date.to_date("2026-12-31"),
+        })
+        wizard.action_compute()
+        figures = {line.code: line.value for line in wizard.line_ids}
+        self.assertAlmostEqual(figures["t1r10_prijmy"], 0.0, places=2)
+        self.assertAlmostEqual(figures["t1r10_vydavky"], 0.0, places=2,
+                               msg="a loan touches neither side of the tax base")
 
     def test_a_flat_rate_payer_gets_tabulka_1b(self):
         """§ 6 ods. 10 with § 6 ods. 11 a) and d): zásoby and pohľadávky only."""

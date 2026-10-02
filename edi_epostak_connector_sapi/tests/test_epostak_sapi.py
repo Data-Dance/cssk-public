@@ -6,6 +6,8 @@ permanently blocks a corrected re-send) and the status mapping (a wrong one
 reports an undelivered invoice as delivered). Both are pinned here.
 """
 
+from odoo.exceptions import UserError
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.edi_epostak_connector_sapi.models.epostak_connector import (
@@ -252,3 +254,431 @@ class TestEpostakSapi(TransactionCase):
             _FakeResponse(status_code=500, text="x" * 5000)
         )
         self.assertLessEqual(len(detail["message"]), 500)
+
+
+@tagged("post_install", "-at_install")
+class TestEpostakIntegratorKey(TransactionCase):
+    """An integrator key (sk_int_*) must name the firm it acts for.
+
+    Reported from the field 2026-10-01: a customer on the standalone module
+    configured an sk_int_* secret, left the Firm ID empty, and pressed "Check
+    Peppol reachability". Every call then failed 400 BAD_REQUEST ("X-Firm-Id
+    header is required when using JWT issued from an integrator key") and,
+    because EpostakApiError is a plain Exception, it reached them as an RPC
+    traceback rather than a dialog.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.connector = cls.env["epostak.connector"]
+        cls.ICP = cls.env["ir.config_parameter"].sudo()
+        cls.ICP.set_param("epostak.mode", "sandbox")
+        cls.ICP.set_param("epostak.sapi.sandbox.client_id", "a-client-id")
+
+    def _configure(self, secret, firm_id=""):
+        self.ICP.set_param("epostak.sapi.sandbox.client_secret", secret)
+        self.ICP.set_param("epostak.firm_id", firm_id)
+        return self.connector._get_sapi_config()
+
+    def test_integrator_key_without_firm_id_is_refused(self):
+        """Caught before any HTTP call, naming the field to fill."""
+        cfg = self._configure("sk_int_live_abc123")
+        with self.assertRaises(UserError) as ctx:
+            self.connector._assert_firm_scope(cfg)
+        message = str(ctx.exception)
+        self.assertIn("sk_int_", message)
+        self.assertIn("Firm ID", message)
+
+    def test_integrator_key_with_firm_id_passes(self):
+        cfg = self._configure("sk_int_live_abc123", firm_id="f1r3-uuid")
+        self.connector._assert_firm_scope(cfg)  # must not raise
+
+    def test_firm_key_needs_no_firm_id(self):
+        """A sk_live_* secret names exactly one firm, so the header is wrong
+        there — demanding a Firm ID would break every direct-mode customer."""
+        cfg = self._configure("sk_live_abc123")
+        self.connector._assert_firm_scope(cfg)  # must not raise
+
+    def test_sandbox_demo_secret_is_not_mistaken_for_an_integrator_key(self):
+        """The published demo secrets are sk_live_test_*, which must keep
+        working with no Firm ID."""
+        cfg = self._configure("sk_live_test_5e188b91708ca938e1ee50678b345a3c15")
+        self.connector._assert_firm_scope(cfg)  # must not raise
+
+    def test_validate_config_enforces_it(self):
+        """The guard has to sit on the shared path, not only on the button, or
+        the send/poll/status crons still fail with a raw 400."""
+        self._configure("sk_int_live_abc123")
+        with self.assertRaises(UserError):
+            self.connector._validate_config()
+
+    def test_the_api_message_is_classified_permanent(self):
+        """A missing X-Firm-Id is a configuration error: retrying it five times
+        helps nobody."""
+        detail = self.connector._error_detail(
+            _FakeResponse(
+                status_code=400,
+                payload={"error": {
+                    "code": "BAD_REQUEST",
+                    "message": "X-Firm-Id header is required when using JWT "
+                               "issued from an integrator key (sk_int_*).",
+                }},
+            )
+        )
+        self.assertEqual(detail["code"], "BAD_REQUEST")
+        self.assertIn("X-Firm-Id", detail["message"])
+        self.assertNotIn(400, RETRYABLE_STATUS)
+
+    def test_firm_listing_parses_the_live_response_shape(self):
+        """Shape captured from the sandbox 2026-10-01, not guessed."""
+        rows = {"firms": [{
+            "id": "f2cea3cf-f29e-4ea2-9e76-b06a312ec9ab",
+            "name": "Test Buyer s.r.o.",
+            "ico": "0000000001",
+            "vatRegType": None,
+            "isVatPayer": False,
+            "peppolId": "0245:0000000001",
+            "peppolStatus": "registered",
+        }]}
+        parsed = self.connector._parse_firms(rows)
+        self.assertEqual(len(parsed), 1)
+        self.assertEqual(parsed[0]["id"], "f2cea3cf-f29e-4ea2-9e76-b06a312ec9ab")
+        self.assertEqual(parsed[0]["name"], "Test Buyer s.r.o.")
+        # The Peppol id is how a user picks the right firm; losing it would
+        # leave them matching on name alone.
+        self.assertEqual(parsed[0]["ico"], "0000000001")
+        self.assertEqual(parsed[0]["peppol_id"], "0245:0000000001")
+        self.assertEqual(parsed[0]["peppol_status"], "registered")
+
+    def test_firm_listing_tolerates_other_envelopes(self):
+        for payload in ([{"id": "a", "name": "A"}], {"items": [{"id": "a"}]}):
+            self.assertEqual(self.connector._parse_firms(payload)[0]["id"], "a")
+
+    def test_firm_listing_skips_rows_without_an_id(self):
+        parsed = self.connector._parse_firms({"firms": [{"name": "no id"}, "junk"]})
+        self.assertEqual(parsed, [])
+
+    def test_insufficient_scope_error_is_readable(self):
+        """The real 403 body from GET /firms without firms:manage. Its
+        fix_hint and request_id are the two useful parts, so neither may be
+        dropped on the way to the user."""
+        detail = self.connector._error_detail(
+            _FakeResponse(status_code=403, payload={"error": {
+                "code": "INSUFFICIENT_SCOPE",
+                "message": "This endpoint requires the 'firms:manage' scope.",
+                "required_scope": "firms:manage",
+                "request_id": "3c71632c-e06f-4d22-a63f-891d7ac336c9",
+                "fix_hint": "Reissue the API key (or OAuth token) with the "
+                            "required scopes; or use a key that already has them.",
+            }})
+        )
+        self.assertEqual(detail["code"], "INSUFFICIENT_SCOPE")
+        self.assertIn("firms:manage", detail["message"])
+        self.assertIn("Reissue the API key", detail["message"])
+        self.assertIn("3c71632c", detail["message"])
+
+    def test_token_cache_is_keyed_by_scope(self):
+        """A documents-only token handed to /firms gets 403, and a
+        firms-scoped one handed to a send would too — so the cache must not
+        conflate them."""
+        cfg = self._configure("sk_int_live_abc123", firm_id="f1")
+        docs_key = (cfg["mode"], cfg["client_id"], cfg["scope"])
+        firms_key = (cfg["mode"], cfg["client_id"], "firms:manage")
+        self.assertNotEqual(docs_key, firms_key)
+
+    def test_the_form_says_which_kind_of_key_is_configured(self):
+        """The secret is write-only, so this label is the only way a user can
+        tell which half of the Firm ID help applies to them. That gap is what
+        produced the 2026-10-01 ticket."""
+        Settings = self.env["res.config.settings"]
+        cases = [
+            ("sk_int_live_abc", "", "sk_int_"),
+            ("sk_live_abc", "", "sk_live_"),
+            ("", "", "No secret"),
+        ]
+        for secret, firm_id, expected in cases:
+            form = Settings.new({
+                "epostak_mode": "sandbox",
+                "epostak_sapi_sandbox_client_secret": secret,
+                "epostak_firm_id": firm_id,
+            })
+            self.assertIn(
+                expected,
+                form.epostak_key_kind,
+                "secret %r should be described as %r" % (secret, expected),
+            )
+
+    def test_an_integrator_key_with_a_firm_id_reads_as_resolved(self):
+        form = self.env["res.config.settings"].new({
+            "epostak_mode": "sandbox",
+            "epostak_sapi_sandbox_client_secret": "sk_int_live_abc",
+            "epostak_firm_id": "f2cea3cf-f29e-4ea2-9e76-b06a312ec9ab",
+        })
+        self.assertIn("f2cea3cf", form.epostak_key_kind)
+
+    def test_production_mode_reads_the_production_secret(self):
+        """Reading the sandbox secret while in production mode would report the
+        wrong key kind for the environment actually in use."""
+        form = self.env["res.config.settings"].new({
+            "epostak_mode": "production",
+            "epostak_sapi_sandbox_client_secret": "sk_live_sandbox",
+            "epostak_sapi_prod_client_secret": "sk_int_production",
+            "epostak_firm_id": "",
+        })
+        self.assertIn("sk_int_", form.epostak_key_kind)
+
+    def test_test_connection_reports_instead_of_raising(self):
+        """Reported from the field 2026-10-01: deleting the Firm ID made Test
+        Connection look broken. It was raising a UserError to *deliver* the firm
+        list — which renders as a failure and, because a raise rolls the
+        transaction back, discarded the set_values() above it, losing a secret
+        the user had just typed. Every outcome must be a notification.
+
+        patch on type(connector): patching the model class misses inherited
+        methods on the registry class.
+        """
+        from unittest.mock import patch
+
+        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
+        self.ICP.set_param("epostak.firm_id", "")
+        settings = self.env["res.config.settings"].create({})
+        # TWO firms on purpose: with exactly one there is nothing to choose and
+        # the button fills it in instead (covered separately). The property under
+        # test here is that a genuine choice is *reported*, never raised.
+        firms = [{
+            "id": "2b9f26f7-93d2-455e-aba8-1391fadd14cc",
+            "name": "Firm A", "ico": "24626329",
+            "peppol_id": "0245:4024626329", "peppol_status": "registered",
+        }, {
+            "id": "9403f4fd-5318-4cd0-b651-4e75ce3997af",
+            "name": "Firm B", "ico": "11111111",
+            "peppol_id": "0245:5746203128", "peppol_status": "registered",
+        }]
+        connector_cls = type(self.env["epostak.connector"])
+        with patch.object(connector_cls, "_list_firms", return_value=firms):
+            res = settings.action_epostak_test_connection()
+        self.assertEqual(res["tag"], "display_notification")
+        self.assertEqual(res["params"]["type"], "warning",
+                         "a missing firm id is a prompt, not a failure")
+        self.assertIn("2b9f26f7", res["params"]["message"])
+        self.assertIn("24626329", res["params"]["message"])
+        self.assertTrue(res["params"]["sticky"], "a UUID to copy must not vanish")
+
+    def test_test_connection_reports_an_api_failure_without_raising(self):
+        from unittest.mock import patch
+
+        from odoo.addons.edi_epostak_connector_sapi.models.epostak_connector import (
+            EpostakApiError,
+        )
+
+        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
+        self.ICP.set_param("epostak.firm_id", "")
+        settings = self.env["res.config.settings"].create({})
+        connector_cls = type(self.env["epostak.connector"])
+        with patch.object(connector_cls, "_list_firms",
+                          side_effect=EpostakApiError("403 nope")):
+            res = settings.action_epostak_test_connection()
+        self.assertEqual(res["params"]["type"], "danger")
+        self.assertIn("403 nope", res["params"]["message"])
+
+    def test_test_connection_success_names_the_firm(self):
+        from unittest.mock import patch
+
+        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
+        self.ICP.set_param("epostak.firm_id", "a-firm-uuid")
+        settings = self.env["res.config.settings"].create({})
+        connector_cls = type(self.env["epostak.connector"])
+        with patch.object(connector_cls, "_authenticate", return_value=True):
+            res = settings.action_epostak_test_connection()
+        self.assertEqual(res["params"]["type"], "success")
+        self.assertIn("a-firm-uuid", res["params"]["message"])
+
+    def test_inbound_health_is_recorded_on_success_and_failure(self):
+        """Receiving had no user-facing signal: the base _poll_provider swallows
+        failures into the log, so with the Firm ID blank sending failed loudly
+        while receiving stopped silently. These parameters are what Settings
+        reads to show otherwise, so they must be written on BOTH paths."""
+        c = self.connector
+        self.ICP.set_param(c.PARAM_POLL_AT, "")
+        self.ICP.set_param(c.PARAM_POLL_OK, "")
+        self.ICP.set_param(c.PARAM_POLL_ERROR, "")
+
+        c._record_poll(count=3)
+        self.assertTrue(self.ICP.get_param(c.PARAM_POLL_AT))
+        self.assertTrue(self.ICP.get_param(c.PARAM_POLL_OK))
+        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_COUNT), "3")
+        self.assertFalse(self.ICP.get_param(c.PARAM_POLL_ERROR))
+        first_ok = self.ICP.get_param(c.PARAM_POLL_OK)
+
+        c._record_poll(error="no firm id")
+        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_ERROR), "no firm id")
+        # The last SUCCESS must not move: a stale "last ok" beside a recent
+        # failure is exactly the evidence a user needs.
+        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_OK), first_ok)
+
+    def test_inbound_health_label_distinguishes_the_three_states(self):
+        c = self.connector
+        Settings = self.env["res.config.settings"]
+        for at, ok, err, expected in (
+            ("", "", "", "Never polled"),
+            ("2026-10-01 10:00:00", "2026-10-01 10:00:00", "", "OK at"),
+            ("2026-10-01 11:00:00", "2026-10-01 10:00:00", "boom", "FAILED at"),
+        ):
+            self.ICP.set_param(c.PARAM_POLL_AT, at)
+            self.ICP.set_param(c.PARAM_POLL_OK, ok)
+            self.ICP.set_param(c.PARAM_POLL_ERROR, err)
+            label = Settings.create({}).epostak_inbound_health
+            self.assertIn(expected, label)
+
+    def test_record_poll_never_raises(self):
+        """It wraps a poll that may already be failing; it must not add a second
+        exception on top of the first."""
+        from unittest.mock import patch
+
+        ICP_cls = type(self.env["ir.config_parameter"])
+        with patch.object(ICP_cls, "set_param", side_effect=RuntimeError("db gone")):
+            self.connector._record_poll(count=1)   # must not raise
+
+    def test_poll_button_works_for_a_plain_administrator(self):
+        """Reported from the field 2026-10-01: 'Poll inbound' raised AccessError
+        for an Administrator. The settings page is gated on base.group_system,
+        but edi.message is restricted to the EDI groups, which an admin is not
+        in by default — so the button failed for precisely the person who
+        configures the connection."""
+        from unittest.mock import patch
+
+        admin = self.env["res.users"].create({
+            "name": "Settings admin, no EDI groups",
+            "login": "epostak-settings-admin",
+            "group_ids": [(6, 0, [
+                self.env.ref("base.group_user").id,
+                self.env.ref("base.group_system").id,
+            ])],
+        })
+        self.assertFalse(
+            admin.has_group("edi_base.group_edi_user"),
+            "premise: this user must NOT be an EDI user",
+        )
+        settings = self.env["res.config.settings"].with_user(admin).create({})
+        connector_cls = type(self.env["epostak.connector"])
+        # Stub the network; the point under test is the access rights.
+        with patch.object(connector_cls, "_poll_inbound",
+                          return_value={"messages": [], "has_more": False}):
+            res = settings.action_epostak_poll_inbound()
+        self.assertEqual(res["tag"], "display_notification")
+        self.assertIn(res["params"]["type"], ("success", "warning", "danger"))
+
+    def test_health_label_is_readable_by_a_plain_administrator(self):
+        admin = self.env["res.users"].create({
+            "name": "Settings admin 2", "login": "epostak-settings-admin-2",
+            "group_ids": [(6, 0, [
+                self.env.ref("base.group_user").id,
+                self.env.ref("base.group_system").id,
+            ])],
+        })
+        label = self.env["res.config.settings"].with_user(admin).create({}).epostak_inbound_health
+        self.assertTrue(label)
+
+    # ------------------------------------------------------------------
+    # One firm means nothing to choose
+    # ------------------------------------------------------------------
+
+    def _one_firm(self):
+        return [{
+            "id": "2b9f26f7-93d2-455e-aba8-1391fadd14cc",
+            "name": "eGroup Solutions, a.s. Sandbox A", "ico": "24626329",
+            "peppol_id": "0245:4024626329", "peppol_status": "registered",
+        }]
+
+    def test_a_single_firm_is_filled_in_automatically(self):
+        """Observed in testing: the key manages exactly one firm, yet we asked
+        the user to copy its UUID across and told them it 'speaks for several'.
+        With one candidate there is nothing to choose."""
+        from unittest.mock import patch
+
+        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
+        self.ICP.set_param("epostak.firm_id", "")
+        settings = self.env["res.config.settings"].create({})
+        connector_cls = type(self.env["epostak.connector"])
+        with patch.object(connector_cls, "_list_firms", return_value=self._one_firm()):
+            res = settings.action_epostak_test_connection()
+        self.assertEqual(res["params"]["type"], "success")
+        self.assertEqual(
+            self.ICP.get_param("epostak.firm_id"),
+            "2b9f26f7-93d2-455e-aba8-1391fadd14cc",
+        )
+        # The form must refresh or it keeps showing the empty value we just
+        # set — but it has to be soft_reload: a full "reload" is a browser
+        # reload that tore the notification down before it could be read.
+        self.assertEqual(res["params"]["next"]["tag"], "soft_reload")
+        self.assertTrue(res["params"]["sticky"],
+                        "the chosen firm must stay on screen")
+
+    def test_several_firms_still_ask_and_state_the_count(self):
+        from unittest.mock import patch
+
+        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
+        self.ICP.set_param("epostak.firm_id", "")
+        two = self._one_firm() + [{
+            "id": "9403f4fd-5318-4cd0-b651-4e75ce3997af", "name": "Second",
+            "ico": "", "peppol_id": "0245:5746203128", "peppol_status": "registered",
+        }]
+        settings = self.env["res.config.settings"].create({})
+        connector_cls = type(self.env["epostak.connector"])
+        with patch.object(connector_cls, "_list_firms", return_value=two):
+            res = settings.action_epostak_test_connection()
+        self.assertEqual(res["params"]["type"], "warning")
+        self.assertIn("2", res["params"]["title"], "say how many there really are")
+        self.assertFalse(self.ICP.get_param("epostak.firm_id"),
+                         "must not guess when there is a genuine choice")
+
+    # ------------------------------------------------------------------
+    # Telling someone who never opens Settings
+    # ------------------------------------------------------------------
+
+    def _open_activities(self):
+        anchor = self.env.company.partner_id
+        return self.env["mail.activity"].sudo().search([
+            ("res_model_id", "=", self.env["ir.model"]._get_id(anchor._name)),
+            ("res_id", "=", anchor.id),
+            ("summary", "like", self.connector.POLL_ACTIVITY_MARKER),
+        ])
+
+    def test_no_activity_on_a_single_blip(self):
+        """One failed poll is normal; an activity per poll trains people to
+        ignore them."""
+        c = self.connector
+        self.ICP.set_param(c.PARAM_POLL_STREAK, "0")
+        self.ICP.set_param(c.PARAM_POLL_ACTIVITY_AFTER, "3")
+        c._record_poll(error="transient")
+        self.assertFalse(self._open_activities())
+        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_STREAK), "1")
+
+    def test_activity_after_repeated_failures_then_closed_on_recovery(self):
+        c = self.connector
+        self.ICP.set_param(c.PARAM_POLL_STREAK, "0")
+        self.ICP.set_param(c.PARAM_POLL_ACTIVITY_AFTER, "3")
+        for _i in range(3):
+            c._record_poll(error="no firm id")
+        activities = self._open_activities()
+        self.assertEqual(len(activities), 1, "exactly one, not one per poll")
+        self.assertTrue(activities.user_id, "an unassigned activity is invisible")
+        self.assertIn("3", activities.note)
+
+        # A fourth failure must not stack a second one.
+        c._record_poll(error="no firm id")
+        self.assertEqual(len(self._open_activities()), 1)
+
+        # Recovery closes it — a stale to-do about a fixed problem is noise.
+        c._record_poll(count=1)
+        self.assertFalse(self._open_activities())
+        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_STREAK), "0")
+
+    def test_threshold_zero_disables_the_activity(self):
+        c = self.connector
+        self.ICP.set_param(c.PARAM_POLL_STREAK, "0")
+        self.ICP.set_param(c.PARAM_POLL_ACTIVITY_AFTER, "0")
+        for _i in range(5):
+            c._record_poll(error="boom")
+        self.assertFalse(self._open_activities())

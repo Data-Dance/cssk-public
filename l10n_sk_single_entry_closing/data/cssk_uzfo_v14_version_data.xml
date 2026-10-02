@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+      Účtovná závierka v jednoduchom účtovníctve — UZFOv14, účinná od
+      31. 12. 2014, prescribed by opatrenie MF SR č. MF/27076/2007-74 § 22
+      ods. 2 + príloha, in the wording of MF/15523/2014-74 (oznámenie
+      277/2014 Z. z.). The latest amendment, MF/013646/2024-74 (effective
+      1. 1. 2025), touches only postupy účtovania — it mentions neither
+      "vzor" nor "Úč FO", so the form is untouched since 2014. Verified
+      against the FS katalóg vzorov: UZFOv14 is the only JÚ vzor published.
+
+      ONE version record. The tlačivo is a single document whose telo carries
+      `ucFo1` (Výkaz o príjmoch a výdavkoch Úč FO 1-01, 12 rows, one column)
+      beside `ucFo2` (Výkaz o majetku a záväzkoch Úč FO 2-01, 21 rows, s1 =
+      bezprostredne predchádzajúce obdobie, s2 = bežné). The two read
+      DIFFERENT bases, which is what `basis` on the line definition is for:
+      Úč FO 1-01 is the period's cash movement out of the peňažný denník,
+      Úč FO 2-01 the balances as of the period end.
+
+      Rows, labels and arithmetic are transcribed from the printed tlačivo
+      (UZFOv14.pdf, footer "MF SR 2014") and cross-checked against the eForm's
+      own JavaScript at
+      https://pfseform.financnasprava.sk/Formulare/eFormVzor/UV/form.300.html
+      (`hodnota_bezneobdN…`, `t_bezneobdN_fo1` / `t_bezneobdN`).
+
+      WHERE THE FIGURES COME FROM — § 22 ods. 1: "Účtovná závierka sa
+      zostavuje z údajov peňažného denníka, knihy pohľadávok, knihy záväzkov,
+      pomocných kníh a z výsledkov vykonanej inventarizácie." The vysvetlivky
+      add for Úč FO 1-01: "V jednotlivých riadkoch sa vykazujú údaje z
+      príslušných prehľadov peňažného denníka" — and § 4 ods. 6 prescribes
+      those prehľady with the very wording of the rows, so rows 01–03 are
+      d) 1–3 and rows 05–10 are e) 1–6, one to one. That is why those rows
+      read the denník (`kind=cash_categories`) and not account balances.
+
+      § 4 ods. 6 f)/g): príjmy and výdavky NEOVPLYVŇUJÚCE základ dane are
+      separate prehľady of the denník and do NOT appear in Úč FO 1-01 at all.
+      Hence no PN*/VN* category is named below — the výkaz reports the
+      tax-relevant columns only, and a vklad podnikateľa or a loan instalment
+      belongs in Úč FO 2-01's balances instead.
+
+      § 4 ods. 9 puts ODPISY in r. 10 "Ostatné výdavky", together with kurzové
+      rozdiely, zostatková cena predaného majetku and tvorba rezerv. So the
+      non-cash part of the denník belongs in this statement, which is why Z1
+      and Z2 are named there. (A first draft of this module excluded non-cash
+      rows on the reasoning that a statement of money cannot hold an odpis;
+      the opatrenie says otherwise, and the opatrenie wins.)
+    -->
+    <record id="uzfo_v14" model="cssk.fs.statement.version">
+        <field name="name">Účtovná závierka v jednoduchom účtovníctve (UZFOv14)</field>
+        <field name="country_id" ref="base.sk"/>
+        <!-- The document holds a cash statement plus a statement of assets and
+             liabilities; the per-line `basis` carries what the kind cannot. -->
+        <field name="statement_kind">profit_loss</field>
+        <field name="valid_from">2014-12-31</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_single_entry_closing.uzfo_v14_template"/>
+        <field name="xml_root_element">dokument</field>
+        <field name="xml_schema_filename">form.300.sk.xsd</field>
+        <field name="xml_schema_data" type="base64" file="l10n_sk_single_entry_closing/data/form.300.sk.xsd"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'f01', 'name': 'Úč FO 1-01 r. 01 Predaj tovaru', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'P1', 'sequence': 10}),
+            (0, 0, {'code': 'f02', 'name': 'Úč FO 1-01 r. 02 Predaj výrobkov a služieb', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'P2', 'sequence': 20}),
+            (0, 0, {'code': 'f03', 'name': 'Úč FO 1-01 r. 03 Ostatné príjmy', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'P3', 'sequence': 30}),
+            (0, 0, {'code': 'f04', 'name': 'Úč FO 1-01 r. 04 Príjmy celkom', 'kind': 'aggregate', 'basis': 'movement', 'aggregate_formula': 'f01 + f02 + f03', 'sequence': 40}),
+            (0, 0, {'code': 'f05', 'name': 'Úč FO 1-01 r. 05 Zásoby', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'V1', 'sequence': 50}),
+            (0, 0, {'code': 'f06', 'name': 'Úč FO 1-01 r. 06 Služby', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'V2', 'sequence': 60}),
+            (0, 0, {'code': 'f07', 'name': 'Úč FO 1-01 r. 07 Mzdy', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'V3', 'sequence': 70}),
+            (0, 0, {'code': 'f08', 'name': 'Úč FO 1-01 r. 08 Platby poistného a príspevkov', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'V4,V5', 'sequence': 80}),
+            (0, 0, {'code': 'f09', 'name': 'Úč FO 1-01 r. 09 Tvorba sociálneho fondu', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'V6', 'sequence': 90}),
+            (0, 0, {'code': 'f10', 'name': 'Úč FO 1-01 r. 10 Ostatné výdavky', 'kind': 'cash_categories', 'basis': 'movement', 'cash_category_formula': 'V9,Z1,Z2', 'sequence': 100}),
+            (0, 0, {'code': 'f11', 'name': 'Úč FO 1-01 r. 11 Výdavky celkom', 'kind': 'aggregate', 'basis': 'movement', 'aggregate_formula': 'f05 + f06 + f07 + f08 + f09 + f10', 'sequence': 110}),
+            (0, 0, {'code': 'f12', 'name': 'Úč FO 1-01 r. 12 Rozdiel príjmov a výdavkov', 'kind': 'aggregate', 'basis': 'movement', 'aggregate_formula': 'f04 - f11', 'sequence': 120}),
+
+            (0, 0, {'code': 'm01', 'name': 'Úč FO 2-01 r. 01 Dlhodobý nehmotný majetok', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '01,041,051', 'account_formula_correction': '07,091,093,095100', 'sequence': 200}),
+            (0, 0, {'code': 'm02', 'name': 'Úč FO 2-01 r. 02 Dlhodobý hmotný majetok', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '02,03,042,052', 'account_formula_correction': '08,092,094,095000,095200', 'sequence': 210}),
+            (0, 0, {'code': 'm03', 'name': 'Úč FO 2-01 r. 03 Dlhodobý finančný majetok', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '06,043,053,055', 'account_formula_correction': '096,095300', 'sequence': 220}),
+            (0, 0, {'code': 'm04', 'name': 'Úč FO 2-01 r. 04 Zásoby celkom', 'kind': 'aggregate', 'basis': 'as_of', 'aggregate_formula': 'm05 + m06 + m07', 'sequence': 230}),
+            (0, 0, {'code': 'm05', 'name': 'Úč FO 2-01 r. 05 Materiál', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '111,112,119', 'account_formula_correction': '191', 'sequence': 240}),
+            (0, 0, {'code': 'm06', 'name': 'Úč FO 2-01 r. 06 Tovar', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '131,132,133,139', 'account_formula_correction': '196', 'sequence': 250}),
+            (0, 0, {'code': 'm07', 'name': 'Úč FO 2-01 r. 07 Nedokončená výroba, polotovary, výrobky, zvieratá a ostatné zásoby', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '121,122,123,124', 'account_formula_correction': '192,193,194,195', 'sequence': 260}),
+            (0, 0, {'code': 'm08', 'name': 'Úč FO 2-01 r. 08 Pohľadávky', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '311,312,313,314,315,316,335,351,354,355,358,371,374,375,378,381,382,385,343,481', 'account_formula_correction': '391', 'sequence': 270}),
+            (0, 0, {'code': 'm09', 'name': 'Úč FO 2-01 r. 09 Krátkodobý finančný majetok', 'kind': 'aggregate', 'basis': 'as_of', 'aggregate_formula': 'm10 + m11 + m12', 'sequence': 280}),
+            (0, 0, {'code': 'm10', 'name': 'Úč FO 2-01 r. 10 Peniaze a ceniny', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '211,213', 'sequence': 290}),
+            (0, 0, {'code': 'm11', 'name': 'Úč FO 2-01 r. 11 Účty v bankách', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '221', 'sequence': 300}),
+            (0, 0, {'code': 'm12', 'name': 'Úč FO 2-01 r. 12 Ostatný krátkodobý finančný majetok', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '25,373,376', 'account_formula_correction': '291', 'sequence': 310}),
+            (0, 0, {'code': 'm13', 'name': 'Úč FO 2-01 r. 13 Priebežné položky (+/-)', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '261', 'sequence': 320}),
+            (0, 0, {'code': 'm14', 'name': 'Úč FO 2-01 r. 14 Opravná položka k nadobudnutému majetku (aktívna)', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '097,098', 'sequence': 330}),
+            (0, 0, {'code': 'm15', 'name': 'Úč FO 2-01 r. 15 Majetok celkom', 'kind': 'aggregate', 'basis': 'as_of', 'aggregate_formula': 'm01 + m02 + m03 + m04 + m08 + m09 + m13 + m14', 'sequence': 340}),
+            (0, 0, {'code': 'm16', 'name': 'Úč FO 2-01 r. 16 Rezervy', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '-323,-451,-459', 'sequence': 350}),
+            (0, 0, {'code': 'm17', 'name': 'Úč FO 2-01 r. 17 Záväzky', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '-321,-322,-324,-325,-326,-331,-333,-336,-341,-342,-343,-345,-346,-347,-36,-372,-377,-379,-383,-384,-395,-398,-472,-474,-475,-476,-373,-481', 'sequence': 360}),
+            (0, 0, {'code': 'm18', 'name': 'Úč FO 2-01 r. 18 Úvery', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '-221,-231,-232,-241,-249,-461,-471,-473,-478,-479', 'sequence': 370}),
+            (0, 0, {'code': 'm19', 'name': 'Úč FO 2-01 r. 19 Opravná položka k nadobudnutému majetku (pasívna)', 'kind': 'accounts', 'basis': 'as_of', 'account_formula': '-097,-098', 'sequence': 380}),
+            (0, 0, {'code': 'm20', 'name': 'Úč FO 2-01 r. 20 Záväzky celkom', 'kind': 'aggregate', 'basis': 'as_of', 'aggregate_formula': 'm16 + m17 + m18 + m19', 'sequence': 390}),
+            (0, 0, {'code': 'm21', 'name': 'Úč FO 2-01 r. 21 Rozdiel majetku a záväzkov', 'kind': 'aggregate', 'basis': 'as_of', 'aggregate_formula': 'm15 - m20', 'sequence': 400})
+        ]"/>
+    </record>
+    <!--
+      ROW TOKENS ARE 3-DIGIT SYNTHETICS, not six-digit accounts. The chart
+      carries analytics (221000 beside 221100, and Odoo adds one per bank
+      journal), and a six-digit token matches only codes that start with it — so
+      '221000' reported zero for a company whose bank account is 221100. Measured
+      on a fresh SK chart while writing this.
+
+      WHAT THE ROWS CANNOT DECIDE. The vysvetlivky put long-term termínované
+      vklady and long-term pôžičky in r. 03 alongside the 06x účty, and split
+      pohľadávky by maturity nowhere at all. Maturity is not in the account code,
+      so those stay where their synthetic puts them: a long-term deposit is
+      reported in r. 11 and a long-term receivable in r. 08. Moving them is a
+      manual override on the statement, which keeps an audit trail of who
+      decided — better than inferring a maturity the ledger never recorded.
+
+      TWO-SIDED ACCOUNTS, resolved by the framework's own rule: a code named
+      with a positive token on one row and a negative token on another is gated
+      per account on its own balance. 221000 is an asset on r. 11 while it is in
+      funds and an úver on r. 18 when it is overdrawn — which is exactly what the
+      vysvetlivky say r. 18 must carry ("záporný zostatok kontokorentného
+      účtu"). 097/098 likewise: the opravná položka k nadobudnutému majetku is
+      r. 14 when it is active and r. 19 when it is passive.
+    -->
+</odoo>

@@ -5,3 +5,4 @@ from . import test_tools
 from . import test_shared_evaluator
 from . import test_company_registry
 from . import test_invoice_views
+from . import test_vat_deferral

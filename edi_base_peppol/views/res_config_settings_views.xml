@@ -6,8 +6,27 @@
         <field name="inherit_id" ref="edi_base.view_res_config_settings_edi_base"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@name='edi_providers_anchor']" position="before">
-                <block title="Peppol BIS3" name="peppol">
+                <block title="Peppol BIS3 (this company)" name="peppol">
                     <setting>
+                        <field name="peppol_send_enabled"/>
+                        <div class="text-muted">
+                            A permission, not a routing decision. On, this
+                            company <b>may</b> e-invoice; which documents
+                            actually do is set per contact, in
+                            <i>Invoice sending</i> on the contact
+                            ("by e-invoice (Peppol)"), and for contacts that
+                            state no preference by the scope below.
+                            <br/>
+                            Off, no customer invoice or credit note of this
+                            company goes out through Peppol, whatever a contact
+                            says — each invoice shows why on its Peppol badge.
+                            Receiving vendor bills is unaffected.
+                        </div>
+                    </setting>
+                    <setting invisible="not peppol_send_enabled">
+                        <field name="peppol_scope"/>
+                    </setting>
+                    <setting invisible="not peppol_send_enabled">
                         <field name="peppol_auto_send"/>
                     </setting>
                     <setting>
