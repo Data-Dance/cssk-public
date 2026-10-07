@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- DPPO → reconcile with the účtovná závierka (VZS r56 = r100) -->
+    <record id="cssk_income_tax_return_view_form_reconcile" model="ir.ui.view">
+        <field name="name">cssk.income.tax.return.form.reconcile</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_income_tax_base.cssk_income_tax_return_view_form"/>
+        <field name="arch" type="xml">
+            <button name="action_export_xml" position="after">
+                <button name="action_reconcile_vzs" type="object"
+                        string="Porovnať s účtovnou závierkou"
+                        invisible="state == 'draft'"/>
+            </button>
+        </field>
+    </record>
+
+</odoo>

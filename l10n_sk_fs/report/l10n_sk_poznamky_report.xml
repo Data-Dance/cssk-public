@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_l10n_sk_poznamky" model="ir.actions.report">
+        <field name="name">Poznámky k účtovnej závierke</field>
+        <field name="model">l10n.sk.poznamky</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sk_fs.report_l10n_sk_poznamky</field>
+        <field name="report_file">l10n_sk_fs.report_l10n_sk_poznamky</field>
+        <field name="binding_model_id" ref="model_l10n_sk_poznamky"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_l10n_sk_poznamky">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-size:11px;">
+                        <h2 style="text-align:center;">Poznámky k účtovnej závierke</h2>
+                        <p style="text-align:center;">
+                            zostavené podľa Opatrenia MF/23378/2014-74 (malé účtovné jednotky)
+                            za obdobie <span t-field="o.date_from"/> – <span t-field="o.date_to"/>
+                            <t t-if="o.submission_type == 'opravna'"> (opravná)</t>
+                        </p>
+
+                        <h4>Čl. I — Všeobecné informácie</h4>
+                        <p><b>Obchodné meno:</b> <span t-field="o.company_id.name"/></p>
+                        <p><b>Sídlo:</b>
+                            <span t-field="o.company_id.street"/>,
+                            <span t-field="o.company_id.zip"/> <span t-field="o.company_id.city"/></p>
+                        <p><b>IČO:</b> <span t-field="o.company_id.company_registry"/>
+                           &amp;nbsp; <b>DIČ:</b> <span t-field="o.company_id.vat"/></p>
+                        <p><b>Opis hospodárskej činnosti:</b><br/>
+                            <span t-field="o.cinnost"/></p>
+                        <p t-if="o.schvalenie_date"><b>Dátum schválenia predchádzajúcej účtovnej
+                            závierky:</b> <span t-field="o.schvalenie_date"/></p>
+                        <p><b>Právny dôvod zostavenia:</b>
+                            <span t-esc="dict(o._fields['pravny_dovod'].selection).get(o.pravny_dovod)"/></p>
+                        <p><b>Je súčasťou konsolidovaného celku:</b>
+                            <span t-esc="'Áno' if o.je_konsolidovana else 'Nie'"/></p>
+                        <table class="table table-sm" style="width:60%;">
+                            <tr><th></th><th>Bežné obdobie</th><th>Predch. obdobie</th></tr>
+                            <tr><td>Priemerný prepočítaný počet zamestnancov</td>
+                                <td t-esc="o.zamestnanci_bezne"/><td t-esc="o.zamestnanci_predch"/></tr>
+                            <tr><td>z toho vedúci zamestnanci</td>
+                                <td t-esc="o.zamestnanci_veduci"/><td></td></tr>
+                        </table>
+
+                        <h4>Čl. II — Orgány účtovnej jednotky</h4>
+                        <p><span t-field="o.cl2_organy"/></p>
+
+                        <h4>Čl. III — Použité účtovné zásady a metódy</h4>
+                        <p><b>Predpoklad nepretržitého pokračovania v činnosti:</b>
+                            <span t-esc="'Áno' if o.going_concern else 'Nie'"/></p>
+                        <p><b>Zmeny účtovných zásad a metód:</b><br/>
+                            <span t-field="o.cl3_zmeny_metod"/></p>
+                        <p><b>Spôsob oceňovania:</b><br/><span t-field="o.cl3_ocenovanie"/></p>
+                        <p><b>Hranica drobného majetku:</b> DDHM
+                            <span t-field="o.ddhm_prah"/>, DNM <span t-field="o.dnm_prah"/></p>
+                        <p t-if="o.odpis_line_ids"><b>Odpisový plán:</b></p>
+                        <table t-if="o.odpis_line_ids" class="table table-sm" style="width:70%;">
+                            <tr><th>Skupina / účet majetku</th><th>Doba (roky)</th><th>Ročná sadzba</th></tr>
+                            <tr t-foreach="o.odpis_line_ids" t-as="l">
+                                <td t-out="l.nazov"/>
+                                <td><span t-esc="'%g' % l.doba_rokov"/></td>
+                                <td><span t-esc="'%g' % l.sadzba"/> %</td>
+                            </tr>
+                        </table>
+
+                        <h4>Čl. IV — Informácie k položkám výkazu ziskov a strát</h4>
+                        <p><span t-field="o.cl4"/></p>
+                        <p t-if="o.zavazky_nad_5_rokov"><b>Záväzky so splatnosťou nad 5 rokov:</b>
+                            <span t-field="o.zavazky_nad_5_rokov"/></p>
+                        <p t-if="o.zavazky_zabezpecene"><b>Záväzky zabezpečené záložným právom:</b>
+                            <span t-field="o.zavazky_zabezpecene"/></p>
+
+                        <h4>Čl. V — Iné aktíva a iné pasíva</h4>
+                        <p><span t-field="o.cl5"/></p>
+
+                        <h4>Čl. VI — Udalosti po dni, ku ktorému sa zostavuje účtovná závierka</h4>
+                        <p><span t-field="o.cl6"/></p>
+
+                        <h4>Čl. VII — Ostatné informácie</h4>
+                        <p><span t-field="o.cl7"/></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

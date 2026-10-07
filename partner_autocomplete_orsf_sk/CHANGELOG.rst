@@ -8,6 +8,33 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.0] — 2026-10-03
+-------------------------
+
+Added
+~~~~~
+
+- **A DIČ-only backfill**, ``action_orsf_fill_missing_dic`` on ``res.partner``.
+  Fills ``l10n_sk_dic`` where it is empty, from ``POST /lookup/batch``, and
+  writes nothing else.
+
+  Deliberately separate from ``action_orsf_bulk_refresh``, which rewrites
+  identity wholesale — name, address, IČ DPH, status. That is right when you
+  want the register's current view of a contact and wrong when you want one
+  missing number added to a validated dataset: a migration build whose trial
+  balance ties to its source should not have partner names rewritten as a side
+  effect of needing a DIČ.
+
+  It exists because the Slovak Peppol participant identifier is ``0245:<DIČ>``
+  and ``l10n_sk_ubl_bis3`` deliberately never derives the DIČ from the VAT
+  number, so every Slovak trading partner needs the number on file before it
+  can be e-invoiced. On one real agenda that was 1204 partners, 1165 of them
+  with an IČO to resolve from — about a dozen batch calls.
+
+  Writes only into an empty field, so it is safe to re-run and never overrules a
+  hand-entered value. Reports what it did split by reason: filled, not in the
+  register, in the register but with no DIČ published, and no usable IČO.
+
 [19.0.1.3.0] — 2026-09-29
 -------------------------
 

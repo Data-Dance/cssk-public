@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      CZ Přehled o peněžních tocích — nepřímá metoda (vyhláška 500/2002 Sb.,
+      součást přílohy v účetní závěrce; povinný pro účetní jednotky, které jsou
+      auditovány a nejsou mikro/malé).
+
+      Built as a PARTITION of every non-cash account of the CZ směrná osnova into
+      provozní (A) / investiční (B) / finanční (C) činnost. By double entry the
+      movements of all accounts sum to zero, so −(non-cash movements) = the change
+      in cash, i.e. A + B + C = F = (peněžní prostředky na konci − na začátku).
+      Each block line is the negated period movement of its accounts (aktivum ↑ =
+      výdej, pasivum ↑ = příjem). The opening / closing cash rows use the
+      accounts_open / accounts_close kinds (cumulative balance at the period start
+      / end).
+
+      Class coverage (each account in exactly one bucket — verified by the G = 0
+      kontrola asserted in tests):
+        0  01-06 → B1 (investiční); 07-09 oprávky/OP → NEP
+        1  11-13,15 → ZAS; 19 OP → NEP
+        2  211,213,221,261 → cash (P/R); 23,24 úvěry/dluhopisy → C1;
+           25 cenné papíry → B1; 29 OP → NEP
+        3  31-38 → PK (pohledávky/závazky/daně/čas. rozlišení); 39 OP → NEP
+        4  41,42,43 vlastní kapitál + 46,47 dl. závazky + 49 → C1;
+           45 rezervy + 48 odl. daň → NEP
+        5  50-58 → Z; 59 daň z příjmů → DAN
+        6  60-69 → Z
+        7  70,71 uzávěrkové → NEP
+
+      The provozní/investiční split of the gain/loss on disposal of fixed assets
+      and of short-term securities (25x) is a simplification — CONFIRM with a CZ
+      accountant for non-standard chart assignments. The reconciliation
+      (F = konec − začátek, G = 0) is asserted in tests, so a mis-partitioned or
+      double-counted account is caught.
+    -->
+    <record id="cashflow_version_2025" model="cssk.fs.statement.version">
+        <field name="name">Přehled o peněžních tocích 2025</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="statement_kind">cash_flow</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_fs.cashflow_2025"/>
+        <field name="xml_root_element">PrehledPT</field>
+        <!-- No XSD is published for the Czech accounting statements:
+             they are filed as attachments inside the DPPO envelope. The
+             absence is the form, not a missing file. -->
+        <field name="xml_schema_optional" eval="True"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'Z', 'name': 'Z. Účetní výsledek hospodaření před zdaněním',
+                    'kind': 'accounts', 'level': 2, 'sequence': 10,
+                    'account_formula': '-50,-51,-52,-53,-54,-55,-56,-57,-58,-60,-61,-62,-63,-64,-65,-66,-67,-68,-69'}),
+            (0, 0, {'code': 'NEP', 'name': 'A.1. Úpravy o nepeněžní operace (odpisy, opravné položky, rezervy, odložená daň)',
+                    'kind': 'accounts', 'level': 2, 'sequence': 20,
+                    'account_formula': '-07,-08,-09,-19,-29,-39,-45,-48,-70,-71'}),
+            (0, 0, {'code': 'ZAS', 'name': 'A.2.1. Změna stavu zásob',
+                    'kind': 'accounts', 'level': 2, 'sequence': 30,
+                    'account_formula': '-11,-12,-13,-15'}),
+            (0, 0, {'code': 'PK', 'name': 'A.2.2. Změna stavu pohledávek, závazků a časového rozlišení',
+                    'kind': 'accounts', 'level': 2, 'sequence': 40,
+                    'account_formula': '-31,-32,-33,-34,-35,-36,-37,-38'}),
+            (0, 0, {'code': 'DAN', 'name': 'A.4. Zaplacená daň z příjmů',
+                    'kind': 'accounts', 'level': 2, 'sequence': 50,
+                    'account_formula': '-59'}),
+            (0, 0, {'code': 'A', 'name': 'A. Čistý peněžní tok z provozní činnosti',
+                    'kind': 'aggregate', 'level': 1, 'sequence': 60,
+                    'aggregate_formula': 'Z + NEP + ZAS + PK + DAN'}),
+            (0, 0, {'code': 'B1', 'name': 'B.1. Výdaje/příjmy na pořízení a z prodeje dlouhodobého majetku a cenných papírů',
+                    'kind': 'accounts', 'level': 2, 'sequence': 70,
+                    'account_formula': '-01,-02,-03,-04,-05,-06,-25'}),
+            (0, 0, {'code': 'B', 'name': 'B. Čistý peněžní tok z investiční činnosti',
+                    'kind': 'aggregate', 'level': 1, 'sequence': 80,
+                    'aggregate_formula': 'B1'}),
+            (0, 0, {'code': 'C1', 'name': 'C.1. Změna stavu vlastního kapitálu, úvěrů a dlouhodobých závazků',
+                    'kind': 'accounts', 'level': 2, 'sequence': 90,
+                    'account_formula': '-41,-42,-43,-46,-47,-49,-23,-24'}),
+            (0, 0, {'code': 'C', 'name': 'C. Čistý peněžní tok z finanční činnosti',
+                    'kind': 'aggregate', 'level': 1, 'sequence': 100,
+                    'aggregate_formula': 'C1'}),
+            (0, 0, {'code': 'F', 'name': 'F. Čisté zvýšení/snížení peněžních prostředků',
+                    'kind': 'aggregate', 'level': 0, 'sequence': 110,
+                    'aggregate_formula': 'A + B + C'}),
+            (0, 0, {'code': 'P', 'name': 'P. Stav peněžních prostředků na začátku období',
+                    'kind': 'accounts_open', 'level': 0, 'sequence': 120,
+                    'account_formula': '211,213,221,261'}),
+            (0, 0, {'code': 'R', 'name': 'R. Stav peněžních prostředků na konci období',
+                    'kind': 'accounts_close', 'level': 0, 'sequence': 130,
+                    'account_formula': '211,213,221,261'}),
+            (0, 0, {'code': 'G', 'name': 'G. Kontrola (P + F − R = 0)',
+                    'kind': 'aggregate', 'level': 0, 'sequence': 140,
+                    'aggregate_formula': 'P + F - R'}),
+        ]"/>
+    </record>
+
+</odoo>

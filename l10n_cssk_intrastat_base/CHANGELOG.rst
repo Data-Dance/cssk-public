@@ -8,6 +8,20 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-03
+-------------------------
+
+Fixed
+~~~~~
+
+- **Nature of transaction is split into its A and B codes.** Both engines
+  store it as one 2-digit code (11, 12, 21 …) and both adapters passed it
+  whole, so ``natureOfTransactionACode`` read ``11`` and no B code was filed.
+  INSTAT carries column A and column B separately; the schema types them as
+  plain strings, so validation never objected.
+- The description now says how the EE adapter may use an AGPL-3 module: sole
+  ownership and dual licensing, not a different licence.
+
 [19.0.1.0.1] — 2026-09-06
 -------------------------
 

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      SK Prehľad peňažných tokov — nepriama metóda (Opatrenie MF SR pre
+      podnikateľov; súčasť poznámok účtovnej závierky veľkej ÚJ / SVZ).
+
+      Built as a PARTITION of every non-cash account into operating (A) /
+      investing (B) / financing (C). By double entry the movements of all
+      accounts sum to zero, so −(non-cash movements) = the change in cash, i.e.
+      A + B + C = D = (closing cash − opening cash). Each block line is the
+      negated period movement of its accounts (asset ↑ = cash out, liability ↑ =
+      cash in). The opening / closing cash rows use the accounts_open /
+      accounts_close kinds (cumulative balance at the period start / end).
+
+      Account groupings follow the standard SK osnova; the operating/investing/
+      financing split of a few accounts is a judgment call — CONFIRM with a SK
+      accountant for non-standard chart assignments. The reconciliation
+      (D = closing − opening) is asserted in tests, so a mis-partitioned account
+      would be caught.
+    -->
+    <record id="cashflow_version_2025" model="cssk.fs.statement.version">
+        <field name="name">Prehľad peňažných tokov 2025</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="statement_kind">cash_flow</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_fs.cashflow_2025"/>
+        <field name="xml_root_element">PrehladPP</field>
+        <!-- Finančná správa publishes uzsuv/uzvzs schemas for the Súvaha
+             and the VZS, and none for the prehľady — they are filed inside
+             the Úč POD envelope. The absence is the form, not a gap. -->
+        <field name="xml_schema_optional" eval="True"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'A1', 'name': 'A.1. Výsledok hospodárenia pred zdanením',
+                    'kind': 'accounts', 'level': 2, 'sequence': 10,
+                    'account_formula': '-50,-51,-52,-53,-54,-55,-56,-57,-58,-60,-61,-62,-63,-64,-65,-66,-67,-68'}),
+            (0, 0, {'code': 'A2', 'name': 'A.2. Nepeňažné úpravy (odpisy, oprávky, OP, rezervy, odložená daň)',
+                    'kind': 'accounts', 'level': 2, 'sequence': 20,
+                    'account_formula': '-07,-08,-09,-19,-29,-39,-45,-48,-70,-71'}),
+            (0, 0, {'code': 'A3', 'name': 'A.3. Zmena stavu zásob',
+                    'kind': 'accounts', 'level': 2, 'sequence': 30,
+                    'account_formula': '-11,-12,-13'}),
+            (0, 0, {'code': 'A4', 'name': 'A.4. Zmena stavu pohľadávok a záväzkov z prevádzky',
+                    'kind': 'accounts', 'level': 2, 'sequence': 40,
+                    'account_formula': '-31,-32,-33,-34,-35,-36,-37,-38'}),
+            (0, 0, {'code': 'A5', 'name': 'A.5. Zaplatená daň z príjmov',
+                    'kind': 'accounts', 'level': 2, 'sequence': 50,
+                    'account_formula': '-59'}),
+            (0, 0, {'code': 'A', 'name': 'A. Čisté peňažné toky z prevádzkovej činnosti',
+                    'kind': 'aggregate', 'level': 1, 'sequence': 60,
+                    'aggregate_formula': 'A1 + A2 + A3 + A4 + A5'}),
+            (0, 0, {'code': 'B1', 'name': 'B.1. Výdavky/príjmy na obstaranie/predaj dlhodobého majetku',
+                    'kind': 'accounts', 'level': 2, 'sequence': 70,
+                    'account_formula': '-01,-02,-03,-04,-05,-06,-25'}),
+            (0, 0, {'code': 'B', 'name': 'B. Čisté peňažné toky z investičnej činnosti',
+                    'kind': 'aggregate', 'level': 1, 'sequence': 80,
+                    'aggregate_formula': 'B1'}),
+            (0, 0, {'code': 'C1', 'name': 'C.1. Zmena vlastného imania, úverov a dlhodobých záväzkov',
+                    'kind': 'accounts', 'level': 2, 'sequence': 90,
+                    'account_formula': '-41,-42,-43,-46,-47,-23,-24'}),
+            (0, 0, {'code': 'C', 'name': 'C. Čisté peňažné toky z finančnej činnosti',
+                    'kind': 'aggregate', 'level': 1, 'sequence': 100,
+                    'aggregate_formula': 'C1'}),
+            (0, 0, {'code': 'D', 'name': 'D. Čisté zvýšenie/zníženie peňažných prostriedkov',
+                    'kind': 'aggregate', 'level': 0, 'sequence': 110,
+                    'aggregate_formula': 'A + B + C'}),
+            (0, 0, {'code': 'E', 'name': 'E. Stav peňažných prostriedkov na začiatku obdobia',
+                    'kind': 'accounts_open', 'level': 0, 'sequence': 120,
+                    'account_formula': '211,213,221,261'}),
+            (0, 0, {'code': 'F', 'name': 'F. Stav peňažných prostriedkov na konci obdobia',
+                    'kind': 'accounts_close', 'level': 0, 'sequence': 130,
+                    'account_formula': '211,213,221,261'}),
+            (0, 0, {'code': 'G', 'name': 'G. Kontrola (E + D − F = 0)',
+                    'kind': 'aggregate', 'level': 0, 'sequence': 140,
+                    'aggregate_formula': 'E + D - F'}),
+        ]"/>
+    </record>
+
+</odoo>

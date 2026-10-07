@@ -1,0 +1,313 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_vrp2_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-06 12:16+0000\n"
+"PO-Revision-Date: 2026-10-06 12:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_status__connected
+msgid "Connected"
+msgstr "Pripojené"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_status
+msgid ""
+"Connected = a VRP2 session token is held (the token may still expire server-"
+"side; it is refreshed automatically on the next call)."
+msgstr ""
+"Pripojené = je držaný token relácie VRP2 (token môže na strane servera "
+"expirovať; pri ďalšom volaní sa obnoví automaticky)."
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_credentials.py:0
+msgid ""
+"Connected as %(business)s\n"
+"DKP: %(dkp)s\n"
+"Access: %(role)s"
+msgstr ""
+"Prihlásený ako %(business)s\n"
+"DKP: %(dkp)s\n"
+"Prístup: %(role)s"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.module.module,summary:base.module_l10n_sk_vrp2_base
+msgid "Connection layer for the Slovak Virtual Cash Register (VRP 2)"
+msgstr "Pripojovacia vrstva pre virtuálnu registračnú pokladnicu (VRP 2)"
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Credentials for the VRP2 API (vcrp.financnasprava.sk)"
+msgstr "Prihlasovacie údaje pre API VRP2 (vcrp.financnasprava.sk)"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_dic
+msgid "DIČ"
+msgstr "DIČ"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_status__disconnected
+msgid "Disconnected"
+msgstr "Odpojené"
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Information fetched from VRP2 after login"
+msgstr "Údaje načítané z VRP2 po prihlásení"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_ic_dph
+msgid "IČ DPH"
+msgstr "IČ DPH"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_ico
+msgid "IČO"
+msgstr "IČO"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_dkp
+msgid "Kód pokladnice (DKP)"
+msgstr "Kód pokladnice (DKP)"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_token
+msgid ""
+"Live VRP2 session token — anyone holding it can act on the cash register, so"
+" only administrators may read it."
+msgstr ""
+"Živý token relácie VRP2 — kto ho má, môže konať v mene pokladnice, preto ho "
+"smú čítať len správcovia."
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_credentials.py:0
+msgid "Logged out from VRP2."
+msgstr "Odhlásené z VRP2."
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Login"
+msgstr "Prihlásenie"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_login
+msgid "Login (kód pokladnice / kód podnikateľa) from Finančná správa SR."
+msgstr ""
+"Prihlasovacie meno (kód pokladnice / kód podnikateľa) od Finančnej správy "
+"SR."
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Logout"
+msgstr "Odhlásiť"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_round_5c
+msgid ""
+"Mirrors the VRP2 web app toggle 'Zaokrúhľovať na 5 centov'. When on, paid totals are rounded to the nearest 5 cents and the difference is reported in the receipt's roundingAmount/useRounding.\n"
+"This is a CLIENT-SIDE preference in the VRP2 web app (confirmed: toggling it sends nothing to the server and never appears in any API request/response), so it is configured here per register."
+msgstr ""
+"Zodpovedá prepínaču „Zaokrúhľovať na 5 centov“ vo webovej aplikácii VRP2. Ak je zapnutý, uhrádzané sumy sa zaokrúhľujú na 5 centov a rozdiel sa uvádza v roundingAmount/useRounding dokladu.\n"
+"Ide o nastavenie na STRANE KLIENTA webovej aplikácie VRP2 (overené: jeho prepnutie neodošle na server nič a v žiadnej požiadavke/odpovedi API sa neobjaví), preto sa nastavuje tu pre každú pokladnicu."
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_status__not_configured
+msgid "Not configured"
+msgstr "Nenastavené"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_password
+msgid "Password for VRP2 authentication."
+msgstr "Heslo na overenie vo VRP2."
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_role__read
+msgid "Read"
+msgstr "Čítanie"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_round_5c
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Round to 0.05 €"
+msgstr "Zaokrúhľovať na 0,05 €"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.module.module,shortdesc:base.module_l10n_sk_vrp2_base
+msgid "Slovak VRP2 - Base / Connection"
+msgstr "Slovenská VRP2 — základ / pripojenie"
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "The 'requests' Python package is required for VRP2."
+msgstr "Pre VRP2 je potrebný Python balík „requests“."
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_vat_payer
+msgid ""
+"The register's organization.vatPayer, as VRP2 reports it. Sent as vatPayer "
+"on every sale receipt."
+msgstr ""
+"Hodnota organization.vatPayer pokladnice, ako ju hlási VRP2. Odosiela sa ako"
+" vatPayer na každom pokladničnom doklade."
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_credentials.py:0
+msgid "VRP2"
+msgstr "VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "VRP2 - Slovak Virtual Cash Register"
+msgstr "VRP2 — slovenská virtuálna registračná pokladnica"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_business_name
+msgid "VRP2 Business Name"
+msgstr "Obchodné meno vo VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "VRP2 Cash Register Info"
+msgstr "Údaje o pokladnici VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "VRP2 Connection"
+msgstr "Pripojenie VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model,name:l10n_sk_vrp2_base.model_vrp2_credentials_mixin
+msgid "VRP2 Credentials & Session"
+msgstr "Prihlasovacie údaje a relácia VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_last_login
+msgid "VRP2 Last Login"
+msgstr "Posledné prihlásenie do VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_login
+msgid "VRP2 Login"
+msgstr "Prihlasovacie meno VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_password
+msgid "VRP2 Password"
+msgstr "Heslo VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model,name:l10n_sk_vrp2_base.model_vrp2_client
+msgid "VRP2 REST API Client"
+msgstr "Klient REST API VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_register_version
+msgid "VRP2 Register Version"
+msgstr "Verzia pokladnice VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_return_value
+msgid "VRP2 Return Value"
+msgstr "Návratová hodnota VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_role
+msgid "VRP2 Role"
+msgstr "Rola VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_status
+msgid "VRP2 Status"
+msgstr "Stav VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_token
+msgid "VRP2 Token"
+msgstr "Token VRP2"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_vat_payer
+msgid "VRP2 VAT Payer"
+msgstr "Platiteľ DPH podľa VRP2"
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "VRP2 credentials are not configured on holder '%s'."
+msgstr "Na nositeľovi „%s“ nie sú nastavené prihlasovacie údaje VRP2."
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "VRP2 error: %s"
+msgstr "Chyba VRP2: %s"
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "VRP2 login failed: %s"
+msgstr "Prihlásenie do VRP2 zlyhalo: %s"
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "VRP2 login response missing token."
+msgstr "Odpoveď na prihlásenie do VRP2 neobsahuje token."
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid ""
+"VRP2 register setting 'Zaokrúhľovať na 5 centov'. When on, paid totals are "
+"rounded to the nearest 5 cents before fiscalization."
+msgstr ""
+"Nastavenie pokladnice VRP2 „Zaokrúhľovať na 5 centov“. Ak je zapnuté, "
+"uhrádzané sumy sa pred evidovaním zaokrúhlia na 5 centov."
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_credentials.py:0
+msgid "VRP2 — Login successful"
+msgstr "VRP2 — prihlásenie úspešné"
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid ""
+"VRP2: Unsynchronised receipt or location. The system will attempt to re-sync"
+" automatically. Error code: -100"
+msgstr ""
+"VRP2: nesynchronizovaný doklad alebo prevádzka. Systém sa pokúsi o opätovnú "
+"synchronizáciu automaticky. Kód chyby: -100"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_role__write
+msgid "Write"
+msgstr "Zápis"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_register_version
+msgid ""
+"cashRegister.version from the dashboard: a millisecond stamp of the "
+"register's configuration, which moves whenever its settings are changed in "
+"the portal. The web app sends it as the version of every valid receipt "
+"(/v5/receipt/create/valid)."
+msgstr ""
+"cashRegister.version z prehľadu: časová pečiatka (v milisekundách) "
+"konfigurácie pokladnice, ktorá sa mení pri každej zmene jej nastavení na "
+"portáli. Webová aplikácia ju odosiela ako version každého platného dokladu "
+"(/v5/receipt/create/valid)."

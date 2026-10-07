@@ -381,7 +381,7 @@ ANNUAL_DECLARATION_SCENARIOS = [
         "key": "hlasenie_2026",
         "doc": "Annual income-tax report. r00 and r01 are the yearly sums of "
         "the same base and advance the monthly Prehľad reports.",
-        "requires": ["l10n_sk_hr_payroll_hlasenie"],
+        "requires": ["l10n_sk_hr_payroll_annual_tax_report"],
         "model": "l10n.sk.hlasenie",
         "create": {"year": "2026"},
         "expected": {
@@ -422,7 +422,7 @@ DECLARATION_SCENARIOS = [
         "key": "prehlad_2026_03",
         "doc": "Monthly income-tax overview. r01 is the concept whose rule "
         "codes differ per engine, so it is the one most at risk.",
-        "requires": ["l10n_sk_hr_payroll_prehlad"],
+        "requires": ["l10n_sk_hr_payroll_monthly_tax_overview"],
         "model": "l10n.sk.prehlad",
         "create": {"year": "2026", "month": "3"},
         "expected": {

@@ -70,10 +70,13 @@ class AccountEdiXmlUbl_Sk(models.AbstractModel):
         """Refuse a Slovak party with no DIČ, here rather than at the gateway.
 
         The DIČ is no longer guessed from the VAT number, so a partner without
-        one has no participant identifier — and the failure would otherwise
-        surface at the access point as a *validation* error on an unknown
-        participant, which reads as a malformed request and sends whoever is
-        debugging it looking at the payload instead of at the contact.
+        one has no Slovak participant identifier — and the failure would
+        otherwise surface at the access point as a *validation* error on an
+        unknown participant, which reads as a malformed request and sends
+        whoever is debugging it looking at the payload instead of at the
+        contact. Worse, a partner with no DIČ keeps core's 9950 default and
+        would go out under its IČ DPH, which is wrong but perfectly well
+        formed, so nothing would complain at all.
 
         Named per party, so the message says which one to go and fix.
         """
@@ -84,12 +87,26 @@ class AccountEdiXmlUbl_Sk(models.AbstractModel):
         ):
             if partner.country_code != 'SK':
                 continue
-            if partner.peppol_eas == '0245' and not partner._l10n_sk_get_dic():
+            # Gated on the MISSING DIČ alone, not on the partner already being
+            # on 0245. Gating on the scheme missed the case that matters: with
+            # no DIČ recorded, _compute_peppol_eas never promotes the partner,
+            # so it keeps core's 9950 default and sailed straight past this
+            # check — exporting under the IČ DPH, which is the very bug this
+            # module exists to fix. Measured on one real agenda: of 1204
+            # Slovak trading partners with no DIČ, 1076 sat on 9950 and only
+            # 127 on 0245, so the old gate caught about a tenth of them.
+            #
+            # A partner deliberately registered under another scheme is still
+            # fine, as long as its DIČ is recorded — this asks for the number,
+            # not for a particular scheme.
+            if not partner._l10n_sk_get_dic():
                 constraints[f'l10n_sk_ubl_bis3_{role}_dic_required'] = _(
-                    "%(partner)s is identified on Peppol by EAS 0245, which "
-                    "carries the Slovak DIČ, but no DIČ is recorded for it. "
-                    "Set 'DIČ' on the contact — it is not the VAT number and "
-                    "cannot be derived from it.",
+                    "No DIČ is recorded for %(partner)s, so it has no Slovak "
+                    "Peppol participant identifier: EAS 0245 carries the DIČ, "
+                    "and it is currently published as %(eas)s. Set 'DIČ' on the "
+                    "contact — it is not the VAT number and cannot be derived "
+                    "from it.",
                     partner=partner.display_name,
+                    eas=partner.peppol_eas or _("nothing"),
                 )
         return constraints

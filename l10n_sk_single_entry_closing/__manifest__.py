@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Účtovná závierka v jednoduchom účtovníctve",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "summary": "The closing a SZČO keeping jednoduché účtovníctvo files: výkaz "
                "o príjmoch a výdavkoch from the peňažný denník, výkaz o majetku "
                "a záväzkoch from the ledger.",

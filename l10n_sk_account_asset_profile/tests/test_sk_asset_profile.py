@@ -126,3 +126,28 @@ class TestSkAssetProfile(AccountTestInvoicingCommon):
         self.assertEqual(asset.method_number, 6,
                          "the profile's duration must reach the asset")
         self.assertEqual(profile.account_depreciation_id.code, "082000")
+
+    def test_a_company_that_had_its_chart_first_gets_them_once(self):
+        """Installed after the chart, the module used to create nothing: the
+        template only applies when the chart is LOADED. The hook gives them
+        to the company, and running it again changes nothing."""
+        from odoo.addons.l10n_sk_account_asset_profile.hooks import post_init_hook
+
+        Profile = self.env["account.asset.profile"].with_company(self.company)
+        data = self.env["ir.model.data"].search([
+            ("model", "=", "account.asset.profile"),
+            ("res_id", "in", self.profiles.ids)])
+        self.profiles.unlink()
+        data.unlink()
+        self.assertFalse(Profile.search([("company_id", "=", self.company.id)]))
+
+        post_init_hook(self.env)
+        restored = Profile.search([("company_id", "=", self.company.id)])
+        self.assertEqual(len(restored), len(SK_ASSET_PROFILES))
+
+        restored[:1].method_number = 9
+        post_init_hook(self.env)
+        again = Profile.search([("company_id", "=", self.company.id)])
+        self.assertEqual(again, restored, "idempotent")
+        self.assertEqual(restored[:1].method_number, 9,
+                         "an accountant's edit is not reverted")

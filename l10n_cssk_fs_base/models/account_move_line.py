@@ -36,6 +36,17 @@ class AccountMoveLine(models.Model):
         code = self.account_id.code or ""
         if not code:
             return res
+        # The statements read an account under the code it is REPORTED as
+        # (``cssk.statement.account.map``), so the reverse direction must too.
+        # A debit- or credit-only mapping depends on the balance at the period
+        # end, which one posting does not decide: offer both codes and say so.
+        sides = self.env["cssk.statement.account.map"]._cssk_map_for(
+            self.company_id).get(self.account_id.id, {})
+        if "any" in sides:
+            candidates = [(sides["any"], False)]
+        else:
+            candidates = [(code, bool(sides))] + [
+                (alt, True) for alt in sides.values()]
         defs = self.env["cssk.fs.statement.line.def"].search(
             [("kind", "in", ["accounts", "accounts_open", "accounts_close"])]
             + self._cssk_footprint_version_domain())
@@ -51,8 +62,13 @@ class AccountMoveLine(models.Model):
                     version._cssk_tag_codes(),
                 )
             claimed, two_sided, tag_codes = claimed_by_version[version.id]
-            column = self._fs_matching_column(
-                ldef, code, matcher, claimed, version, tag_codes)
+            column, side_dependent = None, False
+            for candidate, by_side in candidates:
+                column = self._fs_matching_column(
+                    ldef, candidate, matcher, claimed, version, tag_codes)
+                if column:
+                    side_dependent = by_side
+                    break
             if not column:
                 continue
             kind = version.statement_kind
@@ -63,7 +79,7 @@ class AccountMoveLine(models.Model):
             name = ldef.name
             if column == "correction":
                 name = _("%s — korekcia", name)
-            if version._cssk_token_code_in(ldef, two_sided):
+            if side_dependent or version._cssk_token_code_in(ldef, two_sided):
                 # The account is on BOTH sides of this form and which row it
                 # reaches depends on the sign of its balance, which a single
                 # posting does not decide. Say so rather than pick.

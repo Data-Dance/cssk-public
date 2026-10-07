@@ -427,3 +427,45 @@ class TestSkCashJournal(AccountTestInvoicingCommon):
         self.assertNotIn("t1a", tables)
         codes = {line.code for line in wizard.line_ids if line.table == "t1b"}
         self.assertEqual(codes, {"r3", "r4"})
+
+    # -- the statutory sheet of the spreadsheet ------------------------
+    def test_the_spreadsheet_opens_with_the_statutory_grid(self):
+        """"Zvlášť stĺpce pre príjem a výdaj v pokladni a zvlášť príjem a
+        výdaj v banke. Tak ako je to v tom pdf." Same figures as the PDF."""
+        import io
+
+        from openpyxl import load_workbook
+
+        self._pay(self._invoice(amount=1000.0))
+        self._pay(self._invoice(move_type="in_invoice", amount=200.0,
+                                account=self.expense_account),
+                  journal=self.cash_journal)
+        self._generate()
+        wizard = self.env["cssk.cash.journal.print"].create({
+            "company_id": self.company.id, "output": "xlsx",
+            "date_from": "2026-01-01", "date_to": "2026-12-31"})
+        content, _ext = self.env["ir.actions.report"]._render_xlsx(
+            "l10n_cssk_cash_journal_base.dennik_xlsx", wizard.ids, data=None)
+        book = load_workbook(io.BytesIO(content), data_only=True)
+        self.assertEqual(book.sheetnames[0], "Peňažný denník")
+        self.assertIn("Cash journal", " ".join(book.sheetnames[1:]),
+                      "the flat sheet for pivoting stays")
+        sheet = book.worksheets[0]
+        header = [c.value for c in sheet[1]]
+        sub = [c.value for c in sheet[2]]
+        for group in ("Pokladnica", "Banka", "Priebežné položky", "DPH"):
+            col = header.index(group)
+            self.assertEqual(sub[col:col + 2], ["príjem", "výdaj"], group)
+        values = self.env["report.l10n_sk_cash_journal.report_penazny_dennik"] \
+            ._sk_dennik_values(self.company, fields.Date.to_date("2026-01-01"),
+                               fields.Date.to_date("2026-12-31"))
+        total_row = [c.value for c in list(sheet.rows)[-1]]
+        self.assertEqual(total_row[3], "Spolu")
+        self.assertAlmostEqual(total_row[header.index("Banka")],
+                               values["totals"]["banka_prijem"], 2)
+        self.assertAlmostEqual(total_row[header.index("Pokladnica") + 1],
+                               values["totals"]["pokladnica_vydaj"], 2)
+        self.assertAlmostEqual(values["totals"]["banka_prijem"], 1000.0, 2)
+        self.assertAlmostEqual(values["totals"]["pokladnica_vydaj"], 200.0, 2)
+        self.assertAlmostEqual(total_row[-1], values["closing_bank"], 2)
+

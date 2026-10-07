@@ -8,6 +8,25 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.6.0] — 2026-10-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **An expense outside an invoice is one row**, carrying both its base and its
+  VAT, as a paid bill already was. An Expenses-app expense or a hand-made entry
+  with a tax used to give two rows, one with the base and one with the VAT
+  under the VAT account's category. Each VAT line is now folded into the base
+  line it was computed on. The money is unchanged: it only moves from a row of
+  its own into the base row's VAT. Reported by a customer's accountant.
+
+Added
+~~~~~
+
+- ``_cssk_write_national``: a hook through which the country module puts its
+  statutory layout first in the spreadsheet.
+
 [19.0.1.5.0] — 2026-09-30
 -------------------------
 

@@ -54,6 +54,62 @@ Added
 - Tests covering format registration, builder mapping, auto-suggestion, and
   export content (CustomizationID, IČ DPH, IBAN, VS).
 
+19.0.3.1.0 (2026-10-03)
+=======================
+
+* **The 9950 → 0245 move is now re-runnable**,
+  ``res.partner.action_l10n_sk_adopt_dic_participant``, and the 19.0.2.0.0
+  migration calls it instead of carrying its own copy.
+
+  It had to be. The migration fires at upgrade, which is *before* anyone has
+  recorded the DIČs it requires, so it legitimately skips almost everything.
+  The DIČs are then recorded — ``partner_autocomplete_orsf_sk`` has
+  ``action_orsf_fill_missing_dic`` — and nothing re-runs the move, because
+  ``_compute_peppol_eas`` will not promote a partner off ``9950``: that is a
+  valid Slovak code, so core's rule treats it as a scheme somebody chose, and
+  this module preserves that.
+
+  The behaviour is reproducible on a clean database: create a Slovak partner
+  with a VAT number and no DIČ (it computes to ``9950``), record the DIČ
+  afterwards, and it stays on ``9950`` through ``flush_all`` and
+  ``invalidate_all``. The export constraint cannot catch that, because the DIČ
+  is present — so it is a wrong identifier, silently, by a different route than
+  the one 3653b4a7 closed.
+
+  Honesty about the scale: a run on a copy of ``19CE-I6-CLEAN`` appeared to
+  leave 1003 partners in that state, and an earlier draft of this entry said so.
+  Re-reading the same database afterwards showed them on ``0245``, with no
+  migration and no adoption call in any log, and the transition could not be
+  reproduced on a clean database. The original state has since been
+  overwritten, so the mechanism is unexplained and that figure is **not**
+  evidence of anything. What justifies this action is the reproducible
+  single-record behaviour above, plus the ordering: the migration fires at
+  upgrade, before the DIČs it needs exist.
+
+  Conservative about overwriting: a partner is moved only if its endpoint is
+  empty or is exactly what core derived from the VAT number. A hand-typed
+  endpoint is somebody's deliberate registration, and is left alone and logged.
+
+19.0.3.0.1 (2026-10-03)
+=======================
+
+* **The export constraint was gated on the wrong thing and caught about a tenth
+  of what it should.** 19.0.3.0.0 refused a Slovak party only when
+  ``peppol_eas == '0245'`` and no DIČ was recorded. But with no DIČ recorded
+  ``_compute_peppol_eas`` never promotes the partner to ``0245`` in the first
+  place — it keeps core's ``9950`` default — so the common case walked straight
+  past the check and exported under the IČ DPH: wrong, but well formed, so
+  nothing complained anywhere.
+
+  Measured on ``19CE-I6-CLEAN`` (RF Elements i6 rebuild, real partner data):
+  of 1204 Slovak trading partners with no DIČ, **1076 sat on 9950 and 127 on
+  0245**. The old gate saw the 127.
+
+  Now gated on the missing DIČ alone. A partner deliberately published under
+  another scheme still passes as long as its DIČ is on file — the constraint
+  asks for the number, not for a particular scheme, so a live 9950 registration
+  is not broken by it.
+
 19.0.3.0.0 (2026-09-26)
 =======================
 

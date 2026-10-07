@@ -11,9 +11,10 @@ declaration lines; this module hands those lines to the shared
 ``l10n_cssk_intrastat_base`` INSTAT renderer to produce the fileable XML.
 
 This is the Community / OCA adapter. It is licensed **AGPL-3** because it
-depends on (subclasses) the AGPL OCA engine. The shared INSTAT renderer itself
-is LGPL-3, so the Enterprise variant — which rides Odoo EE
-``account_intrastat`` instead — can reuse the renderer without inheriting AGPL.
+depends on (subclasses) the AGPL OCA engine. The shared INSTAT renderer is
+AGPL-3 too; the Enterprise variant ``l10n_sk_intrastat_ee`` — which rides Odoo
+EE ``account_intrastat`` instead — reuses it because Data Dance s.r.o. owns it
+outright and dual-licenses it.
 
 Features
 ========
@@ -24,7 +25,7 @@ Features
   shared ``l10n_cssk_intrastat_base`` renderer.
 * Arrivals / dispatches grouped declaration lines computed by the underlying
   OCA engine.
-* LGPL-3 INSTAT renderer is shared with the EE variant so both adapters emit the
+* The INSTAT renderer is shared with the EE variant so both adapters emit the
   identical statutory XML.
 
 Usage

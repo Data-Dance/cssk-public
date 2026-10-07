@@ -5,6 +5,32 @@ Changelog
 All notable changes to **edi_base_peppol** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Fixed
+~~~~~
+
+- **The 19.0.1.4.0 upgrade could not run on a Method A database.** Its
+  post-migrate set the new company settings through ``company.write()``, and
+  core's ``res.company.write()`` calls ``_set_category_defaults()``, which
+  ``stock_account`` overrides to write an ``ir.default`` for
+  ``product.category.property_valuation``. An upgrade builds the registry one
+  module at a time, and this one loads after ``stock_account`` but before
+  ``stock_account_method_a`` — the module that adds ``perpetual`` to that
+  selection — so the write raised *Invalid value for
+  product.category.property_valuation: perpetual* and rolled the whole upgrade
+  back. Retrying re-ran the same migration and failed the same way, so no
+  module on such a database could be upgraded at all. The three company
+  columns are now set in SQL, which never reaches that hook. Found on a
+  customer database, and verified both ways on a scratch 19.0 database with
+  Method A installed and a ``perpetual`` company: the ORM version reproduces
+  the failure, this version upgrades cleanly and writes the same values.
+  There is no automated test — an Odoo migration runs outside the test
+  framework, and the failure needs a real partial registry.
+- A ``peppol.purchase_journal_id`` parameter holding a non-ASCII digit passed
+  ``str.isdigit()`` and then raised in ``int()``, aborting the upgrade.
+
 [19.0.1.5.1] — 2026-10-01
 -------------------------
 

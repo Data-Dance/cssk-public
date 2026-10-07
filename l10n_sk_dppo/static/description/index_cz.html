@@ -1,0 +1,61 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <b>CZ</b> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovensko — přiznání k dani z příjmů právnických osob (DPPO)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenské přiznání DPPO: kompletní sada řádků, mapování hlavičky a export XML validovaný proti XSD dppo2025</h3>
+    <div class="oe_span12">
+      <p>Tato aplikace je slovenskou zemskou vrstvou rámce pro daň z příjmů
+         (<code>l10n_cssk_income_tax_base</code>). Poskytuje formulář <b>DPPOv25</b> — slovenské
+         daňové přiznání k dani z příjmů právnických osob — jako verzovaná data: kompletní sadu
+         řádků těla (r100 … r1192), kde <code>r100</code> (výsledek hospodaření před zdaněním) se
+         počítá z výsledovky a ostatní řádky zadává účetní přes UI pro přepis.</p>
+      <p>Hlavička se mapuje ze společnosti (DIČ, IČO, obchodní jméno, sídlo, zdaňovací období, typ
+         přiznání). Oficiální <b>dppo2025.xsd</b> je přiloženo a export XML je proti němu
+         validován.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Klíčové funkce</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Sada řádků těla DPPOv25 (r100 … r1192) jako verzovaná data.</li>
+        <li><code>r100</code> se počítá automaticky z účetního výsledku; zbytek zadává účetní.</li>
+        <li>Mapování hlavičky ze společnosti (DIČ, IČO, obchodní jméno, sídlo, období, typ
+            přiznání).</li>
+        <li>Export XML validovaný proti oficiálnímu schématu <code>dppo2025</code> (XSD).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použití</h2>
+    <div class="oe_span12">
+      <p><i>Účetnictví ▸ Výkazy ▸ Slovensko ▸ DPPO.</i> Vytvořte přiznání za zdaňovací období,
+         zkontrolujte/zadejte řádky těla (r100 se naplní z výsledovky) a poté <b>Exportovat XML</b>
+         — export je před stažením validován proti <code>dppo2025.xsd</code>.</p>
+      <p><b>Poznámka k rozsahu (v1):</b> modul automaticky počítá účetní výsledek a vytváří
+         schématu odpovídající XML. Transformaci účetnictví→daň (úpravové řádky, odpočet ztráty,
+         slevy na dani, minimální daň) provádí účetní a zadává ji ručně; meziřádkové výpočetní
+         vzorce vyžadují validaci účetním, než budou automatizovány.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydává <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

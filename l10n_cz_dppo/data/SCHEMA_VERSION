@@ -1,0 +1,46 @@
+DPPDP9  05.01.01  ze dne 21. 10. 2025
+
+dppdp9_epo2.xsd   451406  2a1df2ce989d6fa7c4475d5132330f1a
+uv_radky_500.csv   10180  2367b4054819acf261bf036d978cfb37
+
+Structure version of the bundled dppdp9_epo2.xsd, and the row číselník of the
+výkazy filed inside it, pinned by hand.
+
+WHY A FILE AND NOT A FIELD IN THE SCHEMA: there isn't one. `verzePis` is a
+bare xs:string with no fixed value, and the XSD carries no version stamp of its
+own; the Finanční správa overwrites the one file in place (one XSD for every
+zdaňovací období it accepts — currently 2021-2025 and parts of 2026). A stale
+copy validates exactly as cleanly as a current one. This file is the only
+thing that makes a refresh visible; tests/test_cz_dppo.py checks the digests
+and the template's `verzePis` against it.
+
+THE ČÍSELNÍK IS NOT IN THE XSD. VetaUA / VetaUB / VetaUD carry `c_radku` as a
+3-digit decimal and nothing else; which numbers exist, what they designate and
+which rozsah (P / Z / M) they belong to is an EPO application číselník,
+published only as HTML. data/uv_radky_500.csv is that číselník for vyhláška
+500/2002 Sb. (tables A = VetaUA, P = VetaUD, D = VetaUB), extracted from
+  https://adisspr.mfcr.cz/dpr/adis/idpr_pub/hlib/uv_info/info_detail.faces?tabulka=23810&platnost=2025
+  https://adisspr.mfcr.cz/dpr/adis/idpr_pub/hlib/uv_info/info_detail.faces?tabulka=24810&platnost=2025
+  https://adisspr.mfcr.cz/dpr/adis/idpr_pub/hlib/uv_info/info_detail.faces?tabulka=25810&platnost=2025
+(index: .../hlib/uv_info/uv_info.faces?rok=2025). Platnost 2024, 2025 and 2026
+are identical row for row, verified 2026-09-28.
+
+REFRESH PROCEDURE
+  1. Fetch  https://adisspr.mfcr.cz/adis/jepo/schema/dppdp9_epo2.xsd  (plain
+     curl). A miss is HTTP 200 with ZERO bytes — test the size, not the code.
+  2. Compare against data/dppdp9_epo2.xsd byte for byte.
+  3. Read Verze / Ze dne from
+     https://adisspr.mfcr.cz/dpr/adis/idpr_pub/epo2_info/popis_struktury_detail.faces?zkratka=DPPDP9
+  4. Re-extract the three číselník tables for the new platnost and diff them
+     against data/uv_radky_500.csv.
+  5. If anything moved: replace the files, update the lines at the top of this
+     file, the `verzePis` literal in report/dppo_report.xml, and the mapping in
+     models/dppdp9_vykazy.py. Nothing keeps them in step automatically; the
+     tests only make the drift loud.
+
+VERIFIED 2026-09-28: the copy bundled since 2026-07-04 differed from the
+published file in one byte range only — the order of the alternatives in the
+Prilohy/@kod pattern (PP_ZVKAP|PP_UZMUS|PP_PTOK|PP_OPISPUV), which accepts the
+same values. Replaced by the published file anyway, so the digest is the
+authority's. The template's `verzePis` said 05.01; the published structure is
+05.01.01.

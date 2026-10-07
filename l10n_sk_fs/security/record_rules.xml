@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_l10n_sk_uzpod_company" model="ir.rule">
+        <field name="name">SK účtovná závierka (UZPOD): multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_uzpod"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_poznamky_company" model="ir.rule">
+        <field name="name">SK poznámky: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_poznamky"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_l10n_sk_poznamky_odpis_line_company" model="ir.rule">
+        <field name="name">SK poznámky odpis line: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_poznamky_odpis_line"/>
+        <field name="domain_force">[('poznamky_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

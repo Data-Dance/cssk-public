@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cssk_receipt_form_sk_ekasa" model="ir.ui.view">
+        <field name="name">cssk.receipt.form.sk.ekasa</field>
+        <field name="model">cssk.receipt</field>
+        <field name="inherit_id" ref="l10n_cssk_receipt_capture.view_cssk_receipt_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='receipt_uid']" position="after">
+                <field name="l10n_sk_ekasa_okp"/>
+                <field name="l10n_sk_ekasa_is_paragon"/>
+            </xpath>
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_l10n_sk_ekasa_open_calls" type="object"
+                            class="oe_stat_button" icon="fa-exchange"
+                            invisible="l10n_sk_ekasa_call_count == 0">
+                        <field name="l10n_sk_ekasa_call_count" widget="statinfo"
+                               string="Lookups"/>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

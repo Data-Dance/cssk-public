@@ -2,6 +2,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "QR Platba (Czech Republic)",
+    "summary": "Czech QR Platba payment QR code on invoices — the Czech Banking Association short "
+        "payment descriptor (SPD) every Czech banking app reads, pre-filling IBAN, amount, "
+        "currency, message and the variable symbol.",
     "version": "19.0.1.1.1",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",

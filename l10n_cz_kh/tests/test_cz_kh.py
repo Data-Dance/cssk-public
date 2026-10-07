@@ -729,3 +729,13 @@ class TestCzKh(AccountTestInvoicingCommon):
         move.action_post()
         mixed = move.line_ids.filtered(lambda line: len(line.tax_ids) > 1)
         self.assertFalse(mixed.cssk_control_section_code)
+
+
+    def test_a_czech_row_keeps_whitespace_in_its_identity(self):
+        """The Czech KH writes ``c_evid_dd`` as stored, so whitespace can tell
+        two documents apart there. Only the Slovak form, which cannot carry
+        it, identifies its rows without it."""
+        Row = self.env["l10n.cz.kh.a4"]
+        self.assertNotEqual(
+            Row.new({"partner_vat": "CZ25856294", "entry_ref": "AB 12"})._kv_identity(),
+            Row.new({"partner_vat": "CZ25856294", "entry_ref": "AB12"})._kv_identity())

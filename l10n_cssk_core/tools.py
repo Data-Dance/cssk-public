@@ -36,7 +36,7 @@ ICO_LENGTH = 8
 #: it, so ``1``, ``19``, ``27`` … all satisfy the arithmetic once zero-padded,
 #: and **10 000** values of five digits or fewer would be accepted as IČOs.
 #: Every genuine IČO is written with at least six (the oldest carry leading
-#: zeros -- ``00614556``, ``00216054`` -- and are printed as ``614556``), so
+#: zeros -- ``00610003``, ``00210005`` -- and are printed as ``610003``), so
 #: this floor rejects all 10 000 and costs nothing real.
 ICO_MIN_DIGITS = 6
 #: Weights applied to the first seven digits by the mod-11 check.
@@ -47,8 +47,8 @@ def normalize_registry(value):
     """Canonical STORAGE form of a CZ/SK company registry (IČO).
 
     Whitespace goes and the number is zero-padded to eight digits, so the
-    register's ``00 585 441`` and a user's ``585441`` both become
-    ``00585441``. The leading zeros are significant and are KEPT — a Czech
+    register's ``00 580 007`` and a user's ``580007`` both become
+    ``00580007``. The leading zeros are significant and are KEPT — a Czech
     IČO is printed with them, and dropping them corrupts the number on an
     invoice.
 
@@ -56,10 +56,10 @@ def normalize_registry(value):
     :data:`ICO_LENGTH` digits is returned with only its outer whitespace
     trimmed. This function never destroys an unrecognised value: the caller
     sees back what was typed, so a validation error can quote it, and a
-    foreign registry (``HRB 6089``, ``93-1564675``) passes through untouched.
+    foreign registry (``HRB 12345``, ``12-3456789``) passes through untouched.
 
     **The lower bound is load-bearing, not tidiness.** Padding is what makes
-    ``614556`` and ``00614556`` the same number — but pad with no floor and
+    ``610003`` and ``00610003`` the same number — but pad with no floor and
     ``1`` becomes ``00000001``, which satisfies the check digit. The floor in
     :func:`is_valid_ico` cannot catch that on its own, because by the time it
     looks there are eight digits. Both functions must refuse the same short
@@ -99,7 +99,7 @@ def is_valid_ico(value):
     ``11 - remainder`` — except that a remainder of 0 gives 1 and a remainder
     of 1 gives 0.
 
-    An unpadded number is accepted (``614556`` is ``00614556``), but not one
+    An unpadded number is accepted (``610003`` is ``00610003``), but not one
     shorter than :data:`ICO_MIN_DIGITS` — see there for why the check digit
     alone is not enough.
 
@@ -196,10 +196,10 @@ def company_name_similarity(left, right):
     one that was **calibrated against the register**. Measured on 45 real
     Slovak companies (stored name vs the name ORSF returned): 44 scored
     exactly 1.000, including every case where the raw strings differed —
-    ``DEMI Šport plus`` vs ``DEMI šport plus`` (case), ``spol. s r.o.`` vs
-    ``spol.s r.o.`` (spacing), ``Europe Express s. r. o.`` vs ``Europe
+    ``ALFA Šport plus`` vs ``ALFA šport plus`` (case), ``spol. s r.o.`` vs
+    ``spol.s r.o.`` (spacing), ``GAMA Express s. r. o.`` vs ``GAMA
     Express, s. r. o.`` (comma). The single outlier scored 0.716:
-    ``Nakladatelství FORUM s.r.o.`` against the register's ``…, organizačná
+    ``Nakladatelství EPSILON s.r.o.`` against the register's ``…, organizačná
     zložka``, which is a real difference and belongs in review.
 
     Swapping in a cleverer ratio would move those numbers and invalidate the

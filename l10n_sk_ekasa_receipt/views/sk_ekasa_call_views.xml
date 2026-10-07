@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sk_ekasa_call_list" model="ir.ui.view">
+        <field name="name">sk.ekasa.call.list</field>
+        <field name="model">sk.ekasa.call</field>
+        <field name="arch" type="xml">
+            <list string="eKasa Verification Calls" create="false"
+                  decoration-danger="outcome in ('refused', 'transport')"
+                  decoration-warning="outcome == 'not_found'">
+                <field name="called_at"/>
+                <field name="request_key"/>
+                <field name="receipt_id"/>
+                <field name="outcome" widget="badge"
+                       decoration-success="outcome == 'found'"/>
+                <field name="http_status" optional="hide"/>
+                <field name="return_value" optional="hide"/>
+                <field name="message" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_sk_ekasa_call_form" model="ir.ui.view">
+        <field name="name">sk.ekasa.call.form</field>
+        <field name="model">sk.ekasa.call</field>
+        <field name="arch" type="xml">
+            <form string="eKasa Verification Call" create="false" edit="false">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="called_at"/>
+                            <field name="request_key"/>
+                            <field name="receipt_id"/>
+                        </group>
+                        <group>
+                            <field name="outcome"/>
+                            <field name="http_status"/>
+                            <field name="return_value"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="message" readonly="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sk_ekasa_call" model="ir.actions.act_window">
+        <field name="name">eKasa Verification Calls</field>
+        <field name="res_model">sk.ekasa.call</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_sk_ekasa_call"
+              name="eKasa Verification Log"
+              parent="l10n_cssk_receipt_capture.menu_cssk_receipt_root"
+              action="action_sk_ekasa_call"
+              sequence="30"/>
+</odoo>

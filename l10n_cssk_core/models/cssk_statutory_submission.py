@@ -1264,19 +1264,65 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
     # map per period window with a single grouped query and do the prefix
     # matching in Python.
 
-    def _cssk_balances_by_account_code(self, domain, company=None):
-        """``{account_code: summed balance}`` of the ``account.move.line``
-        records matching ``domain`` — one ``_read_group`` (grouped by
-        account). ``company`` resolves the company-dependent account code."""
+    def _cssk_balance_groups(self, domain, company=None, as_of=False):
+        """``{reported_code: [summed balance, [account ids]]}`` of the
+        ``account.move.line`` records matching ``domain`` — one
+        ``_read_group`` (grouped by account). ``company`` resolves the
+        company-dependent account code and its statement account mapping
+        (``cssk.statement.account.map``); ``as_of`` says the window is a
+        cumulative balance, the only one a debit- or credit-only mapping
+        applies to."""
         groups = self.env["account.move.line"]._read_group(
             domain, groupby=["account_id"], aggregates=["balance:sum"])
-        balances = {}
+        Map = self.env["cssk.statement.account.map"]
+        mapping = Map._cssk_map_for(company) if company else {}
+        result = {}
         for account, balance in groups:
             if company:
                 account = account.with_company(company)
-            code = account.code or ""
-            balances[code] = balances.get(code, 0.0) + (balance or 0.0)
-        return balances
+            balance = balance or 0.0
+            code = Map._cssk_reported_code(
+                mapping, account.id, account.code or "", balance, as_of)
+            entry = result.setdefault(code, [0.0, []])
+            entry[0] += balance
+            entry[1].append(account.id)
+        return result
+
+    def _cssk_balances_by_account_code(self, domain, company=None,
+                                       as_of=False):
+        """``{account_code: summed balance}`` — see ``_cssk_balance_groups``;
+        the code is the one the account is REPORTED under."""
+        return {
+            code: entry[0]
+            for code, entry in self._cssk_balance_groups(
+                domain, company=company, as_of=as_of).items()
+        }
+
+    def _cssk_account_balance_domain(self, date_from, date_to):
+        """The ``account.move.line`` domain behind
+        ``_cssk_account_balance_map`` — shared with the drill-down, so the
+        journal items a row opens are the ones its figure was summed from."""
+        self.ensure_one()
+        domain = [
+            ("parent_state", "=", "posted"),
+            ("company_id", "=", self.company_id.id),
+            ("date", "<=", date_to),
+        ]
+        if date_from:
+            domain.append(("date", ">=", date_from))
+        closing = self.company_id.l10n_cssk_closing_journal_ids
+        if closing:
+            domain.append(("journal_id", "not in", closing.ids))
+        return domain
+
+    def _cssk_account_balance_groups(self, date_from, date_to):
+        """``_cssk_account_balance_map`` with the account ids kept."""
+        self.ensure_one()
+        if not date_to:
+            return {}
+        return self._cssk_balance_groups(
+            self._cssk_account_balance_domain(date_from, date_to),
+            company=self.company_id, as_of=not date_from)
 
     def _cssk_account_balance_map(self, date_from, date_to):
         """The statement's posted balances per account code for a period
@@ -1290,18 +1336,9 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         self.ensure_one()
         if not date_to:
             return {}
-        domain = [
-            ("parent_state", "=", "posted"),
-            ("company_id", "=", self.company_id.id),
-            ("date", "<=", date_to),
-        ]
-        if date_from:
-            domain.append(("date", ">=", date_from))
-        closing = self.company_id.l10n_cssk_closing_journal_ids
-        if closing:
-            domain.append(("journal_id", "not in", closing.ids))
         return self._cssk_balances_by_account_code(
-            domain, company=self.company_id)
+            self._cssk_account_balance_domain(date_from, date_to),
+            company=self.company_id, as_of=not date_from)
 
     # ------------------------------------------------------------------
     # Shared evaluator plumbing: ONE account-code matcher
@@ -1389,7 +1426,7 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
     @api.model
     def _cssk_eval_formula(self, formula, balances, conds=None,
                            default_sign=1.0, claimed=None, tag_codes=None,
-                           two_sided=None):
+                           two_sided=None, contributors=None):
         """Signed sum of ``{account_code: balance}`` matching ``formula``.
 
         ``formula`` is a comma-separated list of account-code prefixes; a
@@ -1428,7 +1465,11 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         account is gated on its OWN balance: a positive token takes only debit
         balances, a negative token only credit ones. Without the gate the same
         balance lands on both sides at once and the sheet foots to double the
-        truth. Left ``None`` the gate is off and every prefix sums as before."""
+        truth. Left ``None`` the gate is off and every prefix sums as before.
+
+        ``contributors``, when a set is passed, receives every code that added
+        to the total — what the row's drill-down must open, decided by this
+        matcher and not by a second reading of the formula."""
         if two_sided and default_sign < 0:
             # The gate reads the token's own '-' so that it says which SIDE of
             # the sheet the row is claiming, independent of a caller's global
@@ -1460,18 +1501,23 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
                     if negated != (balance < 0):
                         continue
                 total += sign * balance
+                if contributors is not None:
+                    contributors.add(code)
         for low, high, mode, csign in (conds or []):
-            in_range = [balance for code, balance in balances.items()
+            in_range = [(code, balance) for code, balance in balances.items()
                         if code and low <= code < high]
             if mode == "pos_each":
-                total += csign * sum(b for b in in_range if b > 0)
+                taken = [(c, b) for c, b in in_range if b > 0]
             elif mode == "neg_each":
-                total += csign * sum(b for b in in_range if b < 0)
+                taken = [(c, b) for c, b in in_range if b < 0]
             else:
-                net = sum(in_range)
-                if mode == "sum" or (mode == "pos" and net > 0) \
-                        or (mode == "neg" and net < 0):
-                    total += csign * net
+                net = sum(b for _c, b in in_range)
+                taken = in_range if (
+                    mode == "sum" or (mode == "pos" and net > 0)
+                    or (mode == "neg" and net < 0)) else []
+            total += csign * sum(b for _c, b in taken)
+            if contributors is not None:
+                contributors.update(c for c, _b in taken)
         return total
 
     @api.model

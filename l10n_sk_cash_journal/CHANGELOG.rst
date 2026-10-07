@@ -8,6 +8,18 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-04
+-------------------------
+
+Added
+~~~~~
+
+- **The spreadsheet opens with the peňažný denník in its statutory layout**:
+  pokladnica, banka, priebežné položky and DPH, each with príjem and výdaj, then
+  the breakdown columns and the running balances. It uses the same figures as
+  the PDF, read from the same computation. The flat sheet for pivoting
+  follows. Asked for by a customer's accountant.
+
 [19.0.1.0.4] — 2026-09-28
 -------------------------
 

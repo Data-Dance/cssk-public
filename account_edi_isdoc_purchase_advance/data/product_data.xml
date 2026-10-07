@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+
+    <record id="product_imported_advance" model="product.product">
+        <field name="name">Advance payment (imported)</field>
+        <field name="type">service</field>
+        <field name="purchase_ok" eval="True" />
+        <field name="sale_ok" eval="False" />
+        <field name="list_price">0.0</field>
+        <field name="standard_price">0.0</field>
+        <field name="supplier_taxes_id" eval="[(5, 0, 0)]" />
+    </record>
+
+</odoo>

@@ -5,27 +5,15 @@
 valid code for the country, which is how a scheme somebody chose deliberately
 survives an upgrade. The side effect is that every Slovak partner already
 carrying ``9950`` keeps it — and almost all of them carry it because core
-*defaulted* them there, not because anyone chose it. Leaving them would publish
-the whole address book under the wrong scheme, which is the thing this release
-exists to stop.
+*defaulted* them there, not because anyone chose it.
 
-So the move is made here, once, explicitly, and only where it is safe:
-
-* the partner must be Slovak;
-* it must currently be on ``9950``;
-* a DIČ must be RECORDED on the partner. It is deliberately not derived from
-  the VAT number (see ``_l10n_sk_get_dic``), so on most databases this is the
-  condition that skips rows, and the log is the list of contacts needing the
-  DIČ entered before they can be e-invoiced. Flipping the scheme without a number to publish would leave the old
-  IČ DPH sitting in ``peppol_endpoint`` labelled as a DIČ, because
-  ``_compute_peppol_endpoint`` keeps the previous value when the new one is
-  empty;
-* and the endpoint it currently holds must be the one core derived from the VAT
-  number. A partner whose endpoint was typed by hand is left alone: that is a
-  deliberate registration, and a migration has no business overruling it.
-
-Anything skipped is logged with its id, so the set that needs a human is a
-grep rather than a guess.
+The work itself lives in ``res.partner.action_l10n_sk_adopt_dic_participant``
+rather than here, because this migration cannot be the only way to run it. It
+fires at upgrade, which is *before* anyone has had the chance to record the DIČs
+it requires, so on a fresh upgrade it legitimately skips almost everything. The
+DIČs get recorded afterwards — ``partner_autocomplete_orsf_sk`` has
+``action_orsf_fill_missing_dic`` for that — and at that point the move has to be
+runnable again. One implementation, two callers.
 """
 
 import logging
@@ -48,29 +36,14 @@ def migrate(cr, version):
         return
 
     candidates = Partner.with_context(active_test=False).search(
-        [("peppol_eas", "=", "9950"), ("country_id.code", "=", "SK")]
+        [("peppol_eas", "!=", "0245"), ("country_id.code", "=", "SK")]
     )
-    moved, skipped = Partner, []
-    for partner in candidates:
-        dic = partner._l10n_sk_get_dic()
-        if not dic:
-            skipped.append((partner.id, "no DIČ recorded — enter it to publish this partner on Peppol"))
-            continue
-        # What core would have put there for 9950 is the sanitised VAT.
-        expected = (partner.vat or "").strip().upper().replace(" ", "")
-        current = (partner.peppol_endpoint or "").strip().upper()
-        if current and current != expected:
-            skipped.append((partner.id, "hand-set endpoint %r" % partner.peppol_endpoint))
-            continue
-        partner.write({"peppol_eas": "0245", "peppol_endpoint": dic})
-        moved |= partner
-
+    moved = candidates.action_l10n_sk_adopt_dic_participant()
     _logger.info(
-        "l10n_sk_ubl_bis3: moved %s Slovak partner(s) from 9950 to 0245.",
-        len(moved),
+        "l10n_sk_ubl_bis3: upgrade moved %s of %s Slovak partner(s) onto "
+        "0245. Any left behind are waiting on a DIČ — record them "
+        "(partner_autocomplete_orsf_sk: 'Fill missing DIČ') and re-run "
+        "action_l10n_sk_adopt_dic_participant; this migration will not fire "
+        "again.",
+        len(moved), len(candidates),
     )
-    for partner_id, why in skipped:
-        _logger.warning(
-            "l10n_sk_ubl_bis3: res.partner(%s) left on 9950 — %s.",
-            partner_id, why,
-        )

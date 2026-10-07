@@ -6,7 +6,7 @@
     "license": "AGPL-3",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.4.0",
     "summary": """
 Completes Partner information from the Slovak state registers via https://orsf.sk
     """,

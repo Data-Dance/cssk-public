@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The UZPODv14 header choices live on the statement, which is what
+         gets filed (see cssk.fs.statement in models/cssk_fs_statement.py). -->
+    <record id="cssk_fs_statement_view_form_uzpod" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.form.uzpod</field>
+        <field name="model">cssk.fs.statement</field>
+        <field name="inherit_id" ref="l10n_cssk_fs_base.cssk_fs_statement_view_form"/>
+        <field name="arch" type="xml">
+            <field name="date_to" position="after">
+                <field name="l10n_sk_is_uzpod" invisible="1"/>
+                <field name="l10n_sk_size_class" invisible="not l10n_sk_is_uzpod"
+                       required="l10n_sk_is_uzpod"/>
+                <field name="l10n_sk_statement_nature" invisible="not l10n_sk_is_uzpod"
+                       required="l10n_sk_is_uzpod"/>
+                <field name="l10n_sk_poznamky_attached" invisible="not l10n_sk_is_uzpod"/>
+            </field>
+        </field>
+    </record>
+</odoo>

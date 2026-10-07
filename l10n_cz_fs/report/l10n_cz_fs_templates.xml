@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      CZ Rozvaha / Výkaz zisku a ztráty — emits the full statutory line set
+      (data-driven: one <Radek> per cssk.fs.statement.line). The CZ financial
+      statements are filed as appendices to the income-tax return (DPPDP9 — the
+      "Vybrané údaje z Rozvahy / Výsledovky") and to the commercial register
+      (sbírka listin); this structured export feeds those. bezne = current
+      period, minule = prior period. No single standalone EPO XSD exists for the
+      full závěrka, so no schema is wired here.
+    -->
+    <template id="rozvaha_2025">
+        <Rozvaha>
+            <Hlavicka>
+                <Dic t-out="company.vat or ''"/>
+                <Nazev t-out="company.name or ''"/>
+                <Rok t-out="statement.date_to.year"/>
+                <TypZaverky t-out="statement.submission_type"/>
+            </Hlavicka>
+            <Telo>
+                <t t-foreach="lines" t-as="line">
+                    <Radek t-att-kod="line.code"
+                           t-att-nazev="line.name"
+                           t-att-bezne="'%.2f' % line.current_value"
+                           t-att-minule="'%.2f' % line.prior_value"/>
+                </t>
+            </Telo>
+        </Rozvaha>
+    </template>
+
+    <template id="vysledovka_2025">
+        <Vysledovka>
+            <Hlavicka>
+                <Dic t-out="company.vat or ''"/>
+                <Nazev t-out="company.name or ''"/>
+                <Rok t-out="statement.date_to.year"/>
+                <TypZaverky t-out="statement.submission_type"/>
+            </Hlavicka>
+            <Telo>
+                <t t-foreach="lines" t-as="line">
+                    <Radek t-att-kod="line.code"
+                           t-att-nazev="line.name"
+                           t-att-bezne="'%.2f' % line.current_value"
+                           t-att-minule="'%.2f' % line.prior_value"/>
+                </t>
+            </Telo>
+        </Vysledovka>
+    </template>
+
+    <!--
+      Přehled o peněžních tocích (nepřímá metoda) — structured stand-in: it is a
+      component of the příloha, filed as PDF / within the commercial-register
+      submission; there is no standalone EPO XSD for it. bezne = current period,
+      minule = prior period.
+    -->
+    <template id="cashflow_2025">
+        <PrehledPT>
+            <Hlavicka>
+                <Dic t-out="company.vat or ''"/>
+                <Nazev t-out="company.name or ''"/>
+                <Rok t-out="statement.date_to.year"/>
+                <TypZaverky t-out="statement.submission_type"/>
+            </Hlavicka>
+            <Telo>
+                <t t-foreach="lines" t-as="line">
+                    <Radek t-att-kod="line.code"
+                           t-att-nazev="line.name"
+                           t-att-bezne="'%.2f' % line.current_value"
+                           t-att-minule="'%.2f' % line.prior_value"/>
+                </t>
+            </Telo>
+        </PrehledPT>
+    </template>
+
+    <!-- Přehled o změnách vlastního kapitálu — structured stand-in (příloha
+         component, no standalone EPO XSD). -->
+    <template id="zmeny_vk_2025">
+        <PrehledVK>
+            <Hlavicka>
+                <Dic t-out="company.vat or ''"/>
+                <Nazev t-out="company.name or ''"/>
+                <Rok t-out="statement.date_to.year"/>
+                <TypZaverky t-out="statement.submission_type"/>
+            </Hlavicka>
+            <Telo>
+                <t t-foreach="lines" t-as="line">
+                    <Radek t-att-kod="line.code"
+                           t-att-nazev="line.name"
+                           t-att-bezne="'%.2f' % line.current_value"
+                           t-att-minule="'%.2f' % line.prior_value"/>
+                </t>
+            </Telo>
+        </PrehledVK>
+    </template>
+</odoo>

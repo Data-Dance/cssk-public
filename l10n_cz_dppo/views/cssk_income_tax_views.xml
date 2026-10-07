@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cssk_income_tax_return_view_form_cz_vykazy" model="ir.ui.view">
+        <field name="name">cssk.income.tax.return.form.cz.vykazy</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="inherit_id" ref="l10n_cssk_income_tax_base.cssk_income_tax_return_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='provision']" position="before">
+                <field name="l10n_cz_country_code" invisible="1"/>
+                <field name="l10n_cz_filing_code" invisible="1"/>
+                <group string="Druh přiznání" name="l10n_cz_return_header"
+                       invisible="l10n_cz_country_code != 'CZ'">
+                    <field name="l10n_cz_return_kind"
+                           readonly="state not in ('draft', 'preview')"/>
+                    <field name="l10n_cz_period_kind"
+                           readonly="state not in ('draft', 'preview')"/>
+                    <field name="l10n_cz_taxpayer_kind"
+                           readonly="state not in ('draft', 'preview')"/>
+                    <field name="l10n_cz_discovery_date"
+                           invisible="l10n_cz_filing_code not in ('D', 'E')"
+                           required="l10n_cz_country_code == 'CZ' and l10n_cz_filing_code in ('D', 'E')"/>
+                </group>
+                <group string="Financial statements filed with the return"
+                       name="l10n_cz_vykazy"
+                       invisible="l10n_cz_country_code != 'CZ'">
+                    <field name="l10n_cz_fs_balance_sheet_id"
+                           readonly="state not in ('draft', 'preview')"/>
+                    <field name="l10n_cz_fs_profit_loss_id"
+                           readonly="state not in ('draft', 'preview')"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

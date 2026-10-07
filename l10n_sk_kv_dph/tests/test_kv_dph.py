@@ -1,10 +1,11 @@
 import base64
+from unittest.mock import patch
 
 from lxml import etree
 
 from odoo import Command
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -311,6 +312,39 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         with self.assertRaisesRegex(UserError, "commodity code"):
             st.action_export_xml()
 
+    def test_a2_commodity_code_is_bounded_by_the_statute(self):
+        """§ 69 ods. 12 names chapters: f) 10 and 12, g) 72 + 7301/7308/7314."""
+        Product = self.env["product.product"]
+        for goods, code in (("f", "1001"), ("f", "1205"), ("g", "7208"),
+                            ("g", "7301"), ("g", "7308"), ("g", "7314")):
+            Product.create({"name": code, "l10n_sk_kv_rc_goods": goods,
+                            "l10n_sk_kv_cn_code": code})
+        for goods, code in (("f", "8517"), ("f", "7208"), ("g", "1001"),
+                            ("g", "7302"), ("g", "7310"), ("g", "abcd")):
+            with self.assertRaises(ValidationError, msg=(goods, code)):
+                Product.create({"name": code, "l10n_sk_kv_rc_goods": goods,
+                                "l10n_sk_kv_cn_code": code})
+        # changing the category re-checks a code typed earlier
+        product = Product.create({"name": "Kukurica", "l10n_sk_kv_rc_goods": "f",
+                                  "l10n_sk_kv_cn_code": "1005"})
+        with self.assertRaises(ValidationError):
+            product.l10n_sk_kv_rc_goods = "g"
+
+    def test_a2_inherited_commodity_code_outside_the_chapters_is_not_filed(self):
+        """The realistic failure: the product's HS code, reused as the fallback,
+        is not one anybody chose for KV DPH — a phone flagged písm. f)."""
+        grain = self.env["product.product"].create({
+            "name": "Pšenica", "l10n_sk_kv_rc_goods": "f"})
+        self._rc_goods_invoice(
+            [(grain, 2.0, self.env.ref("uom.product_uom_ton"), 300.0)])
+        with patch.object(type(grain), "_l10n_sk_kv_cn_code",
+                          lambda product: "8517"):
+            st = self._make_statement()
+            st.action_compute_lines()
+        self.assertEqual(st.sk_section_a2_ids.goods_code, "8517")
+        with self.assertRaisesRegex(UserError, r"outside the chapters.*\(8517\)"):
+            st.action_export_xml()
+
     def test_a2_other_69_12_supplies_carry_only_the_base(self):
         """Scrap, construction work: no category, no goods attributes."""
         service = self.env["product.product"].create({"name": "Stavebné práce"})
@@ -355,12 +389,22 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         aggregate. Asserted on the rendered XML rather than on the row,
         because the section a vzor does not have is exactly the kind of error
         that an optional attribute would let through silently."""
+        receipt = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2015-06-05",
+            amounts=[100.0], taxes=self.tax_purchase, post=False)
+        receipt.l10n_sk_kv_is_simplified = True
+        receipt.action_post()
         version = self.env.ref("l10n_sk_kv_dph.kvdph_version_2014")
         st = self._statement_for(version, "2015-06-01", "2015-06-30")
         st.action_compute_lines()
+        # ⚠️ This test used to create no receipt, so it passed while B.3 was
+        # never written at all: the section was computed and then left out of
+        # ``_collect_sections_by_code``, which the export reads.
+        self.assertEqual(len(st._collect_sections_by_code()["B.3"]), 1)
         st.action_export_xml()
         xml = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
         tags = {etree.QName(el).localname for el in xml.iter()}
+        self.assertIn("B3", tags, "the simplified receipt must be filed")
         self.assertNotIn("B31", tags, "the B.3 split did not exist until 2016")
         self.assertNotIn("B32", tags)
 
@@ -634,7 +678,7 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         two in A.1; that filing is the outlier.
         """
         czech = self.env["res.partner"].create({
-            "name": "Romana bez IC DPH",
+            "name": "Jana bez IC DPH",
             "country_id": self.env.ref("base.cz").id,
         })
         invoice = self.init_invoice(
@@ -998,6 +1042,56 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
             [c for c in base.mapped("cssk_control_section_code") if c], ["C.1"],
             "an ordinary rated credit note is exactly what C.1 reports",
         )
+
+    def test_a_row_is_identified_by_the_reference_the_form_carries(self):
+        """A filed statement holds the reference stripped of whitespace, so a
+        comparison keyed on the stored spelling never met it: 3 694 rows of a
+        migrated i6 agenda read as two one-sided differences each."""
+        row = self.env["l10n.sk.kv.dph.section.b1"].new({
+            "partner_vat": "PL8942520778", "entry_ref": "FV 1/06/2024"})
+        filed = self.env["l10n.sk.kv.dph.section.b1"].new({
+            "partner_vat": "PL8942520778", "entry_ref": "FV1/06/2024"})
+        self.assertEqual(row._kv_identity(), filed._kv_identity())
+        self.assertEqual(row.entry_ref, "FV 1/06/2024",
+                         "the stored spelling is untouched")
+
+    def test_a_bare_country_code_is_no_vat_number(self):
+        """`US` and nothing file the same optional `Dod`; a row must not read
+        as two one-sided differences because one side wrote the placeholder."""
+        B1 = self.env["l10n.sk.kv.dph.section.b1"]
+        self.assertEqual(
+            B1.new({"partner_vat": "US", "entry_ref": "MC22931247"})._kv_identity(),
+            B1.new({"partner_vat": False, "entry_ref": "MC22931247"})._kv_identity())
+        self.assertNotEqual(
+            B1.new({"partner_vat": "CZ25856294", "entry_ref": "X"})._kv_identity(),
+            B1.new({"partner_vat": False, "entry_ref": "X"})._kv_identity(),
+            "a real number is still part of the identity")
+
+    def test_an_older_baseline_with_spaces_still_matches(self):
+        """A chained dodatočný baseline snapshotted before the identity dropped
+        whitespace must still name the same row, or an unchanged document
+        would be stornoed and re-added."""
+        key = self._make_statement()._kv_identity_key
+        self.assertEqual(key(["PL8942520778", "FV 1/06/2024", 20.0]),
+                         key(("PL8942520778", "FV1/06/2024", 20.0)))
+
+    def test_a_recompute_clears_rows_of_a_section_the_version_lacks(self):
+        """B.3 rows computed under the 2014 vzor must not survive a recompute
+        under a later one: the clear used to walk only the CURRENT version's
+        sections, and B.3 is now exported whenever the statement holds it."""
+        receipt = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2015-06-05",
+            amounts=[100.0], taxes=self.tax_purchase, post=False)
+        receipt.l10n_sk_kv_is_simplified = True
+        receipt.action_post()
+        st = self._statement_for(
+            self.env.ref("l10n_sk_kv_dph.kvdph_version_2014"),
+            "2015-06-01", "2015-06-30")
+        st.action_compute_lines()
+        self.assertTrue(st.sk_section_b3_ids)
+        st.version_id = self.env.ref("l10n_sk_kv_dph.kvdph_version_2016")
+        st.action_compute_lines()
+        self.assertFalse(st.sk_section_b3_ids)
 
     def test_dodatocny_delta_kopr(self):
         """A dodatočný KV reports only the delta vs the original, tagged kód
@@ -1632,6 +1726,189 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         st = self._make_statement()
         st.action_compute_lines()
         self.assertEqual(self._c1_fo(st), [invoice.name.replace(" ", "")])
+
+    # --- O from the tax repartition (accountant review, 2026-10-03) ----------------
+    def _partial_tax(self, base_tax, deductible_pct, name):
+        """``base_tax`` with ``deductible_pct`` of its VAT on the VAT account
+        and the rest onto the expense, as a vehicle at 50 % is set up."""
+        vat_leg = base_tax.invoice_repartition_line_ids.filtered(
+            lambda r: r.repartition_type == "tax" and r.factor_percent > 0)[:1]
+
+        def legs():
+            out = [Command.create({"repartition_type": "base"}),
+                   Command.create({"repartition_type": "tax",
+                                   "factor_percent": deductible_pct,
+                                   "account_id": vat_leg.account_id.id,
+                                   "tag_ids": [Command.set(vat_leg.tag_ids.ids)]})]
+            if deductible_pct < 100:
+                out.append(Command.create({"repartition_type": "tax",
+                                           "factor_percent": 100 - deductible_pct,
+                                           "use_in_tax_closing": False}))
+            return out
+        return base_tax.copy({
+            "name": name,
+            "invoice_repartition_line_ids": [Command.clear()] + legs(),
+            "refund_repartition_line_ids": [Command.clear()] + legs(),
+        })
+
+    def test_a_half_deduction_files_half_in_O(self):
+        """"do stĺpca Odpočítaná daň musí ísť len tých 50 %" — from the tax."""
+        half = self._partial_tax(self.tax_purchase, 50, "23 % 50/50")
+        self.init_invoice("in_invoice", partner=self.partner_a,
+                          invoice_date="2026-06-12", amounts=[1000.0],
+                          taxes=half, post=True)
+        st = self._make_statement()
+        st.action_compute_lines()
+        b2 = st.sk_section_b2_ids
+        self.assertEqual(len(b2), 1)
+        self.assertAlmostEqual(b2.tax_amount, 10.0 * half.amount, 2,
+                               msg="D is the whole tax charged")
+        self.assertAlmostEqual(b2.deducted_amount, 5.0 * half.amount, 2,
+                               msg="O is the half the return deducts")
+        st.action_export_xml()
+        root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
+        row = [el for el in root.iter() if etree.QName(el).localname == "B2"][0]
+        self.assertEqual(row.get("O"), "%.2f" % (5.0 * half.amount))
+
+    def test_a_self_assessed_tax_without_deduction_files_zero_O(self):
+        """"Purchase EU bez nároku na odpočet": 100 % payable, 0 % deductible.
+        B.1 still reports the tax, and O is 0.00."""
+        rc = self.env["account.tax"].search([
+            ("company_id", "=", self.company.id),
+            ("type_tax_use", "=", "purchase"),
+            ("cssk_control_is_reverse_charge", "=", True),
+            ("amount", ">", 0)], limit=1)
+        self.assertTrue(rc, "fixture: the SK chart ships a self-assessed purchase tax")
+
+        def legs(repartition):
+            out = [Command.create({"repartition_type": "base"})]
+            for leg in repartition.filtered(lambda r: r.repartition_type == "tax"):
+                vals = {"repartition_type": "tax",
+                        "factor_percent": leg.factor_percent,
+                        "account_id": leg.account_id.id,
+                        "tag_ids": [Command.set(leg.tag_ids.ids)]}
+                if leg.factor_percent > 0:   # the deduction leg: onto the expense
+                    vals.update(account_id=False, use_in_tax_closing=False,
+                                tag_ids=[Command.clear()])
+                out.append(Command.create(vals))
+            return out
+        no_deduction = rc.copy({
+            "name": "Purchase EU bez nároku na odpočet",
+            "invoice_repartition_line_ids": [Command.clear()] + legs(rc.invoice_repartition_line_ids),
+            "refund_repartition_line_ids": [Command.clear()] + legs(rc.refund_repartition_line_ids),
+        })
+        self.init_invoice("in_invoice", partner=self.partner_a,
+                          invoice_date="2026-06-12", amounts=[1000.0],
+                          taxes=no_deduction, post=True)
+        st = self._make_statement()
+        st.action_compute_lines()
+        b1 = st.sk_section_b1_ids
+        self.assertEqual(len(b1), 1)
+        self.assertAlmostEqual(b1.tax_amount, 10.0 * rc.amount, 2,
+                               msg="D: the tax is still computed and payable")
+        self.assertAlmostEqual(b1.deducted_amount, 0.0, 2, msg="O: nothing deducted")
+
+    def test_a_full_self_assessed_deduction_is_unchanged(self):
+        rc = self.env["account.tax"].search([
+            ("company_id", "=", self.company.id),
+            ("type_tax_use", "=", "purchase"),
+            ("cssk_control_is_reverse_charge", "=", True),
+            ("amount", ">", 0)], limit=1)
+        self.init_invoice("in_invoice", partner=self.partner_a,
+                          invoice_date="2026-06-12", amounts=[1000.0],
+                          taxes=rc, post=True)
+        st = self._make_statement()
+        st.action_compute_lines()
+        b1 = st.sk_section_b1_ids
+        self.assertAlmostEqual(b1.deducted_amount, b1.tax_amount, 2)
+        self.assertTrue(b1.tax_amount)
+
+    def test_a_half_deduction_on_receipts_reaches_b31(self):
+        half = self._partial_tax(self.tax_purchase, 50, "PHM 50/50")
+        bill = self.init_invoice("in_invoice", partner=self.partner_a,
+                                 invoice_date="2026-06-05", amounts=[100.0],
+                                 taxes=half, post=False)
+        bill.l10n_sk_kv_is_simplified = True
+        bill.action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        b31 = st.sk_section_b31_ids
+        self.assertAlmostEqual(b31.total_tax_amount, half.amount, 2)
+        self.assertAlmostEqual(b31.total_deducted_amount, half.amount / 2, 2)
+
+    # --- a credit note to a D.2 supply stays in D.2 --------------------
+    def test_a_credit_note_to_a_private_individual_reduces_d2(self):
+        """"Dobropis k vystavenej faktúre, ktorá patrila pôvodne do D2, patrí
+        tiež do D2." It used to go to C.1, which A.1 never fed."""
+        person = self.env["res.partner"].create({"name": "Súkromná osoba"})
+        invoice = self.init_invoice(
+            "out_invoice", partner=person, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_sale, post=True)
+        credit = self.init_invoice(
+            "out_refund", partner=person, invoice_date="2026-06-19",
+            amounts=[300.0], taxes=self.tax_sale, post=False)
+        credit.reversed_entry_id = invoice
+        credit.action_post()
+        self.assertEqual(
+            credit.line_ids.filtered("tax_ids")[:1].cssk_control_section_code, "D.2")
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertFalse(st._collect_sections_by_code().get("C.1"),
+                         "nothing in C.1")
+        d2 = st.sk_section_d2_ids
+        self.assertAlmostEqual(sum(d2.mapped("total_tax_base")), 700.0, 2)
+        self.assertAlmostEqual(sum(d2.mapped("total_tax_amount")),
+                               7.0 * self.rate_s, 2)
+        st.action_export_xml()   # and it still files
+
+    def test_a_credit_note_to_a_business_is_still_c1(self):
+        credit = self._credit(cssk_control_original_ref="FV2026/0042")
+        self.assertEqual(
+            credit.line_ids.filtered("tax_ids")[:1].cssk_control_section_code, "C.1")
+
+    # --- C.2 original from the vendor credit note's Source Document ----
+    def _vendor_credit(self, **vals):
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.write(dict(ref="DOB-77", **vals))
+        credit.action_post()
+        return credit
+
+    def _c2_original(self):
+        st = self._make_statement()
+        st.action_compute_lines()
+        return st._collect_sections_by_code()["C.2"].entry_ref_original
+
+    def test_a_vendor_credit_note_reads_its_source_document(self):
+        self._vendor_credit(invoice_origin="DF-2026-0315")
+        self.assertEqual(self._c2_original(), "DF-2026-0315")
+
+    def test_the_typed_original_wins_over_the_source_document(self):
+        self._vendor_credit(invoice_origin="DF-2026-0315",
+                            cssk_control_original_ref="DF-2026-0316")
+        self.assertEqual(self._c2_original(), "DF-2026-0316")
+
+    def test_a_purchase_order_name_is_not_read_as_the_invoice(self):
+        """A vendor credit note raised from a PO carries the ORDER there."""
+        if "purchase.order" not in self.env:
+            self.skipTest("purchase not installed")
+        order = self.env["purchase.order"].create({
+            "partner_id": self.partner_a.id, "company_id": self.company.id})
+        self._vendor_credit(invoice_origin="%s, X" % order.name)
+        st = self._make_statement()
+        st.action_compute_lines()
+        with self.assertRaisesRegex(UserError, "invoice being corrected"):
+            st.action_export_xml()
+
+    def test_a_sales_credit_note_does_not_read_the_sales_order(self):
+        """invoice_origin on the sales side is the order number, not the
+        invoice: it must not be filed as FO."""
+        self._credit(invoice_origin="S00042")
+        st = self._make_statement()
+        st.action_compute_lines()
+        with self.assertRaisesRegex(UserError, "invoice being corrected"):
+            st.action_export_xml()
 
 
 

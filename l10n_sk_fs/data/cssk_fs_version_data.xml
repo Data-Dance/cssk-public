@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      SK účtovná závierka — full statutory line structure (Opatrenie MF SR pre
+      podnikateľov účtujúcich v sústave podvojného účtovníctva). Súvaha (Úč POD
+      1) + Výkaz ziskov a strát (Úč POD 2) v druhovom členení. Every account of
+      the l10n_sk účtová osnova is mapped to exactly one leaf line (partition
+      verified in tests) so the aggregates reconcile: SPOLU MAJETOK = SPOLU
+      VLASTNÉ IMANIE A ZÁVÄZKY, and VH = výnosy − náklady. A.V (výsledok bežného
+      obdobia) is computed from triedy 5/6 so the súvaha ties out before the
+      result is closed to účtu 431.
+
+      Dlhodobé/krátkodobé pohľadávky & záväzky splits and the opravná-položka
+      allocations follow the standard osnova convention — confirm with a SK
+      accountant for entities using non-standard account assignments.
+    -->
+
+
+</odoo>

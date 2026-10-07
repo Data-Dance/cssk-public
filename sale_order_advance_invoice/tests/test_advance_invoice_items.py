@@ -1,4 +1,4 @@
-"""Itemised advance invoices (ADATEX ID 39/87).
+"""Itemised advance invoices (a customer request, ticket 39/87).
 
 The generic Advance product carries one VAT rate, so an order mixing rates could
 never be advanced correctly: the rate reached the ledger through the tax

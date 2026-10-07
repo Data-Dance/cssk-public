@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      CZ účetní závěrka — full statutory line structure (vyhláška 500/2002 Sb.).
+      Rozvaha: plný-rozsah group + selected numbered lines; Výkaz zisku a ztráty
+      v druhovém členění. Each chart account (l10n_cz směrná osnova) is mapped to
+      exactly one leaf line (verified partition) so the aggregates reconcile:
+      AKTIVA = PASIVA and VHB = revenues − costs. A.V (výsledek běžného období)
+      is computed from class 5/6 (open-year) so the balance sheet ties out even
+      before the result is closed to 431.
+
+      Dlouhodobé/krátkodobé receivable & payable splits and the opravné-položka
+      allocations follow the standard chart convention — confirm with a CZ
+      accountant for entities using non-standard account assignments.
+
+      The aktiva rows carrying oprávky / opravné položky state them in
+      account_formula_correction rather than netted into account_formula,
+      because the Rozvaha is filed in brutto / korekce / netto columns
+      (DPPDP9 VetaUA: kc_brutto, kc_korekce, kc_netto) and a single net
+      figure cannot be split back. Netto is unchanged by the split. 094 (OP
+      k nedokončenému DHM) belongs to B.II., not B.I.
+    -->
+    <record id="rozvaha_version_2025" model="cssk.fs.statement.version">
+        <field name="name">Rozvaha 2025</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="statement_kind">balance_sheet</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_fs.rozvaha_2025"/>
+        <field name="xml_root_element">Rozvaha</field>
+        <!-- No XSD is published for the Czech accounting statements:
+             they are filed as attachments inside the DPPO envelope. The
+             absence is the form, not a missing file. -->
+        <field name="xml_schema_optional" eval="True"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'A_ZK', 'name': 'A. Pohledávky za upsaný základní kapitál',
+                    'kind': 'accounts', 'account_formula': '353', 'level': 1, 'sequence': 10}),
+            (0, 0, {'code': 'BI', 'name': 'B.I. Dlouhodobý nehmotný majetek',
+                    'kind': 'accounts', 'account_formula': '012,013,014,015,016,017,019,040,041,050,051',
+                    'account_formula_correction': '072,073,074,075,079,091,093', 'level': 2, 'sequence': 20}),
+            (0, 0, {'code': 'BII', 'name': 'B.II. Dlouhodobý hmotný majetek',
+                    'kind': 'accounts', 'account_formula': '021,022,025,026,027,029,031,032,042,052,097',
+                    'account_formula_correction': '081,082,085,086,089,092,094,095,098', 'level': 2, 'sequence': 30}),
+            (0, 0, {'code': 'BIII', 'name': 'B.III. Dlouhodobý finanční majetek',
+                    'kind': 'accounts', 'account_formula': '061,062,063,065,066,067,068,069,043,053',
+                    'account_formula_correction': '096', 'level': 2, 'sequence': 40}),
+            (0, 0, {'code': 'B', 'name': 'B. Stálá aktiva',
+                    'kind': 'aggregate', 'aggregate_formula': 'BI + BII + BIII', 'level': 1, 'sequence': 50}),
+            (0, 0, {'code': 'CI', 'name': 'C.I. Zásoby',
+                    'kind': 'accounts', 'account_formula': '10,11,12,13,14,15,16,17,18',
+                    'account_formula_correction': '19', 'level': 2, 'sequence': 60}),
+            (0, 0, {'code': 'CII', 'name': 'C.II. Pohledávky',
+                    'kind': 'accounts', 'account_formula': '311,312,313,314,315,335,343001,343112,343115,343121,351,352,354,355,358,371,373,374,375,376,378,388,395',
+                    'account_formula_correction': '391', 'level': 2, 'sequence': 70}),
+            (0, 0, {'code': 'CIII', 'name': 'C.III. Krátkodobý finanční majetek',
+                    'kind': 'accounts', 'account_formula': '251,253,254,256,257,258,259',
+                    'account_formula_correction': '291', 'level': 2, 'sequence': 80}),
+            (0, 0, {'code': 'CIV', 'name': 'C.IV. Peněžní prostředky',
+                    'kind': 'accounts', 'account_formula': '211,213,221,261', 'level': 2, 'sequence': 90}),
+            (0, 0, {'code': 'C', 'name': 'C. Oběžná aktiva',
+                    'kind': 'aggregate', 'aggregate_formula': 'CI + CII + CIII + CIV', 'level': 1, 'sequence': 100}),
+            (0, 0, {'code': 'D_A', 'name': 'D. Časové rozlišení aktiv',
+                    'kind': 'accounts', 'account_formula': '381,382,385', 'level': 1, 'sequence': 110}),
+            (0, 0, {'code': 'AKTIVA', 'name': 'AKTIVA CELKEM',
+                    'kind': 'aggregate', 'aggregate_formula': 'A_ZK + B + C + D_A', 'level': 0, 'sequence': 120}),
+            (0, 0, {'code': 'AI', 'name': 'A.I. Základní kapitál',
+                    'kind': 'accounts', 'account_formula': '-411,-419,-252', 'level': 2, 'sequence': 130}),
+            (0, 0, {'code': 'AII', 'name': 'A.II. Ážio a kapitálové fondy',
+                    'kind': 'accounts', 'account_formula': '-412,-413,-414,-416,-417,-418', 'level': 2, 'sequence': 140}),
+            (0, 0, {'code': 'AIII', 'name': 'A.III. Fondy ze zisku',
+                    'kind': 'accounts', 'account_formula': '-421,-422,-423,-424,-427', 'level': 2, 'sequence': 150}),
+            (0, 0, {'code': 'AIV', 'name': 'A.IV. Výsledek hospodaření minulých let',
+                    'kind': 'accounts', 'account_formula': '-426,-428,-429,-431,-491', 'level': 2, 'sequence': 160}),
+            (0, 0, {'code': 'AV', 'name': 'A.V. Výsledek hospodaření běžného účetního období',
+                    'kind': 'accounts', 'account_formula': '-5,-6', 'level': 2, 'sequence': 170}),
+            (0, 0, {'code': 'AVI', 'name': 'A.VI. Rozhodnuto o zálohové výplatě podílu na zisku',
+                    'kind': 'accounts', 'account_formula': '-432', 'level': 2, 'sequence': 180}),
+            (0, 0, {'code': 'VK', 'name': 'A. Vlastní kapitál',
+                    'kind': 'aggregate', 'aggregate_formula': 'AI + AII + AIII + AIV + AV + AVI', 'level': 1, 'sequence': 190}),
+            (0, 0, {'code': 'BREZ', 'name': 'B. Rezervy',
+                    'kind': 'accounts', 'account_formula': '-451,-452,-453,-459', 'level': 1, 'sequence': 200}),
+            (0, 0, {'code': 'CIP', 'name': 'C.I. Dlouhodobé závazky',
+                    'kind': 'accounts', 'account_formula': '-461,-471,-472,-473000,-473100,-474,-475,-478,-479,-481', 'level': 2, 'sequence': 210}),
+            (0, 0, {'code': 'CIIP', 'name': 'C.II. Krátkodobé závazky',
+                    'kind': 'accounts', 'account_formula': '-321,-322,-324,-325,-331,-333,-336,-341,-342,-343000,-343002,-343212,-343215,-343221,-345,-346,-347,-349,-361,-362,-364,-365,-366,-367,-368,-372,-377,-379,-389,-398,-231,-232,-241,-249,-255,-473200', 'level': 2, 'sequence': 220}),
+            (0, 0, {'code': 'CZAV', 'name': 'C. Závazky',
+                    'kind': 'aggregate', 'aggregate_formula': 'CIP + CIIP', 'level': 1, 'sequence': 230}),
+            (0, 0, {'code': 'D_P', 'name': 'D. Časové rozlišení pasiv',
+                    'kind': 'accounts', 'account_formula': '-383,-384', 'level': 1, 'sequence': 240}),
+            (0, 0, {'code': 'PASIVA', 'name': 'PASIVA CELKEM',
+                    'kind': 'aggregate', 'aggregate_formula': 'VK + BREZ + CZAV + D_P', 'level': 0, 'sequence': 250}),
+        ]"/>
+    </record>
+
+    <record id="vysledovka_version_2025" model="cssk.fs.statement.version">
+        <field name="name">Výkaz zisku a ztráty 2025</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="statement_kind">profit_loss</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_fs.vysledovka_2025"/>
+        <field name="xml_root_element">Vysledovka</field>
+        <!-- No XSD is published for the Czech accounting statements:
+             they are filed as attachments inside the DPPO envelope. The
+             absence is the form, not a missing file. -->
+        <field name="xml_schema_optional" eval="True"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'I', 'name': 'I. Tržby z prodeje výrobků a služeb',
+                    'kind': 'accounts', 'account_formula': '-601,-602', 'level': 1, 'sequence': 10}),
+            (0, 0, {'code': 'II', 'name': 'II. Tržby za prodej zboží',
+                    'kind': 'accounts', 'account_formula': '-604', 'level': 1, 'sequence': 20}),
+            (0, 0, {'code': 'A1', 'name': 'A.1. Náklady vynaložené na prodané zboží',
+                    'kind': 'accounts', 'account_formula': '504', 'level': 2, 'sequence': 30}),
+            (0, 0, {'code': 'A2', 'name': 'A.2. Spotřeba materiálu a energie',
+                    'kind': 'accounts', 'account_formula': '501,502,503', 'level': 2, 'sequence': 40}),
+            (0, 0, {'code': 'A3', 'name': 'A.3. Služby',
+                    'kind': 'accounts', 'account_formula': '511,512,513,518', 'level': 2, 'sequence': 50}),
+            (0, 0, {'code': 'A', 'name': 'A. Výkonová spotřeba',
+                    'kind': 'aggregate', 'aggregate_formula': 'A1 + A2 + A3', 'level': 1, 'sequence': 60}),
+            (0, 0, {'code': 'Bzm', 'name': 'B. Změna stavu zásob vlastní činnosti (+/−)',
+                    'kind': 'accounts', 'account_formula': '581,582,583,584', 'level': 1, 'sequence': 70}),
+            (0, 0, {'code': 'Cakt', 'name': 'C. Aktivace (−)',
+                    'kind': 'accounts', 'account_formula': '585,586,587,588', 'level': 1, 'sequence': 80}),
+            (0, 0, {'code': 'D1', 'name': 'D.1. Mzdové náklady',
+                    'kind': 'accounts', 'account_formula': '521,522,523', 'level': 2, 'sequence': 90}),
+            (0, 0, {'code': 'D2', 'name': 'D.2. Náklady na sociální zabezpečení, zdravotní pojištění a ostatní',
+                    'kind': 'accounts', 'account_formula': '524,525,526,527,528', 'level': 2, 'sequence': 100}),
+            (0, 0, {'code': 'D', 'name': 'D. Osobní náklady',
+                    'kind': 'aggregate', 'aggregate_formula': 'D1 + D2', 'level': 1, 'sequence': 110}),
+            (0, 0, {'code': 'E', 'name': 'E. Úpravy hodnot v provozní oblasti',
+                    'kind': 'accounts', 'account_formula': '551,557,558,559', 'level': 1, 'sequence': 120}),
+            (0, 0, {'code': 'III1', 'name': 'III.1. Tržby z prodaného dlouhodobého majetku',
+                    'kind': 'accounts', 'account_formula': '-641', 'level': 2, 'sequence': 130}),
+            (0, 0, {'code': 'III2', 'name': 'III.2. Tržby z prodaného materiálu',
+                    'kind': 'accounts', 'account_formula': '-642', 'level': 2, 'sequence': 140}),
+            (0, 0, {'code': 'III3', 'name': 'III.3. Jiné provozní výnosy',
+                    'kind': 'accounts', 'account_formula': '-643,-644,-645,-646,-647,-648,-649,-697,-699', 'level': 2, 'sequence': 150}),
+            (0, 0, {'code': 'III', 'name': 'III. Ostatní provozní výnosy',
+                    'kind': 'aggregate', 'aggregate_formula': 'III1 + III2 + III3', 'level': 1, 'sequence': 160}),
+            (0, 0, {'code': 'F1', 'name': 'F.1. Zůstatková cena prodaného dlouhodobého majetku',
+                    'kind': 'accounts', 'account_formula': '541', 'level': 2, 'sequence': 170}),
+            (0, 0, {'code': 'F2', 'name': 'F.2. Prodaný materiál',
+                    'kind': 'accounts', 'account_formula': '542', 'level': 2, 'sequence': 180}),
+            (0, 0, {'code': 'F3', 'name': 'F.3. Daně a poplatky v provozní oblasti',
+                    'kind': 'accounts', 'account_formula': '531,532,538', 'level': 2, 'sequence': 190}),
+            (0, 0, {'code': 'F4', 'name': 'F.4. Rezervy v provozní oblasti a komplexní náklady příštích období',
+                    'kind': 'accounts', 'account_formula': '552,554,555', 'level': 2, 'sequence': 200}),
+            (0, 0, {'code': 'F5', 'name': 'F.5. Jiné provozní náklady',
+                    'kind': 'accounts', 'account_formula': '543,544,545,546,547,548,549,597', 'level': 2, 'sequence': 210}),
+            (0, 0, {'code': 'F', 'name': 'F. Ostatní provozní náklady',
+                    'kind': 'aggregate', 'aggregate_formula': 'F1 + F2 + F3 + F4 + F5', 'level': 1, 'sequence': 220}),
+            (0, 0, {'code': 'PROV', 'name': '* Provozní výsledek hospodaření',
+                    'kind': 'aggregate', 'aggregate_formula': 'I + II + III - A - Bzm - Cakt - D - E - F', 'level': 0, 'sequence': 230}),
+            (0, 0, {'code': 'IV', 'name': 'IV. Výnosy z dlouhodobého finančního majetku – podíly',
+                    'kind': 'accounts', 'account_formula': '-665', 'level': 1, 'sequence': 240}),
+            (0, 0, {'code': 'VI', 'name': 'VI. Výnosové úroky a podobné výnosy',
+                    'kind': 'accounts', 'account_formula': '-662,-666', 'level': 1, 'sequence': 250}),
+            (0, 0, {'code': 'VII', 'name': 'VII. Ostatní finanční výnosy',
+                    'kind': 'accounts', 'account_formula': '-660,-661,-663,-664,-667,-668,-669,-698', 'level': 1, 'sequence': 260}),
+            (0, 0, {'code': 'G', 'name': 'G. Náklady vynaložené na prodané podíly',
+                    'kind': 'accounts', 'account_formula': '561', 'level': 1, 'sequence': 270}),
+            (0, 0, {'code': 'Hfin', 'name': 'H. Náklady související s ostatním dlouhodobým finančním majetkem',
+                    'kind': 'accounts', 'account_formula': '566', 'level': 1, 'sequence': 280}),
+            (0, 0, {'code': 'Ifin', 'name': 'I. Úpravy hodnot a rezervy ve finanční oblasti',
+                    'kind': 'accounts', 'account_formula': '564,574,579', 'level': 1, 'sequence': 290}),
+            (0, 0, {'code': 'J', 'name': 'J. Nákladové úroky a podobné náklady',
+                    'kind': 'accounts', 'account_formula': '562', 'level': 1, 'sequence': 300}),
+            (0, 0, {'code': 'K', 'name': 'K. Ostatní finanční náklady',
+                    'kind': 'accounts', 'account_formula': '560,563,565,567,568,569,598', 'level': 1, 'sequence': 310}),
+            (0, 0, {'code': 'FIN', 'name': '* Finanční výsledek hospodaření',
+                    'kind': 'aggregate', 'aggregate_formula': 'IV + VI + VII - G - Hfin - Ifin - J - K', 'level': 0, 'sequence': 320}),
+            (0, 0, {'code': 'VHB', 'name': '** Výsledek hospodaření před zdaněním',
+                    'kind': 'aggregate', 'aggregate_formula': 'PROV + FIN', 'level': 0, 'sequence': 330}),
+            (0, 0, {'code': 'L1', 'name': 'L.1. Daň z příjmů splatná',
+                    'kind': 'accounts', 'account_formula': '591,593,595,599', 'level': 2, 'sequence': 340}),
+            (0, 0, {'code': 'L2', 'name': 'L.2. Daň z příjmů odložená',
+                    'kind': 'accounts', 'account_formula': '592', 'level': 2, 'sequence': 350}),
+            (0, 0, {'code': 'L', 'name': 'L. Daň z příjmů',
+                    'kind': 'aggregate', 'aggregate_formula': 'L1 + L2', 'level': 1, 'sequence': 360}),
+            (0, 0, {'code': 'VHA', 'name': '** Výsledek hospodaření po zdanění',
+                    'kind': 'aggregate', 'aggregate_formula': 'VHB - L', 'level': 0, 'sequence': 370}),
+            (0, 0, {'code': 'M', 'name': 'M. Převod podílu na výsledku hospodaření společníkům (+/−)',
+                    'kind': 'accounts', 'account_formula': '596', 'level': 1, 'sequence': 380}),
+            (0, 0, {'code': 'VHU', 'name': '*** Výsledek hospodaření za účetní období',
+                    'kind': 'aggregate', 'aggregate_formula': 'VHA - M', 'level': 0, 'sequence': 390}),
+            (0, 0, {'code': 'COBR', 'name': '* Čistý obrat za účetní období',
+                    'kind': 'aggregate', 'aggregate_formula': 'I + II + III + IV + VI + VII', 'level': 0, 'sequence': 400}),
+        ]"/>
+    </record>
+
+</odoo>

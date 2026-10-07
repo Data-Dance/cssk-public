@@ -1,0 +1,55 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <p class="oe_mt8" style="text-align:right;">🌐 <a href="index.html">EN</a> · <a href="index_cz.html">CZ</a> · <b>SK</b></p>
+        <h2 class="oe_slogan">Daňové priznanie k dani z príjmov právnických osôb (DPPO)</h2>
+        <h3 class="oe_slogan" style="color:#875A7B;">ř.10 z výkazu ziskov a strát, ručné úpravy a výpočtová chrbtica II. oddielu, export ako validované EPO XML DPPDP9</h3>
+        <div class="oe_span12">
+            <p>
+                Česká národná vrstva pre rámec dane z príjmov (<code>l10n_cssk_income_tax_base</code>).
+                Zostavuje daňové priznanie k dani z príjmov právnických osôb (DPPDP9): <b>ř.10</b>
+                (výsledok hospodárenia pred zdanením) sa počíta z výkazu ziskov a strát, úpravy zadáva
+                účtovník a výpočtová chrbtica II. oddielu (základ dane → daň 21 % → daň po úľavách) je aritmetická.
+                Export vytvára oficiálne EPO XML <code>Pisemnost</code>/<code>DPPDP9</code>, validované voči
+                priloženému oficiálnemu XSD DPPDP9.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+        <ul>
+            <li><b>ř.10 z výkazu ziskov a strát</b> — výsledok hospodárenia pred zdanením sa počíta ako trieda 6 − trieda 5, bez účtov dane z príjmov 591–599.</li>
+            <li><b>Ručné úpravy</b> — pripočítateľné / odpočítateľné položky (ř.20–170), odpočet daňovej straty a odpočty podľa § 34 (ř.230 / ř.240) a úľavy na dani (ř.300) zadáva účtovník a vstupujú do chrbtice.</li>
+            <li><b>Výpočtová chrbtica II. oddielu</b> — výpočet ř.10 → ř.340 je aritmetický: základ dane → zaokrúhlenie → daň 21 % (§ 21 ods. 1) → daň po úľavách → celková daňová povinnosť.</li>
+            <li><b>Mapovanie na oficiálne EPO</b> — každý riadok chrbtice sa mapuje na svoj oficiálny atribút <code>VetaO/@kc_ii*</code>; emitujú sa iba nenulové riadky chrbtice.</li>
+            <li><b>Validovaný export</b> — EPO XML <code>Pisemnost</code>/<code>DPPDP9</code> sa pred priložením validuje voči priloženému oficiálnemu XSD DPPDP9.</li>
+            <li><b>Typy priznania</b> — Řádné (B), Opravné (O) a Dodatečné (E) sú dodané ako verzové dáta.</li>
+        </ul>
+    </div>
+</section>
+
+<section class="oe_container">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+        <p>
+            Vytvorte daňové priznanie k dani z príjmov za spoločnosť a obdobie, zvoľte typ priznania
+            (Řádné / Opravné / Dodatečné) a vypočítajte riadky: ř.10 sa odvodí z výkazu ziskov a strát a daňová
+            chrbtica sa vyhodnotí automaticky. Pripočítateľné / odpočítateľné položky, odpočet daňovej straty a
+            odpočty podľa § 34 a úľavy na dani zadajte ručne, prepočítajte a potom exportujte EPO XML
+            <code>Pisemnost</code>/<code>DPPDP9</code> — pred priložením sa validuje voči priloženému XSD DPPDP9.
+            Prílohové tabuľky (odpisy, § 23e výpožičné náklady, zápočet dane zo zahraničia, investičné fondy) a
+            prílohy účtovnej závierky sú mimo rozsahu; pred ostrým podaním overte kódy hlavičky VetaD
+            (<code>typ_dapdpp</code> / <code>typ_zo</code> / <code>typ_popldpp</code>) a úplnú sadu úprav
+            s českým účtovníkom.
+        </p>
+    </div>
+</section>
+
+<section class="oe_container">
+    <div class="oe_span12" style="text-align:center;">
+        Vydáva <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a>,
+        <small>Licencia: Data Dance Proprietary License v1.0</small>.
+    </div>
+</section>

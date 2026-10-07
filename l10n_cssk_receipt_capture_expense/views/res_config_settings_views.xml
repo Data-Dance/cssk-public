@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_receipt_expense" model="ir.ui.view">
+        <field name="name">res.config.settings.form.receipt.expense</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='cssk_receipt_block']" position="inside">
+                <setting string="Receipt Expense Category">
+                    <field name="cssk_receipt_expense_product_id"/>
+                </setting>
+                <setting string="Capture on Expense Upload"
+                         help="When receipt images are uploaded in the Expenses app, create a captured receipt for each and try the capture providers">
+                    <field name="cssk_receipt_capture_on_expense_upload"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

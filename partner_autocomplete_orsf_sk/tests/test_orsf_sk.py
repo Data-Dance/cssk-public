@@ -531,7 +531,7 @@ class TestOrsfBulkRefresh(TransactionCase):
             {"name": "Stary nazov a", "company_registry": "31333532"}
         )
         cls.b = cls.env["res.partner"].create(
-            {"name": "Stary nazov b", "company_registry": "00695599"}
+            {"name": "Stary nazov b", "company_registry": "00690007"}
         )
         cls.no_ico = cls.env["res.partner"].create({"name": "Bez ICO"})
 
@@ -554,7 +554,7 @@ class TestOrsfBulkRefresh(TransactionCase):
     def test_bulk_refresh_writes_identity_and_reports(self):
         records = {
             "31333532": dict(LOOKUP, name="ESET, spol. s r.o."),
-            "00695599": dict(LOOKUP, ico="00695599", name="ELCOM s.r.o.",
+            "00690007": dict(LOOKUP, ico="00690007", name="Príklad B s.r.o.",
                              icDph="SK2020517895"),
         }
         with patch(
@@ -564,9 +564,9 @@ class TestOrsfBulkRefresh(TransactionCase):
         ) as bus:
             (self.a | self.b | self.no_ico).action_orsf_bulk_refresh()
         # One call, and the partner with no IČO never reaches the register.
-        self.assertEqual(sorted(batch.call_args.args[0]), ["00695599", "31333532"])
+        self.assertEqual(sorted(batch.call_args.args[0]), ["00690007", "31333532"])
         self.assertEqual(self.a.name, "ESET, spol. s r.o.")
-        self.assertEqual(self.b.name, "ELCOM s.r.o.")
+        self.assertEqual(self.b.name, "Príklad B s.r.o.")
         self.assertEqual(self.no_ico.name, "Bez ICO")
         self.assertIn("without a usable IČO", bus.call_args.args[1]["message"])
 

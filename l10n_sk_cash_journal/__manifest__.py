@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Peňažný denník (jednoduché účtovníctvo / daňová evidencia)",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.1.0",
     "summary": "Slovak cash journal: the statutory členenie of opatrenie "
                "MF/27076/2007-74, the peňažný denník in its official column "
                "layout, and the DPFO typ B tabuľka 1 / 1a figures.",

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_vrp2_account" model="ir.ui.view">
+        <field name="name">res.config.settings.form.vrp2.account</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id"
+               ref="l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='vrp2_settings']" position="inside">
+                <setting string="Fiscalize invoice payments"
+                         help="Let the Register Payment wizard issue a VRP2 fiscal receipt for the customer-invoice payment it creates.">
+                    <field name="vrp2_fiscalize_on_payment"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

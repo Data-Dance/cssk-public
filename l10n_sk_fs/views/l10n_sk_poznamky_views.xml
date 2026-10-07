@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_l10n_sk_poznamky_form" model="ir.ui.view">
+        <field name="name">l10n.sk.poznamky.form</field>
+        <field name="model">l10n.sk.poznamky</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_populate_odpis" type="object"
+                            string="Načítať odpisový plán z majetku"/>
+                    <button name="action_generate_pdf" type="object"
+                            string="Vygenerovať PDF" class="btn-primary"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="submission_type"/>
+                            <field name="pravny_dovod"/>
+                            <field name="je_konsolidovana"/>
+                            <field name="pdf_attachment_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Čl. I — Všeobecné">
+                            <group>
+                                <field name="cinnost"/>
+                                <field name="schvalenie_date"/>
+                                <field name="zamestnanci_bezne"/>
+                                <field name="zamestnanci_predch"/>
+                                <field name="zamestnanci_veduci"/>
+                            </group>
+                        </page>
+                        <page string="Čl. III — Zásady a odpisy">
+                            <group>
+                                <field name="going_concern"/>
+                                <field name="ddhm_prah"/>
+                                <field name="dnm_prah"/>
+                            </group>
+                            <field name="cl3_zmeny_metod"/>
+                            <field name="cl3_ocenovanie"/>
+                            <field name="odpis_line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="nazov"/>
+                                    <field name="doba_rokov"/>
+                                    <field name="sadzba"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Čl. II, IV–VII — Texty">
+                            <field name="cl2_organy"/>
+                            <field name="cl4"/>
+                            <field name="zavazky_nad_5_rokov"/>
+                            <field name="zavazky_zabezpecene"/>
+                            <field name="cl5"/>
+                            <field name="cl6"/>
+                            <field name="cl7"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_l10n_sk_poznamky_list" model="ir.ui.view">
+        <field name="name">l10n.sk.poznamky.list</field>
+        <field name="model">l10n.sk.poznamky</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date_to"/>
+                <field name="submission_type"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_l10n_sk_poznamky" model="ir.actions.act_window">
+        <field name="name">Poznámky k závierke</field>
+        <field name="res_model">l10n.sk.poznamky</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_l10n_sk_poznamky"
+              name="Poznámky k závierke (SK)"
+              parent="account.menu_finance_reports"
+              action="action_l10n_sk_poznamky"
+              sequence="95"/>
+
+    <!-- UZPODv14 (účtovná závierka) — lives here because this is the module's
+         only view file already loaded by the manifest. -->
+    <record id="view_l10n_sk_uzpod_form" model="ir.ui.view">
+        <field name="name">l10n.sk.uzpod.form</field>
+        <field name="model">l10n.sk.uzpod</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_export_xml" type="object"
+                            string="Vygenerovať XML (UZPODv14)" class="btn-primary"
+                            invisible="state == 'submitted'"/>
+                    <button name="action_submit" type="object"
+                            string="Označiť ako podané"
+                            invisible="state != 'exported'"/>
+                    <button name="action_create_amendment" type="object"
+                            string="Opravná závierka"
+                            invisible="state != 'submitted'"/>
+                    <button name="action_reset_to_draft" type="object"
+                            string="Späť na návrh"
+                            invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group>
+                            <field name="company_id"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="statement_nature"/>
+                            <field name="size_class"/>
+                        </group>
+                        <group>
+                            <field name="submission_type" readonly="1"/>
+                            <field name="original_return_id"
+                                   invisible="not original_return_id"/>
+                            <field name="poznamky_attached"/>
+                            <field name="submission_reference"/>
+                            <field name="xml_attachment_id" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_l10n_sk_uzpod_list" model="ir.ui.view">
+        <field name="name">l10n.sk.uzpod.list</field>
+        <field name="model">l10n.sk.uzpod</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date_to"/>
+                <field name="statement_nature"/>
+                <field name="size_class"/>
+                <field name="submission_type"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_l10n_sk_uzpod" model="ir.actions.act_window">
+        <field name="name">Účtovná závierka (UZPODv14)</field>
+        <field name="res_model">l10n.sk.uzpod</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_l10n_sk_uzpod"
+              name="Účtovná závierka UZPODv14 (SK)"
+              parent="account.menu_finance_reports"
+              action="action_l10n_sk_uzpod"
+              sequence="94"/>
+</odoo>

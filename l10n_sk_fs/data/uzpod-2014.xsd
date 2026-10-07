@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- UzPod_2014 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:annotation>
+		<xsd:documentation>Suvaha</xsd:documentation>
+	</xsd:annotation>
+	<!-- komplexny typ nad standardnym retazcom (podla w3) -->
+	<!-- nepovinne cele cislo -->
+	<xsd:simpleType name="optInt">
+		<xsd:union memberTypes="xsd:integer tEmpty"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="pString">
+		<xsd:union memberTypes="xsd:string"/>
+	</xsd:simpleType>
+	<!-- prazdny retazec-->
+	<xsd:simpleType name="tEmpty">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value=""/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- typ pre cislo v hlavicke -->
+	<xsd:simpleType name="pDecimalHlav">
+		<xsd:union memberTypes="xsd:decimal"/>
+	</xsd:simpleType>
+	<!-- cislo tvaru N (2) -->
+	<xsd:simpleType name="decimalWithTwoDigit">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- cislo tvaru N (1) -->
+	<xsd:simpleType name="decimalWithOneDigit">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- typ decimalne pole -->
+	<xsd:simpleType name="tOptDecimal">
+		<xsd:union memberTypes="xsd:decimal tEmpty"/>
+	</xsd:simpleType>
+	<xsd:complexType name="pDecimal">
+		<xsd:simpleContent>
+			<xsd:extension base="tOptDecimal">
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!-- typ zaskrtavacie pole -->
+	<!--
+	<xsd:simpleType name="tOptUnsignedByte">
+		<xsd:union memberTypes="xsd:unsignedByte tEmpty"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="pZaskrtavacie">
+		<xsd:union memberTypes="tOptUnsignedByte"/>
+	</xsd:simpleType>
+	-->
+	<xsd:simpleType name="only_0_1">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:totalDigits value="1"/>
+			<xsd:pattern value="[0-1]"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!-- typ obdobie -->
+	<xsd:complexType name="tObdobie">
+		<xsd:sequence>
+			<xsd:element name="mesiac" type="pString"/>
+			<xsd:element name="rok" type="pString"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- typ obdobie -->
+	<xsd:complexType name="tPredObdobie">
+		<xsd:sequence>
+			<xsd:element name="mesiac" type="optInt"/>
+			<xsd:element name="rok" type="optInt"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- ................................ HLAVNY ELEMENT .................................... -->
+	<xsd:element name="dokument">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="hlavicka" type="tHlavicka"/>
+				<xsd:element name="telo" type="tBody"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<!-- ..........................hlavicka............................. -->
+	<xsd:complexType name="tHlavicka">
+		<xsd:sequence>
+			<xsd:element name="datumK">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="den" type="pDecimalHlav"/>
+						<xsd:element name="mesiac" type="pDecimalHlav"/>
+						<xsd:element name="rok" type="pDecimalHlav"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="dic" type="pString"/>
+			<xsd:element name="ico" type="pString"/>
+			<xsd:element name="skNace" type="skNaceType"/>
+			<xsd:element name="typUzavierky" type="tTypUzavierky"/>
+			<xsd:element name="obdobie">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="od" type="tObdobie"/>
+						<xsd:element name="do" type="tObdobie"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="bPredObdobie">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="od" type="tPredObdobie"/>
+						<xsd:element name="do" type="tPredObdobie"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="prilozeneSucasti">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="suvaha" type="only_0_1"/>
+						<xsd:element name="vykazZiskovStrat" type="only_0_1"/>
+						<xsd:element name="poznamky" type="only_0_1"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="uctJednotka">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="obchMeno">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="riadok" type="pString" minOccurs="2" maxOccurs="2"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="sidlo">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="ulica" type="pString"/>
+									<xsd:element name="cislo" type="pString"/>
+									<xsd:element name="psc" type="pString"/>
+									<xsd:element name="obec" type="pString"/>
+									<xsd:element name="oznObchodReg">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="riadok" type="pString" minOccurs="2" maxOccurs="2"/>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+									<xsd:element name="telefon" type="pString"/>
+									<xsd:element name="fax" type="pString"/>
+									<xsd:element name="email" type="pString"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="datZostavenia" type="pString"/>
+			<xsd:element name="datSchvalenia" type="pString"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tTypUzavierky">
+		<xsd:sequence>
+			<xsd:element name="riadna" type="only_0_1"/>
+			<xsd:element name="mimoriadna" type="only_0_1"/>
+			<xsd:element name="priebezna" type="only_0_1"/>
+			<xsd:element name="mala" type="only_0_1"/>
+			<xsd:element name="velka" type="only_0_1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- ..................... telo ........................... -->
+	<xsd:complexType name="tBody">
+		<xsd:sequence>
+			<xsd:element name="ucPod1Suvaha">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="r001" type="tRiadok14"/>
+						<xsd:element name="r002" type="tRiadok14"/>
+						<xsd:element name="r003" type="tRiadok14"/>
+						<xsd:element name="r004" type="tRiadok14"/>
+						<xsd:element name="r005" type="tRiadok14"/>
+						<xsd:element name="r006" type="tRiadok14"/>
+						<xsd:element name="r007" type="tRiadok14"/>
+						<xsd:element name="r008" type="tRiadok14"/>
+						<xsd:element name="r009" type="tRiadok14"/>
+						<xsd:element name="r010" type="tRiadok14"/>
+						<xsd:element name="r011" type="tRiadok14"/>
+						<xsd:element name="r012" type="tRiadok14"/>
+						<xsd:element name="r013" type="tRiadok14"/>
+						<xsd:element name="r014" type="tRiadok14"/>
+						<xsd:element name="r015" type="tRiadok14"/>
+						<xsd:element name="r016" type="tRiadok14"/>
+						<xsd:element name="r017" type="tRiadok14"/>
+						<xsd:element name="r018" type="tRiadok14"/>
+						<xsd:element name="r019" type="tRiadok14"/>
+						<xsd:element name="r020" type="tRiadok14"/>
+						<xsd:element name="r021" type="tRiadok14"/>
+						<xsd:element name="r022" type="tRiadok14"/>
+						<xsd:element name="r023" type="tRiadok14"/>
+						<xsd:element name="r024" type="tRiadok14"/>
+						<xsd:element name="r025" type="tRiadok14"/>
+						<xsd:element name="r026" type="tRiadok14"/>
+						<xsd:element name="r027" type="tRiadok14"/>
+						<xsd:element name="r028" type="tRiadok14"/>
+						<xsd:element name="r029" type="tRiadok14"/>
+						<xsd:element name="r030" type="tRiadok14"/>
+						<xsd:element name="r031" type="tRiadok14"/>
+						<xsd:element name="r032" type="tRiadok14"/>
+						<xsd:element name="r033" type="tRiadok14"/>
+						<xsd:element name="r034" type="tRiadok14"/>
+						<xsd:element name="r035" type="tRiadok14"/>
+						<xsd:element name="r036" type="tRiadok14"/>
+						<xsd:element name="r037" type="tRiadok14"/>
+						<xsd:element name="r038" type="tRiadok14"/>
+						<xsd:element name="r039" type="tRiadok14"/>
+						<xsd:element name="r040" type="tRiadok14"/>
+						<xsd:element name="r041" type="tRiadok14"/>
+						<xsd:element name="r042" type="tRiadok14"/>
+						<xsd:element name="r043" type="tRiadok14"/>
+						<xsd:element name="r044" type="tRiadok14"/>
+						<xsd:element name="r045" type="tRiadok14"/>
+						<xsd:element name="r046" type="tRiadok14"/>
+						<xsd:element name="r047" type="tRiadok14"/>
+						<xsd:element name="r048" type="tRiadok14"/>
+						<xsd:element name="r049" type="tRiadok14"/>
+						<xsd:element name="r050" type="tRiadok14"/>
+						<xsd:element name="r051" type="tRiadok14"/>
+						<xsd:element name="r052" type="tRiadok14"/>
+						<xsd:element name="r053" type="tRiadok14"/>
+						<xsd:element name="r054" type="tRiadok14"/>
+						<xsd:element name="r055" type="tRiadok14"/>
+						<xsd:element name="r056" type="tRiadok14"/>
+						<xsd:element name="r057" type="tRiadok14"/>
+						<xsd:element name="r058" type="tRiadok14"/>
+						<xsd:element name="r059" type="tRiadok14"/>
+						<xsd:element name="r060" type="tRiadok14"/>
+						<xsd:element name="r061" type="tRiadok14"/>
+						<xsd:element name="r062" type="tRiadok14"/>
+						<xsd:element name="r063" type="tRiadok14"/>
+						<xsd:element name="r064" type="tRiadok14"/>
+						<xsd:element name="r065" type="tRiadok14"/>
+						<xsd:element name="r066" type="tRiadok14"/>
+						<xsd:element name="r067" type="tRiadok14"/>
+						<xsd:element name="r068" type="tRiadok14"/>
+						<xsd:element name="r069" type="tRiadok14"/>
+						<xsd:element name="r070" type="tRiadok14"/>
+						<xsd:element name="r071" type="tRiadok14"/>
+						<xsd:element name="r072" type="tRiadok14"/>
+						<xsd:element name="r073" type="tRiadok14"/>
+						<xsd:element name="r074" type="tRiadok14"/>
+						<xsd:element name="r075" type="tRiadok14"/>
+						<xsd:element name="r076" type="tRiadok14"/>
+						<xsd:element name="r077" type="tRiadok14"/>
+						<xsd:element name="r078" type="tRiadok14"/>			
+						<xsd:element name="r079" type="tRiadok56"/>
+						<xsd:element name="r080" type="tRiadok56"/>
+						<xsd:element name="r081" type="tRiadok56"/>
+						<xsd:element name="r082" type="tRiadok56"/>
+						<xsd:element name="r083" type="tRiadok56"/>
+						<xsd:element name="r084" type="tRiadok56"/>
+						<xsd:element name="r085" type="tRiadok56"/>
+						<xsd:element name="r086" type="tRiadok56"/>
+						<xsd:element name="r087" type="tRiadok56"/>
+						<xsd:element name="r088" type="tRiadok56"/>
+						<xsd:element name="r089" type="tRiadok56"/>
+						<xsd:element name="r090" type="tRiadok56"/>
+						<xsd:element name="r091" type="tRiadok56"/>
+						<xsd:element name="r092" type="tRiadok56"/>
+						<xsd:element name="r093" type="tRiadok56"/>
+						<xsd:element name="r094" type="tRiadok56"/>
+						<xsd:element name="r095" type="tRiadok56"/>
+						<xsd:element name="r096" type="tRiadok56"/>
+						<xsd:element name="r097" type="tRiadok56"/>
+						<xsd:element name="r098" type="tRiadok56"/>
+						<xsd:element name="r099" type="tRiadok56"/>
+						<xsd:element name="r100" type="tRiadok56"/>
+						<xsd:element name="r101" type="tRiadok56"/>
+						<xsd:element name="r102" type="tRiadok56"/>
+						<xsd:element name="r103" type="tRiadok56"/>
+						<xsd:element name="r104" type="tRiadok56"/>
+						<xsd:element name="r105" type="tRiadok56"/>
+						<xsd:element name="r106" type="tRiadok56"/>
+						<xsd:element name="r107" type="tRiadok56"/>
+						<xsd:element name="r108" type="tRiadok56"/>
+						<xsd:element name="r109" type="tRiadok56"/>
+						<xsd:element name="r110" type="tRiadok56"/>
+						<xsd:element name="r111" type="tRiadok56"/>
+						<xsd:element name="r112" type="tRiadok56"/>
+						<xsd:element name="r113" type="tRiadok56"/>
+						<xsd:element name="r114" type="tRiadok56"/>
+						<xsd:element name="r115" type="tRiadok56"/>
+						<xsd:element name="r116" type="tRiadok56"/>
+						<xsd:element name="r117" type="tRiadok56"/>
+						<xsd:element name="r118" type="tRiadok56"/>
+						<xsd:element name="r119" type="tRiadok56"/>
+						<xsd:element name="r120" type="tRiadok56"/>
+						<xsd:element name="r121" type="tRiadok56"/>
+						<xsd:element name="r122" type="tRiadok56"/>
+						<xsd:element name="r123" type="tRiadok56"/>
+						<xsd:element name="r124" type="tRiadok56"/>
+						<xsd:element name="r125" type="tRiadok56"/>
+						<xsd:element name="r126" type="tRiadok56"/>
+						<xsd:element name="r127" type="tRiadok56"/>
+						<xsd:element name="r128" type="tRiadok56"/>
+						<xsd:element name="r129" type="tRiadok56"/>
+						<xsd:element name="r130" type="tRiadok56"/>
+						<xsd:element name="r131" type="tRiadok56"/>
+						<xsd:element name="r132" type="tRiadok56"/>
+						<xsd:element name="r133" type="tRiadok56"/>
+						<xsd:element name="r134" type="tRiadok56"/>
+						<xsd:element name="r135" type="tRiadok56"/>
+						<xsd:element name="r136" type="tRiadok56"/>
+						<xsd:element name="r137" type="tRiadok56"/>
+						<xsd:element name="r138" type="tRiadok56"/>
+						<xsd:element name="r139" type="tRiadok56"/>
+						<xsd:element name="r140" type="tRiadok56"/>
+						<xsd:element name="r141" type="tRiadok56"/>
+						<xsd:element name="r142" type="tRiadok56"/>
+						<xsd:element name="r143" type="tRiadok56"/>
+						<xsd:element name="r144" type="tRiadok56"/>
+						<xsd:element name="r145" type="tRiadok56"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ucPod2VykazZS">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="r01" type="tRiadok12"/>
+						<xsd:element name="r02" type="tRiadok12"/>
+						<xsd:element name="r03" type="tRiadok12"/>
+						<xsd:element name="r04" type="tRiadok12"/>
+						<xsd:element name="r05" type="tRiadok12"/>
+						<xsd:element name="r06" type="tRiadok12"/>
+						<xsd:element name="r07" type="tRiadok12"/>
+						<xsd:element name="r08" type="tRiadok12"/>
+						<xsd:element name="r09" type="tRiadok12"/>
+						<xsd:element name="r10" type="tRiadok12"/>
+						<xsd:element name="r11" type="tRiadok12"/>
+						<xsd:element name="r12" type="tRiadok12"/>
+						<xsd:element name="r13" type="tRiadok12"/>
+						<xsd:element name="r14" type="tRiadok12"/>
+						<xsd:element name="r15" type="tRiadok12"/>
+						<xsd:element name="r16" type="tRiadok12"/>
+						<xsd:element name="r17" type="tRiadok12"/>
+						<xsd:element name="r18" type="tRiadok12"/>
+						<xsd:element name="r19" type="tRiadok12"/>
+						<xsd:element name="r20" type="tRiadok12"/>
+						<xsd:element name="r21" type="tRiadok12"/>
+						<xsd:element name="r22" type="tRiadok12"/>
+						<xsd:element name="r23" type="tRiadok12"/>
+						<xsd:element name="r24" type="tRiadok12"/>
+						<xsd:element name="r25" type="tRiadok12"/>
+						<xsd:element name="r26" type="tRiadok12"/>
+						<xsd:element name="r27" type="tRiadok12"/>
+						<xsd:element name="r28" type="tRiadok12"/>
+						<xsd:element name="r29" type="tRiadok12"/>
+						<xsd:element name="r30" type="tRiadok12"/>
+						<xsd:element name="r31" type="tRiadok12"/>
+						<xsd:element name="r32" type="tRiadok12"/>
+						<xsd:element name="r33" type="tRiadok12"/>
+						<xsd:element name="r34" type="tRiadok12"/>
+						<xsd:element name="r35" type="tRiadok12"/>
+						<xsd:element name="r36" type="tRiadok12"/>
+						<xsd:element name="r37" type="tRiadok12"/>
+						<xsd:element name="r38" type="tRiadok12"/>
+						<xsd:element name="r39" type="tRiadok12"/>
+						<xsd:element name="r40" type="tRiadok12"/>
+						<xsd:element name="r41" type="tRiadok12"/>
+						<xsd:element name="r42" type="tRiadok12"/>
+						<xsd:element name="r43" type="tRiadok12"/>
+						<xsd:element name="r44" type="tRiadok12"/>
+						<xsd:element name="r45" type="tRiadok12"/>
+						<xsd:element name="r46" type="tRiadok12"/>
+						<xsd:element name="r47" type="tRiadok12"/>
+						<xsd:element name="r48" type="tRiadok12"/>
+						<xsd:element name="r49" type="tRiadok12"/>
+						<xsd:element name="r50" type="tRiadok12"/>
+						<xsd:element name="r51" type="tRiadok12"/>
+						<xsd:element name="r52" type="tRiadok12"/>
+						<xsd:element name="r53" type="tRiadok12"/>
+						<xsd:element name="r54" type="tRiadok12"/>
+						<xsd:element name="r55" type="tRiadok12"/>
+						<xsd:element name="r56" type="tRiadok12"/>
+						<xsd:element name="r57" type="tRiadok12"/>
+						<xsd:element name="r58" type="tRiadok12"/>
+						<xsd:element name="r59" type="tRiadok12"/>
+						<xsd:element name="r60" type="tRiadok12"/>
+						<xsd:element name="r61" type="tRiadok12"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tRiadok14">
+		<xsd:sequence>
+			<xsd:element name="s1" type="pDecimal"/>
+			<xsd:element name="s2" type="pDecimal"/>
+			<xsd:element name="s3" type="pDecimal"/>
+			<xsd:element name="s4" type="pDecimal"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="tRiadok12">
+		<xsd:sequence>
+			<xsd:element name="s1" type="pDecimal"/>
+			<xsd:element name="s2" type="pDecimal"/>
+		</xsd:sequence>
+	</xsd:complexType>	
+	<xsd:complexType name="tRiadok56">
+		<xsd:sequence>
+			<xsd:element name="s5" type="pDecimal"/>
+			<xsd:element name="s6" type="pDecimal"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="skNaceType">
+		<xsd:sequence>
+			<xsd:element name="k1" type="decimalWithTwoDigit"/>
+			<xsd:element name="k2" type="decimalWithTwoDigit"/>
+			<xsd:element name="k3" type="decimalWithOneDigit"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

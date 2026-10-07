@@ -118,29 +118,30 @@ class CsskFsStatement(models.Model):
     def _cssk_drop_expected_unmapped(self):
         """Remove the classes Úč FO 2-01 does not report from the warning."""
         self.ensure_one()
-        if not self.unmapped_note:
-            return
-        kept = []
-        for line in self.unmapped_note.splitlines():
-            code = line.split()[0] if line.split() else ""
-            if not code:
-                continue
-            account = self.env["account.account"].with_company(
-                self.company_id).search([("code", "=", code)], limit=1)
-            # Classes 5 and 6 are the result, which Úč FO 1-01 reports from the
-            # denník; class 7 and 9 are závierkové and podsúvahové accounts;
-            # equity is r. 21 itself.
-            if code[:1] in ("5", "6", "7", "9") or account.account_type in (
-                "equity", "equity_unaffected", "off_balance",
-            ):
-                continue
-            kept.append(line)
-        self.unmapped_count = len(kept)
-        self.unmapped_note = "\n".join(kept) or False
+        expected = self.unmapped_line_ids.filtered(
+            self._cssk_unmapped_is_expected)
+        if expected:
+            # Subtract rather than count what is left: only the first fifty
+            # are kept as rows, and the count covers them all.
+            self.unmapped_count = max(
+                self.unmapped_count - len(expected), 0)
+            expected.unlink()
 
-    def _compute_period(self, date_from, date_to, overrides=None):
+    def _cssk_unmapped_is_expected(self, row):
+        # Classes 5 and 6 are the result, which Úč FO 1-01 reports from the
+        # denník; class 7 and 9 are závierkové and podsúvahové accounts;
+        # equity is r. 21 itself.
+        return row.code[:1] in ("5", "6", "7", "9") or any(
+            acc.account_type in ("equity", "equity_unaffected", "off_balance")
+            for acc in row.account_ids)
+
+    def _compute_period(self, date_from, date_to, overrides=None,
+                        sources=None):
+        # ``sources`` collects each account row's contributing accounts for
+        # its drill-down; the cash-category rows below are read from the
+        # denník, not from accounts, and add nothing to it.
         computed, columns = super()._compute_period(
-            date_from, date_to, overrides=overrides)
+            date_from, date_to, overrides=overrides, sources=sources)
         cash_lines = self.version_id.line_def_ids.filtered(
             lambda ldef: ldef.kind == "cash_categories")
         if not cash_lines:

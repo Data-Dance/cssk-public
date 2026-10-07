@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- Statutory receipt text stays Slovak in the source, as on the
+         official VRP2 receipt. -->
+    <t t-name="pos_vrp2.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('before-footer')]" position="before">
+            <t t-set="vrp2" t-value="vrp2Receipt"/>
+            <div t-if="vrp2" class="pos-receipt-vrp2 pt-3 text-center">
+                <div class="fw-bolder">POKLADNIČNÝ DOKLAD č. <t t-esc="vrp2.receipt_number"/></div>
+                <div t-if="vrp2.dkp">Kód pokladnice: <t t-esc="vrp2.dkp"/></div>
+                <div t-if="vrp2.created" t-esc="vrp2.created"/>
+                <div class="text-break">ID dokladu: <t t-esc="vrp2.receipt_uuid"/></div>
+                <div t-if="vrp2.okp" class="text-break">OKP: <t t-esc="vrp2.okp"/></div>
+                <img class="pos-receipt-vrp2-qr mt-2" t-att-src="vrp2QrCode" alt="QR"/>
+                <div style="font-size: 75%;">Overte doklad pomocou QR kódu</div>
+            </div>
+            <div t-elif="vrp2NotIssued" class="pos-receipt-vrp2-missing pt-3 text-center fw-bolder">
+                Doklad nebol zaevidovaný vo VRP2
+            </div>
+        </xpath>
+    </t>
+
+    <t t-name="pos_vrp2.ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('receipt-options')]/div[1]" position="after">
+            <button t-if="vrp2HasPdf" class="button vrp2-pdf btn btn-lg btn-secondary w-100 py-3"
+                    t-on-click="() => this.openVrp2Pdf()">
+                <i class="fa fa-file-pdf-o me-1"/>VRP2 doklad (PDF)
+            </button>
+        </xpath>
+    </t>
+
+</templates>

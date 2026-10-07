@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **Computing any statement raised a TypeError** once ``l10n_cssk_fs_base``
+  19.0.1.6.0 passed ``sources`` to ``_compute_period``: this override did not
+  accept it. It now passes it through.
+
 Changed
 ~~~~~~~
 
@@ -16,6 +23,16 @@ Changed
   module was not yet installed in production. A development database that
   had it installed keeps an orphaned ``l10n_sk_ju_zavierka`` row. Install
   ``l10n_sk_single_entry_closing`` there.
+
+[19.0.1.0.2] — 2026-10-05
+-------------------------
+
+Changed
+~~~~~~~
+
+- The Úč FO filter of the unmapped-account warning works on the framework's
+  new rows instead of parsing its text, and reads the account type from the
+  accounts behind each row.
 
 [19.0.1.0.1] — 2026-09-30
 -------------------------

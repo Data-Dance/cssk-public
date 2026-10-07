@@ -3,7 +3,7 @@
 {
     "name": "Slovakia — INTRASTAT-SK (CE / OCA)",
     "summary": "INTRASTAT-SK INSTAT XML on the OCA intrastat_product engine "
-               "(CE-clean). EE variant rides Odoo EE account_intrastat.",
+               "(CE-clean). EE variant: l10n_sk_intrastat_ee.",
     "description": """
 INTRASTAT-SK — Community / OCA adapter
 ======================================
@@ -13,12 +13,14 @@ lines; this module renders them as the official Finančná správa INTRASTAT-SK
 INSTAT (instat62) XML via ``l10n_cssk_intrastat_base``.
 
 AGPL-3 because it depends on (subclasses) the AGPL OCA engine. The shared
-INSTAT renderer is LGPL-3 so the EE variant (on ``account_intrastat``) can reuse
-it without inheriting AGPL.
+INSTAT renderer is AGPL-3 as well; the Enterprise variant
+(``l10n_sk_intrastat_ee``, on ``account_intrastat``) reuses it because Data
+Dance s.r.o. is its sole owner and dual-licenses it, not because of a weaker
+licence.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.1.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": [

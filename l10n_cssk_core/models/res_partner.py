@@ -29,8 +29,8 @@ class ResPartner(models.Model):
     # defect in a statutory document, not untidy data.
     #
     # Storage is canonicalised and validity is enforced, both scoped to
-    # CZ/SK. Scoping is not optional: Hetzner's "HRB 6089", a US EIN
-    # "93-1564675" and a Latvian 11-digit registry are all legitimate, and an
+    # CZ/SK. Scoping is not optional: a German supplier's "HRB 12345", a US EIN
+    # "12-3456789" and a Latvian 11-digit registry are all legitimate, and an
     # unscoped check rejects every one of them.
     # ------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ class ResPartner(models.Model):
         Keyed on the country and NOT on ``_deduce_country_code``, which also
         reads the VAT prefix. A foreign company VAT-registered in Czechia
         carries a ``CZ…`` VAT number while its company registry is still its
-        home register's — a German ``HRB 6089`` — and deducing CZ there would
+        home register's — a German ``HRB 12345`` — and deducing CZ there would
         reject a legitimate value. Core scopes the field's own uniqueness by
         country too. A partner whose country is not yet known is not checked;
         the constraint fires as soon as one is set.

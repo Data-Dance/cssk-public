@@ -1,6 +1,6 @@
 import re
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class CSSKFsVersion(models.Model):
@@ -32,6 +32,24 @@ class CSSKFsVersion(models.Model):
     line_def_ids = fields.One2many(
         "cssk.fs.statement.line.def", "version_id"
     )
+
+    # The Income statement menu lists by THIS, not by statement_kind. The
+    # Slovak UZPODv14 is one document carrying the súvaha and the výkaz ziskov
+    # a strát side by side, so it is a balance_sheet version whose P&L rows
+    # read the period movement — and filtering the menu by kind alone left it
+    # permanently empty on every Slovak database.
+    covers_profit_loss = fields.Boolean(
+        compute="_compute_covers_profit_loss", store=True,
+        help="Statements of this version contain an income statement: either "
+        "the version is one, or it is a balance sheet that also carries the "
+        "income-statement rows (Slovak Úč POD).")
+
+    @api.depends("statement_kind", "line_def_ids.basis")
+    def _compute_covers_profit_loss(self):
+        for ver in self:
+            ver.covers_profit_loss = ver.statement_kind == "profit_loss" or (
+                ver.statement_kind == "balance_sheet"
+                and "movement" in ver.line_def_ids.mapped("basis"))
 
     xml_template_ref_id = fields.Many2one(
         "ir.ui.view", string="XML template", required=True,

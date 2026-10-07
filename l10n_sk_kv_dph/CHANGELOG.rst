@@ -8,6 +8,113 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.3.0] — 2026-10-04
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Odpočítaná daň (``O`` / ``OR``) is taken from the tax's repartition**, on
+  B.1, B.2, C.2 and the B.3 aggregates. It used to be the whole tax. A tax set
+  up to deduct 50 % (a vehicle under the 2026 rule) now files half in ``O``,
+  matching row 21 of the DP DPH. A self-assessed tax with no right to deduct
+  files 0.00. A § 50 koeficient set on the tax works the same way. The
+  deductible *share* is applied to ``D``, so a fully deductible tax still
+  files ``O`` equal to ``D`` to the cent, and ``O`` never exceeds ``D``. The
+  year-end koeficient true-up remains a manual override on the row. Asked for
+  by a customer's accountant, who wanted it read from the tax setting rather than
+  hard-coded.
+
+  ⚠️ **Recomputing a period that is already filed now gives a different ``O``**
+  wherever a partially deductible tax was used, and a dodatočný výkaz built on
+  it will report the difference.
+
+Fixed
+~~~~~
+
+- **A credit note to a customer who is not a taxable person goes to D.2**, not
+  C.1, and reduces the D.2 totals. C.1 corrects what A.1/A.2 reported, and such
+  a supply was never there. It uses the same test as the supply itself.
+  Confirmed by a customer's accountant.
+- **A vendor credit note's Source Document is read as the original invoice
+  number** (C.2 ``FO``) when the credit note is not linked to the invoice and
+  the Original document number field is empty. Some agendas require that field
+  before posting. A purchase order name there is skipped, so the export still
+  asks for the real number. Sales credit notes still do not read it, because
+  there it holds the sales order number.
+
+[19.0.2.2.2] — 2026-10-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **A bare country code is "no VAT number" in a row's identity.** The form
+  leaves the counterparty's IČ DPH optional and free-format where there is
+  none (a third-country supplier on B.1), so ``US`` and an empty attribute
+  file the same thing; Odoo and migrated sources each write either, depending
+  on the partner. Such rows no longer read as two one-sided differences, and
+  a dodatočný baseline keyed either way still matches. On the i6 agenda,
+  with the importer's aggregate folding and a filed-side-only normalisation
+  as the baseline, agreeing rows went from 21 330 to 22 639.
+
+
+[19.0.2.2.1] — 2026-10-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **A KV DPH row is identified by the reference the form carries**, whitespace
+  removed (``_kv_identity_ref``). A filed statement can only hold that form
+  (``\S{1,32}``), so a comparison keyed on the stored spelling reported every
+  spaced reference as two one-sided rows with the money agreeing — 3 694 on one
+  migrated i6 agenda. A chained dodatočný baseline snapshotted before this
+  still matches (``_kv_identity_key``).
+- **B.3 of the vzor that ran to 31. 3. 2016 is exported.** The section was
+  computed (it is listed on ``kvdph_version_2014``) but missing from
+  ``_collect_sections_by_code``, which the XML template, the comparison and
+  the materialising of a migrated statement all read — so every KV DPH for
+  2014-01 … 2016-03 was exported without its simplified invoices, and a
+  migrated i6 agenda could place none of its 2 047 filed B.3 rows. New
+  ``sk_section_b3_ids`` and a B.3 tab, shown only when it has rows. The test
+  that claimed to cover it created no receipt; it now does.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- B.3 in ``_collect_sections_by_code``; the whitespace-free row identity
+  (19.0.2.2.1, 2026-10-04).
+
+[19.0.2.2.0] — 2026-10-03
+-------------------------
+
+Added
+~~~~~
+
+- **The A.2 commodity code is checked against § 69 ods. 12.** Písm. f) takes
+  chapters 10 and 12 of the Spoločný colný sadzobník, písm. g) chapter 72 and
+  headings 7301, 7308 and 7314. A code typed on the product is refused outside
+  them. A code reused from the product's HS / intrastat classification cannot
+  be refused on the product, so the export names it instead: that is the
+  realistic failure, a phone (8517) flagged písm. f) filed in a cereals row,
+  and FS SR accepts any four digits. Checked at chapter level on purpose, not
+  against a list of codes, which would refuse a heading the tariff adds.
+  Raised from a customer's accountant review.
+
+[19.0.2.1.1] — 2026-10-03
+-------------------------
+
+Fixed
+~~~~~
+
+- **The A.2 product fields had no label.** *Tovar podľa § 69 ods. 12 písm. f)/g)*
+  and the CN code were put straight into the product form's ``accounting``
+  group, which becomes an outer group once another module adds a sub-group
+  there. An outer group renders a bare field as an unlabelled column slot, so
+  on a real database they could not be found. They now sit in a group of their
+  own, *Kontrolný výkaz DPH*. Reported from a customer's development database.
+
 [19.0.2.1.0] — 2026-09-28
 -------------------------
 
@@ -58,7 +165,7 @@ Fixed
 - **A private person from another EU state goes to D.2, not A.1.** A supply
   taxed at Slovak rates to a customer with neither an IČ DPH nor an IČO went
   to D.2 only when the customer was outside the EU. Confirmed by an
-  accountant (Atheo): "Fyzické osoby nepodnikatelia idú do D2", whatever the
+  accountant: "Fyzické osoby nepodnikatelia idú do D2", whatever the
   country — § 72 imposes no invoice obligation towards a private individual
   anywhere. An EU business recorded with its registry number stays in A.1.
   The upgrade recomputes the affected sales lines; recompute unfiled
@@ -80,7 +187,7 @@ Fixed
   under that document's number and counterparty and dated by the payment. A
   payment that is un-reconciled within the period cancels out rather than
   filing +x and −x. The upgrade re-resolves the affected lines.
-  Reported by an external accountant (Atheo).
+  Reported by an external accountant.
 - **A 0 % purchase reached B.2.** B.2 and B.3 report the tax the recipient
   deducts, and a received supply bearing no tax (exempt supply, duty-only
   customs line, a 0 % purchase tax) deducts none — its B.2 row filed

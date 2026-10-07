@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_cssk_receipt_root"
+              name="Fiscal Receipts"
+              parent="account.menu_finance_entries"
+              sequence="90"/>
+    <menuitem id="menu_cssk_receipt"
+              name="Captured Receipts"
+              parent="menu_cssk_receipt_root"
+              action="action_cssk_receipt"
+              sequence="10"/>
+    <menuitem id="menu_cssk_receipt_review"
+              name="To Review"
+              parent="menu_cssk_receipt_root"
+              action="action_cssk_receipt_review"
+              sequence="20"/>
+    <menuitem id="menu_cssk_receipt_provider"
+              name="Capture Providers"
+              parent="account.account_account_menu"
+              action="action_cssk_receipt_provider"
+              sequence="90"
+              groups="account.group_account_manager"/>
+</odoo>

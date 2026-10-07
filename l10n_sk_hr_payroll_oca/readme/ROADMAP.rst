@@ -17,7 +17,7 @@ module shipping the official XSD and validating its export against it:
   (Sociálna poisťovňa), and ``l10n_sk_hr_payroll_vpp`` for dohody.
 * ``l10n_sk_hr_payroll_health`` — monthly Mesačný výkaz preddavkov na poistné
   (dávka 514) for the health insurers.
-* ``l10n_sk_hr_payroll_prehlad`` / ``l10n_sk_hr_payroll_hlasenie`` — the monthly
+* ``l10n_sk_hr_payroll_monthly_tax_overview`` / ``l10n_sk_hr_payroll_annual_tax_report`` — the monthly
   Prehľad and the annual Hlásenie o vyúčtovaní dane (Finančná správa).
 * ``l10n_sk_hr_payroll_rlfo`` — RLFO/RLZEC registration events.
 * ``l10n_sk_hr_payroll_eldp`` — the annual ELDP pension record.

@@ -25,7 +25,7 @@ Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
 - **Country dispatch (19.0.1.1.0, 2026-09-27).** 18.0 still dispatches by the
-  company's provider only. 18.0 is what DURWEN runs, so port with its upgrade
+  company's provider only. 18.0 is what a customer runs, so port with its upgrade
   rehearsal (see the 18.0.2.0.0 notes) rather than straight to production.
 
 Fixed

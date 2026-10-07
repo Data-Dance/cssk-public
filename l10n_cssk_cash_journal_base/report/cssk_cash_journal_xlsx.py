@@ -11,7 +11,8 @@ ROW_HEADERS = (
 
 
 class CsskCashJournalXlsx(models.AbstractModel):
-    """The denník as a spreadsheet: the rows, then the totals per category.
+    """The denník as a spreadsheet: the rows, then the totals per category,
+    preceded by the country's statutory layout where its module provides one.
 
     Two sheets on purpose. The first is every row as the book has it, so the
     accountant can filter and pivot it herself — which is what she was doing by
@@ -35,6 +36,11 @@ class CsskCashJournalXlsx(models.AbstractModel):
         date_fmt = workbook.add_format({"num_format": "yyyy-mm-dd"})
         rows = wizard._cssk_rows()
 
+        # The national book first, when the country module lays one out: it
+        # is the layout the accountant checks against the PDF. The flat sheet
+        # stays, because it is the one she pivots.
+        self._cssk_write_national(workbook, wizard, {
+            "bold": bold, "money": money, "date": date_fmt})
         self._cssk_write_rows(workbook, wizard, rows, bold, money, date_fmt)
         self._cssk_write_totals(workbook, wizard, rows, bold, money)
 
@@ -71,6 +77,14 @@ class CsskCashJournalXlsx(models.AbstractModel):
             sheet.write(index, 13, self.env._("yes") if row.non_cash else "")
             sheet.write(index, 14, self.env._("yes") if row.needs_review else "")
             sheet.write(index, 15, row.review_reason or "")
+
+    def _cssk_write_national(self, workbook, wizard, formats):
+        """Hook: the statutory column layout of the country's book.
+
+        Nothing here — the columns of a denník are a national matter, as they
+        are for the PDF (``_cssk_pdf_report``). A country module adds its own
+        sheet; ``formats`` carries ``bold``, ``money`` and ``date``.
+        """
 
     def _cssk_write_totals(self, workbook, wizard, rows, bold, money):
         sheet = workbook.add_worksheet(self.env._("Totals per category"))

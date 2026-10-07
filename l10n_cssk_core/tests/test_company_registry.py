@@ -4,8 +4,8 @@
 
 The check itself is pinned in ``test_tools``. What is pinned here is where it
 applies: CZ/SK only, and only to a value the partner actually carries. Both
-boundaries were found the expensive way. An unscoped check rejects Hetzner's
-``HRB 6089`` and a US EIN, and a check that fires on an empty value makes every
+boundaries were found the expensive way. An unscoped check rejects a German supplier's
+``HRB 12345`` and a US EIN, and a check that fires on an empty value makes every
 private customer unsaveable at checkout.
 """
 from odoo.exceptions import ValidationError
@@ -28,7 +28,7 @@ class TestCompanyRegistryConstraint(TransactionCase):
 
     def test_valid_sk_and_cz(self):
         self.assertTrue(self._partner(country_id=self.sk.id, company_registry="54093431"))
-        self.assertTrue(self._partner(country_id=self.cz.id, company_registry="25380141"))
+        self.assertTrue(self._partner(country_id=self.cz.id, company_registry="25000063"))
 
     def test_no_registry_is_fine(self):
         """A private customer has no IČO and must still be able to check out."""
@@ -37,8 +37,8 @@ class TestCompanyRegistryConstraint(TransactionCase):
 
     def test_foreign_registry_is_not_checked(self):
         """The mod-11 scheme is Czechoslovak. Nowhere else uses it."""
-        self.assertTrue(self._partner(country_id=self.de.id, company_registry="HRB 6089"))
-        self.assertTrue(self._partner(country_id=self.us.id, company_registry="93-1564675"))
+        self.assertTrue(self._partner(country_id=self.de.id, company_registry="HRB 12345"))
+        self.assertTrue(self._partner(country_id=self.us.id, company_registry="12-3456789"))
 
     def test_no_country_is_not_checked(self):
         """Signup captures an e-mail long before it captures a country."""
@@ -47,14 +47,14 @@ class TestCompanyRegistryConstraint(TransactionCase):
     def test_a_foreign_vat_registration_does_not_pull_in_the_check(self):
         """A German company VAT-registered in Czechia carries a ``CZ…`` VAT
         number while its company registry is still its home register's.
-        Deducing the country from the VAT prefix would reject ``HRB 6089``
+        Deducing the country from the VAT prefix would reject ``HRB 12345``
         here, so the scope is keyed on the country instead."""
         partner = self._partner(
             country_id=self.de.id,
-            vat="CZ25380141",
-            company_registry="HRB 6089",
+            vat="CZ25000063",
+            company_registry="HRB 12345",
         )
-        self.assertEqual(partner.company_registry, "HRB 6089")
+        self.assertEqual(partner.company_registry, "HRB 12345")
 
     # -- rejects ------------------------------------------------------------
 
@@ -65,7 +65,7 @@ class TestCompanyRegistryConstraint(TransactionCase):
     def test_rejects_the_company_name(self):
         """The failure this exists for: three of these reached production, two
         of them onto posted invoices."""
-        for value in ("TRAIVA, s.r.o.", "JUSTICE.CZ", "Test", "12345", "-"):
+        for value in ("Vzorová, s.r.o.", "JUSTICE.CZ", "Test", "12345", "-"):
             with self.assertRaises(ValidationError, msg=f"{value!r} was accepted"):
                 self._partner(country_id=self.cz.id, company_registry=value)
 
@@ -83,30 +83,30 @@ class TestCompanyRegistryConstraint(TransactionCase):
     # -- canonicalisation ---------------------------------------------------
 
     def test_stores_the_padded_form(self):
-        partner = self._partner(country_id=self.sk.id, company_registry="00 585 441")
-        self.assertEqual(partner.company_registry, "00585441")
+        partner = self._partner(country_id=self.sk.id, company_registry="00 580 007")
+        self.assertEqual(partner.company_registry, "00580007")
 
     def test_pads_an_unpadded_number(self):
-        partner = self._partner(country_id=self.sk.id, company_registry="614556")
-        self.assertEqual(partner.company_registry, "00614556")
+        partner = self._partner(country_id=self.sk.id, company_registry="610003")
+        self.assertEqual(partner.company_registry, "00610003")
 
     def test_canonicalisation_makes_cores_duplicate_check_work(self):
         """``same_company_registry_partner_id`` is an exact string match in
-        core, so ``00 585 441`` and ``00585441`` would not see each other
+        core, so ``00 580 007`` and ``00580007`` would not see each other
         without this. Normalising at the storage layer is what makes core's
         own duplicate warning fire."""
-        first = self._partner(country_id=self.sk.id, company_registry="00585441")
-        second = self._partner(country_id=self.sk.id, company_registry="00 585 441")
+        first = self._partner(country_id=self.sk.id, company_registry="00580007")
+        second = self._partner(country_id=self.sk.id, company_registry="00 580 007")
         self.assertEqual(second.same_company_registry_partner_id, first)
 
     def test_foreign_registry_is_left_alone(self):
-        partner = self._partner(country_id=self.de.id, company_registry="HRB 6089")
-        self.assertEqual(partner.company_registry, "HRB 6089")
+        partner = self._partner(country_id=self.de.id, company_registry="HRB 12345")
+        self.assertEqual(partner.company_registry, "HRB 12345")
 
     def test_canonicalisation_does_not_loop(self):
-        partner = self._partner(country_id=self.sk.id, company_registry="614556")
-        partner.write({"company_registry": "00 585 441"})
-        self.assertEqual(partner.company_registry, "00585441")
+        partner = self._partner(country_id=self.sk.id, company_registry="610003")
+        partner.write({"company_registry": "00 580 007"})
+        self.assertEqual(partner.company_registry, "00580007")
 
     def test_short_number_is_not_padded_into_validity(self):
         """``1`` zero-pads to ``00000001``, which satisfies the check digit.

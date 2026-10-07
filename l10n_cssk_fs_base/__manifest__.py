@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Financial Statements — Shared Framework (Súvaha / VZS / Rozvaha / VZZ)",
-    "version": "19.0.1.4.5",
+    "version": "19.0.1.9.0",
     "summary": "Country-neutral framework for the Slovak and Czech financial "
                "statements (balance sheet + P&L): line trees computed from "
                "account-code balances + aggregates, with a comparison period, "

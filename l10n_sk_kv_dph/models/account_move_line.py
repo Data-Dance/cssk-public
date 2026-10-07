@@ -151,6 +151,19 @@ class AccountMoveLine(models.Model):
             # question will want to know the population is not uniform.)
             if is_outbound and not self._cssk_bears_vat():
                 return False
+            # A credit note to a customer who is not a taxable person corrects
+            # a D.2 supply, so it is reported in D.2 — the aggregate takes it
+            # with its negative sign. C.1 corrects what A.1 / A.2 reported,
+            # and a supply to a private individual was never there. Same test
+            # as the supply itself below, deliberately.
+            #
+            # Confirmed by a customer's accountant (2026-10-03): "Dobropis k
+            # vystavenej faktúre, ktorá patrila pôvodne do D2, patrí tiež do
+            # D2." Not for a reverse charge: § 69 ods. 12 needs a taxable
+            # customer by definition, and its corrections stay in C.1.
+            if (is_outbound and not is_reverse_charge
+                    and not self._cssk_customer_is_taxable_person()):
+                return "D.2"
             return "C.1" if is_outbound else "C.2"
 
         if is_outbound:
@@ -228,7 +241,7 @@ class AccountMoveLine(models.Model):
             # A.1 — which is what the MRP agenda's accountant filed for a
             # Czech private customer taxed at Slovak rates (2024-09, 2025-08).
             # Asked directly on 2026-09-21, a second Slovak accountant
-            # (Atheo) answered without qualification: "Fyzické osoby
+            # answered without qualification: "Fyzické osoby
             # nepodnikatelia idú do D2." That is also the statutory reading:
             # § 72 obliges an invoice towards a zdaniteľná osoba or a
             # právnická osoba, and a private individual in Brno is neither,
@@ -351,3 +364,40 @@ class AccountMoveLine(models.Model):
             return False
         eu = self.env.ref("base.europe", raise_if_not_found=False)
         return bool(eu) and country in eu.country_ids
+
+    def _cssk_deductible_share(self):
+        """``(deductible, charged)`` legs of this base line's tax, unsigned.
+
+        Both from ONE ``compute_all``, so their ratio is exact: a full
+        deduction is 1 whatever the rounding or the currency, and the share of
+        a partial one is what its repartition says. ``charged`` is every leg
+        with a positive factor (the deductible ones plus those onto the
+        expense); ``deductible`` the ones the VAT closing settles.
+
+        The refund repartition is chosen from the DOCUMENT, not the move: a
+        cash-basis entry is an ``entry`` even when it settles a credit note.
+        """
+        self.ensure_one()
+        taxes = self._cssk_taxes_for_amounts()
+        if not taxes:
+            return 0.0, 0.0
+        document = self.move_id._cssk_vat_document()
+        res = taxes.compute_all(
+            self.balance,
+            currency=self.company_id.currency_id,
+            quantity=1.0,
+            partner=self.partner_id,
+            is_refund=document.move_type in ("out_refund", "in_refund"),
+            handle_price_include=False,
+        )
+        Rep = self.env["account.tax.repartition.line"]
+        deductible = charged = 0.0
+        for tax_res in res["taxes"]:
+            rep = Rep.browse(tax_res.get("tax_repartition_line_id"))
+            if not rep or rep.factor_percent <= 0:
+                continue
+            charged += abs(tax_res["amount"])
+            if rep.use_in_tax_closing:
+                deductible += abs(tax_res["amount"])
+        return deductible, charged
+

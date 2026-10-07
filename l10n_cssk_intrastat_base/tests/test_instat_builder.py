@@ -45,7 +45,10 @@ class TestInstatBuilder(TransactionCase):
         self.assertEqual(item.findtext("netMass"), "13")     # xs:integer
         self.assertEqual(item.findtext("invoicedAmount"), "4380")
         self.assertEqual(
-            item.findtext("NatureOfTransaction/natureOfTransactionACode"), "11")
+            item.findtext("NatureOfTransaction/natureOfTransactionACode"), "1")
+        self.assertEqual(
+            item.findtext("NatureOfTransaction/natureOfTransactionBCode"), "1",
+            "the 2-digit code is columns A and B, not one A code")
         self.assertEqual(item.findtext("regionCode"), "SK010")
         self.assertEqual(item.findtext("partnerId"), "CZ12345678")  # dispatch only
 

@@ -1,0 +1,533 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_vrp2_account
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-06 12:16+0000\n"
+"PO-Revision-Date: 2026-10-06 12:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_form
+msgid "<span class=\"o_stat_text\">Invoice</span>"
+msgstr "<span class=\"o_stat_text\">Faktúra</span>"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid "A storno receipt cannot itself be stornoed."
+msgstr "Storno doklad sa sám nedá stornovať."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__state__cancelled
+msgid "Cancelled"
+msgstr "Zrušené"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__account_payment_register__vrp2_payment_type__card
+msgid "Card"
+msgstr "Karta"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__account_payment_register__vrp2_payment_type__cash
+msgid "Cash"
+msgstr "Hotovosť"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__state__confirmed
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_search
+msgid "Confirmed"
+msgstr "Potvrdené"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+msgid ""
+"Credit note %s cannot be fiscalized as a VRP2 payment receipt (it would "
+"report a positive sale to the Financial Administration). Cancelling a fiscal"
+" receipt is a separate storno flow — use 'Storno (VRP2)' on the original "
+"fiscalized invoice."
+msgstr ""
+"Dobropis %s sa nedá fiskalizovať ako doklad o úhrade vo VRP2 (Finančnej "
+"správe by nahlásil kladný predaj). Zrušenie fiskálneho dokladu rieši "
+"samostatný storno postup — použite „Storno (VRP2)“ na pôvodnej "
+"fiskalizovanej faktúre."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_search
+msgid "Customer"
+msgstr "Odberateľ"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid "Customer '%s' has no email address."
+msgstr "Odberateľ „%s“ nemá e-mailovú adresu."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__receipt_type__deposit
+msgid "Deposit"
+msgstr "Vklad"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__state__draft
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_form
+msgid "Email Receipt"
+msgstr "Odoslať doklad e-mailom"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__state__error
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_search
+msgid "Error"
+msgstr "Chyba"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__error_message
+msgid "Error Message"
+msgstr "Chybová správa"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_form
+msgid "Fiscal Codes"
+msgstr "Fiskálne kódy"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.actions.act_window,help:l10n_sk_vrp2_account.vrp2_receipt_action
+msgid ""
+"Fiscal receipts are created when you fiscalize a customer invoice\n"
+"               in VRP2 (from the invoice form or the invoice-list mass action)."
+msgstr ""
+"Fiskálne doklady vznikajú pri fiskalizácii odberateľskej faktúry\n"
+" vo VRP2 (z formulára faktúry alebo hromadnou akciou v zozname)."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.module.module,summary:base.module_l10n_sk_vrp2_account
+msgid ""
+"Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2)"
+msgstr ""
+"Fiskalizácia odberateľských faktúr cez virtuálnu registračnú pokladnicu (VRP"
+" 2)"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_account_payment_register__vrp2_fiscalize
+msgid "Fiscalize in VRP2"
+msgstr "Fiskalizovať vo VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.res_config_settings_view_form_vrp2_account
+msgid "Fiscalize invoice payments"
+msgstr "Fiskalizovať úhrady faktúr"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_res_company__vrp2_fiscalize_on_payment
+msgid "Fiscalize invoice payments in VRP2"
+msgstr "Fiskalizovať úhrady faktúr vo VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__vrp2_created
+msgid "Fiscalized On"
+msgstr "Fiskalizované dňa"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__move_id
+msgid "Invoice"
+msgstr "Faktúra"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid "Invoice %s already has an active VRP2 receipt."
+msgstr "Faktúra %s už má aktívny doklad VRP2."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+msgid "Invoice %s has no active VRP2 receipt to storno."
+msgstr "Faktúra %s nemá aktívny doklad VRP2 na stornovanie."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid "Invoice %s must be posted before fiscalization."
+msgstr "Faktúra %s musí byť pred fiskalizáciou zaúčtovaná."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__receipt_type__invoice
+msgid "Invoice Payment"
+msgstr "Úhrada faktúry"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_account_payment_register__vrp2_fiscalize
+msgid "Issue a Slovak VRP2 fiscal receipt for the payment created here."
+msgstr "Vystaviť slovenský fiskálny doklad VRP2 k tu vytvorenej úhrade."
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.res_config_settings_view_form_vrp2_account
+msgid ""
+"Let the Register Payment wizard issue a VRP2 fiscal receipt for the "
+"customer-invoice payment it creates."
+msgstr ""
+"Umožniť sprievodcovi Zaevidovať platbu vystaviť fiskálny doklad VRP2 k "
+"úhrade odberateľskej faktúry, ktorú vytvorí."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid "No VRP2 PDF is stored for this receipt."
+msgstr "K tomuto dokladu nie je uložené žiadne PDF z VRP2."
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.actions.act_window,help:l10n_sk_vrp2_account.vrp2_receipt_action
+msgid "No VRP2 receipts yet"
+msgstr "Zatiaľ žiadne doklady VRP2"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+msgid "None of the VRP2 receipts carry a PDF to merge."
+msgstr "Žiadny z dokladov VRP2 neobsahuje PDF na zlúčenie."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__okp
+msgid "OKP"
+msgstr "OKP"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_receipt__pdf_receipt
+msgid "Official fiscal receipt PDF returned by VRP2."
+msgstr "Oficiálne PDF fiskálneho dokladu vrátené z VRP2."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid "Only a confirmed receipt can be stornoed."
+msgstr "Stornovať možno len potvrdený doklad."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid "Only a confirmed receipt with a VRP2 id can be emailed."
+msgstr "E-mailom možno odoslať len potvrdený doklad s identifikátorom VRP2."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_receipt__okp
+msgid "Overovací kód podnikateľa."
+msgstr "Overovací kód podnikateľa."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__payment_id
+msgid "Payment"
+msgstr "Úhrada"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__payment_method
+msgid "Payment Method"
+msgstr "Spôsob platby"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__pdf_filename
+msgid "Pdf Filename"
+msgstr "Názov súboru PDF"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_form
+msgid "Print Official Receipt"
+msgstr "Tlačiť oficiálny doklad"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid "Receipt %s has already been stornoed."
+msgstr "Doklad %s už bol stornovaný."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid "Receipt %s has no VRP2 receiptId to reference for a storno."
+msgstr ""
+"Doklad %s nemá identifikátor receiptId z VRP2, na ktorý by sa storno mohlo "
+"odvolať."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__qr_content
+msgid "Receipt Data"
+msgstr "Údaje dokladu"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__name
+msgid "Receipt Number"
+msgstr "Číslo dokladu"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__pdf_receipt
+msgid "Receipt PDF"
+msgstr "PDF dokladu"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__receipt_type
+msgid "Receipt Type"
+msgstr "Typ dokladu"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__vrp2_receipt_uuid
+msgid "Receipt UUID"
+msgstr "UUID dokladu"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__request_json
+msgid "Request"
+msgstr "Požiadavka"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__response_json
+msgid "Response"
+msgstr "Odpoveď"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__reversed_receipt_id
+msgid "Reverses"
+msgstr "Storno k"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+msgid ""
+"Select posted customer invoices to fiscalize in VRP2 (credit notes are "
+"handled by the storno flow on the original invoice)."
+msgstr ""
+"Vyberte zaúčtované odberateľské faktúry na fiskalizáciu vo VRP2 (dobropisy "
+"rieši storno postup na pôvodnej faktúre)."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.module.module,shortdesc:base.module_l10n_sk_vrp2_account
+msgid "Slovak VRP2 - Invoice Payments"
+msgstr "Slovenská VRP2 — úhrady faktúr"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_search
+msgid "Status"
+msgstr "Stav"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__storno_receipt_id
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__receipt_type__storno
+msgid "Storno"
+msgstr "Storno"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__is_stornoed
+msgid "Stornoed"
+msgstr "Stornované"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__storno_ids
+msgid "Stornos"
+msgstr "Storná"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_form
+msgid "Technical"
+msgstr "Technické"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_receipt__reversed_receipt_id
+msgid "The original receipt this storno cancels."
+msgstr "Pôvodný doklad, ktorý toto storno ruší."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_receipt__storno_receipt_id
+msgid "The storno receipt that cancelled this one (if any)."
+msgstr "Storno doklad, ktorý tento doklad zrušil (ak existuje)."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_account_move__vrp2_has_active_receipt
+msgid ""
+"There is a confirmed VRP2 invoice receipt for this invoice that has not been"
+" stornoed."
+msgstr ""
+"K tejto faktúre existuje potvrdený doklad VRP2, ktorý nebol stornovaný."
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_list
+msgid "Total"
+msgstr "Celkom"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_receipt__is_stornoed
+msgid "True when a confirmed storno has cancelled this receipt."
+msgstr "Pravda, keď tento doklad zrušilo potvrdené storno."
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_search
+msgid "Type"
+msgstr "Typ"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model,name:l10n_sk_vrp2_account.model_vrp2_receipt
+msgid "VRP2 Fiscal Receipt"
+msgstr "Fiskálny doklad VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_account_move__vrp2_has_active_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.view_invoice_tree_vrp2
+msgid "VRP2 Fiscalized"
+msgstr "Fiskalizované vo VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_account_payment_register__vrp2_payment_type
+msgid "VRP2 Payment Type"
+msgstr "Typ platby VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_form
+msgid "VRP2 Receipt"
+msgstr "Doklad VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_receipt__vrp2_server_id
+msgid "VRP2 Receipt ID"
+msgstr "ID dokladu VRP2"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+#: model:ir.actions.act_window,name:l10n_sk_vrp2_account.vrp2_receipt_action
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_account_move__vrp2_receipt_ids
+#: model:ir.ui.menu,name:l10n_sk_vrp2_account.menu_vrp2_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.view_move_form_vrp2
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_receipt_view_list
+msgid "VRP2 Receipts"
+msgstr "Doklady VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_receipt__qr_content
+msgid ""
+"VRP2 dataBase64: the whole receipt as base64 JSON (items, VAT summary, "
+"payments). NOT the QR code — the printed QR encodes only the receiptId "
+"(decoded from four official receipts, 2026-10-06)."
+msgstr ""
+"dataBase64 z VRP2: celý doklad ako JSON v base64 (položky, rekapitulácia "
+"DPH, platby). NIE JE to obsah QR kódu — vytlačený QR kód obsahuje len "
+"receiptId (overené dekódovaním štyroch oficiálnych dokladov, 6. 10. 2026)."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid ""
+"VRP2 fiscalization supports one invoice per payment. Disable 'Group "
+"Payments' and register payments individually."
+msgstr ""
+"Fiskalizácia VRP2 podporuje jednu faktúru na úhradu. Vypnite „Zoskupiť "
+"platby“ a zaevidujte úhrady jednotlivo."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid ""
+"VRP2 invoice receipts can only be issued for customer invoices (%s is a %s)."
+" Cancelling a fiscal receipt is the separate storno flow."
+msgstr ""
+"Doklady VRP2 k faktúram možno vystaviť len k odberateľským faktúram (%s je "
+"%s). Zrušenie fiskálneho dokladu rieši samostatný storno postup."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_receipt__vrp2_receipt_uuid
+msgid "VRP2 receiptId (e.g. V-...)."
+msgstr "Identifikátor receiptId z VRP2 (napr. V-...)."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+msgid "VRP2 receipts can only be issued for customer invoices (%s)."
+msgstr "Doklady VRP2 možno vystaviť len k odberateľským faktúram (%s)."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_account_payment_register__vrp2_available
+msgid "Vrp2 Available"
+msgstr "VRP2 dostupné"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_account_move__vrp2_receipt_count
+msgid "Vrp2 Receipt Count"
+msgstr "Počet dokladov VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_company__vrp2_fiscalize_on_payment
+msgid ""
+"When enabled, the standard Register Payment wizard offers a 'Fiscalize in "
+"VRP2' option that issues a VRP2 fiscal receipt for the customer-invoice "
+"payment it creates (payment + receipt in one transaction; a VRP2 error rolls"
+" both back)."
+msgstr ""
+"Po zapnutí ponúkne štandardný sprievodca Zaevidovať platbu možnosť "
+"„Fiskalizovať vo VRP2“, ktorá k úhrade odberateľskej faktúry vystaví "
+"fiskálny doklad VRP2 (úhrada aj doklad v jednej transakcii; chyba VRP2 vráti"
+" obe späť)."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__receipt_type__withdraw
+msgid "Withdrawal"
+msgstr "Výber"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/vrp2_receipt.py:0
+msgid "Úhrada faktúry: %s"
+msgstr "Úhrada faktúry: %s"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+msgid ""
+"⚠ VRP2 fiscalization of this invoice FAILED: %s\n"
+"Issue the fiscal receipt again from the invoice ('Fiscalize in VRP2')."
+msgstr ""
+"⚠ Fiskalizácia tejto faktúry vo VRP2 ZLYHALA: %s\n"
+"Vystavte fiskálny doklad znova z faktúry („Fiskalizovať vo VRP2“)."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid ""
+"⚠ VRP2 fiscalization of this invoice's payment FAILED: %s\n"
+"The payment was registered; issue the fiscal receipt again from the invoice ('Fiscalize in VRP2')."
+msgstr ""
+"⚠ Fiskalizácia úhrady tejto faktúry vo VRP2 ZLYHALA: %s\n"
+"Úhrada bola zaevidovaná; vystavte fiskálny doklad znova z faktúry („Fiskalizovať vo VRP2“)."

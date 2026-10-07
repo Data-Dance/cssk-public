@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "QR Code Frame Provider",
+    "summary": "Shared QR-code frame parameters for the payment-QR providers (PAY by square, payme, "
+        "QR Platba) that build on it.",
     "version": "19.0.1.1.0",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",

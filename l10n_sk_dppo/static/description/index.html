@@ -1,0 +1,61 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovakia — Corporate Income Tax Return (DPPO)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">The Slovak DPPO return: full r-line set, header mapping and XSD-validated dppo2025 XML export</h3>
+    <div class="oe_span12">
+      <p>This app is the Slovak country layer for the income-tax framework
+         (<code>l10n_cssk_income_tax_base</code>). It provides the <b>DPPOv25</b> form — daňové
+         priznanie k dani z príjmov právnických osôb (DPPO) — as version data: the full body line
+         set (r100 … r1192), with <code>r100</code> (výsledok hospodárenia pred zdanením) computed
+         from the P&amp;L and the remaining lines entered by the accountant via the override UI.</p>
+      <p>The header is mapped from the company (DIČ, IČO, obchodné meno, sídlo, zdaňovacie obdobie,
+         typ priznania). The official <b>dppo2025.xsd</b> is vendored and the XML export is
+         validated against it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>DPPOv25 body line set (r100 … r1192) as version data.</li>
+        <li><code>r100</code> auto-computed from the accounting result; the rest entered by the
+            accountant.</li>
+        <li>Company header mapping (DIČ, IČO, obchodné meno, sídlo, obdobie, typ priznania).</li>
+        <li>XSD-validated XML export against the official <code>dppo2025</code> schema.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p><i>Accounting ▸ Reporting ▸ Slovakia ▸ DPPO.</i> Create a return for the tax period,
+         review/enter the body lines (r100 is filled from the P&amp;L), then <b>Export XML</b> —
+         the export is validated against <code>dppo2025.xsd</code> before download.</p>
+      <p><b>Scope note (v1):</b> the module auto-computes the accounting result and produces
+         schema-valid XML. The accounting→tax transformation (adjustment lines, loss deduction,
+         tax credits, minimum tax) is the accountant's domain and is entered manually; the
+         inter-line computation formulas need accountant validation before being automated.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

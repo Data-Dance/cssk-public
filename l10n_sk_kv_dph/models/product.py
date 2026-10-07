@@ -1,6 +1,7 @@
 import re
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 # § 69 ods. 12 zákona o DPH — the domestic reverse-charge goods for which
 # oddiel A.2 carries more than the base. Read off the vzor's own schema
@@ -15,6 +16,29 @@ RC_GOODS = [
 ]
 RC_GOODS_WITH_CODE = ("f", "g")
 RC_GOODS_KIND = {"h": "MT", "i": "IO"}
+
+# What § 69 ods. 12 bounds the SCS code to. The statute names CHAPTERS (and for
+# písm. g) three headings), not codes, so this is checked at chapter level: a
+# list of codes would refuse a heading the Spoločný colný sadzobník adds until
+# the next release. The schema cannot catch a wrong one either — KodScsType is
+# \d{4} with no enumeration.
+RC_GOODS_CHAPTERS = {"f": ("10", "12"), "g": ("72",)}
+RC_GOODS_HEADINGS = {"g": ("7301", "7308", "7314")}
+
+
+def kv_cn_code_in_scope(goods, code):
+    """Does a 4-digit SCS code fall where § 69 ods. 12 písm. ``goods`` puts it?"""
+    if goods not in RC_GOODS_WITH_CODE or not code:
+        return True
+    return (code[:2] in RC_GOODS_CHAPTERS.get(goods, ())
+            or code in RC_GOODS_HEADINGS.get(goods, ()))
+
+
+def kv_cn_code_scope_label(goods):
+    """The statute's own bound, for messages: "kapitoly 10, 12" etc."""
+    parts = ["kapitola %s" % c for c in RC_GOODS_CHAPTERS.get(goods, ())]
+    parts += RC_GOODS_HEADINGS.get(goods, ())
+    return ", ".join(parts)
 
 
 class ProductTemplate(models.Model):
@@ -34,9 +58,31 @@ class ProductTemplate(models.Model):
         string="Číselný kód tovaru (KV DPH)",
         size=4,
         help="First four digits of the Spoločný colný sadzobník code, reported "
-        "in A.2 for § 69 ods. 12 písm. f) and g). Leave empty to take it from "
-        "the product's intrastat / HS code when one is installed.",
+        "in A.2 for § 69 ods. 12 písm. f) and g). The statute bounds it: "
+        "písm. f) to chapters 10 and 12, písm. g) to chapter 72 and headings "
+        "7301, 7308 and 7314. Leave empty to reuse the product's customs "
+        "classification (HS / intrastat code) — that code is checked against "
+        "the same chapters when the kontrolný výkaz is exported.",
     )
+
+    @api.constrains("l10n_sk_kv_rc_goods", "l10n_sk_kv_cn_code")
+    def _check_l10n_sk_kv_cn_code(self):
+        for product in self:
+            code = product.l10n_sk_kv_cn_code
+            if not code:
+                continue
+            if not (len(code) == 4 and code.isdigit()):
+                raise ValidationError(_(
+                    "%(product)s: the KV DPH commodity code must be four "
+                    "digits, not \"%(code)s\".",
+                    product=product.display_name, code=code))
+            goods = product.l10n_sk_kv_rc_goods
+            if not kv_cn_code_in_scope(goods, code):
+                raise ValidationError(_(
+                    "%(product)s: commodity code %(code)s is outside § 69 "
+                    "ods. 12 písm. %(goods)s) (%(scope)s).",
+                    product=product.display_name, code=code, goods=goods,
+                    scope=kv_cn_code_scope_label(goods)))
 
 
 class ProductProduct(models.Model):

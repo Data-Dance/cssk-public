@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
 
     <t t-name="l10n_cssk_fs_base.FsTreeField">
-        <div class="o_fs_tree">
+        <div class="o_fs_tree" t-ref="root">
             <div class="btn-group btn-group-sm mb-2">
                 <button type="button" class="btn btn-outline-secondary"
                         t-on-click="() => this.collapseAll()">
@@ -39,8 +39,18 @@
                                 <small class="text-muted me-2" t-esc="row.code"/>
                                 <span t-esc="row.name"/>
                             </td>
-                            <td class="text-end" t-esc="fmt(row.value)"/>
-                            <td class="text-end text-muted" t-esc="fmt(row.prior)"/>
+                            <t t-call="l10n_cssk_fs_base.FsTreeField.cell">
+                                <t t-set="column" t-value="'current'"/>
+                                <t t-set="manual" t-value="row.manual"/>
+                                <t t-set="value" t-value="row.value"/>
+                                <t t-set="cellClass" t-value="''"/>
+                            </t>
+                            <t t-call="l10n_cssk_fs_base.FsTreeField.cell">
+                                <t t-set="column" t-value="'prior'"/>
+                                <t t-set="manual" t-value="row.priorManual"/>
+                                <t t-set="value" t-value="row.prior"/>
+                                <t t-set="cellClass" t-value="'text-muted'"/>
+                            </t>
                             <td class="text-center">
                                 <i t-if="row.isLeaf and row.hasSource"
                                    t-att-class="row.reconciles ? 'fa fa-check text-success' : 'fa fa-exclamation-triangle text-warning'"
@@ -59,6 +69,38 @@
                 </tbody>
             </table>
         </div>
+    </t>
+
+    <!-- One figure: plain, or an input while entered by hand. -->
+    <t t-name="l10n_cssk_fs_base.FsTreeField.cell">
+        <td t-if="manual or isEditing(row, column)" class="text-end o_fs_manual"
+            t-att-title="titles.manual">
+            <div class="d-flex align-items-center justify-content-end gap-1">
+                <input t-if="row.editable" type="text" inputmode="decimal"
+                       class="o_input text-end o_fs_manual_input"
+                       t-att-class="{'o_field_invalid': state.invalid[cellKey(row, column)]}"
+                       t-att-data-cell="cellKey(row, column)"
+                       t-att-value="inputValue(row, column)"
+                       t-on-change="(ev) => this.setManual(row, column, ev)"
+                       t-on-blur="(ev) => this.onBlur(row, column, ev)"/>
+                <span t-else="" class="fst-italic" t-esc="fmt(value)"/>
+                <button t-if="row.editable" type="button"
+                        class="btn btn-link btn-sm p-0 text-muted"
+                        t-att-title="titles.reset"
+                        t-on-click="() => this.resetOverride(row, column)">
+                    <i class="fa fa-undo"/>
+                </button>
+            </div>
+        </td>
+        <td t-else="" t-att-class="'text-end ' + cellClass">
+            <button t-if="row.editable" type="button"
+                    class="btn btn-link btn-sm p-0 me-1 o_fs_edit"
+                    t-att-title="titles.edit"
+                    t-on-click="() => this.startOverride(row, column)">
+                <i class="fa fa-pencil"/>
+            </button>
+            <t t-esc="fmt(value)"/>
+        </td>
     </t>
 
 </templates>

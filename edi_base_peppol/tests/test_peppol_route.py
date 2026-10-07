@@ -14,7 +14,7 @@ class TestPeppolRoute(TransactionCase):
         cls.sk = cls.env.ref("base.sk")
         cls.cz = cls.env.ref("base.cz")
         cls.company = cls.env["res.company"].create({
-            "name": "hascon", "country_id": cls.sk.id,
+            "name": "alfa_sk", "country_id": cls.sk.id,
             "account_fiscal_country_id": cls.sk.id,
             "peppol_send_enabled": True, "peppol_scope": "sk_mandate"})
         cls.company.partner_id.write({
@@ -64,9 +64,9 @@ class TestPeppolRoute(TransactionCase):
 
     # -- company settings -----------------------------------------------
     def test_a_company_that_does_not_send_never_does(self):
-        smarterhome = self.env["res.company"].create({
-            "name": "SmarterHOME CZ", "country_id": self.cz.id})
-        route, _reason = self._route(self._customer(self.sk), company=smarterhome)
+        beta_cz = self.env["res.company"].create({
+            "name": "Beta CZ s.r.o.", "country_id": self.cz.id})
+        route, _reason = self._route(self._customer(self.sk), company=beta_cz)
         self.assertEqual(route, "pdf")
 
     def test_a_company_without_an_address_is_blocked(self):

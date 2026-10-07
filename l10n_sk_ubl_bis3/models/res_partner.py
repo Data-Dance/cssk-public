@@ -33,12 +33,16 @@ therefore carry none of these overrides. A localisation must not change how
 another database identifies its partners.
 """
 
+import logging
+
 from odoo import api, fields, models
 from odoo.addons.account_edi_ubl_cii.models.account_edi_common import EAS_MAPPING
 from odoo.addons.account_edi_ubl_cii.models.res_partner import (
     sanitize_peppol_endpoint,
 )
 
+
+_logger = logging.getLogger(__name__)
 
 
 class ResPartner(models.Model):
@@ -113,6 +117,65 @@ class ResPartner(models.Model):
         if 'l10n_sk_dic' not in self._fields:
             return ''
         return (self.l10n_sk_dic or '').strip()
+
+    def action_l10n_sk_adopt_dic_participant(self):
+        """Move Slovak partners that have a DIČ onto ``0245`` + that DIČ.
+
+        ``_compute_peppol_eas`` will not do this, deliberately: ``9950`` is a
+        valid Slovak code, so core's rule — recompute only when the stored
+        value is not already valid for the country — treats it as a scheme
+        somebody chose, and this module preserves that. Correct in general, and
+        wrong for the population that got ``9950`` from core's old default
+        rather than from a decision.
+
+        Which is most of them, and the ordering makes it worse. The
+        19.0.2.0.0 migration moves exactly these partners, but it runs at
+        upgrade — before anyone has had a chance to record the DIČs it requires
+        — so it skips the lot. Record the DIČs afterwards (see
+        ``partner_autocomplete_orsf_sk``'s ``action_orsf_fill_missing_dic``) and
+        nothing re-runs: measured on one real agenda, 1003 partners ended up
+        holding a DIČ while still published as ``9950:<IČ DPH>``, which the
+        export constraint cannot catch because the DIČ is present.
+
+        So the move has to be re-runnable, and this is it. The migration calls
+        the same method, so there is one implementation rather than two that
+        drift.
+
+        Conservative about what it will overwrite: it takes a partner only if
+        its endpoint is empty or is exactly what core derived from the VAT
+        number. A hand-typed endpoint is somebody's deliberate registration and
+        is left alone and logged.
+        """
+        moved = self.browse()
+        skipped = []
+        for partner in self:
+            if partner._deduce_country_code() != 'SK':
+                continue
+            dic = partner._l10n_sk_get_dic()
+            if not dic:
+                skipped.append((partner.id, "no DIČ recorded"))
+                continue
+            if partner.peppol_eas == '0245' and partner.peppol_endpoint == dic:
+                continue
+            derived = (partner.vat or '').strip().upper().replace(' ', '')
+            current = (partner.peppol_endpoint or '').strip().upper()
+            if current and current != derived:
+                skipped.append(
+                    (partner.id, f"hand-set endpoint {partner.peppol_endpoint!r}")
+                )
+                continue
+            partner.write({'peppol_eas': '0245', 'peppol_endpoint': dic})
+            moved |= partner
+        _logger.info(
+            "l10n_sk_ubl_bis3: moved %s partner(s) onto 0245 + DIČ; "
+            "%s left alone.", len(moved), len(skipped),
+        )
+        for partner_id, why in skipped:
+            _logger.info(
+                "l10n_sk_ubl_bis3: res.partner(%s) not moved — %s.",
+                partner_id, why,
+            )
+        return moved
 
     def _peppol_eas_endpoint_depends(self):
         # EXTENDS 'account_edi_ubl_cii' - the endpoint now moves with the DIČ.

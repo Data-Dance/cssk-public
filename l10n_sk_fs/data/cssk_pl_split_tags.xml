@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- VZS financial-income/cost related-party split (Výkaz ziskov a strát
+         Úč POD 2, riadky IX / X / XI a N). The vzor breaks these financial lines
+         down by counterparty relationship: .1 = prepojené účtovné jednotky,
+         .2 = podielová účasť, .3 / .2 = ostatné.
+
+         A company that has financial flows (dividends / interest) with related or
+         equity-participation entities assigns the matching tag to the relevant
+         66x / 562 account; the závierka then reports them on the right sub-line.
+         A company that tags nothing keeps everything on the "ostatné" sub-line
+         automatically (the ostatné leaves select accounts NOT carrying these
+         tags), so no setup is needed for a standalone účtovná jednotka. -->
+
+    <record id="account_tag_pl_IX_1" model="account.account.tag">
+        <field name="name">VZS IX.1 — výnosy z CP a podielov od prepojených ÚJ (665)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="account_tag_pl_IX_2" model="account.account.tag">
+        <field name="name">VZS IX.2 — výnosy z CP a podielov v podielovej účasti (665)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="account_tag_pl_X_1" model="account.account.tag">
+        <field name="name">VZS X.1 — výnosy z krátkodob. fin. majetku od prepojených ÚJ (666)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="account_tag_pl_X_2" model="account.account.tag">
+        <field name="name">VZS X.2 — výnosy z krátkodob. fin. majetku v podielovej účasti (666)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="account_tag_pl_XI_1" model="account.account.tag">
+        <field name="name">VZS XI.1 — výnosové úroky od prepojených ÚJ (662)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="account_tag_pl_N_1" model="account.account.tag">
+        <field name="name">VZS N.1 — nákladové úroky pre prepojené ÚJ (562)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+</odoo>

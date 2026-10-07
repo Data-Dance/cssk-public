@@ -205,7 +205,19 @@ class CSSKControlStatementSectionMixin(models.AbstractModel):
     def _kv_identity(self):
         """What makes two rows the *same* document (invoice) across statements."""
         self.ensure_one()
-        return (self.partner_vat or "", self.entry_ref or "")
+        return (self.partner_vat or "", self._kv_identity_ref() or "")
+
+    def _kv_identity_ref(self):
+        """The document reference as it identifies the row.
+
+        The stored spelling here. A form that cannot carry some characters —
+        the Slovak KV DPH types it ``\\S{1,32}`` — identifies its rows by
+        what it CAN carry, and overrides this; the Czech KH writes
+        ``c_evid_dd`` as stored, so whitespace there may tell two documents
+        apart and must not be dropped.
+        """
+        self.ensure_one()
+        return self.entry_ref
 
     def _kv_values(self):
         """The figures that decide whether the document *changed*."""
