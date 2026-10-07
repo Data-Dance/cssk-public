@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.2.1] — 2026-10-07
+-------------------------
+
+Fixed
+~~~~~
+
+- The summary and README linked the retired ``wwwinfo.mfcr.cz``; ARES lives at
+  https://ares.gov.cz/, which is also what the module has been calling. The
+  README's licence badge said "Other proprietary" for an AGPL-3 module.
+
 [19.0.1.2.0] — 2026-09-29
 -------------------------
 

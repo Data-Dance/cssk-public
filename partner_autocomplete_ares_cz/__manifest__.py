@@ -6,10 +6,10 @@
     "license": "AGPL-3",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "post_init_hook": "post_init_hook",
     "summary": """
-Completes Partner information using ARES from https://wwwinfo.mfcr.cz/
+Completes Partner information from ARES (https://ares.gov.cz/)
     """,
     "depends": ["partner_autocomplete_dispatcher"],
     "data": [
