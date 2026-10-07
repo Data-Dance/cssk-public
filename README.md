@@ -233,7 +233,7 @@ this repository. Add them to the addons path as well:
 
 | Module | Version | What it does |
 |---|---|---|
-| `partner_autocomplete_ares_cz` | 19.0.1.2.0 | Completes Partner information using ARES from https://wwwinfo.mfcr.cz/ |
+| `partner_autocomplete_ares_cz` | 19.0.1.2.1 | Completes Partner information from ARES (https://ares.gov.cz/) |
 | `partner_autocomplete_dispatcher` | 19.0.1.1.0 | Technical dispatcher for the partner-autocomplete providers: assigns each dependent provider module to the companies that should use it. |
 | `partner_autocomplete_orsf_sk` | 19.0.1.4.0 | Completes Partner information from the Slovak state registers via https://orsf.sk |
 | `partner_autocomplete_orsf_sk_related_parties` | 19.0.2.0.0 | Pull one partner's ownership/officer graph from ORSF on demand, so § 17 ods. 5 related-party transactions can be recognised instead of remembered. |
