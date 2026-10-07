@@ -5,6 +5,53 @@ Changelog
 All notable changes to **edi_epostak_connector_sapi** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.1.1] — 2026-10-03
+-------------------------
+
+Fixed
+~~~~~
+
+- **A 404 from the Peppol directory was treated as a transport failure.**
+  *Check Peppol reachability* showed a red failure dialog for the one case it
+  exists to report. ePošťák answers an unregistered participant with HTTP
+  **404** carrying a complete negative body (``found``/``accepts`` false, a
+  ``reason``, and ``capability.routingStatus``); the call passed no
+  ``expected``, so it defaulted to ``(200,)`` and raised ``EpostakApiError``
+  over a perfectly good answer — while the caller below it was already written
+  for exactly that body and never saw one.
+
+  A 404 *without* ``found`` still raises: a changed route is not "participant
+  not registered", and reporting it as one would diagnose the wrong thing.
+
+- **``networkReady`` and ``routingStatus`` were never read.** Probing the
+  sandbox to confirm the body shape turned this up as a separate defect: both
+  the positive and the negative body nest them under ``capability``, never at
+  the top level, so ``result.get("networkReady")`` returned ``None`` even on a
+  successful lookup and the not-network-ready note could never fire. They are
+  lifted in ``_check_capabilities`` now, so its documented return contract
+  finally holds.
+
+- The negative outcome is a sticky **warning** quoting the provider's own
+  ``reason`` and ``routingStatus`` rather than a red error — the commonest
+  cause is a counterparty who has not registered, the second commonest our own
+  EAS being wrong, and the message names both. Suppressed on a clean success,
+  where ``ready`` only restates the title.
+
+Reported from the field 2026-10-03: the customer's company partner carried
+``9950:SK2022913409`` (EAS 9950 is the IČ DPH scheme) while ePošťák knows them
+as ``0245:4025578881`` (0245 is the DIČ), so the lookup was correctly negative
+— and the dialog hid that behind a traceback.
+
+Verified live against the ePošťák sandbox on both paths. The seven new tests
+were negative-controlled against the unfixed source: four fail there,
+including the positive-path one, while the three guard tests hold both ways.
+
+Ported to 18.0 on 2026-10-03 as ``0b8eae57`` (``[18.0.1.1.0]``) — **do not
+port this again.** The connector change there is byte-identical; that commit
+also took down the ``UserError`` wrapper from ``[19.0.1.1.0]``, whose
+remaining parts 18.0 still owes and records in its own Carry-over section.
+
+
 [19.0.1.1.0] — 2026-10-01
 -------------------------
 

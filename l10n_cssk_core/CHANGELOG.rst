@@ -8,6 +8,28 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.17.0] — 2026-10-02
+--------------------------
+
+Added
+~~~~~
+
+- **Statement account mapping** (``cssk.statement.account.map``, Configuration
+  → CZ/SK Localization). Statutory statements read balances by the account
+  codes their rows name, so an analytic carried over from another system —
+  461001 / 461002 where Úč POD names 461100 / 461200 — reached no row and the
+  súvaha stopped balancing. A company can now report such an account under the
+  code the form expects, for any balance or only for a debit or credit balance
+  at the period end (an overdrawn bank account shown as a krátkodobý bankový
+  úver). Applied where the balances are read, so the preview, the filed XML,
+  the income-tax return and the unmapped check all see it. A mapped account's
+  tag filters (``665&IX_1``) still follow its own code.
+- The shared matcher ``_cssk_eval_formula`` can report which codes added to a
+  total (``contributors``), and the balance query is exposed with the account
+  ids kept (``_cssk_account_balance_groups``) and as a domain
+  (``_cssk_account_balance_domain``), for drill-downs that open exactly what a
+  figure was summed from.
+
 [19.0.1.16.0] — 2026-09-29
 --------------------------
 
@@ -703,20 +725,20 @@ Added
 - **The company registry is now validated as an IČO on CZ/SK partners.**
   ``company_registry`` is core's field and core validates nothing in it. On the
   Data Dance production base that left **12 of 96** CZ/SK values unusable:
-  ``Test``, ``12345``, ``-``, ``JUSTICE.CZ``, ``cepatay111`` — and three cases
+  ``Test``, ``12345``, ``-``, ``JUSTICE.CZ``, ``office111`` — and three cases
   of the company *name* pasted into the number field, two of which reached
   **posted invoices**, where a company name in place of the IČO is a defect in
   a statutory document rather than untidy data. ``is_valid_ico`` applies the
   mod-11 check both countries share; measured against that base it rejects all
   12 and accepts all 84 genuine companies.
-- ``normalize_registry`` canonicalises storage (``00 585 441`` → ``00585441``,
-  ``614556`` → ``00614556``), keeping the leading zeros a Czech IČO is printed
+- ``normalize_registry`` canonicalises storage (``00 580 007`` → ``00580007``,
+  ``610003`` → ``00610003``), keeping the leading zeros a Czech IČO is printed
   with. It rewrites **only values that are already valid**, so it can never
   turn a typo into a different-looking typo, and it returns anything it does
   not recognise unchanged so the error can quote what was typed.
   This is also what makes core's own ``same_company_registry_partner_id``
   duplicate warning work: core compares the two strings exactly, so without a
-  canonical stored form ``00 585 441`` and ``00585441`` never see each other.
+  canonical stored form ``00 580 007`` and ``00580007`` never see each other.
 - ``registry_key`` is the separate COMPARISON form — digits only, padding
   dropped — for matching ``00682811`` against ``682811``. Using the storage
   form to match misses half the matches; using the match form to store puts an
@@ -732,15 +754,15 @@ Notes
   would have been accepted, which is precisely the junk a signup form
   collects. ``ICO_MIN_DIGITS = 6`` rejects all 10 000 and breaks no real
   number: every genuine IČO is written with at least six digits, the oldest
-  carrying leading zeros (``00614556`` printed as ``614556``).
+  carrying leading zeros (``00610003`` printed as ``610003``).
 - **The check is scoped by** ``country_code``, **not** ``_deduce_country_code``.
   The latter also reads the VAT prefix, so a foreign company VAT-registered in
-  Czechia — a ``CZ…`` VAT number over a German ``HRB 6089`` company registry —
+  Czechia — a ``CZ…`` VAT number over a German ``HRB 12345`` company registry —
   would be deduced as CZ and have its legitimate home-register number
   rejected. Core scopes this field's own uniqueness by country too.
-  The mod-11 scheme is Czechoslovak; an unscoped check rejects Hetzner's
-  ``HRB 6089``, a US EIN ``93-1564675``, an 11-digit Latvian registry and a
-  Papua New Guinean ``1-120979442`` — all legitimate, all present on that
+  The mod-11 scheme is Czechoslovak; an unscoped check rejects a German supplier's
+  ``HRB 12345``, a US EIN ``12-3456789``, an 11-digit Latvian registry and a
+  Papua New Guinean ``1-123456789`` — all legitimate, all present on that
   same base.
 - Because the registry is a **commercial field**, a bad value on a parent is
   synced onto every child and the constraint fires for those too. The error

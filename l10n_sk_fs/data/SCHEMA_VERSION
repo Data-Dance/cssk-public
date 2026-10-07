@@ -1,0 +1,35 @@
+uzpod-2014.xsd  d95c607d24512b974546adefc1200018  17667
+
+Verified byte-identical to the published copy on 2026-09-09, fetched from
+https://ekr.financnasprava.sk/Formulare/XSD/uzpod-2014.xsd
+
+WHAT THIS SCHEMA IS. The whole účtovná závierka in one document: root
+`dokument`, with `telo` carrying `ucPod1Suvaha` (145 rows, tRiadok14 =
+brutto/korekcia/netto/netto-minulé) beside `ucPod2VykazZS` (61 rows,
+tRiadok12 = bežné/minulé). It stamps itself only "Suvaha", which understates
+what it contains.
+
+⚠️ THIS MODULE PREVIOUSLY SHIPPED TWO INVENTED SCHEMAS. `uzsuv_schema.xsd`
+and `uzvzs_schema.xsd` (7 elements each, roots UZSUV / UZVZS) were
+hand-written stand-ins; those roots exist nowhere in anything FS SR publishes.
+The templates said so — "WORKING STAND-IN … replace with the official FS SR
+UZPODv14 structure before live filing" — but the version records and the
+schema files did not, so an export validated cleanly against a schema no
+authority had ever seen. Both are deleted. If you find a reference to either,
+it is stale.
+
+NOT SHIPPED, and deliberately:
+  uzmuj-2014.xsd  — Účtovná závierka MIKRO účtovnej jednotky. A different
+  form for companies under the micro thresholds, which this module does not
+  model at all. A mikro účtovná jednotka files UZMUJ, not UZPOD.
+  vp_uct2015.xsd  — the všeobecné podanie wrapper both závierky are submitted
+  inside. Out of scope until submission is automated.
+
+REFRESH PROCEDURE
+  1. Fetch https://ekr.financnasprava.sk/Formulare/XSD/uzpod-2014.xsd and
+     compare the md5 with the line here.
+  2. Check the status code, not the size: a miss returns 404 with a
+     ~1 245-byte HTML error page.
+  3. Probe for a _v2 suffix as well as a newer year — that is how FS SR
+     published a DPPO revision (dppo2025_v2.xsd beside an unchanged
+     dppo2025.xsd), and a digest comparison on the pinned name cannot see it.

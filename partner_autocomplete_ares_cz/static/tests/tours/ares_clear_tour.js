@@ -20,11 +20,11 @@ registry.category("web_tour.tours").add("partner_autocomplete_ares_clear", {
         {
             content: "Type the company name",
             trigger: '.o_field_widget[name="name"] input',
-            run: "edit Durwen",
+            run: "edit Vzorová",
         },
         {
             content: "Pick the ARES suggestion",
-            trigger: '.o-autocomplete--dropdown-item:contains("Durwen CZ s.r.o.")',
+            trigger: '.o-autocomplete--dropdown-item:contains("Vzorová CZ s.r.o.")',
             run: "click",
         },
         {

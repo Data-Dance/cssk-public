@@ -34,7 +34,7 @@ Added
   service products; goods keep theirs and still map to row 07. The same split
   the chart already makes on the sale side. Loaded on install and upgrade into
   existing SK companies, only where missing. Reported by an external
-  accountant (Atheo).
+  accountant.
 
 [19.0.1.11.3] — 2026-09-13
 --------------------------

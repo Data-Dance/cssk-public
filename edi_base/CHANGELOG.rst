@@ -78,7 +78,7 @@ Migration
   definitions to ``edi_base_gs1`` and schedules that module for install
   where ``edi_editel_base``, ``edi_grit_base`` or ``edi_base_purchase`` is
   present. **Upgrade with ``-u edi_base`` (or ``-u all``).**
-- Tested on a database mirroring Zlaté Zrnko's installed set (one partner
+- Tested on a database mirroring a customer's installed set (one partner
   with a communication endpoint, four with SSCC mode, one warehouse GLN):
   the migration reassigns the three definitions, ``edi_base_gs1`` installs
   in the same run, and all three values survive.

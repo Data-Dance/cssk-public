@@ -1151,10 +1151,24 @@ class EpostakConnectorSapi(models.TransientModel):
     def _check_capabilities(self, participant_id, document_types=None):
         """Ask the Peppol directory whether a participant can receive a type.
 
-        Returns the raw API answer ({'found', 'accepts', 'networkReady', ...}).
-        Cheap preflight against the commonest support case — a counterparty
-        whose EAS/endpoint is wrong or who is not registered at all, which
-        otherwise only surfaces as a 422 at send time.
+        Returns the answer flattened to {'found', 'accepts', 'networkReady',
+        'routingStatus', 'reason', ...}. Cheap preflight against the commonest
+        support case — a counterparty whose EAS/endpoint is wrong or who is not
+        registered at all, which otherwise only surfaces as a 422 at send time.
+
+        Two things about the wire format, both of which cost a bug:
+
+        * "not registered" is answered with HTTP **404** carrying a complete
+          negative body (``found``/``accepts`` false, ``reason``,
+          ``capability.routingStatus``). That is an answer, not a transport
+          failure, so 404 is accepted and rendered. A 404 WITHOUT ``found``
+          is something else entirely — a changed route, say — and still
+          raises, because reporting it as "not registered" would diagnose the
+          wrong thing.
+        * ``networkReady`` and ``routingStatus`` are nested under
+          ``capability`` in **both** the positive and the negative body, never
+          at the top level, so they are lifted here. Reading them off the top
+          level yielded ``None`` even on a successful lookup.
         """
         cfg = self._validate_config()
         participant_id = self._epostak_normalize_participant(participant_id)
@@ -1170,10 +1184,28 @@ class EpostakConnectorSapi(models.TransientModel):
         body = {"participant": {"scheme": scheme, "identifier": identifier}}
         if document_types:
             body["documentTypes"] = list(document_types)
-        return self._request(
+        result = self._request(
             cfg,
             "POST",
             "%s/peppol/capabilities" % cfg["api_url"],
             participant_id=self._epostak_own_participant_id(),
             json_body=body,
+            expected=(200, 404),
         )
+        if "found" not in result:
+            envelope = result.get("error") or {}
+            raise EpostakApiError(
+                _(
+                    "ePošťák did not answer the capability lookup for "
+                    "%(participant)s: %(detail)s",
+                    participant=participant_id,
+                    detail=envelope.get("message") or _("empty body"),
+                ),
+                status=404,
+                code=envelope.get("code"),
+            )
+        capability = result.get("capability") or {}
+        for key in ("networkReady", "routingStatus", "documentTypeId", "processId"):
+            if key not in result and key in capability:
+                result[key] = capability[key]
+        return result

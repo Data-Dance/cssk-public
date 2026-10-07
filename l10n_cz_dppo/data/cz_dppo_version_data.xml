@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+
+    <!--
+      CZ DPPDP9 (daň z příjmů právnických osob) — II. oddíl tax-calculation
+      spine, mapped to the official EPO attribute names (VetaO/@kc_ii*) and
+      validated against data/dppdp9_epo2.xsd.
+
+      Derivable lines are computed: ř.10 (účetní výsledek před zdaněním) from the
+      P&L (class 6 − class 5, excluding income-tax accounts 591–599); the tax
+      spine ř.200 → ř.340 is arithmetic. The připočitatelné / odčitatelné
+      adjustments (ř.20–170), loss/§34 deductions (ř.230/240) and slevy (ř.300)
+      are MANUAL — entered by the accountant; they aggregate into the spine.
+
+      Out of scope (appendix tables — special regimes): odpisy (příloha 1B),
+      §23e výpůjční náklady (příloha 3), zápočet daně ze zahraničí (příloha 1N),
+      investiční fondy. (The účetní závěrka — VetaUA / VetaUB / VetaUD — is
+      filed from the linked l10n_cz_fs statements; see
+      models/dppdp9_vykazy.py.) The XSD makes
+      every line but the VetaD header optional, so a return that only fills the
+      spine validates. Confirm the VetaD header codes (typ_dapdpp / typ_zo /
+      typ_popldpp) and the full adjustment set with a CZ accountant before live
+      filing.
+    -->
+    <record id="cz_dppo_version_2025" model="cssk.income.tax.version">
+        <field name="name">DPPDP9 2025</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_dppo.dppdp9_2025"/>
+        <field name="xml_root_element">Pisemnost</field>
+        <field name="xml_schema_filename">dppdp9_epo2.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_cz_dppo/data/dppdp9_epo2.xsd"/>
+        <field name="provision_line_code">r340</field>
+        <field name="line_def_ids" eval="[
+            (0,0,{'code':'r10','name':'ř.10 Výsledek hospodaření před zdaněním',
+                  'kind':'account',
+                  'account_formula':'5,6,-59','sequence':10}),
+            (0,0,{'code':'r70','name':'ř.70 Mezisoučet — zvýšení VH (ř.20–63), připočitatelné položky',
+                  'kind':'manual','sequence':20}),
+            (0,0,{'code':'r170','name':'ř.170 Mezisoučet — snížení VH (ř.100–162), odčitatelné položky',
+                  'kind':'manual','sequence':30}),
+            (0,0,{'code':'r200','name':'ř.200 Základ daně',
+                  'kind':'aggregate','aggregate_formula':'r10 + r70 - r170','sequence':40}),
+            (0,0,{'code':'r230','name':'ř.230 Odečet daňové ztráty (§ 34 odst. 1)',
+                  'kind':'manual','sequence':50}),
+            (0,0,{'code':'r240','name':'ř.240 Odečty (§ 34 — VaV, odborné vzdělávání) a dary (§ 20 odst. 8)',
+                  'kind':'manual','sequence':60}),
+            (0,0,{'code':'r250','name':'ř.250 Základ daně po úpravě a odečtech',
+                  'kind':'aggregate','aggregate_formula':'max(r200 - r230 - r240, 0.0)','sequence':70}),
+            (0,0,{'code':'r270','name':'ř.270 Základ daně zaokrouhlený na celé tisíce Kč dolů',
+                  'kind':'aggregate','aggregate_formula':'int(r250 / 1000) * 1000','sequence':80}),
+            (0,0,{'code':'r280','name':'ř.280 Sazba daně (%) podle § 21 odst. 1',
+                  'kind':'aggregate','aggregate_formula':'21.0 if r270 > 0 else 0.0','sequence':90}),
+            (0,0,{'code':'r290','name':'ř.290 Daň',
+                  'kind':'aggregate','aggregate_formula':'round(r270 * r280 / 100)','sequence':100}),
+            (0,0,{'code':'r300','name':'ř.300 Slevy na dani (§ 35)',
+                  'kind':'manual','sequence':110}),
+            (0,0,{'code':'r310','name':'ř.310 Daň po slevách',
+                  'kind':'aggregate','aggregate_formula':'r290 - r300','sequence':120}),
+            (0,0,{'code':'r340','name':'ř.340 Celková daňová povinnost',
+                  'kind':'aggregate','aggregate_formula':'r310','sequence':130}),
+        ]"/>
+    </record>
+
+    <record id="cz_dppo_type_B" model="cssk.income.tax.type">
+        <field name="version_id" ref="cz_dppo_version_2025"/>
+        <field name="code">B</field><field name="name">Řádné</field>
+        <field name="fa_xml_value">B</field>
+    </record>
+    <record id="cz_dppo_type_O" model="cssk.income.tax.type">
+        <field name="version_id" ref="cz_dppo_version_2025"/>
+        <field name="code">O</field><field name="name">Opravné</field>
+        <field name="fa_xml_value">O</field>
+    </record>
+    <!-- D is "dodatečné", E is "dodatečné-opravné" (dppdp9_epo2.xsd,
+         dapdpp_forma). E used to be labelled plain "Dodatečné". -->
+    <record id="cz_dppo_type_D" model="cssk.income.tax.type">
+        <field name="version_id" ref="cz_dppo_version_2025"/>
+        <field name="code">D</field><field name="name">Dodatečné</field>
+        <field name="fa_xml_value">D</field>
+    </record>
+    <record id="cz_dppo_type_E" model="cssk.income.tax.type">
+        <field name="version_id" ref="cz_dppo_version_2025"/>
+        <field name="code">E</field><field name="name">Dodatečné-opravné</field>
+        <field name="fa_xml_value">E</field>
+    </record>
+
+</data>
+</odoo>

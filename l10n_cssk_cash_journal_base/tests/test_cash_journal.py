@@ -257,6 +257,63 @@ class TestCashJournalGeneration(TestCashJournalCommon):
         self.assertEqual(row.amount, 12.0)
         self.assertEqual(row.payment_kind, "bank")
 
+    def _taxed_entry(self, lines, journal=None):
+        """A journal entry paying ``lines`` [(account, amount, taxes)] out of
+        the bank — the shape the Expenses app and a hand-made entry share."""
+        journal = journal or self.bank_journal
+        move = self.env["account.move"].create({
+            "journal_id": journal.id,
+            "date": fields.Date.to_date("2026-05-10"),
+            "line_ids": [
+                (0, 0, {"account_id": account.id, "name": "Výdavok",
+                        "debit": amount, "credit": 0.0,
+                        "tax_ids": [(6, 0, taxes.ids)]})
+                for account, amount, taxes in lines
+            ],
+        })
+        # Odoo adds the VAT lines; the money leg balances whatever they are.
+        total = sum(move.line_ids.mapped("debit")) - sum(move.line_ids.mapped("credit"))
+        move.write({"line_ids": [(0, 0, {
+            "account_id": journal.default_account_id.id, "name": "Výdavok",
+            "debit": 0.0, "credit": total})]})
+        move.action_post()
+        return move
+
+    def test_an_expense_entry_with_vat_is_one_row(self):
+        """"Rozdelilo mi to výdavok do dvoch riadkov — zvlášť základ, zvlášť
+        DPH." An entry outside an invoice is one row with its VAT, as a paid
+        bill is."""
+        tax = self.tax_purchase_a
+        move = self._taxed_entry([(self.expense_account, 100.0, tax)])
+        tax_lines = move.line_ids.filtered(lambda l: l.display_type == "tax")
+        self.assertTrue(tax_lines, "fixture: Odoo computed a VAT line")
+        self._generate()
+        rows = self._rows()
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows.category_id, self.cat_goods)
+        self.assertAlmostEqual(rows.amount, 100.0, 2)
+        self.assertAlmostEqual(rows.amount_tax, sum(tax_lines.mapped("debit")), 2)
+        bank_out = -sum(move.line_ids.filtered(
+            lambda l: l.account_id == self.bank_journal.default_account_id).mapped("balance"))
+        self.assertAlmostEqual(rows.amount + rows.amount_tax, bank_out, 2,
+                               msg="the book still adds up to the money")
+
+    def test_vat_follows_each_base_line_of_a_split_entry(self):
+        tax = self.tax_purchase_a
+        move = self._taxed_entry([(self.expense_account, 100.0, tax),
+                                  (self.services_account, 300.0, tax)])
+        self._generate()
+        rows = self._rows()
+        self.assertEqual(len(rows), 2)
+        by_cat = {r.category_id: r for r in rows}
+        rate = tax.amount / 100.0
+        self.assertAlmostEqual(by_cat[self.cat_goods].amount_tax, 100.0 * rate, 2)
+        self.assertAlmostEqual(by_cat[self.cat_services].amount_tax, 300.0 * rate, 2)
+        bank_out = -sum(move.line_ids.filtered(
+            lambda l: l.account_id == self.bank_journal.default_account_id).mapped("balance"))
+        self.assertAlmostEqual(
+            sum(rows.mapped("amount")) + sum(rows.mapped("amount_tax")), bank_out, 2)
+
     def test_transfer_between_bank_and_cash_is_a_transit_row(self):
         """Money between one's own pockets is a priebežná položka, not income."""
         move = self.env["account.move"].create({

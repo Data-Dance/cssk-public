@@ -19,5 +19,20 @@
         .o_fs_aggregate {
             background-color: var(--gray-100, #f8f9fa);
         }
+        // The pencil shows on the row under the pointer only, so a column of
+        // figures does not read as a column of buttons.
+        .o_fs_edit {
+            visibility: hidden;
+        }
+        tbody tr:hover .o_fs_edit,
+        .o_fs_edit:focus {
+            visibility: visible;
+        }
+        .o_fs_manual {
+            background-color: var(--warning-bg-subtle, #fff3cd);
+        }
+        .o_fs_manual_input {
+            max-width: 10rem;
+        }
     }
 }

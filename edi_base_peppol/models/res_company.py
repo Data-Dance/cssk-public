@@ -1,7 +1,7 @@
 """Which company sends through Peppol, to whom, and books what it receives where.
 
-One database can hold a company that must send e-invoices (hascon, a Slovak
-VAT payer under the 2027 mandate) and one that must not (SmarterHOME CZ).
+One database can hold a company that must send e-invoices (a Slovak VAT
+payer under the 2027 mandate) and one that must not (a Czech sister company).
 Everything that used to be a database-wide parameter is therefore the
 company's; the migration to 19.0.1.4.0 carried the former values over.
 """

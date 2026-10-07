@@ -1,0 +1,291 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_vrp2_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-06 12:16+0000\n"
+"PO-Revision-Date: 2026-10-06 12:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_status__connected
+msgid "Connected"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_status
+msgid ""
+"Connected = a VRP2 session token is held (the token may still expire server-"
+"side; it is refreshed automatically on the next call)."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_credentials.py:0
+msgid ""
+"Connected as %(business)s\n"
+"DKP: %(dkp)s\n"
+"Access: %(role)s"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.module.module,summary:base.module_l10n_sk_vrp2_base
+msgid "Connection layer for the Slovak Virtual Cash Register (VRP 2)"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Credentials for the VRP2 API (vcrp.financnasprava.sk)"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_dic
+msgid "DIČ"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_status__disconnected
+msgid "Disconnected"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Information fetched from VRP2 after login"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_ic_dph
+msgid "IČ DPH"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_ico
+msgid "IČO"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_dkp
+msgid "Kód pokladnice (DKP)"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_token
+msgid ""
+"Live VRP2 session token — anyone holding it can act on the cash register, so"
+" only administrators may read it."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_credentials.py:0
+msgid "Logged out from VRP2."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Login"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_login
+msgid "Login (kód pokladnice / kód podnikateľa) from Finančná správa SR."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Logout"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_round_5c
+msgid ""
+"Mirrors the VRP2 web app toggle 'Zaokrúhľovať na 5 centov'. When on, paid totals are rounded to the nearest 5 cents and the difference is reported in the receipt's roundingAmount/useRounding.\n"
+"This is a CLIENT-SIDE preference in the VRP2 web app (confirmed: toggling it sends nothing to the server and never appears in any API request/response), so it is configured here per register."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_status__not_configured
+msgid "Not configured"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_password
+msgid "Password for VRP2 authentication."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_role__read
+msgid "Read"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_round_5c
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "Round to 0.05 €"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.module.module,shortdesc:base.module_l10n_sk_vrp2_base
+msgid "Slovak VRP2 - Base / Connection"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "The 'requests' Python package is required for VRP2."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_vat_payer
+msgid ""
+"The register's organization.vatPayer, as VRP2 reports it. Sent as vatPayer "
+"on every sale receipt."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_credentials.py:0
+msgid "VRP2"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "VRP2 - Slovak Virtual Cash Register"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_business_name
+msgid "VRP2 Business Name"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "VRP2 Cash Register Info"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid "VRP2 Connection"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model,name:l10n_sk_vrp2_base.model_vrp2_credentials_mixin
+msgid "VRP2 Credentials & Session"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_last_login
+msgid "VRP2 Last Login"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_login
+msgid "VRP2 Login"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_password
+msgid "VRP2 Password"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model,name:l10n_sk_vrp2_base.model_vrp2_client
+msgid "VRP2 REST API Client"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_register_version
+msgid "VRP2 Register Version"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_return_value
+msgid "VRP2 Return Value"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_role
+msgid "VRP2 Role"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_status
+msgid "VRP2 Status"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_token
+msgid "VRP2 Token"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_vat_payer
+msgid "VRP2 VAT Payer"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "VRP2 credentials are not configured on holder '%s'."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "VRP2 error: %s"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "VRP2 login failed: %s"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid "VRP2 login response missing token."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_base.res_config_settings_view_form_vrp2_base
+msgid ""
+"VRP2 register setting 'Zaokrúhľovať na 5 centov'. When on, paid totals are "
+"rounded to the nearest 5 cents before fiscalization."
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_credentials.py:0
+msgid "VRP2 — Login successful"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_base/models/vrp2_client.py:0
+msgid ""
+"VRP2: Unsynchronised receipt or location. The system will attempt to re-sync"
+" automatically. Error code: -100"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_base.selection__vrp2_credentials_mixin__vrp2_role__write
+msgid "Write"
+msgstr ""
+
+#. module: l10n_sk_vrp2_base
+#: model:ir.model.fields,help:l10n_sk_vrp2_base.field_vrp2_credentials_mixin__vrp2_register_version
+msgid ""
+"cashRegister.version from the dashboard: a millisecond stamp of the "
+"register's configuration, which moves whenever its settings are changed in "
+"the portal. The web app sends it as the version of every valid receipt "
+"(/v5/receipt/create/valid)."
+msgstr ""

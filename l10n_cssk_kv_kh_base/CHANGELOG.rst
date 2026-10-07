@@ -8,6 +8,27 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.2.1] — 2026-10-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **A country can identify its control-statement rows by what its form
+  carries.** ``_kv_identity`` reads the reference through ``_kv_identity_ref``
+  (the stored spelling here) and the dodatočný delta matches through
+  ``_kv_identity_key``; l10n_sk_kv_dph overrides both to drop whitespace. The
+  Czech KH keeps it, since ``c_evid_dd`` is exported as stored.
+- **A recompute clears every section the statement holds**, not only the
+  current version's, so rows computed under an earlier version are not
+  exported with the new one.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- ``_kv_identity_ref`` / ``_kv_identity_key`` hooks and the full section clear
+  (19.0.2.2.1, 2026-10-04).
+
 [19.0.2.2.0] — 2026-09-28
 -------------------------
 

@@ -1,0 +1,54 @@
+dppo2013.xsd     a9b6b732243fbcd608446fbbebded507  18595
+dppo2014.xsd     84464edde668674c06860303f26426a7  21874
+dppo2015.xsd     086ae2e34e947fb2e8be74b8f2c53b52  21925
+dppo2017.xsd     9afaf7d8e9c9a879f64677c2756ee776  25716
+dppo2018.xsd     1373d19e27111188225f6bac5551aea4  26198
+dppo2019.xsd     51c1de07921dadf4373c48fa370993fe  26784
+dppo2020.xsd     98c921d0df29a3ff26657b951c555a86  26829
+dppo2021.xsd     6b63a96bf02b0400b9e0697cf42dd99b  26306
+dppo2022.xsd     261d72919b0a15ef212bc3f357382c1e  25022
+dppo2024.xsd     2a78c0900e9aa994e2dc922582b78682  32135
+dppo2025.xsd     393c1c9aedface4e1540734edcf71d26  36884
+dppo2025_v2.xsd  d0aa82a94a134fdfd227977b8eac5823  36238
+
+Every file verified byte-identical to the published copy on 2026-09-09,
+fetched from https://ekr.financnasprava.sk/Formulare/XSD/<filename>
+
+TWELVE VZORY, AND TWO YEARS HAVE NONE OF THEIR OWN. Probed across
+dppo2011..dppo2026 on 2026-09-09: the names above are all Finančná správa
+publishes, and there is NO dppo2016 and NO dppo2023. That is not a gap in the
+fetch — those years are filed on the preceding vzor, which the 2022 poučenie
+confirms by shipping separate instructions for rok 2022 and rok 2023 in one
+package. The version records say the same:
+
+  dppo2013.xsd      2013
+  dppo2014.xsd      2014
+  dppo2015.xsd      2015 - 2016
+  dppo2017.xsd      2017
+  dppo2018.xsd      2018
+  dppo2019.xsd      2019
+  dppo2020.xsd      2020
+  dppo2021.xsd      2021
+  dppo2022.xsd      2022 - 2023
+  dppo2024.xsd      2024
+  dppo2025_v2.xsd   2025
+
+A REVISION CAN ARRIVE UNDER A NEW NAME. dppo2025_v2.xsd sits beside an
+UNCHANGED dppo2025.xsd and differs by one element: a repeatable
+`dalsiaTransakcia` (further controlled transactions). A digest check on the
+pinned name would report "no change" forever while the revision sat one URL
+away. Both are kept here — v2 is what the 2025 version record files against,
+because a superset accepts every document the original did — and the refresh
+procedure now probes for the suffix.
+
+The 2018 and 2019 schemas are NOT interchangeable despite defining the same
+row set: 2019 adds the `optInt2` type. Nothing in a finished document says
+which vzor it was written for, which is why the validity windows are recorded
+here and enforced in the version records rather than inferred from a file.
+
+REFRESH PROCEDURE
+  1. Fetch each name above and compare the md5 with the line here.
+  2. Check the STATUS CODE, not the size: a miss returns 404 with a
+     ~1 245-byte HTML error page, a perfectly plausible file size.
+  3. Probe the NEXT year AND a `_v2` suffix on every name already pinned.
+     dppo2025_v2 is why; a year alone is not enough to find a revision.

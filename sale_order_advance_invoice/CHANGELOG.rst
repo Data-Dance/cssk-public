@@ -27,7 +27,7 @@ Fixed
 
 - **Upgrade failed where a TDADV journal already existed without the module's
   xmlid** (``duplicate key value violates unique constraint
-  account_journal_code_company_uniq``; found on adatex, where a localization
+  account_journal_code_company_uniq``; found on a customer's database, where a localization
   helper had created it). The journal is no longer a data record: a function run
   on every install and upgrade adopts the company's existing TDADV journal, or
   creates it, and gives it the xmlid. A live xmlid is left alone.

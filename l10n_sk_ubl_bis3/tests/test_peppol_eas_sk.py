@@ -129,6 +129,43 @@ class TestSlovakPeppolEas(TransactionCase):
         self.assertLess(
             info['ubl_bis3_sk']['sequence'], info['ubl_bis3']['sequence'])
 
+    def test_export_refuses_a_dic_less_party_still_on_9950(self):
+        """The case the first version of this constraint missed entirely.
+
+        With no DIČ recorded, _compute_peppol_eas never promotes the partner to
+        0245, so it keeps core's 9950 default — and a constraint gated on
+        `peppol_eas == '0245'` sailed right past it. On one real agenda that was
+        1076 of 1204 DIČ-less Slovak partners: they would have exported under
+        the IČ DPH, wrong but well-formed, with nothing complaining.
+        """
+        partner = self._partner(vat="SK2020317068")
+        self.assertEqual(partner.peppol_eas, '9950', "core's default for SK")
+        self.assertFalse(partner._l10n_sk_get_dic())
+        builder = self.env['account.edi.xml.ubl_sk']
+        invoice = self.env['account.move'].new({
+            'move_type': 'out_invoice',
+            'partner_id': partner.id,
+            'company_id': self.env.company.id,
+        })
+        constraints = builder._l10n_sk_peppol_constraints(invoice, {})
+        self.assertIn('l10n_sk_ubl_bis3_customer_dic_required', constraints)
+
+    def test_export_accepts_another_scheme_when_the_dic_is_recorded(self):
+        """The constraint asks for the NUMBER, not for a particular scheme, so
+        a partner deliberately published under 9950 with its DIČ on file is
+        not blocked — that is somebody's live registration."""
+        partner = self._partner(l10n_sk_dic="2020317068")
+        partner.peppol_eas = '9950'
+        builder = self.env['account.edi.xml.ubl_sk']
+        invoice = self.env['account.move'].new({
+            'move_type': 'out_invoice',
+            'partner_id': partner.id,
+            'company_id': self.env.company.id,
+        })
+        self.assertNotIn(
+            'l10n_sk_ubl_bis3_customer_dic_required',
+            builder._l10n_sk_peppol_constraints(invoice, {}))
+
     def test_export_refuses_a_slovak_party_without_a_dic(self):
         """With no derivation, a missing DIČ must fail at export with a message
         naming the partner -- not at the access point, where an unknown
@@ -146,3 +183,30 @@ class TestSlovakPeppolEas(TransactionCase):
         self.assertIn('l10n_sk_ubl_bis3_customer_dic_required', constraints)
         self.assertIn(
             "DIČ", constraints['l10n_sk_ubl_bis3_customer_dic_required'])
+
+    def test_adopting_the_dic_participant_is_re_runnable(self):
+        """The gap the i6 run exposed: a partner given its DIČ *after* the
+        upgrade keeps 9950, because that is a valid SK code and the compute
+        treats it as chosen. 1003 of 1105 backfilled partners sat like that."""
+        partner = self._partner(vat="SK2020317068")
+        self.assertEqual(partner.peppol_eas, '9950')
+        partner.l10n_sk_dic = "2020317068"          # as a backfill would
+        self.assertEqual(partner.peppol_eas, '9950', "compute leaves it alone")
+        partner.action_l10n_sk_adopt_dic_participant()
+        self.assertEqual(partner.peppol_eas, '0245')
+        self.assertEqual(partner.peppol_endpoint, "2020317068")
+
+    def test_adopting_leaves_a_hand_set_endpoint_alone(self):
+        """A typed endpoint is a deliberate registration. Only an empty one, or
+        one matching what core derived from the VAT number, may be replaced."""
+        partner = self._partner(vat="SK2020317068", l10n_sk_dic="2020317068")
+        partner.write({'peppol_eas': '9950', 'peppol_endpoint': "0123456789"})
+        partner.action_l10n_sk_adopt_dic_participant()
+        self.assertEqual(partner.peppol_eas, '9950')
+        self.assertEqual(partner.peppol_endpoint, "0123456789")
+
+    def test_adopting_skips_a_partner_with_no_dic(self):
+        partner = self._partner(vat="SK2020317068")
+        partner.action_l10n_sk_adopt_dic_participant()
+        self.assertEqual(partner.peppol_eas, '9950')
+        self.assertNotEqual(partner.peppol_endpoint, "2020317068")

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!--
+      Prehľad peňažných tokov (cash flow) — structured stand-in (no official
+      FS SR XML form; it is a component of the poznámky, usually filed as PDF).
+      bezne = current period, minule = prior period.
+    -->
+    <template id="cashflow_2025">
+        <PrehladPP>
+            <Hlavicka>
+                <IcDphPlatitela t-out="company.vat or ''"/>
+                <Nazov t-out="company.name or ''"/>
+                <Rok t-out="statement.date_to.year"/>
+            </Hlavicka>
+            <Telo>
+                <t t-foreach="lines" t-as="line">
+                    <Riadok t-att-kod="line.code"
+                            t-att-bezne="'%.2f' % line.current_value"
+                            t-att-minule="'%.2f' % line.prior_value"/>
+                </t>
+            </Telo>
+        </PrehladPP>
+    </template>
+
+    <!-- Prehľad o zmenách vlastného imania — structured stand-in (poznámky
+         component, no official FS SR XML form). -->
+    <template id="equity_changes_2025">
+        <PrehladVI>
+            <Hlavicka>
+                <IcDphPlatitela t-out="company.vat or ''"/>
+                <Nazov t-out="company.name or ''"/>
+                <Rok t-out="statement.date_to.year"/>
+            </Hlavicka>
+            <Telo>
+                <t t-foreach="lines" t-as="line">
+                    <Riadok t-att-kod="line.code"
+                            t-att-bezne="'%.2f' % line.current_value"
+                            t-att-minule="'%.2f' % line.prior_value"/>
+                </t>
+            </Telo>
+        </PrehladVI>
+    </template>
+
+    <!--
+      UZPODv14 XML — the official envelope, and the ONLY generator of it:
+      ``l10n.sk.uzpod`` renders through a statement too. The header comes from
+      ``_l10n_sk_uzpod_header`` (``uzpod``), so the NACE, the size class, the
+      druh and the poznámky flag are the filer's, not constants; the body is
+      the statement's own rows, so an override the accountant made on screen is
+      what gets filed. Amounts are whole euros, totals summed from the rounded
+      rows (``cells``, see ``_l10n_sk_uzpod_cells``).
+      s1 brutto, s2 korekcia, s3 netto, s4 netto of the preceding period —
+      tRiadok14. PASÍVA rows are tRiadok56 (s5/s6); výkaz rows tRiadok12.
+    -->
+    <template id="uzpod_v14_template">
+        <dokument>
+            <hlavicka>
+                <datumK>
+                    <den t-out="uzpod['den']"/>
+                    <mesiac t-out="uzpod['mesiac']"/>
+                    <rok t-out="uzpod['rok']"/>
+                </datumK>
+                <dic t-out="uzpod['dic']"/>
+                <ico t-out="uzpod['ico']"/>
+                <skNace>
+                    <k1 t-out="uzpod['k1']"/>
+                    <k2 t-out="uzpod['k2']"/>
+                    <k3 t-out="uzpod['k3']"/>
+                </skNace>
+                <typUzavierky>
+                    <riadna t-out="uzpod['druh']['riadna']"/>
+                    <mimoriadna t-out="uzpod['druh']['mimoriadna']"/>
+                    <priebezna t-out="uzpod['druh']['priebezna']"/>
+                    <mala t-out="uzpod['velkost']['mala']"/>
+                    <velka t-out="uzpod['velkost']['velka']"/>
+                </typUzavierky>
+                <obdobie>
+                    <od>
+                        <mesiac t-out="uzpod['obdobie'][0][0]"/>
+                        <rok t-out="uzpod['obdobie'][0][1]"/>
+                    </od>
+                    <do>
+                        <mesiac t-out="uzpod['obdobie'][1][0]"/>
+                        <rok t-out="uzpod['obdobie'][1][1]"/>
+                    </do>
+                </obdobie>
+                <bPredObdobie>
+                    <od>
+                        <mesiac t-out="uzpod['predobdobie'][0][0]"/>
+                        <rok t-out="uzpod['predobdobie'][0][1]"/>
+                    </od>
+                    <do>
+                        <mesiac t-out="uzpod['predobdobie'][1][0]"/>
+                        <rok t-out="uzpod['predobdobie'][1][1]"/>
+                    </do>
+                </bPredObdobie>
+                <prilozeneSucasti>
+                    <suvaha>1</suvaha>
+                    <vykazZiskovStrat>1</vykazZiskovStrat>
+                    <poznamky t-out="uzpod['poznamky']"/>
+                </prilozeneSucasti>
+                <uctJednotka>
+                    <obchMeno>
+                        <riadok t-out="uzpod['meno'][0]"/>
+                        <riadok t-out="uzpod['meno'][1]"/>
+                    </obchMeno>
+                    <sidlo>
+                        <ulica t-out="uzpod['ulica']"/>
+                        <cislo/>
+                        <psc t-out="uzpod['psc']"/>
+                        <obec t-out="uzpod['obec']"/>
+                        <oznObchodReg>
+                            <riadok t-out="uzpod['register'][0]"/>
+                            <riadok t-out="uzpod['register'][1]"/>
+                        </oznObchodReg>
+                        <telefon t-out="uzpod['telefon']"/>
+                        <fax/>
+                        <email t-out="uzpod['email']"/>
+                    </sidlo>
+                </uctJednotka>
+                <datZostavenia t-out="uzpod['zostavena']"/>
+                <datSchvalenia/>
+            </hlavicka>
+            <telo>
+                <ucPod1Suvaha>
+                    <t t-foreach="[l for l in lines if l.code.startswith('s')]" t-as="line">
+                        <t t-set="tag" t-value="'r' + line.code[1:]"/>
+                        <t t-set="cell" t-value="cells[line.code]"/>
+                        <t t-if="int(line.code[1:]) &lt;= 78" t-raw="'&lt;%s&gt;&lt;s1&gt;%d&lt;/s1&gt;&lt;s2&gt;%d&lt;/s2&gt;&lt;s3&gt;%d&lt;/s3&gt;&lt;s4&gt;%d&lt;/s4&gt;&lt;/%s&gt;' % (tag, cell['g'], cell['k'], cell['n'], cell['p'], tag)"/>
+                        <t t-else="" t-raw="'&lt;%s&gt;&lt;s5&gt;%d&lt;/s5&gt;&lt;s6&gt;%d&lt;/s6&gt;&lt;/%s&gt;' % (tag, cell['n'], cell['p'], tag)"/>
+                    </t>
+                </ucPod1Suvaha>
+                <ucPod2VykazZS>
+                    <t t-foreach="[l for l in lines if l.code.startswith('v')]" t-as="line">
+                        <t t-set="tag" t-value="'r' + line.code[1:]"/>
+                        <t t-set="cell" t-value="cells[line.code]"/>
+                        <t t-raw="'&lt;%s&gt;&lt;s1&gt;%d&lt;/s1&gt;&lt;s2&gt;%d&lt;/s2&gt;&lt;/%s&gt;' % (tag, cell['n'], cell['p'], tag)"/>
+                    </t>
+                </ucPod2VykazZS>
+            </telo>
+        </dokument>
+    </template>
+</odoo>

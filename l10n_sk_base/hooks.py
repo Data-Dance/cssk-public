@@ -11,7 +11,7 @@ before, and a database can carry any combination of them:
 
 ``res_company.l10n_sk_dic``
     A **plain stored Char** declared independently by
-    ``l10n_sk_hr_payroll_prehlad`` and ``l10n_sk_hr_payroll_hlasenie``, each to
+    ``l10n_sk_hr_payroll_monthly_tax_overview`` and ``l10n_sk_hr_payroll_annual_tax_report``, each to
     be self-contained. Install one of those without this module and an
     accountant fills a real column; install this module afterwards and the
     merged field definition acquires ``related=``, the ORM stops reading that

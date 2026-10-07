@@ -6,7 +6,7 @@ and each such case says so. They exist so that changing any of it is a deliberat
 act with a visible diff, because this module carries 2000 lines of money and VAT
 logic and had no tests at all.
 
-Written before adding itemised advance invoices (ADATEX ID 39/87).
+Written before adding itemised advance invoices (a customer request, ticket 39/87).
 """
 
 from odoo.tests import tagged

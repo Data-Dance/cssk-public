@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      CZ Přehled o změnách vlastního kapitálu (vyhláška 500/2002 Sb., součást
+      přílohy). Roll-forward of each equity component: stav na začátku (POC) +
+      změny za období (per component, period movement) = stav na konci (KON).
+      Built as a PARTITION of the class-4 equity accounts (41/42/43, individual
+      entrepreneur 491, treasury 252) plus the current-period result (class 5/6,
+      not yet closed to 431), so the changes reconcile by construction:
+      počátek + Σ změny = konec (G = 0).
+
+      The component split mirrors the Rozvaha vlastní kapitál partition
+      (A.I základní kapitál, A.II ážio a kapitálové fondy, A.III fondy ze zisku,
+      A.IV VH minulých let, A.V VH běžného období, A.VI rozhodnuto o záloh.
+      výplatě), so the closing equity ties to AKTIVA = PASIVA in the same period.
+
+      Each component line is the negated period movement of its accounts (so an
+      increase of vlastní kapitál shows positive). Closing (KON) = −(41,42,43,491,
+      252) plus the current result −(class 5/6); opening (POC) = −(41,42,43,491,
+      252) at the period start (class 5/6 = 0 once the prior year is closed to
+      431). Account groupings follow the standard CZ směrná osnova — confirm with
+      a CZ accountant for non-standard chart assignments; the reconciliation
+      (G = 0) is asserted in tests so a mis-partitioned account is caught.
+    -->
+    <record id="equity_changes_version_2025" model="cssk.fs.statement.version">
+        <field name="name">Přehled o změnách vlastního kapitálu 2025</field>
+        <field name="country_id" ref="base.cz"/>
+        <field name="statement_kind">equity_changes</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_cz_fs.zmeny_vk_2025"/>
+        <field name="xml_root_element">PrehledVK</field>
+        <!-- No XSD is published for the Czech accounting statements:
+             they are filed as attachments inside the DPPO envelope. The
+             absence is the form, not a missing file. -->
+        <field name="xml_schema_optional" eval="True"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'POC', 'name': 'A. Stav vlastního kapitálu na začátku období',
+                    'kind': 'accounts_open', 'level': 0, 'sequence': 10,
+                    'account_formula': '-41,-42,-43,-491,-252'}),
+            (0, 0, {'code': 'ZK', 'name': 'Změny základního kapitálu a vlastních podílů',
+                    'kind': 'accounts', 'level': 2, 'sequence': 20,
+                    'account_formula': '-411,-419,-252'}),
+            (0, 0, {'code': 'AZIO', 'name': 'Změny ážia a kapitálových fondů',
+                    'kind': 'accounts', 'level': 2, 'sequence': 30,
+                    'account_formula': '-412,-413,-414,-416,-417,-418'}),
+            (0, 0, {'code': 'FZ', 'name': 'Změny fondů ze zisku',
+                    'kind': 'accounts', 'level': 2, 'sequence': 40,
+                    'account_formula': '-421,-422,-423,-424,-427'}),
+            (0, 0, {'code': 'VHML', 'name': 'Změny výsledku hospodaření minulých let a rozdělení zisku',
+                    'kind': 'accounts', 'level': 2, 'sequence': 50,
+                    'account_formula': '-426,-428,-429,-431,-432,-491'}),
+            (0, 0, {'code': 'VHB', 'name': 'Výsledek hospodaření běžného účetního období',
+                    'kind': 'accounts', 'level': 2, 'sequence': 60,
+                    'account_formula': '-50,-51,-52,-53,-54,-55,-56,-57,-58,-60,-61,-62,-63,-64,-65,-66,-67,-68,-69'}),
+            (0, 0, {'code': 'ZMENY', 'name': 'B. Změny vlastního kapitálu za období',
+                    'kind': 'aggregate', 'level': 1, 'sequence': 70,
+                    'aggregate_formula': 'ZK + AZIO + FZ + VHML + VHB'}),
+            (0, 0, {'code': 'KON', 'name': 'C. Stav vlastního kapitálu na konci období',
+                    'kind': 'accounts_close', 'level': 0, 'sequence': 80,
+                    'account_formula': '-41,-42,-43,-491,-252,-50,-51,-52,-53,-54,-55,-56,-57,-58,-60,-61,-62,-63,-64,-65,-66,-67,-68,-69'}),
+            (0, 0, {'code': 'G', 'name': 'Kontrola (A + B − C = 0)',
+                    'kind': 'aggregate', 'level': 0, 'sequence': 90,
+                    'aggregate_formula': 'POC + ZMENY - KON'}),
+        ]"/>
+    </record>
+
+</odoo>

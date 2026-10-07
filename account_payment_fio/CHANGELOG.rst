@@ -40,8 +40,8 @@ Carry-over to 18.0
   release is the 18.0 -> 19.0 port that settles it.
 
   Original note, kept for the record: everything under 19.0.1.1.0 plus the
-  unreleased entries landed on ``19.0-fio-api`` only; DURWEN runs the 18.0
-  copies vendored into ``DURWEN_CZ/addons``, which already carried the
+  unreleased entries landed on ``19.0-fio-api`` only; a customer runs the 18.0
+  copies vendored into its own repository, which already carried the
   19.0.1.1.0 fixes while the ``18.0-fio-api`` branch did not.
 
 [19.0.1.2.0] — 2026-09-01

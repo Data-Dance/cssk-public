@@ -57,21 +57,23 @@ class TestStatutoryRounding(BaseCase):
         self.assertEqual(statutory_whole(-9.7), -10)
 
 
-# Real IČOs, taken from the Data Dance production partner base and confirmed
-# against the live registers (ORSF for SK, ARES for CZ) on 2026-09-07.
+# The shapes found on a production partner base and confirmed against the
+# live registers (ORSF for SK, ARES for CZ) on 2026-09-07. Except Data
+# Dance's own, the numbers are synthetic with the check digit computed, so
+# that no business partner is named.
 VALID_ICOS = (
     ("54093431", "Data Dance s.r.o. (SK)"),
-    ("36459488", "eezysmile spol. s r.o. (SK)"),
-    ("00614556", "Moore BDR s. r. o. (SK, leading zeros)"),
-    ("47068370", "Cloudfarms a.s. (SK)"),
-    ("56040890", "Táborčatá s. r. o. (SK, recent)"),
-    ("57152063", "AVENTIC s. r. o. (SK)"),
-    ("32112475", "Jana Havelková-HAVELKA (SK, sole trader)"),
-    ("25380141", "TRAIVA, s.r.o. (CZ)"),
-    ("14042576", "PEMAT CZECHIA s.r.o. (CZ)"),
-    ("41603141", "Bitt technology ČS (CZ)"),
-    ("28585658", "VITAMINÁTOR s.r.o. (CZ)"),
-    ("00216054", "Helian Group s.r.o. (CZ, leading zeros)"),
+    ("36000019", "SK company"),
+    ("00610003", "SK, leading zeros"),
+    ("47000023", "SK joint-stock company"),
+    ("56000031", "SK, recent"),
+    ("57000042", "SK company"),
+    ("32000057", "SK, sole trader"),
+    ("25000063", "CZ company"),
+    ("14000075", "CZ company"),
+    ("41000081", "CZ company"),
+    ("28000099", "CZ company"),
+    ("00210005", "CZ, leading zeros"),
 )
 
 # Every value the checksum rejected on that same base. Three are the company
@@ -85,20 +87,20 @@ INVALID_ICOS = (
     ("20239413", "8 digits, wrong check digit"),
     ("Test", "placeholder word"),
     ("-", "dash"),
-    ("cepatay111", "mailbox name"),
-    ("TRAIVA, s.r.o.", "company name in the number field"),
+    ("office111", "mailbox name"),
+    ("Vzorová, s.r.o.", "company name in the number field"),
     ("JUSTICE.CZ", "register's website"),
-    ("Bitt technology ČS, spol. s r.o.", "company name in the number field"),
+    ("Príklad technology ČS, spol. s r.o.", "company name in the number field"),
 )
 
 # Legitimate registry numbers from countries that do not use the IČO scheme.
 # The check must never see these; if it does, it rejects real customers.
 FOREIGN_REGISTRIES = (
-    "HRB 6089",        # Hetzner Online GmbH (DE)
-    "93-1564675",      # Runpod Inc (US EIN)
-    "40103265308",     # Ascensio System SIA (LV)
-    "1-120979442",     # LABA INTERNATIONAL LIMITED (PG)
-    "201871706",       # VATIVAN Ltd. (BG)
+    "HRB 12345",        # DE, Handelsregister
+    "12-3456789",      # US EIN
+    "40000000000",     # LV, 11 digits
+    "1-123456789",     # PG
+    "200000000",       # BG
 )
 
 
@@ -113,11 +115,11 @@ class TestIco(BaseCase):
 
     def test_accepts_the_printed_forms(self):
         # The register prints in triplets and users paste that verbatim.
-        self.assertTrue(is_valid_ico("00 585 441"))   # KOOPERATIVA (SK)
+        self.assertTrue(is_valid_ico("00 580 007"))   # KOOPERATIVA (SK)
         self.assertTrue(is_valid_ico("097 25 539"))   # One Glare s.r.o. (CZ)
         # An unpadded number is still the same number.
-        self.assertTrue(is_valid_ico("614556"))       # == 00614556
-        self.assertTrue(is_valid_ico("216054"))       # == 00216054
+        self.assertTrue(is_valid_ico("610003"))       # == 00610003
+        self.assertTrue(is_valid_ico("210005"))       # == 00210005
 
     def test_falsy_and_zero(self):
         for value in ("", None, False, "0", "00000000"):
@@ -140,20 +142,20 @@ class TestIco(BaseCase):
     def test_the_floor_does_not_reject_a_real_number(self):
         """Every genuine IČO is written with at least six digits, including
         the old ones that carry leading zeros."""
-        for value in ("614556", "216054", "585441", "695599"):
-            self.assertTrue(is_valid_ico(value), f"{value} is a real IČO")
+        for value in ("610003", "210005", "580007", "690007"):
+            self.assertTrue(is_valid_ico(value), f"{value} is a valid IČO")
 
 
 class TestNormalizeRegistry(BaseCase):
     def test_pads_and_strips(self):
-        self.assertEqual(normalize_registry("00 585 441"), "00585441")
+        self.assertEqual(normalize_registry("00 580 007"), "00580007")
         self.assertEqual(normalize_registry("097 25 539"), "09725539")
-        self.assertEqual(normalize_registry("614556"), "00614556")
+        self.assertEqual(normalize_registry("610003"), "00610003")
         self.assertEqual(normalize_registry(" 54093431 "), "54093431")
 
     def test_keeps_significant_leading_zeros(self):
         # Dropping these corrupts the number on a Czech invoice.
-        self.assertEqual(normalize_registry("00216054"), "00216054")
+        self.assertEqual(normalize_registry("00210005"), "00210005")
         self.assertEqual(normalize_registry("02144298"), "02144298")
 
     def test_never_destroys_an_unrecognised_value(self):
@@ -185,8 +187,8 @@ class TestNormalizeRegistry(BaseCase):
 
 class TestRegistryKey(BaseCase):
     def test_drops_padding_so_the_two_forms_match(self):
-        self.assertEqual(registry_key("00614556"), registry_key("614556"))
-        self.assertEqual(registry_key("00 585 441"), "585441")
+        self.assertEqual(registry_key("00610003"), registry_key("610003"))
+        self.assertEqual(registry_key("00 580 007"), "580007")
 
     def test_distinct_numbers_stay_distinct(self):
         self.assertNotEqual(registry_key("54093431"), registry_key("54093432"))

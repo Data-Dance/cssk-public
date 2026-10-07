@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_cssk_receipt_company" model="ir.rule">
+        <field name="name">Captured receipt: multi-company</field>
+        <field name="model_id" ref="model_cssk_receipt"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_cssk_receipt_line_company" model="ir.rule">
+        <field name="name">Captured receipt line: multi-company</field>
+        <field name="model_id" ref="model_cssk_receipt_line"/>
+        <field name="domain_force">[('receipt_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_cssk_receipt_tax_company" model="ir.rule">
+        <field name="name">Captured receipt VAT recap: multi-company</field>
+        <field name="model_id" ref="model_cssk_receipt_tax"/>
+        <field name="domain_force">[('receipt_id.company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

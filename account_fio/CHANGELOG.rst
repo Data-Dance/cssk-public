@@ -128,8 +128,8 @@ Carry-over to 18.0
   release is the 18.0 -> 19.0 port that settles it.
 
   Original note, kept for the record: everything under 19.0.1.1.0 plus the
-  unreleased entries landed on ``19.0-fio-api`` only; DURWEN runs the 18.0
-  copies vendored into ``DURWEN_CZ/addons``, which already carried the
+  unreleased entries landed on ``19.0-fio-api`` only; a customer runs the 18.0
+  copies vendored into its own repository, which already carried the
   19.0.1.1.0 fixes while the ``18.0-fio-api`` branch did not.
 
 [19.0.2.1.0] — 2026-09-01
@@ -239,7 +239,7 @@ Fixed
   ``Exception``, not a ``UserError``, so over RPC the diagnosis — which is the
   entire value of that button — was stripped and the dialog said nothing. It
   now raises ``UserError`` the way the upload and pull paths already did.
-  Found on DURWEN staging with a stale token.
+  Found on a customer's staging database with a stale token.
 
 [19.0.1.1.0] — 2026-08-24
 -------------------------

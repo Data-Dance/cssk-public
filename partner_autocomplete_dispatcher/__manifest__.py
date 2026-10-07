@@ -7,10 +7,8 @@
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "version": "19.0.1.1.0",
-    "summary": """
-Technical module serving as dispatcher for other modules
-Enables assigning these dependent modules to individual companies
-    """,
+    "summary": "Technical dispatcher for the partner-autocomplete providers: assigns each dependent "
+        "provider module to the companies that should use it.",
     "depends": ["partner_autocomplete", "web"],
     "data": [
         "views/res_config_settings_views.xml",

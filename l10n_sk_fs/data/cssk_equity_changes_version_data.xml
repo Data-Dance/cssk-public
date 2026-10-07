@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+      SK Prehľad o zmenách vo vlastnom imaní (súčasť poznámok). Roll-forward of
+      each equity component: stav na začiatku (E) + zmeny za obdobie (per
+      component, period movement) = stav na konci (F). Built as a PARTITION of
+      class 4 equity accounts (41/42/43) plus the current-period result (class
+      5/6, not yet closed to 431), so the changes reconcile by construction:
+      opening + Σ changes = closing (G = 0).
+
+      Each component line is the negated period movement of its accounts (so an
+      equity increase shows positive). Closing equity (F) = book equity −(41,42,
+      43) plus the current result −(class 5/6); opening (E) = −(41,42,43) at the
+      period start (class 5/6 = 0 once the prior year is closed).
+
+      Account groupings follow the standard SK osnova — confirm with a SK
+      accountant for non-standard chart assignments; the reconciliation (G = 0)
+      is asserted in tests so a mis-partitioned account is caught.
+    -->
+    <record id="equity_changes_version_2025" model="cssk.fs.statement.version">
+        <field name="name">Prehľad zmien vlastného imania 2025</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="statement_kind">equity_changes</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_fs.equity_changes_2025"/>
+        <field name="xml_root_element">PrehladVI</field>
+        <!-- Finančná správa publishes uzsuv/uzvzs schemas for the Súvaha
+             and the VZS, and none for the prehľady — they are filed inside
+             the Úč POD envelope. The absence is the form, not a gap. -->
+        <field name="xml_schema_optional" eval="True"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'E', 'name': 'A. Stav vlastného imania na začiatku obdobia',
+                    'kind': 'accounts_open', 'level': 0, 'sequence': 10,
+                    'account_formula': '-41,-42,-43'}),
+            (0, 0, {'code': 'ZI', 'name': 'Zmena základného imania',
+                    'kind': 'accounts', 'level': 2, 'sequence': 20,
+                    'account_formula': '-411,-419'}),
+            (0, 0, {'code': 'KF', 'name': 'Zmena kapitálových fondov',
+                    'kind': 'accounts', 'level': 2, 'sequence': 30,
+                    'account_formula': '-412,-413'}),
+            (0, 0, {'code': 'OR', 'name': 'Zmena oceňovacích rozdielov',
+                    'kind': 'accounts', 'level': 2, 'sequence': 40,
+                    'account_formula': '-414,-415,-416,-417,-418'}),
+            (0, 0, {'code': 'RF', 'name': 'Zmena fondov zo zisku',
+                    'kind': 'accounts', 'level': 2, 'sequence': 50,
+                    'account_formula': '-421,-422,-423,-426,-427'}),
+            (0, 0, {'code': 'VHM', 'name': 'Zmena VH minulých rokov / v schvaľovaní',
+                    'kind': 'accounts', 'level': 2, 'sequence': 60,
+                    'account_formula': '-428,-429,-431'}),
+            (0, 0, {'code': 'VHO', 'name': 'Výsledok hospodárenia bežného obdobia',
+                    'kind': 'accounts', 'level': 2, 'sequence': 70,
+                    'account_formula': '-50,-51,-52,-53,-54,-55,-56,-57,-58,-60,-61,-62,-63,-64,-65,-66,-67,-68'}),
+            (0, 0, {'code': 'ZMENA', 'name': 'B. Zmeny vlastného imania za obdobie',
+                    'kind': 'aggregate', 'level': 1, 'sequence': 80,
+                    'aggregate_formula': 'ZI + KF + OR + RF + VHM + VHO'}),
+            (0, 0, {'code': 'F', 'name': 'C. Stav vlastného imania na konci obdobia',
+                    'kind': 'accounts_close', 'level': 0, 'sequence': 90,
+                    'account_formula': '-41,-42,-43,-50,-51,-52,-53,-54,-55,-56,-57,-58,-60,-61,-62,-63,-64,-65,-66,-67,-68'}),
+            (0, 0, {'code': 'G', 'name': 'Kontrola (A + B − C = 0)',
+                    'kind': 'aggregate', 'level': 0, 'sequence': 100,
+                    'aggregate_formula': 'E + ZMENA - F'}),
+        ]"/>
+    </record>
+
+</odoo>

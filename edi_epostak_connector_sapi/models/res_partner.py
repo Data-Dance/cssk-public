@@ -65,6 +65,10 @@ class ResPartner(models.Model):
         found = bool(result.get("found"))
         accepts = bool(result.get("accepts"))
         ready = result.get("networkReady")
+        # The provider's own words for WHY, which is the actionable part and
+        # the one thing we cannot phrase better ourselves.
+        reason = (result.get("reason") or "").strip()
+        routing = (result.get("routingStatus") or "").strip()
 
         if found and accepts:
             kind, title = "success", _("Reachable on Peppol")
@@ -82,15 +86,29 @@ class ResPartner(models.Model):
                 participant=participant,
             )
         else:
-            kind, title = "danger", _("Not found on Peppol")
+            # Not a failure of ours: the directory answered, and the answer is
+            # no. A warning rather than a red error, because the commonest
+            # cause is a counterparty who simply has not registered yet — and
+            # the second commonest is our own EAS being wrong, which the
+            # message names.
+            kind, title = "warning", _("Not registered on Peppol")
             message = _(
-                "%(participant)s is not registered in the Peppol directory. "
-                "Check the EAS scheme and the endpoint value.",
+                "%(participant)s is not registered in the Peppol directory, "
+                "so Peppol cannot deliver to it. Check the EAS scheme and the "
+                "endpoint value — a Slovak DIČ is scheme 0245, an IČ DPH is "
+                "9950 — or ask the counterparty for their Peppol address.",
                 participant=participant,
             )
         if ready is False:
             message += " " + _("(The provider reports the participant as not "
                                "network-ready.)")
+        # Only where it tells the user something. On a clean success the
+        # routing status is "ready", which the title already said.
+        if reason or (routing and not (found and accepts)):
+            detail = reason or _("no reason given")
+            if routing:
+                detail = "%s (%s)" % (detail, routing)
+            message += "\n\n" + _("ePošťák reports: %s", detail)
 
         return {
             "type": "ir.actions.client",

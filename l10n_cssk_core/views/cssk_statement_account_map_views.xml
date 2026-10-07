@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cssk_statement_account_map_view_list" model="ir.ui.view">
+        <field name="name">cssk.statement.account.map.list</field>
+        <field name="model">cssk.statement.account.map</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="account_id"/>
+                <field name="balance_side"/>
+                <field name="reported_code"/>
+                <field name="note"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="cssk_statement_account_map_view_search" model="ir.ui.view">
+        <field name="name">cssk.statement.account.map.search</field>
+        <field name="model">cssk.statement.account.map</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="account_id"/>
+                <field name="reported_code"/>
+                <filter name="side_dependent" string="Depends on balance side"
+                        domain="[('balance_side', '!=', 'any')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="cssk_statement_account_map_action" model="ir.actions.act_window">
+        <field name="name">Statement account mapping</field>
+        <field name="res_model">cssk.statement.account.map</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Report an account under another code</p>
+            <p>Statutory statements read balances by the account codes their
+               rows name. An account of your own chart that no row names —
+               an analytic carried over from another system — lands on no row.
+               Map it to the code the form expects, for any balance or only
+               for a debit or credit balance at the period end.</p>
+        </field>
+    </record>
+
+</odoo>

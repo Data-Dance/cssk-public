@@ -1,0 +1,57 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <p class="oe_mt8" style="text-align:right;">🌐 <a href="index.html">EN</a> · <b>CZ</b> · <a href="index_sk.html">SK</a></p>
+        <h2 class="oe_slogan">CZ Účetní závěrka (Rozvaha / Výsledovka)</h2>
+        <h3 class="oe_slogan" style="color:#875A7B;">Česká účetní závěrka nad sdíleným frameworkem FS — mapování řádků podle účtových předčíslí a strukturované XML.</h3>
+        <div class="oe_span12">
+            <p>
+                Česká národní vrstva sdíleného frameworku pro účetní závěrku
+                (<code>l10n_cssk_fs_base</code>). Je CE-čistá: hodnoty řádků se sčítají z modelu
+                <code>account.move.line</code> podle předčíslí účtu — Rozvaha je kumulativní k datu
+                sestavení, zatímco Výkaz zisku a ztráty (VZZ) vykazuje pohyb za období. Modul
+                obsahuje úplnou zákonnou strukturu řádků podle vyhlášky 500/2002 Sb. a strukturované
+                XML exporty, které slouží jako podklad pro přílohy DPPDP9 a podání do obchodního
+                rejstříku (sbírka listin).
+            </p>
+        </div>
+    </div>
+</section>
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Klíčové funkce</h2>
+        <div class="oe_span12">
+            <ul>
+                <li>Úplná zákonná struktura řádků podle vyhlášky 500/2002 Sb.: Rozvaha (skupiny v plném rozsahu a klíčové číslované řádky) a Výkaz zisku a ztráty v druhovém členění.</li>
+                <li>Každý účet l10n_cz směrné účtové osnovy je namapován právě na jeden listový řádek (rozklad je ověřen v testech), takže agregáty sedí: AKTIVA = PASIVA a výsledek hospodaření = výnosy − náklady.</li>
+                <li>Výsledek běžného období (A.V) se počítá z tříd 5/6, takže rozvaha sedí ještě dříve, než je výsledek převeden na účet 431.</li>
+                <li>Přehled o peněžních tocích (nepřímá metoda) a Přehled o změnách vlastního kapitálu — komponenty přílohy sestavené jako úplný rozklad účtů do provozní/investiční/finanční činnosti (resp. složek vlastního kapitálu), které sedí ze své konstrukce (A + B + C = Δpeníze; počátek + Σ změny = konec; G = 0 ověřeno v testech).</li>
+                <li>Strukturovaný XML export pro každý výkaz. Pro úplnou závěrku neexistuje samostatné EPO XSD, proto je XML strukturovanou náhradou vedle PDF / podání do obchodního rejstříku.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Použití</h2>
+        <div class="oe_span12">
+            <p>
+                Vytvořte záznam účetní závěrky pro příslušnou zákonnou verzi (Rozvaha, Výkaz zisku
+                a ztráty, peněžní toky nebo změny vlastního kapitálu), nastavte vykazované období
+                a spočítejte řádky. Hodnoty se sčítají přímo ze zaúčtovaných účetních položek,
+                agregáty sedí ze své konstrukce a výsledek lze exportovat jako strukturované XML pro
+                přílohy DPPDP9 a podání do obchodního rejstříku. Poznámka pro účetní: rozdělení
+                dlouhodobých/krátkodobých pohledávek a závazků a alokace opravných položek vycházejí
+                ze standardní konvence osnovy — u subjektů s nestandardním přiřazením účtů ověřte
+                s českým účetním.
+            </p>
+        </div>
+    </div>
+</section>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12" style="text-align:center;">
+            <p>Vydává <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+            <p><small>Licence: Data Dance Proprietary License v1.0</small></p>
+        </div>
+    </div>
+</section>

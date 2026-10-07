@@ -3,9 +3,9 @@ import re
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 from odoo.tools.translate import LazyTranslate
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools.safe_eval import safe_eval
 
 _lt = LazyTranslate(__name__)
@@ -65,6 +65,17 @@ class CSSKFsStatement(models.Model):
     # (recompute then re-reads them); see action_create_amendment.
     line_ids = fields.One2many(
         "cssk.fs.statement.line", "statement_id", copy=True)
+    # The same rows split by the part of the document they belong to. The
+    # Slovak Úč POD files the súvaha and the výkaz ziskov a strát as ONE
+    # document, so both menus open the same record; each shows only its part
+    # (the menu passes ``fs_section`` in its context), and opened from
+    # anywhere else the record shows the whole tree.
+    balance_line_ids = fields.One2many(
+        "cssk.fs.statement.line", "statement_id",
+        domain=[("in_movement_section", "=", False)])
+    movement_line_ids = fields.One2many(
+        "cssk.fs.statement.line", "statement_id",
+        domain=[("in_movement_section", "=", True)])
 
     # Health roll-up: how many drillable leaves don't tie to their journal items.
     unreconciled_count = fields.Integer(compute="_compute_unreconciled_count")
@@ -76,10 +87,25 @@ class CSSKFsStatement(models.Model):
     # rather than inferred. Recorded at compute time, when the balances are in
     # hand.
     unmapped_count = fields.Integer(readonly=True, copy=False)
-    unmapped_note = fields.Text(
-        readonly=True, copy=False, string="Accounts on no row",
+    # Rows, not a text blob: the reader needs the account's NAME and the
+    # amount as money, and a pre-formatted string carried neither — nor could
+    # it be translated, because it was assembled before anyone read it.
+    unmapped_line_ids = fields.One2many(
+        "cssk.fs.statement.unmapped", "statement_id", readonly=True,
+        copy=False, string="Unmapped accounts",
         help="Accounts carrying a balance that no row of this statement "
              "claims. Their money is in the ledger and not on the form.")
+    # The plain-text rendering the logs and the tests read; derived, so it
+    # cannot disagree with the rows.
+    unmapped_note = fields.Text(
+        compute="_compute_unmapped_note", string="Unmapped accounts (text)")
+
+    @api.depends("unmapped_line_ids.code", "unmapped_line_ids.balance")
+    def _compute_unmapped_note(self):
+        for stmt in self:
+            stmt.unmapped_note = "\n".join(
+                "%s  %.2f" % (ln.code, ln.balance)
+                for ln in stmt.unmapped_line_ids) or False
 
     @api.depends("line_ids.has_source", "line_ids.source_reconciles")
     def _compute_unreconciled_count(self):
@@ -147,13 +173,17 @@ class CSSKFsStatement(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        # FS statements are annual — default to the previous calendar year so the
-        # version domain (which depends on the period) resolves on a new record.
+        # FS statements are annual — default to the last COMPLETED fiscal year
+        # of the company, so the version domain (which depends on the period)
+        # resolves on a new record. A calendar year was wrong for every
+        # company whose hospodársky rok does not end in December.
+        company = self.env.company
         today = fields.Date.context_today(self)
-        res.setdefault(
-            "date_from", today.replace(year=today.year - 1, month=1, day=1))
-        res.setdefault(
-            "date_to", today.replace(year=today.year - 1, month=12, day=31))
+        current = company.compute_fiscalyear_dates(today)
+        last = company.compute_fiscalyear_dates(
+            current["date_from"] - relativedelta(days=1))
+        res.setdefault("date_from", last["date_from"])
+        res.setdefault("date_to", last["date_to"])
         # The per-kind menus pass ``fs_create_kind`` so New lands on the right
         # statement type with its current version preselected.
         kind = self.env.context.get("fs_create_kind")
@@ -165,24 +195,40 @@ class CSSKFsStatement(models.Model):
             # field empty, and offer nothing in the dropdown either — the field
             # domain filters the same way. Archiving has to stay a presentation
             # decision, not one that makes old periods unenterable.
-            ver = self.env["cssk.fs.statement.version"].with_context(
-                active_test=False).search([
-                ("statement_kind", "=", kind),
+            Version = self.env["cssk.fs.statement.version"].with_context(
+                active_test=False)
+            period = [
                 ("country_id", "=", country.id),
                 ("valid_from", "<=", res["date_to"]),
                 "|", ("valid_to", "=", False),
                 ("valid_to", ">=", res["date_from"]),
-            ], order="valid_from desc", limit=1)
+            ]
+            ver = Version.search([("statement_kind", "=", kind)] + period,
+                                 order="valid_from desc", limit=1)
+            # A country that files its income statement INSIDE the balance
+            # sheet document (SK Úč POD) has no profit_loss version; New from
+            # the Income statement menu lands on that combined one instead.
+            if not ver and kind == "profit_loss":
+                ver = Version.search([("covers_profit_loss", "=", True)] + period,
+                                     order="valid_from desc", limit=1)
             if ver:
                 res["version_id"] = ver.id
         return res
 
-    @api.depends("statement_kind", "date_to", "submission_type")
+    @api.depends("statement_kind", "version_id.covers_profit_loss",
+                 "date_to", "submission_type")
     def _compute_name(self):
         for st in self:
             suffix = _("(corrective)") if st.submission_type == "opravna" else ""
+            # Listed under both Balance sheet and Income statement, so it must
+            # not call itself either one.
+            if (st.statement_kind == "balance_sheet"
+                    and st.version_id.covers_profit_loss):
+                label = _("Financial statements")
+            else:
+                label = _(self._KIND_LABELS.get(st.statement_kind, "FS"))
             st.name = "%s — %s%s" % (
-                _(self._KIND_LABELS.get(st.statement_kind, "FS")),
+                label,
                 st.date_to or "",
                 (" " + suffix) if suffix else "",
             )
@@ -201,17 +247,33 @@ class CSSKFsStatement(models.Model):
         self.ensure_one()
         if self.state not in ("draft", "preview"):
             raise UserError(_("Only draft statements can be recomputed."))
+        # An aggregate is never carried over, even if an older version of
+        # this module let one be ticked: a total typed over its own rows no
+        # longer adds them up, and the form then foots to nothing.
+        aggregates = set(self.version_id.line_def_ids.filtered(
+            lambda d: d.kind == "aggregate").mapped("code"))
         overrides = {
             line.code: line.manual_value
             for line in self.line_ids
-            if line.is_overridden
+            if line.is_overridden and line.code not in aggregates
+        }
+        # The comparative column has its own override: a company's first year
+        # in Odoo has no prior-year ledger to read, and the form must still
+        # show last year's figures as they were filed.
+        prior_overrides = {
+            line.code: line.prior_manual_value
+            for line in self.line_ids
+            if line.is_prior_overridden and line.code not in aggregates
         }
         self.line_ids.unlink()
 
+        sources = {}
         current, columns = self._compute_period(
-            self.date_from, self.date_to, overrides)
+            self.date_from, self.date_to, overrides, sources=sources)
+        columns = self._fs_complete_columns(current, columns)
         prior_from, prior_to = self._prior_dates()
-        prior, _prior_columns = self._compute_period(prior_from, prior_to)
+        prior, _prior_columns = self._compute_period(
+            prior_from, prior_to, prior_overrides)
 
         vals = []
         for ldef in self.version_id.line_def_ids.sorted("sequence"):
@@ -229,27 +291,34 @@ class CSSKFsStatement(models.Model):
                     "correction_value": columns.get(ldef.code, (0.0, 0.0))[1],
                     "is_overridden": ldef.code in overrides,
                     "manual_value": overrides.get(ldef.code, 0.0),
+                    "is_prior_overridden": ldef.code in prior_overrides,
+                    "prior_manual_value": prior_overrides.get(ldef.code, 0.0),
                 }
             )
         created = self.env["cssk.fs.statement.line"].create(vals)
-        self._fs_build_tree_and_sources(created)
+        self._fs_build_tree_and_sources(created, sources)
         self._cssk_record_unmapped()
         self.state = "preview"
 
     def action_view_unmapped(self):
         """Name them. A count tells nobody which account to go and look at."""
         self.ensure_one()
-        raise UserError(_(
-            "%(count)s account(s) carry a balance that no row of this "
-            "statement claims, so their money is in the ledger and not on the "
-            "form:\n\n%(codes)s\n\nEither the chart uses codes this form's "
-            "mapping does not name, or a row is missing them.",
-            count=self.unmapped_count, codes=self.unmapped_note or ""))
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Unmapped accounts"),
+            "res_model": "cssk.fs.statement",
+            "res_id": self.id,
+            "view_mode": "form",
+            "views": [(self.env.ref(
+                "l10n_cssk_fs_base.cssk_fs_statement_unmapped_form").id,
+                "form")],
+            "target": "new",
+        }
 
     def _cssk_record_unmapped(self):
         """Report the accounts that reached no row of this statement."""
         self.ensure_one()
-        balances = self._cssk_account_balance_map(None, self.date_to)
+        groups = self._cssk_account_balance_groups(None, self.date_to)
         cells = [
             (formula, [])
             for ldef in self.version_id.line_def_ids
@@ -257,23 +326,47 @@ class CSSKFsStatement(models.Model):
                             ldef.account_formula_correction)
         ]
         unmapped = self._cssk_unmapped_codes(
-            balances, cells, claimed=self._cssk_claimed_codes(),
+            {code: entry[0] for code, entry in groups.items()}, cells,
+            claimed=self._cssk_claimed_codes(),
             tag_codes=self._cssk_tag_codes())
         # Rounding dust is not a mapping error and naming it buries the ones
         # that are.
-        unmapped = [(code, bal) for code, bal in unmapped if abs(bal) >= 1.0]
-        self.unmapped_count = len(unmapped)
-        self.unmapped_note = "\n".join(
-            "%s  %.2f" % (code, bal) for code, bal in unmapped[:50]) or False
+        unmapped = [(code, bal, groups[code][1])
+                    for code, bal in unmapped if abs(bal) >= 1.0]
+        self._cssk_set_unmapped(unmapped[:50], count=len(unmapped))
         if unmapped:
             _logger.warning(
                 "%s: %d account(s) carry a balance that no row claims: %s",
                 self.display_name, len(unmapped),
-                ", ".join("%s %.0f" % (c, b) for c, b in unmapped[:10]))
+                ", ".join("%s %.0f" % (c, b) for c, b, _a in unmapped[:10]))
 
-    def _fs_build_tree_and_sources(self, lines):
+    def _cssk_set_unmapped(self, unmapped, count=None):
+        """Replace the unmapped-account rows with
+        ``[(reported code, balance, account ids)]``. The code is the one the
+        balance was keyed by, so a statement account mapping can put several
+        accounts behind one row."""
+        self.ensure_one()
+        self.unmapped_line_ids = [Command.clear()] + [
+            Command.create({
+                "sequence": seq,
+                "code": code,
+                "account_ids": [Command.set(account_ids)],
+                "balance": bal,
+            })
+            for seq, (code, bal, account_ids) in enumerate(unmapped)
+        ]
+        self.unmapped_count = len(unmapped) if count is None else count
+
+    def _fs_build_tree_and_sources(self, lines, sources=None):
         """Link the foldable hierarchy (parent_id, from each aggregate's formula)
-        and, for leaf lines, the exact journal items behind the value."""
+        and, for leaf lines, the exact journal items behind the value.
+
+        ``sources`` is what ``_compute_period`` recorded for the current
+        period: per leaf, the accounts that actually added to its figure and
+        the window they were read over. A leaf found there drills into exactly
+        those journal items; one that is not (a caller that did not pass
+        ``sources``) falls back to reading the formula's code prefixes."""
+        sources = sources or {}
         by_code = {ln.code: ln for ln in lines}
         for ldef in self.version_id.line_def_ids:
             line = by_code.get(ldef.code)
@@ -285,8 +378,50 @@ class CSSKFsStatement(models.Model):
                     child = by_code.get(child_code)
                     if child and child != line and not child.parent_id:
                         child.parent_id = line.id
+            elif line.is_leaf and ldef.code in sources:
+                line.source_domain = repr(
+                    self._fs_contributor_domain(*sources[ldef.code]))
             elif line.is_leaf and ldef.account_formula:
                 line.source_domain = repr(self._fs_source_domain(ldef))
+        self._fs_assign_sections(lines)
+
+    def _fs_assign_sections(self, lines):
+        """Mark each row with the part of the document it belongs to.
+
+        Not by the row's own basis: súvaha row A.VIII (current-year result)
+        reads the period movement of triedy 5/6 and is still a súvaha row. A
+        row belongs where the TOP of its tree belongs — A.VIII sits under
+        SPOLU VLASTNÉ IMANIE A ZÁVÄZKY, which is an as-of balance."""
+        self.ensure_one()
+        defs = {d.code: d for d in self.version_id.line_def_ids}
+        movement = lines.browse()
+        for line in lines:
+            root, seen = line, set()
+            while root.parent_id and root.id not in seen:
+                seen.add(root.id)
+                root = root.parent_id
+            ldef = defs.get(root.code)
+            if ldef and ldef._cssk_reads_movement():
+                movement |= line
+        movement.in_movement_section = True
+        (lines - movement).in_movement_section = False
+
+    def _fs_contributor_domain(self, win_from, win_to, account_ids):
+        """The journal items a leaf's figure was summed from: the SAME
+        domain the balances were read with (company, posted, date window,
+        year-end closing journals left out) narrowed to the accounts that
+        contributed. Reading the formula a second time instead — plain code
+        prefixes, every journal, the period movement even for an as-of row —
+        drilled into documents that did not add up to the row, and flagged it
+        unreconciled."""
+        if not account_ids:
+            return False
+        domain = [
+            (term[0], term[1], str(term[2]))
+            if term[0] == "date" else tuple(term)
+            for term in self._cssk_account_balance_domain(win_from, win_to)
+        ]
+        return domain + [("account_id", "in", sorted(account_ids))]
 
     def _fs_source_domain(self, ldef):
         """A small, serialisable account.move.line domain for the leaf's source
@@ -355,9 +490,14 @@ class CSSKFsStatement(models.Model):
                 ordered.append(d)
         return ordered
 
-    def _compute_period(self, date_from, date_to, overrides=None):
+    def _compute_period(self, date_from, date_to, overrides=None,
+                        sources=None):
         """Return ``{code: value}`` for the given period (overrides applied so
-        dependent aggregates see them)."""
+        dependent aggregates see them).
+
+        Pass a dict as ``sources`` to have it filled with
+        ``{leaf code: (window from, window to, {account ids})}`` — the
+        accounts that added to each leaf, for its drill-down."""
         self.ensure_one()
         overrides = overrides or {}
         computed = {}
@@ -375,22 +515,41 @@ class CSSKFsStatement(models.Model):
         # one search per code prefix per line): the prefix matching happens
         # in Python in _eval_accounts. At most three windows exist (period
         # movement, opening cumulative, closing cumulative).
+        window_groups = {}
         window_maps = {}
+
+        def groups(win_from, win_to):
+            key = (win_from, win_to)
+            if key not in window_groups:
+                window_groups[key] = self._cssk_account_balance_groups(
+                    win_from, win_to)
+            return window_groups[key]
 
         def balances(win_from, win_to):
             key = (win_from, win_to)
             if key not in window_maps:
-                window_maps[key] = self._cssk_account_balance_map(
-                    win_from, win_to)
+                window_maps[key] = {
+                    code: entry[0]
+                    for code, entry in groups(win_from, win_to).items()}
             return window_maps[key]
 
+        def record(ldef, win_from, win_to, codes):
+            if sources is None:
+                return
+            window = groups(win_from, win_to)
+            sources[ldef.code] = (win_from, win_to, {
+                account_id for code in codes
+                for account_id in window.get(code, (0.0, []))[1]})
+
         for ldef in self._cssk_eval_order():
-            if ldef.code in overrides:
-                value = overrides[ldef.code]
-            elif ldef.kind == "accounts":
-                window = balances(
-                    date_from if ldef._cssk_reads_movement() else None, date_to)
-                value = self._eval_accounts(ldef.account_formula, window)
+            # A leaf is evaluated even when overridden, so that its
+            # drill-down still opens what the ledger holds for it.
+            codes = set()
+            if ldef.kind == "accounts":
+                win_from = date_from if ldef._cssk_reads_movement() else None
+                window = balances(win_from, date_to)
+                value = self._eval_accounts(
+                    ldef.account_formula, window, contributors=codes)
                 if ldef.account_formula_correction:
                     # Brutto / korekcia / netto. The korekcia accounts carry
                     # credit balances (oprávky, opravné položky), so their sum
@@ -398,25 +557,73 @@ class CSSKFsStatement(models.Model):
                     # nets it off the gross, which is what the tlačivo's
                     # "(013) - /073, 091A/" says in words.
                     correction = -self._eval_accounts(
-                        ldef.account_formula_correction, window)
+                        ldef.account_formula_correction, window,
+                        contributors=codes)
                     columns[ldef.code] = (value, correction)
                     value = value - correction
+                record(ldef, win_from, date_to, codes)
             elif ldef.kind == "accounts_open":
                 # cumulative balance the day before the period (stav PP na začiatku)
                 value = self._eval_accounts(
-                    ldef.account_formula, balances(None, opening))
+                    ldef.account_formula, balances(None, opening),
+                    contributors=codes)
+                record(ldef, None, opening, codes)
             elif ldef.kind == "accounts_close":
                 # cumulative balance at period end (stav PP na konci)
                 value = self._eval_accounts(
-                    ldef.account_formula, balances(None, date_to))
+                    ldef.account_formula, balances(None, date_to),
+                    contributors=codes)
+                record(ldef, None, date_to, codes)
+            if ldef.code in overrides and ldef.kind != "aggregate":
+                value = overrides[ldef.code]
+                # The override replaces the NETTO, and the three columns must
+                # still add up (netto = brutto - korekcia, a kontrola of the
+                # form). Keep the ledger's korekcia — oprávky and opravné
+                # položky are the part the books get right — and let brutto
+                # follow from it. Dropping both to 0 filed 0 / 0 / netto,
+                # which fails that kontrola.
+                if ldef.code in columns:
+                    correction = columns[ldef.code][1]
+                    columns[ldef.code] = (value + correction, correction)
             elif ldef.kind == "aggregate":
                 value = self._eval_aggregate(ldef.aggregate_formula, computed)
-            else:
+            elif ldef.kind not in ("accounts", "accounts_open",
+                                   "accounts_close"):
                 value = 0.0
             computed[ldef.code] = value
         return computed, columns
 
-    def _eval_accounts(self, formula, balances):
+    def _fs_complete_columns(self, computed, columns):
+        """``{code: (brutto, korekcia)}`` for EVERY row, not only the leaves
+        that read a korekcia off the ledger.
+
+        The SK Súvaha files brutto / korekcia / netto on all 78 AKTÍVA rows
+        (tRiadok14), totals included, and the template reads them off the
+        lines. Only rows with a korekcia formula used to get columns, so every
+        total and every row without one — r001 SPOLU MAJETOK, the cash rows —
+        filed 0 / 0 / netto. The rule is the one the Czech DPPDP9 výkazy
+        already apply (``l10n_cz_dppo``): a total's korekcia is its own
+        formula over its children's, which is linear like the netto sum; any
+        other row has none; brutto = netto + korekcia throughout.
+
+        Run on the FINAL figures, after any module's ``_compute_period``
+        override has re-evaluated its totals."""
+        corrections = {}
+        out = {}
+        for ldef in self._cssk_eval_order():
+            code = ldef.code
+            if code in columns:
+                correction = columns[code][1]
+            elif ldef.kind == "aggregate":
+                correction = self._eval_aggregate(
+                    ldef.aggregate_formula, corrections)
+            else:
+                correction = 0.0
+            corrections[code] = correction
+            out[code] = (computed.get(code, 0.0) + correction, correction)
+        return out
+
+    def _eval_accounts(self, formula, balances, contributors=None):
         """Signed sum of the pre-fetched account-code balances matching the
         formula's comma-separated code prefixes.
 
@@ -444,7 +651,8 @@ class CSSKFsStatement(models.Model):
             formula, balances, default_sign=1.0,
             claimed=self._cssk_claimed_codes(),
             two_sided=self._cssk_two_sided_prefixes(),
-            tag_codes=self._cssk_tag_codes())
+            tag_codes=self._cssk_tag_codes(),
+            contributors=contributors)
 
     def _cssk_tag_codes(self):
         """Delegated to the version; see ``_cssk_two_sided_prefixes``."""
@@ -553,6 +761,15 @@ class CSSKFsStatementLine(models.Model):
         "across recompute and fed into dependent lines).",
     )
     manual_value = fields.Monetary(currency_field="company_currency_id")
+    is_prior_overridden = fields.Boolean(
+        string="Override prior period",
+        help="Tick to enter the comparative figure by hand — typically in the "
+        "first year kept in Odoo, when the prior year's ledger is elsewhere. "
+        "Preserved across recompute and fed into dependent lines.",
+    )
+    prior_manual_value = fields.Monetary(
+        currency_field="company_currency_id",
+        string="Manual prior value")
 
     # --- hierarchy + drill-down (foldable statement tree -> journal items) ---
     parent_id = fields.Many2one(
@@ -560,6 +777,11 @@ class CSSKFsStatementLine(models.Model):
     child_ids = fields.One2many(
         "cssk.fs.statement.line", "parent_id")
     is_leaf = fields.Boolean(compute="_compute_is_leaf", store=True)
+    in_movement_section = fields.Boolean(
+        readonly=True,
+        help="The row belongs to the part of the document that reports the "
+        "period's movement (výkaz ziskov a strát) rather than balances at "
+        "its end (súvaha) — decided by the top of the row's tree.")
     tree_label = fields.Char(compute="_compute_tree_label")
     # Drill-down: a small serialised account.move.line domain (re-queried on
     # click) — a leaf can span a year of postings, so we store the criteria, not
@@ -592,9 +814,15 @@ class CSSKFsStatementLine(models.Model):
     def _compute_source_reconciles(self):
         # Batched: ONE grouped query per statement per date window (instead
         # of one _read_group per line on every form load). Leaf domains share
-        # the company/date base and differ only in their account-code
-        # prefixes, so the prefix matching happens in Python on a
-        # {account_code: balance} map.
+        # the company/date base and differ only in their account terms, so the
+        # account filtering happens in Python on a per-account balance map.
+        #
+        # Two shapes of domain exist: ``account_id in [...]`` (the accounts
+        # that actually contributed — what a recompute now stores) and the
+        # older ``account_id.code =like`` prefixes, still on statements
+        # computed before. Both are read against the account's OWN code and
+        # id, never a reported code: a drill-down opens real journal items.
+        MoveLine = self.env["account.move.line"]
         for stmt, lines in self.grouped("statement_id").items():
             maps = {}
             for line in lines:
@@ -602,21 +830,30 @@ class CSSKFsStatementLine(models.Model):
                     line.source_reconciles = False
                     continue
                 domain = safe_eval(line.source_domain)
+                terms = [term for term in domain
+                         if isinstance(term, (list, tuple))]
                 prefixes = [
-                    term[2][:-1] for term in domain
-                    if isinstance(term, (list, tuple))
-                    and term[0] == "account_id.code" and term[1] == "=like"]
-                base = [
-                    list(term) for term in domain
-                    if isinstance(term, (list, tuple))
-                    and term[0] != "account_id.code"]
+                    term[2][:-1] for term in terms
+                    if term[0] == "account_id.code" and term[1] == "=like"]
+                account_ids = set()
+                for term in terms:
+                    if term[0] == "account_id" and term[1] == "in":
+                        account_ids.update(term[2])
+                base = [list(term) for term in terms
+                        if term[0] not in ("account_id.code", "account_id")]
                 key = repr(base)
                 if key not in maps:
-                    maps[key] = stmt._cssk_balances_by_account_code(
-                        base, company=stmt.company_id)
+                    maps[key] = [
+                        (account.id,
+                         account.with_company(stmt.company_id).code or "",
+                         balance or 0.0)
+                        for account, balance in MoveLine._read_group(
+                            base, groupby=["account_id"],
+                            aggregates=["balance:sum"])]
                 s = sum(
-                    balance for code, balance in maps[key].items()
-                    if any(code.startswith(p) for p in prefixes))
+                    balance for acc_id, code, balance in maps[key]
+                    if acc_id in account_ids
+                    or any(code.startswith(p) for p in prefixes))
                 line.source_reconciles = (
                     abs(abs(s) - abs(line.current_value)) < 0.5)
 
@@ -635,8 +872,92 @@ class CSSKFsStatementLine(models.Model):
                         "group_by": ["move_id"]},
         }
 
+    _OVERRIDE_FIELDS = frozenset({
+        "is_overridden", "manual_value",
+        "is_prior_overridden", "prior_manual_value"})
+
+    def write(self, vals):
+        res = super().write(vals)
+        # A manual figure moves only its own row; the totals over it wait for
+        # the next Compute. Until then the statement does not add up, so it
+        # goes back to draft — which is the state export refuses — instead of
+        # letting stale totals be filed beside the new figure.
+        if self._OVERRIDE_FIELDS & vals.keys():
+            self.statement_id.filtered(
+                lambda st: st.state == "preview").state = "draft"
+        return res
+
+    @api.constrains("kind", "is_overridden", "is_prior_overridden")
+    def _check_override_not_aggregate(self):
+        for line in self:
+            if line.kind == "aggregate" and (
+                    line.is_overridden or line.is_prior_overridden):
+                raise ValidationError(_(
+                    "Row %(code)s is a total of other rows and cannot be "
+                    "overridden — override the rows it adds up instead.",
+                    code=line.code))
+
     @api.onchange("is_overridden", "manual_value")
     def _onchange_override(self):
         for line in self:
             if line.is_overridden:
                 line.current_value = line.manual_value
+
+    @api.onchange("is_prior_overridden", "prior_manual_value")
+    def _onchange_prior_override(self):
+        for line in self:
+            if line.is_prior_overridden:
+                line.prior_value = line.prior_manual_value
+
+
+class CSSKFsStatementUnmapped(models.Model):
+    """An account with a balance that no row of the statement claims."""
+
+    _name = "cssk.fs.statement.unmapped"
+    _description = "Financial Statement Unmapped Account"
+    _order = "statement_id, sequence, id"
+
+    statement_id = fields.Many2one(
+        "cssk.fs.statement", required=True, ondelete="cascade", index=True)
+    sequence = fields.Integer()
+    company_currency_id = fields.Many2one(related="statement_id.currency_id")
+    # The code the balance was keyed by: the account's own, or the one a
+    # statement account mapping reports it under — in which case several
+    # accounts can stand behind it. Kept as text, so it survives an account
+    # that was since renumbered or deleted.
+    code = fields.Char(required=True)
+    account_ids = fields.Many2many(
+        "account.account", string="Accounts", readonly=True)
+    account_name = fields.Char(
+        compute="_compute_account_name", string="Account")
+    balance = fields.Monetary(
+        currency_field="company_currency_id",
+        help="Balance as of the statement's end date (debit positive).")
+
+    @api.depends("account_ids", "statement_id.company_id")
+    def _compute_account_name(self):
+        for row in self:
+            accounts = row.account_ids.with_company(
+                row.statement_id.company_id)
+            if len(accounts) == 1 and accounts.code == row.code:
+                row.account_name = accounts.name
+            else:
+                row.account_name = ", ".join(
+                    "%s %s" % (acc.code, acc.name) for acc in accounts)
+
+    def action_view_journal_items(self):
+        self.ensure_one()
+        stmt = self.statement_id
+        domain = [
+            (term[0], term[1], str(term[2])) if term[0] == "date" else term
+            for term in stmt._cssk_account_balance_domain(None, stmt.date_to)
+        ]
+        return {
+            "type": "ir.actions.act_window",
+            "name": "%s %s" % (self.code, self.account_name or ""),
+            "res_model": "account.move.line",
+            "view_mode": "list,form",
+            "domain": domain + [("account_id", "in", self.account_ids.ids)],
+            "context": {"create": False, "delete": False,
+                        "group_by": ["account_id"]},
+        }

@@ -8,8 +8,122 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.9.0] — 2026-10-05
+-------------------------
+
 Fixed
 ~~~~~
+
+- **Every total, and every row without a korekcia formula, filed brutto and
+  korekcia as 0.** Only leaves reading a korekcia off the ledger got the
+  split, so the SK Súvaha exported r001 SPOLU MAJETOK as 0 / 0 / netto, and
+  the cash rows likewise — every one of them failing netto = brutto −
+  korekcia. All rows now carry both columns: a total's korekcia is its own
+  formula over its children's (the rule ``l10n_cz_dppo`` already applied to
+  the Czech výkazy), any other row has none, and brutto = netto + korekcia.
+  Statements already exported keep their file; recompute a draft to refresh.
+- **An overridden netto keeps the ledger's korekcia** and brutto follows
+  from it. It used to drop both to 0 and file 0 / 0 / netto.
+
+[19.0.1.8.0] — 2026-10-05
+-------------------------
+
+Added
+~~~~~
+
+- **Manual figures can be entered on the statement again.** The help text
+  said to tick *Override*, but the foldable tree had no such control, so
+  the backend override could not be reached from the UI and the two SK Úč POD
+  ``manual`` rows (s113 Vydané dlhopisy, v01 Čistý obrat) were stuck at 0. A
+  pencil next to any figure that is not a total opens an input; the row
+  updates at once and the totals on the next *Compute*, which keeps manual
+  figures.
+- **The comparative column can be overridden too** (``is_prior_overridden``
+  / ``prior_manual_value``). The prior column is read from the ledger, and
+  in a company's first year in Odoo the prior year's ledger is not there.
+- The unmapped-account warning is a dialog with a table — code, account
+  name, balance as money, and a drill-down to the journal items — instead
+  of an untranslated error popup. Rows live in
+  ``cssk.fs.statement.unmapped`` and carry the accounts behind each code,
+  which a statement account mapping can make more than one.
+
+Changed
+~~~~~~~
+
+- The header button is *Unmapped accounts* (was *Accounts on no row*).
+- ``unmapped_note`` is now derived from the rows; the migration converts
+  the stored text of existing statements, which matters for those that left
+  draft and can no longer be recomputed.
+
+Fixed
+~~~~~
+
+- **Editing a manual figure sends the statement back to draft**, so it
+  cannot be exported until *Compute* has brought the totals over it up to
+  date (found in review by gpt-5.3-codex: an edited row beside stale totals
+  was exportable).
+- **Totals cannot be overridden.** A total typed over its own rows no
+  longer adds them up. A constraint refuses it, and an override left on an
+  aggregate by an earlier version is dropped on recompute.
+- **The statement tree stopped at row 40.** An x2many loads 40 records per
+  page and the widget has no pager, so a 206-row Úč POD showed only its
+  first 40 rows.
+- The tree widget's own labels (*Collapse all*, *Current period*, …) had no
+  Slovak translation; the catalogues had also gone stale on 40+ strings.
+
+[19.0.1.7.0] — 2026-10-03
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Balance sheet and Income statement each show their own part of a
+  combined document.** The Slovak Úč POD carries the súvaha and the výkaz
+  ziskov a strát in one record, so since 19.0.1.5.0 both menus listed the same
+  statements and opened the whole tree. Each menu now shows only its part
+  (``fs_section`` in the action context); opened from anywhere else the record
+  still shows every row. A row's part is decided by the top of its tree, so
+  súvaha row A.VIII (current-year result), which reads the period movement,
+  stays on the súvaha. A migration marks the rows of existing statements.
+
+[19.0.1.6.0] — 2026-10-02
+-------------------------
+
+Fixed
+~~~~~
+
+- **A balance-sheet row's drill-down did not add up to the row.** It re-read
+  the formula as plain code prefixes, over the period MOVEMENT even for an
+  as-of row, in every journal including the year-end closing ones, and without
+  the synthetic-absorb rule (022000 taking 022001). It now opens exactly the
+  accounts that contributed to the figure, over the window the figure was
+  read from, with the closing journals left out — so ``unreconciled`` names
+  real discrepancies instead of nearly every row. Statements computed before
+  keep their old drill-down until recomputed.
+
+Changed
+~~~~~~~
+
+- Statements and the reverse-drill footprint honour the statement account
+  mapping from ``l10n_cssk_core``; an account mapped for one balance side only
+  is reported as feeding a row whose side depends on the balance.
+
+[19.0.1.5.0] — 2026-10-02
+-------------------------
+
+Fixed
+~~~~~
+
+- **The Income statement menu was always empty on Slovak databases.** Úč POD
+  is one document carrying the súvaha and the výkaz ziskov a strát, filed as a
+  ``balance_sheet`` version, so a menu filtered by ``statement_kind`` found
+  nothing and New offered no version. A version now reports
+  ``covers_profit_loss`` (it is an income statement, or a balance sheet with
+  movement-basis rows); the menu lists by it, New falls back to it, and such a
+  statement is named *Financial statements* rather than *Balance sheet*.
+- **A new statement defaulted to the previous calendar year.** It now defaults
+  to the company's last completed fiscal year, so a hospodársky rok April–March
+  gets April–March.
 
 - **A brutto / korekce row drilled into half its accounts.** A row filed in
   three columns reports its NETTO, but its source-document domain named only

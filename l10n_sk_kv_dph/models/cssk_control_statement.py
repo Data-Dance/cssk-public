@@ -3,6 +3,8 @@ import re
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
+from .product import kv_cn_code_in_scope, kv_cn_code_scope_label
+
 # Master-data preflight scope — derived from the OFFICIAL kv_dph_2025.xsd +
 # the QWeb template (report/l10n_sk_kv_dph_templates.xml):
 #   * counterparty IČ DPH (Odb/Dod): REQUIRED by the form on A.2, B.2 and
@@ -70,6 +72,13 @@ class CSSKControlStatement(models.Model):
     sk_section_b2_ids = fields.One2many(
         "l10n.sk.kv.dph.section.b2", "statement_id"
     )
+    # The single B.3 of the vzor that ran to 31. 3. 2016. Declared from the
+    # start as a section of that version, but never listed here, so the
+    # export, the comparison and a migrated statement all read it as absent:
+    # every 2014-01 … 2016-03 KV DPH was exported WITHOUT its B.3 rows.
+    sk_section_b3_ids = fields.One2many(
+        "l10n.sk.kv.dph.section.b3", "statement_id"
+    )
     sk_section_b31_ids = fields.One2many(
         "l10n.sk.kv.dph.section.b31", "statement_id"
     )
@@ -89,6 +98,20 @@ class CSSKControlStatement(models.Model):
         "l10n.sk.kv.dph.section.d2", "statement_id"
     )
 
+    def _kv_identity_key(self, identity):
+        """Whitespace removed from the text of a Slovak row identity, so a
+        chained dodatočný baseline snapshotted before the identity dropped it
+        (``_kv_identity_ref``) still matches the row it describes."""
+        if self.country_id.code != "SK":
+            return super()._kv_identity_key(identity)
+        key = [re.sub(r"\s+", "", v) if isinstance(v, str) else v
+               for v in identity]
+        # And a bare country code as no number, as ``_kv_identity`` reads it.
+        if key and isinstance(key[0], str) and (
+                key[0] == "0" or re.fullmatch(r"[A-Za-z]{2}", key[0])):
+            key[0] = ""
+        return tuple(key)
+
     def _collect_sections_by_code(self):
         self.ensure_one()
         if self.country_id.code == "SK":
@@ -97,6 +120,7 @@ class CSSKControlStatement(models.Model):
                 "A.2": self.sk_section_a2_ids,
                 "B.1": self.sk_section_b1_ids,
                 "B.2": self.sk_section_b2_ids,
+                "B.3": self.sk_section_b3_ids,
                 "B.3.1": self.sk_section_b31_ids,
                 "B.3.2": self.sk_section_b32_ids,
                 "C.1": self.sk_section_c1_ids,
@@ -211,7 +235,9 @@ class CSSKControlStatement(models.Model):
                         "%(sec)s: %(n)d row(s) without the number of the "
                         "invoice being corrected — the credit note is not "
                         "linked to it; enter it on the credit note (Other Info "
-                        "→ Original document number) and recompute: %(refs)s",
+                        "→ Original document number; on a vendor credit note "
+                        "the Source Document is read too) and recompute: "
+                        "%(refs)s",
                         sec=code, n=len(bad),
                         refs=self._kv_offenders_detail(bad)))
             # A.2 goods under § 69 ods. 12 písm. f) to i): the form wants the
@@ -228,6 +254,24 @@ class CSSKControlStatement(models.Model):
                     "product (KV DPH commodity code, or its intrastat/HS "
                     "code): %(refs)s",
                     n=len(bad), refs=self._kv_offenders_detail(bad)))
+            # The code that gets filed is often not one anybody typed for KV
+            # DPH: it falls back to the product's HS / intrastat code, so a
+            # phone (8517) flagged písm. f) would be filed in a cereals row.
+            # FS SR accepts any four digits; the statute does not.
+            bad = [r for r in a2 if r.rc_goods in ("f", "g") and r.goods_code
+                   and not kv_cn_code_in_scope(r.rc_goods, r.goods_code)]
+            if bad:
+                problems.append(_(
+                    "A.2: %(n)d row(s) whose commodity code is outside the "
+                    "chapters § 69 ods. 12 names for its goods (písm. f: "
+                    "%(f)s; písm. g: %(g)s) — correct the product's KV DPH "
+                    "commodity code or its HS code, or its § 69 ods. 12 "
+                    "category: %(refs)s",
+                    n=len(bad), f=kv_cn_code_scope_label("f"),
+                    g=kv_cn_code_scope_label("g"),
+                    refs=", ".join("%s (%s)" % (self._kv_row_label(r), r.goods_code)
+                                   for r in bad[:5])
+                    + (", … (+%d)" % (len(bad) - 5) if len(bad) > 5 else "")))
             bad = [r for r in a2 if r.rc_goods and not r.uom_code]
             if bad:
                 problems.append(_(

@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Cash Journal — Shared Framework (peňažný denník / peněžní deník)",
-    "version": "19.0.1.5.0",
+    "version": "19.0.1.6.0",
     "summary": "Country-neutral single-entry cash journal derived from ordinary "
                "double-entry books: payments become dated, categorised denník "
                "rows, with the year-end balances the tax return asks for.",

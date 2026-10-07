@@ -43,7 +43,7 @@ def _prefixed_vat(value):
 NAME_MATCH_ACCEPT = 0.90
 #: Below this the names are not the same company and the caller should say so.
 #: Between the two, a human looks: the one real case in that band was
-#: "Nakladatelství FORUM s.r.o." against the register's ", organizačná zložka"
+#: "Nakladatelství EPSILON s.r.o." against the register's ", organizačná zložka"
 #: -- a genuine company whose registered name carries a branch suffix the user
 #: omitted, which is exactly what review is for.
 NAME_MATCH_REVIEW = 0.60
@@ -239,7 +239,7 @@ class ResPartner(models.Model):
         a cosmetic error.
 
         ARES answers ``dic: null`` for a company that was never registered —
-        verified against IČO 21924660, which returns null alongside
+        verified against IČO 21900001, which returns null alongside
         ``stavZdrojeDph: NEEXISTUJICI``. The registration state is checked as
         well because "never registered" and "no longer registered" are
         different facts and only the first is visible in ``dic``.

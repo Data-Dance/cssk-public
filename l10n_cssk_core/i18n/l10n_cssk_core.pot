@@ -315,6 +315,9 @@ msgstr ""
 msgid "Companies that refers to partner"
 msgstr ""
 
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__company_id
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__company_id
 msgid "Company"
@@ -403,6 +406,9 @@ msgstr ""
 msgid "Country code"
 msgstr ""
 
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__create_uid
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__create_uid
@@ -411,6 +417,9 @@ msgstr ""
 msgid "Created by"
 msgstr ""
 
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__create_date
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__create_date
@@ -512,6 +521,9 @@ msgstr ""
 msgid "Display Invoice Template Pdf Report"
 msgstr ""
 
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__display_name
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move_line__display_name
@@ -696,6 +708,9 @@ msgstr ""
 msgid "Has Message"
 msgstr ""
 
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__id
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move_line__id
@@ -919,6 +934,9 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__write_uid
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__write_uid
@@ -927,6 +945,9 @@ msgstr ""
 msgid "Last Updated by"
 msgstr ""
 
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__write_date
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__write_date
@@ -1982,6 +2003,7 @@ msgstr ""
 msgid "No longer differs"
 msgstr ""
 
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__note
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__note
 msgid "Note"
@@ -2584,4 +2606,97 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_filing_discrepancy
 msgid "Rows to review"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__account_id
+msgid "Account"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statement_account_map.py:0
+msgid ""
+"Account %s is mapped for any balance AND for one side. Use either one 'any "
+"balance' mapping, or a debit and/or a credit mapping."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.constraint,message:l10n_cssk_core.constraint_cssk_statement_account_map_company_account_side_uniq
+msgid "An account can be mapped only once per balance side."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__any
+msgid "Any balance"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statement_account_map__balance_side
+msgid ""
+"Any balance: always reported under the code.\n"
+"Debit / credit balance only: reported under the code only when the account's balance at the period end has that sign (an overdrawn bank account reported as a bank loan); otherwise it keeps its own code. Applies to balance-sheet balances only."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__balance_side
+msgid "Balance Side"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__credit
+msgid "Credit balance only"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__debit
+msgid "Debit balance only"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statement_account_map_view_search
+msgid "Depends on balance side"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.actions.act_window,help:l10n_cssk_core.cssk_statement_account_map_action
+msgid "Report an account under another code"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__reported_code
+msgid "Reported Code"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.actions.act_window,name:l10n_cssk_core.cssk_statement_account_map_action
+#: model:ir.model,name:l10n_cssk_core.model_cssk_statement_account_map
+#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_statement_account_map
+msgid "Statement account mapping"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.actions.act_window,help:l10n_cssk_core.cssk_statement_account_map_action
+msgid ""
+"Statutory statements read balances by the account codes their\n"
+"               rows name. An account of your own chart that no row names —\n"
+"               an analytic carried over from another system — lands on no row.\n"
+"               Map it to the code the form expects, for any balance or only\n"
+"               for a debit or credit balance at the period end."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statement_account_map__reported_code
+msgid ""
+"The account code the statutory statements read this account as — a code the "
+"form's rows name, e.g. 461200 for a short-term bank loan on the Slovak Úč "
+"POD."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statement_account_map.py:0
+msgid ""
+"The reported code must be a plain account code, without spaces, commas, "
+"signs or tag operators."
 msgstr ""

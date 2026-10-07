@@ -40,7 +40,7 @@ class TestFioJournal(FioCommon):
     def test_a_rejected_token_reaches_the_user_as_a_message(self):
         """FioError is a plain Exception, so an unwrapped one leaves the button
         showing a bare "Internal server error" — losing the only diagnosis the
-        user gets. Found on DURWEN staging with a stale token."""
+        user gets. Found on a customer's staging database with a stale token."""
         from odoo.addons.account_fio_base.utils.client import FioError
 
         with patch.object(

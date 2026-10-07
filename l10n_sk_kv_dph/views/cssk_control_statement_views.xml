@@ -79,6 +79,22 @@
                             </list>
                         </field>
                     </page>
+                    <page string="B.3" name="sk_b3"
+                          invisible="not sk_section_b3_ids">
+                        <field name="sk_section_b3_ids">
+                            <list create="false" delete="false" edit="false">
+                                <field name="row_count"/>
+                                <field name="total_tax_base"/>
+                                <field name="total_tax_amount"/>
+                                <field name="total_deducted_amount"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                                <field name="source_move_line_ids" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </page>
                     <page string="B.3.1" name="sk_b31">
                         <field name="sk_section_b31_ids">
                             <list create="false" delete="false" edit="false">

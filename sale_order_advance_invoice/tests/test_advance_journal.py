@@ -18,7 +18,7 @@ class TestAdvanceJournal(TransactionCase):
             ("name", "=", "advance_invoice_journal")]).unlink()
 
     def test_a_journal_without_the_xmlid_is_adopted(self):
-        """adatex: TDADV exists (a localization helper made it), no xmlid."""
+        """A customer database: TDADV exists (a localization helper made it), no xmlid."""
         company = self.env.company
         journal = self._tdadv(company) or self.env["account.journal"].create({
             "name": "Daňové doklady", "code": "TDADV", "type": "general",

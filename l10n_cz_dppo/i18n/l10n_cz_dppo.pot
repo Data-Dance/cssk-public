@@ -1,0 +1,157 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_dppo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-09-28 11:23+0000\n"
+"PO-Revision-Date: 2026-09-28 11:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid "%(statement)s belongs to another company."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(statement)s covers %(from)s – %(to)s, but the return covers %(rfrom)s – "
+"%(rto)s. The výkazy filed with a return are those of its own zdaňovací "
+"období."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(statement)s has no row %(codes)s, which the DPPDP9 výkaz is filled from. "
+"It was computed on a version that is not the l10n_cz_fs Rozvaha / VZZ; "
+"filing it would report those rows as zero."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(statement)s has not been computed. Compute it (and review it) before "
+"filing it with the return."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid "%(statement)s is not a %(kind)s."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(statement)s was computed on a Rozvaha version whose rows state no korekce "
+"(oprávky, opravné položky) separately, so the DPPDP9 aktiva cannot be filed "
+"in brutto / korekce / netto. Move the correction accounts of B.I.–C.III. "
+"into the correction formula of their rows and recompute."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_country_code
+msgid "Country Code"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"Exported without the Rozvaha and Výkaz zisku a ztráty: no statements are "
+"linked. Attach the účetní závěrka to the filing as an E-příloha, or link the"
+" statements and export again."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_dppo.cssk_income_tax_return_view_form_cz_vykazy
+msgid "Financial statements filed with the return"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model,name:l10n_cz_dppo.model_cssk_income_tax_return
+msgid "Income Tax Return"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"Link both the Rozvaha and the Výkaz zisku a ztráty, or neither. The DPPDP9 "
+"files the účetní závěrka as a whole (uv_rozsah covers both výkazy); one "
+"without the other is an incomplete závěrka."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_fs_balance_sheet_id
+msgid "Rozvaha"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"Rozvaha row %(row)s (%(designation)s) has a negative korekce of %(value)s "
+"thousand: its oprávky / opravné položky carry a debit balance. Correct the "
+"booking; DPPDP9 files korekce without a sign."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_fs_balance_sheet_id
+msgid ""
+"The computed Rozvaha filed with this return as DPPDP9 VetaUA (aktiva) and "
+"VetaUD (pasiva). Link it together with the Výkaz zisku a ztráty, or leave "
+"both empty to file the return without the výkazy (the závěrka then goes as "
+"an E-příloha)."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_fs_profit_loss_id
+msgid ""
+"The computed Výkaz zisku a ztráty (druhové členění) filed with this return "
+"as DPPDP9 VetaUB."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The výkazy are kept in %(currency)s, but DPPDP9 accepts only CZK, EUR, USD "
+"or GBP as the accounting currency (uv_mena, § 24a zákona o účetnictví)."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_fs_profit_loss_id
+msgid "Výkaz zisku a ztráty"
+msgstr ""

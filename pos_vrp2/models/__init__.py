@@ -1,0 +1,7 @@
+from . import res_company
+from . import res_config_settings
+from . import pos_config
+from . import pos_category
+from . import product
+from . import pos_order
+from . import pos_payment_method

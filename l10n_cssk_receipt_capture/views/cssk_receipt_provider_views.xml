@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cssk_receipt_provider_list" model="ir.ui.view">
+        <field name="name">cssk.receipt.provider.list</field>
+        <field name="model">cssk.receipt.provider</field>
+        <field name="arch" type="xml">
+            <list string="Capture Providers" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="country_ids" widget="many2many_tags"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cssk_receipt_provider_form" model="ir.ui.view">
+        <field name="name">cssk.receipt.provider.form</field>
+        <field name="model">cssk.receipt.provider</field>
+        <field name="arch" type="xml">
+            <form string="Capture Provider">
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="country_ids" widget="many2many_tags"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cssk_receipt_provider" model="ir.actions.act_window">
+        <field name="name">Capture Providers</field>
+        <field name="res_model">cssk.receipt.provider</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No capture provider installed</p>
+            <p>Install a provider to read receipts: the Slovak eKasa reader
+               fetches the registered receipt from the QR code, the AI reader
+               reads the photograph.</p>
+        </field>
+    </record>
+</odoo>

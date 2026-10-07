@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_receipt_capture" model="ir.ui.view">
+        <field name="name">res.config.settings.form.receipt.capture</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='account']" position="inside">
+                <block title="Fiscal Receipt Capture" name="cssk_receipt_block">
+                    <setting string="Receipt Journal">
+                        <field name="cssk_receipt_journal_id"/>
+                    </setting>
+                    <setting string="Default Expense Account">
+                        <field name="cssk_receipt_expense_account_id"/>
+                    </setting>
+                    <setting string="Document Detail"
+                             help="Per VAT rate posts exactly the base the seller reported. Per item is easier to read; either way the posted VAT is checked against the receipt.">
+                        <field name="cssk_receipt_bill_detail"/>
+                    </setting>
+                    <setting string="Auto-create Seller"
+                             help="Create the seller from the receipt's own identifiers when no partner matches">
+                        <field name="cssk_receipt_auto_create_partner"/>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pos_category_view_form_vrp2" model="ir.ui.view">
+        <field name="name">pos.category.form.vrp2</field>
+        <field name="model">pos.category</field>
+        <field name="inherit_id" ref="point_of_sale.product_pos_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="VRP2" invisible="parent_id">
+                    <group>
+                        <field name="vrp2_short_name"
+                               placeholder="e.g. FD"/>
+                    </group>
+                    <group>
+                        <field name="vrp2_id" readonly="1"/>
+                        <field name="vrp2_order" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

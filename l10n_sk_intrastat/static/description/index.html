@@ -14,8 +14,9 @@
          <b>INTRASTAT-SK INSTAT (instat62)</b> XML via the shared
          <code>l10n_cssk_intrastat_base</code> renderer.</p>
       <p>It is the Community / OCA adapter, licensed <b>AGPL-3</b> because it subclasses the AGPL OCA
-         engine. The shared INSTAT renderer is LGPL-3, so the Enterprise variant — which rides Odoo
-         EE <code>account_intrastat</code> instead — can reuse it without inheriting AGPL.</p>
+         engine. The shared INSTAT renderer is AGPL-3 too; the Enterprise variant — which rides Odoo
+         EE <code>account_intrastat</code> instead — reuses it because Data Dance owns it
+         outright and dual-licenses it.</p>
     </div>
   </div>
 </section>
@@ -30,7 +31,7 @@
         <li>Renders the official FS SR INTRASTAT-SK <b>INSTAT (instat62)</b> XML through the shared
             <code>l10n_cssk_intrastat_base</code> renderer.</li>
         <li>Arrivals / dispatches declaration lines computed by the underlying OCA engine.</li>
-        <li>The LGPL-3 INSTAT renderer is shared with the EE variant, so both adapters emit the
+        <li>The INSTAT renderer is shared with the EE variant, so both adapters emit the
             identical statutory XML.</li>
       </ul>
     </div>

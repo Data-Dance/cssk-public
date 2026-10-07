@@ -1,0 +1,69 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <a href="index.html">EN</a> ·
+      <a href="index_cz.html">CZ</a> ·
+      <b>SK</b>
+    </p>
+    <h2 class="oe_slogan">Slovensko — Účtovná závierka (Súvaha / VZS)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovenská súvaha a výkaz ziskov a strát nad spoločným rámcom l10n_cssk_fs_base, s oficiálnym exportom UZPODv14 do XML</h3>
+    <div class="oe_span12">
+      <p>Táto aplikácia zostavuje konkrétnu slovenskú <b>Súvahu</b> a <b>Výkaz ziskov a strát</b>
+         (druhové členenie) nad spoločným rámcom <code>l10n_cssk_fs_base</code>, počítané CE-čisto
+         (bez <code>account_reports</code>).</p>
+      <p>Každý účet slovenskej účtovej osnovy <code>l10n_sk</code> zatriedi presne do jedného
+         zákonného koncového riadka (rozklad overený testami), takže súčty sedia:
+         <b>SPOLU MAJETOK = SPOLU VLASTNÉ IMANIE A ZÁVÄZKY</b> a výsledok hospodárenia za obdobie sa
+         rovná výnosom mínus náklady. Výsledok bežného roka (A.V) sa počíta z tried 5/6, takže
+         súvaha sedí ešte pred uzavretím výsledku na účet 431.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Kľúčové funkcie</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Úplná zákonná štruktúra riadkov podľa Opatrenia MF SR pre podnikateľov účtujúcich
+            v sústave podvojného účtovníctva — sémantická Súvaha a VZS na kontrolu na obrazovke.</li>
+        <li>Mapovanie riadkov podľa účtových kódov s overeným rozkladom (každý účet patrí presne do
+            jedného koncového riadka) a porovnávacie obdobie.</li>
+        <li>Výsledok bežného roka (A.V) počítaný z tried 5/6, aby súvaha sedela ešte pred uzavretím
+            výsledku na účet 431.</li>
+        <li><b>Oficiálny export UZPODv14</b> (<code>l10n.sk.uzpod</code>): zlúčená účtovná závierka
+            <code>dokument</code> — Súvaha Úč POD 1 (r001–r145 s Brutto / Korekcia / Netto) plus
+            Výkaz ziskov a strát Úč POD 2 (r01–r61) — zostavená CE-čisto z
+            <code>account.move.line</code> a validovaná voči oficiálnemu
+            <code>data/uzpod-2014.xsd</code> (FS SR).</li>
+        <li>Vzorce riadok→účet (<code>models/uzpod14_rows.py</code>) zodpovedajú autoritatívnemu
+            zákonnému mapovaniu.</li>
+      </ul>
+      <p><b>Poznámka pre účtovníka:</b> overte kód NACE a hlavičkové polia na spoločnosti a nechajte
+         mapovanie riadkov potvrdiť slovenským účtovníkom pred ostrým podaním. Na Enterprise môže SK
+         FS namiesto toho použiť natívny export UZPODv14.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Použitie</h2>
+    <div class="oe_span12">
+      <p>Vytvorte záznam účtovnej závierky za účtovné obdobie, vypočítajte ho na naplnenie štruktúry
+         riadkov z účtovných zápisov obdobia, skontrolujte detail Súvahy a VZS s porovnávacím obdobím
+         a následne exportujte oficiálny <code>dokument</code> XML UZPODv14 pre portál FS. Sémantické
+         výkazy zostávajú k dispozícii na kontrolu na obrazovke nezávisle od podávaného exportu.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Vydáva <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>Licencia: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

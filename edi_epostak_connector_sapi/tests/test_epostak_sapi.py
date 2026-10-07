@@ -13,6 +13,7 @@ from odoo.tests.common import TransactionCase
 from odoo.addons.edi_epostak_connector_sapi.models.epostak_connector import (
     PERMANENT_CODES,
     RETRYABLE_STATUS,
+    EpostakApiError,
 )
 
 
@@ -682,3 +683,168 @@ class TestEpostakIntegratorKey(TransactionCase):
         for _i in range(5):
             c._record_poll(error="boom")
         self.assertFalse(self._open_activities())
+
+
+class TestEpostakCapabilities(TransactionCase):
+    """A participant who is not registered is answered with HTTP 404.
+
+    Reported from the field 2026-10-03. ePošťák answers an unregistered
+    participant with 404 and a COMPLETE negative body; the call passed no
+    ``expected``, so it defaulted to (200,) and raised EpostakApiError over a
+    perfectly good answer. "Check Peppol reachability" therefore showed a red
+    failure dialog for the one case it exists to report.
+
+    Both bodies below were captured from the sandbox on 2026-10-03, not
+    guessed — which is how the second defect showed up: ``networkReady`` and
+    ``routingStatus`` are nested under ``capability`` in BOTH of them, so
+    reading them off the top level returned None even on a 200.
+    """
+
+    DOC_TYPE = (
+        "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2::Invoice"
+        "##urn:cen.eu:en16931:2017#compliant#"
+        "urn:fdc:peppol.eu:2017:poacc:billing:3.0::2.1"
+    )
+
+    NOT_REGISTERED = {
+        "found": False,
+        "accepts": False,
+        "reason": "Participant not registered in Peppol network",
+        "capability": {
+            "documentTypeId": DOC_TYPE,
+            "processId": "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0",
+            "routingStatus": "participant_not_found",
+            "networkReady": False,
+        },
+    }
+
+    REGISTERED = {
+        "found": True,
+        "accepts": True,
+        "participant": {
+            "scheme": "0245",
+            "identifier": "4024626329",
+            "id": "0245:4024626329",
+        },
+        "accessPoint": {
+            "url": "https://dev.epostak.sk/as4",
+            "transportProfile": "peppol-transport-as4-v2_0",
+        },
+        "internal": False,
+        "supportedDocumentTypes": [DOC_TYPE],
+        "matchedDocumentType": DOC_TYPE,
+        "source": "sml",
+        "capability": {
+            "documentTypeId": DOC_TYPE,
+            "processId": "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0",
+            "routingStatus": "ready",
+            "networkReady": True,
+        },
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.connector = cls.env["epostak.connector"]
+        ICP = cls.env["ir.config_parameter"].sudo()
+        ICP.set_param("epostak.mode", "sandbox")
+        ICP.set_param("epostak.sapi.sandbox.client_id", "a-client-id")
+        ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_live_test_x")
+        ICP.set_param("epostak.firm_id", "")
+
+    def _lookup(self, status, payload, participant="9950:SK2022913409"):
+        """Run _check_capabilities against a canned HTTP response.
+
+        requests.request is patched rather than _request, so the status code
+        really does travel through the expected/raise decision under test.
+        """
+        from unittest.mock import patch
+
+        from odoo.addons.edi_epostak_connector_sapi.models import (
+            epostak_connector as mod,
+        )
+
+        connector_cls = type(self.connector)
+        with patch.object(mod.requests, "request",
+                          return_value=_FakeResponse(
+                              status_code=status, payload=payload, text="{}")), \
+             patch.object(connector_cls, "_get_token", return_value="tok"), \
+             patch.object(connector_cls, "_epostak_own_participant_id",
+                          return_value="0245:4024626329"):
+            return self.connector._check_capabilities(
+                participant, [self.DOC_TYPE]
+            )
+
+    def test_404_not_registered_is_an_answer_not_a_failure(self):
+        result = self._lookup(404, self.NOT_REGISTERED)
+        self.assertFalse(result["found"])
+        self.assertFalse(result["accepts"])
+        self.assertIn("not registered", result["reason"])
+
+    def test_nested_capability_fields_are_lifted(self):
+        """The caller reads result['networkReady']; the wire nests it."""
+        result = self._lookup(404, self.NOT_REGISTERED)
+        self.assertIs(result["networkReady"], False)
+        self.assertEqual(result["routingStatus"], "participant_not_found")
+
+    def test_nested_fields_are_lifted_on_the_positive_answer_too(self):
+        """This one was silently broken even before the 404: a successful
+        lookup reported networkReady as None."""
+        result = self._lookup(200, self.REGISTERED)
+        self.assertIs(result["networkReady"], True)
+        self.assertEqual(result["routingStatus"], "ready")
+
+    def test_a_404_without_a_body_still_raises(self):
+        """A routing 404 is NOT 'participant not registered'. Rendering it as
+        one would diagnose the wrong thing entirely."""
+        with self.assertRaises(EpostakApiError):
+            self._lookup(404, {"error": {"code": "NOT_FOUND",
+                                         "message": "Cannot POST /v1/wrong"}})
+
+    def test_a_500_still_raises(self):
+        with self.assertRaises(EpostakApiError):
+            self._lookup(500, {"error": {"code": "INTERNAL"}})
+
+    def test_the_button_warns_instead_of_raising(self):
+        """What the customer actually sees: a sticky warning quoting the
+        provider's reason, not a red traceback dialog."""
+        from unittest.mock import patch
+
+        partner = self.env["res.partner"].create({
+            "name": "Unregistered s.r.o.",
+            "peppol_eas": "9950",
+            "peppol_endpoint": "SK2022913409",
+        })
+        connector_cls = type(self.connector)
+        flat = dict(self.NOT_REGISTERED,
+                    networkReady=False,
+                    routingStatus="participant_not_found")
+        with patch.object(connector_cls, "_check_capabilities",
+                          return_value=flat):
+            action = partner.action_epostak_check_peppol()
+        params = action["params"]
+        self.assertEqual(params["type"], "warning")
+        self.assertTrue(params["sticky"], "a warning that vanishes is unread")
+        self.assertIn("not registered", params["message"])
+        self.assertIn("Participant not registered in Peppol network",
+                      params["message"])
+        self.assertIn("participant_not_found", params["message"])
+
+    def test_the_button_reports_a_reachable_participant(self):
+        from unittest.mock import patch
+
+        partner = self.env["res.partner"].create({
+            "name": "Registered s.r.o.",
+            "peppol_eas": "0245",
+            "peppol_endpoint": "4024626329",
+        })
+        connector_cls = type(self.connector)
+        flat = dict(self.REGISTERED, networkReady=True, routingStatus="ready")
+        with patch.object(connector_cls, "_check_capabilities",
+                          return_value=flat):
+            action = partner.action_epostak_check_peppol()
+        self.assertEqual(action["params"]["type"], "success")
+        # "ePošťák reports: no reason given (ready)" on a clean success is
+        # noise restating the title.
+        self.assertNotIn("ePošťák reports", action["params"]["message"])
+        self.assertNotIn("no reason given", action["params"]["message"])

@@ -1,3 +1,5 @@
+import re
+
 from odoo import api, fields, models
 
 from odoo.addons.l10n_cssk_kv_kh_base.models.cssk_control_statement_mixins import (
@@ -29,6 +31,37 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
     _name = "l10n.sk.kv.dph.detail.mixin"
     _inherit = "cssk.control.statement.section.mixin"
     _description = "SK KV DPH detail section (mixin)"
+
+    def _kv_identity(self):
+        """A bare country code is "no VAT number", on either side.
+
+        Where a supplier has no IČ DPH — a third-country one on B.1, mostly —
+        the form leaves ``Dod`` optional and free-format, so ``US`` and an
+        empty attribute file the same thing. Sources and Odoo both write
+        either, depending on the partner record: on a migrated i6 agenda the
+        same US supplier read ``US`` on one side and nothing on the other for
+        some rows and the reverse for others, and every such row reported as
+        two one-sided differences.
+        """
+        identity = super()._kv_identity()
+        vat = (identity[0] or "").strip()
+        if vat == "0" or re.fullmatch(r"[A-Za-z]{2}", vat):
+            identity = ("",) + identity[1:]
+        return identity
+
+    def _kv_identity_ref(self):
+        """The reference as the FORM carries it, whitespace removed.
+
+        A filed KV DPH can only hold the stripped reference (``\\S{1,32}``,
+        and the export writes ``entry_ref_xml``), so a comparison against a
+        filed or migrated statement keyed on the stored ``FV 1/06/2024`` never
+        met the ``FV1/06/2024`` the tax office received: 3 694 rows of a
+        migrated i6 agenda read as pairs of one-sided differences with the
+        money agreeing. Two references that differ only by whitespace are one
+        row on this form anyway. The stored spelling is untouched.
+        """
+        self.ensure_one()
+        return self._cssk_ref_for_xml(self.entry_ref)
 
     # Received-document sections (B.1, B.2, C.2) must report the SUPPLIER's
     # poradové číslo faktúry (move.ref), not our internal move name — for the
@@ -94,6 +127,15 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
         # original, which is what the template used to fall back to.
         original = move._cssk_control_original()
         manual = move.cssk_control_original_ref or False
+        if self._kv_inbound and not manual:
+            # A received credit note's "Source Document" is where the
+            # supplier's original invoice number is commonly typed, and on
+            # some agendas it is mandatory before posting — one customer's requires
+            # it on every SK vendor credit note. Read last: a link or the
+            # dedicated field stays authoritative where filled. Not on the
+            # sales side, where invoice_origin is the SALES ORDER number and
+            # would be filed as the corrected invoice.
+            manual = self._cssk_origin_as_invoice_number(move) or False
         if self._kv_inbound:
             entry_ref = move.ref or move.name
             entry_ref_original = (
@@ -129,26 +171,70 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
             )
         return vals
 
+    def _cssk_origin_as_invoice_number(self, move):
+        """``invoice_origin`` when it can be the supplier's invoice number.
+
+        A vendor credit note raised from a purchase order carries the ORDER
+        name there ("P00012", or several, comma-separated). That is not the
+        corrected invoice, and filing it as FO would pass the export's check
+        that a number is present. So an origin naming a purchase order is not
+        read, and the export asks for the real number instead."""
+        origin = (move.invoice_origin or "").strip()
+        if not origin or "purchase.order" not in self.env:
+            return origin
+        names = [n.strip() for n in origin.split(",") if n.strip()]
+        if self.env["purchase.order"].sudo().search_count(
+                [("name", "in", names), ("company_id", "=", move.company_id.id)],
+                limit=1):
+            return ""
+        return origin
+
     def _cssk_deducted_amount(self, statement, group):
         """Odpočítaná daň — attribute ``O`` (``OR`` on C.2).
 
         Only the received sections (B.1 / B.2 / C.2) have one; A.1 / A.2 / C.1
         are output tax with nothing to deduct, and the field stays 0.00 there.
 
-        The FULL tax, which is what the XML has always filed — the template
-        read ``tax_amount`` directly — so no filed figure moves. The row now
-        simply states what it files instead of holding 0.00 while filing
-        something else; the summary sections (B.3*) already did this.
+        The part of the tax that the TAX ITSELF deducts: the legs of its
+        repartition that the VAT closing settles. A full deduction is the
+        whole tax, as before. A partial one is what the return deducts —
+        a vehicle at 50 % puts half on 343 and half on the expense, and only
+        that half is on row 21 of the DP DPH, so only that half belongs in
+        ``O``. A tax with no right to deduct (self-assessed with no deduction
+        leg) deducts 0.00. A § 50 koeficient set on the tax the same way is
+        honoured the same way.
 
-        Full deduction is an ASSERTION, and the right one for a company whose
-        supplies are all taxable. A company applying the § 50 koeficient
-        deducts a fraction, and neither this row nor the filing can derive it:
-        the coefficient is a fact about the COMPANY and its year, not about
-        the document. Until it is modelled such a company overrides the row —
+        Confirmed by a customer's accountant (2026-10-03), who
+        asked for exactly this: "tak ako do daňového priznania berieš ako
+        uplatnenú daň na riadku 21 len 50 % z hodnoty DPH, tak aj do
+        kontrolného výkazu do stĺpca Odpočítaná daň musí ísť len tých 50 % …
+        brala by som to z nastavenia dane" — from the tax setting, not a
+        hard-coded ratio. It used to file the full tax whatever the tax said.
+
+        The year-end koeficient true-up stays a manual override:
         ``deducted_amount`` is in ``_KV_OVERRIDE_FIELDS``, so the override
         survives a recompute and reaches the XML.
         """
-        return group["tax"]
+        return self._cssk_deducted_of(group["lines"], group["tax"])
+
+    @api.model
+    def _cssk_deducted_of(self, lines, tax):
+        """``tax`` (as D files it) times the deductible share of ``lines``.
+
+        Applied to D rather than recomputed per line, so a fully deductible
+        tax files ``O`` equal to ``D`` to the cent — a per-line recomputation
+        drifts on a foreign-currency or many-line document — and ``O`` can
+        never exceed ``D``.
+        """
+        deductible = charged = 0.0
+        for line in lines:
+            d, c = line._cssk_deductible_share()
+            deductible += d
+            charged += c
+        if not charged:
+            return 0.0
+        currency = self.env.company.currency_id
+        return currency.round(tax * min(deductible / charged, 1.0))
 
 
 class L10nSKKvDphSectionA1(models.Model):
@@ -393,7 +479,11 @@ class L10nSKKvDphB3Mixin(models.AbstractModel):
 
     @api.model
     def _cssk_b3_totals(self, statement):
-        """Return ``(grand_base, grand_tax, by_supplier)`` over the B.3 set."""
+        """Return ``(grand_base, grand_tax, by_supplier)`` over the B.3 set.
+
+        Each supplier also carries ``share`` — the deductible and charged legs
+        of its taxes, as on the detail rows (fuel on a pokladničný doklad is
+        exactly the 50 % case); :meth:`_cssk_b3_deducted` applies it."""
         grand_base = grand_tax = 0.0
         by_supplier = {}
         for line in self._cssk_b3_lines(statement):
@@ -412,9 +502,26 @@ class L10nSKKvDphB3Mixin(models.AbstractModel):
                 }
             sup["base"] += base
             sup["tax"] += tax
+            sup.setdefault("share", [0.0, 0.0])
+            d, c = line._cssk_deductible_share()
+            sup["share"][0] += d
+            sup["share"][1] += c
             sup["moves"].add(line.move_id.id)
             sup["lines"] |= line
         return grand_base, grand_tax, by_supplier
+
+    @api.model
+    def _cssk_b3_deducted(self, by_supplier):
+        return sum(self._cssk_sup_deducted(sup) for sup in by_supplier.values())
+
+    @api.model
+    def _cssk_sup_deducted(self, sup):
+        """A supplier's tax times its deductible share (see ``_cssk_deducted_of``)."""
+        deductible, charged = sup.get("share", (0.0, 0.0))
+        if not charged:
+            return 0.0
+        return self.env.company.currency_id.round(
+            sup["tax"] * min(deductible / charged, 1.0))
 
 
 class L10nSKKvDphSectionB3(models.Model):
@@ -452,7 +559,7 @@ class L10nSKKvDphSectionB3(models.Model):
                     "statement_id": statement.id,
                     "total_tax_base": grand_base,
                     "total_tax_amount": grand_tax,
-                    "total_deducted_amount": grand_tax,
+                    "total_deducted_amount": self._cssk_b3_deducted(by_supplier),
                     "row_count": len(moves),
                     # An aggregate names no document, so the documents behind
                     # it are only reachable from here — the one way to check
@@ -484,7 +591,7 @@ class L10nSKKvDphSectionB31(models.Model):
                     "statement_id": statement.id,
                     "total_tax_base": grand_base,
                     "total_tax_amount": grand_tax,
-                    "total_deducted_amount": grand_tax,
+                    "total_deducted_amount": self._cssk_b3_deducted(by_supplier),
                     "row_count": len(moves),
                     # An aggregate names no document, so the documents behind
                     # it are only reachable from here — the one way to check
@@ -516,7 +623,7 @@ class L10nSKKvDphSectionB32(models.Model):
                     "partner_vat": sup["partner"].vat or "",
                     "total_tax_base": sup["base"],
                     "total_tax_amount": sup["tax"],
-                    "total_deducted_amount": sup["tax"],
+                    "total_deducted_amount": self._cssk_sup_deducted(sup),
                     "row_count": len(sup["moves"]),
                     "source_move_line_ids": [(6, 0, sup["lines"].ids)],
                 }

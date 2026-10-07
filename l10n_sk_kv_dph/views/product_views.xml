@@ -6,10 +6,15 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="account.product_template_form_view"/>
         <field name="arch" type="xml">
+            <!-- A group of their own: "accounting" turns into an OUTER group as
+                 soon as any module puts a sub-group in it, and an outer group
+                 renders its fields as bare column slots with no label. -->
             <group name="accounting" position="inside">
-                <field name="l10n_sk_kv_rc_goods"/>
-                <field name="l10n_sk_kv_cn_code"
-                       invisible="l10n_sk_kv_rc_goods not in ('f', 'g')"/>
+                <group string="Kontrolný výkaz DPH" name="l10n_sk_kv_dph">
+                    <field name="l10n_sk_kv_rc_goods"/>
+                    <field name="l10n_sk_kv_cn_code"
+                           invisible="l10n_sk_kv_rc_goods not in ('f', 'g')"/>
+                </group>
             </group>
         </field>
     </record>

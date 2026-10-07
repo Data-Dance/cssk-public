@@ -73,7 +73,7 @@ defaults (now set by l10n). 4. Hardcoded 15-day rule → hook. 5. No tests / aut
 / dead code.
 
 ## Migration note
-Existing deployments (ksprofilakovna, gips_centrum, demo) configured the 3 accounts by hand. After
+Existing deployments (two customers and the demo) configured the 3 accounts by hand. After
 the split they install the matching l10n module; post_init fills only *empty* fields, so existing
 config is preserved. ISDOC bridge unaffected (flags stay on base).
 

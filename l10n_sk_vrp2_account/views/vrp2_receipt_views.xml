@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="vrp2_receipt_view_list" model="ir.ui.view">
+        <field name="name">vrp2.receipt.list</field>
+        <field name="model">vrp2.receipt</field>
+        <field name="arch" type="xml">
+            <list string="VRP2 Receipts" create="false"
+                  decoration-success="state == 'confirmed'"
+                  decoration-danger="state == 'error'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="vrp2_created"/>
+                <field name="partner_id"/>
+                <field name="move_id"/>
+                <field name="payment_id" optional="hide"/>
+                <field name="amount" sum="Total"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="payment_method"/>
+                <field name="receipt_type" optional="hide"/>
+                <field name="is_stornoed" optional="hide"/>
+                <field name="state" widget="badge"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="vrp2_receipt_view_form" model="ir.ui.view">
+        <field name="name">vrp2.receipt.form</field>
+        <field name="model">vrp2.receipt</field>
+        <field name="arch" type="xml">
+            <form string="VRP2 Receipt" create="false" edit="false">
+                <header>
+                    <button name="action_print_receipt" type="object"
+                            string="Print Official Receipt" class="btn-primary"
+                            invisible="not pdf_receipt"/>
+                    <button name="action_send_email" type="object"
+                            string="Email Receipt" class="btn-secondary"
+                            invisible="state != 'confirmed'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o"
+                                invisible="not move_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Invoice</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="receipt_type"/>
+                            <field name="partner_id"/>
+                            <field name="move_id"/>
+                            <field name="payment_id" invisible="not payment_id"/>
+                            <field name="reversed_receipt_id"
+                                   invisible="not reversed_receipt_id"/>
+                            <field name="storno_receipt_id"
+                                   invisible="not storno_receipt_id"/>
+                            <field name="is_stornoed" invisible="not is_stornoed"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="currency_id" column_invisible="1"/>
+                            <field name="payment_method"/>
+                            <field name="vrp2_created"/>
+                            <field name="vrp2_server_id"/>
+                            <field name="vrp2_receipt_uuid"/>
+                        </group>
+                    </group>
+                    <group string="Fiscal Codes"
+                           invisible="not okp and not qr_content">
+                        <field name="okp"/>
+                        <field name="qr_content" groups="base.group_no_one"/>
+                        <field name="pdf_filename" invisible="1"/>
+                    </group>
+                    <group string="Error" invisible="not error_message">
+                        <field name="error_message" nolabel="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Technical" name="technical"
+                              groups="base.group_no_one">
+                            <group>
+                                <field name="request_json" widget="ace"
+                                       options="{'mode': 'json'}"/>
+                                <field name="response_json" widget="ace"
+                                       options="{'mode': 'json'}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="vrp2_receipt_view_search" model="ir.ui.view">
+        <field name="name">vrp2.receipt.search</field>
+        <field name="model">vrp2.receipt</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="move_id"/>
+                <filter name="confirmed" string="Confirmed"
+                        domain="[('state', '=', 'confirmed')]"/>
+                <filter name="error" string="Error"
+                        domain="[('state', '=', 'error')]"/>
+                <group>
+                    <filter name="group_partner" string="Customer"
+                            context="{'group_by': 'partner_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_type" string="Type"
+                            context="{'group_by': 'receipt_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="vrp2_receipt_action" model="ir.actions.act_window">
+        <field name="name">VRP2 Receipts</field>
+        <field name="res_model">vrp2.receipt</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'create': False}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No VRP2 receipts yet</p>
+            <p>Fiscal receipts are created when you fiscalize a customer invoice
+               in VRP2 (from the invoice form or the invoice-list mass action).</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_vrp2_receipt"
+              name="VRP2 Receipts"
+              parent="account.menu_finance_receivables"
+              action="vrp2_receipt_action"
+              sequence="95"/>
+
+</odoo>

@@ -8,6 +8,25 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-03
+-------------------------
+
+Fixed
+~~~~~
+
+- **Supplementary units are filed by their official code.** OCA names eight
+  units differently from the Eurostat codes (``items`` for ``p/st``,
+  ``1000 kWh`` for ``1 000 kWh``, …), and the adapter filed the name.
+  ``SUCode`` now carries the code, spelled as Odoo Enterprise's
+  ``account_intrastat`` spells it, so both editions file the same unit.
+- **Mode of transport and delivery terms are filed.** A full declaration
+  carries ``modeOfTransportCode`` and ``TODCode`` on every item. The engine
+  has both, and this adapter wrote neither.
+- The nature of transaction now reaches INSTAT as its A and B codes, via
+  ``l10n_cssk_intrastat_base`` 19.0.1.1.0. It used to be one A code, ``11``.
+- The description said the shared renderer is LGPL-3. It is AGPL-3, and the
+  Enterprise variant reuses it under dual licensing.
+
 [19.0.1.0.1] — 2026-09-13
 -------------------------
 

@@ -56,7 +56,7 @@ class TestSkDic(TransactionCase):
         self.assertEqual(child.l10n_sk_dic, "2020317068")
 
     def test_the_payroll_declarations_read_one_field(self):
-        """l10n_sk_hr_payroll_prehlad and _hlasenie used to declare
+        """l10n_sk_hr_payroll_monthly_tax_overview and _hlasenie used to declare
         res.company.l10n_sk_dic themselves, as a plain stored Char. Three
         definitions of one field is how a value ends up in a column the ORM has
         stopped reading. Assert the field is related, i.e. not stored."""

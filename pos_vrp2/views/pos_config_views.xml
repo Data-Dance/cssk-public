@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="pos_config_view_form_vrp2" model="ir.ui.view">
+        <field name="name">pos.config.form.vrp2</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="row mt16 o_settings_container"
+                     invisible="context.get('pos_config_create_mode', False)">
+                    <setting string="VRP2 Fiscal Receipts"
+                             help="This till is its own VRP2 cash register. Enable it, enter the till's own VRP2 login, then log in and sync its catalog.">
+                        <field name="vrp2_enabled"/>
+                        <div class="content-group mt16" invisible="not vrp2_enabled">
+                            <div class="row mb-2">
+                                <label for="vrp2_auto_fiscalize" class="col-lg-4 o_light_label"/>
+                                <field name="vrp2_auto_fiscalize" class="col-lg-8"/>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="vrp2_round_5c" class="col-lg-4 o_light_label"/>
+                                <field name="vrp2_round_5c" class="col-lg-8"/>
+                            </div>
+                            <div class="row mb-2" invisible="not vrp2_round_5c">
+                                <label for="rounding_method" string="Odoo Cash Rounding"
+                                       class="col-lg-4 o_light_label"/>
+                                <field name="rounding_method" class="col-lg-8"
+                                       required="vrp2_enabled and vrp2_round_5c"
+                                       options="{'no_quick_create': True}"
+                                       help="Must round to 0.05 'Nearest' on cash only, as VRP2 does, or Odoo's drawer drifts from the register."/>
+                            </div>
+                            <field name="cash_rounding" invisible="1"/>
+                            <field name="only_round_cash_method" invisible="1"/>
+                            <div class="row mb-2">
+                                <label for="vrp2_login" class="col-lg-4 o_light_label"/>
+                                <field name="vrp2_login" class="col-lg-8"/>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="vrp2_password" class="col-lg-4 o_light_label"/>
+                                <field name="vrp2_password" password="True" class="col-lg-8"/>
+                            </div>
+                            <div class="row mb-2">
+                                <label for="vrp2_status" class="col-lg-4 o_light_label"/>
+                                <field name="vrp2_status" widget="badge" class="col-lg-8"
+                                       decoration-success="vrp2_status == 'connected'"
+                                       decoration-warning="vrp2_status == 'disconnected'"
+                                       decoration-muted="vrp2_status == 'not_configured'"/>
+                            </div>
+                            <div class="mt-2 mb-2">
+                                <widget name="vrp2_load_credentials" invisible="vrp2_token"/>
+                                <widget name="vrp2_login"
+                                        invisible="vrp2_token or not vrp2_login or not vrp2_password"/>
+                                <widget name="vrp2_logout" invisible="not vrp2_token"/>
+                                <button name="action_vrp2_sync_to"
+                                        string="Push to VRP2"
+                                        type="object"
+                                        class="btn-secondary btn-sm ms-1"
+                                        icon="fa-cloud-upload"
+                                        invisible="not vrp2_token"
+                                        help="Send this till's catalog to VRP2: create/update its product categories and POS products (with mapped VAT) on this cash register, and deactivate items no longer in Odoo. Odoo is the source of truth."/>
+                                <button name="action_vrp2_pull"
+                                        string="Pull from VRP2"
+                                        type="object"
+                                        class="btn-secondary btn-sm ms-1"
+                                        icon="fa-cloud-download"
+                                        invisible="not vrp2_token"
+                                        help="Import this cash register's catalog from VRP2 into Odoo: create/update POS categories and products (name, price, VAT, barcode) from what currently exists on the register."/>
+                            </div>
+                            <div class="text-muted" invisible="not vrp2_dkp">
+                                <field name="vrp2_business_name" class="d-inline" readonly="1"/>
+                                — DKP <field name="vrp2_dkp" class="d-inline" readonly="1"/>
+                                (<field name="vrp2_role" class="d-inline" readonly="1"/>)
+                            </div>
+                            <field name="vrp2_token" invisible="1"/>
+                        </div>
+                    </setting>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

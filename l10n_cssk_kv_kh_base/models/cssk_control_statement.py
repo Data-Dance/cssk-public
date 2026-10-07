@@ -134,10 +134,26 @@ class CSSKControlStatement(models.Model):
             self.env[code.section_model].search(
                 [("statement_id", "=", self.id)]
             ).unlink()
+        # And whatever the statement still holds from ANOTHER version: the
+        # loop above clears only the current version's sections, so rows
+        # computed before the version changed would otherwise survive the
+        # recompute and be exported with it.
+        for rows in self._collect_sections_by_code().values():
+            rows.unlink()
 
     # ------------------------------------------------------------------
     # Manual overrides across recompute (see the row mixins)
     # ------------------------------------------------------------------
+    def _kv_identity_key(self, identity):
+        """An identity as a lookup key for the dodatočný delta.
+
+        The identity as it is, here. A country whose row identity drops
+        characters the form cannot carry overrides this so a baseline
+        snapshotted before that change still names the same row — otherwise an
+        unchanged document would be stornoed and re-added.
+        """
+        return tuple(identity)
+
     def _kv_collect_overrides(self):
         """Snapshot the user-overridden rows before the sections are wiped:
         ``{section_code: {override_key: {field: value}}}``."""
@@ -224,12 +240,16 @@ class CSSKControlStatement(models.Model):
             base_list = baseline.get(code, [])
             index = {}
             for snap in base_list:
-                index.setdefault(tuple(snap["id"]), []).append(snap)
+                # Normalised: a baseline snapshotted before the identity
+                # dropped whitespace still names the same row.
+                index.setdefault(self._kv_identity_key(snap["id"]),
+                                 []).append(snap)
             used = set()
             drop = new_rows.browse()
             stornos = []
             for nr in new_rows:
-                free = [s for s in index.get(tuple(nr._kv_identity()), [])
+                free = [s for s in index.get(
+                            self._kv_identity_key(nr._kv_identity()), [])
                         if id(s) not in used]
                 if not free:
                     nr.kod_opravy = "2"                 # nový riadok

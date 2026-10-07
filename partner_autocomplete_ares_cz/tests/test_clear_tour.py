@@ -27,9 +27,9 @@ class TestAresClearTour(HttpCase):
         })
         old_contact = company.child_ids
         provider_class = type(self.env[ARES])
-        suggestion = {"name": "Durwen CZ s.r.o.", "partner_gid": "12345678", "duns": "12345678"}
+        suggestion = {"name": "Vzorová CZ s.r.o.", "partner_gid": "12345678", "duns": "12345678"}
         enriched = {
-            "name": "Durwen CZ s.r.o.",
+            "name": "Vzorová CZ s.r.o.",
             "vat": "CZ12345678",
             "partner_gid": "12345678",
             "child_ids": [

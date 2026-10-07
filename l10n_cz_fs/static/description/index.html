@@ -1,0 +1,57 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <p class="oe_mt8" style="text-align:right;">🌐 <b>EN</b> · <a href="index_cz.html">CZ</a> · <a href="index_sk.html">SK</a></p>
+        <h2 class="oe_slogan">CZ Financial Statements (Rozvaha / Výsledovka)</h2>
+        <h3 class="oe_slogan" style="color:#875A7B;">Czech statutory financial statements on the shared FS framework — account-code line mappings plus structured XML.</h3>
+        <div class="oe_span12">
+            <p>
+                The Czech country layer for the shared financial-statement framework
+                (<code>l10n_cssk_fs_base</code>). It is CE-clean: line values are summed from
+                <code>account.move.line</code> by account-code prefix — the balance sheet (Rozvaha)
+                is cumulative as-of the report date, while the P&amp;L (Výkaz zisku a ztráty)
+                reports the period movement. The module ships the full statutory line structure
+                required by vyhláška 500/2002 Sb. and the structured XML exports that feed the
+                DPPDP9 appendices and the commercial-register filing (sbírka listin).
+            </p>
+        </div>
+    </div>
+</section>
+<section class="oe_container oe_dark">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Key features</h2>
+        <div class="oe_span12">
+            <ul>
+                <li>Full statutory line structure per vyhláška 500/2002 Sb.: Rozvaha (plný-rozsah groups plus the key numbered lines) and Výkaz zisku a ztráty v druhovém členění.</li>
+                <li>Every account of the l10n_cz směrná účtová osnova maps to exactly one leaf line (the partition is verified in tests), so the aggregates reconcile: AKTIVA = PASIVA and výsledek hospodaření = výnosy − náklady.</li>
+                <li>The current-year result (A.V) is computed from class 5/6, so the balance sheet ties out even before the result is closed to účet 431.</li>
+                <li>Přehled o peněžních tocích (cash flow, nepřímá metoda) and Přehled o změnách vlastního kapitálu (changes in equity) — příloha components built as a complete account partition into provozní/investiční/finanční činnost (resp. equity components), reconciling by construction (A + B + C = Δcash; počátek + Σ změny = konec; G = 0 asserted in tests).</li>
+                <li>Structured XML export for every statement. There is no standalone EPO XSD for the full závěrka, so the XML is a structured stand-in alongside the PDF / commercial-register submission.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Usage</h2>
+        <div class="oe_span12">
+            <p>
+                Create a financial-statement record for the relevant statutory version (Rozvaha,
+                Výkaz zisku a ztráty, cash flow or changes in equity), set the reporting period and
+                compute the lines. The values are summed directly from the posted journal items, the
+                aggregates reconcile by construction, and the result can be exported as structured XML
+                for the DPPDP9 appendices and the commercial-register filing. Accountant note: the
+                dlouhodobé/krátkodobé receivable &amp; payable splits and the opravné-položka allocations
+                follow the standard chart convention — confirm with a CZ accountant for entities using
+                non-standard account assignments.
+            </p>
+        </div>
+    </div>
+</section>
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12" style="text-align:center;">
+            <p>Published by <b>Data Dance s.r.o.</b> — <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+            <p><small>License: Data Dance Proprietary License v1.0</small></p>
+        </div>
+    </div>
+</section>

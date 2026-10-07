@@ -27,18 +27,18 @@ class TestAutocompleteLookupKey(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.env["res.partner"].create({
-            "name": "Zlaté Zrnko s.r.o.",
+            "name": "Testovacia s.r.o.",
             "is_company": True,
-            "company_registry": "50022814",
+            "company_registry": "12345679",
         })
 
     def test_a_company_is_looked_up_by_its_own_ico(self):
-        self.assertEqual(self.company._autocomplete_lookup_key(), "50022814")
+        self.assertEqual(self.company._autocomplete_lookup_key(), "12345679")
 
     def test_a_contact_inside_a_company_is_not(self):
         """The reported bug.
 
-        The contact really does carry 50022814 — core copies it down as a
+        The contact really does carry 12345679 — core copies it down as a
         commercial field — but it is the COMPANY's number, not the person's.
         Looking it up would fetch the company and overwrite the person's name,
         street and VAT with it.
@@ -87,8 +87,8 @@ class TestAutocompleteLookupKey(TransactionCase):
     def test_the_key_is_stripped(self):
         """It is concatenated into a signing hash and posted as a form value;
         a stray space changes the hash and the register rejects the call."""
-        self.company.company_registry = "  50022814 "
-        self.assertEqual(self.company._autocomplete_lookup_key(), "50022814")
+        self.company.company_registry = "  12345679 "
+        self.assertEqual(self.company._autocomplete_lookup_key(), "12345679")
 
 
 class TestImportEnrichTrigger(TransactionCase):
@@ -114,7 +114,7 @@ class TestImportEnrichTrigger(TransactionCase):
             self.env["res.partner"].create({
                 "name": "Typed by hand s.r.o.",
                 "is_company": True,
-                "company_registry": "50022814",
+                "company_registry": "12345679",
             })
         self.assertFalse(calls)
 
@@ -123,6 +123,6 @@ class TestImportEnrichTrigger(TransactionCase):
         with spy:
             partner = self.env["res.partner"].create({
                 "name": "Imported s.r.o.",
-                "import_enrich_company": "50022814",
+                "import_enrich_company": "12345679",
             })
         self.assertEqual(calls, [partner])

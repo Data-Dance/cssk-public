@@ -1,0 +1,71 @@
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <p class="oe_mt8" style="text-align:right;">
+      🌐 <b>EN</b> ·
+      <a href="index_cz.html">CZ</a> ·
+      <a href="index_sk.html">SK</a>
+    </p>
+    <h2 class="oe_slogan">Slovakia — Financial Statements (Súvaha / VZS)</h2>
+    <h3 class="oe_slogan" style="color:#875A7B;">Slovak balance sheet and profit &amp; loss statement on the shared l10n_cssk_fs_base framework, with the official UZPODv14 XML export</h3>
+    <div class="oe_span12">
+      <p>This app produces the concrete Slovak <b>Súvaha</b> (balance sheet) and <b>Výkaz ziskov
+         a strát</b> (profit &amp; loss, druhové členenie) on top of the shared
+         <code>l10n_cssk_fs_base</code> framework, computed CE-clean (no
+         <code>account_reports</code>).</p>
+      <p>It maps every account of the <code>l10n_sk</code> účtová osnova to exactly one statutory
+         leaf line (a partition verified in the tests), so the aggregates reconcile:
+         <b>SPOLU MAJETOK = SPOLU VLASTNÉ IMANIE A ZÁVÄZKY</b> and the result of the period equals
+         výnosy − náklady. The current-year result (A.V) is computed from triedy 5/6, so the súvaha
+         ties out before the result is closed to účtu 431.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container oe_dark">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Key features</h2>
+    <div class="oe_span12">
+      <ul>
+        <li>Full statutory line structure per the Opatrenie MF SR pre podnikateľov účtujúcich
+            v sústave podvojného účtovníctva — semantic Súvaha and VZS for on-screen review.</li>
+        <li>Account-code line mapping with a verified partition (every account maps to exactly one
+            leaf line) and a comparison period.</li>
+        <li>Current-year result (A.V) computed from triedy 5/6 so the balance sheet ties out before
+            the result is closed to účtu 431.</li>
+        <li><b>Official UZPODv14 export</b> (<code>l10n.sk.uzpod</code>): the combined účtovná
+            závierka <code>dokument</code> — Súvaha Úč POD 1 (r001–r145 with Brutto / Korekcia /
+            Netto) plus Výkaz ziskov a strát Úč POD 2 (r01–r61) — built CE-clean from
+            <code>account.move.line</code> and validated against the official
+            <code>data/uzpod-2014.xsd</code> (FS SR).</li>
+        <li>Row→account formulas (<code>models/uzpod14_rows.py</code>) mirror the authoritative
+            statutory mapping.</li>
+      </ul>
+      <p><b>Accountant note:</b> confirm the NACE code and header fields on the company and validate
+         the row mapping with a Slovak accountant before live filing. On Enterprise, SK FS may
+         instead defer to the native UZPODv14 export.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <h2 class="oe_slogan">Usage</h2>
+    <div class="oe_span12">
+      <p>Create a financial-statements record for a fiscal period, compute it to populate the line
+         structure from the period's postings, review the Súvaha and VZS detail with the comparison
+         period, then export the official UZPODv14 <code>dokument</code> XML for the FS portal. The
+         semantic statements remain available for on-screen review independently of the fileable
+         export.</p>
+    </div>
+  </div>
+</section>
+
+<section class="oe_container">
+  <div class="oe_row oe_spaced">
+    <div class="oe_span12" style="text-align:center;">
+      <p>Published by <b>Data Dance s.r.o.</b> —
+         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
+      <p><small>License: Data Dance Proprietary License v1.0</small></p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,876 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* pos_vrp2
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-06 20:54+0000\n"
+"PO-Revision-Date: 2026-10-06 20:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid "%(done)s order(s) fiscalized, %(failed)s failed, %(skipped)s skipped."
+msgstr ""
+"Zaevidované objednávky: %(done)s, neúspešné: %(failed)s, preskočené: "
+"%(skipped)s."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"%(error)s\n"
+"\n"
+"If the failure was a timeout, VRP2 may already hold this receipt: check the register's receipt list in the VRP2 portal before fiscalizing again."
+msgstr ""
+"%(error)s\n"
+"\n"
+"Ak išlo o vypršanie časového limitu, VRP2 už tento doklad môže mať: pred opätovným evidovaním skontrolujte zoznam dokladov pokladnice na portáli VRP2."
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid "("
+msgstr "("
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid ")"
+msgstr ")"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_product_template__vrp2_returnable_packaging
+msgid ""
+"A deposit-bearing package (zálohovaný obal). Taking it back is a negative "
+"quantity WITHOUT a sale to refer to, which VRP2 records as 'vrátené obaly' "
+"(item type NEGATIVE) rather than as a return of goods. Push it to the VRP2 "
+"catalogue like any other product."
+msgstr ""
+"Zálohovaný obal. Jeho prevzatie späť je záporné množstvo BEZ predaja, na "
+"ktorý by sa odkazovalo; VRP2 ho eviduje ako „vrátené obaly“ (typ položky "
+"NEGATIVE), nie ako vrátenie tovaru. Odošlite ho do katalógu VRP2 ako každý "
+"iný produkt."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+msgid ""
+"Categories: %d created, %d updated, %d deleted.\n"
+"Products: %d created, %d updated, %d deactivated."
+msgstr ""
+"Kategórie: vytvorené %d, aktualizované %d, zmazané %d.\n"
+"Produkty: vytvorené %d, aktualizované %d, deaktivované %d."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__product_template__vrp2_special_regulation__travel_agencies
+msgid "Cestovné kancelárie"
+msgstr "Cestovné kancelárie"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/xml/vrp2_load_credentials.xml:0
+msgid ""
+"Copy the VRP2 login and password from the company default register into this"
+" till."
+msgstr ""
+"Skopírovať prihlasovacie meno a heslo VRP2 z predvolenej pokladnice "
+"spoločnosti do tejto pokladne."
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.js:0
+msgid "Could not read the VRP2 receipt of this order from the server."
+msgstr "Doklad VRP2 k tejto objednávke sa nepodarilo načítať zo servera."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_category__vrp2_order
+msgid "Display order in VRP2 (set by server)."
+msgstr "Poradie zobrazenia vo VRP2 (nastavuje server)."
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.xml:0
+msgid "Doklad nebol zaevidovaný vo VRP2"
+msgstr "Doklad nebol zaevidovaný vo VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_config__vrp2_enabled
+msgid "Enable VRP2"
+msgstr "Zapnúť VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__pos_order__vrp2_state__error
+msgid "Error"
+msgstr "Chyba"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_config__vrp2_auto_fiscalize
+msgid "Fiscalize Automatically"
+msgstr "Evidovať automaticky"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.view_pos_order_tree_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.view_pos_pos_form_vrp2
+msgid "Fiscalize in VRP2"
+msgstr "Zaevidovať vo VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_config__vrp2_enabled
+msgid ""
+"Fiscalize this till's sales in the Slovak Virtual Cash Register. Set the "
+"till's own VRP2 credentials below."
+msgstr ""
+"Evidovať tržby tejto pokladne vo Virtuálnej registračnej pokladnici. Nižšie "
+"zadajte vlastné prihlasovacie údaje VRP2 tejto pokladne."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__pos_order__vrp2_state__fiscalized
+msgid "Fiscalized"
+msgstr "Zaevidované"
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__pos_payment_method__vrp2_payment_type__cash
+msgid "Hotovosť"
+msgstr "Hotovosť"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_payment_method__vrp2_payment_type
+msgid ""
+"How payments by this method are reported on the VRP2 receipt. Defaults from "
+"the journal: cash → Hotovosť, bank → Platobná karta. Empty means the method "
+"is not a cash-register tender (a customer account), and an order paid by it "
+"cannot be fiscalized."
+msgstr ""
+"Ako sa platby touto metódou uvádzajú na doklade VRP2. Predvolená hodnota "
+"podľa denníka: hotovosť → Hotovosť, banka → Platobná karta. Prázdne znamená,"
+" že metóda nie je platidlom registračnej pokladnice (účet zákazníka) a "
+"objednávku ňou uhradenú nemožno zaevidovať."
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.xml:0
+msgid "ID dokladu:"
+msgstr "ID dokladu:"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid ""
+"Import this cash register's catalog from VRP2 into Odoo: create/update POS "
+"categories and products (name, price, VAT, barcode) from what currently "
+"exists on the register."
+msgstr ""
+"Importovať katalóg tejto pokladnice z VRP2 do Odoo: vytvoriť/aktualizovať "
+"kategórie a produkty POS (názov, cena, DPH, čiarový kód) podľa aktuálneho "
+"stavu na pokladnici."
+
+#. module: pos_vrp2
+#: model:ir.module.module,summary:base.module_pos_vrp2
+msgid "Integrate Odoo POS with Slovak Virtual Cash Register (VRP 2)"
+msgstr "Prepojenie Odoo POS s Virtuálnou registračnou pokladnicou (VRP 2)"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_product_template__vrp2_code
+msgid "Internal code assigned by VRP2 when the product is created."
+msgstr "Interný kód, ktorý VRP2 pridelí pri vytvorení produktu."
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.product_template_form_view_vrp2
+msgid "Internal note (max 1000 chars)"
+msgstr "Interná poznámka (max. 1000 znakov)"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_product_template__vrp2_note
+msgid "Internal note for VRP2 (max 1000 chars, not printed)."
+msgstr "Interná poznámka pre VRP2 (max. 1000 znakov, netlačí sa)."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__pos_payment_method__vrp2_payment_type__other
+msgid "Iné"
+msgstr "Iné"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_config__vrp2_auto_fiscalize
+msgid ""
+"Issue the VRP2 receipt as soon as the till syncs a paid order. A failure "
+"never blocks the sale: the order is marked 'VRP2 Error' and can be "
+"fiscalized again from its form."
+msgstr ""
+"Vystaviť doklad VRP2 hneď, ako pokladňa zosynchronizuje zaplatenú "
+"objednávku. Chyba nikdy nezablokuje predaj: objednávka sa označí „Chyba "
+"VRP2“ a možno ju zaevidovať znova z jej formulára."
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.xml:0
+msgid "Kód pokladnice:"
+msgstr "Kód pokladnice:"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Line '%(line)s' returns goods without referencing the order they were sold "
+"on. VRP2 accepts a return only against the original receipt: refund it from "
+"that order in the POS. (Returned deposit packaging is different: mark the "
+"product 'VRP2 Returnable Packaging'.)"
+msgstr ""
+"Riadok „%(line)s“ vracia tovar bez odkazu na objednávku, na ktorej bol "
+"predaný. VRP2 prijme vrátenie tovaru len voči pôvodnému dokladu: vráťte ho z"
+" tejto objednávky v POS. (Vrátené zálohované obaly sú iný prípad: označte "
+"produkt ako „Zálohovaný obal VRP2“.)"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/xml/vrp2_load_credentials.xml:0
+msgid "Load Credentials from Company"
+msgstr "Načítať prihlasovacie údaje zo spoločnosti"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/js/vrp2_load_credentials.js:0
+msgid "Loaded credentials from the company. Click Login to connect this till."
+msgstr ""
+"Prihlasovacie údaje boli načítané zo spoločnosti. Kliknutím na Prihlásiť "
+"pripojíte túto pokladňu."
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/js/vrp2_load_credentials.js:0
+msgid "Logged in to VRP2."
+msgstr "Prihlásené do VRP2."
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/js/vrp2_load_credentials.js:0
+msgid "Logged out from VRP2."
+msgstr "Odhlásené z VRP2."
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/xml/vrp2_load_credentials.xml:0
+msgid "Login"
+msgstr "Prihlásiť"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/xml/vrp2_load_credentials.xml:0
+msgid "Logout"
+msgstr "Odhlásiť"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.res_config_settings_view_form_vrp2
+msgid ""
+"Map VRP2 VAT rates to Odoo sales taxes. Each till's own VRP2 credentials are"
+" set on the Point of Sale (under Settings ▸ Edit), where you also log in and"
+" sync its catalog."
+msgstr ""
+"Priraďte sadzby DPH VRP2 k predajným daniam Odoo. Vlastné prihlasovacie "
+"údaje VRP2 každej pokladne sa zadávajú na mieste predaja (Nastavenia ▸ "
+"Upraviť), kde sa aj prihlasuje a synchronizuje jej katalóg."
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid ""
+"Must round to 0.05 'Nearest' on cash only, as VRP2 does, or Odoo's drawer "
+"drifts from the register."
+msgstr ""
+"Musí zaokrúhľovať na 0,05 „Najbližšie“ len pri hotovosti, rovnako ako VRP2, "
+"inak sa stav pokladne v Odoo rozíde s pokladnicou."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid "No VRP2 PDF is stored for this order."
+msgstr "Pre túto objednávku nie je uložené PDF z VRP2."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__pos_order__vrp2_state__not_fiscalized
+msgid "Not Fiscalized"
+msgstr "Nezaevidované"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.view_pos_order_filter_vrp2
+msgid "Not Fiscalized in VRP2"
+msgstr "Nezaevidované vo VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_okp
+msgid "OKP"
+msgstr "OKP"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.xml:0
+msgid "OKP:"
+msgstr "OKP:"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid "Odoo Cash Rounding"
+msgstr "Zaokrúhľovanie hotovosti v Odoo"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Order %(order)s was invoiced, so VRP2 holds an invoice payment for it, not a"
+" sale. Cancel that payment receipt rather than returning items against it."
+msgstr ""
+"Objednávka %(order)s bola vyfakturovaná, takže VRP2 k nej eviduje úhradu "
+"faktúry, nie predaj. Namiesto vrátenia položiek voči nej stornujte tento "
+"doklad o úhrade."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Order %(order)s was paid %(paid)s but its VRP2 receipt totals %(total)s; the"
+" difference is too large to be tax rounding."
+msgstr ""
+"Objednávka %(order)s bola uhradená sumou %(paid)s, ale jej doklad VRP2 je na"
+" %(total)s; rozdiel je príliš veľký na to, aby šlo o zaokrúhlenie dane."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Order %(order)s was paid more by non-cash means (%(non_cash)s) than it costs"
+" (%(total)s) and also in cash; that cannot be put on a receipt."
+msgstr ""
+"Objednávka %(order)s bola bezhotovostne uhradená viac (%(non_cash)s), než je"
+" jej suma (%(total)s), a zároveň aj v hotovosti; takýto doklad nemožno "
+"vystaviť."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Order %(order)s was paid more by non-cash means than it costs and also in "
+"cash; that cannot be put on a receipt."
+msgstr ""
+"Objednávka %(order)s bola bezhotovostne uhradená viac, než je jej suma, a "
+"zároveň aj v hotovosti; takýto doklad nemožno vystaviť."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Order %(order)s, which this refund returns goods from, has no VRP2 receipt "
+"to reference. Fiscalize it first."
+msgstr ""
+"Objednávka %(order)s, z ktorej sa tovar vracia, nemá doklad VRP2, na ktorý "
+"by sa dalo odkázať. Najprv ju zaevidujte."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid "Order %s has no lines to fiscalize."
+msgstr "Objednávka %s nemá žiadne riadky na zaevidovanie."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid "Order %s is already fiscalized in VRP2."
+msgstr "Objednávka %s je už vo VRP2 zaevidovaná."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Order %s is an invoiced refund. A credit note is not fiscalized as an "
+"invoice payment; cancel the original payment receipt instead."
+msgstr ""
+"Objednávka %s je vyfakturované vrátenie. Dobropis sa neeviduje ako úhrada "
+"faktúry; namiesto toho stornujte pôvodný doklad o úhrade."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid "Order %s must be paid before it can be fiscalized."
+msgstr "Objednávka %s musí byť pred zaevidovaním zaplatená."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Order line '%(line)s' carries taxes VRP2 cannot express: a receipt item has "
+"exactly one percentage VAT rate."
+msgstr ""
+"Riadok objednávky „%(line)s“ obsahuje dane, ktoré VRP2 nevie vyjadriť: "
+"položka dokladu má práve jednu percentuálnu sadzbu DPH."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Order line '%(line)s' has VAT %(rate)s %%, which is not a VRP2 VAT rate "
+"(%(allowed)s)."
+msgstr ""
+"Riadok objednávky „%(line)s“ má DPH %(rate)s %%, čo nie je sadzba DPH vo "
+"VRP2 (%(allowed)s)."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__product_template__vrp2_special_regulation__tax_exemption
+msgid "Oslobodené od dane"
+msgstr "Oslobodené od dane"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.xml:0
+msgid "Overte doklad pomocou QR kódu"
+msgstr "Overte doklad pomocou QR kódu"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.xml:0
+msgid "POKLADNIČNÝ DOKLAD č."
+msgstr "POKLADNIČNÝ DOKLAD č."
+
+#. module: pos_vrp2
+#: model:ir.module.module,shortdesc:base.module_pos_vrp2
+msgid "POS VRP2 Integration"
+msgstr "Prepojenie POS s VRP2"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Packaging '%(product)s' is not in this till's VRP2 catalogue (it has no VRP2"
+" service code). Push the catalogue to VRP2 first."
+msgstr ""
+"Obal „%(product)s“ nie je v katalógu VRP2 tejto pokladne (nemá kód služby "
+"VRP2). Najprv odošlite katalóg do VRP2."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Payment method '%(method)s' has no VRP2 payment type. A sale settled on a "
+"customer account is not a cash-register sale; set the type on the payment "
+"method if it is one."
+msgstr ""
+"Platobná metóda „%(method)s“ nemá typ platidla VRP2. Predaj uhradený na účet"
+" zákazníka nie je tržbou registračnej pokladnice; ak ňou je, nastavte typ na"
+" platobnej metóde."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__pos_payment_method__vrp2_payment_type__card
+msgid "Platobná karta"
+msgstr "Platobná karta"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+msgid ""
+"Point of Sale '%(pos)s' does not round cash in VRP2, so Odoo must not round "
+"it either: disable Cash Rounding or enable 'Round to 0.05 €'."
+msgstr ""
+"Miesto predaja „%(pos)s“ nezaokrúhľuje hotovosť vo VRP2, preto ju nesmie "
+"zaokrúhľovať ani Odoo: vypnite zaokrúhľovanie hotovosti alebo zapnite "
+"„Zaokrúhľovať na 0,05 €“."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+msgid ""
+"Point of Sale '%(pos)s' rounds cash to 0.05 € in VRP2, so its Odoo cash "
+"rounding must do the same: enable Cash Rounding with a 0.05 'Nearest' "
+"rounding method (Add a rounding line) and 'Only apply rounding on cash'."
+msgstr ""
+"Miesto predaja „%(pos)s“ zaokrúhľuje hotovosť vo VRP2 na 0,05 €, preto musí "
+"rovnako zaokrúhľovať aj Odoo: zapnite zaokrúhľovanie hotovosti so spôsobom "
+"0,05 „Najbližšie“ („Pridať riadok zaokrúhlenia“) a „Only apply rounding on "
+"cash“."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__pos_payment_method__vrp2_payment_type__voucher
+msgid "Poukážky"
+msgstr "Poukážky"
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__product_template__vrp2_special_regulation__used_goods
+msgid "Použitý tovar"
+msgstr "Použitý tovar"
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__product_template__vrp2_special_regulation__tax_obligation_transfer
+msgid "Prenesenie daňovej povinnosti"
+msgstr "Prenesenie daňovej povinnosti"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.view_pos_pos_form_vrp2
+msgid "Print VRP2 Receipt"
+msgstr "Tlačiť doklad VRP2"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid ""
+"Product '%(product)s' is not in this till's VRP2 catalogue (it has no VRP2 "
+"service code). Push the catalogue to VRP2 first."
+msgstr ""
+"Produkt „%(product)s“ nie je v katalógu VRP2 tejto pokladne (nemá kód služby"
+" VRP2). Najprv odošlite katalóg do VRP2."
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid "Pull from VRP2"
+msgstr "Načítať z VRP2"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+msgid "Pulled %d categories and %d products from VRP2."
+msgstr "Z VRP2 sa načítalo %d kategórií a %d produktov."
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid "Push to VRP2"
+msgstr "Odoslať do VRP2"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.xml:0
+msgid "QR"
+msgstr "QR"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid ""
+"Send this till's catalog to VRP2: create/update its product categories and "
+"POS products (with mapped VAT) on this cash register, and deactivate items "
+"no longer in Odoo. Odoo is the source of truth."
+msgstr ""
+"Odoslať katalóg tejto pokladne do VRP2: vytvoriť/aktualizovať jej kategórie "
+"a produkty POS (s priradenou DPH) na tejto pokladnici a deaktivovať položky,"
+" ktoré už v Odoo nie sú. Rozhodujúce sú údaje v Odoo."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_category__vrp2_id
+msgid "Server-side category ID in VRP2 (categoryId)."
+msgstr "ID kategórie na serveri VRP2 (categoryId)."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_category__vrp2_short_name
+msgid ""
+"Short name for VRP2 tabs (max ~3 chars). Auto-generated from name if not "
+"set."
+msgstr ""
+"Krátky názov pre záložky VRP2 (max. ~3 znaky). Ak nie je zadaný, vytvorí sa "
+"z názvu."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_product_template__vrp2_favourite
+msgid "Show in VRP2 favourites quick-access."
+msgstr "Zobraziť v obľúbených položkách VRP2."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__pos_payment_method__vrp2_payment_type__gastro
+msgid "Stravné poukážky"
+msgstr "Stravné poukážky"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_product_template__vrp2_synced
+msgid "Synced to VRP2"
+msgstr "Zosynchronizované s VRP2"
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.js:0
+msgid "The VRP2 receipt was NOT issued: %s"
+msgstr "Doklad VRP2 NEBOL vystavený: %s"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+msgid ""
+"The company has no VRP2 credentials. Set them in Accounting ▸ Settings ▸ "
+"VRP2 first."
+msgstr ""
+"Spoločnosť nemá prihlasovacie údaje VRP2. Najprv ich zadajte v Účtovníctvo ▸"
+" Nastavenia ▸ VRP2."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_order_line__vrp2_item_name
+msgid ""
+"The name VRP2 printed for this line on the fiscal receipt. A refund of the "
+"line must repeat it verbatim."
+msgstr ""
+"Názov, ktorý VRP2 vytlačilo pre tento riadok na pokladničnom doklade. "
+"Vrátenie tohto riadku ho musí zopakovať doslovne."
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid ""
+"This till is its own VRP2 cash register. Enable it, enter the till's own "
+"VRP2 login, then log in and sync its catalog."
+msgstr ""
+"Táto pokladňa je samostatnou pokladnicou VRP2. Zapnite ju, zadajte jej "
+"vlastné prihlasovacie údaje VRP2, potom sa prihláste a zosynchronizujte jej "
+"katalóg."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__product_template__vrp2_special_regulation__art_works
+msgid "Umelecké diela"
+msgstr "Umelecké diela"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_category_view_form_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.product_template_form_view_vrp2
+msgid "VRP2"
+msgstr "VRP2"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.res_config_settings_view_form_vrp2
+msgid "VRP2 - Slovak Virtual Cash Register"
+msgstr "VRP2 – Virtuálna registračná pokladnica"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_category__vrp2_id
+msgid "VRP2 Category ID"
+msgstr "ID kategórie VRP2"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.view_pos_order_filter_vrp2
+msgid "VRP2 Error"
+msgstr "Chyba VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_product_template__vrp2_favourite
+msgid "VRP2 Favourite"
+msgstr "Obľúbené vo VRP2"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid "VRP2 Fiscal Receipts"
+msgstr "Pokladničné doklady VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_created
+msgid "VRP2 Fiscalized On"
+msgstr "Zaevidované vo VRP2 dňa"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order_line__vrp2_item_name
+msgid "VRP2 Item Name"
+msgstr "Názov položky vo VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_product_template__vrp2_note
+msgid "VRP2 Note"
+msgstr "Poznámka VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_category__vrp2_order
+msgid "VRP2 Order"
+msgstr "Poradie vo VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_payment_method__vrp2_payment_type
+msgid "VRP2 Payment Type"
+msgstr "Typ platidla VRP2"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+msgid "VRP2 Pull Complete"
+msgstr "Načítanie z VRP2 dokončené"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_qr_content
+msgid "VRP2 Receipt Data"
+msgstr "Údaje dokladu VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_server_id
+msgid "VRP2 Receipt ID"
+msgstr "ID dokladu VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_receipt_number
+msgid "VRP2 Receipt Number"
+msgstr "Číslo dokladu VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_pdf
+msgid "VRP2 Receipt PDF"
+msgstr "PDF dokladu VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_receipt_uuid
+msgid "VRP2 Receipt UUID"
+msgstr "UUID dokladu VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_request_json
+msgid "VRP2 Request"
+msgstr "Požiadavka VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_response_json
+msgid "VRP2 Response"
+msgstr "Odpoveď VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_product_template__vrp2_returnable_packaging
+msgid "VRP2 Returnable Packaging"
+msgstr "Zálohovaný obal VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_product_template__vrp2_code
+msgid "VRP2 Service Code"
+msgstr "Kód služby VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_category__vrp2_short_name
+msgid "VRP2 Short Name"
+msgstr "Krátky názov VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_product_template__vrp2_special_regulation
+msgid "VRP2 Special Regulation"
+msgstr "Osobitná úprava VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_state
+msgid "VRP2 Status"
+msgstr "Stav VRP2"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+msgid "VRP2 Sync Complete"
+msgstr "Synchronizácia s VRP2 dokončená"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_res_company__vrp2_tax_0
+msgid "VRP2 Tax 0%"
+msgstr "Daň VRP2 0 %"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_res_company__vrp2_tax_10
+msgid "VRP2 Tax 10%"
+msgstr "Daň VRP2 10 %"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_res_company__vrp2_tax_19
+msgid "VRP2 Tax 19%"
+msgstr "Daň VRP2 19 %"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_res_company__vrp2_tax_20
+msgid "VRP2 Tax 20%"
+msgstr "Daň VRP2 20 %"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_res_company__vrp2_tax_23
+msgid "VRP2 Tax 23%"
+msgstr "Daň VRP2 23 %"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_res_company__vrp2_tax_5
+msgid "VRP2 Tax 5%"
+msgstr "Daň VRP2 5 %"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.res_config_settings_view_form_vrp2
+msgid "VRP2 Tax Mapping"
+msgstr "Priradenie daní VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_res_company__vrp2_vatlist_json
+msgid "VRP2 VAT List (cached)"
+msgstr "Zoznam sadzieb DPH VRP2 (vyrovnávacia pamäť)"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid "VRP2 credentials are not configured on till '%s'."
+msgstr "Na pokladni „%s“ nie sú nastavené prihlasovacie údaje VRP2."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_order__vrp2_qr_content
+msgid ""
+"VRP2 dataBase64: the whole receipt as base64 JSON (items as VRP2 named them,"
+" VAT summary, payments, rounding). NOT the QR code, which encodes only the "
+"receiptId."
+msgstr ""
+"dataBase64 z VRP2: celý doklad ako JSON v base64 (položky s názvami podľa "
+"VRP2, rekapitulácia DPH, platby, zaokrúhlenie). NIE JE to obsah QR kódu, ten"
+" obsahuje len receiptId."
+
+#. module: pos_vrp2
+#. odoo-javascript
+#: code:addons/pos_vrp2/static/src/pos/vrp2_receipt.xml:0
+msgid "VRP2 doklad (PDF)"
+msgstr "VRP2 doklad (PDF)"
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_order.py:0
+msgid "VRP2 is not enabled for Point of Sale '%s'."
+msgstr "VRP2 nie je zapnuté pre miesto predaja „%s“."
+
+#. module: pos_vrp2
+#. odoo-python
+#: code:addons/pos_vrp2/models/pos_config.py:0
+msgid ""
+"VRP2 login '%(login)s' is already used by Point of Sale '%(pos)s'. Each VRP2"
+" cash register can belong to only one POS."
+msgstr ""
+"Prihlasovacie meno VRP2 „%(login)s“ už používa miesto predaja „%(pos)s“. "
+"Každá pokladnica VRP2 môže patriť len jednému POS."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_pos_order__vrp2_receipt_uuid
+msgid ""
+"VRP2 receiptId (V-…). This is exactly what the QR code on the official "
+"receipt encodes."
+msgstr ""
+"receiptId z VRP2 (V-…). Presne toto obsahuje QR kód na oficiálnom doklade."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_product_template__vrp2_special_regulation
+msgid "Verbal information required on receipt for 0%% VAT items."
+msgstr "Slovná informácia povinná na doklade pri položkách s 0 %% DPH."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_error_message
+msgid "Vrp2 Error Message"
+msgstr "Chybová správa VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_pos_order__vrp2_pdf_filename
+msgid "Vrp2 Pdf Filename"
+msgstr "Názov súboru PDF VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_product_template__vrp2_synced
+msgid "Whether this product exists on the VRP2 server."
+msgstr "Či tento produkt existuje na serveri VRP2."
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__product_template__vrp2_special_regulation__collective_subjects_and_antiques
+msgid "Zberateľské predmety a starožitnosti"
+msgstr "Zberateľské predmety a starožitnosti"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_category_view_form_vrp2
+msgid "e.g. FD"
+msgstr "napr. FD"
+
+#. module: pos_vrp2
+#: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
+msgid "— DKP"
+msgstr "— DKP"

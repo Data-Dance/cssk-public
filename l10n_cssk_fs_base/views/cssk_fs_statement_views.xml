@@ -57,7 +57,7 @@
                     <button name="action_view_unmapped" type="object"
                             class="btn-warning" icon="fa-question-circle"
                             invisible="state in ('draft', 'legacy') or unmapped_count == 0"
-                            string="Accounts on no row"/>
+                            string="Unmapped accounts"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,preview,exported,submitted"/>
                     <field name="submission_state" widget="badge" optional="show"
@@ -105,15 +105,27 @@
                     </group>
                     <notebook>
                         <page string="Lines" name="lines">
-                            <p class="text-muted">
-                                Tick <b>Override</b> to enter a manual value and
-                                press <b>Compute</b> — preserved across recompute.
+                            <p class="text-muted"
+                               invisible="state not in ('draft', 'preview')">
+                                Click <i class="fa fa-pencil"/> next to a figure
+                                to enter it by hand, then press <b>Compute</b>
+                                to update the totals. Manual figures are kept
+                                on every recompute; totals cannot be overridden.
                             </p>
-                            <field name="line_ids" widget="cssk_fs_tree" nolabel="1">
+                            <field name="line_ids" widget="cssk_fs_tree" nolabel="1"
+                                   invisible="context.get('fs_section') in ('balance', 'movement')"
+                                   readonly="state not in ('draft', 'preview')">
                                 <!-- The inner list only declares which fields the
                                      foldable-tree widget loads; the widget renders
-                                     its own collapsible hierarchy. -->
-                                <list>
+                                     its own collapsible hierarchy. The two fields
+                                     below are the same rows split by part of the
+                                     document, for the Balance sheet and Income
+                                     statement menus (``fs_section``). The limit
+                                     matters on all three: an x2many loads 40
+                                     records a page by default, and the widget has
+                                     no pager, so a 206-row Úč POD stopped at row
+                                     40. -->
+                                <list limit="10000">
                                     <field name="parent_id" column_invisible="1"/>
                                     <field name="level" column_invisible="1"/>
                                     <field name="kind" column_invisible="1"/>
@@ -124,12 +136,100 @@
                                     <field name="prior_value"/>
                                     <field name="has_source" column_invisible="1"/>
                                     <field name="source_reconciles" column_invisible="1"/>
+                                    <field name="is_overridden" column_invisible="1"/>
+                                    <field name="manual_value" column_invisible="1"/>
+                                    <field name="is_prior_overridden" column_invisible="1"/>
+                                    <field name="prior_manual_value" column_invisible="1"/>
+                                    <field name="company_currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <field name="balance_line_ids" widget="cssk_fs_tree" nolabel="1"
+                                   invisible="context.get('fs_section') != 'balance'"
+                                   readonly="state not in ('draft', 'preview')">
+                                <list limit="10000">
+                                    <field name="parent_id" column_invisible="1"/>
+                                    <field name="level" column_invisible="1"/>
+                                    <field name="kind" column_invisible="1"/>
+                                    <field name="is_leaf" column_invisible="1"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="current_value"/>
+                                    <field name="prior_value"/>
+                                    <field name="has_source" column_invisible="1"/>
+                                    <field name="source_reconciles" column_invisible="1"/>
+                                    <field name="is_overridden" column_invisible="1"/>
+                                    <field name="manual_value" column_invisible="1"/>
+                                    <field name="is_prior_overridden" column_invisible="1"/>
+                                    <field name="prior_manual_value" column_invisible="1"/>
+                                    <field name="company_currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <field name="movement_line_ids" widget="cssk_fs_tree" nolabel="1"
+                                   invisible="context.get('fs_section') != 'movement'"
+                                   readonly="state not in ('draft', 'preview')">
+                                <list limit="10000">
+                                    <field name="parent_id" column_invisible="1"/>
+                                    <field name="level" column_invisible="1"/>
+                                    <field name="kind" column_invisible="1"/>
+                                    <field name="is_leaf" column_invisible="1"/>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="current_value"/>
+                                    <field name="prior_value"/>
+                                    <field name="has_source" column_invisible="1"/>
+                                    <field name="source_reconciles" column_invisible="1"/>
+                                    <field name="is_overridden" column_invisible="1"/>
+                                    <field name="manual_value" column_invisible="1"/>
+                                    <field name="is_prior_overridden" column_invisible="1"/>
+                                    <field name="prior_manual_value" column_invisible="1"/>
+                                    <field name="company_currency_id" column_invisible="1"/>
                                 </list>
                             </field>
                         </page>
                     </notebook>
                 </sheet>
                 <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- The unmapped-account report, opened as a dialog from the header
+         button. On the statement itself rather than a list of the rows, so
+         the explanation sits above the table it explains. -->
+    <record id="cssk_fs_statement_unmapped_form" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.unmapped.dialog</field>
+        <field name="model">cssk.fs.statement</field>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <form string="Unmapped accounts" create="0" delete="0">
+                <field name="unmapped_count" invisible="1"/>
+                <div class="alert alert-warning" role="alert">
+                    These accounts carry a balance that no row of this
+                    statement claims: their money is in the ledger and not on
+                    the form. Either the chart uses account codes the form's
+                    mapping does not name — map them to the code the form
+                    expects in <b>Statement account mapping</b> — or a row is
+                    missing them. Press <b>Compute</b> again afterwards.
+                </div>
+                <p class="text-muted" invisible="unmapped_count &lt;= 50">
+                    Only the 50 largest balances are listed, out of
+                    <field name="unmapped_count" class="d-inline" readonly="1"/>.
+                </p>
+                <field name="unmapped_line_ids" nolabel="1" readonly="1">
+                    <list create="0" delete="0">
+                        <field name="company_currency_id" column_invisible="1"/>
+                        <field name="code"/>
+                        <field name="account_name"/>
+                        <field name="balance"/>
+                        <button name="action_view_journal_items" type="object"
+                                icon="fa-search-plus" title="Journal items"
+                                invisible="not account_ids"/>
+                        <field name="account_ids" column_invisible="1"/>
+                    </list>
+                </field>
+                <footer>
+                    <button string="Close" special="cancel" class="btn-secondary"/>
+                </footer>
             </form>
         </field>
     </record>
@@ -147,14 +247,17 @@
         <field name="res_model">cssk.fs.statement</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[('statement_kind', '=', 'balance_sheet')]</field>
-        <field name="context">{'fs_create_kind': 'balance_sheet'}</field>
+        <field name="context">{'fs_create_kind': 'balance_sheet', 'fs_section': 'balance'}</field>
     </record>
     <record id="cssk_fs_pl_action" model="ir.actions.act_window">
         <field name="name">Income statement</field>
         <field name="res_model">cssk.fs.statement</field>
         <field name="view_mode">list,form</field>
-        <field name="domain">[('statement_kind', '=', 'profit_loss')]</field>
-        <field name="context">{'fs_create_kind': 'profit_loss'}</field>
+        <!-- By coverage, not kind: the Slovak Úč POD carries its výkaz ziskov
+             a strát inside the balance-sheet document, so the same record
+             is listed under both menus. -->
+        <field name="domain">[('version_id.covers_profit_loss', '=', True)]</field>
+        <field name="context">{'fs_create_kind': 'profit_loss', 'fs_section': 'movement'}</field>
     </record>
     <record id="cssk_fs_cashflow_action" model="ir.actions.act_window">
         <field name="name">Cash flow statement</field>

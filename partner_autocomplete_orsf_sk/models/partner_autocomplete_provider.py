@@ -438,19 +438,23 @@ class PartnerAutocompleteProviderOrsfSk(models.AbstractModel):
         twenty contacts and then silently returns nothing, which is what makes
         this worth a separate path.
 
-        It carries **far** less than the full record — in fact it is an
-        existence check and nothing more. A probe of
-        ``POST https://api.orsf.sk/v1/lookup/batch`` on 2026-10-01 returned
-        exactly ``{"found": ..., "ico": ...}`` per entry: no ``taxId``, no
-        ``vatRegistration``, no register office or číslo zápisu, no activities,
-        filings or history, and **not even a name**.
+        It carries **less** than the full record: no ``vatRegistration``, no
+        register office or číslo zápisu, no activities, filings or history. The
+        caller is expected to know it is trading depth for reach.
 
-        So this cannot back a field refresh. Anything that needs a value — the
-        DIČ for a Peppol participant id, say — has to go through the full
-        record at 30 requests a minute, one IČO at a time. The earlier wording
-        here listed what batch omits and so read as though everything unlisted
-        was present, which made a ~1 200-partner DIČ backfill look like a dozen
-        requests when it is closer to forty minutes of polling.
+        It DOES carry identity, which is the point — verified against
+        ``POST https://api.orsf.sk/v1/lookup/batch`` on 2026-10-03:
+        ``ico``, ``dic``, ``icDph``, ``name``, ``legalForm``, ``status``,
+        ``establishedOn`` / ``dissolvedOn``, ``address``, ``isVatPayer``,
+        ``register``, ``nace``, ``fetchedAt``. So it is enough to backfill a DIČ
+        across a whole partner base in a dozen calls.
+
+        An IČO the register does not hold comes back as the two-key shape
+        ``{"ico": "...", "found": false}`` — no ``name``, no ``dic``. Worth
+        knowing because it is easy to mistake for the endpoint returning
+        nothing useful at all: probe with an IČO that is absent and every field
+        you were looking for is missing. ``action_orsf_bulk_refresh`` skips on
+        a missing ``name`` for exactly this reason.
 
         Returns ``{ico: record}``, omitting the ones ORSF does not have.
         """

@@ -6,9 +6,9 @@ Every test here stubs the provider's probe. Nothing reaches the network: a
 suite that depends on ORSF being up fails for reasons that have nothing to do
 with the code, and would not run in CI at all.
 
-The payloads are real — captured from ``api.orsf.sk/v1/lookup`` on 2026-09-07
-for Data Dance s.r.o. (a company) and Jana Havelková-HAVELKA (a sole trader,
-whose address the register locks for GDPR).
+The payloads have the shape captured from ``api.orsf.sk/v1/lookup`` on
+2026-09-07: Data Dance s.r.o.'s own record (a company), and a sole trader
+whose address the register locks for GDPR — that person's data replaced.
 """
 import unittest
 from unittest.mock import patch
@@ -34,10 +34,10 @@ COMPANY = {
 }
 
 SOLE_TRADER = {
-    "ico": "32112475",
-    "dic": "1020173099",
+    "ico": "32000057",
+    "dic": "1020000000",
     "icDph": None,
-    "name": "Jana Havelková-HAVELKA",
+    "name": "Jana Vzorová-VZOR",
     "status": "aktívna",
     "dissolvedOn": None,
     "address": {"street": None, "city": "Bratislava - mestská časť Ružinov",
@@ -107,7 +107,7 @@ class TestVerifyRegistry(TransactionCase):
         Asking the register would spend a request per keystroke to be told
         the same thing."""
         with self._forbid_register():
-            for value in ("12345", "Test", "TRAIVA, s.r.o.", "1"):
+            for value in ("12345", "Test", "Vzorová, s.r.o.", "1"):
                 res = self.Partner._cssk_verify_registry(value, "SK")
                 self.assertEqual(res["outcome"], "invalid", f"{value!r}")
 
@@ -178,16 +178,16 @@ class TestVerifyRegistry(TransactionCase):
         field still comes back, which is what a gate needs; the customer types
         the two missing lines."""
         with self._probe("ok", SOLE_TRADER):
-            res = self.Partner._cssk_verify_registry("32112475", "SK")
+            res = self.Partner._cssk_verify_registry("32000057", "SK")
         self.assertEqual(res["outcome"], "verified")
-        self.assertEqual(res["name"], "Jana Havelková-HAVELKA")
+        self.assertEqual(res["name"], "Jana Vzorová-VZOR")
         self.assertTrue(res["active"])
         self.assertEqual(res["city"], "Bratislava - mestská časť Ružinov")
         self.assertFalse(res["street"])
         self.assertFalse(res["zip"])
         # Not a VAT payer: no IČ DPH invented from the DIČ.
         self.assertFalse(res["vat"])
-        self.assertEqual(res["tax_id"], "1020173099")
+        self.assertEqual(res["tax_id"], "1020000000")
 
     # -- caching ------------------------------------------------------------
 
@@ -269,10 +269,10 @@ class TestNameVerdict(TransactionCase):
     def test_formatting_differences_are_the_same_company(self):
         for typed, official in (
             ("Data Dance s.r.o.", "Data Dance s.r.o."),
-            ("DEMI Šport plus, s.r.o.", "DEMI šport plus, s.r.o."),
-            ("AGEM COMPUTERS, spol. s r.o.", "AGEM COMPUTERS, spol.s r.o."),
-            ("Europe Express s. r. o.", "Europe Express, s. r. o."),
-            ("Vitaminátor s.r.o.", "VITAMINÁTOR s.r.o."),
+            ("ALFA Šport plus, s.r.o.", "ALFA šport plus, s.r.o."),
+            ("BETA COMPUTERS, spol. s r.o.", "BETA COMPUTERS, spol.s r.o."),
+            ("GAMA Express s. r. o.", "GAMA Express, s. r. o."),
+            ("Deltanátor s.r.o.", "DELTANÁTOR s.r.o."),
         ):
             verdict, score = self._verdict(typed, official)
             self.assertEqual(verdict, "match", f"{typed!r} vs {official!r}")
@@ -281,8 +281,8 @@ class TestNameVerdict(TransactionCase):
     def test_a_branch_suffix_goes_to_a_human(self):
         """The one real mid-band case on the calibration set."""
         verdict, score = self._verdict(
-            "Nakladatelství FORUM s.r.o.",
-            "Nakladatelství FORUM s.r.o., organizačná zložka",
+            "Nakladatelství EPSILON s.r.o.",
+            "Nakladatelství EPSILON s.r.o., organizačná zložka",
         )
         self.assertEqual(verdict, "review")
         self.assertGreater(score, 0.60)
@@ -308,21 +308,22 @@ class TestNameVerdict(TransactionCase):
             self.assertEqual(score, 0.0)
 
 
-#: Real ARES payloads, captured 2026-09-08. TRAIVA is VAT-registered; Romana
-#: Nahorniaková is not, and ARES answers `dic: null` for her.
+#: ARES payloads in the shape captured on 2026-09-08, with the companies'
+#: and the person's data replaced. The first is VAT-registered; the second
+#: is not, and ARES answers `dic: null` for it.
 ARES_VAT_PAYER = {
-    "ico": "25380141",
-    "obchodniJmeno": "TRAIVA, s.r.o.",
-    "dic": "CZ25380141",
-    "sidlo": {"textovaAdresa": "Pohraniční 2911/13b, Vítkovice, 70300 Ostrava",
+    "ico": "25000063",
+    "obchodniJmeno": "Vzorová, s.r.o.",
+    "dic": "CZ25000063",
+    "sidlo": {"textovaAdresa": "Vzorová 1/1, 70300 Ostrava",
               "nazevObce": "Ostrava", "psc": 70300},
     "seznamRegistraci": {"stavZdrojeDph": "AKTIVNI"},
 }
 ARES_NOT_REGISTERED = {
-    "ico": "21924660",
-    "obchodniJmeno": "Romana Nahorniaková",
+    "ico": "21900001",
+    "obchodniJmeno": "Jana Příkladová",
     "dic": None,
-    "sidlo": {"textovaAdresa": "Máchova 402/55, 74101 Nový Jičín",
+    "sidlo": {"textovaAdresa": "Příkladová 1/1, 74101 Nový Jičín",
               "nazevObce": "Nový Jičín", "psc": 74101},
     "seznamRegistraci": {"stavZdrojeDph": "NEEXISTUJICI"},
 }
@@ -348,8 +349,8 @@ class TestVatIsNeverABareNumber(TransactionCase):
 
     def test_a_registered_payer_gets_a_prefixed_vat(self):
         parsed = self.Partner._cssk_registry_parse_ares(ARES_VAT_PAYER)
-        self.assertEqual(parsed["vat"], "CZ25380141")
-        self.assertEqual(parsed["tax_id"], "CZ25380141")
+        self.assertEqual(parsed["vat"], "CZ25000063")
+        self.assertEqual(parsed["tax_id"], "CZ25000063")
 
     def test_a_company_that_never_registered_gets_no_vat(self):
         """Empty is correct: it falls through to the consumer position and
@@ -363,12 +364,12 @@ class TestVatIsNeverABareNumber(TransactionCase):
         parsed = self.Partner._cssk_registry_parse_ares(ARES_DEREGISTERED)
         self.assertFalse(parsed["vat"])
         # Still their tax identifier, just not a VAT number.
-        self.assertEqual(parsed["tax_id"], "CZ25380141")
+        self.assertEqual(parsed["tax_id"], "CZ25000063")
 
     def test_an_unprefixed_number_is_never_written_as_vat(self):
         """The guard that would have caught the production incident: a bare
         IČO in `vat` is what waived VAT on order S00197."""
-        bare = dict(ARES_VAT_PAYER, dic="25380141")
+        bare = dict(ARES_VAT_PAYER, dic="25000063")
         self.assertFalse(self.Partner._cssk_registry_parse_ares(bare)["vat"])
 
     def test_the_slovak_side_holds_the_same_line(self):
@@ -381,5 +382,5 @@ class TestVatIsNeverABareNumber(TransactionCase):
         """The SK trap: DIČ and IČ DPH are different identifiers, and a
         subject can hold a DIČ without being a VAT payer at all."""
         parsed = self.Partner._cssk_registry_parse(SOLE_TRADER)
-        self.assertEqual(parsed["tax_id"], "1020173099")
+        self.assertEqual(parsed["tax_id"], "1020000000")
         self.assertFalse(parsed["vat"])

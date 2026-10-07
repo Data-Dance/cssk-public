@@ -498,12 +498,8 @@ class CsskCashJournalLine(models.Model):
                 _("The entry has no counterpart amount to attribute the money to."),
             )]
 
-        rows = []
-        for line, share in parts:
-            rows += self._cssk_expand(
-                line, share, self._cssk_kind(line), base,
-                visited={money_line.id}, depth=0)
-        return rows
+        return self._cssk_expand_parts(
+            parts, base, lambda line: {money_line.id}, depth=0)
 
     @api.model
     def _cssk_payment_kind(self, money_line):
@@ -522,6 +518,73 @@ class CsskCashJournalLine(models.Model):
         return "cash" if money_line.journal_id.type == "cash" else "bank"
 
     # -- following the money to what it paid for -----------------------
+
+    def _cssk_expand_parts(self, parts, base, visited_for, depth):
+        """Expand the allocated counterparts of one entry into rows.
+
+        **Each VAT line is folded into the base line it was computed on**, so
+        an expense entered outside an invoice — the Expenses app, a hand-made
+        journal entry with a tax — is one row carrying its base and its VAT,
+        the way a paid invoice already was (``_cssk_split_document``). Expanded
+        line by line instead, the VAT line became a row of its own, under
+        whatever category the VAT account had. Reported by a customer's accountant:
+        "Rozdelilo mi to výdavok do dvoch riadkov — zvlášť základ, zvlášť DPH."
+
+        A VAT line is folded only into lines of the same direction that carry
+        its tax and that are a direct category (not a receivable, payable or
+        money account, which are followed further and are not one row). With
+        no such line it stays a row of its own, as before — nothing is lost
+        from the book either way, the money only moves between the amount and
+        the VAT of the rows.
+        """
+        tax_on = {}      # base line -> VAT share folded into it
+        folded = set()
+        for tax_line, tax_share in parts:
+            if tax_line.display_type != "tax" or not tax_line.tax_line_id:
+                continue
+            targets = [
+                (other, share) for other, share in parts
+                if share and other.balance
+                and other.display_type in BASE_DISPLAY_TYPES
+                and self._cssk_kind(other) == self._cssk_kind(tax_line)
+                and self._cssk_is_direct_category(other)
+                and tax_line.tax_line_id in other.tax_ids.flatten_taxes_hierarchy()
+            ]
+            if not targets:
+                continue
+            currency = tax_line.company_currency_id
+            weight = sum(abs(other.balance) for other, _share in targets)
+            remaining = tax_share
+            for index, (other, _share) in enumerate(targets):
+                part = remaining if index == len(targets) - 1 else currency.round(
+                    tax_share * abs(other.balance) / weight)
+                remaining = currency.round(remaining - part)
+                tax_on[other] = currency.round(tax_on.get(other, 0.0) + part)
+            folded.add(tax_line)
+
+        rows = []
+        for line, share in parts:
+            if line in folded:
+                continue
+            new = self._cssk_expand(
+                line, share, self._cssk_kind(line), base, visited_for(line), depth)
+            if tax_on.get(line):
+                # A direct category line is always one row; should it ever be
+                # none, the folded VAT still needs a row to stand on, or it
+                # would leave the book.
+                new = new or [self._cssk_category_row(
+                    base, self._cssk_kind(line), 0.0, line)]
+                new[0]["amount_tax"] = new[0].get("amount_tax", 0.0) + tax_on[line]
+            rows += new
+        return rows
+
+    def _cssk_is_direct_category(self, line):
+        """Would ``_cssk_expand`` make this line ONE category row?"""
+        return (
+            line.account_id.account_type not in (
+                "asset_receivable", "liability_payable", *LIQUIDITY_TYPES)
+            and line.account_id not in self._cssk_transit_accounts(line.company_id)
+        )
 
     def _cssk_expand(self, line, amount, kind, base, visited, depth):
         """Attribute ``amount`` of money to what ``line`` stands for.
@@ -574,12 +637,9 @@ class CsskCashJournalLine(models.Model):
             lambda other: other.id not in visited and other != line)
         parts = self._cssk_allocate(siblings, amount, line.company_currency_id)
         if parts:
-            rows = []
-            for other, share in parts:
-                rows += self._cssk_expand(
-                    other, share, self._cssk_kind(other), base,
-                    visited | {line.id, other.id}, depth + 1)
-            return rows
+            return self._cssk_expand_parts(
+                parts, base, lambda other: visited | {line.id, other.id},
+                depth + 1)
         return self._cssk_through_reconciliation(
             line, amount, kind, base, visited, depth, documents=False)
 

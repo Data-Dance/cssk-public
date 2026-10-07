@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Riadne, opravne a dodatocne danove priznanie k dani z prijmov pravnickej osoby (DPPO), vzor 2025 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation>DPPOv25</xsd:documentation>
+    </xsd:annotation>
+    <!-- prazdny retazec -->
+    <xsd:simpleType name="emptyStr">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value=""/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- povinna boolovska hodnota 0 alebo 1 -->
+    <xsd:simpleType name="only_0_1">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="1"/>
+            <xsd:pattern value="[0-1]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- telefon alebo fax v telovej casti -->
+    <xsd:complexType name="teloOptTelFax">
+        <xsd:sequence>
+            <xsd:element name="predcislie" type="xsd:string"/>
+            <xsd:element name="cislo" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- povinny datum v jednom poli (v celku) -->
+    <xsd:simpleType name="oneFieldDate">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d\d?\.\d\d?\.\d\d\d\d"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- nepovinny datum v jednom poli (v celku) -->
+    <xsd:simpleType name="optOneFieldDate">
+        <xsd:union memberTypes="oneFieldDate emptyStr"/>
+    </xsd:simpleType>
+    <!-- nepovinne cele cislo -->
+    <xsd:simpleType name="optInt">
+        <xsd:union memberTypes="xsd:integer emptyStr"/>
+    </xsd:simpleType>
+    <!-- nepovinne cele cislo na 2 -->
+    <xsd:simpleType name="optInt2">
+        <xsd:union memberTypes="integerWithTwoDigit emptyStr"/>
+    </xsd:simpleType>
+    <xsd:simpleType name="integerWithTwoDigit">
+        <xsd:restriction base="xsd:integer">
+            <xsd:totalDigits value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- nepovinne desatinne cislo -->
+    <xsd:simpleType name="optDec">
+        <xsd:union memberTypes="decimalWithTwoDec emptyStr"/>
+    </xsd:simpleType>
+    <!-- cislo tvaru N (12.2) -->
+    <xsd:simpleType name="decimalWithTwoDec">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="13"/>
+            <xsd:fractionDigits value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- cislo tvaru N (2) -->
+    <xsd:simpleType name="decimalWithTwoDigit">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- cislo tvaru N (1) -->
+    <xsd:simpleType name="decimalWithOneDigit">
+        <xsd:restriction base="xsd:decimal">
+            <xsd:totalDigits value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- povinne cislo 15 -->
+    <xsd:simpleType name="fix13">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[1][3]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="fix15">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[1][5]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- povinne cislo 21 -->
+    <xsd:simpleType name="fix16">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[1][6]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="fix21">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[2][1]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- povinne cislo 35 -->
+    <xsd:simpleType name="fix35">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[3][5]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <!-- korenovy element -->
+    <xsd:element name="dokument">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="hlavicka" type="hlavickaType"/>
+                <xsd:element name="telo" type="teloType"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="hlavickaType">
+        <xsd:sequence>
+            <xsd:element name="dic" type="xsd:string"/>
+            <xsd:element name="ico" type="xsd:string"/>
+            <xsd:element name="pravnaForma" type="xsd:string"/>
+            <xsd:element name="typDP" type="typDPType"/>
+            <xsd:element name="zdanovacieObdobie" type="zdanovacieObdobieType"/>
+            <xsd:element name="skNace" type="skNaceType"/>
+            <xsd:element name="obchodneMeno" type="obchodneMenoType"/>
+            <xsd:element name="sidlo" type="sidloType"/>
+            <xsd:element name="uplatnujemPar17" type="only_0_1"/>
+            <xsd:element name="ukoncujemUplatnovaniePar17" type="only_0_1"/>
+            <xsd:element name="obmedzenie" type="only_0_1"/>
+            <xsd:element name="prepojenie" type="only_0_1"/>
+            <xsd:element name="uplatnenieOslobodeniaPar13ab" type="only_0_1"/>
+            <xsd:element name="mikrodanovnikPar2w" type="only_0_1"/>
+            <xsd:element name="polovicnaVyskaDanePar46b3" type="only_0_1"/>
+            <xsd:element name="neplatenieMinDanePar46b7" type="only_0_1"/>
+            <xsd:element name="zapocitanieMinDanePar46b5" type="only_0_1"/>
+            <xsd:element name="stalaPrevadzkaren" type="stalaPrevadzkarenType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="obdobiaMinimalDaneType">
+        <xsd:sequence>
+            <xsd:element name="obdobie1" type="obdobieMinDaneType"/>
+            <xsd:element name="obdobie2" type="obdobieMinDaneType"/>
+            <xsd:element name="obdobie3" type="obdobieMinDaneType"/>
+            <xsd:element name="obdobie4" type="obdobieMinDaneType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="obdobieMinDaneType">
+        <xsd:sequence>
+            <xsd:element name="datumOd" type="optOneFieldDate"/>
+            <xsd:element name="datumDo" type="optOneFieldDate"/>
+            <xsd:element name="vyskaKladnehoRozdielu" type="optDec"/>
+            <xsd:element name="zapocitanaVPredObdobiach" type="optDec"/>
+            <xsd:element name="zapocitanaVDanomObdobi" type="optDec"/>
+            <xsd:element name="zostavajucaCast" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabKSpoluType">
+        <xsd:sequence>
+            <xsd:element name="zapocitanaVDanomObdobi" type="optDec"/>
+            <xsd:element name="zostavajucaCast" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="sadbyType">
+        <xsd:sequence>
+            <xsd:element name="s1" type="fix16"/>
+            <xsd:element name="s2" type="fix13"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="typDPType">
+        <xsd:sequence>
+            <xsd:element name="rdp" type="only_0_1"/>
+            <xsd:element name="odp" type="only_0_1"/>
+            <xsd:element name="ddp" type="only_0_1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="zdanovacieObdobieType">
+        <xsd:sequence>
+            <xsd:element name="od" type="oneFieldDate"/>
+            <xsd:element name="do" type="oneFieldDate"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="skNaceType">
+        <xsd:sequence>
+            <xsd:element name="k1" type="decimalWithTwoDigit"/>
+            <xsd:element name="k2" type="decimalWithTwoDigit"/>
+            <xsd:element name="k3" type="decimalWithOneDigit"/>
+            <xsd:element name="cinnost" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="obchodneMenoType">
+        <xsd:sequence>
+            <xsd:element name="riadok" type="xsd:string" minOccurs="2" maxOccurs="3"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="obchodneMeno2rType">
+        <xsd:sequence>
+            <xsd:element name="riadok" type="xsd:string" minOccurs="2" maxOccurs="2"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="sidloType">
+        <xsd:sequence>
+            <xsd:element name="ulica" type="xsd:string"/>
+            <xsd:element name="cislo" type="xsd:string"/>
+            <xsd:element name="psc" type="xsd:string"/>
+            <xsd:element name="obec" type="xsd:string"/>
+            <xsd:element name="stat" type="xsd:string"/>
+            <xsd:element name="tel" type="xsd:string"/>
+            <xsd:element name="emailFax" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="stalaPrevadzkarenType">
+        <xsd:sequence>
+            <xsd:element name="ulica" type="xsd:string"/>
+            <xsd:element name="cislo" type="xsd:string"/>
+            <xsd:element name="psc" type="xsd:string"/>
+            <xsd:element name="obec" type="xsd:string"/>
+            <xsd:element name="pocetSp" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="teloType">
+        <xsd:sequence>
+            <xsd:element name="r100" type="optDec"/>
+            <xsd:element name="r110" type="optDec"/>
+            <xsd:element name="r130" type="optDec"/>
+            <xsd:element name="r140" type="optDec"/>
+            <xsd:element name="r150" type="optDec"/>
+            <xsd:element name="r170" type="optDec"/>
+            <xsd:element name="r180" type="optDec"/>
+            <xsd:element name="r200" type="optDec"/>
+            <xsd:element name="r210" type="optDec"/>
+            <xsd:element name="r220" type="optDec"/>
+            <xsd:element name="r230" type="optDec"/>
+            <xsd:element name="r240" type="optDec"/>
+            <xsd:element name="r250" type="optDec"/>
+            <xsd:element name="r260" type="optDec"/>
+            <xsd:element name="r270" type="optDec"/>
+            <xsd:element name="r280" type="optDec"/>
+            <xsd:element name="r290" type="optDec"/>
+            <xsd:element name="r300" type="optDec"/>
+            <xsd:element name="r301" type="optDec"/>
+            <xsd:element name="r302" type="optDec"/>
+            <xsd:element name="r303" type="optDec"/>
+            <xsd:element name="r304" type="optDec"/>
+            <xsd:element name="r305" type="optDec"/>
+            <xsd:element name="r306" type="optDec"/>
+            <xsd:element name="r307" type="optDec"/>
+            <xsd:element name="r308" type="optDec"/>
+            <xsd:element name="r310" type="optDec"/>
+            <xsd:element name="r320" type="optDec"/>
+            <xsd:element name="r330" type="optDec"/>
+            <xsd:element name="r400" type="optDec"/>
+            <xsd:element name="r410" type="optDec"/>
+            <xsd:element name="r500" type="optDec"/>
+            <xsd:element name="r501" type="optDec"/>
+            <xsd:element name="r502" type="optDec"/>
+            <xsd:element name="r503" type="optDec"/>
+            <xsd:element name="r510" type="optDec"/>
+            <xsd:element name="r550" type="optDec"/>
+            <xsd:element name="r560" type="optDec"/>
+            <xsd:element name="r600" type="optDec"/>
+            <xsd:element name="r610" type="r610Type"/>
+            <xsd:element name="r700" type="optDec"/>
+            <xsd:element name="r710" type="optDec"/>
+            <xsd:element name="r800" type="optDec"/>
+            <xsd:element name="r810" type="optDec"/>
+            <xsd:element name="r820" type="optDec"/>
+            <xsd:element name="r830" type="optDec"/>
+            <xsd:element name="r840" type="optDec"/>
+            <xsd:element name="r900" type="optDec"/>
+            <xsd:element name="r910" type="optDec"/>
+            <xsd:element name="r920" type="optDec"/>
+            <xsd:element name="r1000" type="optDec"/>
+            <xsd:element name="r1010" type="optDec"/>
+            <xsd:element name="r1020" type="optDec"/>
+            <xsd:element name="r1030" type="optDec"/>
+            <xsd:element name="r1040" type="optDec"/>
+            <xsd:element name="r1050" type="optDec"/>
+            <xsd:element name="r1060" type="optDec"/>
+            <xsd:element name="r1061" type="optDec"/>
+            <xsd:element name="r1062" type="optDec"/>
+            <xsd:element name="r1070" type="optDec"/>
+            <xsd:element name="r1071" type="optDec"/>
+            <xsd:element name="r1080" type="optDec"/>
+            <xsd:element name="r1090" type="optDec"/>
+            <xsd:element name="r1100" type="optDec"/>
+            <xsd:element name="r1101" type="optDec"/>
+            <xsd:element name="r1110" type="optDec"/>
+            <xsd:element name="ddpDatum" type="optOneFieldDate"/>
+            <xsd:element name="r1120" type="optDec"/>
+            <xsd:element name="r1130" type="optDec"/>
+            <xsd:element name="r1140" type="optDec"/>
+            <xsd:element name="r1150" type="optDec"/>
+            <xsd:element name="r1160" type="optDec"/>
+            <xsd:element name="r1170" type="optDec"/>
+            <xsd:element name="r1180" type="optDec"/>
+            <xsd:element name="r1190" type="optDec"/>
+            <xsd:element name="r1191" type="optDec"/>
+            <xsd:element name="r1192" type="optDec"/>
+            <xsd:element name="tabA" type="tabAType"/>
+            <xsd:element name="tabB" type="tabBType"/>
+            <xsd:element name="tabC1" type="tabC1Type"/>
+            <xsd:element name="tabC2" type="tabC1Type"/>
+            <xsd:element name="tabD" type="tabDType"/>
+            <xsd:element name="tabE" type="tabEType"/>
+            <xsd:element name="tabF" type="tabFType"/>
+            <xsd:element name="tabG1" type="tabGType"/>
+            <xsd:element name="tabG2" type="tabGType"/>
+            <xsd:element name="tabG3" type="tabG3Type"/>
+            <xsd:element name="tabH" type="tabHType"/>
+            <xsd:element name="tabI" type="tabIType"/>
+            <xsd:element name="tabJ" type="tabJType"/>
+            <xsd:element name="obmedzenaDanovaPovinnost" type="obmezenaDanovaPovinnostType"/>
+            <xsd:element name="tabK" type="tabKType"/>
+            <xsd:element name="zdaneniePar17f" type="zdaneniePar17fType"/>
+            <xsd:element name="podielyNaZiskuPar51e" type="podielyNaZiskuType"/>
+            <xsd:element name="vynosyZoStatnychDlhopisov" type="vynosyZoStatnychDlhopisovType"/>
+            <xsd:element name="c7paragraf50" type="only_0_1"/>
+            <xsd:element name="suhlasZasl" type="only_0_1"/>
+            <xsd:element name="c7r1" type="optDec"/>
+            <xsd:element name="c7r2" type="optDec"/>
+            <xsd:element name="c7r3" type="optDec"/>
+            <xsd:element name="c7r4" type="optDec"/>
+            <xsd:element name="c7r5" type="optInt"/>
+            <xsd:element name="c7prijimatel1" type="prijimatelType"/>
+            <xsd:element name="osobitneZaznamy" type="xsd:string"/>
+            <xsd:element name="opravnenaOsoba" type="opravnenaOsobaType"/>
+            <xsd:element name="pocetPriloh" type="xsd:string"/>
+            <xsd:element name="datumVyhlasenia" type="optOneFieldDate"/>
+            <xsd:element name="platenieDanePar17f" type="platenieDanePar17fType"/>
+            <xsd:element name="vrateniePreplatku" type="vrateniePreplatkuType"/>
+            <xsd:element name="prilPar13aA13b" type="prilPar13aA13bType"/>
+            <xsd:element name="prilPar30cOdpocetVydavkov" type="prilPar30cOdpocetVydavkovType"
+                minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element maxOccurs="1" minOccurs="0" name="prilPar30caOdpocetVydavkovSport"
+                type="prilPar30caOdpocetVydavkovSportType"/>
+            <xsd:element name="prilPar30eVydavkyInvesticie" type="prilPar30eVydavkyInvesticieType"
+                minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="priloha" type="prilohaType" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="r610Type">
+        <xsd:sequence>
+            <xsd:element name="text" type="xsd:string"/>
+            <xsd:element name="suma" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabAType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+            <xsd:element name="r04" type="optDec"/>
+            <xsd:element name="r05" type="optDec"/>
+            <xsd:element name="r06" type="optDec"/>
+            <xsd:element name="r07" type="optDec"/>
+            <xsd:element name="r08" type="optDec"/>
+            <xsd:element name="r09" type="optDec"/>
+            <xsd:element name="r10" type="optDec"/>
+            <xsd:element name="r11" type="optDec"/>
+            <xsd:element name="r12" type="optDec"/>
+            <xsd:element name="r13" type="optDec"/>
+            <xsd:element name="r14" type="optDec"/>
+            <xsd:element name="r15" type="optDec"/>
+            <xsd:element name="r16" type="optDec"/>
+            <xsd:element name="r17" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabBType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+            <xsd:element name="r04" type="optDec"/>
+            <xsd:element name="r05" type="optDec"/>
+            <xsd:element name="r06" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabC1Type">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+            <xsd:element name="r04" type="optDec"/>
+            <xsd:element name="r05" type="optDec"/>
+            <xsd:element name="r06" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabDType">
+        <xsd:sequence>
+            <xsd:element name="tabDs01" type="tabDs01Type"/>
+            <xsd:element name="tabDs02" type="tabDs02Type"/>
+            <xsd:element name="tabDs03" type="tabDs02Type"/>
+            <xsd:element name="tabDs04" type="tabDs02Type"/>
+            <xsd:element name="tabDs05" type="tabDs02Type"/>
+            <xsd:element name="tabDs06" type="tabDs02Type"/>
+            <xsd:element name="tabDs07" type="tabDs02Type"/>
+            <xsd:element name="tabDs08" type="tabDs02Type"/>
+            <xsd:element name="tabDs09" type="tabDs09Type"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabDs01Type">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabDs02Type">
+        <xsd:sequence>
+            <xsd:element name="datumOd" type="optOneFieldDate"/>
+            <xsd:element name="datumDo" type="optOneFieldDate"/>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabDs09Type">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabEType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+            <xsd:element name="r04" type="optDec"/>
+            <xsd:element name="r05" type="optDec"/>
+            <xsd:element name="r06" type="optDec"/>
+            <xsd:element name="r07" type="optDec"/>
+            <xsd:element name="r08" type="optDec"/>
+            <xsd:element name="r09" type="optDec"/>
+            <xsd:element name="r10" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabFType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabGType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabG3Type">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+            <xsd:element name="r04" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="obmezenaDanovaPovinnostType">
+        <xsd:sequence>
+            <xsd:element name="datumOd" type="optOneFieldDate"/>
+            <xsd:element name="datumDo" type="optOneFieldDate"/>
+            <xsd:element name="TIN">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:maxLength value="17"/>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabHType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="prijmy" type="prijmyType"/>
+            <xsd:element name="vydavky" type="prijmyType"/>
+            <xsd:element name="r11" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="prijmyType">
+        <xsd:sequence>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+            <xsd:element name="r04" type="optDec"/>
+            <xsd:element name="r05" type="optDec"/>
+            <xsd:element name="r06" type="optDec"/>
+            <xsd:element name="r07" type="optDec"/>
+            <xsd:element name="r08" type="optDec"/>
+            <xsd:element name="r09" type="optDec"/>
+            <xsd:element name="r10" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabIType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="transakciaType"/>
+            <xsd:element name="r02" type="transakciaType"/>
+            <xsd:element name="r03" type="transakciaType"/>
+            <xsd:element name="r04" type="transakciaType"/>
+            <xsd:element name="r05" type="transakciaType"/>
+            <xsd:element name="r06" type="transakciaType"/>
+            <xsd:element name="r07" type="transakciaType"/>
+            <xsd:element name="r08" type="transakciaType"/>
+            <xsd:element name="r09" type="transakciaType"/>
+            <xsd:element name="r10" type="transakciaType"/>
+            <xsd:element name="r11" type="transakciaType"/>
+            <xsd:element name="r12" type="transakciaType"/>
+            <xsd:element name="r13" type="transakciaType"/>
+            <xsd:element name="r14" type="transakciaType"/>
+            <xsd:element name="r15" type="transakciaType"/>
+            <xsd:element name="r16" type="transakciaType"/>
+            <xsd:element name="r17" type="transakciaType"/>
+            <xsd:element name="r18" type="transakciaType"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="dalsiaTransakcia"
+                type="transakciaType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabJType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabKType">
+        <xsd:sequence>
+            <xsd:element name="obdobiaMinimalDane" type="obdobiaMinimalDaneType"> </xsd:element>
+            <xsd:element name="spolu" type="tabKSpoluType"> </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tabLType">
+        <xsd:sequence>
+            <xsd:element name="r1" type="optDec"/>
+            <xsd:element name="r2" type="optDec"/>
+            <xsd:element name="r3" type="optDec"/>
+            <xsd:element name="r4" type="optDec"/>
+            <xsd:element name="r5" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="vynosyType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+            <xsd:element name="r04" type="optDec"/>
+            <xsd:element name="r05" type="optDec"/>
+            <xsd:element name="r06" type="optDec"/>
+            <xsd:element name="r07" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="vynosyZoStatnychDlhopisovType">
+        <xsd:sequence>
+            <xsd:element name="r1" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r2" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r3" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r4" type="sadbyType"> </xsd:element>
+            <xsd:element name="r5" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r6" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r7" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r8" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r9" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r10" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r11" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r12" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r13" type="tab2stlpceType"> </xsd:element>
+            <xsd:element name="r14" type="tab2stlpceType"> </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="opravnenaOsobaType">
+        <xsd:sequence>
+            <xsd:element name="priezvisko" type="xsd:string"/>
+            <xsd:element name="meno" type="xsd:string"/>
+            <xsd:element name="titul" type="xsd:string"/>
+            <xsd:element name="titulZa" type="xsd:string"/>
+            <xsd:element name="postavenie" type="xsd:string"/>
+            <xsd:element name="trvalyPobyt" type="trvalyPobytType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="transakciaType">
+        <xsd:sequence>
+            <xsd:element name="druh" type="xsd:string"/>
+            <xsd:element name="vplyvNaR100" type="optDec"/>
+            <xsd:element name="nazovZavislejOsoby" type="xsd:string"/>
+            <xsd:element name="kodStatu" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="trvalyPobytType">
+        <xsd:sequence>
+            <xsd:element name="ulica" type="xsd:string"/>
+            <xsd:element name="cislo" type="xsd:string"/>
+            <xsd:element name="psc" type="xsd:string"/>
+            <xsd:element name="obec" type="xsd:string"/>
+            <xsd:element name="stat" type="xsd:string"/>
+            <xsd:element name="tel" type="xsd:string"/>
+            <xsd:element name="emailFax" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="prijimatelType">
+        <xsd:sequence>
+            <xsd:element name="suma" type="optDec"/>
+            <xsd:element name="ico" type="optInt"/>
+            <xsd:element name="obchodneMeno" type="obchodneMeno2rType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="prijimatelPrilohaType">
+        <xsd:sequence>
+            <xsd:element name="poradoveCislo" type="xsd:string"/>
+            <xsd:element name="suma" type="optDec"/>
+            <xsd:element name="ico" type="optInt"/>
+            <xsd:element name="obchodneMeno" type="obchodneMeno2rType"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="prilohaType">
+        <xsd:sequence>
+            <xsd:element name="prijimatel" type="prijimatelPrilohaType" maxOccurs="4"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="vrateniePreplatkuType">
+        <xsd:sequence>
+            <xsd:element name="vratit" type="only_0_1"/>
+            <xsd:element name="sposobPlatby" type="sposobPlatby"/>
+            <xsd:element name="bankovyUcet" type="bankovyUcet"/>
+            <xsd:element name="datum" type="optOneFieldDate"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="prilPar13aA13bType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="cisloPatentuSoftver" type="xsd:string"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="cisloPatentu" type="xsd:string"/>
+            <xsd:element name="r03" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- priloha k Paragrafu 30c -->
+    <xsd:complexType name="prilPar30cOdpocetVydavkovType">
+        <xsd:sequence>
+            <xsd:element name="projektCislo" type="optInt"/>
+            <xsd:element name="pocetProjektov" type="optInt"/>
+            <xsd:element name="datumRealizacie" type="optOneFieldDate"/>
+            <xsd:element name="r01" type="odpocetUdajeType"/>
+            <xsd:element name="r02" type="odpocetUdajeType"/>
+            <xsd:element name="r03" type="odpocetUdajeType"/>
+            <xsd:element name="r04" type="odpocetUdajeType"/>
+            <xsd:element name="r05" type="odpocetUdajeType"/>
+            <xsd:element name="r06" type="optDec"/>
+            <xsd:element name="ciele" type="xsd:string"/>
+            <xsd:element name="r07" type="optDec"/>
+            <xsd:element name="r08" type="optDec"/>
+            <xsd:element name="r09" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="odpocetUdajeType">
+        <xsd:sequence>
+            <xsd:element name="s01Od" type="optOneFieldDate"/>
+            <xsd:element name="s01Do" type="optOneFieldDate"/>
+            <xsd:element name="s02" type="optDec"/>
+            <xsd:element name="s03" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- priloha k Paragrafu 30e - vydavky na investicie -->
+    <xsd:complexType name="prilPar30eVydavkyInvesticieType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="udajeInvesticieType"/>
+            <xsd:element name="r02" type="udajeInvesticieType"/>
+            <xsd:element name="r03" type="udajeInvesticieType"/>
+            <xsd:element name="r04" type="udajeInvesticieType"/>
+            <xsd:element name="r05" type="udajeInvesticieType"/>
+            <xsd:element name="r06" type="udajeInvesticieType"/>
+            <xsd:element name="r07" type="udajeInvesticieType"/>
+            <xsd:element name="r08" type="udajeInvesticieType"/>
+            <xsd:element name="r09" type="udajeInvesticieType"/>
+            <xsd:element name="r10" type="udajeInvesticieType"/>
+            <xsd:element name="r11" type="optDec"/>
+            <xsd:element name="r12" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="prilPar30caOdpocetVydavkovSportType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="odpocetUdajeType"/>
+            <xsd:element name="r02" type="odpocetUdajeType"/>
+            <xsd:element name="r03" type="odpocetUdajeType"/>
+            <xsd:element name="r04" type="odpocetUdajeType"/>
+            <xsd:element name="r05" type="odpocetUdajeType"/>
+            <xsd:element name="r06" type="optDec"/>
+            <xsd:element name="r07" type="optDec"/>
+            <xsd:element name="r08" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="newComplexType"/>
+    <xsd:complexType name="udajeInvesticieType">
+        <xsd:sequence>
+            <xsd:element name="s01Od" type="optOneFieldDate"/>
+            <xsd:element name="s01Do" type="optOneFieldDate"/>
+            <xsd:element name="s02" type="optDec"/>
+            <xsd:element name="s03" type="optDec"/>
+            <xsd:element name="s04" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- sposob platby -->
+    <xsd:complexType name="sposobPlatby">
+        <xsd:sequence>
+            <xsd:element name="poukazka" type="only_0_1"/>
+            <xsd:element name="ucet" type="only_0_1"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <!-- bankove spojenie -->
+    <xsd:complexType name="bankovyUcet">
+        <xsd:sequence>
+            <xsd:element name="IBAN" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="zdaneniePar17fType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="tab2stlpceType"/>
+            <xsd:element name="r02" type="tab2stlpceType"/>
+            <xsd:element name="r03" type="tab2stlpceType"/>
+            <xsd:element name="r04" type="tab2stlpceType"/>
+            <xsd:element name="r05" type="tab2stlpceType"/>
+            <xsd:element name="r06" type="tab2stlpceType"/>
+            <xsd:element name="r07" type="optDec"/>
+            <xsd:element name="r08" type="optDec"/>
+            <xsd:element name="r09" type="optDec"/>
+            <xsd:element name="r10" type="optDec"/>
+            <xsd:element name="r11" type="optDec"/>
+            <xsd:element name="r12" type="optDec"/>
+            <xsd:element name="r13" type="optDec"/>
+            <xsd:element name="r14" type="tab2stlpceType"/>
+            <xsd:element name="r15" type="tab2stlpceType"/>
+            <xsd:element name="r16" type="tab2stlpceType"/>
+            <xsd:element name="r17" type="tab2stlpceType"/>
+            <xsd:element name="r18" type="tab2stlpceType"/>
+            <xsd:element name="r19" type="tab2stlpceType"/>
+            <xsd:element name="r20" type="optDec"/>
+            <xsd:element name="r21" type="optDec"/>
+            <xsd:element name="r22" type="optDec"/>
+            <xsd:element name="r23" type="optDec"/>
+            <xsd:element name="r24" type="optDec"/>
+            <xsd:element name="r25" type="optDec"/>
+            <xsd:element name="r26" type="optDec"/>
+            <xsd:element name="r27" type="optDec"/>
+            <xsd:element name="r28" type="optInt2"/>
+            <!--  ZMENA type="fix21"/> -->
+            <xsd:element name="r29" type="optDec"/>
+            <xsd:element name="r30" type="optDec"/>
+            <xsd:element name="r31" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="podielyNaZiskuType">
+        <xsd:sequence>
+            <xsd:element name="r01" type="optDec"/>
+            <xsd:element name="r02" type="optDec"/>
+            <xsd:element name="r03" type="optDec"/>
+            <xsd:element name="r04" type="tab2stlpceType"/>
+            <xsd:element name="r05" type="tab2stlpceType"/>
+            <xsd:element name="r06" type="tab2stlpceType"/>
+            <xsd:element name="r07" type="optDec"/>
+            <xsd:element name="r08" type="optInt2"/>
+            <xsd:element name="r09" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="tab2stlpceType">
+        <xsd:sequence>
+            <xsd:element name="s1" type="optDec"/>
+            <xsd:element name="s2" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="platenieDanePar17fType">
+        <xsd:sequence>
+            <xsd:element name="ziadam17f" type="only_0_1"/>
+            <xsd:element name="splatka" type="splatkaType" minOccurs="5" maxOccurs="20"/>
+            <xsd:element name="datum" type="optOneFieldDate"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="splatkaType">
+        <xsd:sequence>
+            <xsd:element name="datumSplat" type="optOneFieldDate"/>
+            <xsd:element name="suma" type="optDec"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
