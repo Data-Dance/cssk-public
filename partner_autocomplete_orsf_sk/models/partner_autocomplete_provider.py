@@ -177,7 +177,7 @@ class PartnerAutocompleteProviderOrsfSk(models.AbstractModel):
                 url,
                 json={"email": email, "password": password},
                 timeout=self._orsf_timeout(),
-                headers={"Accept": "application/json"},
+                headers={"Accept": "application/json", "Origin": self._orsf_auth_url()},
             )
         except RequestException as err:
             _logger.warning("ORSF sign-in to %s failed: %s", url, err)
