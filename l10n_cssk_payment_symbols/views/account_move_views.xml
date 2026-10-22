@@ -19,23 +19,17 @@
                  what lets cs_CZ say "Reference platby" without touching core.
                  Slovak core is already correct ("Referencia platby").
 
-                 ``payment_reference`` appears TWICE in ``view_move_form`` and
-                 an unqualified spec silently takes the first: once in the main
-                 sheet for vendor bills (line 1066 of core's
-                 account_move_views.xml), once in Other Info for customer
-                 invoices (line 1528). Relabelling only the first left customer
-                 invoices — where a Czech VS matters most, since it is what the
-                 customer is asked to quote — covered by the catalogue override
-                 alone. Both are pinned here, on @invisible: it is not a
-                 translated attribute, so unlike @string it is valid as a
-                 selector (``_valid_inheritance`` refuses translated ones), and
-                 it fails loudly if core ever reorders these.
-
-                 The conditions are 19.0's, not 18.0's: core dropped
-                 ``out_receipt`` from the vendor-bill branch between the two, so
-                 copying 18.0's selectors across would match nothing and fail at
-                 install. -->
-            <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('in_invoice', 'in_refund', 'in_receipt')&quot;]"
+                 ``payment_reference`` appears TWICE in this form and an
+                 unqualified spec silently takes the first: once in the main
+                 sheet for vendor bills, once in Other Info for customer
+                 invoices. Relabelling only the first left customer invoices —
+                 where a Czech VS matters most, since it is what the customer is
+                 asked to quote — covered by the catalogue override alone. Both
+                 are pinned here, on @invisible: it is not a translated
+                 attribute, so unlike @string it is valid as a selector
+                 (``_valid_inheritance`` refuses translated ones), and it fails
+                 loudly if core ever reorders these. -->
+            <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('in_invoice', 'in_refund', 'out_receipt', 'in_receipt')&quot;]"
                    position="attributes">
                 <attribute name="string">Payment Reference</attribute>
             </xpath>
@@ -44,25 +38,27 @@
                 <attribute name="string">Payment Reference</attribute>
             </xpath>
 
-            <!-- The symbols follow ``payment_reference`` on every document type
-                 that has one, which means placing them TWICE for the same
-                 reason. Each copy carries the visibility condition of the node
-                 it follows, so exactly one is ever shown. ``out_receipt`` gets
-                 none because core shows it no ``payment_reference`` in this
-                 form at all. -->
-            <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('in_invoice', 'in_refund', 'in_receipt')&quot;]"
+            <!-- The symbols follow ``payment_reference`` on every document
+                 type, which means placing them TWICE: core repeats that field
+                 once per document type — main sheet for vendor bills, Other
+                 Info for customer invoices — so a single placement can only
+                 ever sit beside one of them. Each copy carries the same
+                 visibility condition as the node it follows, so exactly one is
+                 ever shown and the pair covers the same six move types a single
+                 placement did. -->
+            <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('in_invoice', 'in_refund', 'out_receipt', 'in_receipt')&quot;]"
                    position="after">
                 <field
                     name="l10n_cssk_variable_symbol"
-                    invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt')"
+                    invisible="move_type not in ('in_invoice', 'in_refund', 'out_receipt', 'in_receipt')"
                 />
                 <field
                     name="l10n_cssk_constant_symbol"
-                    invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt')"
+                    invisible="move_type not in ('in_invoice', 'in_refund', 'out_receipt', 'in_receipt')"
                 />
                 <field
                     name="l10n_cssk_specific_symbol"
-                    invisible="move_type not in ('in_invoice', 'in_refund', 'in_receipt')"
+                    invisible="move_type not in ('in_invoice', 'in_refund', 'out_receipt', 'in_receipt')"
                 />
             </xpath>
             <xpath expr="//field[@name='payment_reference'][@invisible=&quot;move_type not in ('out_invoice', 'out_refund')&quot;]"
@@ -80,6 +76,47 @@
                     invisible="move_type not in ('out_invoice', 'out_refund')"
                 />
             </xpath>
+        </field>
+    </record>
+
+    <!-- The same relabel wherever else core shows this field. Measured on a
+         live cs_CZ database: the catalogue override of
+         ``account.field_account_move__payment_reference`` does NOT apply on an
+         existing database, because ``TranslationImporter.save(overwrite=False)``
+         will not replace a value ``account`` has already written. Only the view
+         half landed. So every remaining place the label is rendered has to be
+         pinned the same deterministic way, or it keeps reading "Variabilní
+         symbol" for a free-text field.
+
+         Both of these views carry exactly ONE ``payment_reference`` node
+         (verified against 18.0 core), so an unqualified spec is unambiguous
+         here — unlike the form, where there are two and the first silently won.
+
+         What this still does not reach: anything taking the label straight from
+         the field definition rather than from a view — exports, the developer
+         tooltip. That is accepted rather than fixed; closing it would mean
+         writing into another module's translation data, which is worse than the
+         residue. -->
+
+    <record id="view_invoice_tree_cssk_symbols" model="ir.ui.view">
+        <field name="name">account.move.list.cssk.symbols</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree" />
+        <field name="arch" type="xml">
+            <field name="payment_reference" position="attributes">
+                <attribute name="string">Payment Reference</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter_cssk_symbols" model="ir.ui.view">
+        <field name="name">account.move.search.cssk.symbols</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <field name="payment_reference" position="attributes">
+                <attribute name="string">Payment Reference</attribute>
+            </field>
         </field>
     </record>
 

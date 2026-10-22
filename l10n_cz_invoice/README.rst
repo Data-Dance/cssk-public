@@ -19,8 +19,8 @@ Features
   domestic reverse charge (§92a), intra-Community supply / exempt (§64) and
   export (§66).
 * A per-tax **CZ reverse charge (§92a)** flag drives the §92a phrase, with a
-  distinct name so it does not collide with the same-purpose field another
-  CZ localization ships (that one is honoured too when it is installed).
+  distinct name so it does not collide with the EE ``l10n_cz_reports`` field
+  (which is also honoured when that module is installed).
 * A free-text **manual legal note** that is printed in addition to any
   auto-detected phrase.
 

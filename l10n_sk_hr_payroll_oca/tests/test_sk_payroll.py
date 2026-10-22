@@ -1,8 +1,7 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 #
-# These tests assert the Slovak payroll behaviour on the 19.0 engine, where a
-# contract is an ``hr.version`` record owned by the employee:
+# These tests assert the CORRECTED Slovak payroll behaviour (v18.0.2.0.0):
 #   * TAXBASE = gross − employee social − employee health
 #   * NČZD applied (and gated on the signed declaration)
 #   * income tax matches a hand-computed monthly advance
@@ -10,7 +9,7 @@
 #   * dated parameters exercised by one 2025-dated and one 2026-dated payslip
 #     (health rate 4% -> 5%, NČZD 479.48 -> 497.23).
 
-from datetime import date
+from datetime import date, datetime
 
 from odoo.tests import TransactionCase, tagged
 
@@ -36,69 +35,49 @@ class TestSkPayroll(TransactionCase):
         cls.structure = cls.env.ref(
             "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary"
         )
-        # Declaration signed, 2 children < 15, standard (non-ZŤP), no meal.
-        cls.contract, cls.employee = cls._make_contract(
-            "Jozko Mrkvicka",
-            2000.0,
-            date(2024, 1, 1),
-            cls.calendar,
-            l10n_sk_tax_declaration_signed=True,
-            l10n_sk_children_under_15=2,
-        )
-        # Employee without a signed declaration (to prove NČZD gating).
-        cls.contract_nodecl, cls.employee_nodecl = cls._make_contract(
-            "Anna Bezvyhlasenia",
-            2000.0,
-            date(2024, 1, 1),
-            cls.calendar,
-            l10n_sk_tax_declaration_signed=False,
-        )
-
-    @classmethod
-    def _structure_for(cls, agreement_type):
-        """The structure representing a Slovak employment form.
-
-        The structure decides the form now, and a contract may not disagree
-        with it, so a fixture asking for a dohoda has to sit on the matching
-        structure rather than setting the agreement type underneath one that
-        says "employment".
-        """
-        by_form = {
-            "dovp": "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_dovp",
-            "dopc": "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_dopc",
-            "dobps": "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_dobps",
-        }
-        xmlid = by_form.get(agreement_type)
-        return cls.env.ref(xmlid) if xmlid else cls.structure
-
-    @classmethod
-    def _make_contract(cls, name, wage, date_start, calendar, struct=None, **l10n):
-        if struct is None and l10n.get("l10n_sk_agreement_type"):
-            struct = cls._structure_for(l10n["l10n_sk_agreement_type"])
-        """Create an employee and populate its current version (the "contract").
-
-        On 19.0 the payslip ``contract_id`` is an ``hr.version``; the Slovak
-        payroll fields live on that version.  Returns ``(version, employee)`` to
-        keep the ``(contract, employee)`` call sites unchanged.
-        """
-        employee = cls.env["hr.employee"].create(
+        cls.employee = cls.env["hr.employee"].create(
             {
-                "name": name,
+                "name": "Jozko Mrkvicka",
                 "company_id": cls.company.id,
-                "resource_calendar_id": calendar.id,
+                "resource_calendar_id": cls.calendar.id,
             }
         )
-        version = employee.version_id
-        vals = {
-            "contract_date_start": date_start,
-            "date_version": date_start,
-            "wage": wage,
-            "resource_calendar_id": calendar.id,
-            "struct_id": (struct or cls.structure).id,
-        }
-        vals.update(l10n)
-        version.write(vals)
-        return version, employee
+        # Declaration signed, 2 children < 15, standard (non-ZŤP), no meal.
+        cls.contract = cls.env["hr.contract"].create(
+            {
+                "name": "Jozko Contract",
+                "employee_id": cls.employee.id,
+                "company_id": cls.company.id,
+                "wage": 2000.0,
+                "state": "open",
+                "date_start": date(2024, 1, 1),
+                "resource_calendar_id": cls.calendar.id,
+                "struct_id": cls.structure.id,
+                "l10n_sk_tax_declaration_signed": True,
+                "l10n_sk_children_under_15": 2,
+            }
+        )
+        # Employee without a signed declaration (to prove NČZD gating).
+        cls.employee_nodecl = cls.env["hr.employee"].create(
+            {
+                "name": "Anna Bezvyhlasenia",
+                "company_id": cls.company.id,
+                "resource_calendar_id": cls.calendar.id,
+            }
+        )
+        cls.contract_nodecl = cls.env["hr.contract"].create(
+            {
+                "name": "Anna Contract",
+                "employee_id": cls.employee_nodecl.id,
+                "company_id": cls.company.id,
+                "wage": 2000.0,
+                "state": "open",
+                "date_start": date(2024, 1, 1),
+                "resource_calendar_id": cls.calendar.id,
+                "struct_id": cls.structure.id,
+                "l10n_sk_tax_declaration_signed": False,
+            }
+        )
 
     def _make_payslip(self, contract, employee, date_from, date_to):
         payslip = (
@@ -109,9 +88,7 @@ class TestSkPayroll(TransactionCase):
                     "name": "Payslip %s" % date_from,
                     "employee_id": employee.id,
                     "contract_id": contract.id,
-                    # The contract's own structure, so a dohoda fixture is paid
-                    # through the structure that declares its form.
-                    "struct_id": (contract.struct_id or self.structure).id,
+                    "struct_id": self.structure.id,
                     "company_id": self.company.id,
                     "date_from": date_from,
                     "date_to": date_to,
@@ -222,9 +199,27 @@ class TestSkPayroll(TransactionCase):
                 ],
             }
         )
-        return self._make_contract(
-            "Maly Zarobok", 500.0, date(2024, 1, 1), calendar, **vals
+        employee = self.env["hr.employee"].create(
+            {
+                "name": "Maly Zarobok",
+                "company_id": self.company.id,
+                "resource_calendar_id": calendar.id,
+            }
         )
+        contract = self.env["hr.contract"].create(
+            {
+                "name": "Maly Contract",
+                "employee_id": employee.id,
+                "company_id": self.company.id,
+                "wage": 500.0,
+                "state": "open",
+                "date_start": date(2024, 1, 1),
+                "resource_calendar_id": calendar.id,
+                "struct_id": self.structure.id,
+                **vals,
+            }
+        )
+        return contract, employee
 
     def test_health_oop_low_earner(self):
         """Health OOP for a €500 earner (2025): base reduced, employer intact."""
@@ -252,9 +247,27 @@ class TestSkPayroll(TransactionCase):
 
     # ---- Feature: Agreements (dohody) DoVP / DoPČ -------------------------
     def _make_dohodar(self, **vals):
-        return self._make_contract(
-            "Dohodar Peter", 1000.0, date(2024, 1, 1), self.calendar, **vals
+        employee = self.env["hr.employee"].create(
+            {
+                "name": "Dohodar Peter",
+                "company_id": self.company.id,
+                "resource_calendar_id": self.calendar.id,
+            }
         )
+        contract = self.env["hr.contract"].create(
+            {
+                "name": "Dohoda Contract",
+                "employee_id": employee.id,
+                "company_id": self.company.id,
+                "wage": 1000.0,
+                "state": "open",
+                "date_start": date(2024, 1, 1),
+                "resource_calendar_id": self.calendar.id,
+                "struct_id": self.structure.id,
+                **vals,
+            }
+        )
+        return contract, employee
 
     def test_dovp_reduced_contributions(self):
         """DoVP (irregular income): no sickness/unemployment; only 7% social."""
@@ -346,9 +359,25 @@ class TestSkPayroll(TransactionCase):
     def test_basic_proration_half_month(self):
         """Mid-month hire prorates BASIC by worked / scheduled working days."""
         calendar = self._make_mon_fri_calendar()
+        employee = self.env["hr.employee"].create(
+            {
+                "name": "Novy Zamestnanec",
+                "company_id": self.company.id,
+                "resource_calendar_id": calendar.id,
+            }
+        )
         # Hired mid-month (16 June 2026), so ~half the working days are worked.
-        contract, employee = self._make_contract(
-            "Novy Zamestnanec", 2000.0, date(2026, 6, 16), calendar
+        contract = self.env["hr.contract"].create(
+            {
+                "name": "Novy Contract",
+                "employee_id": employee.id,
+                "company_id": self.company.id,
+                "wage": 2000.0,
+                "state": "open",
+                "date_start": date(2026, 6, 16),
+                "resource_calendar_id": calendar.id,
+                "struct_id": self.structure.id,
+            }
         )
         p = (
             self.env["hr.payslip"]
@@ -358,9 +387,7 @@ class TestSkPayroll(TransactionCase):
                     "name": "Proration slip",
                     "employee_id": employee.id,
                     "contract_id": contract.id,
-                    # The contract's own structure, so a dohoda fixture is paid
-                    # through the structure that declares its form.
-                    "struct_id": (contract.struct_id or self.structure).id,
+                    "struct_id": self.structure.id,
                     "company_id": self.company.id,
                     "date_from": date(2026, 6, 1),
                     "date_to": date(2026, 6, 30),
@@ -389,9 +416,27 @@ class TestSkPayroll(TransactionCase):
 
     # ---- Feature: wage garnishment (exekučné zrážky) ----------------------
     def _make_plain_worker(self, wage, **vals):
-        return self._make_contract(
-            "Dlznik Pavol", wage, date(2024, 1, 1), self.calendar, **vals
+        employee = self.env["hr.employee"].create(
+            {
+                "name": "Dlznik Pavol",
+                "company_id": self.company.id,
+                "resource_calendar_id": self.calendar.id,
+            }
         )
+        contract = self.env["hr.contract"].create(
+            {
+                "name": "Dlznik Contract",
+                "employee_id": employee.id,
+                "company_id": self.company.id,
+                "wage": wage,
+                "state": "open",
+                "date_start": date(2024, 1, 1),
+                "resource_calendar_id": self.calendar.id,
+                "struct_id": self.structure.id,
+                **vals,
+            }
+        )
+        return contract, employee
 
     def _payslip_with_inputs(self, contract, employee, date_from, date_to, inputs):
         p = (
@@ -402,9 +447,7 @@ class TestSkPayroll(TransactionCase):
                     "name": "Slip %s" % date_from,
                     "employee_id": employee.id,
                     "contract_id": contract.id,
-                    # The contract's own structure, so a dohoda fixture is paid
-                    # through the structure that declares its form.
-                    "struct_id": (contract.struct_id or self.structure).id,
+                    "struct_id": self.structure.id,
                     "company_id": self.company.id,
                     "date_from": date_from,
                     "date_to": date_to,
@@ -446,14 +489,7 @@ class TestSkPayroll(TransactionCase):
         self.assertAlmostEqual(line("NET"), 594.84, places=2)
 
     def test_garnishment_priority_two_thirds(self):
-        """Prednostná exekúcia (výživné/dane): 2/3 of the remainder.
-
-        A priority creditor reaches deeper than an ordinary one: under
-        § 2 ods. 2 NV 268/2006 the base that must be left to the debtor is
-        100 % ŽM (284.13), not the ordinary 140 % (397.78). Remainder
-        693.36 − 284.13 = 409.23, already divisible by three → 1/3 = 136.41
-        → 2/3 = 272.82.
-        """
+        """Prednostná exekúcia (výživné/dane): 2/3 of the remainder."""
         contract, employee = self._make_plain_worker(1000.0)
         p = self._payslip_with_inputs(
             contract,
@@ -462,7 +498,8 @@ class TestSkPayroll(TransactionCase):
             date(2026, 6, 30),
             [("GARNISHMENT_PRIORITY", 500.0)],
         )
-        self.assertAlmostEqual(p.get_salary_line_total("GARNISHMENT"), -272.82, places=2)
+        # 2 × 98.52 = 197.04
+        self.assertAlmostEqual(p.get_salary_line_total("GARNISHMENT"), -197.04, places=2)
 
     def test_garnishment_capped_by_debt(self):
         """The deduction never exceeds the outstanding debt."""
@@ -536,8 +573,24 @@ class TestSkPayroll(TransactionCase):
     # June 1 2026 is a Monday so June 8-12 is a full working week (5 days).
     def _abs_setup(self, wage=2000.0):
         calendar = self._make_mon_fri_calendar()
-        contract, employee = self._make_contract(
-            "Absenter Adam", wage, date(2024, 1, 1), calendar
+        employee = self.env["hr.employee"].create(
+            {
+                "name": "Absenter Adam",
+                "company_id": self.company.id,
+                "resource_calendar_id": calendar.id,
+            }
+        )
+        contract = self.env["hr.contract"].create(
+            {
+                "name": "Absenter Contract",
+                "employee_id": employee.id,
+                "company_id": self.company.id,
+                "wage": wage,
+                "state": "open",
+                "date_start": date(2024, 1, 1),
+                "resource_calendar_id": calendar.id,
+                "struct_id": self.structure.id,
+            }
         )
         return contract, employee, calendar
 
@@ -550,9 +603,7 @@ class TestSkPayroll(TransactionCase):
                     "name": "Slip %s" % date_from,
                     "employee_id": employee.id,
                     "contract_id": contract.id,
-                    # The contract's own structure, so a dohoda fixture is paid
-                    # through the structure that declares its form.
-                    "struct_id": (contract.struct_id or self.structure).id,
+                    "struct_id": self.structure.id,
                     "company_id": self.company.id,
                     "date_from": date_from,
                     "date_to": date_to,
@@ -590,7 +641,7 @@ class TestSkPayroll(TransactionCase):
                 }
             )
         )
-        leave.action_approve()
+        leave.action_validate()
         return leave
 
     def _seed_prior_quarter(self, contract, employee, bonus=0.0):
@@ -601,9 +652,6 @@ class TestSkPayroll(TransactionCase):
         test that needs to prove the SEEDED quarter was used must pass a
         ``bonus`` to move the two apart.
         """
-        # A higher wage for the seeded month only, restored afterwards: it
-        # moves the counted gross without needing an input rule the base
-        # structure does not have.
         original = contract.wage
         if bonus:
             contract.wage = original + bonus
@@ -612,14 +660,9 @@ class TestSkPayroll(TransactionCase):
         )
         self.assertAlmostEqual(
             p.get_salary_line_total("GROSS"), original + bonus, places=2)
-        # CONFIRM it. §134 counts the wage "zúčtovaná" in the determining
-        # period, and compute_sheet leaves the payslip in the engine's
-        # "verify" (Waiting) state — computed, not confirmed. A seed left
-        # there is not a filed month and must not feed the average.
-        #
-        # Before restoring the wage, because action_payslip_done recomputes
-        # the sheet: confirming after the restore would quietly recompute the
-        # seed at the ORIGINAL wage and undo the whole point of the bonus.
+        # CONFIRM it: compute_sheet leaves the payslip in "verify" (Waiting),
+        # computed but not confirmed, and §134 counts the wage *zúčtovaná*.
+        # Before restoring the wage, because action_payslip_done recomputes.
         p.action_payslip_done()
         contract.wage = original
         hours = sum(
@@ -634,11 +677,11 @@ class TestSkPayroll(TransactionCase):
         """PHZ comes from the SEEDED quarter, not the fallback.
 
         The seed is paid at 2400 rather than 2000, so the counted gross is
-        2400 over 176 hours = 13.6364 — deliberately DIFFERENT from
-        the pravdepodobný-zárobok fallback of 2000/176 = 11.3636. Without the
-        bonus the two branches produce the same number and the test cannot
-        tell them apart: it passed with the payslip-state filter set to
-        "cancel", which selects nothing at all.
+        2400 over 176 hours = 13.6364 — deliberately DIFFERENT from the
+        pravdepodobný-zárobok fallback of 2000/176 = 11.3636. Without that the
+        two branches produce the same number and the test cannot tell them
+        apart: it passed with the payslip-state filter set to "cancel", which
+        selects nothing at all.
         """
         contract, employee, _cal = self._abs_setup()
         self._seed_prior_quarter(contract, employee, bonus=400.0)
@@ -650,9 +693,7 @@ class TestSkPayroll(TransactionCase):
                     "name": "June",
                     "employee_id": employee.id,
                     "contract_id": contract.id,
-                    # The contract's own structure, so a dohoda fixture is paid
-                    # through the structure that declares its form.
-                    "struct_id": (contract.struct_id or self.structure).id,
+                    "struct_id": self.structure.id,
                     "company_id": self.company.id,
                     "date_from": date(2026, 6, 1),
                     "date_to": date(2026, 6, 30),
@@ -663,15 +704,13 @@ class TestSkPayroll(TransactionCase):
             june.l10n_sk_average_hourly_earnings(), 13.6364, places=4
         )
 
+
     def test_unconfirmed_payslips_do_not_feed_the_average(self):
         """§134 counts the wage *zúčtovaná* in the determining period.
 
-        compute_sheet leaves an OCA payslip in "verify" (Waiting) — computed
-        but not confirmed. Until 2026-08-06 the search counted it, so a
-        half-finished month moved every náhrada in the next quarter; the
-        Czech side had always filtered on "done" alone. This is the guard: a
-        seeded quarter left unconfirmed must fall back to the pravdepodobný
-        zárobok, not be treated as a filed month.
+        compute_sheet leaves a payslip in "verify" (Waiting) — computed but
+        not confirmed. The search used to count it, so a half-finished month
+        moved every náhrada in the next quarter.
         """
         contract, employee, _cal = self._abs_setup()
         original = contract.wage
@@ -683,7 +722,6 @@ class TestSkPayroll(TransactionCase):
         june = self._worked_payslip(
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
-        # The fallback (2000/176), not the unconfirmed seed (2400/176).
         self.assertAlmostEqual(
             june.l10n_sk_average_hourly_earnings(), 11.3636, places=4
         )
@@ -699,9 +737,7 @@ class TestSkPayroll(TransactionCase):
                     "name": "June",
                     "employee_id": employee.id,
                     "contract_id": contract.id,
-                    # The contract's own structure, so a dohoda fixture is paid
-                    # through the structure that declares its form.
-                    "struct_id": (contract.struct_id or self.structure).id,
+                    "struct_id": self.structure.id,
                     "company_id": self.company.id,
                     "date_from": date(2026, 6, 1),
                     "date_to": date(2026, 6, 30),
@@ -968,78 +1004,30 @@ class TestSkPayroll(TransactionCase):
         self.assertIn(self.structure, sk_only)
         self.assertNotIn(cz_struct, sk_only)
 
-    # ---- Feature: income regularity drives the fund set -------------------
-    def test_dovp_with_regular_income_pays_the_full_set(self):
-        """The fund set follows income regularity, not the agreement kind.
-
-        A DoVP agreed as a regular monthly income is a zamestnanec s
-        pravidelným príjmom and owes sickness and unemployment insurance like
-        anyone else. Keying the fund set off the agreement TYPE — which this
-        module did until now — under-charged every such worker.
-        """
-        contract, employee = self._make_dohodar(
-            l10n_sk_agreement_type="dovp", l10n_sk_income_regular=True
-        )
-        p = self._make_payslip(
-            contract, employee, date(2025, 6, 1), date(2025, 6, 30)
-        )
-        line = p.get_salary_line_total
-        self.assertAlmostEqual(line("SICK"), -14.0, places=2)
-        self.assertAlmostEqual(line("UNEMPLOYMENT"), -10.0, places=2)
-        self.assertAlmostEqual(line("SHORTTIMEEMPLOYER"), 5.0, places=2)
-
-    def test_dopc_with_irregular_income_pays_the_reduced_set(self):
-        """...and the converse: a DoPČ paid once on completion."""
-        contract, employee = self._make_dohodar(
-            l10n_sk_agreement_type="dopc", l10n_sk_income_regular=False
-        )
-        p = self._make_payslip(
-            contract, employee, date(2025, 6, 1), date(2025, 6, 30)
-        )
-        line = p.get_salary_line_total
-        self.assertAlmostEqual(line("SICK"), 0.0, places=2)
-        self.assertAlmostEqual(line("UNEMPLOYMENT"), 0.0, places=2)
-        self.assertAlmostEqual(line("PENSION"), -40.0, places=2)
-
-    def test_regularity_defaults_from_the_agreement_kind(self):
-        """Programmatic creation must get the usual treatment for its kind."""
-        dovp, _e1 = self._make_dohodar(l10n_sk_agreement_type="dovp")
-        dopc, _e2 = self._make_dohodar(l10n_sk_agreement_type="dopc")
-        self.assertFalse(dovp.l10n_sk_income_regular)
-        self.assertTrue(dopc.l10n_sk_income_regular)
-
-    def test_employment_is_always_regular(self):
-        contract, _employee = self._make_dohodar(l10n_sk_agreement_type="none")
-        self.assertTrue(contract.l10n_sk_income_regular)
-
     # ------------------------------------------------------------------
-    # § 142 — prekážky na strane ZAMESTNÁVATEĽA
+    # § 142 — prekážky na strane ZAMESTNÁVATEĽA (ported from 19.0)
     # ------------------------------------------------------------------
     def test_employer_obstacle_weather_is_paid_at_half(self):
         """§ 142 ods. 2: adverse weather is náhrada at 50 % of priemerný
         zárobok. Booked against the generic § 141 obstacle it would be paid in
-        full — which is exactly what used to happen, overpaying by half."""
+        full — which is what used to happen, overpaying by half."""
         contract, employee, _cal = self._abs_setup()
         self._seed_prior_quarter(contract, employee)
         self._make_leave(
-            employee,
-            "l10n_sk_leave_type_employer_pocasie",
-            date(2026, 6, 8),
-            date(2026, 6, 12),
+            employee, "l10n_sk_leave_type_employer_pocasie",
+            date(2026, 6, 8), date(2026, 6, 12),
         )
         p = self._worked_payslip(
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
         line = p.get_salary_line_total
-        # BASIC prorated for the 5 absent days exactly as for any other absence
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
-        # 40 h x PHZ 11.3636 x 50 % = 227.27, NOT the 454.54 a full-rate
-        # obstacle would have paid.
-        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 227.27, places=2)
+        phz = p.l10n_sk_average_hourly_earnings()
+        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"),
+                               round(40 * phz * 0.5, 2), places=2)
+        self.assertLess(line("PREKAZKA_NAHRADA"), round(40 * phz, 2))
 
     def test_employer_obstacle_each_reason_has_its_own_rate(self):
-        """All four § 142 reasons in one month, each at its own statutory
-        percentage, summed by the one rule."""
+        """All four § 142 reasons in one month, each at its own percentage."""
         contract, employee, _cal = self._abs_setup()
         self._seed_prior_quarter(contract, employee)
         for xmlid, day in (
@@ -1052,73 +1040,14 @@ class TestSkPayroll(TransactionCase):
         p = self._worked_payslip(
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
-        line = p.get_salary_line_total
-        phz = 11.3636
-        expected = round(
-            8 * phz * 1.0        # prestoj      § 142 ods. 1 — 100 %
-            + 8 * phz * 0.5      # weather      § 142 ods. 2 —  50 %
-            + 8 * phz * 1.0      # other        § 142 ods. 3 — 100 %
-            + 8 * phz * 0.6,     # serious ops  § 142 ods. 4 —  60 %
-            2,
-        )
-        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), expected, places=2)
-        # 4 absent days out of 22
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 18 / 22, places=2)
+        phz = p.l10n_sk_average_hourly_earnings()
+        expected = round(8 * phz * (1.0 + 0.5 + 1.0 + 0.6), 2)
+        self.assertAlmostEqual(
+            p.get_salary_line_total("PREKAZKA_NAHRADA"), expected, places=2)
 
-    def test_employer_obstacle_is_insurable_and_taxable(self):
-        """Náhrada mzdy is regular wage income: it must reach GROSS, so it is
-        assessed for contributions and tax like the holiday náhrada."""
-        contract, employee, _cal = self._abs_setup()
-        self._seed_prior_quarter(contract, employee)
-        self._make_leave(
-            employee,
-            "l10n_sk_leave_type_employer_prestoj",
-            date(2026, 6, 8),
-            date(2026, 6, 12),
-        )
-        p = self._worked_payslip(
-            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
-        )
-        line = p.get_salary_line_total
-        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 454.54, places=2)
-        # prestoj is the 100 % reason, so GROSS is made whole like a holiday
-        self.assertAlmostEqual(line("GROSS"), 2000.0, places=1)
-
-    def test_employer_obstacle_rates_are_data_not_code(self):
-        """The percentages come from dated rule parameters: change one and the
-        payslip follows, without touching a rule body."""
-        contract, employee, _cal = self._abs_setup()
-        self._seed_prior_quarter(contract, employee)
-        param = self.env.ref(
-            "l10n_sk_hr_payroll_oca.rule_parameter_prekazka_pocasie_pct"
-        )
-        self.env["hr.rule.parameter.value"].create(
-            {
-                "rule_parameter_id": param.id,
-                "parameter_value": "80",
-                "date_from": date(2026, 6, 1),
-            }
-        )
-        self._make_leave(
-            employee,
-            "l10n_sk_leave_type_employer_pocasie",
-            date(2026, 6, 8),
-            date(2026, 6, 12),
-        )
-        p = self._worked_payslip(
-            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
-        )
-        # 40 h x 11.3636 x 80 % = 363.64
-        self.assertAlmostEqual(p.get_salary_line_total("PREKAZKA_NAHRADA"),
-                               363.64, places=2)
-
-    # ------------------------------------------------------------------
-    # § 166 — materská / rodičovská / otcovská
-    # ------------------------------------------------------------------
     def test_family_leave_is_unpaid_by_the_employer(self):
-        """Materské / rodičovský príspevok / otcovské are dávky of the Sociálna
-        poisťovňa. The employer records the absence, prorates the wage down and
-        pays nothing — no náhrada of any kind."""
+        """Materské / rodičovský príspevok / otcovské are dávky of the
+        Sociálna poisťovňa: the employer prorates the wage and pays nothing."""
         for xmlid, code in (
             ("l10n_sk_leave_type_materska", "MATERSKA"),
             ("l10n_sk_leave_type_rodicovska", "RODICOVSKA"),
@@ -1126,47 +1055,20 @@ class TestSkPayroll(TransactionCase):
         ):
             with self.subTest(code=code):
                 contract, employee, _cal = self._abs_setup()
-                self._make_leave(
-                    employee, xmlid, date(2026, 6, 8), date(2026, 6, 12)
-                )
+                self._make_leave(employee, xmlid,
+                                 date(2026, 6, 8), date(2026, 6, 12))
                 p = self._worked_payslip(
-                    contract, employee, date(2026, 6, 1), date(2026, 6, 30)
-                )
-                hours = sum(
-                    abs(w.number_of_hours)
-                    for w in p.worked_days_line_ids
-                    if w.code == code
-                )
-                self.assertEqual(hours, 40.0, "%s must keep its own line" % code)
+                    contract, employee, date(2026, 6, 1), date(2026, 6, 30))
                 line = p.get_salary_line_total
-                # BASIC prorated exactly like any other absence
-                self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
-                # ... and nothing paid back
-                self.assertAlmostEqual(line("DOVOLENKA_NAHRADA"), 0.0, places=2)
-                self.assertAlmostEqual(line("OBSTACLE_NAHRADA"), 0.0, places=2)
+                self.assertAlmostEqual(line("BASIC"), 2000.0 * 136 / 176, places=2)
                 self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 0.0, places=2)
-                self.assertAlmostEqual(line("GROSS"), 2000.0 * 17 / 22, places=2)
+                self.assertAlmostEqual(line("GROSS"), line("BASIC"), places=2)
 
-    def test_family_leave_is_not_folded_into_ocr(self):
-        """The SP filings must tell them apart — rodičovská drives a prerušenie
-        poistenia — so they may not share OČR's code."""
-        for xmlid, code in (
-            ("l10n_sk_leave_type_materska", "MATERSKA"),
-            ("l10n_sk_leave_type_rodicovska", "RODICOVSKA"),
-            ("l10n_sk_leave_type_otcovska", "OTCOVSKA"),
-        ):
-            ltype = self.env.ref("l10n_sk_hr_payroll_oca." + xmlid)
-            self.assertEqual(ltype.l10n_sk_payroll_code, code)
-            self.assertFalse(ltype.requires_allocation)
-
-    # ------------------------------------------------------------------
-    # Further statutory absences riding existing payroll codes
-    # ------------------------------------------------------------------
     def test_further_absences_use_the_right_bucket(self):
-        """Each new type carries an EXISTING code, so the money is whatever
-        that bucket already pays. The separate type is for recording."""
         for xmlid, code in (
             ("l10n_sk_leave_type_darovanie_krvi", "OBSTACLE"),
+            ("l10n_sk_leave_type_verejna_funkcia", "OBSTACLE"),
+            ("l10n_sk_leave_type_obcianska_povinnost", "OBSTACLE"),
             ("l10n_sk_leave_type_vzdelavanie", "OBSTACLE"),
             ("l10n_sk_leave_type_vzdelavanie_unpaid", "NEPLATENE"),
             ("l10n_sk_leave_type_karantena", "PN"),
@@ -1174,70 +1076,4 @@ class TestSkPayroll(TransactionCase):
             with self.subTest(xmlid=xmlid):
                 ltype = self.env.ref("l10n_sk_hr_payroll_oca." + xmlid)
                 self.assertEqual(ltype.l10n_sk_payroll_code, code)
-                self.assertFalse(ltype.requires_allocation)
-
-    def test_blood_donation_is_paid_at_average_earnings(self):
-        """§ 138 is a paid obstacle, so it must reach OBSTACLE_NAHRADA and
-        leave GROSS whole — the same treatment as a doctor's visit."""
-        contract, employee, _cal = self._abs_setup()
-        self._seed_prior_quarter(contract, employee)
-        self._make_leave(
-            employee, "l10n_sk_leave_type_darovanie_krvi",
-            date(2026, 6, 8), date(2026, 6, 12),
-        )
-        p = self._worked_payslip(
-            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
-        )
-        line = p.get_salary_line_total
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
-        # 40 h x PHZ 13.6364 (the seed runs at 2400) = 545.46
-        self.assertGreater(line("OBSTACLE_NAHRADA"), 0.0)
-        self.assertAlmostEqual(
-            line("GROSS"), line("BASIC") + line("OBSTACLE_NAHRADA"), places=2)
-
-    def test_unpaid_study_leave_pays_nothing(self):
-        """§ 140 leaves paid study leave to the employer, so the unpaid
-        variant must prorate the wage and add nothing back."""
-        contract, employee, _cal = self._abs_setup()
-        self._make_leave(
-            employee, "l10n_sk_leave_type_vzdelavanie_unpaid",
-            date(2026, 6, 8), date(2026, 6, 12),
-        )
-        p = self._worked_payslip(
-            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
-        )
-        line = p.get_salary_line_total
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
-        self.assertAlmostEqual(line("OBSTACLE_NAHRADA"), 0.0, places=2)
-        self.assertAlmostEqual(line("GROSS"), line("BASIC"), places=2)
-
-    def test_quarantine_is_paid_as_a_sickness(self):
-        """Karanténa carries the PN code, so it drives the employer sick-pay
-        náhrada exactly as a DPN does."""
-        contract, employee, _cal = self._abs_setup()
-        self._make_leave(
-            employee, "l10n_sk_leave_type_karantena",
-            date(2026, 6, 8), date(2026, 6, 12),
-        )
-        p = self._worked_payslip(
-            contract, employee, date(2026, 6, 1), date(2026, 6, 30),
-            inputs=[("PN_DVZ", 50.0)],
-        )
-        pn_days = sum(
-            abs(w.number_of_days) for w in p.worked_days_line_ids
-            if w.code == "PN"
-        )
-        self.assertAlmostEqual(pn_days, 5.0, places=2)
-        self.assertGreater(p.get_salary_line_total("SICK_COMP"), 0.0)
-
-    def test_general_interest_absences_ride_the_obstacle_bucket(self):
-        """§§ 136-138 are paid at priemerný zárobok, so they carry OBSTACLE.
-        The separate types exist because the legal reason differs and an
-        employer has to record which it was."""
-        for xmlid in ("l10n_sk_leave_type_verejna_funkcia",
-                      "l10n_sk_leave_type_obcianska_povinnost",
-                      "l10n_sk_leave_type_darovanie_krvi"):
-            with self.subTest(xmlid=xmlid):
-                ltype = self.env.ref("l10n_sk_hr_payroll_oca." + xmlid)
-                self.assertEqual(ltype.l10n_sk_payroll_code, "OBSTACLE")
-                self.assertFalse(ltype.requires_allocation)
+                self.assertEqual(ltype.requires_allocation, "no")

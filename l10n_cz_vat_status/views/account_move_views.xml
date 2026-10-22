@@ -6,7 +6,14 @@
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='alerts']/.." position="after">
+            <!-- 18.0 ANCHOR, DIFFERENT FROM 19.0 ON PURPOSE. 19.0 anchors these
+                 banners after core's ``alerts`` div (``account.move.alerts``,
+                 a 19.0-only Json field rendered by ``actionable_errors``),
+                 which puts them at the top of the alert band under the header.
+                 18.0 has neither the field nor the div: its band starts with
+                 the duplicate-document warning, so anchor before that one to
+                 land in the same slot. Do not copy the 19.0 xpath down. -->
+            <xpath expr="//field[@name='duplicated_ref_ids']/.." position="before">
                 <div class="d-flex alert alert-warning w-100 align-items-center gap-1"
                      role="alert"
                      invisible="not l10n_cz_vat_status_warning or state != 'draft'">

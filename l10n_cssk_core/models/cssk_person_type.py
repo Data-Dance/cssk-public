@@ -31,7 +31,8 @@ class CSSKPersonType(models.Model):
     description = fields.Text(translate=True)
     active = fields.Boolean(default=True)
 
-    _uniq_code_per_country = models.Constraint(
-        "UNIQUE(country_code, code)",
-        "The person-type code must be unique per country.",
-    )
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("uniq_code_per_country", "UNIQUE(country_code, code)",
+         "The person-type code must be unique per country."),
+    ]

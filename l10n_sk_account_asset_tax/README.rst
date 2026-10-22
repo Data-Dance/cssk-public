@@ -12,29 +12,6 @@ data-only; install a framework bridge (``account_asset_tax_ee`` for Enterprise o
 ``account_asset_tax_oca`` for OCA/Community) to attach the tax-depreciation board
 to actual assets.
 
-Intangible assets have no depreciation group
-============================================
-
-Seven groups is the whole set, and the absence is deliberate rather than
-unfinished: **nehmotný majetok is not assigned to an odpisová skupina at all.**
-
-§ 22 ods. 8 zákona 595/2003 has intangible assets tax-depreciated *in accordance
-with the accounting rules* — daňové odpisy equal účtovné odpisy, up to the
-vstupná cena — because the groups in Príloha č. 1 classify **tangible** assets
-by their KP/CPA code. There is nothing to classify an intangible into.
-
-So for an asset on 012 Aktivované náklady na vývoj, 013 Softvér, 014 Oceniteľné
-práva, 015 Goodwill or 019 Ostatný DNM, an empty ``tax_class_id`` is the
-**correct final state**, not a gap waiting to be filled, and its tax
-depreciation comes from the accounting schedule rather than from a group. An
-importer that expects every asset to resolve a group will report the right
-answer as a problem, once per intangible asset.
-
-Written down because the absence is silent: the data ships seven groups and
-says nothing about the case it excludes, and it has been inferred backwards
-more than once — from an asset's accounting life (a 48-month write-off looking
-like group 1's four years) rather than from what the asset is.
-
 Features
 ========
 

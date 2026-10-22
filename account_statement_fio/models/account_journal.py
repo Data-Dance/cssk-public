@@ -1,11 +1,10 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 """Pulling movements and official statements out of Fio."""
 
 import json
 import logging
-import re
 from datetime import timedelta
 
 from odoo import _, api, fields, models
@@ -19,11 +18,6 @@ from odoo.addons.account_fio_base.utils.client import (
 from odoo.addons.account_fio_base.utils.statement import parse_movements
 
 _logger = logging.getLogger(__name__)
-
-#: ``column_18`` of a movement in another currency: ``20.00 EUR``. Strict on
-#: purpose, the column is free text.
-_FIO_SPECIFICATION_RE = re.compile(
-    r"^\s*(?P<amount>-?\d[\d ]*(?:[.,]\d+)?)\s+(?P<currency>[A-Z]{3})\s*$")
 
 #: §3.1 — beyond this, Fio needs the history unlocked in internet banking.
 HISTORY_LIMIT_DAYS = 90
@@ -194,66 +188,26 @@ class AccountJournal(models.Model):
                 if transaction.get(key):
                     vals[field_name] = transaction[key]
         self._fio_check_currency(transaction)
-        vals.update(self._fio_foreign_amount_vals(transaction))
         return vals
 
     def _fio_check_currency(self, transaction):
-        """Refuse a movement that is not in the journal's currency.
+        """Warn when a movement is not in the journal's currency.
 
-        Fio reports every movement of an account in that account's currency
-        (``column_14``), and each currency is a separate Fio account with its
-        own token. A mismatch therefore means the journal is configured for
-        another currency than the account behind its token, and importing
-        would book, say, 100 EUR as 100 CZK. This used to log a warning and
-        import anyway; the cron isolates each journal, so refusing stops only
-        the misconfigured one.
+        A Fio account is single-currency, so ``column_14`` should always match
+        and ``column_18`` carries the original amount of a card payment made
+        abroad. If that assumption is ever wrong the amount would be booked in
+        the wrong currency, so say so loudly rather than guessing at
+        ``foreign_currency_id``; the original text is preserved in ``raw_data``.
         """
         currency = transaction.get("currency")
         journal_currency = self.currency_id or self.company_id.currency_id
         if currency and journal_currency and currency != journal_currency.name:
-            raise UserError(_(
-                "Fio journal %(journal)s is in %(journal_currency)s, but the "
-                "account behind its token reports movement %(movement)s in "
-                "%(currency)s. Each Fio currency account needs its own journal "
-                "in that currency, with that account's own API token.",
-                journal=self.display_name,
-                journal_currency=journal_currency.name,
-                movement=transaction.get("movement_id"),
-                currency=currency,
-            ))
-
-    def _fio_foreign_amount_vals(self, transaction):
-        """The original amount of a movement made in another currency.
-
-        Fio puts it in ``column_18`` (*Upřesnění*) as free text, e.g.
-        ``20.00 EUR`` for a card payment abroad. Only that exact shape is read,
-        and only for a currency Odoo has active; anything else stays in
-        ``raw_data`` and the line is imported in the account currency alone.
-        The sign follows the movement, since the text carries none reliably.
-        """
-        text = (transaction.get("specification") or "").replace("\u00a0", " ")
-        match = _FIO_SPECIFICATION_RE.match(text)
-        if not match:
-            return {}
-        code = match.group("currency")
-        journal_currency = self.currency_id or self.company_id.currency_id
-        if code == journal_currency.name:
-            return {}
-        currency = self.env["res.currency"].search([("name", "=", code)], limit=1)
-        if not currency:
-            return {}
-        try:
-            original = abs(float(match.group("amount").replace(" ", "")
-                                 .replace(",", ".")))
-        except ValueError:
-            return {}
-        if not original:
-            return {}
-        sign = -1 if float(transaction["amount"]) < 0 else 1
-        return {
-            "foreign_currency_id": currency.id,
-            "amount_currency": sign * original,
-        }
+            _logger.warning(
+                "Fio %s: movement %s is in %s but the journal is in %s. The "
+                "amount is imported as delivered; check it against the bank.",
+                self.display_name, transaction.get("movement_id"), currency,
+                journal_currency.name,
+            )
 
     # ------------------------------------------------------------------
     # importing
@@ -300,9 +254,6 @@ class AccountJournal(models.Model):
             (int(t["movement_id"]) for t in transactions if t.get("movement_id")),
             default=None,
         )
-        # ``fio_last_pull_at`` is deliberately NOT written here: this method
-        # returns early when nothing is new, which stamped a quiet-but-healthy
-        # feed as last pulled weeks ago. It is stamped in ``fio_pull`` instead.
         if highest and (
             not self.fio_last_movement_id or int(self.fio_last_movement_id) < highest
         ):
@@ -447,8 +398,8 @@ class AccountJournal(models.Model):
             )
         # Stamped for every completed pull, not only for one that imported
         # something. It used to be written inside ``_fio_import_lines``, which
-        # returns early when there is nothing new — so a journal that had
-        # simply been quiet showed a "last pull" weeks in the past, and an
+        # returns early when there is nothing new — so a journal whose account
+        # had simply been quiet showed a "last pull" weeks in the past, and an
         # operator asking "is this feed still alive?" got the wrong answer from
         # the one field that exists to tell them.
         self.sudo().fio_last_pull_at = fields.Datetime.now()
@@ -483,7 +434,7 @@ class AccountJournal(models.Model):
         journals = self.sudo().search([("bank_statements_source", "=", "fio")])
         for account in journals:
             # A SAVEPOINT rather than the whole transaction: a bare
-            # cr.rollback() discards every account already pulled in this run,
+            # cr.rollback() discards every journal already pulled in this run,
             # so one bank failing late would silently undo all the earlier
             # ones — and it is forbidden inside a test, which is how that was
             # found.
@@ -498,19 +449,15 @@ class AccountJournal(models.Model):
             #   at the moment the pull succeeded. ``__exit__`` passes
             #   ``rollback=exc_type is not None``, which is the intent.
             # * ``flush=False`` returns the plain ``Savepoint``, whose
-            #   ``rollback()`` does NOT ``cr.clear()``. The record's own
+            #   ``rollback()`` does NOT ``cr.clear()``. The journal's own
             #   ``write()`` calls were still sitting unflushed in the ORM cache
             #   at rollback time, so they SURVIVED it and were written
             #   afterwards. That is what made the failure invisible: the cron
-            #   left ``last_read_at``, ``last_pull_at`` and the correct
-            #   ``last_movement_id`` behind, and no lines — a run that looked
-            #   like a success in every field an operator would check. And a
-            #   genuinely failed pull advanced the bookmark past movements it
-            #   had discarded, so the next run skipped them for good.
-            #   ``_FlushingSavepoint`` clears the cache on rollback.
-            #
-            # Diagnosed on the 18.0 twin of this code, where a staging run
-            # imported 15 lines interactively and zero from the cron.
+            #   left ``fio_last_read_at``, ``fio_last_pull_at`` and the correct
+            #   ``fio_last_movement_id`` behind, and no lines — a run that
+            #   looked like a success in every field an operator would check.
+            #   ``_FlushingSavepoint`` clears the cache on rollback, so a
+            #   genuinely failed pull no longer advances the bookmark either.
             try:
                 with self.env.cr.savepoint():
                     account.with_context(scheduled=True).fio_pull()
@@ -521,7 +468,6 @@ class AccountJournal(models.Model):
                 # Posting happens AFTER the savepoint has been rolled back, so
                 # the explanation survives the rollback of the failure it
                 # explains.
-                #
                 # Masked: this handler catches ``Exception``, not just
                 # ``FioError``, so it can be handed a message the client never
                 # sanitised — and Fio carries the token in the URL path, which
@@ -568,17 +514,7 @@ class AccountJournal(models.Model):
                 "That range holds more than 50 000 movements, which Fio will "
                 "not serve at once. Pull it in shorter pieces."
             )
-        # The fallback is the only branch that returns the bank's own words, so
-        # it is the only one that could ever be carrying a token — the read
-        # endpoints put it in the URL PATH — and this string goes straight into
-        # a UserError in the manual pull wizard. FioClient masks what it raises,
-        # so this is the second layer rather than the only one; the branches
-        # above return our own text and need nothing.
-        #
-        # No ensure_one(): this runs inside an exception handler, where raising
-        # would replace a diagnosable failure with an opaque one. mask_token
-        # still strips token-shaped path segments without being told the token,
-        # so the multi-record case degrades to the generic mask rather than to
-        # a crash.
-        known = self.sudo().fio_token_read if len(self) == 1 else None
-        return mask_token(str(exception), known)
+        # Masked for the same reason as the upload sinks: the fallback exists
+        # to pass through anything the two branches above do not name, so it is
+        # exactly the path a future exception type would arrive on.
+        return mask_token(str(exception))

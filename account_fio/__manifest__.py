@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 {
     "name": "Fio banka — connection",
     "summary": "Fio banka API tokens per bank journal, with the mandatory "
@@ -53,7 +53,7 @@ week.
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Bank",
-    "version": "19.0.2.2.3",
+    "version": "18.0.2.7.0",
     "license": "AGPL-3",
     "depends": ["account", "account_fio_base"],
     "data": [

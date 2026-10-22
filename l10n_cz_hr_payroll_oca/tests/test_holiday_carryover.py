@@ -24,12 +24,13 @@ class TestCzHolidayCarryover(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.user.group_ids |= cls.env.ref(
+        cls.env.user.groups_id |= cls.env.ref(
             "hr_holidays.group_hr_holidays_manager")
         cls.company = cls.env["res.company"].create({
             "name": "CZ Carryover Co",
             "country_id": cls.env.ref("base.cz").id,
         })
+        cls.env.user.company_ids |= cls.company
         cls.env = cls.env(context=dict(
             cls.env.context, allowed_company_ids=cls.company.ids))
         cls.calendar = cls.env["resource.calendar"].create({
@@ -39,7 +40,7 @@ class TestCzHolidayCarryover(TransactionCase):
         cls.leave_type = cls.env["hr.leave.type"].create({
             "name": "Dovolená (test)",
             "time_type": "leave",
-            "requires_allocation": True,
+            "requires_allocation": "yes",
             "allocation_validation_type": "no_validation",
             "leave_validation_type": "no_validation",
             "request_unit": "day",
@@ -51,13 +52,20 @@ class TestCzHolidayCarryover(TransactionCase):
     def test_holiday_one_year_carryover_then_forfeit(self):
         """Year 1 = 2024; then five steady-state cycles (fixed dates)."""
         with freeze_time("2024-01-01"):
-            employee = self.env["hr.employee"].with_company(self.company).create({
+            employee = self.env["hr.employee"].create({
                 "name": "Dovolená Emp",
                 "company_id": self.company.id,
                 "resource_calendar_id": self.calendar.id,
-                "date_version": date(2024, 1, 1),
-                "contract_date_start": date(2024, 1, 1),
+            })
+            # Worked-time accrual reads the running contract's schedule.
+            self.env["hr.contract"].create({
+                "name": "Dovolená Emp Contract",
+                "employee_id": employee.id,
+                "company_id": self.company.id,
+                "state": "open",
+                "date_start": date(2024, 1, 1),
                 "wage": 40000,
+                "resource_calendar_id": self.calendar.id,
             })
             allocation = self.env["hr.leave.allocation"].create({
                 "name": "Dovolená accrual",

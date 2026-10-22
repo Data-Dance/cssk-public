@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 """The Fio connection: tokens on the bank journal, and the call throttle.
 
@@ -283,16 +283,7 @@ class AccountJournal(models.Model):
             # Exception, so letting it escape an RPC-facing button surfaces as
             # a bare "Internal server error" with the diagnosis stripped off —
             # which is the whole value of this button.
-            #
-            # Masked again, though FioClient already masked what it raised.
-            # The read endpoints put the token in the URL PATH, and this
-            # handler is the one most likely to be holding a bad-token failure
-            # built from that URL — so it is the right place not to depend on
-            # the client having got it right, nor on this ``except`` clause
-            # staying narrower than ``Exception``.
-            raise UserError(
-                fio_client.mask_token(str(exception), self.sudo().fio_token_read)
-            ) from None
+            raise UserError(fio_client.mask_token(str(exception))) from None
         self.sudo().write({
             "fio_account_number": info.account_id,
             "fio_bank_code": info.bank_id,

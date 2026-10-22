@@ -26,7 +26,7 @@ before this module was installed. See README.rst.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.0",
+    "version": "18.0.1.1.2",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": [

@@ -1,4 +1,3 @@
-from . import models
 from odoo.addons.sale_order_advance_invoice.tools import apply_advance_invoice_spec
 
 # Slovak chart wiring for the advance-invoice flow.

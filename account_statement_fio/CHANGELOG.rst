@@ -3,168 +3,128 @@ Changelog
 =========
 
 All notable changes to **account_statement_fio** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a Changelog.
 
 [Unreleased]
 ------------
 
-Carry-over to 18.0
-~~~~~~~~~~~~~~~~~~
-
-- **Currency mismatch refused + ``column_18`` foreign amount
-  (19.0.2.4.0, 2026-09-27).** 18.0 still logs a warning and imports a
-  wrong-currency movement as delivered. Port ``_fio_check_currency`` /
-  ``_fio_foreign_amount_vals`` and the four tests.
-
-[19.0.2.4.0] — 2026-09-27
--------------------------
-
-Fixed
-~~~~~
-
-- **A movement in another currency than the journal's is refused, not imported.**
-  Fio reports each movement in its account's currency and every currency is a
-  separate account with its own token, so a mismatch means the journal is set
-  up for the wrong currency — and the old behaviour, a log warning and an
-  import "as delivered", booked 100 EUR as 100 CZK. The pull now stops with an
-  error naming both currencies; the scheduled pull isolates each journal, so
-  only the misconfigured one stops.
-
-Added
-~~~~~
-
-- The original amount of a movement made in another currency (``column_18``,
-  *Upřesnění*, e.g. ``20.00 EUR`` for a card payment abroad) fills the line's
-  ``foreign_currency_id`` / ``amount_currency``. Read only in that exact shape
-  and for an active currency (a no-break space as thousands separator is
-  accepted); anything else stays in ``raw_data``. Not yet checked against a
-  live multi-currency account.
-
-[19.0.2.3.3] — 2026-09-17
--------------------------
-
-Fixed
-~~~~~
-
-- **An Administrator could not open it.** An accounting **Administrator**
-  could reach the Fio statement pull on a bank journal and hit *not allowed to
-  access*. On Community, ``account.group_account_manager`` does not imply
-  ``account.group_account_user`` (and on Enterprise ``account_accountant``
-  only adds ``group_account_basic``), so a model granted to
-  ``group_account_user`` alone is closed to an Administrator who lacks "Show
-  Full Accounting Features". The journal it is bound to is open to an
-  Administrator. ``group_account_manager`` now has the same access as
-  ``group_account_user`` on the pull wizard. Takes effect on module update.
-
-[19.0.2.3.0] — 2026-09-02
+[18.0.2.3.0] — 2026-09-01
 -------------------------
 
 Changed
 ~~~~~~~
 
 - **The bank-statement settings are the right-hand column of the Fio banka
-  section**, and switching the bank feed away from Fio hides them as one
-  block. Gating field by field left the column half present — some rows gone,
-  the heading and the stragglers still there — which reads as a rendering
-  fault rather than as a setting that no longer applies. The tokens in the left
-  column stay ungated on purpose: a Fio token is a credential for the account,
-  not for the statement feed, and a journal may be used for Fio payments while
-  its statements arrive some other way.
-
-Carried over from 18.0 (18.0.2.3.0).
-
-[19.0.2.3.2] — 2026-09-13
--------------------------
+  section**, beside the connection rather than stacked under it.
 
 Fixed
 ~~~~~
 
-- **Code translations that Odoo was never loading.** An entry whose references
-  are ``code:addons/...`` is treated as a Python translation only if it carries
-  the extracted comment ``#. odoo-python`` — ``_load_python_translations``
-  filters on exactly that and never on the reference. Without it an entry can
-  name the right ``.py``, carry a correct msgstr, pass ``msgfmt --check``, and
-  be silently ignored for ever. This module's hand-added entries were in that
-  state. Repaired by ``tools/fix_po_code_comments.py``, which is also the CI
-  check; the offline exporter now emits the comment itself.
+- **Switching the bank feed away from Fio now hides those settings as one
+  block.** Each field carried its own ``bank_statements_source`` condition, so
+  changing the radio emptied the rows but left the surrounding structure — a
+  section half there, which reads as a rendering fault rather than as settings
+  that no longer apply. The condition now sits once, on the group.
 
-[19.0.2.3.1] — 2026-09-13
+  The note explaining the absence moves out of that group to the full-width
+  area, since a message about why the column is gone cannot live inside it.
+  The **tokens stay ungated**: a Fio token is a credential for the account, not
+  for the statement feed, and a journal may be used for Fio payments while its
+  statements arrive some other way.
+
+[18.0.2.2.3] — 2026-09-01
 -------------------------
 
-Fixed
-~~~~~
-
-- **The model's own name was never exported.** ``_description`` is what
-  labels a record's type in breadcrumbs and the technical model list, and
-  ``tools/i18n_export_offline.py`` emitted no ``model:ir.model,name:`` line
-  at all — the entries already in the catalogues had come from an older
-  DATABASE export. So every model added since had no entry and its name
-  could not be translated. The exporter now emits it, and the missing
-  entries are merged and filled.
-
 Changed
 ~~~~~~~
 
-- Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
+- **``_fio_explain``'s fallback masks the exception text.** The two branches
+  above it name specific errors; the fallback exists to pass through whatever
+  they do not, which makes it precisely the path an unfamiliar exception type
+  would arrive on. It is reachable only from the pull wizard's
+  ``except FioError``, so nothing unmasked reaches it today — see the note in
+  ``account_fio`` 18.0.2.3.0 for why that is not a reason to leave it.
 
-Changed
-~~~~~~~
-
-- **``mask_token`` is applied at the sinks as well as at the raise site.**
-  Defence in depth on a credential, **not** the repair of a live disclosure —
-  an earlier draft of this entry claimed it was one and that was wrong.
-
-  ``FioClient`` already masks every exception it constructs from something that
-  saw a URL (``_check``, ``_get``, ``import_orders`` all pass through
-  ``self._mask``), and each of the six sinks catches ``FioError`` or narrower,
-  so they receive text the client has already cleaned. The single handler that
-  catches bare ``Exception`` is the scheduled pull — which is precisely the one
-  that already had ``mask_token``.
-
-  What the change buys is that the guarantee stops depending on every sink's
-  ``except`` clause staying narrow, which nothing enforces. Widen one to
-  ``Exception``, or have any library raise between ``_fio_lock()`` and the
-  client's own ``try``, and the protection disappears silently. Masking at both
-  ends removes that dependency. Covered on:
-  ``action_fio_test_connection``; the payment upload's three sinks
-  (``fio_response`` is **stored**, and the chatter is readable by every
-  follower); the upload's ``FioError`` re-raise; and ``_fio_explain``'s
-  fallback, the only branch that returns the bank's own words.
-
-  Correcting a second claim from that draft: the token is in the URL **path**
-  for the seven read endpoints (``periods``, ``by-id``, ``last``,
-  ``lastStatement``, ``set-last-id``, ``set-last-date``, ``merchant``), but
-  ``import_orders`` posts it in the request **body** and its URL contains no
-  token at all. So the *submit* token — the one that can move money — is the
-  one credential that never reaches a URL, and the upload sink is the least
-  exposed rather than the most.
-
-  The local ``FioOrderError`` paths in the two payment bridges are deliberately
-  left unmasked: they come from building and validating the file, never from
-  the HTTP client, so they cannot carry a URL.
-
-Carry-over to 18.0
+Carry-over to 19.0
 ~~~~~~~~~~~~~~~~~~
 
-- **DISCHARGED 2026-09-01 — do not port this again.** The note below was
-  accurate when written and is not any more. ``18.0-fio-api`` now carries the
-  whole of 19.0.1.1.0 (as ``[18.0.1.1.0]``, identical text) and everything
-  above it: ``d60cf46`` landed the five fixes that had been stranded in a
-  working tree, ``ec70ec8`` the ``fa-bolt`` icon and the ``FioError`` wrap.
-  The 18.0 branch is now *ahead* of this one, not behind — the journal
-  collapse, the ``bank_statements_source`` registration and the cs/sk
-  catalogues exist only there. The live debt runs 18.0 -> 19.0, and is
-  recorded in the 18.0 CHANGELOGs under "Carry-over to 19.0".
+- **``fio`` is not registered as a ``bank_statements_source`` on 19.0**
+  (18.0.2.1.0). That is the change making Fio and Odoo's Enterprise bank feed
+  mutually exclusive by construction; without it a 19.0 journal can carry both
+  and import every transaction twice, which is what a live pull did before it.
+  The name-mangled ``__get_bank_statements_available_sources`` override and its
+  "class name is load-bearing" comment port unchanged.
+- The collapse onto ``account.journal`` and the cs/sk catalogues are likewise
+  19.0 debt; see ``account_fio``.
+- The savepoint fix (18.0.2.2.1) is **already ported** — it is on branch
+  ``19.0-fio-savepoint-fix`` (1701f3b) awaiting a fast-forward onto
+  ``19.0-fio-api``, together with the ``mask_token`` fix and the
+  ``last_pull_at`` semantics.
 
-  Original note, kept for the record: everything under 19.0.1.1.0 plus the
-  unreleased entries landed on ``19.0-fio-api`` only; a customer runs the 18.0
-  copies vendored into its own repository, which already carried the
-  19.0.1.1.0 fixes while the ``18.0-fio-api`` branch did not.
+[18.0.2.2.2] — 2026-09-01
+-------------------------
 
-[19.0.2.2.0] — 2026-09-01
+Fixed
+~~~~~
+
+- **3 view terms were missing from the translation catalogues.** The offline
+  exporter read only the first child of a view's ``arch``, and an inherited
+  view normally has one top-level node per xpath — so every term after the
+  first was silently absent. Among them were the alert telling an operator that
+  the bank's answer to an upload was lost, and the 90-day history-unlock
+  instruction: precisely the messages whose whole value is being read under
+  time pressure. Fixed in ``tools/i18n_export_offline.py`` and re-exported.
+
+[18.0.2.2.1] — 2026-08-31
+-------------------------
+
+Fixed
+~~~~~
+
+- **The scheduled pull imported nothing, and said it had succeeded.** Found by
+  a live run on staging: the interactive *Pull now* imported 15 lines from the
+  same journals, minutes apart, while the cron imported zero — and posted no
+  failure, because as far as it was concerned there had not been one.
+
+  ``Savepoint.close()`` is declared ``close(self, *, rollback=True)``. The
+  success path called ``savepoint.close()`` bare, which reads exactly like
+  "release this savepoint" and in fact **rolls it back**. Every statement line
+  the pull had just created was discarded at the moment the pull succeeded.
+  (The rows really were written first: statement-line ids on staging jumped
+  5168 → 5172 with 5169–5171 unused, because a PostgreSQL sequence does not
+  roll back.)
+
+  What made it invisible was the second half. ``cr.savepoint(flush=False)``
+  returns the plain ``Savepoint``, whose ``rollback()`` does **not**
+  ``cr.clear()``. The journal's own ``write()`` calls were still unflushed in
+  the ORM cache when the rollback ran, so they *survived* it and were written
+  afterwards — leaving ``fio_last_read_at``, ``fio_last_pull_at`` and the
+  correct ``fio_last_movement_id`` on a journal with no lines. A run that was
+  successful in every field an operator would check, and empty in the only one
+  that mattered. Worse, it also meant a genuinely failed pull advanced the
+  bookmark past movements it had thrown away, so the next run skipped them.
+
+  The savepoint is now used as a **context manager** with the default
+  ``flush=True``: ``__exit__`` passes ``rollback=exc_type is not None``, which
+  is the intent, and ``_FlushingSavepoint`` flushes on release and clears the
+  cache on rollback. Two regression tests, both of which fail against the old
+  code: one asserts via ``search`` that the lines are still in the database
+  after the cron, and one asserts that a pull failing after it wrote its
+  bookmark does not keep it.
+
+  The bug came in with the recovered ``_cron_pull_statements`` savepoint and
+  was never exercised: every cron test asserted on call counts and the returned
+  recordset, and none asked whether anything had persisted.
+
+- **``fio_last_pull_at`` now means what it says.** It was written inside
+  ``_fio_import_lines``, which returns early when there is nothing new, so an
+  account that had simply been quiet showed a last pull weeks in the past —
+  indistinguishable from a feed that had stopped, which is the one question the
+  field exists to answer. It is stamped once per completed pull in
+  ``fio_pull()``; ``fio_last_movement_id`` stays where it was, since it really
+  is about what was imported.
+
+[18.0.2.2.0] — 2026-08-31
 -------------------------
 
 Added
@@ -191,7 +151,7 @@ Added
   back through Odoo's own ``PoFileReader`` — every entry resolves to a record
   reference, none is untranslated — and with ``msgfmt --check``.
 
-[19.0.2.1.0] — 2026-09-01
+[18.0.2.1.0] — 2026-08-31
 -------------------------
 
 Added
@@ -262,7 +222,7 @@ Removed
   pulling. ``l10n_be_codaclean`` keys its cron on the source alone for the same
   reason. To pause a journal, move its bank feed off Fio.
 
-[19.0.2.0.0] — 2026-09-01
+[18.0.2.0.0] — 2026-08-31
 -------------------------
 
 Changed
@@ -284,59 +244,7 @@ Changed
   This is the sharp edge of moving fields onto a core model, and it is covered
   by a test.
 
-[19.0.1.1.1] — 2026-09-01
--------------------------
-
-Fixed
-~~~~~
-
-- **The scheduled pull discarded everything it imported.** Diagnosed on the
-  18.0 twin of this code against a real Fio account: the interactive *Pull now*
-  imported 15 statement lines while the cron, minutes later on the same
-  accounts, imported zero — and reported no failure, because as far as it was
-  concerned there had not been one.
-
-  ``Savepoint.close()`` is declared ``close(self, *, rollback=True)``
-  (``odoo/sql_db.py``). The success path called ``savepoint.close()`` bare,
-  which reads exactly like "release this savepoint" and in fact **rolls it
-  back**. Every line the pull had just created was discarded at the moment the
-  pull succeeded. (The rows really were written first: statement-line ids
-  jumped 5168 → 5172 with 5169–5171 unused, because a PostgreSQL sequence does
-  not roll back.)
-
-  What made it invisible was the second half. ``cr.savepoint(flush=False)``
-  returns the plain ``Savepoint``, whose ``rollback()`` does **not**
-  ``cr.clear()``. The record's own ``write()`` calls were still unflushed in
-  the ORM cache when the rollback ran, so they *survived* it and were written
-  afterwards — leaving ``last_read_at``, ``last_pull_at`` and the correct
-  ``last_movement_id`` on an account with no lines. Worse, a genuinely failed
-  pull therefore advanced the bookmark past movements it had thrown away, so
-  the next run skipped them for good.
-
-  Now used as a **context manager** with the default ``flush=True``:
-  ``__exit__`` passes ``rollback=exc_type is not None``, which is the intent,
-  and ``_FlushingSavepoint`` flushes on release and clears the cache on
-  rollback. Four regression tests; the persistence ones assert with ``search``
-  rather than the returned recordset, since a rolled-back ``INSERT`` still
-  returns a perfectly good recordset — which is why every existing cron test
-  passed against the bug.
-
-- **The scheduled pull's failure message is masked before it reaches the
-  chatter.** That handler catches ``Exception``, not just ``FioError``, so it
-  can be handed a message the API client never sanitised — and Fio carries the
-  token **in the URL path**, which is precisely what a stray ``requests``
-  message quotes. Every follower of the account can read that chatter. Now run
-  through ``mask_token``, with a regression test.
-
-- **``last_pull_at`` now means what it says.** It was written inside
-  ``_fio_import_lines``, which returns early when there is nothing new, so an
-  account that had simply been quiet showed a last pull weeks in the past —
-  indistinguishable from a feed that had stopped, which is the one question the
-  field exists to answer. It is stamped once per completed pull in
-  ``fio_pull()``; ``last_movement_id`` stays where it was, since it really is
-  about what was imported.
-
-[19.0.1.1.0] — 2026-08-24
+[18.0.1.1.0] — 2026-08-25
 -------------------------
 
 Fixed
@@ -349,7 +257,7 @@ Fixed
   is also forbidden inside a test, which is how it surfaced.
 
 
-[19.0.1.0.0] — 2026-08-19
+[18.0.1.0.0] — 2026-08-19
 -------------------------
 
 Added

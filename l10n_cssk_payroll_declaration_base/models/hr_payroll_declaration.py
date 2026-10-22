@@ -43,8 +43,6 @@ from datetime import date, datetime
 
 from lxml import etree
 
-from markupsafe import Markup
-
 from odoo import Command, _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools import file_path
@@ -128,9 +126,11 @@ class CSSKPayrollEmployeeDeclaration(models.Model):
         [("draft", "Draft"), ("generated", "Generated")],
         default="draft")
 
-    _unique_employee_sheet = models.Constraint(
-        "unique(employee_id, res_model, res_id)",
-        "An employee can only have one declaration per sheet.")
+    _sql_constraints = [
+        ("unique_employee_sheet",
+         "unique(employee_id, res_model, res_id)",
+         "An employee can only have one declaration per sheet."),
+    ]
 
     def total(self, code):
         """Per-employee total for ``code`` (0.0 if absent)."""
@@ -139,19 +139,18 @@ class CSSKPayrollEmployeeDeclaration(models.Model):
 
 
 # Every Czech and Slovak payroll authority accepts amendments to a filing it
-# has already received, and every one of them spells it differently — riadny /
-# řádný, opravný, dodatočný / dodatečný, storno. The CONCEPTS are the same four
-# everywhere, so they are named once here and the wire spelling is left to each
-# form's template.
+# has already received, and every one spells it differently — riadny / řádný,
+# opravný, dodatočný / dodatečný, storno. The CONCEPTS are the same four
+# everywhere, so they are named once here and the wire spelling is left to
+# each form's template.
 #
 #   regular       the ordinary filing for the period
-#   corrective    REPLACES a filing already sent (the authority keeps the last)
+#   corrective    REPLACES a filing already sent
 #   supplementary ADDS to it, leaving the original standing
 #   cancellation  withdraws a filing that should never have been sent
 #
 # Not every authority accepts all four. A form declares what it supports in
-# ``_supported_correction_types`` and the selection narrows to that, so a user
-# cannot pick a type the receiving system will reject.
+# ``_supported_correction_types`` and the selection narrows to that.
 CORRECTION_TYPES = [
     ("regular", "Regular"),
     ("corrective", "Corrective"),
@@ -159,7 +158,6 @@ CORRECTION_TYPES = [
     ("cancellation", "Cancellation"),
 ]
 
-# Anything other than a plain regular filing amends something already sent.
 AMENDING_CORRECTION_TYPES = ("corrective", "supplementary", "cancellation")
 
 
@@ -175,12 +173,6 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
 
     _name = "cssk.payroll.declaration.mixin"
     _description = "Payroll Declaration Mixin"
-    # Delivery tracking for every payroll declaration at once: thirteen concrete
-    # reports inherit this mixin, so wiring it here rather than module by module
-    # is both less work and impossible to do inconsistently. Retention already
-    # lives below (submitted_attachment_id / filed_history_ids); this adds the
-    # other half — whether it arrived, and what the authority sent back.
-    _inherit = ["cssk.submittable.mixin"]
 
     # Overridden by concrete reports.
     _report_code = False
@@ -226,10 +218,6 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         default="draft", tracking=True)
     xml_attachment_id = fields.Many2one("ir.attachment", readonly=True)
 
-    def _submission_ready_states(self):
-        """`generated` is this vocabulary's `exported` — the XML exists."""
-        return ("generated", "submitted")
-
     # --- Corrections ---------------------------------------------------
     correction_type = fields.Selection(
         selection="_selection_correction_type",
@@ -268,21 +256,14 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                 restriction))
         return super().default_get(fields_list)
 
-    def _country_restriction(self):
-        return self._country_code
-
-    # ------------------------------------------------------------------
-    # Corrections
-    # ------------------------------------------------------------------
     # Widened per form. Defaulting to regular-only is deliberate: a form that
-    # has not been checked against its authority's rules offers nothing, rather
-    # than offering an amendment the receiving system will bounce.
+    # has not been checked against its authority's rules offers nothing,
+    # rather than an amendment the receiving system will bounce.
     _supported_correction_types = ("regular",)
 
     def _selection_correction_type(self):
         supported = self._supported_correction_types
-        return [(key, label) for key, label in CORRECTION_TYPES
-                if key in supported]
+        return [(k, v) for k, v in CORRECTION_TYPES if k in supported]
 
     @api.depends("correction_type")
     def _compute_is_correction(self):
@@ -312,17 +293,14 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                     "authority accepts: %(supported)s.",
                     report=(rec._report_code or rec._name).upper(),
                     kind=rec.correction_type,
-                    supported=", ".join(supported),
-                ))
+                    supported=", ".join(supported)))
 
     def _check_amends_something(self):
         """Refuse to generate an amendment with nothing to amend.
 
         Sending an opravný for a period never filed is a rejection at best and
         a duplicate at worst, and it is an easy mistake: the form looks exactly
-        like the regular one. Called from the generate preflight rather than as
-        a constraint, so the record can be prepared while the original is still
-        being finished.
+        like the regular one.
         """
         for rec in self:
             if not rec.is_correction:
@@ -333,8 +311,10 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                     "to amend. File the regular declaration first, or set this "
                     "one back to Regular.",
                     report=(rec._report_code or rec._name).upper(),
-                    month=rec.month, year=rec.year,
-                ))
+                    month=rec.month, year=rec.year))
+
+    def _country_restriction(self):
+        return self._country_code
 
     @api.model
     def _default_version_id(self):
@@ -626,12 +606,9 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
             rec.filed_history_ids = [Command.link(rec.xml_attachment_id.id)]
             rec.submitted_date = fields.Datetime.now()
             rec.state = "submitted"
-            # Markup on the TEMPLATE and ``%`` for the value: a plain str
-            # posts the tags as visible text, and Markup(_(..., arg)) would
-            # render whatever the attachment name contains.
-            rec.message_post(body=Markup(
-                _("Marked <b>submitted</b>. Filed copy: %s")
-            ) % (rec.submitted_attachment_id.name or "—"))
+            rec.message_post(body=_(
+                "Marked <b>submitted</b>. Filed copy: %s",
+                rec.submitted_attachment_id.name or "—"))
         return True
 
     def action_reset_to_draft(self):

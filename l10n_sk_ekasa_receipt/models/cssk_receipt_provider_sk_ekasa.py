@@ -9,9 +9,13 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_cssk_receipt_capture.tools.amounts import flatten_label
+from odoo.addons.l10n_cssk_receipt_capture.tools.errors import (
+    CaptureFailed, ProviderUnavailable,
+)
 
 from ..tools.ekasa import (
     BROWSER_HEADERS, ENDPOINT, EkasaQrError, map_receipt, parse_qr,
+    payloads_from_printed,
 )
 
 _logger = logging.getLogger(__name__)
@@ -41,6 +45,29 @@ class CSSKReceiptProviderSkEkasa(models.AbstractModel):
         return True
 
     @api.model
+    def _accepts_qr(self, payload):
+        try:
+            parse_qr(payload)
+        except EkasaQrError:
+            return False
+        return True
+
+    @api.model
+    def _qr_from_printed(self, identifiers):
+        return payloads_from_printed(identifiers)
+
+    @api.model
+    def _scan_hint(self):
+        return _("On a Slovak receipt, scan the code printed directly above "
+                 "\u201cOVERTE DOKLAD POMOCOU QR K\u00d3DU\u201d.")
+
+    @api.model
+    def _issue_timezone(self, receipt):
+        # eKasa is Slovak: the time on the receipt is Bratislava time whoever
+        # captures it and wherever their browser is.
+        return "Europe/Bratislava"
+
+    @api.model
     def _capture(self, receipt):
         company = receipt.company_id
         company._l10n_sk_ekasa_check_ready()
@@ -59,7 +86,11 @@ class CSSKReceiptProviderSkEkasa(models.AbstractModel):
         self.env["sk.ekasa.call"].create(call_vals)
 
         if call_vals["outcome"] != "found":
-            raise UserError(call_vals["message"])
+            # A network failure is worth repeating; an unregistered receipt or
+            # a refusal is not — the same request gets the same answer.
+            raise CaptureFailed(
+                call_vals["message"],
+                transient=call_vals["outcome"] == "transport")
 
         mapped = map_receipt(payload, flatten=flatten_label)
         if not mapped:

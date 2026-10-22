@@ -1,43 +1,46 @@
-============================
-QR Platba (Czech Republic)
-============================
+================================
+Account QR Code QR Platba CZ
+================================
 
-Adds the Czech **QR Platba** payment QR code to Odoo invoices. QR Platba is the
-Czech Banking Association short-payment-descriptor (SPD) standard supported by
-every Czech banking app: the customer scans the code on the invoice and the
-payment form is pre-filled (IBAN, amount, currency, message and the variable
-symbol).
+.. raw:: html
 
-The code is generated **offline** — it builds the SPD string
-(``SPD*1.0*ACC:...*AM:...*CC:...``) directly from the invoice data and renders
-it as a QR code, with **no external service**. It registers as an extra
-payment-QR method on ``res.partner.bank`` and reuses Odoo's standard
-QR-code-on-invoice plumbing, so it works on both Community and Enterprise.
+   <img src="static/description/icon.png" style="display: block; margin-left: auto; margin-right: auto; width:200px; height:200px;"  alt="logo">
 
-Features
-========
 
-* New **QR Platba (Czech Republic)** payment-QR method on every bank account.
-* Pure-offline SPD generator per the CBA *QR Platba* standard 1.2 — no network
-  dependency.
-* Encodes IBAN, amount, currency, message and the variable-symbol reference
-  (digits-only ``RF`` field) from the invoice.
-* Branded QR frame on the printed invoice.
-* Eligibility checks: CZK currency or a Czech debtor, IBAN account in a SEPA
-  country, and a beneficiary name present.
+.. |badge1| image:: https://raster.shields.io/badge/license-Other_proprietary-blue.png
+    :alt: License: Other proprietary
+
+|badge1| 
+
+
+| The module adds Czech Republic Credit Transfer QR-code to reports.
+| It is an offline generator and does not depend on external services.
+
+**Table of contents**
+
+.. contents::
+   :local:
+
 
 Usage
 =====
 
-#. Go to *Settings ▸ Invoicing ▸ Customer Payments* and enable **QR Codes**.
-#. On a customer invoice, open *Other Info ▸ Payment QR-code* and pick
-   **QR Platba (Czech Republic)**.
-#. The QR code is rendered on the invoice PDF; the customer scans it in their
-   banking app to pay.
 
-Credits
+#. Go to *Settings > Invoicing > Customer Payments*
+#. Enable QR codes
+#. Go to any invoice *Other info > Payment QR-code > QR Platba (Czech Republic)*
+
+
+.. image:: static/description/usage.jpeg
+   :alt: Usage image
+
+   
+
+Author
+======
+
+* Data Dance s.r.o.
+
+Contact
 =======
-
-* Data Dance s.r.o. <https://www.datadance.eu>
-
-License: AGPL-3.0 or later (see the LICENSE file).
+https://www.datadance.eu/

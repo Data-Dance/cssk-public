@@ -2,7 +2,7 @@
 Leave Expiry Reminder (CZ/SK)
 ==========================
 
-.. |badge1| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+.. |badge1| image:: https://img.shields.io/badge/licence-Other%20proprietary-blue.png
     :alt: License: Other proprietary
 
 |badge1|
@@ -26,10 +26,7 @@ Features
 
 * A daily scheduled action scans approved/confirmed allocations whose
   carried-over days expire within a configurable lead window and that still
-  have days at risk. The figure reported is net of time off already taken
-  against the allocation — core only performs that netting on the expiration
-  date itself, so the stored ``expiring_carryover_days`` overstates it until
-  then.
+  have days at risk.
 * For each, it schedules a dedicated **Expiring Leave** activity on the
   employee record, due on the expiration date, assigned to the employee's
   user (or the time-off approver / manager as a fallback).

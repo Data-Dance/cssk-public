@@ -3,10 +3,42 @@ Changelog
 =========
 
 All notable changes to **l10n_cssk_kv_kh_base** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 2.2.1 by one port rather than by
+those releases, and the entries are what the port brought over.
 
 [Unreleased]
 ------------
+
+[18.0.2.2.1] — 2026-10-19
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Brought the module to 19.0's 2.2.1 in one step, from 18.0.1.2.3.** The 18.0
+  copy carried no adaptation beyond its version and its licence header, so the
+  19.0 files were taken whole. One 19.0-only API was in them —
+  ``res.users.group_ids`` in the suite, which is ``groups_id`` on this series.
+
+  What it unblocks: ``account.move.line._cssk_recompute_section_codes`` and
+  ``_cssk_recompute_cash_basis_section_codes``, which ``l10n_cz_vat_status``
+  calls (28 of its tests errored without them) and which ``l10n_sk_kv_dph``'s
+  migrations need; and ``res.company._cssk_flag_reverse_charge_taxes``.
+
+- **Dependency added: ``l10n_cssk_submission_base``**, and
+  ``views/account_move_views.xml`` to the data list, both as on 19.0.
+
+- **Submission types no longer hang off a form version.** The three migrations
+  this port brings fill ``country_id`` on every existing type before the column
+  turns NOT NULL (``18.0.2.0.0``, PRE) and then drop the old axis
+  (``18.0.2.0.1``). Each country module collapses its own duplicates in its own
+  PRE-migration — which is why ``l10n_cz_kh`` and ``l10n_sk_kv_dph`` had to be
+  ported in the same commit: on this branch ``l10n_cz_kh``'s data file still set
+  ``version_id``, and a FRESH install of it against the new base failed with
+  ``Invalid field 'version_id' on model 'cssk.control.statement.type'``. An
+  upgrade would not have shown it; only a clean install did.
 
 [19.0.2.2.1] — 2026-10-04
 -------------------------

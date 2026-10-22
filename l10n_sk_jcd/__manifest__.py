@@ -62,10 +62,17 @@ Honesty flags
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.4",
+    "version": "18.0.1.0.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
-    "depends": ["l10n_sk", "stock_landed_costs", "purchase_stock"],
+    # 18.0: the vs_cust_* / vs_imp_post_* import taxes and the DPH tag set are
+    # not in Odoo 18's l10n_sk — they are back-ported by this module, which
+    # already ships all 43 taxes, so nothing needs creating here.
+    "depends": [
+        "l10n_sk_tax_report_backport",
+        "stock_landed_costs",
+        "purchase_stock",
+    ],
     "data": [
         "security/ir.model.access.csv",
         "data/ir_sequence.xml",

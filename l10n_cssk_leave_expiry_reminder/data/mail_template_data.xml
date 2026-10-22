@@ -15,8 +15,8 @@
         Hello <t t-out="object.employee_id.name or ''">Employee</t>,
         <br/><br/>
         You have
-        <span style="font-weight: bold;" t-out="object._l10n_cssk_expiry_amount_and_unit()[0]">5</span>
-        <t t-out="object._l10n_cssk_expiry_amount_and_unit()[1]">day(s)</t> of
+        <span style="font-weight: bold;" t-out="'%g' % object.expiring_carryover_days">5</span>
+        day(s) of
         <span style="font-weight: bold;" t-out="object.holiday_status_id.display_name or ''">Annual Leave</span>
         that will expire on
         <span style="font-weight: bold;" t-out="format_date(object.carried_over_days_expiration_date) or ''">12/31/2026</span>.

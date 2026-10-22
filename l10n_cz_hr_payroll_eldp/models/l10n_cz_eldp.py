@@ -101,15 +101,15 @@ class L10nCzEldp(models.Model):
         """Calendar days of pension insurance in the year = employment period
         intersected with [y_start, y_end]. Approximates a single continuous
         engagement from the employee's current version contract dates."""
-        version = employee.version_id
-        start = version.contract_date_start or y_start
-        end = version.contract_date_end or y_end
+        version = employee.contract_id
+        start = version.date_start or y_start
+        end = version.date_end or y_end
         lo = max(start, y_start)
         hi = min(end, y_end)
         return ((hi - lo).days + 1) if hi >= lo else 0
 
     def _employee_typ(self, employee, y_start, y_end):
-        end = employee.version_id.contract_date_end
+        end = employee.contract_id.date_end
         if end and y_start <= end <= y_end:
             return TYP_ENDED
         return TYP_ONGOING
@@ -165,10 +165,10 @@ class L10nCzEldp(models.Model):
             first = first or "-"
             days = self._employee_insured_days(emp, y_start, y_end)
             inc = int(round(abs(line.vz_base)))
-            version = emp.version_id
-            fro = (version.contract_date_start or y_start)
+            version = emp.contract_id
+            fro = (version.date_start or y_start)
             fro = max(fro, y_start)
-            end = version.contract_date_end
+            end = version.date_end
             to = min(end, y_end) if end else y_end
             out.append({
                 "sqnr": sqnr,

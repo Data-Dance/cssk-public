@@ -95,16 +95,19 @@
         <field name="active" eval="False"/>
         <field name="accrued_gain_time">start</field>
         <field name="is_based_on_worked_time" eval="False"/>
-        <field name="can_be_carryover" eval="True"/>
         <field name="carryover_date">year_start</field>
     </record>
     <record id="accrual_plan_cz_holiday_4w_yearstart_level" model="hr.leave.accrual.level">
+        <!-- start_count defaults to 1 DAY on 18.0 (0 on 19.0): the level would
+             start the day after the allocation, prorating the first period to
+             364/365 and granting 6.98 days where the statute says 7. Pinned. -->
+        <field name="start_count">0</field>
         <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_4w_yearstart"/>
         <!-- whole year granted in one milestone: 40 h × 4 týdny = 160 h -->
         <field name="added_value">160</field>
         <field name="added_value_type">hour</field>
         <field name="frequency">yearly</field>
-        <field name="yearly_month">1</field>
+        <field name="yearly_month">jan</field>
         <field name="yearly_day">1</field>
         <field name="cap_accrued_time" eval="False"/>
         <field name="action_with_unused_accruals">all</field>
@@ -121,16 +124,19 @@
         <field name="active" eval="False"/>
         <field name="accrued_gain_time">start</field>
         <field name="is_based_on_worked_time" eval="False"/>
-        <field name="can_be_carryover" eval="True"/>
         <field name="carryover_date">year_start</field>
     </record>
     <record id="accrual_plan_cz_holiday_5w_yearstart_level" model="hr.leave.accrual.level">
+        <!-- start_count defaults to 1 DAY on 18.0 (0 on 19.0): the level would
+             start the day after the allocation, prorating the first period to
+             364/365 and granting 6.98 days where the statute says 7. Pinned. -->
+        <field name="start_count">0</field>
         <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_5w_yearstart"/>
         <!-- whole year granted in one milestone: 40 h × 5 týdnů = 200 h -->
         <field name="added_value">200</field>
         <field name="added_value_type">hour</field>
         <field name="frequency">yearly</field>
-        <field name="yearly_month">1</field>
+        <field name="yearly_month">jan</field>
         <field name="yearly_day">1</field>
         <field name="cap_accrued_time" eval="False"/>
         <field name="action_with_unused_accruals">all</field>
@@ -144,21 +150,11 @@
 
     <!-- ===== B) OČR statutory day-limit leave types (ACTIVE) =====
          Same payroll code CZOCR as leave_type_cz_ocr, so recorded absence still
-         flows into the OČR salary rule. requires_allocation lets a company
-         enforce the cap by allocating the statutory number of days.
-
-         DELIBERATELY NO ACCRUAL PLAN. Both OČR limits are a podpůrčí doba PER
-         CASE, not per calendar year: 9 (16) kalendářních dnů per krátkodobé
-         case (§ 39) and 90 dnů per dlouhodobé case (§ 41a), with a fresh
-         entitlement for the same person after 12 months. An employee may
-         legitimately have several cases in one year, so a yearly accrual would
-         cap the second case at zero. The correct modelling is ONE ALLOCATION
-         PER CASE, its date_from/date_to bounding that case — which is exactly
-         what requires_allocation buys here. Contrast section C1, where the
-         limit really is annual and an accrual plan is right. -->
+         flows into the OČR salary rule. requires_allocation='yes' lets a company
+         enforce the cap by allocating the statutory number of days. -->
     <record id="leave_type_cz_ocr_shortterm" model="hr.leave.type">
         <field name="name">Short-term family care (OČR) — limit 9 days (16 for a lone parent)</field>
-        <field name="requires_allocation" eval="True"/>
+        <field name="requires_allocation">yes</field>
         <field name="leave_validation_type">no_validation</field>
         <field name="request_unit">day</field>
         <field name="time_type">leave</field>
@@ -168,7 +164,7 @@
     </record>
     <record id="leave_type_cz_ocr_longterm" model="hr.leave.type">
         <field name="name">Long-term family care — limit 90 days</field>
-        <field name="requires_allocation" eval="True"/>
+        <field name="requires_allocation">yes</field>
         <field name="leave_validation_type">no_validation</field>
         <field name="request_unit">day</field>
         <field name="time_type">leave</field>
@@ -177,24 +173,19 @@
         <field name="company_id" eval="False"/>
     </record>
 
-    <!-- ===== C) Paid-obstacle statutory day-limit leave types (ACTIVE) =====
-         Same payroll code CZOBSTACLE. Per-reason limits documented in the header.
-
-         Only ONE paid CZ obstacle carries a genuine per-CALENDAR-YEAR budget —
-         the 6 pracovních dnů for transporting a disabled child (C1), which
-         therefore gets an accrual plan. Everything else in NV 590/2006 is
-         PER EVENT (doprovod max 1 den per trip, svatba, úmrtí, narození), so a
-         yearly accrual would be wrong: it would let a first doprovod exhaust
-         the whole year. Those stay allocation-per-event (C2) or, for the
-         "nezbytně nutná doba" reasons with no number at all, go on the generic
-         leave_type_cz_obstacle, which needs no allocation. -->
+    <!-- ===== C) Paid-obstacle statutory day-limit leave type (ACTIVE) =====
+         Doprovod k lékaři is the most common fixed cap (max 1 den, paid). Same
+         payroll code CZOBSTACLE. Per-reason limits are documented in the header. -->
 
     <!-- C1) Doprovod zdravotně postiženého dítěte do zařízení: 6 pracovních
          dnů/ROK, paid — the CZ counterpart of the SK §141 ZŤP allowance and the
-         only paid obstacle with an annual budget, so the only one that accrues. -->
+         only paid obstacle with an annual budget, so the only one that accrues.
+         (Present on 19.0 since the § 141 split; it was missed when this module
+         was first ported here.) -->
     <record id="leave_type_cz_obstacle_transport_disabled" model="hr.leave.type">
         <field name="name">Transport of a Disabled Child to a Facility — 6 days/year (paid)</field>
-        <field name="requires_allocation" eval="True"/>
+        <!-- Selection on 18.0, Boolean on 19.0. -->
+        <field name="requires_allocation">yes</field>
         <field name="leave_validation_type">no_validation</field>
         <field name="request_unit">day</field>
         <field name="time_type">leave</field>
@@ -207,9 +198,14 @@
         <field name="time_off_type_id" ref="leave_type_cz_obstacle_transport_disabled"/>
         <field name="accrued_gain_time">start</field>
         <field name="carryover_date">year_start</field>
-        <field name="can_be_carryover" eval="False"/>
+        <!-- 19.0 says can_be_carryover=False on the plan; 18.0 has no such
+             field and the level's action_with_unused_accruals says it. -->
     </record>
     <record id="accrual_level_cz_obstacle_transport_disabled_6d" model="hr.leave.accrual.level">
+        <!-- start_count defaults to 1 DAY on 18.0 (0 on 19.0): the level would
+             start the day after the allocation, prorating the first period to
+             364/365 and granting 5.98 days where the statute says 6. Pinned. -->
+        <field name="start_count">0</field>
         <field name="accrual_plan_id" ref="accrual_plan_cz_obstacle_transport_disabled_6d"/>
         <field name="added_value">6</field>
         <field name="added_value_type">day</field>
@@ -219,13 +215,9 @@
         <field name="maximum_leave_yearly">6</field>
         <field name="action_with_unused_accruals">lost</field>
     </record>
-
-    <!-- C2) Doprovod rodinného příslušníka k lékaři: max 1 den PER TRIP, paid.
-         No accrual plan on purpose — the cap is per event, so the company
-         allocates one day per occurrence. -->
     <record id="leave_type_cz_obstacle_doprovod" model="hr.leave.type">
         <field name="name">Escort to a doctor — max 1 day (paid)</field>
-        <field name="requires_allocation" eval="True"/>
+        <field name="requires_allocation">yes</field>
         <field name="leave_validation_type">no_validation</field>
         <field name="request_unit">day</field>
         <field name="time_type">leave</field>

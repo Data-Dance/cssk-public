@@ -1,8 +1,5 @@
 from odoo import _, api, fields, models
-from odoo.tools.translate import LazyTranslate
 from odoo.exceptions import UserError
-
-_lt = LazyTranslate(__name__)
 
 
 class CSSKEcSummaryStatement(models.Model):
@@ -13,13 +10,8 @@ class CSSKEcSummaryStatement(models.Model):
 
     _name = "cssk.ec.summary.statement"
     _description = "EC Sales List"
-    # Two mixins, two concerns, both wanted: the statutory one retains the
-    # filed copy, the submittable one tracks whether it arrived and holds what
-    # came back. Neither substitutes for the other — a daňová kontrola asks for
-    # the doručenka, which only the second can produce.
     _inherit = ["mail.thread", "mail.activity.mixin",
-                "cssk.statutory.submission.mixin",
-                "cssk.submittable.mixin"]
+                "cssk.statutory.submission.mixin"]
     _order = "date_from desc, id desc"
 
     name = fields.Char(compute="_compute_name")
@@ -37,12 +29,6 @@ class CSSKEcSummaryStatement(models.Model):
         domain="[('country_id', '=', country_id),"
         " ('valid_from', '<=', date_to),"
         " '|', ('valid_to', '=', False), ('valid_to', '>=', date_from)]",
-        # The dropdown must offer an ARCHIVED vintage too. The domain
-        # above already scopes by period, so a 2026 filing never sees
-        # the 2014 vzor anyway — archiving is a way of tidying the
-        # configuration list, and it must not quietly make an old
-        # period unenterable or a historical filing un-repointable.
-        context={'active_test': False},
     )
 
     date_from = fields.Date(required=True)
@@ -67,14 +53,6 @@ class CSSKEcSummaryStatement(models.Model):
             ("exported", "Exported"),
             ("submitted", "Submitted"),
             ("cancelled", "Cancelled"),
-            # Terminal, and off the workflow rather than at the end of it. A
-            # historical filing was completed and submitted years ago by
-            # whoever ran the previous system; it is a RECORD of a filing, not
-            # a filing in progress, so no transition leads into or out of it.
-            # Set automatically whenever ``legacy`` is set — see
-            # ``cssk.statutory.submission.mixin``, which owns that rule so the
-            # importer cannot set one without the other.
-            ("legacy", "Historical filing"),
         ],
         default="draft",
         tracking=True,
@@ -99,7 +77,6 @@ class CSSKEcSummaryStatement(models.Model):
     # Compute
     # ------------------------------------------------------------------
     def action_compute_lines(self):
-        self._cssk_check_not_legacy(_("recomputed"))
         self.ensure_one()
         if self.state not in ("draft", "preview"):
             raise UserError(_("Only draft statements can be recomputed."))
@@ -152,8 +129,8 @@ class CSSKEcSummaryStatement(models.Model):
             [
                 ("parent_state", "=", "posted"),
                 ("company_id", "=", self.company_id.id),
-                ("move_id", "in", self._cssk_period_move_ids(
-                    self.company_id, self.date_from, self.date_to)),
+                ("date", ">=", self.date_from),
+                ("date", "<=", self.date_to),
                 ("tax_ids.cssk_ec_summary_code", "!=", False),
             ]
         )
@@ -197,13 +174,7 @@ class CSSKEcSummaryStatement(models.Model):
     # its content checks BEFORE rendering — that order is now the shared
     # standard).
     # ------------------------------------------------------------------
-        #: LAZY, not a plain string. This names the form in error messages and
-    #: on the comparison screen, and as a bare literal it was in no .pot at
-    #: all — untranslatable in every language, not merely untranslated.
-    #: ``_lt`` defers the lookup to render time, which is what lets a
-    #: module-level constant be translated at all; render it with
-    #: ``self.env._(...)`` so it picks up the READER's language.
-    _cssk_form_label = _lt("EC sales list")
+    _cssk_form_label = "EC sales list"
     _cssk_xml_name_fallback = "ec_sales_list"
 
     def _cssk_check_kontroly(self):
@@ -277,29 +248,6 @@ class CSSKEcSummaryStatement(models.Model):
                 )
                 % "\n".join(invalid)
             )
-
-
-    def _cssk_comparable_rows(self):
-        """Per-COUNTERPARTY comparison.
-
-        A súhrnný výkaz reports one line per (country, IČ DPH, kód) and the
-        figure is that counterparty's total for the period, so "the same row"
-        is the counterparty — which is also the key the recompute re-applies
-        an override to, and the key VIES checks against. Same key, one notion.
-
-        ``supplies_count`` is deliberately NOT compared: how many documents
-        make up a counterparty's total is our bookkeeping, not something a
-        filed výkaz states, and a filing staged without it would show every
-        row as differing.
-        """
-        self.ensure_one()
-        return {
-            (_("Line"), (line.partner_country_code or "",
-                         line.partner_vat or "",
-                         line.transaction_code or "")): (
-                round(line.total_amount, 2),)
-            for line in self.line_ids
-        }
 
 
 class CSSKEcSummaryStatementLine(models.Model):

@@ -33,16 +33,26 @@ class TestHoz(TransactionCase):
         cls.env.user.company_ids |= cls.company
         cls.env = cls.env(context=dict(
             cls.env.context, allowed_company_ids=cls.company.ids))
+        cls.calendar = cls.env["resource.calendar"].create(
+            {"name": "CZ 40h", "company_id": cls.company.id})
         cls.employee = cls.env["hr.employee"].with_company(cls.company).create({
             "name": "Jan Pokusny",
             "company_id": cls.company.id,
+            "resource_calendar_id": cls.calendar.id,
             "identification_id": "8001011117",  # rodné číslo
             "private_street": "Krátká 3",
             "private_city": "Brno",
             "private_zip": "60200",
             "private_country_id": cls.env.ref("base.cz").id,
-            "date_version": date(2026, 5, 4),
-            "contract_date_start": date(2026, 5, 4),
+        })
+        cls.contract = cls.env["hr.contract"].with_company(cls.company).create({
+            "name": "Jan Contract",
+            "employee_id": cls.employee.id,
+            "company_id": cls.company.id,
+            "wage": 50000.0,
+            "state": "open",
+            "date_start": date(2026, 5, 4),
+            "resource_calendar_id": cls.calendar.id,
         })
 
     def _validate(self, decl):
@@ -77,7 +87,7 @@ class TestHoz(TransactionCase):
         self.assertEqual(changes[0].find("h:jmeno", NS).text, "Jan")
 
     def test_terminate(self):
-        self.employee.version_id.write({"contract_date_end": date(2026, 6, 30)})
+        self.employee.contract_id.write({"date_end": date(2026, 6, 30)})
         decl = self.env["l10n.cz.hoz"].with_company(self.company).create({
             "company_id": self.company.id,
             "insurer_code": "111",

@@ -3,7 +3,6 @@ import hashlib
 import json
 import logging
 import time
-from decimal import ROUND_FLOOR, ROUND_HALF_UP, Decimal
 
 from odoo import _, models
 from odoo.exceptions import UserError
@@ -11,44 +10,10 @@ from odoo.exceptions import UserError
 _logger = logging.getLogger(__name__)
 
 REQUEST_TIMEOUT = 30
-VRP2_APP_VERSION = "3.1.9"
+VRP2_APP_VERSION = "3.1.3"
 
 VRP2_BASE_URL = "https://vcrp.financnasprava.sk/crp/api"
 VRP2_BASE_URL_MRP = "https://mcrp.financnasprava.sk/crp/api"
-
-
-def vrp2_round2(amount):
-    """Round half up to 2 decimals, like the web app's ``zaokruhli2``."""
-    return float(
-        Decimal(str(amount)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
-    )
-
-
-def vrp2_round4(amount):
-    """Round half up to 4 decimals, like the web app's ``zaokruhli4``."""
-    return float(
-        Decimal(str(amount)).quantize(Decimal("0.0001"), rounding=ROUND_HALF_UP)
-    )
-
-
-def vrp2_round5(amount):
-    """Round a CASH amount to 0.05 €, like the web app's ``zaokruhli5``.
-
-    Faithful to app.js, including its edge case: a non-zero amount smaller
-    than 5 cents rounds AWAY from zero to ±0.05 instead of to 0.
-    """
-    if not amount:
-        return 0.0
-    if 0 < amount < 0.05:
-        return 0.05
-    if -0.05 < amount < 0:
-        return -0.05
-    # Math.round(20 * e) / 20: JavaScript rounds a half towards +infinity,
-    # so -0.025 goes to -0.00 where ROUND_HALF_UP would give -0.05.
-    twentieths = (Decimal(str(amount)) * 20 + Decimal("0.5")).quantize(
-        Decimal("1"), rounding=ROUND_FLOOR
-    )
-    return vrp2_round2(twentieths / 20)
 
 
 def _compact_json(data):
@@ -446,41 +411,9 @@ class Vrp2Client(models.AbstractModel):
             holder, "/v5/receipt/create/invoice", json_data=invoice_data
         )
 
-    def _get_receipt_data(self, holder, server_id):
-        """GET /v4/receipt/getdata?id=<id> — one receipt's full detail.
-
-        Returns ``{"dto": {...}}`` with the items as VRP2 printed them
-        (``service.name`` for catalogue items, ``itemName`` for refunds).
-        """
-        return self._get(
-            holder, "/v4/receipt/getdata", params={"id": server_id}
-        )
-
-    def _get_receipt_list(self, holder, filter_criteria=None, start=0,
-                          count=10):
-        """POST /v4/receipt/receiptlist — paged receipt search.
-
-        A POST with a paging/filter/ordering body (captured 2026-10-06); the
-        GET this used to send is not what the web app does.
-        """
-        criteria = {
-            "createDateFrom": None,
-            "createDateTo": None,
-            "issueDateFrom": None,
-            "issueDateTo": None,
-            "priceVatFrom": None,
-            "priceVatTo": None,
-            "receiptId": None,
-            "receiptNumber": None,
-            "receiptTypeName": None,
-            "isChit": None,
-        }
-        criteria.update(filter_criteria or {})
-        return self._post(holder, "/v4/receipt/receiptlist", json_data={
-            "paging": {"resultSetStart": start, "resultSetCount": count},
-            "filterCriteria": criteria,
-            "ordering": {"orderColumn": "createDate", "orderDirection": "desc"},
-        })
+    def _get_receipt_list(self, holder, params=None):
+        """GET /v4/receipt/receiptlist."""
+        return self._get(holder, "/v4/receipt/receiptlist", params=params)
 
     def _send_receipt_email(self, holder, receipt_id, email):
         """POST /v5/receipt/send — email a receipt."""

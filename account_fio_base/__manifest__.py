@@ -36,7 +36,7 @@ sample payloads.
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Bank",
-    "version": "19.0.1.2.0",
+    "version": "18.0.1.2.0",
     "license": "AGPL-3",
     "depends": ["account_cz_bankfile_base", "base_iban"],
     "external_dependencies": {"python": ["requests"]},

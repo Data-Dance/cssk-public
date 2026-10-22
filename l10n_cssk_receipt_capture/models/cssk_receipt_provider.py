@@ -29,10 +29,11 @@ class CSSKReceiptProvider(models.Model):
         help="Restrict this provider to receipts issued in these countries. "
              "Empty means no restriction.")
 
-    _code_uniq = models.Constraint(
-        "unique(code)",
-        "A capture provider with this code already exists.",
-    )
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("code_uniq", "unique(code)",
+         "A capture provider with this code already exists."),
+    ]
 
     @property
     def _implementation_name(self):
@@ -83,13 +84,64 @@ class CSSKReceiptProviderMixin(models.AbstractModel):
         return bool(receipt.qr_raw or receipt.attachment_id)
 
     @api.model
+    def _accepts_qr(self, payload):
+        """True when this provider can look a receipt up by this QR payload.
+
+        Asked of every provider for every code decoded from a photograph or
+        scanned with the camera, so the framework can pick the fiscal code out
+        of several. A receipt routinely carries more than one — a loyalty-app
+        link printed above the verification code is the case that made this
+        necessary — and "the first QR" is the wrong one there.
+        """
+        return False
+
+    @api.model
+    def _qr_from_printed(self, identifiers):
+        """Candidate QR payloads rebuilt from identifiers read off the paper.
+
+        ``identifiers`` is what an AI reading found printed on the receipt
+        (``uid``, ``okp``, ``cash_register_code``, ``receipt_number``,
+        ``issued_at``, ``total``). A provider that can look a receipt up by
+        those returns the payloads to try, best first; the authority's answer
+        then decides, so a misread identifier costs a lookup, not a wrong entry.
+        Used when the QR itself will not decode.
+        """
+        return []
+
+    @api.model
+    def _scan_hint(self):
+        """One sentence telling a user which code to scan, or None.
+
+        Shown when a camera scan picked up a code no provider recognises — most
+        often a loyalty link printed above the fiscal one.
+        """
+        return None
+
+    @api.model
+    def _issue_timezone(self, receipt):
+        """The time zone a receipt's printed time is in, or None for the default.
+
+        Receipts print local time. A provider tied to one country says so; the
+        framework otherwise falls back to the user's, then the company's.
+        """
+        return None
+
+    @api.model
     def _capture(self, receipt):
         """Read the receipt and return a write-ready values dict.
 
         Must return a dict suitable for ``receipt.write()``, including
         ``line_ids`` / ``tax_ids`` commands where the provider has them, and
-        ``payload_raw`` with whatever the source actually returned. Raise
-        ``UserError`` with a message a bookkeeper can act on when the source
-        says no.
+        ``payload_raw`` with whatever the source actually returned.
+
+        ``issue_date`` is the time AS PRINTED (naive, local); the framework
+        converts it to UTC using ``_issue_timezone``. A ``_usage`` key, if
+        present, is popped into the attempt log: ``model``, ``input_tokens``,
+        ``output_tokens``, ``cost``, ``confidence``.
+
+        Raise ``ProviderUnavailable`` when this provider cannot run here now
+        (the next provider is tried), ``CaptureFailed`` when it ran and failed
+        (with ``usage`` for what it spent, and ``transient`` if a later retry
+        could succeed). A message must be one a bookkeeper can act on.
         """
         raise NotImplementedError

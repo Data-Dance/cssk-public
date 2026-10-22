@@ -73,12 +73,11 @@ class L10nSkRegisterFiling(models.Model):
     consolidated = fields.Boolean(string="Konsolidovaná")
     source = fields.Char(readonly=True)
 
-    _partner_period_uniq = models.Constraint(
-        "UNIQUE (partner_id, period, filing_type)",
-        "This filing period is already recorded for this partner.",
-    )
-
-
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("partner_period_uniq", "UNIQUE (partner_id, period, filing_type)",
+         "This filing period is already recorded for this partner."),
+    ]
 class L10nSkRegisterHistory(models.Model):
     _name = "l10n.sk.register.history"
     _description = "SK Register — previous name or seat"

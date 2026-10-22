@@ -41,6 +41,18 @@ _STREET_RE = re.compile(r"^(?P<street>.*?\D)\s*(?P<pop>\d{1,6})(?:\s*/\s*(?P<ori
 class ResCompany(models.Model):
     _inherit = "res.company"
 
+    # BACK-PORT, 18.0 ONLY. Odoo core added ``res.company.l10n_cz_tax_office_id``
+    # to ``l10n_cz`` in 19.0, so the 19.0 copy of this file READS the field but
+    # does not declare it. On 18.0 nothing declares it, so this does — which is
+    # why the 19.0 file must be merged into this one rather than copied over it.
+    # The CZ statutory/VAT reports read
+    # ``company.l10n_cz_tax_office_id.workplace_code`` for c_pracufo.
+    # (``trade_registry`` already exists in 18.0 core l10n_cz.)
+    l10n_cz_tax_office_id = fields.Many2one(
+        string="Tax Office (CZ)",
+        comodel_name="l10n_cz.tax_office",
+    )
+
     # -- natural-person filer (typ_ds = F) --------------------------------
     l10n_cz_epo_title = fields.Char(
         string="Titul", size=10,

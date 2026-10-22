@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from odoo import Command
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -8,11 +8,8 @@ from odoo.tests import tagged
 
 @tagged("post_install", "-at_install")
 class TestSkInterDocRecon(AccountTestInvoicingCommon):
-    """SV ↔ DPH priznanie and priznanie ↔ účtovníctvo cross-form
-    reconciliations, all built from the same posted SK data.
-
-    The VZS → DPPO reconciliation is tested in ``l10n_sk_dppo_fs``, the bridge
-    that owns it."""
+    """SV ↔ DPH priznanie and VZS → DPPO cross-form reconciliations, all built
+    from the same posted SK data."""
 
     @classmethod
     @AccountTestInvoicingCommon.setup_country("sk")
@@ -22,6 +19,8 @@ class TestSkInterDocRecon(AccountTestInvoicingCommon):
         cls.company.write({"vat": "SK2023456787", "city": "Bratislava",
                            "country_id": cls.env.ref("base.sk").id})
         cls.recon = cls.env["l10n.sk.dph.reconciliation"]
+        cls.journal = cls.env["account.journal"].search(
+            [("type", "=", "general"), ("company_id", "=", cls.company.id)], limit=1)
         cls.partner_eu = cls.env["res.partner"].create({
             "name": "Kunde BE", "country_id": cls.env.ref("base.be").id,
             "vat": "BE0477472701"})
@@ -45,6 +44,16 @@ class TestSkInterDocRecon(AccountTestInvoicingCommon):
                                 "tag_ids": [Command.set(tag14.ids)]}),
                 Command.create({"repartition_type": "tax"})],
         })
+
+    def _acc(self, code, account_type="expense"):
+        acc = self.env["account.account"].search(
+            [("code", "=like", code + "%"), ("company_ids", "in", self.company.id)],
+            limit=1)
+        if not acc:
+            acc = self.env["account.account"].create({
+                "name": code, "code": code, "account_type": account_type,
+                "company_ids": [Command.set([self.company.id])]})
+        return acc
 
     def test_sv_dph(self):
         self.init_invoice(
@@ -112,44 +121,42 @@ class TestSkInterDocRecon(AccountTestInvoicingCommon):
         self.assertIn("DPBOOK_RECON",
                       [v["code"] for v in self.recon.check_kontroly_dph_books(dp)])
 
-    def test_the_books_reconciliation_lands_on_the_screen_not_the_chatter(self):
-        """The button Radovan actually presses, and what it must produce.
+    def test_vzs_dppo(self):
+        # P&L: revenue 602 = 5000, expense 501 = 3000 -> VH pred zdanením 2000.
+        # Also post income tax 595 (dodatočné odvody) = 200 and prevod podielov
+        # 596 = 100: both sit BELOW VH pred zdanením (VZS r57+/r60), so neither
+        # the VZS r56 nor the corrected DPPO r100 (…,-595,-596) may include them.
+        rev = self._acc("602", "income")
+        exp, a595, a596 = self._acc("501"), self._acc("595"), self._acc("596")
+        bank = self._acc("221", "asset_cash")
+        self.env["account.move"].create({
+            "move_type": "entry", "journal_id": self.journal.id,
+            "date": "2025-06-30", "line_ids": [
+                Command.create({"account_id": rev.id, "credit": 5000.0}),
+                Command.create({"account_id": exp.id, "debit": 3000.0}),
+                Command.create({"account_id": a595.id, "debit": 200.0}),
+                Command.create({"account_id": a596.id, "debit": 100.0}),
+                Command.create({"account_id": bank.id, "debit": 1700.0})],
+        }).action_post()
+        dppo = self.env["cssk.income.tax.return"].create({
+            "company_id": self.company.id,
+            "version_id": self.env.ref("l10n_sk_dppo.dppo_version_2025").id,
+            "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2025").id,
+            "date_from": "2025-01-01", "date_to": "2025-12-31"})
+        dppo.action_compute_lines()
+        uzpod = self.env["l10n.sk.uzpod"].create({
+            "company_id": self.company.id,
+            "date_from": "2025-01-01", "date_to": "2025-12-31"})
 
-        It posted a ``<ul>`` to the chatter and returned a toast reading
-        "pozri záznam", which is both unreadable at 217 filings and a log
-        rather than a worklist. Every row now becomes a comparison record:
-        the two that are controls, and the tržby row that is informational and
-        must NOT read as a difference — an accountant sent to chase the gap
-        between the VAT base and účtová trieda 60 is being sent after a number
-        that is doing exactly what it should.
-        """
-        self.init_invoice(
-            "out_invoice", partner=self.partner_a, invoice_date="2026-06-10",
-            amounts=[1000.0], taxes=self.tax_sale_a, post=True)
-        dp_version = self.env.ref("l10n_sk_vat_return.dph_version_2025")
-        dp = self.env["cssk.vat.return"].create({
-            "company_id": self.company.id, "version_id": dp_version.id,
-            "date_from": "2026-06-01", "date_to": "2026-06-30",
-            "period_type": "month",
-            "statement_type_id": dp_version.statement_type_ids[0].id})
-        dp.action_compute_lines()
+        row = self.recon.reconcile_vzs_dppo(uzpod, dppo)[0]
+        self.assertAlmostEqual(row["left"], 2000.0, places=2)   # VZS pred zdanením
+        self.assertAlmostEqual(row["right"], 2000.0, places=2)  # DPPO r100
+        self.assertEqual(row["status"], "ok")
+        self.assertEqual(self.recon.check_kontroly_vzs_dppo(uzpod, dppo), [])
 
-        before = dp.message_ids
-        result = dp.action_reconcile_books()
-        self.assertFalse(dp.message_ids - before,
-                         "reconciling must not post to the chatter")
-        self.assertEqual(result["type"], "ir.actions.act_window")
-        self.assertEqual(result["res_model"], "cssk.filing.discrepancy")
-
-        rows = {r.code: r for r in self.env["cssk.filing.discrepancy"].search([
-            ("res_model", "=", "cssk.vat.return"), ("res_id", "=", dp.id),
-            ("basis", "=", "ledger")])}
-        self.assertEqual(set(rows), {"out_vat", "in_vat", "trzby"})
-        self.assertEqual(rows["out_vat"].kind, "ok")
-        self.assertEqual(rows["trzby"].kind, "info",
-                         "the tržby tie is advisory and must not read as a "
-                         "difference")
-        self.assertEqual(rows["trzby"].state, "agrees",
-                         "and must stay out of the worklist")
-        self.assertTrue(rows["out_vat"].row_label,
-                        "every reconciliation row carries its name")
+        # Break the tie (manual r100 override) -> VZSDPPO_RECON (error).
+        r100 = dppo.line_ids.filtered(lambda l: l.code == "r100")
+        r100.write({"is_overridden": True, "manual_value": 9999.0})
+        dppo.action_compute_lines()
+        self.assertIn("VZSDPPO_RECON",
+                      [v["code"] for v in self.recon.check_kontroly_vzs_dppo(uzpod, dppo)])

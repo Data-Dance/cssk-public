@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Payroll Worked Days & Inputs Timeline",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Human Resources/Payroll",
     "summary": "Timeline and pivot views of payslip worked days and inputs, "
     "per employee over time — a community alternative to the Enterprise "

@@ -301,7 +301,7 @@ msgstr ""
 #. module: l10n_sk_jcd
 #: model:ir.model.fields,field_description:l10n_sk_jcd.field_res_company__l10n_sk_jcd_is_sk_company
 #: model:ir.model.fields,field_description:l10n_sk_jcd.field_res_config_settings__l10n_sk_jcd_is_sk_company
-msgid "Slovak chart in use (technical)"
+msgid "L10N Sk Jcd Is Sk Company"
 msgstr ""
 
 #. module: l10n_sk_jcd
@@ -651,79 +651,4 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_jcd.field_l10n_sk_jcd__other_charges
 msgid ""
 "Ďalšie poplatky vymerané colným orgánom, ktoré vstupujú do základu dane."
-msgstr ""
-
-#. module: l10n_sk_jcd
-#. odoo-python
-#: code:addons/l10n_sk_jcd/models/l10n_sk_jcd.py:0
-msgid ""
-"%(rate)s is not a rate band this declaration knows in the %(regime)s regime."
-" The bands are named after the rates in force today; an older rate is "
-"reached by dating the declaration, not by naming it here."
-msgstr ""
-
-#. module: l10n_sk_jcd
-#: model:ir.model.fields.selection,name:l10n_sk_jcd.selection__l10n_sk_jcd__vat_rate__19
-msgid "19 %"
-msgstr ""
-
-#. module: l10n_sk_jcd
-#: model:ir.model.fields.selection,name:l10n_sk_jcd.selection__l10n_sk_jcd__vat_rate__23
-msgid "23 %"
-msgstr ""
-
-#. module: l10n_sk_jcd
-#: model:ir.model.fields.selection,name:l10n_sk_jcd.selection__l10n_sk_jcd__vat_rate__5
-msgid "5 %"
-msgstr ""
-
-#. module: l10n_sk_jcd
-#: model:ir.model.fields,field_description:l10n_sk_jcd.field_l10n_sk_jcd__vat_rate_effective
-msgid "Použitá sadzba"
-msgstr ""
-
-#. module: l10n_sk_jcd
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_jcd
-msgid "SK JCD — dovoz tovaru (colné vyhlásenie)"
-msgstr ""
-
-#. module: l10n_sk_jcd
-#: model:ir.model.fields,help:l10n_sk_jcd.field_l10n_sk_jcd__vat_rate_effective
-msgid ""
-"Sadzba platná ku dňu tohto colného vyhlásenia. Líši sa od sadzbového pásma "
-"pri dokladoch spred zmeny sadzieb."
-msgstr ""
-
-#. module: l10n_sk_jcd
-#: model:ir.model.fields,help:l10n_sk_jcd.field_l10n_sk_jcd__vat_rate
-msgid ""
-"Sadzbové pásmo — základná, znížená alebo druhá znížená sadzba, pomenované "
-"aktuálnou sadzbou. Skutočne použitá sadzba sa riadi dátumom dokladu: colné "
-"vyhlásenie z roku 2019 v základnom pásme je zdanené 20 %, nie 23 %."
-msgstr ""
-
-#. module: l10n_sk_jcd
-#: model:ir.module.module,summary:base.module_l10n_sk_jcd
-msgid ""
-"Slovak import customs declaration: duty into stock value, import VAT onto "
-"the right DPH rows, deduction gated on the confirmed customs document."
-msgstr ""
-
-#. module: l10n_sk_jcd
-#. odoo-python
-#: code:addons/l10n_sk_jcd/models/l10n_sk_jcd.py:0
-msgid ""
-"The rate on this declaration (%(shown)g %%) is no longer the rate that would"
-" post (%(now)g %%) — the tax configuration changed since it was entered. "
-"Reopen and check the figures before posting."
-msgstr ""
-
-#. module: l10n_sk_jcd
-#. odoo-python
-#: code:addons/l10n_sk_jcd/models/l10n_sk_jcd.py:0
-msgid ""
-"Two rates of the %(band)s band are recorded as in force on %(date)s: "
-"%(rates)s. Their validity windows overlap, which is a configuration error — "
-"correct them before posting, because they would tax the same base "
-"differently."
 msgstr ""

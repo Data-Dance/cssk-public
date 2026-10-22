@@ -1,8 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
-    "name": "Slovakia — MVP (Mesačný výkaz poistného a príspevkov)",
-    "version": "19.0.1.0.3",
+    "name": "Slovakia — MVP monthly social-insurance statement",
+    "version": "18.0.1.1.0",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
     "summary": "Monthly Slovak social-insurance statement (MVP/MVPP) for the "

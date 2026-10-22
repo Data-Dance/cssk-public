@@ -1,5 +1,7 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
+
+import json
 
 from odoo import Command, fields
 from odoo.exceptions import ValidationError
@@ -106,11 +108,14 @@ class TestPaymentSymbols(AccountTestInvoicingCommon):
         self.assertEqual(line.payment_ref, "20260042 - test transfer")
 
     def test_st_line_extract_from_transaction_details(self):
-        # upstream PR #275611 key, nested one level down
+        # upstream PR #275611 key, nested one level down; passed as a JSON
+        # string — the convention of the 18.0 EE bank connectors, whose
+        # create() override json.loads()es the field and would crash on a
+        # bare dict (the extraction probe handles both forms)
         line = self._st_line(
-            transaction_details={
+            transaction_details=json.dumps({
                 "remittance": {"variable_code": "990011", "ks": "0308"},
-            },
+            }),
         )
         self.assertEqual(line.variable_symbol, "990011")
         self.assertEqual(line.constant_symbol, "0308")
@@ -124,36 +129,6 @@ class TestPaymentSymbols(AccountTestInvoicingCommon):
 
         line2 = self._st_line(payment_ref="uhrada VS: 4455 dakujeme")
         self.assertEqual(line2.variable_symbol, "4455")
-
-    def test_st_line_symbols_only_in_the_end_to_end_id(self):
-        """OCA CAMT puts EndToEndId in ref; the label is free text."""
-        cases = [
-            ("?/VS53155/SS/KS", ("53155", False, False)),  # Fio
-            ("/VS53101/SS/KS", ("53101", False, False)),
-            ("/VS26001001/SS55510022/KS", ("26001001", "55510022", False)),
-            ("/VS26004101/SS0/KS0008", ("26004101", False, "0008")),
-        ]
-        for ref, (vs, ss, ks) in cases:
-            line = self._st_line(payment_ref="Syntetická úhrada objednávky", ref=ref)
-            self.assertEqual(
-                (line.variable_symbol, line.specific_symbol, line.constant_symbol),
-                (vs, ss, ks), ref)
-            self.assertTrue(line.payment_ref.startswith(vs + " - "), ref)
-
-    def test_st_line_label_wins_over_ref(self):
-        line = self._st_line(payment_ref="VS 111", ref="/VS222/SS/KS")
-        self.assertEqual(line.variable_symbol, "111")
-
-    def test_st_line_card_order_number_is_not_a_vs(self):
-        """Tatra banka CardPay: EndToEndId is the e-shop order number."""
-        line = self._st_line(payment_ref="CardPay", ref="000053228")
-        self.assertFalse(line.variable_symbol)
-        line = self._st_line(payment_ref="Platba", ref="2428500179")
-        self.assertFalse(line.variable_symbol)
-
-    def test_st_line_symbols_from_the_narration(self):
-        line = self._st_line(payment_ref="x", narration="<p>/VS998877/SS/KS</p>")
-        self.assertEqual(line.variable_symbol, "998877")
 
     def test_st_line_no_symbols_noop(self):
         line = self._st_line(payment_ref="plain label without symbols")

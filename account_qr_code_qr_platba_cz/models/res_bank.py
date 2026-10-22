@@ -1,5 +1,43 @@
-# Copyright 2022 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+###################################################################################
+#
+#    Copyright (c) 2022 Data Dance s.r.o.
+#
+#    Data Dance Proprietary License v1.0
+#
+#    This software and associated files (the "Software") may only be used
+#    (executed, modified, executed after modifications) if you have
+#    purchased a valid license from Data Dance s.r.o.
+#
+#    The above permissions are granted for a single database per purchased
+#    license. Furthermore, with a valid license it is permitted to use the
+#    software on other databases as long as the usage is limited to a testing
+#    or development environment.
+#
+#    You may develop modules based on the Software or that use the Software
+#    as a library (typically by depending on it, importing it and using its
+#    resources), but without copying any source code or material from the
+#    Software. You may distribute those modules under the license of your
+#    choice, provided that this license is compatible with the terms of the
+#    Data Dance Proprietary License (For example: LGPL, MIT, or proprietary
+#    licenses similar to this one).
+#
+#    It is forbidden to publish, distribute, sublicense, or sell copies of
+#    the Software or modified copies of the Software.
+#
+#    The above copyright notice and this permission notice must be included
+#    in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+#    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+#    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+#    DEALINGS IN THE SOFTWARE.
+#
+###################################################################################
+
+
 import re
 
 from odoo import _, api, models
@@ -178,16 +216,7 @@ class ResPartnerBank(models.Model):
     @api.model
     def _get_available_qr_methods(self):
         rslt = super()._get_available_qr_methods()
-        # Ahead of the sequence-20 crowd (PAY by square, payme, core's SEPA
-        # sct_qr) on purpose. `_build_qr_code_vals` takes the FIRST eligible
-        # method, and PAY by square is eligible on any EUR SEPA IBAN without
-        # looking at the debtor at all — so with everyone tied at 20 the winner
-        # fell to module load order, and a Czech customer of a Slovak company
-        # got a Slovak code. Going first costs the others nothing, because this
-        # method gates itself on the debtor: `_get_error_messages_for_qr`
-        # requires `currency == CZK or debtor_partner.country_code == "CZ"`, so
-        # anyone else still falls straight through to the next candidate.
-        rslt.append(("czqrplatba_qr", _("QR Platba (Czech Republic)"), 15))
+        rslt.append(("czqrplatba_qr", _("QR Platba (Czech Republic)"), 20))
         return rslt
 
     def _get_qr_code_frame_generation_params(self, qr_method):

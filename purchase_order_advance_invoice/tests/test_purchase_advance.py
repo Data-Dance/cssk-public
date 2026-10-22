@@ -13,7 +13,7 @@ class TestPurchaseAdvance(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.user.group_ids |= cls.env.ref("purchase.group_purchase_manager")
+        cls.env.user.groups_id |= cls.env.ref("purchase.group_purchase_manager")
         company = cls.env.company
         Account = cls.env["account.account"]
         # payable type: the clearing is the payment-term leg of the tax doc
@@ -142,9 +142,13 @@ class TestPurchaseAdvance(AccountTestInvoicingCommon):
         self.assertEqual(tax_doc.state, "draft")
         self.assertEqual(tax_doc.journal_id, self.adv_journal)
         self.assertEqual(tax_doc.ref, "DOD-2026-001")
-        self.assertEqual(
-            tax_doc.taxable_supply_date, advance.advance_invoice_paid_date
-        )
+        # taxable_supply_date is not in core account on 18.0 (l10n_cz /
+        # l10n_sk provide it) — assert only when the field exists.
+        if "taxable_supply_date" in tax_doc._fields:
+            self.assertEqual(
+                tax_doc.taxable_supply_date,
+                advance.advance_invoice_paid_date,
+            )
         self.assertEqual(tax_doc.advance_purchase_order_id, advance)
         product_lines = tax_doc.invoice_line_ids.filtered(
             lambda line: line.display_type == "product"

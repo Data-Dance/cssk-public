@@ -3,7 +3,7 @@ Account QR Code Frame Provider
 ====================================
 
 
-.. |badge1| image:: https://raster.shields.io/badge/license-AGPL--3-blue.png
+.. |badge1| image:: https://raster.shields.io/badge/license-Other_proprietary-blue.png
     :alt: License: Other proprietary
 
 |badge1| 
@@ -24,6 +24,4 @@ Author
 
 Contact
 ~~~~~~~
-https://www.datadance.eu
-
-License: AGPL-3.0 or later (see the LICENSE file).
+https://www.datadance.eu/

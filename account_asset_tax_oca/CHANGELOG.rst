@@ -5,24 +5,6 @@ Changelog
 All notable changes to **account_asset_tax_oca** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
-[19.0.1.4.4] — 2026-09-17
--------------------------
-
-Fixed
-~~~~~
-
-- **An Administrator could not open it.** An accounting **Administrator**
-  could reach the tax depreciation report and hit *not allowed to access*. On
-  Community, ``account.group_account_manager`` does not imply
-  ``account.group_account_user`` (and on Enterprise ``account_accountant``
-  only adds ``group_account_basic``), so a model granted to
-  ``group_account_user`` alone is closed to an Administrator who lacks "Show
-  Full Accounting Features". Its menu was already restricted to
-  ``group_account_manager``, so every manager-only user who opened it hit the
-  error. ``group_account_manager`` now has the same access as
-  ``group_account_user`` on ``account.asset.book.tax.report`` (read-only, as
-  for users). Takes effect on module update.
-
 [19.0.1.4.2] — 2026-07-04
 -------------------------
 
@@ -106,18 +88,3 @@ Added
 - Adds ``asset_id`` to ``account.asset.tax.line`` and the ``tax_line_ids`` board.
 - Reads the tax base from ``purchase_value`` and the in-service date from ``date_start``.
 - *Tax Depreciation* page on the asset form.
-
-[19.0.1.4.3] — 2026-09-13
--------------------------
-
-Fixed
-~~~~~
-
-- **Terms the translation catalogue never carried.** Strings that reach the
-  user were absent from the template — a field with no ``string=``, a mixin
-  field addressed to the abstract model's ``ir.model.fields`` row rather
-  than each concrete one, or a whole category the offline exporter never
-  emitted. An absent term cannot be translated and shows English in an
-  otherwise Slovak or Czech screen. The template and the catalogues now carry them,
-  and the Slovak or Czech is written.
-

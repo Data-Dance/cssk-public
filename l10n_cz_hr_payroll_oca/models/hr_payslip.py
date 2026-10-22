@@ -12,23 +12,14 @@ from odoo import _, models
 # these is an ABSENCE: it prorates BASIC down. Holiday / paid-obstacle time is
 # then compensated back at the průměrný výdělek by dedicated náhrada rules;
 # sickness by SICKNAHRADA; OČR and unpaid leave get no employer pay.
-# § 207-209 obstacles on the EMPLOYER's side, each with its own statutory
-# náhrada rate (80 / 60 / 100 / 60 % of průměrný výdělek). They cannot share
-# one bucket the way the § 199 employee-side reasons do: the worked-day line is
-# keyed by code, so a single bucket would lose the rate and pay them all in
-# full.
+# §§ 207-209 obstacles on the EMPLOYER's side, each with its own statutory
+# náhrada rate (80 / 60 / 100 / 60 % of průměrný výdělek).
 CZ_EMPLOYER_OBSTACLE_CODES = (
-    "CZPROSTOJ",
-    "CZPOVETRNOST",
-    "CZJINEPREKAZKY",
-    "CZCASTECNA",
+    "CZPROSTOJ", "CZPOVETRNOST", "CZJINEPREKAZKY", "CZCASTECNA",
 )
 
-# Mateřská (§ 195) / rodičovská (§ 196) / otcovská. The employer pays NOTHING
-# — peněžitá pomoc v mateřství, rodičovský příspěvek and otcovská are dávky of
-# ČSSZ — so they behave like OČR: they cut worked time and get no náhrada.
-# Separate codes rather than folded into OČR because the ČSSZ filings must tell
-# them apart, and the vyloučené doby on the ELDP differ.
+# Mateřská / rodičovská / otcovská. The employer pays NOTHING — these are
+# dávky of ČSSZ — so they behave like OČR.
 CZ_FAMILY_LEAVE_CODES = ("CZMATERSKA", "CZRODICOVSKA", "CZOTCOVSKA")
 
 CZ_ABSENCE_CODES = (
@@ -66,7 +57,7 @@ class HrPayslip(models.Model):
         )
         leaves = {}
         calendar = contract.resource_calendar_id
-        tz = timezone(calendar.tz or contract.employee_id.tz or "UTC")
+        tz = timezone(calendar.tz)
         day_leave_intervals = contract.employee_id.list_leaves(
             day_from, day_to, calendar=contract.resource_calendar_id
         )
@@ -173,12 +164,7 @@ class HrPayslip(models.Model):
         """
         self.ensure_one()
         contract = self.contract_id
-        # Fall back to the employee's own calendar. A version without one
-        # would otherwise return 0.0 here, floor to the minimum wage and
-        # pay every náhrada at that. The Enterprise engine has always had
-        # this fallback; the two differed only in how tolerant they were.
-        calendar = (contract.resource_calendar_id
-                    or self.employee_id.resource_calendar_id)
+        calendar = contract.resource_calendar_id
         if not calendar:
             return 0.0
         day_from = datetime.combine(self.date_from, time.min)

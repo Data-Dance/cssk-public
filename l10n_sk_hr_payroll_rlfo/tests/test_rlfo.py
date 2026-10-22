@@ -100,26 +100,36 @@ class TestRlfo(TransactionCase):
     # typZec — the relationship code the Sociálna poisťovňa registers
     # ------------------------------------------------------------------
     def _employee_on(self, name, agreement_type, income_regular):
-        """An employee whose version carries an agreement type and regularity.
-
-        Skips rather than fails where the SK payroll engine is not installed:
-        those fields live on hr.version in the payroll modules, and the RLFO
-        is installable without them.
-        """
         employee = self.env["hr.employee"].with_company(self.company).create({
             "name": name,
             "company_id": self.company.id,
             "identification_id": "9002022345",
             "birthday": date(1990, 2, 2),
         })
-        version = employee.version_id
-        if "l10n_sk_agreement_type" not in version._fields:
+        calendar = self.env["resource.calendar"].create(
+            {"name": "SK 40h", "company_id": self.company.id})
+        contract = self.env["hr.contract"].create({
+            "name": "C " + name,
+            "employee_id": employee.id,
+            "resource_calendar_id": calendar.id,
+            "wage": 1000.0,
+            "date_start": date(2026, 1, 1),
+            "state": "open",
+        })
+        if "l10n_sk_agreement_type" not in contract._fields:
             self.skipTest("no SK payroll engine installed")
         vals = {"l10n_sk_agreement_type": agreement_type}
-        if "l10n_sk_income_regular" in version._fields:
+        if "l10n_sk_income_regular" in contract._fields:
             vals["l10n_sk_income_regular"] = income_regular
-        version.write(vals)
+        contract.write(vals)
         return employee
+
+    def _event_for(self, employee):
+        rlfo = self.env["l10n.sk.rlfo"].with_company(self.company).create(
+            {"company_id": self.company.id, "year": "2026", "month": "3"})
+        return self.env["l10n.sk.rlfo.event"].create({
+            "rlfo_id": rlfo.id, "employee_id": employee.id,
+            "typ_rl": "PA", "date_start": date(2026, 3, 1)})
 
     def test_typ_zec_follows_the_agreement_type(self):
         for agreement, expected in (
@@ -127,32 +137,14 @@ class TestRlfo(TransactionCase):
         ):
             with self.subTest(agreement=agreement):
                 emp = self._employee_on("Pravidelny", agreement, True)
-                rlfo = self.env["l10n.sk.rlfo"].with_company(self.company).create(
-                    {"company_id": self.company.id, "year": "2026", "month": "3"})
-                ev = self.env["l10n.sk.rlfo.event"].create({
-                    "rlfo_id": rlfo.id, "employee_id": emp.id,
-                    "typ_rl": "PA", "date_start": date(2026, 3, 1)})
-                self.assertEqual(ev.typ_zec, expected)
+                self.assertEqual(self._event_for(emp).typ_zec, expected)
 
     def test_irregular_income_registers_the_N_variant(self):
         """A dohoda with IRREGULAR income is a different relationship to the
-        Sociálna poisťovňa: old-age and disability only, no sickness, no
-        unemployment, no short-time contribution.
-
-        Until 2026-08-07 typ_zec keyed on the agreement type alone, so an
-        irregular-income dohodár was registered as ZECD1/ZECD2 — the regular
-        codes. ZECD1N and ZECD2N were declared in the selection and reachable
-        by hand, but nothing ever produced them. That tells SP the wrong
-        insurance scope from the day of registration, not merely on a payslip.
-        """
+        Sociálna poisťovňa: old-age and disability only. typ_zec used to key
+        on the agreement type alone, so ZECD1N and ZECD2N were declared in the
+        selection and reachable only by typing them in."""
         for agreement, expected in (("dovp", "ZECD1N"), ("dopc", "ZECD2N")):
             with self.subTest(agreement=agreement):
                 emp = self._employee_on("Nepravidelny", agreement, False)
-                if not emp.version_id.l10n_sk_income_regular is False:
-                    self.skipTest("income regularity not modelled here")
-                rlfo = self.env["l10n.sk.rlfo"].with_company(self.company).create(
-                    {"company_id": self.company.id, "year": "2026", "month": "3"})
-                ev = self.env["l10n.sk.rlfo.event"].create({
-                    "rlfo_id": rlfo.id, "employee_id": emp.id,
-                    "typ_rl": "PA", "date_start": date(2026, 3, 1)})
-                self.assertEqual(ev.typ_zec, expected)
+                self.assertEqual(self._event_for(emp).typ_zec, expected)

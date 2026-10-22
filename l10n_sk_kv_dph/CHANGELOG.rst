@@ -3,10 +3,57 @@ Changelog
 =========
 
 All notable changes to **l10n_sk_kv_dph** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 2.3.0 by one port rather than by
+those releases, and the entries are what the port brought over.
 
 [Unreleased]
 ------------
+
+[18.0.2.3.0] — 2026-10-19
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Brought the module to 19.0's 2.3.0 in one step, from 18.0.1.1.1** — a major
+  version, and the largest single gap on this branch. The 18.0 copy's only
+  divergence was a back-port of 19.0's own ``82247ce``/``cb650d0`` (the
+  supplier's evidence number and DUZP on the received sections), which 19.0
+  already contains, so nothing had to be merged around it.
+
+  New here: the older KV vzory (2014 / 2016 / 2023 XSDs with their pinned
+  digests), the §69 ods. 12 commodity attributes on A.2, the product commodity
+  fields, and the sale-side reverse-charge tax.
+
+- **Kept this branch's extra dependency on ``l10n_sk_tax_report_backport``.**
+  18.0 core ``l10n_sk`` ships 30 taxes and no tags, so that module supplies the
+  SK VAT set 19.0 gets from core. Taking 19.0's manifest wholesale would have
+  dropped it.
+
+- **Eight migrations brought over**, renumbered into this series. 18.0 sat at
+  1.1.1, so every one of them applies to an existing database: the
+  reverse-charge tax flags, the official schema onto version records that never
+  got it, the sale-side §69/12 tax, the deduction backfill on statements
+  computed before 1.11.0, the submission-type collapse and three section-code
+  repairs.
+
+Fixed
+~~~~~
+
+- **``uom.uom._has_common_reference`` does not exist on 18.0.** 19.0 made units
+  of measure hierarchical and compares them through ``parent_path``; this series
+  has the flat ``category_id``. The call sat in
+  ``_cssk_quantity_in_form_unit``, so it raised while computing A.2 rather than
+  at install — the only way to find it was to run the section.
+
+- **Three A.2 tests gave their products a weight UoM.** 18.0's
+  ``account.move.line`` refuses a line whose UoM is outside the product's own
+  UoM category; 19.0 dropped that check in the same UoM rework. The products
+  are created on Units and invoiced in grams or tonnes, so they now carry
+  ``uom_id``/``uom_po_id`` in the weight category, which is what the conversion
+  the tests are about needs anyway.
 
 [19.0.2.3.0] — 2026-10-04
 -------------------------

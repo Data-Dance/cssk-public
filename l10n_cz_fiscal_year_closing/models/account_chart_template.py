@@ -35,7 +35,7 @@ class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
 
     @template("cz", "account.account")
-    def _get_cz_zaverka_account(self):
+    def _get_cz_zavierka_account(self):
         return {
             xmlid: {"account_type": account_type}
             for xmlid, account_type in CZ_ZAVERKOVE_UCTY.items()

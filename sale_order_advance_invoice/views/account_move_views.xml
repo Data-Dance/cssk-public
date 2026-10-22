@@ -14,7 +14,7 @@
                     class="btn-secondary"
                     invisible="move_type != 'out_invoice' or state != 'draft'"/>
             </xpath>
-            <xpath expr="//list[@name='journal_items']//field[@name='tax_ids']" position="after">
+            <xpath expr="//field[@name='line_ids']/list//field[@name='tax_ids']" position="after">
                 <field name="amount_tax" optional="hide" readonly="1"/>
             </xpath>
         </field>

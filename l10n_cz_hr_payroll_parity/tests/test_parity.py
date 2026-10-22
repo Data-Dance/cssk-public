@@ -35,14 +35,17 @@ class TestCzPayrollEngineParity(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.engine = cls._detect_engine()
-        cls.env.user.group_ids |= cls.env.ref(
+        # The users field is groups_id on 18.0 and group_ids on 19.0.
+        gfield = "group_ids" if "group_ids" in cls.env.user._fields \
+            else "groups_id"
+        cls.env.user[gfield] |= cls.env.ref(
             "hr_holidays.group_hr_holidays_manager"
         )
         if cls.engine == ENGINE_OCA:
-            cls.env.user.group_ids |= cls.env.ref("payroll.group_payroll_manager")
+            cls.env.user[gfield] |= cls.env.ref("payroll.group_payroll_manager")
             cls.structure = cls.env.ref(OCA_STRUCT)
         else:
-            cls.env.user.group_ids |= cls.env.ref(
+            cls.env.user[gfield] |= cls.env.ref(
                 "hr_payroll.group_hr_payroll_manager"
             )
             cls.structure = cls.env.ref(EE_STRUCT)
@@ -116,24 +119,29 @@ class TestCzPayrollEngineParity(TransactionCase):
         )
 
     def _make_employee(self, scenario, calendar):
-        vals = {
+        # 18.0 has no hr.version delegation: the contract is its own
+        # record, in state "open" so contract_id resolves to it.
+        employee = self.env["hr.employee"].with_company(self.company).create({
             "name": "CZ Parity %s" % scenario["key"],
             "company_id": self.company.id,
             "resource_calendar_id": calendar.id,
-            "date_version": date(2024, 1, 1),
-            "contract_date_start": date(2024, 1, 1),
+        })
+        contract_vals = {
+            "name": "CZ Parity %s" % scenario["key"],
+            "employee_id": employee.id,
+            "company_id": self.company.id,
             "wage": scenario["wage"],
+            "state": "open",
+            "date_start": date(2024, 1, 1),
+            "resource_calendar_id": calendar.id,
         }
         if self.engine == ENGINE_OCA:
-            vals["struct_id"] = self.structure.id
+            # struct_id is on the contract on the OCA engine only.
+            contract_vals["struct_id"] = self.structure.id
         else:
-            vals["structure_type_id"] = self.structure.type_id.id
-        employee = self.env["hr.employee"].with_company(self.company).create(vals)
-        version_vals = dict(scenario["version"])
-        version_vals["resource_calendar_id"] = calendar.id
-        if self.engine == ENGINE_OCA:
-            version_vals["struct_id"] = self.structure.id
-        employee.version_id.write(version_vals)
+            contract_vals["structure_type_id"] = self.structure.type_id.id
+        contract_vals.update(scenario["version"])
+        self.env["hr.contract"].with_company(self.company).create(contract_vals)
         return employee
 
     def _compute(self, employee, date_from, date_to, name):
@@ -147,16 +155,14 @@ class TestCzPayrollEngineParity(TransactionCase):
             "date_from": date_from,
             "date_to": date_to,
         }
-        if self.engine == ENGINE_OCA:
-            vals["contract_id"] = employee.version_id.id
-        else:
-            vals["version_id"] = employee.version_id.id
+        # Both 18.0 engines call the payslip field contract_id.
+        vals["contract_id"] = employee.contract_id.id
         slip = self.env["hr.payslip"].with_company(self.company).create(vals)
         if self.engine == ENGINE_OCA:
             # The OCA engine fills worked-day lines from an onchange, which does
             # not fire on create() in a test.
             worked = slip.get_worked_day_lines(
-                employee.version_id, date_from, date_to
+                employee.contract_id, date_from, date_to
             )
             slip.worked_days_line_ids = [(0, 0, line) for line in worked]
         slip.compute_sheet()
@@ -169,7 +175,8 @@ class TestCzPayrollEngineParity(TransactionCase):
         seed = self._compute(
             employee, date(y1, m1, d1), date(y2, m2, d2), "CZ Parity seed"
         )
-        seed.write({"state": "done" if self.engine == ENGINE_OCA else "validated"})
+        # Both 18.0 engines call the confirmed state "done".
+        seed.write({"state": "done"})
         return seed
 
     def _book_leave(self, employee, record_name, d_from, d_to):
@@ -194,7 +201,9 @@ class TestCzPayrollEngineParity(TransactionCase):
                 }
             )
         )
-        if leave.state != "validate":
+        # A no_validation type lands straight in "validate" on 18.0, and
+        # approving an already-approved leave is an error.
+        if leave.state == "confirm":
             leave.action_approve()
         return leave
 

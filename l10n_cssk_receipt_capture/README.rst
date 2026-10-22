@@ -59,6 +59,62 @@ does not equal the seller's reported tax, nothing is posted. That check is what
 catches an unmapped VAT rate, whose silent symptom is a receipt posted with no
 VAT and a lost deduction.
 
+Getting a receipt in
+====================
+
+**A photograph.** Every QR code on the image is decoded (``zxing-cpp``, which a
+provider that needs it declares as a dependency) and offered to the providers;
+the first one a provider recognises is looked up. A receipt routinely carries
+more than one code — a loyalty-app link printed above the fiscal one is common —
+so the first code is not necessarily the right one, and *Codes on the
+photograph* says what was found, used and ignored. A code that is present but
+unreadable (a dense off-line code from a thermal printer can defeat every
+decoder) is reported as such, and the photograph goes to the next reader.
+
+**The camera.** *Scan Receipt* opens Odoo's own scanner. Live video — many
+frames, autofocus, the paper held flat — reads codes a still photograph will
+not, and a code no provider recognises is refused with a hint about which one
+to scan.
+
+**Identifiers printed on the paper.** When the code will not decode, the same
+identifiers are usually printed beside it. A reading that supplies them lets a
+provider rebuild the lookup key; the authority's figures then replace the
+reading — but only if its total is the photograph's.
+
+Attempts, failures and retries
+==============================
+
+Every attempt by every provider is a ``cssk.receipt.attempt`` row: outcome,
+reason, model, tokens and cost, failed calls included. A provider that cannot
+run here now (switched off, not configured, its quota spent) hands the receipt
+to the next; one that ran and failed stops with the reason, stored on the
+receipt and shown — never only in a log. A transient failure (a busy model, a
+network error) is retried on a schedule of 15 minutes, 1 hour and 4 hours; a
+refusal or an unregistered receipt is not, because the same request would get
+the same answer and cost the same again.
+
+The simplified-invoice limit
+============================
+
+A till receipt is a simplified tax document only up to a statutory amount:
+**400 EUR** including VAT for a Slovak receipt (§ 74 ods. 3 písm. b) zákona
+č. 222/2004 Z. z.; deduction needs a faktúra, § 51 ods. 1 písm. a)) and
+**10 000 CZK** for a Czech one (§ 30 odst. 1 zákona č. 235/2004 Sb.), both
+verified against the consolidated texts in force in 2026. Above it the receipt
+is still a perfectly good accounting document — the purchase is booked in full —
+but its VAT is not deductible from it: the vendor bill or expense carries the
+gross amount with the VAT as cost and claims nothing. *Full invoice held* on
+the receipt restores the deduction, and posting refuses a document that claims
+VAT the receipt does not allow.
+
+Times
+=====
+
+Receipts print local time. It is stored in UTC like every Odoo datetime, with
+the receipt's own time zone beside it, and documents take the date printed on
+the paper — not the UTC date, which is a day early for a receipt printed just
+after midnight.
+
 Configuration
 =============
 

@@ -21,7 +21,7 @@ and diff as one.
 """
 
 # --- employment forms -------------------------------------------------------
-# The values of ``hr.version.l10n_sk_agreement_type``. EMPLOYMENT is a
+# The values of ``hr.contract.l10n_sk_agreement_type``. EMPLOYMENT is a
 # pracovný pomer; the rest are dohody (§§ 223-228a Zákonníka práce).
 EMPLOYMENT = "none"
 DOVP = "dovp"          # § 226 dohoda o vykonaní práce

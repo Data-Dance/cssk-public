@@ -15,6 +15,120 @@
       allocations follow the standard osnova convention — confirm with a SK
       accountant for entities using non-standard account assignments.
     -->
+    <record id="suvaha_version_2025" model="cssk.fs.statement.version">
+        <field name="name">Súvaha 2025</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="statement_kind">balance_sheet</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_fs.suvaha_2025"/>
+        <field name="xml_root_element">UZSUV</field>
+        <field name="xml_schema_filename">uzsuv_schema.xsd</field>
+        <field name="xml_schema_data" type="base64" file="l10n_sk_fs/data/uzsuv_schema.xsd"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'AI', 'name': 'A.I. Dlhodobý nehmotný majetok',
+                    'kind': 'accounts', 'account_formula': '012,013,014,015,019,041,051,072,073,074,075,079,091,093', 'level': 2, 'sequence': 10}),
+            (0, 0, {'code': 'AII', 'name': 'A.II. Dlhodobý hmotný majetok',
+                    'kind': 'accounts', 'account_formula': '021,022,025,026,029,031,032,042,052,081,082,085,086,089,092,094,095,097,098', 'level': 2, 'sequence': 20}),
+            (0, 0, {'code': 'AIII', 'name': 'A.III. Dlhodobý finančný majetok',
+                    'kind': 'accounts', 'account_formula': '061,062,063,065,066,067,068,069,043,053,055,096', 'level': 2, 'sequence': 30}),
+            (0, 0, {'code': 'A', 'name': 'A. Neobežný majetok',
+                    'kind': 'aggregate', 'aggregate_formula': 'AI + AII + AIII', 'level': 1, 'sequence': 40}),
+            (0, 0, {'code': 'BI', 'name': 'B.I. Zásoby',
+                    'kind': 'accounts', 'account_formula': '1', 'level': 2, 'sequence': 50}),
+            (0, 0, {'code': 'BII', 'name': 'B.II. Dlhodobé pohľadávky',
+                    'kind': 'accounts', 'account_formula': '', 'level': 2, 'sequence': 60}),
+            (0, 0, {'code': 'BIII', 'name': 'B.III. Krátkodobé pohľadávky',
+                    'kind': 'accounts', 'account_formula': '311,312,313,314,315,316,335,351,354,355,358,371,373,374,375,376,378,391,398', 'level': 2, 'sequence': 70}),
+            (0, 0, {'code': 'BIV', 'name': 'B.IV. Krátkodobý finančný majetok',
+                    'kind': 'accounts', 'account_formula': '251,252,253,255,256,257,259,291', 'level': 2, 'sequence': 80}),
+            (0, 0, {'code': 'BV', 'name': 'B.V. Finančné účty',
+                    'kind': 'accounts', 'account_formula': '211,213,221,261', 'level': 2, 'sequence': 90}),
+            (0, 0, {'code': 'B', 'name': 'B. Obežný majetok',
+                    'kind': 'aggregate', 'aggregate_formula': 'BI + BII + BIII + BIV + BV', 'level': 1, 'sequence': 100}),
+            (0, 0, {'code': 'CA', 'name': 'C. Časové rozlíšenie',
+                    'kind': 'accounts', 'account_formula': '381,382,385', 'level': 1, 'sequence': 110}),
+            (0, 0, {'code': 'SPOLU_M', 'name': 'SPOLU MAJETOK',
+                    'kind': 'aggregate', 'aggregate_formula': 'A + B + CA', 'level': 0, 'sequence': 120}),
+            (0, 0, {'code': 'PAI', 'name': 'A.I. Základné imanie',
+                    'kind': 'accounts', 'account_formula': '-411,-419,-491,-353', 'level': 2, 'sequence': 130}),
+            (0, 0, {'code': 'PAII', 'name': 'A.II. Kapitálové fondy',
+                    'kind': 'accounts', 'account_formula': '-412,-413,-414,-415,-416,-417,-418', 'level': 2, 'sequence': 140}),
+            (0, 0, {'code': 'PAIII', 'name': 'A.III. Fondy zo zisku',
+                    'kind': 'accounts', 'account_formula': '-421,-422,-423,-427', 'level': 2, 'sequence': 150}),
+            (0, 0, {'code': 'PAIV', 'name': 'A.IV. Výsledok hospodárenia minulých rokov',
+                    'kind': 'accounts', 'account_formula': '-428,-429,-431', 'level': 2, 'sequence': 160}),
+            (0, 0, {'code': 'PAV', 'name': 'A.V. Výsledok hospodárenia za účtovné obdobie',
+                    'kind': 'accounts', 'account_formula': '-5,-6', 'level': 2, 'sequence': 170}),
+            (0, 0, {'code': 'VI', 'name': 'A. Vlastné imanie',
+                    'kind': 'aggregate', 'aggregate_formula': 'PAI + PAII + PAIII + PAIV + PAV', 'level': 1, 'sequence': 180}),
+            (0, 0, {'code': 'BREZ', 'name': 'B.I. Rezervy',
+                    'kind': 'accounts', 'account_formula': '-451,-459,-323', 'level': 2, 'sequence': 190}),
+            (0, 0, {'code': 'BDLH', 'name': 'B.II. Dlhodobé záväzky',
+                    'kind': 'accounts', 'account_formula': '-461,-471,-473,-475,-476,-478,-479,-481,-372', 'level': 2, 'sequence': 200}),
+            (0, 0, {'code': 'BKR', 'name': 'B.III. Krátkodobé záväzky',
+                    'kind': 'accounts', 'account_formula': '-321,-322,-324,-325,-326,-331,-333,-336,-341,-342,-343,-345,-346,-347,-361,-364,-365,-366,-367,-368,-377,-379,-395,-472,-474', 'level': 2, 'sequence': 210}),
+            (0, 0, {'code': 'BUVER', 'name': 'B.IV. Krátkodobé finančné výpomoci a bankové úvery',
+                    'kind': 'accounts', 'account_formula': '-231,-232,-241,-249', 'level': 2, 'sequence': 220}),
+            (0, 0, {'code': 'ZAV', 'name': 'B. Záväzky',
+                    'kind': 'aggregate', 'aggregate_formula': 'BREZ + BDLH + BKR + BUVER', 'level': 1, 'sequence': 230}),
+            (0, 0, {'code': 'CP', 'name': 'C. Časové rozlíšenie',
+                    'kind': 'accounts', 'account_formula': '-383,-384', 'level': 1, 'sequence': 240}),
+            (0, 0, {'code': 'SPOLU_VI', 'name': 'SPOLU VLASTNÉ IMANIE A ZÁVÄZKY',
+                    'kind': 'aggregate', 'aggregate_formula': 'VI + ZAV + CP', 'level': 0, 'sequence': 250}),
+        ]"/>
+    </record>
 
+    <record id="vzs_version_2025" model="cssk.fs.statement.version">
+        <field name="name">Výkaz ziskov a strát 2025</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="statement_kind">profit_loss</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_fs.vzs_2025"/>
+        <field name="xml_root_element">UZVZS</field>
+        <field name="xml_schema_filename">uzvzs_schema.xsd</field>
+        <field name="xml_schema_data" type="base64" file="l10n_sk_fs/data/uzvzs_schema.xsd"/>
+        <field name="line_def_ids" eval="[
+            (0, 0, {'code': 'I', 'name': 'I. Tržby z predaja tovaru',
+                    'kind': 'accounts', 'account_formula': '-604', 'level': 1, 'sequence': 10}),
+            (0, 0, {'code': 'II', 'name': 'II. Tržby z predaja vlastných výrobkov a služieb',
+                    'kind': 'accounts', 'account_formula': '-601,-602,-606,-607', 'level': 1, 'sequence': 20}),
+            (0, 0, {'code': 'III', 'name': 'III. Zmena stavu vnútroorganizačných zásob (+/−)',
+                    'kind': 'accounts', 'account_formula': '-611,-612,-613,-614', 'level': 1, 'sequence': 30}),
+            (0, 0, {'code': 'IV', 'name': 'IV. Aktivácia',
+                    'kind': 'accounts', 'account_formula': '-621,-622,-623,-624', 'level': 1, 'sequence': 40}),
+            (0, 0, {'code': 'A', 'name': 'A. Náklady na obstaranie predaného tovaru',
+                    'kind': 'accounts', 'account_formula': '504,505,507', 'level': 1, 'sequence': 50}),
+            (0, 0, {'code': 'B', 'name': 'B. Spotreba materiálu, energie a ostatných neskladovateľných dodávok',
+                    'kind': 'accounts', 'account_formula': '501,502,503', 'level': 1, 'sequence': 60}),
+            (0, 0, {'code': 'C', 'name': 'C. Služby',
+                    'kind': 'accounts', 'account_formula': '511,512,513,518', 'level': 1, 'sequence': 70}),
+            (0, 0, {'code': 'D', 'name': 'D. Osobné náklady',
+                    'kind': 'accounts', 'account_formula': '521,522,523,524,525,526,527,528', 'level': 1, 'sequence': 80}),
+            (0, 0, {'code': 'E', 'name': 'E. Dane a poplatky',
+                    'kind': 'accounts', 'account_formula': '531,532,538', 'level': 1, 'sequence': 90}),
+            (0, 0, {'code': 'F', 'name': 'F. Odpisy a opravné položky k dlhodobému majetku',
+                    'kind': 'accounts', 'account_formula': '551,553,555,557', 'level': 1, 'sequence': 100}),
+            (0, 0, {'code': 'G', 'name': 'G. Ostatné náklady na hospodársku činnosť',
+                    'kind': 'accounts', 'account_formula': '541,542,543,544,545,546,547,548,549', 'level': 1, 'sequence': 110}),
+            (0, 0, {'code': 'V', 'name': 'V. Ostatné výnosy z hospodárskej činnosti',
+                    'kind': 'accounts', 'account_formula': '-641,-642,-644,-645,-646,-648,-655,-657', 'level': 1, 'sequence': 120}),
+            (0, 0, {'code': 'PREV', 'name': '* Výsledok hospodárenia z hospodárskej činnosti',
+                    'kind': 'aggregate', 'aggregate_formula': 'I + II + III + IV + V - A - B - C - D - E - F - G', 'level': 0, 'sequence': 130}),
+            (0, 0, {'code': 'VIVYN', 'name': 'VI. Finančné výnosy',
+                    'kind': 'accounts', 'account_formula': '-661,-662,-663,-664,-665,-666,-667,-668', 'level': 1, 'sequence': 140}),
+            (0, 0, {'code': 'HNAK', 'name': 'H. Finančné náklady',
+                    'kind': 'accounts', 'account_formula': '561,562,563,564,565,566,567,568,569', 'level': 1, 'sequence': 150}),
+            (0, 0, {'code': 'FIN', 'name': '* Výsledok hospodárenia z finančnej činnosti',
+                    'kind': 'aggregate', 'aggregate_formula': 'VIVYN - HNAK', 'level': 0, 'sequence': 160}),
+            (0, 0, {'code': 'VHB', 'name': '** Výsledok hospodárenia pred zdanením',
+                    'kind': 'aggregate', 'aggregate_formula': 'PREV + FIN', 'level': 0, 'sequence': 170}),
+            (0, 0, {'code': 'DAN', 'name': 'I. Daň z príjmov',
+                    'kind': 'accounts', 'account_formula': '591,592,595', 'level': 1, 'sequence': 180}),
+            (0, 0, {'code': 'PREVP', 'name': 'J. Prevod podielov na VH spoločníkom (+/−)',
+                    'kind': 'accounts', 'account_formula': '596', 'level': 1, 'sequence': 190}),
+            (0, 0, {'code': 'VHU', 'name': '*** Výsledok hospodárenia za účtovné obdobie',
+                    'kind': 'aggregate', 'aggregate_formula': 'VHB - DAN - PREVP', 'level': 0, 'sequence': 200}),
+        ]"/>
+    </record>
 
 </odoo>

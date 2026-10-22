@@ -294,15 +294,14 @@ class EdiMessage(models.Model):
             vals["doc_family"] = "peppol"
         return vals
 
-    def _inbound_dispatch_may_commit(self):
-        # Peppol inbound builds a vendor bill through Odoo's core UBL importer,
-        # which commits the cursor mid-decode
-        # (account_document_import_mixin.rollbackable_transaction). The poll
-        # must therefore not wrap our dispatch in a savepoint.
-        self.ensure_one()
-        if self.doc_family == "peppol":
-            return True
-        return super()._inbound_dispatch_may_commit()
+    # NOTE (18.0): the 19.0 branch overrides ``_inbound_dispatch_may_commit``
+    # to return True for Peppol, because 19.0's importer commits the cursor
+    # mid-decode (``account_document_import_mixin.rollbackable_transaction``)
+    # and a wrapping savepoint cannot survive that. 18.0 has no such mixin —
+    # ``account.move._extend_with_attachments`` isolates each decode in
+    # ``with self.env.cr.savepoint()`` and never commits — so the override is
+    # deliberately ABSENT here and the base's savepoint isolation applies.
+    # Porting it down would silently give up rollback-on-failure for inbound.
 
     # ------------------------------------------------------------------
     # Inbound dispatch — provider-agnostic, keyed on doc_family='peppol':
@@ -469,12 +468,18 @@ class EdiMessage(models.Model):
     def _peppol_purchase_journal(self, company):
         """Return the purchase journal to book inbound Peppol bills into.
 
-        Prefers the company's configured Peppol purchase journal, else the
-        company's first purchase journal."""
+        Prefers the configured ``peppol.purchase_journal_id`` (scoped to the
+        company), else the company's first purchase journal."""
         Journal = self.env["account.journal"]
-        journal = company.sudo().peppol_purchase_journal_id
-        if journal and journal.company_id == company:
-            return journal
+        param = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("peppol.purchase_journal_id")
+        )
+        if param:
+            journal = Journal.browse(int(param)).exists()
+            if journal and journal.company_id == company:
+                return journal
         return Journal.search(
             [
                 *Journal._check_company_domain(company),
@@ -515,8 +520,11 @@ class EdiMessage(models.Model):
         if "is_in_extractable_state" in move._fields:
             move.is_in_extractable_state = False
 
-        file_data = Move._to_files_data(self.attachment_id)[0]
-        move._extend_with_attachments([file_data], new=True)
+        # 18.0 takes an ir.attachment RECORDSET and unwraps it internally
+        # (``attachments._unwrap_edi_attachments()``). The 19.0 signature —
+        # a list of file_data dicts from ``_to_files_data`` — does not exist
+        # here; ``_to_files_data`` is not on 18.0's account.move at all.
+        move._extend_with_attachments(self.attachment_id, new=True)
 
         # Reparent the payload attachment onto the created bill so it shows
         # in the bill's attachments, mirroring account_peppol.

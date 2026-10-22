@@ -20,9 +20,11 @@ class CSSKReceipt(models.Model):
         compute="_compute_l10n_sk_ekasa_call_count")
 
     def _compute_l10n_sk_ekasa_call_count(self):
+        # Counted with sudo: an employee may read their own receipt but not
+        # the lookup log, and a number of lookups discloses nothing.
         grouped = {}
         if self.ids:
-            for group in self.env["sk.ekasa.call"]._read_group(
+            for group in self.env["sk.ekasa.call"].sudo()._read_group(
                     [("receipt_id", "in", self.ids)],
                     groupby=["receipt_id"], aggregates=["__count"]):
                 grouped[group[0].id] = group[1]

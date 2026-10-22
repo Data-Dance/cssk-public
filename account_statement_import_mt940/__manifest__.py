@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Bank Statement Import — MT940 / MultiCash (CZ)",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Import SWIFT MT940 statements (MultiCash *.STA) with the Czech "
                "VS/KS/SS and counterparty subfields.",
     "description": """

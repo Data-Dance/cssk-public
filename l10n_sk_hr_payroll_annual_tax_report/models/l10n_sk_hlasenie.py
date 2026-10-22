@@ -26,11 +26,10 @@ from datetime import date
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_cssk_payroll_declaration_base.rule_codes import sum_concept
-
-# The rule codes carrying the income-tax advance differ per engine (Enterprise
-# splits it into 19 %/25 % bands, the OCA engine emits one line). That mapping
-# lives once, in the declaration base, rather than being restated here.
+# Income-tax advance (before daňový bonus): the hr_payroll engine splits the
+# advance into 19 %/25 % bands, the ``payroll`` engine emits one INCOMETAX line.
+TAX_ADVANCE_SPLIT = ("INCOMETAX19", "INCOMETAX25")
+TAX_ADVANCE_SINGLE = "INCOMETAX"
 # Daňový bonus (§ 33) paid to employees.
 BONUS_CODE = "CHILD_BONUS"
 # Zamestnanecká prémia (§ 32a). No dedicated SK rule code today, so it resolves
@@ -47,8 +46,7 @@ class L10nSkHlasenie(models.Model):
 
     _report_code = "sk_hlasenie"
     # druhHlaseniaType in the shipped XSD is three mutually exclusive flags —
-    # rh (riadne) / oh (opravné) / dh (dodatočné) — so the Hlásenie accepts a
-    # corrective AND a supplementary filing, but there is no storno.
+    # rh (riadne) / oh (opravné) / dh (dodatočné) — so no storno.
     _supported_correction_types = ("regular", "corrective", "supplementary")
     _country_code = "SK"
     _xml_name_fallback = "hlasenie"
@@ -99,7 +97,10 @@ class L10nSkHlasenie(models.Model):
     def _tax_advance_total(self, totals):
         """Withheld income-tax advance (before the daňový bonus) from a
         ``{code: total}`` mapping — engine-neutral (split bands or single)."""
-        return sum_concept(totals, "INCOME_TAX")
+        if any(c in totals for c in TAX_ADVANCE_SPLIT):
+            return abs(round(
+                sum(totals.get(c, 0.0) for c in TAX_ADVANCE_SPLIT), 2))
+        return abs(round(totals.get(TAX_ADVANCE_SINGLE, 0.0), 2))
 
     @staticmethod
     def _split_name(name):

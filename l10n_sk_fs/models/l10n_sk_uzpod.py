@@ -1,51 +1,40 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """SK UZPODv14 — official účtovná závierka podnikateľov (PÚ) XML export.
 
-The filing record of the official ``dokument`` (Súvaha Úč POD 1 + Výkaz ziskov
-a strát Úč POD 2): its header choices, its state, its corrective filings. The
-document itself is rendered by the Úč POD ``cssk.fs.statement`` of the same
-period (``_build_xml``), so what is filed is what the accountant reviewed —
-overrides and manual rows included — and there is one generator, not two. It
-is validated against the official ``uzpod-2014.xsd`` and the kontrolné pravidlá
-below. The row tables in ``uzpod14_rows.py`` remain the mapping the statement's
-version is generated from, and still drive the coverage diagnostic and
-``vzs_before_tax``.
+Builds the official ``dokument`` (Súvaha Úč POD 1 + Výkaz ziskov a strát Úč POD
+2) and validates it against the official ``uzpod-2014.xsd``. CE-clean: every
+row is summed directly from ``account.move.line`` using the flattened row→account
+formulas in ``data/uzpod14_rows.py`` (mirrors the authoritative statutory
+mapping). AKTÍVA rows carry Brutto/Korekcia/Netto; PASÍVA and VZS carry the net
+for the current and prior period.
 """
 import base64
-import logging
 import os
+import re
 
+from dateutil.relativedelta import relativedelta
 from lxml import etree
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_round
 
-from .uzpod14_rows import CLAIMED_ANALYTICS, SUVAHA_AKTIVA, SUVAHA_PASIVA, TWO_SIDED, VZS
+from .uzpod14_rows import CLAIMED_ANALYTICS, SUVAHA_AKTIVA, SUVAHA_PASIVA, VZS
 from .uzpod14_kontroly import SUCET_BS, SUCET_PL
-
-_logger = logging.getLogger(__name__)
 
 _XSD_PATH = os.path.join(
     os.path.dirname(__file__), "..", "data", "uzpod-2014.xsd")
 
-# Účet 431 (VH v schvaľovaní) sa zámerne nemapuje — v OTVORENEJ knihe stojí proti
+# Kapitálové účty A. Vlastného imania (r080) BEZ bežného výsledku hospodárenia —
+# zjednotenie riadkov r081, r085, r086, r087, r090, r093, r097 (základné imanie,
+# emisné ážio, ostatné kap. fondy, zákonné/štatutárne fondy, oceňovacie rozdiely,
+# VH minulých rokov). Bežný VH (r100) sa pripočíta osobitne z pohybu tried 5/6.
+# Účet 431 (VH v schvaľovaní) sa zámerne nemapuje — v otvorenej knihe stojí proti
 # neuzavretému začiatočnému stavu tried 5/6 a obe sa z výkazu vypúšťajú spoločne.
-#
-# POZOR, tento predpoklad neplatí vždy. Platí len vtedy, keď sa triedy 5/6
-# na 431 ešte neuzavreli. Ak sa uzávierka KAŽDÝ rok vykonala (a jej zápisy sú
-# vylúčené cez l10n_cssk_closing_journal_ids), potom na 431 nestojí protistrana
-# v triedach 5/6 — je to skutočný zostatok vlastného imania, nahromadený
-# výsledok minulých rokov, ktorý valné zhromaždenie nikdy neschválilo a
-# nerozdelilo na 428/429. Overené na reálnej migrácii: 3 630 289,70 EUR
-# nahromadených za roky 2014–2022, ktoré do súvahy nevstúpili.
-#
-# Bežný výsledok sa NEZDVOJÍ ani v tomto prípade: r100 sa počíta z POHYBU tried
-# 5/6 a uzávierkový zápis bežného roka je vylúčený, takže r100 a zostatok 431 sú
-# disjunktné. Napriek tomu sa 431 nemapuje automaticky — nenulový zostatok na
-# prechodnom účte je ZISTENIE (neschválená závierka), nie chyba mapovania, a
-# jeho preklasifikovanie softvérom by problém zakrylo. Vypisuje ho kontrola
-# BS_UNMAPPED; zaradenie do riadku patrí účtovníkovi a poučeniu k Úč POD 1.
+_EQUITY_CAPITAL = (
+    "-353000,-411000,-419000,-491000,-412000,-413000,-417000,-417100,-418000,"
+    "-421000,-421100,-422000,-423000,-427000,-414000,-415000,-416000,-428000,-429000")
 
 
 class L10nSkUzpod(models.Model):
@@ -60,10 +49,7 @@ class L10nSkUzpod(models.Model):
     date_from = fields.Date(required=True)
     date_to = fields.Date(required=True)
     state = fields.Selection(
-        [("draft", "Draft"), ("exported", "Exported"),
-         ("submitted", "Submitted"),
-         # Terminal and off the workflow — see cssk.statutory.submission.mixin.
-         ("legacy", "Historical filing")],
+        [("draft", "Draft"), ("exported", "Exported"), ("submitted", "Submitted")],
         default="draft", tracking=True)
     xml_attachment_id = fields.Many2one("ir.attachment", readonly=True)
 
@@ -117,19 +103,21 @@ class L10nSkUzpod(models.Model):
     # ------------------------------------------------------------------
     def _balances(self, date_from, date_to, period):
         """Return {account_code: balance}. ``period`` False = cumulative to
-        date_to (Súvaha); True = movement in [date_from, date_to] (VZS).
-
-        This used to run its own ``_read_group`` with a hand-copied domain
-        identical to the shared one. It now goes through
-        ``_cssk_account_balance_map`` in ``l10n_cssk_core`` — the same query
-        every other statutory statement reads. That is not only de-duplication:
-        the company's year-end closing/reopening journals are excluded there,
-        and a filing that kept its own copy of the query would have quietly
-        gone on including the close/reopen entries while the on-screen preview
-        excluded them."""
+        date_to (Súvaha); True = movement in [date_from, date_to] (VZS)."""
         self.ensure_one()
-        return self._cssk_account_balance_map(
-            date_from if period else None, date_to)
+        domain = [
+            ("parent_state", "=", "posted"),
+            ("company_id", "=", self.company_id.id),
+            ("date", "<=", date_to),
+        ]
+        if period:
+            domain.append(("date", ">=", date_from))
+        groups = self.env["account.move.line"]._read_group(
+            domain, ["account_id"], ["balance:sum"])
+        out = {}
+        for account, bal in groups:
+            out[account.code] = out.get(account.code, 0.0) + (bal or 0.0)
+        return out
 
     # VZS financial-income/cost related-party split (Úč POD 2 lines IX/X/XI/N).
     # A company that has financial flows with prepojené/podielové entities tags
@@ -147,7 +135,8 @@ class L10nSkUzpod(models.Model):
                         if tag else set())
         return out
 
-    def _eval(self, acct, conds, balances, tag_codes=None):
+    @staticmethod
+    def _eval(acct, conds, balances, tag_codes=None):
         """Plain signed account-prefix sum + conditional domain terms.
 
         A conditional term ``[low, high, mode, sign]`` adds ``sign × net`` where
@@ -162,117 +151,122 @@ class L10nSkUzpod(models.Model):
         tagged prepojené/podielová, hence the full amount when nothing is
         tagged). ``tag_codes`` maps a tag key to the set of account codes that
         carry it.
-
-        Delegates to the shared matcher in ``l10n_cssk_core`` — the same code
-        path the FS preview and the income-tax return use — so the figures an
-        accountant checks on screen and the figures written into the filed XML
-        can no longer drift apart. ``CLAIMED_ANALYTICS`` is passed as
-        ``claimed``, which is what turns the synthetic-absorb rule on here and
-        leaves it off for callers whose row definitions do not expect it.
-
-        ``TWO_SIDED`` gates the accounts the form names on both sides (316,
-        336, 373, 398, 481) on their own balance sign, as the on-screen
-        statement always did. The export used not to, so a deferred tax ASSET
-        on 481000 was filed on r052 and, negated, on r117 as well.
         """
-        return self._cssk_eval_formula(
-            acct, balances, conds=conds, default_sign=1.0,
-            claimed=CLAIMED_ANALYTICS, tag_codes=tag_codes or {},
-            two_sided=TWO_SIDED)
-
-    def _cssk_uzpod_cells(self):
-        """Every ``(formula, conds)`` cell of Súvaha and VZS, for the coverage
-        diagnostic. AKTÍVA rows are 4-tuples (gross, gross_conds, adjustment,
-        adjustment_conds); PASÍVA and VZS rows are 2-tuples."""
-        cells = []
-        for row in SUVAHA_AKTIVA:
-            cells.append((row[0], row[1]))
-            cells.append((row[2], row[3]))
-        for row in SUVAHA_PASIVA:
-            cells.append((row[0], row[1]))
-        for row in VZS:
-            cells.append((row[0], row[1]))
-        return cells
-
-    def _cssk_unmapped_report(self, balances):
-        """``[(code, balance)]`` for accounts this statement maps to no row.
-
-        Account 431 is expected here and is not a gap: in an open ledger it
-        stands against the not-yet-closed opening balance of classes 5/6, and
-        both are left out of the statement together — r100 takes the year's
-        result from the MOVEMENT of 5/6 instead, so that it equals VZS r61 even
-        when last year was never closed. Mapping 431 onto a PASÍVA row on top
-        of that books the result twice.
-
-        Účtová trieda 7 sa vynecháva. Trieda 7 sú závierkové a podsúvahové účty
-        (701/702/710/711 a podsúvahové 75x–79x s vyrovnávacím účtom 799) — na
-        súvahu ani do VZS nepatria z definície, nie preto, že by nám chýbal
-        riadok. Overené: oficiálna štruktúra neodkazuje ani na
-        jediný účet triedy 7. Bez tohto filtra sa podsúvahové páry (napr.
-        722/799, 751/772), ktoré sa navzájom rušia na nulu, hlásia ako chýbajúce
-        mapovanie a topia skutočné nálezy v šume. Prvá číslica = účtová trieda
-        je v CZ/SK osnove záväzná a modul sa na ňu spolieha aj inde (r100 =
-        pohyb tried 5/6). Účty typované ``off_balance`` sa vynechávajú rovnako
-        — l10n_sk tak typuje 701/702/710/711."""
-        off_balance = {
-            code for code, account in self._cssk_account_by_code().items()
-            if account.account_type == "off_balance"
-        }
-        probe = {
-            code: balance for code, balance in balances.items()
-            if not (code or "").startswith("7") and code not in off_balance
-        }
-        return self._cssk_unmapped_codes(
-            probe, self._cssk_uzpod_cells(),
-            claimed=CLAIMED_ANALYTICS, tag_codes=self._tag_account_codes())
-
-    def _cssk_account_by_code(self):
-        """``{code: account}`` for this company — lets the diagnostic spot
-        account TYPES the Súvaha must ignore whatever the row mapping says."""
-        accounts = self.env["account.account"].search(
-            [("company_ids", "in", self.company_id.ids)])
-        return {a.code: a for a in accounts if a.code}
+        tag_codes = tag_codes or {}
+        total = 0.0
+        for token in (acct or "").split(","):
+            token = token.strip()
+            if not token:
+                continue
+            sign = -1.0 if token.startswith("-") else 1.0
+            token = token.lstrip("-")
+            include = None
+            exclude = set()
+            if "&" in token or "!" in token:
+                m = re.match(r"([0-9]+)(.*)", token)
+                prefix = m.group(1)
+                for op, name in re.findall(r"([&!])([A-Za-z0-9_]+)", m.group(2)):
+                    if op == "&":
+                        include = (include or set()) | tag_codes.get(name, set())
+                    else:
+                        exclude |= tag_codes.get(name, set())
+            else:
+                prefix = token
+            # A synthetic-main token NNN000 absorbs every analytic of synthetic
+            # NNN that isn't explicitly routed elsewhere (so 022000 picks up
+            # 022001/022002); an explicit NNNxxx token matches its sub-tree only.
+            is_main = len(prefix) == 6 and prefix.endswith("000")
+            syn = prefix[:3]
+            for code, bal in balances.items():
+                if not code:
+                    continue
+                if include is not None and code not in include:
+                    continue
+                if code in exclude:
+                    continue
+                if is_main:
+                    if code[:3] == syn and code[:6] not in CLAIMED_ANALYTICS:
+                        total += sign * bal
+                elif code.startswith(prefix):
+                    total += sign * bal
+        for low, high, mode, csign in (conds or []):
+            net = sum(bal for code, bal in balances.items()
+                      if code and low <= code < high)
+            if mode == "sum" or (mode == "pos" and net > 0) or (mode == "neg" and net < 0):
+                total += csign * net
+        return total
 
     # ------------------------------------------------------------------
-    # document build — through the statement, the one generator
+    # document build
     # ------------------------------------------------------------------
-    def _l10n_sk_statement(self):
-        """The Úč POD statement this record files.
+    def _num(self, parent, tag, value):
+        el = etree.SubElement(parent, tag)
+        el.text = str(int(float_round(value or 0.0, precision_digits=0)))
+        return el
 
-        The latest one for the same company, period and submission type
-        (riadna / opravná) that is not cancelled, a live statement before a
-        historical filing. When there is none, one is created and computed:
-        a filing record without its statement has nothing to file. A draft or
-        preview statement is recomputed first, so the file reads the ledger as
-        it stands — overrides survive a recompute; an exported or submitted
-        statement is filed exactly as it was exported."""
-        self.ensure_one()
-        version = self.env.ref("l10n_sk_fs.uzpod_v14")
-        Statement = self.env["cssk.fs.statement"]
-        candidates = Statement.search([
-            ("company_id", "=", self.company_id.id),
-            ("version_id", "=", version.id),
-            ("date_from", "=", self.date_from),
-            ("date_to", "=", self.date_to),
-            ("submission_type", "=", self.submission_type),
-            ("state", "!=", "cancelled"),
-        ], order="id desc")
-        statement = (candidates.filtered(lambda st: st.state != "legacy")
-                     or candidates)[:1]
-        if not statement:
-            statement = Statement.create({
-                "company_id": self.company_id.id,
-                "version_id": version.id,
-                "date_from": self.date_from,
-                "date_to": self.date_to,
-                "l10n_sk_size_class": self.size_class,
-                "l10n_sk_statement_nature": self.statement_nature,
-                "l10n_sk_poznamky_attached": self.poznamky_attached,
-                "submission_type": self.submission_type,
-            })
-        if statement.state in ("draft", "preview"):
-            statement.action_compute_lines()
-        return statement
+    def _txt(self, parent, tag, value):
+        el = etree.SubElement(parent, tag)
+        el.text = value or ""
+        return el
+
+    def _build_header(self, dokument):
+        company = self.company_id
+        partner = company.partner_id
+        h = etree.SubElement(dokument, "hlavicka")
+        dk = etree.SubElement(h, "datumK")
+        self._txt(dk, "den", str(self.date_to.day))
+        self._txt(dk, "mesiac", str(self.date_to.month))
+        self._txt(dk, "rok", str(self.date_to.year))
+        dic = (company.vat or "").strip()
+        self._txt(h, "dic", dic[2:] if dic[:2].upper() == "SK" else dic)
+        self._txt(h, "ico", company.company_registry or "")
+        nace = (getattr(company, "l10n_sk_nace_code", "") or "").ljust(5, "0")
+        sknace = etree.SubElement(h, "skNace")
+        self._txt(sknace, "k1", nace[:2])
+        self._txt(sknace, "k2", nace[2:4])
+        self._txt(sknace, "k3", nace[4:5])
+        # druh from statement_nature (one-hot riadna/mimoriadna/priebezna); an
+        # opravná correction is still filed under its druh — the schema has no
+        # corrective element, the opravná flag is submission-level (see
+        # submission_type). Veľkostná trieda from size_class (mala xor velka).
+        tu = etree.SubElement(h, "typUzavierky")
+        for tag in ("riadna", "mimoriadna", "priebezna"):
+            self._txt(tu, tag, "1" if tag == self.statement_nature else "0")
+        for tag in ("mala", "velka"):
+            self._txt(tu, tag, "1" if tag == self.size_class else "0")
+        ob = etree.SubElement(h, "obdobie")
+        for tag, d in (("od", self.date_from), ("do", self.date_to)):
+            sub = etree.SubElement(ob, tag)
+            self._txt(sub, "mesiac", str(d.month))
+            self._txt(sub, "rok", str(d.year))
+        pf, pt = self.date_from - relativedelta(years=1), self.date_to - relativedelta(years=1)
+        pp = etree.SubElement(h, "bPredObdobie")
+        for tag, d in (("od", pf), ("do", pt)):
+            sub = etree.SubElement(pp, tag)
+            self._txt(sub, "mesiac", str(d.month))
+            self._txt(sub, "rok", str(d.year))
+        ps = etree.SubElement(h, "prilozeneSucasti")
+        self._txt(ps, "suvaha", "1")
+        self._txt(ps, "vykazZiskovStrat", "1")
+        self._txt(ps, "poznamky", "1" if self.poznamky_attached else "0")
+        uj = etree.SubElement(h, "uctJednotka")
+        om = etree.SubElement(uj, "obchMeno")
+        # obchMeno / oznObchodReg require exactly 2 <riadok> lines
+        self._txt(om, "riadok", (company.name or "")[:36])
+        self._txt(om, "riadok", (company.name or "")[36:72])
+        sid = etree.SubElement(uj, "sidlo")
+        self._txt(sid, "ulica", partner.street or "")
+        self._txt(sid, "cislo", "")
+        self._txt(sid, "psc", (partner.zip or "").replace(" ", ""))
+        self._txt(sid, "obec", partner.city or "")
+        oor = etree.SubElement(sid, "oznObchodReg")
+        self._txt(oor, "riadok", getattr(company, "trade_registry", "") or "")
+        self._txt(oor, "riadok", "")
+        self._txt(sid, "telefon", partner.phone or "")
+        self._txt(sid, "fax", "")
+        self._txt(sid, "email", partner.email or "")
+        self._txt(h, "datZostavenia", fields.Date.context_today(self).strftime("%Y-%m-%d"))
+        self._txt(h, "datSchvalenia", "")
 
     def vzs_before_tax(self):
         """VZS r56 — *Výsledok hospodárenia za účtovné obdobie pred zdanením*.
@@ -287,14 +281,70 @@ class L10nSkUzpod(models.Model):
         return self._eval(acct, cond, pl)
 
     def _build_xml(self):
-        """The UZPODv14 document, rendered by the statement's template with
-        this record's header choices. There is no second generator."""
         self.ensure_one()
-        return self._l10n_sk_statement().with_context(l10n_sk_uzpod_header={
-            "size_class": self.size_class,
-            "statement_nature": self.statement_nature,
-            "poznamky_attached": self.poznamky_attached,
-        })._render_xml()
+        pf = self.date_from - relativedelta(years=1)
+        pt = self.date_to - relativedelta(years=1)
+        bs_cur = self._balances(self.date_from, self.date_to, False)
+        bs_prev = self._balances(pf, pt, False)
+        pl_cur = self._balances(self.date_from, self.date_to, True)
+        pl_prev = self._balances(pf, pt, True)
+        tags = self._tag_account_codes()  # VZS financial related-party split
+
+        dokument = etree.Element("dokument")
+        self._build_header(dokument)
+        telo = etree.SubElement(dokument, "telo")
+        suv = etree.SubElement(telo, "ucPod1Suvaha")
+        # AKTÍVA r001..r078: s1 gross, s2 korekcia, s3 netto, s4 netto minulé
+        for i, (g_acct, g_cond, a_acct, a_cond) in enumerate(SUVAHA_AKTIVA, start=1):
+            r = etree.SubElement(suv, "r%03d" % i)
+            g = self._eval(g_acct, g_cond, bs_cur)
+            k = self._eval(a_acct, a_cond, bs_cur)
+            gp = self._eval(g_acct, g_cond, bs_prev)
+            kp = self._eval(a_acct, a_cond, bs_prev)
+            self._num(r, "s1", g)
+            self._num(r, "s2", k)
+            self._num(r, "s3", g - k)
+            self._num(r, "s4", gp - kp)
+        # PASÍVA r079..r145: s5 netto, s6 netto minulé.
+        #
+        # r100 (A.VIII Výsledok hospodárenia za účtovné obdobie po zdanení) a jeho
+        # medzisúčet r080 (A. Vlastné imanie) nesú BEŽNÝ výsledok hospodárenia,
+        # počítaný priamo z POHYBU tried 5/6 (výnosy − náklady vrátane dane =
+        # −(Σ trieda 5 + Σ trieda 6)) — NIE ako niekdajší súvahový dopočet (plug).
+        # Pohyb (nie kumulatívny zostatok) sa použije preto, aby r100 == VZS r61 aj
+        # vtedy, keď triedy 5/6 minulého roka ešte neboli uzavreté na účet 431
+        # (rozpracovaná/otvorená hlavná kniha). SPOLU (r079) = čestný súčet
+        # r080 + r101 + r141 — súvaha sedí z účtov, nie cez dopočet.
+        # (Zodpovedá l10n_cz_fs riadku A.V, account_formula '-5,-6'.)
+        result_cur = self._eval("-5,-6", [], pl_cur)
+        result_prev = self._eval("-5,-6", [], pl_prev)
+        s5, s6 = [], []
+        for idx, (n_acct, n_cond) in enumerate(SUVAHA_PASIVA):
+            rn = 79 + idx
+            if rn == 100:  # A.VIII VH bežného obdobia = výsledok z tried 5/6
+                cur, prev = result_cur, result_prev
+            elif rn == 80:  # A. Vlastné imanie = kapitálové účty + bežný VH
+                cur = self._eval(_EQUITY_CAPITAL, [], bs_cur) + result_cur
+                prev = self._eval(_EQUITY_CAPITAL, [], bs_prev) + result_prev
+            else:
+                cur = self._eval(n_acct, n_cond, bs_cur)
+                prev = self._eval(n_acct, n_cond, bs_prev)
+            s5.append(cur)
+            s6.append(prev)
+        # SPOLU VLASTNÉ IMANIE A ZÁVÄZKY (r079) = r080 + r101 + r141
+        s5[0] = s5[80 - 79] + s5[101 - 79] + s5[141 - 79]
+        s6[0] = s6[80 - 79] + s6[101 - 79] + s6[141 - 79]
+        for idx in range(len(SUVAHA_PASIVA)):
+            r = etree.SubElement(suv, "r%03d" % (79 + idx))
+            self._num(r, "s5", s5[idx])
+            self._num(r, "s6", s6[idx])
+        # VZS r01..r61: s1 bežné, s2 minulé (period movement)
+        vz = etree.SubElement(telo, "ucPod2VykazZS")
+        for k2, (n_acct, n_cond) in enumerate(VZS, start=1):
+            r = etree.SubElement(vz, "r%02d" % k2)
+            self._num(r, "s1", self._eval(n_acct, n_cond, pl_cur, tags))
+            self._num(r, "s2", self._eval(n_acct, n_cond, pl_prev, tags))
+        return etree.tostring(dokument, xml_declaration=True, encoding="UTF-8")
 
     def _validate(self, xml_bytes):
         schema = etree.XMLSchema(etree.parse(_XSD_PATH))
@@ -310,19 +360,12 @@ class L10nSkUzpod(models.Model):
     # The schema only checks structure (XSD-valid != portal-accepted). These
     # rules enforce the statutory content invariants of the účtovná závierka
     # (Opatrenie MF SR č. MF/23377/2014-74, prílohy — Súvaha Úč POD 1-01 a
-    # Výkaz ziskov a strát Úč POD 2-01):
+    # Výkaz ziskov a strát Úč POD 2-01), cross-checked against EE l10n_sk_reports:
     #   * AKTÍVA (r001 netto) = PASÍVA (r079 netto)         — bilančná rovnosť
     #   * netto = brutto − korekcia                          — stĺpcová kontrola
     #   * každý medzisúčtový riadok = súčet zložkových riadkov (SUCET_BS/PL)
     # A non-empty result means the XML would be XSD-valid but rejected/incorrect.
     _KONTROLY_EPS = 1.0  # whole-euro rounding tolerance
-    # Below this an unmapped account is not worth naming: the výkaz is filed in
-    # whole euros, so a few cents stranded on a rounding account says nothing.
-    # Deliberately far below any balance that could move a statutory row —
-    # the point is to catch the 473,762 sitting on an unmapped 131, not to be
-    # quiet. A company whose 431 is properly approved out to 428/429 shows
-    # nothing here; one carrying eight years of it shows the whole balance.
-    _UNMAPPED_MATERIALITY = 100.0
 
     def _kontroly_values(self, xml_bytes):
         """{(section_key, r_int, s_tag): float} for both výkazy."""
@@ -346,12 +389,6 @@ class L10nSkUzpod(models.Model):
         self.ensure_one()
         if xml_bytes is None:
             xml_bytes = self._build_xml()
-        return self._cssk_uzpod_violations(xml_bytes)
-
-    def _cssk_uzpod_violations(self, xml_bytes):
-        """The rules themselves, shared with the statement's export: they
-        need only the document and this record's company and period, so a
-        ``new()`` record serves the statement as well."""
         v = self._kontroly_values(xml_bytes)
         eps = self._KONTROLY_EPS
         out = []
@@ -395,32 +432,6 @@ class L10nSkUzpod(models.Model):
                 out.append({"code": "PL_SUCET",
                             "desc": "VZS r%02d = Σ r%s" % (parent, kids),
                             "detail": "%.0f != %.0f" % (g("vzs", parent, "s1"), tot)})
-        # 5. Účty, ktoré nesadli do žiadneho riadku súvahy ani VZS.
-        #
-        # Diagnostika, nie blokácia (severity=warning): bilančnú nerovnosť už
-        # blokuje BS_BALANCE. Zmyslom je povedať PREČO — bez toho účtovník vidí
-        # len "AKTÍVA != PASÍVA o 3 630 289" a nemá kde začať. Presne takto sa
-        # sedem syntetík (078, 131, 261, 325, 395, 461, 474) stratilo zo súvahy
-        # bez jediného varovania, kým sa výkaz neporovnal s pôvodným systémom.
-        #
-        # Účet 431 sa tu objaví vždy, keď na ňom niečo zostáva — a to je
-        # správne. 431 (výsledok v schvaľovaní) je prechodný účet; nenulový
-        # zostatok k súvahovému dňu znamená, že valné zhromaždenie výsledok
-        # neschválilo a nerozdelilo na 428/429. To je zistenie pre účtovníka,
-        # nie chyba mapovania, ktorú by mal softvér potichu preklasifikovať.
-        bs_now = self._balances(self.date_from, self.date_to, False)
-        unmapped = [(code, bal) for code, bal in self._cssk_unmapped_report(bs_now)
-                    if abs(bal) > self._UNMAPPED_MATERIALITY]
-        if unmapped:
-            out.append({
-                "code": "BS_UNMAPPED",
-                "severity": "warning",
-                "desc": "Účty nezachytené v žiadnom riadku výkazu",
-                "detail": "; ".join(
-                    "%s %.0f" % (code, bal) for code, bal in unmapped[:15])
-                + ("; …(%d ďalších)" % (len(unmapped) - 15)
-                   if len(unmapped) > 15 else ""),
-            })
         return out
 
     def action_export_xml(self):
@@ -429,22 +440,11 @@ class L10nSkUzpod(models.Model):
         xml_bytes = self._build_xml()
         self._validate(xml_bytes)
         violations = self.check_kontroly(xml_bytes)
-        # Severity-aware, matching the shared contract in
-        # cssk.statutory.submission.mixin._cssk_enforce_kontroly: only 'error'
-        # blocks. Every rule that predates this carries no severity key and so
-        # still defaults to 'error' — blocking behaviour for them is unchanged.
-        # Warnings are diagnostics (BS_UNMAPPED) that must reach the accountant
-        # without refusing a statement whose totals are sound.
-        errors = [v for v in violations if v.get("severity", "error") == "error"]
-        if errors:
+        if violations:
             raise UserError(_(
                 "UZPODv14 failed kontrolné pravidlá (XSD-valid but the výkaz "
                 "would be rejected):\n%s") % "\n".join(
-                "  • %s: %s" % (vio["desc"], vio["detail"]) for vio in errors))
-        for vio in violations:
-            if vio not in errors:
-                _logger.warning("UZPODv14 %s — %s: %s",
-                                self.display_name, vio["desc"], vio["detail"])
+                "  • %s: %s" % (vio["desc"], vio["detail"]) for vio in violations))
         att = self.env["ir.attachment"].create({
             "name": "UZPODv14%s-%s.xml" % (
                 "-opravna" if self.submission_type == "opravna" else "",

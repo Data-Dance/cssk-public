@@ -349,8 +349,7 @@
         <field name="country_id" ref="base.sk"/>
     </record>
     <record id="rule_parameter_income_tax_bands_2025" model="hr.rule.parameter.value">
-        <!-- Monthly 19%/25% boundary = 176.8 × ŽM(273.99) / 12 = 48441.43/12. -->
-        <field name="parameter_value">[[0.19, 4036.79], [0.25, 1000000000.0]]</field>
+        <field name="parameter_value">[[0.19, 3961.50], [0.25, 1000000000.0]]</field>
         <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands"/>
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
@@ -607,13 +606,6 @@
         <field name="rule_parameter_id" ref="rule_parameter_zivotne_minimum"/>
         <field name="date_from" eval="datetime(2025, 7, 1).date()"/>
     </record>
-    <!-- 295.13 → 295.22 from 1.7.2026; základná suma 140 % = 413.31 €.
-         Source: podnikajte.sk "Životné minimum od 1.7.2026 do 30.6.2027". -->
-    <record id="rule_parameter_zivotne_minimum_2026" model="hr.rule.parameter.value">
-        <field name="parameter_value">295.22</field>
-        <field name="rule_parameter_id" ref="rule_parameter_zivotne_minimum"/>
-        <field name="date_from" eval="datetime(2026, 7, 1).date()"/>
-    </record>
 
     <!-- Basic non-seizable amount (základná nepostihnuteľná suma na povinného)
          as a coefficient of životné minimum. 140% since 1.11.2020.
@@ -626,22 +618,6 @@
     <record id="rule_parameter_garnishment_basic_coeff_v" model="hr.rule.parameter.value">
         <field name="parameter_value">1.40</field>
         <field name="rule_parameter_id" ref="rule_parameter_garnishment_basic_coeff"/>
-        <field name="date_from" eval="datetime(2020, 11, 1).date()"/>
-    </record>
-
-    <!-- Basic non-seizable amount for a PRIORITY claim (§ 2 ods. 2 NV
-         268/2006): 100 % of the subsistence minimum, i.e. a priority creditor
-         may reach deeper than an ordinary one. Applying the 140 % ordinary
-         coefficient to priority claims under-deducts and is a defect.
-         Source: jaspis.sk "Exekučné zrážky zo mzdy zamestnanca od 1.7.2026". -->
-    <record id="rule_parameter_garnishment_priority_coeff" model="hr.rule.parameter">
-        <field name="name">Slovakia: Garnishment priority non-seizable coefficient (× subsistence minimum)</field>
-        <field name="code">l10n_sk_garnishment_priority_coeff</field>
-        <field name="country_id" ref="base.sk"/>
-    </record>
-    <record id="rule_parameter_garnishment_priority_coeff_v" model="hr.rule.parameter.value">
-        <field name="parameter_value">1.00</field>
-        <field name="rule_parameter_id" ref="rule_parameter_garnishment_priority_coeff"/>
         <field name="date_from" eval="datetime(2020, 11, 1).date()"/>
     </record>
 
@@ -774,259 +750,8 @@
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
 
-    <!-- ==================== YEAR 2024 (validated vs MRP mrpmapd.phc) ==================== -->
-    <record id="rule_parameter_social_sickness_ee_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">1.4</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_sickness_ee"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_sickness_er_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">1.4</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_sickness_er"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_pension_ee_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">4</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_pension_ee"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_pension_er_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">14</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_pension_er"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_disability_ee_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">3</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_disability_ee"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_disability_er_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">3</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_disability_er"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_unemployment_ee_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">1</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_unemployment_ee"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_unemployment_er_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">0.5</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_unemployment_er"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_shorttime_er_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">0.5</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_shorttime_er"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_guarantee_er_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">0.25</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_guarantee_er"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_accident_er_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">0.8</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_accident_er"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_social_reserve_er_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">4.75</field>
-        <field name="rule_parameter_id" ref="rule_parameter_social_reserve_er"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_health_rate_employee_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">4</field>
-        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employee"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_health_rate_employee_ztp_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">2</field>
-        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employee_ztp"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_health_rate_employer_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">11</field>
-        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employer"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_health_rate_employer_ztp_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">5.5</field>
-        <field name="rule_parameter_id" ref="rule_parameter_health_rate_employer_ztp"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_health_min_base_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">268.88</field>
-        <field name="rule_parameter_id" ref="rule_parameter_health_min_base"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_health_oop_max_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">380</field>
-        <field name="rule_parameter_id" ref="rule_parameter_health_oop_max"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_health_oop_phaseout_end_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">570</field>
-        <field name="rule_parameter_id" ref="rule_parameter_health_oop_phaseout_end"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_nczd_monthly_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">470.54</field>
-        <field name="rule_parameter_id" ref="rule_parameter_nczd_monthly"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_nczd_annual_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">5646.48</field>
-        <field name="rule_parameter_id" ref="rule_parameter_nczd_annual"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_nczd_taper_threshold_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">24952.06</field>
-        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_threshold"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_nczd_taper_const_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">11884.50</field>
-        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_const"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_income_tax_bands_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">[[0.19, 3961.50], [0.25, 1000000000.0]]</field>
-        <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_income_tax_bands_annual_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">[[0.19, 47537.98], [0.25, 1000000000.0]]</field>
-        <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands_annual"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_monthly_taxable_max_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">9128.0</field>
-        <field name="rule_parameter_id" ref="rule_parameter_monthly_taxable_max"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_min_hourly_wage_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">4.310</field>
-        <field name="rule_parameter_id" ref="rule_parameter_min_hourly_wage"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_dohoda_oop_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">200</field>
-        <field name="rule_parameter_id" ref="rule_parameter_dohoda_oop"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_dds_annual_cap_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">180</field>
-        <field name="rule_parameter_id" ref="rule_parameter_dds_annual_cap"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_meal_employer_pct_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">55</field>
-        <field name="rule_parameter_id" ref="rule_parameter_meal_employer_pct"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_meal_voucher_min_pct_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">75</field>
-        <field name="rule_parameter_id" ref="rule_parameter_meal_voucher_min_pct"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_stravne_5_12h_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">7.30</field>
-        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_child_bonus_under_15_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">140</field>
-        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_under_15"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_child_bonus_15_18_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">140</field>
-        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_15_18"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_child_bonus_pct_caps_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">[20, 27, 34, 41, 48, 55]</field>
-        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_pct_caps"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_child_bonus_taper_threshold_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">1000000000</field>
-        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_taper_threshold"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_child_bonus_taper_coeff_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">0.0</field>
-        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_taper_coeff"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_pn_rate_tier1_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">25</field>
-        <field name="rule_parameter_id" ref="rule_parameter_pn_rate_tier1"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_pn_rate_tier2_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">55</field>
-        <field name="rule_parameter_id" ref="rule_parameter_pn_rate_tier2"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_pn_tier1_days_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">3</field>
-        <field name="rule_parameter_id" ref="rule_parameter_pn_tier1_days"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_pn_employer_days_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">10</field>
-        <field name="rule_parameter_id" ref="rule_parameter_pn_employer_days"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_pn_max_dvz_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">79.6274</field>
-        <field name="rule_parameter_id" ref="rule_parameter_pn_max_dvz"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-    <record id="rule_parameter_zivotne_minimum_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">268.88</field>
-        <field name="rule_parameter_id" ref="rule_parameter_zivotne_minimum"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-
-    <!-- ===================================================================
-         §134 ods. 3 Zákonníka práce — the determining-period hours test.
-         If the employee did not work at least this many hours in the previous
-         quarter, the probable earnings (pravdepodobný zárobok) are used
-         instead of the average. Parameterised rather than inlined so BOTH
-         engines read one number: they previously diverged on the fallback
-         divisor, which silently moved every náhrada by ~1 %.
-         =================================================================== -->
-    <record id="rule_parameter_avg_earnings_min_hours" model="hr.rule.parameter">
-        <field name="name">Slovakia: Average earnings — minimum hours in the determining period</field>
-        <field name="code">l10n_sk_avg_earnings_min_hours</field>
-        <field name="country_id" ref="base.sk"/>
-    </record>
-    <record id="rule_parameter_avg_earnings_min_hours_v" model="hr.rule.parameter.value">
-        <field name="parameter_value">168</field>
-        <field name="rule_parameter_id" ref="rule_parameter_avg_earnings_min_hours"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-
-    <!-- ===================================================================
-         § 142 Zákonníka práce — PREKÁŽKY V PRÁCI NA STRANE ZAMESTNÁVATEĽA.
-         Náhrada mzdy as a percentage of priemerný zárobok. These are statutory
-         MINIMA: a collective agreement or the employer may pay more, which is
-         why they are dated parameters rather than literals in a rule body.
-
-           ods. 1  prestoj (porucha stroja, dodávka surovín, chybné podklady),
-                   if the employee was not reassigned          — 100 %
-           ods. 2  nepriaznivé poveternostné vplyvy            — najmenej 50 %
-           ods. 3  iné prekážky na strane zamestnávateľa       — 100 %
-           ods. 4  vážne prevádzkové dôvody vymedzené v písomnej dohode so
-                   zástupcami zamestnancov                     — najmenej 60 %
-
-         Until now every one of these landed on the generic OBSTACLE bucket and
-         was therefore paid at the full 100 %, overpaying a prestoj-for-weather
-         by half the náhrada.
-         =================================================================== -->
+    <!-- § 142 — PREKÁŽKY NA STRANE ZAMESTNÁVATEĽA. Statutory MINIMA, so dated
+         parameters rather than literals in a rule body. -->
     <record id="rule_parameter_prekazka_prestoj_pct" model="hr.rule.parameter">
         <field name="name">Slovakia: Employer obstacle — prestoj (%)</field>
         <field name="code">l10n_sk_prekazka_prestoj_pct</field>
@@ -1070,4 +795,5 @@
         <field name="rule_parameter_id" ref="rule_parameter_prekazka_vazne_pct"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
+
 </odoo>

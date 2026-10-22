@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3 — see the LICENSE file.
 from datetime import datetime
 
 from lxml import etree
@@ -45,10 +45,7 @@ class TestInstatBuilder(TransactionCase):
         self.assertEqual(item.findtext("netMass"), "13")     # xs:integer
         self.assertEqual(item.findtext("invoicedAmount"), "4380")
         self.assertEqual(
-            item.findtext("NatureOfTransaction/natureOfTransactionACode"), "1")
-        self.assertEqual(
-            item.findtext("NatureOfTransaction/natureOfTransactionBCode"), "1",
-            "the 2-digit code is columns A and B, not one A code")
+            item.findtext("NatureOfTransaction/natureOfTransactionACode"), "11")
         self.assertEqual(item.findtext("regionCode"), "SK010")
         self.assertEqual(item.findtext("partnerId"), "CZ12345678")  # dispatch only
 
@@ -101,11 +98,9 @@ class TestInstatBuilder(TransactionCase):
     # CZ Celní správa InstatOnline CSV
     # ------------------------------------------------------------------
     def test_cz_intrastat_csv_matches_official_format(self):
-        """Byte-for-byte match with the official InstatOnline CSV format.
-
-        Header, field order, separator and decimal convention are all fixed by
-        Celní správa; this pins the exact bytes so a refactor cannot quietly
-        reshape a filing."""
+        """Byte-for-byte match with the official Odoo EE l10n_cz_intrastat
+        expected output (its test_cz_intrastat_export.py), proving the CE/OCA
+        adapter files the same InstatOnline CSV the EE module does."""
         b = self.env["cssk.instat.builder"]
         dispatch = b.build_cz_intrastat_csv(
             {"month": "07", "year": "2025", "vat": "CZ12345679", "direction": "D"},

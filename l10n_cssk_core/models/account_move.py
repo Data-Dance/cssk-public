@@ -1,7 +1,7 @@
 import logging
 from datetime import timedelta
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -194,6 +194,68 @@ class AccountMove(models.Model):
             "view_mode": "form",
             "target": "new",
         }
+
+    # ------------------------------------------------------------------
+    # Taxable supply date (DUZP / deň dodania) — a 19.0 CORE field, absent
+    # from 18.0
+    # ------------------------------------------------------------------
+    #
+    # 19.0 added `taxable_supply_date` to account.move as a deliberately empty
+    # hook (`_compute_taxable_supply_date` is `pass`, the field is never shown)
+    # and let each localization fill it: l10n_cz defaults it to today and drags
+    # the accounting date and the FX rate date with it, l10n_sk only makes it
+    # visible. 18.0 core has none of that, so the whole mechanism is
+    # reimplemented here rather than the feature being dropped on this series.
+    #
+    # It is the VAT tax point in both countries — it decides which period a
+    # document falls in — so a CZ/SK localization without it is not a
+    # localization. Defined in this country-neutral core, with the CZ and SK
+    # behaviour kept apart below exactly as core keeps them apart in 19.0.
+
+    taxable_supply_date = fields.Date(
+        string="Taxable Supply Date",
+        copy=False,
+        store=True,
+        compute="_compute_taxable_supply_date",
+        precompute=True,
+        readonly=False,
+    )
+    show_taxable_supply_date = fields.Boolean(compute="_compute_show_taxable_supply_date")
+    taxable_supply_date_placeholder = fields.Char(
+        compute="_compute_taxable_supply_date_placeholder")
+
+    @api.depends("country_code")
+    def _compute_taxable_supply_date(self):
+        # CZ defaults it to today; SK leaves it for the user to set.
+        for move in self:
+            if move.country_code == "CZ" and not move.taxable_supply_date:
+                move.taxable_supply_date = fields.Date.context_today(move)
+
+    @api.depends("country_code")
+    def _compute_show_taxable_supply_date(self):
+        for move in self:
+            move.show_taxable_supply_date = (
+                (move.country_code == "CZ" and move.move_type != "entry")
+                or move.country_code == "SK"
+            )
+
+    def _compute_taxable_supply_date_placeholder(self):
+        for move in self:
+            move.taxable_supply_date_placeholder = ""
+
+    def _get_accounting_date_source(self):
+        # CZ only: the tax point drives the accounting date. SK does not do
+        # this, which is why the two are not merged into one country test.
+        return (
+            (self.country_code == "CZ" and self.taxable_supply_date)
+            or super()._get_accounting_date_source()
+        )
+
+    def _get_invoice_currency_rate_date(self):
+        return (
+            (self.country_code == "CZ" and self.taxable_supply_date)
+            or super()._get_invoice_currency_rate_date()
+        )
 
     # NB: the CZ/SK payment symbols (VS/KS/SS) historically lived here; they
     # moved to the dedicated l10n_cssk_payment_symbols module, which also owns

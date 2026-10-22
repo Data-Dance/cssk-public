@@ -1,5 +1,6 @@
 import json
 import logging
+import time
 from datetime import datetime, timezone
 
 from odoo import _, api, fields, models
@@ -108,11 +109,7 @@ class Vrp2Receipt(models.Model):
     vrp2_created = fields.Datetime("Fiscalized On", readonly=True)
     okp = fields.Char("OKP", readonly=True, help="Overovací kód podnikateľa.")
     qr_content = fields.Char(
-        "Receipt Data",
-        readonly=True,
-        help="VRP2 dataBase64: the whole receipt as base64 JSON (items, VAT "
-        "summary, payments). NOT the QR code — the printed QR encodes only "
-        "the receiptId (decoded from four official receipts, 2026-10-06).",
+        "QR Content", readonly=True, help="Data encoded in the receipt QR code."
     )
     pdf_receipt = fields.Binary(
         "Receipt PDF", readonly=True, copy=False, attachment=True,
@@ -306,17 +303,12 @@ class Vrp2Receipt(models.Model):
         original ``receiptId`` and an ``EXPENSE`` payment for the refunded sum.
         Invoice-payment receipts carry no VAT breakdown (VAT lives on the
         invoice), so the correction line uses ``vatRate`` 0.
-
-        ``vatPayer`` and ``version`` come from the register's dashboard
-        (``organization.vatPayer``, ``cashRegister.version``) — the capture's
-        version equalled the dashboard's, not the clock.
         """
         self.ensure_one()
         amount = self._vrp2_storno_amount()
         currency = self.currency_id.name or "EUR"
-        header = self.company_id._vrp2_valid_receipt_header()
         return {
-            "vatPayer": header["vatPayer"],
+            "vatPayer": bool(self.company_id.vat),
             "items": [{
                 "priceWithVat": -amount,
                 "discount": 0,
@@ -334,7 +326,7 @@ class Vrp2Receipt(models.Model):
                 "amount": -amount,
             }],
             "priceWithVat": -amount,
-            "version": header["version"],
+            "version": int(time.time() * 1000),
             "useRounding": False,
         }
 

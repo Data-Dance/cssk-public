@@ -1,6 +1,6 @@
 {
     "name": "CZ Localization — Statutory Reference Data",
-    "version": "19.0.1.3.0",
+    "version": "18.0.1.3.0",
     "summary": "Czech statutory reference registries: finanční úřady (seeded "
                "from the official l10n_cz.tax_office codelist) and person types.",
     "description": """
@@ -24,6 +24,10 @@ loads on a Slovak database.
     "category": "Accounting/Localizations",
     "depends": ["l10n_cz", "l10n_cssk_core", "partner_nace"],
     "data": [
+        # The first two are 18.0 only: they carry the back-ported
+        # ``l10n_cz.tax_office`` model that 19.0 gets from core ``l10n_cz``.
+        "security/ir.model.access.csv",
+        "data/l10n_cz.tax_office.csv",
         "data/cz_person_type_data.xml",
         "views/res_company_views.xml",
         "views/account_move_views.xml",

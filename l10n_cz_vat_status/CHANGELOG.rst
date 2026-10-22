@@ -8,6 +8,55 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.1.2] — 2026-10-19
+-------------------------
+
+Fixed
+~~~~~
+
+- **The DUZP was printed on a non-payer's invoice, which is the one thing this
+  module's report override exists to suppress.** A document issued while the
+  company is not a plátce is not a daňový doklad — § 28 odst. 1 puts that duty
+  on a plátce, and § 29 písm. h) lists the DUZP among what one carries — so it
+  must not show a Taxable Supply date.
+
+  The override's anchor was ``//div[@name='taxable_supply_date']``, unqualified.
+  19.0 has exactly one such div, in core ``account``'s invoice report. **18.0
+  has two:** ``l10n_cz`` and ``l10n_sk`` each add their own, both named
+  ``taxable_supply_date``, each gated on its own ``country_code``. An
+  unqualified spec takes the FIRST match — whichever localization loaded
+  earlier — so the override rewrote the Slovak div and left the Czech one
+  printing.
+
+  It failed in the worst way available: the xpath resolved, so nothing raised,
+  no view was broken, and the only symptom was a date on a document that should
+  not carry one. Now qualified on the CZ condition, which is the only thing
+  distinguishing the two divs. ``t-if`` is not a translated attribute, so it is
+  valid as a selector where ``@string`` would be refused by
+  ``_valid_inheritance``.
+
+  Verified with both localizations installed, so that both divs are present —
+  the single-localization database the suite used before could not have caught
+  it.
+
+[18.0.1.1.1] — 2026-10-19
+-------------------------
+
+Fixed
+~~~~~
+
+- **The module could not install on 18.0 at all.** The VAT-status warning and
+  the declared-date notice were anchored after core's ``alerts`` div, which
+  exists only on 19.0 — ``account.move.alerts`` is a ``fields.Json`` added to
+  ``account`` in that series and rendered by the ``actionable_errors`` widget.
+  18.0 has neither the field nor the div, so the view failed to resolve and
+  took ``l10n_cz_vat_status_purchase`` and ``l10n_cz_vat_status_sale`` with it.
+  Anchored instead before core's duplicate-document warning, which is the first
+  banner of 18.0's alert band and so the same slot 19.0 puts them in.
+
+  The anchor is deliberately **not** the 19.0 one and carries a comment saying
+  so; a future forward-port must not copy the 19.0 xpath down.
+
 [19.0.1.1.0] — 2026-09-29
 -------------------------
 

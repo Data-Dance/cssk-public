@@ -4,18 +4,18 @@
 
         <!-- Customer DIČ, alongside the IČ DPH / IČO core+l10n_sk already print -->
         <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']" position="after">
-            <div t-if="o.partner_id.l10n_sk_dic and o.company_id.country_code == 'SK'">
-                DIČ: <span t-field="o.partner_id.l10n_sk_dic" />
+            <div t-if="o.partner_id.l10n_cssk_dic and o.company_id.country_code == 'SK'">
+                DIČ: <span t-field="o.partner_id.l10n_cssk_dic" />
             </div>
         </xpath>
         <xpath expr="//div[@id='partner_vat_address_same_as_shipping']" position="after">
-            <div t-if="o.partner_id.l10n_sk_dic and o.company_id.country_code == 'SK'">
-                DIČ: <span t-field="o.partner_id.l10n_sk_dic" />
+            <div t-if="o.partner_id.l10n_cssk_dic and o.company_id.country_code == 'SK'">
+                DIČ: <span t-field="o.partner_id.l10n_cssk_dic" />
             </div>
         </xpath>
         <xpath expr="//div[@id='partner_vat_no_shipping']" position="after">
-            <div t-if="o.partner_id.l10n_sk_dic and o.company_id.country_code == 'SK'">
-                DIČ: <span t-field="o.partner_id.l10n_sk_dic" />
+            <div t-if="o.partner_id.l10n_cssk_dic and o.company_id.country_code == 'SK'">
+                DIČ: <span t-field="o.partner_id.l10n_cssk_dic" />
             </div>
         </xpath>
 

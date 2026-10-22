@@ -61,10 +61,10 @@ class L10nCzPppz(models.Model):
         "assigned to this insurer are aggregated.")
     # This form already had its own radny/opravny selection and did emit it as
     # <typPrehledu>. It is now driven by the shared correction_type instead, so
-    # that "is this an amendment?" means one thing across all twelve forms and
-    # the guard against amending a period never filed applies here too.
-    # The zdravotní pojišťovny accept a corrective overview but no dodatečný
-    # or storno, so only those two are offered.
+    # that "is this an amendment?" means one thing across all the forms and the
+    # guard against amending a period never filed applies here too. The
+    # zdravotní pojišťovny accept a corrective overview but no dodatečný or
+    # storno, so only those two are offered.
     _supported_correction_types = ("regular", "corrective")
 
     @api.depends("year", "month", "company_id", "insurer_code")
@@ -134,7 +134,7 @@ class L10nCzPppz(models.Model):
                 code=self.insurer_code, month=self.month, year=self.year))
         return {
             "insurer_code": self.insurer_code,
-            # The wire spelling stays Czech; the concept is shared.
+            # <typPrehledu> keeps the Czech spelling on the wire.
             "report_type": "opravny" if self.is_correction else "radny",
             "employer": health_employer_identification(self.company_id),
             "mesic": str(int(self.month)),

@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "SK OSS VAT Return (DPOSS_EU — úprava pre Úniu)",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Slovak layer of the OSS return: the Finančná správa eForm "
                "DPOSS_EUv01 XML (daňové priznanie k DPH — osobitná úprava "
                "pre Úniu), on the EU OSSVATReturnMSCON schema, XSD-validated.",

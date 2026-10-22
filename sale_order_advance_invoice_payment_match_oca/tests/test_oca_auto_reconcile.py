@@ -10,7 +10,7 @@ class TestOcaAutoReconcileAdvance(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
+        cls.env.user.groups_id |= cls.env.ref("sales_team.group_sale_manager")
         company = cls.env.company
         Account = cls.env["account.account"]
         cls.clearing = Account.create({
@@ -58,6 +58,8 @@ class TestOcaAutoReconcileAdvance(AccountTestInvoicingCommon):
             "payment_ref": f"payment {advance.name}",
             "amount": advance.amount_total,
         })
-        line._do_auto_reconcile()
+        # 18.0 signature: per-record with the reconcile-model candidates;
+        # the advance match must fire before any model is applied.
+        line._do_auto_reconcile(self.env["account.reconcile.model"])
         self.assertTrue(line.is_reconciled)
         self.assertEqual(advance.advance_invoice_payment_status, "paid_fully")

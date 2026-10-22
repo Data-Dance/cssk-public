@@ -1,12 +1,11 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """What the one-click SK bundle actually delivers.
 
 The umbrella is how a customer gets this collection, so a module that is not
-reachable from here — as a dependency, as a settings toggle, or as a bridge
-that auto-installs behind two of them — effectively does not ship. Every module
-built for SK was invisible this way until 2026-08-05, which is the failure this
-asserts against.
+reachable from here — as a dependency or as a settings toggle — effectively does
+not ship. Every module built for SK was invisible this way until 2026-08-08 on
+this branch, which is the failure this asserts against.
 """
 
 from odoo.modules.module import get_manifest
@@ -17,13 +16,6 @@ from odoo.tests import TransactionCase, tagged
 # the mistake this catches.
 EXPECTED_HARD_DEPENDENCIES = {
     "l10n_sk_inventory_verification",
-}
-# Bridges: glue that exists only where two optional pieces are both installed,
-# and that installs itself when they are. Neither a dependency nor a toggle of
-# the bundle, so the two sets above cannot describe them. Maps bridge -> the
-# optional modules it exists for.
-EXPECTED_AUTO_INSTALL = {
-    "l10n_sk_dppo_fs": {"l10n_sk_dppo", "l10n_sk_fs"},
 }
 EXPECTED_TOGGLES = {
     "l10n_sk_account_move_template",
@@ -91,51 +83,34 @@ class TestSuiteCoverage(TransactionCase):
                 manifest.get("installable", True), f"{name} is not installable"
             )
 
-    def test_bridges_auto_install_from_their_optional_pieces(self):
-        """A bridge must reach the customer without anyone knowing it exists.
+    def test_no_agpl_module_is_a_hard_dependency(self):
+        """The licensing firewall this bundle is built on.
 
-        ``l10n_sk_fs`` and ``l10n_sk_dppo`` left ``depends`` for toggles in
-        19.0.1.2.0, and the DPPO↔závierka glue stayed behind in the umbrella —
-        which made the bundle uninstallable on a clean database (the model it
-        inherits was no longer in the graph). The glue now lives in a bridge;
-        this asserts the bridge is wired the way that fix depends on.
-        """
-        for name, optional in EXPECTED_AUTO_INSTALL.items():
-            manifest = self._manifest(name)
-            self.assertIsNotNone(manifest, f"{name} is not on the addons path")
-            self.assertTrue(manifest.get("auto_install"),
-                            f"{name} is not auto_install, so nobody installs it")
-            depends = set(manifest.get("depends", []))
-            self.assertIn("l10n_sk_datadance", depends)
-            self.assertLessEqual(
-                optional, depends,
-                f"{name} must depend on the optional modules it bridges")
-            self.assertLessEqual(
-                optional, self._toggle_fields(),
-                f"{name} bridges modules the bundle offers no toggle for")
-
-    def test_the_bundle_hard_depends_only_on_publishable_modules(self):
-        """The licensing rule, restated for an AGPL bundle.
-
-        Until 19.0.1.2.0 this umbrella was ``Other proprietary`` and the rule
-        ran the other way: an AGPL dependency would have relicensed it, so
-        every AGPL piece was reached through a toggle. The bundle is AGPL-3
-        itself now and its dependencies are AGPL-3 with it. What must not
-        happen is the reverse — a hard dependency on a module we may not
-        publish (the OEEL-bound ``_ee`` bridges), which would make the
-        published bundle uninstallable from the public repository. That is the
-        same failure the toggles exist to prevent, so assert it directly.
+        AGPL is viral over network use, so hard-depending on an AGPL module
+        would relicense the whole proprietary bundle. AGPL pieces are reached
+        through settings toggles instead: ticking one installs it into the
+        customer's database without this module depending on it. Asserted rather
+        than trusted, because `depends` is the easiest place to get it wrong.
         """
         offenders = {}
         for name in self.module.dependencies_id.mapped("name"):
             manifest = self._manifest(name)
-            if manifest is None:
-                continue  # not on this addons path at all
-            licence = manifest.get("license") or ""
-            if "AGPL" not in licence and not licence.startswith("LGPL"):
-                offenders[name] = licence or "(no license)"
+            if manifest and "AGPL" in (manifest.get("license") or ""):
+                offenders[name] = manifest["license"]
         self.assertFalse(
             offenders,
-            "hard dependencies of the published bundle must be publishable: "
-            f"{offenders}",
+            "AGPL modules must be toggles, not dependencies of a proprietary "
+            f"bundle: {offenders}",
         )
+
+    def test_hard_dependencies_are_all_proprietary(self):
+        """The same rule stated positively, so a new licence type is noticed."""
+        for name in self.module.dependencies_id.mapped("name"):
+            manifest = self._manifest(name)
+            if manifest is None:
+                continue  # not on this addons path at all
+            self.assertEqual(
+                manifest.get("license"),
+                "Other proprietary",
+                f"{name} is a hard dependency but is not proprietary",
+            )

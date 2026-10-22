@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Asset Depreciation Board",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Interactive depreciation schedule and pivot/graph analysis "
     "for OCA assets (Community)",
     "description": """

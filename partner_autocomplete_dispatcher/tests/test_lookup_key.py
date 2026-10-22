@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """Which partners may be looked up in a company register, and by what.
 
 Pinned because the distinction is invisible in the data: a contact inside a
@@ -96,33 +96,19 @@ class TestImportEnrichTrigger(TransactionCase):
     one. Its default puts it into every create, so an unguarded inverse turned
     every new company with an IČO into a register lookup."""
 
-    def _spy_update(self):
-        # A plain function, not a MagicMock: 19.0 resolves a field's inverse
-        # by method and reads its __name__.
-        calls = []
-
-        def _update_partner_info(records):
-            calls.append(records)
-
-        return calls, patch.object(
-            type(self.env["res.partner"]), "_update_partner_info", _update_partner_info
-        )
-
     def test_saving_a_company_does_not_look_it_up(self):
-        calls, spy = self._spy_update()
-        with spy:
+        with patch.object(type(self.env["res.partner"]), "_update_partner_info") as update:
             self.env["res.partner"].create({
                 "name": "Typed by hand s.r.o.",
                 "is_company": True,
                 "company_registry": "12345679",
             })
-        self.assertFalse(calls)
+        update.assert_not_called()
 
     def test_an_import_column_does(self):
-        calls, spy = self._spy_update()
-        with spy:
-            partner = self.env["res.partner"].create({
+        with patch.object(type(self.env["res.partner"]), "_update_partner_info") as update:
+            self.env["res.partner"].create({
                 "name": "Imported s.r.o.",
                 "import_enrich_company": "12345679",
             })
-        self.assertEqual(calls, [partner])
+        update.assert_called_once()

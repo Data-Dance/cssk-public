@@ -1,62 +1,13 @@
-==================================================
-SK Účtovné vzory — predkontácie interných dokladov
-==================================================
+===============================
+SK Predkontácie (účtovné vzory)
+===============================
 
-Named MD/D patterns for **interné doklady** on the Slovak chart of accounts
-(``l10n_sk``), built on the OCA journal-entry template engine
-(``account_move_template``). The accountant picks a pattern, types one amount,
-and gets a balanced draft entry.
+Thin country layer between the Slovak chart of accounts (``l10n_sk``) and the OCA
+journal-entry template engine (``account_move_template``). It ships a small starter
+set of Slovak *predkontácie* — named MD/D patterns that an accountant picks from a
+wizard, enters one amount, and posts — resolved against the Slovak chart.
 
-What this is not
-================
-
-The word *predkontácia* is ambiguous, and the ambiguity matters here.
-
-In POHODA, ABRA Gen, Money S3 and Omega a predkontácia is an attribute **of a
-document**. ABRA defines it per document type and even per document series, it
-is offered for selection on the document, and posting the document (*zaúčtovanie*)
-derives the MD/D lines from it. It is the system's mechanism for automated
-posting of source documents.
-
-**This module is not that, and neither is the engine underneath it.**
-``account_move_template`` has no link to any document: it never touches
-``account.move`` except to ``create()`` one. The arrow points the other way —
-in ABRA the document selects the predkontácia, here the predkontácia produces a
-new document. Afterwards nothing but a chatter message records the connection.
-
-What this module covers is therefore the **interný doklad** slice: entries that
-have no source document to derive anything from. That slice is real, and it is
-the one Odoo genuinely had nothing for.
-
-Where the rest of the predkontácia surface lives in Odoo
-========================================================
-
-For invoices, bank and cash, Odoo automates posting too — it just *derives* the
-accounts instead of letting you *declare* them, and the ruleset is spread over
-several objects rather than concentrated in one named list:
-
-===================================  ==========================================
-Predkontácia would decide…           …in Odoo it comes from
-===================================  ==========================================
-Invoice line account                 product / product category income+expense,
-                                     remapped by the fiscal position
-Receivable / payable leg             partner ``property_account_receivable_id``
-                                     / ``property_account_payable_id``, also
-                                     fiscal-position mapped
-DPH accounts                         the tax's repartition lines
-Bank / cash statement counterpart    ``account.reconcile.model``
-Fallback account                     ``account.journal.default_account_id``
-Inventory postings                   stock valuation accounts (Method A family)
-===================================  ==========================================
-
-A consequence worth planning for: migrating a customer's predkontácia list into
-Odoo is a **conversion exercise, not a lift-and-shift**. A list of sixty
-predkontácie decomposes into product categories, fiscal positions, partner
-accounts and tax repartitions; only the leftover internal ones become records
-in this module.
-
-Starter set
-===========
+Starter set:
 
 * **Prevod peňazí cez účet 261** (peniaze na ceste), both legs, both directions —
   výber z pokladnice (261/211), príjem na bankový účet (221/261), výber z
@@ -89,21 +40,10 @@ Features
 Usage
 =====
 
-Install on a database using the Slovak chart of accounts. Two menus, both from
-the OCA engine:
-
-**Maintain the patterns** — *Fakturácia ▸ Konfigurácia ▸ Účtovníctvo ▸ Účtovné
-vzory (predkontácie)*. Requires the *Billing Administrator*
-(``account.group_account_manager``) group. The six shipped patterns are already
-in that list and are freely editable.
-
-**Post an entry** — *Fakturácia ▸ Účtovníctvo ▸ Vytvoriť zápis podľa vzoru*.
-Pick a pattern, press *Ďalej*, type the amount, press *Vytvoriť účtovný zápis*.
-The same wizard is reachable from the *Vytvoriť účtovný zápis* button on the
-pattern's own form.
-
-The entry is created **in draft** — the engine never posts it, so the normal
-review-and-post control is untouched.
+Install on a database using the Slovak chart of accounts, then
+*Accounting ▸ Accounting ▸ Journal Entry Templates*. Pick a predkontácia, press
+*Generate Journal Entry*, enter the amount, and the balanced entry is created in
+the general journal.
 
 Scope note
 ==========

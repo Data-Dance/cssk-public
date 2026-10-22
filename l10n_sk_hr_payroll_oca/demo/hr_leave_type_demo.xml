@@ -8,7 +8,7 @@
     -->
     <record id="demo_leave_type_sk_holiday" model="hr.leave.type">
         <field name="name">Holiday (demo)</field>
-        <field name="requires_allocation" eval="False"/>
+        <field name="requires_allocation">no</field>
         <field name="leave_validation_type">hr</field>
         <field name="allocation_validation_type">no_validation</field>
         <field name="request_unit">day</field>

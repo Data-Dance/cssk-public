@@ -16,7 +16,23 @@
     -->
     <template id="report_invoice_document_cz_vat_status"
               inherit_id="account.report_invoice_document">
-        <xpath expr="//div[@name='taxable_supply_date']" position="attributes">
+        <!--
+            18.0 ANCHOR, QUALIFIED ON PURPOSE. 19.0 has ONE such div, in core
+            ``account``'s report. On 18.0 there are TWO: ``l10n_cz`` and
+            ``l10n_sk`` each add their own, both named ``taxable_supply_date``
+            and each gated on its own ``country_code``. An unqualified spec
+            takes the FIRST match, which is whichever of the two localizations
+            loaded earlier — so this used to rewrite the Slovak div and leave
+            the Czech one printing the DUZP on a non-payer's invoice, which is
+            exactly what it exists to suppress. It failed silently: the xpath
+            resolved, so nothing raised.
+
+            Qualified on the CZ condition, which is the only thing that tells
+            the two apart. The ``t-if`` is not a translated attribute, so it is
+            valid as a selector where ``@string`` would be refused.
+        -->
+        <xpath expr="//div[@name='taxable_supply_date'][contains(@t-if, &quot;'CZ'&quot;)]"
+               position="attributes">
             <attribute name="t-if">o.taxable_supply_date and o.show_taxable_supply_date and o.l10n_cz_vat_status_is_tax_document</attribute>
         </xpath>
         <xpath expr="//div[@name='comment']" position="after">

@@ -1,8 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 {
     "name": "CZ/SK Payment Symbols — Payment Orders",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Copy invoice VS/KS/SS onto OCA payment order lines.",
     "description": """
 CZ/SK Payment Symbols — Payment Orders

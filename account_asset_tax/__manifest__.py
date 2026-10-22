@@ -1,6 +1,6 @@
 {
     "name": "Tax Depreciation (CZ/SK dual depreciation core)",
-    "version": "19.0.1.9.4",
+    "version": "18.0.1.9.3",
     "summary": "Country-neutral engine for a second, non-posted tax-depreciation "
                "board alongside accounting depreciation (daňové vs účetní/účtovné odpisy)",
     "description": """

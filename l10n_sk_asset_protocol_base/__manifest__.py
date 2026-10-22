@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
 {
     "name": "SK Protokoly k majetku — base",
     "summary": "Engine-neutral Slovak asset-protocol data and templates, shared "
@@ -40,7 +40,7 @@ practice expects, and are meant to be adapted.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.4",
+    "version": "18.0.1.0.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk"],

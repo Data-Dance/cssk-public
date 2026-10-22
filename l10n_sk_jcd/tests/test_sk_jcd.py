@@ -44,143 +44,6 @@ class TestSkJcd(AccountTestInvoicingCommon):
         return jcd
 
     # ------------------------------------------------------------------
-    def _historic_clone(self, current, rate, valid_from, valid_to):
-        """A historical rate as the generator makes one: an archived clone."""
-        clone = current.copy({"name": "%g%% historic" % rate, "amount": rate})
-        clone.write({
-            "cssk_historic_valid_from": valid_from,
-            "cssk_historic_valid_to": valid_to,
-            "cssk_historic_source_tax_id": current.id,
-            "active": False,
-        })
-        return clone
-
-    def _requires_historic_rates(self):
-        if "cssk_historic_source_tax_id" not in self.env["account.tax"]._fields:
-            self.skipTest("l10n_cssk_vat_return_base is not installed")
-
-    def test_a_back_dated_declaration_is_taxed_at_the_rate_of_its_day(self):
-        """The chart ships today's rates; a 2019 import was not taxed at them.
-
-        The base is what the customs office assessed, so posting at the current
-        rate moves only the tax figure — silently, and by three points.
-        """
-        self._requires_historic_rates()
-        jcd = self._jcd(vat_rate="23", date="2019-06-30")
-        current = self.env.ref(
-            "account.%s_vs_cust_23" % self.company.id, raise_if_not_found=False
-        )
-        self.assertTrue(current, "premise: the SK chart ships the 23 % import tax")
-        self._historic_clone(current, 20.0, "2011-01-01", "2024-12-31")
-
-        jcd.invalidate_recordset()
-        self.assertEqual(jcd._get_import_tax().amount, 20.0)
-        self.assertEqual(jcd.vat_rate_effective, 20.0)
-        self.assertEqual(jcd.vat_amount, jcd.currency_id.round(jcd.vat_base * 0.20))
-
-    def test_a_current_declaration_still_uses_the_current_rate(self):
-        self._requires_historic_rates()
-        jcd = self._jcd(vat_rate="23", date="2026-06-30")
-        current = self.env.ref("account.%s_vs_cust_23" % self.company.id)
-        self._historic_clone(current, 20.0, "2011-01-01", "2024-12-31")
-
-        jcd.invalidate_recordset()
-        self.assertEqual(jcd._get_import_tax(), current)
-        self.assertEqual(jcd.vat_rate_effective, 23.0)
-
-    def test_the_shown_rate_and_the_posted_tax_cannot_disagree(self):
-        """`vat_amount` reads the resolved tax, not the band's label.
-
-        A document that displays one rate and posts another is worse than one
-        that is simply wrong, because it looks checked.
-        """
-        self._requires_historic_rates()
-        jcd = self._jcd(vat_rate="23", date="2019-06-30")
-        current = self.env.ref("account.%s_vs_cust_23" % self.company.id)
-        self._historic_clone(current, 20.0, "2011-01-01", "2024-12-31")
-        jcd.invalidate_recordset()
-
-        self.assertEqual(jcd.vat_rate_effective, jcd._get_import_tax().amount)
-        self.assertAlmostEqual(
-            jcd.vat_amount,
-            jcd.currency_id.round(
-                jcd.vat_base * jcd.vat_rate_effective / 100.0),
-            places=2,
-        )
-
-    def test_a_date_older_than_any_known_rate_keeps_the_current_one(self):
-        """Slovak rates before 2011 are deliberately not cloned, so there is
-        nothing to resolve to. Falling back to the band leaves the accountant
-        where they were rather than failing to post at all."""
-        self._requires_historic_rates()
-        jcd = self._jcd(vat_rate="23", date="2008-06-30")
-        current = self.env.ref("account.%s_vs_cust_23" % self.company.id)
-        self._historic_clone(current, 20.0, "2011-01-01", "2024-12-31")
-        jcd.invalidate_recordset()
-        self.assertEqual(jcd._get_import_tax(), current)
-
-    def test_a_back_dated_declaration_POSTS_at_the_rate_of_its_day(self):
-        """The one that matters: not what resolves, but what reaches the books.
-
-        The historical rate is an ARCHIVED tax, and an archived tax on a posted
-        move line is the part of this worth proving rather than assuming.
-        """
-        self._requires_historic_rates()
-        jcd = self._jcd(vat_rate="23", date="2019-06-30", duty_amount=0.0)
-        current = self.env.ref("account.%s_vs_cust_23" % self.company.id)
-        clone = self._historic_clone(current, 20.0, "2011-01-01", "2024-12-31")
-        jcd.invalidate_recordset()
-        self._confirm_customs_document(jcd)
-
-        jcd.action_post()
-        self.assertEqual(jcd.state, "posted")
-        tax_lines = jcd.move_id.line_ids.filtered("tax_line_id")
-        self.assertTrue(tax_lines, "the VAT must reach the ledger")
-        self.assertEqual(tax_lines.tax_line_id, clone)
-        self.assertAlmostEqual(
-            sum(tax_lines.mapped("balance")), jcd.vat_amount, places=2)
-        self.assertAlmostEqual(
-            jcd.vat_amount,
-            jcd.currency_id.round(jcd.vat_base * 0.20), places=2,
-            msg="10 000 at 20 %, not 23 % — three points of a real assessment")
-
-    def test_two_rates_of_one_band_on_one_day_refuse(self):
-        """Overlapping windows would tax the same base two ways.
-
-        Unlike interchangeable variants of a single rate, there is nothing to
-        choose between them, so this says so instead of picking one.
-        """
-        self._requires_historic_rates()
-        jcd = self._jcd(vat_rate="23", date="2019-06-30")
-        current = self.env.ref("account.%s_vs_cust_23" % self.company.id)
-        self._historic_clone(current, 20.0, "2011-01-01", "2024-12-31")
-        self._historic_clone(current, 19.0, "2004-01-01", "2020-12-31")
-        jcd.invalidate_recordset()
-        with self.assertRaises(UserError):
-            jcd._get_import_tax()
-
-    def test_posting_refuses_if_the_rate_moved_since_it_was_approved(self):
-        """A stored figure and a live resolution can part company between
-        entering a declaration and posting it."""
-        self._requires_historic_rates()
-        jcd = self._jcd(vat_rate="23", date="2026-06-30", duty_amount=0.0)
-        self._confirm_customs_document(jcd)
-        self.assertEqual(jcd.vat_rate_effective, 23.0)
-        # The chart is corrected underneath a declaration already approved.
-        self.env.ref("account.%s_vs_cust_23" % self.company.id).amount = 21.0
-        with self.assertRaises(UserError):
-            jcd.action_post()
-
-    def test_a_band_that_is_not_a_band_names_itself(self):
-        """A rate written straight into the database by an import is invalid
-        selection data; a traceback is a worse answer than saying so."""
-        jcd = self._jcd()
-        self.env.cr.execute(
-            "UPDATE l10n_sk_jcd SET vat_rate = '20' WHERE id = %s", (jcd.id,))
-        jcd.invalidate_recordset()
-        with self.assertRaises(UserError):
-            jcd._get_import_tax()
-
     def test_clearing_account_wired_from_the_chart(self):
         self.assertEqual(
             self.company.l10n_sk_jcd_clearing_account_id.code, "379000"
@@ -255,7 +118,7 @@ class TestSkJcd(AccountTestInvoicingCommon):
         self.assertTrue(tax_lines)
         # Exactly r23, not r23a/b/c (those are the § 84a deduction rows) and not
         # r22/r22a (the other rates). The tag set is the assertion.
-        self.assertEqual(set(tax_lines.mapped("tax_tag_ids.name")), {"23"})
+        self.assertEqual(set(tax_lines.mapped("tax_tag_ids.name")), {"+23"})
         self.assertEqual(sum(tax_lines.mapped("balance")), jcd.vat_amount)
 
         # And the notional base reaches no row at all: vs_cust_* base
@@ -277,10 +140,10 @@ class TestSkJcd(AccountTestInvoicingCommon):
         base_lines = move.line_ids.filtered(
             lambda line: line.tax_ids and not line.tax_line_id
         )
-        self.assertEqual(set(base_lines.mapped("tax_tag_ids.name")), {"11e"})
+        self.assertEqual(set(base_lines.mapped("tax_tag_ids.name")), {"+11e"})
         self.assertEqual(
             set(move.line_ids.filtered("tax_line_id").mapped("tax_tag_ids.name")),
-            {"23c", "12e"},
+            {"+23c", "+12e"},
         )
         # Self-assessed: the two tax legs cancel, so nothing is owed.
         self.assertEqual(
@@ -339,7 +202,9 @@ class TestSkJcd(AccountTestInvoicingCommon):
                 "move_ids": [
                     Command.create(
                         {
-                            # stock.move has no `name` in 19.0 (_rec_name = 'reference')
+                            # 18.0 still requires stock.move.name (NOT NULL);
+                            # 19.0 dropped the field (_rec_name = 'reference').
+                            "name": product.name,
                             "product_id": product.id,
                             "product_uom_qty": 10.0,
                             "location_id": self.env.ref(

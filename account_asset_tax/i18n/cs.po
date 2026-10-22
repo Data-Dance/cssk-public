@@ -53,7 +53,7 @@ msgstr "(%s r.)"
 #. odoo-python
 #: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
 msgid "(no line)"
-msgstr "(bez řádku)"
+msgstr ""
 
 #. module: account_asset_tax
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
@@ -266,10 +266,6 @@ msgid ""
 "(migration) wizard to correct the tax parameters — it unfreezes and rebuilds "
 "the history explicitly."
 msgstr ""
-"Na majetku %(asset)s nelze změnit %(field)s: existují podané "
-"(zmrazené) roky daňových odpisů a změna by jim tiše odporovala. Pro "
-"opravu daňových parametrů použijte průvodce Doplnění historie "
-"(migrace) — ten zmrazení výslovně zruší a historii přebuduje."
 
 #. module: account_asset_tax
 #. odoo-python
@@ -647,9 +643,6 @@ msgid ""
 "it to run in uninterrupted whole months. A suspension event cannot be "
 "recorded on this asset."
 msgstr ""
-"Mimořádné odpisování (§ 30a) nelze přerušit — § 30a odst. 4 "
-"vyžaduje, aby probíhalo v nepřerušených celých měsících. Na tomto "
-"majetku nelze zaznamenat přerušení."
 
 #. module: account_asset_tax
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_close_year_form
@@ -1005,10 +998,6 @@ msgid ""
 "frozen; use the Backfill (migration) wizard to unfreeze and rebuild the "
 "history explicitly."
 msgstr ""
-"Přepočet plánu daňových odpisů majetku %(asset)s by změnil již "
-"podaný rok %(year)s (podáno %(filed)s vs přepočteno %(computed)s). "
-"Podané roky jsou zmrazené; pro výslovné zrušení zmrazení a "
-"přebudování historie použijte průvodce Doplnění historie (migrace)."
 
 #. module: account_asset_tax
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
@@ -1277,9 +1266,6 @@ msgid ""
 "not change. Use the Backfill (migration) wizard to unfreeze and rebuild the "
 "history."
 msgstr ""
-"Řádek daňových odpisů %(year)s majetku %(asset)s je podaný "
-"(zmrazený); %(field)s nelze změnit. Pro zrušení zmrazení a "
-"přebudování historie použijte průvodce Doplnění historie (migrace)."
 
 #. module: account_asset_tax
 #. odoo-python
@@ -1351,10 +1337,6 @@ msgid ""
 "(migration) wizard to unfreeze and rebuild the history, then record the "
 "event."
 msgstr ""
-"Událost %(type)s s datem %(date)s spadá do posledního podaného "
-"daňového roku (%(year)s) majetku %(asset)s nebo před něj. Podané "
-"roky jsou zmrazené; zrušte zmrazení a přebudujte historii průvodcem "
-"Doplnění historie (migrace) a poté událost zaznamenejte."
 
 #. module: account_asset_tax
 #. odoo-python
@@ -1524,32 +1506,3 @@ msgstr ""
 
 #~ msgid "Cannot determine the tax country for this asset."
 #~ msgstr "Nelze určit daňovou zemi pro tento majetek."
-
-#. module: account_asset_tax
-#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_increased_first_year__10
-msgid "+10 %"
-msgstr ""
-
-#. module: account_asset_tax
-#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_increased_first_year__15
-msgid "+15 %"
-msgstr ""
-
-#. module: account_asset_tax
-#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset_tax_mixin__tax_increased_first_year__20
-msgid "+20 %"
-msgstr ""
-
-#. module: account_asset_tax
-#: model:ir.module.module,summary:base.module_account_asset_tax
-msgid ""
-"Country-neutral engine for a second, non-posted tax-depreciation board "
-"alongside accounting depreciation (daňové vs účetní/účtovné odpisy)"
-msgstr ""
-"Engine nezávislý na zemi pro druhý, nezaúčtovaný plán daňových "
-"odpisů vedle účetních odpisů (daňové vs účetní/účtovné odpisy)"
-
-#. module: account_asset_tax
-#: model:ir.module.module,shortdesc:base.module_account_asset_tax
-msgid "Tax Depreciation (CZ/SK dual depreciation core)"
-msgstr "Daňové odpisy (jádro dvojího odpisování CZ/SK)"

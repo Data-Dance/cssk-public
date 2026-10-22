@@ -1,5 +1,42 @@
-# Copyright 2022 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+###################################################################################
+#
+#    Copyright (c) 2022 Radovan Skolnik, Data Dance s.r.o.
+#
+#    Data Dance Proprietary License v1.0
+#
+#    This software and associated files (the "Software") may only be used
+#    (executed, modified, executed after modifications) if you have
+#    purchased a valid license from Data Dance s.r.o.
+#
+#    The above permissions are granted for a single database per purchased
+#    license. Furthermore, with a valid license it is permitted to use the
+#    software on other databases as long as the usage is limited to a testing
+#    or development environment.
+#
+#    You may develop modules based on the Software or that use the Software
+#    as a library (typically by depending on it, importing it and using its
+#    resources), but without copying any source code or material from the
+#    Software. You may distribute those modules under the license of your
+#    choice, provided that this license is compatible with the terms of the
+#    Data Dance Proprietary License (For example: LGPL, MIT, or proprietary
+#    licenses similar to this one).
+#
+#    It is forbidden to publish, distribute, sublicense, or sell copies of
+#    the Software or modified copies of the Software.
+#
+#    The above copyright notice and this permission notice must be included
+#    in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+#    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+#    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+#    DEALINGS IN THE SOFTWARE.
+#
+###################################################################################
+
 import logging
 
 from odoo import Command, _, api, fields, models
@@ -241,82 +278,53 @@ class ResPartner(models.Model):
         return res
 
     # New methods after DnB
-    @api.model
-    def _autocomplete_provider_for(self, country_code=None):
-        """The provider to ask about a partner in ``country_code``.
-
-        A provider that declares the country (``_autocomplete_country_codes``)
-        wins; otherwise the company's own choice. With two companies in two
-        countries sharing contacts, a per-company choice alone meant the Slovak
-        company could not autocomplete a Czech partner, and the other way
-        round.
-        """
-        if country_code:
-            registry = self.env["partner.autocomplete.provider.registry"]
-            for name, _label in registry._get_available_providers():
-                model = self.env.get(name)
-                if model is not None and country_code in (
-                    model._autocomplete_country_codes()
-                ):
-                    return name
-        return self.env.company.partner_autocomplete_provider
-
-    @api.model
-    def _autocomplete_country_code(self, query_country_id=None, vat=None):
-        if query_country_id:
-            country = self.env["res.country"].browse(query_country_id).exists()
-            if country:
-                return country.code
-        prefix = (vat or "").strip()[:2].upper()
-        if len(prefix) == 2 and prefix.isalpha():
-            # Greece's VAT prefix is EL, not its ISO code.
-            return "GR" if prefix == "EL" else prefix
-        return None
-
-    @api.model
-    def _autocomplete_stamp(self, provider, suggestions):
-        """Remember which provider produced each suggestion.
-
-        Core's widget passes the picked suggestion back to ``enrich_by_duns``
-        as ``enriched_company_data``, and that is the only way to send the
-        enrichment to the register it came from: a Czech and a Slovak IČO are
-        both eight digits.
-        """
-        for suggestion in suggestions or []:
-            if isinstance(suggestion, dict):
-                suggestion.setdefault("partner_autocomplete_provider", provider)
-        return suggestions
+    def _get_partner_autocomplete_provider(self):
+        """The current company's provider, or None when it is Odoo's own IAP."""
+        provider = self.env.company.partner_autocomplete_provider
+        if provider == "partner.autocomplete.provider":
+            return None
+        return self.env[provider]
 
     @api.model
     def autocomplete_by_name(self, query, query_country_id, timeout=15):
-        provider = self._autocomplete_provider_for(
-            self._autocomplete_country_code(query_country_id))
-        if provider == "partner.autocomplete.provider":
+        provider = self._get_partner_autocomplete_provider()
+        if provider is None:
             return super().autocomplete_by_name(query, query_country_id, timeout)
-        return self._autocomplete_stamp(
-            provider, self.env[provider].autocomplete(query))
+        # A provider with nothing to say may answer [{}]; core would render
+        # that as a blank row in the dropdown.
+        return [s for s in provider.autocomplete(query) or [] if s]
 
     @api.model
     def autocomplete_by_vat(self, vat, query_country_id, timeout=15):
-        provider = self._autocomplete_provider_for(
-            self._autocomplete_country_code(query_country_id, vat))
-        if provider == "partner.autocomplete.provider":
+        provider = self._get_partner_autocomplete_provider()
+        if provider is None:
             return super().autocomplete_by_vat(vat, query_country_id, timeout)
-        return self._autocomplete_stamp(
-            provider, self.env[provider].read_by_vat(vat))
+        # ARES cannot search by DIČ and answers [{}] — see autocomplete_by_name.
+        return [s for s in provider.read_by_vat(vat) or [] if s]
 
     @api.model
     def enrich_by_duns(self, duns, timeout=15):
-        picked = self.env.context.get("enriched_company_data") or {}
-        provider = (
-            isinstance(picked, dict) and picked.get("partner_autocomplete_provider")
-        )
-        if not provider or self.env.get(provider) is None:
-            provider = self.env.company.partner_autocomplete_provider
-        if provider == "partner.autocomplete.provider":
+        """Core 18.0 enriches every dropdown pick through this method, with the
+        suggestion's ``duns``; our providers put their registry number there.
+
+        Core's JS reads ``error`` / ``error_message`` off the answer: with them
+        it notifies the user and falls back to the suggestion's own values;
+        without them it treats ``{}`` as a successful enrichment, writes
+        nothing, and posts an empty Dun & Bradstreet card to the chatter.
+        """
+        provider = self._get_partner_autocomplete_provider()
+        if provider is None:
             return super().enrich_by_duns(duns, timeout)
-        return self.env[provider].enrich_company(
-            None,
-            duns,
-            None,
-        )
+        data = provider.enrich_company(None, duns, None)
+        if not data:
+            return {
+                "error": True,
+                "error_message": _(
+                    "The register returned no data for %s. The values from "
+                    "the suggestion were used instead.",
+                    duns,
+                ),
+            }
+        # The JS tells a register answer from an IAP one by this key.
+        data.setdefault("partner_autocomplete_provider", provider._name)
+        return data

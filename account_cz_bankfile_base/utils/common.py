@@ -119,29 +119,6 @@ def parse_national_account(partner_bank, countries=('CZ',)):
     )
 
 
-def parse_cz_account(partner_bank):
-    """Return ``(prefix, account, bank_code)`` — the CZ-only view.
-
-    Kept as its own name because ABO and MultiCash are Czech formats and every
-    one of their call sites means "a Czech account". Everything else should
-    call :func:`parse_national_account` and say which countries it accepts.
-
-    The refusal message is restated here rather than inherited: it is what an
-    ABO or MultiCash user reads when an account will not parse, and "not a
-    Czech account" says the useful thing in a way the generic wording does not.
-    """
-    if not partner_bank:
-        raise ValueError("Partner bank account is missing")
-    try:
-        _country, prefix, account, bank_code = parse_national_account(partner_bank)
-    except ValueError:
-        raise ValueError(
-            "Bank account %r is not a Czech account (expected IBAN CZxx... or "
-            "prefix-account/bank format)." % partner_bank.acc_number
-        ) from None
-    return prefix, account, bank_code
-
-
 class _AccNumber:
     """Duck-typed ``res.partner.bank`` for a bare account string."""
 
@@ -167,6 +144,29 @@ def national_account_key(acc_number, countries=('CZ', 'SK')):
     except ValueError:
         return None
     return bank, prefix.lstrip('0'), number.lstrip('0') or '0'
+
+
+def parse_cz_account(partner_bank):
+    """Return ``(prefix, account, bank_code)`` — the CZ-only view.
+
+    Kept as its own name because ABO and MultiCash are Czech formats and every
+    one of their call sites means "a Czech account". Everything else should
+    call :func:`parse_national_account` and say which countries it accepts.
+
+    The refusal message is restated here rather than inherited: it is what an
+    ABO or MultiCash user reads when an account will not parse, and "not a
+    Czech account" says the useful thing in a way the generic wording does not.
+    """
+    if not partner_bank:
+        raise ValueError("Partner bank account is missing")
+    try:
+        _country, prefix, account, bank_code = parse_national_account(partner_bank)
+    except ValueError:
+        raise ValueError(
+            "Bank account %r is not a Czech account (expected IBAN CZxx... or "
+            "prefix-account/bank format)." % partner_bank.acc_number
+        ) from None
+    return prefix, account, bank_code
 
 
 def fold_to_ascii(text):

@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """SK Poznámky k účtovnej závierke — Úč PODV 3-01 (malé účtovné jednotky).
 
 The third statutory part of the SK účtovná závierka (Súvaha + VZS + Poznámky),

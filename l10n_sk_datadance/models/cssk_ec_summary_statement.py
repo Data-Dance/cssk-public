@@ -1,8 +1,11 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """Súhrnný výkaz → reconcile-with-priznanie action (umbrella module)."""
 from odoo import _, models
 from odoo.exceptions import UserError
+from odoo.tools.misc import format_amount
+
+_ICON = {"ok": "✅", "mismatch": "⚠️"}
 
 
 class CSSKEcSummaryStatement(models.Model):
@@ -21,7 +24,7 @@ class CSSKEcSummaryStatement(models.Model):
         return (exact or returns)[:1]
 
     def action_reconcile_dph(self):
-        """Porovnanie súhrnného výkazu ↔ DPH priznanie (r14) — on screen."""
+        """Porovnanie súhrnného výkazu ↔ DPH priznanie (r14)."""
         self.ensure_one()
         vat_return = self._find_vat_return()
         if not vat_return:
@@ -30,14 +33,28 @@ class CSSKEcSummaryStatement(models.Model):
                 "VAT return for %(df)s – %(dt)s first.",
                 df=self.date_from, dt=self.date_to))
         recon = self.env["l10n.sk.dph.reconciliation"]
-        details = {w["desc"]: w["detail"]
-                   for w in recon.check_kontroly_sv_dph(self, vat_return)}
-        self._cssk_upsert_comparison_rows(
-            [{"code": r["block"], "label": r["label"],
-              "filed": r["left"], "computed": r["right"], "diff": r["diff"],
-              "kind": recon.recon_kind(r["status"]),
-              "detail": details.get(r["label"])}
-             for r in recon.reconcile_sv_dph(self, vat_return)],
-            "filing", _("DPH priznanie %s", vat_return.display_name))
-        return self._cssk_comparison_action(
-            "filing", _("SV ↔ priznanie — %s", self.display_name))
+        rows = recon.reconcile_sv_dph(self, vat_return)
+        body = ["<b>%s</b> (%s):<ul>" % (
+            _("Porovnanie súhrnného výkazu ↔ priznanie"), vat_return.name)]
+        for r in rows:
+            body.append("<li>%s %s — SV %s / priznanie %s (rozdiel %s)</li>" % (
+                _ICON.get(r["status"], ""), r["label"],
+                format_amount(self.env, r["left"], self.currency_id),
+                format_amount(self.env, r["right"], self.currency_id),
+                format_amount(self.env, r["diff"], self.currency_id)))
+        body.append("</ul>")
+        warnings = recon.check_kontroly_sv_dph(self, vat_return)
+        if warnings:
+            body.append("<b>%s</b><ul>%s</ul>" % (
+                _("Upozornenia:"),
+                "".join("<li>%s</li>" % w["detail"] for w in warnings)))
+        self.message_post(body="".join(body))
+        return {
+            "type": "ir.actions.client", "tag": "display_notification",
+            "params": {
+                "title": _("Porovnanie SV ↔ priznanie"),
+                "message": (_("%d upozornení — pozri záznam.", len(warnings))
+                            if warnings else _("SV a priznanie sú konzistentné.")),
+                "type": "warning" if warnings else "success", "sticky": False,
+            },
+        }

@@ -2,7 +2,6 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import Command, _, api, fields, models
-from odoo.tools import float_compare
 from odoo.exceptions import UserError
 
 # Import-VAT tax by regime and rate, as shipped by the l10n_sk chart.
@@ -88,18 +87,6 @@ class L10nSkJcd(models.Model):
         string="Sadzba dane",
         default="23",
         required=True,
-        help="Sadzbové pásmo — základná, znížená alebo druhá znížená sadzba, "
-             "pomenované aktuálnou sadzbou. Skutočne použitá sadzba sa riadi "
-             "dátumom dokladu: colné vyhlásenie z roku 2019 v základnom pásme "
-             "je zdanené 20 %, nie 23 %.",
-    )
-    vat_rate_effective = fields.Float(
-        string="Použitá sadzba",
-        digits=(16, 4),
-        compute="_compute_vat_amount",
-        store=True,
-        help="Sadzba platná ku dňu tohto colného vyhlásenia. Líši sa od "
-             "sadzbového pásma pri dokladoch spred zmeny sadzieb.",
     )
     vat_regime = fields.Selection(
         [
@@ -147,21 +134,10 @@ class L10nSkJcd(models.Model):
                 + (jcd.other_charges or 0.0)
             )
 
-    @api.depends("vat_base", "vat_rate", "vat_regime", "date", "company_id",
-                 "currency_id")
+    @api.depends("vat_base", "vat_rate")
     def _compute_vat_amount(self):
-        """The tax figure follows the tax that will actually post.
-
-        Reading the rate off the ``vat_rate`` selection instead looks
-        equivalent and is not: the selection names a BAND by its current rate,
-        while the tax resolved for a back-dated declaration is the rate that
-        was in force then. A 2019 declaration would have shown 23 % here and
-        posted 20 % — the document contradicting its own entry.
-        """
         for jcd in self:
-            tax = jcd._get_import_tax(raise_if_missing=False)
-            rate = tax.amount if tax else float(jcd.vat_rate or 0)
-            jcd.vat_rate_effective = rate
+            rate = float(jcd.vat_rate or 0)
             jcd.vat_amount = jcd.currency_id.round(
                 (jcd.vat_base or 0.0) * rate / 100.0
             )
@@ -195,48 +171,14 @@ class L10nSkJcd(models.Model):
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
-    def _get_import_tax(self, raise_if_missing=True):
-        """The l10n_sk tax for this declaration's regime, band and DATE.
-
-        The chart ships the rates in force today, and the xmlid names one of
-        them. A declaration is routinely entered for an earlier period —
-        a corrected assessment, an agenda taken over mid-year, a history
-        import — and a Slovak agenda of any age crosses 1. 1. 2025. Posting
-        such a document at today's rate is not a mapping decision, it is a
-        restatement: the base is what the customs office assessed, so only the
-        tax moves, and it moves silently.
-
-        So the xmlid resolves the BAND and the date resolves the rate within
-        it, through the historical-rate clones stamped by
-        ``l10n_cssk_vat_return_base``. Where that family is not installed there
-        are no clones to find and this returns the current rate exactly as
-        before.
-        """
+    def _get_import_tax(self):
+        """The l10n_sk tax for this declaration's regime and rate."""
         self.ensure_one()
-        # .get() rather than [] — a band written straight into the database by
-        # an import ("20", "10", the rates these bands used to be named after)
-        # is invalid selection data, and a traceback is a worse answer than
-        # saying which value is not a band.
-        xmlid = JCD_TAX_XMLIDS.get(self.vat_regime, {}).get(self.vat_rate)
-        if not xmlid:
-            if not raise_if_missing:
-                return self.env["account.tax"]
-            raise UserError(
-                _(
-                    "%(rate)s is not a rate band this declaration knows in the "
-                    "%(regime)s regime. The bands are named after the rates in "
-                    "force today; an older rate is reached by dating the "
-                    "declaration, not by naming it here.",
-                    rate=self.vat_rate,
-                    regime=self.vat_regime,
-                )
-            )
+        xmlid = JCD_TAX_XMLIDS[self.vat_regime][self.vat_rate]
         tax = self.env.ref(
             f"account.{self.company_id.id}_{xmlid}", raise_if_not_found=False
         )
         if not tax:
-            if not raise_if_missing:
-                return self.env["account.tax"]
             raise UserError(
                 _(
                     "The import VAT tax %(xmlid)s is missing for company "
@@ -246,49 +188,7 @@ class L10nSkJcd(models.Model):
                     company=self.company_id.display_name,
                 )
             )
-        return self._rate_in_force(tax)
-
-    def _rate_in_force(self, tax):
-        """The member of this band that applied on the declaration's date.
-
-        Guarded on the field rather than declared as a dependency: the windows
-        live in ``l10n_cssk_vat_return_base`` and this module must install
-        without it.
-        """
-        self.ensure_one()
-        Tax = self.env["account.tax"]
-        if "cssk_historic_source_tax_id" not in Tax._fields or not self.date:
-            return tax
-        band = tax | Tax.with_context(active_test=False).search(
-            [("cssk_historic_source_tax_id", "=", tax.id)]
-        )
-        in_force = band._cssk_in_force_on(self.date)
-        # Two rates of ONE band in force on one day cannot both be right, and
-        # unlike interchangeable variants of a single rate there is nothing to
-        # choose between them: they would post different tax on the same base.
-        # Overlapping windows are a configuration error and this says so
-        # rather than picking one.
-        if len({round(rate, 4) for rate in in_force.mapped("amount")}) > 1:
-            raise UserError(
-                _(
-                    "Two rates of the %(band)s band are recorded as in force "
-                    "on %(date)s: %(rates)s. Their validity windows overlap, "
-                    "which is a configuration error — correct them before "
-                    "posting, because they would tax the same base "
-                    "differently.",
-                    band=tax.name,
-                    date=self.date,
-                    rates=", ".join(
-                        "%g %%" % rate for rate in sorted(
-                            set(in_force.mapped("amount")))
-                    ),
-                )
-            )
-        # Empty means the chart holds no rate for a date that old — Slovak
-        # rates before 2011 are deliberately not cloned. The current rate is
-        # then the only thing on offer and the accountant has to check it,
-        # which is the same position as before this method existed.
-        return in_force[:1] or tax
+        return tax
 
     def _duty_expense_account(self):
         """The account the duty is billed to — and capitalised out of.
@@ -331,26 +231,6 @@ class L10nSkJcd(models.Model):
                     "Daň pri dovoze sa nedá odpočítať bez dovozného dokladu "
                     "potvrdeného colným orgánom (§ 49 ods. 2 písm. d)).\n\n"
                     "Zadajte MRN a priložte potvrdený dovozný doklad."
-                )
-            )
-        # The stored figure was computed when the declaration was last
-        # touched; the tax is resolved again here. Between the two, a rate
-        # could have been edited or a validity window corrected — so the
-        # document would be approved showing one tax and post another. Cheap
-        # to check, and the whole module exists to stop a number moving
-        # without anyone seeing it.
-        tax = self._get_import_tax()
-        if float_compare(
-            tax.amount, self.vat_rate_effective, precision_digits=4
-        ):
-            raise UserError(
-                _(
-                    "The rate on this declaration (%(shown)g %%) is no longer "
-                    "the rate that would post (%(now)g %%) — the tax "
-                    "configuration changed since it was entered. Reopen and "
-                    "check the figures before posting.",
-                    shown=self.vat_rate_effective,
-                    now=tax.amount,
                 )
             )
         company = self.company_id

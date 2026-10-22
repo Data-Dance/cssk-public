@@ -17,10 +17,11 @@ class HrWageGarnishmentLine(models.Model):
     _description = "Wage Garnishment Deduction"
     _order = "date_to desc, garnishment_id"
 
-    _check_amount = models.Constraint(
-        "CHECK (amount >= 0)",
-        "A garnishment deduction may not be negative.",
-    )
+    # 19.0 declares these as models.Constraint; 18.0 has _sql_constraints.
+    _sql_constraints = [
+        ("check_amount", "CHECK (amount >= 0)",
+         "A garnishment deduction may not be negative."),
+    ]
 
     garnishment_id = fields.Many2one(
         "hr.wage.garnishment", required=True, index=True, ondelete="cascade"
@@ -59,14 +60,7 @@ class HrWageGarnishmentLine(models.Model):
     )
     amount_unlimited = fields.Monetary(
         "From Unlimited Part",
-        help="Always zero: the calculator does not split this out per line. "
-        "The fully seizable amount above the statutory limit is merged into "
-        "the two third-pools before anything is allocated (see "
-        "``garnishment_calc.compute_cz`` / ``compute_sk``), so a deduction's "
-        "share of it is not a fact the waterfall produces — only the pool "
-        "totals are. Kept as a stored field so existing rows are unchanged; "
-        "not shown, because a column that always reads zero is read as "
-        "'nothing came from there' rather than 'not tracked'.",
+        help="Part taken from the fully seizable amount above the statutory limit.",
     )
 
     state = fields.Selection(

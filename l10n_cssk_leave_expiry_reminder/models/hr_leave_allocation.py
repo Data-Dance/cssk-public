@@ -61,18 +61,18 @@ class HrLeaveAllocation(models.Model):
                 ("carried_over_days_expiration_date", ">=", today),
                 ("carried_over_days_expiration_date", "<=", limit),
                 ("expiring_carryover_days", ">", 0),
-                # A use-it-or-lose-it statutory quota (SK §141 doctor visits /
-                # accompanying a family member, OČR) is granted whole on 1
-                # January and simply lapses — nothing is ever *carried over*,
-                # and telling somebody to go book seven doctor visits before
-                # December is nonsense. can_be_carryover=False is exactly that
-                # switch: core forces action_with_unused_accruals='lost' from
-                # it. Plan-less (regular) allocations stay in scope; they never
-                # carry an expiration date anyway.
-                "|",
-                ("accrual_plan_id", "=", False),
-                ("accrual_plan_id.can_be_carryover", "=", True),
             ]
+        )
+        # Drop use-it-or-lose-it statutory quotas. One is granted whole and
+        # simply lapses — nothing is ever *carried over*, and telling somebody
+        # to book seven doctor visits before December is nonsense. Filtered in
+        # Python rather than in the domain because the two Odoo versions spell
+        # it differently: 19.0 has hr.leave.accrual.plan.can_be_carryover,
+        # 18.0 only the level's action_with_unused_accruals, which 19.0
+        # derives FROM that flag. Plan-less (regular) allocations stay in
+        # scope; they never carry an expiration date anyway.
+        allocations = allocations.filtered(
+            lambda a: a._l10n_cssk_carries_over()
         )
 
         activity_type = self.env.ref(
@@ -91,8 +91,8 @@ class HrLeaveAllocation(models.Model):
                 continue
             # ``expiring_carryover_days`` is the GROSS figure captured on the
             # carryover date; core only nets it against days since taken once
-            # the expiration date itself is reached. Net it here so we never
-            # remind about days the employee has already used up.
+            # the expiration date is reached. Net it here so we never remind
+            # about days the employee has already used up.
             if allocation._l10n_cssk_net_expiring_days() <= 0:
                 continue
             try:
@@ -124,12 +124,29 @@ class HrLeaveAllocation(models.Model):
             or employee.parent_id.user_id
         )
 
-    def _l10n_cssk_hours_per_day(self):
-        """Hours in a working day for this allocation's employee.
+    def _l10n_cssk_carries_over(self):
+        """Whether this allocation's plan carries unused time into next year.
 
-        Same source ``_process_accrual_plans`` uses when converting between
-        hour- and day-denominated figures, with a defensive fallback chain.
+        False for a statutory quota that simply lapses. Written to work on
+        both 18.0 and 19.0: the newer version exposes ``can_be_carryover`` on
+        the plan and forces ``action_with_unused_accruals = 'lost'`` from it,
+        the older one has only the level field.
         """
+        self.ensure_one()
+        plan = self.accrual_plan_id
+        if not plan:
+            return True
+        if "can_be_carryover" in plan._fields:
+            return bool(plan.can_be_carryover)
+        levels = plan.level_ids
+        if not levels:
+            return True
+        return any(
+            level.action_with_unused_accruals != "lost" for level in levels
+        )
+
+    def _l10n_cssk_hours_per_day(self):
+        """Hours in a working day for this allocation's employee."""
         self.ensure_one()
         reference_date = self.nextcall or self.date_from or fields.Date.today()
         return (
@@ -144,12 +161,10 @@ class HrLeaveAllocation(models.Model):
 
         ``expiring_carryover_days`` holds the whole balance captured on the
         carryover date; core only reduces it by the days since taken once the
-        expiration date itself is reached (``_process_accrual_plans`` in
-        ``hr_holidays``). Until then the raw field overstates what is at risk,
-        so net it here the same way core does when it decides the forfeit.
-
-        ``leaves_taken`` is denominated in HOURS for an hour-unit leave type
-        while ``expiring_carryover_days`` is always in days, so convert first.
+        expiration date itself is reached. Until then the raw field overstates
+        what is at risk, so net it here the same way core does when it decides
+        the forfeit. ``leaves_taken`` is denominated in HOURS for an hour-unit
+        leave type while ``expiring_carryover_days`` is always in days.
         """
         self.ensure_one()
         leaves_taken = self.leaves_taken
@@ -159,18 +174,22 @@ class HrLeaveAllocation(models.Model):
 
     def _l10n_cssk_expiry_amount_and_unit(self):
         """Return (formatted_amount, unit_word) honouring the leave type's
-        request unit (day vs hour). The net expiring amount is in days."""
+        request unit (day vs hour). ``expiring_carryover_days`` is in days."""
         self.ensure_one()
         days = self._l10n_cssk_net_expiring_days()
-        if self.holiday_status_id.request_unit == "hour":
-            amount = days * self._l10n_cssk_hours_per_day()
+        request_unit = self.holiday_status_id.request_unit
+        if request_unit == "hour":
+            hours_per_day = (
+                self.employee_id.resource_calendar_id.hours_per_day
+                or self.env.company.resource_calendar_id.hours_per_day
+                or 8.0
+            )
+            amount = days * hours_per_day
             unit_word = _("hour(s)")
         else:
             amount = days
             unit_word = _("day(s)")
-        # round() keeps the hour conversion from leaking float noise into the
-        # message ("2.99999999 hour(s)").
-        return ("%g" % round(amount, 2)), unit_word
+        return ("%g" % amount), unit_word
 
     def _l10n_cssk_notify_expiry(self, activity_type, mail_template):
         """Schedule the reminder activity and (optionally) send the email for

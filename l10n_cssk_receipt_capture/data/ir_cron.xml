@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Retries ONLY receipts whose last failure was transient (a busy model,
+         a network error). A refusal or an unregistered receipt is never
+         retried on a timer: it would get the same answer and cost the same. -->
+    <record id="ir_cron_cssk_receipt_retry" model="ir.cron">
+        <field name="name">Fiscal receipts: retry transient capture failures</field>
+        <field name="model_id" ref="model_cssk_receipt"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_retry_transient()</field>
+        <field name="interval_number">15</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

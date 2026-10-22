@@ -12,8 +12,6 @@ from xml.etree import ElementTree
 from zoneinfo import ZoneInfo
 
 from odoo import _, api, fields, models
-
-from ..exceptions import RetryableJobError
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -38,21 +36,6 @@ class EdiMessage(models.Model):
 
     PROVIDER_CONNECTOR_MAP = {}  # {"editel": "editel.connector", "grit": "grit.connector"}
     PROVIDER_CRON_MAP = {}       # {"editel": "edi_editel_base.cron_...", "grit": "edi_grit_base.cron_..."}
-
-    #: How a provider's outbound messages leave ``queued``. ``"queue"`` means a
-    #: job takes them, and needs ``edi_base_queue_job`` installed; ``"cron"``
-    #: means :meth:`_cron_send_queued` does, and needs nothing.
-    #:
-    #: Declared per provider rather than inferred from what is installed,
-    #: because on a database carrying both a guess would be a double send: the
-    #: cron and the job would each pick up the same ``queued`` message. An
-    #: unregistered provider defaults to ``"queue"``, which is what every
-    #: provider did before this existed.
-    PROVIDER_DISPATCH_MAP = {}   # {"epostak": "cron"}
-
-    def _dispatch_mode(self):
-        self.ensure_one()
-        return self.PROVIDER_DISPATCH_MAP.get(self.provider, "queue")
 
     def _get_connector_name(self):
         """Return the connector model name for this message's provider."""
@@ -481,36 +464,7 @@ class EdiMessage(models.Model):
     # ORM overrides
     # ------------------------------------------------------------------
 
-    @api.model
-    def _company_from_links(self, vals):
-        """The company of the document a new message is created for.
-
-        A message belongs to its document's company, not to whichever company
-        the user happened to be in: the connector takes the sender's identity
-        and credentials from it (``_enqueue_send``). The first linked record
-        with a company decides.
-        """
-        for name, value in vals.items():
-            field = self._fields.get(name)
-            if (not value or not field or field.type != "many2one"
-                    or not isinstance(value, int)
-                    # A partner restricted to a company says nothing about
-                    # which company a document is exchanged for.
-                    or field.comodel_name in ("res.partner", "res.users", "res.company")):
-                continue
-            # sudo: a record rule hiding the document from the creator must not
-            # silently leave the message in the creator's company.
-            record = self.env[field.comodel_name].sudo().browse(value)
-            if "company_id" in record._fields and record.exists() and record.company_id:
-                return record.company_id
-        return self.env["res.company"]
-
     def create(self, vals_list):
-        for vals in ([vals_list] if isinstance(vals_list, dict) else vals_list):
-            if not vals.get("company_id"):
-                company = self._company_from_links(vals)
-                if company:
-                    vals["company_id"] = company.id
         records = super().create(vals_list)
         for rec in records:
             if rec.direction == "in" and rec._get_xml_content():
@@ -662,9 +616,10 @@ class EdiMessage(models.Model):
 
         ``article_ean`` on an inbound order is a GTIN — i.e. our own
         product's barcode/default_code — so it must resolve regardless of
-        whether the sending partner is known to us. Between the barcode and
-        the ``default_code`` match, a known partner's own codes
-        (``product.supplierinfo.product_code``) are tried as well.
+        whether the sending partner is known to us. The partner's
+        ``product_edi_code_priority`` (when set) is tried first because it
+        can point at buyer-specific supplier codes; we then always fall back
+        to a direct barcode/default_code match on the GTIN.
 
         For numeric codes (GTIN / UPC / EAN), tries both the literal form
         and a leading-zero-stripped form — partners frequently disagree on
@@ -685,30 +640,39 @@ class EdiMessage(models.Model):
                     candidates.add(stripped.zfill(target_len))
         candidates = list(candidates)
 
-        # Barcode first, then the sender's own code for the product, then
-        # our internal reference — the order every partner carried while
-        # ``res.partner.product_edi_code_priority`` existed (its default).
-        Product = self.env["product.product"]
-        product = Product.search([("barcode", "in", candidates)], limit=1)
-        if product:
-            return product
-        if partner:
-            supplierinfo = (
-                self.env["product.supplierinfo"]
-                .search(
-                    [
-                        ("product_code", "in", candidates),
-                        ("partner_id", "=", partner.id),
-                    ]
-                )
-                .sorted("date_end")
-            )
-            if supplierinfo:
-                return (
-                    supplierinfo[-1].product_id
-                    or supplierinfo[-1].product_tmpl_id.product_variant_id
-                )
-        product = Product.search([("default_code", "in", candidates)], limit=1)
+        # 1. Partner-specific priority — may point at buyer supplier codes.
+        priority = partner.product_edi_code_priority if partner else None
+        if priority:
+            for field in priority.split("__"):
+                if field in ("default_code", "barcode"):
+                    product = self.env["product.product"].search(
+                        [(field, "in", candidates)], limit=1
+                    )
+                    if product:
+                        return product
+                elif field == "supplier_code" and partner:
+                    supplierinfo = (
+                        self.env["product.supplierinfo"]
+                        .search(
+                            [
+                                ("product_code", "in", candidates),
+                                ("partner_id", "=", partner.id),
+                            ]
+                        )
+                        .sorted("date_end")
+                    )
+                    if supplierinfo:
+                        return (
+                            supplierinfo[-1].product_id
+                            or supplierinfo[-1].product_tmpl_id.product_variant_id
+                        )
+
+        # 2. Fallback: the GTIN is our own product code regardless of who
+        #    sent the order — match it on barcode/default_code directly.
+        product = self.env["product.product"].search(
+            ["|", ("barcode", "in", candidates), ("default_code", "in", candidates)],
+            limit=1,
+        )
         return product or False
 
     # ------------------------------------------------------------------
@@ -802,8 +766,548 @@ class EdiMessage(models.Model):
         return default
 
     # ------------------------------------------------------------------
+    # Shared inbound document creators (pivot-format pattern)
+    #
+    # Provider-specific _process_* methods parse the XML into a
+    # standardised "pivot dict", then call these shared creators.
+    # This eliminates duplication of account.move / stock.move.line
+    # creation logic across Editel and GRiT.
+    # ------------------------------------------------------------------
+
+    def _create_vendor_bill_from_parsed(self, vendor, parsed):
+        """Create an account.move (vendor bill) from a parsed INVOIC pivot.
+
+        Args:
+            vendor: res.partner browse record (or False).
+            parsed: dict with keys:
+                currency_code (str), due_date (date|None),
+                tax_date (date|None), issue_date (date|None),
+                doc_number (str), variable_symbol (str),
+                despatch_advice_number (str, optional),
+                lines: list of dicts with:
+                    gtin (str), article_name (str), order_number (str),
+                    quantity (float), gross_price (float),
+                    allowance_rate (float), vat_rate (float).
+
+        Returns:
+            account.move browse record or False.
+        """
+        from markupsafe import Markup
+        from odoo.fields import Command
+
+        # Scope everything to the message's company — taxes, currency
+        # fallback, and the new bill all live there. Otherwise the
+        # background processor uses the cron user's default company
+        # and triggers company_check on cross-company tax_ids.
+        company = self.company_id or self.env.company
+        self = self.with_company(company)
+
+        currency = False
+        if parsed.get("currency_code"):
+            currency = self.env["res.currency"].search(
+                [("name", "=", parsed["currency_code"])], limit=1
+            )
+        if not currency:
+            currency = company.currency_id
+
+        move_data = {
+            "company_id": company.id,
+            "partner_id": vendor.id if vendor else False,
+            "currency_id": currency.id,
+            "move_type": "in_invoice",
+            "ref": parsed.get("doc_number") or False,
+            "payment_reference": parsed.get("variable_symbol") or "",
+            "invoice_date_due": parsed.get("due_date") or False,
+            "invoice_date": parsed.get("issue_date") or False,
+            "invoice_line_ids": [],
+        }
+        # Disable Enterprise OCR re-parsing of bills we created from EDI.
+        # Field only exists when account_invoice_extract (EE) is installed.
+        if "extract_state" in self.env["account.move"]._fields:
+            move_data["extract_state"] = "no_extract_requested"
+        if parsed.get("tax_date"):
+            move_data["taxable_supply_date"] = parsed["tax_date"]
+        # Link to dispatch advice if provided
+        despatch_ref = parsed.get("despatch_advice_number")
+        if despatch_ref:
+            move_data["narration"] = f"Dispatch advice: {despatch_ref}"
+
+        orders_mentioned = []
+        not_found_products = []
+        last_order = False
+
+        for item in parsed.get("lines", []):
+            order_number = item.get("order_number", "")
+            if order_number and order_number not in orders_mentioned:
+                orders_mentioned.append(order_number)
+
+            gtin = item.get("gtin", "")
+            article_name = item.get("article_name", "")
+
+            product = self._resolve_product(vendor, gtin) if (vendor and gtin) else False
+            if not product and article_name:
+                product = self.env["product.product"].search(
+                    [("name", "=", article_name)], limit=1
+                )
+
+            order = (
+                self.env["purchase.order"].search(
+                    [("name", "=", order_number)], limit=1
+                )
+                if order_number
+                else False
+            )
+            if order:
+                last_order = order
+
+            purchase_line = False
+            if order and product:
+                purchase_line = order.order_line.filtered(
+                    lambda l: l.product_id == product
+                )[:1]
+
+            # Always try to find a matching company tax — including 0%
+            # (Slovak reverse-charge invoices arrive with vat_rate=0).
+            vat_rate = item.get("vat_rate", 0.0)
+            tax = self.env["account.tax"].search(
+                [
+                    ("amount", "=", vat_rate),
+                    ("type_tax_use", "=", "purchase"),
+                    ("company_id", "=", company.id),
+                ],
+                limit=1,
+            )
+
+            if not product:
+                not_found_products.append(article_name or gtin)
+
+            move_data["invoice_line_ids"].append(
+                Command.create(
+                    {
+                        "product_id": product.id if product else False,
+                        "purchase_line_id": purchase_line.id if purchase_line else False,
+                        "name": article_name or (product.name if product else gtin),
+                        "quantity": item.get("quantity", 1.0),
+                        "price_unit": item.get("gross_price", 0.0),
+                        "discount": item.get("allowance_rate", 0.0),
+                        "tax_ids": (
+                            [Command.set([tax.id])]
+                            if tax
+                            else (
+                                # Shared products may carry supplier_taxes_id
+                                # from multiple companies via Odoo's default
+                                # mechanism — filter to this company only.
+                                [Command.set(
+                                    product.supplier_taxes_id.filtered(
+                                        lambda t: t.company_id == company
+                                    ).ids
+                                )]
+                                if product and product.supplier_taxes_id
+                                else []
+                            )
+                        ),
+                    }
+                )
+            )
+
+        if not move_data["invoice_line_ids"]:
+            return False
+
+        if last_order:
+            move_data.update(
+                {
+                    "purchase_id": last_order.id,
+                    "invoice_user_id": last_order.user_id.id or False,
+                }
+            )
+
+        bill = self.env["account.move"].create(move_data)
+
+        for onum in orders_mentioned:
+            order = self.env["purchase.order"].search([("name", "=", onum)], limit=1)
+            if order:
+                order.invoice_ids = [Command.link(bill.id)]
+
+        if not_found_products:
+            note = "Products that could not be matched:<ul>"
+            for p in not_found_products:
+                note += f"<li>{p}</li>"
+            note += "</ul>Please assign products and adjust the bill manually."
+            bill.activity_schedule(
+                "mail.mail_activity_data_warning", note=Markup(note)
+            )
+
+        self._hook_post_create_vendor_bill(bill, parsed)
+        return bill
+
+    def _update_po_lines_from_parsed(self, order, parsed_items):
+        """Update purchase order lines from parsed ORDRSP items.
+
+        Args:
+            order: purchase.order browse record.
+            parsed_items: list of dicts with:
+                gtin (str), article_name (str),
+                buyer_code (str, optional), supplier_code (str, optional),
+                action_code (str: "3"=qty change, "5"=confirmed, "7"=rejected),
+                quantity (float, only meaningful for action_code "3"),
+                gross_price (float|None, optional — surfaces price diffs).
+
+        Returns:
+            bool: True if any line quantities were modified.
+        """
+        from markupsafe import Markup
+
+        changes = False
+        changed_lines = self.env["purchase.order.line"]
+        unmatched = []   # supplier referenced product not on this PO
+        price_diffs = [] # supplier sent a different price than we ordered at
+        for item in parsed_items:
+            gtin = item.get("gtin", "")
+            name = item.get("article_name", "")
+            buyer_code = item.get("buyer_code", "")
+            supplier_code = item.get("supplier_code", "")
+            action = item.get("action_code", "")
+
+            # Product match: GTIN → buyer_code → supplier_code.
+            # Name fallback removed — too fragile (typos / encoding) and
+            # already covered by the unmatched-warning path below.
+            product = self._resolve_product(order.partner_id, gtin) if gtin else False
+            if not product and buyer_code:
+                product = self.env["product.product"].search(
+                    [("default_code", "=", buyer_code)], limit=1
+                )
+            if not product and supplier_code:
+                product = self._resolve_product(order.partner_id, supplier_code)
+
+            if not product:
+                unmatched.append(name or gtin or buyer_code or supplier_code or "?")
+                continue
+            line = order.order_line.filtered(lambda l: l.product_id == product)[:1]
+            if not line:
+                unmatched.append(product.display_name)
+                continue
+
+            # Snapshot the original qty before any mutation, so the activity
+            # template can render ordered-vs-confirmed even on POs confirmed
+            # before initial_product_qty existed.
+            if "initial_product_qty" in line._fields and not line.initial_product_qty:
+                line.initial_product_qty = line.product_qty
+
+            if action == "7":
+                changes = True
+                line.product_qty = 0
+                changed_lines |= line
+            elif action == "3":
+                qty = item.get("quantity")
+                if qty is not None:
+                    changes = True
+                    line.product_qty = float(qty)
+                    changed_lines |= line
+
+            # Surface price discrepancies (don't auto-apply — needs review)
+            gross = item.get("gross_price")
+            if gross is not None and line.price_unit:
+                if abs(float(gross) - float(line.price_unit)) > 0.001:
+                    price_diffs.append(
+                        f"{product.display_name}: ordered {line.price_unit}, "
+                        f"supplier sent {gross}"
+                    )
+
+        if changed_lines or unmatched or price_diffs:
+            order._activity_schedule_with_view(
+                "mail.mail_activity_data_warning",
+                views_or_xmlid="edi_base_purchase.activity_ordrsp_review",
+                render_context={
+                    "order": order,
+                    "changed_lines": changed_lines,
+                    "unmatched": unmatched,
+                    "price_diffs": price_diffs,
+                },
+                user_id=order.user_id.id or self.env.uid,
+            )
+        else:
+            # Happy path: confirm receipt on the PO chatter for visibility.
+            order.message_post(
+                body=(
+                    f"EDI ORDRSP received from {order.partner_id.name}: "
+                    "all lines confirmed."
+                )
+            )
+
+        self._hook_post_update_po_lines(order, parsed_items, changes)
+        return changes
+
+    def _create_standalone_picking(self):
+        """Create a draft incoming stock.picking from a DESADV when no PO
+        exists (supplier-initiated delivery, sample, back-order, or a DESADV
+        whose order_number doesn't match anything in our DB).
+
+        Self-contained: parses the message XML for sender_gln (supplier),
+        the DP party (warehouse), and the article list (moves). Provider
+        modules override _process_desadv() to parse provider-specific XML
+        details (lot/expiry) and apply them once this picking exists.
+
+        Returns:
+            stock.picking record or False if the picking cannot be created
+            (no supplier resolvable, no warehouse, no resolvable products).
+        """
+        self.ensure_one()
+        company = self.company_id or self.env.company
+        env = self.env.with_company(company)
+
+        supplier = (
+            env["res.partner"].search(
+                [("global_location_number", "=", self.sender_gln)], limit=1
+            )
+            if self.sender_gln
+            else False
+        )
+        if not supplier:
+            return False
+
+        # Look for the Delivery-Place party GLN in the XML; fall back to the
+        # envelope receiver_gln if there's no explicit DP block.
+        try:
+            root = ElementTree.fromstring(self._get_xml_content())
+        except Exception:
+            return False
+        dp_gln = ""
+        for party in root.iter("party"):
+            qel = party.find("party_qualifier")
+            if qel is not None and qel.text and qel.text.strip() == "DP":
+                ean = party.find("party_ean")
+                if ean is None:
+                    ean = party.find("party_id")
+                if ean is not None and ean.text:
+                    dp_gln = ean.text.strip()
+                break
+
+        # Pick warehouse: prefer DP GLN match, then receiver_gln match,
+        # then company default.
+        wh = False
+        for needle in (dp_gln, self.receiver_gln):
+            if not needle:
+                continue
+            wh = env["stock.warehouse"].search(
+                [("company_id", "=", company.id), ("edi_gln", "=", needle)],
+                limit=1,
+            )
+            if wh:
+                break
+        if not wh:
+            wh = env["stock.warehouse"].search(
+                [("company_id", "=", company.id)], limit=1
+            )
+        if not wh:
+            return False
+
+        picking_type = env["stock.picking.type"].search(
+            [
+                ("warehouse_id", "=", wh.id),
+                ("code", "=", "incoming"),
+            ],
+            limit=1,
+        )
+        if not picking_type:
+            return False
+
+        dest_loc = picking_type.default_location_dest_id or wh.lot_stock_id
+        src_loc = supplier.property_stock_supplier
+
+        # Build a move per article — resolve product by GTIN; skip lines
+        # we can't match (the unresolved-products policy hook handles
+        # surfacing them via the per-picking activities later).
+        moves = []
+        for art_el in root.iter():
+            if art_el.tag not in ("article", "item"):
+                continue
+            gtin_el = art_el.find("article_ean")
+            if gtin_el is None:
+                gtin_el = art_el.find("article_gtin")
+            if gtin_el is None or not gtin_el.text:
+                continue
+            gtin = gtin_el.text.strip()
+            product = self._resolve_product(supplier, gtin)
+            if not product:
+                continue
+            qty_el = art_el.find("quantity")
+            qty = (
+                float(qty_el.text)
+                if qty_el is not None and qty_el.text
+                else 0.0
+            )
+            moves.append({
+                "name": product.display_name,
+                "product_id": product.id,
+                "product_uom_qty": qty,
+                "product_uom": product.uom_id.id,
+                "location_id": src_loc.id,
+                "location_dest_id": dest_loc.id,
+                "company_id": company.id,
+            })
+        if not moves:
+            return False
+
+        picking = env["stock.picking"].create({
+            "partner_id": supplier.id,
+            "picking_type_id": picking_type.id,
+            "location_id": src_loc.id,
+            "location_dest_id": dest_loc.id,
+            "company_id": company.id,
+            "origin": f"EDI DESADV ({self.name})",
+            "move_ids": [(0, 0, m) for m in moves],
+        })
+        picking.action_confirm()
+        try:
+            picking.action_assign()
+        except Exception:
+            _logger.exception(
+                "action_assign() failed on auto-created picking %s", picking.name
+            )
+        return picking
+
+    def _update_picking_from_parsed(self, picking, parsed_articles):
+        """Update a stock.picking with lot/serial/expiry data from parsed DESADV.
+
+        Args:
+            picking: stock.picking browse record.
+            parsed_articles: list of dicts with:
+                gtin (str), article_name (str), quantity (float),
+                lot_name (str|None), expiration_date (date|None),
+                use_date (date|None).
+        """
+        from markupsafe import Markup
+        from odoo.fields import Command
+
+        if not picking or picking.state == "done":
+            return
+
+        changed_moves = self.env["stock.move"]
+        not_existing = []
+        not_matched = []
+
+        for art in parsed_articles:
+            gtin = art.get("gtin", "")
+            name = art.get("article_name", "")
+            qty = art.get("quantity", 0.0) or 0.0
+            # Negative/zero qty = correction note or empty pre-advise;
+            # Odoo rejects negative move_line qty, and 0 carries no info.
+            if qty <= 0:
+                continue
+            lot_name = art.get("lot_name")
+            expiration_date = art.get("expiration_date")
+
+            # Name fallback removed — silent wrong-match is worse than
+            # surfacing the article as unmatched (caller can review).
+            product = self._resolve_product(picking.partner_id, gtin) if gtin else False
+            label = name or gtin or "?"
+
+            if not product:
+                not_existing.append(
+                    {"product_name": label, "qty": qty, "lot_name": lot_name or "?"}
+                )
+                continue
+
+            line = picking.move_ids.filtered(
+                lambda m: m.product_id == product
+            )
+
+            if not line:
+                not_existing.append(
+                    {"product_name": label, "qty": qty, "lot_name": lot_name or "?"}
+                )
+                continue
+
+            if len(line) > 1:
+                not_matched.append(
+                    {"product_name": label, "qty": qty, "lot_name": lot_name or "?"}
+                )
+                continue
+
+            tracking = line.product_id.tracking
+
+            if tracking in ("lot", "serial") or line.product_id.use_expiration_date:
+                line.move_line_ids.filtered(lambda l: not l.lot_name).unlink()
+                if tracking == "serial" and int(qty) > 1 and lot_name:
+                    not_matched.append(
+                        {"product_name": label, "qty": qty, "lot_name": lot_name}
+                    )
+                line.write(
+                    {
+                        "move_line_ids": [
+                            Command.create(
+                                {
+                                    "product_id": line.product_id.id,
+                                    "lot_name": lot_name or "",
+                                    "expiration_date": expiration_date,
+                                    "quantity": (
+                                        1
+                                        if tracking == "serial" and int(qty) == 1
+                                        else qty
+                                    ),
+                                    "picking_id": picking.id,
+                                }
+                            )
+                        ]
+                    }
+                )
+
+            for ml in line:
+                if ml.quantity != ml.product_uom_qty:
+                    changed_moves |= ml
+
+        changes = bool(changed_moves)
+
+        if changed_moves:
+            picking._activity_schedule_with_view(
+                "mail.mail_activity_data_warning",
+                views_or_xmlid="edi_base_purchase.activity_desadv_qty_changed",
+                render_context={
+                    "picking": picking,
+                    "changed_moves": changed_moves,
+                },
+                user_id=picking.user_id.id or self.env.uid,
+            )
+
+        if not_matched:
+            picking._activity_schedule_with_view(
+                "mail.mail_activity_data_warning",
+                views_or_xmlid="edi_base_purchase.activity_desadv_unmatched",
+                render_context={
+                    "title": "Products matched to multiple move lines",
+                    "items": not_matched,
+                },
+            )
+
+        if not_existing:
+            picking._activity_schedule_with_view(
+                "mail.mail_activity_data_warning",
+                views_or_xmlid="edi_base_purchase.activity_desadv_unmatched",
+                render_context={
+                    "title": "Products in DESADV not found in this receipt",
+                    "items": not_existing,
+                },
+            )
+
+        self._hook_post_update_picking(picking, parsed_articles, changes)
+
+    # ------------------------------------------------------------------
     # Extension hooks — no-ops in base, override in localisation modules
     # ------------------------------------------------------------------
+
+    def _hook_post_create_vendor_bill(self, bill, parsed):
+        """Called after a vendor bill is created from an inbound INVOIC.
+        Override to add country-specific processing, extra field mapping, etc."""
+
+    def _hook_post_update_po_lines(self, order, parsed_items, changes):
+        """Called after PO lines are updated from an inbound ORDRSP."""
+
+    def _hook_post_update_picking(self, picking, parsed_articles, changes):
+        """Called after a picking is updated from an inbound DESADV."""
+
+    def _hook_post_create_sale_order(self, order, parsed):
+        """Called after a sale order is created from an inbound ORDERS.
+        Override to add partner-specific defaults, approval workflows, etc."""
 
     def _hook_validate_outbound_xml(self, xml_string):
         """Called before sending outbound XML. Override to add XSD validation,
@@ -1008,7 +1512,7 @@ class EdiMessage(models.Model):
                     envelope_msg_id,
                 )
                 if raw_id:
-                    self._dispatch_ack(connector, raw_id)
+                    connector.with_delay(priority=0)._acknowledge_inbound(raw_id)
                 continue
 
             # Phase 1: stub creation. No message_xml in vals so the create()
@@ -1030,18 +1534,6 @@ class EdiMessage(models.Model):
                     raw_id,
                 )
                 continue
-
-            # A provider may park a stub it cannot place (e.g. a receiver it
-            # cannot route to a company): it is stored with its payload, so it
-            # is acknowledged like any other, but nothing processes it.
-            if msg.state == "error":
-                if raw_id:
-                    self._dispatch_ack(connector, raw_id)
-                continue
-            # Processed as the company the message belongs to, which the
-            # provider may have routed away from the polling company.
-            if msg.company_id:
-                msg = msg.with_company(msg.company_id)
 
             # Phase 2: dispatch lookup/processing.
             #
@@ -1123,7 +1615,7 @@ class EdiMessage(models.Model):
                     )
 
             if raw_id:
-                self._dispatch_ack(connector, raw_id)
+                connector.with_delay(priority=0)._acknowledge_inbound(raw_id)
 
         if has_more:
             cron_xmlid = self.PROVIDER_CRON_MAP.get(provider)
@@ -1148,8 +1640,6 @@ class EdiMessage(models.Model):
                     "state": "received",
                 }
             )
-            if rec.company_id:
-                rec = rec.with_company(rec.company_id)
             rec._lookup_related_records()
 
     SENDABLE_STATES = ("draft", "ready", "queued", "error")
@@ -1169,10 +1659,12 @@ class EdiMessage(models.Model):
         self.ensure_one()
         if connector is None:
             connector = self.env[self._get_connector_name()]
-        if self.company_id:
-            # The connector reads its credentials and the sender's identity
-            # from env.company; a job inherits the context it is queued with.
-            connector = connector.with_company(self.company_id)
+        delayed = connector.with_context(
+            job_edi_message_id=self.id,
+        ).with_delay(
+            max_retries=max_retries,
+            description=self._enqueue_send_description(),
+        )._send_message(self)
         self.write(
             {
                 "state": "queued",
@@ -1180,162 +1672,7 @@ class EdiMessage(models.Model):
                 "blocking_level": False,
             }
         )
-        self._post_dispatch_trace()
-        return self._dispatch_send(connector, max_retries)
-
-    def _dispatch_send(self, connector, max_retries=5):
-        """Hand a ``queued`` message to whatever will actually send it.
-
-        Nothing here. ``edi_base_queue_job`` overrides this with the
-        ``with_delay`` call that used to live inline, and a provider that wants
-        no job runner registers ``"cron"`` in
-        :attr:`PROVIDER_DISPATCH_MAP` and is picked up by
-        :meth:`_cron_send_queued` instead.
-
-        The state write stays in :meth:`_enqueue_send` on purpose: ``queued``
-        already means "dispatched, not yet sent", and it means that whichever
-        of the two takes it from here. Only the handover differs.
-        """
-        self.ensure_one()
-        return False
-
-    def _dispatch_ack(self, connector, raw_id):
-        """Acknowledge an inbound document.
-
-        Synchronous by default, and that costs nothing: every caller is already
-        inside the inbound polling cron, so there is no user waiting and no
-        request to free up. ``edi_base_queue_job`` still pushes it to a job,
-        which is worth keeping where a poll can return a large batch.
-        """
-        return connector._acknowledge_inbound(raw_id)
-
-    @api.model
-    def _cron_send_queued(self, limit=100):
-        """Send what is ``queued`` for the providers that asked for a cron.
-
-        Strictly scoped to :attr:`PROVIDER_DISPATCH_MAP`. A provider dispatched
-        by job must never appear here, or a message would be sent twice — once
-        by its job and once by this.
-
-        Note the outcome is written with a plain ``write``, not
-        ``_write_outside_job``. That helper exists because a job runner rolls
-        the cursor back around a raising job, so the outcome has to be written
-        on a cursor it cannot reach. Here nothing rolls back: the savepoint
-        around the send is released, this transaction is intact, and a write on
-        a separate cursor could not even see a row this transaction has not
-        committed.
-        """
-        providers = [
-            provider for provider, mode in self.PROVIDER_DISPATCH_MAP.items()
-            if mode == "cron"
-        ]
-        if not providers:
-            return
-        messages = self.search([
-            ("state", "=", "queued"),
-            ("direction", "=", "out"),
-            ("provider", "in", providers),
-        ], limit=limit, order="id")
-        for message in messages:
-            connector = self.env[message._get_connector_name()]
-            if message.company_id:
-                connector = connector.with_company(message.company_id)
-            try:
-                # Each message in its own savepoint: one unsendable document
-                # must not hold up the rest of the run, and the failure belongs
-                # on that message rather than in a traceback nobody reads.
-                with self.env.cr.savepoint():
-                    connector._send_message(message)
-            except RetryableJobError as exception:
-                # The same signal a job runner acts on, honoured the same way:
-                # leave it queued and let the next tick try again. Losing this
-                # distinction would turn every rate limit and every timeout
-                # into a document a human has to re-send by hand.
-                _logger.info("EDI cron send deferred for %s: %s",
-                             message.name, exception)
-                message.write({
-                    "error_message": str(exception),
-                    "blocking_level": "warning",
-                })
-            except Exception as exception:  # noqa: BLE001
-                _logger.exception("EDI cron send failed for %s", message.name)
-                message.write({
-                    "state": "error",
-                    "error_message": str(exception),
-                })
-
-    def _edi_related_documents(self):
-        """Business documents this message should leave a chatter trace on.
-
-        ``edi.message`` itself owns no document links — they live on the
-        satellite modules (``edi_base_sale`` adds ``sale_order_id`` /
-        ``out_picking_id`` / ``customer_invoice_id``, ``edi_base_purchase``
-        adds ``purchase_order_id``), so this returns nothing by default and
-        each satellite ORs in what it knows about.
-
-        Returns a list of recordsets, not a single recordset — the links
-        point at different models.
-        """
-        self.ensure_one()
-        return []
-
-    def _post_dispatch_trace(self):
-        """Post a chatter line on the linked documents when the message is
-        actually handed to the queue.
-
-        Without this the only visible chatter came from the provider's
-        ``_*_emit_invoic`` at GENERATION time, so an invoice generated with
-        auto-send off and dispatched later from the EDI message form showed
-        no trace of the dispatch at all — the send was visible only on
-        ``edi.message`` / ``queue.job``. Worse, a regenerate left two
-        generation lines and no dispatch line, which reads as a double send.
-        """
-        self.ensure_one()
-        from markupsafe import Markup, escape
-
-        # Nothing in here may raise: with_delay() has already created the
-        # queue.job row in this same transaction, so any exception escaping
-        # this method rolls the dispatch back and the document is silently
-        # never sent. That includes _edi_related_documents() itself — an
-        # override, an access-rule denial or a broken link can all raise —
-        # so the resolution is inside the guard, not outside it.
-        try:
-            docs = self._edi_related_documents()
-        except Exception:
-            _logger.exception(
-                "Could not resolve related documents for edi.message %s",
-                self.id,
-            )
-            return
-
-        link = Markup(
-            '<a href="#" data-oe-model="edi.message" data-oe-id="%d">%s</a>'
-        ) % (self.id, escape(self.name or str(self.id)))
-        body = Markup(_(
-            "%(msg_type)s queued for dispatch via %(provider)s: %(link)s"
-        )) % {
-            "msg_type": self.message_type or _("EDI message"),
-            "provider": self.provider or _("EDI"),
-            "link": link,
-        }
-        # Dedup by (model, id): a message can carry links that resolve to
-        # the same record, and with both edi_base_sale and edi_base_purchase
-        # installed two independent overrides contribute to the same list.
-        seen = set()
-        for doc in docs:
-            if not doc or not hasattr(doc, "message_post"):
-                continue
-            key = (doc._name, doc.id)
-            if key in seen:
-                continue
-            seen.add(key)
-            try:
-                doc.message_post(body=body)
-            except Exception:
-                _logger.exception(
-                    "Could not post dispatch trace for edi.message %s on %s",
-                    self.id, doc,
-                )
+        return delayed
 
     def _enqueue_send_description(self):
         """Human-readable description stamped on the queue.job so jobs are

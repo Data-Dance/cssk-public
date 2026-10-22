@@ -1,7 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+
+from odoo.addons.l10n_cssk_receipt_capture.tools.errors import ProviderUnavailable
 
 
 class SkEkasaCall(models.Model):
@@ -70,14 +71,14 @@ class SkEkasaCall(models.Model):
         """
         budget = company.l10n_sk_ekasa_hourly_budget
         if budget <= 0:
-            raise UserError(_(
+            raise ProviderUnavailable(_(
                 "The hourly eKasa lookup budget for %(company)s is set to "
                 "zero, so no lookups are made. Raise it in Settings ▸ "
                 "Accounting ▸ Fiscal Receipt Capture.",
                 company=company.display_name))
         used = self._used_this_hour(company)
         if used >= budget:
-            raise UserError(_(
+            raise ProviderUnavailable(_(
                 "The hourly eKasa lookup budget for %(company)s is spent "
                 "(%(used)s of %(budget)s used since %(since)s). Finančná "
                 "správa limits the service to roughly 60 lookups per clock "

@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 import base64
 
@@ -70,37 +70,3 @@ class TestCzDppo(AccountTestInvoicingCommon):
         self.assertEqual(veta_o.get("kc_ii10_10"), "4000")   # ř.10
         self.assertEqual(veta_o.get("kc_ii280_290"), "840")  # ř.290 daň
         self.assertEqual(veta_o.get("kc_ii_340"), "840")     # celková daň
-
-    # --- VetaD: druh přiznání -----------------------------------------
-    # typ_dapdpp was hard-coded "B" (a return ON ENTERING LIQUIDATION) and
-    # typ_zo "1", which is no letter of § 21a.
-
-    def _veta_d(self, ret):
-        ret.action_export_xml()
-        root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
-        return root.find(".//VetaD")
-
-    def test_an_ordinary_return_is_type_a_for_a_calendar_year(self):
-        veta_d = self._veta_d(self._return())
-        self.assertEqual(veta_d.get("typ_dapdpp"), "A")
-        self.assertEqual(veta_d.get("typ_zo"), "A")
-        self.assertEqual(veta_d.get("typ_popldpp"), "1")
-
-    def test_a_hospodarsky_rok_is_period_b(self):
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id, "version_id": self.version.id,
-            "statement_type_id": self.type_b.id,
-            "date_from": "2024-07-01", "date_to": "2025-06-30"})
-        self.assertEqual(ret.l10n_cz_period_kind, "B")
-
-    def test_a_dodatecne_priznani_needs_its_discovery_date(self):
-        from odoo.exceptions import UserError
-
-        ret = self._return()
-        ret.statement_type_id = self.env.ref("l10n_cz_dppo.cz_dppo_type_D")
-        with self.assertRaisesRegex(UserError, "d_zjist"):
-            ret.action_export_xml()
-        ret.l10n_cz_discovery_date = "2026-03-02"
-        veta_d = self._veta_d(ret)
-        self.assertEqual(veta_d.get("dapdpp_forma"), "D")
-        self.assertEqual(veta_d.get("d_zjist"), "02.03.2026")

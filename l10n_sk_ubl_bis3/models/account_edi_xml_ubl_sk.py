@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import re
 
-from odoo import _, models
+from odoo import models
 
 
 class AccountEdiXmlUbl_Sk(models.AbstractModel):
@@ -55,58 +55,3 @@ class AccountEdiXmlUbl_Sk(models.AbstractModel):
             payment_id = node.get('cbc:PaymentID')
             if payment_id is not None:
                 payment_id['_text'] = variable_symbol
-
-    # -------------------------------------------------------------------------
-    # A Slovak party must be identifiable before the document leaves
-    # -------------------------------------------------------------------------
-
-    def _export_invoice_constraints(self, invoice, vals):
-        # EXTENDS 'account.edi.xml.ubl_bis3'
-        constraints = super()._export_invoice_constraints(invoice, vals)
-        constraints.update(self._l10n_sk_peppol_constraints(invoice, vals))
-        return constraints
-
-    def _l10n_sk_peppol_constraints(self, invoice, vals):
-        """Refuse a Slovak party with no DIČ, here rather than at the gateway.
-
-        The DIČ is no longer guessed from the VAT number, so a partner without
-        one has no Slovak participant identifier — and the failure would
-        otherwise surface at the access point as a *validation* error on an
-        unknown participant, which reads as a malformed request and sends
-        whoever is debugging it looking at the payload instead of at the
-        contact. Worse, a partner with no DIČ keeps core's 9950 default and
-        would go out under its IČ DPH, which is wrong but perfectly well
-        formed, so nothing would complain at all.
-
-        Named per party, so the message says which one to go and fix.
-        """
-        constraints = {}
-        for role, partner in (
-            ('supplier', invoice.company_id.partner_id.commercial_partner_id),
-            ('customer', invoice.commercial_partner_id),
-        ):
-            if partner.country_code != 'SK':
-                continue
-            # Gated on the MISSING DIČ alone, not on the partner already being
-            # on 0245. Gating on the scheme missed the case that matters: with
-            # no DIČ recorded, _compute_peppol_eas never promotes the partner,
-            # so it keeps core's 9950 default and sailed straight past this
-            # check — exporting under the IČ DPH, which is the very bug this
-            # module exists to fix. Measured on one real agenda: of 1204
-            # Slovak trading partners with no DIČ, 1076 sat on 9950 and only
-            # 127 on 0245, so the old gate caught about a tenth of them.
-            #
-            # A partner deliberately registered under another scheme is still
-            # fine, as long as its DIČ is recorded — this asks for the number,
-            # not for a particular scheme.
-            if not partner._l10n_sk_get_dic():
-                constraints[f'l10n_sk_ubl_bis3_{role}_dic_required'] = _(
-                    "No DIČ is recorded for %(partner)s, so it has no Slovak "
-                    "Peppol participant identifier: EAS 0245 carries the DIČ, "
-                    "and it is currently published as %(eas)s. Set 'DIČ' on the "
-                    "contact — it is not the VAT number and cannot be derived "
-                    "from it.",
-                    partner=partner.display_name,
-                    eas=partner.peppol_eas or _("nothing"),
-                )
-        return constraints

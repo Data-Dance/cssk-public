@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from odoo import Command
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -17,11 +17,11 @@ class TestCzInvoice(AccountTestInvoicingCommon):
         cls.eu_partner = cls.env["res.partner"].with_context(
             no_vat_validation=True).create({
                 "name": "Berlin GmbH", "country_id": cls.env.ref("base.de").id,
-                "vat": "DE123456788"})
+                "vat": "DE123456788", "l10n_cssk_dic": "DE-1"})
         cls.sk_partner = cls.env["res.partner"].with_context(
             no_vat_validation=True).create({
                 "name": "Domaci", "country_id": cls.env.ref("base.cz").id,
-                "vat": "CZ46342958"})
+                "vat": "CZ46342958", "l10n_cssk_dic": "46342958"})
         group = cls.tax_sale_a.tax_group_id.id
         cls.zero_tax = cls.env["account.tax"].create({
             "name": "EU 0%", "amount": 0.0, "amount_type": "percent",
@@ -51,16 +51,6 @@ class TestCzInvoice(AccountTestInvoicingCommon):
         inv.l10n_cssk_constant_symbol = "0308"
         html = self.env["ir.actions.report"]._render_qweb_html(
             "account.account_invoices", inv.ids)[0].decode()
-        # The DIČ label comes from core, which prints the fiscal country's
-        # `vat_label` — "DIČ" for Czechia. This module adds no line of its own,
-        # because in Czech usage DIČ *is* the VAT number core already shows.
-        self.assertIn(self.eu_partner.vat, html)
+        self.assertIn("DIČ", html)
         self.assertIn("§64", html)
         self.assertIn("0308", html)
-
-    def test_the_customer_tax_id_is_printed_exactly_once(self):
-        """Regression: a separate DIČ line duplicated the VAT number."""
-        inv = self._inv(self.sk_partner, self.zero_tax)
-        html = self.env["ir.actions.report"]._render_qweb_html(
-            "account.account_invoices", inv.ids)[0].decode()
-        self.assertEqual(html.count(self.sk_partner.vat), 1)

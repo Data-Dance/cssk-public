@@ -137,11 +137,11 @@ class L10nCzVatStatusPeriod(models.Model):
         help="Reference of the tax office's decision, where there is one.")
     note = fields.Text()
 
-    _company_date_uniq = models.Constraint(
-        "UNIQUE (company_id, date_from)",
-        "The company already has a VAT status starting on that day.",
-    )
-
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("company_date_uniq", "UNIQUE (company_id, date_from)",
+         "The company already has a VAT status starting on that day."),
+    ]
     @api.depends("date_from", "company_id.l10n_cz_vat_status_period_ids.date_from")
     def _compute_date_to(self):
         for rec in self:

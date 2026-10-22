@@ -59,8 +59,8 @@
                             <div>OKP: <span t-out="o.okp"/></div>
                         </div>
 
-                        <div t-if="o.vrp2_receipt_uuid" class="text-center mt-3">
-                            <img t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % o.vrp2_receipt_uuid"
+                        <div t-if="o.qr_content" class="text-center mt-3">
+                            <img t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % o.qr_content"
                                  alt="QR"/>
                         </div>
                     </div>

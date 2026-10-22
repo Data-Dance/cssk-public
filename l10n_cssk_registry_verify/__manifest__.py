@@ -6,7 +6,7 @@
     "license": "AGPL-3",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": """
 Answer whether an IČO exists in the state register, and say so in a way a gate can act on
     """,

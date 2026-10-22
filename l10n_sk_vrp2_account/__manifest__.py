@@ -1,6 +1,6 @@
 {
     "name": "Slovak VRP2 - Invoice Payments",
-    "version": "19.0.2.3.0",
+    "version": "18.0.2.2.0",
     "author": "Data Dance s.r.o.",
     "category": "Accounting/Localizations",
     "summary": "Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2)",

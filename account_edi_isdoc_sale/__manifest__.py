@@ -1,6 +1,6 @@
 {
     'name': "ISDOC for Sales (proforma)",
-    'version': '19.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting/Accounting',
     'summary': "Export a sale order as an ISDOC proforma (zálohová faktura, DocumentType 4)",
     'description': """

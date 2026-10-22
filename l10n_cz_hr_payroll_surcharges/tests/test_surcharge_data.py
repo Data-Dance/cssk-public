@@ -70,7 +70,7 @@ class TestCzSurchargeData(TransactionCase):
 
     # -- the contract fields ------------------------------------------------
     def test_contract_carries_the_two_surcharge_inputs(self):
-        fields_ = self.env["hr.version"]._fields
+        fields_ = self.env["hr.contract"]._fields
         self.assertIn("l10n_cz_difficult_factors", fields_)
         self.assertIn("l10n_cz_surcharge_agreed", fields_)
 
@@ -83,4 +83,4 @@ class TestCzSurchargeData(TransactionCase):
         Sb. left one minimum wage for every private employer. Asserted so the
         omission reads as a decision rather than an oversight.
         """
-        self.assertNotIn("l10n_cz_wage_level", self.env["hr.version"]._fields)
+        self.assertNotIn("l10n_cz_wage_level", self.env["hr.contract"]._fields)

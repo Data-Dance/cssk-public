@@ -12,6 +12,7 @@
                 <field name="payee_partner_id"/>
                 <field name="amount_second_third" sum="Second Third" optional="hide"/>
                 <field name="amount_first_third" sum="First Third" optional="hide"/>
+                <field name="amount_unlimited" sum="Unlimited" optional="hide"/>
                 <field name="amount" sum="Total"/>
                 <field name="state" widget="badge" decoration-success="state == 'done'"/>
                 <field name="currency_id" column_invisible="True"/>

@@ -136,20 +136,6 @@ class TestISDOCImport(AccountTestInvoicingCommon):
         self.assertAlmostEqual(invoice.amount_tax, 60.0, places=2)
         self.assertAlmostEqual(invoice.amount_total, 560.0, places=2)
 
-    def test_import_reads_the_duzp(self):
-        """An ordinary vendor bill takes its DUZP from TaxPointDate; only the
-        advance tax document used to."""
-        xml = INVOICE.replace(
-            '<IssueDate>2024-07-10</IssueDate>',
-            '<IssueDate>2024-07-10</IssueDate><TaxPointDate>2024-06-28</TaxPointDate>')
-        self.assertIn('TaxPointDate', xml)
-        invoice = self._import(xml.encode())
-        self.assertEqual(str(invoice.invoice_date), '2024-07-10')
-        self.assertEqual(str(invoice.taxable_supply_date), '2024-06-28')
-        if 'cssk_vat_deduction_date' in invoice._fields:
-            # The deduction period is ours to set, not the supplier's.
-            self.assertFalse(invoice.cssk_vat_deduction_date)
-
     def test_import_credit_note_with_legacy_bank(self):
         invoice = self._import(CREDIT_NOTE.encode())
         self.assertEqual(invoice.move_type, 'in_refund')

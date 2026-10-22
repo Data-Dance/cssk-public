@@ -50,5 +50,5 @@ Podrobnosti a interaktívny ťahák nájdete v module ``sale_order_advance_invoi
 Kredity
 =======
 
-Autor: **Data Dance s.r.o.** — https://www.datadance.eu
-Licencia: AGPL-3.0 alebo novšia (pozri súbor LICENSE).
+Autor: **Data Dance s.r.o.** — https://www.datadance.cz
+Licencia: AGPL-3.

@@ -4,7 +4,7 @@
 Source of truth: Opatrenie MF SR č. MF/23377/2014-74 (a nadv.), prílohy —
 Súvaha Úč POD 1-01 a Výkaz ziskov a strát Úč POD 2-01, kde každý medzisúčtový
 riadok je definovaný ako súčet uvedených riadkov; the per-row súčty below are
-the official cross-line totals.
+the official cross-line totals (cross-checked against EE l10n_sk_reports).
 
 SUCET_BS / SUCET_PL: ``(parent_row, [component_rows])`` — parent NETTO must
 equal the sum of the component NETTO values (Súvaha AKTÍVA netto = s3,

@@ -37,14 +37,16 @@ class HrWageGarnishment(models.Model):
     _order = "date_delivered, sequence, id"
     _rec_name = "case_number"
 
-    _check_amounts = models.Constraint(
-        "CHECK (total_amount >= 0 AND monthly_amount >= 0)",
-        "Garnishment amounts may not be negative.",
-    )
-    _check_dates = models.Constraint(
-        "CHECK (date_end IS NULL OR date_start IS NULL OR date_start <= date_end)",
-        "The end date may not precede the start date.",
-    )
+    # 19.0 declares these as models.Constraint; 18.0 has _sql_constraints.
+    _sql_constraints = [
+        ("check_amounts",
+         "CHECK (total_amount >= 0 AND monthly_amount >= 0)",
+         "Garnishment amounts may not be negative."),
+        ("check_dates",
+         "CHECK (date_end IS NULL OR date_start IS NULL "
+         "OR date_start <= date_end)",
+         "The end date may not precede the start date."),
+    ]
 
     case_number = fields.Char(
         "Case Number",
@@ -263,38 +265,6 @@ class HrWageGarnishment(models.Model):
                     )
                 )
 
-    @api.constrains("partner_bank_id", "payee_partner_id",
-                    "bailiff_partner_id", "creditor_partner_id")
-    def _check_partner_bank_belongs_to_the_payee(self):
-        """The account the money goes to must be the payee's.
-
-        ``partner_bank_id`` carries a domain, and a domain is a form widget:
-        it does not run on import, on a server action, or on any write that
-        did not pass through that form. The account is copied straight onto
-        the remittance entry and is what a payment order pays into, so an
-        account belonging to somebody else is a wage deduction paid to the
-        wrong person — recoverable only by chasing it.
-
-        Compared on the commercial partner so a payee contact whose bank
-        account sits on the parent company is accepted.
-        """
-        for order in self:
-            bank = order.partner_bank_id
-            if not bank:
-                continue
-            payee = order.payee_partner_id
-            if not payee:
-                continue
-            if bank.partner_id.commercial_partner_id != payee.commercial_partner_id:
-                raise ValidationError(_(
-                    "The payee bank account %(account)s belongs to "
-                    "%(owner)s, not to the payee %(payee)s. The remittance is "
-                    "paid into this account, so it must be the payee's.",
-                    account=bank.acc_number,
-                    owner=bank.partner_id.display_name,
-                    payee=payee.display_name,
-                ))
-
     @api.constrains("total_amount", "monthly_amount", "garnishment_type")
     def _check_has_amount(self):
         for order in self:
@@ -365,29 +335,12 @@ class HrWageGarnishment(models.Model):
         return max(0.0, self.paid_amount - months * self.monthly_amount)
 
     @api.model
-    def _active_orders(self, employee, date_from, date_to, company=None):
-        """Orders in force for *employee* over the period, ranked by pořadí.
-
-        The multi-company record rule does NOT stand in for a company filter:
-        ``company_ids`` in a rule resolves to the user's ALLOWED companies,
-        not to ``env.company``, so a payroll officer who can see A and B was
-        shown B's orders while computing an A payslip. The line's
-        ``company_id`` is ``related=garnishment_id.company_id``, so the
-        deduction then belonged to B and ``_remit_one`` booked the remittance
-        in B's journal against an A payslip — money leaving the wrong
-        company's books.
-
-        ``company`` is resolved rather than merely honoured when passed: a
-        scoping fix whose filter disappears when an argument is omitted is not
-        a scoping fix, it is one every future caller has to remember. The
-        fallback chain matches ``_allocate``'s own.
-        """
-        company = company or employee.company_id or self.env.company
+    def _active_orders(self, employee, date_from, date_to):
+        """Orders in force for *employee* over the period, ranked by pořadí."""
         return self.search(
             [
                 ("employee_id", "=", employee.id),
                 ("state", "=", "running"),
-                ("company_id", "=", company.id),
                 "|", ("date_start", "=", False), ("date_start", "<=", date_to),
                 "|", ("date_end", "=", False), ("date_end", ">=", date_from),
             ],
@@ -423,7 +376,7 @@ class HrWageGarnishment(models.Model):
                     code or _("no country"),
                 )
             )
-        orders = self._active_orders(employee, date_from, date_to, company)
+        orders = self._active_orders(employee, date_from, date_to)
         if not orders:
             return orders, None
         rate = self.env["hr.wage.garnishment.rate"]._get_rate(code, date_to)
@@ -480,10 +433,6 @@ class HrWageGarnishment(models.Model):
                 [
                     ("employee_id", "=", payslip.employee_id.id),
                     ("state", "=", "running"),
-                    # Same scoping as ``_active_orders``: the guard and the
-                    # allocator must agree on which orders exist, or a salary
-                    # rule fires for orders the allocator will not honour.
-                    ("company_id", "=", payslip.company_id.id),
                 ],
                 limit=1,
             )

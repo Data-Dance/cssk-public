@@ -192,15 +192,14 @@ class AccountBankStatementLine(models.Model):
         if order.state in ("draft", "sent"):
             order.action_confirm()
 
-        # The partner first: writing it resynchronises the line's entry, and
-        # once the suspense leg is rewritten to the payment's account the
-        # entry has no suspense line left, so the resync rebuilds the lines
-        # and tries to delete a posted one. A bank line without a partner is
-        # the usual case for a match by variable symbol.
+        # Set the partner BEFORE reconciling: on 18.0 writing partner_id on
+        # a statement line triggers _synchronize_to_moves, which regenerates
+        # the move's counterpart lines — forbidden once they are reconciled.
         if not self.partner_id:
             self.with_context(skip_readonly_check=True).partner_id = (
                 payment.partner_id
             )
+
         self._cssk_reconcile_with_payment(payment)
 
         self._cssk_maybe_create_tax_document(order)

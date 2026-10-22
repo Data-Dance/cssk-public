@@ -3,9 +3,6 @@
 #
 # Runtime proof that a posted Slovak payslip produces a balanced journal entry
 # on the expected l10n_sk accounts (521 / 331 / 336 / 342 / 524).
-#
-# On 19.0 the payslip ``contract_id`` is an ``hr.version`` record owned by the
-# employee; the salary journal (from payroll_account) lives on that version.
 
 from datetime import date
 
@@ -51,13 +48,14 @@ class TestSkPayrollAccount(TransactionCase):
                 "resource_calendar_id": cls.calendar.id,
             }
         )
-        # On 19.0 the "contract" is the employee's current version.
-        cls.contract = cls.employee.version_id
-        cls.contract.write(
+        cls.contract = cls.env["hr.contract"].create(
             {
-                "contract_date_start": date(2024, 1, 1),
-                "date_version": date(2024, 1, 1),
+                "name": "Jozef Contract",
+                "employee_id": cls.employee.id,
+                "company_id": cls.company.id,
                 "wage": 1500.0,
+                "state": "open",
+                "date_start": date(2024, 1, 1),
                 "resource_calendar_id": cls.calendar.id,
                 "struct_id": cls.structure.id,
                 "journal_id": cls.journal.id,

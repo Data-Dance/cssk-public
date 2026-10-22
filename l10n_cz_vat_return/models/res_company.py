@@ -78,6 +78,38 @@ class ResCompany(models.Model):
         by hand survives. Idempotent. Archived historical rate clones are left
         alone: nothing picks them on a new document.
         """
+        if "original_tax_ids" not in self.env["account.tax"]._fields:
+            # 18.0 ONLY, AND A DELIBERATE NO-OP. This mapping is written
+            # against 19.0's tax-alternatives rework: a destination tax names
+            # the domestic taxes it replaces (``account.tax.original_tax_ids``,
+            # with ``fiscal_position_ids``, ``replacing_tax_ids`` and
+            # ``is_domestic`` beside it), and 19.0 core ``l10n_cz`` ships a
+            # ``fiscal_position_intra_community`` for it to act on.
+            #
+            # 18.0 has none of that. Its ``account.tax`` carries no such field;
+            # a position maps taxes through ``account.fiscal.position.tax``
+            # rows (``tax_src_id`` -> ``tax_dest_id``); and 18.0 core
+            # ``l10n_cz`` has no intra-Community position at all — only
+            # ``fiscal_position_domestic_cz`` and
+            # ``fiscal_position_eu_private_cz``, the latter being private (B2C)
+            # trade, not a B2B acquisition.
+            #
+            # So the fix cannot be ported: on this series it would mean
+            # CREATING a fiscal position and its mapping rows, which is a
+            # client-visible design decision and not a translation of the 19.0
+            # code. Left undone on purpose, recorded in CHANGELOG.rst under
+            # "Carry-over to 18.0", and logged rather than passed over in
+            # silence — a Czech vendor bill from an EU supplier keeps its
+            # domestic 21 % on this branch, which is the bug 1.7.0 fixed on
+            # 19.0 and which is still live here.
+            _logger.warning(
+                "l10n_cz_vat_return: the intra-Community purchase tax mapping "
+                "is not applied on Odoo 18.0 — this series has neither "
+                "account.tax.original_tax_ids nor a core intra-Community "
+                "fiscal position. An EU vendor bill will keep the domestic "
+                "rate and must be self-assessed by hand. See "
+                "l10n_cz_vat_return/CHANGELOG.rst.")
+            return 0
         ChartTemplate = self.env["account.chart.template"]
         touched = 0
         for company in self:

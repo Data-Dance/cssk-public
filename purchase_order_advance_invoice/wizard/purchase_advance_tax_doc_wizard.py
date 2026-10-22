@@ -104,41 +104,51 @@ class PurchaseAdvanceTaxDocWizard(models.TransientModel):
                   amount=unaccounted)
             )
 
+        # 18.0 has no account.tax._prepare_down_payment_lines (a 19.0
+        # refactor). Mirror the 18.0 sale-side pattern
+        # (sale_order_advance_invoice._prepare_advance_tax_doc_lines_values):
+        # group the raw net amounts per (non-fixed) tax combination and scale
+        # them by the paid ratio, so net + taxes reproduce the tax-included
+        # amount being documented.
         AccountTax = self.env["account.tax"]
         order_lines = order.order_line.filtered(
             lambda line: not line.display_type
         )
-        base_lines = [
-            line._prepare_base_line_for_taxes_computation()
-            for line in order_lines
-        ]
-        AccountTax._add_tax_details_in_base_lines(base_lines, company)
-        AccountTax._round_base_lines_tax_details(base_lines, company)
-        dp_base_lines = AccountTax._prepare_down_payment_lines(
-            base_lines=base_lines,
-            company=company,
-            amount_type="fixed",
-            amount=self.amount,
-            computation_key="purchase_advance_tax_doc,%s,%s"
-            % (order.id, len(order.advance_tax_doc_ids)),
+        ratio = (
+            self.amount / order.amount_total if order.amount_total else 1.0
         )
+        net_by_taxes = {}
+        for line in order_lines:
+            base_line = line._prepare_base_line_for_taxes_computation()
+            AccountTax._add_tax_details_in_base_line(base_line, company)
+            taxes = line.taxes_id.flatten_taxes_hierarchy()
+            taxes -= taxes.filtered(lambda tax: tax.amount_type == "fixed")
+            key = tuple(sorted(taxes.ids))
+            net_by_taxes[key] = (
+                net_by_taxes.get(key, 0.0)
+                + base_line["tax_details"]["raw_total_excluded_currency"]
+            )
 
         description = _(
             "Payment sent for Advance Invoice %(name)s on %(paid_date)s",
             name=order.name,
             paid_date=self.taxable_supply_date,
         )
-        line_commands = [
-            (0, 0, {
-                "name": description,
-                "quantity": 1.0,
-                "price_unit": base_line["price_unit"],
-                "tax_ids": [(6, 0, base_line["tax_ids"].ids)],
-                "account_id": account.id,
-            })
-            for base_line in dp_base_lines
-        ]
-        move = self.env["account.move"].create({
+        line_commands = []
+        for tax_ids, net_amount in net_by_taxes.items():
+            price_unit = self.currency_id.round(net_amount * ratio)
+            if self.currency_id.is_zero(price_unit):
+                continue
+            line_commands.append(
+                (0, 0, {
+                    "name": description,
+                    "quantity": 1.0,
+                    "price_unit": price_unit,
+                    "tax_ids": [(6, 0, list(tax_ids))],
+                    "account_id": account.id,
+                })
+            )
+        move_vals = {
             "move_type": "in_invoice",
             "journal_id": journal.id,
             "company_id": company.id,
@@ -147,10 +157,14 @@ class PurchaseAdvanceTaxDocWizard(models.TransientModel):
             "ref": self.supplier_ref,
             "invoice_date": self.invoice_date,
             "date": self.accounting_date or self.invoice_date,
-            "taxable_supply_date": self.taxable_supply_date,
             "advance_purchase_order_id": order.id,
             "invoice_line_ids": line_commands,
-        })
+        }
+        # On 18.0 taxable_supply_date comes from l10n_cz / l10n_sk (or the
+        # payment-symbols module), not from core account — duck-type it.
+        if "taxable_supply_date" in self.env["account.move"]._fields:
+            move_vals["taxable_supply_date"] = self.taxable_supply_date
+        move = self.env["account.move"].create(move_vals)
         # The payable leg moves to the reconcilable clearing account so the
         # payment and this tax document net to zero there. The clearing
         # account is payable-type (core enforces payment_term ↔ payable).

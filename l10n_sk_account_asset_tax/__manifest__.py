@@ -1,6 +1,6 @@
 {
     "name": "Tax Depreciation - Slovak Localization",
-    "version": "19.0.1.0.3",
+    "version": "18.0.1.0.3",
     "summary": "Slovak tax depreciation groups and coefficients (zákon 595/2003 Z.z. §26–28)",
     "description": """
 Slovak tax depreciation groups

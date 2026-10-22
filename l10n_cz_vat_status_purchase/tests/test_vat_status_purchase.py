@@ -33,10 +33,10 @@ class TestCzVatStatusPurchase(AccountTestInvoicingCommon):
         self.env["l10n.cz.vat.status.period"].create({
             "company_id": self.company.id, "date_from": "2026-07-01",
             "status": "non_payer"})
-        self.assertEqual(self._order("2026-06-30").order_line.tax_ids, self.purch21)
-        tax = self._order("2026-07-01").order_line.tax_ids
+        self.assertEqual(self._order("2026-06-30").order_line.taxes_id, self.purch21)
+        tax = self._order("2026-07-01").order_line.taxes_id
         self.assertEqual(tax.l10n_cz_vat_status_source_id, self.purch21)
         self.assertEqual(tax.l10n_cz_vat_status_kind, "nondeductible")
 
     def test_no_history_leaves_orders_alone(self):
-        self.assertEqual(self._order("2026-07-01").order_line.tax_ids, self.purch21)
+        self.assertEqual(self._order("2026-07-01").order_line.taxes_id, self.purch21)

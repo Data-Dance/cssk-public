@@ -1,7 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import Command, _, api, fields, models
-from odoo.tools import float_round
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -53,16 +52,6 @@ class SaleAdvanceInvoiceWizard(models.TransientModel):
         string='Already Invoiced',
         compute='_compute_amount_advance_invoiced',
         help='Only confirmed advance invoices are considered.',
-    )
-    include_items = fields.Boolean(
-        string="Include the ordered items",
-        help="List the ordered products on the advance invoice instead of a "
-             "single generic Advance line.\n"
-             "Each line then carries its own product and its own VAT rate, so "
-             "an order mixing rates is requested — and later taxed on the tax "
-             "document — at the right rate on every item.\n"
-             "For a percentage or a fixed amount the unit prices are scaled "
-             "down in the same proportion; the quantities stay as ordered.",
     )
     description = fields.Char(
         string='Advance Invoice Description',
@@ -145,9 +134,8 @@ class SaleAdvanceInvoiceWizard(models.TransientModel):
             }
         )
 
-        if self.include_items:
-            self._add_itemised_lines(advance_invoice, order)
-        elif self.advance_payment_method == 'full':
+        # Full amount always copies all products, regardless of product type selection.
+        if self.advance_payment_method == 'full':
             self._add_full_amount_lines(advance_invoice, order)
         elif self.advance_payment_method == 'percentage':
             self._add_percentage_lines(advance_invoice, order)
@@ -166,100 +154,12 @@ class SaleAdvanceInvoiceWizard(models.TransientModel):
 
     #=== BUSINESS METHODS ===#
 
-    def _get_advance_ratio(self, order):
-        """Proportion of the order that this advance covers, 0.0 < ratio <= 1.0.
-
-        Both partial methods are expressed on the untaxed total, which is what
-        the lump-sum lines below have always done.
-        """
-        if self.advance_payment_method == 'full':
-            return 1.0
-        if self.advance_payment_method == 'percentage':
-            return self.amount / 100.0
-        if not order.amount_untaxed:
-            raise UserError(_(
-                "A fixed amount cannot be spread over the ordered items: the "
-                "order has no untaxed amount to spread it over."
-            ))
-        return self.fixed_amount / order.amount_untaxed
-
-    def _itemised_line_vals(self, advance_invoice, line, ratio, suffix):
-        """Mirror one order line onto the advance, keeping its product and taxes.
-
-        The quantity is the ordered quantity - a partial advance is a smaller
-        payment for the same goods, not a payment for fewer goods - so the
-        proportion is taken on the unit price.
-        """
-        return {
-            'order_id': advance_invoice.id,
-            'product_id': line.product_id.id,
-            'product_uom_id': line.product_uom_id.id,
-            'product_uom_qty': line.product_uom_qty,
-            'name': f"{line.name}{suffix}",
-            'price_unit': line.price_unit * ratio,
-            'discount': line.discount,
-            'tax_ids': [Command.set(line.tax_ids.ids)],
-            # Deliberately NOT is_downpayment: these lines are what the advance
-            # order sells, not a down payment taken against it. Core forces the
-            # quantity of a down-payment line to one unit, which would invoice
-            # one printer where two were ordered.
-            'is_downpayment': False,
-        }
-
-    def _add_itemised_lines(self, advance_invoice, order):
-        ratio = self._get_advance_ratio(order)
-        env = self.with_context(lang=order.partner_id.lang).env
-        suffix = "" if self.advance_payment_method == 'full' else env._(
-            " (advance: %(ratio)s%% of the ordered amount)",
-            ratio=float_round(ratio * 100.0, precision_digits=2),
-        )
-        source_lines = order.order_line.filtered(
-            lambda l: not l.display_type and not l.is_advance_tracking
-        )
-        lines = self.env['sale.order.line'].create([
-            self._itemised_line_vals(advance_invoice, line, ratio, suffix)
-            for line in source_lines
-        ])
-        if self.advance_payment_method == 'fixed':
-            self._absorb_rounding_residual(advance_invoice, lines)
-        return lines
-
-    def _absorb_rounding_residual(self, advance_invoice, lines):
-        """Make a fixed-amount itemised advance total exactly the amount asked.
-
-        Scaling every unit price by the same ratio and rounding each result can
-        leave the sum a cent or two off the figure the user typed.
-
-        The correction has to go through a unit price, so a line can only
-        absorb what its quantity can express: at two decimals a line of one
-        unit absorbs any cent, a line of three units only multiples of three.
-        Lines are therefore tried smallest quantity first, and whatever no line
-        can express is left rather than made worse - a percentage advance is
-        not adjusted at all, since a share of each line is exactly what was
-        asked for there.
-        """
-        currency = advance_invoice.currency_id
-        for line in lines.sorted(lambda l: abs(l.product_uom_qty)):
-            residual = currency.round(self.fixed_amount - advance_invoice.amount_untaxed)
-            if currency.is_zero(residual):
-                return
-            factor = line.product_uom_qty * (1.0 - (line.discount or 0.0) / 100.0)
-            if not factor:
-                continue
-            before = line.price_unit
-            line.price_unit += residual / factor
-            new_residual = currency.round(
-                self.fixed_amount - advance_invoice.amount_untaxed
-            )
-            if abs(new_residual) >= abs(residual):
-                line.price_unit = before
-
     def _advance_line_vals(self, advance_invoice, name, price_unit, product_uom_qty=1.0):
         product = self.sale_order_id._get_advance_product()
         return {
             'order_id': advance_invoice.id,
             'product_id': product.id,
-            'product_uom_id': product.uom_id.id,
+            'product_uom': product.uom_id.id,
             'product_uom_qty': product_uom_qty,
             'name': name,
             'price_unit': price_unit,

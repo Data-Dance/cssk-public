@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 import base64
 
@@ -19,9 +19,7 @@ class TestUzpod(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.company.write({"vat": "SK2023456787", "city": "Bratislava",
-                           # A real check digit: l10n_cssk_core validates IČO, and 12345678
-                           # does not add up — the fixture predated the check.
-                           "company_registry": "31333532"})
+                           "company_registry": "12345678"})
         cls.journal = cls.env["account.journal"].search(
             [("type", "=", "general"), ("company_id", "=", cls.company.id)], limit=1)
 
@@ -48,7 +46,6 @@ class TestUzpod(AccountTestInvoicingCommon):
             ]})
         move.action_post()
 
-        self.company.partner_id.nace_code = "62090"
         uz = self.env["l10n.sk.uzpod"].create({
             "company_id": self.company.id,
             "date_from": "2026-01-01", "date_to": "2026-12-31"})
@@ -75,11 +72,6 @@ class TestUzpod(AccountTestInvoicingCommon):
 
         # header typUzavierky defaults: riadna + malá účtovná jednotka (the
         # mandatory veľkostná trieda must be one-hot, never 0/0)
-        # SK NACE 62.09.0 from the company partner (it used to be 00.00.0)
-        nace = root.find(".//hlavicka/skNace")
-        self.assertEqual(
-            [nace.findtext(k) for k in ("k1", "k2", "k3")], ["62", "09", "0"])
-
         tu = root.find(".//hlavicka/typUzavierky")
         self.assertEqual(tu.findtext("riadna"), "1")
         self.assertEqual(tu.findtext("mimoriadna"), "0")
@@ -213,103 +205,3 @@ class TestUzpod(AccountTestInvoicingCommon):
         broken = uz.check_kontroly(etree.tostring(root, encoding="UTF-8"))
         self.assertIn("BS_BALANCE", [v["code"] for v in broken],
                       "kontroly must catch AKTÍVA != PASÍVA")
-
-    # ------------------------------------------------------------------
-    # One generator: l10n.sk.uzpod files what the Úč POD statement shows
-    # ------------------------------------------------------------------
-    def _post_sample(self):
-        dev, opr, eq = self._acc("012"), self._acc("072"), self._acc("411")
-        move = self.env["account.move"].create({
-            "move_type": "entry", "journal_id": self.journal.id, "date": "2026-06-30",
-            "line_ids": [
-                Command.create({"account_id": dev.id, "debit": 1000.0}),
-                Command.create({"account_id": opr.id, "credit": 300.0}),
-                Command.create({"account_id": eq.id, "credit": 700.0}),
-            ]})
-        move.action_post()
-
-    def _body(self, xml_bytes):
-        root = etree.fromstring(xml_bytes)
-        return etree.tostring(root.find("telo"))
-
-    def test_uzpod_and_statement_file_one_document(self):
-        """The filing record renders through the statement: same body, and
-        the header carries the filing record's own choices."""
-        self._post_sample()
-        self.company.partner_id.nace_code = "62090"
-        uz = self.env["l10n.sk.uzpod"].create({
-            "company_id": self.company.id, "size_class": "velka",
-            "statement_nature": "mimoriadna", "poznamky_attached": True,
-            "date_from": "2026-01-01", "date_to": "2026-12-31"})
-        filed = uz._build_xml()
-        statement = uz._l10n_sk_statement()
-        self.assertEqual(statement.version_id,
-                         self.env.ref("l10n_sk_fs.uzpod_v14"))
-        self.assertEqual(self._body(filed),
-                         self._body(statement._render_xml()))
-        h = etree.fromstring(filed).find("hlavicka")
-        self.assertEqual([h.findtext("skNace/k%d" % i) for i in (1, 2, 3)],
-                         ["62", "09", "0"])
-        self.assertEqual(h.findtext("typUzavierky/velka"), "1")
-        self.assertEqual(h.findtext("typUzavierky/mimoriadna"), "1")
-        self.assertEqual(h.findtext("prilozeneSucasti/poznamky"), "1")
-        # whole euros, totals carry brutto and korekcia
-        r001 = etree.fromstring(filed).find(".//ucPod1Suvaha/r001")
-        self.assertEqual([r001.findtext(s) for s in ("s1", "s2", "s3")],
-                         ["1000", "300", "700"])
-
-    def test_an_override_on_the_statement_is_filed(self):
-        """What the accountant overrides on screen is what the filing record
-        files — the builder used to recompute every row from the ledger."""
-        self._post_sample()
-        uz = self.env["l10n.sk.uzpod"].create({
-            "company_id": self.company.id,
-            "date_from": "2026-01-01", "date_to": "2026-12-31"})
-        statement = uz._l10n_sk_statement()
-        row = statement.line_ids.filtered(lambda line: line.code == "s004")
-        self.assertAlmostEqual(row.current_value, 700.0, places=2)
-        row.write({"is_overridden": True, "manual_value": 650.0})
-        filed = etree.fromstring(uz._build_xml())
-        self.assertEqual(filed.findtext(".//ucPod1Suvaha/r004/s3"), "650")
-
-    def test_statement_export_runs_the_kontroly(self):
-        """The statement's own Export XML runs the UZPODv14 rules: a sheet
-        that does not balance is refused, not filed."""
-        self._post_sample()
-        uz = self.env["l10n.sk.uzpod"].create({
-            "company_id": self.company.id,
-            "date_from": "2026-01-01", "date_to": "2026-12-31"})
-        statement = uz._l10n_sk_statement()
-        self.assertEqual(statement.check_kontroly(), [])
-        row = statement.line_ids.filtered(lambda line: line.code == "s004")
-        row.write({"is_overridden": True, "manual_value": 650.0})
-        statement.action_compute_lines()
-        self.assertIn("BS_BALANCE",
-                      [v["code"] for v in statement.check_kontroly()])
-        with self.assertRaises(UserError):
-            statement.action_export_xml()
-
-    def test_totals_are_the_sum_of_the_rounded_rows(self):
-        """Whole euros, totals summed from the ROUNDED rows: two rows of 0.60
-        file 1 and 1 under a total of 2 — rounding the total on its own would
-        file 1 and fail the portal's sum check."""
-        dev, sw, eq = self._acc("012"), self._acc("013"), self._acc("411")
-        move = self.env["account.move"].create({
-            "move_type": "entry", "journal_id": self.journal.id, "date": "2026-06-30",
-            "line_ids": [
-                Command.create({"account_id": dev.id, "debit": 0.6}),
-                Command.create({"account_id": sw.id, "debit": 0.6}),
-                Command.create({"account_id": eq.id, "credit": 1.2}),
-            ]})
-        move.action_post()
-        uz = self.env["l10n.sk.uzpod"].create({
-            "company_id": self.company.id,
-            "date_from": "2026-01-01", "date_to": "2026-12-31"})
-        root = etree.fromstring(uz._build_xml())
-        s3 = {r: int(root.findtext(".//ucPod1Suvaha/%s/s3" % r))
-              for r in ("r003", "r004", "r005")}
-        self.assertEqual((s3["r004"], s3["r005"]), (1, 1))
-        self.assertEqual(s3["r003"], 2)
-        codes = [v["code"] for v in uz.check_kontroly(etree.tostring(root))]
-        self.assertNotIn("BS_SUCET", codes)
-        self.assertNotIn("BS_NETTO", codes)

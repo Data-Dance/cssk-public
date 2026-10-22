@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Recycling Fee (recyklační příspěvek / recyklačný poplatok)",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Dated CZ/SK recycling-fee rates on OCA ecotax classifications, "
     "the statutory per-line 'z toho recyklační příspěvek' on the invoice, and "
     "a per-category period report for the collective scheme.",

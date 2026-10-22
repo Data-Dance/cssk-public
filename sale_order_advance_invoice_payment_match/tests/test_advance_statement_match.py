@@ -10,7 +10,7 @@ class TestAdvanceStatementMatch(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
+        cls.env.user.groups_id |= cls.env.ref("sales_team.group_sale_manager")
         company = cls.env.company
         Account = cls.env["account.account"]
         # receivable type per the localization specs: the clearing account is

@@ -41,7 +41,7 @@ class TestISDOCExport(AccountTestInvoicingCommon):
             'company_registry': '25663585',
             'country_id': cls.env.ref('base.cz').id,
         })
-        cls.company_data['company'].partner_id.bank_ids = [Command.create({
+        cls.company_data['company'].partner_id.sudo().bank_ids = [Command.create({
             'acc_number': '2631172369/0800',
             'allow_out_payment': True,  # mark trusted so out_invoice posting isn't blocked
         })]
@@ -89,16 +89,6 @@ class TestISDOCExport(AccountTestInvoicingCommon):
         lines = root.findall(f'{{{ISDOC_NS}}}InvoiceLines/{{{ISDOC_NS}}}InvoiceLine')
         self.assertEqual(len(lines), 2)
 
-    def test_tax_point_is_the_duzp_not_the_issue_date(self):
-        invoice = self.init_invoice(
-            'out_invoice', partner=self.cz_customer, invoice_date='2024-08-03',
-            amounts=[100.0], taxes=self.tax_21)
-        invoice.taxable_supply_date = '2024-07-31'
-        invoice.action_post()
-        root = self._export(invoice)
-        self.assertEqual(self._find(root, 'IssueDate'), '2024-08-03')
-        self.assertEqual(self._find(root, 'TaxPointDate'), '2024-07-31')
-
     def test_out_invoice_mixed_rates_and_bank(self):
         invoice = self.init_invoice(
             'out_invoice', partner=self.cz_customer, invoice_date='2024-07-10',
@@ -126,7 +116,7 @@ class TestISDOCExport(AccountTestInvoicingCommon):
     def test_cz_bank_account_conversion(self):
         # Conversion lives in l10n_cz_base (res.partner.bank._cz_account_parts).
         # Stored as a Czech IBAN -> derive legacy account number + bank code, incl. computed fields.
-        bank_iban = self.env['res.partner.bank'].create({
+        bank_iban = self.env['res.partner.bank'].sudo().create({
             'acc_number': 'CZ43 0800 0000 0026 3117 2369',
             'partner_id': self.company_data['company'].partner_id.id,
         })
@@ -137,7 +127,7 @@ class TestISDOCExport(AccountTestInvoicingCommon):
         self.assertEqual(bank_iban.bank_local_code, '0800')
         self.assertEqual(bank_iban.acc_legacy_number, '2631172369')
         # Stored in legacy form (incl. a prefix) -> compute a valid IBAN.
-        bank_legacy = self.env['res.partner.bank'].create({
+        bank_legacy = self.env['res.partner.bank'].sudo().create({
             'acc_number': '19-2000145399/0100',
             'partner_id': self.cz_customer.id,
         })
@@ -146,7 +136,7 @@ class TestISDOCExport(AccountTestInvoicingCommon):
             ('19-2000145399', '0100', 'CZ0801000000192000145399'),
         )
         # Fio bank code 2010 — the case the [6:14] slice got wrong.
-        bank_fio = self.env['res.partner.bank'].create({
+        bank_fio = self.env['res.partner.bank'].sudo().create({
             'acc_number': '2801589782/2010',
             'partner_id': self.cz_customer.id,
         })

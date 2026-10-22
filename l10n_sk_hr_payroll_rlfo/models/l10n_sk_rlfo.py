@@ -21,16 +21,16 @@ prihlásenia) are not modelled yet.
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+# employee agreement type -> default RLFO typZec relationship code
 # (employee agreement type, income is regular) -> RLFO typZec relationship code
 #
 # The Sociálna poisťovňa distinguishes a dohoda with REGULAR monthly income
 # from one with irregular income, because the two carry different insurance:
 # an irregular-income dohodár pays old-age and disability only, with no
-# sickness, unemployment or short-time contribution. That is the same fact the
-# payslip rules key on (see l10n_sk_hr_payroll_base.applicability), and the
-# registration has to agree with it — telling SP the wrong relationship code
-# gives the employee the wrong insurance scope from the day they are
-# registered, not merely on one payslip.
+# sickness, unemployment or short-time contribution. The payslip rules key on
+# exactly that, and the registration has to agree — telling SP the wrong
+# relationship code gives the employee the wrong insurance scope from the day
+# they are registered, not merely on one payslip.
 AGREEMENT_TYP_ZEC = {
     ("none", True): "ZEC",      # Zamestnanec (employment is always regular)
     ("none", False): "ZEC",
@@ -220,9 +220,8 @@ class L10nSkRlfoEvent(models.Model):
             emp = ev.employee_id
             if emp and "l10n_sk_agreement_type" in emp._fields:
                 agr = emp.l10n_sk_agreement_type or "none"
-            version = emp.version_id if emp else False
-            if version and hasattr(version, "l10n_sk_income_is_regular"):
-                regular = version.l10n_sk_income_is_regular()
-            elif version and "l10n_sk_income_regular" in version._fields:
-                regular = bool(version.l10n_sk_income_regular)
+            # 18.0 keeps the payroll fields on hr.contract, not hr.version.
+            contract = emp.contract_id if emp else False
+            if contract and "l10n_sk_income_regular" in contract._fields:
+                regular = bool(contract.l10n_sk_income_regular)
             ev.typ_zec = AGREEMENT_TYP_ZEC.get((agr, regular), "ZEC")

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+        SK DPH tax-report tags (18.0 backport of Odoo 19.0 core l10n_sk)
+        ================================================================
+        Odoo 19.0 CE ``l10n_sk`` ships ``data/tax_report.xml`` (an
+        ``account.report`` whose ``tax_tags`` expressions auto-create the DPH
+        report tags 01..29 + lettered sub-codes) plus a
+        ``repartition_line_ids/tag_ids`` column on ``account.tax-sk.csv`` that
+        binds those tags to the SK taxes. Odoo 18.0 CE ``l10n_sk`` ships
+        NEITHER — the tags do not exist and the SK taxes carry no tax tags, so
+        every ``kind='tags'`` VAT/KV/EC return line evaluates to 0.
+
+        We are CE-clean: our statutory filing (l10n_sk_vat_return / _kv_dph /
+        _ec_sales) reads ``account.account.tag._get_tax_tags(code, SK)``, NOT
+        the EE report engine, so we only need the *tags* to exist — not the
+        ``account.report`` UI. We therefore create every DPH tag here with a
+        stable XML-ID (``tag_sk_<code>``) and reference those XML-IDs from the
+        ``@template('sk','account.tax')`` data (see models/ and
+        data/template/account.tax-sk.csv). 18.0's ``_deref_account_tags`` runs
+        only on the CSV parsed by core's None-code loader, NOT on our template
+        data, so bare tag names would crash in ``deref_values`` — hence XML-IDs.
+
+        Only the "+" (tax_negate=False) tag of each code is created: our
+        evaluator resolves a code via ``=like '_<code>'`` (matches either sign)
+        and encodes the display sign in the version-data formula, so a single
+        positive tag per code is sufficient and unambiguous.
+    -->
+    <record id="tag_sk_01" model="account.account.tag">
+        <field name="name">+01</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_02" model="account.account.tag">
+        <field name="name">+02</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_03" model="account.account.tag">
+        <field name="name">+03</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_04" model="account.account.tag">
+        <field name="name">+04</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_05" model="account.account.tag">
+        <field name="name">+05</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_06" model="account.account.tag">
+        <field name="name">+06</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_07" model="account.account.tag">
+        <field name="name">+07</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_08" model="account.account.tag">
+        <field name="name">+08</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_09" model="account.account.tag">
+        <field name="name">+09</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_10" model="account.account.tag">
+        <field name="name">+10</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_11" model="account.account.tag">
+        <field name="name">+11</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_12" model="account.account.tag">
+        <field name="name">+12</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_13" model="account.account.tag">
+        <field name="name">+13</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_14" model="account.account.tag">
+        <field name="name">+14</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_15" model="account.account.tag">
+        <field name="name">+15</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_16" model="account.account.tag">
+        <field name="name">+16</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_18" model="account.account.tag">
+        <field name="name">+18</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_19" model="account.account.tag">
+        <field name="name">+19</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_20" model="account.account.tag">
+        <field name="name">+20</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_21" model="account.account.tag">
+        <field name="name">+21</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_22" model="account.account.tag">
+        <field name="name">+22</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_23" model="account.account.tag">
+        <field name="name">+23</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_24" model="account.account.tag">
+        <field name="name">+24</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_25" model="account.account.tag">
+        <field name="name">+25</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_26" model="account.account.tag">
+        <field name="name">+26</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_27" model="account.account.tag">
+        <field name="name">+27</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_28" model="account.account.tag">
+        <field name="name">+28</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_29" model="account.account.tag">
+        <field name="name">+29</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_01a" model="account.account.tag">
+        <field name="name">+01a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_02a" model="account.account.tag">
+        <field name="name">+02a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_05a" model="account.account.tag">
+        <field name="name">+05a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_06a" model="account.account.tag">
+        <field name="name">+06a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_09a" model="account.account.tag">
+        <field name="name">+09a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_09b" model="account.account.tag">
+        <field name="name">+09b</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_10a" model="account.account.tag">
+        <field name="name">+10a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_10b" model="account.account.tag">
+        <field name="name">+10b</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_11a" model="account.account.tag">
+        <field name="name">+11a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_11b" model="account.account.tag">
+        <field name="name">+11b</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_11c" model="account.account.tag">
+        <field name="name">+11c</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_11d" model="account.account.tag">
+        <field name="name">+11d</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_11e" model="account.account.tag">
+        <field name="name">+11e</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_12a" model="account.account.tag">
+        <field name="name">+12a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_12b" model="account.account.tag">
+        <field name="name">+12b</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_12c" model="account.account.tag">
+        <field name="name">+12c</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_12d" model="account.account.tag">
+        <field name="name">+12d</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_12e" model="account.account.tag">
+        <field name="name">+12e</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_18a" model="account.account.tag">
+        <field name="name">+18a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_20a" model="account.account.tag">
+        <field name="name">+20a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_22a" model="account.account.tag">
+        <field name="name">+22a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_23a" model="account.account.tag">
+        <field name="name">+23a</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_23b" model="account.account.tag">
+        <field name="name">+23b</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_23c" model="account.account.tag">
+        <field name="name">+23c</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="tag_sk_24_PR" model="account.account.tag">
+        <field name="name">+24_PR</field>
+        <field name="applicability">taxes</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+</odoo>

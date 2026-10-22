@@ -454,7 +454,7 @@ class TestSubmissionOpensOnSubmit(_KvStatementFixture, TransactionCase):
         """
         user = self.env["res.users"].create({
             "name": "Filer", "login": "cssk_filer_no_submission_groups",
-            "group_ids": [(6, 0, [
+            "groups_id": [(6, 0, [
                 self.env.ref("account.group_account_user").id,
                 self.env.ref("base.group_user").id,
             ])],

@@ -68,7 +68,10 @@ class TestCzObstacleQuota(TransactionCase):
     def test_annual_quota_accrues_six_days(self):
         """The one genuinely annual paid obstacle grants its 6 days up front."""
         self.assertEqual(self.plan.time_off_type_id, self.transport)
-        self.assertTrue(self.transport.requires_allocation)
+        # requires_allocation is a Selection ('yes'/'no') on 18.0 and a
+        # Boolean on 19.0 — and 'no' is TRUTHY, so assertTrue would pass here
+        # for a type that requires nothing.
+        self.assertIn(self.transport.requires_allocation, (True, "yes"))
         level = self.plan.level_ids
         self.assertEqual(len(level), 1)
         self.assertEqual(level.added_value_type, "day")
@@ -106,8 +109,8 @@ class TestCzObstacleQuota(TransactionCase):
         Plan = self.env["hr.leave.accrual.plan"]
         for xmlid in PER_CASE_TYPES:
             leave_type = self.env.ref(MOD + "." + xmlid)
-            self.assertTrue(
-                leave_type.requires_allocation,
+            self.assertIn(
+                leave_type.requires_allocation, (True, "yes"),
                 "a per-case cap is expressed as one allocation per case",
             )
             self.assertFalse(
@@ -118,7 +121,7 @@ class TestCzObstacleQuota(TransactionCase):
     def test_generic_obstacle_needs_no_allocation(self):
         """The 'nezbytně nutná doba' reasons carry no number at all, so the
         generic type must stay bookable with no allocation."""
-        self.assertFalse(self.generic.requires_allocation)
+        self.assertIn(self.generic.requires_allocation, (False, "no"))
 
     def test_all_reasons_carry_the_obstacle_payroll_code(self):
         """The split stays invisible to payroll."""
@@ -130,8 +133,13 @@ class TestCzObstacleQuota(TransactionCase):
         )
 
     def test_quota_is_use_it_or_lose_it(self):
-        """can_be_carryover=False keeps the expiry reminder away from it
-        (see l10n_cssk_leave_expiry_reminder)."""
-        self.assertFalse(self.plan.can_be_carryover)
+        """The quota does not survive the year end, so the expiry reminder
+        stays away from it (see l10n_cssk_leave_expiry_reminder).
+
+        19.0 says that on the PLAN (can_be_carryover); 18.0 only has the
+        level's action_with_unused_accruals.
+        """
+        if "can_be_carryover" in self.plan._fields:
+            self.assertFalse(self.plan.can_be_carryover)
         self.assertEqual(self.plan.level_ids.action_with_unused_accruals, "lost")
         self.assertFalse(self.plan.level_ids.accrual_validity)

@@ -29,13 +29,6 @@ class ProductTemplate(models.Model):
         string="VRP2 Special Regulation",
         help="Verbal information required on receipt for 0%% VAT items.",
     )
-    vrp2_returnable_packaging = fields.Boolean(
-        string="VRP2 Returnable Packaging",
-        help="A deposit-bearing package (zálohovaný obal). Taking it back is "
-        "a negative quantity WITHOUT a sale to refer to, which VRP2 records "
-        "as 'vrátené obaly' (item type NEGATIVE) rather than as a return of "
-        "goods. Push it to the VRP2 catalogue like any other product.",
-    )
     vrp2_favourite = fields.Boolean(
         string="VRP2 Favourite",
         help="Show in VRP2 favourites quick-access.",

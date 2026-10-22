@@ -14,27 +14,14 @@
             <attribute name="t-field"></attribute>
             <attribute name="t-out">line.price_subtotal * multiplier</attribute>
         </xpath>
-        <xpath expr="//td[@name='td_subtotal']/span[@t-field='line.price_total']" position="attributes">
-            <attribute name="t-field"></attribute>
-            <attribute name="t-out">line.price_total * multiplier</attribute>
-        </xpath>
-        <xpath expr="//td/span[@t-out='section_subtotal']" position="attributes">
-            <attribute name="t-out">section_subtotal * multiplier</attribute>
-        </xpath>
-        <xpath expr='//td[@name="td_price_unit_grouped"]/span[@t-out="grouped_line[&apos;price_subtotal&apos;]"]' position="attributes">
-            <attribute name="t-out">grouped_line['price_subtotal'] * multiplier</attribute>
-        </xpath>
-        <xpath expr='//td[@name="td_subtotal_grouped"]/span[@t-out="grouped_line[&apos;price_subtotal&apos;]"]' position="attributes">
-            <attribute name="t-out">grouped_line['price_subtotal'] * multiplier</attribute>
-        </xpath>
-        <xpath expr='//td[@name="td_subtotal_grouped"]/span[@t-out="grouped_line[&apos;price_total&apos;]"]' position="attributes">
-            <attribute name="t-out">grouped_line['price_total'] * multiplier</attribute>
+        <xpath expr="//td/span[@t-out='current_subtotal']" position="attributes">
+            <attribute name="t-out">current_subtotal * multiplier</attribute>
         </xpath>
 
         <xpath expr="//t[@t-if='o.tax_totals' and @t-call='account.document_tax_totals']/t[@t-set='tax_totals' and @t-value='o.tax_totals']" position="after">
             <t t-if="multiplier == -1" t-set="tax_totals" t-value="o._reverse_tax_totals(tax_totals)"/>
         </xpath>
-        <xpath expr='//t[@t-if="o.tax_totals and o.tax_totals.get(&apos;display_in_company_currency&apos;)"]/t[@t-set="tax_totals" and @t-value="o.tax_totals"]' position="after">
+        <xpath expr="//t[@t-if=&quot;o.tax_totals.get('display_in_company_currency')&quot;]/t[@t-set='tax_totals' and @t-value='o.tax_totals']" position="after">
             <t t-if="multiplier == -1" t-set="tax_totals" t-value="o._reverse_tax_totals(tax_totals)"/>
         </xpath>
     </template>

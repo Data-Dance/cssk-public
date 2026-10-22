@@ -1,6 +1,6 @@
 {
     "name": "CZ Účetní závěrka — závěrkové účty 701/702/710",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Make the Czech year-end closing postable: retype 701/702/710 "
                "from off_balance, which Odoo refuses to mix with any other "
                "account in one entry.",

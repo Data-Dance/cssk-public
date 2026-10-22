@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """SK DPH return kontrolné pravidlá (content checks beyond the XSD).
 
 Source of truth: the official DPHv25 eForm itself (FS SR,
@@ -85,56 +85,3 @@ class CSSKVatReturn(models.Model):
         row = self.line_ids.filtered(lambda l: l.code == diff_code)
         if row and not row.is_overridden:
             row.value = diff
-
-    # ------------------------------------------------------------------
-    # § 69 ods. 3 — the split the pre-2021 vzory need and no tag can make
-    # ------------------------------------------------------------------
-    def _cssk_tag_line_filter(self, key, lines):
-        """Separate § 69 ods. 3 from § 69 ods. 2 a 9 až 12.
-
-        The vzory in force 2012-2020 put "služba, pri ktorej príjemca platí
-        daň podľa § 69 ods. 3" on r11/r12, apart from § 69 ods. 2 a 9 až 12 on
-        r09/r10. The 2021 vzor merged them, so ``l10n_sk`` has ONE
-        reverse-charge family carrying tags 09/10 and the tag cannot say which
-        paragraph a line is.
-
-        What the paragraph actually turns on is WHO SUPPLIED: § 69 ods. 3 is a
-        service from a person not established in Slovakia. So that is what is
-        read, per line, from the supplier — no configuration, and right for the
-        shared taxes. ``l10n_sk_dph_69_par`` overrides it on a tax a company
-        uses for one paragraph only, which the country test would misread: a
-        dedicated domestic-construction prenos tax (§ 69 ods. 12) whoever the
-        supplier is, or a § 69 ods. 2 goods-with-installation tax, whose
-        supplier IS foreign but whose row is r09/r10.
-
-        Deliberately NOT defaulted to "all of it is § 69 ods. 3": that would
-        move every domestic construction reverse charge onto r11/r12, which is
-        the error the split exists to prevent.
-        """
-        if key not in ("69_3", "not_69_3"):
-            return super()._cssk_tag_line_filter(key, lines)
-
-        sk = self.env.ref("base.sk")
-
-        def is_69_3(line):
-            marker = "auto"
-            taxes = line.tax_line_id or line.tax_ids
-            markers = {t.l10n_sk_dph_69_par or "auto" for t in taxes}
-            # One line, one answer: a mix is not decidable and falls back to
-            # the supplier, which is the rule the taxes themselves default to.
-            if len(markers) == 1:
-                marker = markers.pop()
-            if marker == "69_3":
-                return True
-            if marker == "69_other":
-                return False
-            partner = line.move_id.partner_id
-            country = partner.commercial_partner_id.country_id or partner.country_id
-            # No country recorded is not evidence of a foreign supplier. Treat
-            # it as domestic so an unmaintained partner cannot move an amount
-            # onto r11/r12 unnoticed; the unfiled-row kontrola is what asks
-            # about it.
-            return bool(country) and country != sk
-
-        want = key == "69_3"
-        return lines.filtered(lambda line: is_69_3(line) == want)

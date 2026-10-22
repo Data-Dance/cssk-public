@@ -30,10 +30,6 @@
         <field name="valid_from">2025-01-01</field>
         <field name="xml_template_ref_id" ref="l10n_cz_fs.zmeny_vk_2025"/>
         <field name="xml_root_element">PrehledVK</field>
-        <!-- No XSD is published for the Czech accounting statements:
-             they are filed as attachments inside the DPPO envelope. The
-             absence is the form, not a missing file. -->
-        <field name="xml_schema_optional" eval="True"/>
         <field name="line_def_ids" eval="[
             (0, 0, {'code': 'POC', 'name': 'A. Stav vlastního kapitálu na začátku období',
                     'kind': 'accounts_open', 'level': 0, 'sequence': 10,

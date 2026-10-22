@@ -1,6 +1,6 @@
 {
     'name': "ISDOC for Czech Advance Invoices",
-    'version': '19.0.1.0.0',
+    'version': '18.0.1.0.0',
     'category': 'Accounting/Accounting',
     'summary': "Map the Czech advance-payment documents to ISDOC DocumentType 4/5/6",
     'description': """

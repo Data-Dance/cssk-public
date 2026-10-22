@@ -266,8 +266,11 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
 
         Reported by an external accountant: every vzor has carried these
         attributes since 2014, and the template wrote none of them."""
+        kg = self.env.ref("uom.product_uom_kgm")
         metal = self.env["product.product"].create({
             "name": "Plech", "l10n_sk_kv_rc_goods": "g",
+            # 18.0 only: a line's UoM must share the product's UoM category.
+            "uom_id": kg.id, "uom_po_id": kg.id,
             "l10n_sk_kv_cn_code": "7208"})
         phone = self.env["product.product"].create({
             "name": "Telefón", "l10n_sk_kv_rc_goods": "h"})
@@ -302,8 +305,11 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
             ("7208", None, "250.00", "kg"), (None, "MT", "10.00", "ks")})
 
     def test_a2_without_the_commodity_code_is_named_not_filed(self):
+        kg = self.env.ref("uom.product_uom_kgm")
         metal = self.env["product.product"].create({
-            "name": "Plech bez kódu", "l10n_sk_kv_rc_goods": "g"})
+            "name": "Plech bez kódu", "l10n_sk_kv_rc_goods": "g",
+            # 18.0 only: a line's UoM must share the product's UoM category.
+            "uom_id": kg.id, "uom_po_id": kg.id})
         self._rc_goods_invoice(
             [(metal, 5.0, self.env.ref("uom.product_uom_ton"), 200.0)])
         st = self._make_statement()
@@ -333,8 +339,11 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
     def test_a2_inherited_commodity_code_outside_the_chapters_is_not_filed(self):
         """The realistic failure: the product's HS code, reused as the fallback,
         is not one anybody chose for KV DPH — a phone flagged písm. f)."""
+        kg = self.env.ref("uom.product_uom_kgm")
         grain = self.env["product.product"].create({
-            "name": "Pšenica", "l10n_sk_kv_rc_goods": "f"})
+            "name": "Pšenica", "l10n_sk_kv_rc_goods": "f",
+            # 18.0 only: a line's UoM must share the product's UoM category.
+            "uom_id": kg.id, "uom_po_id": kg.id})
         self._rc_goods_invoice(
             [(grain, 2.0, self.env.ref("uom.product_uom_ton"), 300.0)])
         with patch.object(type(grain), "_l10n_sk_kv_cn_code",

@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK EC Sales List — Shared Framework (Súhrnný výkaz / Souhrnné hlášení)",
-    "version": "19.0.1.6.5",
+    "version": "18.0.1.2.3",
     "summary": "Country-neutral framework for the Slovak Súhrnný výkaz and Czech "
                "Souhrnné hlášení (EC sales list): single-line aggregation per "
                "(country, VAT, transaction code), mandatory VIES preflight, and "
@@ -34,8 +34,7 @@ Provides:
     "website": "https://www.datadance.eu",
     "license": "AGPL-3",
     "category": "Accounting/Localizations",
-    "depends": ["account", "mail", "l10n_cssk_core",
-        "l10n_cssk_submission_base"],
+    "depends": ["account", "mail", "l10n_cssk_core"],
     "data": [
         "security/ir.model.access.csv",
         "security/record_rules.xml",

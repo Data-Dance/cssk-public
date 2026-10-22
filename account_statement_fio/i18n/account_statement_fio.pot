@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 16:52+0000\n"
-"PO-Revision-Date: 2026-08-31 16:52+0000\n"
+"POT-Creation-Date: 2026-09-01 14:06+0000\n"
+"PO-Revision-Date: 2026-09-01 14:06+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid "%(count)s new transaction(s) imported."
 msgstr ""
@@ -38,6 +37,11 @@ msgstr ""
 #. module: account_statement_fio
 #: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_list_fio_statement
 msgid "Bank feed"
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid "Bank statements"
 msgstr ""
 
 #. module: account_statement_fio
@@ -91,7 +95,6 @@ msgid "Fio Pull Mode"
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid "Fio banka API"
 msgstr ""
@@ -102,7 +105,6 @@ msgid "Fio banka — bank statements"
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid "Fio movement %s"
 msgstr ""
@@ -113,7 +115,6 @@ msgid "Fio re-read days"
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid ""
 "Fio refused the request as reaching further back than 90 days without an "
@@ -122,7 +123,6 @@ msgid ""
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid ""
 "Fio serves movements older than %(days)s days only while the full history is"
@@ -154,7 +154,6 @@ msgid "First statement number"
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
 msgid "Give both dates."
 msgstr ""
@@ -177,7 +176,6 @@ msgid "History unlocked in internet banking"
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
 msgid "Imported transactions"
 msgstr ""
@@ -191,7 +189,6 @@ msgid ""
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid ""
 "Journal %(name)s is set to be fed by the Fio banka API, but it has no Fio "
@@ -210,7 +207,6 @@ msgid "Last statement number"
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
 msgid "Manual pull: %(count)s new transaction(s)."
 msgstr ""
@@ -243,13 +239,11 @@ msgid "Needs History Unlock"
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid "Nothing new — Fio has no movements Odoo does not already have."
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
 msgid "Nothing new — every movement Fio returned was already in Odoo."
 msgstr ""
@@ -299,7 +293,6 @@ msgid "Statement Year"
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid ""
 "That range holds more than 50 000 movements, which Fio will not serve at "
@@ -307,19 +300,26 @@ msgid ""
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid ""
+"The bookmark lives on the token inside Fio, not in Odoo.\n"
+"                        Anything else reading movements with this same token —\n"
+"                        another system, or a colleague testing — moves it, and\n"
+"                        those movements never arrive here. Use a dedicated token\n"
+"                        for this mode, or prefer the re-readable date range."
+msgstr ""
+
+#. module: account_statement_fio
 #: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
 msgid "The first date is after the last one."
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
 msgid "The first statement number is after the last."
 msgstr ""
 
 #. module: account_statement_fio
-#. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid "The scheduled Fio pull failed: %(error)s"
 msgstr ""
@@ -327,6 +327,15 @@ msgstr ""
 #. module: account_statement_fio
 #: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
 msgid "The unlock lasts <b>ten minutes</b>, so do it now — then:"
+msgstr ""
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid ""
+"This journal has a Fio token but its bank feed is not set to\n"
+"                    <b>Fio banka API</b>, so no statements are pulled on a\n"
+"                    schedule and the <b>Bank statements</b> settings are hidden.\n"
+"                    The token is still used for payment orders."
 msgstr ""
 
 #. module: account_statement_fio
@@ -346,9 +355,4 @@ msgstr ""
 msgid ""
 "calls to Fio. The bank allows one call per token every 30\n"
 "                    seconds, so expect it to take roughly that many half-minutes."
-msgstr ""
-
-#. module: account_statement_fio
-#: model:ir.model,name:account_statement_fio.model_fio_statement_pull
-msgid "Pull Fio Bank Statements"
 msgstr ""

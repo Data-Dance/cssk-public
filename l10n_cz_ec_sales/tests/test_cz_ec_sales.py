@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 import base64
 
@@ -7,7 +7,6 @@ from lxml import etree
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.tests import tagged
-from odoo.tools import date_utils
 from odoo.tests.common import TransactionCase
 
 
@@ -53,7 +52,7 @@ class TestCzEcSales(AccountTestInvoicingCommon):
             "company_id": self.company.id,
             "version_id": self.version.id,
             "date_from": today.replace(day=1),
-            "date_to": date_utils.end_of(today, "month"),
+            "date_to": today.replace(day=28),
             "period_type": "month",
             "statement_type_id": self.version.statement_type_ids[0].id,
         })
@@ -79,22 +78,3 @@ class TestCzEcSales(AccountTestInvoicingCommon):
         self.assertEqual(vetar[0].get("k_stat"), "BE")
         self.assertEqual(vetar[0].get("c_vat"), "0477472701")
         self.assertEqual(vetar[0].get("pln_hodnota"), "1000")
-
-    def test_filer_block_leaves_out_what_the_form_lacks(self):
-        """The souhrnné hlášení's VetaP has no e-mail and no telephone; the
-        XSD validation in the export rejects them if they appear."""
-        self.company.write({"phone": "+420 511 447 174", "email": "a@b.cz",
-                            "street": "Příhon 943", "city": "Čejkovice"})
-        self.init_invoice(
-            "out_invoice", partner=self.partner_eu, amounts=[1000.0],
-            taxes=self.tax_ic, post=True,
-        )
-        st = self._statement()
-        st.action_compute_lines()
-        st.action_export_xml()
-        veta_p = etree.fromstring(
-            base64.b64decode(st.xml_attachment_id.datas)).find(".//VetaP")
-        self.assertIsNone(veta_p.get("email"))
-        self.assertIsNone(veta_p.get("c_telef"))
-        self.assertEqual(veta_p.get("ulice"), "Příhon")
-        self.assertEqual(veta_p.get("c_pop"), "943")

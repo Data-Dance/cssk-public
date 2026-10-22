@@ -3,10 +3,37 @@ Changelog
 =========
 
 All notable changes to **l10n_cssk_vat_return_base** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 1.10.5 by one port rather than by those
+releases, and the entries are what the port brought over.
 
 [Unreleased]
 ------------
+
+[18.0.1.10.5] — 2026-10-19
+--------------------------
+
+Changed
+~~~~~~~
+
+- **Brought the module to 19.0's 1.10.5 in one step, from 18.0.1.2.3.** No 18.0
+  adaptation existed to merge around; the one 19.0-only API was
+  ``res.users.group_ids`` in the suite (``groups_id`` here).
+
+- **Dependency added: ``l10n_cssk_submission_base``**, and
+  ``views/account_tax_views.xml`` to the data list, both as on 19.0. The view's
+  two anchors (``//filter[@name='inactive']`` in
+  ``account.view_account_tax_search`` and ``//field[@name='type_tax_use']`` in
+  ``account.view_tax_form``) each resolve exactly once on 18.0 — checked, since
+  an anchor is the failure class no marker scan sees.
+
+- **Three migrations brought over** (1.7.0, 1.8.0, 1.9.0), renumbered into this
+  series; the two this branch already had were numbered correctly in July.
+
+  What it provides: ``res.company._cssk_create_historic_vat_taxes`` and the
+  ``cssk_historic_*`` fields on ``account.tax``, which ``l10n_cz_vat_return``
+  needs.
 
 [19.0.1.10.5] — 2026-09-17
 --------------------------

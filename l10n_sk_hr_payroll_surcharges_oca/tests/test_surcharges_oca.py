@@ -43,7 +43,6 @@ class TestPriplatkyOca(TransactionCase):
                 "resource_calendar_id": cls.calendar.id,
             }
         )
-        version = employee.version_id
         # The structure declares the employment form, and a contract may not
         # disagree with it, so a dohoda fixture sits on the matching one.
         by_form = {
@@ -51,18 +50,29 @@ class TestPriplatkyOca(TransactionCase):
             "dopc": "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_dopc",
             "dobps": "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_dobps",
         }
+        # 19.0 carries one structure per employment form. 18.0 does not: the
+        # form lives only in l10n_sk_agreement_type on the contract, which is
+        # what the salary rules read, so the fixture falls back to the plain
+        # structure when the per-form one is absent.
         xmlid = by_form.get(l10n.get("l10n_sk_agreement_type"))
-        struct = cls.env.ref(xmlid) if xmlid else cls.structure
+        struct = (
+            xmlid and cls.env.ref(xmlid, raise_if_not_found=False)
+        ) or cls.structure
+        # 19.0 writes all of this onto employee.version_id; here the contract
+        # is a record of its own.
         vals = {
-            "contract_date_start": date(2024, 1, 1),
-            "date_version": date(2024, 1, 1),
+            "name": "%s contract" % name,
+            "employee_id": employee.id,
+            "company_id": cls.company.id,
+            "state": "open",
+            "date_start": date(2024, 1, 1),
             "wage": wage,
             "resource_calendar_id": cls.calendar.id,
             "struct_id": struct.id,
         }
         vals.update(l10n)
-        version.write(vals)
-        return version, employee
+        contract = cls.env["hr.contract"].create(vals)
+        return contract, employee
 
     def _make_payslip(
         self, contract, employee, hours_by_code=None, worked=None, absence=None

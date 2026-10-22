@@ -30,45 +30,34 @@
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # NOTE: no paid_amount on the OCA engine; contract.wage is the full monthly wage.
-# Partial-month + absence proration: for a mid-month hire/leaver the worked hours
+# Partial-month + absence proration: for a mid-month hire/leaver the worked days
 # (WORK100, clamped by the engine to the contract start/end) are fewer than the
-# full scheduled hours of the period; and any absence leave (dovolenka / PN /
-# OČR / neplatené / prekážka) cuts additional hours. Holiday and paid obstacle
-# are added back as náhrada at priemerný zárobok by their own rules, so reducing
-# BASIC here for them is correct (the wage for those hours is paid via the
-# náhrada, not the basic salary). Family care / unpaid leave are simply unpaid.
-# For a full worked month (no absence) worked == scheduled, so the result is
-# exactly contract.wage and the standard payslip is unchanged.
-#
-# PRORATE BY HOURS, NOT DAYS. Every náhrada pays hours × priemerný hodinový
-# zárobok, so cutting BASIC by a DAY fraction only makes GROSS whole when every
-# working day is the same length. On a 40-hour week that is not 8+8+8+8+8 — a
-# short Friday, say — the two disagree: one absent 10-hour day used to cut
-# 1/19.5 of the wage while the náhrada paid 10 hours, leaving GROSS 11.08 EUR
-# ABOVE the full wage for a 100 % reason that must leave it untouched. The
-# Enterprise engine has always prorated its paid_amount by hours, so this also
-# closes an 11 EUR gap between the two engines on the same input.
-if contract.l10n_sk_hourly_wage:
-    # Hourly worker (e.g. DoBPŠ student, paid per actual hour): BASIC = the real
-    # worked hours (WORK100) × the hourly rate. No proration.
-    _h = worked_days.WORK100.number_of_hours if 'WORK100' in worked_days.dict else 0.0
-    result = round(_h * contract.l10n_sk_hourly_wage, 2)
-else:
-    result = contract.wage
-    if 'WORK100' in worked_days.dict:
-        scheduled = payslip.l10n_sk_scheduled_hours()
-        worked = worked_days.WORK100.number_of_hours
-        # OCA models absence leaves as NEGATIVE worked-day lines (leaves_positive
-        # unset), so take the absolute value of the hour count. The code list
-        # lives in ONE place, models/hr_payslip.py, so the rule body and the
-        # Python side cannot drift apart.
-        absence = 0.0
-        for _code in payslip.l10n_sk_absence_codes():
-            if _code in worked_days.dict:
-                absence += abs(worked_days.dict[_code].number_of_hours)
-        paid_worked = worked - absence
-        if scheduled and paid_worked &lt; scheduled:
-            result = contract.wage * paid_worked / scheduled
+# full scheduled working days of the period; and any absence leave (dovolenka /
+# PN / OČR / neplatené / prekážka) cuts additional days. Holiday and paid
+# obstacle are added back as náhrada at priemerný zárobok by their own rules, so
+# reducing BASIC here for them is correct (the wage for those hours is paid via
+# the náhrada, not the basic salary). Family care / unpaid leave are simply
+# unpaid. For a full worked month (no absence) worked == scheduled, so the result
+# is exactly contract.wage and the standard payslip is unchanged.
+result = contract.wage
+if 'WORK100' in worked_days.dict:
+    # PRORATE BY HOURS, NOT DAYS. Every náhrada pays hours x priemerný
+    # hodinový zárobok, so cutting BASIC by a DAY fraction only makes GROSS
+    # whole when every working day is the same length. On a 40-hour week that
+    # is not 8+8+8+8+8 the two disagree: one absent 10-hour day cut 1/19.5 of
+    # the wage while the náhrada paid 10 hours, leaving GROSS above the full
+    # wage for a reason that must leave it untouched.
+    scheduled = payslip.l10n_sk_scheduled_hours()
+    worked = worked_days.WORK100.number_of_hours
+# OCA models absence leaves as NEGATIVE worked-day lines (the engine's
+# payroll.leaves_positive is unset), so take the absolute value of the day count.
+    absence = 0.0
+    for _code in payslip.l10n_sk_absence_codes():
+        if _code in worked_days.dict:
+            absence += abs(worked_days.dict[_code].number_of_hours)
+    paid_worked = worked - absence
+    if scheduled and paid_worked &lt; scheduled:
+        result = contract.wage * paid_worked / scheduled
 </field>
     </record>
 
@@ -89,7 +78,7 @@ else:
         <field name="code">DOVOLENKA_NAHRADA</field>
         <field name="sequence">50</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = 'DOVOLENKA' in worked_days.dict and contract.l10n_sk_applies('HOLIDAY_ENTITLEMENT')</field>
+        <field name="condition_python">result = 'DOVOLENKA' in worked_days.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 hours = abs(worked_days.dict['DOVOLENKA'].number_of_hours) if 'DOVOLENKA' in worked_days.dict else 0.0
@@ -144,13 +133,11 @@ result = categories.BASIC + categories.ALW
         <field name="code">SICK</field>
         <field name="sequence">110</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_sk_applies('SICKNESS_INSURANCE')</field>
+        <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-_r = payslip.rule_parameter('l10n_sk_social_sickness_ee')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
-result_rate = 100
+result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+result_rate = -payslip.rule_parameter('l10n_sk_social_sickness_ee')
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -168,10 +155,8 @@ result_rate = 100
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-_r = payslip.rule_parameter('l10n_sk_social_pension_ee')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((base) * _r, 4)) / 100.0)
-result_rate = 100
+result = base
+result_rate = -payslip.rule_parameter('l10n_sk_social_pension_ee')
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -188,10 +173,8 @@ result_rate = 100
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-_r = payslip.rule_parameter('l10n_sk_social_disability_ee')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((base) * _r, 4)) / 100.0)
-result_rate = 100
+result = base
+result_rate = -payslip.rule_parameter('l10n_sk_social_disability_ee')
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -202,13 +185,11 @@ result_rate = 100
         <field name="code">UNEMPLOYMENT</field>
         <field name="sequence">125</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_sk_applies('UNEMPLOYMENT_INSURANCE')</field>
+        <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-_r = payslip.rule_parameter('l10n_sk_social_unemployment_ee')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
-result_rate = 100
+result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+result_rate = -payslip.rule_parameter('l10n_sk_social_unemployment_ee')
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -222,13 +203,11 @@ result_rate = 100
         <field name="code">SICKEMPLOYER</field>
         <field name="sequence">110</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_sk_applies('SICKNESS_INSURANCE')</field>
+        <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-_r = payslip.rule_parameter('l10n_sk_social_sickness_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
-result_rate = 100
+result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+result_rate = payslip.rule_parameter('l10n_sk_social_sickness_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -244,10 +223,8 @@ result_rate = 100
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-_r = payslip.rule_parameter('l10n_sk_social_pension_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((base) * _r, 4)) / 100.0)
-result_rate = 100
+result = base
+result_rate = payslip.rule_parameter('l10n_sk_social_pension_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -263,10 +240,8 @@ result_rate = 100
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-_r = payslip.rule_parameter('l10n_sk_social_disability_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((base) * _r, 4)) / 100.0)
-result_rate = 100
+result = base
+result_rate = payslip.rule_parameter('l10n_sk_social_disability_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -277,13 +252,11 @@ result_rate = 100
         <field name="code">UNEMPLOYMENTEMPLOYER</field>
         <field name="sequence">125</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_sk_applies('UNEMPLOYMENT_INSURANCE')</field>
+        <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-_r = payslip.rule_parameter('l10n_sk_social_unemployment_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
-result_rate = 100
+result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+result_rate = payslip.rule_parameter('l10n_sk_social_unemployment_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -294,13 +267,11 @@ result_rate = 100
         <field name="code">SHORTTIMEEMPLOYER</field>
         <field name="sequence">130</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_sk_applies('SHORTTIME_CONTRIBUTION')</field>
+        <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-_r = payslip.rule_parameter('l10n_sk_social_shorttime_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
-result_rate = 100
+result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+result_rate = payslip.rule_parameter('l10n_sk_social_shorttime_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -313,13 +284,8 @@ result_rate = 100
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-_r = payslip.rule_parameter('l10n_sk_social_guarantee_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
-result_rate = 100
-# ≥50% statutory owner is not guarantee-insured (§102 z. 461/2003).
-if contract.l10n_sk_guarantee_exempt:
-    result = 0.0
+result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+result_rate = payslip.rule_parameter('l10n_sk_social_guarantee_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -333,10 +299,8 @@ if contract.l10n_sk_guarantee_exempt:
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-_r = payslip.rule_parameter('l10n_sk_social_accident_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((categories.GROSS) * _r, 4)) / 100.0)
-result_rate = 100
+result = categories.GROSS
+result_rate = payslip.rule_parameter('l10n_sk_social_accident_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -352,10 +316,8 @@ result_rate = 100
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-_r = payslip.rule_parameter('l10n_sk_social_reserve_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((base) * _r, 4)) / 100.0)
-result_rate = 100
+result = base
+result_rate = payslip.rule_parameter('l10n_sk_social_reserve_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -385,13 +347,8 @@ if contract.l10n_sk_health_oop_claim and contract.l10n_sk_agreement_type == 'non
     slope = oop_max / (oop_end - oop_max)
     oop = max(0.0, oop_max - slope * max(0.0, base - oop_max))
     base = max(0.0, base - oop)
-# §19 z.580/2004: floor the health preddavok DOWN to the eurocent.
-result = -(int(round(base * rate, 4)) / 100.0)
-result_rate = 100
-# Štátny poistenec (student on DoBPŠ / working pensioner) pays no health
-# insurance on agreement income (z. 580/2004).
-if contract.l10n_sk_health_exempt:
-    result = 0.0
+result = base
+result_rate = -rate
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -408,10 +365,8 @@ if contract.l10n_sk_ztp:
     rate = payslip.rule_parameter('l10n_sk_health_rate_employer_ztp')
 else:
     rate = payslip.rule_parameter('l10n_sk_health_rate_employer')
-result = int(round(categories.GROSS * rate, 4)) / 100.0
-result_rate = 100
-if contract.l10n_sk_health_exempt:
-    result = 0.0
+result = categories.GROSS
+result_rate = rate
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -440,8 +395,6 @@ else:
 min_combined = min_base * (rate_ee + rate_er) / 100.0
 actual_combined = abs(result_rules.HEALTH.total) + result_rules.HEALTHEMPLOYER.total
 result = -max(0.0, min_combined - actual_combined)
-if contract.l10n_sk_health_exempt:
-    result = 0.0
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -479,9 +432,13 @@ base = result_rules.TAXBASE.total
 # --- NČZD (non-taxable part per taxpayer) ---
 nczd = 0.0
 if contract.l10n_sk_tax_declaration_signed:
-    # SK §35: monthly advances apply the FULL monthly NČZD; the §11 ods.2
-    # high-income taper is settled only in the annual reconciliation.
     nczd = payslip.rule_parameter('l10n_sk_nczd_monthly')
+    threshold = payslip.rule_parameter('l10n_sk_nczd_taper_threshold')
+    annual_base = base * 12.0
+    if annual_base &gt; threshold:
+        # High-income taper. Monthly = annual/12. Reaches 0 for high earners.
+        taper_const = payslip.rule_parameter('l10n_sk_nczd_taper_const')
+        nczd = max(0.0, (taper_const - 0.25 * annual_base) / 12.0)
 
 taxable = max(0.0, base - nczd)
 
@@ -567,14 +524,9 @@ else:
     else:
         stravne = payslip.rule_parameter('l10n_sk_stravne_5_12h')
         _exact = stravne * payslip.rule_parameter('l10n_sk_meal_employer_pct') / 100.0
-        # § 152 sets a MINIMUM the employer must contribute, and 55 % of the
-        # 2026 stravné is exactly 5.115 — a third decimal a payslip line
-        # cannot hold. The two engines then disagreed: the OCA engine derives
-        # the line total from the 2-decimal amount (20 x 5.12 = 102.40) while
-        # Enterprise derives it from the unrounded value (102.30). Round UP to
-        # the cent, as the surcharge kernel does for statutory floors: it is
-        # the only direction that cannot fall below the minimum, and it leaves
-        # the two engines with the same number to work from.
+        # § 152 sets a MINIMUM, and 55 % of the stravné is 5.115 — a third
+        # decimal a payslip line cannot hold. Round UP to the cent: it is the
+        # only direction that cannot fall below the minimum.
         _cents = round(_exact, 6) * 100.0
         _whole = int(_cents)
         per_day = (_whole + (1 if _cents - _whole > 0.000001 else 0)) / 100.0
@@ -718,61 +670,41 @@ result_name = inputs.REIMBURSEMENT.name
         <field name="code">GARNISHMENT</field>
         <field name="sequence">176</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = ('GARNISHMENT' in inputs.dict or 'GARNISHMENT_PRIORITY' in inputs.dict
-          or ('hr.wage.garnishment' in payslip.env
-              and payslip.env['hr.wage.garnishment']._payslip_has_orders(payslip)))</field>
+        <field name="condition_python">result = 'GARNISHMENT' in inputs.dict or 'GARNISHMENT_PRIORITY' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
+# Priority (prednostná) claim seizes two thirds, ordinary (neprednostná) one.
+if 'GARNISHMENT_PRIORITY' in inputs.dict:
+    debt = inputs.GARNISHMENT_PRIORITY.amount
+    thirds = 2
+else:
+    debt = inputs.GARNISHMENT.amount
+    thirds = 1
+
 # Net wage (čistá mzda) = gross − employee social − employee health − tax, plus
 # the child bonus. categories.SOCIALEMPLOYEE (negative) already holds both the
 # social and health employee premiums.
 net_wage = (result_rules.GROSS.total + categories.SOCIALEMPLOYEE
             + result_rules.INCOMETAX.total + result_rules.CHILD_BONUS.total)
 
-# Prefer the garnishment register, but ONLY for employees who actually
-# have an order on file. Installing the register must not silently
-# disable the input-driven path for everyone else — a site can migrate
-# employee by employee. Where both exist, the register wins.
-_has_register = ('hr.wage.garnishment' in payslip.env
-                 and payslip.env['hr.wage.garnishment']._payslip_has_orders(payslip))
-if _has_register:
-    # Full multi-claim waterfall across all active orders.
-    result = -payslip.env['hr.wage.garnishment']._payslip_amount(payslip, net_wage)
-elif 'GARNISHMENT' in inputs.dict or 'GARNISHMENT_PRIORITY' in inputs.dict:
-    # Legacy single-claim fallback (see the comment above the record).
-    zm = payslip.rule_parameter('l10n_sk_zivotne_minimum')
-    if 'GARNISHMENT_PRIORITY' in inputs.dict:
-        debt = inputs.GARNISHMENT_PRIORITY.amount
-        thirds = 2
-        # § 2 ods. 2 — a priority creditor reaches deeper: the base that must
-        # be left to the debtor is 100 % ŽM, NOT the ordinary 140 %.
-        coeff = payslip.rule_parameter('l10n_sk_garnishment_priority_coeff')
-    else:
-        debt = inputs.GARNISHMENT.amount
-        thirds = 1
-        coeff = payslip.rule_parameter('l10n_sk_garnishment_basic_coeff')
-    basic = round(zm * coeff, 2)
-    per_dep = round(basic * payslip.rule_parameter('l10n_sk_garnishment_dependent_coeff'), 2)
-    non_seizable = basic + contract.l10n_sk_garnishment_dependents * per_dep
+zm = payslip.rule_parameter('l10n_sk_zivotne_minimum')
+basic = round(zm * payslip.rule_parameter('l10n_sk_garnishment_basic_coeff'), 2)
+per_dep = round(basic * payslip.rule_parameter('l10n_sk_garnishment_dependent_coeff'), 2)
+non_seizable = basic + contract.l10n_sk_garnishment_dependents * per_dep
 
-    remainder = net_wage - non_seizable
-    if remainder &lt;= 0:
-        result = 0.0
-    else:
-        # § 3 — the unlimited-seizure threshold always keys off the § 1 ods. 1
-        # basic sum, whichever kind of claim is being collected.
-        ordinary_basic = round(zm * payslip.rule_parameter('l10n_sk_garnishment_basic_coeff'), 2)
-        unlimited_threshold = ordinary_basic * payslip.rule_parameter('l10n_sk_garnishment_unlimited_mult')
-        over = max(0.0, remainder - unlimited_threshold)
-        base = remainder - over  # min(remainder, unlimited_threshold)
-        # Round the base DOWN to a sum divisible by three (in eurocents).
-        base_cents = int(round(base * 100))
-        base_cents -= base_cents % 3
-        one_third = base_cents / 3.0 / 100.0
-        seizable = thirds * one_third + over
-        result = -min(debt, seizable)
-else:
+remainder = net_wage - non_seizable
+if remainder &lt;= 0:
     result = 0.0
+else:
+    unlimited_threshold = basic * payslip.rule_parameter('l10n_sk_garnishment_unlimited_mult')
+    over = max(0.0, remainder - unlimited_threshold)
+    base = remainder - over  # min(remainder, unlimited_threshold)
+    # Round the base DOWN to a sum divisible by three (in eurocents).
+    base_cents = int(round(base * 100))
+    base_cents -= base_cents % 3
+    one_third = base_cents / 3.0 / 100.0
+    seizable = thirds * one_third + over
+    result = -min(debt, seizable)
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -933,22 +865,15 @@ result = -categories.INCOMETAX
     </record>
 
     <!-- ======================================= EMPLOYER-OBSTACLE NÁHRADA -->
-    <!-- Náhrada mzdy pri prekážke v práci NA STRANE ZAMESTNÁVATEĽA (§ 142
-         Zákonníka práce). Unlike the § 141 employee-side obstacles, which are
-         all paid at the full priemerný zárobok, these carry four DIFFERENT
-         statutory rates, so each reason has its own worked-day code and reads
-         its own dated percentage:
+    <!-- Náhrada mzdy pri prekážke v práci NA STRANE ZAMESTNÁVATEĽA (§ 142).
+         Unlike the § 141 employee-side obstacles, which are all paid at the
+         full priemerný zárobok, these carry four DIFFERENT statutory rates, so
+         each reason has its own worked-day code and its own dated percentage:
 
            PREKAZKA_PRESTOJ  § 142 ods. 1  prestoj                    100 %
            PREKAZKA_POCASIE  § 142 ods. 2  nepriaznivé poveternostné   50 %
            PREKAZKA_INE      § 142 ods. 3  iné prekážky               100 %
-           PREKAZKA_VAZNE    § 142 ods. 4  vážne prevádzkové dôvody    60 %
-
-         Same mechanism as the holiday and § 141 náhrady: BASIC was prorated
-         down for these hours, and this rule pays them back — at the statutory
-         rate, not automatically in full. It is regular wage income (insurable
-         + taxable), so it sits in ALW and rolls into GROSS.
-         Source: § 142 zákona č. 311/2001 Z. z.; § 134 (priemerný zárobok). -->
+           PREKAZKA_VAZNE    § 142 ods. 4  vážne prevádzkové dôvody    60 % -->
     <record id="l10n_sk_employer_obstacle_allowance" model="hr.salary.rule">
         <field name="category_id" ref="ALW"/>
         <field name="name">Employer Work Obstacle Pay (§ 142)</field>

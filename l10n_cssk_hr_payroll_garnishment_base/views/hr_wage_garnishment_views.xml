@@ -88,6 +88,7 @@
                                     <field name="payslip_ref"/>
                                     <field name="amount_second_third" optional="show"/>
                                     <field name="amount_first_third" optional="show"/>
+                                    <field name="amount_unlimited" optional="hide"/>
                                     <field name="amount" sum="Total"/>
                                     <field name="state" widget="badge"/>
                                     <field name="currency_id" column_invisible="True"/>
@@ -103,7 +104,12 @@
                         </page>
                     </notebook>
                 </sheet>
-                <chatter/>
+                <!-- 18.0 has no <chatter/> element; the thread widgets are
+                     placed by hand. -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
             </form>
         </field>
     </record>

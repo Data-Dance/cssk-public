@@ -14,24 +14,6 @@
                         <field name="vrp2_enabled"/>
                         <div class="content-group mt16" invisible="not vrp2_enabled">
                             <div class="row mb-2">
-                                <label for="vrp2_auto_fiscalize" class="col-lg-4 o_light_label"/>
-                                <field name="vrp2_auto_fiscalize" class="col-lg-8"/>
-                            </div>
-                            <div class="row mb-2">
-                                <label for="vrp2_round_5c" class="col-lg-4 o_light_label"/>
-                                <field name="vrp2_round_5c" class="col-lg-8"/>
-                            </div>
-                            <div class="row mb-2" invisible="not vrp2_round_5c">
-                                <label for="rounding_method" string="Odoo Cash Rounding"
-                                       class="col-lg-4 o_light_label"/>
-                                <field name="rounding_method" class="col-lg-8"
-                                       required="vrp2_enabled and vrp2_round_5c"
-                                       options="{'no_quick_create': True}"
-                                       help="Must round to 0.05 'Nearest' on cash only, as VRP2 does, or Odoo's drawer drifts from the register."/>
-                            </div>
-                            <field name="cash_rounding" invisible="1"/>
-                            <field name="only_round_cash_method" invisible="1"/>
-                            <div class="row mb-2">
                                 <label for="vrp2_login" class="col-lg-4 o_light_label"/>
                                 <field name="vrp2_login" class="col-lg-8"/>
                             </div>

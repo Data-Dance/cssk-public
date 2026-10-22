@@ -141,13 +141,9 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
     # -- Engine-specific accessors -----------------------------------------
 
     def _l10n_cz_recon_version(self):
-        """Return the record carrying the CZ payroll flags.
-
-        The 19.0 port keeps the OCA payroll engine but stores the CZ fields on
-        the employee version (hr.version, the 19.0 successor of hr.contract).
-        """
+        """Return the record carrying the CZ payroll flags (OCA: the contract)."""
         self.ensure_one()
-        return self.employee_id.version_id
+        return self.employee_id.contract_id
 
     def _l10n_cz_rule_parameter(self, code):
         self.ensure_one()
@@ -198,8 +194,7 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         mortgage = min(
             self.l10n_cz_mortgage_interest,
             self._l10n_cz_rule_parameter("l10n_cz_mortgage_max_year"))
-        gift_pct = self._l10n_cz_rule_parameter("l10n_cz_gift_max_pct")
-        gifts = min(self.l10n_cz_gifts, gift_pct / 100.0 * gross_base)
+        gifts = min(self.l10n_cz_gifts, 0.30 * gross_base)
         nontaxable = pension_life + mortgage + max(gifts, 0.0)
         if self.year < 2024:
             nontaxable += self.l10n_cz_union_dues + self.l10n_cz_education

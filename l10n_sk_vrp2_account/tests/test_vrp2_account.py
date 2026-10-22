@@ -221,20 +221,12 @@ class TestVrp2Account(AccountTestInvoicingCommon):
             captured["body"] = body
             return dict(storno_resp)
 
-        # vatPayer/version come from the register's dashboard, not from the
-        # company's VAT number or the clock (2026-10-06 capture).
-        dashboard = {"cashRegister": {
-            "dkp": "99920201234560002", "version": 1662177617338,
-            "organization": {"name": "X", "vatPayer": True},
-        }}
         with patch.object(Client, "_ensure_session", return_value="TOK"), \
-             patch.object(Client, "_get_dashboard", return_value=dashboard), \
              patch.object(Client, "_create_receipt_valid", side_effect=fake_valid):
             storno = receipt._create_storno()
 
         body = captured["body"]
-        self.assertIs(body["vatPayer"], True)
-        self.assertEqual(body["version"], 1662177617338)
+        self.assertTrue(body["vatPayer"])  # company.vat is set
         self.assertEqual(body["priceWithVat"], -100.0)
         self.assertFalse(body["useRounding"])
         self.assertEqual(len(body["items"]), 1)

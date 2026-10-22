@@ -2,12 +2,6 @@ import json
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.tools import float_compare
-
-# VRP2 rounds the cash share to 0.05 € half-up (zaokruhli5). Odoo's own cash
-# rounding must do the same, or the drawer drifts from the register by the
-# rounding difference on every cash sale (18.48 in Odoo, 18.50 in VRP2).
-VRP2_CASH_ROUNDING = 0.05
 
 
 class PosConfig(models.Model):
@@ -21,78 +15,6 @@ class PosConfig(models.Model):
         help="Fiscalize this till's sales in the Slovak Virtual Cash "
         "Register. Set the till's own VRP2 credentials below.",
     )
-    vrp2_auto_fiscalize = fields.Boolean(
-        string="Fiscalize Automatically",
-        default=True,
-        help="Issue the VRP2 receipt as soon as the till syncs a paid order. "
-        "A failure never blocks the sale: the order is marked 'VRP2 Error' "
-        "and can be fiscalized again from its form.",
-    )
-
-    def _vrp2_odoo_rounds_like_vrp2(self):
-        """Odoo's cash rounding is exactly VRP2's: 0.05, nearest, cash only."""
-        self.ensure_one()
-        method = self.rounding_method
-        return bool(
-            self.cash_rounding
-            and self.only_round_cash_method
-            and method
-            and method.rounding_method == "HALF-UP"
-            and not float_compare(method.rounding, VRP2_CASH_ROUNDING,
-                                  precision_digits=6)
-        )
-
-    @api.model
-    def _vrp2_find_cash_rounding(self):
-        return self.env["account.cash.rounding"].search([
-            ("rounding", "=", VRP2_CASH_ROUNDING),
-            ("rounding_method", "=", "HALF-UP"),
-            ("strategy", "=", "add_invoice_line"),
-        ], limit=1)
-
-    @api.onchange("vrp2_enabled", "vrp2_round_5c")
-    def _onchange_vrp2_cash_rounding(self):
-        """Set Odoo's cash rounding to match the register's."""
-        for config in self.filtered("vrp2_enabled"):
-            if config.vrp2_round_5c:
-                config.cash_rounding = True
-                config.only_round_cash_method = True
-                if not config._vrp2_odoo_rounds_like_vrp2():
-                    config.rounding_method = (
-                        config._vrp2_find_cash_rounding()
-                        or config.rounding_method
-                    )
-            else:
-                config.cash_rounding = False
-
-    @api.constrains(
-        "vrp2_enabled", "vrp2_round_5c", "cash_rounding", "rounding_method",
-        "only_round_cash_method",
-    )
-    def _check_vrp2_cash_rounding(self):
-        """Odoo must round cash exactly when, and exactly as, VRP2 does.
-
-        Rounding in VRP2 but not in Odoo leaves Odoo's drawer 2 cents short
-        of the register on an 18.48 sale; rounding in Odoo but not in VRP2
-        does the reverse. Neither raises anywhere else; the cash count just
-        never agrees with the register's report.
-        """
-        for config in self.filtered("vrp2_enabled"):
-            if config.vrp2_round_5c and not config._vrp2_odoo_rounds_like_vrp2():
-                raise ValidationError(_(
-                    "Point of Sale '%(pos)s' rounds cash to 0.05 € in VRP2, "
-                    "so its Odoo cash rounding must do the same: enable Cash "
-                    "Rounding with a 0.05 'Nearest' rounding method (Add a "
-                    "rounding line) and 'Only apply rounding on cash'.",
-                    pos=config.display_name,
-                ))
-            if not config.vrp2_round_5c and config.cash_rounding:
-                raise ValidationError(_(
-                    "Point of Sale '%(pos)s' does not round cash in VRP2, so "
-                    "Odoo must not round it either: disable Cash Rounding or "
-                    "enable 'Round to 0.05 €'.",
-                    pos=config.display_name,
-                ))
 
     def action_vrp2_login(self):
         """Authenticate this till and cache the (national) VAT list on the

@@ -22,24 +22,54 @@ receipt per attachment and hands each to the capture providers. The familiar
 Enterprise module. A receipt that nothing can read is left exactly as Odoo left
 it, waiting rather than guessing.
 
-One expense per VAT rate
-========================
+One receipt, one expense — whatever its VAT rates
+=================================================
 
-``hr.expense`` carries a single ``tax_ids`` and a single amount. A receipt with
-food at 5 %, tap water at 19 % and alcohol at 23 % therefore cannot be one
-expense without discarding the VAT split — which is the deductible part. Each
-row of the receipt's own recap becomes one expense, all pointing back at the
-receipt, and the set is checked against the receipt's total and VAT before it is
-kept.
+An employee files receipts, and a receipt has lines; that is the hierarchy
+people expect, so a receipt is one expense. ``hr.expense`` however holds one
+amount and applies all its taxes to it as one base — food at 5 % and alcohol at
+23 % would become a 28 % tax on everything. A receipt with several rates is
+therefore one expense carrying every rate's tax, with its VAT figure and its
+journal entry built from the receipt's own recap: a base and a VAT line per
+rate, for employee-paid and company-paid expenses alike. A rate the recap lists
+at 0.00 (tap water) is left out. The expense is checked against the receipt's
+total and VAT when it is created, and one whose amount or taxes were edited
+away from the receipt refuses to post.
 
-Tax-included taxes are required, and said so
-============================================
+Grouping receipts by business trip is deliberately not done here: a trip is a
+statutory document of its own (cestovný príkaz, vyúčtovanie pracovnej cesty)
+and belongs in a module that also computes the travel allowances.
 
-``hr.expense`` derives its unit price from the total, so a receipt's gross only
-lands on the right base when the mapped purchase tax is **price-included**. With
-a tax-excluded tax, €57.85 would be treated as a net amount and the expense
-would total €71.16. Rather than post that, the module refuses and names the
-cause.
+Any purchase tax works
+======================
+
+``hr.expense`` computes its taxes from the amount as a tax-included total
+(``special_mode="total_included"``), whether or not the tax itself is
+price-included. So a receipt's €57.85 splits into 47.03 + 10.82 with the
+chart's ordinary tax-excluded 23 % tax — the same tax the vendor-bill path
+uses, which refuses a tax-included one. An earlier version demanded
+tax-included taxes here, which made expenses and bills mutually exclusive on
+one company's rate map.
+
+What the employee sees
+======================
+
+The uploader is usually an employee with no access to accounting records, and
+the captured receipt is one. So the receipt is handled with superuser rights,
+and the employee reads the outcome on their own expense: a banner when the
+receipt could not be read or needs checking, with the reason; the same reason
+posted on the expense; and a notification summarising the upload. Only
+accountants see the link to the receipt itself.
+
+**Scan Receipt** in the Expenses app scans a receipt's QR code and lands the
+employee on the resulting expense. A receipt another employee has already
+claimed is refused.
+
+A receipt that reads cleanly fills the uploaded expense — one expense per VAT
+rate, since an expense carries one tax, the uploaded one taking the first rate.
+Above the simplified-invoice limit it is a single expense at the gross amount
+with no VAT: the VAT is not deductible from the receipt and is part of the
+cost.
 
 Configuration
 =============

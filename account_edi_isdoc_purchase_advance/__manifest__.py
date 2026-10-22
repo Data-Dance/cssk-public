@@ -1,8 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 {
     "name": "ISDOC Import — Received Advance Invoices",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Route imported ISDOC advance documents (DocumentType 4/5/6) "
                "into the received-advances flow.",
     "description": """

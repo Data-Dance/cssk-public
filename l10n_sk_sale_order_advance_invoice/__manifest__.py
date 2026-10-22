@@ -1,6 +1,6 @@
 {
     "name": "Advance Invoices - Slovak Localization",
-    "version": "19.0.1.1.0",
+    "version": "18.0.1.0.0",
     "summary": "Slovak chart wiring for advance invoices (preddavkové faktúry)",
     "description": """
 Slovak localization of Advance Invoices
@@ -19,11 +19,13 @@ chart template:
 Existing manual configuration is preserved (only empty fields are filled).
 """,
     "author": "Data Dance s.r.o.",
-    "website": "https://www.datadance.eu",
+    "website": "https://www.datadance.cz",
     "license": "AGPL-3",
     "category": "Accounting/Localizations",
     "depends": ["sale_order_advance_invoice", "l10n_sk"],
-    "data": [],
+    "data": [
+        "report/report_invoice_templates.xml",
+    ],
     "post_init_hook": "_l10n_sk_advance_post_init",
     "installable": True,
     "auto_install": False,

@@ -27,11 +27,11 @@ class L10nCzWageSurchargeRate(models.Model):
     _description = "Czech Wage Surcharge Rate"
     _order = "date_from desc"
 
-    _date_uniq = models.Constraint(
-        "unique(date_from)",
-        "Only one wage-surcharge rate record per start date.",
-    )
-
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("date_uniq", "unique(date_from)",
+         "Only one wage-surcharge rate record per start date."),
+    ]
     name = fields.Char(compute="_compute_name", store=True)
     date_from = fields.Date(
         required=True,

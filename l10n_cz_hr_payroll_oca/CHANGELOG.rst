@@ -2,111 +2,33 @@
 Changelog
 =========
 
-19.0.1.11.0 (2026-08-07)
-========================
-
-* Completed the Czech absence set against the Slovak one: study leave, paid
-  and unpaid (§ 232 zvyšování kvalifikace), and karanténa. Both had gone into
-  the Slovak module first, leaving the two countries out of step on absences
-  that exist in both labour codes — the same gap as dárcovství krve a day
-  earlier. § 232 ships both variants because paid study leave depends on the
-  employer having agreed to the qualification increase; karanténa carries the
-  ``CZSICK`` code because the money is identical to a nemoc.
-
-19.0.1.10.0 (2026-08-07)
-========================
-
-* Added the **překážky z důvodu obecného zájmu**: dárcovství krve (§ 203),
-  výkon veřejné funkce (§ 201) and jiné úkony v obecném zájmu (§ 202). All are
-  paid at průměrný výdělek, so they carry the ``CZOBSTACLE`` code and need no
-  money rule.
-* Dárcovství krve in particular closes an asymmetry introduced a day earlier,
-  when the Slovak § 138 counterpart was added and the Czech one was not.
-* Vojenské cvičení (§ 204) is deliberately absent — who pays and who
-  reimburses is question 7 in the practitioner document.
-
-19.0.1.9.1 (2026-08-07)
+18.0.1.6.0 (2026-08-08)
 =======================
 
-* ``_l10n_cz_probable_hourly`` now falls back to the employee's own calendar
-  when the version has none, as the Enterprise engine has always done. Without
-  it the method returned 0.0, which floors to the minimum wage and pays every
-  náhrada at that. Found by the engine-seam audit.
+* **Fixed: every accrual level started a day late.**
+  ``hr.leave.accrual.level.start_count`` defaults to 1 day on 18.0 (0 on
+  19.0), so the level began the day after the allocation and Odoo prorated
+  the first period 30/31. Pinned to 0 on all four levels. 19.0 was never
+  affected.
 
-19.0.1.9.0 (2026-08-06)
+18.0.1.5.0 (2026-08-08)
 =======================
 
-* **Mateřská, rodičovská and otcovská can now be recorded.** They had no leave
-  type, so there was no way to put one on a payslip. Three new types with
-  their own payroll codes (``CZMATERSKA`` / ``CZRODICOVSKA`` / ``CZOTCOVSKA``).
-  The employer pays NOTHING — PPM, rodičovský příspěvek and otcovská are dávky
-  of ČSSZ — so they behave like OČR: BASIC prorates down, no náhrada.
-* Kept apart from the OČR code because the ČSSZ filings and the ELDP vyloučené
-  doby have to tell them apart.
+Backported from 19.0.
 
-19.0.1.8.0 (2026-08-06)
-=======================
+* **Added §§ 207-209 překážky na straně zaměstnavatele**: prostoj (nejméně
+  80 %), povětrnostní vlivy (nejméně 60 %), jiné překážky (100 %) and částečná
+  nezaměstnanost (nejméně 60 %). Each has its own worked-day code and dated
+  percentage, and one ``PREKAZKANAHRADA`` rule sums them. Previously every one
+  of these had to be recorded as the § 199 paid obstacle, which pays the FULL
+  průměrný výdělek — overpaying a prostoj by a fifth and a short-time month by
+  two fifths.
+* **Added §§ 195-196 mateřská / rodičovská / otcovská**, §§ 201-203
+  general-interest absences, § 232 study leave (paid and unpaid) and
+  karanténa. All ride existing codes and need no money rule; the employer pays
+  nothing for the family leaves, which are dávky of ČSSZ.
 
-* **Employer-side obstacles are no longer all paid at the full průměrný
-  výdělek.** §§ 207-209 had no leave type of their own, so a prostoj had to be
-  booked as the § 199 paid obstacle — which pays 100 % — overpaying it by a
-  fifth, and a short-time month by two fifths. Each reason now has its own
-  leave type, worked-day code and dated percentage:
-
-    - ``CZPROSTOJ`` § 207 a) prostoj — nejméně 80 %
-    - ``CZPOVETRNOST`` § 207 b) nepříznivé povětrnostní vlivy / živelní
-      událost — nejméně 60 %
-    - ``CZJINEPREKAZKY`` § 208 jiné překážky — 100 %
-    - ``CZCASTECNA`` § 209 částečná nezaměstnanost — nejméně 60 %
-
-  The percentages are statutory MINIMA that a collective agreement or an
-  internal rule may raise, so they are dated ``hr.rule.parameter`` records
-  rather than literals in a rule body. One new rule ``PREKAZKANAHRADA`` sums
-  them; it is insurable and taxable and rolls into GROSS. The § 199 obstacle is
-  unchanged and still paid in full.
-* The four codes join ``CZ_ABSENCE_CODES``, so they prorate BASIC down and are
-  excluded from the průměrný-výdělek denominator like every other absence.
-
-19.0.1.7.0 (2026-08-05)
-=======================
-
-* The §15 odst. 1 gift-deduction ceiling moved from a ``0.30`` literal in
-  Python to the ``l10n_cz_gift_max_pct`` rule parameter. The statutory 15 % has
-  been temporarily doubled to 30 % since 2020 and the extension keeps being
-  rolled forward, so it is exactly the kind of figure that must be data.
-
-19.0.1.6.0 (2026-08-05)
-=======================
-
-* **The one genuinely annual paid obstacle now accrues.** Doprovod zdravotně
-  postiženého dítěte do zařízení (6 pracovních dnů/rok, NV 590/2006) gets its
-  own leave type and accrual plan, so the cap is granted on 1 January and
-  enforced at booking — the CZ counterpart of the SK §141 ZŤP allowance.
-* **Everything else deliberately stays plan-less, and now says so.** Both OČR
-  limits are a podpůrčí doba PER CASE (9/16 kalendářních dnů, § 39; 90 dnů,
-  § 41a), and doprovod k lékaři is max 1 den PER TRIP. A yearly accrual would
-  cap the second case of the year at zero, so those types are allocated per
-  case instead; the file header now records the reasoning.
-
-19.0.1.5.0 (2026-07-27)
-=======================
-
-* **Wage garnishment now delegates to the garnishment register.** When
-  ``l10n_cssk_hr_payroll_garnishment_base`` is installed, the ``GARNISHMENT``
-  rule applies the full § 279/§ 280 o. s. ř. waterfall across every execution
-  order on file for the employee — maintenance first out of the second third
-  (pro rata by current maintenance, disregarding arrears), everything else
-  strictly by pořadí with pro-rata satisfaction at equal rank, and the fully
-  seizable part above the limit joining the second third only as far as the
-  priority claims need it. The single-claim, input-driven computation remains
-  as a fallback for databases that have not adopted the register.
-* Precedence: the register is used only for employees who actually have an
-  order on file. Installing ``l10n_cssk_hr_payroll_garnishment_base`` does not
-  disable the input-driven path for everyone else, so a site can migrate
-  employee by employee. Where an employee has both, the register wins and the
-  payslip inputs are ignored.
-
-19.0.1.4.3 (2026-07-07)
+18.0.1.4.3 (2026-07-07)
 =======================
 
 * Corrected the dovolená carryover validity to 364 days for a clean steady-state
@@ -119,7 +41,7 @@ Changelog
   clean one-year forfeiture each time (steady-state balance ~20 days, never two
   years) with the expiry always at end of December.
 
-19.0.1.4.2 (2026-07-07)
+18.0.1.4.2 (2026-07-07)
 =======================
 
 * Added the § 218 zákoníku práce one-year carryover window to the dovolená
@@ -133,7 +55,7 @@ Changelog
   the accrual engine across three successive 1 Jan carryovers and asserts the
   forfeiture of the untaken carried days.
 
-19.0.1.4.1 (2026-07-07)
+18.0.1.4.1 (2026-07-07)
 =======================
 
 * Made the leave accrual-plan ``name`` translatable. Core Odoo defines
@@ -145,21 +67,21 @@ Changelog
   (160 h/year)``, ``Annual leave — 4 weeks, full entitlement on 1 Jan (160 h)``)
   and added their Czech translations in ``i18n/cs.po``.
 
-19.0.1.4.0 (2026-07-07)
+18.0.1.4.0 (2026-07-07)
 =======================
 
 * Country-scoped the payroll and time-off configuration, like the accounting
   localization: ``hr.payroll.structure`` gains a ``country_id`` (and its
   ``company_id`` is relaxed to optional so a structure can be country-global);
   the shipped salary structure is set to country CZ with no company, and every
-  CZ leave type carries country CZ (company left empty). Global record rules
-  now filter the salary-structure list, the time-off configuration and the
-  ``struct_id`` selection to the country of the user's active company, so a CZ
-  company only sees CZ (and country-global) config. Accrual plans have no
-  ``country_id`` in core and are scoped indirectly through their
-  (country-scoped) leave type.
+  CZ leave type (``hr.leave.type.country_id`` made settable on 18.0) carries
+  country CZ. Global record rules now filter the salary-structure list, the
+  time-off configuration and the ``struct_id`` selection to the country of the
+  user's active company, so a CZ company only sees CZ (and country-global)
+  config. Accrual plans have no ``country_id`` in core and are scoped
+  indirectly through their (country-scoped) leave type.
 
-19.0.1.3.2 (2026-07-06)
+18.0.1.3.2 (2026-07-06)
 =======================
 
 * English source strings + Czech translation: all user-facing source strings
@@ -168,7 +90,7 @@ Changelog
   English with no mixed-language content; shipped ``i18n/<module>.pot`` and a
   complete Czech ``i18n/cs.po``.
 
-19.0.1.3.1 (2026-07-06)
+18.0.1.3.1 (2026-07-06)
 =======================
 
 * Optional/alternative statutory-limit leave configuration
@@ -188,7 +110,7 @@ Changelog
     (NV č. 590/2006 Sb.); per-reason limits (svatba, pohřeb, stěhování, …) are
     documented in the file header.
 
-19.0.1.3.0 (2026-07-06)
+18.0.1.3.0 (2026-07-06)
 =======================
 
 * Statutory Czech annual-leave (dovolená) accrual plans, attached to the
@@ -197,15 +119,15 @@ Changelog
   ``accrual_plan_cz_holiday_4w`` (minimum výměra 4 týdny = 160 h/rok) and
   ``accrual_plan_cz_holiday_5w`` (5 týdnů = 200 h/rok). Each carries one weekly,
   worked-time-based level that accrues 1/52 of (weekly hours × výměra) per worked
-  week (§ 213 odst. 4), i.e. 3.076923 h / 3.846154 h per week, with year-start
-  carry-over of unused leave (§ 218). ASSUMPTION (human-verify): the plans are
-  calibrated for the standard full-time 40 h/týden; for other weekly hours an
-  admin must scale ``added_value`` pro rata, since Odoo accrual cannot read the
-  contract's weekly hours. Plans are generic (no time_off_type_id) so an admin
-  assigns one when creating an employee allocation. A demo start-of-year
-  allocation (20 days = 4 týdny = 160 h) is added to the demo holiday type.
+  week (§ 213 odst. 4), i.e. 3.076923 h / 3.846154 h per week, with carry-over of
+  unused leave (§ 218). ASSUMPTION (human-verify): the plans are calibrated for
+  the standard full-time 40 h/týden; for other weekly hours an admin must scale
+  ``added_value`` pro rata, since Odoo accrual cannot read the contract's weekly
+  hours. Plans are generic (no time_off_type_id) so an admin assigns one when
+  creating an employee allocation. A demo start-of-year allocation (20 days =
+  4 týdny = 160 h) is added to the demo holiday type.
 
-19.0.1.2.0 (2026-07-05)
+18.0.1.2.0 (2026-07-05)
 =======================
 
 * Employer social-insurance discount (sleva na pojistném na sociální pojištění,
@@ -223,7 +145,7 @@ Changelog
   ``l10n_cz_social_disc_hours_min`` (8), ``l10n_cz_social_disc_hours_max`` (30),
   ``l10n_cz_social_disc_hours_month_max`` (138).
 
-19.0.1.1.0 (2026-07-05)
+18.0.1.1.0 (2026-07-05)
 =======================
 
 * Annual tax reconciliation (roční zúčtování záloh na daň z příjmů ze závislé
@@ -237,18 +159,6 @@ Changelog
   přeplatek (refund) and the doplatek na daňovém bonusu. The settlement is posted
   onto a payslip (usually March) via the new input-driven ANNUAL_TAX_SETTLEMENT
   rule (ALW, lifts net pay); standard monthly payslips are unchanged.
-
-19.0.1.0.0 (2026-07-05)
-=======================
-
-* Initial port to Odoo 19.0. Functionally identical to 18.0.1.0.4; the only
-  changes are the ones required by the payroll engine's move from
-  ``hr.contract`` to ``hr.version``: the Czech payroll fields now live on
-  ``hr.version`` (added to ``_get_whitelist_fields_from_template``), the
-  employee mirrors relate via ``version_id`` (inherited), and the form view
-  extends the ``hr.version`` contract-template form. Salary-rule Python, the
-  dated ``hr.rule.parameter`` mechanism and the absence/leave integration are
-  unchanged.
 
 18.0.1.0.4 (2026-07-05)
 =======================
@@ -309,18 +219,3 @@ Changelog
 * Meal allowance (stravenkový paušál) tax-exempt limit.
 * All statutory rates and thresholds parameterised as dated values for 2025
   and 2026, via a lightweight ``hr.rule.parameter`` mechanism.
-
-[19.0.1.11.1] — 2026-09-13
---------------------------
-
-Fixed
-~~~~~
-
-- **Terms the translation catalogue never carried.** Strings that reach the
-  user were absent from the template — a field with no ``string=``, a mixin
-  field addressed to the abstract model's ``ir.model.fields`` row rather
-  than each concrete one, or a whole category the offline exporter never
-  emitted. An absent term cannot be translated and shows English in an
-  otherwise Czech screen. The template and the catalogues now carry them,
-  and the Czech is written.
-

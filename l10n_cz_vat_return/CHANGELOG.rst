@@ -3,10 +3,76 @@ Changelog
 =========
 
 All notable changes to **l10n_cz_vat_return** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 1.10.0 by one port rather than by those
+releases, and the entries are what the port brought over.
 
 [Unreleased]
 ------------
+
+[18.0.1.10.0] — 2026-10-19
+--------------------------
+
+Changed
+~~~~~~~
+
+- **Brought the module to 19.0's 1.10.0 in one step, from 18.0.1.0.1,** with all
+  ten of its migrations renumbered into this series — this branch had none, and
+  sat below every version that introduced them. Adds the historical VAT rates
+  (20, 19, 15, 14, 10, 9 and 5 %, generated archived by cloning each current
+  rate family), the DPHDP3 work of nine releases, and the ``post_init_hook``.
+
+Fixed
+~~~~~
+
+- **``_cz_map_intra_community_purchase_taxes`` no longer raises on install.** It
+  reached for ``account.tax.original_tax_ids``, which does not exist on this
+  series, and took the whole module's installation down with it
+  (``AttributeError`` inside ``post_init_hook``). It is now an explicit,
+  logged no-op here — see the carry-over note.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **The intra-Community purchase mapping is NOT applied on 18.0, and an EU
+  vendor bill therefore keeps the domestic 21 %.** This is the live bug that
+  19.0's 1.7.0 fixed; on this branch it stands.
+
+  It cannot be ported as a translation of the 19.0 code, because 19.0 solves it
+  through machinery this series does not have. 19.0 reworked tax alternatives:
+  ``account.tax`` gained ``original_tax_ids``, ``fiscal_position_ids``,
+  ``replacing_tax_ids`` and ``is_domestic``, and core ``l10n_cz`` ships a
+  ``fiscal_position_intra_community`` for them to act on. 18.0's
+  ``account.tax`` has none of those four fields; a position maps taxes through
+  ``account.fiscal.position.tax`` rows (``tax_src_id`` -> ``tax_dest_id``); and
+  18.0 core ``l10n_cz`` has no intra-Community position at all, only
+  ``fiscal_position_domestic_cz`` and ``fiscal_position_eu_private_cz`` — the
+  latter being private (B2C) trade, not a B2B acquisition.
+
+  So closing it here means CREATING a fiscal position and its mapping rows on
+  the Czech chart. That is a client-visible decision about a chart, not a port,
+  and it is left for one. ``tests/test_cz_intra_community_mapping.py`` is
+  skipped on this series with that reason, on the same condition the model
+  guards on, so it starts running again by itself once the mapping exists here.
+
+- **18.0 core's Czech chart has no goods/service split, which is why 12 tests
+  fail on this series.** 19.0's ``l10n_cz`` carries 32 taxes to 18.0's 27. The
+  five it adds are the service variants — ``l10n_cz_12_domestic_service``,
+  ``l10n_cz_12_receipt_domestic_service``, ``l10n_cz_21_domestic_services``,
+  ``l10n_cz_21_receipt_domestic_services``, ``l10n_cz_export_services`` — and
+  it renames the goods ones to match (``12%`` -> ``12% G``, ``21%`` ->
+  ``21% G``).
+
+  Everything that reads the split is affected: the deduction-tagging sweep
+  examines no self-assessed purchase tax at all, the historical-rate generator
+  cannot find a ``12% G`` to clone, and the intra-Community mapping above has
+  no ``21% S`` to send services to.
+
+  The remedy is the Czech twin of ``l10n_sk_tax_report_backport``, which exists
+  for exactly this reason on the Slovak side (18.0 core ``l10n_sk`` ships 30
+  taxes and no tags). It is a new module, not a port, and it has not been
+  written.
 
 [19.0.1.10.0] — 2026-09-29
 --------------------------

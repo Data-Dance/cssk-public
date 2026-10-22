@@ -16,7 +16,7 @@ class TestAdvanceSaldoXlsx(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.user.group_ids |= (
+        cls.env.user.groups_id |= (
             cls.env.ref("purchase.group_purchase_manager")
             + cls.env.ref("sales_team.group_sale_manager")
             + cls.env.ref("account.group_account_user")
@@ -47,7 +47,7 @@ class TestAdvanceSaldoXlsx(AccountTestInvoicingCommon):
                     "product_id": self.service.id,
                     "product_qty": 1,
                     "price_unit": price,
-                    "tax_ids": [Command.clear()],
+                    "taxes_id": [Command.clear()],
                 })
             ],
         })
@@ -101,7 +101,7 @@ class TestAdvanceSaldoXlsx(AccountTestInvoicingCommon):
                     "product_id": self.service.id,
                     "product_qty": 1,
                     "price_unit": 100.0,
-                    "tax_ids": [Command.clear()],
+                    "taxes_id": [Command.clear()],
                 })
             ],
         })

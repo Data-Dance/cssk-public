@@ -64,7 +64,8 @@ class TestSkVehicleExpense(AccountTestInvoicingCommon):
 
         vat_lines = bill.line_ids.filtered("tax_line_id")
         tagged_lines = vat_lines.filtered(lambda line: line.tax_tag_ids)
-        self.assertEqual(set(tagged_lines.mapped("tax_tag_ids.name")), {"21"})
+        # 18.0 names its SK tax tags with the sign ("+21"); 19.0 does not.
+        self.assertEqual(set(tagged_lines.mapped("tax_tag_ids.name")), {"+21"})
         self.assertEqual(sum(tagged_lines.mapped("balance")), 11.50)
         # The lost half carries no tag, so it reaches no row of the DPH return.
         untagged = vat_lines - tagged_lines

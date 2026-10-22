@@ -1,4 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
+from . import test_dispatch
+from . import test_pick_tour
 from . import test_clear_tour
-from . import test_country_dispatch

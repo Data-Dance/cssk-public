@@ -3,7 +3,60 @@ Changelog
 =========
 
 All notable changes to **l10n_sk_ekasa_receipt** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 1.1.0 by one port rather than by those
+releases, and the entries are what the port brought over.
+
+[18.0.1.1.0] — 2026-10-20
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Brought to 19.0's 1.1.0 in one step, from 18.0.1.0.0**, taken whole: the
+  photograph's QR decoded, ``_accepts_qr`` / ``_scan_hint`` /
+  ``_issue_timezone``, ``payloads_from_printed``, the ``ProviderUnavailable``
+  distinction, and the lookup log readable by Invoicing rather than by nobody.
+  No 19.0-only API anywhere in it; the entries below are the 19.0 history.
+
+- ``zxing-cpp`` is a hard dependency of this module now, as it is on 19.0, so
+  Odoo refuses to install it where the wheel is absent.
+
+[19.0.1.1.0] — 2026-10-19
+-------------------------
+
+Fixed
+~~~~~
+
+- The lookup log was readable only with "Show Full Accounting Features",
+  which Community grants nobody; it now follows the Invoicing group.
+- The *Lookups* smart button sat in a second button box of its own, which Odoo
+  does not lift into the control panel; it is now in the form's button box.
+
+Added
+~~~~~
+
+- ``zxing-cpp`` is an external dependency: the photograph's QR code is decoded,
+  so a photographed Slovak receipt is looked up instead of falling to the AI
+  reader or to nothing.
+- ``_accepts_qr`` (picks the fiscal code out of several), ``_scan_hint``
+  ("the code above OVERTE DOKLAD POMOCOU QR KÓDU"), ``_issue_timezone``
+  (Europe/Bratislava, whoever captures the receipt).
+- ``payloads_from_printed``: rebuilds the lookup key from identifiers printed
+  beside the QR — the UID, or OKP, cash-register code, date, number and total of
+  an off-line receipt. The number a till prints as ``202609/5`` is tried as
+  ``5`` first; an OKP wrapped across two lines is joined.
+
+Changed
+~~~~~~~
+
+- Switched off, IP not declared and budget spent raise ``ProviderUnavailable``,
+  so another reader can still serve the receipt; a network failure is a
+  transient ``CaptureFailed`` (retried on a schedule), an unregistered receipt a
+  permanent one.
+- ``parse_qr`` reads a leading ``0-`` as ``O-``: receipts print the identifier in
+  a font where the two look alike.
 
 [19.0.1.0.0] — 2026-10-06
 -------------------------

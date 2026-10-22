@@ -2,8 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 #
 # Posts a Czech payslip through the OCA payroll engine to the general ledger
-# and asserts the resulting account.move exists and is balanced. In 19.0 the
-# "contract" is the employee's working version (hr.version).
+# and asserts the resulting account.move exists and is balanced.
 
 from datetime import date
 
@@ -26,6 +25,8 @@ class TestCzPayrollAccount(TransactionCase):
         cls.env = cls.env(context=dict(
             cls.env.context, allowed_company_ids=cls.company.ids))
 
+        # Install the Czech chart, then run the account-configuration hook for
+        # this company (the post_init_hook covers companies present at install).
         cls.env["account.chart.template"].try_loading(
             "cz", company=cls.company, install_demo=False)
         _configure_cz_payroll_accounts(cls.env, cls.company)
@@ -47,21 +48,25 @@ class TestCzPayrollAccount(TransactionCase):
     def test_post_payslip_balanced(self):
         self.assertTrue(self.journal, "Hook did not create the Salaries journal")
 
-        employee = self.env["hr.employee"].with_company(self.company).create({
+        employee = self.env["hr.employee"].create({
             "name": "CZ Emp",
             "company_id": self.company.id,
             "resource_calendar_id": self.calendar.id,
-            "date_version": date(2024, 1, 1),
-            "contract_date_start": date(2024, 1, 1),
-            "wage": 50000.0,
-            "struct_id": self.structure.id,
         })
-        version = employee.version_id
-        version.write({
+        contract = self.env["hr.contract"].create({
+            "name": "CZ Emp Contract",
+            "employee_id": employee.id,
+            "company_id": self.company.id,
+            "state": "open",
+            "date_start": date(2024, 1, 1),
+            "wage": 50000.0,
+            "resource_calendar_id": self.calendar.id,
+            "struct_id": self.structure.id,
             "journal_id": self.journal.id,
             "l10n_cz_tax_declaration": True,
         })
 
+        # The gross rule carries the per-company debit/credit accounts.
         gross_rule = self.env.ref("l10n_cz_hr_payroll_oca.cz_gross_salary_rule")
         self.assertTrue(gross_rule.with_company(self.company).account_debit)
         self.assertTrue(gross_rule.with_company(self.company).account_credit)
@@ -69,7 +74,7 @@ class TestCzPayrollAccount(TransactionCase):
         payslip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip CZ",
             "employee_id": employee.id,
-            "contract_id": version.id,
+            "contract_id": contract.id,
             "struct_id": self.structure.id,
             "company_id": self.company.id,
             "date_from": date(2026, 3, 1),
@@ -95,10 +100,12 @@ class TestCzPayrollAccount(TransactionCase):
                 self._account(code), accounts,
                 "Expected account %s missing from the payslip move" % code)
 
+        # No adjustment line (mapping is self-balancing).
         self.assertFalse(
             move.line_ids.filtered(lambda l: l.name == "Adjustment Entry"),
             "An adjustment line was needed -> mapping is not self-balancing")
 
+        # 331 carries the net pay as a credit residual.
         net = sum(payslip.line_ids.filtered(lambda l: l.code == "NET").mapped("total"))
         acc_331 = self._account("331")
         lines_331 = move.line_ids.filtered(lambda l: l.account_id == acc_331)

@@ -4,7 +4,7 @@
     "name": "CZ Invoice: Forma úhrady",
     "summary": "Prints the payment mode as 'Forma úhrady' in the header of "
                "the Czech invoice.",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Accounting/Localizations",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

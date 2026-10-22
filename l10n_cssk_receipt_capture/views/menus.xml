@@ -2,13 +2,18 @@
 <odoo>
     <menuitem id="menu_cssk_receipt_root"
               name="Fiscal Receipts"
-              parent="account.menu_finance_entries"
+              parent="account.menu_finance_payables"
               sequence="90"/>
     <menuitem id="menu_cssk_receipt"
               name="Captured Receipts"
               parent="menu_cssk_receipt_root"
               action="action_cssk_receipt"
               sequence="10"/>
+    <menuitem id="menu_cssk_receipt_scan"
+              name="Scan Receipt"
+              parent="menu_cssk_receipt_root"
+              action="action_cssk_receipt_scan_qr"
+              sequence="5"/>
     <menuitem id="menu_cssk_receipt_review"
               name="To Review"
               parent="menu_cssk_receipt_root"

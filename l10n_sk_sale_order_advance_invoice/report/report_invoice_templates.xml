@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- l10n_sk adds a "Taxable Supply" date row to the invoice report. For an
+         advance-invoice tax document that date is the day the advance payment was
+         received, so relabel it "Date Paid". (This patches the standard account
+         report; in deployments that fully override the invoice template the same
+         label change is applied to the custom template instead.) -->
+    <template id="report_invoice_document_sk_advance"
+              inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@name='taxable_supply_date']/strong" position="replace">
+            <strong t-if="o.is_advance_invoice_tax_document">Date Paid</strong>
+            <strong t-else="">Taxable Supply</strong>
+        </xpath>
+    </template>
+
+</odoo>

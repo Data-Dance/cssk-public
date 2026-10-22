@@ -8,46 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
-[19.0.1.2.1] — 2026-10-07
--------------------------
-
-Fixed
-~~~~~
-
-- The summary and README linked the retired ``wwwinfo.mfcr.cz``; ARES lives at
-  https://ares.gov.cz/, which is also what the module has been calling. The
-  README's licence badge said "Other proprietary" for an AGPL-3 module.
-
-[19.0.1.2.0] — 2026-09-29
+[18.0.2.0.0] — 2026-09-16
 -------------------------
 
 Added
 ~~~~~
 
-- **Prevailing activity (CZ-NACE 2025)** from ARES's copy of the statistical
-  register (``czNacePrevazujici``), onto a configurable partner field, by default
-  ``nace_code`` (``partner_nace``). One extra request, only when mapped.
-
-Added
-~~~~~
-
-- Declares **CZ**, so a Czech partner is looked up in ARES from any company
-  (``partner_autocomplete_dispatcher`` 19.0.1.1.0).
-
-Added
-~~~~~
-
+- Tests for how core 18.0's partner autocomplete reaches ARES through the
+  dispatcher — suggestions, the ``enrich_by_duns`` pick, an empty answer — and a
+  browser tour that picks an ARES suggestion on a new company and checks the
+  saved partner.
 - A browser tour that re-picks a (mocked) ARES suggestion on an existing company
   whose answer clears and recreates its contacts, and checks the old contact is
   gone after saving.
-
-Changed
-~~~~~~~
-
-- Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
 
 [19.0.1.0.0] — 2026-07-04
 -------------------------

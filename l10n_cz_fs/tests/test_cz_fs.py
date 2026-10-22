@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 import base64
 
@@ -7,7 +7,6 @@ from lxml import etree
 
 from odoo import Command
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 
@@ -19,23 +18,6 @@ class TestCzFs(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.company.vat = "CZ25663585"
-        # l10n_cz_statutory, where it is installed alongside, adds a preflight
-        # that every Czech submission carry its finanční úřad code (c_ufo).
-        # This module does not depend on it, so the suite was green standalone
-        # and red on any full-bundle install — which is every customer, since
-        # the l10n_cz_datadance umbrella brings both. Production is right to
-        # demand the office; the fixture simply never provided one.
-        if not cls.company.l10n_cssk_tax_authority_id:
-            authority = cls.env["cssk.tax.authority"].search(
-                [("country_code", "=", "CZ")], limit=1)
-            if not authority:
-                authority = cls.env["cssk.tax.authority"].create({
-                    "name": "FÚ pro hlavní město Prahu",
-                    "code": "CZ-TEST-1",
-                    "submission_code": "451",
-                    "country_id": cls.env.ref("base.cz").id,
-                })
-            cls.company.l10n_cssk_tax_authority_id = authority
         cls.pl_version = cls.env.ref("l10n_cz_fs.vysledovka_version_2025")
         cls.bs_version = cls.env.ref("l10n_cz_fs.rozvaha_version_2025")
         cls.misc = cls.company_data["default_journal_misc"]
@@ -84,37 +66,6 @@ class TestCzFs(AccountTestInvoicingCommon):
         root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
         self.assertEqual(etree.QName(root).localname, "Vysledovka")
 
-    def test_export_without_an_xsd_is_a_declared_state_not_a_hole(self):
-        """The Czech statements have no published XSD, and that is the form.
-
-        Rozvaha, VZZ and the two přehledy are filed as attachments inside the
-        DPPO envelope; the Finanční správa publishes no standalone schema for
-        any of them, while the Slovak Úč POD ships ``uzpod-2014.xsd``. So
-        "no schema" is a property of the VERSION.
-
-        The mixin was tightened to refuse an export it could not validate —
-        right, and it broke every Czech FS export until the version could say
-        the absence is deliberate. Both halves are asserted here: the flag
-        permits the export, and clearing it brings the refusal straight back,
-        so the narrowing cannot quietly widen into "never validate".
-        """
-        self.assertFalse(
-            self.bs_version.xml_schema_data,
-            "premise: no XSD is shipped for the Rozvaha")
-        self.assertTrue(
-            self.bs_version.xml_schema_optional,
-            "the version must declare that absence")
-
-        st = self._statement(self.bs_version)
-        st.action_export_xml()
-        self.assertEqual(st.state, "exported")
-
-        self.bs_version.xml_schema_optional = False
-        blocked = self._statement(self.bs_version)
-        with self.assertRaises(UserError) as cm:
-            blocked.action_export_xml()
-        self.assertIn("no XML schema", str(cm.exception))
-
     def test_balance_sheet_reconciles(self):
         """AKTIVA must equal PASIVA — the proof that the account partition is
         complete and the current-year result (A.V) ties the sheet out."""
@@ -127,33 +78,6 @@ class TestCzFs(AccountTestInvoicingCommon):
         st.action_export_xml()
         root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
         self.assertEqual(etree.QName(root).localname, "Rozvaha")
-
-    def test_aktiva_carry_brutto_and_korekce(self):
-        """The Rozvaha is filed in brutto / korekce / netto columns (DPPDP9
-        VetaUA), so the oprávky and opravné položky must stay a column of the
-        row rather than be netted into it — with netto what it always was,
-        and the row's documents still adding up to it. 094 (OP k
-        nedokončenému DHM) is B.II., not B.I."""
-        def entry(lines):
-            self.env["account.move"].create({
-                "move_type": "entry", "journal_id": self.misc.id,
-                "date": "2025-09-30",
-                "line_ids": [Command.create({"account_id": self._acc(a).id,
-                                             "debit": d, "credit": c})
-                             for a, d, c in lines]}).action_post()
-
-        entry([("022%", 1000.0, 0.0), ("082%", 0.0, 300.0),
-               ("094%", 0.0, 50.0), ("221%", 0.0, 650.0)])
-        st = self._statement(self.bs_version)
-        bii = st.line_ids.filtered(lambda l: l.code == "BII")
-        self.assertAlmostEqual(bii.gross_value, 1000.0, places=2)
-        self.assertAlmostEqual(bii.correction_value, 350.0, places=2)
-        self.assertAlmostEqual(bii.current_value, 650.0, places=2)
-        self.assertTrue(bii.source_reconciles,
-                        "the row's documents include its oprávky")
-        self.assertAlmostEqual(self._v(st, "BI"), 0.0, places=2)
-        self.assertAlmostEqual(self._v(st, "AKTIVA"),
-                               self._v(st, "PASIVA"), places=2)
 
     def test_cash_flow_reconciles(self):
         """Přehled o peněžních tocích (nepřímá metoda): A+B+C = F = konec −

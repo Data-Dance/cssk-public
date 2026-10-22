@@ -24,9 +24,6 @@ class HrPayslip(models.Model):
         return res
 
     def action_payslip_draft(self):
-        # Before the reset, not after: a payslip whose deduction is already
-        # with the payee must not go back to draft at all.
-        self._cssk_garnishment_check_resettable()
         res = super().action_payslip_draft()
         self._cssk_garnishment_unregister()
         return res

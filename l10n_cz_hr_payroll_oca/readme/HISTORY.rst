@@ -1,4 +1,4 @@
-19.0.1.2.0 (2026-07-05)
+18.0.1.2.0 (2026-07-05)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Employer social-insurance discount (sleva na pojistném, §7a zák. 589/1992):
@@ -8,7 +8,7 @@
   (8–30 h/week; under-21 exempt), reducing the employer cost without touching
   the gross social premium. Full-time employees with no category are unaffected.
 
-19.0.1.1.0 (2026-07-05)
+18.0.1.1.0 (2026-07-05)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Annual tax reconciliation (roční zúčtování záloh na daň, §38ch/§38ča ZDP):
@@ -28,18 +28,6 @@
   * The settlement is posted onto a payslip (usually the March slip) via the new
     input-driven ANNUAL_TAX_SETTLEMENT salary rule (ALW), which lifts net pay.
     Standard monthly payslips (no reconciliation input) are unchanged.
-
-19.0.1.0.0 (2026-07-05)
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-* Initial port to Odoo 19.0. Functionally identical to 18.0.1.0.4. The payroll
-  engine moved from ``hr.contract`` to ``hr.version``, so the Czech payroll
-  fields now live on ``hr.version`` (whitelisted for template propagation), the
-  ``hr.employee`` mirrors are ``inherited`` related fields via ``version_id``,
-  and the form view extends the ``hr.version`` contract-template form. The
-  salary-rule Python, the dated ``hr.rule.parameter`` mechanism (still shipped
-  by this module, as the OCA 19.0 engine provides none) and the absence/leave
-  integration are unchanged.
 
 18.0.1.0.4 (2026-07-05)
 ~~~~~~~~~~~~~~~~~~~~~~~~

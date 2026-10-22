@@ -1,6 +1,6 @@
 {
     "name": "Tax Depreciation - Czech Localization",
-    "version": "19.0.1.0.3",
+    "version": "18.0.1.0.3",
     "summary": "Czech tax depreciation groups and coefficients (zákon 586/1992 Sb. §30–32)",
     "description": """
 Czech tax depreciation groups

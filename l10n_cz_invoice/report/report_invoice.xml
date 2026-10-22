@@ -2,23 +2,22 @@
 <odoo>
     <template id="report_invoice_document_cz" inherit_id="account.report_invoice_document">
 
-        <!--
-            No customer DIČ block here, deliberately.
-
-            In Czech usage *DIČ* IS the VAT number (CZ + IČO), and core already
-            prints it: `account.report_invoice_document` outputs
-            `company.account_fiscal_country_id.vat_label`, which for Czechia is
-            "DIČ" (res.country.CZ.vat_label = {"cs_CZ": "DIČ", "en_US": "VAT"}).
-
-            This block used to print `l10n_cssk_dic`, a second field holding the
-            same number without its country prefix, so the duplication was not
-            obvious. Sourcing it from `vat` made it plain — the invoice showed
-            the identical number twice.
-
-            Slovakia is the case that genuinely needs two lines: there DIČ and
-            IČ DPH are different identifiers, and `l10n_sk_invoice` prints the
-            DIČ from `l10n_sk_base`'s own field.
-        -->
+        <!-- Customer DIČ next to the IČO / DIČ DPH core already prints -->
+        <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']" position="after">
+            <div t-if="o.partner_id.l10n_cssk_dic and o.company_id.country_code == 'CZ'">
+                DIČ: <span t-field="o.partner_id.l10n_cssk_dic" />
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_address_same_as_shipping']" position="after">
+            <div t-if="o.partner_id.l10n_cssk_dic and o.company_id.country_code == 'CZ'">
+                DIČ: <span t-field="o.partner_id.l10n_cssk_dic" />
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_no_shipping']" position="after">
+            <div t-if="o.partner_id.l10n_cssk_dic and o.company_id.country_code == 'CZ'">
+                DIČ: <span t-field="o.partner_id.l10n_cssk_dic" />
+            </div>
+        </xpath>
 
         <!-- Payment symbols (variabilní/konstantní/specifický) in the info row -->
         <xpath expr="//div[@id='informations']" position="inside">

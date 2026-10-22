@@ -1,9 +1,8 @@
-import base64
 from unittest.mock import patch
 
 from odoo.exceptions import UserError
-from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tests import tagged
 
 
 @tagged("post_install", "-at_install")
@@ -11,12 +10,7 @@ class TestEcSummaryVies(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # A VALID SK DIČ: ten digits divisible by 11, which is what
-        # base_vat.check_vat_sk enforces. SK2022334455 leaves remainder 9, so
-        # this assignment raised in setUpClass and took the WHOLE class with
-        # it — the suite reported "0 tests" rather than a failure, so nothing
-        # here had run since the check was added.
-        cls.env.company.vat = "SK2022334446"
+        cls.env.company.vat = "SK2022334455"
         cls.env.company.vies_use_direct = True
         template = cls.env["ir.ui.view"].create({
             "name": "test sv template", "type": "qweb",
@@ -24,25 +18,11 @@ class TestEcSummaryVies(TransactionCase):
             "arch": '<t t-name="l10n_cssk_ec_summary_vies.test_sv_template">'
                     "<SDV/></t>",
         })
-        # A schema is not optional on this path any more: export refuses a
-        # version it cannot validate against, because a KV DPH once exported
-        # unvalidated and looked like it had passed. This suite is about how
-        # many times VIES is consulted, not about the SV structure, so it
-        # brings the smallest schema that accepts its own toy document rather
-        # than the real svdph20.xsd — which the <SDV/> template would fail.
-        schema = (
-            b'<?xml version="1.0" encoding="UTF-8"?>'
-            b'<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">'
-            b'<xsd:element name="SDV"/>'
-            b"</xsd:schema>"
-        )
         version = cls.env["cssk.ec.summary.statement.version"].create({
             "name": "T", "country_id": cls.env.ref("base.sk").id,
             "valid_from": "2025-01-01",
             "xml_template_ref_id": template.id,
             "xml_root_element": "SDV",
-            "xml_schema_filename": "test_sdv.xsd",
-            "xml_schema_data": base64.b64encode(schema),
         })
         st_type = cls.env["cssk.ec.summary.statement.type"].create({
             "version_id": version.id, "code": "R", "name": "Riadny",

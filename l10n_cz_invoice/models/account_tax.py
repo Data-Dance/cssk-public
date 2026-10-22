@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from odoo import fields, models
 
@@ -7,10 +7,9 @@ from odoo import fields, models
 class AccountTax(models.Model):
     _inherit = "account.tax"
 
-    # NB: DELIBERATELY a distinct name from the same-purpose field another
-    # CZ localization ships, so toggling ours does not drive that module's
-    # supply-code machinery. The invoice phrase honours the other field too
-    # when that module is installed.
+    # NB: a distinct name from EE l10n_cz_reports' own ``l10n_cz_reverse_charge``
+    # so toggling this does not trigger EE's supply-code machinery. The invoice
+    # phrase also honours EE's field when that module is installed.
     l10n_cz_invoice_reverse_charge = fields.Boolean(
         string="CZ Reverse Charge phrase (§92a)",
         help="Mark this tax as a domestic reverse-charge supply (přenesení "

@@ -6,28 +6,18 @@
       VetaO (II. oddíl — výpočet daně). The II. oddíl řádky go to their official
       VetaO/@kc_ii* attributes; only non-zero spine lines are emitted. Validated
       against data/dppdp9_epo2.xsd.
-
-      The účetní závěrka follows as VetaUA (Rozvaha — aktiva), VetaUB (VZZ
-      druhové) and VetaUD (Rozvaha — pasiva), in the XSD's sequence order, with
-      the výkaz header on VetaD (uv_vyhl / uv_rozsah / uv_mena / uz_rad / d_uv).
-      Rows and values come from models/dppdp9_vykazy.py via the render context;
-      all of it is absent when no statements are linked to the return.
-      verzePis is pinned in data/SCHEMA_VERSION.
     -->
     <template id="dppdp9_2025">
         <Pisemnost nazevSW="Odoo / Data Dance">
-            <DPPDP9 verzePis="05.01.01">
+            <DPPDP9 verzePis="05.01">
                 <VetaD
-                    t-att="vykazy_header"
                     dokument="DP9"
                     k_uladis="DPP"
-                    t-att-typ_dapdpp="statement.l10n_cz_return_kind or 'A'"
-                    t-att-typ_zo="statement.l10n_cz_period_kind or 'A'"
-                    t-att-typ_popldpp="statement.l10n_cz_taxpayer_kind or '1'"
-                    t-att-d_zjist="statement.l10n_cz_discovery_date.strftime('%d.%m.%Y') if statement.l10n_cz_discovery_date else None"
+                    typ_dapdpp="B"
+                    typ_zo="1"
+                    typ_popldpp="1"
                     t-att-dapdpp_forma="statement.statement_type_id.fa_xml_value"
                     t-att-c_ufo_cil="company.l10n_cssk_tax_authority_id.submission_code or ''"
-                    t-att-c_nace="company.partner_id.nace_code or None"
                     t-att-c_pracufo="company.l10n_cz_tax_office_id.workplace_code or None"
                     t-att-zdobd_od="statement.date_from.strftime('%d.%m.%Y')"
                     t-att-zdobd_do="statement.date_to.strftime('%d.%m.%Y')"/>
@@ -51,9 +41,6 @@
                     t-att-kc_ii290_300="('%.0f' % values['r300']) if values.get('r300') else None"
                     t-att-kc_ii300_310="('%.0f' % values['r310']) if values.get('r310') else None"
                     t-att-kc_ii_340="('%.0f' % values['r340']) if values.get('r340') else None"/>
-                <t t-foreach="vykazy.get('UA', [])" t-as="row"><VetaUA t-att="row"/></t>
-                <t t-foreach="vykazy.get('UB', [])" t-as="row"><VetaUB t-att="row"/></t>
-                <t t-foreach="vykazy.get('UD', [])" t-as="row"><VetaUD t-att="row"/></t>
             </DPPDP9>
         </Pisemnost>
     </template>

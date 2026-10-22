@@ -3,10 +3,116 @@ Changelog
 =========
 
 All notable changes to **l10n_cssk_core** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 1.17.0 by one port rather than by those
+releases, and the entries are what the port brought over.
 
 [Unreleased]
 ------------
+
+[18.0.1.17.0] — 2026-10-19
+--------------------------
+
+Added
+~~~~~
+
+- **VAT declared in a later period, the ledger side** (``account_move_vat_deferral``,
+  the company's ``cssk_vat_deferral_account_id`` and its setting). When
+  ``cssk_vat_deduction_date`` puts a document on a later return, the tax stays
+  on 343 in the period it was BOOKED, so 343 and the return disagree until the
+  declaring period. With the account set, two plain journal entries move the
+  tax off 343 on the booking date and back on the declaration date; they carry
+  no taxes and no tax tags, so no return reads them. Left empty the feature is
+  off and the tax stays where it was booked, as before.
+
+  Ported because ``l10n_cz_vat_status`` is written against it: its
+  ``_l10n_cz_vat_status_ignored_move_ids`` searches on
+  ``cssk_vat_deferral_origin_id``, so without this every test in that module
+  and its two bridges errored at ``Invalid field`` even though all three
+  installed.
+
+- **Statement account mapping** (``cssk.statement.account.map``). Reports an
+  account of this company's chart under another account code, per company, so
+  a chart carried over from another system still lands on the statutory rows
+  — which name the standard chart's codes. ``balance_side`` covers the account
+  whose row depends on the sign of its balance at the period end (an overdrawn
+  bank account shown as a krátkodobý bankový úver).
+
+- ``_cssk_balance_groups`` / ``_cssk_account_balance_groups`` keep the account
+  ids beside each summed code, and ``_cssk_eval_formula`` takes a
+  ``contributors`` set. Together they let a row's drill-down open exactly the
+  journal items its figure was summed from, decided by the matcher rather than
+  by a second reading of the formula. ``l10n_cssk_fs_base`` 1.9.0 requires
+  both.
+
+- ``cssk_period_ignore_declared_date`` evaluates the period rule as if no
+  document recorded a ``cssk_vat_deduction_date`` — the hook
+  ``l10n_cz_vat_status`` uses to say that a non-payer has no deduction to
+  defer, so the fallback rule stays written down once, here.
+
+Fixed
+~~~~~
+
+- **Real companies, and a named private person, were named in shipped code.**
+  This branch had never received 19.0's ``ec55a176``. The IČO test vectors in
+  ``tools.py`` and ``tests/test_tools.py`` were taken from the production
+  partner base with each partner named beside its number; a supplier was named
+  beside its foreign registry number in ``models/res_partner.py`` and
+  ``tests/test_company_registry.py``. ``l10n_cssk_core`` is a published module,
+  so those names were leaving the building. Fixture numbers are now synthetic
+  with the check digit computed by the module's own rule, keeping the shape
+  each test is about — leading zeros, sole trader, CZ and SK, six digits
+  unpadded. Data Dance's own record stays; it is ours to publish.
+
+  The sweep was finished the same day: see the discharged carry-over note
+  below for the other modules and the generator gate.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **DISCHARGED 2026-10-19 — do not port this again.** The sweep below was
+  completed the same day: every remaining name was scrubbed, and
+  ``tools/generate_distribution.py`` now carries the ``NEVER_SHIP`` gate that
+  refuses to generate a tree containing one. Verified two independent ways —
+  a scan of every shipped module directory for the names and numbers 19.0
+  removed, and a per-file differential of the tokens ``ec55a176`` deleted
+  against this branch's copy of each file (only the generic word "addons"
+  matched, in two legitimate ``odoo.addons.…`` references). Original note
+  kept below.
+
+- 19.0's ``ec55a176`` ("no client, partner or private person named in shipped
+  code") touched 54 files; 30 of them exist on this branch and only the 6 in
+  ``l10n_cssk_core`` and ``l10n_cssk_registry_verify`` have been brought over.
+  Still carrying real names or identifiers: ``account_fio`` (CHANGELOG + a
+  test), ``account_fio_base``, ``account_payment_fio``,
+  ``account_payment_fio_batch``, ``account_statement_fio``, ``edi_base``,
+  ``l10n_cssk_cash_journal_base`` (CHANGELOG + a model),
+  ``l10n_sk_cash_journal``, ``l10n_sk_kv_dph`` (CHANGELOG + two models + a
+  test), ``l10n_sk_vat_return``, ``partner_autocomplete_ares_cz`` (a tour + a
+  test), ``partner_autocomplete_dispatcher`` (CHANGELOG + a test),
+  ``partner_autocomplete_orsf_sk``, ``sale_order_advance_invoice/docs``, and
+  ``tools/rename_dd_to_ee.{sh,sql}``.
+
+- **DISCHARGED 2026-10-19 — do not port this again.** Ported as invariant 5,
+  keeping this branch's own numbering, and negative-tested: with two of the
+  listed identifiers planted in a shipped CHANGELOG the generator exits 1 and
+  names both; with them removed, 0 problems.
+
+  Writing that test up cost a second run, which is worth recording because it
+  is the gate behaving correctly. The first wording quoted the two identifiers
+  verbatim — in this CHANGELOG, which ships — and the gate rejected the build
+  over its own documentation. A needle cannot be named in a shipped file, not
+  even to describe the check that looks for it; ``NEVER_SHIP`` in
+  ``tools/generate_distribution.py`` is the one place they are written down.
+  Original note below.
+
+- 19.0's ``cbbba8fa`` added the ``NEVER_SHIP`` gate to
+  ``tools/generate_distribution.py`` — a regression check that refuses to
+  generate a delivery tree carrying an identifier already scrubbed. This
+  branch's generator has no such gate. None of the seven needles appears in
+  this tree today, so porting it changes nothing now and is what stops the
+  scrub being undone later.
 
 [19.0.1.17.0] — 2026-10-02
 --------------------------

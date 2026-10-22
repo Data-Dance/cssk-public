@@ -1,48 +1,56 @@
+###################################################################################
+#
+#    Copyright (c) 2022 Data Dance s.r.o.
+#
+#    Data Dance Proprietary License v1.0
+#
+#    This software and associated files (the "Software") may only be used
+#    (executed, modified, executed after modifications) if you have
+#    purchased a valid license from Data Dance s.r.o.
+#
+#    The above permissions are granted for a single database per purchased
+#    license. Furthermore, with a valid license it is permitted to use the
+#    software on other databases as long as the usage is limited to a testing
+#    or development environment.
+#
+#    You may develop modules based on the Software or that use the Software
+#    as a library (typically by depending on it, importing it and using its
+#    resources), but without copying any source code or material from the
+#    Software. You may distribute those modules under the license of your
+#    choice, provided that this license is compatible with the terms of the
+#    Data Dance Proprietary License (For example: LGPL, MIT, or proprietary
+#    licenses similar to this one).
+#
+#    It is forbidden to publish, distribute, sublicense, or sell copies of
+#    the Software or modified copies of the Software.
+#
+#    The above copyright notice and this permission notice must be included
+#    in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+#    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+#    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+#    DEALINGS IN THE SOFTWARE.
+#
+###################################################################################
+
 {
-    "name": "Currency Rate Update SK (NBS/ECB + Slovak banks)",
-    "summary": "Slovak FX-rate providers for OCA currency_rate_update: ECB "
-               "reference rate (NBS statutory) with previous-day fill, plus "
-               "VÚB and Tatra banka commercial rate lists.",
-    "description": """
-Currency Rate Update — Slovakia
-===============================
-
-Adds Slovak exchange-rate **providers** to the OCA ``currency_rate_update``
-framework (``res.currency.rate.provider`` subclasses). CE-compatible — no
-Enterprise ``currency_rate_live`` dependency.
-
-Providers
----------
-
-* **ECB** (ships in the OCA base) — the *referenčný výmenný kurz* the National
-  Bank of Slovakia republishes from the European Central Bank. This is the rate
-  used for statutory foreign-currency valuation in SK accounting.
-* **VÚB banka** — the bank's daily *kurzový lístok* (Devíza stred / middle rate).
-* **Tatra banka** — the bank's published exchange-rate RSS feed.
-
-Previous-day fill
------------------
-
-Central banks and commercial banks do not publish on weekends and holidays.
-With **Fill non-publishing days** enabled (default), after each sync the last
-published rate is carried forward to every calendar day in the synced window, so
-every day has an explicit ``res.currency.rate`` and a posting never lands on a
-day with no rate.
-
-The VÚB and Tatra banka providers publish *commercial* rates and are intended
-for reconciling actual bank conversions; for statutory valuation use **ECB**.
-""",
+    "name": "Currency Rate Update SK",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.0",
-    "category": "Accounting/Localizations",
-    "license": "AGPL-3",
-    "depends": ["currency_rate_update", "currency_rate_sk_base"],
-    "post_init_hook": "post_init_hook",
-    "data": [
-        "data/res_currency_rate_provider_action.xml",
-        "views/res_currency_rate_provider.xml",
-    ],
+    "version": "18.0.1.2.0",
+    "category": "Financial Management/Configuration",
+    "description": """
+    The module updates currency rates from Slovakian banks, 
+    Available banks:
+    Tatra banka(up-to-date and historical data up to 30 days, ONLY Foreign currency middle)
+    VÚB banka(up-to-date data),
+    """,
+    "depends": ["base", "currency_rate_update"],
     "installable": True,
     "auto_install": False,
+    "license": "AGPL-3",
 }

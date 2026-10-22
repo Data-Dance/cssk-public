@@ -102,7 +102,10 @@ class TestSkLoanOca(AccountTestInvoicingCommon):
                 "name": f"Lízing {treatment}",
                 "company_id": self.company.id,
                 "journal_id": journal.id,
-                "loan_type": "leasing",
+                # 18.0: leasing is a boolean on account_loan; the selection
+                # value `loan_type='leasing'` arrived with the 19.0 split into
+                # account_leasing.
+                "is_leasing": True,
                 "l10n_sk_vat_treatment": treatment,
                 "partner_id": self.env["res.partner"].create({"name": "Lízingovka"}).id,
                 "loan_amount": 12000.0,

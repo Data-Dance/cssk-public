@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- OR-ed with the base module's "own" rules: an employee also sees the
+         receipt behind each of their expenses, even one captured by somebody
+         else on their behalf. -->
+    <record id="rule_cssk_receipt_own_expense" model="ir.rule">
+        <field name="name">Captured receipt: behind the employee's own expenses</field>
+        <field name="model_id" ref="l10n_cssk_receipt_capture.model_cssk_receipt"/>
+        <field name="domain_force">[('expense_ids.employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_line_own_expense" model="ir.rule">
+        <field name="name">Captured receipt line: behind the employee's own expenses</field>
+        <field name="model_id" ref="l10n_cssk_receipt_capture.model_cssk_receipt_line"/>
+        <field name="domain_force">[('receipt_id.expense_ids.employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_tax_own_expense" model="ir.rule">
+        <field name="name">Captured receipt VAT recap: behind the employee's own expenses</field>
+        <field name="model_id" ref="l10n_cssk_receipt_capture.model_cssk_receipt_tax"/>
+        <field name="domain_force">[('receipt_id.expense_ids.employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_attempt_own_expense" model="ir.rule">
+        <field name="name">Receipt capture attempt: behind the employee's own expenses</field>
+        <field name="model_id" ref="l10n_cssk_receipt_capture.model_cssk_receipt_attempt"/>
+        <field name="domain_force">[('receipt_id.expense_ids.employee_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+</odoo>

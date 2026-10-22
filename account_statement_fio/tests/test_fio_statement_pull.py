@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from datetime import date, timedelta
 from unittest.mock import patch
@@ -272,45 +272,18 @@ class TestFioStatementPull(FioCommon):
         self._pull(statement_xml([movement(movement_id=5)]))
         self.assertEqual(self.journal.fio_last_movement_id, "77")
 
-    def test_a_movement_in_the_wrong_currency_is_refused(self):
-        """Fio reports a movement in its account's currency, so a mismatch is
-        a journal configured for the wrong currency. Importing it used to book
-        100 EUR as 100 CZK with only a log line to say so."""
-        with self.assertRaises(UserError) as caught:
-            self._pull(statement_xml([movement(currency="EUR")]))
-        self.assertIn("EUR", str(caught.exception))
-        self.assertFalse(self.env["account.bank.statement.line"].search_count([
-            ("journal_id", "=", self.journal.id)]))
+    def test_a_movement_in_the_wrong_currency_is_imported_with_a_warning(self):
+        """A Fio account is single-currency, so this should not happen.
 
-    def _foreign_currency(self, code="EUR"):
-        currency = self.env["res.currency"].with_context(active_test=False).search(
-            [("name", "=", code)], limit=1)
-        currency.active = True
-        return currency
-
-    def test_a_card_payment_abroad_keeps_its_original_amount(self):
-        eur = self._foreign_currency()
-        lines = self._pull(statement_xml([movement(
-            amount="-512.40", columns={18: "20.00 EUR"})]))
-        self.assertEqual(lines.foreign_currency_id, eur)
-        self.assertAlmostEqual(lines.amount_currency, -20.0)
-        self.assertAlmostEqual(lines.amount, -512.40)
-
-    def test_a_no_break_space_in_the_amount_is_read(self):
-        self._foreign_currency()
-        lines = self._pull(statement_xml([movement(
-            amount="-30512.40", columns={18: "1\u00a0200.00 EUR"})]))
-        self.assertAlmostEqual(lines.amount_currency, -1200.0)
-
-    def test_an_unreadable_specification_is_left_alone(self):
-        self._foreign_currency()
-        lines = self._pull(statement_xml([movement(
-            columns={18: "platba kartou 20 EUR Wien"})]))
-        self.assertFalse(lines.foreign_currency_id)
-
-    def test_a_specification_in_the_journal_currency_adds_nothing(self):
-        lines = self._pull(statement_xml([movement(columns={18: "15.00 CZK"})]))
-        self.assertFalse(lines.foreign_currency_id)
+        If it does, the amount is taken as delivered and the original kept in
+        raw_data — guessing at foreign_currency_id would book it wrong.
+        """
+        with self.assertLogs(
+            "odoo.addons.account_statement_fio.models.account_journal", "WARNING",
+        ) as logged:
+            lines = self._pull(statement_xml([movement(currency="EUR")]))
+        self.assertEqual(len(lines), 1)
+        self.assertIn("EUR", "".join(logged.output))
 
     def test_explanations_are_actionable(self):
         from odoo.addons.account_fio_base.utils.client import (
@@ -373,70 +346,13 @@ class TestFioStatementPull(FioCommon):
                           side_effect=fail_first):
             self.env["account.journal"]._fio_cron_pull_statements()
         self.assertEqual(len(calls), 2)
-        # The one that worked kept its line: the failing account's rollback
+        # The one that worked kept its line: the failing journal's rollback
         # must not reach past its own savepoint.
         self.assertEqual(
             self.env["account.bank.statement.line"].search_count([
                 ("fio_movement_id", "=", "99"),
             ]), 1,
         )
-
-    def test_the_cron_keeps_the_lines_it_imported(self):
-        """The success path must RELEASE the savepoint, not roll it back.
-
-        ``Savepoint.close()`` is ``close(self, *, rollback=True)``, so the bare
-        ``savepoint.close()`` that read like "release this" threw away every
-        line the pull had just created — at the exact moment it succeeded. The
-        account's own stamps were still unflushed in the ORM cache and survived
-        the rollback, so the run left ``last_read_at``, ``last_pull_at`` and the
-        correct ``last_movement_id`` behind and no lines: successful-looking in
-        every field an operator checks. Diagnosed on the 18.0 twin against a
-        real Fio account, where the interactive pull imported 15 lines and the
-        cron imported none.
-
-        The assertion is a ``search``, not the returned recordset — the whole
-        point is whether the rows are still in the database afterwards.
-        """
-        with patch.object(
-            type(self.journal), "_fio_call", autospec=True,
-            return_value=statement_xml([movement(movement_id=4242)]),
-        ):
-            self.env["account.journal"]._fio_cron_pull_statements()
-        lines = self.env["account.bank.statement.line"].search([
-            ("journal_id", "=", self.journal.id),
-        ])
-        self.assertEqual(len(lines), 1)
-        self.assertEqual(lines.fio_movement_id, "4242")
-
-    def test_a_failed_pull_does_not_leave_its_bookmark_behind(self):
-        """The rollback has to clear the ORM cache, not just the SQL.
-
-        ``cr.savepoint(flush=False)`` returns the plain ``Savepoint``, whose
-        ``rollback()`` does not ``cr.clear()``. Writes the pull had made were
-        still sitting unflushed when the rollback ran, so they survived it and
-        were written afterwards — recording a bookmark for movements that had
-        just been discarded. The next run would then skip them for good.
-        """
-        def write_then_fail(_self, *args, **kwargs):
-            _self.sudo().fio_last_movement_id = "999999"
-            raise ValueError("boom, after the bookmark was written")
-
-        with patch.object(type(self.journal), "_fio_call", autospec=True,
-                          side_effect=write_then_fail):
-            self.env["account.journal"]._fio_cron_pull_statements()
-        self.assertNotEqual(self.journal.fio_last_movement_id, "999999")
-
-    def test_a_quiet_account_still_records_that_it_was_pulled(self):
-        """``last_pull_at`` used to be written inside ``_fio_import_lines``,
-        which returns early when there is nothing new. An account that had
-        simply been quiet therefore showed a last pull weeks in the past —
-        indistinguishable from a feed that had stopped, which is the one
-        question the field exists to answer."""
-        with patch.object(type(self.journal), "_fio_call", autospec=True,
-                          return_value=statement_xml([])):
-            self.env["account.journal"]._fio_cron_pull_statements()
-        self.assertTrue(self.journal.fio_last_pull_at)
-
 
     # ------------------------------------------------------------------
     # configuration
@@ -467,6 +383,63 @@ class TestFioStatementPull(FioCommon):
                           side_effect=record):
             self.env["account.journal"]._fio_cron_pull_statements()
         self.assertEqual(visited, [self.journal.id])
+
+    def test_the_cron_keeps_the_lines_it_imported(self):
+        """The success path must RELEASE the savepoint, not roll it back.
+
+        ``Savepoint.close()`` is ``close(self, *, rollback=True)``, so the bare
+        ``savepoint.close()`` that read like "release this" threw away every
+        line the pull had just created — at the exact moment it succeeded. The
+        journal's own stamps were still unflushed in the ORM cache and survived
+        the rollback, so the run left ``fio_last_read_at``,
+        ``fio_last_pull_at`` and the correct ``fio_last_movement_id`` behind
+        and no lines: successful-looking in every field an operator checks.
+        Found on staging, where the interactive pull imported 15 lines and the
+        cron imported none.
+
+        The assertion is a ``search``, not the returned recordset — the whole
+        point is whether the rows are still in the database afterwards.
+        """
+        with patch.object(
+            type(self.journal), "_fio_call", autospec=True,
+            return_value=statement_xml([movement(movement_id=4242)]),
+        ):
+            self.env["account.journal"]._fio_cron_pull_statements()
+        lines = self.env["account.bank.statement.line"].search([
+            ("journal_id", "=", self.journal.id),
+        ])
+        self.assertEqual(len(lines), 1)
+        self.assertEqual(lines.fio_movement_id, "4242")
+
+    def test_a_failed_pull_does_not_leave_its_bookmark_behind(self):
+        """The rollback has to clear the ORM cache, not just the SQL.
+
+        ``cr.savepoint(flush=False)`` returns the plain ``Savepoint``, whose
+        ``rollback()`` does not ``cr.clear()``. Writes the pull had made to the
+        journal were still sitting unflushed when the rollback ran, so they
+        survived it and were written afterwards — recording a bookmark for
+        movements that had just been discarded. The next run would then skip
+        them.
+        """
+        def write_then_fail(_self, *args, **kwargs):
+            _self.sudo().fio_last_movement_id = "999999"
+            raise ValueError("boom, after the bookmark was written")
+
+        with patch.object(type(self.journal), "_fio_call", autospec=True,
+                          side_effect=write_then_fail):
+            self.env["account.journal"]._fio_cron_pull_statements()
+        self.assertNotEqual(self.journal.fio_last_movement_id, "999999")
+
+    def test_a_quiet_account_still_records_that_it_was_pulled(self):
+        """``fio_last_pull_at`` used to be written inside ``_fio_import_lines``,
+        which returns early when there is nothing new. An account that had
+        simply been quiet therefore showed a last pull weeks in the past —
+        indistinguishable from a feed that had stopped, which is the one
+        question the field exists to answer."""
+        with patch.object(type(self.journal), "_fio_call", autospec=True,
+                          return_value=statement_xml([])):
+            self.env["account.journal"]._fio_cron_pull_statements()
+        self.assertTrue(self.journal.fio_last_pull_at)
 
     def test_a_cron_failure_does_not_publish_the_token_to_the_chatter(self):
         """The handler catches ``Exception``, not just ``FioError``, so it can

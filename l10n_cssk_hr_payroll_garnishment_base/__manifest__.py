@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Wage Garnishment — Base",
-    "version": "19.0.1.2.1",
+    "version": "18.0.1.0.0",
     "category": "Human Resources/Payroll",
     "summary": "Engine-neutral register of Czech and Slovak wage-garnishment "
     "orders (exekuční / exekučný príkaz) with the statutory multi-claim "

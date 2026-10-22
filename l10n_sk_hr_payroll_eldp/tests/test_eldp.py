@@ -20,7 +20,6 @@ class TestEldp(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.engine = cls._detect_engine()
         cls.company = cls.env["res.company"].create({
             "name": "SK ELDP Co",
             "country_id": cls.env.ref("base.sk").id,
@@ -33,55 +32,41 @@ class TestEldp(TransactionCase):
         cls.env.user.company_ids |= cls.company
         cls.env = cls.env(context=dict(
             cls.env.context, allowed_company_ids=cls.company.ids))
-        if cls.engine == "oca":
-            cls.env.user.group_ids |= cls.env.ref(
-                "payroll.group_payroll_manager")
-            cls.structure = cls.env.ref(
-                "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary")
-        else:
-            cls.env.user.group_ids |= cls.env.ref(
-                "hr_payroll.group_hr_payroll_manager")
-            cls.structure = cls.env.ref(
-                "l10n_sk_hr_payroll.hr_payroll_structure_sk_employee_salary")
+        cls.env.user.groups_id |= cls.env.ref(
+            "payroll.group_payroll_manager")
+        cls.structure = cls.env.ref(
+            "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary")
         cls.calendar = cls.env["resource.calendar"].create(
             {"name": "SK 40h", "company_id": cls.company.id})
 
-    @classmethod
-    def _detect_engine(cls):
-        if cls.env.ref(
-                "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary",
-                raise_if_not_found=False):
-            return "oca"
-        return "ee"
-
     def _employee_payslip(self, wage=2000.0):
-        emp_vals = {
+        employee = self.env["hr.employee"].with_company(self.company).create({
             "name": "Jozko Mrkvicka",
             "company_id": self.company.id,
             "resource_calendar_id": self.calendar.id,
             "identification_id": "8501011234",
             "birthday": date(1985, 1, 1),
-            "date_version": date(2026, 1, 1),
-            "contract_date_start": date(2026, 1, 1),
+        })
+        contract = self.env["hr.contract"].create({
+            "name": "Jozko Contract",
+            "employee_id": employee.id,
+            "company_id": self.company.id,
             "wage": wage,
-        }
-        if self.engine == "oca":
-            emp_vals["struct_id"] = self.structure.id
-        else:
-            emp_vals["structure_type_id"] = self.structure.type_id.id
-        employee = self.env["hr.employee"].with_company(
-            self.company).create(emp_vals)
+            "state": "open",
+            "date_start": date(2026, 1, 1),
+            "resource_calendar_id": self.calendar.id,
+            "struct_id": self.structure.id,
+        })
 
         slip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip",
             "employee_id": employee.id,
+            "contract_id": contract.id,
             "struct_id": self.structure.id,
             "company_id": self.company.id,
             "date_from": date(2026, 3, 1),
             "date_to": date(2026, 3, 31),
         })
-        if self.engine == "ee":
-            slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
         return employee, slip
 

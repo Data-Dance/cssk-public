@@ -24,10 +24,11 @@ class HrWageGarnishmentRate(models.Model):
     _description = "Wage Garnishment Statutory Rate"
     _order = "country_id, date_from desc"
 
-    _country_date_uniq = models.Constraint(
-        "unique(country_id, date_from)",
-        "Only one wage-garnishment rate record per country and start date.",
-    )
+    # 19.0 declares these as models.Constraint; 18.0 has _sql_constraints.
+    _sql_constraints = [
+        ("country_date_uniq", "unique(country_id, date_from)",
+         "Only one wage-garnishment rate record per country and start date."),
+    ]
 
     name = fields.Char(compute="_compute_name", store=True)
     country_id = fields.Many2one("res.country", required=True, index=True)

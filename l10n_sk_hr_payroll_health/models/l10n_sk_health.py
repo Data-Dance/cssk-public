@@ -48,12 +48,10 @@ from lxml import etree
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_cssk_payroll_declaration_base.rule_codes import sum_concept
-
 _logger = logging.getLogger(__name__)
 
-# The doplatok (minimum-advance top-up) rule code differs per engine; that
-# mapping lives once, in the declaration base, rather than being restated here.
+# doplatok (minimum-advance top-up) rule code differs per engine.
+DOPLATOK_CODES = ("HEALTHDOPLATOK", "HEALTH_DOPLATOK")
 # 2-digit insurer code -> 4-digit CodeOfHealthInsuranceCompany.
 INSURER_CODE_4 = {"25": "2500", "24": "2400", "27": "2700"}
 
@@ -109,20 +107,12 @@ class L10nSkHealth(models.Model):
                 raise UserError(_(
                     "Select the target health insurer on the dávka "
                     "514."))
-            # <CompanyIDTaxCode> was the one identification element nothing
-            # checked. _digits() turns a missing DIČ into "", so the dávka went
-            # to the insurer with an empty tax code and no error anywhere —
-            # unlike the Prehľad and the Hlásenie, which have always refused.
-            dic = self._digits(getattr(company, "l10n_sk_dic", ""))
-            if not (dic.isdigit() and len(dic) == 10):
-                raise UserError(_(
-                    "Company '%(company)s' needs a 10-digit DIČ (tax "
-                    "identification number) for the dávka 514 "
-                    "<CompanyIDTaxCode> element. Set 'DIČ' on the company.",
-                    company=company.display_name))
         return True
 
     # ------------------------------------------------------------------
+    def _sum_codes(self, totals, codes):
+        return abs(round(sum(totals.get(c, 0.0) for c in codes), 2))
+
     @staticmethod
     def _rate(amount, base):
         return round(amount / base * 100.0, 2) if base else 0.0
@@ -150,7 +140,7 @@ class L10nSkHealth(models.Model):
             totals = line.values_json or {}
             zamnec = abs(round(totals.get("HEALTH", 0.0), 2))
             zamtel = abs(round(totals.get("HEALTHEMPLOYER", 0.0), 2))
-            doplatok = sum_concept(totals, "HEALTH_TOPUP")
+            doplatok = self._sum_codes(totals, DOPLATOK_CODES)
             base = abs(round(line.vz_base, 2))
             income = abs(round(totals.get("GROSS", 0.0), 2)) or base
             total_zamnec += zamnec

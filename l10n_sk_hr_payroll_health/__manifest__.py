@@ -2,11 +2,11 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Health monthly advances (dávka 514)",
-    "version": "19.0.1.1.0",
+    "version": "18.0.1.0.1",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
-    "summary": "Monthly Slovak health-insurance advances statement (Mesačný "
-               "výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / "
+    "summary": "Monthly Slovak health-insurance advances statement "
+               "(dávka 514) for VšZP / Dôvera / "
                "Union — employer header + per-employee rows, well-formed + "
                "structurally checked XML. Engine-neutral (payroll or the "
                "hr_payroll engine).",
@@ -15,7 +15,6 @@
     "license": "AGPL-3",
     "depends": [
         "l10n_cssk_payroll_declaration_base",
-        "l10n_sk_base",
     ],
     "data": [
         "security/ir.model.access.csv",

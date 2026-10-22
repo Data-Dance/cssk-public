@@ -20,7 +20,10 @@ class TestDepreciationSchedule(AccountTestInvoicingCommon):
 
         def make_profile(name, years, company_data=None):
             company_data = company_data or cls.company_data
-            return cls.profile_model.create(
+            # account.account.asset_profile_id is company_dependent on OCA 18.0,
+            # and the OCA profile create() writes it back onto the account, so
+            # the profile must be created in its own company's context.
+            return cls.profile_model.with_company(company_data["company"]).create(
                 {
                     "name": name,
                     "account_expense_depreciation_id": company_data[
@@ -43,7 +46,7 @@ class TestDepreciationSchedule(AccountTestInvoicingCommon):
         cls.profile_car = make_profile("Board Cars 4Y", 4)
 
         def make_asset(name, profile, value, date_start, validate=True):
-            asset = cls.asset_model.create(
+            asset = cls.asset_model.with_company(profile.company_id).create(
                 {
                     "name": name,
                     "profile_id": profile.id,

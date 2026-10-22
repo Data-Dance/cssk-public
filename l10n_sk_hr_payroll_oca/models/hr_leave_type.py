@@ -34,8 +34,22 @@ class HrLeaveType(models.Model):
         help="Stable payroll code used by the Slovak salary rules to classify "
         "this absence: holiday and paid obstacle are paid at average earnings "
         "(insurable + taxable); sickness drives the employer sick-pay compensation; "
-        "family care and unpaid leave only cut worked days (no pay). The four "
-        "§ 142 employer-side obstacles are each paid at their own statutory "
-        "percentage of average earnings, which is why they are separate codes "
-        "rather than one bucket.",
+        "family care and unpaid leave only cut worked days (no pay).",
+    )
+
+    # Core 18.0 defines country_id as a related, read-only mirror of
+    # company_id.country_id. Redefine it as a settable, stored field so a leave
+    # type can be country-scoped (base.sk) while staying company-global
+    # (company_id empty) — mirroring how the accounting localization scopes its
+    # configuration by country. A record rule (see security/) then filters the
+    # time-off configuration to the country of the user's active company.
+    country_id = fields.Many2one(
+        "res.country",
+        string="Country",
+        related=False,
+        store=True,
+        readonly=False,
+        help="Country this time-off type belongs to. The time-off "
+        "configuration is filtered so a company only sees the leave types of "
+        "its own country.",
     )

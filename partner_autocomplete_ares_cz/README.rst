@@ -7,12 +7,12 @@ Partner Autocomplete Ares CZ
    <img src="static/description/icon.png" style="display: block; margin-left: auto; margin-right: auto; width:200px; height:200px;"  alt="logo">
 
 
-.. |badge1| image:: https://raster.shields.io/badge/license-AGPL--3-blue.png
-    :alt: License: AGPL-3
+.. |badge1| image:: https://raster.shields.io/badge/license-Other_proprietary-blue.png
+    :alt: License: Other proprietary
 
 |badge1| 
 
-| Completes Partner information from ARES (https://ares.gov.cz/)
+| Completes Partner information using ARES from https://wwwinfo.mfcr.cz/
 |
 | Availiable countries
 

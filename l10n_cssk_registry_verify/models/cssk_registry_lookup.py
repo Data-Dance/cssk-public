@@ -57,11 +57,11 @@ class CsskRegistryLookup(models.Model):
         help="The register still shows the subject as active (not dissolved)."
     )
 
-    _registry_country_uniq = models.Constraint(
-        "UNIQUE (registry, country_code)",
-        "One cached answer per company registry and country.",
-    )
-
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("registry_country_uniq", "UNIQUE (registry, country_code)",
+         "One cached answer per company registry and country."),
+    ]
     @api.model
     def _ttl(self, outcome):
         param = self.env["ir.config_parameter"].sudo()

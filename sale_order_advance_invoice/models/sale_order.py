@@ -4,6 +4,7 @@ from datetime import timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Command
+from odoo.tools import frozendict
 from odoo.tools.misc import format_date
 
 
@@ -197,7 +198,7 @@ class SaleOrder(models.Model):
         self.env['sale.order.line'].with_context(sale_no_log_for_new_lines=True).create({
             'order_id': self.id,
             'product_id': advance_product.id,
-            'product_uom_id': advance_product.uom_id.id,
+            'product_uom': advance_product.uom_id.id,
             'product_uom_qty': 0.0,
             'price_unit': self._get_advance_tracking_line_price_unit(advance_invoice),
             'name': self._get_advance_tracking_line_description(advance_invoice),
@@ -262,13 +263,26 @@ class SaleOrder(models.Model):
         if not tracking_lines:
             return
 
-        tracking_lines.write({
+        vals = {
             'name': self._get_advance_tracking_line_description(advance_invoice),
             'product_uom_qty': 0.0,
             'price_unit': self._get_advance_tracking_line_price_unit(advance_invoice),
-        })
-        tracking_lines._compute_qty_to_invoice()
-        tracking_lines._compute_invoice_status()
+        }
+        # The tracking line lives on the parent order, which may be locked once
+        # confirmed ("Lock Confirmed Sales Orders" company setting). name,
+        # price_unit and product_uom_qty are protected fields, so writing them on a
+        # locked order is rejected. This is an internal bookkeeping sync, so
+        # temporarily unlock the order around the write and restore the lock after.
+        was_locked = self.locked
+        if was_locked:
+            self.locked = False
+        try:
+            tracking_lines.write(vals)
+            tracking_lines._compute_qty_to_invoice()
+            tracking_lines._compute_invoice_status()
+        finally:
+            if was_locked:
+                self.locked = True
 
     def _cleanup_advance_tracking_section_if_empty(self):
         self.ensure_one()
@@ -385,11 +399,6 @@ class SaleOrder(models.Model):
                 }
                 if 'publish_date' in ProductTemplate._fields:
                     vals['publish_date'] = fields.Datetime.now()
-                # website_sale adds a required, NOT NULL base_unit_count whose
-                # default is not applied on a bare template create (no variant
-                # yet): set it explicitly when the field is present.
-                if 'base_unit_count' in ProductTemplate._fields:
-                    vals['base_unit_count'] = 0
                 product_tmpl = ProductTemplate.create(vals)
 
             self.env['ir.model.data'].sudo().search([
@@ -725,118 +734,7 @@ class SaleOrder(models.Model):
 
         return invoices
 
-    def _has_posted_advance_tax_document(self):
-        """Whether this advance has already accounted VAT on a tax document."""
-        self.ensure_one()
-        return bool(self.invoice_ids.filtered(
-            lambda move: move.move_type == 'out_invoice' and move.state == 'posted'
-        ))
-
-    def _advance_tax_document_rate(self, currency):
-        """The rate, per company-currency unit, the advance's VAT was declared at.
-
-        Taken from its posted tax documents in ``currency`` as a whole, so an
-        advance paid in instalments on different days deducts at the rate its
-        documents averaged. 0.0 when there is none: an advance without a tax
-        document declared no VAT to give back.
-        """
-        self.ensure_one()
-        docs = self.invoice_ids.filtered(
-            lambda m: m.move_type == 'out_invoice' and m.state == 'posted'
-            and m.currency_id == currency
-        )
-        value = sum(docs.mapped('amount_untaxed_signed'))
-        if self.company_id.currency_id.is_zero(value):
-            return 0.0
-        return sum(docs.mapped('amount_untaxed')) / value
-
-    def _advance_deduction_tax_groups(self, advance):
-        """The advance's net amount broken down by the taxes it charged.
-
-        Returns ``[(taxes, net), ...]``, in the order the advance lists them. A
-        lump-sum advance has a single group and is unaffected; an itemised one
-        at two VAT rates has two, which is the point: the deduction has to give
-        back exactly the VAT the tax document took.
-        """
-        groups = {}
-        lines = advance.order_line.filtered(
-            lambda line: not line.display_type and not line.is_advance_tracking
-        )
-        for line in lines:
-            key = tuple(sorted(line.tax_ids.ids))
-            groups.setdefault(key, [line.tax_ids, 0.0])[1] += line.price_subtotal
-        return [(taxes, net) for taxes, net in groups.values()]
-
-    def _split_advance_deduction_lines(self, invoice_vals_list):
-        """Fan a deduction line out into one line per rate the advance charged.
-
-        The deduction is prepared from a single tracking line on the order, so
-        it can carry only one tax - which is right until an advance charges
-        more than one. Then a single line reverses the wrong amount of VAT and
-        the difference is billed to a customer who has already paid it.
-        """
-        Line = self.env['sale.order.line']
-        for vals in invoice_vals_list:
-            commands = vals.get('invoice_line_ids') or []
-            new_commands = []
-            for cmd in commands:
-                new_commands.extend(self._split_one_advance_deduction(Line, cmd))
-            if len(new_commands) != len(commands):
-                vals['invoice_line_ids'] = new_commands
-
-    @api.model
-    def _command_record_ids(self, commands):
-        """The ids an x2many command list refers to, whichever form it takes."""
-        ids = []
-        for command in commands or []:
-            code = command[0]
-            if code in (Command.LINK.value, Command.UPDATE.value):
-                ids.append(command[1])
-            elif code == Command.SET.value:
-                ids.extend(command[2] or [])
-        return ids
-
-    def _split_one_advance_deduction(self, Line, cmd):
-        if cmd[0] != 0:
-            return [cmd]
-        line = Line.browse(self._command_record_ids(cmd[2].get('sale_line_ids'))).exists()
-        advance = line.advance_source_order_id
-        if len(line) != 1 or not line.is_advance_tracking or not advance:
-            return [cmd]
-        # Only the deduction of an advance that raised a tax document carries
-        # VAT to give back. Without one the deduction is the gross amount with
-        # no taxes at all, and there is nothing to split.
-        if not advance._has_posted_advance_tax_document():
-            return [cmd]
-
-        groups = self._advance_deduction_tax_groups(advance)
-        if len(groups) < 2:
-            return [cmd]
-        # Only the command carrying the advance's whole net is the one to
-        # split. Anything else is a share of it that has been split already,
-        # and splitting a share again would deduct the advance twice over.
-        if advance.currency_id.compare_amounts(
-            cmd[2].get('price_unit', 0.0), advance.amount_untaxed
-        ):
-            return [cmd]
-
-        split = []
-        for taxes, net in groups:
-            group_vals = dict(cmd[2])
-            group_vals['price_unit'] = net
-            group_vals['tax_ids'] = [Command.set(taxes.ids)]
-            group_vals['name'] = "%s (%s)" % (
-                cmd[2].get('name', ''), ", ".join(taxes.mapped('name')),
-            )
-            split.append(Command.create(group_vals))
-        return split
-
     def _create_account_invoices(self, invoice_vals_list, final):
-        if final:
-            # Once for the whole batch, not once per order: the split is keyed
-            # on each command's own sale line, and running it twice over the
-            # same list would split lines it had already split.
-            self._split_advance_deduction_lines(invoice_vals_list)
         if self.filtered('is_advance_invoice'):
             # Core forces quantity=-1.0 on is_downpayment lines (to deduct them from a
             # final invoice of the parent order). For the advance invoice's own invoice
@@ -934,6 +832,86 @@ class SaleOrder(models.Model):
             "target": "current",
         }
 
+    def _prepare_advance_tax_doc_lines_values(self, amount_to_invoice):
+        """Down-payment sale-line values for the advance tax document.
+
+        18.0 port of ``sale.advance.payment.inv._prepare_down_payment_lines_values``,
+        but computed over the advance invoice's *own* charge lines. Those lines are
+        flagged ``is_downpayment`` and would be excluded by the core helper, so we
+        cannot reuse it directly. One line is produced per unique (taxes, account)
+        combination, scaled by ``amount_to_invoice / amount_total``.
+
+        :return: ``(lines_values, accounts)`` ready for ``sale.order.line.create``
+                 and ``_prepare_invoice_values``.
+        """
+        self.ensure_one()
+        AccountTax = self.env['account.tax']
+        ratio = amount_to_invoice / self.amount_total if self.amount_total else 1
+
+        order_lines = self.order_line.filtered(
+            lambda l: not l.display_type and not l.is_advance_tracking
+        )
+        down_payment_values = []
+        for line in order_lines:
+            base_line_values = line._prepare_base_line_for_taxes_computation(special_mode='total_excluded')
+            product_account = line.product_id.product_tmpl_id.get_product_accounts(
+                fiscal_pos=self.fiscal_position_id
+            )
+            account = product_account.get('downpayment') or product_account.get('income')
+            AccountTax._add_tax_details_in_base_line(base_line_values, self.company_id)
+            tax_details = base_line_values['tax_details']
+            taxes = line.tax_id.flatten_taxes_hierarchy()
+            fixed_taxes = taxes.filtered(lambda tax: tax.amount_type == 'fixed')
+            down_payment_values.append([
+                taxes - fixed_taxes,
+                base_line_values['analytic_distribution'],
+                tax_details['raw_total_excluded_currency'],
+                account,
+            ])
+
+        base_line_vals = {
+            'product_uom_qty': 0.0,
+            'order_id': self.id,
+            'discount': 0.0,
+            'is_downpayment': True,
+            'sequence': self.order_line and self.order_line[-1].sequence + 1 or 10,
+        }
+        downpayment_line_map = {}
+        analytic_map = {}
+        for tax_id, analytic_distribution, price_subtotal, account in down_payment_values:
+            grouping_key = frozendict({
+                'tax_id': tuple(sorted(tax_id.ids)),
+                'account_id': account,
+            })
+            downpayment_line_map.setdefault(grouping_key, {
+                **base_line_vals,
+                'tax_id': grouping_key['tax_id'],
+                'product_uom_qty': 0.0,
+                'price_unit': 0.0,
+            })
+            downpayment_line_map[grouping_key]['price_unit'] += price_subtotal
+            if analytic_distribution:
+                analytic_map.setdefault(grouping_key, [])
+                analytic_map[grouping_key].append((price_subtotal, analytic_distribution))
+
+        lines_values = []
+        accounts = []
+        for key, line_vals in downpayment_line_map.items():
+            if self.currency_id.is_zero(line_vals['price_unit']):
+                continue
+            if analytic_map.get(key):
+                line_analytic_distribution = {}
+                for price_subtotal, account_distribution in analytic_map[key]:
+                    for acc, distribution in account_distribution.items():
+                        line_analytic_distribution.setdefault(acc, 0.0)
+                        line_analytic_distribution[acc] += price_subtotal / line_vals['price_unit'] * distribution
+                line_vals['analytic_distribution'] = line_analytic_distribution
+            line_vals['price_unit'] = self.currency_id.round(line_vals['price_unit'] * ratio)
+            lines_values.append(line_vals)
+            accounts.append(key['account_id'])
+
+        return lines_values, accounts
+
     def action_create_invoice_direct_for_advance(self):
         self.ensure_one()
         if not self.is_advance_invoice:
@@ -950,38 +928,33 @@ class SaleOrder(models.Model):
         if self.currency_id.compare_amounts(amount_to_invoice, 0.0) <= 0:
             raise UserError(_("No unpaid amount remains to be invoiced."))
 
-        AccountTax = self.env['account.tax']
-        order_lines = self.order_line.filtered(lambda l: not l.display_type and not l.is_advance_tracking)
-        base_lines = [line._prepare_base_line_for_taxes_computation() for line in order_lines]
-        AccountTax._add_tax_details_in_base_lines(base_lines, self.company_id)
-        AccountTax._round_base_lines_tax_details(base_lines, self.company_id)
-        down_payment_base_lines = AccountTax._prepare_down_payment_lines(
-            base_lines=base_lines,
-            company=self.company_id,
-            amount_type='fixed',
-            amount=amount_to_invoice,
-            computation_key=f'advance_tax_doc,{self.id},{len(self.invoice_ids)}',
-        )
-
-        self._create_down_payment_section_line_if_needed()
-        so_lines = self._create_down_payment_lines_from_base_lines(down_payment_base_lines)
-
-        wizard = self.env['sale.advance.payment.inv'].create({
+        company = self.company_id
+        # 18.0 has no account.tax._prepare_down_payment_lines /
+        # sale.order._create_down_payment_lines_from_base_lines (those are a 19.0
+        # refactor). We compute the down-payment lines ourselves (see
+        # _prepare_advance_tax_doc_lines_values) and reuse core's
+        # _prepare_down_payment_section_values / _prepare_invoice_values to build
+        # the draft invoice. The journal-mismatch context lets the move use the
+        # advance-invoice journal set by our ``_prepare_invoice`` override.
+        wizard = self.env['sale.advance.payment.inv'].with_context(
+            allow_advance_invoice_journal_mismatch=True,
+        ).create({
             'sale_order_ids': [Command.set([self.id])],
             'advance_payment_method': 'fixed',
             'fixed_amount': amount_to_invoice,
         })
-        accounts = [
-            wizard._get_down_payment_account(base_line['product_id'])
-            for base_line in down_payment_base_lines
-        ]
-        invoice_vals = wizard.with_context(accounts=accounts)._prepare_down_payment_invoice_values(
-            order=self, so_lines=so_lines
-        )
-        if self.advance_invoice_paid_date:
+        SaleOrderLine = self.env['sale.order.line'].with_context(sale_no_log_for_new_lines=True)
+        if not any(line.display_type and line.is_downpayment for line in self.order_line):
+            SaleOrderLine.create(wizard._prepare_down_payment_section_values(self))
+
+        values, accounts = self._prepare_advance_tax_doc_lines_values(amount_to_invoice)
+        down_payment_lines = SaleOrderLine.create(values)
+        invoice_vals = wizard._prepare_invoice_values(self, down_payment_lines, accounts)
+
+        if 'taxable_supply_date' in self.env['account.move']._fields and self.advance_invoice_paid_date:
             invoice_vals['taxable_supply_date'] = self.advance_invoice_paid_date
 
-        company = self.company_id
+        # Route the net (ex-VAT) charge to the received-advance liability account.
         net_account = self._get_advance_invoice_net_account()
         if net_account:
             for cmd in invoice_vals.get('invoice_line_ids', []):

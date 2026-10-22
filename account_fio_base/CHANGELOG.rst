@@ -3,33 +3,23 @@ Changelog
 =========
 
 All notable changes to **account_fio_base** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a Changelog.
 
 [Unreleased]
 ------------
 
-Changed
-~~~~~~~
-
-- Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
-
-Carry-over to 18.0
+Carry-over to 19.0
 ~~~~~~~~~~~~~~~~~~
 
-- **DISCHARGED 2026-09-01 — do not port this again.** The note below was
-  accurate when written and is not any more. ``18.0-fio-api`` carries the whole
-  of 19.0.1.1.0 and then went further; the debt reversed direction, and this
-  release is the 18.0 -> 19.0 port that settles it.
+- cs/sk catalogues are absent on 19.0, as they are for the whole Fio family.
+- On 19.0 this module's ``utils/orders.py`` imports ``parse_national_account``
+  from ``account_cz_bankfile_base``, which does not define it there — see that
+  module's carry-over note. This module still *installs* on 19.0, because both
+  ``__init__.py`` files are empty and ``utils.orders`` is therefore not reached
+  at load; what breaks is its ``test_formatting`` and ``test_order_builder``
+  suites, and the two payment bridges that import the module directly.
 
-  Original note, kept for the record: everything under 19.0.1.1.0 plus the
-  unreleased entries landed on ``19.0-fio-api`` only; a customer runs the 18.0
-  copies vendored into its own repository, which already carried the
-  19.0.1.1.0 fixes while the ``18.0-fio-api`` branch did not.
-
-[19.0.1.2.0] — 2026-09-01
+[18.0.1.2.0] — 2026-08-31
 -------------------------
 
 Added
@@ -52,7 +42,7 @@ Added
   back through Odoo's own ``PoFileReader`` — every entry resolves to a record
   reference, none is untranslated — and with ``msgfmt --check``.
 
-[19.0.1.1.0] — 2026-08-24
+[18.0.1.1.0] — 2026-08-25
 -------------------------
 
 Fixed
@@ -103,7 +93,7 @@ Changed
   natively, so nothing is lost.
 
 
-[19.0.1.0.0] — 2026-08-19
+[18.0.1.0.0] — 2026-08-19
 -------------------------
 
 Added

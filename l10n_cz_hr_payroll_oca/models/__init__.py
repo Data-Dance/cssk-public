@@ -1,5 +1,5 @@
 from . import hr_rule_parameter
-from . import hr_version
+from . import hr_contract
 from . import hr_payroll_structure
 from . import hr_leave_type
 from . import hr_leave_accrual_plan

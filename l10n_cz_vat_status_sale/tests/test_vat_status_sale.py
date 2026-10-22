@@ -20,7 +20,7 @@ class TestCzVatStatusSale(AccountTestInvoicingCommon):
             "name": "Služba", "type": "service", "lst_price": 100.0,
             "taxes_id": [Command.set(cls.sale21.ids)]})
         cls.partner = cls.env["res.partner"].create({"name": "Zákazník"})
-        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
+        cls.env.user.groups_id |= cls.env.ref("sales_team.group_sale_manager")
 
     def _order(self, day):
         return self.env["sale.order"].create({
@@ -31,8 +31,8 @@ class TestCzVatStatusSale(AccountTestInvoicingCommon):
         self.env["l10n.cz.vat.status.period"].create({
             "company_id": self.company.id, "date_from": "2026-07-01",
             "status": "non_payer"})
-        self.assertEqual(self._order("2026-06-30").order_line.tax_ids, self.sale21)
-        self.assertFalse(self._order("2026-07-01").order_line.tax_ids)
+        self.assertEqual(self._order("2026-06-30").order_line.tax_id, self.sale21)
+        self.assertFalse(self._order("2026-07-01").order_line.tax_id)
 
     def test_no_history_leaves_orders_alone(self):
-        self.assertEqual(self._order("2026-07-01").order_line.tax_ids, self.sale21)
+        self.assertEqual(self._order("2026-07-01").order_line.tax_id, self.sale21)

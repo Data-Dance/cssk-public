@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 """Sending a payment file to Fio, and surviving a lost answer.
 
@@ -172,37 +172,31 @@ class FioUploadMixin(models.AbstractModel):
                 kind="write", interactive=True,
             )
         except FioUploadUncertain as exception:
-            # Masked again here, though FioClient already masked it when it
-            # built the exception. Belt and braces, because all three sinks
-            # below are durable or public: ``fio_response`` is stored on the
-            # record, the chatter is readable by every follower, and the
-            # notification is on screen — and the guarantee otherwise rests on
-            # this ``except`` clause staying narrower than ``Exception``, which
-            # nothing enforces.
-            #
-            # Note ``import_orders`` posts the submit token in the request BODY
-            # and its URL carries no token, so this is in fact the sink least
-            # able to leak one. The read endpoints are the ones that put the
-            # token in the URL path.
-            safe = mask_token(str(exception), journal.sudo().fio_token_write)
+            # Masked at both ends. The client already masks every FioError
+            # where it raises it, so this is belt-and-braces — but the
+            # guarantee currently rests on this ``except`` staying narrower
+            # than ``Exception``, and nothing enforces that. Widen it later, or
+            # have any library raise between the lock and the client's own
+            # try, and unmasked text reaches a STORED field with no warning.
+            # Masking here removes the dependency on a clause nobody is
+            # watching.
+            detail = mask_token(str(exception))
             # Deliberately NOT "not_sent": the batch may exist.
             self.sudo().write({
                 "fio_upload_state": "unknown",
                 "fio_uploaded_at": fields.Datetime.now(),
-                "fio_response": safe,
+                "fio_response": detail,
             })
             self._fio_log(_(
                 "Upload to Fio ended without an answer: %(error)s<br/><br/>"
                 "The batch may or may not exist in the bank. Check internet "
-                "banking before sending again.", error=safe,
+                "banking before sending again.", error=detail,
             ))
-            return self._fio_alert("danger", safe)
+            return self._fio_alert("danger", detail)
         except FioError as exception:
             # Nothing left the process, so nothing to record — raising here is
             # safe and keeps the message in front of the user.
-            raise UserError(
-                mask_token(str(exception), journal.sudo().fio_token_write)
-            ) from None
+            raise UserError(mask_token(str(exception))) from None
 
         result = parse_import_response(raw)
         self.sudo().write({

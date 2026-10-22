@@ -48,6 +48,12 @@ def parse_qr(qr):
     raw = (qr or "").strip()
     if not raw:
         raise EkasaQrError("The QR payload is empty.")
+    # Receipts PRINT the identifier in a font where the letter O and the digit 0
+    # look alike, and people copy it from the paper. No identifier starts with a
+    # zero (O is an on-line receipt, V a virtual-register one), so "0-" is
+    # always a misread "O-".
+    if raw[:2] == "0-":
+        raw = "O-" + raw[2:]
 
     if ":" not in raw:
         match = RECEIPT_ID_RE.search(raw)
@@ -270,3 +276,68 @@ def _premises_label(unit):
     bits = [p for p in (street, unit.get("postalCode"),
                         unit.get("municipality")) if p]
     return ", ".join(bits) or None
+
+
+def _digits(value):
+    return re.sub(r"\D", "", str(value or ""))
+
+
+def payloads_from_printed(identifiers):
+    """QR payloads rebuilt from identifiers printed beside the code, best first.
+
+    For when the QR will not decode — an off-line receipt's dense code on a
+    thermal printer defeated every decoder tried — but the same data is printed
+    as text: ``UID:`` on an on-line receipt; OKP, cash-register code, date and
+    time, number and total on an off-line one. Every candidate is passed through
+    ``parse_qr`` before it is returned, and the service then confirms or denies
+    it, so a misread costs one lookup and never a wrong entry.
+
+    The receipt number is the trap: a till may print ``DOKLAD Č: 202609/5``
+    while the number eKasa holds is ``5``. The part after the last slash is
+    tried first, then all the digits.
+    """
+    identifiers = identifiers or {}
+    out = []
+
+    def _add(candidate):
+        try:
+            parse_qr(candidate)
+        except EkasaQrError:
+            return
+        if candidate not in out:
+            out.append(candidate)
+
+    printed_id = re.sub(r"\s+", "", str(identifiers.get("uid") or ""))
+    if printed_id[:2] == "0-":
+        printed_id = "O-" + printed_id[2:]
+    if printed_id:
+        _add(printed_id.upper())
+
+    okp = re.sub(r"\s+", "", str(identifiers.get("okp") or "")).upper()
+    register = _digits(identifiers.get("cash_register_code"))
+    issued = str(identifiers.get("issued_at") or "").strip()
+    total = identifiers.get("total")
+    if okp and register and issued and total not in (None, ""):
+        stamp = None
+        for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S",
+                    "%d.%m.%Y %H:%M:%S", "%d-%m-%Y %H:%M:%S"):
+            try:
+                stamp = datetime.strptime(issued, fmt).strftime("%y%m%d%H%M%S")
+                break
+            except ValueError:
+                continue
+        number_text = str(identifiers.get("receipt_number") or "")
+        numbers = []
+        if "/" in number_text:
+            numbers.append(_digits(number_text.rsplit("/", 1)[-1]))
+        numbers.append(_digits(number_text))
+        try:
+            total_text = "%.2f" % float(str(total).replace(",", "."))
+        except ValueError:
+            total_text = None
+        if stamp and total_text:
+            for number in numbers:
+                if number:
+                    _add("%s:%s:%s:%s:%s" % (
+                        okp, register, stamp, int(number), total_text))
+    return out

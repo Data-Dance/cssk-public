@@ -1,59 +1,46 @@
-<section class="oe_container">
-  <div class="oe_row oe_spaced">
-    <p class="oe_mt8" style="text-align:right;">
-      🌐 <b>EN</b> ·
-      <a href="index_cz.html">CZ</a> ·
-      <a href="index_sk.html">SK</a>
-    </p>
-    <h2 class="oe_slogan">PAY by square (Slovakia)</h2>
-    <h3 class="oe_slogan" style="color:#875A7B;">The Slovak PAY by square payment QR code on your invoices — generated fully offline</h3>
-    <div class="oe_span12">
-      <p>This app adds the Slovak <b>PAY by square</b> payment QR code to Odoo invoices.
-         PAY by square is the Slovak Banking Association standard supported by every Slovak
-         banking app: the customer scans the code printed on the invoice and the payment form
-         is pre-filled with the IBAN, amount, currency, beneficiary and message.</p>
-      <p>The code is built <b>offline</b> — the PAY by square sequence (CRC32 checksum,
-         LZMA1/XZ compression, base32 encoding) is produced entirely in Python with <b>no
-         external service</b>. It registers as an extra payment-QR method on
-         <code>res.partner.bank</code> and reuses Odoo's standard QR-on-invoice plumbing, so it
-         runs on both Community and Enterprise.</p>
-    </div>
-  </div>
-</section>
+<html>
+<style>
+    /* centering */
+    .image-center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-<section class="oe_container oe_dark">
-  <div class="oe_row oe_spaced">
-    <h2 class="oe_slogan">Key features</h2>
-    <div class="oe_span12">
-      <ul>
-        <li>New <b>PAY by square (Slovakia)</b> payment-QR method on every bank account.</li>
-        <li>Pure-offline generator per the SBA <i>PAY by square</i> specification 1.1.0 — no network dependency.</li>
-        <li>Encodes IBAN, amount, currency, beneficiary name and the payment message
-            (variable symbol / structured reference) from the invoice.</li>
-        <li>Branded QR frame on the printed invoice.</li>
-        <li>Eligibility checks: EUR currency, IBAN account in a SEPA country, and a beneficiary name present.</li>
-      </ul>
-    </div>
-  </div>
-</section>
+    h1,
+    h2 {
+        color: #21B799;
+    }
+</style>
+<h1 id="account-qr-code-pay-by-square-sk">Account QR Code Pay by Square
+    SK</h1>
+<img src="icon.png" style="display: block; margin-left: auto; margin-right: auto;" alt="logo">
+<p><img src="https://raster.shields.io/badge/license-Other_proprietary-blue.png" alt="License: Other proprietary" /></p>
+<div class="line-block">The module adds Slovakia Pay By Square QR Code
+    to reports.<br />
+    It is an offline generator and does not depend on external
+    services.</div>
+<p><strong style="color:#21B799;">Table of contents</strong></p>
+<div class="contents" data-local="">
+    <ul>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#author">Author</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</div>
+<h2 id="usage">Usage</h2>
+<ol>
+    <li>Go to <em>Settings &gt; Invoicing &gt; Customer Payments</em></li>
+    <li>Enable QR codes</li>
+    <li>Go to any invoice <em>Other info &gt; Payment QR-code &gt; PAY by
+            square (Slovakia)</em></li>
+</ol>
+<p><img src="usage.jpeg" alt="Usage image" /></p>
+<h2 id="author">Author</h2>
+<ul>
+    <li>Data Dance s.r.o.</li>
+</ul>
+<h2 id="contact">Contact</h2>
+<p><a href="https://www.datadance.eu/">https://www.datadance.eu/</a></p>
 
-<section class="oe_container">
-  <div class="oe_row oe_spaced">
-    <h2 class="oe_slogan">Usage</h2>
-    <div class="oe_span12">
-      <p><i>Settings ▸ Invoicing ▸ Customer Payments</i> — enable <b>QR Codes</b>. On a customer
-         invoice, open <i>Other Info ▸ Payment QR-code</i> and pick <b>PAY by square (Slovakia)</b>.
-         The QR code is rendered on the invoice PDF; the customer scans it in their banking app to pay.</p>
-    </div>
-  </div>
-</section>
-
-<section class="oe_container">
-  <div class="oe_row oe_spaced">
-    <div class="oe_span12" style="text-align:center;">
-      <p>Published by <b>Data Dance s.r.o.</b> —
-         <a href="https://www.datadance.eu">www.datadance.eu</a></p>
-      <p><small>License: Data Dance Proprietary License v1.0</small></p>
-    </div>
-  </div>
-</section>
+</html>

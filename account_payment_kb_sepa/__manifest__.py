@@ -17,7 +17,7 @@ character set. Other banks' orders are untouched.
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Accounting",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "depends": ["account_banking_sepa_credit_transfer", "account_cz_bankfile_base"],
     "license": "AGPL-3",
     "installable": True,

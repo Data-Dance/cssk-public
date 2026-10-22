@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """Post-install: tag the standard SK intra-EU supply taxes with their Súhrnný
 výkaz (EC sales list) transaction code, so cssk.ec.summary collects them without
 manual per-company tax configuration. Identifies the taxes by their l10n_sk

@@ -1,11 +1,48 @@
-# Copyright 2022 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+###################################################################################
+#
+#    Copyright (c) 2022 Data Dance s.r.o.
+#
+#    Data Dance Proprietary License v1.0
+#
+#    This software and associated files (the "Software") may only be used
+#    (executed, modified, executed after modifications) if you have
+#    purchased a valid license from Data Dance s.r.o.
+#
+#    The above permissions are granted for a single database per purchased
+#    license. Furthermore, with a valid license it is permitted to use the
+#    software on other databases as long as the usage is limited to a testing
+#    or development environment.
+#
+#    You may develop modules based on the Software or that use the Software
+#    as a library (typically by depending on it, importing it and using its
+#    resources), but without copying any source code or material from the
+#    Software. You may distribute those modules under the license of your
+#    choice, provided that this license is compatible with the terms of the
+#    Data Dance Proprietary License (For example: LGPL, MIT, or proprietary
+#    licenses similar to this one).
+#
+#    It is forbidden to publish, distribute, sublicense, or sell copies of
+#    the Software or modified copies of the Software.
+#
+#    The above copyright notice and this permission notice must be included
+#    in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+#    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+#    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+#    DEALINGS IN THE SOFTWARE.
+#
+###################################################################################
+
 import logging
 from datetime import datetime
 
 import requests
 from odoo import _, api, models
-from requests.exceptions import HTTPError, RequestException
+from requests.exceptions import HTTPError
 
 _logger = logging.getLogger(__name__)
 
@@ -26,101 +63,6 @@ class PartnerAutocompleteProviderRegistry(models.AbstractModel):
 class PartnerAutocompleteProvider(models.AbstractModel):
     _inherit = "partner.autocomplete.provider"
     _name = "partner.autocomplete.provider.ares_cz"
-
-    @api.model
-    def _autocomplete_country_codes(self):
-        return ("CZ",)
-
-    #: ARES answers a miss with 404 and ``{"kod": "NENALEZENO"}``.
-    ARES_BASE = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty"
-    ARES_TIMEOUT = 15
-
-    @api.model
-    def _ares_probe(self, ico):
-        """GET one company and say *why* it did not answer — ``(outcome, body)``.
-
-        The counterpart of ORSF's ``_orsf_probe``, and it exists for the same
-        reason: ``enrich_company`` below swallows every exception into an empty
-        dict, so it cannot tell "no such company" from "ARES is down". A gate
-        built on that distinction would be silently wrong.
-
-        ``("ok", {...})`` the register answered; ``("absent", None)`` it holds
-        no such subject; ``("unavailable", None)`` we could not ask.
-        """
-        try:
-            response = requests.get(
-                f"{self.ARES_BASE}/{ico}",
-                timeout=self.ARES_TIMEOUT,
-                headers={"Accept": "application/json"},
-            )
-        except RequestException as err:
-            _logger.info("ARES request for %s failed: %s", ico, err)
-            return "unavailable", None
-        if response.status_code == 404:
-            return "absent", None
-        if response.status_code != 200:
-            _logger.info("ARES returned HTTP %s for %s", response.status_code, ico)
-            return "unavailable", None
-        try:
-            body = response.json()
-        except ValueError:
-            _logger.info("ARES returned a non-JSON body for %s", ico)
-            return "unavailable", None
-        if not isinstance(body, dict):
-            return "unavailable", None
-        # A 200 carrying `kod` is an error object, not a company. Treating it
-        # as a hit would hand the caller a record with no name.
-        if body.get("kod"):
-            return ("absent" if body["kod"] == "NENALEZENO" else "unavailable"), None
-        return "ok", body
-
-    ARES_RES_BASE = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-res"
-
-    #: Mapping parameter -> partner field it points at by default, when that
-    #: field exists (it lives in a module this one does not depend on).
-    DEFAULT_MAPPINGS = {"ares_cz.mapping.nace": "nace_code"}
-
-    @api.model
-    def _ares_apply_default_mappings(self):
-        """Point unset mappings at their default field where it exists."""
-        ICP = self.env["ir.config_parameter"].sudo()
-        for parameter, field_name in self.DEFAULT_MAPPINGS.items():
-            if ICP.get_param(parameter):
-                continue
-            field = self.env["ir.model.fields"].sudo().search(
-                [("model", "=", "res.partner"), ("name", "=", field_name)], limit=1)
-            if field:
-                ICP.set_param(parameter, str(field.id))
-
-    @api.model
-    def _ares_prevailing_nace(self, ico):
-        """The subject's prevailing activity in CZ-NACE 2025, from ARES's copy
-        of the statistical register (RES), or ``""``.
-
-        The basic ARES record lists activities without saying which one
-        prevails; RES does (``czNacePrevazujici``, the 2025 classification
-        that tax filings use from 1. 1. 2026). One extra request, so it is
-        made only when a field is mapped to receive it.
-        """
-        try:
-            response = requests.get(
-                f"{self.ARES_RES_BASE}/{ico}", timeout=self.ARES_TIMEOUT,
-                headers={"Accept": "application/json"})
-            if response.status_code != 200:
-                return ""
-            records = response.json().get("zaznamy") or []
-        except (RequestException, ValueError, AttributeError) as err:
-            _logger.info("ARES RES request for %s failed: %s", ico, err)
-            return ""
-        primary = next((r for r in records if r.get("primarniZaznam")),
-                       records[0] if records else {})
-        return primary.get("czNacePrevazujici") or ""
-
-    @api.model
-    def _ares_lookup_probe(self, ico):
-        """Named to match ORSF's, so the verification layer can treat the two
-        providers identically instead of special-casing each."""
-        return self._ares_probe(ico)
 
     @api.model
     def read_by_vat(self, vat):
@@ -179,11 +121,6 @@ class PartnerAutocompleteProvider(models.AbstractModel):
             mapping_pairs = [
                 ("ares_cz.mapping.ico", record.get("ico")),
             ]
-            if record.get("ico") and self.env["ir.config_parameter"].sudo().get_param(
-                    "ares_cz.mapping.nace"):
-                mapping_pairs.append((
-                    "ares_cz.mapping.nace",
-                    self._ares_prevailing_nace(record["ico"])))
             self._enrich_dynamic_mapping(result, mapping_pairs)
 
         except HTTPError as http_err:

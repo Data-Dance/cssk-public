@@ -3,136 +3,160 @@ Changelog
 =========
 
 All notable changes to **account_fio** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
-
-[19.0.2.2.0] — 2026-09-02
--------------------------
-
-Changed
-~~~~~~~
-
-- **The Fio banka section spans the full width of the journal form**, with the
-  connection on the left and the statement settings ``account_statement_fio``
-  adds on the right. A half-width section could only stack them and push the
-  block off the fold. Both columns are titled by a ``string`` on the group
-  itself rather than by a separator inside an untitled one, so they are
-  guaranteed to render alike rather than merely similarly.
-
-- **Both token-expiry fields now carry help text, and it says the useful
-  thing**: Fio's API never reports an expiry, so the field can only be filled
-  by hand, and an empty one is "unknown" rather than "never expires". The
-  expiry cron cannot tell those apart and skips a blank one, so the warning
-  does not fire and the feed stops without notice. The field is the only place
-  a user finds this out.
-
-Carried over from 18.0, where the work was done (18.0.2.3.0 - 18.0.2.7.0).
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a Changelog.
 
 [Unreleased]
 ------------
 
-[19.0.2.2.3] — 2026-09-13
+[18.0.2.7.0] — 2026-09-01
 -------------------------
-
-Fixed
-~~~~~
-
-- **Code translations that Odoo was never loading.** An entry whose references
-  are ``code:addons/...`` is treated as a Python translation only if it carries
-  the extracted comment ``#. odoo-python`` — ``_load_python_translations``
-  filters on exactly that and never on the reference. Without it an entry can
-  name the right ``.py``, carry a correct msgstr, pass ``msgfmt --check``, and
-  be silently ignored for ever. This module's hand-added entries were in that
-  state. Repaired by ``tools/fix_po_code_comments.py``, which is also the CI
-  check; the offline exporter now emits the comment itself.
-
-[19.0.2.2.2] — 2026-09-13
--------------------------
-
-Fixed
-~~~~~
-
-- **Terms the translation catalogue never carried.** Strings that reach the
-  user were absent from the template — a field with no ``string=``, a mixin
-  field addressed to the abstract model's ``ir.model.fields`` row rather
-  than each concrete one, or a whole category the offline exporter never
-  emitted. An absent term cannot be translated and shows English in an
-  otherwise Slovak or Czech screen. The template and the catalogues now carry them,
-  and the Slovak or Czech is written.
-
-[19.0.2.2.1] — 2026-09-13
--------------------------
-
-Fixed
-~~~~~
-
-- **The model's own name was never exported.** ``_description`` is what
-  labels a record's type in breadcrumbs and the technical model list, and
-  ``tools/i18n_export_offline.py`` emitted no ``model:ir.model,name:`` line
-  at all — the entries already in the catalogues had come from an older
-  DATABASE export. So every model added since had no entry and its name
-  could not be translated. The exporter now emits it, and the missing
-  entries are merged and filled.
 
 Changed
 ~~~~~~~
 
-- Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
+- **The left column's heading moves to the top of the column, and is now the
+  same construct as the right one's.** 18.0.2.5.0 put "Settings" on a
+  ``separator`` partway down, leaving the tokens above it unheaded — so one
+  column began with a heading and the other with a run of fields, which read
+  as two different kinds of thing side by side.
+
+  ``fio_connection`` now carries ``string="Settings"`` exactly as
+  ``fio_statements`` carries ``string="Bank statements"``. Same construct, so
+  the columns are guaranteed to render alike rather than merely similarly, and
+  each starts with its own title. The tokens sit under it, which is where they
+  belong: a token is configuration.
+
+  "What Fio reports about this account" stays a ``separator`` — it is a
+  subdivision *within* the column, not a peer of the two column titles, and the
+  difference in weight is now meaningful rather than accidental.
+
+[18.0.2.6.0] — 2026-09-01
+-------------------------
 
 Changed
 ~~~~~~~
 
-- **``mask_token`` is applied at the sinks as well as at the raise site.**
-  Defence in depth on a credential, **not** the repair of a live disclosure —
-  an earlier draft of this entry claimed it was one and that was wrong.
+- **Both token-expiry fields now carry help text, and it says the useful
+  thing.** ``fio_token_write_expiry`` had none at all; both now explain that
+  the date is recorded by hand because Fio's API never reports it, and that
+  leaving it empty means the expiry warning cannot fire.
 
-  ``FioClient`` already masks every exception it constructs from something that
-  saw a URL (``_check``, ``_get``, ``import_orders`` all pass through
-  ``self._mask``), and each of the six sinks catches ``FioError`` or narrower,
-  so they receive text the client has already cleaned. The single handler that
-  catches bare ``Exception`` is the scheduled pull — which is precisely the one
-  that already had ``mask_token``.
+Known limitations
+~~~~~~~~~~~~~~~~~
 
-  What the change buys is that the guarantee stops depending on every sink's
-  ``except`` clause staying narrow, which nothing enforces. Widen one to
-  ``Exception``, or have any library raise between ``_fio_lock()`` and the
-  client's own ``try``, and the protection disappears silently. Masking at both
-  ends removes that dependency. Covered on:
-  ``action_fio_test_connection``; the payment upload's three sinks
-  (``fio_response`` is **stored**, and the chatter is readable by every
-  follower); the upload's ``FioError`` re-raise; and ``_fio_explain``'s
-  fallback, the only branch that returns the bank's own words.
+- **A token with no expiry recorded gets no warning, by decision.**
+  ``_fio_cron_check_token_expiry`` skips a blank expiry (``if not expiry:
+  continue``), so a token whose date nobody typed in is invisible to the very
+  cron meant to stop the feed dying silently. Empty here means *unknown*, not
+  *never expires* — Fio refuses to issue a token without an expiry and caps it
+  at 180 days (§2), so the death date exists at the bank whether or not Odoo
+  knows it.
 
-  Correcting a second claim from that draft: the token is in the URL **path**
-  for the seven read endpoints (``periods``, ``by-id``, ``last``,
-  ``lastStatement``, ``set-last-id``, ``set-last-date``, ``merchant``), but
-  ``import_orders`` posts it in the request **body** and its URL contains no
-  token at all. So the *submit* token — the one that can move money — is the
-  one credential that never reaches a URL, and the upload sink is the least
-  exposed rather than the most.
+  This is live, not theoretical: all three configured journals on a
+  customer's staging build have tokens and blank expiries, because the values were
+  migrated from a Studio field that carried the token and not the date. Anyone
+  migrating the same way lands in the same state.
 
-  The local ``FioOrderError`` paths in the two payment bridges are deliberately
-  left unmasked: they come from building and validating the file, never from
-  the HTTP client, so they cannot carry a URL.
+  Warning on the unknown case, and requiring the date when a token is set, were
+  both considered on 2026-09-01 and **declined** — the second would refuse to
+  save existing records for an unrelated edit. The help text is the mitigation.
+  Recorded here so the next person to notice knows it was weighed rather than
+  missed, and does not silently change the behaviour.
 
-Carry-over to 18.0
+[18.0.2.5.0] — 2026-09-01
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The left column's middle block is headed "Settings"**, so it reads as a
+  sibling of the right column's "Bank statements" rather than as an unlabelled
+  run of fields. It covers the download format and the two last-call
+  timestamps — the same grouping the pre-collapse ``fio.account`` form used.
+
+  A ``separator`` rather than a nested ``group``: the column is already the
+  second level of nesting and a third renders as an unusably narrow
+  sub-column, which is why this section was flattened to begin with. The
+  heading is visually the same as the group string opposite it.
+
+[18.0.2.4.0] — 2026-09-01
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The Fio banka section spans the full width of the journal form.**
+  ``colspan="2"`` over both columns of core's enclosing group, the same way
+  sale's ``sale_total`` does. The buttons and the explanatory notes span the
+  whole section; the connection fields become its left column, and
+  ``account_statement_fio`` fills the right one. Half a form's width could only
+  stack those two sets and push the block off the fold.
+
+[18.0.2.3.0] — 2026-09-01
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Credential masking is applied at the sinks as well as at the source.**
+  ``fio_upload_mixin`` passed ``str(exception)`` straight into the stored
+  ``fio_response`` field, the chatter, the on-screen alert and a ``UserError``;
+  ``action_fio_test_connection`` did the same in its ``FioError`` wrap. All now
+  go through ``mask_token``.
+
+  This is **hardening, not a disclosure**. Every ``FioError`` is already masked
+  where the client raises it (``utils/client.py`` calls ``self._mask`` in
+  ``_get``, ``_check`` and ``import_orders``), and all of these sinks catch
+  ``FioError`` or narrower, so they receive text that is already clean. Traced
+  before landing: the only handler catching bare ``Exception`` is the pull
+  cron, and that one was already masked.
+
+  What it buys is independence from a clause nobody is watching. The current
+  guarantee holds only while every ``except`` here stays narrower than
+  ``Exception``; widen one later, or have a library raise between the lock and
+  the client's own ``try``, and unmasked text reaches a stored field or a
+  chatter with no warning at all.
+
+  Note what it does **not** do: the sink has no token in hand, so it masks by
+  pattern (``/rest/<endpoint>/<token>``) only. Token-aware masking stays in the
+  client, which is the layer that knows the value. For the upload path that is
+  the right division anyway — Fio takes the submit token in the POST **body**,
+  not the URL, so an upload error has no token-bearing URL to leak in the first
+  place.
+
+  A regression test covering the stored field lives in
+  ``account_payment_fio_batch``, which is where the upload path can actually be
+  exercised end to end.
+
+  Ported from 19.0 (417267d), where it was written; severity re-checked here
+  rather than carried across, and downgraded.
+Carry-over to 19.0
 ~~~~~~~~~~~~~~~~~~
 
-- **DISCHARGED 2026-09-01 — do not port this again.** The note below was
-  accurate when written and is not any more. ``18.0-fio-api`` carries the whole
-  of 19.0.1.1.0 and everything above it, and then went further: the journal
-  collapse, the ``bank_statements_source`` registration and the cs/sk
-  catalogues were written there first. The debt reversed direction, and this
-  release is the 18.0 -> 19.0 port that settles it.
+- **The ``fio.account`` -> ``account.journal`` collapse (18.0.2.0.0) has not
+  been done on 19.0**, which still carries ``models/fio_account.py``. It takes
+  the advisory lock with it (``pg_try_advisory_xact_lock(classid, objid)``
+  replacing ``SELECT ... FOR UPDATE NOWAIT``), which is worth having on 19.0
+  even if the collapse itself is declined there.
+- **cs/sk catalogues (18.0.2.2.0) are absent on 19.0**; no module in the Fio
+  family has an ``i18n/`` directory on that branch. They are reproducible with
+  ``tools/i18n_export_offline.py``, which also exists only on 18.0.
 
-  Original note, kept for the record: everything under 19.0.1.1.0 plus the
-  unreleased entries landed on ``19.0-fio-api`` only; a customer runs the 18.0
-  copies vendored into its own repository, which already carried the
-  19.0.1.1.0 fixes while the ``18.0-fio-api`` branch did not.
+[18.0.2.2.0] — 2026-09-01
+-------------------------
 
-[19.0.2.1.0] — 2026-09-01
+Fixed
+~~~~~
+
+- **6 view terms were missing from the translation catalogues.** The offline
+  exporter read only the first child of a view's ``arch``, and an inherited
+  view normally has one top-level node per xpath — so every term after the
+  first was silently absent. Among them were the alert telling an operator that
+  the bank's answer to an upload was lost, and the 90-day history-unlock
+  instruction: precisely the messages whose whole value is being read under
+  time pressure. Fixed in ``tools/i18n_export_offline.py`` and re-exported.
+
+[18.0.2.1.0] — 2026-08-31
 -------------------------
 
 Added
@@ -160,7 +184,7 @@ Added
   back through Odoo's own ``PoFileReader`` — every entry resolves to a record
   reference, none is untranslated — and with ``msgfmt --check``.
 
-[19.0.2.0.0] — 2026-09-01
+[18.0.2.0.0] — 2026-08-31
 -------------------------
 
 Changed
@@ -228,20 +252,20 @@ Removed
 - The Fio stat button in the journal's button box, which pointed at the
   connection record.
 
-[19.0.1.2.0] — 2026-08-31
+[18.0.1.2.0] — 2026-08-31
 -------------------------
 
 Fixed
 ~~~~~
 
-- **A rejected token reached the user as "Internal server error".**
-  ``action_test_connection`` let ``FioError`` escape unwrapped. It is a plain
-  ``Exception``, not a ``UserError``, so over RPC the diagnosis — which is the
-  entire value of that button — was stripped and the dialog said nothing. It
-  now raises ``UserError`` the way the upload and pull paths already did.
-  Found on a customer's staging database with a stale token.
+- **A rejected token showed as "Internal server error".** ``FioError`` is a
+  plain ``Exception``, so letting it escape *Test connection* stripped off the
+  diagnosis — which is the entire value of that button. It is now wrapped in a
+  ``UserError``, matching what the upload and pull paths already did. Found on
+  a customer's staging database with a stale token, which now says "Fio rejected the token as
+  unknown, expired or inactive".
 
-[19.0.1.1.0] — 2026-08-24
+[18.0.1.1.0] — 2026-08-25
 -------------------------
 
 Fixed
@@ -261,7 +285,7 @@ Fixed
   falls back to the company currency.
 
 
-[19.0.1.0.0] — 2026-08-19
+[18.0.1.0.0] — 2026-08-19
 -------------------------
 
 Added

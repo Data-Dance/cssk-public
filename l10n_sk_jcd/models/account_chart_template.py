@@ -11,6 +11,7 @@ from .res_company import SK_JCD_CLEARING_ACCOUNT
 class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
 
+
     @template("sk", "res.company")
     def _get_sk_res_company_jcd(self):
         # Merged with l10n_sk's own res.company contribution when the SK chart

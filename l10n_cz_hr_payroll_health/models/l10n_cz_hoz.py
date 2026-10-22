@@ -132,13 +132,13 @@ class L10nCzHoz(models.Model):
                 "Employee '%(name)s' needs a 9- or 10-digit birth number "
                 "in Identification No. for the HOZ "
                 "cisloPojistence.", name=employee.display_name))
-        version = employee.version_id
+        version = employee.contract_id
         if self.event_date:
             change_date = self.event_date
         elif code == CODE_ENROLL:
-            change_date = version.contract_date_start
+            change_date = version.date_start
         else:
-            change_date = version.contract_date_end
+            change_date = version.date_end
         if not change_date:
             raise UserError(_(
                 "Employee '%(name)s' needs a contract %(kind)s date (or set "

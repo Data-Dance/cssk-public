@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-31 16:52+0000\n"
-"PO-Revision-Date: 2026-08-31 16:52+0000\n"
+"POT-Creation-Date: 2026-09-01 09:21+0000\n"
+"PO-Revision-Date: 2026-09-01 09:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,9 +16,26 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_payment_fio
-#. odoo-python
 #: code:addons/account_payment_fio/models/account_payment_line.py:0
 msgid "%(label)s must be a numeric string up to %(max_len)s digits."
+msgstr ""
+
+#. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid ""
+".\n"
+"                    It is <b>not paid yet</b>: somebody with signing rights has\n"
+"                    to authorise the batch in Fio internet banking."
+msgstr ""
+
+#. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid ""
+"<b>The bank's answer to the last upload was lost.</b>\n"
+"                    Fio may or may not be holding this batch. Open internet\n"
+"                    banking, look for an unauthorised batch, and tell Odoo what\n"
+"                    you found — sending again without checking would pay\n"
+"                    everything twice."
 msgstr ""
 
 #. module: account_payment_fio
@@ -70,7 +87,6 @@ msgid "It is NOT in the bank"
 msgstr ""
 
 #. module: account_payment_fio
-#. odoo-python
 #: code:addons/account_payment_fio/models/account_payment_order.py:0
 msgid ""
 "Journal %(journal)s has no bank account, so Fio cannot be told which account"
@@ -78,7 +94,6 @@ msgid ""
 msgstr ""
 
 #. module: account_payment_fio
-#. odoo-python
 #: code:addons/account_payment_fio/models/account_payment_order.py:0
 msgid "No payment file on this order — generate it first."
 msgstr ""
@@ -108,12 +123,16 @@ msgid "Send to Fio"
 msgstr ""
 
 #. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid "Sent to Fio as batch"
+msgstr ""
+
+#. module: account_payment_fio
 #: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__specific_symbol
 msgid "Specific Symbol"
 msgstr ""
 
 #. module: account_payment_fio
-#. odoo-python
 #: code:addons/account_payment_fio/models/account_payment_order.py:0
 msgid ""
 "This payment order cannot be sent to Fio yet:\n"

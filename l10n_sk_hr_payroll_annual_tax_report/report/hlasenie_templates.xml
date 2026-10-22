@@ -48,8 +48,7 @@
                 <druhHlasenia>
                     <!-- druhHlaseniaType is three mutually exclusive 0/1
                          flags: riadne / opravné / dodatočné. All three used to
-                         be literals, so only a riadne hlásenie could be
-                         produced. -->
+                         be literals. -->
                     <rh t-out="'1' if correction_type == 'regular' else '0'"/>
                     <oh t-out="'1' if correction_type == 'corrective' else '0'"/>
                     <dh t-out="'1' if correction_type == 'supplementary' else '0'"/>

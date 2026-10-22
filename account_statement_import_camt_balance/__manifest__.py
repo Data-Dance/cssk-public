@@ -3,7 +3,7 @@
 {
     "name": "CAMT import: statements that pass the balance check",
     "summary": "Last daily closing balance; one line per entry when a bank splits its details",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Accounting",
     "license": "AGPL-3",
     "author": "Data Dance s.r.o.",

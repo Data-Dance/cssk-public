@@ -8,20 +8,21 @@
             <xpath expr="//button[@name='action_create_bill']" position="after">
                 <button name="action_create_expenses" type="object"
                         string="Create Expenses" class="oe_highlight"
+                        groups="account.group_account_invoice"
                         invisible="state != 'captured' or expense_count > 0"/>
             </xpath>
             <xpath expr="//field[@name='move_id']" position="after">
                 <field name="expense_count" invisible="1"/>
             </xpath>
-            <xpath expr="//div[hasclass('oe_title')]" position="before">
-                <div class="oe_button_box" name="expense_button_box">
-                    <button name="action_open_expenses" type="object"
-                            class="oe_stat_button" icon="fa-money"
-                            invisible="expense_count == 0">
-                        <field name="expense_count" widget="statinfo"
-                               string="Expenses"/>
-                    </button>
-                </div>
+            <!-- Into the form's own button box: a second oe_button_box is not
+                 lifted into the control panel and renders inline. -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_expenses" type="object"
+                        class="oe_stat_button" icon="fa-money"
+                        invisible="expense_count == 0">
+                    <field name="expense_count" widget="statinfo"
+                           string="Expenses"/>
+                </button>
             </xpath>
         </field>
     </record>

@@ -74,8 +74,10 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         return ISDOC_DOCUMENT_TYPE['credit_note'] if is_refund else ISDOC_DOCUMENT_TYPE['invoice']
 
     def _line_tax_percent(self, line):
-        # Both account.move.line and sale.order.line expose `tax_ids`.
-        return sum(line.tax_ids.filtered(lambda t: t.amount_type == 'percent').mapped('amount'))
+        # 18.0 port: account.move.line exposes `tax_ids`, but sale.order.line still uses
+        # the singular `tax_id` on 18.0 (both were unified to `tax_ids` only in 19.0).
+        taxes = line.tax_ids if 'tax_ids' in line._fields else line.tax_id
+        return sum(taxes.filtered(lambda t: t.amount_type == 'percent').mapped('amount'))
 
     def _isdoc_line_node(self, index, name, qty, subtotal, total, percent, uom_name, product, dp):
         """ Build one <InvoiceLine> from primitives (shared by invoice and proforma export). """
@@ -243,13 +245,8 @@ class AccountEdiXmlISDOC(models.AbstractModel):
             'TaxTotal': self._get_tax_total_node(vals),
             'LegalMonetaryTotal': self._get_monetary_total_node(vals),
         }
-        # TaxPointDate is the DUZP (datum uskutečnění zdanitelného plnění),
-        # which is NOT the issue date: a supply delivered on the 30th and
-        # invoiced on the 3rd belongs to the earlier VAT period, and the
-        # recipient books the deduction by this element.
-        tax_point = invoice.taxable_supply_date or invoice.invoice_date
-        if tax_point:
-            node['TaxPointDate'] = self._text(tax_point.isoformat())
+        if invoice.invoice_date:
+            node['TaxPointDate'] = self._text(invoice.invoice_date.isoformat())
 
         # Credit note -> reference to the reversed invoice.
         origin = invoice.reversed_entry_id
@@ -506,11 +503,6 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         invoice_values['currency_id'], currency_logs = self._import_currency(tree, q('LocalCurrencyCode'))
         if issue_date := tree.findtext(q('IssueDate')):
             invoice_values['invoice_date'] = issue_date
-        # The supplier's DUZP. The deduction period (cssk_vat_deduction_date)
-        # is deliberately left alone: it is when WE claim, which the
-        # supplier's document cannot know.
-        if tax_point := tree.findtext(q('TaxPointDate')):
-            invoice_values['taxable_supply_date'] = tax_point
         if due_date := tree.findtext(f'{q("PaymentMeans")}/{q("Payment")}/{q("Details")}/{q("PaymentDueDate")}'):
             invoice_values['invoice_date_due'] = due_date
 
@@ -565,13 +557,13 @@ class AccountEdiXmlISDOC(models.AbstractModel):
             'vat': party_node.findtext(f'{q("PartyTaxScheme")}/{q("CompanyID")}'),
             'phone': party_node.findtext(f'{q("Contact")}/{q("Telephone")}'),
             'email': party_node.findtext(f'{q("Contact")}/{q("ElectronicMail")}'),
-            'postal_address': {
-                'country_code': party_node.findtext(
-                    f'{q("PostalAddress")}/{q("Country")}/{q("IdentificationCode")}'),
-                'street': (street + ' ' + building).strip(),
-                'city': party_node.findtext(f'{q("PostalAddress")}/{q("CityName")}'),
-                'zip': party_node.findtext(f'{q("PostalAddress")}/{q("PostalZone")}'),
-            },
+            # 18.0 port: _import_partner takes flat address kwargs
+            # (country_code/street/city/zip_code), not a 19.0 `postal_address` dict.
+            'country_code': party_node.findtext(
+                f'{q("PostalAddress")}/{q("Country")}/{q("IdentificationCode")}'),
+            'street': (street + ' ' + building).strip(),
+            'city': party_node.findtext(f'{q("PostalAddress")}/{q("CityName")}'),
+            'zip_code': party_node.findtext(f'{q("PostalAddress")}/{q("PostalZone")}'),
         }
 
     def _import_isdoc_bank(self, invoice, tree):
@@ -593,7 +585,9 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         if not iban:
             return
         try:
-            bank = self.env['res.partner.bank']._find_or_create_bank_account(
+            # sudo: importing a document must record the counterparty's bank even
+            # when the importing user lacks account_payment_order's bank-create right.
+            bank = self.env['res.partner.bank'].sudo()._find_or_create_bank_account(
                 account_number=iban, partner=invoice.partner_id, company=invoice.company_id)
         except UserError as e:
             invoice._message_log(body=_("The bank account couldn't be imported: %s", e))

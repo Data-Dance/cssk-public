@@ -325,7 +325,11 @@ class L10nSKKvDphSectionA2(models.Model):
             if target and uom == target:
                 return mj, line.quantity
         for mj, target in targets:
-            if target and uom and uom._has_common_reference(target):
+            # 18.0: units are convertible when they share a CATEGORY. 19.0 made
+            # uom.uom hierarchical and asks `_has_common_reference(target)`
+            # against `parent_path` instead; the method does not exist here, and
+            # calling it raised while computing A.2 rather than at install.
+            if target and uom and uom.category_id == target.category_id:
                 return mj, uom._compute_quantity(
                     line.quantity, target, round=False)
         return False, 0.0

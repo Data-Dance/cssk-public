@@ -5,103 +5,30 @@ Changelog
 All notable changes to **edi_base_peppol** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
-[Unreleased]
-------------
-
-Fixed
-~~~~~
-
-- **The 19.0.1.4.0 upgrade could not run on a Method A database.** Its
-  post-migrate set the new company settings through ``company.write()``, and
-  core's ``res.company.write()`` calls ``_set_category_defaults()``, which
-  ``stock_account`` overrides to write an ``ir.default`` for
-  ``product.category.property_valuation``. An upgrade builds the registry one
-  module at a time, and this one loads after ``stock_account`` but before
-  ``stock_account_method_a`` — the module that adds ``perpetual`` to that
-  selection — so the write raised *Invalid value for
-  product.category.property_valuation: perpetual* and rolled the whole upgrade
-  back. Retrying re-ran the same migration and failed the same way, so no
-  module on such a database could be upgraded at all. The three company
-  columns are now set in SQL, which never reaches that hook. Found on a
-  customer database, and verified both ways on a scratch 19.0 database with
-  Method A installed and a ``perpetual`` company: the ORM version reproduces
-  the failure, this version upgrades cleanly and writes the same values.
-  There is no automated test — an Odoo migration runs outside the test
-  framework, and the failure needs a real partial registry.
-- A ``peppol.purchase_journal_id`` parameter holding a non-ASCII digit passed
-  ``str.isdigit()`` and then raised in ``int()``, aborting the upgrade.
-
-[19.0.1.5.1] — 2026-10-01
--------------------------
-
-Added
-~~~~~
-
-- **Slovak translation, 101/101 terms** (``i18n/sk.po`` + ``.pot``, the module's
-  first catalogue). Verified by loading it into a database and reading the
-  strings back in ``sk_SK`` — field labels, help, both selection sets and the
-  view text — not only by the exporter's own count, which was green while three
-  groups were still English.
-
-Changed
-~~~~~~~
-
-- **Renamed the company switch to "Allow e-invoicing via Peppol"** and said in
-  the form what it means. "Send e-invoices via Peppol" read like the routing
-  decision, which it is not, and competed for meaning with the per-contact
-  ``Invoice sending`` field that actually makes that decision — it was taken for
-  a duplicate of it. The field now states that it is a permission: on, the
-  company MAY e-invoice; which documents do is per contact, and for contacts
-  with no preference by ``Peppol scope``. Off, nothing of this company's goes
-  out through Peppol whatever a contact says, and each invoice shows why on its
-  Peppol badge. Also spelled out that **receiving vendor bills is unaffected** —
-  the switch is outbound only, which was not obvious from either the label or
-  the help.
-
-[19.0.1.5.0] — 2026-10-01
--------------------------
-
-Added
-~~~~~
-
-- **The e-invoice is a delivery channel on the contact.** Odoo's *Invoice
-  sending* (``invoice_sending_method``, Accounting tab, now visible outside debug
-  mode) gains *by e-invoice (Peppol)*, keyed ``edi_peppol`` so it is never
-  confused with Odoo's own ``account_peppol``. An explicit choice on the contact
-  wins: e-invoice routes to Peppol even outside the company's scope, any other
-  method gives the PDF. With nothing chosen, the company's scope decides. A
-  Slovak business inside the mandate that is set to another method shows a
-  warning on the contact.
-- **Send & Print** offers the e-invoice, checked by default instead of email
-  when the invoice routes to Peppol, and sends through the installed EDI
-  provider. If ``account_peppol`` is installed too, its method is dropped from
-  the defaults: one invoice, one access point.
-
-[19.0.1.4.0] — 2026-09-29
+[18.0.1.3.0] — 2026-08-23
 -------------------------
 
 Changed
 ~~~~~~~
 
-- **Peppol is per company.** Sending is enabled per company, and so are
-  auto-send and the purchase journal for inbound bills (they were
-  database-wide parameters). One database can hold a company that must send
-  e-invoices and one that must not.
-- **Every customer document says how it goes out:** Peppol e-invoice, PDF, or
-  "Peppol, but blocked", with the reason, on the invoice. Under the company
-  scope *Slovak mandate* only a domestic document to a business or public body
-  (a company, or a partner with a VAT number) is an e-invoice; consumers, Czech
-  and other foreign customers get the PDF, and a Slovak business without a
-  Peppol address is *blocked* and noted in the chatter when auto-send is on.
-  The scope *any customer with a Peppol address* is the former behaviour.
+- Back-ported from the 19.0 branch, including the
+  ``account.move._peppol_builder`` fix (export through the customer's national
+  BIS3 builder, so ``l10n_sk_ubl_bis3`` puts the *variabilný symbol* in
+  ``cbc:PaymentID`` / BT-83).
+- **19 → 18 delta:** inbound vendor-bill creation. 19.0 builds a file_data list
+  with ``account.move._to_files_data`` and passes it to
+  ``_extend_with_attachments``. 18.0 has no ``_to_files_data`` at all, and its
+  ``_extend_with_attachments(attachments, new=False)`` takes the
+  **ir.attachment recordset** directly, unwrapping it internally. Adapted.
+- **19 → 18 delta:** the ``_inbound_dispatch_may_commit`` override is
+  deliberately **absent** here. It exists on 19.0 because that importer commits
+  the cursor mid-decode (``account_document_import_mixin.rollbackable_
+  transaction``), which a wrapping savepoint cannot survive. 18.0 has no such
+  mixin — ``_extend_with_attachments`` isolates each decode in
+  ``with self.env.cr.savepoint()`` and never commits — so the base's savepoint
+  isolation applies and porting the override down would silently give up
+  rollback-on-failure for inbound documents.
 
-Upgrade note
-~~~~~~~~~~~~
-
-- The migration enables sending for every company whose partner has a Peppol
-  address, keeps the former scope, copies the auto-send flag to every company
-  and gives the configured purchase journal to its company: nothing changes
-  until a company is switched to the Slovak mandate.
 
 [19.0.1.3.0] — 2026-08-22
 -------------------------

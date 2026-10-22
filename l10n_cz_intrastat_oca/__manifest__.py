@@ -29,7 +29,7 @@ renderer lives in the LGPL-3 ``l10n_cssk_intrastat_base``.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["intrastat_product", "l10n_cssk_intrastat_base", "l10n_cz"],

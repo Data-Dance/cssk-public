@@ -88,6 +88,7 @@
                                     <th>Case number</th>
                                     <th class="text-end">2nd third</th>
                                     <th class="text-end">1st third</th>
+                                    <th class="text-end">Unlimited part</th>
                                     <th class="text-end">Deducted</th>
                                     <th>Remitted</th>
                                 </tr>
@@ -105,6 +106,10 @@
                                               t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
                                     </td>
                                     <td class="text-end">
+                                        <span t-field="line.amount_unlimited"
+                                              t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                    </td>
+                                    <td class="text-end">
                                         <span t-field="line.amount"
                                               t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
                                     </td>
@@ -113,7 +118,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th colspan="4" class="text-end">Total</th>
+                                    <th colspan="5" class="text-end">Total</th>
                                     <th class="text-end">
                                         <span t-esc="sum(lines.mapped('amount'))"
                                               t-options="{'widget': 'monetary', 'display_currency': company.currency_id}"/>

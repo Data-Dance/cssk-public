@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3 — see the LICENSE file.
 """Shared fetch + parse for the Slovak commercial-bank FX feeds.
 
 Rates are expressed as ``1 EUR = X`` foreign currency. ``parse_vub`` /

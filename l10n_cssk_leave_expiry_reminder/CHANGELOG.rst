@@ -2,15 +2,26 @@
 Changelog
 =========
 
-Unreleased
-==========
+18.0.1.1.0 (2026-08-08)
+=======================
 
-* Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
+Backported from 19.0.
 
-19.0.1.0.0 (2026-07-08)
+* **Fixed: the reminder quoted the whole carried-over balance.**
+  ``expiring_carryover_days`` is the gross figure captured on the carryover
+  date; core only nets it against time off since taken once the expiration
+  date arrives. Someone who carried 5 days and had taken 2 was told 5 would
+  expire, and someone who had used them all was reminded anyway.
+* **Statutory use-it-or-lose-it quotas are out of scope.** A §141 doctor-visit
+  allowance is granted whole on 1 January and simply lapses — nothing is
+  carried over, and telling an employee to book seven doctor visits before
+  December is nonsense. Filtered in Python rather than in the domain, because
+  the two Odoo versions spell it differently: 19.0 has
+  ``hr.leave.accrual.plan.can_be_carryover``, 18.0 only the level's
+  ``action_with_unused_accruals``, which 19.0 derives from that flag. The
+  helper probes for whichever exists, so the same code runs on both.
+
+18.0.1.0.0 (2026-07-08)
 =======================
 
 * Initial release. A daily scheduled action reminds employees and HR about
@@ -19,45 +30,7 @@ Unreleased
   optionally emails the employee, with per-cohort deduplication and
   configurable lead time. Depends only on core ``hr_holidays``.
 
-[19.0.1.0.3] — 2026-08-05
--------------------------
-
-Fixed
-~~~~~
-
-- Statutory use-it-or-lose-it quotas are no longer in scope. A SK §141
-  doctor-visit or sprevádzanie allowance (and OČR) is granted whole on 1
-  January and simply lapses — nothing is ever *carried over*, and telling an
-  employee to go book seven doctor visits before December is nonsense. The
-  cron now skips allocations whose accrual plan has ``can_be_carryover=False``,
-  which is exactly that switch (core derives ``action_with_unused_accruals =
-  'lost'`` from it). Plan-less regular allocations stay in scope; they never
-  carry an expiration date anyway.
-
-[19.0.1.0.2] — 2026-08-05
--------------------------
-
-Fixed
-~~~~~
-
-- The reminder now reports the days that will *actually* be forfeited instead
-  of the whole carried-over balance. ``expiring_carryover_days`` is the gross
-  figure captured on the carryover date; core only nets it against time off
-  since taken once the expiration date is reached. An employee who carried 5
-  days and had since taken 2 was told 5 days would expire, and one who had
-  used all of them was reminded anyway. New helper
-  ``_l10n_cssk_net_expiring_days()`` mirrors the netting
-  ``_process_accrual_plans`` does, including the hours-to-days conversion for
-  hour-unit leave types, and allocations with nothing left at risk are now
-  skipped without being marked as reminded.
-- The reminder email quoted the same gross field independently of the activity
-  and hardcoded the word "day(s)". Both now come from the shared helper, so
-  the two channels can no longer disagree and an hour-unit leave type is
-  worded correctly. A post-migration rewrites the ``noupdate`` template on
-  existing databases (leaving a customised body alone), and the Czech and
-  Slovak translations of the body were updated to match.
-
-[19.0.1.0.1] — 2026-07-18
+[18.0.1.0.1] — 2026-07-18
 -------------------------
 
 Fixed

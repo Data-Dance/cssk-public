@@ -153,11 +153,11 @@ class CSSKFilingComparison(models.Model):
     signed_off_date = fields.Datetime(readonly=True, string="Signed off",
                                       tracking=True)
 
-    _comparison_uniq = models.Constraint(
-        "UNIQUE (res_model, res_id, basis)",
-        "One comparison per filing, per basis of comparison.",
-    )
-
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("comparison_uniq", "UNIQUE (res_model, res_id, basis)",
+         "One comparison per filing, per basis of comparison."),
+    ]
     # Bare ``line_ids`` alongside the dotted paths. The dotted form does
     # invalidate on membership change in current Odoo, but it costs nothing to
     # state and this compute is the one thing a reader trusts without checking

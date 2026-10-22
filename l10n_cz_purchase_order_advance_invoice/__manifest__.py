@@ -1,6 +1,6 @@
 {
     "name": "Czech Republic — Received Advance Invoices",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Czech chart wiring for purchase_order_advance_invoice.",
     "description": """
 Czech Republic — Received Advance Invoices

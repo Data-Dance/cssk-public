@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ OSS VAT Return (DAP OSS — režim EU, OSSEI1)",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Czech layer of the OSS return: the EPO Pisemnost/OSSEI1 "
                "XML (daňové přiznání k DPH ve zvláštním režimu jednoho "
                "správního místa — režim Evropské unie), XSD-validated.",

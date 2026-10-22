@@ -68,13 +68,16 @@ class TestDeclarationParity(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.engine = cls._detect_engine()
+        # The users field is groups_id on 18.0 and group_ids on 19.0.
+        gfield = "group_ids" if "group_ids" in cls.env.user._fields \
+            else "groups_id"
         if cls.engine == ENGINE_OCA:
-            cls.env.user.group_ids |= cls.env.ref("payroll.group_payroll_manager")
+            cls.env.user[gfield] |= cls.env.ref("payroll.group_payroll_manager")
             cls.structure = cls.env.ref(
                 "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary"
             )
         else:
-            cls.env.user.group_ids |= cls.env.ref(
+            cls.env.user[gfield] |= cls.env.ref(
                 "hr_payroll.group_hr_payroll_manager"
             )
             cls.structure = cls.env.ref(
@@ -125,7 +128,8 @@ class TestDeclarationParity(TransactionCase):
         (y1, m1, d1), (y2, m2, d2) = DECLARATION_PERIOD
         from datetime import date
 
-        emp_vals = {
+        # 18.0 has no hr.version delegation: the contract is its own record.
+        employee = cls.env["hr.employee"].with_company(cls.company).create({
             "name": "Jozko Mrkvicka",
             "company_id": cls.company.id,
             "resource_calendar_id": cls.calendar.id,
@@ -133,23 +137,22 @@ class TestDeclarationParity(TransactionCase):
             # The ELDP needs a date of birth for <datNarodenia>; it matches the
             # rodné číslo above so the two are not quietly inconsistent.
             "birthday": date(1985, 1, 1),
-            "date_version": date(2026, 1, 1),
-            "contract_date_start": date(2026, 1, 1),
+        })
+        contract_vals = {
+            "name": "Declaration parity contract",
+            "employee_id": employee.id,
+            "company_id": cls.company.id,
             "wage": DECLARATION_WAGE,
+            "state": "open",
+            "date_start": date(2026, 1, 1),
+            "resource_calendar_id": cls.calendar.id,
+            "l10n_sk_tax_declaration_signed": True,
         }
         if cls.engine == ENGINE_OCA:
-            emp_vals["struct_id"] = cls.structure.id
+            contract_vals["struct_id"] = cls.structure.id
         else:
-            emp_vals["structure_type_id"] = cls.structure.type_id.id
-        employee = (
-            cls.env["hr.employee"].with_company(cls.company).create(emp_vals)
-        )
-        employee.version_id.write(
-            {
-                "l10n_sk_tax_declaration_signed": True,
-                "resource_calendar_id": cls.calendar.id,
-            }
-        )
+            contract_vals["structure_type_id"] = cls.structure.type_id.id
+        cls.env["hr.contract"].with_company(cls.company).create(contract_vals)
         slip_vals = {
             "name": "Declaration parity",
             "employee_id": employee.id,
@@ -158,10 +161,8 @@ class TestDeclarationParity(TransactionCase):
             "date_from": date(y1, m1, d1),
             "date_to": date(y2, m2, d2),
         }
-        if cls.engine == ENGINE_OCA:
-            slip_vals["contract_id"] = employee.version_id.id
-        else:
-            slip_vals["version_id"] = employee.version_id.id
+        # Both 18.0 engines call the payslip field contract_id.
+        slip_vals["contract_id"] = employee.contract_id.id
         slip = cls.env["hr.payslip"].with_company(cls.company).create(slip_vals)
         if cls.engine != ENGINE_OCA:
             slip = slip.with_context(salary_simulation=True)
@@ -260,28 +261,29 @@ class TestDeclarationParity(TransactionCase):
         from datetime import date
 
         (y1, m1, d1), (y2, m2, d2) = DECLARATION_PERIOD
-        emp_vals = {
+        employee = self.env["hr.employee"].with_company(self.company).create({
             "name": "Dohodar Dusan",
             "company_id": self.company.id,
             "resource_calendar_id": self.calendar.id,
             "identification_id": "9002022345",
-            "date_version": date(2026, 1, 1),
-            "contract_date_start": date(2026, 1, 1),
+        })
+        contract_vals = {
+            "name": "Dohoda parity contract",
+            "employee_id": employee.id,
+            "company_id": self.company.id,
             "wage": DECLARATION_DOHODA_WAGE,
+            "state": "open",
+            "date_start": date(2026, 1, 1),
+            "resource_calendar_id": self.calendar.id,
         }
+        Contract = self.env["hr.contract"]
+        if "l10n_sk_income_regular" in Contract._fields:
+            contract_vals["l10n_sk_income_regular"] = False
         if self.engine == ENGINE_OCA:
-            emp_vals["struct_id"] = struct.id
+            contract_vals["struct_id"] = struct.id
         else:
-            emp_vals["structure_type_id"] = struct.id
-        employee = (
-            self.env["hr.employee"].with_company(self.company).create(emp_vals)
-        )
-        version_vals = {"resource_calendar_id": self.calendar.id}
-        if "l10n_sk_income_regular" in employee.version_id._fields:
-            version_vals["l10n_sk_income_regular"] = False
-        if self.engine == ENGINE_OCA:
-            version_vals["struct_id"] = struct.id
-        employee.version_id.write(version_vals)
+            contract_vals["structure_type_id"] = struct.id
+        Contract.with_company(self.company).create(contract_vals)
 
         payslip_struct = (
             struct if self.engine == ENGINE_OCA else struct.default_struct_id
@@ -294,10 +296,8 @@ class TestDeclarationParity(TransactionCase):
             "date_from": date(y1, m1, d1),
             "date_to": date(y2, m2, d2),
         }
-        if self.engine == ENGINE_OCA:
-            slip_vals["contract_id"] = employee.version_id.id
-        else:
-            slip_vals["version_id"] = employee.version_id.id
+        # Both 18.0 engines call the payslip field contract_id.
+        slip_vals["contract_id"] = employee.contract_id.id
         slip = self.env["hr.payslip"].with_company(self.company).create(slip_vals)
         if self.engine != ENGINE_OCA:
             slip = slip.with_context(salary_simulation=True)
@@ -379,10 +379,8 @@ class TestDeclarationParity(TransactionCase):
                 "date_from": date(2026, month, 1),
                 "date_to": date(2026, month, last),
             }
-            if self.engine == ENGINE_OCA:
-                slip_vals["contract_id"] = self.employee.version_id.id
-            else:
-                slip_vals["version_id"] = self.employee.version_id.id
+            # Both 18.0 engines call the payslip field contract_id.
+            slip_vals["contract_id"] = self.employee.contract_id.id
             slip = (
                 self.env["hr.payslip"].with_company(self.company).create(slip_vals)
             )

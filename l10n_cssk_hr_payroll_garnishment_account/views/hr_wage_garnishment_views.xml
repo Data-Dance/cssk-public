@@ -8,11 +8,7 @@
         <field name="arch" type="xml">
             <list position="inside">
                 <header>
-                    <!-- Posting the entry needs account.move.create, so an
-                         HR-only user reaching this button failed on it. Offer
-                         it to the group that can actually complete it. -->
-                    <button name="action_remit" type="object" string="Remit to Payee"
-                            class="btn-primary" groups="account.group_account_user"/>
+                    <button name="action_remit" type="object" string="Remit to Payee" class="btn-primary"/>
                 </header>
             </list>
             <field name="state" position="after">

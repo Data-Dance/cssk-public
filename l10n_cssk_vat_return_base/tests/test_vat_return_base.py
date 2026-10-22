@@ -376,9 +376,14 @@ class TestSubmissionLifecycle(AccountTestInvoicingCommon):
         Users = self.env["res.users"].with_context(no_reset_password=True)
         clerk = Users.create({
             "name": "CSSK clerk", "login": "cssk_lc_clerk",
+            # 18.0 needs an author e-mail: mail_thread._message_compute_author
+            # raises "please configure the sender's email address" when a
+            # non-superuser posts and the author partner has none. 19.0 dropped
+            # that requirement, and action_reset_to_draft posts to the chatter.
+            "email": "cssk_lc_clerk@example.com",
             "company_id": self.company.id,
             "company_ids": [(6, 0, self.company.ids)],
-            "group_ids": [(6, 0, [
+            "groups_id": [(6, 0, [
                 self.env.ref("base.group_user").id,
                 self.env.ref("account.group_account_user").id,
             ])],
@@ -389,9 +394,10 @@ class TestSubmissionLifecycle(AccountTestInvoicingCommon):
 
         manager = Users.create({
             "name": "CSSK manager", "login": "cssk_lc_manager",
+            "email": "cssk_lc_manager@example.com",   # see the clerk above
             "company_id": self.company.id,
             "company_ids": [(6, 0, self.company.ids)],
-            "group_ids": [(6, 0, [
+            "groups_id": [(6, 0, [
                 self.env.ref("base.group_user").id,
                 self.env.ref("account.group_account_manager").id,
             ])],

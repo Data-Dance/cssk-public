@@ -8,6 +8,10 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, models
 
+# Leave-type payroll codes that COUNT AS AN ABSENCE (they cut worked days, so
+# the basic wage is prorated down for them). Holiday / paid obstacle are added
+# back as náhrada at priemerný zárobok by their own rules; PN drives the
+# employer sick-pay náhrada; family care / unpaid leave are simply unpaid.
 # § 142 obstacles on the EMPLOYER's side, each paid at its own statutory
 # percentage of average earnings (100 / 50 / 100 / 60). They cannot share one
 # bucket the way the § 141 employee-side reasons do: the worked-day line is
@@ -20,19 +24,10 @@ L10N_SK_EMPLOYER_OBSTACLE_CODES = (
     "PREKAZKA_VAZNE",
 )
 
-# Materská / rodičovská / otcovská dovolenka (§ 166). The employer pays
-# NOTHING for these — materské, rodičovský príspevok and otcovské are dávky of
-# the Sociálna poisťovňa — so they behave like OČR: they cut worked days and
-# get no náhrada. They are separate codes rather than folded into OČR because
-# the SP filings must tell them apart: rodičovská drives a prerušenie
-# povinného poistenia on the RLFO, and the vylúčené doby on the ELDP differ.
+# Materská / rodičovská / otcovská (§ 166). The employer pays NOTHING — these
+# are dávky of the Sociálna poisťovňa — so they behave like OČR.
 L10N_SK_FAMILY_LEAVE_CODES = ("MATERSKA", "RODICOVSKA", "OTCOVSKA")
 
-# Leave-type payroll codes that COUNT AS AN ABSENCE (they cut worked days, so
-# the basic wage is prorated down for them). Holiday / paid obstacle are added
-# back as náhrada at priemerný zárobok by their own rules; PN drives the
-# employer sick-pay náhrada; family care / unpaid leave / family leave are
-# simply unpaid by the employer.
 L10N_SK_ABSENCE_CODES = (
     "DOVOLENKA", "PN", "OCR", "NEPLATENE", "OBSTACLE",
 ) + L10N_SK_EMPLOYER_OBSTACLE_CODES + L10N_SK_FAMILY_LEAVE_CODES
@@ -44,10 +39,9 @@ class HrPayslip(models.Model):
     def l10n_sk_absence_codes(self):
         """The worked-day codes that count as an absence, for the BASIC rule.
 
-        Exposed as a method so the rule body can read the list instead of
-        carrying its own copy: it used to be duplicated in the XML, which meant
-        adding an absence type in one place and forgetting the other silently
-        stopped prorating the wage for it.
+        Exposed as a method so the rule body reads the list instead of keeping
+        its own copy: adding an absence type in one place and forgetting the
+        other silently stops prorating the wage for it.
         """
         return L10N_SK_ABSENCE_CODES
 
@@ -82,7 +76,7 @@ class HrPayslip(models.Model):
         )
         leaves = {}
         calendar = contract.resource_calendar_id
-        tz = timezone(calendar.tz or contract.employee_id.tz or "UTC")
+        tz = timezone(calendar.tz)
         day_leave_intervals = contract.employee_id.list_leaves(
             day_from, day_to, calendar=contract.resource_calendar_id
         )
@@ -168,12 +162,9 @@ class HrPayslip(models.Model):
                 ("date_from", ">=", q_start),
                 ("date_to", "<=", q_end),
                 # Only a CONFIRMED payslip counts. §134 keys on the wage
-                # "zúčtovaná" in the determining period, and a payslip sitting
-                # in the OCA engine's "verify" (Waiting) state has been
-                # computed but not confirmed — it is the same thing as the
-                # Enterprise draft excluded in 22f68e1, and the Czech side has
-                # always filtered on "done" alone. There is no "paid" state on
-                # this engine.
+                # "zúčtovaná" in the determining period, and a payslip in the
+                # engine's "verify" (Waiting) state has been computed but not
+                # confirmed. There is no "paid" state on this engine.
                 ("state", "=", "done"),
                 ("id", "!=", self.id),
             ]
@@ -191,8 +182,7 @@ class HrPayslip(models.Model):
             for wd in slip.worked_days_line_ids:
                 if wd.code == "WORK100":
                     hours += wd.number_of_hours
-        min_hours = self.rule_parameter("l10n_sk_avg_earnings_min_hours")
-        if hours >= min_hours and gross > 0.0:
+        if hours >= 168.0 and gross > 0.0:
             phz = round(gross / hours, 4)
         else:
             sched_hours = self.l10n_sk_scheduled_hours()

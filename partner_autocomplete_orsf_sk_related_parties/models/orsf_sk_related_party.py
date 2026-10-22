@@ -44,11 +44,11 @@ class L10nSkRelatedParty(models.Model):
     fetched_at = fields.Datetime(string="Fetched", readonly=True)
     source = fields.Char(string="Source", default="ORSF", readonly=True)
 
-    _partner_related_uniq = models.Constraint(
-        "UNIQUE (partner_id, related_ico, link_person, link_role)",
-        "This related party is already recorded for this partner.",
-    )
-
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("partner_related_uniq", "UNIQUE (partner_id, related_ico, link_person, link_role)",
+         "This related party is already recorded for this partner."),
+    ]
     @api.depends("related_name", "related_ico", "link_person")
     def _compute_display_name(self):
         for record in self:

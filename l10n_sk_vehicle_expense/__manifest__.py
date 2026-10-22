@@ -57,10 +57,10 @@ Honesty flags
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.2",
+    "version": "18.0.1.0.2",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
-    "depends": ["l10n_sk"],
+    "depends": ["l10n_sk_tax_report_backport"],
     "data": [
         "security/ir.model.access.csv",
         "wizard/l10n_sk_fuel_split_views.xml",

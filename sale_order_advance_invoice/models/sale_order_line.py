@@ -105,7 +105,11 @@ class SaleOrderLine(models.Model):
         #   • With tax document    → debit the net received-advance account and
         #                            keep taxes so Odoo generates the VAT reversal.
         #   • Without tax document → debit the gross advance amount (no VAT split).
-        has_posted_tax_doc = advance._has_posted_advance_tax_document()
+        has_posted_tax_doc = bool(
+            advance.invoice_ids.filtered(
+                lambda move: move.move_type == 'out_invoice' and move.state == 'posted'
+            )
+        )
 
         if has_posted_tax_doc and net_account:
             # Reverse the tax-document entry: Dr net received-advance account +
@@ -115,13 +119,6 @@ class SaleOrderLine(models.Model):
                 'price_unit': advance.amount_untaxed,
                 'extra_tax_data': False,
             })
-            # Give back the VAT at the taxes the tax document charged, not at
-            # the advance product's defaults: a 21 % advance deducted at 15 %
-            # bills the customer the difference again. Advances at several
-            # rates are split per rate later (_split_advance_deduction_lines).
-            groups = self.order_id._advance_deduction_tax_groups(advance)
-            if len(groups) == 1:
-                res['tax_ids'] = [Command.set(groups[0][0].ids)]
         elif company.advance_received_account_id:
             # No posted tax document: deduct the gross advance amount using the
             # product's default income account (from super()).  The clearing
@@ -141,19 +138,3 @@ class SaleOrderLine(models.Model):
             })
 
         return res
-
-    def _action_launch_stock_rule(self, *, previous_product_uom_qty=False):
-        """Never procure from an advance invoice.
-
-        An itemised advance carries the real products, so with ``sale_stock``
-        installed confirming it would run the stock rules a second time and the
-        customer would end up with two delivery orders reserving the same goods
-        twice. Fulfilment belongs to the parent order, which is the only
-        document that tracks delivered quantities.
-        """
-        lines = self.filtered(lambda line: not line.order_id.is_advance_invoice)
-        if not lines:
-            return True
-        return super(SaleOrderLine, lines)._action_launch_stock_rule(
-            previous_product_uom_qty=previous_product_uom_qty
-        )

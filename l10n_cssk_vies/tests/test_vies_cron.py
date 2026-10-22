@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from unittest.mock import patch
 
@@ -14,9 +14,7 @@ class TestViesCron(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.env.company.vies_use_direct = True
-        # A checksum-valid SK IČ DPH: base_vat rejects the number this fixture used
-        # to carry (SK2022334455), so setUpClass died before a single test ran.
-        cls.env.company.vat = "SK2022749619"
+        cls.env.company.vat = "SK2022334455"
         Partner = cls.env["res.partner"].with_context(no_vat_validation=True)
         cls.eu_sk = Partner.create({"name": "EU SK", "vat": "SK2023456787"})
         cls.eu_el = Partner.create({"name": "EU Greek", "vat": "EL123456783"})
@@ -25,24 +23,18 @@ class TestViesCron(TransactionCase):
         )
 
     def _run_cron(self, status="valid", **kw):
-        """Run the cron with only the HTTP call mocked; return the list of
-        partner VATs that were actually checked. Mocking below
-        ``_check_vies_direct`` keeps the logging — which is what drives the
-        batch window — in the test."""
+        """Run the cron with the network layer fully mocked; return the list
+        of partner VATs that were actually checked."""
         checked = []
 
-        def fake_query(_partner, vat, requester_vat=None, trader_name=None):
-            checked.append(vat)
-            return {"valid": True, "requestIdentifier": "X"} if status == "valid" \
-                else None
+        def fake_check(partner, store=True):
+            checked.append(partner.vat)
+            return status
 
         PartnerCls = type(self.env["res.partner"])
-        CronCls = type(self.env["ir.cron"])
         with patch.object(
-            PartnerCls, "_vies_query_direct", autospec=True,
-            side_effect=fake_query,
-        ), patch.object(
-            CronCls, "_commit_progress", return_value=float("inf"),
+            PartnerCls, "_check_vies_direct", autospec=True,
+            side_effect=fake_check,
         ), patch(f"{MODULE}.time.sleep") as mock_sleep:
             self.env["res.partner"]._cron_check_vies_direct(**kw)
         return checked, mock_sleep

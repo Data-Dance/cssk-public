@@ -19,30 +19,11 @@ salary is sent to the bailiff directly" means in accounting terms.
 """
 
 from odoo import Command, _, fields, models
-from odoo.exceptions import AccessError, UserError
+from odoo.exceptions import UserError
 
 
 class HrWageGarnishmentLine(models.Model):
     _inherit = "hr.wage.garnishment.line"
-
-    #: What an accountant may change on a deduction line. Remitting writes
-    #: exactly these two, and this module's ACL exists to let that happen —
-    #: not to hand the amounts of an employee's wage deduction to whoever can
-    #: post an entry. Payroll decides what is withheld; accounting records
-    #: that it was paid, and the two roles stay apart.
-    _CSSK_REMITTANCE_WRITABLE = frozenset({"state", "move_id"})
-
-    def write(self, vals):
-        if not self.env.su and not self.env.user.has_group("hr.group_hr_user"):
-            beyond = set(vals) - self._CSSK_REMITTANCE_WRITABLE
-            if beyond:
-                raise AccessError(_(
-                    "Only payroll may change a wage deduction. An accountant "
-                    "records the remittance; changing %(fields)s on a "
-                    "deduction line needs an HR role.",
-                    fields=", ".join(sorted(beyond)),
-                ))
-        return super().write(vals)
 
     # Declared here rather than in the base: the base depends on ``hr`` and
     # ``mail`` only, so ``account.move`` is not guaranteed to be loaded there.
@@ -113,14 +94,6 @@ class HrWageGarnishmentLine(models.Model):
                     "date": date,
                     "ref": label,
                     "partner_id": payee.id,
-                    # The order carries its own "Payee Bank Account", domain-
-                    # restricted to the payee, precisely because one bailiff
-                    # collects for several cases on different accounts. Dropped
-                    # here, the payment order downstream silently fell back to
-                    # the payee's default account and the money went to the
-                    # right creditor on the wrong account.
-                    **({"partner_bank_id": order.partner_bank_id.id}
-                       if order.partner_bank_id else {}),
                     "line_ids": [
                         Command.create(
                             {
@@ -155,12 +128,7 @@ class HrWageGarnishmentLine(models.Model):
             }
         )
         self.write({"state": "done", "move_id": move.id})
-        # ``sudo`` on the note, not write access on the order: ``message_post``
-        # demands write, and granting an accountant write on an exekučný
-        # príkaz would let whoever can post an entry change the amount being
-        # withheld from someone's wage. The note is the system recording a
-        # remittance that did happen, so it is the system that writes it.
-        order.sudo().message_post(
+        order.message_post(
             body=_(
                 "Remitted %(amount)s to %(payee)s (entry %(move)s).",
                 amount=total,

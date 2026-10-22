@@ -1,92 +1,98 @@
 /** @odoo-module **/
-/*
-    Copyright 2022 Data Dance s.r.o.
-    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-*/
+/**
+    Data Dance Proprietary License v1.0
+
+    This software and associated files (the "Software") may only be used
+    (executed, modified, executed after modifications) if you have
+    purchased a valid license from Data Dance s.r.o.
+
+    The above permissions are granted for a single database per purchased
+    license. Furthermore, with a valid license it is permitted to use the
+    software on other databases as long as the usage is limited to a testing
+    or development environment.
+
+    You may develop modules based on the Software or that use the Software
+    as a library (typically by depending on it, importing it and using its
+    resources), but without copying any source code or material from the
+    Software. You may distribute those modules under the license of your
+    choice, provided that this license is compatible with the terms of the
+    Data Dance Proprietary License (For example: LGPL, MIT, or proprietary
+    licenses similar to this one).
+
+    It is forbidden to publish, distribute, sublicense, or sell copies of
+    the Software or modified copies of the Software.
+
+    The above copyright notice and this permission notice must be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+    DEALINGS IN THE SOFTWARE.
+ */
 
 import { PartnerAutoCompleteCharField } from '@partner_autocomplete/js/partner_autocomplete_fieldchar';
 import { deserializeDate, deserializeDateTime } from "@web/core/l10n/dates";
 import { patch } from "@web/core/utils/patch";
 
 /**
- * Core's own handler passes the provider's payload straight to
- * `record.update()`, which is fine for the IAP provider because it only ever
- * returns strings, numbers and many2ones. Our providers also map date fields
- * and can create one2many lines (bank accounts, child contacts), and those two
- * cases need opposite treatment — which is the entire reason this patch exists.
+ * Core 18.0's `onSelect` already does everything a register answer needs:
+ * enriches through `enrich_by_duns` (which the dispatcher routes to the
+ * company's provider), turns the many2ones into `[id, display_name]` pairs,
+ * drops every key that is not a field of the form, and updates the record.
+ * So this patch leaves `onSelect` alone and only wraps `getCreateData`, the
+ * one step whose output needs more than core gives it. Copying the handler
+ * instead is what this module used to do, and the copy patched
+ * `onSelectPartnerAutocompleteOption` — 19.0's name for it, which 18.0 never
+ * calls.
  *
- * **Top-level values are client-side values.** `record.update()` ->
- * `Record._update()` -> `Record._applyChanges()` writes each entry into
- * `record.data` verbatim; nothing calls `_parseServerValues` on the way. So a
- * date has to arrive as the luxon object the record holds, not as the
- * "YYYY-MM-DD" string the server sent, and that is what the loop below does.
+ * Two additions, both about what core cannot know:
  *
- * **x2many command payloads are server-side values.** `_update()` routes them
- * through `Record._preprocessX2manyChanges()` -> `StaticList._applyCommands()`
- * -> `_createRecordDatapoint(command[2])`, which builds a `Record` from that
- * dict and *does* run `_parseServerValues` on it. Server-format strings are
- * exactly what it wants — which is exactly what the provider already returns.
- * So the command payloads are deliberately left untouched.
+ * **Top-level dates become luxon objects.** `record.update()` ->
+ * `Record._update()` -> `Record._applyChanges()` writes each value into
+ * `record.data` verbatim; nothing parses it on the way. The IAP provider never
+ * returns a date, our providers map some. x2many command payloads are left as
+ * they are: `StaticList._applyCommands()` builds a `Record` from each CREATE
+ * payload, and that constructor *does* run `_parseServerValues`, so the
+ * server-format strings the provider sends are exactly what it wants.
  *
- * Many2one values are likewise passed through as the `{id, display_name}`
- * object the provider returns: `Record._completeMany2OneValue` reads `.id` and
- * `.display_name` off the value, and anything else resolves to `false`.
+ * **No Dun & Bradstreet chatter card for a register answer.** Core posts one
+ * after saving whenever the enrichment did not error. Its template renders
+ * D&B's fields (entity type, UNSPSC codes, ...), which no register returns.
  */
 patch(PartnerAutoCompleteCharField.prototype, {
-    async onSelectPartnerAutocompleteOption(option) {
-        let data = await this.partnerAutocomplete.getCreateData(option);
-        if (!data?.company) {
-            return;
-        }
-
-        if (data.logo) {
-            const logoField = this.props.record.resModel === 'res.partner' ? 'image_1920' : 'logo';
-            data.company[logoField] = data.logo;
-        }
-
-        // Deserialize date and datetime fields. Iterated with for..of rather
-        // than forEach so that this stays ordered with respect to the update
-        // below; the previous version used an async forEach callback, which is
-        // never awaited, so its work could land after the record was updated.
-        for (const [fieldName, value] of Object.entries(data.company)) {
-            const field = this.props.record.fields[fieldName];
-            // Skip unknown fields, and skip empty values: deserializeDate()
-            // throws on false/null rather than returning it.
-            if (!field || !value) {
-                continue;
-            }
-            if (field.type === "date") {
-                data.company[fieldName] = deserializeDate(value);
-            } else if (field.type === "datetime") {
-                data.company[fieldName] = deserializeDateTime(value);
-            }
-        }
-
-        // Save UNSPSC codes (tags)
-        const unspsc_codes = data.company.unspsc_codes
-
-        // Delete useless fields before updating record
-        data.company = this.partnerAutocomplete.removeUselessFields(data.company, Object.keys(this.props.record.fields));
-
-        // Update record with retrieved values
-        if (data.company.name) {
-            await this.props.record.update({ name: data.company.name });  // Needed otherwise name it is not saved
-        }
-        await this.props.record.update(data.company);
-
-        // Add UNSPSC codes (tags)
-        if (this.props.record.resModel === 'res.partner' && unspsc_codes) {
-            // We must first save the record so that we can then create the tags (many2many)
-            const saved = await this.props.record.save();
-            if (saved) {
-                await this.props.record.load();
-                await this.orm.call("res.partner", "iap_partner_autocomplete_add_tags", [this.props.record.resId, unspsc_codes]);
-                await this.props.record.load();
-            }
-        }
-        if (this.props.setDirty) {
-            this.props.setDirty(false);
-        }
+    setup() {
+        super.setup(...arguments);
+        const partnerAutocomplete = this.partnerAutocomplete;
+        this.partnerAutocomplete = {
+            ...partnerAutocomplete,
+            getCreateData: async (company) => {
+                const data = await partnerAutocomplete.getCreateData(company);
+                if (!data?.company) {
+                    return data;
+                }
+                const provider = data.company.partner_autocomplete_provider;
+                if (provider && provider !== "partner.autocomplete.provider") {
+                    data.isEnrichAccessible = false;
+                }
+                for (const [fieldName, value] of Object.entries(data.company)) {
+                    const field = this.props.record.fields[fieldName];
+                    // Unknown fields are core's to drop. Empty values stay as
+                    // they are: deserializeDate() throws on false/null.
+                    if (!field || !value) {
+                        continue;
+                    }
+                    if (field.type === "date") {
+                        data.company[fieldName] = deserializeDate(value);
+                    } else if (field.type === "datetime") {
+                        data.company[fieldName] = deserializeDateTime(value);
+                    }
+                }
+                return data;
+            },
+        };
     },
-
 });

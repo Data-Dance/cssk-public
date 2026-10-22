@@ -5,6 +5,15 @@ Changelog
 All notable changes to **edi_epostak_peppol** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[18.0.1.0.0] — 2026-08-23
+-------------------------
+
+Added
+~~~~~
+
+- Back-ported from the 19.0 branch unchanged; no API deltas.
+
+
 [19.0.1.0.0] — 2026-08-22
 -------------------------
 

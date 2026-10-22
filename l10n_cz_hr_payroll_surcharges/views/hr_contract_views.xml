@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Surcharge attributes on the contract form. 19.0 puts these on
+        hr.version and anchors on hr.hr_contract_template_form_view; 18.0 has
+        neither, so this inherits the hr_contract form — the same anchor the
+        Slovak sibling uses on this series. Installable without either payroll
+        engine, and guarded by hr.group_hr_user for the same reason.
+    -->
+    <record id="hr_contract_view_form_l10n_cz_priplatky" model="ir.ui.view">
+        <field name="name">hr.contract.view.form.l10n_cz_priplatky</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='salary_info']" position="after">
+                <group string="Czech Wage Surcharges" groups="hr.group_hr_user">
+                    <field name="l10n_cz_difficult_factors"/>
+                    <field name="l10n_cz_surcharge_agreed"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

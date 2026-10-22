@@ -33,10 +33,11 @@ class L10nSkMinimumWage(models.Model):
     _description = "Slovak Minimum Wage Claim (stupeň náročnosti)"
     _order = "date_from desc, level"
 
-    _date_level_uniq = models.Constraint(
-        "unique(date_from, level)",
-        "Only one minimum-wage claim per start date and difficulty level.",
-    )
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("date_level_uniq", "unique(date_from, level)",
+         "Only one minimum-wage claim per start date and difficulty level."),
+    ]
 
     name = fields.Char(compute="_compute_name", store=True)
     date_from = fields.Date(

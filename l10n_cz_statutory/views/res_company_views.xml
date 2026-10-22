@@ -1,10 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!-- Backport of the 19.0 core l10n_cz company form field: expose the CZ
+         tax office (finanční úřad) link so c_pracufo can be set. -->
+    <record id="view_company_form_inherit_l10n_cz_statutory" model="ir.ui.view">
+        <field name="name">res.company.form.inherit.l10n_cz_statutory</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="model">res.company</field>
+        <field name="arch" type="xml">
+            <field name="vat" position="after">
+                <field name="l10n_cz_tax_office_id"
+                       invisible="country_code != 'CZ'" />
+            </field>
+        </field>
+    </record>
 
-    <!--
-        Údaje podávajícího for the Czech EPO VAT forms (DPHDP3, kontrolní
-        hlášení, souhrnné hlášení). Only Czech companies file them.
-    -->
+    <!-- The EPO filer page, ported from 19.0 so that l10n_cz_epo can extend
+         it. The back-port record above is 18.0-only and stays. -->
     <record id="res_company_view_form_cz_epo_filer" model="ir.ui.view">
         <field name="name">res.company.form.cz.epo.filer</field>
         <field name="model">res.company</field>

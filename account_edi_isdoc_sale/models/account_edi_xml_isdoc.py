@@ -16,7 +16,8 @@ class AccountEdiXmlISDOC(models.AbstractModel):
 
     def _export_order_proforma(self, order):
         """ Generate an ISDOC 6.0.2 proforma (DocumentType 4) from a sale order. """
-        self._validate_taxes(order.order_line.tax_ids)
+        # 18.0 port: sale.order.line uses `tax_id` (singular) on 18.0; `tax_ids` is 19.0.
+        self._validate_taxes(order.order_line.tax_id)
         if not order.isdoc_uuid:
             order.isdoc_uuid = str(uuid.uuid4()).upper()
 
@@ -35,7 +36,7 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         line_nodes = [
             self._isdoc_line_node(
                 index, line.name, line.product_uom_qty or 0.0, line.price_subtotal, line.price_total,
-                self._line_tax_percent(line), line.product_uom_id.name, line.product_id, dp)
+                self._line_tax_percent(line), line.product_uom.name, line.product_id, dp)
             for index, line in enumerate(lines, 1)
         ]
         issue_date = (order.date_order or fields.Datetime.now()).date().isoformat()

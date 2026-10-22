@@ -153,11 +153,11 @@ class CsskSubmission(models.Model):
         help="Who confirmed a manual filing actually took place.",
     )
 
-    _check_res = models.Constraint(
-        "CHECK (res_id > 0)",
-        "A submission must point at a statement.",
-    )
-
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("check_res", "CHECK (res_id > 0)",
+         "A submission must point at a statement."),
+    ]
     # ------------------------------------------------------------------
     # channels
     # ------------------------------------------------------------------

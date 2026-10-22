@@ -1,12 +1,9 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from odoo import Command, _, api, fields, models
-from odoo.tools.translate import LazyTranslate
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
-
-_lt = LazyTranslate(__name__)
 
 
 class CSSKIncomeTaxReturn(models.Model):
@@ -20,13 +17,8 @@ class CSSKIncomeTaxReturn(models.Model):
 
     _name = "cssk.income.tax.return"
     _description = "Income Tax Return"
-    # Two mixins, two concerns, both wanted: the statutory one retains the
-    # filed copy, the submittable one tracks whether it arrived and holds what
-    # came back. Neither substitutes for the other — a daňová kontrola asks for
-    # the doručenka, which only the second can produce.
     _inherit = ["mail.thread", "mail.activity.mixin",
-                "cssk.statutory.submission.mixin",
-                "cssk.submittable.mixin"]
+                "cssk.statutory.submission.mixin"]
     _order = "date_from desc, id desc"
 
     name = fields.Char(compute="_compute_name")
@@ -44,12 +36,6 @@ class CSSKIncomeTaxReturn(models.Model):
         domain="[('country_id', '=', country_id),"
         " ('valid_from', '<=', date_to),"
         " '|', ('valid_to', '=', False), ('valid_to', '>=', date_from)]",
-        # The dropdown must offer an ARCHIVED vintage too. The domain
-        # above already scopes by period, so a 2026 filing never sees
-        # the 2014 vzor anyway — archiving is a way of tidying the
-        # configuration list, and it must not quietly make an old
-        # period unenterable or a historical filing un-repointable.
-        context={'active_test': False},
     )
     date_from = fields.Date(required=True)
     date_to = fields.Date(required=True)
@@ -92,14 +78,6 @@ class CSSKIncomeTaxReturn(models.Model):
             ("exported", "Exported"),
             ("submitted", "Submitted"),
             ("cancelled", "Cancelled"),
-            # Terminal, and off the workflow rather than at the end of it. A
-            # historical filing was completed and submitted years ago by
-            # whoever ran the previous system; it is a RECORD of a filing, not
-            # a filing in progress, so no transition leads into or out of it.
-            # Set automatically whenever ``legacy`` is set — see
-            # ``cssk.statutory.submission.mixin``, which owns that rule so the
-            # importer cannot set one without the other.
-            ("legacy", "Historical filing"),
         ],
         default="draft",
         tracking=True,
@@ -156,7 +134,6 @@ class CSSKIncomeTaxReturn(models.Model):
     # Compute (the evaluator)
     # ------------------------------------------------------------------
     def action_compute_lines(self):
-        self._cssk_check_not_legacy(_("recomputed"))
         self.ensure_one()
         if self.state not in ("draft", "preview"):
             raise UserError(_("Only draft returns can be recomputed."))
@@ -239,11 +216,19 @@ class CSSKIncomeTaxReturn(models.Model):
         if balances is None:
             balances = self._cssk_account_balance_map(
                 self.date_from, self.date_to)
-        # Shared matcher in l10n_cssk_core, with THIS statement's inverted sign
-        # convention preserved: a bare prefix counts −1 and a leading '-' flips
-        # it to +1, so the net reads as a positive profit. Do not "normalise"
-        # that to the FS convention — every row definition here depends on it.
-        return self._cssk_eval_formula(formula, balances, default_sign=-1.0)
+        total = 0.0
+        for token in formula.split(","):
+            token = token.strip()
+            if not token:
+                continue
+            sign = -1.0
+            if token.startswith("-"):
+                sign = 1.0
+                token = token[1:]
+            total += sign * sum(
+                balance for code, balance in balances.items()
+                if code.startswith(token))
+        return total
 
     def _account_source_domain(self, formula):
         """A small, serialisable domain for the P&L move lines a ``kind=account``
@@ -272,13 +257,7 @@ class CSSKIncomeTaxReturn(models.Model):
     # return thereby also gains the ``_cssk_check_kontroly`` stage (a no-op
     # until a country module supplies DPPO kontrolné pravidlá).
     # ------------------------------------------------------------------
-        #: LAZY, not a plain string. This names the form in error messages and
-    #: on the comparison screen, and as a bare literal it was in no .pot at
-    #: all — untranslatable in every language, not merely untranslated.
-    #: ``_lt`` defers the lookup to render time, which is what lets a
-    #: module-level constant be translated at all; render it with
-    #: ``self.env._(...)`` so it picks up the READER's language.
-    _cssk_form_label = _lt("income-tax return")
+    _cssk_form_label = "income-tax return"
     _cssk_xml_name_fallback = "income_tax_return"
 
     def _cssk_export_draft_error(self):
@@ -286,18 +265,11 @@ class CSSKIncomeTaxReturn(models.Model):
 
     def _cssk_preflight_export(self):
         """DPPO identification: the SK template emits the DIČ
-        (``l10n_sk_dic``, falling back to the VAT number), the CZ one the
+        (``l10n_cssk_dic``, falling back to the VAT number), the CZ one the
         DIČ derived from the VAT number — either identifier satisfies the
-        form, so accept whichever is set (unlike the VAT-only base check).
-
-        The DIČ field is read by feature detection: it lives in
-        ``l10n_sk_base``, and this module is the shared CZ/SK base, which a
-        Czech-only deployment installs without any Slovak module. In Czech
-        usage the DIČ *is* the VAT number, so ``vat`` alone is the right
-        answer there.
-        """
+        form, so accept whichever is set (unlike the VAT-only base check)."""
         for rec in self:
-            if not (getattr(rec.company_id, "l10n_sk_dic", False) or rec.company_id.vat):
+            if not (rec.company_id.l10n_cssk_dic or rec.company_id.vat):
                 raise UserError(_(
                     "Company '%(company)s' has neither a Tax ID (DIČ) nor a "
                     "VAT number set, but the income-tax return XML must carry "
@@ -314,13 +286,6 @@ class CSSKIncomeTaxReturn(models.Model):
             "values": {line.code: line.value for line in self.line_ids},
             "values_fmt": {
                 line.code: "%.2f" % line.value for line in self.line_ids
-            },
-            # Not every row on a DPPO is money. The older vzory carry counts
-            # and years typed as an INTEGER union, and "0.00" is not a valid
-            # value of one — the export is refused, which is the right answer
-            # and a confusing one to arrive at from a form full of amounts.
-            "values_int": {
-                line.code: "%d" % round(line.value) for line in self.line_ids
             },
         })
         return ctx

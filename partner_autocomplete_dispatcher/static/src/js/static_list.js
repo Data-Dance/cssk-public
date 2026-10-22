@@ -1,9 +1,4 @@
 /** @odoo-module **/
-/*
-    Copyright 2022 Data Dance s.r.o.
-    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-*/
-
 import { x2ManyCommands } from "@web/core/orm_service";
 import { patch } from "@web/core/utils/patch";
 import { StaticList } from "@web/model/relational_model/static_list";
@@ -28,11 +23,10 @@ import { StaticList } from "@web/model/relational_model/static_list";
  * the row deleted where it cascades — and on a many2many both drop the link.
  *
  * Before that, this was a full copy of core's `_applyCommands` with a CLEAR
- * branch added. That copy went stale: by 19.0 it had lost the LINK
- * de-duplication against `_currentIds` (duplicated rows), still called
- * `_parseServerValues(changes, record.data)` after core moved the second
- * argument to an options object `{ currentValues }` (so current values were
- * silently dropped), and pinned an older `_currentIds.splice` index.
+ * branch added, and the copy had already drifted from 18.0 core: it inserted
+ * CREATEd rows at `offset + limit + _tmpIncreaseLimit` where core uses
+ * `offset + limit`. On 19.0 the same copy had also lost core's LINK
+ * de-duplication and kept a stale `_parseServerValues` signature.
  *
  * Handling only the command core does not know about, and delegating the rest,
  * is what keeps that from happening again.

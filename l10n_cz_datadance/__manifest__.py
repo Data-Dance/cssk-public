@@ -10,15 +10,15 @@ Czech Accounting Localization (Data Dance) — meta-module
 Installs the **Czech statutory core** in one step:
 
 * Kontrolní hlášení (DPHKH1), souhrnné hlášení (DPHSHV), přiznání k DPH
-  (DPHDP3), CZ invoice, VIES, saldokonto + zápočet, dohadné (accruals).
+  (DPHDP3), Rozvaha + Výsledovka (financial statements), DPPDP9 (income tax),
+  CZ invoice, VIES, saldokonto + zápočet, dohadné (accruals).
 
-Further pieces (dual depreciation, Method A, advance invoices, and the annual
-filings — Rozvaha + Výsledovka and DPPDP9) are selectable in
-**Settings → Accounting → Czech localization** — tick to install.
+Optional pieces (dual depreciation, Method A, advance invoices) are selectable
+in **Settings → Accounting → Czech localization** — tick to install.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.1",
+    "version": "18.0.1.0.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": [
@@ -28,7 +28,9 @@ filings — Rozvaha + Výsledovka and DPPDP9) are selectable in
         "l10n_cz_kh",
         "l10n_cz_ec_sales",
         "l10n_cz_vat_return",
+        "l10n_cz_fs",
         "l10n_cz_invoice",
+        "l10n_cz_dppo",
         "l10n_cssk_partner_balances",
         "l10n_cssk_vies",
         "l10n_cssk_accrual",

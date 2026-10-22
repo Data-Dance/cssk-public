@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Kontrolný výkaz DPH (KV DPH)",
-    "version": "19.0.2.3.0",
+    "version": "18.0.2.3.0",
     "summary": "Slovak VAT control statement (Kontrolný výkaz DPH) — sections "
                "A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared "
                "l10n_cssk_kv_kh_base framework.",
@@ -22,7 +22,7 @@ account_reports**, so it works on Community and Enterprise, 18.0 and 19.0.
     "website": "https://www.datadance.eu",
     "license": "AGPL-3",
     "category": "Accounting/Localizations",
-    "depends": ["l10n_cssk_kv_kh_base", "l10n_sk"],
+    "depends": ["l10n_cssk_kv_kh_base", "l10n_sk", "l10n_sk_tax_report_backport"],
     "data": [
         "security/ir.model.access.csv",
         "security/record_rules.xml",

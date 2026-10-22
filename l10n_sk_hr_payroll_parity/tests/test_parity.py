@@ -31,13 +31,16 @@ class TestPayrollEngineParity(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.engine = cls._detect_engine()
+        # The users field is groups_id on 18.0 and group_ids on 19.0.
+        gfield = "group_ids" if "group_ids" in cls.env.user._fields \
+            else "groups_id"
         if cls.engine == ENGINE_OCA:
-            cls.env.user.group_ids |= cls.env.ref("payroll.group_payroll_manager")
+            cls.env.user[gfield] |= cls.env.ref("payroll.group_payroll_manager")
             cls.structure = cls.env.ref(
                 "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary"
             )
         else:
-            cls.env.user.group_ids |= cls.env.ref(
+            cls.env.user[gfield] |= cls.env.ref(
                 "hr_payroll.group_hr_payroll_manager"
             )
             cls.structure = cls.env.ref(
@@ -91,26 +94,31 @@ class TestPayrollEngineParity(TransactionCase):
         date_from, date_to = date(y1, m1, d1), date(y2, m2, d2)
 
         calendar = self._scenario_calendar(scenario)
-        emp_vals = {
+        # 19.0 delegates hr.employee to hr.version, so one create() carrying
+        # date_version / wage is enough. 18.0 has no delegation: the contract
+        # is a record of its own, in state "open" so contract_id resolves.
+        employee = self.env["hr.employee"].with_company(self.company).create({
             "name": "Parity %s" % scenario["key"],
             "company_id": self.company.id,
             "resource_calendar_id": calendar.id,
-            "date_version": date(2024, 1, 1),
-            "contract_date_start": date(2024, 1, 1),
+        })
+        contract_vals = {
+            "name": "Parity %s" % scenario["key"],
+            "employee_id": employee.id,
+            "company_id": self.company.id,
             "wage": scenario["wage"],
+            "state": "open",
+            "date_start": date(2024, 1, 1),
+            "resource_calendar_id": calendar.id,
         }
         if self.engine == ENGINE_OCA:
-            emp_vals["struct_id"] = self.structure.id
+            # struct_id lives on the contract on the OCA engine only; the
+            # Enterprise contract carries the structure TYPE.
+            contract_vals["struct_id"] = self.structure.id
         else:
-            emp_vals["structure_type_id"] = self.structure.type_id.id
-        employee = (
-            self.env["hr.employee"].with_company(self.company).create(emp_vals)
-        )
-        version_vals = dict(scenario["version"])
-        version_vals["resource_calendar_id"] = calendar.id
-        if self.engine == ENGINE_OCA:
-            version_vals["struct_id"] = self.structure.id
-        employee.version_id.write(version_vals)
+            contract_vals["structure_type_id"] = self.structure.type_id.id
+        contract_vals.update(scenario["version"])
+        self.env["hr.contract"].with_company(self.company).create(contract_vals)
 
         slip_vals = {
             "name": "Parity %s" % scenario["key"],
@@ -121,7 +129,7 @@ class TestPayrollEngineParity(TransactionCase):
             "date_to": date_to,
         }
         if self.engine == ENGINE_OCA:
-            slip_vals["contract_id"] = employee.version_id.id
+            slip_vals["contract_id"] = employee.contract_id.id
             slip_vals["input_line_ids"] = [
                 (
                     0,
@@ -130,13 +138,14 @@ class TestPayrollEngineParity(TransactionCase):
                         "name": code,
                         "code": code,
                         "amount": qty,
-                        "contract_id": employee.version_id.id,
+                        "contract_id": employee.contract_id.id,
                     },
                 )
                 for code, qty in scenario["inputs"].items()
             ]
         else:
-            slip_vals["version_id"] = employee.version_id.id
+            # Both 18.0 engines call it contract_id.
+            slip_vals["contract_id"] = employee.contract_id.id
             slip_vals["input_line_ids"] = [
                 (0, 0, {"input_type_id": self._input_type(code).id, "amount": qty})
                 for code, qty in scenario["inputs"].items()
@@ -150,7 +159,7 @@ class TestPayrollEngineParity(TransactionCase):
             # and no leave line, so an absence scenario would silently compare
             # two untouched full-month payslips and pass.
             worked = slip.get_worked_day_lines(
-                employee.version_id, date_from, date_to
+                employee.contract_id, date_from, date_to
             )
             slip.worked_days_line_ids = [(0, 0, line) for line in worked]
         if self.engine == ENGINE_EE and not scenario.get("leaves"):
@@ -216,7 +225,10 @@ class TestPayrollEngineParity(TransactionCase):
                 }
             )
         )
-        leave.action_approve()
+        # A no_validation type lands straight in "validate" on 18.0,
+        # and approving an already-approved leave is an error.
+        if leave.state == "confirm":
+            leave.action_approve()
         return leave
 
     def _input_type(self, code):

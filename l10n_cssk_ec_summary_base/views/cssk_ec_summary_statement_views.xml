@@ -14,8 +14,7 @@
                 <field name="period_type"/>
                 <field name="state" widget="badge"
                        decoration-success="state == 'submitted'"
-                       decoration-info="state == 'exported'"
-                       decoration-muted="state == 'legacy'"/>
+                       decoration-info="state == 'exported'"/>
             </list>
         </field>
     </record>
@@ -31,16 +30,10 @@
                             invisible="state not in ('draft', 'preview')"/>
                     <button name="action_export_xml" type="object"
                             string="Export XML" class="btn-primary"
-                            invisible="state in ('draft', 'submitted', 'legacy')"/>
+                            invisible="state in ('draft', 'submitted')"/>
                     <button name="action_submit" type="object"
                             string="Mark Submitted" class="btn-primary"
                             invisible="state != 'exported'"/>
-                    <button name="action_create_submission" type="object"
-                            string="File it" class="btn-primary"
-                            invisible="state not in ('exported', 'submitted')"
-                            help="Open a delivery for this filing. With only the
-                                  manual channel installed this records who filed
-                                  it on the portal and holds the receipts."/>
                     <button name="action_reset_to_draft" type="object"
                             string="Reset to Draft"
                             invisible="state not in ('exported', 'submitted')"
@@ -50,26 +43,8 @@
                             invisible="state != 'submitted'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,preview,exported,submitted"/>
-                    <field name="submission_state" widget="badge" optional="show"
-                           invisible="not submission_state"
-                           decoration-success="submission_state in ('accepted',)"
-                           decoration-info="submission_state in ('delivered',)"
-                           decoration-danger="submission_state in ('rejected','failed')"/>
                 </header>
                 <sheet>
-                    <!-- A filing can have SEVERAL comparisons, one per
-                         basis — itself recomputed, the ledger, another filing
-                         — so this leads to the list of them rather than to
-                         one. Hidden at zero: a stat button reading 0 invites
-                         a click that lands on an empty list. -->
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_cssk_open_comparisons" type="object"
-                                class="oe_stat_button" icon="fa-balance-scale"
-                                invisible="cssk_comparison_count == 0">
-                            <field name="cssk_comparison_count"
-                                   widget="statinfo" string="Comparisons"/>
-                        </button>
-                    </div>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1"/></h1>
                     </div>

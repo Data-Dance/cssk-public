@@ -26,11 +26,10 @@ accounting result and the formulaic spine, and takes the rest as manual entry.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.5.5",
+    "version": "18.0.1.2.3",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
-    "depends": ["account", "mail", "l10n_cssk_core",
-        "l10n_cssk_submission_base"],
+    "depends": ["account", "mail", "l10n_cssk_core"],
     "data": [
         "security/ir.model.access.csv",
         "security/record_rules.xml",

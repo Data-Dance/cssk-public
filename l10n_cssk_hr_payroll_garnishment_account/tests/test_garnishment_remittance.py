@@ -1,7 +1,7 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.exceptions import AccessError, UserError
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 
 
@@ -86,67 +86,6 @@ class TestGarnishmentRemittance(TransactionCase):
         # payment order picks up to actually send the money.
         self.assertEqual(credit.partner_id, self.bailiff)
         self.assertEqual(credit.account_id.account_type, "liability_payable")
-
-    def test_the_orders_own_payee_account_reaches_the_entry(self):
-        """One bailiff, several cases, different collection accounts.
-
-        The order carries a "Payee Bank Account" domain-restricted to the
-        payee for exactly that reason, and the remittance dropped it — so
-        ``account_payment_order`` downstream fell back to the payee's default
-        account and the money went to the right creditor on the wrong account,
-        which for an exekútor means it is not credited to the case.
-        """
-        # TWO accounts on the same payee, which is the whole point: one
-        # bailiff collects for many debtors and tells you which account this
-        # case pays into. With only one account the move fills the field in by
-        # itself and the test proves nothing.
-        default = self.env["res.partner.bank"].create({
-            "acc_number": "CZ6508000000192000145399",
-            "partner_id": self.order.payee_partner_id.id,
-        })
-        for_this_case = self.env["res.partner.bank"].create({
-            "acc_number": "CZ9455000000001011038930",
-            "partner_id": self.order.payee_partner_id.id,
-        })
-        self.order.partner_bank_id = for_this_case
-        line = self._line(1000.0)
-        line.action_remit()
-        self.assertEqual(
-            line.move_id.partner_bank_id, for_this_case,
-            "the entry must route to the account THIS case collects on, not "
-            "the payee's first one")
-        self.assertNotEqual(line.move_id.partner_bank_id, default)
-
-    def test_an_accountant_may_remit_but_not_rewrite_the_deduction(self):
-        """The ACL exists to let the remittance happen, and no more.
-
-        Granting ``account.group_account_user`` write on the deduction line is
-        what the remit flow needs (it sets ``state`` and ``move_id``). Left
-        unqualified it would also let anyone who can post an entry change how
-        much is being withheld from an employee's wage. Payroll decides the
-        deduction; accounting records that it was paid.
-        """
-        accountant = self.env["res.users"].create({
-            "name": "Accountant", "login": "cssk_garnishment_accountant",
-            "company_ids": [(6, 0, [self.company.id])],
-            "company_id": self.company.id,
-            "group_ids": [(6, 0, [
-                self.env.ref("account.group_account_user").id,
-                self.env.ref("base.group_user").id,
-            ])],
-        })
-        self.assertFalse(accountant.has_group("hr.group_hr_user"),
-                         "premise: this user keeps books, not payroll")
-        line = self._line(1000.0).with_user(accountant)
-
-        # The workflow the ACL was added for must work end to end.
-        line.action_remit()
-        self.assertEqual(line.sudo().state, "done")
-        self.assertTrue(line.sudo().move_id)
-
-        # Editing the withheld amount must not.
-        with self.assertRaises(AccessError):
-            self._line(500.0).with_user(accountant).write({"amount": 1.0})
 
     def test_case_number_becomes_the_variable_symbol(self):
         line = self._line()

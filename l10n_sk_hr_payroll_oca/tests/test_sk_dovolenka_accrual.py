@@ -75,6 +75,41 @@ class TestSkDovolenkaAccrual(TransactionCase):
         self.assertGreater(alloc.number_of_days, 1.0)
         self.assertLessEqual(alloc.number_of_days, 20.0)
 
+    def test_the_first_month_accrues_a_whole_twelfth(self):
+        """The first month gives 1/12 of the year — all of it.
+
+        ``hr.leave.accrual.level.start_count`` defaults to 1 DAY on 18.0 (0 on
+        19.0), so the level started the day AFTER the allocation and Odoo
+        prorated the first period 30/31: 1.6129 instead of 1.66667. Every
+        Slovak employee's first year of dovolenka was a fifth of a day short,
+        and the bounds the other accrual test asserts (>1, <=20) are just as
+        happy at 19.95 as at 20.
+
+        Hand-derived: added_value is 1.66667 (20/12) and a January that is
+        fully covered by the allocation must not be prorated at all.
+        """
+        plan = self.env.ref(MOD + ".l10n_sk_accrual_plan_dovolenka_4w")
+        employee = self.env["hr.employee"].create({"name": "Prvy Mesiac"})
+        with freeze_time("2026-01-01"):
+            alloc = self.env["hr.leave.allocation"].create(
+                {
+                    "name": "Dovolenka 2026",
+                    "holiday_status_id": self.leave_type.id,
+                    "employee_id": employee.id,
+                    "allocation_type": "accrual",
+                    "accrual_plan_id": plan.id,
+                    "date_from": date(2026, 1, 1),
+                    # Start from nothing: the field defaults to 1 day, which
+                    # would sit on top of whatever the plan accrues.
+                    "number_of_days": 0,
+                }
+            )
+            alloc.action_approve()
+        # accrued_gain_time='end': January's twelfth lands on 1 February.
+        with freeze_time("2026-02-01"):
+            alloc._update_accrual()
+        self.assertAlmostEqual(alloc.number_of_days, 1.66667, places=4)
+
     def test_one_year_carryover_forfeiture(self):
         """§113 clean one-year forfeit across MANY carryover cycles.
 

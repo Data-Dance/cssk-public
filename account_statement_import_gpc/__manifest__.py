@@ -1,8 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
 {
     "name": "Bank Statement Import — GPC (CZ/SK)",
-    "version": "19.0.2.0.0",
+    "version": "18.0.1.0.0",
     "summary": "Import Czech/Slovak GPC (ABO) bank statement files.",
     "description": """
 Bank Statement Import — GPC (CZ/SK)
@@ -10,9 +10,7 @@ Bank Statement Import — GPC (CZ/SK)
 
 Imports bank statements in the GPC format (the ABO electronic statement
 format used by Czech and Slovak banks — Fio, KB, ČS, ČSOB, …) through the
-OCA statement import framework. The parser itself lives in
-``account_gpc_base`` and is shared with the Enterprise shim
-(``account_statement_import_gpc_ee``).
+OCA statement import framework.
 
 * Record ``074`` — statement header: account, statement number, opening and
   closing balance, accounting date.
@@ -36,6 +34,6 @@ as cp1250 (latin-1 fallback).
     "website": "https://www.datadance.eu",
     "license": "AGPL-3",
     "category": "Accounting/Bank",
-    "depends": ["account_statement_import_file", "account_gpc_base"],
+    "depends": ["account_statement_import_file"],
     "installable": True,
 }

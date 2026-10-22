@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Wage Garnishment — Accounting",
-    "version": "19.0.1.1.1",
+    "version": "18.0.1.0.0",
     "category": "Human Resources/Payroll",
     "summary": "Turn each wage-garnishment deduction into a payable to the "
     "bailiff, stamped with the case number as variable symbol, ready for the "

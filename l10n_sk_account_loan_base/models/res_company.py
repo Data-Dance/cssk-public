@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
 
 from odoo import api, fields, models
 
@@ -17,7 +17,9 @@ SK_LOAN_ACCOUNT_ROLES = (
 # Role → account xmlid on the l10n_sk chart.
 SK_LOAN_ACCOUNTS = {
     "long_term": "chart_sk_474000",  # Záväzky z nájmu
-    "short_term": "chart_sk_474100",  # Lízing (bežná časť)
+    # 18.0: the chart has no 474100, so the base creates it (see
+    # account_chart_template.SK_LEASE_CURRENT_PORTION) and we reference OUR xmlid.
+    "short_term": "l10n_sk_lease_current_portion",
     "interest": "chart_sk_562000",  # Úroky
     "leased_asset": "chart_sk_022000",  # Samostatné hnuteľné veci
 }
@@ -57,7 +59,6 @@ class ResCompany(models.Model):
     )
 
     l10n_sk_loan_is_sk_company = fields.Boolean(
-        string="Slovak chart in use (technical)",
         compute="_compute_l10n_sk_loan_is_sk_company",
         help="Technical — hides the Slovak leasing settings on other charts.",
     )

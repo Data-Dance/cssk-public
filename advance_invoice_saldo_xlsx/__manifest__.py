@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl-3.0).
 {
     "name": "Advance Invoices — Open Advances Saldo (XLSX)",
-    "version": "19.0.1.0.1",
+    "version": "18.0.1.0.0",
     "summary": "XLSX saldo of issued and received advance invoices: paid, "
                "tax-documented, deducted and open amounts.",
     "description": """

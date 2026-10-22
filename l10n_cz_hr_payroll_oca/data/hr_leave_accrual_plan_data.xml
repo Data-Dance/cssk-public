@@ -19,7 +19,7 @@
             Práce přesčas se do odpracované doby započítává a zvyšuje nárok poměrně.
           * § 218 Čerpání / převod: nevyčerpaná dovolená se převádí do dalšího
             kalendářního roku (musí být určena k čerpání, resp. u části nad 4 týdny
-            lze převést na písemnou žádost zaměstnance) — proto can_be_carryover.
+            lze převést na písemnou žádost zaměstnance) — proto action_with_unused_accruals=all (18.0 nemá can_be_carryover).
             PŘEVOD PLATÍ JEN JEDEN ROK: převedená dovolená se musí vyčerpat do konce
             následujícího kalendářního roku, jinak propadá. V Odoo je to accrual_validity
             = 364 dnů počítaných OD data převodu (1. 1.), takže propadnutí nastane cca
@@ -54,16 +54,19 @@
         <field name="name">Statutory annual leave — 4 weeks (160 h/year)</field>
         <field name="accrued_gain_time">end</field>
         <field name="is_based_on_worked_time" eval="True"/>
-        <field name="can_be_carryover" eval="True"/>
         <field name="carryover_date">year_start</field>
     </record>
     <record id="accrual_plan_cz_holiday_4w_level" model="hr.leave.accrual.level">
+        <!-- start_count defaults to 1 DAY on 18.0 (0 on 19.0): the level would
+             start the day after the allocation, prorating the first period to
+             364/365 and granting 6.98 days where the statute says 7. Pinned. -->
+        <field name="start_count">0</field>
         <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_4w"/>
         <!-- 1/52 of (40 h x 4 týdny) per worked week = 160/52 = 3.076923 h/týden -->
         <field name="added_value">3.076923</field>
         <field name="added_value_type">hour</field>
         <field name="frequency">weekly</field>
-        <field name="week_day">0</field>
+        <field name="week_day">mon</field>
         <field name="cap_accrued_time" eval="False"/>
         <field name="action_with_unused_accruals">all</field>
         <!-- § 218: carried-over dovolená is valid for ONE further year; days not
@@ -82,16 +85,19 @@
         <field name="name">Annual leave — 5 weeks (200 h/year)</field>
         <field name="accrued_gain_time">end</field>
         <field name="is_based_on_worked_time" eval="True"/>
-        <field name="can_be_carryover" eval="True"/>
         <field name="carryover_date">year_start</field>
     </record>
     <record id="accrual_plan_cz_holiday_5w_level" model="hr.leave.accrual.level">
+        <!-- start_count defaults to 1 DAY on 18.0 (0 on 19.0): the level would
+             start the day after the allocation, prorating the first period to
+             364/365 and granting 6.98 days where the statute says 7. Pinned. -->
+        <field name="start_count">0</field>
         <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_5w"/>
         <!-- 1/52 of (40 h x 5 týdnů) per worked week = 200/52 = 3.846154 h/týden -->
         <field name="added_value">3.846154</field>
         <field name="added_value_type">hour</field>
         <field name="frequency">weekly</field>
-        <field name="week_day">0</field>
+        <field name="week_day">mon</field>
         <field name="cap_accrued_time" eval="False"/>
         <field name="action_with_unused_accruals">all</field>
         <!-- § 218: carried-over dovolená is valid for ONE further year; 364-day

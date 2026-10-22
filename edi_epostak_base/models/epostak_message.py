@@ -29,11 +29,6 @@ class EdiMessage(models.Model):
         self.PROVIDER_CRON_MAP["epostak"] = (
             "edi_epostak_base.cron_epostak_get_messages"
         )
-        # No job runner: the broker dictates when to retry (kind +
-        # retry_after), and what queue_job would otherwise be buying here —
-        # orchestration and a backoff curve — is exactly what that replaces.
-        # `queued` is picked up by edi_base's own cron instead.
-        self.PROVIDER_DISPATCH_MAP["epostak"] = "cron"
 
     @api.model
     def _default_provider_mode_epostak(self):

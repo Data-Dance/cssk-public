@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
 
 from unittest.mock import patch
 
@@ -141,15 +141,15 @@ class TestFioPaymentOrder(FioCommon):
         self.assertEqual(order.state, "open")
 
     def test_a_non_numeric_variable_symbol_is_refused_at_entry(self):
+        """Was dead code until 2026-09-01: this method and the one below shared
+        a name, so Python kept only the second and the variable-symbol half of
+        ``_check_payment_symbols_cz`` was never exercised on either branch."""
         from odoo.exceptions import ValidationError
 
         with self.assertRaises(ValidationError):
             self._order(variable_symbol="FA/42")
 
     def test_a_non_numeric_constant_symbol_is_refused_at_entry(self):
-        # Distinct name from the variable-symbol case above. Both were called
-        # test_a_non_numeric_symbol_is_refused_at_entry, so this one shadowed
-        # the other and the variable_symbol assertion never ran.
         from odoo.exceptions import ValidationError
 
         with self.assertRaises(ValidationError):

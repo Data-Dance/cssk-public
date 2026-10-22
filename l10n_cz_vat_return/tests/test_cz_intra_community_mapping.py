@@ -1,10 +1,26 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import unittest
+
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.tests import tagged
 
+from odoo.release import version_info
 
+
+# 18.0 ONLY. The feature under test does not exist on this series and cannot
+# be ported as a translation of the 19.0 code — see the guard and its comment
+# in ``models/res_company.py._cz_map_intra_community_purchase_taxes``, and the
+# carry-over note in CHANGELOG.rst. Skipped rather than deleted, so that the
+# port leaves evidence of what is missing instead of a suite that looks whole.
+# The condition is the same one the model guards on, so this file starts
+# running again by itself the moment the mapping is implemented here.
+@unittest.skipIf(
+    version_info[0] < 19,
+    "needs account.tax.original_tax_ids and a core intra-Community fiscal "
+    "position, neither of which exists on Odoo 18.0 — see CHANGELOG.rst",
+)
 @tagged("post_install", "-at_install")
 class TestCzIntraCommunityMapping(AccountTestInvoicingCommon):
     """The Intra-Community position must replace the domestic purchase tax.

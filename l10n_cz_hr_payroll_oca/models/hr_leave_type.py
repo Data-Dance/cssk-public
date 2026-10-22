@@ -34,3 +34,20 @@ class HrLeaveType(models.Model):
         "at the average hourly earnings; sickness drives the sickness compensation; OČR and unpaid "
         "leave get no employer pay (and unpaid leave prorates BASIC down).",
     )
+
+    # Core 18.0 defines country_id as a related, read-only mirror of
+    # company_id.country_id. Redefine it as a settable, stored field so a leave
+    # type can be country-scoped (base.cz) while staying company-global
+    # (company_id empty) — mirroring how the accounting localization scopes its
+    # configuration by country. A record rule (see security/) then filters the
+    # time-off configuration to the country of the user's active company.
+    country_id = fields.Many2one(
+        "res.country",
+        string="Country",
+        related=False,
+        store=True,
+        readonly=False,
+        help="Country this time-off type belongs to. The time-off "
+        "configuration is filtered so a company only sees the leave types of "
+        "its own country.",
+    )

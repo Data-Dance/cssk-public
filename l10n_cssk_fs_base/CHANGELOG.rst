@@ -3,10 +3,58 @@ Changelog
 =========
 
 All notable changes to **l10n_cssk_fs_base** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 1.9.0 by one port rather than by those
+releases, and the entries are what the port brought over.
 
 [Unreleased]
 ------------
+
+[18.0.1.9.0] — 2026-10-19
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Brought the module to 19.0's 1.9.0 in one step, from 18.0.1.2.3.** The
+  18.0 copy was the 1.2.3 snapshot the series was imported at and had never
+  diverged — the only 18.0 edit this module ever carried was its version
+  number — so the 19.0 files were taken whole rather than merged. Nothing in
+  them uses a 19.0-only API: no ``models.Constraint`` or ``models.Index``, no
+  ``fields.Domain``, no ``privilege_id``, and both new JS imports
+  (``formatFloat`` from ``@web/views/fields/formatters``, ``parseFloat`` from
+  ``…/parsers``) exist on 18.0 at the same paths.
+
+  What the port unblocks here and now: ``cssk.fs.statement.line.def.basis``,
+  without which ``l10n_sk_single_entry_closing`` could not install — its
+  ``uzfo_v14`` version needs a per-line basis because the Slovak účtovná
+  závierka is one document whose ``telo`` carries ``ucPod1Suvaha`` (as of the
+  period end) beside ``ucPod2VykazZS`` (movement within it), so no single
+  statement-level basis can describe it.
+
+- **Dependency added: ``l10n_cssk_submission_base``**, as on 19.0. It is on
+  this branch at the same feature level (18.0.1.0.1).
+
+Fixed
+~~~~~
+
+- **The module's migration scripts had never been able to run on 18.0.** Both
+  existing directories were named for the 19.0 series (``19.0.1.1.0``,
+  ``19.0.1.2.0``), and ``MigrationManager`` gates a script on
+  ``parse_version(dir) <= parse_version(manifest version)`` — so against an
+  ``18.0.x`` manifest a ``19.0.x`` directory is in the future and is silently
+  skipped. Renumbered those two and the three brought over by this port into
+  ``18.0.1.{1,2,3,7,8}.0``.
+
+  Of the three new ones, only ``18.0.1.7.0`` has anything to do on an existing
+  18.0 database: it marks each statement row with the part of the document it
+  belongs to, which an Income-statement view needs to show anything at all.
+  ``18.0.1.3.0`` moves historical filings onto the new ``legacy`` state and
+  finds none, because this branch had no ``legacy`` field to set; ``18.0.1.8.0``
+  converts the old ``unmapped_note`` text into rows and returns at its own
+  column guard, because this branch never had that column either. Both are
+  kept so the series is complete and a database restored from 19.0 behaves.
 
 [19.0.1.9.0] — 2026-10-05
 -------------------------

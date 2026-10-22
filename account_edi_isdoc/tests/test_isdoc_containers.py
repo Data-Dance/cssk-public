@@ -68,15 +68,28 @@ class TestISDOCContainers(AccountTestInvoicingCommon):
         return self.env['account.move'].with_company(self.company).create({
             'move_type': 'in_invoice', 'journal_id': self.purchase_journal.id})
 
+    @staticmethod
+    def _is_isdoc_fd(fd):
+        # 18.0 port: no `import_file_type` key on 18.0 file-data; detect ISDOC by
+        # the parsed XML root namespace instead.
+        return (
+            fd.get('type') == 'xml'
+            and fd.get('xml_tree') is not None
+            and (etree.QName(fd['xml_tree']).namespace or '').startswith('http://isdoc.cz/namespace')
+        )
+
     def test_get_xml_tree_parses_bare_isdoc(self):
         # A .isdoc uploaded with a non-xml mimetype must still be recognised.
         with file_open('account_edi_isdoc/tests/test_files/import/doklad.isdoc', 'rb') as f:
             raw = f.read()
         attachment = self.env['ir.attachment'].create({
             'name': 'invoice.isdoc', 'raw': raw, 'mimetype': 'application/octet-stream'})
-        file_data = self.env['account.move']._to_files_data(attachment)[0]
+        # 18.0 port: the file-data pipeline lives on ir.attachment
+        # (`_unwrap_edi_attachments`), not on account.move (`_to_files_data`).
+        file_data = attachment._unwrap_edi_attachments()[0]
         self.assertIsNotNone(file_data['xml_tree'])
-        self.assertEqual(file_data['import_file_type'], 'account.edi.xml.isdoc')
+        self.assertTrue(self._is_isdoc_fd(file_data))
+        self.assertTrue(self._new_bill()._get_edi_decoder(file_data))
 
     def test_import_isdocx_archive(self):
         # Official .isdocx (doklad + attachments + nested old docs). Unwrap finds the ISDOC
@@ -86,12 +99,13 @@ class TestISDOCContainers(AccountTestInvoicingCommon):
         attachment = self.env['ir.attachment'].create({
             'name': 'doklad_s_prilohami.isdocx', 'raw': raw, 'mimetype': 'application/zip'})
         bill = self._new_bill()
-        files_data = bill._to_files_data(attachment)
-        files_data += bill._unwrap_attachments(files_data)
-        isdoc_fd = next(fd for fd in files_data if fd.get('import_file_type') == 'account.edi.xml.isdoc')
+        files_data = attachment._unwrap_edi_attachments()
+        isdoc_fd = next(fd for fd in files_data if self._is_isdoc_fd(fd))
         self.assertIsNotNone(isdoc_fd['xml_tree'])
 
-        bill._get_edi_decoder(isdoc_fd)['decoder'](bill, isdoc_fd)
+        decoder = bill._get_edi_decoder(isdoc_fd)
+        self.assertTrue(decoder)
+        decoder(bill, isdoc_fd, False)
         self.assertEqual(bill.partner_id.name, "ABRA Software a.s.")
         self.assertEqual(bill.ref, 'FV-111999/2008')
         self.assertGreater(len(bill.invoice_line_ids.filtered(lambda l: l.display_type == 'product')), 3)
@@ -119,9 +133,8 @@ class TestISDOCContainers(AccountTestInvoicingCommon):
         # The archive round-trips through our importer's unwrap.
         attachment = self.env['ir.attachment'].create({
             'name': 'invoice.isdocx', 'raw': raw, 'mimetype': 'application/zip'})
-        files_data = self._new_bill()._unwrap_attachments(
-            self.env['account.move']._to_files_data(attachment))
-        self.assertTrue(any(fd.get('import_file_type') == 'account.edi.xml.isdoc' for fd in files_data))
+        files_data = attachment._unwrap_edi_attachments()
+        self.assertTrue(any(self._is_isdoc_fd(fd) for fd in files_data))
 
     def test_embed_isdoc_in_pdf_roundtrips(self):
         # Take a real PDF + ISDOC from the official archive, embed, then re-detect on import.
@@ -134,9 +147,7 @@ class TestISDOCContainers(AccountTestInvoicingCommon):
 
         attachment = self.env['ir.attachment'].create({
             'name': 'invoice.pdf', 'raw': new_pdf, 'mimetype': 'application/pdf'})
-        bill = self._new_bill()
-        files_data = bill._to_files_data(attachment)
-        files_data += bill._unwrap_attachments(files_data)
-        isdoc_fd = next((fd for fd in files_data if fd.get('import_file_type') == 'account.edi.xml.isdoc'), None)
+        files_data = attachment._unwrap_edi_attachments()
+        isdoc_fd = next((fd for fd in files_data if self._is_isdoc_fd(fd)), None)
         self.assertIsNotNone(isdoc_fd, "Embedded ISDOC not found back in the PDF")
         self.assertTrue((etree.QName(isdoc_fd['xml_tree']).namespace or '').startswith('http://isdoc.cz/namespace'))

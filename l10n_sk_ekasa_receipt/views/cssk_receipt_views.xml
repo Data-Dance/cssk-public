@@ -9,15 +9,15 @@
                 <field name="l10n_sk_ekasa_okp"/>
                 <field name="l10n_sk_ekasa_is_paragon"/>
             </xpath>
-            <xpath expr="//div[hasclass('oe_title')]" position="before">
-                <div class="oe_button_box" name="button_box">
-                    <button name="action_l10n_sk_ekasa_open_calls" type="object"
-                            class="oe_stat_button" icon="fa-exchange"
-                            invisible="l10n_sk_ekasa_call_count == 0">
-                        <field name="l10n_sk_ekasa_call_count" widget="statinfo"
-                               string="Lookups"/>
-                    </button>
-                </div>
+            <!-- Into the form's own button box: a second oe_button_box is not
+                 lifted into the control panel and renders inline. -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_l10n_sk_ekasa_open_calls" type="object" groups="account.group_account_invoice"
+                        class="oe_stat_button" icon="fa-exchange"
+                        invisible="l10n_sk_ekasa_call_count == 0">
+                    <field name="l10n_sk_ekasa_call_count" widget="statinfo"
+                           string="Lookups"/>
+                </button>
             </xpath>
         </field>
     </record>

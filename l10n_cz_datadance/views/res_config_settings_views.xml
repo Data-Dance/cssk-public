@@ -37,16 +37,6 @@
                          help="Zálohové faktury + tax documents.">
                     <field name="module_l10n_cz_sale_order_advance_invoice" />
                 </setting>
-                <!-- Roční podání. Nejsou součástí veřejného repozitáře; přepínač
-                     zůstává neaktivní, dokud modul není v addons path. -->
-                <setting id="cz_dd_fs" string="Účetní závěrka (Rozvaha, VZZ)"
-                         help="Rozvaha a Výkaz zisku a ztráty ve struktuře pro sbírku listin. Součást předplatného Data Dance.">
-                    <field name="module_l10n_cz_fs" />
-                </setting>
-                <setting id="cz_dd_dppo" string="Přiznání k dani z příjmů (DPPDP9)"
-                         help="Přiznání k dani z příjmů právnických osob. Součást předplatného Data Dance.">
-                    <field name="module_l10n_cz_dppo" />
-                </setting>
             </xpath>
         </field>
     </record>

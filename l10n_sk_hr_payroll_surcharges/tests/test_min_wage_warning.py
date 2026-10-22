@@ -30,24 +30,34 @@ class TestMinWageWarning(TransactionCase):
             {"name": "SK 40h/week", "company_id": cls.company.id}
         )
 
-    def _version(self, wage, level="1", calendar=None):
-        employee = self.env["hr.employee"].with_company(self.company).create(
+    def _contract(self, wage, level="1", calendar=None, company=None):
+        """Employee + contract.
+
+        On 19.0 hr.employee delegates to hr.version, so one create() with
+        date_version / wage is enough; 18.0 needs the contract as a record of
+        its own.
+        """
+        company = company or self.company
+        calendar = calendar or self.full_time
+        employee = self.env["hr.employee"].with_company(company).create(
             {
                 "name": "Skusobny",
-                "company_id": self.company.id,
-                "resource_calendar_id": (calendar or self.full_time).id,
-                "date_version": date(2026, 6, 1),
-                "contract_date_start": date(2026, 6, 1),
-                "wage": wage,
+                "company_id": company.id,
+                "resource_calendar_id": calendar.id,
             }
         )
-        employee.version_id.write(
+        return self.env["hr.contract"].with_company(company).create(
             {
+                "name": "Skusobny contract",
+                "employee_id": employee.id,
+                "company_id": company.id,
+                "wage": wage,
+                "state": "open",
+                "date_start": date(2026, 6, 1),
+                "resource_calendar_id": calendar.id,
                 "l10n_sk_wage_level": level,
-                "resource_calendar_id": (calendar or self.full_time).id,
             }
         )
-        return employee.version_id
 
     def _half_time(self):
         return self.env["resource.calendar"].create(
@@ -69,17 +79,17 @@ class TestMinWageWarning(TransactionCase):
         )
 
     def test_no_warning_at_the_minimum_wage(self):
-        self.assertFalse(self._version(915.0).l10n_sk_min_wage_warning)
+        self.assertFalse(self._contract(915.0).l10n_sk_min_wage_warning)
 
     def test_warning_below_the_level_1_claim(self):
-        warning = self._version(800.0).l10n_sk_min_wage_warning
+        warning = self._contract(800.0).l10n_sk_min_wage_warning
         self.assertTrue(warning)
         self.assertIn("915", warning)
 
     def test_a_higher_level_raises_the_bar(self):
         """€1000 clears level 1 but not the €1147 level-3 claim."""
-        self.assertFalse(self._version(1000.0, level="1").l10n_sk_min_wage_warning)
-        warning = self._version(1000.0, level="3").l10n_sk_min_wage_warning
+        self.assertFalse(self._contract(1000.0, level="1").l10n_sk_min_wage_warning)
+        warning = self._contract(1000.0, level="3").l10n_sk_min_wage_warning
         self.assertTrue(warning)
         self.assertIn("1147", warning)
 
@@ -89,27 +99,19 @@ class TestMinWageWarning(TransactionCase):
         Warning here would be the false positive that trains people to ignore
         the banner.
         """
-        version = self._version(500.0, calendar=self._half_time())
+        version = self._contract(500.0, calendar=self._half_time())
         self.assertFalse(version.l10n_sk_min_wage_warning)
 
     def test_a_part_timer_below_the_prorated_claim_is_warned(self):
-        version = self._version(300.0, calendar=self._half_time())
+        version = self._contract(300.0, calendar=self._half_time())
         self.assertTrue(version.l10n_sk_min_wage_warning)
 
     def test_non_sk_company_is_never_warned(self):
         other = self.env["res.company"].create(
             {"name": "CZ Co", "country_id": self.env.ref("base.cz").id}
         )
-        employee = self.env["hr.employee"].with_company(other).create(
-            {
-                "name": "Cesky",
-                "company_id": other.id,
-                "date_version": date(2026, 6, 1),
-                "contract_date_start": date(2026, 6, 1),
-                "wage": 100.0,
-            }
-        )
-        self.assertFalse(employee.version_id.l10n_sk_min_wage_warning)
+        contract = self._contract(100.0, company=other)
+        self.assertFalse(contract.l10n_sk_min_wage_warning)
 
 
 @tagged("post_install", "-at_install")
@@ -125,36 +127,43 @@ class TestJobWageLevel(TransactionCase):
             context=dict(cls.env.context, allowed_company_ids=cls.company.ids)
         )
 
+    def _contract(self, name, **vals):
+        employee = self.env["hr.employee"].with_company(self.company).create(
+            {"name": name, "company_id": self.company.id}
+        )
+        return self.env["hr.contract"].with_company(self.company).create(
+            {
+                "name": "%s contract" % name,
+                "employee_id": employee.id,
+                "company_id": self.company.id,
+                "wage": 0.0,
+                "state": "open",
+                "date_start": date(2026, 6, 1),
+                **vals,
+            }
+        )
+
     def _job(self, level):
         return self.env["hr.job"].with_company(self.company).create(
             {"name": "Odborny pracovnik", "l10n_sk_wage_level": level}
         )
 
     def test_contract_inherits_the_jobs_level(self):
-        employee = self.env["hr.employee"].with_company(self.company).create(
-            {"name": "Novy", "company_id": self.company.id}
-        )
-        version = employee.version_id
+        version = self._contract("Novy")
         version.job_id = self._job("4")
         version._onchange_l10n_sk_job_wage_level()
         self.assertEqual(version.l10n_sk_wage_level, "4")
 
     def test_an_explicit_level_is_not_overwritten(self):
         """A contract may legitimately differ from its post."""
-        employee = self.env["hr.employee"].with_company(self.company).create(
-            {"name": "Vynimka", "company_id": self.company.id}
-        )
-        version = employee.version_id
+        version = self._contract("Vynimka")
         version.l10n_sk_wage_level = "5"
         version.job_id = self._job("2")
         version._onchange_l10n_sk_job_wage_level()
         self.assertEqual(version.l10n_sk_wage_level, "5")
 
     def test_a_job_without_a_level_leaves_the_contract_alone(self):
-        employee = self.env["hr.employee"].with_company(self.company).create(
-            {"name": "Bezstupna", "company_id": self.company.id}
-        )
-        version = employee.version_id
+        version = self._contract("Bezstupna")
         version.job_id = self.env["hr.job"].with_company(self.company).create(
             {"name": "Neklasifikovane"}
         )
@@ -168,16 +177,7 @@ class TestJobWageLevel(TransactionCase):
         "unclassified" is visible. That must not turn into "no minimum wage
         applies" anywhere downstream.
         """
-        employee = self.env["hr.employee"].with_company(self.company).create(
-            {
-                "name": "Neurcena",
-                "company_id": self.company.id,
-                "date_version": date(2026, 6, 1),
-                "contract_date_start": date(2026, 6, 1),
-                "wage": 800.0,
-            }
-        )
-        version = employee.version_id
+        version = self._contract("Neurcena", wage=800.0)
         self.assertFalse(version.l10n_sk_wage_level)
         warning = version.l10n_sk_min_wage_warning
         self.assertTrue(warning, "an unclassified post still owes 915")

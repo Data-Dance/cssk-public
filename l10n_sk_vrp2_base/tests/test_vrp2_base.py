@@ -7,7 +7,6 @@ from odoo.tests.common import new_test_user
 from odoo.addons.l10n_sk_vrp2_base.models.vrp2_client import (
     _compact_json,
     _crp_checksum,
-    vrp2_round5,
 )
 
 
@@ -37,32 +36,6 @@ class TestVrp2Base(TransactionCase):
             ),
             "cxfypeuih01qF21DJ7uJxcAQqvE6XyGA73KiYUl268Y=",
         )
-
-    def test_round5_mirrors_the_web_app(self):
-        """zaokruhli5 from app.js, including its two oddities: an amount
-        under 5 cents rounds AWAY from zero, and a half rounds towards
-        +infinity (JavaScript Math.round), so −1.025 → −1.00."""
-        cases = {
-            18.48: 18.5, 18.47: 18.45, 8.48: 8.5, 0: 0.0, 0.01: 0.05,
-            -0.01: -0.05, 1.025: 1.05, -1.025: -1.0, -18.48: -18.5,
-        }
-        for amount, expected in cases.items():
-            self.assertEqual(vrp2_round5(amount), expected, amount)
-
-    def test_valid_receipt_header_comes_from_the_dashboard(self):
-        dashboard = {"cashRegister": {
-            "dkp": "99920201234560002", "version": 1662177617338,
-            "organization": {"name": "X", "vatPayer": False},
-        }}
-        with patch.object(
-            type(self.env["vrp2.client"]), "_get_dashboard",
-            return_value=dashboard,
-        ):
-            header = self.company._vrp2_valid_receipt_header()
-        self.assertEqual(
-            header, {"vatPayer": False, "version": 1662177617338}
-        )
-        self.assertEqual(self.company.vrp2_register_version, "1662177617338")
 
     # ---- session-token protection (groups=base.group_system) --------------
 

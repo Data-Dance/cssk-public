@@ -1,36 +1,41 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """DPH priznanie → reconcile-with-účtovníctvo action (umbrella module)."""
 from odoo import _, models
+from odoo.tools.misc import format_amount
+
+_ICON = {"ok": "✅", "mismatch": "⚠️", "info": "ℹ️"}
 
 
 class CSSKVatReturn(models.Model):
     _inherit = "cssk.vat.return"
 
     def action_reconcile_books(self):
-        """Porovnanie priznania s účtovníctvom (účet 343 + tržby).
-
-        The result goes to the comparison screen, not to the chatter. A
-        reconciliation that is re-run whenever anything changes does not
-        become an audit trail by being posted — it becomes a thread nobody
-        can read, and it buries the record it claims to be. The rows
-        themselves are the record: queryable, and they carry what the
-        accountant said about each one.
-        """
+        """Porovnanie priznania s účtovníctvom (účet 343 + tržby)."""
         self.ensure_one()
         recon = self.env["l10n.sk.dph.reconciliation"]
         rows = recon.reconcile_dph_books(self)
-        # ``check_kontroly_*`` derives its guidance from these same rows and
-        # titles each warning with the row's own label, so the advice lands on
-        # the row it is about rather than in a list beside it.
-        details = {w["desc"]: w["detail"]
-                   for w in recon.check_kontroly_dph_books(self)}
-        self._cssk_upsert_comparison_rows(
-            [{"code": r["block"], "label": r["label"],
-              "filed": r["left"], "computed": r["right"], "diff": r["diff"],
-              "kind": recon.recon_kind(r["status"]),
-              "detail": details.get(r["label"])}
-             for r in rows],
-            "ledger", _("účtovníctvo — účet 343 a účtová trieda 60"))
-        return self._cssk_comparison_action(
-            "ledger", _("Priznanie ↔ účtovníctvo — %s", self.display_name))
+        body = ["<b>%s</b>:<ul>" % _("Porovnanie priznania s účtovníctvom")]
+        for r in rows:
+            body.append("<li>%s %s — priznanie %s / účtovníctvo %s "
+                        "(rozdiel %s)</li>" % (
+                            _ICON.get(r["status"], ""), r["label"],
+                            format_amount(self.env, r["left"], self.currency_id),
+                            format_amount(self.env, r["right"], self.currency_id),
+                            format_amount(self.env, r["diff"], self.currency_id)))
+        body.append("</ul>")
+        warnings = recon.check_kontroly_dph_books(self)
+        if warnings:
+            body.append("<b>%s</b><ul>%s</ul>" % (
+                _("Upozornenia:"),
+                "".join("<li>%s</li>" % w["detail"] for w in warnings)))
+        self.message_post(body="".join(body))
+        return {
+            "type": "ir.actions.client", "tag": "display_notification",
+            "params": {
+                "title": _("Porovnanie s účtovníctvom"),
+                "message": (_("%d upozornení — pozri záznam.", len(warnings))
+                            if warnings else _("Priznanie sa zhoduje s účtom 343.")),
+                "type": "warning" if warnings else "success", "sticky": False,
+            },
+        }

@@ -8,11 +8,9 @@ INTRASTAT-SK message (``intrastat.financnasprava.sk``, schema ``instat62.xsd``
 vendored in ``data/``) from a normalized header + line dicts.
 
 It depends on ``base`` only — **no** dependency on the OCA intrastat engine or
-Odoo EE ``account_intrastat`` — so nothing in it is bound by OEEL. It is
-AGPL-3; Data Dance s.r.o. is its sole owner and dual-licenses it, so the same
-builder serves the Community adapter (``l10n_sk_intrastat``) under AGPL-3 and
-the Enterprise one (``l10n_sk_intrastat_ee``) under the Data Dance proprietary
-licence. There is no UI; this is a shared rendering library.
+Odoo EE ``account_intrastat`` — so it is LGPL-3 and can be imported by the AGPL
+Community adapter (``l10n_sk_intrastat``) and the proprietary Enterprise adapter
+alike. There is no UI; this is a shared rendering library.
 
 Features
 ========
@@ -44,4 +42,4 @@ Credits
 
 * Data Dance s.r.o. <https://www.datadance.eu>
 
-License: AGPL-3.0 or later (see the LICENSE file).
+License: LGPL-3 (see the LICENSE file).

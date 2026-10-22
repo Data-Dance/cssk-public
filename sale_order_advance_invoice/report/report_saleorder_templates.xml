@@ -2,16 +2,7 @@
 <odoo>
 
     <!-- Extend the sale order report document template -->
-    <!-- priority 99: this template REWRITES attributes that other modules use as
-         their xpath anchors. Notably it changes the t-if of
-             <p t-if="not is_html_empty(doc.payment_term_id.note)">
-         which account_payment_sale (new in 19.0) anchors on with the identical
-         expression. Odoo applies inherits ordered by priority then id, so at the
-         default priority this one ran first and account_payment_sale then failed
-         with "Element ... cannot be located in parent view", aborting any
-         full module update. Applying last leaves every other module a pristine parent
-         to match against. -->
-    <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document" priority="99">
+    <template id="report_saleorder_document" inherit_id="sale.report_saleorder_document">
 
         <!-- Add advance invoice title option as t-elif after the is_proforma branch -->
         <xpath expr="//t[@t-set='layout_document_title']//span[@t-if='is_proforma']" position="after">
@@ -19,7 +10,7 @@
         </xpath>
 
         <!-- Rename "Order Date" label to "Issue Date" on advance invoices. -->
-        <xpath expr="//strong[@t-else='']" position="replace">
+        <xpath expr="//div[@name='informations_date']/strong[@t-else='']" position="replace">
             <strong t-elif="doc.is_advance_invoice">Issue Date</strong>
             <strong t-else="">Order Date</strong>
         </xpath>
@@ -33,42 +24,40 @@
             </div>
         </xpath>
 
-        <!-- For advance invoices, hide the Taxes column in the lines table.
-             Setting hide_taxes_details=True makes display_taxes evaluate to False,
-             which suppresses th_taxes, td_product_taxes, td_section_group_taxes,
-             and adjusts all section colspans automatically. It also sets
-             price_field='price_total' so the amount cell shows tax-inclusive totals. -->
-        <xpath expr="//t[@t-set='hide_taxes_details']" position="after">
-            <t t-set="hide_taxes_details" t-value="hide_taxes_details or doc.is_advance_invoice"/>
+        <!-- For advance invoices hide the Taxes column (header + cells): the amount
+             shown is tax-inclusive, so a separate tax column would be redundant.
+             18.0 has no hide_taxes_details flag, so we gate the nodes directly. -->
+        <xpath expr="//th[@name='th_taxes']" position="attributes">
+            <attribute name="t-if">not doc.is_advance_invoice</attribute>
+        </xpath>
+        <xpath expr="//td[@name='td_taxes']" position="attributes">
+            <attribute name="t-if">not doc.is_advance_invoice</attribute>
         </xpath>
 
-        <!-- Core hides the amount cell for downpayment lines (t-if="not line.is_downpayment").
-             For advance invoices all lines are downpayment lines, so amounts would never render.
-             Override to always show the amount cell on advance invoices. -->
-        <xpath expr="//td[@name='td_product_subtotal']" position="attributes">
-            <attribute name="t-if">not line.is_downpayment or doc.is_advance_invoice</attribute>
-        </xpath>
-
-        <!-- Hide the Unit Price column header and cells for advance invoices.
+        <!-- Hide the Unit Price column (header + cells) for advance invoices.
              The unit price is pre-tax; showing it without a Taxes column is misleading. -->
         <xpath expr="//th[@name='th_priceunit']" position="attributes">
             <attribute name="t-if">not doc.is_advance_invoice</attribute>
         </xpath>
-        <xpath expr="//td[@name='td_product_priceunit']" position="attributes">
+        <xpath expr="//td[@name='td_priceunit']" position="attributes">
             <attribute name="t-if">not doc.is_advance_invoice</attribute>
+        </xpath>
+
+        <!-- Core hides the amount cell for downpayment lines (t-if="not line.is_downpayment").
+             For advance invoices every line is a downpayment line, so the amount would
+             never render; show it, and show the tax-inclusive total instead of the
+             tax-excluded subtotal. -->
+        <xpath expr="//td[@name='td_subtotal']" position="replace">
+            <td t-if="not line.is_downpayment or doc.is_advance_invoice" name="td_subtotal" class="text-end o_price_total">
+                <span t-if="doc.is_advance_invoice" t-field="line.price_total">27.00</span>
+                <span t-else="" t-field="line.price_subtotal">27.00</span>
+            </td>
         </xpath>
 
         <!-- For advance invoices, render payment info (bank account, reference, optional QR)
              after the totals section. The block shows whenever a bank account is set;
              the QR image is added on top of that when QR codes are enabled. -->
-        <!-- Anchor with starts-with(). 19.0 core extended this attribute to
-             "not doc.signature or not doc.env.context.get('sale_include_signature')"
-             and an xpath attribute predicate is an EXACT match, so the earlier
-             expr="//div[@t-if='not doc.signature']" silently stopped matching.
-             Do NOT anchor on //div[@name='signature'] instead: that is the
-             t-else half, and inserting before it would separate it from its
-             t-if sibling. -->
-        <xpath expr="//div[starts-with(@t-if, 'not doc.signature')]" position="before">
+        <xpath expr="//div[@t-if='not doc.signature']" position="before">
             <t t-if="doc.is_advance_invoice and doc.advance_invoice_partner_bank_id">
                 <t t-set="advance_qr_url" t-value="doc.advance_invoice_display_qr_code and doc._generate_advance_invoice_qr_code(silent_errors=True)"/>
                 <div class="d-flex mb-3 avoid-page-break-inside">
@@ -103,9 +92,9 @@
          for advance invoices, keeping only the grand Total row. -->
     <template id="document_tax_totals" inherit_id="sale.document_tax_totals">
 
-        <!-- Hide the "Subtotal" row (shown when a subtotal bucket has tax groups) -->
+        <!-- Hide the untaxed-amount subtotal row -->
         <xpath expr="//tr[hasclass('o_subtotal')]" position="attributes">
-            <attribute name="t-if">subtotal['tax_groups'] and not doc.is_advance_invoice</attribute>
+            <attribute name="t-if">not doc.is_advance_invoice</attribute>
         </xpath>
 
         <!-- Hide individual tax group rows -->

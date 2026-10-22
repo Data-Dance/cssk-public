@@ -8,20 +8,6 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
-Added
-~~~~~
-
-- The filer block (``VetaP``) comes from ``l10n_cz_statutory``, without the
-  e-mail and telephone this form's XSD does not have.
-
-Changed
-~~~~~~~
-
-- Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
-
 [19.0.1.0.1] — 2026-07-04
 -------------------------
 

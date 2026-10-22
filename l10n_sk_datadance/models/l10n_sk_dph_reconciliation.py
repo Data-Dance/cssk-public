@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """KV DPH ↔ DPH priznanie cross-form reconciliation (porovnanie KV a DP).
 
 The kontrolný výkaz and the daňové priznanie are built from the same tax-tagged
@@ -32,26 +32,9 @@ _DP_DEDUCT = ["r18_total", "r18a_total", "r19_total"]      # odpočítanie dane
 
 class L10nSkDphReconciliation(models.TransientModel):
     _name = "l10n.sk.dph.reconciliation"
-    _description = "SK cross-form reconciliation (KV↔DP, SV↔DP, DP↔účtovníctvo)"
+    _description = "SK cross-form reconciliation (KV↔DP, SV↔DP, VZS→DPPO)"
 
     _RECON_TOL = 0.5  # absolute € tolerance on the period aggregate
-
-    #: Row ``status`` → ``cssk.filing.discrepancy.kind``. The distinction that
-    #: matters is between a gap that is WRONG and a gap that is expected:
-    #: ``subset`` (DP > KV) is structurally normal and ``info`` (VAT base vs
-    #: účtová trieda 60) was never a control. Painting either as a difference
-    #: sends an accountant chasing a number that is doing what it should.
-    _RECON_KIND = {
-        "ok": "ok",
-        "mismatch": "amount",
-        "over": "amount",
-        "subset": "expected",
-        "info": "info",
-    }
-
-    @api.model
-    def recon_kind(self, status):
-        return self._RECON_KIND.get(status, "amount")
 
     @api.model
     def _sum(self, records, field):
@@ -168,6 +151,42 @@ class L10nSkDphReconciliation(models.TransientModel):
                               "(rozdiel %.2f) — skontrolujte označenie § 43 "
                               "dodaní a obdobie" % (row["left"], row["right"],
                                                     row["diff"])})
+        return out
+
+    # ------------------------------------------------------------------
+    # Účtovná závierka (VZS) → DPPO
+    # ------------------------------------------------------------------
+    # The income-tax return starts from the accounting result: DPPO r100
+    # ("výsledok hospodárenia pred zdanením", account_formula
+    # 5,6,-591,-592,-595,-596) equals VZS r56 (the same result before income
+    # tax — both exclude daň z príjmov 591/592/595 and prevod podielov 596).
+    # This is an EXACT tie — a mismatch means the two filings disagree on the
+    # accounting result (a manual r100 override or a different obdobie), so it
+    # is an error, not info.
+
+    @api.model
+    def reconcile_vzs_dppo(self, uzpod, dppo):
+        """Return ``{block, label, left, right, diff, status}`` (``left`` = VZS,
+        ``right`` = DPPO r100)."""
+        vzs = uzpod.vzs_before_tax()
+        r100 = next((l.value for l in dppo.line_ids if l.code == "r100"), 0.0)
+        diff = vzs - r100
+        return [{
+            "block": "vzs_r100", "left": vzs, "right": r100, "diff": diff,
+            "status": "ok" if abs(diff) <= self._RECON_TOL else "mismatch",
+            "label": _("Výsledok hospodárenia pred zdanením (VZS r56 = DPPO r100)")}]
+
+    @api.model
+    def check_kontroly_vzs_dppo(self, uzpod, dppo):
+        out = []
+        for row in self.reconcile_vzs_dppo(uzpod, dppo):
+            if row["status"] == "mismatch":
+                out.append({
+                    "code": "VZSDPPO_RECON", "severity": "error",
+                    "desc": row["label"],
+                    "detail": "VZS %.2f != DPPO r100 %.2f (rozdiel %.2f) — "
+                              "skontrolujte obdobie alebo manuálnu úpravu r100"
+                              % (row["left"], row["right"], row["diff"])})
         return out
 
     # ------------------------------------------------------------------

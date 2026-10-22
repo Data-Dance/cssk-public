@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from odoo import api, fields, models
 
@@ -40,7 +40,7 @@ class AccountMove(models.Model):
                 pcc = partner.country_id.code
                 taxes = move.invoice_line_ids.tax_ids
                 has_zero = any(t.amount == 0 for t in taxes)
-                # honour our own flag and (where another CZ localization is present)
+                # honour our own flag and (when EE l10n_cz_reports is present)
                 # its native reverse-charge flag.
                 is_rc = any(
                     t.l10n_cz_invoice_reverse_charge

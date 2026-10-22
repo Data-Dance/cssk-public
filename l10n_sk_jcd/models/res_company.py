@@ -39,7 +39,6 @@ class ResCompany(models.Model):
              "zásielku — § 84a ods. 3 je podmienený statusom platiteľa.",
     )
     l10n_sk_jcd_is_sk_company = fields.Boolean(
-        string="Slovak chart in use (technical)",
         compute="_compute_l10n_sk_jcd_is_sk_company",
         help="Technical — hides the Slovak import settings on other charts.",
     )

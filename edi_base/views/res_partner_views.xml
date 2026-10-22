@@ -16,6 +16,12 @@
                 <attribute name="invisible">0</attribute>
             </xpath>
             <xpath expr="//page[@name='sales_purchases']//group[@name='misc']//field[@name='global_location_number']" position="after">
+                <field name="edi_communication_partner_id"
+                    groups="edi_base.group_edi_user"/>
+                <field name="edi_desadv_sscc_mode"
+                    groups="edi_base.group_edi_user"/>
+                <field name="product_edi_code_priority"
+                    groups="edi_base.group_edi_user"/>
                 <field name="edi_auto_send_override"
                     groups="edi_base.group_edi_user"/>
             </xpath>

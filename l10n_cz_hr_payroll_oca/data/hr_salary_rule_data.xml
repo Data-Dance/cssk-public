@@ -532,72 +532,48 @@ result_name = inputs.CHILD_SUPPORT.name
          claims draw from 2 thirds + the unlimited part; nepřednostní from 1
          third + the unlimited part. Input-driven via GARNISHMENT_PREF /
          GARNISHMENT_NONPREF (claim amount + name). Simplification: one active
-         claim per payslip; the multi-claim priority waterfall is out of scope.
-
-         PREFERRED PATH: when l10n_cssk_hr_payroll_garnishment_base is
-         installed the rule instead delegates to the garnishment register,
-         which applies the full § 279/§ 280 waterfall across every order on
-         file for the employee — maintenance first out of the second third,
-         everything else by pořadí, pro-rata at equal rank, and the fully
-         seizable part above the limit split between the thirds. The
-         input-driven code below remains as the fallback for databases that
-         have not adopted the register. -->
+         claim per payslip; the multi-claim priority waterfall is out of scope. -->
     <record id="cz_garnishment_rule" model="hr.salary.rule">
         <field name="category_id" ref="DED"/>
         <field name="name">Wage Garnishment</field>
         <field name="sequence">180</field>
         <field name="code">GARNISHMENT</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = ('GARNISHMENT_PREF' in inputs.dict or 'GARNISHMENT_NONPREF' in inputs.dict
-          or ('hr.wage.garnishment' in payslip.env
-              and payslip.env['hr.wage.garnishment']._payslip_has_orders(payslip)))</field>
+        <field name="condition_python">result = 'GARNISHMENT_PREF' in inputs.dict or 'GARNISHMENT_NONPREF' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # Statutory net wage (čistá mzda): gross less insurance and net income tax.
 net = (categories.GROSS + categories.SOCIALEE + categories.HEALTHEE
        + categories.INCOMETAX + categories.TAXCREDIT + categories.CHILDBEN
        + categories.WHTAX)
-# Prefer the garnishment register, but ONLY for employees who actually
-# have an order on file. Installing the register must not silently
-# disable the input-driven path for everyone else — a site can migrate
-# employee by employee. Where both exist, the register wins.
-_has_register = ('hr.wage.garnishment' in payslip.env
-                 and payslip.env['hr.wage.garnishment']._payslip_has_orders(payslip))
-if _has_register:
-    # Full multi-claim waterfall across all active orders.
-    result = -payslip.env['hr.wage.garnishment']._payslip_amount(payslip, net)
-elif 'GARNISHMENT_PREF' in inputs.dict or 'GARNISHMENT_NONPREF' in inputs.dict:
-    # Legacy single-claim fallback (see the comment above the record).
-    base_sum = (payslip.rule_parameter('l10n_cz_garnish_subsistence')
-                + payslip.rule_parameter('l10n_cz_garnish_normative_rent')
-                + payslip.rule_parameter('l10n_cz_garnish_energy'))
-    base_neza = base_sum * payslip.rule_parameter('l10n_cz_garnish_base_pct') / 100.0
-    neza = base_neza + contract.l10n_cz_garnishment_dependents * (base_neza / 4.0)
-    # total protected amount rounded up to whole crowns
-    neza = int(-(-neza // 1))
-    limit = payslip.rule_parameter('l10n_cz_garnish_unlimited_limit')
-    zbytek = net - neza
-    if zbytek &lt;= 0:
-        result = 0.0
-    else:
-        if zbytek &gt;= limit:
-            nadlimit = zbytek - limit
-            thirds_base = limit
-        else:
-            nadlimit = 0.0
-            thirds_base = int(zbytek // 3) * 3
-        third = thirds_base / 3.0
-        if 'GARNISHMENT_PREF' in inputs.dict:
-            claim = inputs.GARNISHMENT_PREF.amount
-            result_name = inputs.GARNISHMENT_PREF.name
-            pool = 2 * third + nadlimit
-        else:
-            claim = inputs.GARNISHMENT_NONPREF.amount
-            result_name = inputs.GARNISHMENT_NONPREF.name
-            pool = third + nadlimit
-        result = -min(claim, pool)
-else:
+base_sum = (payslip.rule_parameter('l10n_cz_garnish_subsistence')
+            + payslip.rule_parameter('l10n_cz_garnish_normative_rent')
+            + payslip.rule_parameter('l10n_cz_garnish_energy'))
+base_neza = base_sum * payslip.rule_parameter('l10n_cz_garnish_base_pct') / 100.0
+neza = base_neza + contract.l10n_cz_garnishment_dependents * (base_neza / 4.0)
+# total protected amount rounded up to whole crowns
+neza = int(-(-neza // 1))
+limit = payslip.rule_parameter('l10n_cz_garnish_unlimited_limit')
+zbytek = net - neza
+if zbytek &lt;= 0:
     result = 0.0
+else:
+    if zbytek &gt;= limit:
+        nadlimit = zbytek - limit
+        thirds_base = limit
+    else:
+        nadlimit = 0.0
+        thirds_base = int(zbytek // 3) * 3
+    third = thirds_base / 3.0
+    if 'GARNISHMENT_PREF' in inputs.dict:
+        claim = inputs.GARNISHMENT_PREF.amount
+        result_name = inputs.GARNISHMENT_PREF.name
+        pool = 2 * third + nadlimit
+    else:
+        claim = inputs.GARNISHMENT_NONPREF.amount
+        result_name = inputs.GARNISHMENT_NONPREF.name
+        pool = third + nadlimit
+    result = -min(claim, pool)
         </field>
     </record>
 
@@ -749,21 +725,15 @@ result = GROSS + categories.SOCIALER + categories.HEALTHER + categories.SOCIAL_D
     </record>
 
     <!-- ==================== EMPLOYER-OBSTACLE NÁHRADA (§§ 207-209) ==========
-         Unlike the § 199 employee-side obstacles, which are paid at the FULL
-         průměrný výdělek, these four carry their own statutory rates, so each
-         reason has its own worked-day code and reads its own dated percentage:
+         Unlike the § 199 employee-side obstacles, paid at the FULL průměrný
+         výdělek, these four carry their own statutory rates:
 
            CZPROSTOJ       § 207 a)  prostoj                    nejméně  80 %
            CZPOVETRNOST    § 207 b)  povětrnostní vlivy         nejméně  60 %
            CZJINEPREKAZKY  § 208     jiné překážky                      100 %
-           CZCASTECNA      § 209     částečná nezaměstnanost    nejméně  60 %
-
-         BASIC has been prorated down for these hours (they are in
-         CZ_ABSENCE_CODES), and this rule pays them back — at the statutory
-         rate, not automatically in full. Insurable + taxable, so into GROSS.
-         Source: §§ 207-209 zákona č. 262/2006 Sb.; § 351 (průměrný výdělek). -->
+           CZCASTECNA      § 209     částečná nezaměstnanost    nejméně  60 % -->
     <record id="cz_employer_obstacle_nahrada_rule" model="hr.salary.rule">
-        <field name="category_id" ref="l10n_cz_hr_payroll_oca.hr_payroll_obstacle_nahrada"/>
+        <field name="category_id" ref="hr_payroll_obstacle_nahrada"/>
         <field name="name">Employer Work Obstacle (§§ 207-209)</field>
         <field name="sequence">87</field>
         <field name="code">PREKAZKANAHRADA</field>

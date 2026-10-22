@@ -1,4 +1,4 @@
-19.0.1.2.0 (2026-07-06)
+18.0.2.3.0 (2026-07-06)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Statutory annual-leave (dovolenka) accrual plans (4/5/8 týždňov = 20/25/40
@@ -7,29 +7,21 @@
   and carryover (§113). New demo start-of-year 20-day allocation. The 33+/child
   eligibility (§103 ods. 2) and §105 "za odpracované dni" stay manual.
 
-19.0.1.1.0 (2026-07-05)
+18.0.2.2.0 (2026-07-05)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Annual tax reconciliation (ročné zúčtovanie preddavkov na daň, §38 zákona
   č. 595/2003 Z. z.). A new ``l10n.sk.tax.reconciliation`` record per (employee,
   tax year) gathers the year's monthly tax bases, income-tax advances and child
   bonus paid, then recomputes the annual liability with the annual NČZD na
-  daňovníka (high-income taper), the annual progressive bands, NČZD na manželku,
-  DDS/III. pilier contributions (capped at 180 €) and the annual child-bonus
-  entitlement, producing a preplatok or nedoplatok posted onto the
-  reconciliation-month payslip through the input-driven ``ANNUAL_TAX_SETTLEMENT``
-  salary rule. Ordinary monthly payslips are unaffected. The health-insurance
-  reconciliation is insurer-side and excluded.
-
-19.0.1.0.0 (2026-07-05)
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-* Port to Odoo 19.0. A contract is now an ``hr.version`` record: the Slovak
-  payroll fields move from ``hr.contract`` to ``hr.version`` (whitelisted for
-  copy-from-template), the employee mirrors become delegated (``inherited``)
-  related fields via ``version_id``, and the form view retargets to the contract
-  template (``hr.version``) form. Salary rules, the dated ``hr.rule.parameter``
-  mechanism and the absence/leave integration are unchanged.
+  daňovníka (with the high-income taper), the annual progressive bands, NČZD na
+  manželku, DDS/III. pilier contributions (capped at 180 €) and the annual child
+  bonus entitlement, producing a preplatok (refund) or nedoplatok. The result is
+  posted onto the annual-reconciliation month's payslip through the input-driven
+  ``ANNUAL_TAX_SETTLEMENT`` salary rule (positive credits net pay, negative is
+  withheld); ordinary monthly payslips are unaffected. The health-insurance
+  reconciliation (ročné zúčtovanie zdravotného poistenia) is insurer-side and
+  intentionally excluded.
 
 18.0.2.1.0 (2026-07-05)
 ~~~~~~~~~~~~~~~~~~~~~~~~

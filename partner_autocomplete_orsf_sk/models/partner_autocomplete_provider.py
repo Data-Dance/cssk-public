@@ -62,7 +62,7 @@ MAPPINGS = (
     # param suffix,        record key,          kind,               default field
     ("ico", "nationalId", "char", "company_registry"),
     ("dic", "taxId", "char", "l10n_sk_dic"),
-    ("nace", "nace", "char", "nace_code"),
+    ("nace", "nace", "char", "l10n_sk_nace"),
     ("legal_form", "legalForm", "char", "l10n_sk_legal_form"),
     ("register", "register", "char", "l10n_sk_register_name"),
     ("register_office", "registerOffice", "char", "l10n_sk_register_office"),
@@ -103,10 +103,6 @@ class PartnerAutocompleteProviderOrsfSk(models.AbstractModel):
     _inherit = "partner.autocomplete.provider"
     _name = "partner.autocomplete.provider.orsf_sk"
     _description = "Partner Autocomplete Provider (ORSF SK)"
-
-    @api.model
-    def _autocomplete_country_codes(self):
-        return ("SK",)
 
     # -- configuration -----------------------------------------------------
 
@@ -441,20 +437,6 @@ class PartnerAutocompleteProviderOrsfSk(models.AbstractModel):
         It carries **less** than the full record: no ``vatRegistration``, no
         register office or číslo zápisu, no activities, filings or history. The
         caller is expected to know it is trading depth for reach.
-
-        It DOES carry identity, which is the point — verified against
-        ``POST https://api.orsf.sk/v1/lookup/batch`` on 2026-10-03:
-        ``ico``, ``dic``, ``icDph``, ``name``, ``legalForm``, ``status``,
-        ``establishedOn`` / ``dissolvedOn``, ``address``, ``isVatPayer``,
-        ``register``, ``nace``, ``fetchedAt``. So it is enough to backfill a DIČ
-        across a whole partner base in a dozen calls.
-
-        An IČO the register does not hold comes back as the two-key shape
-        ``{"ico": "...", "found": false}`` — no ``name``, no ``dic``. Worth
-        knowing because it is easy to mistake for the endpoint returning
-        nothing useful at all: probe with an IČO that is absent and every field
-        you were looking for is missing. ``action_orsf_bulk_refresh`` skips on
-        a missing ``name`` for exactly this reason.
 
         Returns ``{ico: record}``, omitting the ones ORSF does not have.
         """

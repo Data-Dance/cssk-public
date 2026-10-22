@@ -3,10 +3,44 @@ Changelog
 =========
 
 All notable changes to **l10n_cssk_cash_journal_base** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 1.6.0 by one port rather than by those
+releases, and the entries are what the port brought over.
 
 [Unreleased]
 ------------
+
+[18.0.1.6.0] — 2026-10-19
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Brought the module to 19.0's 1.6.0 in one step, from 18.0.1.1.0.** The
+  18.0 copy was the snapshot the bulk port left in July and had never been
+  touched since — one commit in its whole history, and no 18.0-specific
+  adaptation anywhere in it — so the 19.0 files were taken whole. The only
+  19.0-only API in them was the ``models.Constraint`` on
+  ``cssk.cash.category``, rewritten as ``_sql_constraints``.
+
+  What it unblocks here and now: ``cssk.cash.journal.line.amount_classified``
+  and ``money_direction``, without which six of
+  ``l10n_sk_single_entry_closing``'s tests could not run.
+
+- **Dependency added: ``report_xlsx``**, as on 19.0, for the cash-journal
+  XLSX report and its print wizard. Already vendored on this branch
+  (``report_xlsx`` 18.0.1.1.3), so nothing new has to be obtained.
+
+Fixed
+~~~~~
+
+- The migration directory brought over by this port is numbered
+  ``18.0.1.2.0``, not 19.0's ``19.0.1.2.0``. ``MigrationManager`` gates a
+  script on ``parse_version(dir) <= parse_version(manifest version)``, so
+  against an ``18.0.x`` manifest a ``19.0.x`` directory is in the future and
+  is skipped without a word — the same trap ``l10n_cssk_fs_base`` had been
+  sitting in since July.
 
 [19.0.1.6.0] — 2026-10-04
 -------------------------

@@ -1,7 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import _, fields, models
-from odoo.exceptions import UserError
+
+from odoo.addons.l10n_cssk_receipt_capture.tools.errors import ProviderUnavailable
 
 
 class ResCompany(models.Model):
@@ -41,12 +42,12 @@ class ResCompany(models.Model):
         """Raise unless this company may call the verification service."""
         self.ensure_one()
         if not self.l10n_sk_ekasa_enabled:
-            raise UserError(_(
+            raise ProviderUnavailable(_(
                 "The eKasa receipt lookup is switched off for %s. Enable it in "
                 "Settings ▸ Accounting ▸ Fiscal Receipt Capture.",
                 self.display_name))
         if not self.l10n_sk_ekasa_ip_notified:
-            raise UserError(_(
+            raise ProviderUnavailable(_(
                 "Act 384/2025 Z. z. § 18 ods. 11 requires an overovateľ to "
                 "notify Finančná správa of the IP address it will use before "
                 "calling the document-verification service, and to send "

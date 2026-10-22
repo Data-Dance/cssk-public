@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from lxml import etree
 
@@ -122,7 +122,7 @@ class TestIsdocPurchaseAdvance(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env.user.group_ids |= cls.env.ref("purchase.group_purchase_manager")
+        cls.env.user.groups_id |= cls.env.ref("purchase.group_purchase_manager")
         cls.company = cls.env.company
         Account = cls.env["account.account"]
         cls.clearing = Account.create({
@@ -176,7 +176,7 @@ class TestIsdocPurchaseAdvance(AccountTestInvoicingCommon):
                     ).id,
                     "product_qty": 1,
                     "price_unit": price,
-                    "tax_ids": [Command.clear()],
+                    "taxes_id": [Command.clear()],
                 })
             ],
         })
@@ -205,14 +205,17 @@ class TestIsdocPurchaseAdvance(AccountTestInvoicingCommon):
         self.assertEqual(order.partner_ref, "ZF-2026-77")
         self.assertEqual(order.partner_id, self.supplier)
         self.assertAlmostEqual(order.amount_total, 1210.0)
-        self.assertFalse(order.order_line.tax_ids)
+        self.assertFalse(order.order_line.taxes_id)
 
     def test_tax_document_matched_by_order_reference(self):
         advance = self._paid_advance()
         invoice = self._import(_tax_document(order_ref=advance.name))
         self.assertEqual(invoice.journal_id, self.adv_journal)
         self.assertEqual(invoice.advance_purchase_order_id, advance)
-        self.assertEqual(str(invoice.taxable_supply_date), "2026-07-08")
+        if "taxable_supply_date" in invoice._fields:
+            self.assertEqual(
+                str(invoice.taxable_supply_date), "2026-07-08"
+            )
         product_lines = invoice.invoice_line_ids.filtered(
             lambda line: line.display_type == "product"
         )

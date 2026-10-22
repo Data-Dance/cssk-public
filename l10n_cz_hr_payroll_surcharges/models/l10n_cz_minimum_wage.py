@@ -24,11 +24,11 @@ class L10nCzMinimumWage(models.Model):
     _description = "Czech Minimum Wage"
     _order = "date_from desc"
 
-    _date_uniq = models.Constraint(
-        "unique(date_from)",
-        "Only one minimum-wage record per start date.",
-    )
-
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("date_uniq", "unique(date_from)",
+         "Only one minimum-wage record per start date."),
+    ]
     name = fields.Char(compute="_compute_name", store=True)
     date_from = fields.Date(
         required=True,

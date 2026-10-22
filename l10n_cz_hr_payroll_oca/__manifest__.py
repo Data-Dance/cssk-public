@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic - Payroll",
-    "version": "19.0.1.11.1",
+    "version": "18.0.1.7.0",
     "category": "Human Resources/Payroll",
     "summary": "Czech payroll rules for the payroll engine",
     "countries": ["cz"],

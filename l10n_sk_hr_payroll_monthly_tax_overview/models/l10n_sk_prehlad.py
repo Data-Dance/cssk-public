@@ -30,11 +30,10 @@ have no monthly rule source and are left empty / zero.
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_cssk_payroll_declaration_base.rule_codes import sum_concept
-
-# The rule codes carrying the income-tax advance differ per engine (Enterprise
-# splits it into 19 %/25 % bands, the OCA engine emits one line). That mapping
-# lives once, in the declaration base, rather than being restated here.
+# Income-tax advance (before daňový bonus): the hr_payroll engine splits the
+# advance into 19 %/25 % bands, the ``payroll`` engine emits one INCOMETAX line.
+TAX_ADVANCE_SPLIT = ("INCOMETAX19", "INCOMETAX25")
+TAX_ADVANCE_SINGLE = "INCOMETAX"
 # Daňový bonus (§ 33) paid to employees.
 BONUS_CODE = "CHILD_BONUS"
 
@@ -76,7 +75,9 @@ class L10nSkPrehlad(models.Model):
     # ------------------------------------------------------------------
     def _tax_advance(self, agg):
         """Withheld monthly income-tax advance before the daňový bonus."""
-        return sum_concept(agg, "INCOME_TAX")
+        if any(c in agg for c in TAX_ADVANCE_SPLIT):
+            return abs(round(sum(agg.get(c, 0.0) for c in TAX_ADVANCE_SPLIT), 2))
+        return abs(round(agg.get(TAX_ADVANCE_SINGLE, 0.0), 2))
 
     def _declaration_render_context(self, data):
         self.ensure_one()

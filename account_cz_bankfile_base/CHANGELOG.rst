@@ -11,33 +11,35 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Added
 ~~~~~
 
-- ``utils.common.national_account_key`` — ``(bank, prefix, number)`` of a CZ/SK
-  account whether written as an IBAN or as ``prefix-number/bank``. The statement
-  imports (``account_statement_import_mt940``,
-  ``account_statement_import_kb_best``) pair a file's account with its journal
-  by it, because a string comparison cannot pair the two spellings of the same
-  account.
+- **``national_account_key``** (with its ``_AccNumber`` shim), ported from 19.0.
+  Returns ``(bank, prefix, number)`` for a CZ/SK account in either spelling, so
+  a statement import can find the journal a file belongs to without comparing
+  strings that never match. ``account_statement_import_kb_best`` and
+  ``account_statement_import_mt940`` import it at module level, so without it
+  neither loads — which is how it was found: the registry failed to load.
 
-[19.0.1.3.1] — 2026-09-13
--------------------------
+  Verified against 19.0's implementation on six inputs, including both IBAN and
+  ``prefix-account/bank`` spellings of the same account and the None cases.
 
-Fixed
-~~~~~
+Carry-over to 19.0
+~~~~~~~~~~~~~~~~~~
 
-- Code translations Odoo was never loading: an entry
-  referencing ``code:addons/...`` needs the extracted comment
-  ``#. odoo-python`` or it is silently ignored. Repaired by
-  ``tools/fix_po_code_comments.py``.
+- **``parse_national_account`` (18.0.1.2.0) is needed on 19.0 and is not
+  there.** ``19.0-fio-api``'s ``account_fio_base/utils/orders.py:32-36``
+  imports the name and nothing on that branch defines it. The blast radius is
+  narrower than it first looks, because ``account_fio_base``'s ``__init__.py``
+  and ``utils/__init__.py`` are both empty, so ``utils.orders`` is not reached
+  at module load: ``account_fio_base`` itself installs (two of its test files
+  error), and ``account_fio`` / ``account_statement_fio`` are untouched. What
+  cannot install is **``account_payment_fio``** (``models/
+  account_payment_order.py:15``) and **``account_payment_fio_batch``**
+  (``models/account_batch_payment.py:16``), which import it directly.
 
-Changed
-~~~~~~~
+  Nothing released is affected — the whole Fio family is absent from the
+  ``19.0`` branch — but it blocks whoever next installs the payment bridges
+  from that feature branch.
 
-- Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
-
-[19.0.1.3.0] — 2026-09-01
+[18.0.1.3.0] — 2026-08-31
 -------------------------
 
 Added
@@ -60,49 +62,54 @@ Added
   back through Odoo's own ``PoFileReader`` — every entry resolves to a record
   reference, none is untranslated — and with ``msgfmt --check``.
 
-[19.0.1.2.0] — 2026-09-01
--------------------------
-
-Added
-~~~~~
-
-- **``parse_national_account``** — generalises ``parse_cz_account`` to accept a
-  CZ *or* SK IBAN, returning the country alongside the prefix, account and bank
-  code. ``parse_cz_account`` stays as the CZ-only view, because every ABO and
-  MultiCash call site means "a Czech account", and it keeps its own refusal
-  message: "not a Czech account" says the useful thing where the generic
-  wording does not.
-
-  ``countries`` defaults to CZ alone so the Czech-only formats keep refusing
-  everything else. CZ and SK IBANs are structurally identical, so quietly
-  accepting an SK one into a Czech file format would build a plausible-looking
-  file that the bank then rejects. Fio's XML, which serves both countries on one
-  API, passes ``('CZ', 'SK')``.
-
 Fixed
 ~~~~~
 
-- **Unblocks ``account_payment_fio`` and ``account_payment_fio_batch`` on this
-  branch.** ``account_fio_base/utils/orders.py`` imports
-  ``parse_national_account`` and nothing defined it, so both payment bridges
-  raised ``ImportError`` and could not install. ``account_fio_base`` itself was
-  unaffected at load — both its ``__init__.py`` files are empty, so
-  ``utils.orders`` is not reached — but two of its test suites errored.
+- **The pure-function tests never ran under** ``odoo-bin``. They subclassed
+  ``unittest.TestCase``, and Odoo's ``TagsSelector`` silently skips any class
+  without ``test_tags`` — so ``--test-enable`` collected none of them and said
+  nothing. They now subclass ``odoo.tests.BaseCase``, which is the same plain
+  TestCase (no database, no cursor — the runs report 0 queries) but carries the
+  ``standard``/``at_install`` tags.
 
-  Ported from ``18.0-fio-api`` (``account_cz_bankfile_base`` 18.0.1.2.0), where
-  it was written and live-tested, together with its unit tests.
-
-[19.0.1.1.0] — 2026-08-11
+[18.0.1.2.0] — 2026-08-25
 -------------------------
 
 Added
 ~~~~~
 
-- ``utils.common.payments_to_items`` — maps ``account.payment`` records to
-  ``BankPaymentItem``, shared by the Enterprise ``account_abo_batch`` and
-  ``account_multicash_batch`` bridges so the mapping is not written twice.
-  Duck-typed: reads the ``l10n_cssk_payment_symbols`` and ``account_iso20022``
-  fields defensively, so the module still depends on ``base_iban`` alone.
+- ``parse_national_account(partner_bank, countries=('CZ',))``, returning
+  ``(country, prefix, account, bank_code)``. CZ and SK IBANs are structurally
+  identical, so a caller that can send to both — Fio, whose XML serves one API
+  for two countries — can now say so, while ABO and MultiCash keep refusing
+  everything that is not Czech. The country of the national
+  ``[prefix-]account/bank`` form is reported as ``None``: it names no country,
+  and the 4-digit bank code cannot be used to guess one.
+- A test module. The parser four bank-file formats depend on had none, and the
+  new cases pin ``parse_cz_account``'s refusal of SK IBANs as deliberate.
+
+Changed
+~~~~~~~
+
+- ``parse_cz_account`` now delegates to ``parse_national_account``. Its
+  signature, its return value **and its refusal message** are unchanged on
+  every input — ABO and MultiCash surface that message to the user, so it is
+  restated in the wrapper rather than inherited from the generic one. Verified
+  differentially against the previous implementation over the account forms,
+  ``acc_type`` values and malformed inputs.
+
+
+[18.0.1.1.0] — 2026-08-19
+-------------------------
+
+Added
+~~~~~
+
+- ``utils.common.payments_to_items`` — the ``account.payment`` →
+  ``BankPaymentItem`` mapping, back-ported from 19.0 so the Enterprise bridges
+  (``account_payment_fio_batch``, and ``account_abo_batch`` /
+  ``account_multicash_batch`` when they follow) share one mapping with the
+  Community side instead of each writing their own.
 
 [19.0.1.0.0] — 2026-07-04
 -------------------------

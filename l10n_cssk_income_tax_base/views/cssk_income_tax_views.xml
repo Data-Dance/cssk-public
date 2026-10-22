@@ -12,16 +12,10 @@
                             invisible="state not in ('draft', 'preview')" />
                     <button name="action_export_xml" type="object"
                             string="Export XML" class="btn-primary"
-                            invisible="state in ('draft', 'submitted', 'legacy')" />
+                            invisible="state in ('draft', 'submitted')" />
                     <button name="action_submit" type="object"
                             string="Mark Submitted" class="btn-primary"
                             invisible="state != 'exported'" />
-                    <button name="action_create_submission" type="object"
-                            string="File it" class="btn-primary"
-                            invisible="state not in ('exported', 'submitted')"
-                            help="Open a delivery for this filing. With only the
-                                  manual channel installed this records who filed
-                                  it on the portal and holds the receipts."/>
                     <button name="action_reset_to_draft" type="object"
                             string="Reset to Draft"
                             invisible="state not in ('exported', 'submitted')"
@@ -31,7 +25,7 @@
                             invisible="state != 'submitted'" />
                     <button name="action_post_provision" type="object"
                             string="Post tax provision"
-                            invisible="state in ('draft', 'legacy') or provision_move_id or provision_amount &lt;= 0"
+                            invisible="state == 'draft' or provision_move_id or provision_amount &lt;= 0"
                             confirm="Post the year-end income-tax provision (MD 591 / D 341) for the computed tax?" />
                     <button name="action_reverse_provision" type="object"
                             string="Reverse provision"
@@ -40,34 +34,16 @@
                     <field name="unreconciled_count" invisible="1" />
                     <button name="action_view_unreconciled" type="object"
                             class="btn-danger" icon="fa-exclamation-triangle"
-                            invisible="state in ('draft', 'legacy') or unreconciled_count == 0"
+                            invisible="state == 'draft' or unreconciled_count == 0"
                             string="Unreconciled rows" />
                     <button name="action_view_unreconciled" type="object"
                             class="btn-success" icon="fa-check" disabled="1"
-                            invisible="state in ('draft', 'legacy') or unreconciled_count != 0"
+                            invisible="state == 'draft' or unreconciled_count != 0"
                             string="Rows tie out" />
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,preview,exported,submitted" />
-                    <field name="submission_state" widget="badge" optional="show"
-                           invisible="not submission_state"
-                           decoration-success="submission_state in ('accepted',)"
-                           decoration-info="submission_state in ('delivered',)"
-                           decoration-danger="submission_state in ('rejected','failed')"/>
                 </header>
                 <sheet>
-                    <!-- A filing can have SEVERAL comparisons, one per
-                         basis — itself recomputed, the ledger, another filing
-                         — so this leads to the list of them rather than to
-                         one. Hidden at zero: a stat button reading 0 invites
-                         a click that lands on an empty list. -->
-                    <div class="oe_button_box" name="button_box">
-                        <button name="action_cssk_open_comparisons" type="object"
-                                class="oe_stat_button" icon="fa-balance-scale"
-                                invisible="cssk_comparison_count == 0">
-                            <field name="cssk_comparison_count"
-                                   widget="statinfo" string="Comparisons"/>
-                        </button>
-                    </div>
                     <div class="oe_title"><h1><field name="name" readonly="1" /></h1></div>
                     <group>
                         <group>
@@ -147,8 +123,7 @@
                 <field name="date_to" />
                 <field name="state" widget="badge"
                        decoration-success="state == 'exported'"
-                       decoration-info="state == 'preview'"
-                       decoration-muted="state == 'legacy'" />
+                       decoration-info="state == 'preview'" />
             </list>
         </field>
     </record>

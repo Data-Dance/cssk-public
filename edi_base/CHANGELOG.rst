@@ -5,117 +5,22 @@ Changelog
 All notable changes to **edi_base** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
-[19.0.1.8.0] — 2026-09-29
+[18.0.1.5.0] — 2026-08-23
 -------------------------
 
 Changed
 ~~~~~~~
 
-- **A message belongs to its company, and is sent and processed as it.** A new
-  message without a company takes the company of the document it links to (not
-  the user's current company). Outbound sends run with the connector in the
-  message's company, and inbound processing and reprocessing run in the
-  message's company, which a provider may have routed away from the polling
-  company. So a connector can take credentials and the sender's identity from
-  ``env.company`` in a database with several companies.
-- An inbound stub a provider parks (state ``error`` at creation, e.g. a
-  receiver it cannot route) is stored and acknowledged but not processed.
+- Back-ported from the 19.0 branch (``odoo-modules-playground``).
+- **19 → 18 delta:** ``models/res_partner.py`` imported the core class as
+  ``ResPartner``. Odoo 19 renamed the core model classes to match their model
+  names (``Partner`` → ``ResPartner``); on 18.0 the class is still ``Partner``,
+  and the 19.0 name fails at *import* time with a bare ``ImportError`` that
+  aborts the whole registry load. Now imports ``Partner``.
+- ``_sql_constraints`` is kept as-is: it is native on 18.0 (19.0 only warns
+  about it in favour of ``models.Constraint``).
+- ``<chatter/>`` is kept as-is — it is valid on 18.0, not a 19.0-only element.
 
-[19.0.1.7.1] — 2026-09-28
--------------------------
-
-Fixed
-~~~~~
-
-- **EDI orders failed with** ``'res.partner' object has no attribute
-  'product_edi_code_priority'``. 1.7.0 removed the field on the premise that
-  nothing read it; ``_resolve_product`` did, on every inbound line. The
-  lookup order is now fixed at the one every partner carried — the field's
-  default, ``barcode__supplier_code__default_code``: barcode, then the
-  sender's ``product.supplierinfo`` code, then ``default_code``. The 1.7.0
-  note below that "no module in the family ever read it" was wrong; the
-  column is gone either way, so there is nothing to migrate.
-
-[19.0.1.7.0] — 2026-09-24
--------------------------
-
-Changed
-~~~~~~~
-
-- **The inbound document creators left this module.**
-  ``_create_vendor_bill_from_parsed``, ``_update_po_lines_from_parsed``,
-  ``_create_standalone_picking`` and ``_update_picking_from_parsed`` — with
-  the no-op hooks ``_hook_post_create_vendor_bill``,
-  ``_hook_post_update_po_lines`` and ``_hook_post_update_picking`` — are now
-  in ``edi_base_purchase``, where their only callers already were. The block
-  was already referencing ``edi_base_purchase.activity_desadv_unmatched``,
-  so it had assumed that layering for some time.
-  ``_hook_post_create_sale_order`` moved to ``edi_base_sale``. Product
-  resolution stays here: the purchase-side creators call it as well, and
-  ``product`` arrives with ``account``.
-- **The GS1 party layer left this module** for the new ``edi_base_gs1``:
-  ``res.partner.edi_communication_partner_id``,
-  ``res.partner.edi_desadv_sscc_mode``, ``stock.warehouse.edi_gln``,
-  ``_edi_envelope_partner()`` and ``_edi_use_sscc_desadv()``.
-- **Dropped the ``stock`` and ``uom_unece`` dependencies.** Both were used
-  only by what moved. A Peppol-only install no longer pulls in the Inventory
-  app, and the ePošťák chain now depends on nothing outside Odoo core.
-
-Removed
-~~~~~~~
-
-- ``res.partner.product_edi_code_priority``. No module in the family ever
-  read it. Odoo removes the ``ir.model.fields`` row and **drops the column**
-  — verified on a test upgrade, where an earlier note here claiming the
-  column survives turned out to be wrong. Nothing read the values, so
-  nothing is lost, but this is what proves the hand-over below is not
-  ceremonial: the same cleanup would have taken the three moved columns.
-
-Migration
-~~~~~~~~~
-
-- ``migrations/19.0.1.7.0/pre-migrate.py`` hands the three moved field
-  definitions to ``edi_base_gs1`` and schedules that module for install
-  where ``edi_editel_base``, ``edi_grit_base`` or ``edi_base_purchase`` is
-  present. **Upgrade with ``-u edi_base`` (or ``-u all``).**
-- Tested on a database mirroring a customer's installed set (one partner
-  with a communication endpoint, four with SSCC mode, one warehouse GLN):
-  the migration reassigns the three definitions, ``edi_base_gs1`` installs
-  in the same run, and all three values survive.
-- **Upgrading only a provider module fails loudly, and that is fine.**
-  ``-u edi_editel_base`` alone leaves this module's view in the database
-  still referencing ``product_edi_code_priority``, which the new code no
-  longer defines, so view validation raises and the whole registry load is
-  rolled back. Nothing is written and no data is touched — the database is
-  exactly as it was, and the fix is to run the upgrade properly.
-
-[19.0.1.6.0] — 2026-08-28
--------------------------
-
-- **Add ``edi.message._post_dispatch_trace()``**, called from ``_enqueue_send``
-  — the single funnel every outbound dispatch goes through — so the business
-  document gets a chatter line when the message is actually handed to the
-  queue. Until now the only chatter came from the provider's
-  ``_*_emit_invoic`` at *generation* time, so a document generated with
-  auto-send off and dispatched later from the EDI message form left no trace
-  on the invoice at all: the send was visible only on ``edi.message`` and
-  ``queue.job``. ORDRSP and DESADV emit paths posted nothing whatsoever.
-
-  *Found in production*: after regenerating an INVOIC, an invoice carried two
-  "INVOIC sent via Editel EDI" chatter lines 90 seconds apart, for a document
-  that had gone out exactly once. Reading the chatter, it was indistinguishable
-  from a double send; only ``queue.job`` showed the truth.
-
-- **Add ``edi.message._edi_related_documents()``** — the hook
-  ``_post_dispatch_trace`` resolves its targets through. ``edi_base`` owns no
-  document links (they live in ``edi_base_sale`` / ``edi_base_purchase``), so
-  the default returns an empty list and each satellite appends its own anchor.
-
-  Nothing in ``_post_dispatch_trace`` may raise: ``with_delay()`` has already
-  created the ``queue.job`` row in the same transaction, so an escaping
-  exception rolls the dispatch back and the document is silently never sent.
-  The ``_edi_related_documents()`` call is therefore *inside* the guard, not
-  outside it, and posts are deduplicated by ``(model, id)``.
 
 [19.0.1.5.0] — 2026-08-22
 -------------------------

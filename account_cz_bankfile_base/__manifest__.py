@@ -20,7 +20,7 @@ without duplicating any format logic. No models — pure helpers imported via
     'author': "Data Dance s.r.o.",
     'website': "https://www.datadance.eu",
     'category': 'Accounting/Accounting',
-    'version': '19.0.1.3.1',
+    'version': '18.0.1.4.0',
     'depends': ['base_iban'],
     'license': "AGPL-3",
 }

@@ -74,10 +74,11 @@ class CSSKReceiptTax(models.Model):
     amount_tax = fields.Monetary(string="VAT amount", required=True)
     amount_total = fields.Monetary(compute="_compute_amount_total")
 
-    _rate_receipt_uniq = models.Constraint(
-        "unique(receipt_id, vat_rate)",
-        "The same VAT rate appears twice in this receipt's recap.",
-    )
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("rate_receipt_uniq", "unique(receipt_id, vat_rate)",
+         "The same VAT rate appears twice in this receipt's recap."),
+    ]
 
     @api.depends("amount_untaxed", "amount_tax")
     def _compute_amount_total(self):

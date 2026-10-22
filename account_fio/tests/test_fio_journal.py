@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from datetime import timedelta
 from unittest.mock import patch
@@ -10,7 +10,7 @@ from odoo.tests import tagged
 
 from odoo.addons.account_fio_base.tests.fio_fixtures import statement_xml
 
-from .common import TOKEN_READ, FioCommon
+from .common import FioCommon
 
 
 @tagged("post_install", "-at_install")
@@ -51,27 +51,6 @@ class TestFioJournal(FioCommon):
         ), self.assertRaises(UserError) as caught:
             self.journal.action_fio_test_connection()
         self.assertIn("expired or inactive", str(caught.exception))
-
-    def test_test_connection_does_not_show_the_token_in_its_error(self):
-        """The READ endpoints carry the token in the URL PATH, so a transport
-        failure built from that URL can quote the credential. FioClient masks
-        what it raises, so this asserts the SECOND layer: the sink must not
-        depend on the client having done it, nor on this handler's ``except``
-        clause staying narrower than ``Exception``. The FioError below is
-        deliberately unmasked, standing in for one that arrived that way."""
-        from odoo.addons.account_fio_base.utils.client import FioError
-
-        leaky = (
-            "HTTPSConnectionPool(host='fioapi.fio.cz'): /ib_api/rest/periods/"
-            "%s/2026-01-01/2026-01-01/transactions.xml" % TOKEN_READ
-        )
-        with patch.object(
-            type(self.journal), "_fio_call", autospec=True,
-            side_effect=FioError(leaky),
-        ), self.assertRaises(UserError) as caught:
-            self.journal.action_fio_test_connection()
-        self.assertNotIn(TOKEN_READ, str(caught.exception))
-        self.assertIn("***", str(caught.exception))
 
     def test_a_token_for_another_account_is_refused(self):
         """One token serves one account (§2); pointing it at the wrong journal

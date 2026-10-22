@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 from odoo import fields, models
 
@@ -48,19 +48,10 @@ class CSSKIncomeTaxVersion(models.Model):
              "[null, 24.0]].")
     min_tax_bands = fields.Json(
         string="Minimum-tax bands",
-        help="Statutory minimum tax (SK: § 46b minimálna daň / daňová "
-             "licencia) keyed on the same revenue line: ordered "
-             "[upper_bound, amount] pairs, upper_bound inclusive, null = top "
-             "band (must be last).\n\n"
-             "A band may carry a third element naming a condition that "
-             "turnover cannot express — the SK daňová licencia puts 480 € and "
-             "960 € at the SAME bound and tells them apart by whether the "
-             "taxpayer was a platiteľ DPH on the last day of the period: "
-             "[[500000.0, 480.0, 'not_vat_payer'], "
-             "[500000.0, 960.0, 'vat_payer'], [null, 2880.0]]. Bands are "
-             "tried in order and one whose condition does not hold is "
-             "skipped.\n\n"
-             "Leave empty for forms without a minimum tax.")
+        help="Statutory minimum tax (SK: § 46b minimálna daň) keyed on the "
+             "same revenue line: ordered [upper_bound, amount] pairs, "
+             "upper_bound inclusive, null = top band (must be last). Leave "
+             "empty for forms without a minimum tax.")
 
     # Year-end income-tax provision (MD splatná daň / D daňový záväzok).
     provision_line_code = fields.Char(
@@ -75,46 +66,6 @@ class CSSKIncomeTaxVersion(models.Model):
         default="341",
         help="Account-code prefix for the income-tax payable (D) — 341 Daň "
              "z príjmov / Daň z příjmů.")
-
-    # ------------------------------------------------------------------
-    # Which rows the country layer DERIVES
-    # ------------------------------------------------------------------
-    def _cssk_derived_codes(self):
-        """Line codes this version's country layer computes arithmetically.
-
-        A return has three kinds of row, and ``kind`` only separates two of
-        them. ``kind`` names where a row's INPUT comes from — the P&L
-        (``account``), the asset register (``asset_diff``), or the
-        accountant (``manual``). It says nothing about whether the country
-        layer then OVERWRITES the row from a formula, and on the Slovak DPPO
-        it does exactly that for nineteen rows that are all ``kind='manual'``:
-        the tax spine derives r310 and r400 from r100 plus the adjustments,
-        while the adjustments themselves are the accountant's and are the same
-        kind.
-
-        So a consumer asking "can I check this row?" cannot answer it from
-        ``kind``, and the answer used to live only inside the country module's
-        Python. This hook is where it lives now.
-
-        **Three states, not two**, and a comparator against a filed return
-        wants all three:
-
-        * ``account`` / ``asset_diff`` — we hold the input, so the row is
-          checkable outright;
-        * derived (this hook) — checkable ARITHMETICALLY, but only where every
-          input is held; where an adjustment we never had is non-zero, the
-          honest report is *uncompared*, not *differing*;
-        * everything else — the accountant's judgment, never checkable.
-
-        Reporting the second group as differences is how a comparison produces
-        confident wrong answers that point at this engine.
-
-        On the version rather than the return, for the usual reason: it
-        answers a question about the DEFINITIONS, and the reverse direction —
-        a bridge or a comparator holding no computed record — has to be able
-        to reach it. Returns a set of codes; the base derives none.
-        """
-        return set()
 
 
 class CSSKIncomeTaxLineDef(models.Model):

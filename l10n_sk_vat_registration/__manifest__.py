@@ -43,7 +43,7 @@ reliable signal and the check stays quiet.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.1",
+    "version": "18.0.1.0.1",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["account", "base_vat", "l10n_sk"],

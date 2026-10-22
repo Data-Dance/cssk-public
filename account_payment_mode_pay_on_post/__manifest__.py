@@ -4,7 +4,7 @@
     "name": "Payment Mode: Pay on Validation",
     "summary": "A payment mode can register the payment when the invoice is "
                "posted — cash and card sales paid on the spot.",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

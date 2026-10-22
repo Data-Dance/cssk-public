@@ -22,6 +22,13 @@ class TestUBLSlovakia(TestUBLCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # When OCA account_payment_order is co-installed it gates res.partner.bank
+        # access (create AND write) behind group_account_payment. The core UBL test
+        # helper (_generate_move) writes the company's bank, so grant the group to
+        # the test user. Guarded: the group only exists when that module is present.
+        pay_group = cls.env.ref('account_payment_order.group_account_payment', raise_if_not_found=False)
+        if pay_group:
+            cls.env.user.groups_id |= pay_group
         cls.sk_country = cls.env.ref('base.sk')
         cls.eur = cls.env['res.currency'].with_context(active_test=False).search(
             [('name', '=', 'EUR')], limit=1)
@@ -34,12 +41,15 @@ class TestUBLSlovakia(TestUBLCommon):
             'city': "Bratislava",
             'country_id': cls.sk_country.id,
             'vat': "SK2020000004",
-            'company_registry': "12345679",
-            'bank_ids': [Command.create({
-                'acc_number': "SK3112000000198742637541",
-                'allow_out_payment': True,  # trusted, so posting doesn't raise
-            })],
+            'company_registry': "12345678",
         })
+        # OCA account_payment_order (present in the full install) gates
+        # res.partner.bank creation behind group_account_payment; the test user
+        # lacks it, so create the incidental bank via sudo().
+        cls.seller.sudo().bank_ids = [Command.create({
+            'acc_number': "SK3112000000198742637541",
+            'allow_out_payment': True,  # trusted, so posting doesn't raise
+        })]
         cls.buyer = cls.env['res.partner'].create({
             'name': "SK Buyer a.s.",
             'street': "Vedlajsia 2",

@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 """SK DPPO dodatočné priznanie — auto-fill the difference rows.
 
 Per the DPPOv25 poučenie (§ II, oddiel Dodatočné daňové priznanie), each
@@ -31,38 +31,6 @@ _DODATOCNE_DIFF = [
     ("r1180", "r1190", "r1070"),
     ("r1191", "r1192", "r1071"),
 ]
-
-
-# The rows the SK tax spine DERIVES. Declared once, and ``put()`` refuses a
-# code that is not here — so this cannot quietly fall behind the spine the way
-# a hand-kept list would. Every one of them is ``kind='manual'`` in the version
-# data, which is the whole reason the set has to be stated somewhere: ``kind``
-# names where a row's INPUT comes from, not whether we overwrite it.
-_SPINE_ROWS = frozenset({
-    "r200", "r300", "r301", "r310", "r400", "r500", "r510", "r550",
-    "r600", "r700", "r800", "r810", "r820", "r830", "r900",
-    "r1050", "r1080", "r1100", "r1101",
-})
-
-
-class CSSKIncomeTaxVersion(models.Model):
-    """The SK layer's answer to "which rows does this engine derive?"."""
-
-    _inherit = "cssk.income.tax.version"
-
-    def _cssk_derived_codes(self):
-        """The tax spine's write-set, intersected with what the vzor defines.
-
-        Older vzory do not carry every row the spine can write — r830 exists
-        on 2013-2015 and 2024+ and nowhere else, r810/r820 vanish across
-        2020-2022 with the daňová licencia — so the answer is per version, not
-        a constant. Non-SK versions inherit the base's empty set.
-        """
-        self.ensure_one()
-        if (self.country_id.code or "").upper() != "SK":
-            return super()._cssk_derived_codes()
-        return {code for code in self.line_def_ids.mapped("code")
-                if code in _SPINE_ROWS}
 
 
 class CSSKIncomeTaxReturn(models.Model):
@@ -135,27 +103,12 @@ class CSSKIncomeTaxReturn(models.Model):
         return bands
 
     @staticmethod
-    def _dppo_band_value(bands, r560, conditions=None):
-        """Value of the first band that covers r560 and whose condition holds.
-
-        A band is ``[upper_bound, value]`` — inclusive bound, null last band
-        catches everything above — or ``[upper_bound, value, condition]``,
-        where the condition names a fact about the taxpayer that turnover
-        cannot express. § 46b's daňová licencia needs it: 480 € and 960 € sit
-        at the SAME turnover bound and are told apart by whether the taxpayer
-        was a platiteľ DPH on the last day of the period.
-
-        Unknown conditions never match, so a band nobody can evaluate is
-        skipped rather than silently applied.
-        """
-        conditions = conditions or {}
-        for band in bands:
-            upper, value = band[0], band[1]
-            if upper is not None and r560 > upper:
-                continue
-            if len(band) > 2 and not conditions.get(band[2]):
-                continue
-            return value
+    def _dppo_band_value(bands, r560):
+        """Value of the first band whose (inclusive) upper bound covers r560;
+        the null-bounded last band catches everything above."""
+        for upper, value in bands:
+            if upper is None or r560 <= upper:
+                return value
 
     def _dppo_rate(self, r560):
         """Sadzba dane % (§ 15) by úhrn zdaniteľných príjmov r560 — statutory
@@ -170,58 +123,16 @@ class CSSKIncomeTaxReturn(models.Model):
             return 12
         return (dt.year - df.year) * 12 + (dt.month - df.month) + 1
 
-    def _dppo_is_vat_payer(self):
-        """Platiteľ DPH k poslednému dňu zdaňovacieho obdobia (§ 46b ods. 2).
-
-        Read from ``l10n_sk_vat_registration`` when it is installed, because
-        that module records the registration and the date it took effect —
-        which is what the statute asks about, a status on one specific day.
-
-        Without it, falls back to whether the company carries a VAT number at
-        all. That is an APPROXIMATION and it errs downwards: a registered
-        company with no ``vat`` on its record lands in the 480 band instead of
-        960. Install ``l10n_sk_vat_registration`` on any agenda where the
-        licencia is actually computed.
-        """
-        self.ensure_one()
-        partner = self.company_id.partner_id
-        if "l10n_sk_vat_payer_since" in partner._fields:
-            since = partner.l10n_sk_vat_payer_since
-            if since:
-                return since <= self.date_to
-            return bool(partner.l10n_sk_is_full_vat_payer)
-        return bool(self.company_id.vat)
-
     def _dppo_min_tax(self, r560):
-        """Minimálna daň / daňová licencia (§ 46b) — the band amount from the
-        version record (min_tax_bands), prorated by months. Polovičná sadzba
-        (ods. 3), neplatenie and oslobodenie (ods. 7) are accountant overrides.
-
-        ⚠️ The licencia vzory (2014-2019) have **no r560**. That row arrived
-        with the 2020 form, for the § 15 reduced-rate test, so the older
-        tlačivo carries no turnover figure at all and the band has nothing on
-        the form to key on. We fall back to the same basis the later form uses
-        for r560 — class 6 revenue, which is literally r560's own
-        ``account_formula`` — rather than to nothing, because a silent 0,00
-        here means "no licencia owed", which is the wrong answer for almost
-        every taxpayer.
-
-        That is a reading, not a citation: the older poučenie does not define
-        ročný obrat by reference to a row, because it has none to point at.
-        Override r810 where the taxpayer's obrat differs from class 6.
-        """
-        self.ensure_one()
-        if "r560" not in set(self.version_id.line_def_ids.mapped("code")):
-            r560 = self._eval_accounts("6")
+        """Minimálna daň (§ 46b) — standard full-band amount from the version
+        record (min_tax_bands), prorated by months. Polovičná sadzba /
+        neplatenie / oslobodenie are accountant overrides."""
         if r560 <= 0:
             return 0.0
-        payer = self._dppo_is_vat_payer()
         base = self._dppo_band_value(
             self._dppo_version_bands(
                 "min_tax_bands", _("§ 46b minimum-tax bands")),
-            r560,
-            {"vat_payer": payer, "not_vat_payer": not payer},
-        )
+            r560)
         months = self._period_months()
         return base if months == 12 else statutory_round(
             base / 12.0 * months, 2)
@@ -235,17 +146,6 @@ class CSSKIncomeTaxReturn(models.Model):
             return line.value if line else 0.0
 
         def put(code, value):
-            # The guard is what keeps _SPINE_ROWS honest: a row the spine
-            # learns to write, and nobody adds here, fails on the next
-            # compute rather than silently dropping out of
-            # ``_cssk_derived_codes`` and out of every comparison built on it.
-            # A raise, not an assert: `python -O` strips asserts, and a guard
-            # that disappears under a flag is not a guard.
-            if code not in _SPINE_ROWS:
-                raise ValueError(
-                    "the SK tax spine writes %s but _SPINE_ROWS does not list "
-                    "it — add it there, or _cssk_derived_codes() will hide the "
-                    "row from every comparator built on it" % code)
             line = by.get(code)
             if line and not line.is_overridden:
                 line.value = value
@@ -290,28 +190,11 @@ class CSSKIncomeTaxReturn(models.Model):
         put("r800", r800)
         r810 = self._dppo_min_tax(g("r560"))
         put("r810", r810)
-        # KLADNÝ ROZDIEL — and WHICH ROW carries it depends on the vzor,
-        # because the form reused the number. Verified against the pinned FS SR
-        # schemas: 2017/2018/2019 define r800/r810/r820 and NO r830, while
-        # 2013-2015 and 2024+ define r830 as well.
-        #
-        #   licencia era, no r830   -> r820 is the rozdiel
-        #   r830 present            -> r830 is the rozdiel, r820 is other
-        #
-        # Finančná správa's own usmernenie (20. 12. 2018) prints the licencia
-        # vzor's captions and its worked example: r800 600, r810 960,
-        # r820 360 — i.e. r810 − r800, not r810. This branch used to write
-        # r810 into r820 on every vintage, which was right for the minimálna
-        # daň forms and wrong for the three licencia ones.
-        rozdiel = max(0.0, statutory_round(r810 - r800, 2))
+        put("r820", r810 if r810 > r800 else 0.0)
         # Daň-na-úhradu cascade (DPPOv25 poučenie r830/r900/r1050/r1080/r1100/r1101).
         # r830 = kladný rozdiel medzi minimálnou daňou (r810) a daňou (r800) — the
         #        carry-forwardable min-tax surplus (§ 46b ods. 5).
-        if "r830" in {d.code for d in self.version_id.line_def_ids}:
-            put("r820", r810 if r810 > r800 else 0.0)
-            put("r830", rozdiel)
-        else:
-            put("r820", rozdiel)
+        put("r830", max(0.0, statutory_round(r810 - r800, 2)))
         # r900 = suma na účely určenia výšky preddavkov: the minimum tax when the
         #        payer actually pays it (override for § 46b ods. 3/7 halving/
         #        exemption, or to add r840, in those cases).

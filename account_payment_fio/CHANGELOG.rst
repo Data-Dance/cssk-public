@@ -3,48 +3,51 @@ Changelog
 =========
 
 All notable changes to **account_payment_fio** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a Changelog.
 
 [Unreleased]
 ------------
 
-[19.0.1.2.1] — 2026-09-13
+[18.0.1.4.1] — 2026-09-01
 -------------------------
 
 Fixed
 ~~~~~
 
-- **Code translations that Odoo was never loading.** An entry whose references
-  are ``code:addons/...`` is treated as a Python translation only if it carries
-  the extracted comment ``#. odoo-python`` — ``_load_python_translations``
-  filters on exactly that and never on the reference. Without it an entry can
-  name the right ``.py``, carry a correct msgstr, pass ``msgfmt --check``, and
-  be silently ignored for ever. This module's hand-added entries were in that
-  state. Repaired by ``tools/fix_po_code_comments.py``, which is also the CI
-  check; the offline exporter now emits the comment itself.
+- **A test had been shadowing another and never ran.** Two methods in
+  ``TestFioPaymentOrder`` shared the name
+  ``test_a_non_numeric_symbol_is_refused_at_entry``, so Python kept the second
+  and the first was dead: the **variable symbol** half of
+  ``_check_payment_symbols_cz`` had never been exercised on either branch. Both
+  are now named for the field they cover. The constraint itself was correct —
+  ``"FA/42".isdigit()`` is false and the rule covers ``variable_symbol`` — so
+  this restores coverage rather than fixing behaviour, but a test suite that
+  silently drops a case is worth less than its green tick suggests.
 
-Changed
-~~~~~~~
+  Found by an AST scan for duplicate method names across every suite in the Fio
+  family; the rest are clean.
 
-- Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
-
-Carry-over to 18.0
+Carry-over to 19.0
 ~~~~~~~~~~~~~~~~~~
 
-- **DISCHARGED 2026-09-01 — do not port this again.** The note below was
-  accurate when written and is not any more. ``18.0-fio-api`` carries the whole
-  of 19.0.1.1.0 and then went further; the debt reversed direction, and this
-  release is the 18.0 -> 19.0 port that settles it.
+- cs/sk catalogues (18.0.1.4.0) are absent on 19.0, as they are for the whole
+  Fio family.
 
-  Original note, kept for the record: everything under 19.0.1.1.0 plus the
-  unreleased entries landed on ``19.0-fio-api`` only; a customer runs the 18.0
-  copies vendored into its own repository, which already carried the
-  19.0.1.1.0 fixes while the ``18.0-fio-api`` branch did not.
+[18.0.1.4.0] — 2026-09-01
+-------------------------
 
-[19.0.1.2.0] — 2026-09-01
+Fixed
+~~~~~
+
+- **3 view terms were missing from the translation catalogues.** The offline
+  exporter read only the first child of a view's ``arch``, and an inherited
+  view normally has one top-level node per xpath — so every term after the
+  first was silently absent. Among them were the alert telling an operator that
+  the bank's answer to an upload was lost, and the 90-day history-unlock
+  instruction: precisely the messages whose whole value is being read under
+  time pressure. Fixed in ``tools/i18n_export_offline.py`` and re-exported.
+
+[18.0.1.3.0] — 2026-08-31
 -------------------------
 
 Added
@@ -72,19 +75,18 @@ Added
   back through Odoo's own ``PoFileReader`` — every entry resolves to a record
   reference, none is untranslated — and with ``msgfmt --check``.
 
-[19.0.1.1.1] — 2026-08-31
+[18.0.1.2.0] — 2026-08-31
 -------------------------
 
 Changed
 ~~~~~~~
 
-- The **Send to Fio** button carries a lightning-bolt icon (``fa-bolt``),
-  matching the hand-written server action it replaces on existing installs —
-  that icon is what users there recognise the action by. Kept as an ``icon``
-  attribute rather than a character in the label, so it stays out of the
-  translation catalogues.
+- *Send to Fio* carries a lightning-bolt icon, so the one button that moves
+  real money is not visually identical to the ones that do not. The icon is an
+  ``icon="fa-bolt"`` attribute rather than a character in the label, so it
+  stays out of every translation catalogue.
 
-[19.0.1.1.0] — 2026-08-24
+[18.0.1.1.0] — 2026-08-25
 -------------------------
 
 Fixed
@@ -96,7 +98,7 @@ Fixed
   of being refused by the bank after upload.
 
 
-[19.0.1.0.0] — 2026-08-19
+[18.0.1.0.0] — 2026-08-19
 -------------------------
 
 Added

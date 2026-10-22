@@ -1,6 +1,6 @@
 {
     "name": "Sale Order Advance Invoice",
-    "version": "19.0.2.7.1",
+    "version": "18.0.1.0.4",
     "summary": "Advance invoices (proforma) with tax documents on received payments",
     "description": """
 Advance Invoices
@@ -19,7 +19,7 @@ Install a localization layer to wire the statutory accounts automatically:
 See the documentation in ``static/description``.
 """,
     "author": "Data Dance s.r.o.",
-    "website": "https://www.datadance.eu",
+    "website": "https://www.datadance.cz",
     "license": "AGPL-3",
     "depends": ["sale", "sale_management", "account_payment"],
     "category": "Sales/Sales",

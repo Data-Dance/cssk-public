@@ -25,12 +25,13 @@ Licensed **AGPL-3** because it depends on the AGPL OCA engine.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.2",
+    "version": "18.0.1.1.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
-    "depends": ["l10n_sk_account_loan_base", "account_leasing"],
-    # Belt and braces: `account_loan` already excludes `account_loans`, but state
-    # it here too so the exclusivity is visible on the module a user installs.
+    "depends": ["l10n_sk_account_loan_base", "account_loan"],
+    # On 18.0 leasing is not a separate module: OCA `account_loan` still carries
+    # `is_leasing` and `leased_asset_account_id` itself. The 19.0 MIG PR split
+    # them into `account_leasing`, which is why the 19.0 branch depends on that.
     "excludes": ["account_loans"],
     "auto_install": True,
     "installable": True,

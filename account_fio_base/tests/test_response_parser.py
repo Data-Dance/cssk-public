@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
 
 # ``odoo.tests.BaseCase`` rather than ``unittest.TestCase``: it is the same
 # plain TestCase — no database, no cursor — but its ``__init_subclass__``

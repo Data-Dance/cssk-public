@@ -47,12 +47,12 @@ msgstr "Opravená (§ 53b)"
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__create_uid
 msgid "Created by"
-msgstr "Vytvoril"
+msgstr ""
 
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__create_date
 msgid "Created on"
-msgstr "Vytvorené dňa"
+msgstr ""
 
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__threshold_days
@@ -69,7 +69,7 @@ msgstr "Denník opráv"
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__display_name
 msgid "Display Name"
-msgstr "Zobrazovaný názov"
+msgstr ""
 
 #. module: l10n_sk_vat_return
 #. odoo-python
@@ -88,7 +88,7 @@ msgstr "Faktúra %s nemá odpočítanú daň na opravu."
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__id
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields,help:l10n_sk_vat_return.field_account_bank_statement_line__l10n_sk_par53b_is_reclaim
@@ -113,12 +113,12 @@ msgstr ""
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__write_uid
 msgid "Last Updated by"
-msgstr "Naposledy upravil"
+msgstr ""
 
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields,field_description:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__write_date
 msgid "Last Updated on"
-msgstr "Naposledy upravené dňa"
+msgstr ""
 
 #. module: l10n_sk_vat_return
 #: model:ir.actions.act_window,name:l10n_sk_vat_return.action_l10n_sk_par53b_wizard
@@ -246,73 +246,3 @@ msgstr ""
 #: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
 msgid "Žiadne faktúry nespĺňajú podmienky § 53b k %s."
 msgstr "Žiadne faktúry nespĺňajú podmienky § 53b k %s."
-
-#. module: l10n_sk_vat_return
-#. odoo-python
-#: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
-msgid ""
-"Faktúra %s nemá čo znovu uplatniť podľa § 53b ods. 6 — buď nebola (ďalej) "
-"zaplatená, alebo už bola opravená daň znovu uplatnená v plnej výške "
-"zaplatenia."
-msgstr ""
-
-#. module: l10n_sk_vat_return
-#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_tax__l10n_sk_dph_69_par__auto
-msgid "From the supplier's country"
-msgstr "Z krajiny dodávateľa"
-
-#. module: l10n_sk_vat_return
-#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_account_tax__l10n_sk_dph_69_par
-msgid "SK § 69 paragraph (pre-2021 vzory)"
-msgstr "SK odsek § 69 (vzory do roku 2021)"
-
-#. module: l10n_sk_vat_return
-#: model:ir.module.module,summary:base.module_l10n_sk_vat_return
-msgid ""
-"Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax "
-"tags, with FS SR DPH XML export. Built on the shared "
-"l10n_cssk_vat_return_base framework."
-msgstr ""
-"Slovenské daňové priznanie k DPH (DPHv25) — riadky na výstupe/vstupe "
-"napojené na daňové značky l10n_sk, s exportom XML DPH pre FS SR. "
-"Postavené na spoločnom rámci l10n_cssk_vat_return_base."
-
-#. module: l10n_sk_vat_return
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_vat_return
-msgid "Slovakia — VAT Return (Daňové priznanie k DPH)"
-msgstr "Slovensko — daňové priznanie k DPH"
-
-#. module: l10n_sk_vat_return
-#: model:ir.model.fields,help:l10n_sk_vat_return.field_account_tax__l10n_sk_dph_69_par
-msgid ""
-"Which row a reverse-charge amount takes on a DPH return for a period before 1. 1. 2021. Only those vzory separate the paragraphs; from 2021 the form merges them and this is ignored.\n"
-"\n"
-"Left on 'From the supplier's country' — the default, and right for the shared l10n_sk reverse-charge taxes — a line is treated as § 69 ods. 3 when its supplier is established outside Slovakia, which is what that paragraph says. Set it explicitly on a tax a company uses for ONE paragraph only: a dedicated domestic-construction prenos tax is '§ 69 ods. 2 a 9 až 12' whoever the supplier is, and a § 69 ods. 2 goods-with-installation tax is too, even though its supplier is foreign."
-msgstr ""
-"Ktorý riadok zaujme suma s prenesením daňovej povinnosti na priznaní "
-"k DPH za obdobie pred 1. 1. 2021. Len tie vzory odseky rozlišujú; od "
-"roku 2021 ich formulár zlučuje a toto sa ignoruje.\n"
-"\n"
-"Ponechané na „Z krajiny dodávateľa“ — predvolené a správne pre "
-"zdieľané dane l10n_sk s prenosom — sa riadok považuje za § 69 ods. "
-"3, keď je jeho dodávateľ usadený mimo Slovenska, čo je presne to, čo "
-"tento odsek hovorí. Nastavte to výslovne na dani, ktorú spoločnosť "
-"používa len pre JEDEN odsek: vyhradená daň pre tuzemský stavebný "
-"prenos je „§ 69 ods. 2 a 9 až 12“ nech je dodávateľ ktokoľvek, a "
-"rovnako aj daň podľa § 69 ods. 2 pre tovar s inštaláciou, hoci jej "
-"dodávateľ je zahraničný."
-
-#. module: l10n_sk_vat_return
-#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_tax__l10n_sk_dph_69_par__69_other
-msgid "§ 69 ods. 2 a 9 až 12"
-msgstr ""
-
-#. module: l10n_sk_vat_return
-#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_tax__l10n_sk_dph_69_par__69_3
-msgid "§ 69 ods. 3 — služba od zahraničnej osoby"
-msgstr ""
-
-#. module: l10n_sk_vat_return
-#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_move__l10n_sk_par53b_state__none
-msgid "—"
-msgstr ""

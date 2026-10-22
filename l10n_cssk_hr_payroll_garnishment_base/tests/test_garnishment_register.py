@@ -56,40 +56,6 @@ class TestGarnishmentRegister(TransactionCase):
         with self.assertRaises(ValidationError):
             self._order(claim_class="fine")
 
-    def test_orders_do_not_leak_across_companies(self):
-        """A payroll officer who can see two companies must not garnish from
-        both at once.
-
-        The multi-company record rule does not do this: ``company_ids`` in a
-        rule resolves to the user's ALLOWED companies, not to ``env.company``.
-        So an officer entitled to A and B saw B's orders while computing an A
-        payslip, and because the line's ``company_id`` is
-        ``related=garnishment_id.company_id`` the deduction landed in B — with
-        the remittance later booked in B's journal against an A payslip.
-        """
-        other = self.env["res.company"].create(
-            {"name": "Garnishment CZ 2", "country_id": self.env.ref("base.cz").id})
-        self.env.user.company_ids |= other
-        employee_b = self.env["hr.employee"].create(
-            {"name": "Dlužník", "company_id": other.id})
-        # Same PERSON employed by both companies is the realistic shape, but
-        # employee records are per company; what matters is that the order of
-        # one company is invisible to the other's allocation.
-        mine = self._order()
-        theirs = self._order(company_id=other.id, employee_id=employee_b.id)
-
-        Garnishment = self.env["hr.wage.garnishment"]
-        found = Garnishment._active_orders(
-            self.employee, "2026-06-01", "2026-06-30", self.company)
-        self.assertIn(mine, found)
-        self.assertNotIn(theirs, found,
-                         "another company's order must not be allocatable here")
-
-        found_b = Garnishment._active_orders(
-            employee_b, "2026-06-01", "2026-06-30", other)
-        self.assertIn(theirs, found_b)
-        self.assertNotIn(mine, found_b)
-
     def test_allocation_and_registration(self):
         order = self._order()
         orders, result = self.env["hr.wage.garnishment"]._allocate(

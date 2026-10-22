@@ -22,7 +22,6 @@ materialised once, idempotently, when the payslip is confirmed.
 """
 
 from odoo import _, api, fields, models
-from odoo.exceptions import AccessError, UserError
 
 
 class CSSKGarnishmentPayslipMixin(models.AbstractModel):
@@ -100,61 +99,6 @@ class CSSKGarnishmentPayslipMixin(models.AbstractModel):
                 slip.date_from,
                 slip.date_to,
             )
-
-    def _cssk_garnishment_check_resettable(self):
-        """Refuse to reset a payslip whose deduction has already been remitted.
-
-        ``_cssk_garnishment_unregister`` deliberately keeps ``done`` lines —
-        the money has gone to the bailiff and only a reversal undoes that. But
-        ``_register_allocation`` filters on the SAME ``state != 'done'`` when
-        it clears the old rows, so confirming the payslip again wrote a SECOND
-        line for the same ``payslip_ref``: the ``done`` one and a fresh
-        ``computed`` one, side by side.
-
-        The employee is still debited once — the payslip only carries one
-        deduction — so this is not money lost. What breaks is the ledger the
-        bailiff is answered from: ``paid_amount`` inflated, ``remaining_amount``
-        understated, and the Garnishments tab showing the deduction twice. On
-        an order that is nearly settled that understates what is still owed,
-        which is the direction that ends an exekúcia early.
-
-        Blocking the transition is the honest fix: a remitted deduction is a
-        payment to a third party, and a payroll correction after it needs a
-        reversal, not a silent re-computation.
-        """
-        line_model = self.env["hr.wage.garnishment.line"].sudo()
-        blocked = line_model.search([
-            ("payslip_ref", "in", [s._cssk_garnishment_payslip_ref() for s in self]),
-            ("state", "=", "done"),
-        ])
-        if not blocked:
-            return
-        # The search runs under ``sudo`` so the block cannot be dodged by not
-        # holding the ACL, but the MESSAGE must not become a way to read case
-        # numbers that way. Name the orders only to a reader entitled to them
-        # — an exekúcia against a named employee is exactly the sort of thing
-        # not to spill into an error string.
-        try:
-            orders = ", ".join(sorted(set(
-                blocked.garnishment_id.sudo(False).mapped("display_name"))))
-        except AccessError:
-            orders = ""
-        if orders:
-            raise UserError(_(
-                "This payslip carries a wage deduction that has already been "
-                "remitted to the payee (%(orders)s), so it cannot be reset to "
-                "draft — resetting it would leave the garnishment ledger "
-                "counting the deduction twice while the employee was debited "
-                "once. Reverse the remittance first.",
-                orders=orders,
-            ))
-        raise UserError(_(
-            "This payslip carries a wage deduction that has already been "
-            "remitted to the payee, so it cannot be reset to draft — "
-            "resetting it would leave the garnishment ledger counting the "
-            "deduction twice while the employee was debited once. Reverse the "
-            "remittance first."
-        ))
 
     def _cssk_garnishment_unregister(self):
         """Drop the ledger rows of payslips being reset or cancelled.

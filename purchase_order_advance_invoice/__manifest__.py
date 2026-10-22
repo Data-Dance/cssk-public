@@ -1,6 +1,6 @@
 {
     "name": "Purchase Order Advance Invoice",
-    "version": "19.0.1.1.0",
+    "version": "18.0.1.0.1",
     "summary": "Received advance invoices (vendor proformas) with tax "
                "documents on sent payments",
     "description": """

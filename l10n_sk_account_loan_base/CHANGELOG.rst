@@ -8,38 +8,6 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
-[19.0.1.0.2] — 2026-09-13
--------------------------
-
-Fixed
-~~~~~
-
-- Gave the technical computed field an explicit ``string=``. Without one Odoo
-  derives a label from the field name and exports it — "L10N Sk Jcd Is Sk
-  Company" and the like — which is not English in any useful sense and cannot
-  be translated into anything better. The field is a view modifier behind
-  ``invisible="1"``, so no user reads it; the point is that it stops putting a
-  mangled msgid in the catalogue.
-
-[19.0.1.0.1] — 2026-09-13
--------------------------
-
-Fixed
-~~~~~
-
-- Slovak catalogue completed. Terms already stated in Slovak in the source are
-  deliberately left untranslated — the source IS the translation, per the
-  hybrid convention for these modules — so an empty ``msgstr`` there is correct
-  rather than missing.
-
-Changed
-~~~~~~~
-
-- Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
-  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
-  Enterprise, which OEEL forbids from carrying it. What differs between modules
-  is now whether they are published, not how they are licensed.
-
 [19.0.1.0.0] — 2026-08-05
 -------------------------
 

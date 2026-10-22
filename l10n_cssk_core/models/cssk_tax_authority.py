@@ -62,7 +62,8 @@ class CSSKTaxAuthority(models.Model):
         for rec in self:
             rec.child_authority_count = len(rec.child_authority_ids)
 
-    _uniq_code_per_country = models.Constraint(
-        "UNIQUE(country_code, code)",
-        "The tax-authority code must be unique per country.",
-    )
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
+    _sql_constraints = [
+        ("uniq_code_per_country", "UNIQUE(country_code, code)",
+         "The tax-authority code must be unique per country."),
+    ]

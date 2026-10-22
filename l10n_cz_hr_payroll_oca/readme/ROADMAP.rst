@@ -1,28 +1,8 @@
-Statutory reporting is NOT part of this module — it lives in a separate,
-engine-neutral family built on ``l10n_cssk_payroll_declaration_base``, each
-module shipping the official XSD and validating its export against it:
+The following are intentionally deferred (they need the official electronic
+formats and are out of scope for this pass):
 
-* ``l10n_cz_hr_payroll_pvpoj`` — monthly Přehled o výši pojistného (ČSSZ),
-  validated against ``PVPOJ25.xsd``.
-* ``l10n_cz_hr_payroll_onz`` — Oznámení o nástupu do zaměstnání / skončení,
-  built from the employee and ``hr.version`` lifecycle
-  (``ONZ2022_20230616.xsd``).
-* ``l10n_cz_hr_payroll_eldp`` — the annual Evidenční list důchodového
-  pojištění (``ELDP09.xsd``).
-* ``l10n_cz_hr_payroll_health`` — the monthly Přehled o platbě pojistného
-  (PPPZ) and the bulk enrol/terminate notification (HOZ), per health insurer.
-* ``l10n_cz_hr_payroll_annual_tax_settlement`` — the annual Vyúčtování daně z příjmů ze
-  závislé činnosti for the Finanční správa (EPO ``dpzvd6_epo2.xsd``).
-
-Not implemented anywhere in the stack yet:
-
-* Wage surcharges (příplatky) for přesčas, svátek, noční práce, víkend and
-  ztížené pracovní prostředí (§§ 114–118 zákoníku práce), and the zaručená
-  mzda groups. The Slovak side has these in
-  ``l10n_sk_hr_payroll_surcharges``; the Czech equivalent is not built. The two
-  statutes differ in shape — Czech příplatky are percentages of the průměrný
-  výdělek rather than of the minimum wage — so the Slovak module cannot simply
-  be pointed at CZ.
+* Statutory reports (výkazy, přehledy o výši pojistného, ELDP) to ČSSZ, the
+  health insurers and the tax office (FÚ).
 
 Simplifications in the implemented P3 features (verify against current law
 before production use):
@@ -48,13 +28,11 @@ before production use):
   parameters. It is added to the net take-home but is not run through income
   tax: in reality náhrada mzdy is subject to income tax but not to
   social/health insurance.
-* Wage garnishment: install ``l10n_cssk_hr_payroll_garnishment_base`` (plus the
-  engine bridge) for the full multi-claim § 279/§ 280 waterfall, an order
-  register, balance tracking, remittance to the bailiff and the statutory
-  employer notices. Without it the rule falls back to a single input-driven
-  claim per payslip (priority OR non-priority). Either way the nezabavitelná
-  částka uses the 2026 methodology (85 % of the sum of the individual living
-  minimum, the normative rent and the energy flat), valid from 2026-01-01.
+* Wage garnishment (exekuční srážky) supports one active claim per payslip
+  (priority OR non-priority); the multi-claim priority waterfall is out of
+  scope. The nezabavitelná částka uses the 2026 methodology (85 % of the sum of
+  the individual living minimum, the normative rent and the energy flat), valid
+  from 2026-01-01.
 * Annual tax reconciliation (roční zúčtování záloh na daň, §38ch/§38ča): a
   per-(employee, year) record aggregates the year's payslips (Σ tax base,
   Σ withheld advance, Σ credit, Σ child benefit / bonus) and computes the annual
@@ -67,7 +45,7 @@ before production use):
   30 % of the base); union dues and further-education exams are recorded but not
   deducted (repealed from 2024); a nedoplatek is not collected through the
   reconciliation; ZTP/P, invalidity and child counts are read from the current
-  version rather than reconstructed month by month. The employee-side health/
+  contract rather than reconstructed month by month. The employee-side health/
   social annual reconciliation is insurer-side and out of scope.
 * Employer social-insurance discount (sleva na pojistném, §7a): the discount is
   −5 % of the monthly assessment base (capped at 1.5× the average wage) for an

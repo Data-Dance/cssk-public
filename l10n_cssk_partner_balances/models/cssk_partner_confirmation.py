@@ -260,19 +260,8 @@ class CSSKPartnerConfirmationLine(models.Model):
     company_currency_id = fields.Many2one(
         related="confirmation_id.currency_id"
     )
-    # Source link + snapshot fields. ``set null``, NOT ``restrict``: what makes
-    # the snapshot survive is that the fields below are STORED, not that the
-    # foreign key refuses the delete. The comment here used to claim otherwise
-    # and the claim is self-refuting — ``move_name``, ``move_date``,
-    # ``date_maturity`` and the amounts are all copies precisely so the
-    # confirmation stays readable once the ledger has moved on.
-    #
-    # What ``restrict`` actually bought was a confirmation PINNING every line it
-    # sampled, so no sampled document could be deleted or re-imported
-    # afterwards. Same defect as the control-statement sections, where it cost
-    # real time in both localisations; see
-    # ``cssk.control.statement.section.mixin`` for the full account.
-    move_line_id = fields.Many2one("account.move.line", ondelete="set null")
+    # Source link (restrict so the snapshot survives) + snapshot fields.
+    move_line_id = fields.Many2one("account.move.line", ondelete="restrict")
     move_name = fields.Char()
     move_date = fields.Date()
     date_maturity = fields.Date()

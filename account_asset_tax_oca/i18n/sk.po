@@ -48,7 +48,7 @@ msgstr "Doplniť (migrácia)"
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__book_amount
 msgid "Book Depreciation"
-msgstr "Účtovné odpisy"
+msgstr ""
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__book_amount_posted
@@ -58,7 +58,7 @@ msgstr "Účtovný odpis (zaúčtovaný)"
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__book_residual
 msgid "Book Residual Value"
-msgstr "Účtovná zostatková cena"
+msgstr ""
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset_book_tax_report__difference
@@ -66,8 +66,6 @@ msgid ""
 "Book depreciation minus tax depreciation for the year — the income-tax base "
 "adjustment (SK pripočítateľná/odpočítateľná položka, CZ § 23 ods. 3)."
 msgstr ""
-"Účtovné odpisy mínus daňové odpisy za rok — úprava základu dane z "
-"príjmov (SK pripočítateľná/odpočítateľná položka, CZ § 23 ods. 3)."
 
 #. module: account_asset_tax_oca
 #: model:ir.actions.act_window,name:account_asset_tax_oca.action_asset_book_tax_report
@@ -139,7 +137,7 @@ msgstr ""
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__difference
 msgid "Difference (Book − Tax)"
-msgstr "Rozdiel (účtovné − daňové)"
+msgstr ""
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__display_name
@@ -368,32 +366,3 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__tax_depreciation_enabled
 msgid "Track Tax Depreciation"
 msgstr "Sledovať daňové odpisy"
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__10
-msgid "+10 %"
-msgstr ""
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__15
-msgid "+15 %"
-msgstr ""
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__20
-msgid "+20 %"
-msgstr ""
-
-#. module: account_asset_tax_oca
-#: model:ir.module.module,summary:base.module_account_asset_tax_oca
-msgid ""
-"Attach the CZ/SK tax-depreciation board to OCA account_asset_management "
-"(Community)"
-msgstr ""
-"Pripojí CZ/SK plán daňových odpisov k OCA account_asset_management "
-"(Community)"
-
-#. module: account_asset_tax_oca
-#: model:ir.module.module,shortdesc:base.module_account_asset_tax_oca
-msgid "Tax Depreciation - OCA bridge"
-msgstr "Daňové odpisy – most na OCA"

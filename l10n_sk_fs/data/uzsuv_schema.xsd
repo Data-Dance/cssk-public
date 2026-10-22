@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Súvaha (UZSUV) — WORKING STAND-IN schema. Models a balance-sheet XML so the
+  export pipeline (render → XSD-validate → attach) is exercised. NOT the
+  official FS SR UZPODv14 schema — the real účtovná závierka schema (Súvaha +
+  VZS + Poznámky) is larger; replace before live filing.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="unqualified">
+
+    <xs:element name="UZSUV">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Hlavicka" type="THlavicka" minOccurs="0"/>
+                <xs:element name="Telo" type="TTelo" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="THlavicka">
+        <xs:all>
+            <xs:element name="IcDphPlatitela" type="xs:string" minOccurs="0"/>
+            <xs:element name="Nazov" type="xs:string" minOccurs="0"/>
+            <xs:element name="Rok" type="xs:integer" minOccurs="0"/>
+        </xs:all>
+    </xs:complexType>
+
+    <xs:complexType name="TTelo">
+        <xs:sequence>
+            <xs:element name="Riadok" type="TRiadok" minOccurs="0"
+                        maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TRiadok">
+        <xs:attribute name="kod" type="xs:string"/>
+        <xs:attribute name="bezne" type="xs:decimal"/>
+        <xs:attribute name="minule" type="xs:decimal"/>
+    </xs:complexType>
+
+</xs:schema>

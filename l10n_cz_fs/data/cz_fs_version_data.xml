@@ -13,13 +13,6 @@
       Dlouhodobé/krátkodobé receivable & payable splits and the opravné-položka
       allocations follow the standard chart convention — confirm with a CZ
       accountant for entities using non-standard account assignments.
-
-      The aktiva rows carrying oprávky / opravné položky state them in
-      account_formula_correction rather than netted into account_formula,
-      because the Rozvaha is filed in brutto / korekce / netto columns
-      (DPPDP9 VetaUA: kc_brutto, kc_korekce, kc_netto) and a single net
-      figure cannot be split back. Netto is unchanged by the split. 094 (OP
-      k nedokončenému DHM) belongs to B.II., not B.I.
     -->
     <record id="rozvaha_version_2025" model="cssk.fs.statement.version">
         <field name="name">Rozvaha 2025</field>
@@ -28,33 +21,23 @@
         <field name="valid_from">2025-01-01</field>
         <field name="xml_template_ref_id" ref="l10n_cz_fs.rozvaha_2025"/>
         <field name="xml_root_element">Rozvaha</field>
-        <!-- No XSD is published for the Czech accounting statements:
-             they are filed as attachments inside the DPPO envelope. The
-             absence is the form, not a missing file. -->
-        <field name="xml_schema_optional" eval="True"/>
         <field name="line_def_ids" eval="[
             (0, 0, {'code': 'A_ZK', 'name': 'A. Pohledávky za upsaný základní kapitál',
                     'kind': 'accounts', 'account_formula': '353', 'level': 1, 'sequence': 10}),
             (0, 0, {'code': 'BI', 'name': 'B.I. Dlouhodobý nehmotný majetek',
-                    'kind': 'accounts', 'account_formula': '012,013,014,015,016,017,019,040,041,050,051',
-                    'account_formula_correction': '072,073,074,075,079,091,093', 'level': 2, 'sequence': 20}),
+                    'kind': 'accounts', 'account_formula': '012,013,014,015,016,017,019,040,041,050,051,072,073,074,075,079,091,093,094', 'level': 2, 'sequence': 20}),
             (0, 0, {'code': 'BII', 'name': 'B.II. Dlouhodobý hmotný majetek',
-                    'kind': 'accounts', 'account_formula': '021,022,025,026,027,029,031,032,042,052,097',
-                    'account_formula_correction': '081,082,085,086,089,092,094,095,098', 'level': 2, 'sequence': 30}),
+                    'kind': 'accounts', 'account_formula': '021,022,025,026,027,029,031,032,042,052,081,082,085,086,089,092,095,097,098', 'level': 2, 'sequence': 30}),
             (0, 0, {'code': 'BIII', 'name': 'B.III. Dlouhodobý finanční majetek',
-                    'kind': 'accounts', 'account_formula': '061,062,063,065,066,067,068,069,043,053',
-                    'account_formula_correction': '096', 'level': 2, 'sequence': 40}),
+                    'kind': 'accounts', 'account_formula': '061,062,063,065,066,067,068,069,043,053,096', 'level': 2, 'sequence': 40}),
             (0, 0, {'code': 'B', 'name': 'B. Stálá aktiva',
                     'kind': 'aggregate', 'aggregate_formula': 'BI + BII + BIII', 'level': 1, 'sequence': 50}),
             (0, 0, {'code': 'CI', 'name': 'C.I. Zásoby',
-                    'kind': 'accounts', 'account_formula': '10,11,12,13,14,15,16,17,18',
-                    'account_formula_correction': '19', 'level': 2, 'sequence': 60}),
+                    'kind': 'accounts', 'account_formula': '1', 'level': 2, 'sequence': 60}),
             (0, 0, {'code': 'CII', 'name': 'C.II. Pohledávky',
-                    'kind': 'accounts', 'account_formula': '311,312,313,314,315,335,343001,343112,343115,343121,351,352,354,355,358,371,373,374,375,376,378,388,395',
-                    'account_formula_correction': '391', 'level': 2, 'sequence': 70}),
+                    'kind': 'accounts', 'account_formula': '311,312,313,314,315,335,343001,343112,343115,343121,351,352,354,355,358,371,373,374,375,376,378,388,391,395', 'level': 2, 'sequence': 70}),
             (0, 0, {'code': 'CIII', 'name': 'C.III. Krátkodobý finanční majetek',
-                    'kind': 'accounts', 'account_formula': '251,253,254,256,257,258,259',
-                    'account_formula_correction': '291', 'level': 2, 'sequence': 80}),
+                    'kind': 'accounts', 'account_formula': '251,253,254,256,257,258,259,291', 'level': 2, 'sequence': 80}),
             (0, 0, {'code': 'CIV', 'name': 'C.IV. Peněžní prostředky',
                     'kind': 'accounts', 'account_formula': '211,213,221,261', 'level': 2, 'sequence': 90}),
             (0, 0, {'code': 'C', 'name': 'C. Oběžná aktiva',
@@ -99,10 +82,6 @@
         <field name="valid_from">2025-01-01</field>
         <field name="xml_template_ref_id" ref="l10n_cz_fs.vysledovka_2025"/>
         <field name="xml_root_element">Vysledovka</field>
-        <!-- No XSD is published for the Czech accounting statements:
-             they are filed as attachments inside the DPPO envelope. The
-             absence is the form, not a missing file. -->
-        <field name="xml_schema_optional" eval="True"/>
         <field name="line_def_ids" eval="[
             (0, 0, {'code': 'I', 'name': 'I. Tržby z prodeje výrobků a služeb',
                     'kind': 'accounts', 'account_formula': '-601,-602', 'level': 1, 'sequence': 10}),

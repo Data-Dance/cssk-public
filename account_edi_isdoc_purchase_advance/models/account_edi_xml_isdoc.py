@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 
 import re
 
@@ -100,7 +100,7 @@ class AccountEdiXmlISDOC(models.AbstractModel):
                     ),
                     "product_qty": 1,
                     "price_unit": gross_amount,
-                    "tax_ids": [Command.clear()],
+                    "taxes_id": [Command.clear()],
                 })
             ],
         })

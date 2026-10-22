@@ -80,7 +80,7 @@ class TestISDOCProforma(AccountTestInvoicingCommon):
         cls.company.partner_id.write({
             'street': "Příhon 943", 'zip': "696 15", 'city': "Čejkovice",
             'vat': 'CZ46342958', 'company_registry': '46342958'})
-        cls.company.partner_id.bank_ids = [Command.create({'acc_number': '2631172369/0800'})]
+        cls.company.partner_id.sudo().bank_ids = [Command.create({'acc_number': '2631172369/0800'})]
         cls.cz_customer = cls.env['res.partner'].create({
             'name': "Odběratel s.r.o.", 'street': "Vedlejší 2", 'zip': "60200", 'city': "Brno",
             'vat': 'CZ25663585', 'company_registry': '25663585', 'country_id': cls.env.ref('base.cz').id})
@@ -101,7 +101,8 @@ class TestISDOCProforma(AccountTestInvoicingCommon):
             'partner_id': self.cz_customer.id,
             'order_line': [Command.create({
                 'product_id': self.product_a.id, 'product_uom_qty': 2, 'price_unit': 500.0,
-                'tax_ids': [Command.set(self.tax_sale_21.ids)],
+                # 18.0 port: sale.order.line tax field is `tax_id` on 18.0.
+                'tax_id': [Command.set(self.tax_sale_21.ids)],
             })],
         })
         xml, errors = order._export_isdoc_proforma()

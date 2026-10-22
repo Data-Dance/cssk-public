@@ -537,6 +537,7 @@
         <field name="rule_parameter_id" ref="rule_parameter_sick_rh3"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+
     <!-- ================================================================ -->
     <!-- Annual tax reconciliation (roční zúčtování, §38ch/§38ča ZDP).    -->
     <!-- Annual figures = 12x the monthly ones where applicable. Sources: -->
@@ -825,40 +826,8 @@
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
 
-    <!-- §15 odst. 1 zák. č. 586/1992 Sb. — bezúplatná plnění (dary) are
-         deductible up to this percentage of the annual tax base. The 15 %
-         statutory ceiling has been temporarily raised to 30 % since 2020 and
-         the extension has been rolled forward repeatedly, so it is exactly the
-         kind of figure that must not sit in Python. -->
-    <record id="rule_parameter_gift_max_pct" model="hr.rule.parameter">
-        <field name="name">Czechia: Gift deduction cap (% of the annual tax base)</field>
-        <field name="code">l10n_cz_gift_max_pct</field>
-        <field name="country_id" ref="base.cz"/>
-    </record>
-    <record id="rule_parameter_gift_max_pct_v" model="hr.rule.parameter.value">
-        <field name="parameter_value">30</field>
-        <field name="rule_parameter_id" ref="rule_parameter_gift_max_pct"/>
-        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
-    </record>
-
-    <!-- ===================================================================
-         §§ 207-209 zákoníku práce — PŘEKÁŽKY NA STRANĚ ZAMĚSTNAVATELE.
-         Náhrada mzdy as a percentage of průměrný výdělek. Statutory MINIMA:
-         a collective agreement or an internal rule may set more, which is why
-         these are dated parameters and not literals in a rule body.
-
-           § 207 a)  prostoj (porucha na strojním zařízení, v dodávce surovin
-                     nebo pohonné síly, chybné pracovní podklady)  — nejméně 80 %
-           § 207 b)  přerušení práce pro nepříznivé povětrnostní vlivy nebo
-                     živelní událost                              — nejméně 60 %
-           § 208     jiné překážky na straně zaměstnavatele        — 100 %
-           § 209     částečná nezaměstnanost, dohodnutá s odborovou organizací
-                     nebo stanovená vnitřním předpisem            — nejméně 60 %
-
-         Until now every one of these had to be booked as the § 199 paid
-         obstacle, which pays the FULL průměrný výdělek — overpaying a prostoj
-         by a fifth and a short-time month by two fifths.
-         =================================================================== -->
+    <!-- §§ 207-209 — PŘEKÁŽKY NA STRANĚ ZAMĚSTNAVATELE. Statutory MINIMA,
+         so dated parameters rather than literals in a rule body. -->
     <record id="rule_parameter_prekazka_prostoj_pct" model="hr.rule.parameter">
         <field name="name">Czechia: Employer obstacle — prostoj (%)</field>
         <field name="code">l10n_cz_prekazka_prostoj_pct</field>
@@ -902,4 +871,5 @@
         <field name="rule_parameter_id" ref="rule_parameter_prekazka_castecna_pct"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
+
 </odoo>

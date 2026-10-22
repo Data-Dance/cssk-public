@@ -23,12 +23,9 @@ class TestCzPayroll(TransactionCase):
             {"name": "CZ Test Co", "country_id": cls.env.ref("base.cz").id}
         )
         cls.env.user.company_ids |= cls.company
-        cls.env.user.group_ids |= cls.env.ref("payroll.group_payroll_manager")
-        cls.env.user.group_ids |= cls.env.ref(
+        cls.env.user.groups_id |= cls.env.ref(
             "hr_holidays.group_hr_holidays_manager"
         )
-        cls.env = cls.env(context=dict(
-            cls.env.context, allowed_company_ids=cls.company.ids))
         cls.calendar = cls.env["resource.calendar"].create(
             {"name": "CZ 40h/week", "company_id": cls.company.id}
         )
@@ -36,28 +33,26 @@ class TestCzPayroll(TransactionCase):
             "l10n_cz_hr_payroll_oca.hr_payroll_structure_cz_employee_salary"
         )
 
-    def _employee(self, name, **version_vals):
-        # In 19.0 there is no hr.contract model: the "contract" is the
-        # employee's working version (hr.version). Create the employee (which
-        # auto-creates version_id) with the version fields, then write the
-        # remaining Czech attributes on the version.
-        date_start = version_vals.pop("date_start", date(2024, 1, 1))
-        wage = version_vals.pop("wage", 0.0)
-        employee = self.env["hr.employee"].with_company(self.company).create(
+    def _employee(self, name, **contract_vals):
+        employee = self.env["hr.employee"].create(
             {
                 "name": name,
                 "company_id": self.company.id,
                 "resource_calendar_id": self.calendar.id,
-                "date_version": date_start,
-                "contract_date_start": date_start,
-                "wage": wage,
-                "struct_id": self.structure.id,
             }
         )
-        version = employee.version_id
-        if version_vals:
-            version.write(version_vals)
-        return employee, version
+        vals = {
+            "name": "%s Contract" % name,
+            "employee_id": employee.id,
+            "company_id": self.company.id,
+            "state": "open",
+            "date_start": date(2024, 1, 1),
+            "resource_calendar_id": self.calendar.id,
+            "struct_id": self.structure.id,
+        }
+        vals.update(contract_vals)
+        contract = self.env["hr.contract"].create(vals)
+        return employee, contract
 
     def _payslip(self, employee, contract):
         payslip = (
@@ -381,13 +376,7 @@ class TestCzPayroll(TransactionCase):
     # -- P3: absence -> payroll (leave-driven) ----------------------------
 
     def _make_leave(self, employee, xmlid, d_from, d_to):
-        """Create a CZ leave; returns the leave record.
-
-        The CZ leave types use ``leave_validation_type='no_validation'``, so in
-        19.0 the leave is auto-approved (state ``validate``) on create by
-        ``hr.leave.create`` -> ``action_approve`` and no explicit validation
-        call is needed.
-        """
+        """Create and validate a CZ leave; returns the leave record."""
         lt = self.env.ref("l10n_cz_hr_payroll_oca.%s" % xmlid)
         leave = (
             self.env["hr.leave"]
@@ -402,6 +391,7 @@ class TestCzPayroll(TransactionCase):
                 }
             )
         )
+        leave.action_validate()
         return leave
 
     def _payslip_march(self, employee, contract):
@@ -693,9 +683,9 @@ class TestCzPayroll(TransactionCase):
         self.assertNotIn(sk_struct, cz_only)
 
     # ------------------------------------------------------------------
-    # §§ 207-209 — překážky na straně ZAMĚSTNAVATELE
+    # §§ 207-209 — překážky na straně ZAMĚSTNAVATELE (ported from 19.0)
     # ------------------------------------------------------------------
-    def _employer_obstacle_hours(self, payslip, code):
+    def _obstacle_hours(self, payslip, code):
         return sum(
             abs(line.number_of_hours)
             for line in payslip.worked_days_line_ids
@@ -703,32 +693,25 @@ class TestCzPayroll(TransactionCase):
         )
 
     def test_employer_obstacle_prostoj_is_paid_at_eighty_percent(self):
-        """§ 207 a): prostoj is náhrada at 80 % of průměrný výdělek. Booked as
-        the § 199 paid obstacle it would be paid in full — the only way to
-        record it before, and a fifth too much."""
+        """§ 207 a): prostoj is náhrada at 80 % of průměrný výdělek. Recorded
+        as the § 199 paid obstacle — the only way before — it was paid in
+        full."""
         emp, con = self._employee(
-            "Prostojar", wage=50000.0, l10n_cz_tax_declaration=True
-        )
-        phv, _counted, _hours = self._seed_prior_quarter(emp, con)
-        self._make_leave(
-            emp, "leave_type_cz_employer_prostoj",
-            date(2026, 3, 2), date(2026, 3, 6),
-        )
+            "Prostojar", wage=50000.0, l10n_cz_tax_declaration=True)
+        phv, _c, _h = self._seed_prior_quarter(emp, con)
+        self._make_leave(emp, "leave_type_cz_employer_prostoj",
+                         date(2026, 3, 2), date(2026, 3, 6))
         p = self._payslip_march(emp, con)
-        hours = self._employer_obstacle_hours(p, "CZPROSTOJ")
+        hours = self._obstacle_hours(p, "CZPROSTOJ")
         self.assertGreater(hours, 0.0)
-        self.assertEqual(
-            self._t(p, "PREKAZKANAHRADA"), round(hours * phv * 0.8, 2)
-        )
-        # and emphatically not the full-rate amount
+        self.assertAlmostEqual(
+            self._t(p, "PREKAZKANAHRADA"), round(hours * phv * 0.8, 2), 2)
         self.assertLess(self._t(p, "PREKAZKANAHRADA"), round(hours * phv, 2))
 
     def test_employer_obstacle_each_reason_has_its_own_rate(self):
-        """All four §§ 207-209 reasons in one month, each at its own rate."""
         emp, con = self._employee(
-            "Prekazkar", wage=50000.0, l10n_cz_tax_declaration=True
-        )
-        phv, _counted, _hours = self._seed_prior_quarter(emp, con)
+            "Prekazkar", wage=50000.0, l10n_cz_tax_declaration=True)
+        phv, _c, _h = self._seed_prior_quarter(emp, con)
         for xmlid, day in (
             ("leave_type_cz_employer_prostoj", 2),
             ("leave_type_cz_employer_povetrnost", 3),
@@ -737,71 +720,18 @@ class TestCzPayroll(TransactionCase):
         ):
             self._make_leave(emp, xmlid, date(2026, 3, day), date(2026, 3, day))
         p = self._payslip_march(emp, con)
-        rates = {
-            "CZPROSTOJ": 0.8,
-            "CZPOVETRNOST": 0.6,
-            "CZJINEPREKAZKY": 1.0,
-            "CZCASTECNA": 0.6,
-        }
+        rates = {"CZPROSTOJ": 0.8, "CZPOVETRNOST": 0.6,
+                 "CZJINEPREKAZKY": 1.0, "CZCASTECNA": 0.6}
         expected = 0.0
         for code, pct in rates.items():
-            hours = self._employer_obstacle_hours(p, code)
+            hours = self._obstacle_hours(p, code)
             self.assertGreater(hours, 0.0, "%s must keep its own line" % code)
             expected += hours * phv * pct
-        self.assertEqual(self._t(p, "PREKAZKANAHRADA"), round(expected, 2))
-
-    def test_employer_obstacle_is_insurable_and_taxable(self):
-        """§ 208 is the 100 % reason, so GROSS comes out whole — BASIC is cut by
-        the absence hours and the náhrada pays exactly them back."""
-        emp, con = self._employee(
-            "Jinar", wage=50000.0, l10n_cz_tax_declaration=True
-        )
-        self._seed_prior_quarter(emp, con)
-        self._make_leave(
-            emp, "leave_type_cz_employer_jine",
-            date(2026, 3, 2), date(2026, 3, 6),
-        )
-        p = self._payslip_march(emp, con)
-        self.assertGreater(self._t(p, "PREKAZKANAHRADA"), 0.0)
         self.assertAlmostEqual(
-            self._t(p, "GROSS"),
-            round(self._t(p, "BASIC") + self._t(p, "PREKAZKANAHRADA"), 2),
-            2,
-        )
+            self._t(p, "PREKAZKANAHRADA"), round(expected, 2), 2)
 
-    def test_employer_obstacle_rates_are_data_not_code(self):
-        """The percentages are dated rule parameters: change one and the
-        payslip follows, with no edit to a rule body."""
-        emp, con = self._employee(
-            "Datar", wage=50000.0, l10n_cz_tax_declaration=True
-        )
-        phv, _counted, _hours = self._seed_prior_quarter(emp, con)
-        param = self.env.ref(
-            "l10n_cz_hr_payroll_oca.rule_parameter_prekazka_prostoj_pct"
-        )
-        self.env["hr.rule.parameter.value"].create(
-            {
-                "rule_parameter_id": param.id,
-                "parameter_value": "95",
-                "date_from": date(2026, 3, 1),
-            }
-        )
-        self._make_leave(
-            emp, "leave_type_cz_employer_prostoj",
-            date(2026, 3, 2), date(2026, 3, 6),
-        )
-        p = self._payslip_march(emp, con)
-        hours = self._employer_obstacle_hours(p, "CZPROSTOJ")
-        self.assertEqual(
-            self._t(p, "PREKAZKANAHRADA"), round(hours * phv * 0.95, 2)
-        )
-
-    # ------------------------------------------------------------------
-    # §§ 195-196 — mateřská / rodičovská / otcovská
-    # ------------------------------------------------------------------
     def test_family_leave_is_unpaid_by_the_employer(self):
-        """PPM / rodičovský příspěvek / otcovská are dávky of ČSSZ: the employer
-        records the absence, prorates BASIC down and pays nothing."""
+        """PPM / rodičovský příspěvek / otcovská are dávky of ČSSZ."""
         for xmlid, code in (
             ("leave_type_cz_materska", "CZMATERSKA"),
             ("leave_type_cz_rodicovska", "CZRODICOVSKA"),
@@ -809,56 +739,21 @@ class TestCzPayroll(TransactionCase):
         ):
             with self.subTest(code=code):
                 emp, con = self._employee(
-                    "Rodic %s" % code, wage=50000.0,
-                    l10n_cz_tax_declaration=True,
-                )
+                    "Rodic " + code, wage=50000.0,
+                    l10n_cz_tax_declaration=True)
                 self._make_leave(emp, xmlid, date(2026, 3, 2), date(2026, 3, 6))
                 p = self._payslip_march(emp, con)
-                hours = sum(
-                    abs(line.number_of_hours)
-                    for line in p.worked_days_line_ids
-                    if line.code == code
-                )
-                self.assertGreater(hours, 0.0, "%s must keep its own line" % code)
+                self.assertGreater(self._obstacle_hours(p, code), 0.0)
                 self.assertLess(self._t(p, "BASIC"), 50000.0)
-                self.assertAlmostEqual(self._t(p, "HOLIDAYNAHRADA"), 0.0, 2)
                 self.assertAlmostEqual(self._t(p, "PREKAZKANAHRADA"), 0.0, 2)
                 self.assertAlmostEqual(
-                    self._t(p, "GROSS"), self._t(p, "BASIC"), places=2
-                )
+                    self._t(p, "GROSS"), self._t(p, "BASIC"), 2)
 
-    def test_general_interest_absences_ride_the_obstacle_bucket(self):
-        """§§ 201-203 are paid at průměrný výdělek, so they carry CZOBSTACLE.
-        Dárcovství krve is here because the Slovak § 138 counterpart was added
-        first and the two must not drift apart."""
-        for xmlid in ("leave_type_cz_darovani_krve",
-                      "leave_type_cz_verejna_funkce",
-                      "leave_type_cz_obecny_zajem"):
-            with self.subTest(xmlid=xmlid):
-                ltype = self.env.ref("l10n_cz_hr_payroll_oca." + xmlid)
-                self.assertEqual(ltype.l10n_cz_payroll_code, "CZOBSTACLE")
-                self.assertFalse(ltype.requires_allocation)
-
-    def test_blood_donation_is_paid_at_average_earnings(self):
-        """§ 203: paid, so it must reach OBSTACLENAHRADA and keep GROSS whole."""
-        emp, con = self._employee(
-            "Darce", wage=50000.0, l10n_cz_tax_declaration=True)
-        self._seed_prior_quarter(emp, con)
-        self._make_leave(emp, "leave_type_cz_darovani_krve",
-                         date(2026, 3, 2), date(2026, 3, 3))
-        p = self._payslip_march(emp, con)
-        self.assertGreater(self._t(p, "OBSTACLENAHRADA"), 0.0)
-        self.assertLess(self._t(p, "BASIC"), 50000.0)
-        self.assertAlmostEqual(
-            self._t(p, "GROSS"),
-            round(self._t(p, "BASIC") + self._t(p, "OBSTACLENAHRADA"), 2), 2)
-
-    def test_cz_absence_set_matches_the_slovak_one(self):
-        """Study leave and quarantine went into the Slovak module first. The
-        two countries must not drift apart on absences that exist in both
-        labour codes — the blood-donation gap was exactly this, one day
-        earlier."""
+    def test_further_absences_use_the_right_bucket(self):
         for xmlid, code in (
+            ("leave_type_cz_darovani_krve", "CZOBSTACLE"),
+            ("leave_type_cz_verejna_funkce", "CZOBSTACLE"),
+            ("leave_type_cz_obecny_zajem", "CZOBSTACLE"),
             ("leave_type_cz_vzdelavani", "CZOBSTACLE"),
             ("leave_type_cz_vzdelavani_unpaid", "CZUNPAID"),
             ("leave_type_cz_karantena", "CZSICK"),
@@ -866,4 +761,4 @@ class TestCzPayroll(TransactionCase):
             with self.subTest(xmlid=xmlid):
                 ltype = self.env.ref("l10n_cz_hr_payroll_oca." + xmlid)
                 self.assertEqual(ltype.l10n_cz_payroll_code, code)
-                self.assertFalse(ltype.requires_allocation)
+                self.assertEqual(ltype.requires_allocation, "no")

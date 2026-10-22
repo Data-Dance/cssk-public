@@ -61,7 +61,7 @@ accountant, never as the conclusion.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.2.0.0",
+    "version": "18.0.2.0.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["partner_autocomplete_orsf_sk", "account"],

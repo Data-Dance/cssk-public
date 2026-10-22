@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
 
 from odoo import _, api, fields, models
 
@@ -66,8 +66,7 @@ class L10nSkLeaseMixin(models.AbstractModel):
         help="Dopĺňa bridge podľa polí konkrétneho enginu.",
     )
     l10n_sk_lease_term_warning = fields.Char(
-        string="Lease term warning",
-        compute="_compute_l10n_sk_lease_term_warning",
+        compute="_compute_l10n_sk_lease_term_warning"
     )
 
     def _compute_l10n_sk_lease_months(self):

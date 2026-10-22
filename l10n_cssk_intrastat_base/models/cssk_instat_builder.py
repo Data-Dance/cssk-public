@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# License LGPL-3 — see the LICENSE file.
 """Edition-neutral INSTAT (instat62) XML builder + validator for INTRASTAT-SK.
 
 Renders and validates the official Finančná správa INTRASTAT-SK message
@@ -47,22 +47,6 @@ class CSSKInstatBuilder(models.AbstractModel):
     def _int(value):
         # netMass / quantityInSU / invoicedAmount are xs:integer in instat62.xsd
         return str(int(round(float(value or 0.0))))
-
-    @staticmethod
-    def _split_nature(nature_a, nature_b=None):
-        """``("11", None)`` → ``("1", "1")``.
-
-        Both Intrastat engines store the nature of transaction as one 2-digit
-        code (OCA ``intrastat.transaction``, EE ``account.intrastat.code``:
-        11, 12, 21 …), but INSTAT carries it as two 1-digit codes, column A
-        and column B of the table (FS SR: "kód A druhu obchodu", "kód B …
-        ak existuje"). Passed whole, "11" landed in the A code — and the
-        schema types both as a bare string, so nothing objected."""
-        nature_a = str(nature_a or "").strip()
-        nature_b = str(nature_b or "").strip()
-        if len(nature_a) == 2 and not nature_b:
-            nature_a, nature_b = nature_a[0], nature_a[1]
-        return nature_a, nature_b
 
     def _party(self, parent, h, party_role):
         # Party (instat62): partyId, partyName, Address(streetName req'd) — both
@@ -124,13 +108,11 @@ class CSSKInstatBuilder(models.AbstractModel):
                     self._t(item, "quantityInSU",
                             self._int(ln.get("quantity_in_su")))
             self._t(item, "invoicedAmount", self._int(ln.get("invoiced_amount")))
-            nature_a, nature_b = self._split_nature(
-                ln.get("nature_a"), ln.get("nature_b"))
-            if nature_a:
+            if ln.get("nature_a"):
                 nt = etree.SubElement(item, "NatureOfTransaction")
-                self._t(nt, "natureOfTransactionACode", nature_a)
-                if nature_b:
-                    self._t(nt, "natureOfTransactionBCode", nature_b)
+                self._t(nt, "natureOfTransactionACode", ln["nature_a"])
+                if ln.get("nature_b"):
+                    self._t(nt, "natureOfTransactionBCode", ln["nature_b"])
             if ln.get("transport_mode"):
                 self._t(item, "modeOfTransportCode", ln["transport_mode"])
             if ln.get("region"):

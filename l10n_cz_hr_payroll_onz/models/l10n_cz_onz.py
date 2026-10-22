@@ -141,9 +141,9 @@ class L10nCzOnz(models.Model):
                 raise UserError(_(
                     "Employee '%(name)s' needs a birthday for the ONZ "
                     "<birth dat>.", name=emp.display_name))
-            version = emp.version_id
-            start = version.contract_date_start
-            end = version.contract_date_end
+            version = emp.contract_id
+            start = version.date_start
+            end = version.date_end
             if act == ACT_NASTUP and not start:
                 raise UserError(_(
                     "Employee '%(name)s' needs a contract start date for the "

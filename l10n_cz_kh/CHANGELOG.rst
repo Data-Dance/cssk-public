@@ -3,10 +3,30 @@ Changelog
 =========
 
 All notable changes to **l10n_cz_kh** are documented here.
-Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
+Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a
+Changelog. The ``19.0.x.y.z`` sections below are the 19.0 series' history,
+kept verbatim: this branch reached 1.8.0 by one port rather than by
+those releases, and the entries are what the port brought over.
 
 [Unreleased]
 ------------
+
+[18.0.1.8.0] — 2026-10-19
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Brought the module to 19.0's 1.8.0 in one step, from 18.0.1.0.4,** with its
+  seven migrations renumbered into this series. As with its Slovak sibling the
+  18.0 copy's only divergence was a back-port of 19.0 work (``cd908ade``), so
+  the 19.0 files were taken whole.
+
+- **Had to land with ``l10n_cssk_kv_kh_base`` 2.2.1, not after it.** That port
+  removes the form-version axis from ``cssk.control.statement.type``, and this
+  module's ``data/cz_kh_version_data.xml`` still set ``version_id`` — so a FRESH
+  install of the two together raised ``Invalid field 'version_id'``. The
+  collapse now happens in this module's own PRE-migration, as on 19.0.
 
 Added
 ~~~~~

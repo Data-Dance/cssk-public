@@ -1,8 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Data Dance Proprietary License v1.0 — see the LICENSE file.
 {
     "name": "CZ/SK Payment Symbols (VS/KS/SS)",
-    "version": "19.0.1.3.0",
+    "version": "18.0.1.3.0",
     "summary": "Variable, constant and specific payment symbols on invoices, "
                "credit notes and bank statement lines.",
     "description": """

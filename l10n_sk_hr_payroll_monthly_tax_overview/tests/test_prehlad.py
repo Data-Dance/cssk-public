@@ -6,7 +6,6 @@ engines. Detects whichever SK payroll engine is installed (the ``payroll`` engin
 computed payslip, generates the monthly Prehľad and validates the produced XML
 against the shipped ``prehlad2026.xsd``."""
 import base64
-import unittest
 from datetime import date
 
 from lxml import etree
@@ -21,15 +20,10 @@ class TestPrehlad(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.engine = cls._detect_engine()
-        if not cls.engine:
-            raise unittest.SkipTest(
-                "no SK payroll engine installed "
-                "(l10n_sk_hr_payroll_oca or l10n_sk_hr_payroll)")
         cls.company = cls.env["res.company"].create({
             "name": "SK Prehlad Co s.r.o.",
             "country_id": cls.env.ref("base.sk").id,
-            "company_registry": "12345679",
+            "company_registry": "12345678",
             "l10n_sk_dic": "1234567890",
             "street": "Hlavna 1",
             "city": "Bratislava",
@@ -38,72 +32,40 @@ class TestPrehlad(TransactionCase):
         cls.env.user.company_ids |= cls.company
         cls.env = cls.env(context=dict(
             cls.env.context, allowed_company_ids=cls.company.ids))
-        if cls.engine == "oca":
-            cls.env.user.group_ids |= cls.env.ref(
-                "payroll.group_payroll_manager")
-            cls.structure = cls.env.ref(
-                "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary")
-        else:
-            cls.env.user.group_ids |= cls.env.ref(
-                "hr_payroll.group_hr_payroll_manager")
-            cls.structure = cls.env.ref(
-                "l10n_sk_hr_payroll.hr_payroll_structure_sk_employee_salary")
+        cls.env.user.groups_id |= cls.env.ref(
+            "payroll.group_payroll_manager")
+        cls.structure = cls.env.ref(
+            "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary")
         cls.calendar = cls.env["resource.calendar"].create(
             {"name": "SK 40h", "company_id": cls.company.id})
 
-    @classmethod
-    def _detect_engine(cls):
-        """Which SK payroll engine is installed, or None for neither.
-
-        This used to test for the OCA engine and ASSUME the Enterprise one
-        otherwise, then go on to ``env.ref`` an ``hr_payroll`` group. On a
-        database with neither engine that raised in ``setUpClass``, so the whole
-        suite errored instead of skipping -- and since a Community database
-        without the OCA payroll engine is the common case, it had not run at
-        all. That is how a fixture using a non-checksum-valid IČO survived
-        unnoticed until 04da4a3.
-
-        A missing engine is a skip, not a failure: there is no payslip to build
-        a declaration from, and nothing in this module is under test without
-        one.
-        """
-        if cls.env.ref(
-                "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary",
-                raise_if_not_found=False):
-            return "oca"
-        if cls.env.ref(
-                "l10n_sk_hr_payroll.hr_payroll_structure_sk_employee_salary",
-                raise_if_not_found=False):
-            return "ee"
-        return None
-
     def _employee_payslip(self, wage=2000.0):
-        emp_vals = {
+        employee = self.env["hr.employee"].with_company(self.company).create({
             "name": "Jozko Mrkvicka",
             "company_id": self.company.id,
             "resource_calendar_id": self.calendar.id,
             "identification_id": "8501011234",
-            "date_version": date(2026, 1, 1),
-            "contract_date_start": date(2026, 1, 1),
+        })
+        contract = self.env["hr.contract"].create({
+            "name": "Jozko Contract",
+            "employee_id": employee.id,
+            "company_id": self.company.id,
             "wage": wage,
-        }
-        if self.engine == "oca":
-            emp_vals["struct_id"] = self.structure.id
-        else:
-            emp_vals["structure_type_id"] = self.structure.type_id.id
-        employee = self.env["hr.employee"].with_company(
-            self.company).create(emp_vals)
+            "state": "open",
+            "date_start": date(2026, 1, 1),
+            "resource_calendar_id": self.calendar.id,
+            "struct_id": self.structure.id,
+        })
 
         slip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip",
             "employee_id": employee.id,
+            "contract_id": contract.id,
             "struct_id": self.structure.id,
             "company_id": self.company.id,
             "date_from": date(2026, 3, 1),
             "date_to": date(2026, 3, 31),
         })
-        if self.engine == "ee":
-            slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
         return employee, slip
 
@@ -159,7 +121,7 @@ class TestPrehlad(TransactionCase):
             decl.action_generate()
 
     # ------------------------------------------------------------------
-    # Corrections (opravný Prehľad)
+    # Corrections (opravný)
     # ------------------------------------------------------------------
     def _prehlad(self, **vals):
         base = {

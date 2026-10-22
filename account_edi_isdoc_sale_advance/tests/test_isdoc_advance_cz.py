@@ -52,7 +52,8 @@ class TestISDOCAdvanceCZ(AccountTestInvoicingCommon):
             'is_advance_invoice': True,
             'order_line': [Command.create({
                 'product_id': self.product_a.id, 'product_uom_qty': 1, 'price_unit': 1000.0,
-                'is_downpayment': True, 'tax_ids': [Command.set(self.tax_sale_21.ids)],
+                # 18.0 port: sale.order.line tax field is `tax_id` on 18.0.
+                'is_downpayment': True, 'tax_id': [Command.set(self.tax_sale_21.ids)],
             })],
         })
 

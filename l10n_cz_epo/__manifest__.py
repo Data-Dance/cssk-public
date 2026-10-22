@@ -5,7 +5,7 @@
     "summary": "Signs Czech statutory filings with the company's qualified "
                "certificate and sends them to EPO — to check (test mode) or "
                "to file — and follows the filing to acceptance.",
-    "version": "19.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Accounting/Localizations",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

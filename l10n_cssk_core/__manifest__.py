@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Localization — Shared Core",
-    "version": "19.0.1.17.0",
+    "version": "18.0.1.17.0",
     "summary": "Country-neutral foundation for the Czech & Slovak statutory "
                "localization: tax-authority registry, person types, shared "
                "company/partner fields, settings and security.",
