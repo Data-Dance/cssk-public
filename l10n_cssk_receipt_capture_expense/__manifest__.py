@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Fiscal Receipt Capture — Employee Expenses",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "summary": "Turn a captured fiscal receipt into employee expenses, and "
                "capture receipts from the expense attachment upload.",
     "description": """
@@ -23,22 +23,24 @@ Two directions
   receipt per attachment and tries the providers, so the familiar "drop your
   receipts here" flow gains the QR lookup without the Enterprise module.
 
-One expense per VAT rate
-------------------------
+One receipt, one expense — whatever its VAT rates
+-------------------------------------------------
 
-Not a stylistic choice. ``hr.expense`` carries a single ``tax_ids`` and a single
-amount, so a receipt with food at 5 %, water at 19 % and alcohol at 23 % cannot
-be one expense without throwing away the VAT split — and the VAT split is the
-deductible part. The receipt's own per-rate recap therefore becomes one expense
-each, all pointing back at the receipt.
+``hr.expense`` holds one amount and applies all its taxes to it as one base,
+which for food at 5 % and alcohol at 23 % would be a 28 % tax on everything.
+So a receipt with several rates is still one expense, carrying every rate's
+tax, but its VAT figure and its journal entry — employee-paid or company-paid —
+are built from the receipt's own recap: a base and a VAT line per rate. An
+expense whose amount or taxes were edited away from its receipt refuses to post.
 
-Tax-included taxes are required
--------------------------------
+Any purchase tax works
+----------------------
 
-``hr.expense`` derives its unit price from the total, so the receipt's gross
-only lands on the right base when the mapped purchase tax is **price-included**.
-Rather than post a plausible-looking wrong number, this module checks the created
-expense against the receipt and refuses with the reason named.
+``hr.expense`` computes its taxes from the amount as a tax-included total,
+whether or not the tax itself is price-included, so the receipt's gross lands
+on the receipt's own base with the chart's ordinary taxes — the same ones the
+vendor-bill path uses. The created expenses are still checked against the
+receipt's total and VAT before they are kept.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
@@ -46,6 +48,7 @@ expense against the receipt and refuses with the reason named.
     "category": "Accounting/Localizations",
     "depends": ["l10n_cssk_receipt_capture", "hr_expense"],
     "data": [
+        "security/ir_rule.xml",
         "views/cssk_receipt_views.xml",
         "views/hr_expense_views.xml",
         "views/res_config_settings_views.xml",

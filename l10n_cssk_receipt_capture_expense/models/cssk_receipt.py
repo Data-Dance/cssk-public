@@ -51,30 +51,82 @@ class CSSKReceipt(models.Model):
                 "vendor bill instead.", self.env.user.display_name))
         return employee
 
-    def _prepare_expense_vals(self, tax_row, tax):
+    def _expense_parts(self):
+        """The receipt's VAT split, as the expense posts it: ``[(gross, tax, rate)]``.
+
+        One part per VAT rate when the VAT is deductible — the receipt is still
+        ONE expense, and the expense's journal entry carries a base and a VAT
+        line per part (see ``hr.expense._cssk_rate_parts``). A single untaxed
+        part for the whole gross when it is not deductible: above the
+        simplified-invoice limit the VAT is part of the cost. A rate the recap
+        lists at 0.00 (tap water at 19 %) is not a part: it would put a second
+        tax on the expense and Odoo would stack the two on one base.
+        """
         self.ensure_one()
-        label = _("%(seller)s — items at %(rate)g%% VAT",
-                  seller=self.partner_id.name or self.seller_name or "",
-                  rate=tax_row.vat_rate)
+        if not self.vat_deductible:
+            return [(self.amount_total, self.env["account.tax"], None)]
+        rows = self.tax_summary_ids
+        if not rows:
+            raise UserError(_(
+                "%s has no VAT recap, so there is no way to split it into "
+                "expenses. Post it as a vendor bill instead.", self.display_name))
+        parts = []
+        for row in rows:
+            if self.currency_id.is_zero(row.amount_untaxed + row.amount_tax):
+                continue
+            tax = self._checked_tax_for_rate(row.vat_rate)
+            if not tax:
+                raise UserError(_(
+                    "No purchase tax is mapped for %g%%. Without it the expense "
+                    "would carry no VAT and the deduction would be lost.",
+                    row.vat_rate))
+            parts.append((row.amount_untaxed + row.amount_tax, tax, row.vat_rate))
+        return parts
+
+    def _expense_label(self):
+        self.ensure_one()
+        seller = self.partner_id.name or self.seller_name or self.display_name
+        if not self.vat_deductible:
+            return _("%s (VAT not deductible)", seller)
+        return seller
+
+    def _expense_amount_vals(self):
+        """What a receipt sets on its one expense: the total and every rate's tax.
+
+        The expense shows the taxes for what they are; its VAT figure and its
+        journal entry come from the receipt's split, never from Odoo applying
+        all of them to one base.
+        """
+        self.ensure_one()
+        parts = self._expense_parts()
+        taxes = self.env["account.tax"].union(*(tax for _gross, tax, _rate in parts))
         return {
-            "name": label.strip(" —"),
+            "name": self._expense_label(),
+            "date": self._issue_local_date() or fields.Date.context_today(self),
+            "currency_id": self.currency_id.id,
+            "quantity": 1.0,
+            # The gross is what the receipt states. hr.expense computes its taxes
+            # with special_mode="total_included", so the net and the VAT come out
+            # of this figure whether or not the tax is price-included — the
+            # ordinary tax-excluded taxes a chart ships, and that the vendor-bill
+            # path insists on, work here too. _verify_expenses still checks.
+            "total_amount_currency": self.amount_total,
+            "tax_ids": [fields.Command.set(taxes.ids)],
+        }
+
+    def _prepare_expense_vals(self):
+        self.ensure_one()
+        return {
+            **self._expense_amount_vals(),
             "cssk_receipt_id": self.id,
             "company_id": self.company_id.id,
             "employee_id": self._expense_employee().id,
             "product_id": self._expense_product().id,
-            "date": self.issue_date and self.issue_date.date(),
-            "currency_id": self.currency_id.id,
-            "quantity": 1.0,
-            # The gross is what the receipt states; hr.expense derives the unit
-            # price and the tax from it, which is only correct for a
-            # price-included tax — checked after creation.
-            "total_amount_currency": tax_row.amount_total,
-            "tax_ids": [fields.Command.set(tax.ids)],
             "vendor_id": self.partner_id.id or False,
         }
 
     def action_create_expenses(self):
-        """One expense per VAT rate, because hr.expense carries one tax set."""
+        """The receipt as ONE expense, whatever its VAT rates."""
         expenses = self.env["hr.expense"]
         for receipt in self:
             if receipt.state != "captured":
@@ -85,60 +137,34 @@ class CSSKReceipt(models.Model):
             if receipt.expense_ids:
                 raise UserError(_(
                     "%(name)s already has %(count)s expense(s).",
-                    name=receipt.display_name,
-                    count=len(receipt.expense_ids)))
-            rows = receipt.tax_summary_ids
-            if not rows:
-                raise UserError(_(
-                    "%s has no VAT recap, so there is no way to split it into "
-                    "expenses. Post it as a vendor bill instead.",
-                    receipt.display_name))
-            created = receipt.env["hr.expense"]
-            for row in rows:
-                tax = receipt._checked_tax_for_rate(row.vat_rate)
-                if not tax:
-                    raise UserError(_(
-                        "No purchase tax is mapped for %g%%. Without it the "
-                        "expense would carry no VAT and the deduction would be "
-                        "lost.", row.vat_rate))
-                if not tax.price_include:
-                    raise UserError(_(
-                        "The purchase tax %(tax)s is not tax-included. An "
-                        "expense derives its net amount from the total, so a "
-                        "receipt's gross can only be split correctly by a "
-                        "tax-included tax — otherwise %(gross).2f would be "
-                        "treated as a net amount and the expense would total "
-                        "more than the receipt. Set the tax's 'Included in "
-                        "Price', or the company's price-include default.",
-                        tax=tax.display_name, gross=row.amount_total))
-                created |= receipt.env["hr.expense"].create(
-                    receipt._prepare_expense_vals(row, tax))
+                    name=receipt.display_name, count=len(receipt.expense_ids)))
+            created = receipt.env["hr.expense"].create(
+                receipt._prepare_expense_vals())
             receipt._verify_expenses(created)
-            receipt.message_post(body=_(
-                "%s expense(s) created from this receipt.", len(created)))
+            receipt.message_post(body=_("Expense created from this receipt."))
             expenses |= created
         return expenses
 
     def _verify_expenses(self, expenses):
         """Refuse expenses whose total or VAT does not match the receipt."""
         self.ensure_one()
-        # These are stored computes on records created a moment ago; read them
-        # back from the database rather than trusting the in-memory values.
+        # Stored computes on records created a moment ago: read them back from
+        # the database rather than trusting the in-memory values.
         expenses.flush_recordset()
         expenses.invalidate_recordset(
             ["total_amount_currency", "tax_amount_currency"])
         total = self._round(sum(expenses.mapped("total_amount_currency")))
         tax = self._round(sum(expenses.mapped("tax_amount_currency")))
+        expected_tax = self.amount_tax if self.vat_deductible else 0.0
         if not reconciles(total, self.amount_total, tolerance=0.02):
             raise UserError(_(
                 "The expenses total %(got).2f but the receipt totals "
                 "%(want).2f. Nothing was kept.",
                 got=total, want=self.amount_total))
-        if not reconciles(tax, self.amount_tax, tolerance=0.02):
+        if not reconciles(tax, expected_tax, tolerance=0.02):
             raise UserError(_(
-                "The expenses carry %(got).2f of VAT but the receipt reports "
-                "%(want).2f. Nothing was kept.",
-                got=tax, want=self.amount_tax))
+                "The expenses carry %(got).2f of VAT but %(want).2f was "
+                "expected. Nothing was kept.", got=tax, want=expected_tax))
 
     def action_open_expenses(self):
         self.ensure_one()

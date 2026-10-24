@@ -8,6 +8,35 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.10.1] — 2026-10-23
+--------------------------
+
+Fixed
+~~~~~
+
+- **The Slovak Úč POD showed "Balance sheet" as its kind**, also when opened
+  from the Income statement menu, so users took New there for having created
+  the wrong statement. A statement whose version carries the výkaz ziskov a
+  strát inside the balance-sheet document now reads *Financial statements
+  (balance sheet + income statement)* in the form and the list.
+
+[19.0.1.10.0] — 2026-10-09
+--------------------------
+
+Added
+~~~~~
+
+- ``_fs_row_accounts``: the accounts behind a leaf row and each one's
+  contribution (brutto, korekcia, netto), evaluated with the row's own formula
+  over that account alone, so the shares sum to the row. Used by the XLSX
+  export (``l10n_cssk_fs_xlsx``).
+
+Changed
+~~~~~~~
+
+- A row's drill-down groups its journal items by **account**, then by
+  document, so the accounts that make the row are the first thing shown.
+
 [19.0.1.9.0] — 2026-10-05
 -------------------------
 

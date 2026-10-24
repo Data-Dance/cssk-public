@@ -43,8 +43,8 @@ class TestReceiptExpense(AccountTestInvoicingCommon):
                 "amount_type": "percent",
                 "amount": rate,
                 "type_tax_use": "purchase",
-                # hr.expense derives the net from the total, so only a
-                # tax-included tax lands on the receipt's own base.
+                # Either kind works (special_mode="total_included"); the
+                # tax-excluded case has its own test.
                 "price_include_override": "tax_included",
                 "company_id": cls.company.id,
             })
@@ -95,26 +95,85 @@ class TestReceiptExpense(AccountTestInvoicingCommon):
         self.assertEqual(expenses.cssk_receipt_id, receipt)
         self.assertEqual(receipt.expense_count, 1)
 
-    def test_three_rates_become_three_expenses(self):
-        """One per rate, because hr.expense carries a single tax set."""
-        receipt = self._restaurant_receipt()
-        expenses = receipt.action_create_expenses()
-        self.assertEqual(len(expenses), 3)
-        self.assertAlmostEqual(
-            sum(expenses.mapped("total_amount_currency")), 181.90, places=2)
-        self.assertAlmostEqual(
-            sum(expenses.mapped("tax_amount_currency")), 15.82, places=2)
-        self.assertEqual(
-            sorted(round(e.total_amount_currency, 2) for e in expenses),
-            [0.0, 51.40, 130.50])
+    def test_three_rates_are_one_expense(self):
+        """One receipt, one expense: the rates live in its VAT, not in copies.
 
-    def test_refused_when_the_tax_is_not_price_included(self):
-        """Otherwise the gross is treated as a net and the expense overstates."""
+        It used to become one expense per rate, because hr.expense applies all
+        its taxes to one base. The 0.00 row at 19 % is not a rate at all.
+        """
+        receipt = self._restaurant_receipt()
+        expense = receipt.action_create_expenses()
+        self.assertEqual(len(expense), 1)
+        self.assertAlmostEqual(expense.total_amount_currency, 181.90, places=2)
+        self.assertAlmostEqual(expense.tax_amount_currency, 15.82, places=2)
+        self.assertAlmostEqual(expense.untaxed_amount_currency, 166.08, places=2)
+        self.assertEqual(expense.tax_ids, self.taxes[5.0] | self.taxes[23.0])
+        self.assertEqual(expense.name, "Vzorová reštaurácia, s. r. o.")
+
+    # ------------------------------------------------------------------
+    # posting: a base and a VAT line per rate
+    # ------------------------------------------------------------------
+    def _approved(self, expense, payment_mode):
+        self.env.user.group_ids |= self.env.ref(
+            "hr_expense.group_hr_expense_manager")
+        expense.payment_mode = payment_mode
+        expense.action_submit()
+        expense.action_approve()
+        return expense
+
+    def _vat_by_rate(self, move):
+        lines = move.line_ids
+        return {
+            tax.amount: (
+                round(sum(lines.filtered(lambda l: tax in l.tax_ids).mapped("balance")), 2),
+                round(sum(lines.filtered(lambda l: l.tax_line_id == tax).mapped("balance")), 2),
+            )
+            for tax in (self.taxes[5.0], self.taxes[23.0])
+        }
+
+    def test_an_employee_paid_expense_posts_each_rate_on_its_own_base(self):
+        expense = self._approved(
+            self._restaurant_receipt().action_create_expenses(), "own_account")
+        action = expense.action_post()
+        self.env["hr.expense.post.wizard"].with_context(action["context"]).browse(
+            action["res_id"]).action_post_entry()
+        move = expense.account_move_id
+        self.assertEqual(move.state, "posted")
+        self.assertAlmostEqual(move.amount_total, 181.90, places=2)
+        self.assertEqual(self._vat_by_rate(move),
+                         {5.0: (124.29, 6.21), 23.0: (41.79, 9.61)})
+
+    def test_a_company_paid_expense_posts_each_rate_on_its_own_base(self):
+        expense = self._approved(
+            self._restaurant_receipt().action_create_expenses(), "company_account")
+        expense.action_post()
+        move = expense.account_move_id
+        self.assertEqual(move.state, "posted")
+        self.assertEqual(self._vat_by_rate(move),
+                         {5.0: (124.29, 6.21), 23.0: (41.79, 9.61)})
+        self.assertAlmostEqual(sum(move.line_ids.mapped("balance")), 0.0, places=2)
+
+    def test_an_expense_edited_away_from_its_receipt_does_not_post(self):
+        """Its VAT is posted from the receipt; an edited amount cannot be."""
+        expense = self._restaurant_receipt().action_create_expenses()
+        expense.total_amount_currency = 150.0
+        self._approved(expense, "company_account")
+        with self.assertRaisesRegex(UserError, "no longer matches its receipt"):
+            expense.action_post()
+
+    def test_a_tax_excluded_tax_splits_the_gross_too(self):
+        """hr.expense reads its amount as tax-included whatever the tax says.
+
+        This used to be refused, on the belief that a tax-excluded tax would
+        treat the gross as a net. It does not (special_mode="total_included"),
+        and the refusal blocked every receipt on a stock chart — whose taxes
+        are tax-excluded, as the vendor-bill path requires.
+        """
         self.taxes[23.0].price_include_override = "tax_excluded"
-        receipt = self._fuel_receipt()
-        with self.assertRaisesRegex(UserError, "not tax-included"):
-            receipt.action_create_expenses()
-        self.assertFalse(receipt.expense_ids)
+        expenses = self._fuel_receipt().action_create_expenses()
+        self.assertAlmostEqual(expenses.total_amount_currency, 57.85, places=2)
+        self.assertAlmostEqual(expenses.tax_amount_currency, 10.82, places=2)
+        self.assertAlmostEqual(expenses.untaxed_amount_currency, 47.03, places=2)
 
     def test_refused_when_a_rate_has_no_tax(self):
         self.taxes[23.0].unlink()
@@ -159,9 +218,16 @@ class TestReceiptExpense(AccountTestInvoicingCommon):
         self.assertEqual(len(expenses), 2)
         self.assertTrue(all(e.cssk_receipt_id for e in expenses))
         self.assertEqual(len(expenses.mapped("cssk_receipt_id")), 2)
-        # Nothing could read a photograph here, so they wait rather than lying.
+        # Nothing here can read these photographs. That used to leave the
+        # receipts silently "new" behind an "Untitled Expense, 0.00"; now each
+        # is an error carrying the reason, and the reason is on the expense.
         self.assertEqual(
-            set(expenses.mapped("cssk_receipt_id.state")), {"new"})
+            set(expenses.mapped("cssk_receipt_id.state")), {"error"})
+        for expense in expenses:
+            self.assertTrue(expense.cssk_receipt_reason)
+            self.assertEqual(expense.cssk_receipt_state, "error")
+            self.assertTrue(expense.message_ids.filtered(
+                lambda m: "could not be read" in (m.body or "")))
 
     def test_upload_capture_can_be_switched_off(self):
         self.company.cssk_receipt_capture_on_expense_upload = False
@@ -181,12 +247,23 @@ class TestReceiptExpense(AccountTestInvoicingCommon):
         self.assertAlmostEqual(expense.total_amount_currency, 57.85, places=2)
         self.assertAlmostEqual(expense.tax_amount_currency, 10.82, places=2)
 
-    def test_multi_rate_capture_is_left_to_the_split(self):
-        """Three rates cannot be one expense, so the in-place fill declines."""
+    def test_multi_rate_capture_fills_the_one_expense(self):
+        """Three rates on the receipt, still one expense: the uploaded one.
+
+        This first declined and left the expense at 0.00, then split it into
+        one expense per rate.
+        """
+        self.company.cssk_receipt_capture_on_expense_upload = False
         attachment = self._attachment()
         expense_ids = self.env["hr.expense"].create_expense_from_attachments(
             attachment_ids=attachment.ids)
         expense = self.env["hr.expense"].browse(expense_ids)
         receipt = self._restaurant_receipt()
-        self.assertFalse(expense._cssk_apply_captured_receipt(receipt))
-        self.assertAlmostEqual(expense.total_amount_currency, 0.0, places=2)
+        expense.cssk_receipt_id = receipt
+        self.assertTrue(expense._cssk_apply_captured_receipt(receipt))
+        self.assertEqual(
+            self.env["hr.expense"].search([("cssk_receipt_id", "=", receipt.id)]),
+            expense)
+        self.assertAlmostEqual(expense.total_amount_currency, 181.90, places=2)
+        self.assertAlmostEqual(expense.tax_amount_currency, 15.82, places=2)
+

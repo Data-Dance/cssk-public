@@ -96,7 +96,11 @@ class TestPeppolRoute(TransactionCase):
         ICP.set_param("peppol.auto_send", "True")
         silent = self.env["res.company"].create({"name": "No address"})
         self.company.write({"peppol_send_enabled": False, "peppol_auto_send": False})
-        path = (Path(__file__).parents[1] / "migrations" / "19.0.1.4.0"
+        # The migration writes in SQL, so this state has to be in the database
+        # first: left in the cache, the migration's closing invalidate_all()
+        # flushed it OVER the migrated values and the test failed on every run.
+        self.env.flush_all()
+        path =(Path(__file__).parents[1] / "migrations" / "19.0.1.4.0"
                 / "post-migrate.py")
         spec = importlib.util.spec_from_file_location("peppol_migration", path)
         module = importlib.util.module_from_spec(spec)

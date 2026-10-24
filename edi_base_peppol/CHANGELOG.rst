@@ -11,6 +11,10 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Fixed
 ~~~~~
 
+- The Peppol *purchase journal* picker in Settings listed every journal of
+  every company: Odoo drops a string domain when it copies a field into a
+  related one.
+
 - **The 19.0.1.4.0 upgrade could not run on a Method A database.** Its
   post-migrate set the new company settings through ``company.write()``, and
   core's ``res.company.write()`` calls ``_set_category_defaults()``, which

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="action_cssk_receipt_scan_qr" model="ir.actions.client">
+        <field name="name">Scan Receipt</field>
+        <field name="tag">l10n_cssk_receipt_capture.scan_receipt_qr</field>
+    </record>
+
     <record id="view_cssk_receipt_list" model="ir.ui.view">
         <field name="name">cssk.receipt.list</field>
         <field name="model">cssk.receipt</field>
@@ -8,6 +13,11 @@
                   decoration-danger="state == 'error'"
                   decoration-warning="state == 'review'"
                   decoration-muted="state == 'done'">
+                <header>
+                    <button name="%(action_cssk_receipt_scan_qr)d" type="action"
+                            string="Scan QR" icon="fa-qrcode" display="always"
+                            groups="account.group_account_invoice"/>
+                </header>
                 <field name="issue_date"/>
                 <field name="partner_id"/>
                 <field name="seller_name" optional="hide"/>
@@ -18,6 +28,8 @@
                 <field name="amount_total" sum="Total"/>
                 <field name="currency_id" column_invisible="True"/>
                 <field name="move_id" optional="show"/>
+                <field name="attempt_count" optional="hide"/>
+                <field name="total_cost" optional="hide"/>
                 <field name="state" widget="badge"
                        decoration-success="state == 'captured'"
                        decoration-warning="state == 'review'"
@@ -34,23 +46,40 @@
             <form string="Captured Receipt">
                 <header>
                     <button name="action_capture" type="object" string="Capture"
-                            class="oe_highlight"
+                            class="oe_highlight" groups="account.group_account_invoice"
                             invisible="state not in ('new', 'error', 'review')"/>
                     <button name="action_create_bill" type="object"
                             string="Create Vendor Receipt" class="oe_highlight"
+                            groups="account.group_account_invoice"
                             invisible="state != 'captured'"/>
                     <button name="action_create_partner" type="object"
-                            string="Create Seller"
+                            string="Create Seller" groups="account.group_account_invoice"
                             invisible="partner_id or not seller_name"/>
-                    <button name="action_force_captured" type="object"
+                    <button name="action_force_captured" type="object" groups="account.group_account_invoice"
                             string="Accept Anyway" confirm="The figures on this receipt do not add up. Accept it on your own responsibility?"
                             invisible="state != 'review'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="new,captured,done"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_attempts" type="object"
+                                class="oe_stat_button" icon="fa-history"
+                                invisible="attempt_count == 0">
+                            <field name="attempt_count" widget="statinfo" string="Attempts"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <div class="alert alert-info" role="status"
+                         invisible="vat_full_invoice or not vat_deductible_note">
+                        <field name="vat_deductible_note" readonly="1" nolabel="1"/>
+                    </div>
+                    <div class="alert alert-info" role="status"
+                         invisible="not next_attempt_at or state != 'error'">
+                        This failure looked temporary, so it will be retried
+                        automatically at <field name="next_attempt_at" readonly="1"/>.
                     </div>
                     <div class="alert alert-warning" role="alert"
                          invisible="state != 'review'">
@@ -72,9 +101,17 @@
                         </group>
                         <group string="Receipt">
                             <field name="issue_date"/>
+                            <!-- The editable total: the footer below only shows it.
+                                 An editable monetary input styled as the footer's
+                                 big total drew the € over the digits ("181€90"). -->
+                            <field name="amount_total" string="Total"/>
+                            <field name="vat_deductible" readonly="1"/>
+                            <field name="vat_full_invoice"
+                                   invisible="not vat_deductible_note and not vat_full_invoice"/>
                             <field name="receipt_uid"/>
                             <field name="provider_id"/>
                             <field name="qr_raw"/>
+                            <field name="qr_source" invisible="not qr_source"/>
                             <field name="attachment_id"/>
                             <field name="currency_id" groups="base.group_multi_currency"/>
                             <field name="company_id" groups="base.group_multi_company"/>
@@ -98,9 +135,10 @@
                                 </list>
                             </field>
                             <group class="oe_subtotal_footer oe_right">
-                                <field name="amount_untaxed"/>
-                                <field name="amount_tax"/>
-                                <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                                <field name="amount_untaxed" readonly="1"/>
+                                <field name="amount_tax" readonly="1"/>
+                                <field name="amount_total" readonly="1"
+                                       class="oe_subtotal_footer_separator"/>
                             </group>
                         </page>
                         <page string="VAT Recap" name="tax_summary">
@@ -117,6 +155,32 @@
                                     <field name="currency_id" column_invisible="True"/>
                                 </list>
                             </field>
+                        </page>
+                        <page string="Attempts" name="attempts"
+                              invisible="attempt_count == 0">
+                            <field name="qr_detected" readonly="1" nolabel="1"
+                                   invisible="not qr_detected"
+                                   class="text-muted mb-3"/>
+                            <field name="attempt_ids" readonly="1">
+                                <list>
+                                    <field name="started_at"/>
+                                    <field name="provider_id"/>
+                                    <field name="outcome" widget="badge"
+                                           decoration-success="outcome == 'captured'"
+                                           decoration-warning="outcome in ('review', 'unavailable')"
+                                           decoration-danger="outcome == 'error'"/>
+                                    <field name="message"/>
+                                    <field name="model_label" optional="show"/>
+                                    <field name="input_tokens" optional="hide"/>
+                                    <field name="output_tokens" optional="hide"/>
+                                    <field name="cost" optional="show" sum="Total"/>
+                                    <field name="duration_ms" optional="hide"/>
+                                    <field name="transient" optional="hide"/>
+                                </list>
+                            </field>
+                            <group>
+                                <field name="total_cost"/>
+                            </group>
                         </page>
                         <page string="Provider Payload" name="payload"
                               groups="base.group_no_one">

@@ -318,6 +318,22 @@ class TestFsEngine(AccountTestInvoicingCommon):
             ["version_id", "date_from", "date_to"])
         self.assertEqual(defaults.get("version_id"), combined.id)
 
+    def test_combined_statement_is_not_labelled_balance_sheet(self):
+        """Opened from the Income statement menu, the Úč POD read "Balance
+        sheet" as its kind, and a user took that for New having made the
+        wrong statement."""
+        combined = self.env["cssk.fs.statement"].with_context(
+            lang="en_US").create({
+                "company_id": self.company.id,
+                "version_id": self._combined_version().id,
+                "date_from": "2026-01-01", "date_to": "2026-12-31",
+            })
+        self.assertEqual(
+            combined.kind_label,
+            "Financial statements (balance sheet + income statement)")
+        plain = self._make_statement().with_context(lang="en_US")
+        self.assertEqual(plain.kind_label, "Balance sheet")
+
     def test_default_period_is_last_fiscal_year(self):
         """A company whose year ends in March gets April-March, not Jan-Dec."""
         self.company.write({"fiscalyear_last_month": "3",
@@ -621,3 +637,50 @@ class TestFsEngine(AccountTestInvoicingCommon):
                                ("cssk_fs_pl_action", "movement")):
             ctx = self.env.ref("l10n_cssk_fs_base.%s" % xmlid).context
             self.assertIn("'fs_section': '%s'" % section, ctx)
+
+    def test_row_accounts_sum_to_the_row(self):
+        """Each account's share is the row's own formula over that account
+        alone, so the shares add up to the row — korekcia included."""
+        version = self.env["cssk.fs.statement.version"].create({
+            "name": "TST row accounts", "country_id": self.env.ref("base.sk").id,
+            "statement_kind": "balance_sheet", "valid_from": "2025-01-01",
+            "xml_template_ref_id": self.template.id,
+            "xml_root_element": "FS", "xml_schema_optional": True,
+            "line_def_ids": [
+                (0, 0, {"code": "dhm", "name": "DHM", "kind": "accounts",
+                        "account_formula": "022",
+                        "account_formula_correction": "082",
+                        "sequence": 10}),
+            ],
+        })
+        second = self.env["account.account"].create({
+            "name": "Test DHM 2", "code": "022998",
+            "account_type": "asset_non_current",
+            "company_ids": [(6, 0, [self.company.id])]})
+        depreciation = self.env["account.account"].create({
+            "name": "Oprávky", "code": "082997",
+            "account_type": "asset_non_current",
+            "company_ids": [(6, 0, [self.company.id])]})
+        self._post_entry("2026-03-01", 1000.0)
+        for debit_acc, credit_acc, amount in ((second, self.acc_eq, 400.0),
+                                              (self.acc_eq, depreciation, 150.0)):
+            move = self.env["account.move"].create({
+                "move_type": "entry", "journal_id": self.journal.id,
+                "date": "2026-05-01", "line_ids": [
+                    (0, 0, {"account_id": debit_acc.id, "debit": amount}),
+                    (0, 0, {"account_id": credit_acc.id, "credit": amount})]})
+            move.action_post()
+        st = self.env["cssk.fs.statement"].create({
+            "company_id": self.company.id, "version_id": version.id,
+            "date_from": "2026-01-01", "date_to": "2026-12-31"})
+        st.action_compute_lines()
+        row = st.line_ids.filtered(lambda line: line.code == "dhm")
+        ldef = version.line_def_ids
+        accounts = st._fs_row_accounts(ldef, st.date_from, st.date_to)
+        by_code = {a["account"].code: a for a in accounts}
+        self.assertEqual(set(by_code), {"022999", "022998", "082997"})
+        self.assertAlmostEqual(by_code["082997"]["correction"], 150.0, places=2)
+        self.assertAlmostEqual(by_code["082997"]["value"], -150.0, places=2)
+        self.assertAlmostEqual(sum(a["value"] for a in accounts),
+                               row.current_value, places=2)
+        self.assertAlmostEqual(row.current_value, 1250.0, places=2)

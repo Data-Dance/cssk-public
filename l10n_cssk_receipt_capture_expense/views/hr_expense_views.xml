@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Scan from the Expenses app: the same scanner, landing on an expense. -->
+    <record id="action_hr_expense_scan_receipt" model="ir.actions.client">
+        <field name="name">Scan Receipt</field>
+        <field name="tag">l10n_cssk_receipt_capture.scan_receipt_qr</field>
+        <field name="context">{'cssk_scan_model': 'hr.expense'}</field>
+    </record>
+
     <record id="view_hr_expense_form_receipt" model="ir.ui.view">
         <field name="name">hr.expense.form.cssk.receipt</field>
         <field name="model">hr.expense</field>
         <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <!-- Every employee: they may read the receipts behind their own
+                     expenses (record rules), and the link is how they get there. -->
+                <button name="action_open_cssk_receipt" type="object"
+                        class="oe_stat_button" icon="fa-qrcode"
+                        groups="base.group_user"
+                        invisible="not cssk_receipt_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Receipt</span>
+                        <field name="cssk_receipt_state" readonly="1"/>
+                    </div>
+                </button>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="after">
+                <field name="cssk_receipt_state" invisible="1"/>
+                <div class="alert alert-danger" role="alert"
+                     invisible="cssk_receipt_state not in ('error', 'new')">
+                    <strong>The receipt could not be read.</strong>
+                    <field name="cssk_receipt_reason" readonly="1" nolabel="1"/>
+                </div>
+                <div class="alert alert-warning" role="alert"
+                     invisible="cssk_receipt_state != 'review'">
+                    <strong>The receipt was read, but its figures need checking.</strong>
+                    <field name="cssk_receipt_reason" readonly="1" nolabel="1"/>
+                </div>
+            </xpath>
             <field name="product_id" position="after">
-                <field name="cssk_receipt_id"
+                <field name="cssk_receipt_id" groups="base.group_user"
                        invisible="not cssk_receipt_id"/>
             </field>
         </field>
     </record>
+
+    <record id="view_hr_expense_list_scan" model="ir.ui.view">
+        <field name="name">hr.expense.list.cssk.scan</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_expenses_analysis_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <header>
+                    <button name="%(action_hr_expense_scan_receipt)d" type="action"
+                            string="Scan Receipt" icon="fa-qrcode" display="always"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_hr_expense_scan_receipt"
+              name="Scan Receipt"
+              parent="hr_expense.menu_hr_expense_my_expenses"
+              action="action_hr_expense_scan_receipt"
+              sequence="5"
+              groups="base.group_user"/>
+
+    <menuitem id="menu_hr_expense_my_receipts"
+              name="My Receipts"
+              parent="hr_expense.menu_hr_expense_my_expenses"
+              action="l10n_cssk_receipt_capture.action_cssk_receipt"
+              sequence="6"
+              groups="base.group_user"/>
 </odoo>

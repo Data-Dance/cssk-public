@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="l10n_cssk_receipt_capture.ReceiptQrScan">
+        <div class="o_action d-flex justify-content-center p-4">
+            <div class="card shadow-sm" style="max-width: 32rem; width: 100%;">
+                <div class="card-body">
+                    <h4 class="card-title">Scan a receipt</h4>
+                    <p class="text-muted">
+                        Point the camera at the QR code printed on the receipt.
+                        Its registered figures are fetched and the receipt is
+                        captured from them.
+                    </p>
+                    <div t-if="!state.supported" class="alert alert-warning" role="alert">
+                        This browser cannot use the camera here. It needs a
+                        secure (HTTPS) connection and permission to use the
+                        camera.
+                    </div>
+                    <div t-if="state.message" class="alert alert-warning" role="alert"
+                         t-esc="state.message"/>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" t-att-disabled="state.busy or !state.supported"
+                                t-on-click="() => this.scan()">
+                            <i class="fa fa-qrcode me-1"/>
+                            <t t-if="state.busy">Reading…</t>
+                            <t t-else="">Scan again</t>
+                        </button>
+                        <button class="btn btn-secondary" t-on-click="() => this.back()">Back</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

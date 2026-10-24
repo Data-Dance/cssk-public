@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- The *Default Tax Authority* settings field lost its filter on the fiscal
+  country: Odoo drops a string domain when it copies a field into a related
+  one.
+
 [19.0.1.17.0] — 2026-10-02
 --------------------------
 

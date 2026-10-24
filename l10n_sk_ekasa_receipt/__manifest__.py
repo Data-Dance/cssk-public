@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovak eKasa Receipt Capture (bločky z QR kódu)",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "summary": "Read the QR code on a Slovak fiscal receipt and fetch the "
                "registered receipt — items, quantities and the VAT recap — "
                "from Finančná správa's document-verification service.",
@@ -66,7 +66,7 @@ optionally lower the hourly budget.
     "license": "AGPL-3",
     "category": "Accounting/Localizations",
     "depends": ["l10n_cssk_receipt_capture"],
-    "external_dependencies": {"python": ["requests"]},
+    "external_dependencies": {"python": ["requests", "zxing-cpp"]},
     "data": [
         "security/ir.model.access.csv",
         "security/record_rules.xml",

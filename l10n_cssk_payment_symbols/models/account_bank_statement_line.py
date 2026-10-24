@@ -5,7 +5,7 @@ import json
 import re
 
 from odoo import api, fields, models
-from odoo.tools import html2plaintext
+from odoo.tools import float_compare, html2plaintext
 
 # Token forms seen in bank labels: "VS:1234567890", "VS 123", "VS=123",
 # "/VS/123" (structured remittance), "VS123".
@@ -133,3 +133,71 @@ class AccountBankStatementLine(models.Model):
                 if found:
                     return found
         return False
+
+    def _l10n_cssk_find_vs_counterpart_amls(self):
+        """Open journal items whose document carries this line's variable
+        symbol (leading-zero tolerant). Shared by the reconciliation bridges
+        (``_ee`` for Enterprise, ``_oca`` for OCA's widget). Empty recordset on no or ambiguous
+        match — ambiguity bails out rather than guessing (a VS is only
+        unique per issuer, not globally)."""
+        self.ensure_one()
+        Aml = self.env["account.move.line"]
+        vs = (self.variable_symbol or "").lstrip("0")
+        if not vs:
+            return Aml
+        candidates = Aml.search([
+            ("company_id", "=", self.company_id.id),
+            ("reconciled", "=", False),
+            ("parent_state", "=", "posted"),
+            ("account_id.reconcile", "=", True),
+            (
+                "account_id.account_type",
+                "not in",
+                ("asset_cash", "liability_credit_card"),
+            ),
+            ("balance", ">" if self.amount > 0 else "<", 0),
+            # candidate superset by trailing digits; the exact leading-zero
+            # tolerant comparison is the Python filter below
+            ("move_id.l10n_cssk_variable_symbol", "=like", "%" + vs),
+        ])
+        candidates = candidates.filtered(
+            lambda aml: (
+                aml.move_id.l10n_cssk_variable_symbol or ""
+            ).lstrip("0")
+            == vs
+            and aml.account_id != self.journal_id.suspense_account_id
+            and aml.account_id != self.journal_id.default_account_id
+            # a VS is unique per issuer only: once the bank line knows who
+            # paid (by account number), another partner's document is not it
+            and (
+                not self.partner_id
+                or aml.partner_id.commercial_partner_id
+                == self.partner_id.commercial_partner_id
+            )
+        )
+        if not candidates:
+            return Aml
+        moves = candidates.move_id
+        if len(moves) == 1:
+            return candidates
+        # several documents share the symbol: only accept a single document
+        # whose open amount equals the transaction (company currency only —
+        # FX journals are left to the stock matcher / manual handling)
+        if (
+            self.foreign_currency_id
+            or self.currency_id != self.company_id.currency_id
+        ):
+            return Aml
+        for move in moves:
+            move_amls = candidates.filtered(lambda aml: aml.move_id == move)
+            total = sum(move_amls.mapped("amount_residual"))
+            if (
+                float_compare(
+                    abs(total),
+                    abs(self.amount),
+                    precision_rounding=self.currency_id.rounding,
+                )
+                == 0
+            ):
+                return move_amls
+        return Aml

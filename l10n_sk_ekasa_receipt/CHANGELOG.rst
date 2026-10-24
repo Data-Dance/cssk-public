@@ -5,6 +5,41 @@ Changelog
 All notable changes to **l10n_sk_ekasa_receipt** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.1.0] — 2026-10-19
+-------------------------
+
+Fixed
+~~~~~
+
+- The lookup log was readable only with "Show Full Accounting Features",
+  which Community grants nobody; it now follows the Invoicing group.
+- The *Lookups* smart button sat in a second button box of its own, which Odoo
+  does not lift into the control panel; it is now in the form's button box.
+
+Added
+~~~~~
+
+- ``zxing-cpp`` is an external dependency: the photograph's QR code is decoded,
+  so a photographed Slovak receipt is looked up instead of falling to the AI
+  reader or to nothing.
+- ``_accepts_qr`` (picks the fiscal code out of several), ``_scan_hint``
+  ("the code above OVERTE DOKLAD POMOCOU QR KÓDU"), ``_issue_timezone``
+  (Europe/Bratislava, whoever captures the receipt).
+- ``payloads_from_printed``: rebuilds the lookup key from identifiers printed
+  beside the QR — the UID, or OKP, cash-register code, date, number and total of
+  an off-line receipt. The number a till prints as ``202609/5`` is tried as
+  ``5`` first; an OKP wrapped across two lines is joined.
+
+Changed
+~~~~~~~
+
+- Switched off, IP not declared and budget spent raise ``ProviderUnavailable``,
+  so another reader can still serve the receipt; a network failure is a
+  transient ``CaptureFailed`` (retried on a schedule), an unregistered receipt a
+  permanent one.
+- ``parse_qr`` reads a leading ``0-`` as ``O-``: receipts print the identifier in
+  a font where the two look alike.
+
 [19.0.1.0.0] — 2026-10-06
 -------------------------
 

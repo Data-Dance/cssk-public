@@ -45,6 +45,27 @@ company settings carry the declaration, and every lookup is refused until
 somebody states that the notification has been made. Satisfying it today means
 writing to Finančná správa.
 
+Photographs and the printed identifiers
+=======================================
+
+The QR code is read off the photograph (``zxing-cpp``, a dependency of this
+module), so a photographed receipt is looked up — not read by a model. A
+loyalty-app QR printed above the fiscal one is ignored: only a code this module
+can parse is used.
+
+When the code will not decode, the identifiers printed beside it are used
+instead: ``UID:`` on an on-line receipt; on an off-line one the OKP, the
+cash-register code, the date and time, the number and the total. Two things
+make that work in practice. The receipt prints the identifier in a font where
+the letter **O** and the digit **0** look alike, and an identifier never starts
+with zero, so a printed ``0-`` is read as ``O-``. And a till may print its number
+as ``202609/5`` where eKasa holds ``5``: the part after the last slash is tried
+first. A misread key finds no receipt rather than a wrong one, and the
+service's total must match the photograph's in any case.
+
+The printed time is Bratislava time whoever captures the receipt and wherever
+their browser is.
+
 Rate limit
 ==========
 

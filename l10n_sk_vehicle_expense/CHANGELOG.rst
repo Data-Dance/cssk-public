@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- The *non-deductible account* picker in Settings listed other companies'
+  accounts: Odoo drops a string domain when it copies a field into a related
+  one.
+
 [19.0.1.0.2] — 2026-09-13
 -------------------------
 

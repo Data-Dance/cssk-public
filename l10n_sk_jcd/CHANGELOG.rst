@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- The *clearing account* and *duty product* pickers in Settings lost their
+  filters (company; landed cost): Odoo drops a string domain when it copies a
+  field into a related one.
+
 [19.0.1.1.4] — 2026-09-13
 -------------------------
 

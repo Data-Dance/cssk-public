@@ -15,4 +15,61 @@
         <field name="model_id" ref="model_cssk_receipt_tax"/>
         <field name="domain_force">[('receipt_id.company_id', 'in', company_ids)]</field>
     </record>
+    <record id="rule_cssk_receipt_attempt_company" model="ir.rule">
+        <field name="name">Receipt capture attempt: multi-company</field>
+        <field name="model_id" ref="model_cssk_receipt_attempt"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Who sees which receipt. Group rules are OR-ed: an employee sees the
+         receipts they captured (the expense bridge adds the ones behind their
+         own expenses); anyone in Invoicing sees them all. -->
+    <record id="rule_cssk_receipt_own" model="ir.rule">
+        <field name="name">Captured receipt: the employee's own</field>
+        <field name="model_id" ref="model_cssk_receipt"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_invoicing" model="ir.rule">
+        <field name="name">Captured receipt: all, for Invoicing</field>
+        <field name="model_id" ref="model_cssk_receipt"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('account.group_account_invoice'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_line_own" model="ir.rule">
+        <field name="name">Captured receipt line: the employee's own</field>
+        <field name="model_id" ref="model_cssk_receipt_line"/>
+        <field name="domain_force">[('receipt_id.create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_line_invoicing" model="ir.rule">
+        <field name="name">Captured receipt line: all, for Invoicing</field>
+        <field name="model_id" ref="model_cssk_receipt_line"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('account.group_account_invoice'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_tax_own" model="ir.rule">
+        <field name="name">Captured receipt VAT recap: the employee's own</field>
+        <field name="model_id" ref="model_cssk_receipt_tax"/>
+        <field name="domain_force">[('receipt_id.create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_tax_invoicing" model="ir.rule">
+        <field name="name">Captured receipt VAT recap: all, for Invoicing</field>
+        <field name="model_id" ref="model_cssk_receipt_tax"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('account.group_account_invoice'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_attempt_own" model="ir.rule">
+        <field name="name">Receipt capture attempt: the employee's own</field>
+        <field name="model_id" ref="model_cssk_receipt_attempt"/>
+        <field name="domain_force">[('receipt_id.create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_cssk_receipt_attempt_invoicing" model="ir.rule">
+        <field name="name">Receipt capture attempt: all, for Invoicing</field>
+        <field name="model_id" ref="model_cssk_receipt_attempt"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('account.group_account_invoice'))]"/>
+    </record>
 </odoo>

@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- The recycling-fee *product* picker in Settings listed every product, not only
+  services: Odoo drops a string domain when it copies a field into a related
+  one.
+
 [19.0.1.0.0] — 2026-09-28
 -------------------------
 

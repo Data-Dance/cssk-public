@@ -8,6 +8,29 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.3.2.0] — 2026-10-23
+-------------------------
+
+Fixed
+~~~~~
+
+- A company created with its DIČ in one save (the company form) now lands on
+  ``0245`` + DIČ, as a contact with the same values always did
+  (cssk-public#5). Core creates the company's partner without the DIČ and
+  computes the scheme before the related field writes it through, which left a
+  VAT payer on ``9950:<IČ DPH>`` and a non-payer on ``9950`` with **no endpoint
+  at all** — an invoice the export constraint let through (a DIČ *is* recorded)
+  and that Peppol rejects (R020, BR-06, BR-CO-26). Only a partner core creates
+  for the company is moved; a ``partner_id`` passed in keeps its scheme.
+
+Added
+~~~~~
+
+- *Peppol: use 0245 + DIČ* in the contacts' Action menu (Accounting
+  administrators): ``action_l10n_sk_adopt_dic_participant`` was re-runnable but
+  reachable only from code. Companies already created on ``9950`` are fixed by
+  running it on their contacts.
+
 [19.0.1.1.1] — 2026-09-13
 -------------------------
 

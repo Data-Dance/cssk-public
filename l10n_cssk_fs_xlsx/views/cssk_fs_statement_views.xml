@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cssk_fs_statement_view_form_xlsx" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.form.xlsx</field>
+        <field name="model">cssk.fs.statement</field>
+        <field name="inherit_id" ref="l10n_cssk_fs_base.cssk_fs_statement_view_form"/>
+        <field name="arch" type="xml">
+            <button name="action_export_xml" position="before">
+                <button name="%(l10n_cssk_fs_xlsx.action_report_statement_xlsx)d"
+                        type="action" string="Export XLSX"
+                        invisible="state == 'draft'"/>
+            </button>
+        </field>
+    </record>
+</odoo>

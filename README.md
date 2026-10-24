@@ -19,12 +19,13 @@ contributor licence agreement.
 
 ## Requirements
 
-These modules depend on 24 module(s) that are not in
+These modules depend on 25 module(s) that are not in
 this repository. Add them to the addons path as well:
 
 | Source | Modules |
 |---|---|
 | [OCA/account-closing](https://github.com/OCA/account-closing) | `account_cutoff_start_end_dates`, `account_fiscal_year_closing`, `account_multicurrency_revaluation` |
+| [OCA/account-financial-reporting](https://github.com/OCA/account-financial-reporting) | `account_financial_report` |
 | [OCA/account-financial-tools](https://github.com/OCA/account-financial-tools) | `account_asset_management`, `account_leasing`, `account_move_template` |
 | [OCA/account-fiscal-rule](https://github.com/OCA/account-fiscal-rule) | `account_ecotax`, `account_ecotax_sale` |
 | [OCA/account-reconcile](https://github.com/OCA/account-reconcile) | `account_reconcile_oca` |
@@ -40,7 +41,7 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-166 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+169 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
 ### Czech Republic (34)
 
@@ -100,7 +101,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_dppo` | 19.0.1.4.3 | Slovak DPPO return on the income-tax framework: full r-line set + header mapping + XSD-validated XML export against the official dppo2025 schema. |
 | `l10n_sk_dppo_fs` | 19.0.1.1.2 | Tie the DPPO r100 to the VZS r56 of the účtovná závierka (UZPODv14) and flag a disagreement before filing. |
 | `l10n_sk_ec_sales` | 19.0.1.2.2 | Slovak EC sales list (Súhrnný výkaz) — codes 0/1/2 (goods / triangulation / services), FS SR SDV XML export. Built on the shared l10n_cssk_ec_summary_base… |
-| `l10n_sk_ekasa_receipt` | 19.0.1.0.0 | Read the QR code on a Slovak fiscal receipt and fetch the registered receipt — items, quantities and the VAT recap — from Finančná správa's… |
+| `l10n_sk_ekasa_receipt` | 19.0.1.1.0 | Read the QR code on a Slovak fiscal receipt and fetch the registered receipt — items, quantities and the VAT recap — from Finančná správa's… |
 | `l10n_sk_fiscal_year_closing` | 19.0.1.0.1 | Slovak year-end closing template: costs and revenues to 710, balance-sheet accounts to 702, reopened through 701. |
 | `l10n_sk_fs` | 19.0.1.7.0 | Slovak balance sheet (Súvaha) on the shared l10n_cssk_fs_base framework — account-code line mapping + comparison period + XML export. |
 | `l10n_sk_hr_payroll_account_oca` | 19.0.1.0.1 | Post Slovak payslips to the general ledger |
@@ -129,23 +130,25 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_single_entry_closing` | 19.0.1.0.2 | The closing a SZČO keeping jednoduché účtovníctvo files: výkaz o príjmoch a výdavkoch from the peňažný denník, výkaz o majetku a záväzkoch from the ledger. |
 | `l10n_sk_statutory` | 19.0.1.0.0 | Slovak statutory reference registries: daňové úrady and person types. |
 | `l10n_sk_trade_registry` | 19.0.2.0.0 | Keep the register, court and oddiel/vložka as data and compose the § 3a Obchodného zákonníka sentence from them, instead of typing it once into the company… |
-| `l10n_sk_ubl_bis3` | 19.0.3.1.0 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
+| `l10n_sk_ubl_bis3` | 19.0.3.2.0 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
 | `l10n_sk_vat_registration` | 19.0.1.0.1 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |
 | `l10n_sk_vat_return` | 19.0.1.12.0 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
 | `l10n_sk_vehicle_expense` | 19.0.1.0.2 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
 | `l10n_sk_vrp2_account` | 19.0.2.3.0 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_vrp2_base` | 19.0.2.4.0 | Connection layer for the Slovak Virtual Cash Register (VRP 2) |
 
-### Czech Republic and Slovakia (29)
+### Czech Republic and Slovakia (32)
 
 | Module | Version | What it does |
 |---|---|---|
+| `l10n_cssk_account_financial_report` | 19.0.1.0.0 | Trial balance, general ledger, open items and aged partner balance leave out the company's year-end closing and archive journals, as the statutory statements… |
 | `l10n_cssk_accrual` | 19.0.1.0.4 | Estimated unbilled items — book an estimate to the accrual account (CZ 388/389, SK 326), then link the actual invoice to true it up. |
 | `l10n_cssk_cash_journal_base` | 19.0.1.6.0 | Country-neutral single-entry cash journal derived from ordinary double-entry books: payments become dated, categorised denník rows, with the year-end balances… |
 | `l10n_cssk_core` | 19.0.1.17.0 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
 | `l10n_cssk_ec_summary_base` | 19.0.1.6.5 | Country-neutral framework for the Slovak Súhrnný výkaz and Czech Souhrnné hlášení (EC sales list): single-line aggregation per (country, VAT, transaction… |
 | `l10n_cssk_ec_summary_vies` | 19.0.1.0.4 | Validate EC sales list partners against VIES at export and snapshot the consultation number onto each line. |
-| `l10n_cssk_fs_base` | 19.0.1.9.0 | Country-neutral framework for the Slovak and Czech financial statements (balance sheet + P&L): line trees computed from account-code balances + aggregates… |
+| `l10n_cssk_fs_base` | 19.0.1.10.1 | Country-neutral framework for the Slovak and Czech financial statements (balance sheet + P&L): line trees computed from account-code balances + aggregates… |
+| `l10n_cssk_fs_xlsx` | 19.0.1.0.0 | Export a financial statement to Excel: every row with its brutto / korekcia / netto and the analytic accounts behind it. |
 | `l10n_cssk_hr_payroll_garnishment_account` | 19.0.1.1.1 | Turn each wage-garnishment deduction into a payable to the bailiff, stamped with the case number as variable symbol, ready for the payment order and the bank… |
 | `l10n_cssk_hr_payroll_garnishment_base` | 19.0.1.2.1 | Engine-neutral register of Czech and Slovak wage-garnishment orders (exekuční / exekučný príkaz) with the statutory multi-claim waterfall and the employer's… |
 | `l10n_cssk_hr_payroll_garnishment_oca` | 19.0.1.0.1 | Apply the Czech/Slovak wage-garnishment waterfall on payslips computed by the OCA payroll engine. |
@@ -158,11 +161,12 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_oss_base` | 19.0.1.0.0 | Country-neutral engine for the quarterly One-Stop-Shop VAT return (Union scheme): OSS-tagged sales aggregated by member state of consumption, rate and supply… |
 | `l10n_cssk_partner_balances` | 19.0.1.2.0 | Saldokonto / odsúhlasenie (potvrdenie) zostatkov pohľadávok a záväzkov — a stored, state-tracked confirmation of a partner's open AR/AP as of a date, with a… |
 | `l10n_cssk_payment_reliability` | 19.0.1.1.0 | Before you pay a vendor, check the supplier's tax reliability and whether the bank account is the one registered with the tax authority — and snapshot the… |
-| `l10n_cssk_payment_symbols` | 19.0.1.3.0 | Variable, constant and specific payment symbols on invoices, credit notes and bank statement lines. |
+| `l10n_cssk_payment_symbols` | 19.0.1.4.0 | Variable, constant and specific payment symbols on invoices, credit notes and bank statement lines. |
+| `l10n_cssk_payment_symbols_oca` | 19.0.1.0.0 | Exact variable-symbol pass in OCA's bank auto-reconciliation. |
 | `l10n_cssk_payment_symbols_payment_order` | 19.0.1.0.0 | Copy invoice VS/KS/SS onto OCA payment order lines. |
 | `l10n_cssk_payroll_declaration_base` | 19.0.1.4.3 | Engine-neutral base for Czech/Slovak payroll authority e-submissions: XSD-validated XML export, a submission state machine and an hr.payslip adapter that works… |
-| `l10n_cssk_receipt_capture` | 19.0.1.0.0 | Country-neutral framework for capturing cash-register receipts (bločky / účtenky) into Odoo: a provider registry, the captured receipt with its lines and… |
-| `l10n_cssk_receipt_capture_expense` | 19.0.1.0.0 | Turn a captured fiscal receipt into employee expenses, and capture receipts from the expense attachment upload. |
+| `l10n_cssk_receipt_capture` | 19.0.1.1.0 | Country-neutral framework for capturing cash-register receipts (bločky / účtenky) into Odoo: a provider registry, the captured receipt with its lines and… |
+| `l10n_cssk_receipt_capture_expense` | 19.0.1.1.0 | Turn a captured fiscal receipt into employee expenses, and capture receipts from the expense attachment upload. |
 | `l10n_cssk_recycling_fee` | 19.0.1.0.0 | Dated CZ/SK recycling-fee rates on OCA ecotax classifications, the statutory per-line 'z toho recyklační příspěvek' on the invoice, and a per-category period… |
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.0 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |

@@ -33,6 +33,27 @@ Fixed
 [Unreleased]
 ------------
 
+[19.0.1.4.0] — 2026-10-08
+-------------------------
+
+Changed
+~~~~~~~
+
+- The exact variable-symbol lookup for bank statement lines
+  (``_l10n_cssk_find_vs_counterpart_amls``) moved here from
+  ``l10n_cssk_payment_symbols_ee``, so the Enterprise bridge and the new OCA
+  bridge ``l10n_cssk_payment_symbols_oca`` share one comparison.
+
+Fixed
+~~~~~
+
+- **The symbol lookup no longer takes another partner's document.** A variable
+  symbol is unique per issuer only — two vendors can number their bills alike —
+  yet a single open document with the symbol was matched whoever had paid.
+  When the statement line already knows the payer (from the account number),
+  a document of a different commercial partner is now skipped. Lines without a
+  partner match as before.
+
 [19.0.1.3.0] — 2026-09-29
 -------------------------
 

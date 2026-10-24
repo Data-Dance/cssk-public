@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- The six VRP2 *VAT rate* pickers in Settings listed every tax, purchase taxes
+  and other companies' included: Odoo drops a string domain when it copies a
+  field into a related one.
+
 [19.0.5.0.0] — 2026-10-06
 -------------------------
 

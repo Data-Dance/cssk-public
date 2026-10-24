@@ -5,6 +5,10 @@ Changelog
 Unreleased
 ----------
 
+* The garnishment *journal* settings field lost its filter to miscellaneous
+  journals: Odoo drops a string domain when it copies a field into a related
+  one.
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules

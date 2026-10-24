@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_statement_xlsx" model="ir.actions.report">
+        <field name="name">Statement with accounts (XLSX)</field>
+        <field name="model">cssk.fs.statement</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">l10n_cssk_fs_xlsx.statement_xlsx</field>
+        <field name="report_file">statement_xlsx</field>
+        <field name="binding_model_id" ref="l10n_cssk_fs_base.model_cssk_fs_statement"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

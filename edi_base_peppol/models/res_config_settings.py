@@ -10,5 +10,7 @@ class ResConfigSettings(models.TransientModel):
     peppol_scope = fields.Selection(related="company_id.peppol_scope", readonly=False)
     peppol_auto_send = fields.Boolean(
         related="company_id.peppol_auto_send", readonly=False)
+    # Domain repeated: Odoo drops a string domain on a related field.
     peppol_purchase_journal_id = fields.Many2one(
-        related="company_id.peppol_purchase_journal_id", readonly=False)
+        related="company_id.peppol_purchase_journal_id", readonly=False,
+        domain="[('type', '=', 'purchase'), ('company_id', '=', company_id)]")

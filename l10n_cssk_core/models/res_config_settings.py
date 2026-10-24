@@ -4,10 +4,14 @@ from odoo import api, fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
+    # Domain repeated: Odoo drops a string domain on a related field.
+    # ``country_code`` is account's settings mirror of the company's
+    # account_fiscal_country_id.code, which the company field filters on.
     l10n_cssk_tax_authority_id = fields.Many2one(
         related="company_id.l10n_cssk_tax_authority_id",
         readonly=False,
         string="Default Tax Authority",
+        domain="[('country_code', '=', country_code)]",
     )
 
     cssk_vat_deferral_account_id = fields.Many2one(

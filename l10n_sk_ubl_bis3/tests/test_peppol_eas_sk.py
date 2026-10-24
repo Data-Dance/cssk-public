@@ -210,3 +210,59 @@ class TestSlovakPeppolEas(TransactionCase):
         partner.action_l10n_sk_adopt_dic_participant()
         self.assertEqual(partner.peppol_eas, '9950')
         self.assertNotEqual(partner.peppol_endpoint, "2020317068")
+
+    # -- a company is created through its partner, in two steps -------------
+    # Core creates the partner without the DIČ and computes the scheme before
+    # the related field writes it through (cssk-public#5).
+
+    def test_control_contact_with_vat_and_dic(self):
+        partner = self._partner(vat="SK2020317068", l10n_sk_dic="2020317068")
+        self.assertEqual(
+            (partner.peppol_eas, partner.peppol_endpoint), ('0245', "2020317068"))
+
+    def test_company_created_with_vat_and_dic(self):
+        company = self.env['res.company'].create({
+            'name': "SK Firma s.r.o.", 'country_id': self.sk.id,
+            'vat': "SK2020317068", 'l10n_sk_dic': "2020317068"})
+        partner = company.partner_id
+        self.assertEqual(
+            (partner.peppol_eas, partner.peppol_endpoint), ('0245', "2020317068"))
+
+    def test_company_without_vat_gets_an_endpoint(self):
+        company = self.env['res.company'].create({
+            'name': "SK Neplatitel s.r.o.", 'country_id': self.sk.id,
+            'l10n_sk_dic': "2120000016"})
+        partner = company.partner_id
+        self.assertEqual(
+            (partner.peppol_eas, partner.peppol_endpoint), ('0245', "2120000016"))
+
+    def test_company_created_through_income_tax_id(self):
+        """l10n_sk's own name for the same number takes the same path."""
+        company = self.env['res.company'].create({
+            'name': "SK Firma s.r.o.", 'country_id': self.sk.id,
+            'vat': "SK2020317068", 'income_tax_id': "2020317068"})
+        partner = company.partner_id
+        self.assertEqual(
+            (partner.peppol_eas, partner.peppol_endpoint), ('0245', "2020317068"))
+
+    def test_company_on_an_existing_partner_keeps_its_scheme(self):
+        """An existing contact's 9950 may be a decision; only partners core
+        creates for the company are moved."""
+        partner = self._partner(vat="SK2020317068")
+        # read before the DIČ lands, or the pending compute sees both at once
+        self.assertEqual(partner.peppol_eas, '9950')
+        partner.l10n_sk_dic = "2020317068"
+        self.env['res.company'].create({
+            'name': "SK Firma s.r.o.", 'partner_id': partner.id})
+        self.assertEqual(partner.peppol_eas, '9950')
+
+    def test_adopting_is_reachable_from_the_contacts(self):
+        action = self.env.ref('l10n_sk_ubl_bis3.action_server_adopt_dic_participant')
+        self.assertEqual(action.binding_model_id.model, 'res.partner')
+        partner = self._partner(vat="SK2020317068")
+        self.assertEqual(partner.peppol_eas, '9950')
+        partner.l10n_sk_dic = "2020317068"
+        action.with_context(
+            active_model='res.partner', active_ids=partner.ids).run()
+        self.assertEqual(
+            (partner.peppol_eas, partner.peppol_endpoint), ('0245', "2020317068"))

@@ -2,9 +2,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from unittest.mock import patch
 
-from odoo import fields
+from odoo import Command, fields
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
 
 
@@ -219,6 +219,26 @@ class TestReceiptCaptureBase(AccountTestInvoicingCommon):
         self.assertEqual(receipt._tax_for_rate(19.0), self.tax_19)
         self.assertFalse(receipt._tax_for_rate(7.5))
 
+    def test_tax_for_rate_skips_a_reverse_charge_tax_at_the_same_rate(self):
+        """A stock SK chart has seven 5 % purchase taxes; the first by id is
+        not reliably the domestic one."""
+        def tax(name, *factors):
+            return self.env["account.tax"].create({
+                "name": name, "amount_type": "percent", "amount": 5.0,
+                "type_tax_use": "purchase", "company_id": self.company.id,
+                "invoice_repartition_line_ids": [Command.create(
+                    {"repartition_type": "base"})] + [Command.create(
+                        {"repartition_type": "tax", "factor_percent": f})
+                        for f in factors],
+                "refund_repartition_line_ids": [Command.create(
+                    {"repartition_type": "base"})] + [Command.create(
+                        {"repartition_type": "tax", "factor_percent": f})
+                        for f in factors],
+            })
+        tax("5% RC (test)", 100.0, -100.0)
+        domestic = tax("5% (test)", 100.0)
+        self.assertEqual(self._fuel_receipt()._tax_for_rate(5.0), domestic)
+
     # ------------------------------------------------------------------
     # vendor-bill sink
     # ------------------------------------------------------------------
@@ -422,3 +442,48 @@ class TestReceiptCaptureBase(AccountTestInvoicingCommon):
                             "currency_id": self.company.currency_id.id})
         self.assertNotEqual(a, b)
         self.assertFalse(a.receipt_uid)
+
+    # ------------------------------------------------------------------
+    # who can see receipts
+    # ------------------------------------------------------------------
+    def test_an_invoicing_user_can_see_and_reach_receipts(self):
+        """Community's ordinary accountant has the Invoicing group only.
+
+        Receipts were granted to "Show Full Accounting Features" and hung under
+        a menu that needs it — a group Community gives nobody by default, so on
+        a CE database no one but an administrator could see a receipt at all.
+        """
+        user = self.env["res.users"].create({
+            "name": "Billing (test)", "login": "billing-receipts-test",
+            "company_id": self.company.id, "company_ids": [Command.set(self.company.ids)],
+            "group_ids": [Command.set([self.env.ref("account.group_account_invoice").id])],
+        })
+        self.assertFalse(user.has_group("account.group_account_user"))
+        receipt = self._fuel_receipt()
+        as_user = receipt.with_user(user)
+        self.assertEqual(as_user.read(["amount_total"])[0]["amount_total"], 57.85)
+        self.assertTrue(as_user.line_ids.read(["name"]))
+        self.assertTrue(as_user.tax_summary_ids.read(["vat_rate"]))
+
+        visible = self.env["ir.ui.menu"].with_user(user)._visible_menu_ids()
+        menu = self.env.ref("l10n_cssk_receipt_capture.menu_cssk_receipt")
+        chain = menu
+        while chain:
+            self.assertIn(chain.id, visible, chain.complete_name)
+            chain = chain.parent_id
+
+    def test_an_employee_sees_only_the_receipts_they_captured(self):
+        Users = self.env["res.users"]
+        employee, colleague = (Users.create({
+            "name": name, "login": "%s-receipts-test" % name.lower(),
+            "company_id": self.company.id, "company_ids": [Command.set(self.company.ids)],
+            "group_ids": [Command.set([self.env.ref("base.group_user").id])],
+        }) for name in ("Employee", "Colleague"))
+        theirs = self.env["cssk.receipt"].with_user(employee).sudo().create({
+            "company_id": self.company.id, "currency_id": self.company.currency_id.id})
+        self._fuel_receipt()  # somebody else's
+        Receipt = self.env["cssk.receipt"]
+        self.assertEqual(Receipt.with_user(employee).search([]), theirs)
+        self.assertFalse(Receipt.with_user(colleague).search([]))
+        with self.assertRaises(AccessError):
+            theirs.with_user(employee).write({"seller_name": "Changed"})
