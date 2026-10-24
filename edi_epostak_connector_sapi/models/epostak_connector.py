@@ -563,9 +563,16 @@ class EpostakConnectorSapi(models.TransientModel):
                 # would silently discard the state of anything already sent.
                 # That is safe — the content-addressed Idempotency-Key means a
                 # re-run collapses server-side instead of duplicating.
-                self._stamp_failure(
-                    msg, str(e), "warning" if retryable else "error"
-                )
+                #
+                # Only inside a job, whose runner rolls its cursor back around
+                # the raise. The cron's cursor is not ours to roll back: it
+                # holds every message the run already sent and the savepoint
+                # this send runs in, and the cron records the outcome itself
+                # from the exception below (cssk-public#6).
+                if not self.env.context.get("edi_cron_send"):
+                    self._stamp_failure(
+                        msg, str(e), "warning" if retryable else "error"
+                    )
                 if not retryable:
                     _logger.error(
                         "ePošťák permanent send failure for %s: %s", msg.name, e

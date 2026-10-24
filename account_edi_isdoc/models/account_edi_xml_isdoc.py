@@ -121,19 +121,63 @@ class AccountEdiXmlISDOC(models.AbstractModel):
             return aml
         return product_lines.filtered('is_downpayment')
 
-    def _isdoc_group_by_rate(self, lines, currency, sign=1):
-        """ {percent: {'taxable','inclusive','tax'}} summed (and rounded) over `lines`. """
+    def _isdoc_line_amounts(self, document):
+        """ {line: (untaxed, tax)} for every priced line of `document` (an invoice, or a sale
+        order for the proforma), in document currency and rounded the way the document's own
+        totals were.
+
+        A line's price_total is rounded on its own, so under round_globally summing them
+        disagrees with the tax actually booked: 3 × 1.03 at 21 % is 0.66 by the lines and
+        0.65 on the invoice. The rounded base lines spread the document's rounding over its
+        lines instead, from the booked tax lines where there are any — what core's UBL
+        builders aggregate. Rounded over ALL priced lines at once, because the tax lines
+        cover the regular lines and the deducted advances together. """
+        AccountTax = self.env['account.tax']
+        if document._name == 'account.move':
+            base_lines, _tax_lines = document._get_rounded_base_and_tax_lines()
+        else:
+            base_lines = [line._prepare_base_line_for_taxes_computation()
+                          for line in document._get_priced_lines()]
+            AccountTax._add_tax_details_in_base_lines(base_lines, document.company_id)
+            AccountTax._round_base_lines_tax_details(base_lines, document.company_id)
+        amounts = {}
+        for base_line in base_lines:
+            details = base_line['tax_details']
+            amounts[base_line['record']] = (
+                details['total_excluded_currency'] + details['delta_total_excluded_currency'],
+                sum(tax_data['tax_amount_currency'] for tax_data in details['taxes_data']),
+            )
+        return amounts
+
+    def _isdoc_group_by_rate(self, lines, currency, sign=1, amounts=None):
+        """ {percent: {'taxable','inclusive','tax'}} summed (and rounded) over `lines`.
+
+        `amounts` is _isdoc_line_amounts of their document; a line it does not know falls
+        back to its own price_subtotal / price_total. """
         groups = {}
         for line in lines:
             percent = round(self._line_tax_percent(line), 2)
-            g = groups.setdefault(percent, {'taxable': 0.0, 'inclusive': 0.0})
-            g['taxable'] += sign * line.price_subtotal
-            g['inclusive'] += sign * line.price_total
+            g = groups.setdefault(percent, {'taxable': 0.0, 'tax': 0.0})
+            untaxed, tax = (amounts or {}).get(
+                line, (line.price_subtotal, line.price_total - line.price_subtotal))
+            g['taxable'] += sign * untaxed
+            g['tax'] += sign * tax
         for g in groups.values():
             g['taxable'] = currency.round(g['taxable'])
-            g['inclusive'] = currency.round(g['inclusive'])
-            g['tax'] = currency.round(g['inclusive'] - g['taxable'])
+            g['tax'] = currency.round(g['tax'])
+            g['inclusive'] = currency.round(g['taxable'] + g['tax'])
         return groups
+
+    def _isdoc_rate_groups(self, vals):
+        """ (full, claimed) rate groups of the regular lines and the deducted advances. """
+        if 'line_amounts' not in vals:
+            vals['line_amounts'] = self._isdoc_line_amounts(vals['invoice'])
+        currency = vals['invoice'].currency_id
+        return (
+            self._isdoc_group_by_rate(vals['regular_lines'], currency, amounts=vals['line_amounts']),
+            self._isdoc_group_by_rate(vals['deposit_lines'], currency, sign=-1,
+                                      amounts=vals['line_amounts']),
+        )
 
     # -------------------------------------------------------------------------
     # EXPORT
@@ -322,8 +366,7 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         currency = invoice.currency_id
         dp = currency.decimal_places
         # Full amounts come from the regular lines; the deducted advances are "already claimed".
-        full = self._isdoc_group_by_rate(vals['regular_lines'], currency)
-        claimed = self._isdoc_group_by_rate(vals['deposit_lines'], currency, sign=-1)
+        full, claimed = self._isdoc_rate_groups(vals)
         zero = {'taxable': 0.0, 'inclusive': 0.0, 'tax': 0.0}
 
         subtotals = []
@@ -357,8 +400,7 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         currency = invoice.currency_id
         dp = currency.decimal_places
         # Full = regular lines; claimed = deducted advances; difference = net (= invoice totals).
-        full = self._isdoc_group_by_rate(vals['regular_lines'], currency)
-        claimed = self._isdoc_group_by_rate(vals['deposit_lines'], currency, sign=-1)
+        full, claimed = self._isdoc_rate_groups(vals)
         full_untaxed = currency.round(sum(g['taxable'] for g in full.values()))
         full_total = currency.round(sum(g['inclusive'] for g in full.values()))
         claimed_untaxed = currency.round(sum(g['taxable'] for g in claimed.values()))

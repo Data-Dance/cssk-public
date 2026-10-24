@@ -35,6 +35,15 @@ Fixed
 - A ``peppol.purchase_journal_id`` parameter holding a non-ASCII digit passed
   ``str.isdigit()`` and then raised in ``int()``, aborting the upgrade.
 
+- **An inbound document was dropped when another supplier had used the same
+  number** (cssk-public#8). The duplicate check keyed on the UBL ``cbc:ID``
+  alone, which is the sender's invoice number: a second supplier's invoice
+  2026001 was taken for the first one's, skipped, and still acknowledged, so
+  it was gone from the mailbox with no copy kept. The key is now the number
+  together with the document kind, the sender's endpoint and the receiver's
+  endpoint, so a re-delivery of the same document is still recognised and
+  acknowledged once.
+
 [19.0.1.5.1] — 2026-10-01
 -------------------------
 

@@ -125,6 +125,31 @@ class CSSKReceipt(models.Model):
             "vendor_id": self.partner_id.id or False,
         }
 
+    def action_create_bill(self):
+        """Refuse a vendor receipt for a receipt already claimed as expenses.
+
+        ``action_create_expenses`` leaves the receipt ``captured`` — it is the
+        expense that moves on, not the receipt — so the base check (state and
+        an existing vendor receipt) let the same purchase be booked a second
+        time (cssk-public#10). The other direction needs nothing:
+        a vendor receipt moves the receipt to ``done``, which the expense path
+        already refuses.
+
+        Read with sudo: an Invoicing user sees every receipt but not
+        necessarily every employee's expense, and a guard that record rules
+        can empty is not a guard."""
+        # EXTENDS l10n_cssk_receipt_capture
+        for receipt in self:
+            expenses = receipt.sudo().expense_ids
+            if expenses:
+                # The count only: the expenses were read with sudo, and their
+                # names are not necessarily this user's to see.
+                raise UserError(_(
+                    "%(name)s is already claimed as %(count)s expense(s). A "
+                    "vendor receipt would book the same purchase twice.",
+                    name=receipt.display_name, count=len(expenses)))
+        return super().action_create_bill()
+
     def action_create_expenses(self):
         """The receipt as ONE expense, whatever its VAT rates."""
         expenses = self.env["hr.expense"]

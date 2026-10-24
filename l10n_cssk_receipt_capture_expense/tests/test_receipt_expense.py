@@ -267,3 +267,29 @@ class TestReceiptExpense(AccountTestInvoicingCommon):
         self.assertAlmostEqual(expense.total_amount_currency, 181.90, places=2)
         self.assertAlmostEqual(expense.tax_amount_currency, 15.82, places=2)
 
+
+    # -- one purchase, booked once (cssk-public#10) ---------------------
+    # A stock chart's purchase taxes are tax-excluded, which both paths take
+    # (a vendor receipt refuses the tax-included kind this class sets up).
+    def _bookable_fuel_receipt(self):
+        self.taxes[23.0].price_include_override = "tax_excluded"
+        return self._fuel_receipt()
+
+    def test_a_receipt_claimed_as_an_expense_gets_no_vendor_receipt(self):
+        receipt = self._bookable_fuel_receipt()
+        receipt.action_create_partner()
+        receipt.state = "captured"
+        receipt.action_create_expenses()
+        self.assertEqual(receipt.state, "captured", "the expense moves on, not the receipt")
+        with self.assertRaisesRegex(UserError, "already claimed as 1 expense"):
+            receipt.action_create_bill()
+        self.assertFalse(receipt.move_id)
+
+    def test_a_receipt_booked_as_a_vendor_receipt_gets_no_expense(self):
+        receipt = self._bookable_fuel_receipt()
+        receipt.action_create_partner()
+        receipt.state = "captured"
+        receipt.action_create_bill()
+        with self.assertRaisesRegex(UserError, "can become expenses"):
+            receipt.action_create_expenses()
+        self.assertFalse(receipt.expense_ids)

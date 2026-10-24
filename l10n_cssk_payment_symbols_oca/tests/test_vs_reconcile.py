@@ -112,3 +112,59 @@ class TestVsReconcileOca(AccountTestInvoicingCommon):
         self.assertFalse(line.is_reconciled)
         self.assertEqual(bill.payment_state, "not_paid")
 
+
+    # -- several lines of one import (cssk-public#9) --------------------
+    # OCA proposes for the whole batch first and reconciles afterwards, so an
+    # invoice one line takes is still open while the next line looks.
+
+    def _import(self, *lines):
+        """``(amount, ref)`` pairs created in ONE call, as an import does."""
+        return self.env["account.bank.statement.line"].create([{
+            "journal_id": self.journal.id,
+            "date": fields.Date.from_string("2026-07-10"),
+            "amount": amount,
+            "payment_ref": "Platba",
+            "ref": ref,
+        } for amount, ref in lines])
+
+    def test_an_invoice_paid_twice_in_one_import_does_not_fail_it(self):
+        invoice = self._invoice(100.0, "601")
+        first, second = self._import((100.0, "/VS601/SS/KS"), (100.0, "/VS601/SS/KS"))
+        self.assertTrue(first.is_reconciled)
+        self.assertEqual(invoice.payment_state, "paid")
+        self.assertFalse(second.is_reconciled, "the second payment is for a person")
+
+    def test_two_instalments_in_one_import_pay_the_invoice(self):
+        invoice = self._invoice(100.0, "602")
+        lines = self._import((60.0, "/VS602/SS/KS"), (40.0, "/VS602/SS/KS"))
+        self.assertTrue(all(lines.mapped("is_reconciled")))
+        self.assertEqual(invoice.payment_state, "paid")
+
+    def test_a_second_payment_larger_than_what_is_left_is_proposed(self):
+        invoice = self._invoice(100.0, "603")
+        first, second = self._import((60.0, "/VS603/SS/KS"), (100.0, "/VS603/SS/KS"))
+        self.assertTrue(first.is_reconciled)
+        self.assertFalse(second.is_reconciled)
+        self.assertAlmostEqual(invoice.amount_residual, 40.0)
+        proposed = sum(
+            item["amount"] for item in second.reconcile_data_info["data"]
+            if item.get("kind") == "other"
+        )
+        self.assertAlmostEqual(abs(proposed), 40.0, msg="only what the first left open")
+
+    def test_ambiguous_symbol_with_two_matching_amounts_is_left(self):
+        """cssk-public#7: the amount cannot choose between two that fit."""
+        first = self._invoice(100.0, "557")
+        second = self._invoice(100.0, "557", partner=self.partner_b)
+        line = self._line(100.0, "/VS557/SS/KS")
+        self.assertFalse(line.is_reconciled)
+        self.assertEqual((first | second).mapped("payment_state"), ["not_paid", "not_paid"])
+
+    def test_an_overpayment_left_for_a_person_takes_nothing_from_the_next_line(self):
+        """A proposal that is not reconciled reconciles nothing, so the exact
+        payment after it still pays the invoice."""
+        invoice = self._invoice(100.0, "604")
+        over, exact = self._import((150.0, "/VS604/SS/KS"), (100.0, "/VS604/SS/KS"))
+        self.assertFalse(over.is_reconciled)
+        self.assertTrue(exact.is_reconciled)
+        self.assertEqual(invoice.payment_state, "paid")

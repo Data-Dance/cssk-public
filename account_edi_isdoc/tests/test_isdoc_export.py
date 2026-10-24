@@ -168,3 +168,21 @@ class TestISDOCExport(AccountTestInvoicingCommon):
         )
         _xml, errors = self.env['account.edi.xml.isdoc']._export_invoice(invoice)
         self.assertTrue(errors)
+
+    def test_vat_summary_is_the_vat_the_invoice_booked(self):
+        """cssk-public#11: under round_globally the tax is rounded once per
+        rate, not per line. Summing the lines' own totals gave 3 × 0.22 = 0.66
+        of VAT on an invoice that booked 0.65, so the summary disagreed with
+        PayableAmount by a cent."""
+        invoice = self.init_invoice(
+            'out_invoice', partner=self.cz_customer, invoice_date='2024-07-10',
+            amounts=[1.03, 1.03, 1.03], taxes=self.tax_21, post=True,
+        )
+        self.assertAlmostEqual(invoice.amount_tax, 0.65)
+        root = self._export(invoice)
+        subtotal = 'TaxTotal/TaxSubTotal/'
+        self.assertEqual(self._find(root, subtotal + 'TaxAmount'), '0.65')
+        self.assertEqual(self._find(root, subtotal + 'TaxInclusiveAmount'), '3.74')
+        self.assertEqual(self._find(root, 'TaxTotal/TaxAmount'), '0.65')
+        self.assertEqual(self._find(root, 'LegalMonetaryTotal/TaxInclusiveAmount'),
+                         self._find(root, 'LegalMonetaryTotal/PayableAmount'))

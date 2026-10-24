@@ -182,12 +182,15 @@ class AccountBankStatementLine(models.Model):
             return candidates
         # several documents share the symbol: only accept a single document
         # whose open amount equals the transaction (company currency only —
-        # FX journals are left to the stock matcher / manual handling)
+        # FX journals are left to the stock matcher / manual handling). Two
+        # that both fit are as ambiguous as the symbol was: the first one
+        # found is not the one paid, merely the lower id.
         if (
             self.foreign_currency_id
             or self.currency_id != self.company_id.currency_id
         ):
             return Aml
+        fitting = Aml
         for move in moves:
             move_amls = candidates.filtered(lambda aml: aml.move_id == move)
             total = sum(move_amls.mapped("amount_residual"))
@@ -199,5 +202,5 @@ class AccountBankStatementLine(models.Model):
                 )
                 == 0
             ):
-                return move_amls
-        return Aml
+                fitting |= move_amls
+        return fitting if len(fitting.move_id) == 1 else Aml

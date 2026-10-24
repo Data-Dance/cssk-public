@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **A receipt claimed as an expense could still become a vendor receipt**
+  (cssk-public#10), booking the same purchase twice: creating expenses
+  leaves the receipt *captured*, and the vendor-receipt action checked only
+  the state and an existing vendor receipt. It now refuses a receipt that
+  has expenses (read with sudo, so an Invoicing user's record rules cannot
+  hide them), and the *Create Vendor Receipt* button is hidden for one, as
+  *Create Expenses* already was the other way round.
+
 Changed
 ~~~~~~~
 

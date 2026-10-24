@@ -222,3 +222,50 @@ class TestPaymentSymbols(AccountTestInvoicingCommon):
         payment = self._register_payment(bill)
         with self.assertRaises(ValidationError):
             payment.l10n_cssk_constant_symbol = "12345"
+
+    # ------------------------------------------------------------------
+    # the variable-symbol matcher both reconciliation bridges share
+    # ------------------------------------------------------------------
+    def _posted_with_vs(self, vs, amount=100.0, partner=None):
+        invoice = self._invoice(
+            partner_id=(partner or self.partner_a).id,
+            invoice_line_ids=[Command.create({
+                "name": "Služba", "quantity": 1, "price_unit": amount,
+                "tax_ids": [Command.clear()],
+            })],
+        )
+        invoice.action_post()
+        invoice.l10n_cssk_variable_symbol = vs
+        return invoice
+
+    def _bank_line(self, amount, vs, partner=None):
+        return self.env["account.bank.statement.line"].create({
+            "journal_id": self.company_data["default_journal_bank"].id,
+            "date": fields.Date.from_string("2026-07-10"),
+            "amount": amount,
+            "payment_ref": "Platba",
+            "variable_symbol": vs,
+            "partner_id": partner.id if partner else False,
+        })
+
+    def test_vs_match_two_documents_of_one_amount_is_ambiguous(self):
+        """Two sale journals can both issue …00001: same VS, same amount, and
+        nothing on an unidentified bank line says which was paid
+        (cssk-public#7)."""
+        self._posted_with_vs("2026000001")
+        self._posted_with_vs("2026000001", partner=self.partner_b)
+        line = self._bank_line(100.0, "2026000001")
+        self.assertFalse(line._l10n_cssk_find_vs_counterpart_amls())
+
+    def test_vs_match_the_amount_still_tells_two_documents_apart(self):
+        self._posted_with_vs("2026000002", amount=100.0)
+        second = self._posted_with_vs("2026000002", amount=250.0,
+                                      partner=self.partner_b)
+        line = self._bank_line(250.0, "2026000002")
+        self.assertEqual(line._l10n_cssk_find_vs_counterpart_amls().move_id, second)
+
+    def test_vs_match_a_known_payer_settles_it(self):
+        self._posted_with_vs("2026000003")
+        second = self._posted_with_vs("2026000003", partner=self.partner_b)
+        line = self._bank_line(100.0, "2026000003", partner=self.partner_b)
+        self.assertEqual(line._l10n_cssk_find_vs_counterpart_amls().move_id, second)

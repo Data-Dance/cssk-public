@@ -33,6 +33,17 @@ Fixed
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **Two open documents with one variable symbol and one amount: the first was
+  taken** (cssk-public#7). Two sale journals can both issue a ``…00001``;
+  when a bank line with that VS and no identified payer matched both, the
+  matcher reconciled the lower id, though its own rule is to accept a single
+  document only. Both now fit, so neither is chosen and the line waits for a
+  person. A known payer, or an amount only one of them has, still decides
+  it.
+
 [19.0.1.4.0] — 2026-10-08
 -------------------------
 

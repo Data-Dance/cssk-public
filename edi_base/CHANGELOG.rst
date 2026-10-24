@@ -5,6 +5,24 @@ Changelog
 All notable changes to **edi_base** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Fixed
+~~~~~
+
+- ``_inbound_duplicate_domain``: the duplicate check on inbound packages is
+  now a seam returning a domain, so a document family whose identifier is
+  unique only per sender can widen it (cssk-public#8). The default is
+  unchanged: provider, biztalk ``message_id`` and direction.
+
+- **The send cron no longer lets a connector roll its run back** (cssk-
+  public#6). ``_cron_send_queued`` passes ``edi_cron_send`` in the
+  connector's context, so a connector that writes failures outside a job's
+  transaction knows not to here, and in a real cron run it commits each
+  message's outcome before the next send (``ir.cron._commit_progress``), so
+  a run that dies late keeps what the provider already accepted.
+
 [19.0.1.8.0] — 2026-09-29
 -------------------------
 

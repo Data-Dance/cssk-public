@@ -5,6 +5,9 @@
         <field name="model">cssk.receipt</field>
         <field name="inherit_id" ref="l10n_cssk_receipt_capture.view_cssk_receipt_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_create_bill']" position="attributes">
+                <attribute name="invisible">state != 'captured' or expense_count > 0</attribute>
+            </xpath>
             <xpath expr="//button[@name='action_create_bill']" position="after">
                 <button name="action_create_expenses" type="object"
                         string="Create Expenses" class="oe_highlight"

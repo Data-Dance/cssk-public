@@ -5,6 +5,23 @@ Changelog
 All notable changes to **edi_epostak_connector_sapi** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Fixed
+~~~~~
+
+- **One failed document rolled back the whole cron run** (cssk-public#6). A
+  send failure was stamped the way a job needs it — roll the cursor back,
+  record the outcome on a second cursor — but under edi_base's cron that
+  cursor is the run's own: with answers 202 / 503 / 202 the accepted first
+  document went back to *queued* and was sent again on the next run, the
+  transient 503 was parked in *error* where nothing retries it, and the
+  third was never sent (``InvalidSavepointSpecification``). Under the cron
+  the connector now only raises, and the cron records the outcome in its own
+  transaction: *sent*, *queued* with a warning, *sent*. A job still records
+  its failure outside the transaction, as before.
+
 [19.0.1.1.1] — 2026-10-03
 -------------------------
 
@@ -50,7 +67,6 @@ Ported to 18.0 on 2026-10-03 as ``0b8eae57`` (``[18.0.1.1.0]``) — **do not
 port this again.** The connector change there is byte-identical; that commit
 also took down the ``UserError`` wrapper from ``[19.0.1.1.0]``, whose
 remaining parts 18.0 still owes and records in its own Carry-over section.
-
 
 [19.0.1.1.0] — 2026-10-01
 -------------------------

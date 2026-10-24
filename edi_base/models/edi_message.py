@@ -24,6 +24,10 @@ class EdiMessage(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "EDI Message"
     _order = "create_date desc"
+    # Inert on 19.0, which no longer reads _sql_constraints: no such index
+    # exists. Do not port it to models.Constraint as it stands — a Peppol
+    # message_id is the sender's invoice number, so two suppliers' 2026001
+    # are two rows (see _inbound_duplicate_domain).
     _sql_constraints = [
         (
             "message_id_direction_unique",
@@ -828,6 +832,29 @@ class EdiMessage(models.Model):
         envelope_data = connector._parse_envelope(xml_content)
         return envelope_data.get("message_id", "")
 
+    def _inbound_duplicate_domain(self, provider, connector, xml_content):
+        """Return the domain that finds an already-stored copy of an inbound
+        payload, or ``[]`` when it cannot be deduplicated.
+
+        A match is skipped AND acknowledged, which removes the package from
+        the provider's mailbox — so a key that is too narrow does not merely
+        miss a duplicate, it deletes a document. The default key is the
+        biztalk ``message_id``, unique per interchange; a document family
+        whose identifier is only unique per sender (a UBL ``cbc:ID`` is an
+        invoice number) must widen the domain with whatever makes it unique.
+        """
+        try:
+            key = self._dedup_key_for_inbound(connector, xml_content)
+        except Exception:
+            key = ""
+        if not key:
+            return []
+        return [
+            ("provider", "=", provider),
+            ("message_id", "=", key),
+            ("direction", "=", "in"),
+        ]
+
     def _inbound_stub_vals(self, provider, xml_content, pkg):
         """Return the create-vals for an inbound stub message.
 
@@ -989,23 +1016,14 @@ class EdiMessage(models.Model):
             # Pre-parse the envelope out-of-band for duplicate detection.
             # Delegated to a seam so non-EDIFACT families (e.g. Peppol UBL,
             # which has no biztalk envelope) can supply their own dedup key.
-            try:
-                envelope_msg_id = self._dedup_key_for_inbound(connector, xml_content)
-            except Exception:
-                envelope_msg_id = ""
-
-            if envelope_msg_id and self.search(
-                [
-                    ("provider", "=", provider),
-                    ("message_id", "=", envelope_msg_id),
-                    ("direction", "=", "in"),
-                ],
-                limit=1,
-            ):
+            duplicate_domain = self._inbound_duplicate_domain(
+                provider, connector, xml_content
+            )
+            if duplicate_domain and self.search(duplicate_domain, limit=1):
                 _logger.info(
                     "Duplicate inbound %s %s, skipping",
                     self._name,
-                    envelope_msg_id,
+                    duplicate_domain,
                 )
                 if raw_id:
                     self._dispatch_ack(connector, raw_id)
@@ -1220,10 +1238,17 @@ class EdiMessage(models.Model):
         Note the outcome is written with a plain ``write``, not
         ``_write_outside_job``. That helper exists because a job runner rolls
         the cursor back around a raising job, so the outcome has to be written
-        on a cursor it cannot reach. Here nothing rolls back: the savepoint
-        around the send is released, this transaction is intact, and a write on
-        a separate cursor could not even see a row this transaction has not
-        committed.
+        on a cursor it cannot reach. Here nothing may roll back but the
+        savepoint around the one send, and a write on a separate cursor could
+        not even see a row this transaction has not committed. The connector is
+        told so through ``edi_cron_send`` in its context: one that stamped its
+        failure the job way rolled this whole transaction back, re-queueing
+        what the run had already sent and parking a retryable failure in
+        ``error`` (cssk-public#6).
+
+        In a cron run each message's outcome is committed before the next send
+        (``ir.cron._commit_progress``), so a run that dies late — a timeout, a
+        killed worker — keeps what the provider already accepted.
         """
         providers = [
             provider for provider, mode in self.PROVIDER_DISPATCH_MAP.items()
@@ -1236,8 +1261,14 @@ class EdiMessage(models.Model):
             ("direction", "=", "out"),
             ("provider", "in", providers),
         ], limit=limit, order="id")
+        # Only a real cron run commits; a caller outside one (a test, a shell)
+        # keeps its transaction to itself.
+        cron = self.env["ir.cron"] if self.env.context.get("cron_id") else None
+        if cron is not None and not cron._commit_progress(remaining=len(messages)):
+            return
         for message in messages:
-            connector = self.env[message._get_connector_name()]
+            connector = self.env[message._get_connector_name()].with_context(
+                edi_cron_send=True)
             if message.company_id:
                 connector = connector.with_company(message.company_id)
             try:
@@ -1263,6 +1294,8 @@ class EdiMessage(models.Model):
                     "state": "error",
                     "error_message": str(exception),
                 })
+            if cron is not None and not cron._commit_progress(processed=1):
+                break
 
     def _edi_related_documents(self):
         """Business documents this message should leave a chatter trace on.

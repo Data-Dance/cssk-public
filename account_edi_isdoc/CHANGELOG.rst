@@ -21,6 +21,16 @@ Fixed
   (``cssk_vat_deduction_date``) is deliberately not set: it is when *we*
   claim, which the supplier's document cannot know.
 
+- **The VAT summary could be a cent off the invoice under round_globally**
+  (cssk-public#11), the Czech default. Each rate's ``TaxAmount`` was the
+  lines' own totals summed, and a line's total is rounded on its own: three
+  lines of 1.03 at 21 % gave 0.66 of VAT on an invoice that booked 0.65, so
+  the summary and ``PayableAmount`` disagreed. The summary and the document
+  totals now come from the invoice's rounded base lines (the booked tax
+  lines spread over its lines, as core's UBL builders aggregate), rounded
+  over the regular lines and the deducted advances together; the sale-order
+  proforma rounds as the order's own totals do.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
