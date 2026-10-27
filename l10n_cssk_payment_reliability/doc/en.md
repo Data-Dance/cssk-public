@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Supplier Reliability Check
 summary: Before you pay a supplier, checks the tax authority's registers for the supplier's reliability and for the bank account you are paying, and keeps the answer on the bill and the payment as evidence.
-verified: 19.0.1.2.0
+verified: 19.0.1.3.0
 ---
 
 ## What it is for {#purpose}
@@ -161,7 +161,7 @@ It needs no account or key. One request answers both questions:
 |---|---|
 | nespolehlivý plátce = ANO | Unreliable (warning) |
 | nespolehlivý plátce = NE | Reliable |
-| not found (not a VAT payer) | Unknown / not checked; the bank account is *Not checked / unavailable*, since a non-payer publishes no accounts and § 109 does not apply |
+| not found (not a VAT payer) | Not a VAT payer; the bank account is *Supplier is not a VAT payer*, with no warning, since a non-payer publishes no accounts and § 109 does not apply |
 
 The published accounts come back in the domestic form
 (předčíslí–číslo/kód banky); the module converts them, and an account typed

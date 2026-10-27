@@ -1,7 +1,7 @@
 ---
 title: Elektronická fakturace Peppol (BIS Billing 3.0)
 summary: Odesílá faktury a opravné daňové doklady odběratelům jako elektronické faktury Peppol BIS Billing 3.0, z přijatých elektronických faktur vytváří koncepty přijatých faktur a zpracovává obchodní odpovědi — přes kteréhokoli nainstalovaného poskytovatele EDI.
-verified: 19.0.1.6.0
+verified: 19.0.1.7.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -128,7 +128,9 @@ Rozhodnutí v tomto pořadí:
    plátcem), odběratel mimo Slovensko nebo odběratel bez jakéhokoli
    podnikatelského identifikátoru — není firmou a nemá DIČ ani IČO (považuje
    se za spotřebitele) → **PDF**. Živnostník s IČO bez DIČ je podnikatel:
-   povinnost se týká každé zdanitelné osoby. Česká společnost s tímto rozsahem tedy přes Peppol neposílá nic,
+   povinnost se týká každé zdanitelné osoby. Stejně tak faktura, jejíž každý
+   řádek je osvobozené plnění (daně jsou osvobozené nebo mimo DPH, viz níže)
+   → **PDF**. Česká společnost s tímto rozsahem tedy přes Peppol neposílá nic,
    co není výslovně zvoleno na kontaktu.
 6. Vaše společnost nemá Peppol adresu → **zablokováno**. Nemá ji odběratel →
    při slovenské povinnosti **zablokováno**, při *každém odběrateli s Peppol
@@ -140,10 +142,14 @@ Rozhodnutí v tomto pořadí:
 Pravidlo slovenské povinnosti sleduje § 85o odst. 2 a 3 slovenského zákona
 o DPH tak daleko, jak to údaje kontaktu dovolí: plátce dodávající
 zdanitelné osobě (jakémukoli podnikateli, plátci i neplátci) nebo
-nezdanitelné právnické osobě se sídlem na Slovensku. Nesleduje místo plnění
-ani daně faktury, takže osvobozené plnění (§ 28 až § 43, § 47) slovenskému
-podnikateli se směruje na Peppol jako každé jiné — je to dovoleno, i když
-ne povinné. Zjednodušené faktury jsou pokladní doklady, které se neodesílají
+nezdanitelné právnické osobě se sídlem na Slovensku. Osvobozené plnění (§ 28
+až § 43, § 47) vyloučí podle daní faktury: jsou-li daně každého řádku
+osvobozené (UBL kategorie *E*) nebo mimo DPH (*O*), jde faktura jako PDF.
+Jediný zdanitelný řádek nebo řádek bez daně ji v povinnosti ponechá. Daň pro
+přenesení daňové povinnosti, kterou si vytvoříte sami, potřebuje příznak
+*Reverse charge* nebo kategorii *AE*, jinak vypadá jako osvobozená. Tuzemské
+přenesení daňové povinnosti (§ 69 odst. 12) je zdanitelné plnění a zůstává v
+ní, přestože má také 0 %. Místo plnění se nesleduje. Zjednodušené faktury jsou pokladní doklady, které se neodesílají
 nikdy. Vychází-li zákon pro některého odběratele jinak, nastavte na jeho
 kontaktu **Odeslání faktury**.
 

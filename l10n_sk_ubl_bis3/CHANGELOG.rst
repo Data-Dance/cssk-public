@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.3.3.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A domestic reverse-charge sale is VAT category AE, not exempt.** The 0 %
+  sale tax for a prenos daňovej povinnosti (§ 69 ods. 12, flagged *Reverse
+  charge* by the control-statement modules) has no UBL category of its own, so
+  Odoo wrote it as category E (exempt) on Peppol invoices. It is now AE with
+  exemption reason VATEX-EU-AE and the text "Prenesenie daňovej povinnosti",
+  as Peppol BIS 3 requires (BR-AE-10). A category set on the tax still wins.
+
 [19.0.3.3.0] — 2026-10-27
 -------------------------
 

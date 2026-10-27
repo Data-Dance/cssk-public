@@ -1,7 +1,7 @@
 ---
 title: Partner Autocomplete from State Registers (CZ/SK)
 summary: Fills contacts from the Czech and Slovak business registers instead of Odoo's paid autocomplete service, choosing the register by the partner's country.
-verified: 19.0.1.2.0
+verified: 19.0.1.3.0
 ---
 
 ## What it is for {#purpose}
@@ -42,9 +42,10 @@ Two choices are not registers:
   provider's country is still looked up there (see below); anything else finds
   nothing, and nothing is sent to Odoo.
 
-Until version 19.0.1.2.0 **None** was the label of what is now **Odoo IAP**: a
-company that had chosen it keeps using Odoo's service. Choose **None** again if
-that is not what you want.
+**None** is the default. Until version 19.0.1.2.0 **None** was the label of
+what is now **Odoo IAP**, which was also the default; the upgrade to
+19.0.1.3.0 moved every company on it to the real **None**. Choose **Odoo IAP**
+if you want Odoo's service for partners outside the national registers.
 
 ## Which register is asked {#routing}
 

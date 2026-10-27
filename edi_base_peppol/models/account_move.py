@@ -240,6 +240,11 @@ class AccountMove(models.Model):
                     customer.country_id.code or _("no country"))
             if not customer._peppol_is_sk_business():
                 return "pdf", _("Consumer (B2C): not in the Slovak mandate.")
+            if self._peppol_sk_is_exempt_supply():
+                return "pdf", _(
+                    "Exempt supply: not in the Slovak mandate (§ 85o ods. 2 of "
+                    "the VAT Act excludes supplies exempt under § 28 to 43 "
+                    "and 47).")
         if not self._peppol_partner_addressable(self.company_id.partner_id):
             return "blocked", _("%s has no Peppol address.", company.name)
         if not self._peppol_partner_addressable(customer):
@@ -253,6 +258,38 @@ class AccountMove(models.Model):
                 "Several Peppol transports are installed and none is chosen: "
                 "set Peppol Transport in Settings > EDI.")
         return "peppol", ""
+
+    def _peppol_sk_is_exempt_supply(self):
+        """Whether every invoiced line is an exempt supply (or outside VAT).
+
+        § 85o ods. 2 exempts from the mandate a supply exempt under § 28 to 43
+        and 47. A line counts as exempt when each of its taxes falls in UBL
+        category 'E' (exempt) or 'O' (outside the scope). A line with no tax
+        at all is taken as taxable: a missing tax is more likely a gap in the
+        setup than an exemption, and sending an e-invoice that was not
+        required is lawful where withholding a required one is not.
+        Domestic reverse charge (§ 69 ods. 12) is a taxable supply and stays
+        in: it is 0 % too, so it is recognised by its own flag, not by rate.
+        One taxable line keeps the whole invoice in the mandate.
+        """
+        self.ensure_one()
+        lines = self.invoice_line_ids.filtered(lambda l: l.display_type == "product")
+        if not lines:
+            return False
+        common = self.env["account.edi.common"]
+        supplier = self.company_id.partner_id.commercial_partner_id
+        customer = self.partner_id.commercial_partner_id
+        for line in lines:
+            taxes = line.tax_ids.flatten_taxes_hierarchy()
+            if not taxes:
+                return False
+            for tax in taxes:
+                if ("cssk_control_is_reverse_charge" in tax._fields
+                        and tax.cssk_control_is_reverse_charge):
+                    return False
+                if common._get_tax_category_code(customer, supplier, tax) not in ("E", "O"):
+                    return False
+        return True
 
     def _peppol_is_eligible(self):
         """True if this posted customer document is routed to Peppol and a

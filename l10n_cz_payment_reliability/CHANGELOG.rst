@@ -16,6 +16,15 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.0] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- ADIS ``NENALEZEN`` (the subject is not a VAT payer) now gives the new *Not
+  a VAT payer* status instead of *Unknown / not checked*.
+
 [19.0.1.1.0] — 2026-10-27
 -------------------------
 

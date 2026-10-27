@@ -1,7 +1,7 @@
 ---
 title: Automatické dopĺňanie partnerov zo štátnych registrov (CZ/SK)
 summary: Dopĺňa kontakty z českých a slovenských registrov namiesto platenej služby Odoo a register vyberá podľa štátu partnera.
-verified: 19.0.1.2.0
+verified: 19.0.1.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -42,9 +42,10 @@ Dve voľby nie sú registre:
   poskytovateľa sa tam hľadá aj naďalej (pozri nižšie); všetko ostatné nenájde
   nič a do Odoo sa nič neodošle.
 
-Do verzie 19.0.1.2.0 sa ako **None** označovala dnešná voľba **Odoo IAP**:
-spoločnosť, ktorá si ju zvolila, používa službu Odoo aj naďalej. Ak to nechcete,
-zvoľte znovu **None**.
+Predvolená voľba je **None**. Do verzie 19.0.1.2.0 sa ako **None** označovala
+dnešná voľba **Odoo IAP**, ktorá bola zároveň predvolená; prechod na 19.0.1.3.0
+previedol každú spoločnosť, ktorá ju mala, na skutočnú **None**. Ak chcete
+službu Odoo pre partnerov mimo národných registrov, zvoľte **Odoo IAP**.
 
 ## Ktorý register sa použije {#routing}
 

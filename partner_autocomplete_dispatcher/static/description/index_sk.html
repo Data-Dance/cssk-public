@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/partner_autocomplete_dispatcher/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/partner_autocomplete_dispatcher/static/description/index_cs.html">Čeština</a></nav>
 <h1>Automatické dopĺňanie partnerov zo štátnych registrov (CZ/SK)</h1>
 <p class="cssk-summary">Dopĺňa kontakty z českých a slovenských registrov namiesto platenej služby Odoo a register vyberá podľa štátu partnera.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>partner_autocomplete</code>, <code>web</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/partner_autocomplete_ares_cz/static/description/index.html"><code>partner_autocomplete_ares_cz</code></a>, <a href="/partner_autocomplete_orsf_sk/static/description/index_sk.html"><code>partner_autocomplete_orsf_sk</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.3.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>partner_autocomplete</code>, <code>web</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/partner_autocomplete_ares_cz/static/description/index.html"><code>partner_autocomplete_ares_cz</code></a>, <a href="/partner_autocomplete_orsf_sk/static/description/index_sk.html"><code>partner_autocomplete_orsf_sk</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Vlastné automatické dopĺňanie partnerov v Odoo hľadá firmy v platenej službe
@@ -84,9 +84,10 @@ spoločnosti a nastavte ho tam.</p>
   poskytovateľa sa tam hľadá aj naďalej (pozri nižšie); všetko ostatné nenájde
   nič a do Odoo sa nič neodošle.</li>
 </ul>
-<p>Do verzie 19.0.1.2.0 sa ako <strong>None</strong> označovala dnešná voľba <strong>Odoo IAP</strong>:
-spoločnosť, ktorá si ju zvolila, používa službu Odoo aj naďalej. Ak to nechcete,
-zvoľte znovu <strong>None</strong>.</p>
+<p>Predvolená voľba je <strong>None</strong>. Do verzie 19.0.1.2.0 sa ako <strong>None</strong> označovala
+dnešná voľba <strong>Odoo IAP</strong>, ktorá bola zároveň predvolená; prechod na 19.0.1.3.0
+previedol každú spoločnosť, ktorá ju mala, na skutočnú <strong>None</strong>. Ak chcete
+službu Odoo pre partnerov mimo národných registrov, zvoľte <strong>Odoo IAP</strong>.</p>
 <h2 id="routing">Ktorý register sa použije</h2>
 <p>Najprv rozhoduje štát, až potom voľba spoločnosti:</p>
 <ul>
@@ -181,7 +182,7 @@ uloženie novej spoločnosti s vyplneným <strong>IČO</strong> vyhľadanie nesp
   nefunguje, alebo sa dosiahol limit požiadaviek. Rozlíši ich log servera.</li>
 <li>Popisky tohto modulu nie sú preložené.</li>
 </ul>
-<footer><p>Text overený voči verzii modulu: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

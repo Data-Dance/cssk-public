@@ -1,7 +1,7 @@
 ---
 title: Slovakia — Peppol BIS Billing 3.0 (eFaktúra)
 summary: Produces Slovak electronic invoices in Peppol BIS Billing 3.0, identifies Slovak parties on Peppol by their DIČ, and puts the variable symbol where the payer's bank looks for it.
-verified: 19.0.3.3.0
+verified: 19.0.3.3.1
 ---
 
 ## What it is for {#purpose}

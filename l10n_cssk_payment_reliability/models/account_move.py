@@ -23,6 +23,7 @@ class AccountMove(models.Model):
             ("registered", "Paid account is registered"),
             ("not_registered", "Paid account NOT registered"),
             ("no_account", "No bank account set"),
+            ("not_vat_payer", "Supplier is not a VAT payer"),
             ("unknown", "Not checked / unavailable"),
         ],
         string="Bank Account Check",

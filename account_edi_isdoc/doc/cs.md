@@ -1,7 +1,7 @@
 ---
 title: Elektronické faktury ISDOC
 summary: Odesílá faktury a opravné daňové doklady odběratelům jako soubory ISDOC 6.0.2, vložené i do PDF faktury, a z přijatých souborů ISDOC vytváří koncepty přijatých faktur.
-verified: 19.0.1.3.0
+verified: 19.0.1.4.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -48,11 +48,13 @@ strukturu vyžaduje; pro slovenské odběratele použijte
 
 ## Nastavení {#setup}
 
-1. **Zvolte ISDOC u odběratele.** Kontakt, záložka *Fakturace*, skupina
-   *Zákaznické faktury*: **Formát e-faktury** = **Czech Republic (ISDOC)**.
-   Odoo toto pole zobrazuje jen v **režimu vývojáře**. Automaticky se
-   **nevybere**: u českého kontaktu Odoo navrhne Peppol BIS 3, takže ISDOC
-   nastavte každému odběrateli, který ho chce.
+1. **Čeští odběratelé dostávají ISDOC automaticky.** Český kontakt bez
+   vlastního **Formátu e-faktury** dostane ISDOC, pokud o něm není známo, že je
+   v síti Peppol: našla ho kontrola Peppol v Odoo, nebo má jako způsob odeslání
+   Peppol. Pak dostane Peppol BIS 3. Jinou volbu nastavíte u kontaktu: záložka
+   *Fakturace*, skupina *Zákaznické faktury*, **Formát e-faktury** (zobrazuje se
+   jen v **režimu vývojáře**). Odběratel mimo Českou republiku dostane ISDOC,
+   jen když ho tam nastavíte.
 2. **Vaše společnost i odběratel potřebují** název, ulici, město, PSČ, zemi a
    **IČO** (*Company ID*) nebo **DIČ** (*Tax ID*). Export vypíše, co chybí.
 3. **Bankovní účet.** Platební údaje se zapíší jen tehdy, má-li faktura
@@ -190,8 +192,9 @@ Co následuje, popisuje
 
 ## Omezení {#limitations}
 
-- **Formát e-faktury** je vidět jen v režimu vývojáře a ISDOC se odběrateli
-  nikdy nevybere automaticky.
+- **Formát e-faktury** je vidět jen v režimu vývojáře. Zda je český odběratel
+  v síti Peppol, se pozná jen z nainstalovaných modulů Peppol; dosud
+  neověřený dostane ISDOC.
 - Faktury v cizí měně nelze exportovat. Při importu se použijí částky v
   tuzemské měně.
 - Opravné daňové doklady typu vrubopis (typ 3) a zjednodušené daňové doklady

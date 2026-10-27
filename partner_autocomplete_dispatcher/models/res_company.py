@@ -19,7 +19,8 @@ class ResCompany(models.Model):
         ]._selection_partner_autocomplete_provider(),
         string="Autocomplete provider",
         required=True,
-        default=lambda self: self.env["partner.autocomplete.provider"]._name,
+        # No lookup leaves for Odoo unless chosen: "Odoo IAP" is paid.
+        default=lambda self: self.env["partner.autocomplete.provider.none"]._name,
     )
 
     def _selection_partner_autocomplete_provider(self):

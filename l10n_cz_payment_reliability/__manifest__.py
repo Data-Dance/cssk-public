@@ -13,7 +13,7 @@ Czech Financial Administration ADIS SOAP web service:
 * endpoint ``adisrws.mfcr.cz/.../rozhraniCRPDPH.rozhraniCRPDPHSOAP``,
   operation ``getStatusNespolehlivyPlatce`` (per the published WSDL).
 * **Tax reliability** — ``nespolehlivyPlatce`` ANO → unreliable, NE → reliable,
-  NENALEZEN → unknown.
+  NENALEZEN → not a VAT payer.
 * **Registered bank accounts** — the ``zveřejněné účty``: ``standardníÚčet``
   (předčíslí/číslo/kódBanky) is converted to its IBAN so it matches the bank
   account on the bill; ``nestandardníÚčet`` (already IBAN) is taken as-is.
@@ -22,7 +22,7 @@ No API key needed (the service is open).
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.2.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_payment_reliability", "l10n_cz"],

@@ -1,7 +1,7 @@
 ---
 title: Slovensko — Peppol BIS Billing 3.0 (eFaktúra)
 summary: Vyhotovuje slovenské elektronické faktúry vo formáte Peppol BIS Billing 3.0, identifikuje slovenské subjekty v sieti Peppol podľa DIČ a zapisuje variabilný symbol tam, kde ho hľadá banka platiteľa.
-verified: 19.0.3.3.0
+verified: 19.0.3.3.1
 ---
 
 ## Na čo slúži {#purpose}

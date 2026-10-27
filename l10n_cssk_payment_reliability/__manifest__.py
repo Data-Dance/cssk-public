@@ -25,7 +25,7 @@ country providers (``l10n_sk_payment_reliability`` etc.).
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.3.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["account", "l10n_cssk_core"],

@@ -1,7 +1,7 @@
 ---
 title: Peppol e-invoicing (BIS Billing 3.0)
 summary: Sends customer invoices and credit notes as Peppol BIS Billing 3.0 e-invoices, turns received e-invoices into draft vendor bills and handles business responses — through whichever EDI provider is installed.
-verified: 19.0.1.6.0
+verified: 19.0.1.7.0
 ---
 
 ## What it is for {#purpose}
@@ -160,6 +160,8 @@ The decision, in this order:
    business identifier at all — not a company and without a VAT number, IČO
    or DIČ (treated as a consumer) → **PDF**. A sole trader with an IČO but
    no VAT number is a business: the mandate covers every taxable person.
+   So is an invoice whose every line is an exempt supply (its taxes are
+   exempt or outside VAT, see below) → **PDF**.
 6. Your company has no Peppol address → **blocked**. The customer has none →
    **blocked** under the Slovak mandate, **PDF** under *any customer with a
    Peppol address*.
@@ -170,9 +172,12 @@ The decision, in this order:
 The rule for the Slovak mandate follows § 85o ods. 2 and 3 as far as the data
 of a contact allow: a VAT payer supplying a taxable person (any business,
 VAT-registered or not) or a non-taxable legal person established in
-Slovakia. It does not look at the place of supply or at the taxes of the
-invoice, so an exempt supply (§ 28 to § 43, § 47) to a Slovak business is
-routed to Peppol like any other — allowed, though not required. Simplified
+Slovakia. An exempt supply (§ 28 to § 43, § 47) is left out by the taxes on
+the invoice: when every line's taxes are exempt (UBL category *E*) or outside
+VAT (*O*), the invoice goes as a PDF. One taxable line, or a line with no tax
+at all, keeps it in. A reverse-charge sale tax you create yourself needs the
+*Reverse charge* flag or category *AE*, or it reads as exempt. A domestic reverse charge (§ 69 ods. 12) is taxable and stays in,
+though it is 0 % too. The place of supply is not looked at. Simplified
 invoices are receipts, which are never sent. Where the law gives a different
 answer for a customer, set **Invoice sending** on that contact.
 

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK kontrola spoľahlivosti dodávateľa
 summary: Pred úhradou dodávateľovi overí v registroch finančnej správy jeho spoľahlivosť a bankový účet, na ktorý platíte, a výsledok ponechá na faktúre a úhrade ako doklad.
-verified: 19.0.1.2.0
+verified: 19.0.1.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -160,7 +160,7 @@ pýta webovej služby Ministerstva financií ČR *rozhraní CRP DPH* (verejná
 |---|---|
 | nespolehlivý plátce = ANO | Nespoľahlivý (upozornenie) |
 | nespolehlivý plátce = NE | Spoľahlivý |
-| nenájdený (nie je platiteľ) | Neznáme / neskontrolované; bankový účet je *Neoverené / nedostupné*, lebo neplatiteľ účty nezverejňuje a § 109 sa naň nevzťahuje |
+| nenájdený (nie je platiteľ) | Nie je platiteľ DPH; bankový účet je *Dodávateľ nie je platiteľ DPH*, bez upozornenia, lebo neplatiteľ účty nezverejňuje a § 109 sa naň nevzťahuje |
 
 Zverejnené účty prichádzajú v tuzemskom tvare (predčíslie–číslo/kód banky);
 modul ich, rovnako ako účet zadaný na faktúre v tomto tvare, pred porovnaním

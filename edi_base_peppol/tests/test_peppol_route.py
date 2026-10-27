@@ -62,7 +62,7 @@ class TestPeppolRoute(TransactionCase):
         """§ 85o ods. 3: a taxable person, VAT-registered or not. A natural
         person with an IČO is a sole trader, not a consumer."""
         trader = self._customer(self.sk, company=False)
-        trader.company_registry = "12345678"
+        trader.company_registry = "12345679"
         self.assertEqual(self._route(trader)[0], "peppol")
         self.assertFalse(
             self._customer(self.sk, company=False)._peppol_is_sk_business())
@@ -106,6 +106,59 @@ class TestPeppolRoute(TransactionCase):
     def test_the_mandate_needs_a_slovak_company(self):
         self.company.account_fiscal_country_id = self.cz
         self.assertEqual(self._route(self._customer(self.sk))[0], "pdf")
+
+    def _route_with_taxes(self, partner, *taxes_per_line):
+        move = self.env["account.move"].new({
+            "move_type": "out_invoice", "partner_id": partner.id,
+            "company_id": self.company.id,
+            "invoice_line_ids": [
+                (0, 0, {"name": "Line", "price_unit": 100.0,
+                        "tax_ids": [(6, 0, taxes.ids)]})
+                for taxes in taxes_per_line],
+        })
+        return move._peppol_route()
+
+    def _tax(self, name, amount, **extra):
+        group = self.env["account.tax.group"].create({
+            "name": "VAT %s" % name, "company_id": self.company.id,
+            "country_id": self.sk.id})
+        return self.env["account.tax"].create({
+            "name": name, "amount": amount, "amount_type": "percent",
+            "type_tax_use": "sale", "company_id": self.company.id,
+            "country_id": self.sk.id, "tax_group_id": group.id, **extra})
+
+    def test_an_exempt_supply_is_outside_the_mandate(self):
+        """§ 85o ods. 2: a supply exempt under § 28 to 43 and 47 needs no
+        e-invoice. Every line exempt -> PDF; one taxable line -> Peppol."""
+        exempt = self._tax("0% exempt", 0.0)
+        standard = self._tax("23%", 23.0)
+        customer = self._customer(self.sk)
+        route, reason = self._route_with_taxes(customer, exempt, exempt)
+        self.assertEqual(route, "pdf")
+        self.assertIn("Exempt supply", reason)
+        self.assertEqual(
+            self._route_with_taxes(customer, exempt, standard)[0], "peppol")
+        self.assertEqual(self._route_with_taxes(customer, standard)[0], "peppol")
+        no_tax = self.env["account.tax"]
+        self.assertEqual(
+            self._route_with_taxes(customer, exempt, no_tax)[0], "peppol",
+            "a line without a tax is not taken for an exempt supply")
+
+    def test_domestic_reverse_charge_stays_in_the_mandate(self):
+        """§ 69 ods. 12 is a taxable supply: 0 % like an exempt one, but it
+        must still go out as an e-invoice."""
+        if "cssk_control_is_reverse_charge" not in self.env["account.tax"]._fields:
+            self.skipTest("needs l10n_cssk_kv_kh_base for the reverse-charge flag")
+        rc = self._tax("0% RC", 0.0, cssk_control_is_reverse_charge=True)
+        self.assertEqual(
+            self._route_with_taxes(self._customer(self.sk), rc)[0], "peppol")
+
+    def test_an_exempt_supply_still_goes_by_the_contacts_own_choice(self):
+        """The contact's channel wins over the company scope, as before."""
+        customer = self._customer(self.sk)
+        customer.with_company(self.company).invoice_sending_method = "edi_peppol"
+        exempt = self._tax("0% exempt", 0.0)
+        self.assertEqual(self._route_with_taxes(customer, exempt)[0], "peppol")
 
     # -- company settings -----------------------------------------------
     def test_a_company_that_does_not_send_never_does(self):

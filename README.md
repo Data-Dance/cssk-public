@@ -75,7 +75,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_invoice_payment_mode` | 19.0.1.0.0 | Prints the payment mode as 'Forma úhrady' in the header of the Czech invoice. |
 | `l10n_cz_kh` | 19.0.1.9.1 | Czech VAT control statement on the shared KV/KH framework: per-document A1–B3 sections with the 10 000 CZK split + the EPO Pisemnost/DPHKH1 XML export. |
 | `l10n_cz_oss` | 19.0.1.0.0 | Czech layer of the OSS return: the EPO Pisemnost/OSSEI1 XML (daňové přiznání k DPH ve zvláštním režimu jednoho správního místa — režim Evropské unie)… |
-| `l10n_cz_payment_reliability` | 19.0.1.1.0 | Czech provider for the CZ/SK supplier-reliability check: nespolehlivý plátce + zveřejněné účty from the MFČR ADIS web service (rozhraniCRPDPH). |
+| `l10n_cz_payment_reliability` | 19.0.1.2.0 | Czech provider for the CZ/SK supplier-reliability check: nespolehlivý plátce + zveřejněné účty from the MFČR ADIS web service (rozhraniCRPDPH). |
 | `l10n_cz_purchase_order_advance_invoice` | 19.0.1.0.1 | Czech chart wiring for purchase_order_advance_invoice. |
 | `l10n_cz_sale_order_advance_invoice` | 19.0.1.1.0 | Czech chart wiring for advance invoices (zálohové faktury) |
 | `l10n_cz_statutory` | 19.0.1.3.0 | Czech statutory reference registries: finanční úřady (seeded from the official l10n_cz.tax_office codelist) and person types. |
@@ -132,7 +132,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_single_entry_closing` | 19.0.1.1.0 | The closing a SZČO keeping jednoduché účtovníctvo files: výkaz o príjmoch a výdavkoch from the peňažný denník, výkaz o majetku a záväzkoch from the ledger. |
 | `l10n_sk_statutory` | 19.0.1.0.0 | Slovak statutory reference registries: daňové úrady and person types. |
 | `l10n_sk_trade_registry` | 19.0.2.0.1 | Keep the register, court and oddiel/vložka as data and compose the § 3a Obchodného zákonníka sentence from them, instead of typing it once into the company… |
-| `l10n_sk_ubl_bis3` | 19.0.3.3.0 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
+| `l10n_sk_ubl_bis3` | 19.0.3.3.1 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
 | `l10n_sk_vat_registration` | 19.0.1.1.0 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |
 | `l10n_sk_vat_return` | 19.0.1.13.0 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
 | `l10n_sk_vehicle_expense` | 19.0.1.1.0 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
@@ -162,7 +162,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_leave_expiry_reminder` | 19.0.1.1.0 | Proactively remind employees and HR about expiring carried-over leave |
 | `l10n_cssk_oss_base` | 19.0.1.1.0 | Country-neutral engine for the quarterly One-Stop-Shop VAT return (Union scheme): OSS-tagged sales aggregated by member state of consumption, rate and supply… |
 | `l10n_cssk_partner_balances` | 19.0.1.2.1 | Saldokonto / odsúhlasenie (potvrdenie) zostatkov pohľadávok a záväzkov — a stored, state-tracked confirmation of a partner's open AR/AP as of a date, with a… |
-| `l10n_cssk_payment_reliability` | 19.0.1.2.0 | Before you pay a vendor, check the supplier's tax reliability and whether the bank account is the one registered with the tax authority — and snapshot the… |
+| `l10n_cssk_payment_reliability` | 19.0.1.3.0 | Before you pay a vendor, check the supplier's tax reliability and whether the bank account is the one registered with the tax authority — and snapshot the… |
 | `l10n_cssk_payment_symbols` | 19.0.1.4.1 | Variable, constant and specific payment symbols on invoices, credit notes and bank statement lines. |
 | `l10n_cssk_payment_symbols_oca` | 19.0.1.0.0 | Exact variable-symbol pass in OCA's bank auto-reconciliation. |
 | `l10n_cssk_payment_symbols_payment_order` | 19.0.1.0.0 | Copy invoice VS/KS/SS onto OCA payment order lines. |
@@ -188,7 +188,7 @@ this repository. Add them to the addons path as well:
 | Module | Version | What it does |
 |---|---|---|
 | `edi_base` | 19.0.1.9.0 | Shared infrastructure for EDI integrations (Editel, GRiT, ...) |
-| `edi_base_peppol` | 19.0.1.6.0 | Provider-neutral Peppol BIS Billing 3.0: send/receive invoices and credit notes, and business responses (MLR / Invoice Response), over any EDI transport… |
+| `edi_base_peppol` | 19.0.1.7.0 | Provider-neutral Peppol BIS Billing 3.0: send/receive invoices and credit notes, and business responses (MLR / Invoice Response), over any EDI transport… |
 | `edi_epostak_base` | 19.0.1.0.2 | Base module for the ePošťák (epostak.sk) Peppol access point: provider registration, environment/mode configuration and the Peppol addressing metadata every… |
 | `edi_epostak_connector_sapi` | 19.0.1.1.2 | Concrete REST connector for the ePošťák Peppol access point (SAPI-SK 1.0): send and receive UBL, acknowledge, track delivery |
 | `edi_epostak_peppol` | 19.0.1.1.0 | Send & receive Peppol BIS Billing 3.0 (invoices, credit notes, business responses) through the ePošťák access point |
@@ -241,7 +241,7 @@ this repository. Add them to the addons path as well:
 | Module | Version | What it does |
 |---|---|---|
 | `partner_autocomplete_ares_cz` | 19.0.1.3.0 | Completes Partner information from ARES (https://ares.gov.cz/) |
-| `partner_autocomplete_dispatcher` | 19.0.1.2.0 | Technical dispatcher for the partner-autocomplete providers: assigns each dependent provider module to the companies that should use it. |
+| `partner_autocomplete_dispatcher` | 19.0.1.3.0 | Technical dispatcher for the partner-autocomplete providers: assigns each dependent provider module to the companies that should use it. |
 | `partner_autocomplete_orsf_sk` | 19.0.1.4.1 | Completes Partner information from the Slovak state registers via https://orsf.sk |
 | `partner_autocomplete_orsf_sk_related_parties` | 19.0.2.1.0 | Pull one partner's ownership/officer graph from ORSF on demand, so related-party transactions needing transfer-pricing documentation (§ 18 ods. 1) are… |
 | `partner_nace` | 19.0.1.0.0 | The partner's main economic activity as its NACE code |
@@ -255,7 +255,7 @@ this repository. Add them to the addons path as well:
 | `account_asset_tax_oca` | 19.0.1.5.0 | Attach the CZ/SK tax-depreciation board to OCA account_asset_management (Community) |
 | `account_cz_bankfile_base` | 19.0.1.3.2 | Shared ABO and MultiCash payment-file builders. The CE (account_payment_order) and EE (account_batch_payment) variants of account_abo / account_multicash both… |
 | `account_debit_note_dd` | 19.0.1.0.1 | Names Odoo's core debit note as the Czech vrubopis (opravný daňový doklad zvyšující základ) on screen and on the printed document — a UI and report layer that… |
-| `account_edi_isdoc` | 19.0.1.3.0 | Import and export ISDOC 6.0.2 electronic invoices (Czech national e-invoicing standard) |
+| `account_edi_isdoc` | 19.0.1.4.0 | Import and export ISDOC 6.0.2 electronic invoices (Czech national e-invoicing standard) |
 | `account_edi_isdoc_purchase_advance` | 19.0.1.0.1 | Route imported ISDOC advance documents (DocumentType 4/5/6) into the received-advances flow. |
 | `account_edi_isdoc_sale` | 19.0.1.1.0 | Export a sale order as an ISDOC proforma (zálohová faktura, DocumentType 4) |
 | `account_edi_isdoc_sale_advance` | 19.0.1.0.0 | Map the Czech advance-payment documents to ISDOC DocumentType 4/5/6 |

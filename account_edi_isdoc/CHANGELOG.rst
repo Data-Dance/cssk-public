@@ -45,6 +45,18 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.4.0] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Czech customers get ISDOC by default.** A Czech contact with no *eInvoice
+  format* of its own now receives ISDOC instead of Peppol BIS 3, unless it is
+  known to be on Peppol (Odoo's Peppol check found it, or its sending method
+  is Peppol). A format set on the contact still wins. ISDOC is what Czech
+  accounting software imports from an e-mailed invoice.
+
 [19.0.1.3.0] — 2026-10-27
 -------------------------
 

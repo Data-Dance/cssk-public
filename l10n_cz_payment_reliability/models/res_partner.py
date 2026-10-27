@@ -20,7 +20,7 @@ _ADIS_URL = (
 )
 _NS = "http://adis.mfcr.cz/rozhraniCRPDPH/"
 
-_RELIABILITY = {"ANO": "unreliable", "NE": "reliable", "NENALEZEN": "unknown"}
+_RELIABILITY = {"ANO": "unreliable", "NE": "reliable", "NENALEZEN": "not_vat_payer"}
 
 #: A Czech account in the domestic form: [předčíslí-]číslo/kód banky.
 _DOMESTIC_ACCOUNT = re.compile(r"^(?:(\d{1,6})-)?(\d{1,10})/(\d{4})$")

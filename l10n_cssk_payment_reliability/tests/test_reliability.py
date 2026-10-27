@@ -67,6 +67,15 @@ class TestReliability(AccountTestInvoicingCommon):
         self.assertEqual(bill.cssk_bank_acc_status, "registered")
         self.assertIn("reliability", bill.cssk_reliability_warning.lower())
 
+    def test_a_supplier_that_is_no_vat_payer_has_its_own_status(self):
+        """The register says the subject is not a VAT payer: no account to
+        compare and no liability, so neither "unknown" nor a warning."""
+        bill = self._bill()
+        self._run(bill, None, "not_vat_payer")
+        self.assertEqual(bill.cssk_bank_acc_status, "not_vat_payer")
+        self.assertEqual(bill.cssk_supplier_reliability, "not_vat_payer")
+        self.assertFalse(bill.cssk_reliability_warning)
+
     def test_provider_unavailable_is_unknown(self):
         bill = self._bill()
         self._run(bill, None, None)

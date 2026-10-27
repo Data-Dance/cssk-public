@@ -325,3 +325,16 @@ msgstr "⚠ Kontrola spolehlivosti dodavatele při platbě:"
 #: code:addons/l10n_cssk_payment_reliability/models/account_move.py:0
 msgid "⚠ Supplier reliability check:"
 msgstr "⚠ Kontrola spolehlivosti dodavatele:"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_supplier_reliability__not_vat_payer
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_supplier_reliability__not_vat_payer
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__res_partner__cssk_tax_reliability__not_vat_payer
+msgid "Not a VAT payer"
+msgstr "Není plátce DPH"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_bank_acc_status__not_vat_payer
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_bank_acc_status__not_vat_payer
+msgid "Supplier is not a VAT payer"
+msgstr "Dodavatel není plátce DPH"

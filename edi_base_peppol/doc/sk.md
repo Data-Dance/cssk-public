@@ -1,7 +1,7 @@
 ---
 title: Elektronická fakturácia Peppol (BIS Billing 3.0)
 summary: Odosiela faktúry a dobropisy odberateľom ako elektronické faktúry Peppol BIS Billing 3.0, z prijatých elektronických faktúr vytvára koncepty dodávateľských faktúr a spracúva obchodné odpovede — cez ktoréhokoľvek nainštalovaného poskytovateľa EDI.
-verified: 19.0.1.6.0
+verified: 19.0.1.7.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -160,6 +160,8 @@ Rozhodnutie v tomto poradí:
    akéhokoľvek podnikateľského identifikátora — nie je firmou a nemá IČ DPH,
    IČO ani DIČ (považuje sa za spotrebiteľa) → **PDF**. Živnostník s IČO
    bez IČ DPH je podnikateľ: povinnosť sa týka každej zdaniteľnej osoby.
+   Takisto faktúra, ktorej každý riadok je oslobodené plnenie (dane sú
+   oslobodené alebo mimo DPH, pozri nižšie) → **PDF**.
 6. Vaša spoločnosť nemá Peppol adresu → **zablokované**. Nemá ju odberateľ →
    pri slovenskej povinnosti **zablokované**, pri *každom odberateľovi s
    Peppol adresou* **PDF**.
@@ -170,10 +172,14 @@ Rozhodnutie v tomto poradí:
 Pravidlo slovenskej povinnosti sleduje § 85o ods. 2 a 3 tak ďaleko, ako to
 údaje kontaktu dovolia: platiteľ dodávajúci zdaniteľnej osobe (akémukoľvek
 podnikateľovi, platiteľovi DPH aj neplatiteľovi) alebo nezdaniteľnej
-právnickej osobe so sídlom na Slovensku. Nesleduje miesto dodania ani dane
-faktúry, takže oslobodené plnenie (§ 28 až § 43, § 47) slovenskému
-podnikateľovi sa smeruje na Peppol ako každé iné — je to dovolené, hoci nie
-povinné. Zjednodušené faktúry sú pokladničné doklady, ktoré sa neodosielajú
+právnickej osobe so sídlom na Slovensku. Oslobodené plnenie (§ 28 až § 43,
+§ 47) vylúči podľa daní faktúry: keď sú dane každého riadku oslobodené (UBL
+kategória *E*) alebo mimo DPH (*O*), faktúra ide ako PDF. Jediný zdaniteľný
+riadok alebo riadok bez dane ju v povinnosti ponechá. Daň pre prenesenie
+daňovej povinnosti, ktorú si vytvoríte sami, potrebuje príznak *Reverse
+charge* alebo kategóriu *AE*, inak sa javí ako oslobodená. Tuzemský prenos
+daňovej povinnosti (§ 69 ods. 12) je zdaniteľné plnenie a zostáva v nej, hoci
+má tiež 0 %. Miesto dodania sa nesleduje. Zjednodušené faktúry sú pokladničné doklady, ktoré sa neodosielajú
 nikdy. Ak zákon pre niektorého odberateľa vychádza inak, nastavte na jeho
 kontakte **Odosielanie faktúr**.
 

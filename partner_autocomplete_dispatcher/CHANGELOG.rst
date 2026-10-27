@@ -104,6 +104,20 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.3.0] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **"None" means none again, for existing companies too.** Until 19.0.1.2.0
+  the choice labelled *None* was Odoo's paid IAP lookup, and it was also the
+  default. The upgrade moves every company on it to the real *None*, which
+  sends nothing to Odoo, and *None* is now the default for new companies.
+  Czech and Slovak partners are still looked up in ARES / ORSF, which go by
+  the partner's country. Choose *Odoo IAP* to use Odoo's service for other
+  countries.
+
 [19.0.1.2.0] — 2026-10-27
 -------------------------
 

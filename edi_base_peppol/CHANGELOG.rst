@@ -44,6 +44,20 @@ Fixed
   endpoint, so a re-delivery of the same document is still recognised and
   acknowledged once.
 
+[19.0.1.7.0] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Exempt supplies are left out of the Slovak mandate.** § 85o ods. 2
+  requires no e-invoice for a supply exempt under § 28 to 43 and 47. Under the
+  *Slovak mandate* scope, an invoice whose every line's taxes are exempt (UBL
+  category E) or outside VAT (O) now goes as a PDF; it used to go to Peppol.
+  One taxable line, or a line with no tax, keeps the invoice in. A domestic reverse
+  charge (§ 69 ods. 12) is taxable and stays in, though it is 0 % too. A
+  contact's own *Invoice sending* still wins.
+
 [19.0.1.6.0] — 2026-10-27
 -------------------------
 

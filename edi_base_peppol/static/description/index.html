@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/edi_base_peppol/static/description/index_sk.html">Slovenčina</a> · <a href="/edi_base_peppol/static/description/index_cs.html">Čeština</a></nav>
 <h1>Peppol e-invoicing (BIS Billing 3.0)</h1>
 <p class="cssk-summary">Sends customer invoices and credit notes as Peppol BIS Billing 3.0 e-invoices, turns received e-invoices into draft vendor bills and handles business responses — through whichever EDI provider is installed.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.6.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/edi_base/static/description/index.html"><code>edi_base</code></a>, <code>account_edi_ubl_cii</code></td></tr><tr><th>Extended by</th><td><code>edi_editel_peppol</code>, <code>edi_epostak_peppol</code>, <code>edi_grit_peppol</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.7.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/edi_base/static/description/index.html"><code>edi_base</code></a>, <code>account_edi_ubl_cii</code></td></tr><tr><th>Extended by</th><td><code>edi_editel_peppol</code>, <code>edi_epostak_peppol</code>, <code>edi_grit_peppol</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p><strong>Peppol</strong> is the European network for exchanging electronic invoices. A
@@ -226,7 +226,9 @@ form header once posted, and <strong>Sent as</strong> with <strong>Why</strong> 
    (not a VAT payer), a customer outside Slovakia, or a customer with no
    business identifier at all — not a company and without a VAT number, IČO
    or DIČ (treated as a consumer) → <strong>PDF</strong>. A sole trader with an IČO but
-   no VAT number is a business: the mandate covers every taxable person.</li>
+   no VAT number is a business: the mandate covers every taxable person.
+   So is an invoice whose every line is an exempt supply (its taxes are
+   exempt or outside VAT, see below) → <strong>PDF</strong>.</li>
 <li>Your company has no Peppol address → <strong>blocked</strong>. The customer has none →
    <strong>blocked</strong> under the Slovak mandate, <strong>PDF</strong> under <em>any customer with a
    Peppol address</em>.</li>
@@ -237,9 +239,12 @@ form header once posted, and <strong>Sent as</strong> with <strong>Why</strong> 
 <p>The rule for the Slovak mandate follows § 85o ods. 2 and 3 as far as the data
 of a contact allow: a VAT payer supplying a taxable person (any business,
 VAT-registered or not) or a non-taxable legal person established in
-Slovakia. It does not look at the place of supply or at the taxes of the
-invoice, so an exempt supply (§ 28 to § 43, § 47) to a Slovak business is
-routed to Peppol like any other — allowed, though not required. Simplified
+Slovakia. An exempt supply (§ 28 to § 43, § 47) is left out by the taxes on
+the invoice: when every line's taxes are exempt (UBL category <em>E</em>) or outside
+VAT (<em>O</em>), the invoice goes as a PDF. One taxable line, or a line with no tax
+at all, keeps it in. A reverse-charge sale tax you create yourself needs the
+<em>Reverse charge</em> flag or category <em>AE</em>, or it reads as exempt. A domestic reverse charge (§ 69 ods. 12) is taxable and stays in,
+though it is 0 % too. The place of supply is not looked at. Simplified
 invoices are receipts, which are never sent. Where the law gives a different
 answer for a customer, set <strong>Invoice sending</strong> on that contact.</p>
 <h2 id="sending">Sending</h2>
@@ -429,7 +434,7 @@ back automatically — no response is generated when you post or pay a bill.</p>
 <li>One Peppol transport serves the whole database; it cannot differ by
   company.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.6.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.7.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

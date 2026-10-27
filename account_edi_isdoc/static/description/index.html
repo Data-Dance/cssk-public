@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/account_edi_isdoc/static/description/index_sk.html">Slovenčina</a> · <a href="/account_edi_isdoc/static/description/index_cs.html">Čeština</a></nav>
 <h1>ISDOC e-invoices (Czech format)</h1>
 <p class="cssk-summary">Sends customer invoices and credit notes as ISDOC 6.0.2 files, embedded in the invoice PDF as well, and turns received ISDOC files into draft vendor bills.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account_edi_ubl_cii</code>, <a href="/l10n_cz_base/static/description/index.html"><code>l10n_cz_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/account_edi_isdoc_purchase_advance/static/description/index.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/account_edi_isdoc_sale/static/description/index.html"><code>account_edi_isdoc_sale</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account_edi_ubl_cii</code>, <a href="/l10n_cz_base/static/description/index.html"><code>l10n_cz_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/account_edi_isdoc_purchase_advance/static/description/index.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/account_edi_isdoc_sale/static/description/index.html"><code>account_edi_isdoc_sale</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p><strong>ISDOC</strong> (<em>Information System Document</em>) is the Czech national format for
@@ -89,11 +89,13 @@ requires that structure; for Slovak customers use
 <a href="/edi_base_peppol/static/description/index.html#legal">Peppol</a>.</p>
 <h2 id="setup">Setting it up</h2>
 <ol>
-<li><strong>Choose ISDOC for the customer.</strong> Contact, tab <em>Invoicing</em>, group
-   <em>Customer Invoices</em>: <strong>eInvoice format</strong> = <strong>Czech Republic (ISDOC)</strong>.
-   Odoo shows this field only in <strong>developer mode</strong>. It is <strong>not</strong> chosen
-   automatically: for a Czech contact Odoo suggests Peppol BIS 3, so set
-   ISDOC on every customer who wants it.</li>
+<li><strong>Czech customers get ISDOC by default.</strong> A Czech contact with no
+   <strong>eInvoice format</strong> of its own receives ISDOC, unless it is known to be on
+   Peppol: Odoo's Peppol check found it, or its sending method is Peppol. Then
+   it receives Peppol BIS 3. To choose otherwise, set the format on the
+   contact: tab <em>Invoicing</em>, group <em>Customer Invoices</em>, <strong>eInvoice format</strong>
+   (shown only in <strong>developer mode</strong>). A customer outside the Czech Republic
+   gets ISDOC only when you set it there.</li>
 <li><strong>Your company and the customer need</strong> a name, street, city, ZIP, country,
    and an <strong>IČO</strong> (<em>Company ID</em>) or a <strong>DIČ</strong> (<em>Tax ID</em>). The export lists
    anything missing.</li>
@@ -266,8 +268,9 @@ imported advance documents go into the received-advance flow:</p>
 for what happens next.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li><strong>eInvoice format</strong> is visible only in developer mode, and ISDOC is never
-  chosen for a customer automatically.</li>
+<li><strong>eInvoice format</strong> is visible only in developer mode. Whether a Czech
+  customer is on Peppol is known only from the installed Peppol modules; one
+  not checked yet gets ISDOC.</li>
 <li>Invoices in a foreign currency cannot be exported. On import, the amounts
   in the local currency are used.</li>
 <li>Debit notes (type 3) and simplified tax documents (type 7) are imported as
@@ -278,7 +281,7 @@ for what happens next.</p>
 <li>A vendor without a DIČ that is not found by IČO, name, email or phone is
   not created; choose it on the bill.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

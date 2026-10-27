@@ -1,7 +1,7 @@
 ---
 title: CZ/SK kontrola spolehlivosti dodavatele
 summary: Před úhradou dodavateli ověří v registrech správce daně jeho spolehlivost a bankovní účet, na který platíte, a výsledek ponechá na faktuře a platbě jako doklad.
-verified: 19.0.1.2.0
+verified: 19.0.1.3.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -157,7 +157,7 @@ Jeden dotaz odpoví na obě otázky:
 |---|---|
 | nespolehlivý plátce = ANO | Nespolehlivý (upozornění) |
 | nespolehlivý plátce = NE | Spolehlivý |
-| nenalezen (není plátce) | Neznámé / nezkontrolováno; bankovní účet je *Neověřeno / nedostupné*, protože neplátce účty nezveřejňuje a § 109 se na něj nevztahuje |
+| nenalezen (není plátce) | Není plátce DPH; bankovní účet je *Dodavatel není plátce DPH*, bez upozornění, protože neplátce účty nezveřejňuje a § 109 se na něj nevztahuje |
 
 Zveřejněné účty přicházejí v tuzemském tvaru (předčíslí–číslo/kód banky);
 modul je, stejně jako účet zadaný na faktuře v tomto tvaru, před porovnáním

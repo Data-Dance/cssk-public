@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cssk_payment_reliability/static/description/index.html">English</a> · <a href="/l10n_cssk_payment_reliability/static/description/index_sk.html">Slovenčina</a> · <b>Čeština</b></nav>
 <h1>CZ/SK kontrola spolehlivosti dodavatele</h1>
 <p class="cssk-summary">Před úhradou dodavateli ověří v registrech správce daně jeho spolehlivost a bankovní účet, na který platíte, a výsledek ponechá na faktuře a platbě jako doklad.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.2.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <a href="/l10n_cssk_core/static/description/index_cs.html"><code>l10n_cssk_core</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_payment_reliability/static/description/index_cs.html"><code>l10n_cz_payment_reliability</code></a>, <a href="/l10n_sk_payment_reliability/static/description/index.html"><code>l10n_sk_payment_reliability</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.3.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <a href="/l10n_cssk_core/static/description/index_cs.html"><code>l10n_cssk_core</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_payment_reliability/static/description/index_cs.html"><code>l10n_cz_payment_reliability</code></a>, <a href="/l10n_sk_payment_reliability/static/description/index.html"><code>l10n_sk_payment_reliability</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>V obou zemích může plátce, který nakupuje od dodavatele, zaplatit daň, kterou
@@ -231,7 +231,7 @@ Jeden dotaz odpoví na obě otázky:</p>
 </tr>
 <tr>
 <td>nenalezen (není plátce)</td>
-<td>Neznámé / nezkontrolováno; bankovní účet je <em>Neověřeno / nedostupné</em>, protože neplátce účty nezveřejňuje a § 109 se na něj nevztahuje</td>
+<td>Není plátce DPH; bankovní účet je <em>Dodavatel není plátce DPH</em>, bez upozornění, protože neplátce účty nezveřejňuje a § 109 se na něj nevztahuje</td>
 </tr>
 </tbody>
 </table>
@@ -332,7 +332,7 @@ kontrola se považuje za nedostupnou, ne za čistý výsledek.</p>
 <li>Kontrola zaznamenává, co uváděl registr; neprokazuje, že dodavatel daň
   zaplatí, ani že jste o riziku nemohli vědět jinak.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

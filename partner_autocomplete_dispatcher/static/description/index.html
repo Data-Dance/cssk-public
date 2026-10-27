@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/partner_autocomplete_dispatcher/static/description/index_sk.html">Slovenčina</a> · <a href="/partner_autocomplete_dispatcher/static/description/index_cs.html">Čeština</a></nav>
 <h1>Partner Autocomplete from State Registers (CZ/SK)</h1>
 <p class="cssk-summary">Fills contacts from the Czech and Slovak business registers instead of Odoo&#x27;s paid autocomplete service, choosing the register by the partner&#x27;s country.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>partner_autocomplete</code>, <code>web</code></td></tr><tr><th>Extended by</th><td><a href="/partner_autocomplete_ares_cz/static/description/index.html"><code>partner_autocomplete_ares_cz</code></a>, <a href="/partner_autocomplete_orsf_sk/static/description/index.html"><code>partner_autocomplete_orsf_sk</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>partner_autocomplete</code>, <code>web</code></td></tr><tr><th>Extended by</th><td><a href="/partner_autocomplete_ares_cz/static/description/index.html"><code>partner_autocomplete_ares_cz</code></a>, <a href="/partner_autocomplete_orsf_sk/static/description/index.html"><code>partner_autocomplete_orsf_sk</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Odoo's own partner autocomplete looks companies up in Odoo's paid
@@ -84,9 +84,10 @@ providers:</p>
   provider's country is still looked up there (see below); anything else finds
   nothing, and nothing is sent to Odoo.</li>
 </ul>
-<p>Until version 19.0.1.2.0 <strong>None</strong> was the label of what is now <strong>Odoo IAP</strong>: a
-company that had chosen it keeps using Odoo's service. Choose <strong>None</strong> again if
-that is not what you want.</p>
+<p><strong>None</strong> is the default. Until version 19.0.1.2.0 <strong>None</strong> was the label of
+what is now <strong>Odoo IAP</strong>, which was also the default; the upgrade to
+19.0.1.3.0 moved every company on it to the real <strong>None</strong>. Choose <strong>Odoo IAP</strong>
+if you want Odoo's service for partners outside the national registers.</p>
 <h2 id="routing">Which register is asked</h2>
 <p>The country decides first, the company's choice second:</p>
 <ul>
@@ -186,7 +187,7 @@ key is needed.</p>
   them apart.</li>
 <li>The settings field labels of this module are not translated.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

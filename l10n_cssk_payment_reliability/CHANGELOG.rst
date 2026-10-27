@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **"Not a VAT payer" status.** When the register answers that the supplier
+  is not a VAT payer, the supplier rating reads *Not a VAT payer* and the bank
+  account check *Supplier is not a VAT payer*, with no warning. It used to
+  read *Unknown / not checked*, which looked like the check had failed. A
+  non-payer publishes no accounts, and the liability for unpaid VAT (§ 69
+  ods. 13 SK / § 109 CZ) does not apply to it.
+
 [19.0.1.2.0] — 2026-10-27
 -------------------------
 

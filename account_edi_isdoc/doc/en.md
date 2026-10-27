@@ -1,7 +1,7 @@
 ---
 title: ISDOC e-invoices (Czech format)
 summary: Sends customer invoices and credit notes as ISDOC 6.0.2 files, embedded in the invoice PDF as well, and turns received ISDOC files into draft vendor bills.
-verified: 19.0.1.3.0
+verified: 19.0.1.4.0
 ---
 
 ## What it is for {#purpose}
@@ -48,11 +48,13 @@ requires that structure; for Slovak customers use
 
 ## Setting it up {#setup}
 
-1. **Choose ISDOC for the customer.** Contact, tab *Invoicing*, group
-   *Customer Invoices*: **eInvoice format** = **Czech Republic (ISDOC)**.
-   Odoo shows this field only in **developer mode**. It is **not** chosen
-   automatically: for a Czech contact Odoo suggests Peppol BIS 3, so set
-   ISDOC on every customer who wants it.
+1. **Czech customers get ISDOC by default.** A Czech contact with no
+   **eInvoice format** of its own receives ISDOC, unless it is known to be on
+   Peppol: Odoo's Peppol check found it, or its sending method is Peppol. Then
+   it receives Peppol BIS 3. To choose otherwise, set the format on the
+   contact: tab *Invoicing*, group *Customer Invoices*, **eInvoice format**
+   (shown only in **developer mode**). A customer outside the Czech Republic
+   gets ISDOC only when you set it there.
 2. **Your company and the customer need** a name, street, city, ZIP, country,
    and an **IČO** (*Company ID*) or a **DIČ** (*Tax ID*). The export lists
    anything missing.
@@ -191,8 +193,9 @@ for what happens next.
 
 ## Limitations {#limitations}
 
-- **eInvoice format** is visible only in developer mode, and ISDOC is never
-  chosen for a customer automatically.
+- **eInvoice format** is visible only in developer mode. Whether a Czech
+  customer is on Peppol is known only from the installed Peppol modules; one
+  not checked yet gets ISDOC.
 - Invoices in a foreign currency cannot be exported. On import, the amounts
   in the local currency are used.
 - Debit notes (type 3) and simplified tax documents (type 7) are imported as

@@ -176,9 +176,33 @@ class TestISDOCContainers(AccountTestInvoicingCommon):
         with self.assertRaises(UserError):
             invoice.action_isdoc_download_isdocx()
 
-    def test_isdoc_is_not_suggested_for_a_czech_partner(self):
-        """What the documentation says: ISDOC is chosen per customer, never
-        suggested. If this changes, the docs and the manifest must change too."""
+    def test_isdoc_is_suggested_for_a_czech_partner_off_peppol(self):
+        """A Czech customer with no format chosen and not known to be on
+        Peppol is suggested ISDOC; a chosen format still wins."""
         partner = self.env['res.partner'].create({
             'name': "Bez formátu", 'country_id': self.env.ref('base.cz').id})
+        self.assertEqual(partner._get_suggested_ubl_cii_edi_format(), 'isdoc')
+        self.assertEqual(partner._get_ubl_cii_edi_format(), 'isdoc')
+        partner.invoice_edi_format = 'ubl_bis3'
+        self.assertEqual(partner._get_ubl_cii_edi_format(), 'ubl_bis3')
+
+    def test_a_czech_partner_on_peppol_keeps_bis3(self):
+        partner = self.env['res.partner'].create({
+            'name': "Na Peppolu", 'country_id': self.env.ref('base.cz').id})
+        methods = dict(
+            partner._fields['invoice_sending_method']._description_selection(self.env)
+        ) if 'invoice_sending_method' in partner._fields else {}
+        if 'peppol_verification_state' in partner._fields:
+            partner.peppol_verification_state = 'valid'
+        elif 'edi_peppol' in methods:
+            partner.invoice_sending_method = 'edi_peppol'
+        elif 'peppol' in methods:
+            partner.invoice_sending_method = 'peppol'
+        else:
+            self.skipTest("no Peppol module installed to mark the partner")
+        self.assertEqual(partner._get_suggested_ubl_cii_edi_format(), 'ubl_bis3')
+
+    def test_a_slovak_partner_is_not_suggested_isdoc(self):
+        partner = self.env['res.partner'].create({
+            'name': "Odberateľ", 'country_id': self.env.ref('base.sk').id})
         self.assertNotEqual(partner._get_suggested_ubl_cii_edi_format(), 'isdoc')

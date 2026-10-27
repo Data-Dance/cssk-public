@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cssk_payment_reliability/static/description/index_sk.html">Slovenčina</a> · <a href="/l10n_cssk_payment_reliability/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ/SK Supplier Reliability Check</h1>
 <p class="cssk-summary">Before you pay a supplier, checks the tax authority&#x27;s registers for the supplier&#x27;s reliability and for the bank account you are paying, and keeps the answer on the bill and the payment as evidence.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_payment_reliability/static/description/index.html"><code>l10n_cz_payment_reliability</code></a>, <a href="/l10n_sk_payment_reliability/static/description/index.html"><code>l10n_sk_payment_reliability</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_payment_reliability/static/description/index.html"><code>l10n_cz_payment_reliability</code></a>, <a href="/l10n_sk_payment_reliability/static/description/index.html"><code>l10n_sk_payment_reliability</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>In both countries a VAT payer who buys from a supplier can be made to pay the
@@ -235,7 +235,7 @@ It needs no account or key. One request answers both questions:</p>
 </tr>
 <tr>
 <td>not found (not a VAT payer)</td>
-<td>Unknown / not checked; the bank account is <em>Not checked / unavailable</em>, since a non-payer publishes no accounts and § 109 does not apply</td>
+<td>Not a VAT payer; the bank account is <em>Supplier is not a VAT payer</em>, with no warning, since a non-payer publishes no accounts and § 109 does not apply</td>
 </tr>
 </tbody>
 </table>
@@ -335,7 +335,7 @@ and the check counts as unavailable rather than as a clean record.</p>
 <li>A check records what the register said; it does not prove that the
   supplier will pay its VAT, nor that you could not have known otherwise.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

@@ -1,7 +1,7 @@
 ---
 title: CZ Supplier Reliability — ADIS
 summary: The Czech register behind the supplier reliability check — nespolehlivý plátce and published bank accounts from the Ministry of Finance ADIS service.
-verified: 19.0.1.1.0
+verified: 19.0.1.2.0
 family: l10n_cssk_payment_reliability#cz-provider
 ---
 

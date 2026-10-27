@@ -9,6 +9,9 @@ CSSK_RELIABILITY = [
     ("reliable", "Reliable"),
     ("less_reliable", "Less reliable"),
     ("unreliable", "Unreliable"),
+    # The register answered, and the subject is not a VAT payer: the payer
+    # liability rules (§ 69 ods. 13 SK / § 109 CZ) do not apply to it.
+    ("not_vat_payer", "Not a VAT payer"),
     ("unknown", "Unknown / not checked"),
 ]
 
@@ -96,7 +99,12 @@ class ResPartner(models.Model):
         vals = {"cssk_reliability_checked_on": fields.Datetime.now()}
         warnings = []
 
-        if accounts is None:
+        if reliability == "not_vat_payer":
+            # Only a VAT payer must publish its accounts, and the liability
+            # for its unpaid VAT is what this check is about.
+            vals["cssk_bank_acc_status"] = "not_vat_payer"
+            vals["cssk_registered_accounts"] = False
+        elif accounts is None:
             vals["cssk_bank_acc_status"] = "unknown"
             vals["cssk_registered_accounts"] = False
         else:
@@ -112,7 +120,7 @@ class ResPartner(models.Model):
                 # the published one" — but saying "this account is not among
                 # them" sent people comparing numbers that were never there.
                 # (A supplier the register does not hold as a VAT payer comes
-                # back as None from the provider and lands in "unknown".)
+                # back as "not_vat_payer" and is handled above.)
                 vals["cssk_bank_acc_status"] = "not_registered"
                 warnings.append(
                     _(

@@ -199,7 +199,8 @@ class TestCzAccountForms(TransactionCase):
         ).replace(
             b'<standardniUcet predcisli="0" cislo="2000145399" kodBanky="0800"/>', b"")
         vals, warnings = self._verdict("2000145399/0800", response)
-        self.assertEqual(vals["cssk_bank_acc_status"], "unknown")
+        self.assertEqual(vals["cssk_bank_acc_status"], "not_vat_payer")
+        self.assertEqual(vals["cssk_supplier_reliability"], "not_vat_payer")
         self.assertFalse(warnings)
 
     def test_a_payer_that_published_nothing_is_told_so(self):

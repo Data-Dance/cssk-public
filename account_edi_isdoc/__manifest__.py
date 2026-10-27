@@ -1,6 +1,6 @@
 {
     'name': "Import/Export Czech e-invoices (ISDOC)",
-    'version': '19.0.1.3.0',
+    'version': '19.0.1.4.0',
     'category': 'Accounting/Accounting',
     'summary': "Import and export ISDOC 6.0.2 electronic invoices (Czech national e-invoicing standard)",
     'description': """
@@ -10,8 +10,9 @@ ISDOC electronic invoicing
 Adds the Czech national e-invoicing format **ISDOC 6.0.2** to Odoo's electronic
 invoice import/export, alongside the standard UBL/CII formats.
 
-The format is chosen per customer (Invoicing tab, *eInvoice format*). It is
-never suggested automatically: for a Czech customer Odoo suggests Peppol BIS 3.
+A Czech customer without an *eInvoice format* of its own gets ISDOC, unless
+it is known to be on Peppol (then Peppol BIS 3). Any customer can be set to
+ISDOC by hand (Invoicing tab, *eInvoice format*).
 Supported representations:
 
 * plain ``.isdoc`` XML (sent and imported)
