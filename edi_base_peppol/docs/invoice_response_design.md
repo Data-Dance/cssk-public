@@ -62,7 +62,7 @@ being responded to, `IssuerParty` (seller) / `RecipientParty` (buyer), and the
 
 ## 1b. Prior art in Odoo 19 — verified (CE + EE), 2026-08-03
 
-Checked both source trees (`/home/rex/Odoo/19.0` CE, `/home/rex/Odoo/19.0-EE`):
+Checked both source trees (odoo@19.0 CE, enterprise@19.0):
 
 - **No reusable, transport-independent Invoice Response builder exists.**
   `account_edi_ubl_cii` (the module we reuse for the invoice body via

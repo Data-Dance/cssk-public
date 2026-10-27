@@ -1,6 +1,6 @@
 # SK Payroll — Odoo EE module vs. legal reference
 
-Module analysed: `/home/rex/Odoo/19.0-EE/l10n_sk_hr_payroll/` (Odoo 19.0 EE, author Odoo S.A.,
+Module analysed: `enterprise@19.0:l10n_sk_hr_payroll/` (Odoo 19.0 EE, author Odoo S.A.,
 version 1.0). Cross-referenced against `sk_payroll_legal.md`.
 
 ## How the EE module is built

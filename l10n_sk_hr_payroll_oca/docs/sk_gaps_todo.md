@@ -1,6 +1,6 @@
 # SK Payroll — Gap status (stock Enterprise module vs. law vs. our stack)
 
-Baseline: `/home/rex/Odoo/19.0-EE/l10n_sk_hr_payroll/` (Odoo S.A., checkout HEAD
+Baseline: `enterprise@19.0:l10n_sk_hr_payroll/` (Odoo S.A., checkout HEAD
 2026-04-23) measured against `sk_payroll_legal.md`.
 
 This started as a TODO list of what the stock module lacks. Nearly all of it has
