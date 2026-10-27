@@ -8,6 +8,24 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Search by DIČ.** A legal person's Czech DIČ typed into *Tax ID* is looked
+  up as its IČO and offered when ARES confirms that DIČ. It used to return one
+  empty suggestion.
+
+Fixed
+~~~~~
+
+- **Picking a company found by IČO fills the contact.** The suggestion carried
+  the IČO only when the IČO mapping pointed at *Company ID*, so with any other
+  setting picking it filled nothing.
+- **A subject with no seat in ARES** no longer breaks the IČO search.
+
 [19.0.1.2.1] — 2026-10-07
 -------------------------
 

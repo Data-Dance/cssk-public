@@ -8,12 +8,51 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- 19.0.5.1.0 (2026-10-27) is owed to 18.0: ``vrp2.catalog.link`` and the push
+  that deletes or deactivates only what its own till created. The module
+  exists on ``origin/18.0``.
+
 Fixed
 ~~~~~
 
 - The six VRP2 *VAT rate* pickers in Settings listed every tax, purchase taxes
   and other companies' included: Odoo drops a string domain when it copies a
   field into a related one.
+
+[19.0.5.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The VRP2 special regulation (the wording for 0 % items) is pushed to VRP with
+  the product when its VRP tax is 0 %, as the VRP app does; it used to be read
+  from VRP but never sent.
+
+[19.0.5.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A catalogue push could wipe another till's catalogue.** *Push to VRP2*
+  deleted every category, and deactivated every product, on the register that
+  Odoo did not list — entries typed in the VRP2 app, another till's, another
+  database's — and it pushed every top-level category and POS product in the
+  database regardless of the till or its company. A push now deletes or
+  deactivates **only entries this till's pushes created**, and sends only the
+  till's company's products and, with *Restrict Categories*, its categories.
+
+Added
+~~~~~
+
+- ``vrp2.catalog.link``: which VRP2 category or service of which till stands
+  for which Odoo record. Each till now updates and sells under its own
+  register's ids and codes; an id or code stored before this version is
+  adopted when the register has it, and is never deleted or deactivated.
 
 [19.0.5.0.0] — 2026-10-06
 -------------------------

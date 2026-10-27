@@ -74,6 +74,24 @@ class TestClosingJournals(AccountTestInvoicingCommon):
                                   "date_to": "2026-12-31"})
         self.assertTrue(wizard.cssk_exclude_closing_journals)
 
+    def test_default_follows_the_company_chosen_in_the_wizard(self):
+        """Working in a company without closing journals, a report run for
+        one that has them starts with the box ticked, and the other way
+        round: the default and the exclusion read the same company."""
+        other = self.setup_other_company()["company"]
+        self.env.user.company_ids |= other
+        self.assertFalse(other.l10n_cssk_closing_journal_ids)
+        wizard = self.env["trial.balance.report.wizard"].with_company(
+            other).create({"company_id": self.company.id,
+                           "date_from": "2026-01-01",
+                           "date_to": "2026-12-31"})
+        self.assertTrue(wizard.cssk_exclude_closing_journals)
+        wizard = self.env["trial.balance.report.wizard"].with_company(
+            self.company).create({"company_id": other.id,
+                                  "date_from": "2026-01-01",
+                                  "date_to": "2026-12-31"})
+        self.assertFalse(wizard.cssk_exclude_closing_journals)
+
     def test_opening_entry_is_the_opening_balance_not_movement(self):
         row = self._trial_balance()["022991"]
         self.assertAlmostEqual(row["initial_balance"], 1000.0, places=2)

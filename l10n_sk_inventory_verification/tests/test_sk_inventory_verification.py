@@ -217,3 +217,65 @@ class TestSkInventarizacia(AccountTestInvoicingCommon):
         )
         self.assertIn("§ 30 ods. 3", str(zapis_html))
         self.assertIn("Posúdenie reálnosti ocenenia", str(zapis_html))
+
+    def test_supis_opens_in_a_form_so_its_items_can_be_entered(self):
+        """An inline-editable súpis list never opened the súpis form, and the
+        položky (§ 30 ods. 2 písm. c)) exist only there."""
+        from lxml import etree
+
+        arch = self.env["l10n.sk.inventarizacia"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        doc = etree.fromstring(arch)
+        supis_list = doc.xpath("//field[@name='supis_ids']/list")[0]
+        self.assertFalse(supis_list.get("editable"))
+        self.assertTrue(doc.xpath(
+            "//field[@name='supis_ids']/form//field[@name='line_ids']"))
+        for button in ("action_print_supisy", "action_refresh_book_amounts",
+                       "action_refresh_book_amount"):
+            self.assertTrue(doc.xpath("//button[@name='%s']" % button),
+                            "%s is in no view" % button)
+
+    def test_supisy_print_from_the_inventarizacia(self):
+        inv = self._inventarizacia()
+        with self.assertRaises(UserError):
+            inv.action_print_supisy()
+        supis = self.env["l10n.sk.inventurny.supis"].create(
+            {"name": "Sklad", "inventarizacia_id": inv.id}
+        )
+        # discard_logo_check: an admin with no report layout would get the
+        # layout configurator first
+        action = inv.with_context(discard_logo_check=True).action_print_supisy()
+        self.assertEqual(
+            action["report_name"],
+            "l10n_sk_inventory_verification.report_inventurny_supis",
+        )
+        self.assertEqual(action["context"]["active_ids"], supis.ids)
+
+    def test_refresh_never_zeroes_a_typed_book_amount(self):
+        """A fyzická inventúra has no account to read; its typed účtovný stav
+        must survive the refresh."""
+        inv = self._inventarizacia()
+        supis = self.env["l10n.sk.inventurny.supis"].create(
+            {"name": "Sklad", "inventarizacia_id": inv.id,
+             "inventory_type": "fyzicka", "book_amount": 500.0}
+        )
+        inv.action_refresh_book_amounts()
+        self.assertEqual(supis.book_amount, 500.0)
+
+    def test_printouts_carry_the_seat(self):
+        """§ 30 ods. 2 písm. a) and ods. 3 písm. a): a legal person states
+        its sídlo next to its name, on the súpis and on the zápis."""
+        self.company.partner_id.write(
+            {"street": "Hlavná 1", "city": "Trnava", "zip": "91701"})
+        inv = self._inventarizacia()
+        supis = self.env["l10n.sk.inventurny.supis"].create(
+            {"name": "Sklad", "inventarizacia_id": inv.id}
+        )
+        for template, docs in (
+            ("report_inventurny_supis", supis),
+            ("report_inventarizacny_zapis", inv),
+        ):
+            html = str(self.env["ir.qweb"]._render(
+                "l10n_sk_inventory_verification.%s" % template, {"docs": docs}))
+            self.assertIn("Sídlo", html)
+            self.assertIn("Trnava", html)

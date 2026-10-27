@@ -83,7 +83,28 @@ def build_abo_file(company_bank, company_name, items):
     except ValueError as e:
         raise UserError(_("Orderer bank account: %s", str(e)))
 
-    due_date = items[0].date
+    # compared in hellers, as written: 0.004 is a zero item too
+    not_positive = [item.label for item in items
+                    if int(round((item.amount or 0) * 100)) <= 0]
+    if not_positive:
+        raise UserError(_(
+            "Banks reject an ABO file with an item that is zero or negative. "
+            "Remove these payments, or settle them otherwise: %s",
+            ", ".join(not_positive),
+        ))
+    # An ABO file carries ONE due date for all its items (the group header).
+    # Taking the first item's date would execute every other payment on a day
+    # nobody chose, so refuse instead of guessing.
+    dates = sorted({item.date for item in items})
+    if len(dates) > 1:
+        raise UserError(_(
+            "An ABO file carries one due date for all its payments, but these "
+            "are dated %s. Give them one date — on a payment order, set the "
+            "Payment Execution Date Type to Fixed Date or Immediately — or "
+            "split them into one file per date.",
+            ", ".join(str(d) for d in dates),
+        ))
+    due_date = dates[0]
 
     total_haler = 0
     item_lines = []

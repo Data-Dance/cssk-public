@@ -261,6 +261,30 @@ class CSSKFsStatement(models.Model):
     # ------------------------------------------------------------------
     # Compute
     # ------------------------------------------------------------------
+    def _cssk_preflight_export(self):
+        """Statement identification is the DIČ, not the IČ DPH.
+
+        The SK headers (Úč POD, Úč FO) file ``l10n_sk_dic`` and fall back to
+        the VAT number; the CZ DIČ lives in ``vat``. A unit that is not a VAT
+        payer has a DIČ and no IČ DPH, and still files a závierka — the base
+        VAT-only check refused exactly those. Either identifier satisfies the
+        form, as on the income-tax return. ``l10n_sk_dic`` is read by feature
+        detection: it lives in ``l10n_sk_base``, which a Czech-only
+        deployment does not install.
+        """
+        for rec in self:
+            company = rec.company_id
+            if not ((getattr(company, "l10n_sk_dic", False) or "").strip()
+                    or (company.vat or "").strip()):
+                raise UserError(_(
+                    "Company '%(company)s' has neither a Tax ID (DIČ) nor a "
+                    "VAT number set, but the financial statements XML must "
+                    "carry the filer's tax identification. Set 'Tax ID (DIČ)' "
+                    "or 'Tax ID' (VAT) on the company (Settings → Users & "
+                    "Companies → Companies → %(company)s) and export again.",
+                    company=company.display_name))
+        return True
+
     def action_compute_lines(self):
         self._cssk_check_not_legacy(_("recomputed"))
         self.ensure_one()
@@ -338,6 +362,19 @@ class CSSKFsStatement(models.Model):
         """Report the accounts that reached no row of this statement."""
         self.ensure_one()
         groups = self._cssk_account_balance_groups(None, self.date_to)
+        # Účtová třída / trieda 7 is závěrkové a podrozvahové in both charts —
+        # closing and off-balance accounts that belong on no statement row by
+        # definition, and off-balance pairs that cancel to zero only drown the
+        # real findings. Accounts typed off_balance are left out likewise.
+        off_balance = set(self.env["account.account"].sudo().search([
+            ("account_type", "=", "off_balance"),
+            ("company_ids", "in", self.company_id.ids),
+        ]).ids)
+        groups = {
+            code: entry for code, entry in groups.items()
+            if not (code or "").startswith("7")
+            and not (set(entry[1]) and set(entry[1]) <= off_balance)
+        }
         cells = [
             (formula, [])
             for ldef in self.version_id.line_def_ids

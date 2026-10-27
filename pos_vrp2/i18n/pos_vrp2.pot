@@ -787,3 +787,70 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
 msgid "— DKP"
 msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model,name:pos_vrp2.model_vrp2_catalog_link
+msgid "VRP2 catalogue entry of a till"
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__config_id
+msgid "Till"
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__kind
+msgid "Kind"
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__vrp2_catalog_link__kind__category
+msgid "Category"
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__vrp2_catalog_link__kind__service
+msgid "Product"
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__res_id
+msgid "Odoo record"
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_vrp2_catalog_link__res_id
+msgid "pos.category id for a category, product.template id for a product."
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__remote_ref
+msgid "VRP2 reference"
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_vrp2_catalog_link__remote_ref
+msgid "categoryId for a category, the service code for a product."
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__created_here
+msgid "Created Here"
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_vrp2_catalog_link__created_here
+msgid ""
+"Created on the register by a push from this database. Only such entries are "
+"ever deleted or deactivated by a push."
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.constraint,message:pos_vrp2.constraint_vrp2_catalog_link_record_uniq
+msgid "An Odoo record is linked to one entry per till."
+msgstr ""
+
+#. module: pos_vrp2
+#: model:ir.model.constraint,message:pos_vrp2.constraint_vrp2_catalog_link_remote_uniq
+msgid "A VRP2 entry is linked to one Odoo record per till."
+msgstr ""

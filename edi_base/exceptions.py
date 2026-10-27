@@ -22,4 +22,14 @@ except ImportError:  # pragma: no cover - the queue-free deployment
         """Permanent: this will fail the same way next time."""
 
     class RetryableJobError(Exception):
-        """Transient: the same call may succeed later."""
+        """Transient: the same call may succeed later.
+
+        Same signature as queue_job's: a connector raises it with
+        ``seconds`` (a Retry-After) and ``ignore_retry`` (backpressure, not
+        a failed attempt) whichever class it gets.
+        """
+
+        def __init__(self, msg, seconds=None, ignore_retry=False):
+            super().__init__(msg)
+            self.seconds = seconds
+            self.ignore_retry = ignore_retry

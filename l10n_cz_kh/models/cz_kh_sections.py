@@ -5,6 +5,17 @@ from odoo import api, fields, models
 
 CZ_DOC_THRESHOLD = 10000.0  # CZK fallback; the version record is authoritative
 
+# The second reduced rate (10 %) existed from 1. 1. 2015 to 31. 12. 2023. The
+# KH reports it apart, in zakl_dane3/dan3: "Vyplní se v případě plnění s DPPD
+# do 31. 12. 2023, a to základ daně pro druhou sníženou sazbu DPH platnou do
+# 31. 12. 2023, a také v případě opravy základu daně a výše daně" (DPHKH1
+# structure, VetaA2/A4/A5/B1/B2/B3). The rate identifies it on its own: no
+# other Czech rate has been 10 %, and a 10 % line dated 2024 or later can only
+# be a correction of such a supply, which the same sentence sends to
+# zakl_dane3 as well. The 15 % first reduced rate of the same years, and its
+# corrections, stay in zakl_dane2 next to today's 12 %.
+CZ_SECOND_REDUCED_RATE = 10.0
+
 
 class L10nCzKhRowMixin(models.AbstractModel):
     """Per-document KH row.
@@ -31,6 +42,16 @@ class L10nCzKhRowMixin(models.AbstractModel):
     tax_std = fields.Monetary(currency_field="company_currency_id")
     base_red = fields.Monetary(currency_field="company_currency_id")
     tax_red = fields.Monetary(currency_field="company_currency_id")
+    base_red3 = fields.Monetary(
+        string="Base 2nd Reduced (to 2023)",
+        currency_field="company_currency_id",
+        help="zakl_dane3 — base at the second reduced rate (10 %) in force "
+        "until 31. 12. 2023, and corrections of such supplies.")
+    tax_red3 = fields.Monetary(
+        string="Tax 2nd Reduced (to 2023)",
+        currency_field="company_currency_id",
+        help="dan3 — VAT at the second reduced rate (10 %) in force until "
+        "31. 12. 2023, and corrections of such supplies.")
     supplies_code = fields.Char()
     row_count = fields.Integer(default=1)
 
@@ -39,12 +60,22 @@ class L10nCzKhRowMixin(models.AbstractModel):
         mixin's single tax_base_amount/tax_amount pair — the source lines
         must sum to the split's totals."""
         self.ensure_one()
-        return (self.base_std + self.base_red, self.tax_std + self.tax_red)
+        return (self.base_std + self.base_red + self.base_red3,
+                self.tax_std + self.tax_red + self.tax_red3)
 
     # ------------------------------------------------------------------
     @api.model
     def _cz_move_buckets(self, statement, code):
-        """{move: {base_std, tax_std, base_red, tax_red, line, lines}} for code."""
+        """{key: {move, base_std, tax_std, base_red, tax_red, base_red3,
+        tax_red3, supplies_code, line, lines}} for code.
+
+        The key is the move, except in A.1 / B.1, where it is (move, §92a
+        code): "Pokud bude na jednom daňovém dokladu uvedeno více druhů plnění
+        (spadajících pod různé kódy), je nutno rozepsat každý kód plnění na
+        samostatný řádek (s uvedením stejného evidenčního čísla daňového
+        dokladu)" (DPHKH1, kod_pred_pl). Taking the first code of the document
+        filed the second kind of supply under the wrong code.
+        """
         # Period selection goes through the shared helper, not a raw date
         # range: a control statement reconciles against the VAT return, so the
         # two must agree on what the period contains — output by tax point,
@@ -66,17 +97,29 @@ class L10nCzKhRowMixin(models.AbstractModel):
             if not self._cz_line_bears_tax(code, tax):
                 continue
             rate = line._cssk_tax_rate()
-            b = buckets.get(line.move_id)
+            supplies_code = ""
+            key = line.move_id
+            if code in ("A1", "B1"):
+                supplies_code = line._cz_kh_commodity_code()
+                key = (line.move_id, supplies_code)
+            b = buckets.get(key)
             if b is None:
-                b = buckets[line.move_id] = {
+                b = buckets[key] = {
+                    "move": line.move_id, "supplies_code": supplies_code,
                     "base_std": 0.0, "tax_std": 0.0, "base_red": 0.0,
-                    "tax_red": 0.0, "line": line,
-                    "lines": self.env["account.move.line"],
+                    "tax_red": 0.0, "base_red3": 0.0, "tax_red3": 0.0,
+                    "line": line, "lines": self.env["account.move.line"],
                 }
             b["lines"] |= line
-            if rate >= 20:
+            if code == "A1" or rate >= 20:
+                # A.1 has one base "bez rozlišení sazby daně": the supplier
+                # charges no VAT, so the stock 0 % RC sale tax must not send
+                # the base to a reduced-rate column the row does not have.
                 b["base_std"] += base
                 b["tax_std"] += tax
+            elif abs(rate - CZ_SECOND_REDUCED_RATE) < 0.005:
+                b["base_red3"] += base
+                b["tax_red3"] += tax
             else:
                 b["base_red"] += base
                 b["tax_red"] += tax
@@ -123,7 +166,9 @@ class L10nCzKhRowMixin(models.AbstractModel):
                 return False
         if self._cz_code != "A4":
             return True
-        return bool(line and line._cssk_partner_vat_stripped())
+        # A Czech DIČ, not merely some VAT number: a customer known only by
+        # another member state's number cannot be identified in A.4 either.
+        return bool(line and line._cz_kh_has_cz_dic())
 
     @api.model
     def _cz_line_bears_tax(self, code, tax):
@@ -187,7 +232,8 @@ class L10nCzKhRowMixin(models.AbstractModel):
         first version, which took the fallback literally — the docstring
         claimed this property before the code had it.)
         """
-        bucket_total = b["base_std"] + b["tax_std"] + b["base_red"] + b["tax_red"]
+        bucket_total = (b["base_std"] + b["tax_std"] + b["base_red"]
+                        + b["tax_red"] + b["base_red3"] + b["tax_red3"])
         line = b.get("line")
         doc_total = line.move_id.amount_total if line else 0.0
         return doc_total if abs(doc_total) >= abs(bucket_total) else bucket_total
@@ -204,6 +250,30 @@ class L10nCzKhRowMixin(models.AbstractModel):
     _CZ_INBOUND_CODES = ("A2", "B1", "B2")
 
     @api.model
+    def _cz_kh_vies_country(self, line, move):
+        """k_stat of A.2: the code of the member state that issued the
+        supplier's VAT number, as the structure's own table lists it — ŘECKO
+        **EL**, SEVERNÍ IRSKO **XI** — not the ISO code of the partner's
+        country (GR, GB). Read off the VAT prefix when there is one.
+
+        Empty for a supplier from outside the EU (a third-country service in
+        A.2): "V případě, že dodavatel nemá VAT ID … pole Identifikace
+        dodavatele zůstává prázdné" (Metodická informace k vyplnění KH).
+        """
+        vat = "".join(line._cssk_partner_vat_for_statement().split()).upper()
+        if len(vat) > 2 and vat[:2].isalpha():
+            code = vat[:2]
+        else:
+            code = (move.partner_id.commercial_partner_id.country_id.code
+                    or "")[:2]
+        code = "EL" if code == "GR" else code
+        eu = self.env.ref("base.europe", raise_if_not_found=False)
+        vies = {"EL" if c == "GR" else c
+                for c in (eu.country_ids.mapped("code") if eu else [])}
+        vies.add("XI")
+        return code if code in vies else ""
+
+    @api.model
     def _cz_row_vals(self, statement, move, b):
         line = b["line"]
         if self._cz_code in self._CZ_INBOUND_CODES:
@@ -217,9 +287,7 @@ class L10nCzKhRowMixin(models.AbstractModel):
             "partner_vat": line._cssk_partner_vat_for_statement(),
             # DPHKH1 dic_odb/dic_dod want the DIČ without the country prefix
             "partner_vat_stripped": line._cssk_partner_vat_stripped(),
-            "partner_country_code": (
-                move.partner_id.commercial_partner_id.country_id.code or ""
-            )[:2],
+            "partner_country_code": self._cz_kh_vies_country(line, move),
             "entry_ref": entry_ref,
             # DUZP/DPPD: the move's taxable supply date when set (advances:
             # the payment date), else the invoice date.
@@ -228,11 +296,12 @@ class L10nCzKhRowMixin(models.AbstractModel):
             or move.date,
             "base_std": b["base_std"], "tax_std": b["tax_std"],
             "base_red": b["base_red"], "tax_red": b["tax_red"],
+            "base_red3": b["base_red3"], "tax_red3": b["tax_red3"],
             "source_move_line_ids": [(6, 0, b["lines"].ids)],
         }
         # §92a kód předmětu plnění is mandatory in A.1 / B.1 only.
         if self._cz_code in ("A1", "B1"):
-            vals["supplies_code"] = b["lines"]._cz_kh_commodity_code_for_doc()
+            vals["supplies_code"] = b["supplies_code"]
         return vals
 
 
@@ -247,7 +316,8 @@ class _CzKhDetailAll(models.AbstractModel):
     def _populate_for_statement(self, statement, section_code):
         buckets = self._cz_move_buckets(statement, self._cz_code)
         return self.create([
-            self._cz_row_vals(statement, m, b) for m, b in buckets.items()
+            self._cz_row_vals(statement, b["move"], b)
+            for b in buckets.values()
         ])
 
 
@@ -287,8 +357,8 @@ class _CzKhDetailAbove(models.AbstractModel):
         # abs(): the split is by document MAGNITUDE — a −50 000 credit note is
         # a detail row (A4/B2), not part of the ≤10k aggregate.
         return self.create([
-            self._cz_row_vals(statement, m, b)
-            for m, b in buckets.items()
+            self._cz_row_vals(statement, b["move"], b)
+            for b in buckets.values()
             if self._cz_is_detailed(b, threshold)
         ])
 
@@ -319,6 +389,8 @@ class _CzKhSummaryBelow(models.AbstractModel):
             "tax_std": sum(b["tax_std"] for b in below),
             "base_red": sum(b["base_red"] for b in below),
             "tax_red": sum(b["tax_red"] for b in below),
+            "base_red3": sum(b["base_red3"] for b in below),
+            "tax_red3": sum(b["tax_red3"] for b in below),
             "row_count": len(below),
             "source_move_line_ids": [(6, 0, source_lines.ids)],
         }])

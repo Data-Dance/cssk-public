@@ -22,6 +22,26 @@ Fixed
   transaction: *sent*, *queued* with a warning, *sent*. A job still records
   its failure outside the transaction, as before.
 
+[19.0.1.1.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Test Connection with the broker client installed but no Broker URL**
+  raised ``TypeError`` (the broker layer passed ``mode`` to an
+  ``_authenticate`` that took none); ``_authenticate(mode=None)`` now takes
+  it.
+- **Test Connection warns when ePošťák cannot serve every company**: one
+  account serves one company per database (the one collection runs as), and
+  other companies that allow e-invoicing are named instead of reported as a
+  plain success.
+
+Added
+~~~~~
+
+- Slovak and Czech translations of the user interface (``i18n/sk.po``, ``i18n/cs.po``).
+
 [19.0.1.1.1] — 2026-10-03
 -------------------------
 

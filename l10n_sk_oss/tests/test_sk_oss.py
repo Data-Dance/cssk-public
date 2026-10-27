@@ -4,7 +4,7 @@ import base64
 import hashlib
 import os
 
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
@@ -91,6 +91,34 @@ class TestSkOssReturn(OssReturnCommon):
         self.assertEqual(self._text(self._oss_xml(ret),
                                     "vun:Supplies/vun:MSIDSupplies/"
                                     "vun:MSCONCountrycode"), "EL")
+
+    def test_the_registration_dates_limit_the_documents(self):
+        """A registration that began on 15. 8. covers 15. 8. – 30. 9. only;
+        "Registered from" used to reach the XML header and select nothing."""
+        self._oss_invoice(self.de, 100.0, 19.0, "2025-07-10")
+        self._oss_invoice(self.de, 200.0, 19.0, "2025-08-20")
+        ret = self._oss_return(2025, 3, compute=False)
+        ret.partial_date_from = "2025-08-15"
+        ret.action_compute_lines()
+        self.assertAlmostEqual(self._row(ret, "DE", 19.0).taxable_amount, 200.0, 2)
+        with self.assertRaises(ValidationError):
+            ret.partial_date_to = "2025-10-05"
+
+    def test_a_row_added_by_hand_survives_a_recompute(self):
+        """Without ticking Manual: a row the user adds is his."""
+        ret = self._oss_return(2025, 3)
+        self.env["cssk.oss.return.line"].create({
+            "return_id": ret.id, "member_state_id": self.de.id,
+            "origin_country_id": self.env.ref("base.cz").id,
+            "origin_vat": "CZ25663585",
+            "supply_type": "goods", "vat_rate": 19.0, "rate_type": "standard",
+            "taxable_amount": 100.0, "vat_amount": 19.0,
+        })
+        self._oss_invoice(self.de, 100.0, 19.0, "2025-07-10")
+        ret.action_compute_lines()
+        self.assertEqual(len(ret.line_ids), 2)
+        self.assertEqual(len(ret.line_ids.filtered("is_manual")), 1,
+                         "the computed row is not manual")
 
     def test_nil_return(self):
         ret = self._oss_return(2026, 1)

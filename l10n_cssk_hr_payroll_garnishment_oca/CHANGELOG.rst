@@ -10,6 +10,16 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- Cancelling a payslip whose deduction has already been remitted to the
+  payee is refused, like resetting it to draft: the corrected payslip would
+  have deducted and recorded the month a second time.
+
 19.0.1.0.1 (2026-09-07)
 -----------------------
 

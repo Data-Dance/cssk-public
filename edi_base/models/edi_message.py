@@ -24,17 +24,12 @@ class EdiMessage(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "EDI Message"
     _order = "create_date desc"
-    # Inert on 19.0, which no longer reads _sql_constraints: no such index
-    # exists. Do not port it to models.Constraint as it stands — a Peppol
+    # No uniqueness constraint on (message_id, direction): a Peppol
     # message_id is the sender's invoice number, so two suppliers' 2026001
-    # are two rows (see _inbound_duplicate_domain).
-    _sql_constraints = [
-        (
-            "message_id_direction_unique",
-            "UNIQUE(message_id, direction)",
-            "An EDI message with this ID and direction already exists.",
-        )
-    ]
+    # are two rows, and an outbound one is the invoice number of whichever
+    # company sent it. Inbound duplicates are found per document family by
+    # _inbound_duplicate_domain instead. (A list in _sql_constraints that
+    # said otherwise was dropped: 19.0 never read it.)
 
     # ------------------------------------------------------------------
     # Provider registry — extended by each provider module
@@ -94,6 +89,15 @@ class EdiMessage(models.Model):
     def _selection_provider(self):
         """Return available providers. Extended by each provider module."""
         return []
+
+    @api.model
+    def _edi_default_provider_mode(self, provider):
+        """The test/production mode a new message of ``provider`` is stamped
+        with — what its ``_default_provider_mode_<provider>`` says, if the
+        provider has one. For a document generated again onto an existing
+        message, which must go where a new one would."""
+        method = getattr(self, "_default_provider_mode_%s" % provider, None)
+        return method() if method else False
 
     @api.model
     def _default_provider(self):
@@ -209,6 +213,20 @@ class EdiMessage(models.Model):
         ondelete="set null",
     )
     error_message = fields.Text(string="Error Details")
+    send_attempt_count = fields.Integer(
+        string="Send Attempts",
+        copy=False,
+        readonly=True,
+        help="Temporary send failures so far, when the send cron dispatches "
+        "this provider. Reset when the message is queued again.",
+    )
+    send_retry_after = fields.Datetime(
+        string="Retry Not Before",
+        copy=False,
+        readonly=True,
+        help="After a temporary failure, the send cron leaves the message "
+        "alone until then — the provider's Retry-After, or a growing pause.",
+    )
     blocking_level = fields.Selection(
         [("info", "Info"), ("warning", "Warning"), ("error", "Error")],
         string="Blocking Level",
@@ -1196,6 +1214,8 @@ class EdiMessage(models.Model):
                 "state": "queued",
                 "error_message": False,
                 "blocking_level": False,
+                "send_attempt_count": 0,
+                "send_retry_after": False,
             }
         )
         self._post_dispatch_trace()
@@ -1260,6 +1280,8 @@ class EdiMessage(models.Model):
             ("state", "=", "queued"),
             ("direction", "=", "out"),
             ("provider", "in", providers),
+            "|", ("send_retry_after", "=", False),
+            ("send_retry_after", "<=", fields.Datetime.now()),
         ], limit=limit, order="id")
         # Only a real cron run commits; a caller outside one (a test, a shell)
         # keeps its transaction to itself.
@@ -1279,23 +1301,58 @@ class EdiMessage(models.Model):
                     connector._send_message(message)
             except RetryableJobError as exception:
                 # The same signal a job runner acts on, honoured the same way:
-                # leave it queued and let the next tick try again. Losing this
-                # distinction would turn every rate limit and every timeout
-                # into a document a human has to re-send by hand.
-                _logger.info("EDI cron send deferred for %s: %s",
-                             message.name, exception)
-                message.write({
-                    "error_message": str(exception),
-                    "blocking_level": "warning",
-                })
+                # leave it queued and try again later. Losing this distinction
+                # would turn every rate limit and every timeout into a
+                # document a human has to re-send by hand. Like a job runner,
+                # it waits — the provider's Retry-After, else a growing
+                # pause — and gives up after a bounded number of attempts;
+                # backpressure (ignore_retry) does not count as one.
+                message._edi_cron_defer(exception)
             except Exception as exception:  # noqa: BLE001
                 _logger.exception("EDI cron send failed for %s", message.name)
                 message.write({
                     "state": "error",
+                    "blocking_level": "error",
                     "error_message": str(exception),
                 })
             if cron is not None and not cron._commit_progress(processed=1):
                 break
+
+    #: Temporary failures the send cron tolerates before it parks a message
+    #: in error — the same budget ``_enqueue_send`` gives a job.
+    CRON_SEND_MAX_ATTEMPTS = 5
+
+    def _edi_cron_defer(self, exception):
+        """Record a temporary send failure on this queued message: when to
+        try again, or — the budget spent — that it needs a person."""
+        self.ensure_one()
+        attempts = self.send_attempt_count
+        if not getattr(exception, "ignore_retry", False):
+            attempts += 1
+        if attempts >= self.CRON_SEND_MAX_ATTEMPTS:
+            _logger.warning("EDI cron send gave up on %s after %s attempts: %s",
+                            self.name, attempts, exception)
+            self.write({
+                "state": "error",
+                "blocking_level": "error",
+                "send_attempt_count": attempts,
+                "send_retry_after": False,
+                "error_message": _(
+                    "Still failing after %(count)s attempts: %(error)s",
+                    count=attempts, error=str(exception)),
+            })
+            return
+        seconds = getattr(exception, "seconds", None) or min(
+            60 * 2 ** attempts, 3600)
+        _logger.info("EDI cron send deferred for %s by %ss: %s",
+                     self.name, seconds, exception)
+        self.write({
+            "error_message": str(exception),
+            "blocking_level": "warning",
+            "send_attempt_count": attempts,
+            "send_retry_after": fields.Datetime.add(
+                fields.Datetime.now(), seconds=int(seconds)),
+        })
 
     def _edi_related_documents(self):
         """Business documents this message should leave a chatter trace on.

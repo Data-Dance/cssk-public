@@ -6,9 +6,13 @@ Prints a journal entry as an **interní doklad** (CZ) or **interný doklad** (SK
 the accounting document for an entry that has no external document behind it,
 such as an accrual, depreciation, revaluation, a closing entry or a manual correction.
 
-Czech § 11 odst. 1 zákona č. 563/1991 Sb., o účetnictví, and Slovak § 10 ods. 1
-zákona č. 431/2002 Z. z. require the same things of an accounting document. The
-printout carries each of them:
+Czech § 11 odst. 1 zákona č. 563/1991 Sb., o účetnictví, lists what an
+accounting document must contain. Slovak § 10 ods. 1 zákona č. 431/2002 Z. z.
+lists the same particulars with one exception: it asks for the signature record
+of the person responsible for the accounting case only, and only where the case
+is not verified by electronic data interchange or an internal control system
+(§ 32 ods. 3 písm. b) and c)); it has no booking-person signature. The printout
+follows the longer Czech list, so it carries each of them:
 
 * označení dokladu: the entry's number;
 * obsah účetního případu: the reference, else the note, else the line labels;
@@ -19,7 +23,8 @@ printout carries each of them:
 * the lines, with account, label, partner, analytics, Má dáti / Dal;
 * podpisový záznam of the person responsible for the case (the entry's creator)
   and of the person responsible for booking it (whoever posted it). Each has a
-  line to sign on.
+  line to sign on. The second is required in the Czech Republic only; on a
+  Slovak document it is more than the law asks for.
 
 A draft is marked NEZAÚČTOVÁNO / NEZAÚČTOVANÉ.
 

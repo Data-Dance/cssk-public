@@ -1,0 +1,225 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* edi_epostak_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:42+0000\n"
+"PO-Revision-Date: 2026-10-27 19:42+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid ""
+" That looks like an IČO; scheme 0245 addresses the DIČ, which is a different"
+" number."
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid ""
+"%s does not carry a Peppol UBL document (no UBL root element or no "
+"cbc:CustomizationID). ePošťák transports Peppol documents only."
+msgstr ""
+
+#. module: edi_epostak_base
+#: model_terms:ir.ui.view,arch_db:edi_epostak_base.view_res_config_settings_epostak
+msgid ""
+"<strong>Sandbox is active.</strong>\n"
+"                        Documents are exchanged on the ePošťák test network and\n"
+"                        never reach the live Peppol network."
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model,name:edi_epostak_base.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_edi_message__display_name
+#: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__display_name
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model,name:edi_epostak_base.model_edi_message
+msgid "EDI Message"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model_terms:ir.ui.view,arch_db:edi_epostak_base.view_res_config_settings_epostak
+msgid "Environment"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_edi_message__id
+#: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__id
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields.selection,name:edi_epostak_base.selection__res_config_settings__epostak_mode__production
+msgid "Production"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,help:edi_epostak_base.field_res_config_settings__epostak_firm_id
+msgid ""
+"Required when the configured secret is an integrator key (sk_int_*), which "
+"speaks for several firms: the UUID of the TARGET firm we are acting for, "
+"sent as the X-Firm-Id header. Leave empty for a firm key (sk_live_*), where "
+"the firm is implied by the credentials. The secret is write-only, so check "
+"'Configured key' above to see which one you have rather than guessing from "
+"your contract — a direct customer can still be issued an integrator key, and"
+" then every call fails with 400 'X-Firm-Id header is required' until this is"
+" set. Press Test Connection to list the firms the key may act for and their "
+"UUIDs. This is NOT the firm_id claim inside the token — that one identifies "
+"the integrator itself and selects nothing."
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields.selection,name:edi_epostak_base.selection__res_config_settings__epostak_mode__sandbox
+msgid "Sandbox"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model_terms:ir.ui.view,arch_db:edi_epostak_base.view_res_config_settings_epostak
+msgid ""
+"Selects which ePošťák environment and credential\n"
+"                                set every request uses."
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid ""
+"The Peppol address of company %(company)s is not routable: %(complaint)s"
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid ""
+"The Peppol address of company %s is not configured. Set the Peppol e-address"
+" (EAS) and Peppol Endpoint on the company's partner record — ePošťák scopes "
+"every request to that participant identifier."
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid ""
+"The Peppol document %(name)s is missing: %(missing)s. Check the Peppol "
+"e-address (EAS) and Endpoint on both your company and the counterparty."
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid "cbc:ID"
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid "cbc:ProfileID"
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid "document_id"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model_terms:ir.ui.view,arch_db:edi_epostak_base.view_res_config_settings_epostak
+msgid "ePošťák"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model,name:edi_epostak_base.model_epostak_connector
+msgid "ePošťák Connector"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__epostak_mode
+msgid "ePošťák Environment"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__epostak_firm_id
+msgid "ePošťák Firm ID"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.actions.server,name:edi_epostak_base.cron_epostak_get_messages_ir_actions_server
+msgid "ePošťák: Poll Inbound Documents"
+msgstr ""
+
+#. module: edi_epostak_base
+#: model_terms:ir.ui.view,arch_db:edi_epostak_base.view_res_config_settings_epostak
+msgid "only for sk_int_* integrator keys"
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid "process_id"
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid "receiver"
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid "receiver Peppol address"
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid ""
+"scheme %(scheme)s expects a %(length)s-digit Slovak DIČ, but the endpoint is"
+" %(value)r.%(hint)s"
+msgstr ""
+
+#. module: edi_epostak_base
+#. odoo-python
+#: code:addons/edi_epostak_base/models/epostak_connector.py:0
+msgid "sender Peppol address"
+msgstr ""

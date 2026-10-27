@@ -283,6 +283,16 @@ msgid "Company"
 msgstr "Společnost"
 
 #. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid ""
+"Company '%(company)s' has neither a Tax ID (DIČ) nor a VAT number set, but "
+"the financial statements XML must carry the filer's tax identification. Set "
+"'Tax ID (DIČ)' or 'Tax ID' (VAT) on the company (Settings → Users & "
+"Companies → Companies → %(company)s) and export again."
+msgstr "Společnost '%(company)s' nemá vyplněno DIČ, ale XML účetní závěrky musí obsahovat daňovou identifikaci předkladatele. Vyplňte u společnosti 'Tax ID' (DIČ) (Nastavení → Uživatelé a společnosti → Společnosti → %(company)s) a exportujte znovu."
+
+#. module: l10n_cssk_fs_base
 #: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__cssk_comparison_count
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
 msgid "Comparisons"
@@ -292,6 +302,13 @@ msgstr "Porovnání"
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
 msgid "Compute"
 msgstr "Vypočítat"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid ""
+"Copy this filed statement into a new draft flagged Corrective, linked to "
+"this one. Correct the accounting, then recompute and file the copy."
+msgstr "Zkopíruje tento podaný výkaz do nového konceptu označeného jako opravný a propojeného s tímto. Opravte účetnictví, pak výkaz přepočítejte a podejte kopii."
 
 #. module: l10n_cssk_fs_base
 #: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement_line__correction_value
@@ -311,6 +328,11 @@ msgstr "Vzorec korekce"
 #: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__submission_type__opravna
 msgid "Corrective"
 msgstr "Opravná"
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Corrective statement"
+msgstr "Opravná závěrka"
 
 #. module: l10n_cssk_fs_base
 #: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement_version__country_id
@@ -510,16 +532,16 @@ msgstr "Účetní výkazy"
 
 #. module: l10n_cssk_fs_base
 #. odoo-python
-#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
-msgid "Financial statements (balance sheet + income statement)"
-msgstr "Účetní závěrka (rozvaha + výkaz zisku a ztráty)"
-
-#. module: l10n_cssk_fs_base
-#. odoo-python
 #: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
 #: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
 msgid "Financial statements"
 msgstr "Účetní závěrka"
+
+#. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid "Financial statements (balance sheet + income statement)"
+msgstr "Účetní závěrka (rozvaha + výkaz zisku a ztráty)"
 
 #. module: l10n_cssk_fs_base
 #: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__country_id
@@ -1232,6 +1254,11 @@ msgid "Version"
 msgstr "Verze"
 
 #. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__statement_kind
+msgid "Version Kind"
+msgstr "Druh verze"
+
+#. module: l10n_cssk_fs_base
 #. odoo-javascript
 #: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
 msgid "View source documents"
@@ -1322,8 +1349,3 @@ msgstr "id"
 #: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
 msgid "recomputed"
 msgstr "přepočteno"
-
-#. module: l10n_cssk_fs_base
-#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__statement_kind
-msgid "Version Kind"
-msgstr "Druh verze"

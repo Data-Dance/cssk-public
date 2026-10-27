@@ -19,6 +19,9 @@ class HrPayslip(models.Model):
         return res
 
     def action_payslip_cancel(self):
+        # Same guard as the reset: a cancelled payslip whose deduction is
+        # already with the payee would be deducted again by its correction.
+        self._cssk_garnishment_check_resettable()
         res = super().action_payslip_cancel()
         self._cssk_garnishment_unregister()
         return res

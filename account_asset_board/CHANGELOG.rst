@@ -8,6 +8,37 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.0.2 (2026-10-27), not yet on 18.0:** *Remaining Value* is no longer
+  a pivot measure (field ``aggregator=None``). 18.0 spells the attribute
+  ``group_operator``.
+
+[19.0.1.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Residual at End** was understated by the salvage value: it is now the net
+  book value (acquisition value − closing depreciated value − disposals). For
+  an asset removed in the period the disposal is the whole net book value
+  that left the register, salvage value included, so its residual is zero.
+- **Depreciation Analysis** no longer includes the planned lines of draft
+  assets.
+
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Depreciation Analysis** no longer offers *Remaining Value* (OCA's *Next
+  Period Depreciation*) as a measure. It is the balance left after each line,
+  so the pivot's yearly sum of it was meaningless — with monthly depreciation,
+  twelve balances added together.
+
 [19.0.1.0.0] — 2026-07-04
 -------------------------
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The Czech payroll data per employee. The fields live on the working
+        version (hr.version) and are surfaced on hr.employee through the 19.0
+        _inherits delegation, so editing them here edits the employee's own
+        version — the contract template only seeds them for new versions.
+    -->
+    <record id="hr_employee_view_form_l10n_cz_payroll" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.l10n_cz_payroll_oca</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <group name="payroll_group" position="inside">
+                <group string="Czech Payroll" name="l10n_cz_payroll"
+                       groups="payroll.group_payroll_user"
+                       invisible="company_country_code != 'CZ'">
+                    <field name="l10n_cz_agreement_type"/>
+                    <field name="l10n_cz_tax_declaration"/>
+                    <field name="l10n_cz_is_state_insured"/>
+                    <field name="l10n_cz_claim_ztpp"/>
+                    <field name="l10n_cz_disability"/>
+                    <field name="l10n_cz_meal_allowance"/>
+                    <field name="l10n_cz_avg_hourly_earnings"/>
+                    <field name="l10n_cz_garnishment_dependents"/>
+                    <field name="l10n_cz_social_discount_category"/>
+                </group>
+                <group string="Children" name="l10n_cz_children"
+                       groups="payroll.group_payroll_user"
+                       invisible="company_country_code != 'CZ'">
+                    <field name="l10n_cz_children_t1"/>
+                    <field name="l10n_cz_children_t2"/>
+                    <field name="l10n_cz_children_t3"/>
+                    <field name="l10n_cz_children_ztpp"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

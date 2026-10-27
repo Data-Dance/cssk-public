@@ -94,12 +94,6 @@ msgid "Compute"
 msgstr "Vypočítat"
 
 #. module: l10n_cssk_ec_summary_base
-#. odoo-python
-#: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
-msgid "Compute the statement before exporting."
-msgstr "Před exportem výkaz vypočítejte."
-
-#. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_version__country_id
 msgid "Country"
 msgstr "Země"
@@ -219,10 +213,11 @@ msgstr "Souhrnná hlášení"
 #. odoo-python
 #: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
 msgid ""
-"EC sales list cannot be exported — these lines have a missing or non-EU VAT "
-"number (hard block; connect a VIES validation step for live filing):\n"
+"EC sales list cannot be exported — these lines have a missing or non-EU VAT number (hard block; connect a VIES validation step for live filing):\n"
 "%s"
-msgstr "Souhrnné hlášení nelze exportovat — tyto řádky mají chybějící nebo mimo-EU DIČ (tvrdá blokace; pro ostré podání zapojte krok ověření VIES):\n%s"
+msgstr ""
+"Souhrnné hlášení nelze exportovat — tyto řádky mají chybějící nebo mimo-EU DIČ (tvrdá blokace; pro ostré podání zapojte krok ověření VIES):\n"
+"%s"
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_account_tax__cssk_ec_summary_code
@@ -318,8 +313,8 @@ msgid ""
 "triangulation, 2 = services)."
 msgstr ""
 "Pokud je nastaveno, plnění s touto daní se vykazují v souhrnném hlášení "
-"(Súhrnný výkaz / Souhrnné hlášení) s tímto kódem transakce (SK: 0 = zboží, 1 "
-"= trojstranný obchod, 2 = služby)."
+"(Súhrnný výkaz / Souhrnné hlášení) s tímto kódem transakce (SK: 0 = zboží, 1"
+" = trojstranný obchod, 2 = služby)."
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__message_is_follower
@@ -348,6 +343,8 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_cssk_ec_summary_base
+#. odoo-python
+#: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__line_ids
 msgid "Line"
 msgstr "Řádek"
@@ -461,12 +458,6 @@ msgid "Quarterly"
 msgstr "Čtvrtletně"
 
 #. module: l10n_cssk_ec_summary_base
-#. odoo-python
-#: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
-msgid "Rendered XML root <%(got)s> does not match expected <%(exp)s>."
-msgstr "Vygenerovaný kořenový element XML <%(got)s> neodpovídá očekávanému <%(exp)s>."
-
-#. module: l10n_cssk_ec_summary_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form
 msgid "Reset this filing to draft? The originally filed copy is kept."
 msgstr ""
@@ -536,7 +527,11 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
-msgstr "Stav na základě aktivit\nPo termínu: Datum již uplynulo\nDnes: Datum aktivity je dnes\nNaplánováno: Budoucí aktivity."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po termínu: Datum již uplynulo\n"
+"Dnes: Datum aktivity je dnes\n"
+"Naplánováno: Budoucí aktivity."
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__submission_reference
@@ -573,22 +568,6 @@ msgstr "Počet plnění"
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.view_move_line_ec_audit
 msgid "Tax"
 msgstr "Daň"
-
-#. module: l10n_cssk_ec_summary_base
-#. odoo-python
-#: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
-msgid ""
-"The EC sales list XML failed schema validation:\n"
-"%s"
-msgstr "XML souhrnného hlášení neprošlo validací schématu:\n%s"
-
-#. module: l10n_cssk_ec_summary_base
-#. odoo-python
-#: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
-msgid ""
-"The EC sales list failed kontrolné pravidlá:\n"
-"%s"
-msgstr "Souhrnné hlášení neprošlo kontrolními pravidly:\n%s"
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__country_id
@@ -688,27 +667,6 @@ msgstr "Název souboru XML schématu"
 msgid "code %s"
 msgstr "kód %s"
 
-#~ msgid "Cancel"
-#~ msgstr "Zrušit"
-
-#~ msgid "Create"
-#~ msgstr "Vytvořit"
-
-#~ msgid "Create EC Sales List"
-#~ msgstr "Vytvořit souhrnné hlášení"
-
-#~ msgid "Generate"
-#~ msgstr "Generovat"
-
-#~ msgid "New EC Sales List"
-#~ msgstr "Nové souhrnné hlášení"
-
-#~ msgid "External id of the QWeb template that renders this version."
-#~ msgstr "Externí id QWeb šablony, která generuje tuto verzi."
-
-#~ msgid "Xml Template Ref"
-#~ msgstr "Odkaz na XML šablonu"
-
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.module.module,shortdesc:base.module_l10n_cssk_ec_summary_base
 msgid ""
@@ -759,6 +717,8 @@ msgid ""
 " filed                                   it on the portal and holds the "
 "receipts."
 msgstr ""
+"Otevře doručení tohoto podání. Je-li nainstalován jen ruční kanál, "
+"zaznamená, kdo podání podal na portálu, a uchová potvrzení."
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_line__is_overridden
@@ -772,6 +732,8 @@ msgid ""
 "Recompute dropped %(count)s manual override(s) whose row no longer exists in the recomputed statement:\n"
 "%(rows)s"
 msgstr ""
+"Přepočet vynechal %(count)s ručních úprav, jejichž řádek již v přepočteném výkazu neexistuje:\n"
+"%(rows)s"
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_line__is_overridden
@@ -789,11 +751,6 @@ msgid "recomputed"
 msgstr "přepočteno"
 
 #. module: l10n_cssk_ec_summary_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form
-msgid "✓"
-msgstr ""
-
-#. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__filed_history_ids
 msgid "Filed history"
 msgstr "Historie podání"
@@ -801,23 +758,17 @@ msgstr "Historie podání"
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__filed_history_ids
 msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed "
-"XML' is the latest one; after a reset → recompute → resubmit cycle "
-"the previously-filed copies stay reachable here."
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
 msgstr ""
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__legacy
 msgid ""
-"This filing was not produced here — it records what was actually "
-"submitted for a period that predates this system, loaded from a "
-"migration. It is a historical fact, so it can never be exported, "
-"submitted or recomputed, and it is invisible to anything that looks "
-"for 'the return of the previous period'. It CAN be amended: a "
-"dodatočné filed later against a historical period is an ordinary "
-"submittable return.\n\nSetting this puts the record in state "
-"'Historical filing', which is terminal — the two are written "
-"together and cannot come apart."
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
 msgstr ""
 
 #. module: l10n_cssk_ec_summary_base
@@ -828,8 +779,8 @@ msgstr "Zdrojový systém"
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__legacy_source
 msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' "
-"— or how it was captured if by hand."
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
 msgstr ""
 
 #. module: l10n_cssk_ec_summary_base
@@ -841,8 +792,7 @@ msgstr "Zdrojová reference"
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__legacy_reference
 msgid ""
 "Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced "
-"it."
+"materialised from, so a figure can be traced back to what produced it."
 msgstr ""
 
 #. module: l10n_cssk_ec_summary_base
@@ -850,3 +800,41 @@ msgstr ""
 #: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
 msgid "EC sales list"
 msgstr "souhrnné hlášení"
+
+#. module: l10n_cssk_ec_summary_base
+#. odoo-python
+#: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
+msgid ""
+"%(form)s for %(period)s amends a filing, but no filed statement for the "
+"period is recorded here. Record the original filing (mark it submitted, or "
+"import it as a historical filing) so that only the changes are reported."
+msgstr ""
+"%(form)s za %(period)s opravuje podání, ale žádné podané hlášení za toto "
+"období zde není evidováno. Zaevidujte původní podání (označte je jako podané"
+" nebo je importujte jako historické podání), aby se vykázaly jen změny."
+
+#. module: l10n_cssk_ec_summary_base
+#: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_line__is_storno
+msgid "Cancels a filed row"
+msgstr "Ruší podaný řádek"
+
+#. module: l10n_cssk_ec_summary_base
+#: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__cssk_comparison_count
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form
+msgid "Comparisons"
+msgstr "Porovnání"
+
+#. module: l10n_cssk_ec_summary_base
+#: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_line__is_storno
+msgid ""
+"On a later filing for the period (CZ následné hlášení): this row cancels the"
+" row with the same country, VAT number and code filed before."
+msgstr ""
+"U pozdějšího podání za období (následné hlášení): tento řádek ruší dříve "
+"podaný řádek se stejnou zemí, DIČ a kódem."
+
+#. module: l10n_cssk_ec_summary_base
+#. odoo-python
+#: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
+msgid "The form version %(version)s cannot be filed for a %(period)s period."
+msgstr "Verzi tiskopisu %(version)s nelze podat za %(period)s období."

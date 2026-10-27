@@ -18,6 +18,24 @@ Added
   by it, because a string comparison cannot pair the two spellings of the same
   account.
 
+[19.0.1.3.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- An ABO file, and a MultiCash MT101 message, carry one date for all their
+  payments. Payments dated differently are now refused with the dates listed,
+  instead of every payment being executed on the first one's date.
+- A zero or negative amount (in hellers, as written) stops an ABO or MultiCash
+  file with the payments named, instead of producing a file the bank rejects.
+
+Added
+~~~~~
+
+- Helpers that compare a bank-code-less account (GPC) with the journal's
+  account in any spelling.
+
 [19.0.1.3.1] — 2026-09-13
 -------------------------
 

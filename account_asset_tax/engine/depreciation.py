@@ -26,6 +26,7 @@ event date with an adjusted entry value / residual and a starting year offset;
 that orchestration lives in the Odoo layer.
 """
 
+import math
 from dataclasses import dataclass, field
 from datetime import date
 
@@ -38,19 +39,27 @@ METHOD_LINEAR = "linear"            # CZ rovnoměrné / SK rovnomerné
 METHOD_ACCELERATED = "accelerated"  # CZ zrychlené / SK zrýchlené
 METHOD_EXTRAORDINARY = "extraordinary"  # CZ §30a only
 
-# Rounding: CZ rounds the annual charge up to whole CZK (§ rounding rules);
-# SK rounds mathematically to eurocent. The engine returns unrounded floats and
-# lets the caller apply the company-currency rounding, except that we snap the
-# final line so the schedule sums exactly to the depreciable base.
-# TODO(accountant): CZ statutorily rounds each annual charge UP to whole CZK
-# (§26(8)-adjacent practice; zaokrouhlení na celé koruny nahoru). The engine
-# currently leaves rounding to the caller's company currency (0.01). Confirm
-# with the accountant whether the register must show whole-CZK round-up per
-# year (and where the compensating difference lands) before changing.
+# Rounding:
+# * CZ — every odpis is rounded UP to whole koruny: § 31 odst. 9 (rovnoměrné),
+#   § 32 odst. 5 (zrychlené), § 30a odst. 2 (mimořádné) zákona 586/1992 Sb.
+#   The engine does that itself (``_ceil_czk``); the residual of the next year
+#   is computed from the rounded figures, and the last line takes whatever is
+#   left, so the board never exceeds the entry price (§ 30 odst. 3).
+# * SK — § 47 rounds mathematically to eurocent; the engine returns unrounded
+#   floats and the caller applies the company-currency rounding.
 
 # Float tolerance used when deciding whether a statutory remainder is real or
 # just IEEE noise (e.g. `annual - annual * 12 / 12.0` can be ±1e-14).
 _EPS = 1e-9
+
+
+def _ceil_czk(amount):
+    """Round a CZ odpis UP to whole koruny (§ 31/9, § 32/5, § 30a/2 ZDP).
+
+    The tolerance keeps IEEE noise (``22250.000000000004``) from adding a
+    koruna that the statute does not.
+    """
+    return float(math.ceil(amount - 1e-6))
 
 
 @dataclass
@@ -65,6 +74,10 @@ class ScheduleLine:
     cumulative: float          # depreciation taken up to & including this line
     residual: float            # tax residual value after this line
     note: str = ""             # human hint, e.g. "prorated 10/12", "remainder"
+    # Share of the line's full statutory charge actually taken (1.0 except on
+    # a disposal-year line cut to whole months). Lets a comparison schedule
+    # (SK § 17 ods. 34) be cut the same way.
+    fraction: float = 1.0
 
 
 @dataclass
@@ -96,13 +109,28 @@ class TaxAssetSpec:
     tax_class: TaxClass
     # Extraordinary (§30a) needs a precise monthly anchor; ignored otherwise.
     monthly: bool = False
-    # Year-1 increased-rate election (CZ §31, first depreciator of groups 1–3):
-    # 0 = none (basic table), or 10 / 15 / 20 for the +10/+15/+20 % variants.
+    # Year-1 increase elected by a first depreciator (CZ only, groups 1–3):
+    # 0 = none, or 10 / 15 / 20. Straight-line takes the § 31 odst. 1
+    # písm. d) / c) / b) table; accelerated adds that share of the entry
+    # price to the year-1 charge (§ 32 odst. 2 písm. a) body 3 / 2 / 1).
+    # Which variant an asset may use (§ 31 odst. 2–5) is the caller's call.
     increased_first_year: int = 0
-    # Passenger-vehicle base cap (0 = none). CZ §30e caps the deductible base of
-    # an M1 vehicle at 2,000,000 CZK; SK §17(34) limits cars from 48,000 EUR.
-    # When set and below the entry value, the schedule is computed on the cap.
+    # Passenger-vehicle limit (0 = none).
+    # * CZ § 30e: only the share cap / entry price of each odpis of an M1
+    #   vehicle is deductible (cap 2 000 000 Kč) — the board is computed on
+    #   the cap, which gives exactly that share.
+    # * SK § 17 ods. 34 is NOT a limit on the board: a car of 48 000 € or more
+    #   is depreciated in full, and the excess over a § 27 schedule on 48 000 €
+    #   is added back to the tax base only when that base is low. The engine
+    #   leaves the SK board alone; see :func:`sk_vehicle_addbacks`.
     entry_cap: float = 0.0
+    # SK § 22 ods. 12: assets that keep a whole-month charge in the year of
+    # disposal — § 26 ods. 6 and 7 assets (always) and, from 1. 1. 2016, at the
+    # taxpayer's option, assets whose residual is deductible only up to the
+    # sale proceeds (§ 19 ods. 3 písm. b) prvý bod: passenger cars, boats,
+    # aircraft, motorcycles, group-6 buildings sold …). Every other SK asset
+    # gets no depreciation in the year it leaves (§ 22 ods. 11).
+    sk_disposal_months: bool = False
     notes: list = field(default_factory=list)
 
 
@@ -160,9 +188,10 @@ def _schedule_cz_linear(spec):
     years = tc.useful_life_years
     for i in range(1, years + 1):
         rate = first_rate if i == 1 else next_rate
-        amount = base * rate / 100.0
+        # § 31 odst. 9: rounded up to whole koruny, never past the entry price
+        amount = min(_ceil_czk(base * rate / 100.0), base - cumulative)
         if i == years:
-            # snap the last line so rounding never leaves a residual
+            # the last year takes what is left, so the board clears the base
             amount = base - cumulative
         cumulative += amount
         df, dt = _yearly_dates(spec.in_service_date, i)
@@ -175,29 +204,42 @@ def _schedule_cz_linear(spec):
 
 
 def _schedule_cz_accelerated(spec):
-    """CZ §32 accelerated. Year 1 = base/k1; year n = 2·residual/(kn−(n−1))."""
+    """CZ §32 accelerated. Year 1 = base/k1; year n = 2·residual/(kn−(n−1)).
+
+    § 32 odst. 2 písm. a): a first depreciator may raise the year-1 charge by
+    20 / 15 / 10 % of the entry price (bod 1 / 2 / 3); the later years then
+    run the ordinary formula on the lower residual.
+    """
     tc = spec.tax_class
     base = spec.entry_value
     k1 = tc.accel_coeff_first
     kn = tc.accel_coeff_next
+    increase = 0.0
+    note_first = "§32 1/k1"
+    variant = spec.increased_first_year
+    if variant and tc.group_number in CZ_INCREASED_FIRST_YEAR.get(variant, {}):
+        increase = base * variant / 100.0
+        note_first = "§32 1/k1 +%d%% of entry price" % variant
     lines = []
     cumulative = 0.0
     residual = base
     years = tc.useful_life_years
     for i in range(1, years + 1):
+        # § 32 odst. 5: rounded up to whole koruny; the next year's residual
+        # (zůstatková cena) is what the ROUNDED charges leave
         if i == 1:
-            amount = base / k1
+            amount = min(_ceil_czk(base / k1 + increase), residual)
         elif i == years:
             amount = residual
         else:
-            amount = 2.0 * residual / (kn - (i - 1))
+            amount = min(_ceil_czk(2.0 * residual / (kn - (i - 1))), residual)
         cumulative += amount
         residual = base - cumulative
         df, dt = _yearly_dates(spec.in_service_date, i)
         lines.append(ScheduleLine(
             year_index=i, fiscal_year=df.year, date_from=df, date_to=dt,
             amount=amount, cumulative=cumulative, residual=residual,
-            note="§32 1/k1" if i == 1 else "§32 2·ZC/(k−n)",
+            note=note_first if i == 1 else "§32 2·ZC/(k−n)",
         ))
     return lines
 
@@ -220,10 +262,21 @@ def _schedule_cz_extraordinary(spec):
     if m > 12:
         m = 1
         y += 1
-    first_12 = base * 0.60 / 12.0
-    next_12 = base * 0.40 / 12.0
+    # § 30a odst. 2: each odpis rounded up to whole koruny. The first twelve
+    # months may reach "do výše 60 %" and no further, so month 12 takes what
+    # the rounded months 1–11 leave of 60 %; month 24 clears the base.
+    cap_60 = base * 0.60
+    first_12 = _ceil_czk(base * 0.60 / 12.0)
+    next_12 = _ceil_czk(base * 0.40 / 12.0)
     for i in range(1, 25):
         amount = first_12 if i <= 12 else next_12
+        if i <= 12:
+            amount = min(amount, cap_60 - cumulative)
+        if i == 12:
+            # whole koruny that still fit under 60 %; any haléř left over
+            # moves into the 40 % half
+            amount = float(math.floor(cap_60 - cumulative + 1e-6))
+        amount = min(amount, base - cumulative)
         if i == 24:
             amount = base - cumulative
         cumulative += amount
@@ -377,18 +430,60 @@ def compute_schedule(spec):
     fn = _DISPATCH.get(key)
     if fn is None:
         raise ValueError("Unsupported tax depreciation (%s, %s)" % key)
-    # Passenger-vehicle base cap (CZ §30e / SK §17(34)): depreciate on the cap.
-    # TODO(accountant): SK §17(34) is NOT a hard base cap like CZ §30e — the
-    # depreciation of a >48k EUR car is claimed in full and only *conditionally*
-    # added back to the tax base (pripočítateľná položka) when the taxpayer's
-    # base is too low / lease conditions apply. Capping the board here matches
-    # CZ semantics; the SK conditional add-back belongs in the DPPO
-    # reconciliation. Confirm the SK presentation with the accountant.
-    if 0 < spec.entry_cap < spec.entry_value:
+    # CZ § 30e: depreciate on the cap (= the deductible share of each odpis).
+    # SK § 17 ods. 34 is a conditional add-back, not a cap: the board stays on
+    # the full entry price (§ 25 counts the full § 27/§ 28 charge as taken
+    # even in a year the excess is added back) — see sk_vehicle_addbacks().
+    if spec.country == CZ and 0 < spec.entry_cap < spec.entry_value:
         spec.entry_value = spec.entry_cap
     if spec.entry_value <= 0:
         return []
     return fn(spec)
+
+
+# SK § 17 ods. 34 has applied since 1. 1. 2015 (zákon 333/2014 Z. z.).
+SK_VEHICLE_ADDBACK_FROM_YEAR = 2015
+
+
+def sk_vehicle_addbacks(lines, spec, cap):
+    """SK § 17 ods. 34: the potential add-back for a car of ``cap`` € or more.
+
+    Returns one amount per line of ``lines``: the positive difference between
+    the depreciation actually on the line and the § 27 (straight-line)
+    depreciation of the same car computed from an entry price of ``cap``
+    (48 000 €), including its first-year months and its first-year remainder.
+
+    Whether the add-back is actually made depends on the taxpayer's whole tax
+    base for the year (it applies only when that base is lower than the number
+    of such cars × the annual § 27 charge on 48 000 €) and is not made by a
+    lessor for cars leased without a purchase option — neither is known here,
+    so this is the amount to add back *if* the condition is met.
+
+    The comparison schedule is matched to the charged lines in order (a
+    suspended year carries nothing and does not consume a comparison year),
+    and a disposal-year line cut to whole months is compared with the same
+    share of the comparison year.
+    """
+    if spec.country != SK or not cap or spec.entry_value < cap:
+        return [0.0] * len(lines)
+    reference = _schedule_sk_linear(TaxAssetSpec(
+        country=SK, method=METHOD_LINEAR, entry_value=cap,
+        in_service_date=spec.in_service_date, tax_class=spec.tax_class,
+    ))
+    ref_amounts = [l.amount for l in reference]
+    out = []
+    k = 0
+    for line in lines:
+        if line.amount <= _EPS:
+            out.append(0.0)
+            continue
+        ref = ref_amounts[k] * line.fraction if k < len(ref_amounts) else 0.0
+        k += 1
+        if line.fiscal_year < SK_VEHICLE_ADDBACK_FROM_YEAR:
+            out.append(0.0)
+            continue
+        out.append(max(line.amount - ref, 0.0))
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -423,12 +518,13 @@ def _reindex(prefix, tail_amounts, in_service_date, base, start_year_index,
     return lines
 
 
-def _accel_tail_amounts(residual, k_increased):
+def _accel_tail_amounts(residual, k_increased, rounding=None):
     """Return accelerated post-improvement amounts until the residual is cleared.
 
     Year of improvement: 2·ZC_increased / k_increased.
     Following years:      2·ZC / (k_increased − n), n = years since improvement.
-    The final year clears whatever residual remains.
+    The final year clears whatever residual remains. ``rounding`` (CZ:
+    ``_ceil_czk``, § 32 odst. 5) is applied to each year's charge.
     """
     amounts = []
     res = residual
@@ -436,6 +532,8 @@ def _accel_tail_amounts(residual, k_increased):
     while res > 1e-6 and n < k_increased:
         denom = k_increased if n == 0 else (k_increased - n)
         amt = 2.0 * res / denom if denom > 0 else res
+        if rounding:
+            amt = rounding(amt)
         # once the formula would over-shoot, or we reach the last coefficient
         # step, take the whole remaining residual
         if amt >= res or denom <= 1:
@@ -490,7 +588,8 @@ def apply_technical_improvement(lines, spec, improvement_year_index, amount):
     tail = []
     if spec.method == METHOD_LINEAR:
         if spec.country == CZ:
-            annual = new_base * tc.linear_rate_increased / 100.0
+            # § 31 odst. 8 and 9: increased-price rate, rounded up to koruny
+            annual = _ceil_czk(new_base * tc.linear_rate_increased / 100.0)
         else:  # SK: increased price spread over the statutory life
             annual = new_base / tc.useful_life_years
         res = new_residual
@@ -501,7 +600,9 @@ def apply_technical_improvement(lines, spec, improvement_year_index, amount):
         notes = ["TZ §31 increased rate" if spec.country == CZ else "TZ §26(5) increased price"] * len(tail)
     elif spec.method == METHOD_ACCELERATED:
         k_incr = tc.accel_coeff_increased or tc.accel_coeff_next
-        tail = _accel_tail_amounts(new_residual, k_incr)
+        tail = _accel_tail_amounts(
+            new_residual, k_incr,
+            rounding=_ceil_czk if spec.country == CZ else None)
         notes = ["TZ accelerated 2·ZC/k_incr"] + ["TZ accelerated 2·ZC/(k_incr−n)"] * (len(tail) - 1)
     elif spec.method == METHOD_EXTRAORDINARY:
         # §30a(3): a technical improvement of an extraordinary-depreciation asset
@@ -575,20 +676,23 @@ def apply_suspension(lines, suspended_year_indices):
 def apply_disposal(lines, spec, disposal_date):
     """Truncate the board at disposal.
 
-    * CZ annual — only **half** the annual charge is deductible in the disposal
-      year (§26(7)); the rest of the board is dropped.
-    * CZ §30a monthly — depreciation runs with whole-month precision (§30a(4)):
+    * CZ annual — § 26 odst. 7 písm. a) bod 1: only **half** the annual charge
+      (§ 31/§ 32, itself rounded up to koruny; the half is rounded up as well)
+      and only for an asset that was already registered at the start of the
+      tax period. An asset put into use and disposed of in the same year gets
+      nothing. The rest of the board is dropped.
+    * CZ §30a monthly — depreciation runs with whole-month precision (§30a(2)):
       the monthly charges through the disposal *month* stay, the rest is
       dropped; the half-year rule does not apply to a monthly board.
-    * SK — the disposal year is prorated to the month before disposal; the rest
-      is dropped.
+    * SK — § 22 ods. 11: the annual charge may be claimed only for an asset
+      still recorded on the last day of the tax period, so the disposal year
+      carries **no** depreciation; the tax residual is then expensed under
+      § 19 ods. 3 písm. b) (capped at the sale proceeds for the assets listed
+      in its first point). Exception, § 22 ods. 12: assets flagged
+      ``sk_disposal_months`` keep the charge for the whole months they were
+      recorded in that year.
 
     Returns ``(truncated_lines, tax_residual_at_disposal)``.
-
-    TODO(accountant): CZ §26(7)(a) grants the half-year charge only when the
-    asset was registered at the start of the tax period — an asset acquired and
-    disposed of in the SAME year gets no depreciation at all. Confirm before
-    zeroing the disposal-year line for same-year acquisition+disposal.
     """
     disposal_fy = disposal_date.year
     base = (lines[0].residual + lines[0].amount) if lines else 0.0
@@ -615,25 +719,47 @@ def apply_disposal(lines, spec, disposal_date):
 
     prefix = [l for l in lines if l.fiscal_year < disposal_fy]
     disposal_line = next((l for l in lines if l.fiscal_year == disposal_fy), None)
-    cumulative = prefix[-1].cumulative if prefix else 0.0
 
     out = list(_rebuild_prefix_residuals(prefix, base))
     cumulative = out[-1].cumulative if out else 0.0
     if disposal_line is not None:
+        first_year = disposal_fy == spec.in_service_date.year
+        fraction = 0.0
         if spec.country == CZ:
-            amount = disposal_line.amount / 2.0
-            note = "§26(7) half-year on disposal"
-        else:  # SK: prorate to the month of disposal (months Jan..disposal-1)
-            months_used = max(disposal_date.month - 1, 0)
-            annual = disposal_line.amount
-            amount = annual * months_used / 12.0
-            note = "§22 prorated %d/12 on disposal" % months_used
+            if first_year:
+                amount = 0.0
+                note = ("§26(7)(a) none on disposal: not registered at the "
+                        "start of the tax period")
+            else:
+                amount = min(_ceil_czk(disposal_line.amount / 2.0),
+                             base - cumulative)
+                fraction = (amount / disposal_line.amount
+                            if disposal_line.amount else 0.0)
+                note = "§26(7) half-year on disposal"
+        elif spec.sk_disposal_months:
+            # § 22 ods. 12: whole calendar months recorded in the year
+            # (the disposal month is not a whole month). In the in-service
+            # year the line already holds months/12 of the annual charge.
+            if first_year:
+                months_held = _months_in_first_year(spec.in_service_date)
+                months_used = max(disposal_date.month
+                                  - spec.in_service_date.month, 0)
+            else:
+                months_held = 12
+                months_used = max(disposal_date.month - 1, 0)
+            fraction = months_used / float(months_held) if months_held else 0.0
+            amount = disposal_line.amount * fraction
+            note = "§22(12) %d whole months on disposal" % months_used
+        else:
+            amount = 0.0
+            note = ("§22(11) none in the year of disposal; residual is a "
+                    "§19(3)(b) expense")
         cumulative += amount
         out.append(ScheduleLine(
             year_index=disposal_line.year_index, fiscal_year=disposal_fy,
             date_from=date(disposal_fy, 1, 1), date_to=disposal_date,
             amount=amount, cumulative=cumulative, residual=base - cumulative,
-            note=note,
+            note=note, fraction=fraction,
         ))
     tax_residual = base - cumulative
     return out, tax_residual

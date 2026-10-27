@@ -1,6 +1,6 @@
 {
     "name": "Purchase Order Advance Invoice",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.2.0",
     "summary": "Received advance invoices (vendor proformas) with tax "
                "documents on sent payments",
     "description": """
@@ -48,6 +48,7 @@ creates no tax point there — register no tax document for them.
         "security/ir.model.access.csv",
         "data/ir_sequence_data.xml",
         "data/ir_cron_data.xml",
+        "data/mail_activity_type_data.xml",
         "wizard/purchase_advance_payment_wizard_views.xml",
         "wizard/purchase_advance_payment_link_wizard_views.xml",
         "wizard/purchase_advance_tax_doc_wizard_views.xml",

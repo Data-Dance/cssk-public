@@ -1,6 +1,3 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* account_cz_bankfile_base
 #
 msgid ""
 msgstr ""
@@ -24,14 +21,56 @@ msgstr "ABO podporuje iba platby v CZK — riadok platby %(name)s je v %(cur)s."
 
 #. module: account_cz_bankfile_base
 #. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/abo.py:0
+msgid ""
+"An ABO file carries one due date for all its payments, but these are dated "
+"%s. Give them one date — on a payment order, set the Payment Execution Date "
+"Type to Fixed Date or Immediately — or split them into one file per date."
+msgstr ""
+"Súbor ABO nesie jeden dátum splatnosti pre všetky platby, ale tieto majú "
+"dátumy %s. Dajte im jeden dátum — pri platobnom príkaze nastavte typ dátumu "
+"vykonania na pevný dátum alebo okamžite — alebo ich rozdeľte do súboru pre "
+"každý dátum."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid ""
+"An MT101 message carries one execution date for all its payments, but these "
+"are dated %s. Give them one date — on a payment order, set the Payment "
+"Execution Date Type to Fixed Date or Immediately — or split them into one "
+"file per date."
+msgstr ""
+"Správa MT101 nesie jeden dátum vykonania pre všetky platby, ale tieto majú "
+"dátumy %s. Dajte im jeden dátum — pri platobnom príkaze nastavte typ dátumu "
+"vykonania na pevný dátum alebo okamžite — alebo ich rozdeľte do súboru pre "
+"každý dátum."
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/multicash.py:0
+msgid ""
+"Banks reject a MultiCash file with an item that is zero or negative. Remove "
+"these payments, or settle them otherwise: %s"
+msgstr ""
+"Banky odmietnu súbor MultiCash s nulovou alebo zápornou položkou. Odstráňte "
+"tieto platby, alebo ich vyrovnajte inak: %s"
+
+#. module: account_cz_bankfile_base
+#. odoo-python
+#: code:addons/account_cz_bankfile_base/utils/abo.py:0
+msgid ""
+"Banks reject an ABO file with an item that is zero or negative. Remove these"
+" payments, or settle them otherwise: %s"
+msgstr ""
+"Banky odmietnu súbor ABO s nulovou alebo zápornou položkou. Odstráňte tieto "
+"platby, alebo ich vyrovnajte inak: %s"
+
+#. module: account_cz_bankfile_base
+#. odoo-python
 #: code:addons/account_cz_bankfile_base/utils/multicash.py:0
 msgid "CFD/CFU only supports CZK payments — payment %(name)s is in %(cur)s."
 msgstr "CFD/CFU podporuje iba platby v CZK — platba %(name)s je v %(cur)s."
-
-#. module: account_cz_bankfile_base
-#: model:ir.module.module,shortdesc:base.module_account_cz_bankfile_base
-msgid "CZ/SK Bank File Formats — shared builders"
-msgstr "CZ/SK formáty bankových súborov — zdieľané zostavovače"
 
 #. module: account_cz_bankfile_base
 #. odoo-python
@@ -95,17 +134,6 @@ msgid "Payment line %s is missing a partner bank account."
 msgstr "Riadku platby %s chýba bankový účet partnera."
 
 #. module: account_cz_bankfile_base
-#: model:ir.module.module,summary:base.module_account_cz_bankfile_base
-msgid ""
-"Shared ABO and MultiCash payment-file builders. The CE "
-"(account_payment_order) and EE (account_batch_payment) variants of "
-"account_abo / account_multicash both build on this."
-msgstr ""
-"Zdieľané zostavovače platobných súborov ABO a MultiCash. Stavajú na nich "
-"varianty CE (account_payment_order) aj EE (account_batch_payment) modulov "
-"account_abo a account_multicash."
-
-#. module: account_cz_bankfile_base
 #. odoo-python
 #: code:addons/account_cz_bankfile_base/utils/abo.py:0
 msgid "The bank journal has no bank account configured."
@@ -116,3 +144,19 @@ msgstr "Bankový denník nemá nastavený bankový účet."
 #: code:addons/account_cz_bankfile_base/utils/multicash.py:0
 msgid "Unknown MultiCash payment method code: %s"
 msgstr "Neznámy kód platobnej metódy MultiCash: %s"
+
+#. module: account_cz_bankfile_base
+#: model:ir.module.module,shortdesc:base.module_account_cz_bankfile_base
+msgid "CZ/SK Bank File Formats — shared builders"
+msgstr "CZ/SK formáty bankových súborov — zdieľané zostavovače"
+
+#. module: account_cz_bankfile_base
+#: model:ir.module.module,summary:base.module_account_cz_bankfile_base
+msgid ""
+"Shared ABO and MultiCash payment-file builders. The CE "
+"(account_payment_order) and EE (account_batch_payment) variants of "
+"account_abo / account_multicash both build on this."
+msgstr ""
+"Zdieľané zostavovače platobných súborov ABO a MultiCash. Stavajú na nich "
+"varianty CE (account_payment_order) aj EE (account_batch_payment) modulov "
+"account_abo a account_multicash."

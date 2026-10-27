@@ -36,6 +36,16 @@ class L10nSkEldp(models.Model):
     _country_code = "SK"
     _xml_name_fallback = "eldp"
 
+    # The company field is required for every Sociálna poisťovňa filing but
+    # appears on no company form (several modules declare it, and one view
+    # per module would show the input several times). Edit it here instead.
+    sp_vs = fields.Char(
+        related="company_id.l10n_sk_sp_vs", readonly=False,
+        string="Sociálna poisťovňa variable symbol",
+        help="10-digit number the Sociálna poisťovňa assigned to the "
+        "company. It is stored on the company and shared by every Sociálna "
+        "poisťovňa filing (MVP, VPP, ELDP, RLFO).")
+
     # ------------------------------------------------------------------
     # Annual period (the whole calendar year, month is irrelevant).
     # ------------------------------------------------------------------
@@ -63,8 +73,8 @@ class L10nSkEldp(models.Model):
                 raise UserError(_(
                     "Company '%(company)s' needs a 10-digit Sociálna poisťovňa "
                     "identification number for the ELDP "
-                    "<icz> element. Set 'Sociálna poisťovňa variable symbol' "
-                    "on the company.", company=company.display_name))
+                    "<icz> element. Fill in 'Sociálna poisťovňa variable "
+                    "symbol' on this form.", company=company.display_name))
             if not rec._company_ico(company):
                 raise UserError(_(
                     "Company '%(company)s' needs an 8-digit IČO (Company "
@@ -95,6 +105,7 @@ class L10nSkEldp(models.Model):
 
     @staticmethod
     def _split_name(name):
+        """Naive split, kept for the contact person (a user, not an employee)."""
         parts = (name or "").split()
         meno = parts[0] if parts else "-"
         priezvisko = parts[-1] if len(parts) > 1 else (parts[0] if parts else "-")
@@ -107,8 +118,15 @@ class L10nSkEldp(models.Model):
     def _employee_period(self, employee):
         """(datVzniku, datZaniku|None, datOd, datDo) for the employee's insured
         relationship, clamped to the reporting year for the obdobie row."""
-        hire = getattr(employee, "first_contract_date", False) or self.date_from
-        departure = getattr(employee, "departure_date", False)
+        # ``hr.employee`` has no ``first_contract_date`` field in Odoo 19 (the
+        # getattr this replaces always fell back to 1 January, so every
+        # datVzniku said the relationship began on the first day of the
+        # reported year). Core's helper returns the start of the CURRENT
+        # uninterrupted run of contracts; contract dates are HR-manager-only
+        # fields, hence sudo.
+        hire = (employee.sudo()._get_first_contract_date()
+                or self.date_from)
+        departure = employee.sudo().departure_date
         dat_od = max(hire, self.date_from)
         if departure and departure <= self.date_to:
             dat_do = min(departure, self.date_to)
@@ -134,7 +152,10 @@ class L10nSkEldp(models.Model):
                 raise UserError(_(
                     "Employee '%(name)s' needs a date of birth for the ELDP "
                     "<datNarodenia> element.", name=employee.display_name))
-            priezvisko, meno = self._split_name(employee.name)
+            # Last word = surname, the rest = first name(s); separate first /
+            # last name fields win when hr_employee_firstname provides them.
+            meno, priezvisko = self._split_person_name(employee)
+            meno, priezvisko = (meno or "-")[:24], (priezvisko or "-")[:36]
             hire, zanik, dat_od, dat_do = self._employee_period(employee)
             rows.append({
                 "rc": rc,

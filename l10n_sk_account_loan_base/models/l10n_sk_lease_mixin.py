@@ -1,10 +1,14 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import math
+
 from odoo import _, api, fields, models
 
-# Doba odpisovania per odpisová skupina, § 26 ods. 1 zákona 595/2003.
+# Doba odpisovania per odpisová skupina, § 26 ods. 1 zákona 595/2003
+# (skupina 0 od 1. 1. 2020).
 SK_DEPRECIATION_YEARS = {
+    "0": 2,
     "1": 4,
     "2": 6,
     "3": 8,
@@ -19,12 +23,31 @@ SK_DEPRECIATION_YEARS = {
 SK_MIN_LEASE_SHARE = 0.60
 
 
+# Plain labels: the selection is built at import, where _() has no language
+# to translate into (and logs a warning). Selection labels are translated
+# through ir.model.fields.selection anyway; these are Slovak statutory terms.
+SK_DEPRECIATION_GROUP_LABELS = {
+    "0": "Odpisová skupina 0 (2 roky)",
+    "1": "Odpisová skupina 1 (4 roky)",
+    "2": "Odpisová skupina 2 (6 rokov)",
+    "3": "Odpisová skupina 3 (8 rokov)",
+    "4": "Odpisová skupina 4 (12 rokov)",
+    "5": "Odpisová skupina 5 (20 rokov)",
+    "6": "Odpisová skupina 6 (40 rokov)",
+}
+
+
 def sk_min_lease_months(group):
-    """Minimum lease term in months for the arrangement to be finančný prenájom."""
+    """Minimum lease term in whole months for a finančný prenájom.
+
+    "Najmenej 60 %" is a floor, so a fraction of a month rounds UP: 60 % of
+    six years is 43.2 months, and a 43-month lease falls short of it.
+    """
     years = SK_DEPRECIATION_YEARS.get(group)
     if not years:
         return 0
-    return int(round(years * 12 * SK_MIN_LEASE_SHARE))
+    # round() first, so float noise (28.799999...) cannot add a month.
+    return math.ceil(round(years * 12 * SK_MIN_LEASE_SHARE, 6))
 
 
 class L10nSkLeaseMixin(models.AbstractModel):
@@ -41,19 +64,26 @@ class L10nSkLeaseMixin(models.AbstractModel):
             ("service", "Dodanie služby"),
         ],
         string="Režim DPH",
-        default="goods",
-        help="Finančný prenájom je DODANÍM TOVARU, ak zo zmluvy vyplýva prevod "
-             "vlastníctva najneskôr zaplatením poslednej splátky — vtedy daňová "
-             "povinnosť vzniká RAZ, dňom odovzdania predmetu nájmu, z celej "
-             "dohodnutej ceny.\n\n"
+        # No default, on purpose. "goods" removes the VAT from every instalment
+        # bill, and a default is a judgement nobody made: an operatívny
+        # prenájom, or a finančný prenájom without the transfer of ownership,
+        # is a supply of services taxed instalment by instalment. Left empty,
+        # the instalments keep the taxes of their products.
+        help="Finančný prenájom je DODANÍM TOVARU, ak sa podľa nájomnej zmluvy "
+             "za normálnych okolností vlastníctvo k predmetu nájmu nadobudne "
+             "najneskôr zaplatením poslednej splátky (§ 8 ods. 1 písm. c) "
+             "zákona 222/2004) — vtedy daňová povinnosť vzniká RAZ, dňom "
+             "odovzdania predmetu nájmu, z celej dohodnutej ceny, a splátky "
+             "sa zaúčtujú bez DPH.\n\n"
              "Inak ide o DODANIE SLUŽBY a daň sa uplatňuje z každej splátky.\n\n"
+             "Kým režim nie je zvolený, splátky si ponechajú DPH svojich "
+             "produktov.\n\n"
              "Od 1. 1. 2025 sa posudzuje ekonomická podstata, nie znenie zmluvy: "
              "rozhoduje, či je uplatnenie opcie pre nájomcu jedinou ekonomicky "
              "racionálnou voľbou (v nadväznosti na C-164/16 Mercedes-Benz).",
     )
     l10n_sk_depreciation_group = fields.Selection(
-        [(key, _("Odpisová skupina %s (%s rokov)", key, years))
-         for key, years in sorted(SK_DEPRECIATION_YEARS.items())],
+        sorted(SK_DEPRECIATION_GROUP_LABELS.items()),
         string="Odpisová skupina predmetu",
         help="Slúži len na overenie 60 % podmienky. Samotné odpisovanie je od "
              "1. 1. 2015 bežné — lízingové odpisy boli zrušené zákonom 333/2014, "

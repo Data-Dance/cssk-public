@@ -29,12 +29,21 @@ published rate is carried forward to every calendar day in the synced window, so
 every day has an explicit ``res.currency.rate`` and a posting never lands on a
 day with no rate.
 
+Preceding-day rule
+------------------
+
+For a Slovak company, a document takes the reference rate announced on the
+day BEFORE its deciding day — the taxable supply date or invoice date of an
+invoice, the date of a payment, statement line or journal entry (§ 24 ods. 2
+písm. a) zákona 431/2002, § 26 ods. 1 zákona 222/2004). The balance-sheet
+revaluation keeps the rate of its own day.
+
 The VÚB and Tatra banka providers publish *commercial* rates and are intended
 for reconciling actual bank conversions; for statutory valuation use **ECB**.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.2",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["currency_rate_update", "currency_rate_sk_base"],

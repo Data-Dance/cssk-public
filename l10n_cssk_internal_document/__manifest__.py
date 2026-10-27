@@ -3,7 +3,7 @@
 {
     "name": "CZ/SK Interní doklad",
     "summary": "Print a journal entry as the interní / interný doklad the law requires",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "author": "Data Dance s.r.o.",

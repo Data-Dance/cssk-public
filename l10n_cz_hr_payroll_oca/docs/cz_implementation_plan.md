@@ -113,7 +113,6 @@ Defined on **`hr.version`** (EE) / **`hr.contract`** (OCA); surfaced on `hr.empl
 | `l10n_cz_disability` | Selection none/1_2/3 | invalidity degree → sleva na invaliditu |
 | `l10n_cz_is_state_insured` | Boolean | státní pojištěnec → skip HI top-up-to-minimum |
 | `l10n_cz_agreement_type` | Selection standard/dpp/dpc | employment vs DPP vs DPČ (thresholds & srážková daň) |
-| `l10n_cz_dpp_notified` | Boolean | "oznámená dohoda" → higher DPP threshold applies |
 | `l10n_cz_meal_allowance` | Monetary | per-shift meal allowance (like SK meal voucher fields) |
 | `l10n_cz_ytd_social_base` | (computed) | optional cache for annual cap; otherwise summed from prior payslips |
 

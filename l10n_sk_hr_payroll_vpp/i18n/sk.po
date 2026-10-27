@@ -26,6 +26,17 @@ msgstr ""
 "poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__sp_vs
+msgid ""
+"10-digit number the Sociálna poisťovňa assigned to the company. It is stored"
+" on the company and shared by every Sociálna poisťovňa filing (MVP, VPP, "
+"ELDP, RLFO)."
+msgstr ""
+"10-miestne číslo, ktoré spoločnosti pridelila Sociálna poisťovňa. Ukladá sa "
+"na spoločnosti a používajú ho všetky výkazy pre Sociálnu poisťovňu (MVP, "
+"VPP, ELDP, RLFO)."
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__message_needaction
 msgid "Action Needed"
 msgstr "Potrebná akcia"
@@ -70,12 +81,12 @@ msgstr "Spoločnosť"
 #: code:addons/l10n_sk_hr_payroll_vpp/models/l10n_sk_vpp.py:0
 msgid ""
 "Company '%(company)s' needs a 10-digit Sociálna poisťovňa variable symbol "
-"for the VPP <variabilnySymbol> element. Set 'Sociálna poisťovňa variable "
-"symbol' on the company."
+"for the VPP <variabilnySymbol> element. Fill in 'Sociálna poisťovňa variable"
+" symbol' on this form."
 msgstr ""
 "Spoločnosť '%(company)s' potrebuje 10-miestny variabilný symbol Sociálnej "
-"poisťovne pre element <variabilnySymbol> výkazu VPP. Nastavte 'Variabilný "
-"symbol Sociálnej poisťovne' na spoločnosti."
+"poisťovne pre element <variabilnySymbol> výkazu VPP. Vyplňte 'Variabilný "
+"symbol Sociálnej poisťovne' v tomto formulári."
 
 #. module: l10n_sk_hr_payroll_vpp
 #. odoo-python
@@ -325,6 +336,7 @@ msgid "SMS Delivery error"
 msgstr "Chyba doručenia SMS"
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__sp_vs
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_res_company__l10n_sk_sp_vs
 msgid "Sociálna poisťovňa variable symbol"
 msgstr "Variabilný symbol Sociálnej poisťovne"

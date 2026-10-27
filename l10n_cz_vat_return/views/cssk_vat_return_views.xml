@@ -12,6 +12,11 @@
                        invisible="cz_country_code != 'CZ' or cz_filing_code not in ('D', 'E')"
                        required="cz_country_code == 'CZ' and cz_filing_code in ('D', 'E')"/>
             </field>
+            <!-- The same date as cz_discovery_date (a related field): shown
+                 once, under its Czech name. -->
+            <field name="discovery_date" position="attributes">
+                <attribute name="invisible">cz_country_code == 'CZ'</attribute>
+            </field>
         </field>
     </record>
 </odoo>

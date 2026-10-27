@@ -41,6 +41,17 @@ L10N_SK_ABSENCE_CODES = (
 class HrPayslip(models.Model):
     _inherit = "hr.payslip"
 
+    def _l10n_sk_version(self):
+        """The contract (``hr.version``) the payslip is computed on.
+
+        OCA payroll fills ``contract_id`` only in the form's onchange and in
+        the batch wizard; a payslip created through the API leaves it empty
+        while ``compute_sheet`` still resolves the employee's contract for the
+        rules. Fall back to that same resolution.
+        """
+        self.ensure_one()
+        return self.contract_id or self._get_employee_contracts()[:1]
+
     def l10n_sk_absence_codes(self):
         """The worked-day codes that count as an absence, for the BASIC rule.
 
@@ -196,7 +207,7 @@ class HrPayslip(models.Model):
             phz = round(gross / hours, 4)
         else:
             sched_hours = self.l10n_sk_scheduled_hours()
-            phz = round(self.contract_id.wage / sched_hours, 4) if sched_hours else 0.0
+            phz = round(self._l10n_sk_version().wage / sched_hours, 4) if sched_hours else 0.0
         return max(phz, min_hourly)
 
     def l10n_sk_scheduled_days(self):
@@ -210,7 +221,7 @@ class HrPayslip(models.Model):
         leaver the worked days are fewer and the wage is prorated.
         """
         self.ensure_one()
-        contract = self.contract_id
+        contract = self._l10n_sk_version()
         calendar = contract.resource_calendar_id
         if not calendar:
             return 0.0
@@ -229,7 +240,7 @@ class HrPayslip(models.Model):
         the probable-earnings (pravdepodobný zárobok) fallback.
         """
         self.ensure_one()
-        calendar = self.contract_id.resource_calendar_id
+        calendar = self._l10n_sk_version().resource_calendar_id
         if not calendar:
             return 0.0
         data = self.employee_id._get_work_days_data_batch(

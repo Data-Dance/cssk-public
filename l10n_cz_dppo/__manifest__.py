@@ -10,13 +10,15 @@ CZ Corporate Income Tax Return (DPPDP9)
 The Czech country layer for the income-tax framework
 (``l10n_cssk_income_tax_base``). ``ř.10`` (výsledek hospodaření před zdaněním) is
 computed from the P&L; the adjustments are entered by the accountant; the spine
-(základ daně → daň 21 % → daň po slevách) is arithmetic.
+(základ daně → daň 21 %, 19 % for periods begun before 2024 → daň po slevách)
+is arithmetic.
 
 **Scope:** the II. oddíl tax-calculation spine (ř.10 → ř.340) mapped to the
 official EPO ``VetaO/@kc_ii*`` attributes; the export validates against the
 bundled official DPPDP9 XSD (``data/dppdp9_epo2.xsd``). ř.10 is computed from the
 P&L (class 6 − class 5, excluding income-tax accounts 591–599); the
-připočitatelné/odčitatelné adjustments, loss/§34 deductions and slevy are manual
+připočitatelné/odčitatelné adjustments, the § 34 deductions (ř.230-243),
+the dary (ř.260) and slevy are manual
 (accountant-entered) and aggregate into the spine.
 
 **Účetní závěrka:** the Rozvaha and the Výkaz zisku a ztráty (druhové
@@ -35,7 +37,7 @@ live filing.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.4.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_income_tax_base", "l10n_cz", "l10n_cz_statutory",

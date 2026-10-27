@@ -15,6 +15,44 @@ Fixed
   accounts: Odoo drops a string domain when it copies a field into a related
   one.
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The fuel split keeps the bill total with prices that include tax.** It
+  split the net subtotal and wrote the parts back as unit prices; with a
+  tax included in the price Odoo took the VAT out of them a second time, so
+  a 123.00 bill became 100.00. The split now works on the price as entered.
+- **The deducted half of the 19 % vehicle tax is booked on 343110**, the
+  account of Odoo's own 19 % purchase tax, instead of 343120 (the 23 %
+  account). Upgrading moves existing taxes still on 343120; posted entries
+  are not changed.
+
+Removed
+~~~~~~~
+
+- The *Vehicle VAT deduction (%)* setting. It changed nothing: § 85n fixes
+  the share at 50 %, and it is built into the two vehicle taxes, where the
+  VAT return reads it.
+
+[19.0.1.0.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The two vehicle taxes are created on installation for Slovak companies
+  that already have the chart.** They were added only when the chart was
+  loaded, so on an existing database the module installed without the taxes
+  it is for. Taxes a company already has are left untouched, never
+  duplicated; a company whose chart lacks an account the taxes need is
+  skipped with a warning in the log.
+- User guide: the non-deducted § 85n VAT is **not** a tax expense and, on a
+  vehicle, not part of its entry price — § 52zzzk of the Income Tax Act,
+  in force from 1. 1. 2026, overrides the general rules the guide cited.
+
 [19.0.1.0.2] — 2026-09-13
 -------------------------
 

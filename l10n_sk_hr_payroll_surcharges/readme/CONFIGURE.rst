@@ -6,8 +6,9 @@ contract (Slovak Wage Surcharges group on the contract form):
 * **Riziková práca** — raises the night surcharge to 50 % and overtime to 35 %,
   and rules out the reduced night rate.
 * **Reduced night / Saturday / Sunday rate agreed** — tick where a collective
-  agreement sets the lower statutory floor allowed by § 122a ods. 3,
-  § 122b ods. 2 or § 122c ods. 2.
+  agreement (or, at an employer with no trade union and fewer than 20
+  employees, the employment contract) sets the lower statutory floor allowed
+  by § 123 ods. 2, § 122a ods. 2 or § 122b ods. 2.
 
 To pay more than the statutory minimum, create a new dated record under
 *Employees → Configuration → Slovak Wage Surcharges → Surcharge Rates* rather

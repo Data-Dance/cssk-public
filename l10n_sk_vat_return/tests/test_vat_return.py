@@ -3,7 +3,7 @@ import base64
 from lxml import etree
 
 from odoo import Command
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
@@ -431,6 +431,15 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
             "statement_type_id": self.version.statement_type_ids[0].id,
         })
 
+    def test_a_period_the_version_does_not_allow_is_refused(self):
+        """``allow_monthly`` / ``allow_quarterly`` on the version used to be
+        stored and never read, so switching one off changed nothing."""
+        self.version.allow_monthly = False
+        with self.assertRaises(ValidationError):
+            self._make_return()
+        self.version.allow_monthly = True
+        self._make_return()
+
     def test_compute_and_export(self):
         self.init_invoice(
             "out_invoice", partner=self.partner_a,
@@ -457,6 +466,79 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
         self.assertEqual(root.findtext(".//telo/r32"), "230.00")
         self.assertEqual(root.findtext(".//telo/r35"), "230.00")
         self.assertEqual(root.findtext(".//hlavicka/zdanObd/rok"), "2026")
+
+    def test_the_header_carries_status_house_number_and_declarant(self):
+        """The hlavička used to hardcode platitel=1 and splneniePodmienok=0,
+        file Street 2 as the house number and leave the oprávnená osoba and
+        dátum vyhlásenia empty. All five now come from the return."""
+        self.company.partner_id.write({
+            "street": "Mlynská 1234/5", "street2": "Budova B, 3. poschodie"})
+        self.init_invoice(
+            "in_invoice", partner=self.partner_a,
+            invoice_date="2026-06-12", amounts=[1000.0],
+            taxes=self.tax_purchase_a, post=True,
+        )
+        ret = self._make_return()
+        ret.write({
+            "l10n_sk_par79_conditions_met": True,
+            "l10n_sk_authorized_name": "Ján Účtovník",
+            "l10n_sk_authorized_phone": "+421 900 000 000",
+            "l10n_sk_authorized_email": "uctovnik@example.com",
+            "l10n_sk_declaration_date": "2026-07-20",
+        })
+        ret.action_compute_lines()
+        self.assertGreater(
+            {l.code: l.value for l in ret.line_ids}["r33"], 0.0,
+            "premise: an excess deduction")
+        ret.action_export_xml()   # validates against dph2025.xsd
+        root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
+        h = root.find("hlavicka")
+        self.assertEqual(h.findtext("adresa/ulica"), "Mlynská")
+        self.assertEqual(h.findtext("adresa/cislo"), "1234/5",
+                         "the house number, never Street 2")
+        self.assertEqual(h.findtext("osoba/platitel"), "1")
+        self.assertEqual(h.findtext("opravnenaOsoba/menoPriezvisko"), "Ján Účtovník")
+        self.assertEqual(h.findtext("opravnenaOsoba/email"), "uctovnik@example.com")
+        self.assertEqual(h.findtext("datumVyhlasenia"), "20.07.2026")
+        self.assertEqual(root.findtext("telo/splneniePodmienok"), "1")
+
+    def test_settings_that_had_no_view_are_on_a_form(self):
+        """§ 79 carry-forward, the SK header, the § 69 paragraph and the
+        § 53b re-claim were fields and methods no view showed."""
+        def arch(model):
+            return self.env[model].get_views([(False, "form")])["views"]["form"]["arch"]
+        ret = arch("cssk.vat.return")
+        for name in ("excess_carried_in", "excess_carried_out", "prior_return_id",
+                     "action_pull_prior_carry", "l10n_sk_filer_status",
+                     "l10n_sk_par79_conditions_met", "l10n_sk_authorized_name",
+                     "l10n_sk_declaration_date"):
+            self.assertIn('name="%s"' % name, ret)
+        tax = arch("account.tax")
+        self.assertIn('name="l10n_sk_dph_69_par"', tax)
+        self.assertIn('name="action_par53b_reclaim"', arch("account.move"))
+        self.assertTrue(self.env.ref(
+            "l10n_cssk_vat_return_base.action_cssk_create_historic_vat_taxes"
+        ).binding_model_id.model == "res.company")
+
+    def test_a_person_registered_under_par7_is_not_a_payer(self):
+        ret = self._make_return()
+        ret.l10n_sk_filer_status = "registrovana"
+        ret.action_compute_lines()
+        ret.action_export_xml()
+        root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
+        self.assertEqual(root.findtext("hlavicka/osoba/platitel"), "0")
+        self.assertEqual(root.findtext("hlavicka/osoba/registrovana"), "1")
+        self.assertEqual(root.findtext("telo/splneniePodmienok"), "0")
+        # § 79 ods. 2 is a payer's refund, and a monthly one.
+        with self.assertRaises(ValidationError):
+            ret.l10n_sk_par79_conditions_met = True
+
+    def test_par79_flag_needs_a_monthly_period(self):
+        ret = self._make_return()
+        with self.assertRaises(ValidationError):
+            ret.write({"period_type": "quarter", "date_to": "2026-06-30",
+                       "date_from": "2026-04-01",
+                       "l10n_sk_par79_conditions_met": True})
 
     def test_the_deduction_total_reconciles_with_the_net(self):
         """The aggregate evaluates, and agrees with what r_net deducts.
@@ -922,6 +1004,15 @@ class TestSkVatReturnLegacyExport(AccountTestInvoicingCommon):
         self.assertAlmostEqual(
             vals["r19"], vals["r10"] + vals["r12"], places=2)
         self.assertIsNotNone(root.find(".//telo/r11"))
+        # The drill-down follows the split: each row lists, and reconciles
+        # against, its own supplier's line — not the whole shared tag, which
+        # painted both rows ✗ on a correctly computed return.
+        for code, partner in (("r09", domestic), ("r11", foreign)):
+            row = ret.line_ids.filtered(lambda l: l.code == code)
+            self.assertTrue(row.source_reconciles, code)
+            shown = self.env["account.move.line"].search(
+                row.action_view_source_lines()["domain"])
+            self.assertEqual(shown.move_id.partner_id, partner, code)
 
     def test_the_marker_overrides_the_supplier(self):
         """A tax used for ONE paragraph beats the country test.

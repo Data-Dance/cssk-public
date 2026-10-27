@@ -6,7 +6,9 @@
 import json
 import logging
 import re
+from collections import defaultdict
 from datetime import timedelta
+from decimal import Decimal
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -77,7 +79,9 @@ class AccountJournal(models.Model):
     fio_create_statements = fields.Boolean(
         string="Group Fio movements into statements",
         default=False,
-        help="Movements mode only. Official statements always produce an "
+        help="Movements mode only: one statement per day of movements, with "
+             "its opening and closing balance worked out from what Fio "
+             "reports. Official statements always produce an "
              "account.bank.statement, because that is the point of them.",
     )
     fio_last_pull_at = fields.Datetime(readonly=True, copy=False)
@@ -350,13 +354,46 @@ class AccountJournal(models.Model):
                 "periods", chunk_from, chunk_to, self.fio_download_format,
             )
             parsed = self._fio_parse(raw)
-            statement_vals = None
-            if self.fio_create_statements and parsed.transactions:
-                statement_vals = {
-                    "name": "%s/%s" % (self.code or "FIO", chunk_from),
-                }
-                self._fio_add_balances(statement_vals, parsed.info)
-            lines |= self._fio_import_lines(parsed.transactions, statement_vals)
+            if self.fio_create_statements:
+                lines |= self._fio_import_daily_statements(parsed)
+            else:
+                lines |= self._fio_import_lines(parsed.transactions)
+        return lines
+
+    def _fio_import_daily_statements(self, parsed):
+        """One statement per day of movements, each with its own balances.
+
+        The re-read window makes every run ask for a range that overlaps the
+        previous one. A statement per *range* therefore carried the opening and
+        closing balance of the whole range but only the movements not imported
+        before — and never balanced. A day is the unit that survives the
+        overlap: its statement collects that day's movements whichever run
+        brings them, and its balances are derived from the range's opening
+        balance plus every movement of the earlier days in the response, which
+        includes the ones already imported.
+        """
+        self.ensure_one()
+        lines = self.env["account.bank.statement.line"]
+        by_day = defaultdict(list)
+        for transaction in parsed.transactions:
+            by_day[transaction["date"]].append(transaction)
+        running = parsed.info.opening_balance
+        closing = parsed.info.closing_balance
+        if running is not None and closing is not None and (
+            running + sum((t["amount"] for t in parsed.transactions), Decimal(0))
+            != closing
+        ):
+            # The response does not add up on its own; a balance derived from
+            # it would be a guess, so leave the statements without one.
+            running = None
+        for day in sorted(by_day):
+            transactions = by_day[day]
+            statement_vals = {"name": "%s/%s" % (self.code or "FIO", day)}
+            if running is not None:
+                statement_vals["balance_start"] = float(running)
+                running += sum((t["amount"] for t in transactions), Decimal(0))
+                statement_vals["balance_end_real"] = float(running)
+            lines |= self._fio_import_lines(transactions, statement_vals)
         return lines
 
     def _fio_pull_official(self, limit=12):

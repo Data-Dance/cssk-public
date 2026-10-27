@@ -99,11 +99,13 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_vat_registration.field_res_partner__l10n_sk_is_full_vat_payer
 #: model:ir.model.fields,help:l10n_sk_vat_registration.field_res_users__l10n_sk_is_full_vat_payer
 msgid ""
-"True for a registration under § 4 / § 4b / § 5 / § 6. False for § 7 and § "
-"7a, and unset when the category is unknown."
+"True for a registration under § 4 / § 4b / § 4c / § 5, or under § 6 as "
+"worded until 30. 6. 2021. False for § 7 and § 7a, and unset when the "
+"category is unknown."
 msgstr ""
-"Pravda pri registrácii podľa § 4 / § 4b / § 5 / § 6. Nepravda pri § 7 a § 7a"
-" a vtedy, keď druh registrácie nie je známy."
+"Pravda pri registrácii podľa § 4 / § 4b / § 4c / § 5 alebo podľa § 6 v znení"
+" do 30. 6. 2021. Nepravda pri § 7 a § 7a a vtedy, keď druh registrácie nie "
+"je známy."
 
 #. module: l10n_sk_vat_registration
 #: model:ir.model.fields.selection,name:l10n_sk_vat_registration.selection__res_partner__l10n_sk_vat_registration_category__4
@@ -116,14 +118,19 @@ msgid "§ 4b — skupinová registrácia"
 msgstr "§ 4b — skupinová registrácia"
 
 #. module: l10n_sk_vat_registration
+#: model:ir.model.fields.selection,name:l10n_sk_vat_registration.selection__res_partner__l10n_sk_vat_registration_category__4c
+msgid "§ 4c — registrácia skupiny z úradnej moci"
+msgstr "§ 4c — registrácia skupiny z úradnej moci"
+
+#. module: l10n_sk_vat_registration
 #: model:ir.model.fields.selection,name:l10n_sk_vat_registration.selection__res_partner__l10n_sk_vat_registration_category__5
 msgid "§ 5 — zahraničná osoba"
 msgstr "§ 5 — zahraničná osoba"
 
 #. module: l10n_sk_vat_registration
 #: model:ir.model.fields.selection,name:l10n_sk_vat_registration.selection__res_partner__l10n_sk_vat_registration_category__6
-msgid "§ 6 — zásielkový predaj"
-msgstr "§ 6 — zásielkový predaj"
+msgid "§ 6 — zásielkový predaj (do 30. 6. 2021)"
+msgstr "§ 6 — zásielkový predaj (do 30. 6. 2021)"
 
 #. module: l10n_sk_vat_registration
 #: model:ir.model.fields.selection,name:l10n_sk_vat_registration.selection__res_partner__l10n_sk_vat_registration_category__7

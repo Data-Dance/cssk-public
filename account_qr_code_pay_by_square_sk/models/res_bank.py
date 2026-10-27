@@ -5,7 +5,7 @@ import lzma
 from datetime import date, datetime
 from typing import Optional
 
-from odoo import _, api, models
+from odoo import _, api, fields, models
 from odoo.tools.misc import file_path
 from PIL import Image
 
@@ -130,7 +130,7 @@ class ResPartnerBank(models.Model):
                     amount=amount,
                     iban=self.sanitized_acc_number,
                     swift=self.bank_bic or "",
-                    # date_due: Optional[date] = None,
+                    date_due=self._skpaybysquare_due_date(),
                     beneficiary_name=(self.acc_holder_name or self.partner_id.name),
                     currency=currency.name,
                     variable_symbol=symbols.get("variable_symbol", ""),
@@ -154,6 +154,18 @@ class ResPartnerBank(models.Model):
             free_communication,
             structured_communication,
         )
+
+    def _skpaybysquare_due_date(self):
+        """The invoice's due date, never one already past.
+
+        Passed by ``account.move._generate_qr_code`` through the context.
+        An overdue invoice gets today: a banking app refuses (or silently
+        moves) a payment dated in the past. Without an invoice — a code built
+        straight from the bank account — it is today as well.
+        """
+        today = fields.Date.context_today(self)
+        due = fields.Date.to_date(self.env.context.get("qr_code_date_due"))
+        return max(due, today) if due else today
 
     def _get_error_messages_for_qr(self, qr_method, debtor_partner, currency):
         if qr_method == "skpaybysquare_qr":
@@ -230,7 +242,13 @@ class ResPartnerBank(models.Model):
     @api.model
     def _get_available_qr_methods(self):
         rslt = super()._get_available_qr_methods()
-        rslt.append(("skpaybysquare_qr", _("PAY by square (Slovakia)"), 20))
+        # 17, ahead of payme (18) and core's SEPA QR (20). A tie at 20 left
+        # the automatic choice between the three to module load order.
+        # PAY by square goes first because it is the Slovak banking
+        # association's standard every Slovak banking app reads; payme is a
+        # link that opens a web page first. Neither is offered outside
+        # Slovakia (see account_qr_code_frame_provider's _qr_method_suits).
+        rslt.append(("skpaybysquare_qr", _("PAY by square (Slovakia)"), 17))
         return rslt
 
     def _get_qr_code_frame_generation_params(self, qr_method):

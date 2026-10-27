@@ -254,7 +254,30 @@ def classify(partner_bank, currency_name):
             "so Fio cannot be told where to send the money."
             % (partner_bank.acc_number or "")
         ) from None
+    # ``number/bank`` is written the same way in Slovakia, and a 4-digit bank
+    # code does not say which country it is from. Sent as a
+    # DomesticTransaction it would go to a *Czech* bank of that code. Where
+    # Odoo knows the account is Slovak, refuse and ask for the IBAN, which
+    # routes it as a Europlatba (see above).
+    if _account_country(partner_bank) == "SK":
+        raise FioOrderError(
+            "Account %s is a Slovak account written as number/bank code, "
+            "which Fio would send to a Czech bank. Enter the account as its "
+            "SK IBAN." % (partner_bank.acc_number or "")
+        )
     return KIND_DOMESTIC
+
+
+def _account_country(partner_bank):
+    """Country of a national-form account as Odoo records it: its bank's
+    country, else (no bank, or a bank with no country) the holder's."""
+    bank = getattr(partner_bank, "bank_id", None)
+    if bank and bank.country:
+        return bank.country.code
+    partner = getattr(partner_bank, "partner_id", None)
+    if partner and partner.country_id:
+        return partner.country_id.code
+    return None
 
 
 def order_from_item(item, kind=None, payment_reason=None, payment_type=None,

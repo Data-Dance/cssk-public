@@ -12,6 +12,11 @@ _logger = logging.getLogger(__name__)
 _EXACT_TOKEN_RE = re.compile(r"\b[A-Z]{2,6}\d{3,10}\b")
 _DIGITS_RE = re.compile(r"\d{3,10}")
 
+# The cron's place in the statement lines: the highest id it has seen, and
+# where its round robin over the lines seen already stopped.
+_CRON_SEEN_PARAM = "sale_order_advance_invoice_payment_match.cron_seen_up_to"
+_CRON_CURSOR_PARAM = "sale_order_advance_invoice_payment_match.cron_cursor"
+
 
 class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
@@ -45,24 +50,59 @@ class AccountBankStatementLine(models.Model):
     # ------------------------------------------------------------------
     @api.model
     def _cron_match_advance_statement_lines(self, batch_size=200):
+        """Try to pay advances with up to ``batch_size`` statement lines.
+
+        Lines never seen before go first, oldest of them first; whatever
+        budget is left walks the lines seen already, round robin, so a line
+        that could not be matched yet (the advance did not exist, or carried
+        another amount) is retried in turn. Taking the newest 200 every run,
+        as this used to, retried the same unmatchable lines forever and never
+        reached anything older once 200 of them had piled up.
+        """
         companies = self.env["res.company"].search([
             ("advance_invoice_auto_match_statement", "=", True),
         ])
         if not companies:
             return
-        lines = self.search(
-            [
-                ("company_id", "in", companies.ids),
-                ("is_reconciled", "=", False),
-                ("amount", ">", 0),
-                ("journal_id.type", "=", "bank"),
-                ("state", "=", "posted"),
-            ],
-            order="internal_index desc",
-            limit=batch_size,
+        domain = [
+            ("company_id", "in", companies.ids),
+            ("is_reconciled", "=", False),
+            ("amount", ">", 0),
+            ("journal_id.type", "=", "bank"),
+            ("state", "=", "posted"),
+        ]
+        params = self.env["ir.config_parameter"].sudo()
+        seen_up_to = int(params.get_param(_CRON_SEEN_PARAM, 0) or 0)
+        cursor = int(params.get_param(_CRON_CURSOR_PARAM, 0) or 0)
+
+        new_lines = self.search(
+            domain + [("id", ">", seen_up_to)], order="id", limit=batch_size
         )
-        for line in lines:
+        budget = batch_size - len(new_lines)
+        old_lines = self.browse()
+        if budget > 0 and seen_up_to:
+            old_lines = self.search(
+                domain + [("id", ">", cursor), ("id", "<=", seen_up_to)],
+                order="id",
+                limit=budget,
+            )
+            if len(old_lines) < budget:
+                # wrap around to the start of the lines seen already
+                old_lines |= self.search(
+                    domain
+                    + [("id", "<=", min(cursor, seen_up_to)),
+                       ("id", "not in", old_lines.ids)],
+                    order="id",
+                    limit=budget - len(old_lines),
+                )
+
+        for line in new_lines | old_lines:
             line._cssk_try_match_advance()
+
+        if new_lines:
+            params.set_param(_CRON_SEEN_PARAM, str(new_lines[-1].id))
+        if old_lines:
+            params.set_param(_CRON_CURSOR_PARAM, str(old_lines[-1].id))
 
     def _cssk_try_match_advance(self):
         """Auto path: match and apply when safe, never raise. Returns the

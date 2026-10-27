@@ -8,6 +8,28 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Triangular trade phrase.** Tick *CZ Triangular trade phrase (§17)* on the
+  zero-rated tax used as the middle person of a triangular trade, and the
+  invoice states that it is a triangular trade and that the customer pays the
+  tax (§ 29 odst. 2 písm. c) and e)).
+
+Fixed
+~~~~~
+
+- **Services to an EU business no longer carry the § 64 exemption.** Goods and
+  services are told apart (by the tax's scope, else the product type): goods
+  keep "Osvobozeno od daně podle §64", a service gets "Daň odvede zákazník —
+  místo plnění podle §9 odst. 1" (§ 29 odst. 2 písm. c)). An invoice with both
+  prints both.
+- **§ 66 only for the export of goods.** A service to a customer outside the
+  EU no longer cites the export exemption.
+
 [19.0.1.0.2] — 2026-09-15
 -------------------------
 

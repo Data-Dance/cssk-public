@@ -26,6 +26,17 @@ msgstr ""
 "poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__sp_vs
+msgid ""
+"10-digit number the Sociálna poisťovňa assigned to the company. It is stored"
+" on the company and shared by every Sociálna poisťovňa filing (MVP, VPP, "
+"ELDP, RLFO)."
+msgstr ""
+"10-miestne číslo, ktoré spoločnosti pridelila Sociálna poisťovňa. Ukladá sa "
+"na spoločnosti a používajú ho všetky výkazy pre Sociálnu poisťovňu (MVP, "
+"VPP, ELDP, RLFO)."
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_needaction
 msgid "Action Needed"
 msgstr "Potrebná akcia"
@@ -76,12 +87,12 @@ msgstr "Spoločnosť"
 #: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
 msgid ""
 "Company '%(company)s' needs a 10-digit Sociálna poisťovňa identification "
-"number for the RLFO <variabilnySymbol> element. Set 'Sociálna poisťovňa "
-"variable symbol' on the company."
+"number for the RLFO <variabilnySymbol> element. Fill in 'Sociálna poisťovňa "
+"variable symbol' on this form."
 msgstr ""
 "Spoločnosť '%(company)s' potrebuje 10-miestne identifikačné číslo Sociálnej "
-"poisťovne pre element <variabilnySymbol> výkazu RLFO. Nastavte 'Variabilný "
-"symbol Sociálnej poisťovne' na spoločnosti."
+"poisťovne pre element <variabilnySymbol> výkazu RLFO. Vyplňte 'Variabilný "
+"symbol Sociálnej poisťovne' v tomto formulári."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #. odoo-python
@@ -451,6 +462,7 @@ msgid "Sequence"
 msgstr "Poradie"
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__sp_vs
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_res_company__l10n_sk_sp_vs
 msgid "Sociálna poisťovňa variable symbol"
 msgstr "Variabilný symbol Sociálnej poisťovne"
@@ -537,6 +549,16 @@ msgstr "ZECD2 — DoPČ, pravidelný príjem"
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd2n
 msgid "ZECD2N — DoPČ, irregular income"
 msgstr "ZECD2N — DoPČ, nepravidelný príjem"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd3
+msgid "ZECD3 — DoBPŠ, regular income"
+msgstr "ZECD3 — DoBPŠ, pravidelný príjem"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd3n
+msgid "ZECD3N — DoBPŠ, irregular income"
+msgstr "ZECD3N — DoBPŠ, nepravidelný príjem"
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecn

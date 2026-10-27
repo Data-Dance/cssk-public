@@ -28,9 +28,10 @@ class HrRuleParameter(models.Model):
         string="Values",
     )
 
-    _sql_constraints = [
-        ("code_uniq", "unique (code)", "Two rule parameters cannot share the same code."),
-    ]
+    # 19.0 ignores _sql_constraints: the uniqueness was never created.
+    _code_uniq = models.Constraint(
+        "UNIQUE (code)", "Two rule parameters cannot share the same code."
+    )
 
     @api.model
     def _get_parameter_value(self, code, date):

@@ -7,9 +7,6 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
-    l10n_sk_vehicle_vat_ratio = fields.Float(
-        related="company_id.l10n_sk_vehicle_vat_ratio", readonly=False
-    )
     l10n_sk_fuel_income_ratio = fields.Float(
         related="company_id.l10n_sk_fuel_income_ratio", readonly=False
     )

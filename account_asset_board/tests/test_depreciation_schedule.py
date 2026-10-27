@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """Tests for account.asset.get_schedule() (dynamic depreciation schedule)."""
 
+import ast
 from datetime import date
 
 from odoo import fields
@@ -261,3 +262,101 @@ class TestDepreciationSchedule(AccountTestInvoicingCommon):
         schedule = self.asset_model.get_schedule()
         self.assertEqual(schedule["date_from"], fields.Date.to_string(fy["date_from"]))
         self.assertEqual(schedule["date_to"], fields.Date.to_string(fy["date_to"]))
+
+    def _make_salvage_asset(self, name, purchase, salvage):
+        asset = self.asset_model.create(
+            {
+                "name": name,
+                "profile_id": self.profile_it.id,
+                "purchase_value": purchase,
+                "salvage_value": salvage,
+                "date_start": "2024-01-01",
+                "method_time": "year",
+                "method_number": 5,
+                "method_period": "year",
+                "prorata": False,
+                "company_id": self.profile_it.company_id.id,
+            }
+        )
+        asset.compute_depreciation_board()
+        asset.validate()
+        return asset
+
+    def test_07_residual_includes_salvage_value(self):
+        """Residual at End is the net book value: the salvage value stays."""
+        asset = self._make_salvage_asset("Board Salvage", 1200.0, 200.0)
+        self.assertAlmostEqual(asset.depreciation_base, 1000.0, places=2)
+        schedule = self._get_schedule("2024-01-01", "2024-12-31")
+        _group, row = self._row(schedule, asset)
+        self.assertAlmostEqual(row["closing_depreciated"], 200.0, places=2)
+        # 1200 purchase - 200 depreciated = 1000, not 1000 base - 200 = 800
+        self.assertAlmostEqual(row["residual"], 1000.0, places=2)
+        self.assertAlmostEqual(
+            row["acquisition_value"] - row["closing_depreciated"] - row["disposal"],
+            row["residual"],
+            places=2,
+        )
+        # fully depreciated: the salvage value is what remains on the books
+        schedule = self._get_schedule("2024-01-01", "2028-12-31")
+        _group, row = self._row(schedule, asset)
+        self.assertAlmostEqual(row["residual"], 200.0, places=2)
+
+    def test_08_removed_asset_with_salvage_leaves_nothing(self):
+        asset = self._make_salvage_asset("Board Salvage Removed", 1200.0, 200.0)
+        asset.depreciation_line_ids.filtered(
+            lambda l: l.type == "depreciate" and not l.move_id
+            and l.line_date < date(2025, 6, 30)
+        ).create_move()
+        wiz = (
+            self.env["account.asset.remove"]
+            .with_context(active_id=asset.id, early_removal=True)
+            .create(
+                {
+                    "date_remove": "2025-06-30",
+                    "sale_value": 0.0,
+                    "posting_regime": "gain_loss_on_sale",
+                    "account_plus_value_id": self.company_data[
+                        "default_account_revenue"
+                    ].id,
+                    "account_min_value_id": self.company_data[
+                        "default_account_expense"
+                    ].id,
+                }
+            )
+        )
+        wiz.remove()
+        asset.invalidate_recordset()
+        schedule = self._get_schedule("2025-01-01", "2025-12-31")
+        _group, row = self._row(schedule, asset)
+        self.assertAlmostEqual(row["residual"], 0.0, places=2)
+        self.assertAlmostEqual(
+            row["disposal"], asset.purchase_value - row["closing_depreciated"], places=2
+        )
+
+    def test_09_analysis_excludes_draft_assets(self):
+        """The Depreciation Analysis action leaves out planned lines of drafts."""
+        draft = self.make_asset(
+            "Board Analysis Draft", self.profile_it, 999, "2024-01-01", validate=False
+        )
+        self.assertTrue(draft.depreciation_line_ids.filtered(
+            lambda l: l.type == "depreciate"))
+        action = self.env.ref("account_asset_board.account_asset_line_action_analysis")
+        domain = ast.literal_eval(action.domain)
+        lines = self.env["account.asset.line"].search(domain)
+        self.assertFalse(lines.filtered(lambda l: l.asset_id == draft))
+        self.assertTrue(lines.filtered(lambda l: l.asset_id == self.asset1))
+
+    def test_10_remaining_value_is_not_a_measure(self):
+        """Remaining value is a balance after each line; summed over a year's
+        lines in the pivot it meant nothing, so it is no longer offered."""
+        Line = self.env["account.asset.line"]
+        self.assertFalse(
+            Line.fields_get(["remaining_value"], ["aggregator"])
+            ["remaining_value"].get("aggregator"))
+        self.assertEqual(
+            Line.fields_get(["amount"], ["aggregator"])["amount"]["aggregator"],
+            "sum")
+        arch = Line.get_views(
+            [(self.env.ref("account_asset_board.account_asset_line_view_pivot").id,
+              "pivot")])["views"]["pivot"]["arch"]
+        self.assertNotIn("remaining_value", arch)

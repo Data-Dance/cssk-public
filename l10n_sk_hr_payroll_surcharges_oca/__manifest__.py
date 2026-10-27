@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Wage Surcharges (príplatky) — OCA payroll",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "category": "Human Resources/Payroll",
     "summary": "Statutory Slovak wage surcharges and the minimum-wage top-up "
     "as salary rules for the OCA payroll engine.",
@@ -17,6 +17,7 @@
     "data": [
         "data/hr_salary_rule_data.xml",
     ],
+    "post_init_hook": "post_init_hook",
     "auto_install": True,
     "installable": True,
 }

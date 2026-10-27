@@ -5,7 +5,7 @@
     "summary": "Czech QR Platba payment QR code on invoices — the Czech Banking Association short "
         "payment descriptor (SPD) every Czech banking app reads, pre-filling IBAN, amount, "
         "currency, message and the variable symbol.",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.3",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

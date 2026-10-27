@@ -65,7 +65,10 @@ Safety
   no answer came back — is **not retried automatically**, since that could
   file the return twice. The submission fails with a message to check the
   filing in the portal first. Only a connection that was never established
-  is retried.
+  is retried. The same holds for any unexpected error, including one raised
+  while recording EPO's potvrzení: the submission fails with the podací
+  číslo in the message and is never sent again on its own.
+* The channel is offered only for companies whose fiscal country is Czechia.
 * EPO's own caveat is repeated in the interface: its checks are a subset of
   the tax office's, so a clean check is not a guarantee of acceptance.
 
@@ -74,8 +77,6 @@ Known limits
 
 * The response format of the live service is implemented from the
   specification and has not been confirmed against it from this code base.
-* The corporate income tax return (DPPDP9) is not on the submission pipeline
-  yet, so it cannot be sent through this channel.
 * Subscribe to Finanční správa's vendor list (``epodpora@fs.gov.cz``, subject
   "Přihlášení k zasílání informací o EPO") for interface changes.
 

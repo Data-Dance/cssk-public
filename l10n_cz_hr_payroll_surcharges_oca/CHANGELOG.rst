@@ -41,6 +41,29 @@ Carry-over to 20.0
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Overtime Wage (§ 114).** Overtime hours are paid their own wage — the
+  hourly wage, or the monthly wage over the month's scheduled hours — next to
+  the overtime surcharge. Only the surcharge was paid before.
+- **Minimum Wage Top-up (§ 111).** A wage below the minimum wage is topped up
+  on the payslip, before gross pay, so it is insured and taxed. Overtime pay,
+  the surcharges and wage replacements do not count towards the minimum.
+
+[19.0.1.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The five surcharge rules now run.** They were created but never added
+  to the *Czech Republic: Regular Pay* structure, so no Czech payslip on the
+  OCA engine computed a surcharge. They are now part of the structure.
+
 [19.0.1.0.0]
 ------------
 

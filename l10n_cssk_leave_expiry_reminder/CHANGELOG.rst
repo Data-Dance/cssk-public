@@ -10,17 +10,43 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
-19.0.1.0.0 (2026-07-08)
-=======================
+[19.0.1.1.0] — 2026-10-27
+=========================
 
-* Initial release. A daily scheduled action reminds employees and HR about
-  carried-over leave that is about to expire (the CZ/SK carryover-validity
-  forfeit): it schedules an *Expiring Leave* activity on the employee and
-  optionally emails the employee, with per-cohort deduplication and
-  configurable lead time. Depends only on core ``hr_holidays``.
+Changed
+~~~~~~~
+
+- **HR is told every time, not only as a fallback.** The time-off approver
+  (or the manager) gets an activity of their own, worded about the employee,
+  whenever carried-over leave is about to expire — also when the employee has
+  a user and received theirs.
+
+Fixed
+~~~~~
+
+- An allocation was marked as reminded even when nothing could be delivered
+  (no user, no approver, no work email); it now stays open and the next run
+  reminds as soon as somebody can be told.
+- Allocations waiting for the second approval are included.
+
+[19.0.1.0.4] — 2026-10-27
+=========================
+
+Fixed
+~~~~~
+
+- The activity and the email no longer tell the employee that unused leave
+  *will be forfeited*, and the Czech and Slovak texts no longer say it
+  *propadá* / *prepadá*. Neither labour code lets annual leave lapse (CZ § 218
+  zákoníku práce, SK § 113 Zákonníka práce): the employer must schedule it
+  and the employee may do so after 30 June. The reminder now asks the
+  employee to agree with the manager when to take the leave and says that the
+  date is when the time-off plan removes the days from the balance in Odoo. A
+  post-migration rewrites the ``noupdate`` email template and activity type
+  on existing databases, leaving a reworded template alone.
 
 [19.0.1.0.3] — 2026-08-05
--------------------------
+=========================
 
 Fixed
 ~~~~~
@@ -35,7 +61,7 @@ Fixed
   carry an expiration date anyway.
 
 [19.0.1.0.2] — 2026-08-05
--------------------------
+=========================
 
 Fixed
 ~~~~~
@@ -58,7 +84,7 @@ Fixed
   Slovak translations of the body were updated to match.
 
 [19.0.1.0.1] — 2026-07-18
--------------------------
+=========================
 
 Fixed
 ~~~~~
@@ -68,3 +94,11 @@ Fixed
   instead of the sending user's. A post-migration backfills the ``noupdate``
   record on existing databases.
 
+19.0.1.0.0 (2026-07-08)
+=======================
+
+* Initial release. A daily scheduled action reminds employees and HR about
+  carried-over leave that is about to expire (the CZ/SK carryover-validity
+  forfeit): it schedules an *Expiring Leave* activity on the employee and
+  optionally emails the employee, with per-cohort deduplication and
+  configurable lead time. Depends only on core ``hr_holidays``.

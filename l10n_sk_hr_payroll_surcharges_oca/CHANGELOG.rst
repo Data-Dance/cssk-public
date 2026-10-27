@@ -33,6 +33,13 @@ Carry-over to 20.0:
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
 
+[19.0.1.0.3] — 2026-10-27
+-------------------------
+
+**Fixed**
+
+- Installed after the accounting bridge, the surcharge rules now get the wage account 521000 instead of none; only these rules are touched.
+
 19.0.1.0.0 (2026-08-03)
 -----------------------
 

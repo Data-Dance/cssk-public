@@ -179,3 +179,52 @@ class TestViesPerCompany(TransactionCase):
         check = self.partner.sudo().vies_check_ids[:1]
         with self.assertRaises(AccessError):
             check.with_user(user).write({"consultation_number": "FORGED"})
+
+
+@tagged("post_install", "-at_install")
+class TestViesAutomaticCheck(TransactionCase):
+    """The check core runs when a VAT number is entered keeps its proof."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.env.company.vies_use_direct = True
+        cls.env.company.vat_check_vies = True
+        # The company's own VAT number is checked too once VIES is on.
+        with cls._post():
+            cls.env.company.vat = "SK2022749619"
+            cls.env.flush_all()
+
+    @staticmethod
+    def _post():
+        fake = MagicMock()
+        fake.raise_for_status.return_value = None
+        fake.json.return_value = TestViesDirect.VALID_RESP
+        return patch(
+            "odoo.addons.l10n_cssk_vies.models.res_partner.requests.post",
+            return_value=fake,
+        )
+
+    def test_entering_a_vat_number_logs_the_consultation(self):
+        """The automatic check used to fetch the consultation number and drop
+        it: only *Check now* and the cron left proof."""
+        partner = self.env["res.partner"].create({"name": "ACME EU s.r.o."})
+        with self._post() as post:
+            partner.vat = "SK2023456787"
+            self.assertTrue(partner.vies_valid)
+        post.assert_called()
+        self.assertEqual(partner.vies_check_ids.consultation_number, "WAPIAAAAX3lU8bHe")
+        self.assertEqual(partner.vies_check_ids.company_id, self.env.company)
+        self.assertEqual(partner.vies_consultation_number, "WAPIAAAAX3lU8bHe")
+
+    def test_an_unsaved_contact_is_checked_but_not_logged(self):
+        from odoo.tests import Form
+        with self._post():
+            with Form(self.env["res.partner"]) as form:
+                form.name = "Nová s.r.o."
+                form.vat = "SK2023456787"
+            partner = form.record
+        # Saved afterwards; no row could point at the draft.
+        self.assertTrue(partner.exists())
+        self.assertFalse(
+            self.env["cssk.vies.check"].search([("partner_id", "=", False)]))

@@ -49,7 +49,8 @@ Decisions worth knowing
   there together with kurzové rozdiely, zostatková cena predaného majetku and
   tvorba rezerv. The first draft of this module excluded non-cash rows on the
   reasoning that a statement of money cannot hold an odpis; the opatrenie says
-  otherwise.
+  otherwise. (Until 19.0.1.0.3 the row named Z1/Z2 but the computation still
+  dropped every non-cash row of the denník, so r. 10 never held an odpis.)
 * **Rows match 3-digit synthetics, not 6-digit accounts.** A six-digit token
   matches only codes starting with it, so ``221000`` reported zero for a company
   whose bank account is ``221100`` — measured on a fresh SK chart.

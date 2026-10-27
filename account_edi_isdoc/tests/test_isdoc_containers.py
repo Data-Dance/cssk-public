@@ -4,6 +4,7 @@ import zipfile
 from lxml import etree
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tools import file_open
 
@@ -140,3 +141,44 @@ class TestISDOCContainers(AccountTestInvoicingCommon):
         isdoc_fd = next((fd for fd in files_data if fd.get('import_file_type') == 'account.edi.xml.isdoc'), None)
         self.assertIsNotNone(isdoc_fd, "Embedded ISDOC not found back in the PDF")
         self.assertTrue((etree.QName(isdoc_fd['xml_tree']).namespace or '').startswith('http://isdoc.cz/namespace'))
+
+    def test_the_isdocx_archive_can_be_downloaded(self):
+        """_export_invoice_isdocx used to have no caller at all."""
+        invoice = self.init_invoice(
+            'out_invoice', partner=self.cz_customer, invoice_date='2024-07-10',
+            amounts=[100.0], taxes=self.company_data['default_tax_sale'], post=True)
+        action = self.env.ref('account_edi_isdoc.action_isdoc_download_isdocx')
+        self.assertEqual(action.binding_model_id.model, 'account.move')
+        result = action.with_context(
+            active_model='account.move', active_id=invoice.id, active_ids=invoice.ids).run()
+        self.assertEqual(result['type'], 'ir.actions.act_url')
+        attachment = self.env['ir.attachment'].search([
+            ('res_model', '=', 'account.move'), ('res_id', '=', invoice.id),
+            ('name', '=like', '%.isdocx')])
+        self.assertEqual(len(attachment), 1)
+        self.assertIn(f'/web/content/{attachment.id}', result['url'])
+        archive = zipfile.ZipFile(io.BytesIO(attachment.raw))
+        names = archive.namelist()
+        self.assertIn('manifest.xml', names)
+        self.assertTrue(any(n.endswith('.pdf') for n in names))
+        self.invoice_schema.assertValid(
+            etree.fromstring(archive.read(next(n for n in names if n.endswith('.isdoc')))))
+        # a second download replaces the archive rather than piling up copies
+        invoice.action_isdoc_download_isdocx()
+        self.assertEqual(self.env['ir.attachment'].search_count([
+            ('res_model', '=', 'account.move'), ('res_id', '=', invoice.id),
+            ('name', '=like', '%.isdocx')]), 1)
+
+    def test_a_draft_invoice_has_no_isdocx(self):
+        invoice = self.init_invoice(
+            'out_invoice', partner=self.cz_customer, invoice_date='2024-07-10',
+            amounts=[100.0], taxes=self.company_data['default_tax_sale'])
+        with self.assertRaises(UserError):
+            invoice.action_isdoc_download_isdocx()
+
+    def test_isdoc_is_not_suggested_for_a_czech_partner(self):
+        """What the documentation says: ISDOC is chosen per customer, never
+        suggested. If this changes, the docs and the manifest must change too."""
+        partner = self.env['res.partner'].create({
+            'name': "Bez formátu", 'country_id': self.env.ref('base.cz').id})
+        self.assertNotEqual(partner._get_suggested_ubl_cii_edi_format(), 'isdoc')

@@ -4,6 +4,7 @@
 # as ``contract.<field>`` (the payslip ``contract_id`` is an ``hr.version``).
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class HrVersion(models.Model):
@@ -68,7 +69,7 @@ class HrVersion(models.Model):
         string="Guarantee-insurance exempt (≥50% statutory owner)",
         help="The worker is a statutory body or its member with at least a 50% "
         "share in the employer, so is NOT guarantee-insured (garančné poistenie), "
-        "per §102 z. 461/2003 — the employer pays no guarantee-fund premium for "
+        "per § 4 ods. 4 z. 461/2003 — the employer pays no guarantee-fund premium for "
         "them. All other social/health contributions are unaffected.",
         groups="payroll.group_payroll_user",
         tracking=True,
@@ -91,9 +92,12 @@ class HrVersion(models.Model):
         ],
         string="Meal Allowance Type",
         default="none",
-        help="Legal meal-allowance option. The employer contributes >=55% of "
-        "the statutory meal allowance; the contribution is exempt from income tax and from both the "
-        "social and health assessment bases.",
+        help="Meal provision under § 152 of the Labour Code. The employer "
+        "contributes at least 55 % of the meal price (the voucher value), but "
+        "at most 55 % of the 5-12 hour travel meal allowance per meal "
+        "(§ 152 ods. 3); the payslip uses that maximum. The contribution is "
+        "exempt from income tax and from both the social and health "
+        "assessment bases.",
         groups="payroll.group_payroll_user",
         tracking=True,
     )
@@ -203,6 +207,85 @@ class HrVersion(models.Model):
                     ceiling=ceiling,
                 )
 
+    l10n_sk_pension_type = fields.Selection(
+        selection=[
+            ("old_age", "Starobný dôchodok (old-age)"),
+            ("early_old_age", "Predčasný starobný dôchodok (early old-age)"),
+            ("disability_over_70",
+             "Invalidný dôchodok, pokles nad 70 % (disability over 70 %)"),
+            ("disability",
+             "Invalidný dôchodok, pokles do 70 % (disability up to 70 %)"),
+            ("disability_at_age",
+             "Invalidný dôchodok po dovŕšení dôchodkového veku "
+             "(disability, pension age reached)"),
+            ("service_at_age",
+             "Výsluhový dôchodok po dovŕšení dôchodkového veku "
+             "(service pension, pension age reached)"),
+            ("disability_service",
+             "Invalidný výsluhový dôchodok (service disability)"),
+        ],
+        string="Pension granted (SK)",
+        help="The pension the worker has been granted, if any. It changes the "
+        "social-insurance fund set (zákon 461/2003): a DoVP/DoPČ holder with "
+        "any of these pensions is pension-insured only, with no sickness or "
+        "unemployment insurance (§ 4 ods. 1 písm. b)); a starobný, predčasný starobný or over-70 % "
+        "invalidný pensioner pays no unemployment insurance on any form "
+        "(§ 19 ods. 3 písm. b)); and after a starobný, predčasný starobný or "
+        "a výsluhový dôchodok at pension age neither the worker nor the "
+        "employer pays disability insurance (§ 128 ods. 3). Survivors' "
+        "pensions (vdovský, sirotský) change nothing and are not listed.",
+        groups="payroll.group_payroll_user",
+        tracking=True,
+    )
+
+    l10n_sk_agreement_wage_warning = fields.Char(
+        string="Agreement Wage Warning",
+        compute="_compute_l10n_sk_agreement_wage_warning",
+        help="Set when the hourly rate of a work agreement is below the "
+        "minimum hourly wage.",
+    )
+
+    @api.depends("l10n_sk_agreement_type", "l10n_sk_hourly_wage",
+                 "contract_date_end")
+    def _compute_l10n_sk_agreement_wage_warning(self):
+        """Warn when a dohoda's hourly rate is below the minimum hourly wage.
+
+        § 223 ods. 2 Zákonníka práce extends § 119 ods. 1 ("Mzda nesmie byť
+        nižšia ako minimálna mzda") to the dohody; § 120 minimum wage claims
+        do not reach them, so the floor is the plain minimum hourly wage of
+        zákon 663/2007 (rule parameter ``l10n_sk_min_hourly_wage``, the
+        40-hour figure). A warning, not a block: the contract may be fixed
+        later, and the payslip does not top a dohoda up. Measured against the
+        minimum in force today (or on the last day of an ended contract). A
+        remuneration agreed
+        as a lump sum cannot be compared per hour and is not checked; nor is
+        the proportionally higher floor of an employer whose established
+        weekly working time is under 40 hours.
+        """
+        Parameter = self.env["hr.rule.parameter"]
+        for version in self:
+            version.l10n_sk_agreement_wage_warning = False
+            rate = version.l10n_sk_hourly_wage
+            if version.l10n_sk_agreement_type in (False, "none") or not rate:
+                continue
+            # The minimum in force today: a dohoda signed at last year's
+            # minimum falls below it on 1 January. An ended one is measured
+            # on its last day.
+            on = fields.Date.context_today(version)
+            if version.contract_date_end and version.contract_date_end < on:
+                on = version.contract_date_end
+            try:
+                minimum = Parameter._get_parameter_value(
+                    "l10n_sk_min_hourly_wage", on)
+            except UserError:
+                continue
+            if rate + 0.0005 < minimum:
+                version.l10n_sk_agreement_wage_warning = _(
+                    "The hourly rate of %(rate).3f is below the minimum hourly "
+                    "wage of %(minimum).3f (§ 119 ods. 1 and § 223 ods. 2 "
+                    "Zákonníka práce).",
+                    rate=rate, minimum=minimum)
+
     l10n_sk_agreement_oop = fields.Boolean(
         string="OOP Agreement (student/pensioner)",
         help="Claim the pension deductible allowance (OOP) on an agreement for "
@@ -248,6 +331,7 @@ class HrVersion(models.Model):
             "l10n_sk_meal_voucher_employer",
             "l10n_sk_agreement_type",
             "l10n_sk_agreement_oop",
+            "l10n_sk_pension_type",
             "l10n_sk_garnishment_dependents",
         ]
         return whitelisted_fields

@@ -54,7 +54,11 @@ class TestSkEuServices(AccountTestInvoicingCommon):
         self.assertTrue(
             any(t.lstrip("+-") == "19" for t in tax_tags)
             and any(t.lstrip("+-") == "10b" for t in tax_tags), tax_tags)
-        if "cssk_control_is_reverse_charge" in self.eu_s._fields:
+        # The field also arrives with the Czech control statement; only the
+        # Slovak KV DPH resolves a Slovak line's section.
+        kv_dph = self.env["ir.module.module"].search(
+            [("name", "=", "l10n_sk_kv_dph"), ("state", "=", "installed")])
+        if kv_dph and "cssk_control_is_reverse_charge" in self.eu_s._fields:
             self.assertTrue(self.eu_s.cssk_control_is_reverse_charge)
             self.assertEqual(base.cssk_control_section_code, "B.1")
 

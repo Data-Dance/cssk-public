@@ -28,9 +28,12 @@ class HrRuleParameter(models.Model):
         string="Values",
     )
 
-    _sql_constraints = [
-        ("code_uniq", "unique (code)", "Two rule parameters cannot share the same code."),
-    ]
+    # Odoo 19 ignores ``_sql_constraints``; the declaration has to be a
+    # models.Constraint or the table silently has no unique index at all.
+    _code_uniq = models.Constraint(
+        "unique (code)",
+        "Two rule parameters cannot share the same code.",
+    )
 
     @api.model
     def _get_parameter_value(self, code, date):

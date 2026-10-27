@@ -149,3 +149,48 @@ class TestSkMisPl(AccountTestInvoicingCommon):
         self.assertEqual(values["naklady_spolu"], 0.0)
         self.assertEqual(values["prevadzkovy"], 0.0)
         self.assertEqual(values["dan_z_prijmov"], 100.0)
+
+    def test_every_class_5_and_6_account_reaches_the_result_once(self):
+        """The after-tax result equals the ledger's, account by account.
+
+        507 (predané nehnuteľnosti), 592 (odložená daň) and 596 (prevod
+        podielov spoločníkom) reached no row, so the after-tax result was
+        overstated by whatever sat on them. One entry per account of the
+        chart, distinct amounts, one evaluation: a missing account or one
+        counted twice both move the total.
+        """
+        accounts = self.env["account.account"].search([
+            ("company_ids", "in", self.company.id),
+            ("code", "=like", "5%"),
+        ]) | self.env["account.account"].search([
+            ("company_ids", "in", self.company.id),
+            ("code", "=like", "6%"),
+        ])
+        expected = 0.0
+        for index, account in enumerate(accounts.sorted("code"), start=1):
+            amount = float(index)
+            if account.code.startswith("5"):
+                self._post(account.code, "321000", amount)
+                expected -= amount
+            else:
+                self._post("311000", account.code, amount)
+                expected += amount
+        values = self._evaluate()
+        self.assertAlmostEqual(values["vh_po_zdaneni"], expected, places=2)
+
+    def test_deferred_tax_and_profit_transfer_are_below_the_line(self):
+        self._post("311000", "604000", 1000.0)
+        self._post("592000", "481000", 30.0)    # odložená daň
+        self._post("596000", "364000", 70.0)    # prevod podielov
+        self._post("507000", "123000", 200.0)   # predané nehnuteľnosti
+        values = self._evaluate()
+        self.assertEqual(values["predane_nehnutelnosti"], 200.0)
+        self.assertEqual(values["prevadzkovy"], 800.0)
+        self.assertEqual(values["dan_z_prijmov"], 30.0)
+        self.assertEqual(values["prevod_podielov"], 70.0)
+        self.assertEqual(values["vh_po_zdaneni"], 700.0)
+
+    def test_the_helper_row_is_not_printed(self):
+        helper = self.env.ref("l10n_sk_mis_reports.kpi_trieda_54_55")
+        self.assertTrue(helper.style_id.hide_always)
+        self.assertFalse(helper.style_id.hide_always_inherit)

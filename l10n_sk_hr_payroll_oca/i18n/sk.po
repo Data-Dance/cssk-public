@@ -513,13 +513,17 @@ msgstr "Naposledy upravené dňa"
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_meal_allowance_type
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_meal_allowance_type
 msgid ""
-"Legal meal-allowance option. The employer contributes >=55% of the statutory"
-" meal allowance; the contribution is exempt from income tax and from both "
-"the social and health assessment bases."
+"Meal provision under § 152 of the Labour Code. The employer contributes at "
+"least 55 % of the meal price (the voucher value), but at most 55 % of the "
+"5-12 hour travel meal allowance per meal (§ 152 ods. 3); the payslip uses "
+"that maximum. The contribution is exempt from income tax and from both the "
+"social and health assessment bases."
 msgstr ""
-"Zákonná forma stravného. Zamestnávateľ prispieva najmenej 55 % zo zákonného "
-"stravného; príspevok je oslobodený od dane z príjmu aj od vymeriavacích "
-"základov na sociálne a zdravotné poistenie."
+"Stravovanie podľa § 152 Zákonníka práce. Zamestnávateľ prispieva najmenej 55"
+" % ceny jedla (hodnoty stravovacej poukážky), najviac však na každé jedlo do"
+" sumy 55 % stravného pri pracovnej ceste v trvaní 5 až 12 hodín (§ 152 ods. "
+"3); výplatná páska používa toto maximum. Príspevok je oslobodený od dane z "
+"príjmu aj od vymeriavacích základov na sociálne a zdravotné poistenie."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_meal_voucher_employer
@@ -1023,6 +1027,11 @@ msgid "Slovakia: NČZD taper constant (annual)"
 msgstr "Slovensko: Konštanta znižovania NČZD (ročná)"
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_divisor
+msgid "Slovakia: NČZD taper divisor of the annual base"
+msgstr "Slovensko: Deliteľ základu dane pri znižovaní NČZD"
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_threshold
 msgid "Slovakia: NČZD taper threshold (annual tax base)"
 msgstr "Slovensko: Hranica znižovania NČZD (ročný základ dane)"
@@ -1513,20 +1522,6 @@ msgstr ""
 "neuplatňuje."
 
 #. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_guarantee_exempt
-msgid ""
-"The worker is a statutory body or its member with at least a 50% share in "
-"the employer, so is NOT guarantee-insured (garančné poistenie), per §102 z. "
-"461/2003 — the employer pays no guarantee-fund premium for them. All other "
-"social/health contributions are unaffected."
-msgstr ""
-"Pracovník je štatutárnym orgánom alebo jeho členom s najmenej 50 % "
-"podielom u zamestnávateľa, takže NIE JE garančne poistený, podľa § "
-"102 z. 461/2003 — zamestnávateľ zaňho neplatí poistné na garančné "
-"poistenie. Ostatné odvody na sociálne a zdravotné poistenie tým nie "
-"sú dotknuté."
-
-#. module: l10n_sk_hr_payroll_oca
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_oca/models/hr_payroll_structure_form.py:0
 msgid ""
@@ -1568,3 +1563,143 @@ msgstr ""
 "PRAVIDELNOSŤOU PRÍJMU, nie druhom dohody — pozri príznak Pravidelný "
 "mesačný príjem. Zdravotné poistenie sa vzťahuje na všetky, ak nejde "
 "o poistenca štátu."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_wage_warning
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_wage_warning
+msgid "Agreement Wage Warning"
+msgstr "Upozornenie na odmenu z dohody"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_oca.constraint_l10n_sk_tax_reconciliation_employee_year_uniq
+msgid ""
+"An annual tax reconciliation already exists for this employee and year."
+msgstr "Ročné zúčtovanie pre tohto zamestnanca a rok už existuje."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability_at_age
+msgid ""
+"Invalidný dôchodok po dovŕšení dôchodkového veku (disability, pension age "
+"reached)"
+msgstr "Invalidný dôchodok po dovŕšení dôchodkového veku"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability
+msgid "Invalidný dôchodok, pokles do 70 % (disability up to 70 %)"
+msgstr "Invalidný dôchodok, pokles do 70 %"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability_over_70
+msgid "Invalidný dôchodok, pokles nad 70 % (disability over 70 %)"
+msgstr "Invalidný dôchodok, pokles nad 70 %"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability_service
+msgid "Invalidný výsluhový dôchodok (service disability)"
+msgstr "Invalidný výsluhový dôchodok"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_pension_type
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_pension_type
+msgid "Pension granted (SK)"
+msgstr "Priznaný dôchodok (SK)"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__early_old_age
+msgid "Predčasný starobný dôchodok (early old-age)"
+msgstr "Predčasný starobný dôchodok"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.actions.act_window,name:l10n_sk_hr_payroll_oca.hr_rule_parameter_action
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_oca.hr_rule_parameter_menu
+msgid "Rule Parameters"
+msgstr "Parametre pravidiel"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_wage_warning
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_wage_warning
+msgid ""
+"Set when the hourly rate of a work agreement is below the minimum hourly "
+"wage."
+msgstr ""
+"Zobrazí sa, keď je hodinová odmena z dohody nižšia ako minimálna hodinová "
+"mzda."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_social_unemployment_er_no_shorttime
+msgid ""
+"Slovakia: Unemployment insurance rate (employer, no short-time financing)"
+msgstr ""
+"Slovensko: sadzba poistenia v nezamestnanosti (zamestnávateľ, bez "
+"financovania podpory)"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__old_age
+msgid "Starobný dôchodok (old-age)"
+msgstr "Starobný dôchodok"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_rule_parameter_view_form
+msgid "Statutory source, how the value is derived..."
+msgstr "Zákonný zdroj, ako sa hodnota odvodzuje..."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid ""
+"The hourly rate of %(rate).3f is below the minimum hourly wage of "
+"%(minimum).3f (§ 119 ods. 1 and § 223 ods. 2 Zákonníka práce)."
+msgstr ""
+"Hodinová odmena %(rate).3f je nižšia ako minimálna hodinová mzda "
+"%(minimum).3f (§ 119 ods. 1 a § 223 ods. 2 Zákonníka práce)."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_pension_type
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_pension_type
+msgid ""
+"The pension the worker has been granted, if any. It changes the social-"
+"insurance fund set (zákon 461/2003): a DoVP/DoPČ holder with any of these "
+"pensions is pension-insured only, with no sickness or unemployment insurance"
+" (§ 4 ods. 1 písm. b)); a starobný, predčasný starobný or over-70 % "
+"invalidný pensioner pays no unemployment insurance on any form (§ 19 ods. 3 "
+"písm. b)); and after a starobný, predčasný starobný or a výsluhový dôchodok "
+"at pension age neither the worker nor the employer pays disability insurance"
+" (§ 128 ods. 3). Survivors' pensions (vdovský, sirotský) change nothing and "
+"are not listed."
+msgstr ""
+"Dôchodok, ktorý má pracovník priznaný, ak nejaký. Mení fondy sociálneho "
+"poistenia (zákon 461/2003): kto na DoVP/DoPČ poberá ktorýkoľvek z týchto "
+"dôchodkov, je len dôchodkovo poistený, bez nemocenského poistenia a "
+"poistenia v nezamestnanosti (§ 4 ods. 1 písm. b)); poberateľ starobného, "
+"predčasného starobného alebo invalidného dôchodku nad 70 % neplatí poistenie"
+" v nezamestnanosti v žiadnej forme (§ 19 ods. 3 písm. b)); a po starobnom, "
+"predčasnom starobnom alebo výsluhovom dôchodku po dovŕšení dôchodkového veku"
+" neplatí poistné na invalidné poistenie ani pracovník, ani zamestnávateľ (§ "
+"128 ods. 3). Pozostalostné dôchodky (vdovský, sirotský) nič nemenia a v "
+"zozname nie sú."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_guarantee_exempt
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_guarantee_exempt
+msgid ""
+"The worker is a statutory body or its member with at least a 50% share in "
+"the employer, so is NOT guarantee-insured (garančné poistenie), per § 4 ods."
+" 4 z. 461/2003 — the employer pays no guarantee-fund premium for them. All "
+"other social/health contributions are unaffected."
+msgstr ""
+"Pracovník je štatutárnym orgánom alebo jeho členom s najmenej 50 % podielom "
+"u zamestnávateľa, takže NIE JE garančne poistený, podľa § 4 ods. 4 z. "
+"461/2003 — zamestnávateľ zaňho neplatí poistné na garančné poistenie. "
+"Ostatné odvody na sociálne a zdravotné poistenie tým nie sú dotknuté."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_oca.constraint_hr_rule_parameter_code_uniq
+msgid "Two rule parameters cannot share the same code."
+msgstr "Dva parametre pravidiel nemôžu mať rovnaký kód."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__service_at_age
+msgid ""
+"Výsluhový dôchodok po dovŕšení dôchodkového veku (service pension, pension "
+"age reached)"
+msgstr "Výsluhový dôchodok po dovŕšení dôchodkového veku"

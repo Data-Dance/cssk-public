@@ -40,7 +40,7 @@ from .surcharge_calc import (
 
 # Worked-day codes that count as ordinary working time — the denominator of
 # the minimum-wage comparison. Overtime is deliberately absent:
-# § 120 ods. 3 keeps overtime out of the comparison on both sides.
+# § 120 ods. 2 keeps overtime out of the comparison on both sides.
 ORDINARY_WORK_CODES = ("WORK100",)
 
 # Absence codes the Slovak country modules put on their leave types. Only the
@@ -185,7 +185,7 @@ class SkSurchargePayslipMixin(models.AbstractModel):
     def _l10n_sk_full_time_hours(self):
         """Hours a FULL-TIME contract would schedule in the same period.
 
-        The denominator of the § 120 ods. 4 proration, and deliberately not
+        The denominator of the § 120 ods. 6 proration, and deliberately not
         the employee's own schedule: prorating a part-timer against their own
         calendar always yields a ratio of 1 and would hold them to the full
         monthly minimum wage, which is precisely backwards. Measuring against
@@ -208,7 +208,7 @@ class SkSurchargePayslipMixin(models.AbstractModel):
     def _l10n_sk_min_wage_base_hourly(self):
         """Level-1 hourly minimum wage — the base of most surcharges.
 
-        Deliberately NOT the employee's own stupeň náročnosti: §§ 122a–123
+        Deliberately NOT the employee's own stupeň náročnosti: §§ 122a–124
         all say ``minimálnej mzdy v eurách za hodinu``, the plain figure, so a
         senior employee's higher wage claim does not inflate their night
         surcharge.
@@ -323,7 +323,7 @@ class SkSurchargePayslipMixin(models.AbstractModel):
 
         The caller passes the wage that counts for the comparison. Every
         surcharge this module computes, the overtime base pay and the wage
-        replacements are excluded by § 120 ods. 3 — see the salary rule, which
+        replacements are excluded by § 120 ods. 2 — see the salary rule, which
         subtracts them before calling here.
 
         Monthly-paid and hourly-paid employees are measured against different

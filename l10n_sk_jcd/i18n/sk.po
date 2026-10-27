@@ -60,7 +60,7 @@ msgstr "Počet príloh"
 #: model_terms:ir.ui.view,arch_db:l10n_sk_jcd.view_l10n_sk_jcd_form
 msgid ""
 "Bez MRN a priloženého dovozného dokladu potvrdeného colným\n"
-"                        orgánom nemožno odpočítať daň (§ 49 ods. 2 písm. d)."
+"                        orgánom nemožno odpočítať daň (§ 51 ods. 1 písm. d)."
 msgstr ""
 
 #. module: l10n_sk_jcd
@@ -163,7 +163,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sk_jcd/models/l10n_sk_jcd.py:0
 msgid ""
-"Daň pri dovoze sa nedá odpočítať bez dovozného dokladu potvrdeného colným orgánom (§ 49 ods. 2 písm. d)).\n"
+"Daň pri dovoze sa nedá odpočítať bez dovozného dokladu potvrdeného colným orgánom (§ 51 ods. 1 písm. d)).\n"
 "\n"
 "Zadajte MRN a priložte potvrdený dovozný doklad."
 msgstr ""
@@ -556,6 +556,12 @@ msgstr ""
 #. module: l10n_sk_jcd
 #. odoo-python
 #: code:addons/l10n_sk_jcd/models/l10n_sk_jcd.py:0
+msgid "Self-assessment at import (§ 84a ods. 3) applies from %(start)s. A declaration dated %(date)s was assessed by the customs office: choose the regime \"Daň zaplatená colnému orgánu\"."
+msgstr "Samozdanenie pri dovoze (§ 84a ods. 3) sa uplatňuje od %(start)s. Daň z colného vyhlásenia s dátumom %(date)s vyrubil colný úrad: zvoľte režim \"Daň zaplatená colnému orgánu\"."
+
+#. module: l10n_sk_jcd
+#. odoo-python
+#: code:addons/l10n_sk_jcd/models/l10n_sk_jcd.py:0
 msgid "The taxable amount at import is zero."
 msgstr "Základ dane pri dovoze je nulový."
 
@@ -645,7 +651,7 @@ msgstr ""
 #. module: l10n_sk_jcd
 #: model:ir.model.fields,help:l10n_sk_jcd.field_l10n_sk_jcd__customs_document_ok
 msgid ""
-"§ 49 ods. 2 písm. d): odpočítať daň možno, len ak platiteľ má dovozný doklad"
+"§ 51 ods. 1 písm. d): odpočítať daň možno, len ak platiteľ má dovozný doklad"
 " potvrdený colným orgánom. Splnené, keď je zadané MRN a doklad je priložený."
 msgstr ""
 

@@ -21,4 +21,4 @@ Not covered
 * The per-employee annex (Časť V) is generated for every employee with
   payslips in the year. Employees taxed only by withholding (zrážková daň),
   and non-resident specifics, are not separated out.
-* Opravné / dodatočné hlásenie markers are not set.
+* Rows D–F of III. časť (§ 33a interest bonus) and II. časť are left empty.

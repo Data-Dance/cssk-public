@@ -4,8 +4,7 @@
 
 Rates are expressed as ``1 EUR = X`` foreign currency. ``parse_vub`` /
 ``parse_tb`` return ``{datetime.date: {ccy: rate_str}}`` — the format consumed
-by the OCA ``res.currency.rate.provider`` (CE) directly, and trivially adapted
-to Enterprise ``currency_rate_live``'s ``{ccy: (rate, date)}`` (EE).
+by the OCA ``res.currency.rate.provider`` of ``currency_rate_update_sk``.
 """
 import datetime
 import re

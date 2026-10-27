@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="vrp2_fiscalize_wizard_form" model="ir.ui.view">
+        <field name="name">vrp2.fiscalize.wizard.form</field>
+        <field name="model">vrp2.fiscalize.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Fiscalize in VRP2">
+                <group>
+                    <field name="move_ids" widget="many2many_tags" readonly="1"/>
+                    <field name="payment_type" widget="radio"/>
+                </group>
+                <div class="text-muted">
+                    The receipt registers the invoice total. Register the
+                    payment itself in Odoo as usual.
+                </div>
+                <footer>
+                    <button name="action_fiscalize" type="object"
+                            string="Fiscalize" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

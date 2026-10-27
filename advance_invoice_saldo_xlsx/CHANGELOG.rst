@@ -9,6 +9,24 @@ Changelog.
 [Unreleased]
 ------------
 
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- *Deducted* counts posted invoices only on both sheets; the received side
+  counted draft vendor bills as well.
+- An issued advance without an order, deducted with *Link Advance Invoices*,
+  shows its deduction instead of staying open for ever.
+- *Paid* on issued advances counts completed payments only, as the final
+  invoice does, not authorised card payments.
+
+Added
+~~~~~
+
+- Slovak and Czech translations, sheet names and column headings included.
+
 [19.0.1.0.1] — 2026-09-17
 -------------------------
 

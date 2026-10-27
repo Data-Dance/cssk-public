@@ -16,8 +16,12 @@ povinnosť). II. časť rekapitulácia (rA/rB/rC) recaps the § 33 bonus.
 
 Lines with no monthly rule source — r02/r03 (ročné zúčtovanie corrections),
 r06 (zamestnanecká prémia), r07 and rD/rE/rF (§ 33a daňový bonus na zaplatené
-úroky), and the III. časť žiadosti — are left empty / zero and must be filled
-by hand when applicable.
+úroky), and the III. časť žiadosti other than the § 33 bonus — are left empty
+/ zero and must be filled by hand when applicable.
+
+III. časť: in the overview for the last month of a calendar quarter, the
+opt-in *Request refund of the child tax bonus difference* files the žiadosť o
+poukázanie rozdielu daňového bonusu with Σ rC over the quarter's three months.
 
 Engine-neutral: it reads payslips through the shared
 ``l10n_cssk_payroll_declaration_base`` adapter and works on both the

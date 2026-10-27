@@ -8,6 +8,43 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Periods from 2021 can be entered.** The DPPDP9 version was valid from
+  1 January 2025, so a 2024 or earlier return could not be created, although
+  the Finanční správa files every period in the one current structure (the
+  XSD accepts periods from 2021). The version is now open from 2021 and is
+  named *DPPDP9*. Existing databases are updated on upgrade unless the dates
+  were changed by hand.
+
+- **19 % for periods begun before 2024.** ř. 280 was a flat 21 %. The rate is
+  the one in force on the first day of the period — zákon č. 349/2023 Sb.,
+  čl. XVI bod 1 keeps the earlier wording for every zdaňovací období begun
+  before 1 January 2024 — so a hospodářský rok from July 2023 is taxed at
+  19 % although it ends in 2024.
+
+[19.0.1.3.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Donations are filed on ř.260 and reduce ř.270.** One row, filed as
+  ř.240, stood for the § 34 deductions and the § 20 odst. 8 donations
+  together, and ř.270 rounded ř.250 without deducting any donation. The rows
+  now follow tiskopis 25 5404 vzor č. 36: ř.240 is the § 34 deduction in its
+  wording to 31. 12. 2004, research and development is ř.242, vocational
+  training ř.243, ř.250 = ř.200 − 230 − 240 − 242 − 243, donations are
+  ř.260, and ř.270 = (ř.250 − ř.260) rounded down to whole thousands. The
+  export writes ``kc_ii_242``, ``kc_ii_243`` and ``kc_ii240_260``. On an
+  existing database the shipped rows are updated on upgrade; an amount
+  already entered on ř.240 is not moved, because only the accountant knows
+  which of the three it was.
+
 [19.0.1.3.0] — 2026-09-29
 -------------------------
 

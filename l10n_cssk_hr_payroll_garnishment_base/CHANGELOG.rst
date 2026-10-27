@@ -10,6 +10,59 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.3.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Two thirds with four or more executions (§ 279 odst. 4–6 o. s. ř.).**
+  When at least four executions (court, bailiff or administrative) run
+  against the wage, the second third no longer stays with the employee:
+  priority claims take it first, as before, and what they leave joins the
+  first third for everyone by rank. Agreements on wage deductions and
+  insolvency deductions are not counted.
+- The exception of § 279 odst. 5 applies to an employee marked *Pension
+  Recipient* while one third stays below the insolvency trustee's monthly
+  amount — a new rate field, 1 089 Kč for 2026 ((750 + 150) × 1.21, vyhl.
+  313/2007 Sb.).
+
+Fixed
+~~~~~
+
+- **A payslip whose deduction was already remitted can no longer be
+  cancelled** (it already could not be reset to draft): the correction would
+  have deducted the month again.
+- **Notice citations.** Joining is notified under § 294 odst. 2 o. s. ř. and
+  leaving under § 295 odst. 2 (both cited § 294 odst. 1, the duty to ask the
+  previous employer for a certificate); an enquiry is answered under § 128
+  o. s. ř. / § 33 odst. 5 exekučního řádu. A Slovak company's notices cite
+  § 84 ods. 2 / § 85 ods. 2 Exekučného poriadku instead of the Czech code.
+
+[19.0.1.2.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Czech deductions started a month early.** *Start Date* defaulted to the
+  day the order was delivered, so the wage for the month of delivery was
+  already garnished. Under § 282a o. s. ř. deductions start from the first
+  day of the month after delivery; the default is now that day. Slovak orders
+  are unchanged. Orders already registered keep their stored start date —
+  check those delivered in the current month.
+- **Czech amounts were taken from the wrong year.** The protected amount and
+  the unlimited-seizure limit were looked up for the end of the wage period;
+  NV 595/2006 § 4 takes them as at 1 January of the year in which the wage is
+  paid. A December wage paid in January now uses the new year's amounts (the
+  payslip's payment date is used when the payroll engine records one;
+  otherwise the wage is taken as paid in the following month).
+- **Dependants recorded on the contract were ignored.** When *Maintained
+  Persons* on the employee is left at zero, the number of dependants kept on
+  the Czech or Slovak payroll contract is used.
+- **Slovak amounts were rounded half up.** NV 268/2006 § 4 rounds the
+  protected amounts and the unlimited-seizure limit down to whole cents.
+
 19.0.1.2.1 (2026-09-07)
 -----------------------
 

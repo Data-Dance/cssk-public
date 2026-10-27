@@ -33,8 +33,13 @@ class ResPartner(models.Model):
         by_ico = {}
         skipped = self.browse()
         for partner in self:
+            # The dispatcher's key, not ``company_registry``: core copies the
+            # company's IČO down to every contact person under it, and the
+            # bulk refresh used to overwrite those people with the company's
+            # name, address and IČ DPH. A contact person is skipped, as by
+            # *Update*.
             ico = provider._orsf_normalise_ico(
-                partner.company_registry or partner.partner_gid
+                partner._autocomplete_lookup_key()
             )
             if ico:
                 # Two partners can legitimately carry the same IČO — a company
@@ -88,7 +93,18 @@ class ResPartner(models.Model):
         overrules a value somebody entered by hand.
         """
         provider = self.env.get("partner.autocomplete.provider.orsf_sk")
-        if provider is None or "l10n_sk_dic" not in self._fields:
+        if provider is None:
+            return True
+        if "l10n_sk_dic" not in self._fields:
+            # Reachable from the Actions menu now, so say why nothing happens.
+            self.env.user._bus_send("simple_notification", {
+                "type": "warning",
+                "title": _("ORSF DIČ backfill"),
+                "message": _(
+                    "There is no DIČ field to fill: it comes with the module "
+                    "l10n_sk_base, which is not installed."
+                ),
+            })
             return True
 
         by_ico = {}

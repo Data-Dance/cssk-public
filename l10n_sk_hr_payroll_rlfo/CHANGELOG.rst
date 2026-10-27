@@ -10,6 +10,20 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.0] — 2026-10-27
+=========================
+
+**Fixed**
+
+- **DoBPŠ registrations.** A student work agreement had no relationship code of its own and was registered as ``ZEC`` — an employee in a regular employment relationship. It is now ``ZECD3`` (regular income) or ``ZECD3N`` (irregular income), with the agreement form of the de-registration.
+- **Employee names.** The middle of a three-word name was dropped. The surname is now the last word and the first name everything before it; separate first/last name fields win when a module provides them.
+
+**Added**
+
+- The *Sociálna poisťovňa variable symbol* can be filled in on the RLFO form. Generation requires it, but it was on no form anywhere.
+- ``data/SCHEMA_VERSION`` pins the bundled ``RLZEC-v2026.xsd``, with a test that the bytes still match.
+
+
 19.0.1.1.0 (2026-08-07)
 =======================
 

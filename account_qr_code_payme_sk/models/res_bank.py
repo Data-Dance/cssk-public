@@ -138,7 +138,7 @@ class ResPartnerBank(models.Model):
                 None
                 if eligible
                 else _(
-                    "The account is not eligible for PAY by square QR code. Please check the account type, number, and currency."
+                    "The account is not eligible for a payme QR code. Please check the account type, number, and currency."
                 )
             )
 
@@ -177,7 +177,10 @@ class ResPartnerBank(models.Model):
     @api.model
     def _get_available_qr_methods(self):
         rslt = super()._get_available_qr_methods()
-        rslt.append(("skpayme_qr", _("payme (Slovakia)"), 20))
+        # 18: after PAY by square (17), before core's SEPA QR (20), so the
+        # automatic choice no longer depends on module load order. See
+        # account_qr_code_pay_by_square_sk.
+        rslt.append(("skpayme_qr", _("payme (Slovakia)"), 18))
         return rslt
 
     def _get_qr_code_frame_generation_params(self, qr_method):

@@ -8,6 +8,37 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.2.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Check tax reliability** in the contact *Actions* menu.
+
+Fixed
+~~~~~
+
+- **The contact's Tax Reliability is filled.** No check ever wrote it; every
+  bill, payment and contact check that gets a rating now does, with the time.
+- **A supplier that published no account** gets a warning that says so,
+  instead of "the account is NOT among the registered accounts".
+- **Translations.** The Czech and Slovak catalogues were missing the strings
+  added since September (settings, cron, payment warning).
+
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Legal citations.** Since 1. 1. 2025 the buyer's liability for the
+  supplier's VAT is § 69 ods. 13 zákona o DPH (paying an account missing from
+  the published list is its písm. c)); § 69 ods. 14 is now the list of payers
+  with grounds for deregistration. The warning, the README and the manifest
+  said ods. 14. Paying the VAT directly to the supplier's tax office is
+  § 69c, not § 69b (which is the liability itself).
+
 [19.0.1.1.0] — 2026-09-27
 -------------------------
 

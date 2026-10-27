@@ -5,7 +5,7 @@
     "summary": "Slovak PAY by square payment QR code on invoices — the Slovak Banking Association "
         "standard every Slovak banking app reads, pre-filling IBAN, amount, currency, "
         "beneficiary and message.",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.2",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

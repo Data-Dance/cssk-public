@@ -11,7 +11,6 @@
                 <field name="asset_id" type="row" />
                 <field name="line_date" interval="year" type="col" />
                 <field name="amount" type="measure" />
-                <field name="remaining_value" type="measure" />
             </pivot>
         </field>
     </record>
@@ -72,7 +71,7 @@
         <field name="name">Depreciation Analysis</field>
         <field name="res_model">account.asset.line</field>
         <field name="view_mode">pivot,graph</field>
-        <field name="domain">[('type', '=', 'depreciate')]</field>
+        <field name="domain">[('type', '=', 'depreciate'), ('asset_id.state', '!=', 'draft')]</field>
         <field name="search_view_id" ref="account_asset_line_view_search" />
         <field name="context">{'search_default_groupby_asset': 1}</field>
         <field name="help" type="html">

@@ -51,6 +51,16 @@ class L10nSkMvp(models.Model):
     _country_code = "SK"
     _xml_name_fallback = "mvpp"
 
+    # The company field is required for every Sociálna poisťovňa filing but
+    # appears on no company form (several modules declare it, and one view
+    # per module would show the input several times). Edit it here instead.
+    sp_vs = fields.Char(
+        related="company_id.l10n_sk_sp_vs", readonly=False,
+        string="Sociálna poisťovňa variable symbol",
+        help="10-digit number the Sociálna poisťovňa assigned to the "
+        "company. It is stored on the company and shared by every Sociálna "
+        "poisťovňa filing (MVP, VPP, ELDP, RLFO).")
+
     # ------------------------------------------------------------------
     def _preflight(self):
         super()._preflight()
@@ -61,7 +71,8 @@ class L10nSkMvp(models.Model):
                 raise UserError(_(
                     "Company '%(company)s' needs a 10-digit Sociálna poisťovňa "
                     "variable symbol for the MVP <variabilnySymbol> element. "
-                    "Set 'Sociálna poisťovňa variable symbol' on the company.",
+                    "Fill in 'Sociálna poisťovňa variable symbol' on this "
+                    "form.",
                     company=company.display_name))
             if not rec._company_ico(company):
                 raise UserError(_(

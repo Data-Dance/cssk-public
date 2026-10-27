@@ -23,6 +23,40 @@ Fixed
   message's outcome before the next send (``ir.cron._commit_progress``), so
   a run that dies late keeps what the provider already accepted.
 
+[19.0.1.9.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- ``account.move._edi_variable_symbol()``: the variable symbol an EDI
+  message carries for an invoice — the ``l10n_cssk_payment_symbols`` symbol
+  when installed, otherwise the digits of the payment reference, else of the
+  number (the supplier's on a vendor bill), the last ten. Used by the
+  provider INVOIC and REMADV templates.
+- ``edi.message._edi_default_provider_mode(provider)``: the test/production
+  mode a new message of a provider is stamped with, for a document generated
+  again onto an existing message.
+- Slovak and Czech translations of the user interface (``i18n/sk.po``, ``i18n/cs.po``).
+
+Fixed
+~~~~~
+
+- **The send cron no longer retries a temporary failure every two minutes
+  for ever.** It waits the provider's Retry-After, else a growing pause (2,
+  4, 8 … minutes, at most an hour), and after five attempts puts the message
+  in *Error* with the last reason; a rate limit (backpressure) does not
+  count as an attempt. *Send Attempts* and *Retry Not Before* show on the
+  message; queuing it again starts afresh.
+- A permanent send failure in the cron left *Blocking Level* empty, so the
+  list showed the error like a warning; it is now *Error*.
+- On a database without ``queue_job`` a connector raising a retryable error
+  with a Retry-After (ePošťák on HTTP 429) raised ``TypeError`` instead: the
+  stand-in ``RetryableJobError`` took no ``seconds`` / ``ignore_retry``.
+- Removed the ``(message_id, direction)`` entry in ``_sql_constraints``,
+  which 19.0 never created and which would be wrong (a Peppol message_id is
+  the sender's invoice number). No behaviour changes.
+
 [19.0.1.8.0] — 2026-09-29
 -------------------------
 
@@ -234,14 +268,14 @@ Migration
 -------------------------
 
 - **Add**: ``res.partner.edi_communication_partner_id`` Many2one + cascading
-  ``_edi_envelope_partner()`` helper. Lets multi-GLN customers (METRO etc.)
+  ``_edi_envelope_partner()`` helper. Lets multi-GLN customers (a wholesale chain, say)
   model a separate eXite mailbox-owning partner; outbound BizTalk
   envelope ``<to>/<from>`` resolves through it while body party blocks use
   the role-specific partner's own GLN. Cascade is driven by
   ``commercial_partner_id`` so the field need only be set on the legal entity.
 - **Add**: ``res.partner.edi_desadv_sscc_mode`` Boolean flag, cascading.
   Opt-in per customer (or per commercial root) for SSCC-mode DESADV
-  emission. METRO and the other Slovak retailers consume this from the
+  emission. The retail chains that require it consume this from the
   picking's emit helper.
 - **Add**: edi.message bulk-send action (``Send (queue dispatch)`` on the
   list view) plus ``edi.message.send.wizard`` for the per-record /

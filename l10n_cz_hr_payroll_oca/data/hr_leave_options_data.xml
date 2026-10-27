@@ -5,34 +5,20 @@
 
         This file ships extra, ready-to-use variants of the CZ leave taxonomy that
         capture statutory day-limits. They complement the always-on records in
-        hr_leave_type_data.xml / hr_leave_accrual_plan_data.xml; an administrator
+        hr_leave_type_data.xml and l10n_cz_hr_payroll_base; an administrator
         picks the ones a given company needs.
 
         ARCHIVED vs ACTIVE:
-          * The two "full entitlement at start of year" holiday accrual plans below
-            are shipped ARCHIVED (active=False) — they are an ALTERNATIVE to the
-            default per-worked-week accrual and must be explicitly un-archived to be
-            used.
+          * The two "full entitlement at start of year" holiday accrual plans are
+            shipped ARCHIVED by l10n_cz_hr_payroll_base.
           * The OČR and paid-obstacle limit leave types are shipped ACTIVE — they
             reflect statutory caps a company can allocate against right away.
 
         ============================================================================
         A) DOVOLENÁ — "full annual entitlement granted on 1 January"
         ============================================================================
-        Alternative to the per-worked-week accrual (accrual_plan_cz_holiday_4w/_5w).
-        Some employers grant the WHOLE year's dovolená up front on 1. 1. instead of
-        letting it accrue 1/52 per worked week (zák. č. 262/2006 Sb., § 213). These
-        plans grant the full entitlement in one yearly milestone at the start of the
-        period and are NOT based on worked time, so a leaver who has taken more than
-        the pro-rata share must be settled/reclaimed manually (§ 222 odst. 4).
-        Like the default plans they carry unused days over (§ 218) but only for ONE
-        further year: accrual_validity = 364 days from the 1 Jan carryover date, so the
-        carried days expire ~31 Dec of the following year (just before the next 1 Jan
-        carryover). Year-N leave rolls into N+1 and is forfeited at the end of N+1 if
-        still unused. 364 days (rather than 12 months) keeps the expiry from colliding
-        with the 1 Jan carryover, which otherwise drifts into a 2-year retention.
-        Calibrated for the standard 40 h/týden full-time week:
-          4 týdny = 40 h × 4 = 160 h/rok ; 5 týdnů = 40 h × 5 = 200 h/rok.
+        Moved to l10n_cz_hr_payroll_base (data/hr_leave_accrual_plan_data.xml),
+        which both payroll engines share.
 
         ============================================================================
         B) OČR / OŠETŘOVNÉ — care for a family member (day limits)
@@ -88,59 +74,6 @@
           MPSV příručka — https://ppropo.mpsv.cz/IX113Jineduleziteosobniprekazkyv
           ČSSZ dlouhodobé ošetřovné — https://www.cssz.gov.cz/dlouhodobe-osetrovne
     -->
-
-    <!-- ===== A) Holiday: full entitlement granted at start of year (ARCHIVED) ===== -->
-    <record id="accrual_plan_cz_holiday_4w_yearstart" model="hr.leave.accrual.plan">
-        <field name="name">Annual leave — 4 weeks, full entitlement on 1 Jan (160 h)</field>
-        <field name="active" eval="False"/>
-        <field name="accrued_gain_time">start</field>
-        <field name="is_based_on_worked_time" eval="False"/>
-        <field name="can_be_carryover" eval="True"/>
-        <field name="carryover_date">year_start</field>
-    </record>
-    <record id="accrual_plan_cz_holiday_4w_yearstart_level" model="hr.leave.accrual.level">
-        <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_4w_yearstart"/>
-        <!-- whole year granted in one milestone: 40 h × 4 týdny = 160 h -->
-        <field name="added_value">160</field>
-        <field name="added_value_type">hour</field>
-        <field name="frequency">yearly</field>
-        <field name="yearly_month">1</field>
-        <field name="yearly_day">1</field>
-        <field name="cap_accrued_time" eval="False"/>
-        <field name="action_with_unused_accruals">all</field>
-        <!-- § 218: carried-over dovolená lasts one further year, then is forfeited.
-             364-day validity lands the expiry on ~31 Dec, before the 1 Jan carryover,
-             avoiding the year_start collision that a 12-month validity would cause. -->
-        <field name="accrual_validity" eval="True"/>
-        <field name="accrual_validity_count">364</field>
-        <field name="accrual_validity_type">day</field>
-    </record>
-
-    <record id="accrual_plan_cz_holiday_5w_yearstart" model="hr.leave.accrual.plan">
-        <field name="name">Annual leave — 5 weeks, full entitlement on 1 Jan (200 h)</field>
-        <field name="active" eval="False"/>
-        <field name="accrued_gain_time">start</field>
-        <field name="is_based_on_worked_time" eval="False"/>
-        <field name="can_be_carryover" eval="True"/>
-        <field name="carryover_date">year_start</field>
-    </record>
-    <record id="accrual_plan_cz_holiday_5w_yearstart_level" model="hr.leave.accrual.level">
-        <field name="accrual_plan_id" ref="accrual_plan_cz_holiday_5w_yearstart"/>
-        <!-- whole year granted in one milestone: 40 h × 5 týdnů = 200 h -->
-        <field name="added_value">200</field>
-        <field name="added_value_type">hour</field>
-        <field name="frequency">yearly</field>
-        <field name="yearly_month">1</field>
-        <field name="yearly_day">1</field>
-        <field name="cap_accrued_time" eval="False"/>
-        <field name="action_with_unused_accruals">all</field>
-        <!-- § 218: carried-over dovolená lasts one further year, then is forfeited.
-             364-day validity lands the expiry on ~31 Dec, before the 1 Jan carryover,
-             avoiding the year_start collision that a 12-month validity would cause. -->
-        <field name="accrual_validity" eval="True"/>
-        <field name="accrual_validity_count">364</field>
-        <field name="accrual_validity_type">day</field>
-    </record>
 
     <!-- ===== B) OČR statutory day-limit leave types (ACTIVE) =====
          Same payroll code CZOCR as leave_type_cz_ocr, so recorded absence still

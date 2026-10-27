@@ -16,6 +16,18 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Line amounts lost their formatting on every printed invoice**, not only on
+  credit notes: the unit price and the line subtotal or total were printed as
+  bare numbers (``1500.0``) without the currency symbol, thousands separator and
+  fixed decimals. They are formatted as Odoo formats them again, with the minus
+  sign on a customer credit note.
+
 [19.0.1.0.0] — 2026-07-04
 -------------------------
 

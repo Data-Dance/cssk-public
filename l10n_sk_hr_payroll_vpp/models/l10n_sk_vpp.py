@@ -30,7 +30,8 @@ gp      garančné (guarantee)              GUARANTEEEMPLOYER      — (unused)
 rfs     rezervný fond solidarity          RESERVEFUNDEMPLOYER    — (unused)
 ======  ================================  =====================  ==================
 
-``spoluPoistne`` ← ``SOCIALEMPLOYERTOTAL`` + ``SOCIALEMPLOYEETOTAL``.
+``spoluPoistne`` ← the sum of the fund rows above (never the payslip's
+``SOCIAL*TOTAL`` categories, which include health insurance on the OCA engine).
 """
 from odoo import _, fields, models
 from odoo.exceptions import UserError
@@ -65,6 +66,16 @@ class L10nSkVpp(models.Model):
     _country_code = "SK"
     _xml_name_fallback = "vpp"
 
+    # The company field is required for every Sociálna poisťovňa filing but
+    # appears on no company form (several modules declare it, and one view
+    # per module would show the input several times). Edit it here instead.
+    sp_vs = fields.Char(
+        related="company_id.l10n_sk_sp_vs", readonly=False,
+        string="Sociálna poisťovňa variable symbol",
+        help="10-digit number the Sociálna poisťovňa assigned to the "
+        "company. It is stored on the company and shared by every Sociálna "
+        "poisťovňa filing (MVP, VPP, ELDP, RLFO).")
+
     # ------------------------------------------------------------------
     # Scope: only dohoda payslips (irregular income) feed the VPP.
     # ------------------------------------------------------------------
@@ -88,7 +99,8 @@ class L10nSkVpp(models.Model):
                 raise UserError(_(
                     "Company '%(company)s' needs a 10-digit Sociálna poisťovňa "
                     "variable symbol for the VPP <variabilnySymbol> element. "
-                    "Set 'Sociálna poisťovňa variable symbol' on the company.",
+                    "Fill in 'Sociálna poisťovňa variable symbol' on this "
+                    "form.",
                     company=company.display_name))
             if not rec._company_ico(company):
                 raise UserError(_(
@@ -132,7 +144,16 @@ class L10nSkVpp(models.Model):
                 "zamtel": "%.2f" % a(er_code),
                 "zamnec": ("%.2f" % a(ee_code)) if ee_code else None,
             }
-        spolu = "%.2f" % (a("SOCIALEMPLOYERTOTAL") + a("SOCIALEMPLOYEETOTAL"))
+        # Sum the fund rows this form reports, NOT the payslip's
+        # SOCIALEMPLOYERTOTAL / SOCIALEMPLOYEETOTAL categories: on the OCA
+        # engine those carry the HEALTH premiums too (HEALTH and
+        # HEALTHDOPLATOK in SOCIALEMPLOYEE, HEALTHEMPLOYER in SOCIALEMPLOYER),
+        # and health insurance is owed to the health insurers, not to the
+        # Sociálna poisťovňa. The MVP made the same correction.
+        spolu = "%.2f" % round(sum(
+            a(er_code) + (a(ee_code) if ee_code else 0.0)
+            for _elem, er_code, ee_code in FUND_MAP
+        ), 2)
 
         annex = self._build_annex()
         fo = self._fo_osoba()

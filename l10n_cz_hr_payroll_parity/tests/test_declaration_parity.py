@@ -26,6 +26,9 @@ from odoo.addons.l10n_cz_hr_payroll_parity.parity_cz import (
     DECLARATION_WAGE,
     ENGINE_OCA,
 )
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 
 OCA_STRUCT = "l10n_cz_hr_payroll_oca.hr_payroll_structure_cz_employee_salary"
@@ -81,7 +84,7 @@ class TestCzDeclarationParity(TransactionCase):
                 "name": "CZ Declaration Parity Co",
                 "country_id": cls.env.ref("base.cz").id,
                 "currency_id": cls.env.ref("base.CZK").id,
-                "company_registry": "12345678",
+                "company_registry": "25596641",
                 # The Vyúčtování needs a DIČ for <VetaP dic>.
                 # Checksum-valid: base_vat validates DIČ where it is
                 # installed, and CZ12345678 fails that check.
@@ -127,8 +130,8 @@ class TestCzDeclarationParity(TransactionCase):
             "resource_calendar_id": cls.calendar.id,
             "identification_id": "8501011234",
             "birthday": date(1985, 1, 1),
-            "date_version": date(2026, 1, 1),
-            "contract_date_start": date(2026, 1, 1),
+            "date_version": date(2025, 1, 1),
+            "contract_date_start": date(2025, 1, 1),
             "wage": DECLARATION_WAGE,
         }
         if cls.engine == ENGINE_OCA:
@@ -162,6 +165,7 @@ class TestCzDeclarationParity(TransactionCase):
         if cls.engine != ENGINE_OCA:
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         slip.write(
             {"state": "done" if cls.engine == ENGINE_OCA else "validated"}
         )
@@ -240,7 +244,7 @@ class TestCzDeclarationParity(TransactionCase):
     # Annual forms — twelve payslips, in their own fixture
     # ------------------------------------------------------------------
     def _complete_the_year(self):
-        """Give the fixture employee the other eleven months of 2026.
+        """Give the fixture employee the other eleven months of 2025.
 
         Reusing the setUpClass employee rather than adding a second one: an
         annual figure sums everything in the company for the year, so a second
@@ -257,14 +261,14 @@ class TestCzDeclarationParity(TransactionCase):
         for month in range(1, ANNUAL_DECLARATION_MONTHS + 1):
             if month == march:
                 continue  # already seeded by setUpClass
-            last = _cal.monthrange(2026, month)[1]
+            last = _cal.monthrange(2025, month)[1]
             slip_vals = {
                 "name": "Annual slip %02d" % month,
                 "employee_id": self.employee.id,
                 "struct_id": self.structure.id,
                 "company_id": self.company.id,
-                "date_from": date(2026, month, 1),
-                "date_to": date(2026, month, last),
+                "date_from": date(2025, month, 1),
+                "date_to": date(2025, month, last),
             }
             if self.engine == ENGINE_OCA:
                 slip_vals["contract_id"] = self.employee.version_id.id
@@ -276,6 +280,7 @@ class TestCzDeclarationParity(TransactionCase):
             if self.engine != ENGINE_OCA:
                 slip = slip.with_context(salary_simulation=True)
             slip.compute_sheet()
+            confirm_payslips(slip)
             slip.write(
                 {"state": "done" if self.engine == ENGINE_OCA else "validated"}
             )

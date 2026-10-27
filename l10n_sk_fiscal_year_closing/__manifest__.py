@@ -25,9 +25,10 @@ is a starting point the accountant adjusts — not something hard-coded.
 What it does **not** do
 -----------------------
 
-The **transfer of the approved result to 431** (and on to 428/429) is a separate
-event: it happens when the valné zhromaždenie approves the závierka, which is
-not the closing itself. That posting ships as a *predkontácia* in
+The **distribution of the approved result from 431** (to 428/429) is a
+separate event: it happens when the valné zhromaždenie approves the závierka,
+which is not the closing itself. The opening entry does reopen the previous
+year's result on 431 (§ 7 ods. 3 of the opatrenie). That posting ships as a *predkontácia* in
 ``l10n_sk_account_move_template`` (*Preúčtovanie schváleného zisku / straty*).
 
 Honesty flag
@@ -42,7 +43,7 @@ result-to-431 convention is where implementations differ, so this mapping wants
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk", "account_fiscal_year_closing"],

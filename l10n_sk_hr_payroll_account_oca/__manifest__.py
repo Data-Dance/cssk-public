@@ -4,7 +4,7 @@
 {
     "name": "Slovakia - Payroll with Accounting (OCA)",
     "summary": "Post Slovak payslips to the general ledger",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.3",
     "category": "Human Resources/Payroll",
     "author": "Data Dance s.r.o., Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/payroll",

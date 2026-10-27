@@ -9,8 +9,19 @@ _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(env):
-    """Wire the non-deductible account on SK companies that predate this module."""
-    for company in env["res.company"].search([("chart_template", "=", "sk")]):
+    """Bring SK companies that predate this module up to a fresh chart load.
+
+    Both the vehicle taxes and the non-deductible account come from
+    ``@template`` data, which only a chart load applies — so a company whose
+    chart was loaded before this module was installed would get neither.
+    """
+    companies = env["res.company"].search([("chart_template", "=", "sk")])
+    if companies:
+        loaded = env["account.chart.template"]._l10n_sk_vehicle_load_taxes(
+            companies
+        )
+        _logger.info("SK vehicle taxes: %s created", loaded)
+    for company in companies:
         if company.l10n_sk_vehicle_nondeductible_account_id:
             continue
         account = env.ref(

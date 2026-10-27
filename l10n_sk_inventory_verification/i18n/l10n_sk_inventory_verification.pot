@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-05 23:01+0000\n"
-"PO-Revision-Date: 2026-08-05 23:01+0000\n"
+"POT-Creation-Date: 2026-10-27 19:26+0000\n"
+"PO-Revision-Date: 2026-10-27 19:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -79,6 +79,12 @@ msgstr ""
 #. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
 msgid "<strong>Spolu</strong>"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+msgid "<strong>Sídlo:</strong>"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -313,6 +319,12 @@ msgid "Inventarizácia bez inventúrneho súpisu nie je úplná."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
+#. odoo-python
+#: code:addons/l10n_sk_inventory_verification/models/l10n_sk_inventarizacia.py:0
+msgid "Inventarizácia zatiaľ nemá žiadny inventúrny súpis."
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__inventory_type
 msgid "Inventory Type"
 msgstr ""
@@ -393,13 +405,18 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-msgid "Neuvedené."
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Načítať zostatok účtu"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Načítať účtovné stavy"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "Neuvedené."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -440,11 +457,6 @@ msgstr ""
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields.selection,name:l10n_sk_inventory_verification.selection__l10n_sk_inventarizacia__state__draft
 msgid "Návrh"
-msgstr ""
-
-#. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__approved_by_id
-msgid "Podpisový záznam osoby zodpovednej za vyhotovenie zápisu."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -551,7 +563,7 @@ msgstr ""
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__date_as_of
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__date_as_of
-msgid "Spravidla deň, ku ktorému sa zostavuje účtovná závierka (§ 29 ods. 1)."
+msgid "Spravidla deň, ku ktorému sa zostavuje účtovná závierka (§ 29 ods. 2)."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -594,6 +606,11 @@ msgid "Termíny (§ 30 ods. 2)"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Tlačiť inventúrne súpisy"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
@@ -626,6 +643,11 @@ msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "Za vykonanie inventarizácie zodpovedá:"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
 msgid "Za účtovnú jednotku:"
 msgstr ""
 
@@ -636,12 +658,7 @@ msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__approved_by_id
-msgid "Zápis vyhotovil"
-msgstr ""
-
-#. module: l10n_sk_inventory_verification
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-msgid "Zápis vyhotovil:"
+msgid "Zodpovedný za vykonanie inventarizácie"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -663,18 +680,19 @@ msgstr ""
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__inventory_type
 msgid ""
-"§ 29 ods. 2: fyzická pri majetku hmotnej povahy, dokladová pri záväzkoch a "
-"majetku, pri ktorom nemožno vykonať fyzickú inventúru."
+"§ 30 ods. 1: fyzická pri majetku hmotnej a nehmotnej povahy, dokladová pri "
+"záväzkoch, rozdiele majetku a záväzkov a majetku, pri ktorom nemožno vykonať"
+" fyzickú inventúru."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__location
-msgid "§ 30 ods. 2 písm. f)."
+msgid "§ 30 ods. 2 písm. d)."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__responsible_person_id
-msgid "§ 30 ods. 2 písm. g) — meno a podpisový záznam."
+msgid "§ 30 ods. 2 písm. e) — meno, priezvisko a podpisový záznam."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -702,6 +720,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__approved_by_id
+msgid ""
+"§ 30 ods. 3 písm. d) — meno, priezvisko a podpisový záznam osoby zodpovednej"
+" za vykonanie inventarizácie v účtovnej jednotke."
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__account_id
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
 msgid "Účet"
@@ -714,4 +739,9 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_list
 msgid "Účtovný stav"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
 msgstr ""

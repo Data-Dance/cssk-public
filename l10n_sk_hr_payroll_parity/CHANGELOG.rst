@@ -10,6 +10,17 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.8.1] — 2026-10-27
+=========================
+
+**Added**
+
+- Scenario *child_bonus_taper_per_child*: the § 33 ods. 11 reduction taken from each child must agree on both engines.
+
+**Fixed**
+
+- The declaration tests use a checksum-valid IČO; the old fixture was rejected by the IČO validation and no declaration parity test ran.
+
 19.0.1.8.0 (2026-08-07)
 =======================
 

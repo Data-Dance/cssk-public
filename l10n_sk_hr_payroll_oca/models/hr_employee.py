@@ -64,6 +64,12 @@ class HrEmployee(models.Model):
         readonly=False,
         groups="payroll.group_payroll_user",
     )
+    l10n_sk_pension_type = fields.Selection(
+        related="version_id.l10n_sk_pension_type",
+        inherited=True,
+        readonly=False,
+        groups="payroll.group_payroll_user",
+    )
     l10n_sk_agreement_oop = fields.Boolean(
         related="version_id.l10n_sk_agreement_oop",
         inherited=True,

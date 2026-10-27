@@ -1,0 +1,375 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_ekasa_receipt
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:31+0000\n"
+"PO-Revision-Date: 2026-10-27 19:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,help:l10n_sk_ekasa_receipt.field_cssk_receipt__l10n_sk_ekasa_is_paragon
+msgid "A substitute receipt written out while the till was out of service."
+msgstr "Náhradný doklad vyhotovený počas nefunkčnosti pokladnice."
+
+#. module: l10n_sk_ekasa_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.res_config_settings_view_form_sk_ekasa
+msgid ""
+"Act 384/2025 Z. z. requires an overovateľ to notify Finančná správa of the "
+"IP address it calls from, and to send truthful verification results. Lookups"
+" are refused until this is confirmed."
+msgstr ""
+"Zákon č. 384/2025 Z. z. ukladá overovateľovi oznámiť finančnej správe IP "
+"adresu, z ktorej službu volá, a zasielať pravdivé výsledky overenia. Kým to "
+"nie je potvrdené, overenia sa odmietajú."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/res_company.py:0
+msgid ""
+"Act 384/2025 Z. z. § 18 ods. 11 requires an overovateľ to notify Finančná správa of the IP address it will use before calling the document-verification service, and to send truthful verification results. Confirm the notification in Settings ▸ Accounting ▸ Fiscal Receipt Capture before using the lookup.\n"
+"\n"
+"Finančná správa had not yet published the conditions of use for this service when this module was written; until it does, satisfying the obligation means contacting them directly."
+msgstr ""
+"Zákon č. 384/2025 Z. z. § 18 ods. 11 ukladá overovateľovi pred začatím používania služby na overovanie dokladov oznámiť finančnej správe IP adresu, ktorú bude používať, a zasielať pravdivé výsledky overenia. Pred použitím overenia potvrďte oznámenie v Nastavenia ▸ Účtovníctvo ▸ Zachytávanie pokladničných dokladov.\n"
+"\n"
+"Finančná správa v čase vzniku tohto modulu ešte nezverejnila podmienky používania tejto služby; kým ich nezverejní, splnenie povinnosti znamená kontaktovať ju priamo."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_sk_ekasa_call__called_at
+msgid "Called At"
+msgstr "Volané"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_sk_ekasa_call__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/cssk_receipt_provider_sk_ekasa.py:0
+msgid ""
+"Could not reach Finančná správa's verification service (%s). The receipt was"
+" left untouched; try again."
+msgstr ""
+"Službu finančnej správy na overovanie dokladov sa nepodarilo zastihnúť (%s)."
+" Doklad zostal nezmenený; skúste to znova."
+
+#. module: l10n_sk_ekasa_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.res_config_settings_view_form_sk_ekasa
+msgid "Enable eKasa Lookup"
+msgstr "Zapnúť overenie v eKase"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,help:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_enabled
+msgid ""
+"Fetch registered receipts from Finančná správa's document-verification "
+"service when a receipt's QR code is known."
+msgstr ""
+"Načítať registrované doklady zo služby finančnej správy na overovanie "
+"dokladov, keď je známy QR kód dokladu."
+
+#. module: l10n_sk_ekasa_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.res_config_settings_view_form_sk_ekasa
+msgid "Fetch the registered receipt from Finančná správa using the QR code"
+msgstr "Načítať registrovaný doklad z finančnej správy podľa QR kódu"
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/cssk_receipt_provider_sk_ekasa.py:0
+msgid ""
+"Finančná správa holds no receipt for this code. Either the seller never "
+"registered it — which is worth reporting — or the code was misread."
+msgstr ""
+"Finančná správa pre tento kód nemá žiadny doklad. Buď ho predávajúci nikdy "
+"nezaevidoval — čo stojí za oznámenie —, alebo bol kód prečítaný nesprávne."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_hourly_budget
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.res_config_settings_view_form_sk_ekasa
+msgid "Hourly Lookup Budget"
+msgstr "Hodinový limit overení"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_sk_ekasa_call__http_status
+msgid "Http Status"
+msgstr "HTTP stav"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_ip_notified
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.res_config_settings_view_form_sk_ekasa
+msgid "IP Address Notified (§ 18/11)"
+msgstr "IP adresa oznámená (§ 18 ods. 11)"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_cssk_receipt__l10n_sk_ekasa_call_count
+msgid "L10N Sk Ekasa Call Count"
+msgstr "Počet volaní eKasa"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_timeout
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.res_config_settings_view_form_sk_ekasa
+msgid "Lookup Timeout (s)"
+msgstr "Časový limit overenia (s)"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,help:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_hourly_budget
+msgid ""
+"Maximum lookups per clock hour. The service permits roughly 60 per hour per "
+"IP address and blocks the address beyond that, so this module refuses to "
+"exceed the budget rather than lose access. Note the real limit is per "
+"address: several companies sharing one egress address share one budget."
+msgstr ""
+"Najväčší počet overení za hodinu. Služba povoľuje zhruba 60 za hodinu na IP "
+"adresu a nad to adresu blokuje, preto tento modul limit radšej neprekročí, "
+"než by prišiel o prístup. Skutočný limit platí pre adresu: viac spoločností "
+"s jednou výstupnou adresou zdieľa jeden limit."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_sk_ekasa_call__message
+msgid "Message"
+msgstr "Správa"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields.selection,name:l10n_sk_ekasa_receipt.selection__sk_ekasa_call__outcome__transport
+msgid "Network or transport error"
+msgstr "Chyba siete alebo prenosu"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields.selection,name:l10n_sk_ekasa_receipt.selection__sk_ekasa_call__outcome__not_found
+msgid "Not registered"
+msgstr "Nezaevidovaný"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_ip_address
+msgid "Notified IP Address"
+msgstr "Oznámená IP adresa"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_ip_notified_on
+msgid "Notified On"
+msgstr "Oznámené dňa"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_cssk_receipt__l10n_sk_ekasa_okp
+msgid "OKP"
+msgstr "OKP"
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/cssk_receipt_provider_sk_ekasa.py:0
+msgid ""
+"On a Slovak receipt, scan the code printed directly above “OVERTE DOKLAD "
+"POMOCOU QR KÓDU”."
+msgstr ""
+"Na slovenskom doklade naskenujte kód vytlačený priamo nad „OVERTE DOKLAD "
+"POMOCOU QR KÓDU“."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_sk_ekasa_call__outcome
+msgid "Outcome"
+msgstr "Výsledok"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,help:l10n_sk_ekasa_receipt.field_cssk_receipt__l10n_sk_ekasa_okp
+msgid ""
+"Overovací kód podnikateľa, as returned by the service. Stored upper-cased: "
+"the service emits it in either case."
+msgstr ""
+"Overovací kód podnikateľa, ako ho vrátila služba. Ukladá sa veľkými "
+"písmenami: služba ho vracia v oboch tvaroch."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_cssk_receipt__l10n_sk_ekasa_is_paragon
+msgid "Paragón"
+msgstr "Paragón"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.module.module,summary:base.module_l10n_sk_ekasa_receipt
+msgid ""
+"Read the QR code on a Slovak fiscal receipt and fetch the registered receipt"
+" — items, quantities and the VAT recap — from Finančná správa's document-"
+"verification service."
+msgstr ""
+"Prečíta QR kód na slovenskom pokladničnom doklade a načíta registrovaný "
+"doklad — položky, množstvá a rekapituláciu DPH — zo služby finančnej správy "
+"na overovanie dokladov."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_sk_ekasa_call__receipt_id
+msgid "Receipt"
+msgstr "Doklad"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields.selection,name:l10n_sk_ekasa_receipt.selection__sk_ekasa_call__outcome__found
+msgid "Receipt found"
+msgstr "Doklad nájdený"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields.selection,name:l10n_sk_ekasa_receipt.selection__sk_ekasa_call__outcome__refused
+msgid "Refused by the service"
+msgstr "Odmietnuté službou"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_sk_ekasa_call__request_key
+msgid "Request Key"
+msgstr "Kľúč požiadavky"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_sk_ekasa_call__return_value
+msgid "Return Value"
+msgstr "Návratová hodnota"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.module.module,shortdesc:base.module_l10n_sk_ekasa_receipt
+msgid "Slovak eKasa Receipt Capture (bločky z QR kódu)"
+msgstr "Zachytávanie slovenských dokladov z eKasy (bločky z QR kódu)"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model,name:l10n_sk_ekasa_receipt.model_cssk_receipt_provider_sk_ekasa
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.res_config_settings_view_form_sk_ekasa
+msgid "Slovak eKasa Receipt Lookup"
+msgstr "Overenie slovenského dokladu v eKase"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,help:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_ip_address
+msgid ""
+"The address declared to Finančná správa. Recorded here so the declaration "
+"can be checked against the egress address actually in use."
+msgstr ""
+"Adresa oznámená finančnej správe. Zaznamenaná je tu, aby sa oznámenie dalo "
+"porovnať so skutočne používanou výstupnou adresou."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/res_company.py:0
+msgid ""
+"The eKasa receipt lookup is switched off for %s. Enable it in Settings ▸ "
+"Accounting ▸ Fiscal Receipt Capture."
+msgstr ""
+"Overovanie dokladov v eKase je pre %s vypnuté. Zapnite ho v Nastavenia ▸ "
+"Účtovníctvo ▸ Zachytávanie pokladničných dokladov."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/sk_ekasa_call.py:0
+msgid ""
+"The hourly eKasa lookup budget for %(company)s is set to zero, so no lookups"
+" are made. Raise it in Settings ▸ Accounting ▸ Fiscal Receipt Capture."
+msgstr ""
+"Hodinový limit overení v eKase pre %(company)s je nastavený na nulu, takže "
+"sa neoveruje nič. Zvýšte ho v Nastavenia ▸ Účtovníctvo ▸ Zachytávanie "
+"pokladničných dokladov."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/sk_ekasa_call.py:0
+msgid ""
+"The hourly eKasa lookup budget for %(company)s is spent (%(used)s of "
+"%(budget)s used since %(since)s). Finančná správa limits the service to "
+"roughly 60 lookups per clock hour per IP address and blocks the address "
+"beyond that, so the remaining receipts have to wait for the next hour."
+msgstr ""
+"Hodinový limit overení v eKase pre %(company)s je vyčerpaný (od %(since)s "
+"použitých %(used)s z %(budget)s). Finančná správa obmedzuje službu na zhruba"
+" 60 overení za hodinu na IP adresu a nad to adresu blokuje, preto zvyšné "
+"doklady musia počkať na ďalšiu hodinu."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,help:l10n_sk_ekasa_receipt.field_sk_ekasa_call__request_key
+msgid "The identifier or composite key the service was asked about."
+msgstr "Identifikátor alebo zložený kľúč, na ktorý sa služba pýtala."
+
+#. module: l10n_sk_ekasa_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.res_config_settings_view_form_sk_ekasa
+msgid ""
+"The service allows roughly 60 lookups per clock hour per IP address and "
+"blocks the address beyond that. Several companies sharing an egress address "
+"share one real budget."
+msgstr ""
+"Služba povoľuje zhruba 60 overení za hodinu na IP adresu a nad to adresu "
+"blokuje. Viac spoločností s jednou výstupnou adresou zdieľa jeden skutočný "
+"limit."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/cssk_receipt_provider_sk_ekasa.py:0
+msgid ""
+"The service answered but returned no receipt body. Nothing was changed."
+msgstr "Služba odpovedala, ale nevrátila telo dokladu. Nič sa nezmenilo."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,help:l10n_sk_ekasa_receipt.field_sk_ekasa_call__return_value
+msgid "The service's own returnValue field."
+msgstr "Vlastné pole returnValue služby."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/cssk_receipt_provider_sk_ekasa.py:0
+msgid "The verification service answered with something that is not JSON."
+msgstr "Overovacia služba odpovedala niečím, čo nie je JSON."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/cssk_receipt_provider_sk_ekasa.py:0
+msgid ""
+"The verification service refused the request (HTTP %(status)s). This is "
+"usually the service's firewall rather than the receipt."
+msgstr ""
+"Overovacia služba požiadavku odmietla (HTTP %(status)s). Zvyčajne je to "
+"firewall služby, nie doklad."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/cssk_receipt_provider_sk_ekasa.py:0
+msgid "The verification service returned code %s."
+msgstr "Overovacia služba vrátila kód %s."
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,help:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_ip_notified
+msgid ""
+"Tick once Finančná správa has been notified of the IP address this database "
+"calls the verification service from, as act 384/2025 Z. z. § 18 ods. 11 "
+"requires of an overovateľ."
+msgstr ""
+"Zaškrtnite, keď bola finančnej správe oznámená IP adresa, z ktorej táto "
+"databáza volá overovaciu službu, ako to overovateľovi ukladá zákon č. "
+"384/2025 Z. z. § 18 ods. 11."
+
+#. module: l10n_sk_ekasa_receipt
+#. odoo-python
+#: code:addons/l10n_sk_ekasa_receipt/models/cssk_receipt.py:0
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_cssk_receipt__l10n_sk_ekasa_call_ids
+msgid "Verification calls"
+msgstr "Overovacie volania"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model.fields,field_description:l10n_sk_ekasa_receipt.field_res_company__l10n_sk_ekasa_enabled
+msgid "eKasa Receipt Lookup"
+msgstr "Overenie dokladu v eKase"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.model,name:l10n_sk_ekasa_receipt.model_sk_ekasa_call
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.view_sk_ekasa_call_form
+msgid "eKasa Verification Call"
+msgstr "Overovacie volanie eKasa"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.actions.act_window,name:l10n_sk_ekasa_receipt.action_sk_ekasa_call
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ekasa_receipt.view_sk_ekasa_call_list
+msgid "eKasa Verification Calls"
+msgstr "Overovacie volania eKasa"
+
+#. module: l10n_sk_ekasa_receipt
+#: model:ir.ui.menu,name:l10n_sk_ekasa_receipt.menu_sk_ekasa_call
+msgid "eKasa Verification Log"
+msgstr "Záznam overení eKasa"

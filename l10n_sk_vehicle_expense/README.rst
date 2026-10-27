@@ -49,7 +49,9 @@ Honesty flags
 =============
 
 * The 50 % regime is **time-boxed**, and this module does **not** date-gate the
-  ratios. Periods before 2026 or after 30. 6. 2028 need their own setting.
+  ``vs_auto_*`` taxes. On bills before 2026 or after 30. 6. 2028, choose the
+  ordinary purchase tax. The 50 % share is fixed in the taxes' repartition, as
+  § 85n fixes it in law; there is no setting for it.
 * Vehicle **category and the exempt activities are not modelled** — the module
   does not know which of your vehicles the restriction covers. Use the
   ``vs_auto_*`` taxes on the bills where it applies.

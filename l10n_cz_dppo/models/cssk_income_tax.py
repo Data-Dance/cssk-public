@@ -149,6 +149,21 @@ class CSSKIncomeTaxReturn(models.Model):
         self.ensure_one()
         return (self.version_id.country_id.code or "").upper() == "CZ"
 
+    def _eval_aggregate(self, formula, computed):
+        """Offer the DPPDP9 formulas the year the period BEGAN.
+
+        One DPPDP9 structure covers every period the Finanční správa still
+        accepts (2021 onwards), so what changed in the law is gated on the
+        period, not on a version. The case that needs it is the § 21 odst. 1
+        rate: zákon č. 349/2023 Sb. (čl. XV bod 40) raised it from 19 % to
+        21 % from 1. 1. 2024, and its čl. XVI bod 1 keeps the earlier wording
+        "za zdaňovací období započaté přede dnem nabytí účinnosti" — so a
+        hospodářský rok begun in 2023 is still taxed at 19 %.
+        """
+        if self._l10n_cz_is_dppdp9() and self.date_from:
+            computed = dict(computed, period_start_year=self.date_from.year)
+        return super()._eval_aggregate(formula, computed)
+
     def _l10n_cz_vykaz_statements(self):
         """``{kind: statement}`` for the linked výkazy, or ``{}``."""
         self.ensure_one()

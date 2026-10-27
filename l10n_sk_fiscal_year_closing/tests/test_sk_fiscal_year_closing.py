@@ -42,8 +42,8 @@ class TestSkZavierka(AccountTestInvoicingCommon):
                     Command.create(
                         {
                             "account_id": self._account("221000").id,
-                            "debit": income - expense,
-                            "credit": 0.0,
+                            "debit": max(income - expense, 0.0),
+                            "credit": max(expense - income, 0.0),
                         }
                     ),
                     Command.create(
@@ -171,3 +171,34 @@ class TestSkZavierka(AccountTestInvoicingCommon):
         self.assertNotIn(
             "702000", codes, "702 belongs to the closing, not to the opening"
         )
+
+    def _opening_after_close(self, expense, income):
+        self._post_result(expense=expense, income=income)
+        closing = self._closing()
+        closing.onchange_template_id()
+        closing.button_calculate()
+        opening = closing.move_config_ids.filtered(lambda c: c.code == "SK_OPENING")
+        self.assertTrue(opening.move_id, "the opening move must be created")
+        return opening.move_id
+
+    def test_opening_reopens_a_profit_on_431(self):
+        """§ 7 ods. 3 opatrenia 23054/2002-92: at the opening the previous
+        year's result goes to 431 — zisk na ťarchu 701, v prospech 431. The
+        plain reversal of the closing used to reopen it on 710."""
+        move = self._opening_after_close(expense=400.0, income=1000.0)
+        codes = set(move.line_ids.mapped("account_id.code"))
+        self.assertNotIn("710000", codes, "710 has no place in the new year")
+        on_431 = move.line_ids.filtered(lambda l: l.account_id.code == "431000")
+        self.assertEqual(sum(on_431.mapped("balance")), -600.0,
+                         "a profit of 600 is a CREDIT on 431")
+        # 701 still carries every counterpart, so it nets to zero.
+        on_701 = move.line_ids.filtered(lambda l: l.account_id.code == "701000")
+        self.assertEqual(sum(on_701.mapped("balance")), 0.0)
+
+    def test_opening_reopens_a_loss_on_431(self):
+        """Strata: v prospech 701 a na ťarchu 431."""
+        move = self._opening_after_close(expense=1000.0, income=400.0)
+        on_431 = move.line_ids.filtered(lambda l: l.account_id.code == "431000")
+        self.assertEqual(sum(on_431.mapped("balance")), 600.0,
+                         "a loss of 600 is a DEBIT on 431")
+        self.assertNotIn("710000", set(move.line_ids.mapped("account_id.code")))

@@ -83,6 +83,7 @@ class TestEpoChannel(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
         cls.company = cls.env.company
         cls.company.account_fiscal_country_id = cls.env.ref("base.cz")
         _key, _cert, p12 = _make_p12()
@@ -204,3 +205,44 @@ class TestEpoChannel(TransactionCase):
             b'<?xml version="1.0"?><!DOCTYPE x [<!ENTITY e "BOOM">]>'
             b'<Chyby><Chyba Typ="K" Zkr="X"><Text>&e;</Text></Chyba></Chyby>')
         self.assertNotIn("BOOM", answer["errors"][0]["text"])
+
+    def _file_with_recording_failing(self, failure):
+        self.company.l10n_cz_epo_allow_filing = True
+        key, cert, _p12 = _make_p12()
+        potvrzeni = epo.sign(
+            b'<Pisemnost><Podani Cislo="55555/26" Datum="29.09.2026" Heslo="pw"/>'
+            b'</Pisemnost>', key, cert)
+        self.submission.action_queue()
+        with patch(POST, return_value=_response(potvrzeni)) as post, \
+                patch.object(type(self.submission), "_mark_delivered",
+                             failure):
+            self.submission.action_send()
+        return post
+
+    def test_a_failure_after_the_receipt_is_never_retried(self):
+        """EPO filed it; recording the answer then failed. The framework used
+        to treat that as an unclassified, retryable error — and file twice."""
+        def broken(self_, external_ref=None, receipts=None):
+            raise KeyError("Datum")
+        post = self._file_with_recording_failing(broken)
+        self.assertEqual(post.call_count, 1)
+        self.assertEqual(self.submission.state, "failed")
+        self.assertIn("55555/26", self.submission.last_error)
+        self.assertIn("Do NOT send it again", self.submission.last_error)
+
+    def test_a_database_error_after_the_receipt_is_never_retried(self):
+        def broken(self_, external_ref=None, receipts=None):
+            self_.env.cr.execute("SELECT no_such_column FROM res_company")
+        self._file_with_recording_failing(broken)
+        self.assertEqual(self.submission.state, "failed")
+        self.assertIn("55555/26", self.submission.last_error)
+
+    def test_epo_is_not_offered_outside_czechia(self):
+        Submission = self.env["cssk.submission"]
+        sk = self.env["res.company"].create({
+            "name": "SK filer", "country_id": self.env.ref("base.sk").id})
+        sk.account_fiscal_country_id = self.env.ref("base.sk")
+        self.assertNotIn("cz_epo", dict(Submission._get_channels_for_company(sk)))
+        self.assertIn("cz_epo", dict(Submission._get_channels_for_company(self.company)))
+        # The selection itself keeps the code: historical rows need its label.
+        self.assertIn("cz_epo", dict(Submission._get_channels()))

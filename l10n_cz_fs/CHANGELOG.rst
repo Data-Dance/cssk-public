@@ -8,6 +8,34 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.2] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The module no longer claims the full statutory structure.** The Rozvaha
+  carries the items of the zkrácený rozsah and the Výkaz zisku a ztráty lacks
+  V., D.2.1–D.2.2, E.1–E.3, IV.1–IV.2, V.1–V.2, VI.1–VI.2 and J.1–J.2, which an
+  obchodní společnost must file (vyhláška č. 500/2002 Sb., § 3a odst. 4). The
+  description and README now say so, as the user guide already did.
+
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Rozvaha A.V. is the result of the period, not since the first entry.**
+  A.V. Výsledek hospodaření běžného účetního období read the cumulative
+  balance of classes 5 and 6, so on a database holding more than one year
+  without a closing it reported every earlier year's result as this year's.
+  It now reads the movement within the period and equals the result of the
+  výkaz zisku a ztráty. Earlier results belong in A.IV. through 428/429/431;
+  where a year was never closed, AKTIVA and PASIVA now differ by that year's
+  result instead of hiding it in A.V. On an existing database the shipped row
+  is updated on upgrade unless it was edited.
+
 [19.0.1.1.0] — 2026-09-28
 -------------------------
 

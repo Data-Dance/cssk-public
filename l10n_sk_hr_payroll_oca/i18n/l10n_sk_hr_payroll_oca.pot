@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-07 11:54+0000\n"
-"PO-Revision-Date: 2026-07-07 11:54+0000\n"
+"POT-Creation-Date: 2026-10-27 19:28+0000\n"
+"PO-Revision-Date: 2026-10-27 19:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -37,8 +37,15 @@ msgid "Advance Tax Withheld"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_employee_view_form_l10n_sk
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_version_view_form_l10n_sk
 msgid "Agreement (Slovakia)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_hours_warning
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_hours_warning
+msgid "Agreement Hours Warning"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -53,8 +60,20 @@ msgid "Agreement Type"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_wage_warning
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_wage_warning
+msgid "Agreement Wage Warning"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule.category,name:l10n_sk_hr_payroll_oca.ALW
 msgid "Allowance"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_oca.constraint_l10n_sk_tax_reconciliation_employee_year_uniq
+msgid ""
+"An annual tax reconciliation already exists for this employee and year."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -151,6 +170,11 @@ msgid "Basic Salary"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_darovanie_krvi
+msgid "Blood Donation (darovanie krvi, § 138)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_hr_payroll_structure_sk_employee_salary_child_support
 msgid "Child Support"
 msgstr ""
@@ -181,6 +205,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_children_under_15
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_children_under_15
 msgid "Children < 15y (tax bonus)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_obcianska_povinnost
+msgid "Civic Duty (občianska povinnosť, § 137)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -321,11 +350,19 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_payroll_structure__l10n_sk_agreement_type__dobps
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_agreement_type__dobps
+msgid "DoBPŠ — student work agreement"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_payroll_structure__l10n_sk_agreement_type__dopc
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_agreement_type__dopc
 msgid "DoPČ — agreement on work activity"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_payroll_structure__l10n_sk_agreement_type__dovp
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_agreement_type__dovp
 msgid "DoVP — agreement to perform work"
 msgstr ""
@@ -343,7 +380,7 @@ msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_version
-msgid "Employee Contract / Version"
+msgid "Employee Contract"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -359,8 +396,58 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_employer_pocasie
+msgid "Employer Obstacle — Adverse Weather (§ 142 ods. 2)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_employer_prestoj
+msgid "Employer Obstacle — Downtime / prestoj (§ 142 ods. 1)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_employer_ine
+msgid "Employer Obstacle — Other (§ 142 ods. 3)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_employer_vazne
+msgid "Employer Obstacle — Serious Operational Reasons (§ 142 ods. 4)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_employer_obstacle_allowance
+msgid "Employer Work Obstacle Pay (§ 142)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__prekazka_ine
+msgid "Employer obstacle — other (§ 142/3)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__prekazka_prestoj
+msgid "Employer obstacle — prestoj (§ 142/1)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__prekazka_vazne
+msgid "Employer obstacle — serious operational (§ 142/4)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__prekazka_pocasie
+msgid "Employer obstacle — weather (§ 142/2)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_agreement_type__none
 msgid "Employment (not an agreement)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_payroll_structure__l10n_sk_agreement_type__none
+msgid "Employment (pracovný pomer)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -384,6 +471,7 @@ msgid "From"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_employee_view_form_l10n_sk
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_version_view_form_l10n_sk
 msgid "Garnishment (Slovakia)"
 msgstr ""
@@ -411,8 +499,23 @@ msgid "Gross"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_hourly_wage
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_hourly_wage
+msgid ""
+"Gross hourly wage for an hourly-paid worker (e.g. a DoBPŠ student). When set"
+" (> 0), BASIC = actual worked hours (WORK100) × this rate, instead of the "
+"monthly wage with day-proration."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_guarantee_insurance_employer
 msgid "Guarantee Insurance (Employer)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_guarantee_exempt
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_guarantee_exempt
+msgid "Guarantee-insurance exempt (≥50% statutory owner)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -431,6 +534,12 @@ msgid "Health Insurance Minimum Top-up"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_health_exempt
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_health_exempt
+msgid "Health-insurance exempt (štátny poistenec)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_dovolenka
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__dovolenka
 msgid "Holiday"
@@ -439,6 +548,12 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_holiday_allowance
 msgid "Holiday Pay"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_hourly_wage
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_hourly_wage
+msgid "Hourly Wage (SK)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -490,6 +605,28 @@ msgid "Insurance to Finance Support during Short-Time Work (Employer)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability_at_age
+msgid ""
+"Invalidný dôchodok po dovŕšení dôchodkového veku (disability, pension age "
+"reached)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability
+msgid "Invalidný dôchodok, pokles do 70 % (disability up to 70 %)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability_over_70
+msgid "Invalidný dôchodok, pokles nad 70 % (disability over 70 %)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability_service
+msgid "Invalidný výsluhový dôchodok (service disability)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__write_uid
@@ -504,12 +641,13 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_meal_allowance_type
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_meal_allowance_type
-msgid ""
-"Legal meal-allowance option. The employer contributes >=55% of the statutory"
-" meal allowance; the contribution is exempt from income tax and from both "
-"the social and health assessment bases."
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_materska
+msgid "Maternity Leave (materská, § 166 ods. 1)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__materska
+msgid "Maternity leave (§ 166/1)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -523,6 +661,7 @@ msgid "Meal Allowance (Employer cost)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_employee_view_form_l10n_sk
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_version_view_form_l10n_sk
 msgid "Meal Allowance (Slovakia)"
 msgstr ""
@@ -564,6 +703,17 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule.category,name:l10n_sk_hr_payroll_oca.hr_payroll_meal_vouchers_employer
 msgid "Meal Vouchers (Employer)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_meal_allowance_type
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_meal_allowance_type
+msgid ""
+"Meal provision under § 152 of the Labour Code. The employer contributes at "
+"least 55 % of the meal price (the voucher value), but at most 55 % of the "
+"5-12 hour travel meal allowance per meal (§ 152 ods. 3); the payslip uses "
+"that maximum. The contribution is exempt from income tax and from both the "
+"social and health assessment bases."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -656,6 +806,21 @@ msgid "Overpayment (+) / Underpayment (−)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_obstacle_accompany_disabled
+msgid "Paid Obstacle — Accompanying a Disabled Child ZŤP (10 days/year)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_obstacle_accompany
+msgid "Paid Obstacle — Accompanying a Family Member (7 days/year)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_obstacle_exam
+msgid "Paid Obstacle — Medical Examination (7 days/year)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_obstacle
 msgid "Paid Work Obstacle"
 msgstr ""
@@ -668,6 +833,26 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__obstacle
 msgid "Paid work obstacle"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_rodicovska
+msgid "Parental Leave (rodičovská, § 166 ods. 2)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__rodicovska
+msgid "Parental leave (§ 166/2)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_otcovska
+msgid "Paternity Leave (otcovská, § 166 ods. 3)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__otcovska
+msgid "Paternity leave (§ 166/3)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -690,6 +875,12 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_pension_contribution_employer
 msgid "Pension Contribution (Employer)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_pension_type
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_pension_type
+msgid "Pension granted (SK)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -718,6 +909,27 @@ msgid "Posted"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__early_old_age
+msgid "Predčasný starobný dôchodok (early old-age)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_verejna_funkcia
+msgid "Public Office (výkon verejnej funkcie, § 136)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_karantena
+msgid "Quarantine / Isolation (karanténa)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_income_regular
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_income_regular
+msgid "Regular monthly income"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_hr_payroll_structure_sk_employee_salary_reimbursement_salary_rule
 msgid "Reimbursement"
 msgstr ""
@@ -735,6 +947,12 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__rule_parameter_id
 msgid "Rule Parameter"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.actions.act_window,name:l10n_sk_hr_payroll_oca.hr_rule_parameter_action
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_oca.hr_rule_parameter_menu
+msgid "Rule Parameters"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -761,6 +979,22 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
 msgid "Set the settlement payslip before posting the result."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_hours_warning
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_hours_warning
+msgid ""
+"Set when the contracted working time exceeds the statutory ceiling for this "
+"kind of agreement."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_wage_warning
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_wage_warning
+msgid ""
+"Set when the hourly rate of a work agreement is below the minimum hourly "
+"wage."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -819,6 +1053,7 @@ msgid "Slovak Annual Tax Reconciliation"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_employee_view_form_l10n_sk
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_version_view_form_l10n_sk
 msgid "Slovak Payroll"
 msgstr ""
@@ -826,6 +1061,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_leave_type__l10n_sk_payroll_code
 msgid "Slovak Payroll Code"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__l10n_sk_agreement_type
+msgid "Slovak employment form"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -841,6 +1081,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_nczd_annual
 msgid "Slovakia: Annual non-taxable part per taxpayer (NČZD)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_avg_earnings_min_hours
+msgid "Slovakia: Average earnings — minimum hours in the determining period"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -889,6 +1134,26 @@ msgid "Slovakia: Employer meal contribution (% of meal allowance)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_prekazka_pocasie_pct
+msgid "Slovakia: Employer obstacle — adverse weather (%)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_prekazka_ine_pct
+msgid "Slovakia: Employer obstacle — other (%)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_prekazka_prestoj_pct
+msgid "Slovakia: Employer obstacle — prestoj (%)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_prekazka_vazne_pct
+msgid "Slovakia: Employer obstacle — serious operational reasons (%)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_pn_employer_days
 msgid "Slovakia: Employer-paid sick-leave (PN) day count"
 msgstr ""
@@ -902,6 +1167,13 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_garnishment_dependent_coeff
 msgid "Slovakia: Garnishment per-dependant coefficient (× basic)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_garnishment_priority_coeff
+msgid ""
+"Slovakia: Garnishment priority non-seizable coefficient (× subsistence "
+"minimum)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -995,6 +1267,11 @@ msgid "Slovakia: NČZD taper constant (annual)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_divisor
+msgid "Slovakia: NČZD taper divisor of the annual base"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_threshold
 msgid "Slovakia: NČZD taper threshold (annual tax base)"
 msgstr ""
@@ -1065,6 +1342,12 @@ msgid "Slovakia: Unemployment insurance rate (employer)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_social_unemployment_er_no_shorttime
+msgid ""
+"Slovakia: Unemployment insurance rate (employer, no short-time financing)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule.category,name:l10n_sk_hr_payroll_oca.hr_payroll_social_security_employee
 msgid "Social Security (Employee)"
 msgstr ""
@@ -1097,7 +1380,14 @@ msgid ""
 "Stable payroll code used by the Slovak salary rules to classify this "
 "absence: holiday and paid obstacle are paid at average earnings (insurable +"
 " taxable); sickness drives the employer sick-pay compensation; family care "
-"and unpaid leave only cut worked days (no pay)."
+"and unpaid leave only cut worked days (no pay). The four § 142 employer-side"
+" obstacles are each paid at their own statutory percentage of average "
+"earnings, which is why they are separate codes rather than one bucket."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__old_age
+msgid "Starobný dôchodok (old-age)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1108,6 +1398,21 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.leave.accrual.plan,name:l10n_sk_hr_payroll_oca.l10n_sk_accrual_plan_dovolenka_4w
 msgid "Statutory annual leave — 4 weeks (20 days)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.hr_rule_parameter_view_form
+msgid "Statutory source, how the value is derived..."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_vzdelavanie
+msgid "Study Leave, paid (vzdelávanie, § 140)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_vzdelavanie_unpaid
+msgid "Study Leave, unpaid (vzdelávanie, § 140)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1172,12 +1477,81 @@ msgid "Taxpayer Non-taxable Part (NČZD)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__l10n_sk_agreement_type
+msgid ""
+"The Slovak employment form this structure represents. Choosing the structure"
+" sets the contract's agreement type, and a contract may not then disagree "
+"with it."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid ""
+"The contracted working time of %(value).1f hours %(basis)s exceeds the "
+"statutory ceiling of %(ceiling).0f for this agreement type."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_declaration_signed
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_tax_declaration_signed
 msgid ""
 "The employee signed the taxpayer's declaration with this employer, so the "
 "monthly non-taxable part (NČZD) and the child tax bonus are applied here. "
 "Only one employer at a time may apply them."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid ""
+"The hourly rate of %(rate).3f is below the minimum hourly wage of "
+"%(minimum).3f (§ 119 ods. 1 and § 223 ods. 2 Zákonníka práce)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_pension_type
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_pension_type
+msgid ""
+"The pension the worker has been granted, if any. It changes the social-"
+"insurance fund set (zákon 461/2003): a DoVP/DoPČ holder with any of these "
+"pensions is pension-insured only, with no sickness or unemployment insurance"
+" (§ 4 ods. 1 písm. b)); a starobný, predčasný starobný or over-70 % "
+"invalidný pensioner pays no unemployment insurance on any form (§ 19 ods. 3 "
+"písm. b)); and after a starobný, predčasný starobný or a výsluhový dôchodok "
+"at pension age neither the worker nor the employer pays disability insurance"
+" (§ 128 ods. 3). Survivors' pensions (vdovský, sirotský) change nothing and "
+"are not listed."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_health_exempt
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_health_exempt
+msgid ""
+"The worker is a state insuree (poistenec štátu) — typically a student on a "
+"DoBPŠ agreement or a working pensioner — so the agreement income carries no "
+"health insurance (employee, employer, or minimum-base top-up), per z. "
+"580/2004. Independent of the pension OOP: a student is health-exempt even in"
+" a month where the OOP is not claimed."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_guarantee_exempt
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_guarantee_exempt
+msgid ""
+"The worker is a statutory body or its member with at least a 50% share in "
+"the employer, so is NOT guarantee-insured (garančné poistenie), per § 4 ods."
+" 4 z. 461/2003 — the employer pays no guarantee-fund premium for them. All "
+"other social/health contributions are unaffected."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payroll_structure_form.py:0
+msgid ""
+"This contract is on the %(struct)s structure, which is the %(form)s "
+"employment form, but its agreement type is %(actual)s. Change the structure "
+"rather than the agreement type — the structure is what decides the form."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1188,6 +1562,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__nczd_total
 msgid "Total Non-taxable Part (NČZD)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_oca.constraint_hr_rule_parameter_code_uniq
+msgid "Two rule parameters cannot share the same code."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1226,6 +1605,13 @@ msgid "Values"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__service_at_age
+msgid ""
+"Výsluhový dôchodok po dovŕšení dôchodkového veku (service pension, pension "
+"age reached)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_wage_garnishment
 #: model:hr.salary.rule.category,name:l10n_sk_hr_payroll_oca.hr_payroll_garnishment
 msgid "Wage Garnishment"
@@ -1237,6 +1623,18 @@ msgid ""
 "When set, computing the reconciliation reads the annual tax base, advance "
 "tax and child bonus already paid from the employee's monthly payslips of the"
 " tax year. Untick to enter those totals manually."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_income_regular
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_income_regular
+msgid ""
+"Whether the agreed remuneration is a PRAVIDELNY (regular monthly) income. "
+"This — not the kind of agreement — decides the social-insurance fund set: a "
+"worker with irregular income pays only old-age and disability insurance, "
+"with no sickness, unemployment or short-time contribution. Both DoVP and "
+"DoPC can lawfully be agreed either way, so it is recorded separately. Always"
+" true for a standard employment relationship."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1258,191 +1656,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_type
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_type
 msgid ""
-"Work-agreement type outside a standard employment relationship. DoVP "
-"(agreement to perform work) is treated as irregular income: the employee "
-"pays only old-age and disability insurance — no sickness or unemployment. "
-"DoPČ (agreement on work activity) is treated as regular income (full social "
-"set, like employment). Health insurance applies to both."
+"Work-agreement type outside a standard employment relationship. The fund set"
+" follows the INCOME REGULARITY rather than the kind of agreement — see the "
+"Regular monthly income flag. Health insurance applies to all of them unless "
+"the worker is a state insuree."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_ztp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_ztp
 msgid "ZŤP / Disabled"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_hours_warning
-msgid "Agreement Hours Warning"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_payroll_structure__l10n_sk_agreement_type__dobps
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_agreement_type__dobps
-msgid "DoBPŠ — student work agreement"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__PREKAZKA_INE
-msgid "Employer obstacle — other (§ 142/3)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__PREKAZKA_PRESTOJ
-msgid "Employer obstacle — prestoj (§ 142/1)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__PREKAZKA_VAZNE
-msgid "Employer obstacle — serious operational (§ 142/4)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__PREKAZKA_POCASIE
-msgid "Employer obstacle — weather (§ 142/2)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_payroll_structure__l10n_sk_agreement_type__none
-msgid "Employment (pracovný pomer)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_hourly_wage
-msgid ""
-"Gross hourly wage for an hourly-paid worker (e.g. a DoBPŠ student). When set"
-" (> 0), BASIC = actual worked hours (WORK100) × this rate, instead of the "
-"monthly wage with day-proration."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_guarantee_exempt
-msgid "Guarantee-insurance exempt (≥50% statutory owner)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_health_exempt
-msgid "Health-insurance exempt (štátny poistenec)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_hourly_wage
-msgid "Hourly Wage (SK)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__MATERSKA
-msgid "Maternity leave (§ 166/1)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__RODICOVSKA
-msgid "Parental leave (§ 166/2)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__OTCOVSKA
-msgid "Paternity leave (§ 166/3)"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_income_regular
-msgid "Regular monthly income"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_hours_warning
-msgid ""
-"Set when the contracted working time exceeds the statutory ceiling for this "
-"kind of agreement."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__l10n_sk_agreement_type
-msgid "Slovak employment form"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.module.module,summary:base.module_l10n_sk_hr_payroll_oca
-msgid "Slovak payroll rules for the payroll engine"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_hr_payroll_oca
-msgid "Slovakia - Payroll"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_leave_type__l10n_sk_payroll_code
-msgid ""
-"Stable payroll code used by the Slovak salary rules to classify this "
-"absence: holiday and paid obstacle are paid at average earnings (insurable +"
-" taxable); sickness drives the employer sick-pay compensation; family care "
-"and unpaid leave only cut worked days (no pay). The four § 142 employer-side"
-" obstacles are each paid at their own statutory percentage of average "
-"earnings, which is why they are separate codes rather than one bucket."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__l10n_sk_agreement_type
-msgid ""
-"The Slovak employment form this structure represents. Choosing the structure"
-" sets the contract's agreement type, and a contract may not then disagree "
-"with it."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#. odoo-python
-#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
-msgid ""
-"The contracted working time of %(value).1f hours %(basis)s exceeds the "
-"statutory ceiling of %(ceiling).0f for this agreement type."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_health_exempt
-msgid ""
-"The worker is a state insuree (poistenec štátu) — typically a student on a "
-"DoBPŠ agreement or a working pensioner — so the agreement income carries no "
-"health insurance (employee, employer, or minimum-base top-up), per z. "
-"580/2004. Independent of the pension OOP: a student is health-exempt even in"
-" a month where the OOP is not claimed."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_guarantee_exempt
-msgid ""
-"The worker is a statutory body or its member with at least a 50% share in "
-"the employer, so is NOT guarantee-insured (garančné poistenie), per §102 z. "
-"461/2003 — the employer pays no guarantee-fund premium for them. All other "
-"social/health contributions are unaffected."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#. odoo-python
-#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payroll_structure_form.py:0
-msgid ""
-"This contract is on the %(struct)s structure, which is the %(form)s "
-"employment form, but its agreement type is %(actual)s. Change the structure "
-"rather than the agreement type — the structure is what decides the form."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_income_regular
-msgid ""
-"Whether the agreed remuneration is a PRAVIDELNY (regular monthly) income. "
-"This — not the kind of agreement — decides the social-insurance fund set: a "
-"worker with irregular income pays only old-age and disability insurance, "
-"with no sickness, unemployment or short-time contribution. Both DoVP and "
-"DoPC can lawfully be agreed either way, so it is recorded separately. Always"
-" true for a standard employment relationship."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_type
-msgid ""
-"Work-agreement type outside a standard employment relationship. The fund set"
-" follows the INCOME REGULARITY rather than the kind of agreement — see the "
-"Regular monthly income flag. Health insurance applies to all of them unless "
-"the worker is a state insuree."
 msgstr ""

@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Bank Statement Import — GPC (CZ/SK)",
-    "version": "19.0.2.0.0",
+    "version": "19.0.2.0.1",
     "summary": "Import Czech/Slovak GPC (ABO) bank statement files.",
     "description": """
 Bank Statement Import — GPC (CZ/SK)
@@ -36,6 +36,6 @@ as cp1250 (latin-1 fallback).
     "website": "https://www.datadance.eu",
     "license": "AGPL-3",
     "category": "Accounting/Bank",
-    "depends": ["account_statement_import_file", "account_gpc_base"],
+    "depends": ["account_statement_import_file", "account_gpc_base", "account_cz_bankfile_base"],
     "installable": True,
 }

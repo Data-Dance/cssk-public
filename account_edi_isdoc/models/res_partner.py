@@ -12,7 +12,11 @@ class ResPartner(models.Model):
 
     @api.model
     def _get_ubl_cii_formats_info(self):
-        # EXTENDS account_edi_ubl_cii — offer ISDOC for Czech companies.
+        # EXTENDS account_edi_ubl_cii — ISDOC is selectable for any partner.
+        # 'countries' only feeds the SUGGESTED format, and there it ties with
+        # ubl_bis3 at sequence 200, which core lists first: a Czech partner is
+        # suggested Peppol BIS 3, never ISDOC. Making ISDOC the suggestion would
+        # change what every Czech customer receives — an owner decision.
         return {
             **super()._get_ubl_cii_formats_info(),
             'isdoc': {'countries': ['CZ'], 'on_peppol': False, 'sequence': 200},

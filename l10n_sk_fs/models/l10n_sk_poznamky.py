@@ -12,6 +12,7 @@ exceptions. A structured POZv14 XML export is a follow-up.
 import base64
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 # Standard malá-UJ "nemá náplň" boilerplate so a clean filing needs no editing.
 _DEF_ORGANY = ("Členom štatutárneho orgánu, dozorného orgánu ani iného orgánu "
@@ -116,13 +117,23 @@ class L10nSkPoznamky(models.Model):
     def action_populate_odpis(self):
         """Fill the odpisový plán from the company's posted assets (group by the
         depreciation duration). Best-effort: durations come from each asset's
-        ``method_number`` (years); rate = 100 / years."""
+        ``method_number`` (years); rate = 100 / years.
+
+        Nothing is deleted until there is something to put in its place: on a
+        database without ``account.asset`` (Community) or without any asset,
+        the button used to wipe the hand-entered plan and add nothing."""
         self.ensure_one()
         Asset = self.env.get("account.asset")
-        self.odpis_line_ids.unlink()
         if Asset is None:
-            return
+            raise UserError(_(
+                "The depreciation plan cannot be loaded: asset management "
+                "(account.asset) is not installed. Enter the plan by hand; "
+                "the existing lines were left unchanged."))
         assets = Asset.search([("company_id", "=", self.company_id.id)])
+        if not assets:
+            raise UserError(_(
+                "The company has no assets to load a depreciation plan from. "
+                "The existing lines were left unchanged."))
         period_months = {"month": 1, "quarter": 3, "year": 12}
         groups = {}
         for a in assets:
@@ -138,6 +149,7 @@ class L10nSkPoznamky(models.Model):
                 "doba_rokov": years,
                 "sadzba": round(100.0 / years, 2) if years else 0.0,
             }))
+        self.odpis_line_ids.unlink()
         self.odpis_line_ids = lines
 
     def action_generate_pdf(self):

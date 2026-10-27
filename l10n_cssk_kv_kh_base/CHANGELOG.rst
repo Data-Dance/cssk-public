@@ -8,6 +8,29 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.3.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- The settings the section resolver reads are on the forms: the
+  *Reverse charge* flag on the tax (Advanced Options), the journal's
+  control-statement section (Advanced Settings), the VAT direction and
+  correction flags on a journal entry, and the per-line control-statement
+  VAT and section in the journal items (optional columns).
+
+Fixed
+~~~~~
+
+- A version's *Monthly* / *Quarterly* switches are enforced: a statement for
+  a period its version does not allow is refused. They were stored and
+  never read.
+- The amendment button is named after the country's form: *Dodatočný /
+  opravný* (SK), *Opravné / následné* (CZ).
+- *Original document number* and its help were in no catalogue, so they
+  showed in English in Slovak and Czech; they are translated.
+
 [19.0.2.2.1] — 2026-10-04
 -------------------------
 

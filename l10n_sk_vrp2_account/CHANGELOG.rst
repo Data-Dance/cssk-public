@@ -8,6 +8,42 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- 19.0.2.4.0 (2026-10-27) is owed to 18.0: the payment-type wizard, the booked
+  cash rounding with its ``vrp2_cash_rounding_id`` setting, and the 1–2 cent
+  rule. The module exists on ``origin/18.0``.
+
+[19.0.2.4.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Every invoice was fiscalized as a cash payment.** *Fiscalize in VRP2* on
+  the invoice and in the list sent ``CASH`` whatever the customer paid with,
+  so a card payment was recorded at Finančná správa as cash and rounded as
+  cash. Both now ask **Cash** or **Card** first, with nothing preselected.
+- **The 5-cent rounding of a cash payment was never booked.** The receipt
+  reported 18.50 paid for an 18.48 invoice while the payment in Odoo stayed
+  18.48. *Register Payment* now books a full cash payment at the rounded amount
+  and writes the difference off to the profit or loss account of the new
+  **VRP2 cash rounding** setting; a partial cash payment that is not a multiple
+  of 0.05 €, a rounded batch of several invoices, or a missing rounding account
+  is refused before anything reaches VRP2.
+- **A price of 1 or 2 cents rounded to nothing.** § 3 ods. 4 zákona
+  č. 18/1996 Z. z. rounds it up to 5 cents.
+- The help of *Fiscalize invoice payments* claimed that a VRP2 error rolls back
+  payment and receipt together; that holds only for the first receipt. It now
+  says what happens.
+
+Added
+~~~~~
+
+- **VRP2 cash rounding** in *Settings ▸ VRP2*, under *Fiscalize invoice
+  payments*.
+
 [19.0.2.3.0] — 2026-10-06
 -------------------------
 

@@ -12,9 +12,15 @@
                         </p>
 
                         <div class="row mb-3">
+                            <!-- § 30 ods. 3 písm. a) -->
                             <div class="col-6">
                                 <strong>Účtovná jednotka:</strong>
-                                <span t-field="doc.company_id.name"/>
+                                <span t-field="doc.company_id.name"/><br/>
+                                <!-- právnická osoba: sídlo; fyzická osoba: bydlisko
+                                     (a miesto podnikania) — the company address -->
+                                <strong>Sídlo:</strong>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "separator": ", "}'/><br/>
                             </div>
                             <div class="col-6">
                                 <strong>Inventarizácia:</strong>
@@ -79,7 +85,8 @@
 
                         <div class="row mt-5">
                             <div class="col-6">
-                                <p>Zápis vyhotovil:
+                                <!-- § 30 ods. 3 písm. d) -->
+                                <p>Za vykonanie inventarizácie zodpovedá:
                                     <strong><span t-field="doc.approved_by_id.name"/></strong>
                                 </p>
                                 <p>.................................................</p>

@@ -70,22 +70,22 @@ msgstr "Sťažený výkon práce %"
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_wage_level
 msgid ""
-"Difficulty level of the job (§ 120 ods. 2 Zákonníka práce). Sets the minimum"
-" wage claim the achieved wage is topped up to. Left empty it is treated as "
-"level 1, the plain minimum wage."
+"Difficulty level of the job (§ 120 ods. 3 Zákonníka práce). Sets the "
+"minimum wage claim the achieved wage is topped up to. Left empty it is "
+"treated as level 1, the plain minimum wage."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__level
 msgid ""
-"Difficulty level of the job per § 120 ods. 2 and the Annex 1 to the Zákonník"
-" práce."
+"Difficulty level of the job per § 120 ods. 3 and the Annex 1 to the "
+"Zákonník práce."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_job__l10n_sk_wage_level
 msgid ""
-"Difficulty level of this post (§ 120 ods. 2 and Annex 1 to the Zákonník "
+"Difficulty level of this post (§ 120 ods. 3 and Annex 1 to the Zákonník "
 "práce). New contracts on this job start from it. Left empty, contracts fall "
 "back to level 1 — the plain minimum wage."
 msgstr ""
@@ -99,9 +99,9 @@ msgstr "Účinné od"
 #: model:ir.module.module,summary:base.module_l10n_sk_hr_payroll_surcharges
 msgid ""
 "Engine-neutral statutory wage surcharges for night, Saturday, Sunday, "
-"public-holiday, overtime, difficult-conditions and standby work (§§ 121–123 "
-"Zákonníka práce), plus the six stupne náročnosti minimum wage claims and the"
-" top-up to them."
+"public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 "
+"and § 96 Zákonníka práce), plus the six stupne náročnosti minimum wage "
+"claims and the top-up to them."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_surcharges
@@ -302,7 +302,8 @@ msgstr "Pracovná pohotovosť %"
 #: model_terms:ir.actions.act_window,help:l10n_sk_hr_payroll_surcharges.l10n_sk_wage_surcharge_rate_action
 msgid ""
 "Statutory minimum surcharges for night, weekend, public-holiday\n"
-"                and overtime work (§§ 121–123 Zákonníka práce). Create a new\n"
+"                and overtime work (§§ 121–124 Zákonníka práce). Create a "
+"new\n"
 "                dated record to raise them above the statutory floor."
 msgstr ""
 
@@ -426,92 +427,117 @@ msgstr ""
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_pct
-msgid "§ 122a ods. 1 — at least 40 % of the minimum hourly wage."
-msgstr "§ 122a ods. 1 — najmenej 40 % minimálnej hodinovej mzdy."
+msgid "§ 123 ods. 1 — at least 40 % of the minimum hourly wage."
+msgstr "§ 123 ods. 1 — najmenej 40 % minimálnej hodinovej mzdy."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_risk_pct
 msgid ""
-"§ 122a ods. 2 — at least 50 % where the work is classified as risky "
+"§ 123 ods. 1 — at least 50 % where the work is classified as risky "
 "(riziková práca)."
-msgstr ""
+msgstr "§ 123 ods. 1 — najmenej 50 %, ak ide o rizikovú prácu."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_night_reduced
 msgid ""
-"§ 122a ods. 3 — a collective agreement sets the night surcharge at the lower"
-" statutory floor because the predominant part of the work is performed at "
-"night. Ignored for risky work."
+"§ 123 ods. 2 — a collective agreement (or, at an employer with no trade "
+"union and fewer than 20 employees on 31 December of the previous year, the "
+"employment contract) sets the night surcharge at the lower statutory floor "
+"because the predominant part of the work is performed at night. Ignored for "
+"risky work."
 msgstr ""
-"§ 122a ods. 3 — kolektívna zmluva určuje nočný príplatok na nižšej zákonnej "
-"hranici, pretože prevažná časť práce sa vykonáva v noci. Pri rizikovej práci"
-" sa neuplatní."
+"§ 123 ods. 2 — kolektívna zmluva (alebo u zamestnávateľa, u ktorého "
+"nepôsobí odborová organizácia a ktorý k 31. decembru predchádzajúceho "
+"kalendárneho roka zamestnával menej ako 20 zamestnancov, pracovná zmluva) "
+"určuje nočný príplatok na nižšej zákonnej hranici, pretože prevažná časť "
+"práce sa vykonáva v noci. Pri rizikovej práci sa neuplatní."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_reduced_pct
 msgid ""
-"§ 122a ods. 3 — at least 35 %, available only by collective agreement to "
-"employers whose work is predominantly performed at night, and never for "
-"risky work."
+"§ 123 ods. 2 — at least 35 %, agreed in a collective agreement (or in the "
+"employment contract at an employer with no trade union and fewer than 20 "
+"employees on 31 December of the previous year) where the predominant part "
+"of the work is performed at night; never for risky work."
 msgstr ""
-"§ 122a ods. 3 — najmenej 35 %, dostupné len na základe kolektívnej zmluvy "
-"zamestnávateľom, u ktorých sa práca vykonáva prevažne v noci, a nikdy pri "
+"§ 123 ods. 2 — najmenej 35 %, dohodnuté v kolektívnej zmluve (alebo v "
+"pracovnej zmluve u zamestnávateľa, u ktorého nepôsobí odborová organizácia "
+"a ktorý k 31. decembru predchádzajúceho kalendárneho roka zamestnával menej "
+"ako 20 zamestnancov), ak sa prevažná časť práce vykonáva v noci; nikdy pri "
 "rizikovej práci."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__sobota_pct
-msgid "§ 122b ods. 1 — at least 50 % of the minimum hourly wage."
-msgstr "§ 122b ods. 1 — najmenej 50 % minimálnej hodinovej mzdy."
+msgid "§ 122a ods. 1 — at least 50 % of the minimum hourly wage."
+msgstr "§ 122a ods. 1 — najmenej 50 % minimálnej hodinovej mzdy."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_saturday_reduced
 msgid ""
-"§ 122b ods. 2 — a collective agreement sets the Saturday surcharge at the "
-"lower statutory floor because the nature of the work requires regular work "
-"on Saturdays."
+"§ 122a ods. 2 — a collective agreement (or, at an employer with no trade "
+"union and fewer than 20 employees on 31 December of the previous year, the "
+"employment contract) sets the Saturday surcharge at the lower statutory "
+"floor because the nature of the work requires regular work on Saturdays."
 msgstr ""
-"§ 122b ods. 2 — kolektívna zmluva určuje sobotňajší príplatok na nižšej "
-"zákonnej hranici, pretože povaha práce vyžaduje pravidelnú prácu v sobotu."
+"§ 122a ods. 2 — kolektívna zmluva (alebo u zamestnávateľa, u ktorého "
+"nepôsobí odborová organizácia a ktorý k 31. decembru predchádzajúceho "
+"kalendárneho roka zamestnával menej ako 20 zamestnancov, pracovná zmluva) "
+"určuje sobotňajší príplatok na nižšej zákonnej hranici, pretože povaha "
+"práce vyžaduje pravidelnú prácu v sobotu."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__sobota_reduced_pct
 msgid ""
-"§ 122b ods. 2 — at least 45 % by collective agreement where the nature of "
-"the work requires regular work on Saturdays."
+"§ 122a ods. 2 — at least 45 %, agreed in a collective agreement (or in the "
+"employment contract at an employer with no trade union and fewer than 20 "
+"employees on 31 December of the previous year) where the nature of the work "
+"requires regular work on Saturdays."
 msgstr ""
-"§ 122b ods. 2 — najmenej 45 % na základe kolektívnej zmluvy, ak povaha práce"
-" vyžaduje pravidelnú prácu v sobotu."
+"§ 122a ods. 2 — najmenej 45 %, dohodnuté v kolektívnej zmluve (alebo v "
+"pracovnej zmluve u zamestnávateľa, u ktorého nepôsobí odborová organizácia "
+"a ktorý k 31. decembru predchádzajúceho kalendárneho roka zamestnával menej "
+"ako 20 zamestnancov), ak povaha práce vyžaduje pravidelnú prácu v sobotu."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nedela_pct
-msgid "§ 122c ods. 1 — at least 100 % of the minimum hourly wage."
-msgstr "§ 122c ods. 1 — najmenej 100 % minimálnej hodinovej mzdy."
+msgid "§ 122b ods. 1 — at least 100 % of the minimum hourly wage."
+msgstr "§ 122b ods. 1 — najmenej 100 % minimálnej hodinovej mzdy."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_sunday_reduced
 msgid ""
-"§ 122c ods. 2 — a collective agreement sets the Sunday surcharge at the "
-"lower statutory floor because the nature of the work requires regular work "
-"on Sundays."
+"§ 122b ods. 2 — a collective agreement (or, at an employer with no trade "
+"union and fewer than 20 employees on 31 December of the previous year, the "
+"employment contract) sets the Sunday surcharge at the lower statutory floor "
+"because the nature of the work requires regular work on Sundays."
 msgstr ""
-"§ 122c ods. 2 — kolektívna zmluva určuje nedeľný príplatok na nižšej "
-"zákonnej hranici, pretože povaha práce vyžaduje pravidelnú prácu v nedeľu."
+"§ 122b ods. 2 — kolektívna zmluva (alebo u zamestnávateľa, u ktorého "
+"nepôsobí odborová organizácia a ktorý k 31. decembru predchádzajúceho "
+"kalendárneho roka zamestnával menej ako 20 zamestnancov, pracovná zmluva) "
+"určuje nedeľný príplatok na nižšej zákonnej hranici, pretože povaha práce "
+"vyžaduje pravidelnú prácu v nedeľu."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nedela_reduced_pct
 msgid ""
-"§ 122c ods. 2 — at least 90 % by collective agreement where the nature of "
-"the work requires regular work on Sundays."
+"§ 122b ods. 2 — at least 90 %, agreed in a collective agreement (or in the "
+"employment contract at an employer with no trade union and fewer than 20 "
+"employees on 31 December of the previous year) where the nature of the work "
+"requires regular work on Sundays."
 msgstr ""
-"§ 122c ods. 2 — najmenej 90 % na základe kolektívnej zmluvy, ak povaha práce"
-" vyžaduje pravidelnú prácu v nedeľu."
+"§ 122b ods. 2 — najmenej 90 %, dohodnuté v kolektívnej zmluve (alebo v "
+"pracovnej zmluve u zamestnávateľa, u ktorého nepôsobí odborová organizácia "
+"a ktorý k 31. decembru predchádzajúceho kalendárneho roka zamestnával menej "
+"ako 20 zamestnancov), ak povaha práce vyžaduje pravidelnú prácu v nedeľu."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__stazeny_pct
 msgid ""
-"§ 123 — mzdová kompenzácia za sťažený výkon práce, at least 20 % of the "
-"minimum hourly wage."
+"§ 124 ods. 3 — mzdová kompenzácia za sťažený výkon práce, at least 20 % of "
+"the minimum hourly wage."
 msgstr ""
+"§ 124 ods. 3 — mzdová kompenzácia za sťažený výkon práce, najmenej 20 % "
+"minimálnej hodinovej mzdy."
 
 #. module: l10n_sk_hr_payroll_surcharges
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__pohotovost_pct

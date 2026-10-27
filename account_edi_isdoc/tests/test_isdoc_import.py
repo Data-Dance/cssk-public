@@ -100,6 +100,15 @@ class TestISDOCImport(AccountTestInvoicingCommon):
         return company
 
     @classmethod
+    def get_default_groups(cls):
+        # account_payment_order (OCA) moves the bank-account access rule to
+        # its own group; without it these setups cannot create bank accounts.
+        return super().get_default_groups() | (
+            cls.env.ref("account_payment_order.group_account_payment", False)
+            or cls.env["res.groups"]
+        )
+
+    @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.company_data['company']
@@ -173,3 +182,74 @@ class TestISDOCImport(AccountTestInvoicingCommon):
         # 3 product lines + advance deductions (TaxedDeposits/NonTaxedDeposits) + rounding line.
         product_lines = invoice.invoice_line_ids.filtered(lambda l: l.display_type == 'product')
         self.assertGreater(len(product_lines), 3)
+
+    # ----- Vendor by IČO -----
+
+    def test_import_finds_the_vendor_by_ico(self):
+        """The supplier is known under another name and without a DIČ: only the
+        IČO identifies it. Core's search would have created a second partner."""
+        known = self.env['res.partner'].create({
+            'name': "Dodavatel (smluvní název)", 'company_registry': '12345679',
+            'is_company': True})
+        invoice = self._import(INVOICE.encode())
+        self.assertEqual(invoice.partner_id, known)
+
+    def test_import_finds_a_non_payer_by_ico(self):
+        """A non-payer of VAT has no DIČ; the IČO is all there is."""
+        known = self.env['res.partner'].create({
+            'name': "Neplátce", 'company_registry': '12345679', 'is_company': True})
+        xml = INVOICE.replace(
+            '<PartyTaxScheme><CompanyID>CZ12345679</CompanyID><TaxScheme>VAT</TaxScheme></PartyTaxScheme>', '', 1)
+        self.assertNotIn('CZ12345679', xml)
+        invoice = self._import(xml.encode())
+        self.assertEqual(invoice.partner_id, known)
+
+    def test_an_ico_contradicted_by_the_dic_is_not_trusted(self):
+        """Same IČO, different DIČ: the IČO match is dropped, not forced."""
+        other = self.env['res.partner'].create({
+            'name': "Někdo jiný", 'company_registry': '12345679', 'vat': 'CZ29261783',
+            'is_company': True})
+        invoice = self._import(INVOICE.encode())
+        self.assertNotEqual(invoice.partner_id, other)
+        self.assertEqual(invoice.partner_id.name, "Dodavatel s.r.o.")
+
+    def test_a_vendor_created_by_the_import_keeps_its_ico(self):
+        invoice = self._import(INVOICE.encode())
+        self.assertEqual(invoice.partner_id.company_registry, '12345679')
+
+    # ----- Local reverse charge (§ 92a) -----
+
+    def _reverse_charge_invoice(self):
+        """The first line in the local reverse-charge regime: 200 at 21 %, no VAT
+        charged (construction work, code 4); the second an ordinary 12 % line."""
+        xml = INVOICE.replace(
+            '<LineExtensionAmount>200</LineExtensionAmount><LineExtensionAmountTaxInclusive>224</LineExtensionAmountTaxInclusive>\n'
+            '      <LineExtensionTaxAmount>24</LineExtensionTaxAmount><UnitPrice>100</UnitPrice><UnitPriceTaxInclusive>112</UnitPriceTaxInclusive>\n'
+            '      <ClassifiedTaxCategory><Percent>12</Percent><VATCalculationMethod>0</VATCalculationMethod><VATApplicable>true</VATApplicable></ClassifiedTaxCategory>',
+            '<LineExtensionAmount>200</LineExtensionAmount><LineExtensionAmountTaxInclusive>200</LineExtensionAmountTaxInclusive>\n'
+            '      <LineExtensionTaxAmount>0</LineExtensionTaxAmount><UnitPrice>100</UnitPrice><UnitPriceTaxInclusive>100</UnitPriceTaxInclusive>\n'
+            '      <ClassifiedTaxCategory><Percent>21</Percent><VATCalculationMethod>0</VATCalculationMethod><VATApplicable>true</VATApplicable>'
+            '<LocalReverseCharge><LocalReverseChargeCode>4</LocalReverseChargeCode></LocalReverseCharge></ClassifiedTaxCategory>', 1)
+        self.assertIn('LocalReverseCharge', xml)
+        return xml.encode()
+
+    def test_a_reverse_charge_line_takes_the_reverse_charge_tax(self):
+        rc_tax = self.env['account.tax'].create({
+            'name': "21% RC", 'amount': 21.0, 'amount_type': 'percent',
+            'type_tax_use': 'purchase', 'company_id': self.company.id})
+        self.env['ir.model.data'].create({
+            'module': 'account', 'model': 'account.tax', 'res_id': rc_tax.id,
+            'name': f'{self.company.id}_l10n_cz_21_tax_reverse_charge_scheme'})
+        invoice = self._import(self._reverse_charge_invoice())
+        rc_line = invoice.invoice_line_ids.filtered(lambda l: l.name == "Zboží A")
+        self.assertEqual(rc_line.tax_ids, rc_tax)
+        other = invoice.invoice_line_ids.filtered(lambda l: l.name == "Zboží B")
+        self.assertEqual(other.tax_ids, self.taxes[12.0])
+
+    def test_a_reverse_charge_line_never_takes_the_ordinary_rate(self):
+        """Without a reverse-charge tax the line is left untaxed: the ordinary
+        21 % would bill the supplier's VAT that the supplier never charged."""
+        invoice = self._import(self._reverse_charge_invoice())
+        rc_line = invoice.invoice_line_ids.filtered(lambda l: l.name == "Zboží A")
+        self.assertFalse(rc_line.tax_ids)
+        self.assertAlmostEqual(invoice.amount_tax, 36.0, places=2, msg="only the 12 % line's VAT")

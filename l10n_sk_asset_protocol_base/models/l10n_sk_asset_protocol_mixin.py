@@ -26,6 +26,23 @@ class L10nSkAssetProtocolMixin(models.AbstractModel):
         string="Commissioning note",
         help="E.g. technical condition, accessories, documents forming an annex.",
     )
+    # § 10 ods. 1 písm. d) zákona 431/2002: every účtovný doklad carries the
+    # date it was made out. Left empty, the protocol prints the day it is
+    # printed — set it to keep a reprint identical.
+    l10n_sk_commissioning_protocol_date = fields.Date(
+        string="Commissioning protocol date",
+        copy=False,
+        help="Date the commissioning protocol was made out (dátum vyhotovenia "
+             "účtovného dokladu, § 10 ods. 1 písm. d) zákona 431/2002). Empty: "
+             "the protocol shows the day it is printed.",
+    )
+    l10n_sk_disposal_protocol_date = fields.Date(
+        string="Disposal protocol date",
+        copy=False,
+        help="Date the disposal protocol was made out (dátum vyhotovenia "
+             "účtovného dokladu, § 10 ods. 1 písm. d) zákona 431/2002). Empty: "
+             "the protocol shows the day it is printed.",
+    )
     l10n_sk_disposal_reason = fields.Text(string="Disposal reason")
     l10n_sk_disposal_method = fields.Selection(
         [
@@ -46,6 +63,18 @@ class L10nSkAssetProtocolMixin(models.AbstractModel):
         `purchase_value` / `value_depreciated` / `profile_id`, Enterprise has
         `original_value` / (derived) / `model_id` — so each bridge maps its own
         fields here and ONE set of QWeb templates serves both.
+
+        The three amounts must foot — ``purchase_value - depreciated ==
+        residual`` — and they are the asset's own book figures: ``depreciated``
+        is the accumulated depreciation (oprávky) only, never the residual
+        written off on disposal, and ``residual`` is the net book value
+        (zostatková cena), salvage value included.
+
+        ``commissioning_number`` / ``disposal_number`` are the číselné
+        označenie and ``*_doc_date`` the dátum vyhotovenia of § 10 ods. 1
+        písm. a) and d) zákona 431/2002, filled in by
+        :meth:`_l10n_sk_protocol_document_values` once a bridge has set the
+        inventory number.
         """
         self.ensure_one()
         return {
@@ -59,3 +88,23 @@ class L10nSkAssetProtocolMixin(models.AbstractModel):
             "disposal_date": False,
             "currency": self.env.company.currency_id,
         }
+
+    def _l10n_sk_protocol_document_values(self):
+        """The § 10 ods. 1 písm. a) and d) particulars of the two protocols.
+
+        One asset has one zaradenie and one vyradenie, so its inventory
+        number (or the register's own identifier the bridge falls back to)
+        numbers both documents; the prefix tells them apart.
+        """
+        self.ensure_one()
+        values = self._l10n_sk_protocol_values()
+        ident = values.get("inventory_number") or str(self.id)
+        today = fields.Date.context_today(self)
+        values.update({
+            "commissioning_number": "ZP-%s" % ident,
+            "disposal_number": "VP-%s" % ident,
+            "commissioning_doc_date": (
+                self.l10n_sk_commissioning_protocol_date or today),
+            "disposal_doc_date": self.l10n_sk_disposal_protocol_date or today,
+        })
+        return values

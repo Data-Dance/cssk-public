@@ -9,6 +9,7 @@ up twice is a document sent twice.
 
 from unittest.mock import patch
 
+from odoo import fields
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.edi_base.exceptions import RetryableJobError
@@ -117,7 +118,61 @@ class TestCronScope(DispatchCase):
 
         message.invalidate_recordset()
         self.assertEqual(message.state, "error")
+        self.assertEqual(message.blocking_level, "error",
+                         "an error the list view can tell from a warning")
         self.assertIn("never be accepted", message.error_message)
+
+    def _send_raising(self, exception):
+        sent = []
+
+        def fake_send(self_, record):
+            sent.append(record.id)
+            raise exception
+
+        with patch("odoo.addons.edi_base.models.edi_connector_mixin"
+                   ".EdiConnectorMixin._send_message", fake_send, create=True):
+            self.Message._cron_send_queued()
+        return sent
+
+    def test_retry_after_is_honoured(self):
+        message = self._message("t_cron")
+        self._send_raising(RetryableJobError("slow down", seconds=600))
+        message.invalidate_recordset()
+        self.assertEqual(message.state, "queued")
+        self.assertEqual(message.send_attempt_count, 1)
+        wait = (message.send_retry_after - fields.Datetime.now()).total_seconds()
+        self.assertGreater(wait, 590)
+        self.assertFalse(
+            self._send_raising(RetryableJobError("slow down", seconds=600)),
+            "not tried again before the provider said so")
+
+    def test_temporary_failures_are_not_retried_for_ever(self):
+        message = self._message("t_cron")
+        spent = self.Message.CRON_SEND_MAX_ATTEMPTS - 1
+        message.send_attempt_count = spent
+        self._send_raising(RetryableJobError("timeout"))
+        message.invalidate_recordset()
+        self.assertEqual(message.state, "error")
+        self.assertEqual(message.blocking_level, "error")
+        self.assertEqual(message.send_attempt_count, spent + 1)
+        self.assertIn("timeout", message.error_message)
+
+    def test_backpressure_does_not_spend_an_attempt(self):
+        message = self._message("t_cron")
+        self._send_raising(
+            RetryableJobError("429", seconds=30, ignore_retry=True))
+        message.invalidate_recordset()
+        self.assertEqual(message.send_attempt_count, 0)
+        self.assertTrue(message.send_retry_after)
+
+    def test_queuing_again_starts_a_fresh_budget(self):
+        message = self._message("t_cron")
+        message.write({"state": "error", "send_attempt_count": 5,
+                       "send_retry_after": fields.Datetime.now()})
+        message.action_send()
+        self.assertEqual(message.state, "queued")
+        self.assertEqual(message.send_attempt_count, 0)
+        self.assertFalse(message.send_retry_after)
 
 
 class TestExceptionShim(TransactionCase):
@@ -136,3 +191,20 @@ class TestExceptionShim(TransactionCase):
         except ImportError:
             self.skipTest("queue_job is not installed in this run")
         self.assertIs(RetryableJobError, TheirRetryable)
+
+    def test_the_stand_in_takes_a_retry_after(self):
+        """A connector raises with seconds= and ignore_retry= whichever class
+        it gets; on a database without queue_job that is the stand-in, which
+        took no keywords — so an ePošťák rate limit raised TypeError."""
+        import importlib.util
+        import sys
+        from pathlib import Path
+
+        path = Path(__file__).parent.parent / "exceptions.py"
+        spec = importlib.util.spec_from_file_location("edi_base_exceptions_shim", path)
+        shim = importlib.util.module_from_spec(spec)
+        with patch.dict(sys.modules, {"odoo.addons.queue_job.exception": None}):
+            spec.loader.exec_module(shim)
+        exception = shim.RetryableJobError("busy", seconds=30, ignore_retry=True)
+        self.assertEqual(exception.seconds, 30)
+        self.assertTrue(exception.ignore_retry)

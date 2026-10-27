@@ -13,4 +13,18 @@
               action="cssk_partner_netting_action"
               sequence="62"/>
 
+    <!-- The two wizards had no way in: the bulk issue of confirmations and
+         the automatic set-off proposal. -->
+    <menuitem id="menu_cssk_partner_confirmation_wizard"
+              name="Generate Balance Confirmations"
+              parent="account.menu_finance_receivables"
+              action="cssk_partner_confirmation_wizard_action"
+              sequence="61"/>
+
+    <menuitem id="menu_cssk_partner_netting_wizard"
+              name="Create Netting Agreement"
+              parent="account.menu_finance_payables"
+              action="cssk_netting_wizard_action"
+              sequence="63"/>
+
 </odoo>

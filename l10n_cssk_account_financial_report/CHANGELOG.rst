@@ -8,6 +8,18 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The closing-journal box follows the company chosen in the report.** It
+  was ticked or not by the company the user was working in, while the
+  journals left out were those of the company chosen in the wizard; in a
+  multi-company database the two could disagree. It now follows the chosen
+  company and is set again when the company changes.
+
 [19.0.1.0.0] — 2026-10-09
 -------------------------
 

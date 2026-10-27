@@ -27,14 +27,16 @@ class AccountAsset(models.Model):
         * opening  = sum of ``depreciate`` lines with line_date < date_from
         * period   = sum of ``depreciate`` lines with
           date_from <= line_date <= date_to
-        * disposal = sum of ``remove`` lines in the window: the residual
-          value written off by the OCA removal wizard.  Fallback for
-          removed assets without a remove line (e.g. removal forced without
-          journal entry): the undepreciated remainder
-          (depreciation_base - closing).
+        * disposal = for an asset removed inside the window, the net book
+          value that left the register: purchase_value - closing.  That is
+          the residual written off by the OCA removal wizard (the ``remove``
+          line) plus any salvage value, which OCA keeps outside the
+          depreciation base but which leaves with the asset all the same.
         * closing  = opening + period
-        * residual = depreciation_base - closing - disposal
-          (zero for assets disposed of in the period)
+        * residual = purchase_value - closing - disposal: the net book value
+          at the end of the window, salvage value included (zero for assets
+          disposed of in the period), so that Acquisition Value - Closing
+          Depreciated Value - Disposals = Residual at End on every row.
         """
         company = self.env.company
         today = fields.Date.context_today(self)
@@ -80,12 +82,15 @@ class AccountAsset(models.Model):
                 ("line_date", "<=", date_to),
             ]
         )
-        disposal_by_asset = _sums(
-            [
-                ("type", "=", "remove"),
-                ("line_date", ">=", date_from),
-                ("line_date", "<=", date_to),
-            ]
+        # assets with an OCA removal line inside the window
+        removed_in_window = set(
+            _sums(
+                [
+                    ("type", "=", "remove"),
+                    ("line_date", ">=", date_from),
+                    ("line_date", "<=", date_to),
+                ]
+            )
         )
 
         keys = (
@@ -102,15 +107,14 @@ class AccountAsset(models.Model):
             opening = currency.round(opening_by_asset.get(asset.id) or 0.0)
             period = currency.round(period_by_asset.get(asset.id) or 0.0)
             closing = currency.round(opening + period)
-            disposal = currency.round(disposal_by_asset.get(asset.id) or 0.0)
-            if (
-                not disposal
-                and asset.state == "removed"
+            disposal = 0.0
+            if asset.id in removed_in_window or (
+                asset.state == "removed"
                 and asset.date_remove
                 and date_from <= asset.date_remove <= date_to
             ):
-                disposal = currency.round(asset.depreciation_base - closing)
-            residual = currency.round(asset.depreciation_base - closing - disposal)
+                disposal = currency.round(asset.purchase_value - closing)
+            residual = currency.round(asset.purchase_value - closing - disposal)
             row = {
                 "id": asset.id,
                 "name": asset.name,

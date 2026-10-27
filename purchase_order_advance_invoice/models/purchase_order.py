@@ -1,7 +1,7 @@
-from datetime import timedelta
-
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+from ..tools import advance_tax_doc_deadline
 
 
 class PurchaseOrder(models.Model):
@@ -228,7 +228,7 @@ class PurchaseOrder(models.Model):
             else:
                 order.advance_invoice_accounting_status = "accounted"
 
-    @api.depends("advance_invoice_paid_date")
+    @api.depends("advance_invoice_paid_date", "company_id")
     def _compute_advance_invoice_expected_doc_date(self):
         for order in self:
             order.advance_invoice_expected_doc_date = (
@@ -240,15 +240,11 @@ class PurchaseOrder(models.Model):
             )
 
     def _advance_invoice_tax_doc_deadline(self, paid_date):
-        """Statutory deadline for the supplier's tax document: the earlier
-        of payment + 15 days (CZ §28(5)) and the end of the payment's
-        calendar month (SK §73(b) alternative) — conservative for both."""
-        fifteen = paid_date + timedelta(days=15)
-        next_month = (paid_date.replace(day=1) + timedelta(days=32)).replace(
-            day=1
-        )
-        end_of_month = next_month - timedelta(days=1)
-        return min(fifteen, end_of_month)
+        """Statutory deadline for the supplier's tax document on our payment:
+        CZ 15 days (§ 28 odst. 8 zákona č. 235/2004 Sb.), SK 15 days or the
+        end of the month, whichever is later (§ 73 ods. 1 písm. b) zákona
+        č. 222/2004 Z. z., from 2016) - see ``tools.advance_tax_doc_deadline``."""
+        return advance_tax_doc_deadline(self.company_id, paid_date)
 
     # ------------------------------------------------------------------
     # payments
@@ -273,32 +269,50 @@ class PurchaseOrder(models.Model):
 
     def _prepare_advance_deduction_line_vals(self, move):
         """Deduction lines for this (paid) advance on the vendor bill
-        ``move``: with a posted tax document, negated copies of its lines
-        (net on the advances account + the same taxes → input-VAT
-        reversal); without, one gross line with no taxes."""
+        ``move``, for what is still left to deduct:
+
+        * the part the posted tax documents cover - negated copies of their
+          lines (net on the advances account + the same taxes, so the input
+          VAT deducted on the advance is reversed), scaled down if a bill has
+          already deducted some of it;
+        * the part paid but covered by no tax document yet - one gross line
+          with no taxes on the paid-advances account.
+
+        Earlier deductions are taken against the documented part first, the
+        order in which a supplier's documents normally arrive."""
         self.ensure_one()
         company = self.company_id
+        currency = self.currency_id
         remaining = self._advance_remaining_to_deduct()
-        if self.currency_id.compare_amounts(remaining, 0.0) <= 0:
+        if currency.compare_amounts(remaining, 0.0) <= 0:
             return []
         vals_list = []
         label = _("Deduction of advance %(name)s", name=self.name)
         posted_docs = self.advance_tax_doc_ids.filtered(
             lambda doc: doc.state == "posted"
         )
-        if posted_docs:
+        documented = sum(posted_docs.mapped("amount_total"))
+        documented_left = min(
+            max(documented - self._advance_deducted_amount_now(), 0.0),
+            remaining,
+        )
+        if currency.compare_amounts(documented_left, 0.0) > 0:
+            ratio = documented_left / documented
             for line in posted_docs.invoice_line_ids.filtered(
                 lambda line: line.display_type == "product"
             ):
                 vals_list.append({
                     "name": "%s — %s" % (label, line.name or ""),
                     "quantity": 1.0,
-                    "price_unit": -line.price_subtotal,
+                    "price_unit": -currency.round(line.price_subtotal * ratio),
                     "account_id": line.account_id.id,
                     "tax_ids": [(6, 0, line.tax_ids.ids)],
                     "advance_deduction_order_id": self.id,
                 })
         else:
+            documented_left = 0.0
+        undocumented = currency.round(remaining - documented_left)
+        if currency.compare_amounts(undocumented, 0.0) > 0:
             account = (
                 company.advance_paid_account_lt_id
                 if self.advance_invoice_long_term
@@ -313,7 +327,7 @@ class PurchaseOrder(models.Model):
             vals_list.append({
                 "name": label,
                 "quantity": 1.0,
-                "price_unit": -remaining,
+                "price_unit": -undocumented,
                 "account_id": account.id,
                 "tax_ids": [(5, 0, 0)],
                 "advance_deduction_order_id": self.id,
@@ -385,18 +399,28 @@ class PurchaseOrder(models.Model):
             ("advance_invoice_accounting_status", "=", "waiting"),
             ("advance_invoice_expected_doc_date", "<", today),
         ])
-        activity_type = self.env.ref(
+        chase_type = self.env.ref(
+            "purchase_order_advance_invoice.mail_activity_type_chase_tax_document"
+        )
+        todo_type = self.env.ref(
             "mail.mail_activity_data_todo", raise_if_not_found=False
         )
         for order in overdue:
+            # Recognised by type. Activities from before that type existed
+            # were To-Dos told apart by their summary, which is translated:
+            # those are recognised by the summary in the source language
+            # only, and a Slovak or Czech one is chased once more.
             if order.activity_ids.filtered(
-                lambda act: act.activity_type_id == activity_type
-                and act.summary
-                and act.summary.startswith("Advance tax document")
+                lambda act: act.activity_type_id == chase_type
+                or (
+                    act.activity_type_id == todo_type
+                    and (act.summary or "").startswith("Advance tax document")
+                )
             ):
                 continue
             order.activity_schedule(
-                "mail.mail_activity_data_todo",
+                "purchase_order_advance_invoice."
+                "mail_activity_type_chase_tax_document",
                 date_deadline=today,
                 summary=_(
                     "Advance tax document overdue — chase %(supplier)s",

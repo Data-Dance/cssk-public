@@ -16,6 +16,16 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- A company whose chart is loaded after the add-on was installed (a new
+  company, or a database where chart and add-on go in in one run) is wired
+  too, as on the sales side.
+
 [19.0.1.0.0] — 2026-07-15
 -------------------------
 

@@ -39,7 +39,7 @@ import base64
 import calendar as _calendar
 import logging
 from collections import defaultdict
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from lxml import etree
 
@@ -162,6 +162,16 @@ CORRECTION_TYPES = [
 # Anything other than a plain regular filing amends something already sent.
 AMENDING_CORRECTION_TYPES = ("corrective", "supplementary", "cancellation")
 
+# Payslip states that mean "this payroll was run", per engine. A declaration
+# reports payroll that happened; a draft payslip is a calculation somebody may
+# still change or delete, and counting it filed figures nobody had paid.
+#   OCA ``payroll``:          draft / verify (waiting) / done / cancel
+#   Enterprise ``hr_payroll``: draft / validated / paid / cancel
+CONFIRMED_PAYSLIP_STATES = {
+    "oca": ("done",),
+    "ee": ("validated", "paid"),
+}
+
 
 class CSSKPayrollDeclarationMixin(models.AbstractModel):
     """Engine-neutral declaration sheet (the reusable base for each report).
@@ -211,10 +221,18 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
     payment_date = fields.Date(
         help="Payday reported to the authority (SK denVyplaty). Defaults to "
         "the period end.")
+    # Not required: the default is chosen from TODAY, before the user has
+    # picked the period, and today may lie after a form was discontinued
+    # while the period lies before. Generate resolves the vintage from the
+    # period (``_ensure_period_version``) and refuses when none applies.
     version_id = fields.Many2one(
-        "cssk.payroll.declaration.version", required=True,
+        "cssk.payroll.declaration.version",
         default=lambda self: self._default_version_id(),
-        domain="[('country_id', '=', country_id)]")
+        domain="[('country_id', '=', country_id), ('code', '=', report_code)]")
+    # Technical: lets the version picker offer only THIS form's vintages.
+    # Every form shares one version table, so filtering on the country alone
+    # offered the PVPOJ vintage on an ELDP.
+    report_code = fields.Char(compute="_compute_report_code")
     line_ids = fields.One2many(
         "cssk.payroll.employee.declaration", "res_id",
         string="Employee declarations")
@@ -290,15 +308,22 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
             rec.is_correction = rec.correction_type in AMENDING_CORRECTION_TYPES
 
     def _prior_submitted(self):
-        """Filings for the same company and period that were already sent."""
+        """Filings for the same company and period that were already sent.
+
+        Matched on the PERIOD (``date_from`` / ``date_to``), not on the
+        ``year`` / ``month`` fields. An annual form spans the whole year and
+        ignores ``month``, which still defaults to the month the record was
+        created in — so a corrective annual filing prepared in June never
+        found the regular one created in March, and was refused.
+        """
         self.ensure_one()
-        if not (self.company_id and self.year and self.month):
+        if not (self.company_id and self.date_from and self.date_to):
             return self.browse()
         return self.search([
             ("id", "!=", self.id or 0),
             ("company_id", "=", self.company_id.id),
-            ("year", "=", self.year),
-            ("month", "=", self.month),
+            ("date_from", "=", self.date_from),
+            ("date_to", "=", self.date_to),
             ("state", "=", "submitted"),
         ])
 
@@ -338,16 +363,88 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
 
     @api.model
     def _default_version_id(self):
-        if not self._report_code:
-            return False
-        today = fields.Date.context_today(self)
-        country = self.env.company.country_id
-        return self.env["cssk.payroll.declaration.version"].search([
+        # The period defaults to the current month, so today is the period.
+        return self._find_version(
+            fields.Date.context_today(self), self.env.company.country_id).id
+
+    @api.model
+    def _find_version(self, on_date, country):
+        """The form version in force on *on_date* (empty if none)."""
+        Version = self.env["cssk.payroll.declaration.version"]
+        if not (self._report_code and on_date):
+            return Version
+        return Version.search([
             ("code", "=", self._report_code),
             ("country_id", "=", country.id),
-            ("valid_from", "<=", today),
-            "|", ("valid_to", "=", False), ("valid_to", ">=", today),
-        ], order="valid_from desc", limit=1).id
+            ("valid_from", "<=", on_date),
+            "|", ("valid_to", "=", False), ("valid_to", ">=", on_date),
+        ], order="valid_from desc", limit=1)
+
+    def _version_reference_date(self):
+        """The day that decides which form version applies: the period's
+        first day. A form for a past period is filed in the vintage that was
+        in force for that period, not in the one in force on the day it is
+        prepared."""
+        self.ensure_one()
+        return self.date_from
+
+    @api.onchange("year", "month", "company_id")
+    def _onchange_period_version(self):
+        for rec in self:
+            version = rec._find_version(
+                rec._version_reference_date(), rec.company_id.country_id)
+            if version:
+                rec.version_id = version
+
+    def _ensure_period_version(self):
+        """Make sure ``version_id`` is a vintage valid for the period.
+
+        The default is chosen when the record is created, from today; the
+        period is usually changed afterwards (last month's filing, last
+        year's annual one). A version that does not cover the period is
+        replaced by the one that does — as is a version of ANOTHER form,
+        which the selection offers too — and a period no version covers —
+        before the first vintage we ship, or after a form was discontinued —
+        is refused rather than rendered in the wrong vintage.
+        """
+        for rec in self:
+            ref = rec._version_reference_date()
+            if rec.version_id and ref and (
+                    rec.version_id.code == rec._report_code
+                    and rec.version_id.valid_from <= ref
+                    and (not rec.version_id.valid_to
+                         or rec.version_id.valid_to >= ref)):
+                continue
+            version = rec._find_version(ref, rec.company_id.country_id)
+            if version:
+                rec.version_id = version
+                continue
+            ended = self.env["cssk.payroll.declaration.version"].search([
+                ("code", "=", rec._report_code),
+                ("country_id", "=", rec.company_id.country_id.id),
+                ("valid_to", "!=", False),
+                ("valid_to", "<", ref),
+            ], order="valid_to desc", limit=1) if ref else False
+            if ended:
+                raise UserError(_(
+                    "%(form)s is not filed for periods after %(end)s: the "
+                    "form was discontinued. %(successor)s",
+                    form=ended.name,
+                    end=ended.valid_to,
+                    successor=rec._successor_hint(),
+                ))
+            raise UserError(_(
+                "No declaration version is configured for %(code)s in the "
+                "period starting %(date)s. Check the shipped version data.",
+                code=rec._report_code, date=ref))
+
+    def _successor_hint(self):
+        """Hook: tell the user what replaced a discontinued form."""
+        return ""
+
+    def _compute_report_code(self):
+        for rec in self:
+            rec.report_code = rec._report_code or False
 
     @api.depends("year", "month", "company_id")
     def _compute_name(self):
@@ -378,27 +475,92 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
     # ------------------------------------------------------------------
     # Engine-neutral payslip adapter
     # ------------------------------------------------------------------
+    @api.model
     def _payslip_states(self):
-        """Payslip states to include. Any non-cancelled payslip with computed
-        lines qualifies — the state vocabularies differ between engines
-        (``payroll`` engine: draft/verify/done; EE engine: draft/validated/paid) but both use
-        'cancel' for voided slips, so we simply exclude that."""
-        return None  # sentinel: exclude 'cancel'
+        """Confirmed payslip states of the installed engine.
+
+        Only payroll that was actually run is reported: OCA ``done``,
+        Enterprise ``validated`` / ``paid``. Draft payslips (and the OCA
+        ``verify`` step) are calculations that may still change; cancelled
+        ones never happened. Intersected with the live selection so a state
+        one engine lacks is never searched for.
+        """
+        if "hr.payslip" not in self.env:
+            return ()
+        available = {
+            value for value, _label in
+            self.env["hr.payslip"]._fields["state"]._description_selection(
+                self.env)
+        }
+        return tuple(
+            state for states in CONFIRMED_PAYSLIP_STATES.values()
+            for state in states if state in available)
+
+    @api.model
+    def _payslip_period_domain(self, company, date_from, date_to):
+        """Payslips of *company* that belong to [date_from, date_to].
+
+        A payslip belongs to the period its END date falls in. Requiring the
+        whole payslip inside the period dropped every payslip that straddles
+        a month or year boundary (15 March - 14 April, a December payslip
+        running into January) from every declaration; keying on one date
+        reports each payslip exactly once.
+        """
+        return [
+            ("company_id", "=", company.id),
+            ("date_to", ">=", date_from),
+            ("date_to", "<=", date_to),
+            ("state", "in", self._payslip_states()),
+        ]
 
     def _get_period_payslips(self):
-        """The company's payslips for the reporting month, read through the
-        engine-neutral ``hr.payslip`` API (empty if no engine is installed)."""
+        """The company's confirmed payslips for the reporting period, read
+        through the engine-neutral ``hr.payslip`` API (``None`` if no engine
+        is installed)."""
         self.ensure_one()
         if "hr.payslip" not in self.env:
             return None
-        Payslip = self.env["hr.payslip"]
-        domain = [
-            ("company_id", "=", self.company_id.id),
-            ("date_from", ">=", self.date_from),
-            ("date_to", "<=", self.date_to),
-            ("state", "!=", "cancel"),
-        ]
-        return Payslip.search(domain)
+        return self.env["hr.payslip"].search(self._payslip_period_domain(
+            self.company_id, self.date_from, self.date_to))
+
+    @api.model
+    def _employee_contract_intervals(self, employee, date_from, date_to):
+        """Employment periods of *employee* inside [date_from, date_to].
+
+        Built from EVERY version's contract dates, not from the current one:
+        the current version describes today, and an employee who left and
+        came back, or whose contract was renewed, has periods the current
+        version does not show. Overlapping and adjacent periods are merged.
+        A version without a start date contributes nothing; an employee with
+        no start date on any version is taken as employed for the whole
+        period, as before, rather than reported with no insured days.
+        """
+        spans = []
+        versions = employee.sudo().with_context(active_test=False).version_ids
+        if not any(versions.mapped("contract_date_start")):
+            return [(date_from, date_to)] if date_from <= date_to else []
+        for version in versions:
+            start = version.contract_date_start
+            if not start:
+                continue
+            end = version.contract_date_end or date_to
+            lo, hi = max(start, date_from), min(end, date_to)
+            if lo <= hi:
+                spans.append((lo, hi))
+        merged = []
+        for lo, hi in sorted(set(spans)):
+            if merged and lo <= merged[-1][1] + timedelta(days=1):
+                merged[-1] = (merged[-1][0], max(merged[-1][1], hi))
+            else:
+                merged.append((lo, hi))
+        return merged
+
+    @api.model
+    def _employee_insured_days(self, employee, date_from, date_to):
+        """Calendar days of employment of *employee* in the period."""
+        return sum(
+            (hi - lo).days + 1 for lo, hi in
+            self._employee_contract_intervals(employee, date_from, date_to))
 
     def _collect_payslip_totals(self, payslips):
         """THE adapter — reduce payslips to code totals without binding to an
@@ -406,10 +568,12 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         (the only fields both engines guarantee). Returns::
 
             {'aggregate': {code: total},
+             'aggregate_bases': {code: Σ amount x quantity},
              'per_employee': {employee: {'employee', 'payslips', 'totals',
-                                         'hours'}}}
+                                         'bases', 'hours'}}}
         """
         aggregate = defaultdict(float)
+        aggregate_bases = defaultdict(float)
         per_employee = {}
         empty = self.env["hr.payslip"] if "hr.payslip" in self.env else None
         for slip in payslips:
@@ -420,6 +584,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                     "employee": emp,
                     "payslips": empty,
                     "totals": defaultdict(float),
+                    "bases": defaultdict(float),
                     "hours": 0.0,
                 }
             if empty is not None:
@@ -431,6 +596,13 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                 total = line.total
                 aggregate[code] += total
                 bucket["totals"][code] += total
+                # The amount the rule's rate was applied to (both engines:
+                # ``amount`` x ``quantity``). For a percentage rule this is
+                # its base: SOCIALER carries the capped assessment base.
+                base = (line.amount or 0.0) * (
+                    line.quantity if line.quantity is not None else 1.0)
+                bucket["bases"][code] += base
+                aggregate_bases[code] += base
             # worked hours (both engines: worked_days_line_ids.number_of_hours)
             if "worked_days_line_ids" in slip._fields:
                 bucket["hours"] += sum(
@@ -438,6 +610,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                     for wd in slip.worked_days_line_ids)
         return {
             "aggregate": dict(aggregate),
+            "aggregate_bases": dict(aggregate_bases),
             "per_employee": per_employee,
         }
 
@@ -454,10 +627,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         if self.state != "draft":
             raise UserError(_(
                 "Reset the declaration to draft before regenerating it."))
-        if not self.version_id:
-            raise UserError(_(
-                "No declaration version is configured for %s in this "
-                "period. Check the shipped version data.", self._report_code))
+        self._ensure_period_version()
         self._preflight()
         payslips = self._get_period_payslips()
         if payslips is None:
@@ -490,8 +660,6 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         self.ensure_one()
         self._sheet_lines().unlink()
         Decl = self.env["cssk.payroll.employee.declaration"]
-        insured_days = ((self.date_to - self.date_from).days + 1
-                        if self.date_from and self.date_to else 0)
         seq = 0
         vals_list = []
         for emp, bucket in sorted(
@@ -506,13 +674,37 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                 "employee_id": emp.id,
                 "company_id": self.company_id.id,
                 "values_json": totals,
-                "insured_days": insured_days,
+                # Days the employee was actually employed in the period, not
+                # the length of the period: someone who joined on the 20th
+                # is insured for 12 days of a 31-day month.
+                "insured_days": self._employee_insured_days(
+                    emp, self.date_from, self.date_to),
                 "worked_hours": bucket["hours"],
                 "vz_base": abs(totals.get("GROSS", 0.0)),
                 "state": "generated",
             })
         if vals_list:
             Decl.create(vals_list)
+
+    @api.model
+    def _split_person_name(self, employee):
+        """``(first name, surname)`` of *employee* for the authority forms.
+
+        Uses separate first / last name fields when a module provides them
+        (OCA ``hr_employee_firstname``). Otherwise the single Odoo name is
+        read the way it is written, "Jan Novák": the LAST word is the
+        surname and everything before it the first name(s). The forms
+        carry them in separate elements, so swapping them files the
+        employee under the wrong person.
+        """
+        first = last = ""
+        fields_ = employee._fields
+        if "lastname" in fields_ and "firstname" in fields_:
+            first = (employee.firstname or "").strip()
+            last = (employee.lastname or "").strip()
+        if not last:
+            first, _sep, last = (employee.name or "").strip().rpartition(" ")
+        return first.strip(), last.strip()
 
     def _get_rendering_data(self, employees):
         """Master-compatible accessor: ``{employee: {code: total}}`` for the

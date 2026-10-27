@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-05 15:21+0000\n"
-"PO-Revision-Date: 2026-09-05 15:21+0000\n"
+"POT-Creation-Date: 2026-10-27 19:17+0000\n"
+"PO-Revision-Date: 2026-10-27 19:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -33,9 +33,19 @@ msgid "As registered in VIES"
 msgstr ""
 
 #. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__check_date
+msgid "Check Date"
+msgstr ""
+
+#. module: l10n_cssk_vies
 #. odoo-javascript
 #: code:addons/l10n_cssk_vies/static/src/xml/vies_status_badge.xml:0
 msgid "Check now"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__vat
+msgid "Checked VAT"
 msgstr ""
 
 #. module: l10n_cssk_vies
@@ -44,13 +54,33 @@ msgid "Companies"
 msgstr ""
 
 #. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_cssk_vies
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vies.view_partner_form_vies
 msgid "Consultation"
 msgstr ""
 
 #. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__consultation_number
+msgid "Consultation Number"
+msgstr ""
+
+#. module: l10n_cssk_vies
 #: model:ir.model,name:l10n_cssk_vies.model_res_partner
 msgid "Contact"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__create_date
+msgid "Created on"
 msgstr ""
 
 #. module: l10n_cssk_vies
@@ -61,6 +91,7 @@ msgid "Date VIES reports for the consultation (the service's own date)."
 msgstr ""
 
 #. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__display_name
@@ -68,10 +99,41 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__fault_reason
+msgid "Fault Reason"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__id
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__id
 msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields.selection,name:l10n_cssk_vies.selection__cssk_vies_check__result__invalid
+msgid "Invalid"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__name_match
+msgid "Name Match"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields.selection,name:l10n_cssk_vies.selection__cssk_vies_check__result__fault
+msgid "No answer"
 msgstr ""
 
 #. module: l10n_cssk_vies
@@ -110,8 +172,45 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__partner_id
+msgid "Partner"
+msgstr ""
+
+#. module: l10n_cssk_vies
 #: model:ir.model,name:l10n_cssk_vies.model_res_config_settings
 msgid "Provider"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__address
+msgid "Registered Address"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__trader_name
+msgid "Registered Name"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__request_date
+msgid "Request Date"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__requester_vat
+msgid "Requester Vat"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__result
+msgid "Result"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,help:l10n_cssk_vies.field_cssk_vies_check__company_id
+msgid ""
+"The company that asked. Empty on checks migrated from before checks were "
+"logged per company, when the requester was not recorded."
 msgstr ""
 
 #. module: l10n_cssk_vies
@@ -124,10 +223,20 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_vies
+#: model:ir.model.fields,help:l10n_cssk_vies.field_cssk_vies_check__request_date
+msgid "The date VIES reports for the consultation."
+msgstr ""
+
+#. module: l10n_cssk_vies
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_company__vies_use_direct
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_config_settings__vies_use_direct
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vies.res_config_settings_view_form_vies
 msgid "Use direct EU VIES (no IAP)"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_vies_check__user_id
+msgid "User"
 msgstr ""
 
 #. module: l10n_cssk_vies
@@ -140,6 +249,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_check_date
 #: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_check_date
 msgid "VIES Checked On"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_cssk_tax_authority__vies_check_ids
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_partner__vies_check_ids
+#: model:ir.model.fields,field_description:l10n_cssk_vies.field_res_users__vies_check_ids
+msgid "VIES Checks"
 msgstr ""
 
 #. module: l10n_cssk_vies
@@ -191,6 +307,11 @@ msgid "VIES Status"
 msgstr ""
 
 #. module: l10n_cssk_vies
+#: model:ir.model,name:l10n_cssk_vies.model_cssk_vies_check
+msgid "VIES check"
+msgstr ""
+
+#. module: l10n_cssk_vies
 #. odoo-python
 #: code:addons/l10n_cssk_vies/models/res_partner.py:0
 msgid "VIES did not answer"
@@ -205,6 +326,11 @@ msgstr ""
 #. module: l10n_cssk_vies
 #: model:ir.actions.server,name:l10n_cssk_vies.cron_check_vies_direct_ir_actions_server
 msgid "VIES: Refresh direct checks (CZ/SK)"
+msgstr ""
+
+#. module: l10n_cssk_vies
+#: model:ir.model.fields.selection,name:l10n_cssk_vies.selection__cssk_vies_check__result__valid
+msgid "Valid"
 msgstr ""
 
 #. module: l10n_cssk_vies
@@ -233,7 +359,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cssk_vies.field_res_partner__vies_fault_date
 #: model:ir.model.fields,help:l10n_cssk_vies.field_res_users__vies_fault_date
 msgid ""
-"When the last scheduled direct VIES check for this partner faulted (service "
+"When the last direct VIES check for this partner faulted (service "
 "unreachable / busy). Lets the scheduled refresh rotate faulting partners out"
 " of its batch window instead of retrying them forever."
 msgstr ""
@@ -242,7 +368,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cssk_vies.field_cssk_tax_authority__vies_check_date
 #: model:ir.model.fields,help:l10n_cssk_vies.field_res_partner__vies_check_date
 #: model:ir.model.fields,help:l10n_cssk_vies.field_res_users__vies_check_date
-msgid "When this partner's VAT was last validated directly against VIES."
+msgid ""
+"When this company last validated the partner's VAT directly against VIES."
 msgstr ""
 
 #. module: l10n_cssk_vies

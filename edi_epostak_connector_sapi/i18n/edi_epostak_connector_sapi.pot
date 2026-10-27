@@ -1,0 +1,697 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* edi_epostak_connector_sapi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:42+0000\n"
+"PO-Revision-Date: 2026-10-27 19:42+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"\n"
+"Acting for firm %s."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "%(created)s new document(s) imported."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"%(created)s new document(s); %(errored)s inbound message(s) are in error — "
+"open EDI Messages to see why."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid ""
+"%(participant)s exists on the network but does not advertise the Peppol BIS "
+"Billing 3.0 invoice and credit note types. Sending will be refused."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid ""
+"%(participant)s is not registered in the Peppol directory, so Peppol cannot "
+"deliver to it. Check the EAS scheme and the endpoint value — a Slovak DIČ is"
+" scheme 0245, an IČ DPH is 9950 — or ask the counterparty for their Peppol "
+"address."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid ""
+"%(participant)s is registered and accepts Peppol BIS Billing 3.0 invoices "
+"and credit notes."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid ""
+"%s has no Peppol address. Set both the Peppol e-address (EAS) and the Peppol"
+" Endpoint before checking."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid ""
+"%s is not a Peppol participant identifier (expected scheme:value, e.g. "
+"0245:2121576435)."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid "(The provider reports the participant as not network-ready.)"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "(no Peppol address set)"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "(unnamed)"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_inbound_fail_activity_after
+msgid ""
+"After this many consecutive inbound poll failures, raise a to-do for the EDI"
+" manager (or the admin) so someone is told even if nobody opens this page. "
+"It is closed automatically when polling succeeds again. Set to 0 to never "
+"raise one."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"Authenticated against %(url)s as participant %(pid)s. ePošťák credentials "
+"serve one company per database, and collection runs as %(company)s. These "
+"companies also allow e-invoicing and will not be served: %(others)s."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Authenticated against %(url)s as participant %(pid)s.%(firm)s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_partner_form_epostak
+msgid "Check Peppol reachability"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model,name:edi_epostak_connector_sapi.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_key_kind
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Configured key"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Connection"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model,name:edi_epostak_connector_sapi.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"Copy the matching UUID into ePošťák Firm ID and test again.\n"
+"\n"
+"%s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid ""
+"Could not check %(partner)s against the Peppol directory:\n"
+"\n"
+"%(error)s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "Could not reach the ePošťák token endpoint: %s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Credentials (Production)"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Credentials (Sandbox)"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_key_kind
+msgid ""
+"Derived from the secret above, which is write-only in this form. Without it "
+"there is no way to tell from the UI whether the Firm ID applies, so the help"
+" on that field could not be acted on."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_epostak_connector__display_name
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_limit
+msgid "Documents per Poll Page"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "EDI message %s has no XML payload to send."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_api_prod_base_url
+msgid "Enterprise API Production URL"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_api_sandbox_base_url
+msgid "Enterprise API Sandbox URL"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "FAILED at %(when)s — %(error)s (last success: %(ok)s)"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Firm ID filled in automatically"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Firm ID required, and the firm list is unavailable"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Firm ID required, but no firms are available"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"Firm key (sk_live_*) — the firm is implied by the credentials, so leave the "
+"ePošťák Firm ID empty."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_epostak_connector__id
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__id
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Inbound poll OK"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Inbound poll failed"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "Inbound polling succeeded again; closed automatically."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "Incoming ePošťák documents are not arriving"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Integrator key (sk_int_*) — acting for firm %s."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"Integrator key (sk_int_*) — it speaks for several firms, so the ePošťák Firm"
+" ID below IS required. Press Test Connection to list the firms it may act "
+"for."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_inbound_health
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Last inbound poll"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_max_pages
+msgid "Max Pages per Poll"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Mints an access token against the active environment."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"Never polled. Use 'Poll inbound now', or wait for the ePošťák inbound cron."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "No secret configured yet."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid "Not registered on Peppol"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Nothing new waiting in the mailbox."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_scope
+msgid "OAuth Scope"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "OK at %(when)s — %(count)s document(s) fetched"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_limit
+msgid "Page size for the inbound listing. The API accepts 1 to 100."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Pick a firm: this key manages %s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Poll inbound now"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_status_tracking
+msgid ""
+"Poll the lifecycle endpoint so a sent message advances from 'sent' (accepted"
+" for transport) to 'done' (delivered) or 'error'. Requires the "
+"'documents:read' scope on the Enterprise API."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "Polled, but some documents failed"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_prod_client_id
+msgid "Production Client ID"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_prod_client_secret
+msgid "Production Client Secret"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid "Reachable on Peppol"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_inbound_health
+msgid ""
+"Receiving has no other signal: the base poll swallows failures into the log,"
+" so without this a misconfiguration stops inbound silently while sending "
+"still reports errors on the invoice. A stale timestamp here is the evidence "
+"that documents are no longer arriving."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid ""
+"Receiving reports nothing by itself — a failed or"
+"                               never-run poll is otherwise only visible in "
+"the                               server log."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid "Registered, but not for BIS3 billing"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_timeout
+msgid "Request Timeout (s)"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_prod_base_url
+msgid "SAPI Production URL"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_sandbox_base_url
+msgid "SAPI Sandbox URL"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_sandbox_client_id
+msgid "Sandbox Client ID"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_sandbox_client_secret
+msgid "Sandbox Client Secret"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_scope
+msgid ""
+"Space-separated scopes requested when minting a token. 'documents:send' "
+"alone allows sending but not inbound polling or delivery-status tracking."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Test Connection"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Test the connection"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid ""
+"The ePošťák client secret configured for the %(mode)s environment is an integrator key (sk_int_*), which acts on behalf of firms rather than being one, so every request must name the firm it is acting for.\n"
+"\n"
+"Set Settings ▸ EDI ▸ ePošťák ▸ ePošťák Firm ID to the UUID of the firm this database invoices as — the Test Connection button there lists the firms this key may act for.\n"
+"\n"
+"If this database has its own ePošťák contract instead, the secret should be a firm key (sk_live_*), and the Firm ID stays empty."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"This is an integrator key (sk_int_*) and the ePošťák Firm ID is empty, but "
+"the key reports no firms it may act for. Either it is not provisioned for "
+"this firm yet, or this database should use its own firm key (sk_live_*) "
+"instead."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"This is an integrator key (sk_int_*), so the ePošťák Firm ID must be set — "
+"but the list of firms could not be read either: %s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid ""
+"This key manages exactly one firm, so the ePošťák Firm ID was set to it: "
+"%(name)s%(ico)s%(pid)s. Test again to confirm the connection."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_status_tracking
+msgid "Track Delivery Status"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "Transfer Tuning"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_sapi_max_pages
+msgid ""
+"Upper bound on pages fetched in one poll. When the mailbox still has more, "
+"the inbound cron is re-triggered to continue."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_api_prod_base_url
+#: model:ir.model.fields,help:edi_epostak_connector_sapi.field_res_config_settings__epostak_api_sandbox_base_url
+msgid ""
+"Used only for delivery-status and participant-capability lookups, which SAPI"
+" does not provide."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__epostak_inbound_fail_activity_after
+msgid "Warn after N failed polls"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid ""
+"Which kind of credential is in use, and therefore"
+"                               whether the Firm ID applies. The secret "
+"itself is                               write-only, so this is the only way "
+"to see it."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "ePošťák %(method)s %(path)s failed (HTTP %(status)s): %(detail)s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model,name:edi_epostak_connector_sapi.model_epostak_connector
+msgid "ePošťák Connector"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "ePošťák authentication failed (HTTP %(status)s): %(detail)s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "ePošťák connection OK"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "ePošťák connection OK — for one company only"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "ePošťák connection failed"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "ePošťák credentials are not configured for the %s environment."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid ""
+"ePošťák credentials are not configured for the %s environment. Go to "
+"Settings ▸ EDI ▸ ePošťák and fill in the client ID and client secret."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid ""
+"ePošťák did not answer the capability lookup for %(participant)s: %(detail)s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid ""
+"ePošťák inbound polling has failed %(streak)s times in a row, so incoming documents are not being received.\n"
+"\n"
+"Last error: %(error)s\n"
+"\n"
+"Check Settings ▸ EDI ▸ ePošťák — 'Last inbound poll' shows the same detail, and 'Poll inbound now' retries immediately."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "ePošťák is not configured"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid "ePošťák reports: %s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "ePošťák returned a non-JSON body for %s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "ePošťák returned no access_token."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "ePošťák status: %s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "ePošťák token endpoint returned a non-JSON body."
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "ePošťák transport error on %(method)s %(url)s: %(err)s"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.actions.server,name:edi_epostak_connector_sapi.cron_epostak_query_status_ir_actions_server
+msgid "ePošťák: Query Outbound Delivery Status"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
+msgid "empty body"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "https://dev.epostak.sk/api/v1"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "https://dev.epostak.sk/sapi/v1"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "https://epostak.sk/api/v1"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "https://epostak.sk/sapi/v1"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
+msgid "never"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#. odoo-python
+#: code:addons/edi_epostak_connector_sapi/models/res_partner.py:0
+msgid "no reason given"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "sk_live_test_…"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_res_config_settings_epostak_sapi
+msgid "sk_live_…"
+msgstr ""

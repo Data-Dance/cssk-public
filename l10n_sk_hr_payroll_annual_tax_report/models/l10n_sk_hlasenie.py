@@ -101,16 +101,23 @@ class L10nSkHlasenie(models.Model):
         ``{code: total}`` mapping — engine-neutral (split bands or single)."""
         return sum_concept(totals, "INCOME_TAX")
 
-    @staticmethod
-    def _split_name(name):
-        parts = (name or "").split()
-        meno = parts[0] if parts else ""
-        priezvisko = parts[-1] if len(parts) > 1 else (parts[0] if parts else "")
-        return priezvisko[:36], meno[:24]
-
     # ------------------------------------------------------------------
     # Render context
     # ------------------------------------------------------------------
+    @staticmethod
+    def _company_legal_form(company):
+        """The company's právna forma, or "" when nothing records it.
+
+        The value is the ``l10n_sk_legal_form`` Char that
+        ``l10n_sk_trade_registry`` adds to the PARTNER. This used to call
+        ``company.l10n_sk_legal_form()`` behind a ``hasattr`` on the company,
+        which no module defines, so pravnaForma was always empty.
+        """
+        partner = company.partner_id
+        if "l10n_sk_legal_form" not in partner._fields:
+            return ""
+        return partner.l10n_sk_legal_form or ""
+
     def _declaration_render_context(self, data):
         self.ensure_one()
         agg = data["aggregate"]
@@ -126,6 +133,15 @@ class L10nSkHlasenie(models.Model):
         premium = a(EMPLOYEE_PREMIUM_CODE)
         r04 = r01  # úhrn preddavkov na daň (r02/r03 have no annual rule source)
         r05 = round(min(bonus, r04), 2)  # daňový bonus § 33 vyplatený
+        # III. časť — rekapitulácia daňového bonusu § 33. The poučenie: r. A
+        # is the whole bonus paid (from the advances AND the employer's own
+        # money), r. B the part paid out of the withheld advances, and
+        # "Riadok C = Riadok A – Riadok B". r. 5 is capped at r. 4, so the
+        # bonus beyond the advances only ever showed up here — and these
+        # three rows used to be emitted empty, so it was reported nowhere.
+        r_a = bonus
+        r_b = r05
+        r_c = round(r_a - r_b, 2)
 
         pages, emp_count = self._build_annex_pages()
         today = fields.Date.context_today(self)
@@ -135,8 +151,7 @@ class L10nSkHlasenie(models.Model):
             "rok": str(int(self.year)),
             # PO identification
             "nazov": (company.name or "")[:255],
-            "pravna_forma": company.l10n_sk_legal_form()
-            if hasattr(company, "l10n_sk_legal_form") else "",
+            "pravna_forma": self._company_legal_form(company),
             # sídlo
             "ulica": (company.street or "")[:255],
             "cislo": (company.street2 or "")[:20],
@@ -160,6 +175,10 @@ class L10nSkHlasenie(models.Model):
             "r04": "%.2f" % r04,
             "r05": "%.2f" % r05,
             "r06": "%.2f" % premium,
+            # III. časť — rekapitulácia daňového bonusu § 33
+            "rA": "%.2f" % r_a,
+            "rB": "%.2f" % r_b,
+            "rC": "%.2f" % r_c,
             # bank IBAN for the žiadosť o vrátenie preplatku
             "iban": self._company_iban(company),
         }
@@ -185,7 +204,10 @@ class L10nSkHlasenie(models.Model):
                 "reconciliation statement per-employee annex (Part V).",
                 name=employee.display_name))
         totals = line.values_json or {}
-        priezvisko, meno = self._split_name(employee.name)
+        # Last word = surname, the rest = first name(s); separate first /
+        # last name fields win when hr_employee_firstname provides them.
+        meno, priezvisko = self._split_person_name(employee)
+        meno, priezvisko = meno[:24], priezvisko[:36]
         income = abs(round(totals.get("GROSS", 0.0), 2))
         advance = self._tax_advance_total(totals)
         bonus = abs(round(totals.get(BONUS_CODE, 0.0), 2))

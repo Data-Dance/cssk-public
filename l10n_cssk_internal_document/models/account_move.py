@@ -2,12 +2,15 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """What the interní / interný doklad prints, worked out once for the template.
 
-Czech § 11 odst. 1 zákona č. 563/1991 Sb. and Slovak § 10 ods. 1 zákona
-č. 431/2002 Z. z. ask the same of an accounting document: its designation, the
-content of the accounting case and its participants, the amount, the date it
-was prepared, the date of the case where the two differ, and the signature
-records of the person responsible for the case and of the person responsible
-for booking it. The labels are the statutes' own terms, in the language of the
+Czech § 11 odst. 1 zákona č. 563/1991 Sb. asks of an accounting document: its
+designation, the content of the accounting case and its participants, the
+amount, the moment it was prepared, the moment of the case where the two
+differ, and the signature records of the person responsible for the case and
+of the person responsible for booking it. Slovak § 10 ods. 1 zákona
+č. 431/2002 Z. z. asks the same except the booking signature: it has only the
+signature record of the person responsible for the case, and only where the
+case is not verified under § 32 ods. 3 písm. b) or c). The printout follows the
+longer Czech list in both countries. The labels are the statutes' own terms, in the language of the
 company's fiscal country, and are not translated.
 """
 

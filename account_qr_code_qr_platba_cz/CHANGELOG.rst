@@ -8,6 +8,12 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- 19.0.1.1.2 (2026-10-27) is owed to 18.0: ``*`` / ``%`` escaping in ``MSG``
+  and ``RN``. The module exists on ``origin/18.0``.
+
 Changed
 ~~~~~~~
 
@@ -15,6 +21,31 @@ Changed
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+[19.0.1.1.3] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- Czech translation.
+
+Fixed
+~~~~~
+
+- The tests' bank account is created with sufficient rights; their setUpClass
+  failed, so they had not run.
+
+[19.0.1.1.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **An asterisk in the payment reference broke the code.** ``*`` ends an SPD
+  field, so a reference or account holder name containing one shifted every
+  following field. ``MSG`` and ``RN`` now carry it as ``%2A`` (and ``%`` as
+  ``%25``), as the QR Platba format specifies.
 
 [19.0.1.1.1] — 2026-09-09
 -------------------------

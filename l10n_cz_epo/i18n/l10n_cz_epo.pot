@@ -1,0 +1,407 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_epo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:14+0000\n"
+"PO-Revision-Date: 2026-10-27 19:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid ""
+"%(company)s has no EPO signing certificate. Set one in Accounting → "
+"Configuration → EPO certificates."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "%(name)s has no filed payload to sign."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "%(name)s is not an EPO submission."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_res_company__l10n_cz_epo_allow_filing
+msgid "Allow filing through EPO"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/l10n_cz_epo_certificate.py:0
+msgid "Certificate %(name)s cannot be opened: %(error)s"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/l10n_cz_epo_certificate.py:0
+msgid "Certificate %(name)s expired on %(date)s."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/l10n_cz_epo_certificate.py:0
+msgid "Certificate %(name)s is not valid until %(date)s."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/l10n_cz_epo_certificate.py:0
+msgid "Certificate %s has no .p12 file."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__p12_file
+msgid "Certificate (.p12 / .pfx)"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_epo.cssk_submission_view_form_epo
+msgid "Check with EPO"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_cssk_submission__epo_check_date
+msgid "Checked with EPO"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model,name:l10n_cz_epo.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_cssk_submission__display_name
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__display_name
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_cssk_submission__epo_transfer_id
+msgid "EPO ID předání"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid ""
+"EPO accepted the filing (podací číslo %(number)s, ID předání %(transfer)s), "
+"but recording its answer failed: %(error)s. Do NOT send it again — record "
+"the podací číslo from the EPO portal (MOJE daně) instead."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid ""
+"EPO answered a check with %(kind)s instead of a check result; nothing is "
+"recorded."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "EPO answered a filing with %s."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.actions.act_window,name:l10n_cz_epo.l10n_cz_epo_certificate_action
+#: model:ir.ui.menu,name:l10n_cz_epo.l10n_cz_epo_certificate_menu
+msgid "EPO certificates"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_cssk_submission__epo_check_result
+#: model_terms:ir.ui.view,arch_db:l10n_cz_epo.cssk_submission_view_form_epo
+msgid "EPO check"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_cssk_submission__epo_check_attachment_id
+msgid "EPO check answer"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "EPO files for Czech taxpayers; %(company)s does not file in Czechia."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "EPO found errors — the filing would be refused."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "EPO found no errors."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "EPO found warnings only."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_cssk_submission__epo_password
+msgid "EPO heslo"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid ""
+"EPO refused the filing:\n"
+"%s"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_res_company__l10n_cz_epo_certificate_id
+msgid "EPO signing certificate"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid ""
+"EPO took this large filing for off-line processing (ID předání %(id)s); the "
+"podací číslo follows."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "EPO — Finanční správa (signed, direct)"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_epo.cssk_submission_view_form_epo
+msgid ""
+"EPO's checks are a subset of the tax office's: a clean\n"
+"                        result is not a guarantee that the filing will be\n"
+"                        accepted."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid ""
+"EPO's checks are a subset of the tax office's; a clean result is not a "
+"guarantee of acceptance."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_cssk_submission__epo_check_summary
+msgid "Epo Check Summary"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields.selection,name:l10n_cz_epo.selection__cssk_submission__epo_check_result__errors
+msgid "Errors"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "Filed through EPO: podací číslo %(number)s, %(date)s."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid ""
+"Filing through EPO is switched off for %(company)s: use 'Check with EPO', or"
+" switch on 'Allow filing through EPO' on the company."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_cssk_submission__id
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__id
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__issuer
+msgid "Issuer"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields.selection,name:l10n_cz_epo.selection__cssk_submission__epo_check_result__clean
+msgid "No errors"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,help:l10n_cz_epo.field_res_company__l10n_cz_epo_allow_filing
+msgid ""
+"Off: EPO is used only to CHECK filings (test mode, nothing is filed). On: a "
+"queued EPO submission is filed for real. Checking and filing differ by one "
+"parameter of the same call, so the difference is enforced here rather than "
+"left to habit."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "Only users allowed to file statutory submissions may send them to EPO."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__p12_filename
+msgid "P12 Filename"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__password
+msgid "Password"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,help:l10n_cz_epo.field_cssk_submission__epo_password
+msgid "Password EPO issued with the podací číslo; asks for the state."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,help:l10n_cz_epo.field_l10n_cz_epo_certificate__password
+msgid "Password protecting the .p12 / .pfx file."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model,name:l10n_cz_epo.model_l10n_cz_epo_certificate
+msgid "Qualified certificate for EPO filing"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_epo.res_company_view_form_cz_epo_channel
+msgid "Sending to EPO"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,help:l10n_cz_epo.field_cssk_submission__epo_transfer_id
+msgid ""
+"Set when EPO took a large filing for off-line processing and has not issued "
+"the podací číslo yet."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_epo.cssk_submission_view_form_epo
+msgid "Sign and send to EPO in test mode: every check, nothing filed."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model,name:l10n_cz_epo.model_cssk_submission
+msgid "Statutory Submission"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__subject
+msgid "Subject"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid ""
+"The outcome of the filing is unknown (%(error)s). It may have been filed: "
+"check the filing in the EPO portal (MOJE daně) before sending it again."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,help:l10n_cz_epo.field_res_company__l10n_cz_epo_certificate_id
+msgid "The qualified certificate EPO filings of this company are signed with."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,help:l10n_cz_epo.field_l10n_cz_epo_certificate__p12_file
+msgid ""
+"The qualified certificate with its private key, as exported from the "
+"certification authority (I.CA, PostSignum, eIdentity)."
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "The tax office rejected the filing (EPO state %s)."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_epo.l10n_cz_epo_certificate_view_form
+msgid ""
+"This certificate signs filings to the tax office in the\n"
+"                        company's name — EPO knows no other identity. Only\n"
+"                        users allowed to file can read or change it."
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__valid_from
+msgid "Valid From"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields,field_description:l10n_cz_epo.field_l10n_cz_epo_certificate__valid_to
+msgid "Valid To"
+msgstr ""
+
+#. module: l10n_cz_epo
+#: model:ir.model.fields.selection,name:l10n_cz_epo.selection__cssk_submission__epo_check_result__warnings
+msgid "Warnings only"
+msgstr ""
+
+#. module: l10n_cz_epo
+#. odoo-python
+#: code:addons/l10n_cz_epo/models/cssk_submission.py:0
+msgid "line %s"
+msgstr ""

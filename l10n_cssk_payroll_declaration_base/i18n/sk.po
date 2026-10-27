@@ -234,16 +234,6 @@ msgstr "Názov"
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid ""
-"No declaration version is configured for %s in this period. Check the "
-"shipped version data."
-msgstr ""
-"Pre %s nie je v tomto období nakonfigurovaná žiadna verzia hlásenia. "
-"Skontrolujte dodané dáta verzií."
-
-#. module: l10n_cssk_payroll_declaration_base
-#. odoo-python
-#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
-msgid ""
 "No payroll engine is installed (hr.payslip is unavailable), so there are no "
 "payslips to aggregate."
 msgstr ""
@@ -558,3 +548,54 @@ msgid ""
 msgstr ""
 "Či ide o riadne podanie za obdobie alebo o opravu už odoslaného. "
 "Voľby sú obmedzené na to, čo tento konkrétny úrad prijíma."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "%(form)s is not filed for periods after %(end)s: the form was discontinued. %(successor)s"
+msgstr "%(form)s sa za obdobia po %(end)s nepodáva: tlačivo bolo zrušené. %(successor)s"
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "No declaration version is configured for %(code)s in the period starting %(date)s. Check the shipped version data."
+msgstr "Pre %(code)s nie je pre obdobie začínajúce %(date)s nakonfigurovaná žiadna verzia hlásenia. Skontrolujte dodané dáta verzií."
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration
+msgid "Payroll Reporting"
+msgstr "Mzdové výkazy"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration
+msgid "ČSSZ (social security)"
+msgstr "ČSSZ (sociálne zabezpečenie)"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_vs
+msgid "ČSSZ variable symbol (VS)"
+msgstr "Variabilný symbol ČSSZ (VS)"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_code
+msgid "OSSZ code"
+msgstr "Kód OSSZ"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_vs
+msgid "Variable symbol the ČSSZ assigned to the employer (10 digits)."
+msgstr "Variabilný symbol, ktorý ČSSZ pridelila zamestnávateľovi (10 číslic)."
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_code
+msgid ""
+"Numeric code (100-999) of the locally competent District Social Security "
+"Administration (OSSZ)."
+msgstr ""
+"Číselný kód (100 – 999) miestne príslušnej okresnej správy sociálneho "
+"zabezpečenia (OSSZ)."

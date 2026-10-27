@@ -130,17 +130,6 @@ msgid "Active"
 msgstr "Aktivní"
 
 #. module: account_asset_tax
-#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
-#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
-msgid "Add-back (150)"
-msgstr "Připočet (150)"
-
-#. module: account_asset_tax
-#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__addback
-msgid "Add-back (line 150)"
-msgstr "Připočet (ř. 150)"
-
-#. module: account_asset_tax
 #: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_class__allow_accelerated
 msgid "Allows Accelerated"
 msgstr "Umožňuje zrychlené"
@@ -196,11 +185,6 @@ msgid "Backfill Tax Depreciation"
 msgstr "Doplnit daňové odpisy"
 
 #. module: account_asset_tax
-#: model:ir.model.fields,help:account_asset_tax.field_res_company__account_deferred_tax_id
-msgid "Balance-sheet deferred-tax account (CZ/SK 481)."
-msgstr "Rozvahový účet odložené daně (CZ/SK 481)."
-
-#. module: account_asset_tax
 #: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_book_tax_report_mixin__book_amount
 #: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__book_amount
 msgid "Book Depreciation"
@@ -240,13 +224,17 @@ msgstr "CELKEM / TOTAL"
 #. module: account_asset_tax
 #: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_increased_first_year
 msgid ""
-"CZ §31(1)(b)/(c)/(d): a first depreciator of a group 1–3 asset may elect a "
-"higher first-year straight-line rate (+10/15/20 %). CZ + straight-line + "
-"groups 1–3 only."
+"Czech Republic only, groups 1–3, and only for the FIRST depreciator (§ 31 odst. 6: the first to acquire the asset new and unused, or who built it). Straight-line uses the § 31 odst. 1 písm. b)–d) tables; accelerated adds the percentage of the entry price to the first-year charge (§ 32 odst. 2 písm. a)).\n"
+"+10 %: any group 1–3 asset (§ 31 odst. 4).\n"
+"+15 %: only water-treatment equipment CZ-CPA 28.29.12 used in buildings CZ-CC 125113, and sorting and processing equipment for secondary raw materials (§ 31 odst. 3).\n"
+"+20 %: only agricultural and forestry machines CZ-CPA 28.3 of a taxpayer with mainly agricultural and forestry production (§ 31 odst. 2).\n"
+"Never for aircraft, motorcycles and passenger cars outside the licensed uses, household appliances (CZ-CPA 27.5) or recreational boats (CZ-CPA 30.12) — § 31 odst. 5. Odoo cannot see these conditions; the choice is yours to justify."
 msgstr ""
-"CZ §31(1)(b)/(c)/(d): první odpisovatel majetku odpisové skupiny 1–3 může "
-"uplatnit vyšší rovnoměrnou sazbu v 1. roce (+10/15/20 %). Pouze CZ + "
-"rovnoměrný odpis + skupiny 1–3."
+"Jen Česká republika, skupiny 1–3 a jen PRVNÍ odpisovatel (§ 31 odst. 6: kdo si jako první pořídil nový, dosud neužívaný majetek, nebo jej vyrobil ve vlastní režii). Rovnoměrné odpisování použije tabulky § 31 odst. 1 písm. b) až d); zrychlené přičte procento ze vstupní ceny k prvnímu odpisu (§ 32 odst. 2 písm. a)).\n"
+"+10 %: každý majetek skupin 1–3 (§ 31 odst. 4).\n"
+"+15 %: jen zařízení pro čištění a úpravu vod CZ-CPA 28.29.12 využívané ve stavbách CZ-CC 125113 a třídicí a úpravárenská zařízení na zhodnocení druhotných surovin (§ 31 odst. 3).\n"
+"+20 %: jen stroje pro zemědělství a lesnictví CZ-CPA 28.3 poplatníka s převážně zemědělskou a lesní výrobou (§ 31 odst. 2).\n"
+"Nikdy u letadel, motocyklů a osobních automobilů mimo koncesované užití, spotřebičů převážně pro domácnost (CZ-CPA 27.5) ani rekreačních a sportovních člunů (CZ-CPA 30.12) — § 31 odst. 5. Odoo tyto podmínky nevidí; jejich splnění musíte doložit vy."
 
 #. module: account_asset_tax
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_backfill_form
@@ -276,17 +264,6 @@ msgstr ""
 #: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
 msgid "Cannot determine the tax country for asset %s."
 msgstr "Nelze určit daňovou zemi pro majetek %s."
-
-#. module: account_asset_tax
-#: model:ir.model.fields,help:account_asset_tax.field_res_company__tax_vehicle_cap_amount
-msgid ""
-"Capped depreciable base for passenger vehicles flagged on the asset (CZ "
-"§30e: 2 000 000 CZK for category M1; SK §17(34): 48 000 EUR). Leave at 0 for "
-"no cap. Set per company in its own currency."
-msgstr ""
-"Limitovaná odpisová základna pro osobní vozidla označená na majetku (CZ "
-"§30e: 2 000 000 CZK pro kategorii M1; SK §17(34): 48 000 EUR). Ponechte 0 "
-"pro žádný limit. Nastavte za každou společnost v její vlastní měně."
 
 #. module: account_asset_tax
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
@@ -476,17 +453,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
 msgid "Daňové odpisy — registr / Tax Depreciation Register"
 msgstr "Daňové odpisy — registr / Tax Depreciation Register"
-
-#. module: account_asset_tax
-#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
-#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
-msgid "Deduction (250)"
-msgstr "Odpočet (250)"
-
-#. module: account_asset_tax
-#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__deduction
-msgid "Deduction (line 250)"
-msgstr "Odpočet (ř. 250)"
 
 #. module: account_asset_tax
 #: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__deferred_tax
@@ -916,17 +882,6 @@ msgstr ""
 "Volitelná kontrola: daňová zůstatková cena na konci podaného období podle "
 "vašich předchozích záznamů. Průvodce odmítne doplnit historii, pokud se "
 "neshoduje se zákonným výpočtem."
-
-#. module: account_asset_tax
-#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_vehicle_capped
-msgid ""
-"Passenger vehicle subject to the statutory depreciation cap (CZ §30e 2M "
-"CZK / SK §17(34) 48k EUR). The tax board is then computed on the company's "
-"capped base instead of the full entry value."
-msgstr ""
-"Osobní vozidlo podléhající zákonnému limitu odpisu (CZ §30e 2 mil. CZK / SK "
-"§17(34) 48 tis. EUR). Daňový plán se poté počítá z limitované základny "
-"společnosti namísto plné vstupní ceny."
 
 #. module: account_asset_tax
 #: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation_line__deferred_tax
@@ -1381,11 +1336,12 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_asset_tax/models/account_asset_tax_mixin.py:0
 msgid ""
-"The increased first-year rate (§31) applies only to Czech straight-line "
-"depreciation of groups 1–3."
+"The increased first-year depreciation (§ 31 odst. 1 písm. b)–d), § 32 odst. "
+"2 písm. a)) applies only to Czech straight-line or accelerated depreciation "
+"of groups 1–3."
 msgstr ""
-"Zvýšená sazba v 1. roce (§31) platí pouze pro český rovnoměrný odpis skupin "
-"1–3."
+"Zvýšený odpis v prvním roce (§ 31 odst. 1 písm. b) až d), § 32 odst. 2 písm."
+" a)) platí jen pro české rovnoměrné nebo zrychlené odpisování skupin 1–3."
 
 #. module: account_asset_tax
 #. odoo-python
@@ -1397,20 +1353,17 @@ msgstr "Knihovna Python 'xlsxwriter' není dostupná."
 #. odoo-python
 #: code:addons/account_asset_tax/wizard/account_asset_tax_backfill.py:0
 msgid ""
-"The statutory tax residual at the end of %(year)s is %(computed)s, but you "
-"entered %(expected)s.\n"
+"The statutory tax residual at the end of %(year)s is %(computed)s, but you entered %(expected)s.\n"
 "\n"
-"Tax depreciation is statutory, so a mismatch usually means a past technical "
-"improvement or suspension is not yet recorded, or the tax in-service date is "
-"wrong. Fix those first (add the events, correct the date), then backfill."
+"Tax depreciation is statutory, so a mismatch usually means a past technical improvement or suspension is not recorded as a lifecycle event yet, or the tax in-service date, entry value or group is wrong. Correct the values here, or record the missing event on the Tax Depreciation tab and run the backfill again.\n"
+"\n"
+"An event cannot be recorded inside a year that is already filed. If the asset has filed years, first run this backfill with no expected residual and Filed Through Fiscal Year set to the year before the event, record the event, then run the backfill again with the real filed year and the expected residual."
 msgstr ""
-"Zákonná daňová zůstatková cena na konci %(year)s je %(computed)s, ale zadali "
-"jste %(expected)s.\n"
+"Zákonná daňová zůstatková cena na konci %(year)s je %(computed)s, ale zadali jste %(expected)s.\n"
 "\n"
-"Daňové odpisy jsou zákonné, takže nesoulad obvykle znamená, že dosud není "
-"zaznamenáno minulé technické zhodnocení nebo přerušení, nebo je nesprávné "
-"datum daňového zařazení. Nejprve to opravte (přidejte události, opravte "
-"datum), poté doplňte historii."
+"Daňové odpisy jsou zákonné, takže rozdíl obvykle znamená, že minulé technické zhodnocení nebo přerušení odpisování ještě není zaznamenáno jako událost, nebo je chybné daňové datum zařazení, vstupní cena či odpisová skupina. Opravte hodnoty zde, nebo zaznamenejte chybějící událost na kartě Daňové odpisy a spusťte doplnění historie znovu.\n"
+"\n"
+"Událost nelze zaznamenat do roku, který je již podán. Má-li majetek podané roky, nejprve spusťte doplnění historie bez očekávané daňové ZC a s polem „Podáno do roku“ nastaveným na rok před událostí, zaznamenejte událost a poté spusťte doplnění historie znovu se skutečným posledním podaným rokem a očekávanou daňovou ZC."
 
 #. module: account_asset_tax
 #. odoo-python
@@ -1553,3 +1506,190 @@ msgstr ""
 #: model:ir.module.module,shortdesc:base.module_account_asset_tax
 msgid "Tax Depreciation (CZ/SK dual depreciation core)"
 msgstr "Daňové odpisy (jádro dvojího odpisování CZ/SK)"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid "<strong>Vehicle add-back (SK §17(34)):</strong>"
+msgstr "<strong>Připočtení za vozidlo (SK § 17 ods. 34):</strong>"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation_line__addback
+msgid ""
+"Accounting depreciation above tax depreciation: SK DPPO r. 150, CZ DPPO ř. "
+"50."
+msgstr "Účetní odpisy nad daňovými: CZ DPPO ř. 50, SK DPPO r. 150."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__addback
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Add-back"
+msgstr "Připočet"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__addback_row
+msgid "Add-back Row"
+msgstr "Řádek připočtu"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_res_company__account_deferred_tax_id
+msgid ""
+"Balance-sheet deferred-tax account (CZ/SK 481). The reconciliation trues "
+"this account's balance at the period end up to the deferred tax on asset "
+"depreciation, so use an account (e.g. an analytical 481 sub-account) that "
+"holds no other deferred tax."
+msgstr ""
+"Rozvahový účet odložené daně (CZ/SK 481). Porovnání dorovnává zůstatek "
+"tohoto účtu ke konci období na odloženou daň z odpisů majetku, proto "
+"použijte účet (např. analytický účet 481), na kterém není jiná odložená daň."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation_line__vehicle_addback
+msgid ""
+"Conditional add-back for a car of 48 000 EUR or more; see the board line of "
+"the same name."
+msgstr ""
+"Podmíněné připočtení za automobil se vstupní cenou 48 000 EUR a více; viz "
+"stejnojmenný sloupec plánu."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__deduction
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Deduction"
+msgstr "Odpočet"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__deduction_row
+msgid "Deduction Row"
+msgstr "Řádek odpočtu"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_mixin__tax_sk_disposal_months
+msgid "Depreciate Whole Months in Disposal Year"
+msgstr "Odpis za celé měsíce v roce vyřazení"
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_vehicle_capped
+msgid ""
+"Passenger vehicle subject to the statutory vehicle limit set on the company."
+" CZ §30e (2 000 000 CZK, category M1): only the share limit / entry price of"
+" each depreciation is deductible, so the tax board is computed on the limit."
+" SK §17(34) (48 000 EUR): the car is depreciated in full and the board "
+"shows, per year, the excess over straight-line depreciation of 48 000 EUR — "
+"the amount added back to the tax base only when that base is lower than the "
+"statutory threshold."
+msgstr ""
+"Osobní vozidlo podléhající zákonnému limitu nastavenému na společnosti. CZ §"
+" 30e (2 000 000 Kč, kategorie M1): do výdajů jde jen část každého odpisu v "
+"poměru limitu ke vstupní ceně, proto se daňový plán počítá z limitu. SK § 17"
+" ods. 34 (48 000 EUR): automobil se odepisuje v plné výši a plán za každý "
+"rok ukáže částku nad rovnoměrným odpisem ze 48 000 EUR — částku, která se "
+"připočte k základu daně, jen je-li základ nižší než zákonná hranice."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_line__vehicle_addback
+msgid ""
+"Slovakia, §17(34): for a passenger car with an entry price of 48 000 EUR or "
+"more, the part of this year's tax depreciation above straight-line "
+"depreciation of 48 000 EUR. It is added back to the tax base only when that "
+"base is lower than the number of such cars × the annual straight-line "
+"depreciation of 48 000 EUR, and never by a lessor for a car leased without a"
+" purchase option. The depreciation itself stays on the board in full."
+msgstr ""
+"Slovensko, § 17 ods. 34: u osobního automobilu se vstupní cenou 48 000 EUR a"
+" více část daňového odpisu roku nad rovnoměrným odpisem ze 48 000 EUR. K "
+"základu daně se připočte, jen je-li základ nižší než počet takových "
+"automobilů × roční rovnoměrný odpis ze 48 000 EUR, a nikdy ne u "
+"pronajímatele automobilu pronajatého bez sjednaného práva koupě. Samotný "
+"odpis zůstává v plánu v plné výši."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation__total_vehicle_addback
+msgid ""
+"Slovakia, §17(34): the add-back for cars of 48 000 EUR or more, due only "
+"when the tax base is lower than the number of such cars × the annual "
+"straight-line depreciation of 48 000 EUR. Not included in the add-back "
+"total; decide on the tax return."
+msgstr ""
+"Slovensko, § 17 ods. 34: připočtení za automobily se vstupní cenou 48 000 "
+"EUR a více, které se uplatní, jen je-li základ daně nižší než počet takových"
+" automobilů × roční rovnoměrný odpis ze 48 000 EUR. Není zahrnuto v součtu "
+"připočtů; rozhoduje se v přiznání."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_mixin__tax_sk_disposal_months
+msgid ""
+"Slovakia, §22(12): keep the depreciation for the whole months the asset was "
+"recorded in the year it is disposed of. Mandatory for assets depreciated "
+"under §26(6) and (7); optional (from 2016) for assets whose residual value "
+"is deductible only up to the sale proceeds under §19(3)(b) first point — "
+"passenger cars, boats, aircraft, motorcycles, bicycles, group-6 buildings "
+"sold. Every other asset gets no tax depreciation in the year of disposal "
+"(§22(11)); its residual value is expensed instead."
+msgstr ""
+"Slovensko, § 22 ods. 12: ponechat odpis za celé měsíce, po které se majetek "
+"v roce vyřazení účtoval. Povinné u majetku odpisovaného podle § 26 ods. 6 a "
+"7; volitelné (od roku 2016) u majetku, jehož zůstatková cena je daňovým "
+"výdajem jen do výše příjmů z prodeje podle § 19 ods. 3 písm. b) prvního bodu"
+" — osobní automobily, čluny, letadla, motocykly, jízdní kola, prodané budovy"
+" skupiny 6. Ostatní majetek se v roce vyřazení daňově neodepisuje (§ 22 ods."
+" 11); výdajem je jeho zůstatková cena."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_res_company__tax_vehicle_cap_amount
+msgid ""
+"Statutory limit for passenger vehicles flagged on the asset, in the company "
+"currency. CZ §30e: 2 000 000 CZK for category M1 — the tax board is computed"
+" on the limit. SK §17(34): 48 000 EUR — the board keeps the full "
+"depreciation and shows the conditional add-back separately. Leave at 0 for "
+"no limit."
+msgstr ""
+"Zákonný limit pro osobní vozidla označená na majetku, v měně společnosti. CZ"
+" § 30e: 2 000 000 Kč pro kategorii M1 — daňový plán se počítá z limitu. SK §"
+" 17 ods. 34: 48 000 EUR — plán ponechá odpisy v plné výši a podmíněné "
+"připočtení ukáže zvlášť. 0 = bez limitu."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation_line__deduction
+msgid ""
+"Tax depreciation above accounting depreciation: SK DPPO r. 250, CZ DPPO ř. "
+"150."
+msgstr "Daňové odpisy nad účetními: CZ DPPO ř. 150, SK DPPO r. 250."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation__addback_row
+msgid ""
+"The income-tax return row the add-back goes to: SK DPPO r. 150, CZ DPPO ř. "
+"50."
+msgstr "Řádek daňového přiznání pro připočet: CZ DPPO ř. 50, SK DPPO r. 150."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,help:account_asset_tax.field_account_asset_tax_reconciliation__deduction_row
+msgid ""
+"The income-tax return row the deduction goes to: SK DPPO r. 250, CZ DPPO ř. "
+"150."
+msgstr "Řádek daňového přiznání pro odpočet: CZ DPPO ř. 150, SK DPPO r. 250."
+
+#. module: account_asset_tax
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_line__vehicle_addback
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation__total_vehicle_addback
+#: model:ir.model.fields,field_description:account_asset_tax.field_account_asset_tax_reconciliation_line__vehicle_addback
+msgid "Vehicle Add-back (SK §17(34))"
+msgstr "Připočtení za vozidlo (SK § 17 ods. 34)"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
+msgid "Vehicle add-back"
+msgstr "Připočtení za vozidlo"
+
+#. module: account_asset_tax
+#: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
+msgid ""
+"— due only when the tax base is lower than the number of cars of\n"
+"                            48 000 EUR or more × the annual straight-line depreciation of\n"
+"                            48 000 EUR; not included in the add-back column."
+msgstr ""
+"— uplatní se, jen je-li základ daně nižší než počet automobilů se vstupní "
+"cenou 48 000 EUR a více × roční rovnoměrný odpis ze 48 000 EUR; není "
+"zahrnuto ve sloupci připočtu."

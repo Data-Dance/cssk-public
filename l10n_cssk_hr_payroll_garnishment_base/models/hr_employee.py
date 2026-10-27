@@ -27,9 +27,12 @@ class HrEmployee(models.Model):
         "Pension Recipient",
         groups="hr.group_hr_user",
         tracking=True,
-        help="Poberateľ dôchodkových dávok. Slovak law doubles the "
-        "per-dependant protection to 50 % for pension recipients. No effect "
-        "under Czech law.",
+        help="Slovakia: poberateľ dôchodkových dávok — the per-dependant "
+        "protection doubles to 50 %. Czech Republic: the employee has proved "
+        "an old-age pension, a disability pension of the 2nd or 3rd degree "
+        "or an orphan's pension (§ 279 odst. 5 písm. a) o. s. ř.), which "
+        "lifts the two-thirds rule for four or more executions while one "
+        "third stays below the insolvency trustee's monthly amount.",
     )
     l10n_cssk_garnishment_ids = fields.One2many(
         "hr.wage.garnishment", "employee_id", groups="hr.group_hr_user"

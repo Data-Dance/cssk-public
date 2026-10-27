@@ -29,6 +29,7 @@ from odoo.exceptions import UserError
 from .surcharge_calc import (
     BASE_AVG_EARNINGS,
     CODE_DIFFICULT,
+    CODE_OVERTIME,
     SURCHARGE_BASE,
     SURCHARGE_CODES,
     min_wage_hourly,
@@ -38,8 +39,8 @@ from .surcharge_calc import (
 )
 
 # Worked-day codes counting as ordinary working time — the denominator of the
-# minimum-wage comparison. Overtime is deliberately absent: § 111 odst. 3
-# keeps práce přesčas out of the comparison on both sides.
+# minimum-wage comparison. Overtime is deliberately absent: § 111 odst. 1
+# keeps mzda za práci přesčas out of the comparison on both sides.
 ORDINARY_WORK_CODES = ("WORK100",)
 
 # Absence codes the Czech country modules put on their leave types. Only the
@@ -57,6 +58,23 @@ ABSENCE_WORK_CODES = (
     "CZPOVETRNOST",
     "CZCASTECNA",
     "CZJINEPREKAZKY",
+)
+
+
+# Payslip lines § 111 odst. 1 keeps out of the minimum-wage comparison (mzda
+# za práci přesčas and the příplatky), plus the náhrady mzdy: they pay for
+# hours that are not in the ordinary hours the comparison divides by. Rule
+# codes, identical on both engines.
+MIN_WAGE_EXCLUDED_CODES = (
+    "MZDA_PRESCAS",
+    "PRIPLATEK_PRESCAS",
+    "PRIPLATEK_SVATEK",
+    "PRIPLATEK_NOCNI",
+    "PRIPLATEK_VIKEND",
+    "PRIPLATEK_ZTIZENE",
+    "HOLIDAYNAHRADA",
+    "OBSTACLENAHRADA",
+    "PREKAZKANAHRADA",
 )
 
 
@@ -122,13 +140,24 @@ class CzSurchargePayslipMixin(models.AbstractModel):
         return self.env["l10n.cz.minimum.wage"]._get_for_date(self.date_from)
 
     def _l10n_cz_min_wage_hourly(self):
-        """The hourly minimum-wage claim, adjusted for a shorter week."""
+        """The hourly minimum-wage claim, adjusted for a shorter week.
+
+        § 111 odst. 5 raises the hourly figure only for a shorter STANOVENÁ
+        týdenní pracovní doba (§ 79 odst. 2 and 3) — the employer's full-time
+        week. An individually agreed shorter week (kratší pracovní doba,
+        § 80) does not raise it; for such an employee § 111 odst. 6 reduces
+        the MONTHLY minimum instead. So the reference is the company's
+        calendar, never the employee's own: a 20-hour part-timer measured
+        against their own calendar was paid the § 117 surcharge on twice the
+        hourly minimum wage. The employee's calendar is the fallback only
+        when the company has none.
+        """
         self.ensure_one()
         wage = self._l10n_cz_minimum_wage_record()
         rate = self._l10n_cz_rate_record()
         calendar = (
-            self._l10n_cz_version().resource_calendar_id
-            or self.company_id.resource_calendar_id
+            self.company_id.resource_calendar_id
+            or self._l10n_cz_version().resource_calendar_id
         )
         return min_wage_hourly(
             wage.amount_hourly,
@@ -272,13 +301,72 @@ class CzSurchargePayslipMixin(models.AbstractModel):
         ) or self._l10n_cz_scheduled_hours()
 
     # ------------------------------------------------------------------
-    # doplatek do minimální mzdy (§ 111 odst. 3)
+    # mzda za práci přesčas (§ 114 odst. 1)
     # ------------------------------------------------------------------
+    def _l10n_cz_hourly_wage(self):
+        """The employee's own wage for one hour of work.
+
+        An hourly-paid employee's hourly wage; otherwise the monthly wage over
+        the hours the contract schedules in this period, the usual way the
+        dosažená mzda of a monthly-paid employee is put on an hour.
+        """
+        self.ensure_one()
+        version = self._l10n_cz_version()
+        if "wage_type" in version._fields and version.wage_type == "hourly":
+            return version.hourly_wage or 0.0
+        scheduled = self._l10n_cz_scheduled_hours()
+        return version.wage / scheduled if scheduled else 0.0
+
+    def _l10n_cz_overtime_wage(self):
+        """Dosažená mzda for the overtime hours (§ 114 odst. 1).
+
+        "Za dobu práce přesčas přísluší zaměstnanci mzda, na kterou mu
+        vzniklo za tuto dobu právo (dále jen "dosažená mzda"), a příplatek" —
+        the wage for the hour AND the § 114 surcharge. The overtime hours
+        overlay ordinary time and never reach the basic wage, so without this
+        an overtime hour paid only its 25 % surcharge. Where the wage was
+        agreed with overtime already in it (§ 114 odst. 3, at most 150 hours a
+        year) neither is owed: record no overtime hours for that employee.
+        """
+        self.ensure_one()
+        hours = self._l10n_cz_surcharge_hours(CODE_OVERTIME)
+        if not hours:
+            return 0.0
+        return surcharge_amount(hours, self._l10n_cz_hourly_wage(), 100.0)
+
+    # ------------------------------------------------------------------
+    # doplatek do minimální mzdy (§ 111 odst. 1 and 2)
+    # ------------------------------------------------------------------
+    def _l10n_cz_min_wage_hourly_basis(self):
+        """Whether the doplatek is compared per hour (§ 111 odst. 2).
+
+        Always for an agreement (písm. b)) and for an hourly-paid employee;
+        otherwise per hour unless the monthly basis was agreed in advance on
+        the contract — the statute's own default (písm. a)).
+        """
+        self.ensure_one()
+        version = self._l10n_cz_version()
+        if getattr(version, "l10n_cz_agreement_type", "standard") in ("dpp", "dpc"):
+            return True
+        if "wage_type" in version._fields and version.wage_type == "hourly":
+            return True
+        return (version.l10n_cz_min_wage_basis or "hourly") == "hourly"
+
+    def _l10n_cz_min_wage_excluded_codes(self):
+        return MIN_WAGE_EXCLUDED_CODES
+
+    def _l10n_cz_min_wage_topup_amount(self, qualifying_wage):
+        """The doplatek on this payslip, on the contract's basis."""
+        self.ensure_one()
+        return self._l10n_cz_min_wage_topup(
+            qualifying_wage, hourly_paid=self._l10n_cz_min_wage_hourly_basis()
+        )
+
     def _l10n_cz_min_wage_topup(self, qualifying_wage, hourly_paid=False):
         """Top-up owed so the qualifying wage reaches the minimum.
 
         *qualifying_wage* must already exclude overtime pay and every
-        surcharge this module computes — § 111 odst. 3 keeps them out, so that
+        surcharge this module computes — § 111 odst. 1 keeps them out, so that
         a night shift cannot paper over a sub-minimum base wage. The engine
         bridges are responsible for handing in the right figure; doing the
         exclusion here would mean guessing at rule codes that differ per

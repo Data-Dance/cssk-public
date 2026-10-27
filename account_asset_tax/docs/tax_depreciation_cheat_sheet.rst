@@ -55,22 +55,25 @@ The two boards side by side
 A machine bought for 100 000 (CZ group 2, 5-year tax life), depreciated for
 accounting over 8 years straight-line, in service in March 2026::
 
-    Year   Accounting (posted 551)   Tax (not posted)   Difference   DPPO line
-    2026         12 500                 11 000             +1 500       150 (add-back)
-    2027         12 500                 22 250             -9 750       250 (deduction)
-    2028         12 500                 22 250             -9 750       250
-    2029         12 500                 22 250             -9 750       250
-    2030         12 500                 22 250             -9 750       250
-    2031         12 500                  0                +12 500       150
-    2032         12 500                  0                +12 500       150
-    2033         12 500                  0                +12 500       150
+    Year   Accounting (posted 551)   Tax (not posted)   Difference   DPPO radek
+    2026         12 500                 11 000             +1 500        50 (add-back)
+    2027         12 500                 22 250             -9 750       150 (deduction)
+    2028         12 500                 22 250             -9 750       150
+    2029         12 500                 22 250             -9 750       150
+    2030         12 500                 22 250             -9 750       150
+    2031         12 500                  0                +12 500        50
+    2032         12 500                  0                +12 500        50
+    2033         12 500                  0                +12 500        50
     ----------------------------------------------------------------------
     total       100 000                100 000               0
 
 * **Accounting > Tax** in a year -> the excess is a **non-deductible add-back**
-  (CZ DPPO radek 50; SK DPPO **line 150**).
+  (CZ DPPO **radek 50**; SK DPPO **line 150**).
 * **Tax > Accounting** in a year -> the excess is an extra **deduction**
-  (SK DPPO **line 250**).
+  (CZ DPPO **radek 150**; SK DPPO **line 250**).
+* The example is Czech, so its rows are the Czech ones (DPPDP9). The
+  reconciliation labels its columns by the company's country: SK r. 150 /
+  r. 250, CZ r. 50 / r. 150.
 * Over the whole life the two columns sum to the same base, so the timing
   difference reverses to zero (the source of *deferred tax* for audited
   entities).
@@ -185,6 +188,13 @@ rate, so the in-service month is irrelevant::
     Y4  100000 * 22.25% = 22 250     residual 22 250
     Y5  100000 * 22.25% = 22 250     residual      0
 
+Every Czech charge - straight-line, accelerated, SS 30a, the increased-price
+charges after a technical improvement and the half-year disposal charge - is
+rounded **up to whole crowns** (SS 31(9), SS 32(5), SS 30a(2)), and the next
+year's residual is what the rounded charges leave. The figures here happen to be
+whole already; on a base of 99 999 the first year is ``ceil(10 999.89)`` =
+11 000.
+
 A **first depreciator** of a group 1-3 asset may elect an increased first-year
 rate (SS 31(1) b/c/d, +10/+15/+20 %). For group 2 the first-year/next rates
 become 21/19.75 (+10 %), 26/18.5 (+15 %) or 31/17.25 (+20 %); each table still
@@ -275,9 +285,16 @@ Lifecycle events
      - Whole tax periods only (SS 22(9)); the total life is **extended** by the
        interruption. Mandatory when the asset is not used for taxable income.
    * - Disposal
-     - Only **half** the annual charge in the year of disposal (SS 26(7)).
-     - Pro-rata to the month of disposal; remaining tax residual is handled per
-       the disposal reason.
+     - Only **half** the annual charge in the year of disposal, rounded up to
+       whole crowns, and only for an asset held at the start of the period
+       (SS 26(7)(a)): an asset put into use and disposed of in the same year
+       gets **none**.
+     - **No** depreciation in the year of disposal (SS 22(11): the annual
+       charge only for an asset still recorded on the last day of the tax
+       period); the whole remaining tax residual is the SS 19(3)(b) expense.
+       A charge for the **whole months** held (the month of disposal not
+       counted) only for assets ticked *Depreciate Whole Months in Disposal
+       Year* - those of SS 22(12).
    * - Method change
      - Forbidden for the asset's whole life (SS 30(2)).
      - Forbidden (SS 26(3)); accelerated only ever for groups 2 & 3.
@@ -306,7 +323,7 @@ depreciation with the **tax** board:
 * ``sum(accounting) - sum(tax)`` for the year:
 
   * positive -> **add-back** (SK line 150 / CZ radek 50)
-  * negative -> **deduction** (SK line 250)
+  * negative -> **deduction** (SK line 250 / CZ radek 150)
 
 The bridge module exposes this comparison (it needs the accounting board, which
 is edition-specific); the core keeps only the tax side.

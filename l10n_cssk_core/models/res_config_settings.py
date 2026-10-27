@@ -17,6 +17,16 @@ class ResConfigSettings(models.TransientModel):
     cssk_vat_deferral_account_id = fields.Many2one(
         related="company_id.cssk_vat_deferral_account_id", readonly=False)
 
+    # Read by every statutory statement, the income-tax return and the OCA
+    # financial reports, and reachable from no screen until it was put here.
+    # Domain repeated for the same reason as above; the company field's
+    # ``id`` is ``company_id`` here.
+    l10n_cssk_closing_journal_ids = fields.Many2many(
+        related="company_id.l10n_cssk_closing_journal_ids",
+        readonly=False,
+        domain="[('company_id', '=', company_id)]",
+    )
+
     # True on Enterprise (account_accountant / account_reports installed). Used
     # to hide Community-only options (e.g. account_usability) that are redundant
     # or duplicate Enterprise's own menus.

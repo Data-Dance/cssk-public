@@ -9,6 +9,10 @@ this register when they compute a payslip; the accounting bridge turns the
 resulting lines into a payable to the bailiff.
 """
 
+from datetime import date
+
+from dateutil.relativedelta import relativedelta
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -171,10 +175,12 @@ class HrWageGarnishment(models.Model):
         compute="_compute_date_start",
         store=True,
         readonly=False,
-        help="First period the deduction applies to. Defaults to the day the "
-        "order was served — under § 282(1) o. s. ř. the employer must begin "
-        "deducting from the day the order is delivered to it. Editable, and a "
-        "manual value survives until the delivery date itself changes.",
+        help="First period the deduction applies to. In the Czech Republic "
+        "it defaults to the first day of the month after the order was "
+        "served: under § 282a o. s. ř. the employer starts deducting from the "
+        "first day of the first calendar month following delivery. In "
+        "Slovakia it defaults to the delivery day. Editable, and a manual "
+        "value survives until the delivery date itself changes.",
     )
     date_end = fields.Date(tracking=True)
     state = fields.Selection(
@@ -207,10 +213,21 @@ class HrWageGarnishment(models.Model):
                 order.bailiff_partner_id or order.creditor_partner_id
             )
 
-    @api.depends("date_delivered")
+    @api.depends("date_delivered", "company_id.country_id")
     def _compute_date_start(self):
+        """§ 282a o. s. ř.: "Plátce mzdy začne provádět stanovené srážky ze
+        mzdy povinného od prvního dne prvního kalendářního měsíce
+        následujícího po doručení usnesení o nařízení výkonu rozhodnutí."
+        An order served on 10 March is first deducted from the April wage,
+        and one served on 1 March likewise. Slovak orders keep the delivery
+        day (not changed here)."""
         for order in self:
-            order.date_start = order.date_delivered
+            delivered = order.date_delivered
+            if delivered and order.company_id.country_id.code == "CZ":
+                order.date_start = delivered.replace(day=1) + relativedelta(
+                    months=1)
+            else:
+                order.date_start = delivered
 
     @api.depends("case_number")
     def _compute_variable_symbol(self):
@@ -405,7 +422,67 @@ class HrWageGarnishment(models.Model):
         )
 
     @api.model
-    def _allocate(self, employee, net, date_from, date_to, company=None):
+    def _rate_date(self, code, date_to, payment_date=None):
+        """The day whose statutory amounts apply to a wage for the period
+        ending *date_to*.
+
+        Czech Republic — NV 595/2006 Sb. § 4: the amounts are those "ve výši
+        k 1. lednu kalendářního roku, do kterého spadá výplata mzdy" — as at
+        1 January of the year in which the wage is PAID, not the year it was
+        earned. Without a known payment date the wage is taken as paid in
+        the month after the period, the latest the Labour Code allows
+        (§ 141 odst. 1 zákoníku práce), so a December wage paid in January
+        uses the new year's amounts.
+
+        Slovakia — the amounts in force at the end of the period (NV
+        268/2006 Z. z. keys them to the month the deductions are made for).
+        """
+        date_to = fields.Date.to_date(date_to)
+        if code == "CZ":
+            paid = fields.Date.to_date(payment_date) or (
+                date_to + relativedelta(months=1))
+            return date(paid.year, 1, 1)
+        return date_to
+
+    @api.model
+    def _dependents(self, employee, code, date_to):
+        """Persons the employee maintains, for the protected amount.
+
+        The register's own field wins. When it is left at zero, fall back to
+        the field the Czech / Slovak payroll modules keep on the contract
+        version (``l10n_cz_garnishment_dependents`` /
+        ``l10n_sk_garnishment_dependents``), which their own single-claim
+        rule already reads — otherwise an employee whose dependants were
+        recorded there was protected as if childless.
+        """
+        dependents = employee.l10n_cssk_garnishment_dependents
+        if dependents:
+            return dependents
+        field = "l10n_%s_garnishment_dependents" % code.lower()
+        version = employee._get_version(fields.Date.to_date(date_to))
+        if field in version._fields:
+            return version[field] or 0
+        return 0
+
+    # § 279 odst. 4 o. s. ř.: "jsou-li na mzdu povinného současně nařízeny
+    # nejméně 4 výkony rozhodnutí k vymožení splatných peněžitých
+    # pohledávek". Court and bailiff executions and administrative
+    # (tax / social-security) enforcement are výkony rozhodnutí; an agreement
+    # on wage deductions is not, and insolvency deductions follow the
+    # Insolvency Act instead.
+    _CZ_TWO_THIRDS_TYPES = ("execution", "administrative")
+    _CZ_TWO_THIRDS_MIN_ORDERS = 4
+
+    @api.model
+    def _cz_two_thirds_rule(self, orders):
+        """Whether § 279 odst. 4 o. s. ř. applies to these running orders."""
+        counted = orders.filtered(
+            lambda o: o.garnishment_type in self._CZ_TWO_THIRDS_TYPES)
+        return len(counted) >= self._CZ_TWO_THIRDS_MIN_ORDERS
+
+    @api.model
+    def _allocate(self, employee, net, date_from, date_to, company=None,
+                  payment_date=None):
         """Run the statutory waterfall for one employee and one period.
 
         Returns ``(orders, result)`` where *result* is a
@@ -426,12 +503,17 @@ class HrWageGarnishment(models.Model):
         orders = self._active_orders(employee, date_from, date_to, company)
         if not orders:
             return orders, None
-        rate = self.env["hr.wage.garnishment.rate"]._get_rate(code, date_to)
+        rate = self.env["hr.wage.garnishment.rate"]._get_rate(
+            code, self._rate_date(code, date_to, payment_date))
         rates = rate._rates_dict()
         claims = [order._as_claim(date_to) for order in orders]
-        dependents = employee.l10n_cssk_garnishment_dependents
+        dependents = self._dependents(employee, code, date_to)
         if code == "CZ":
-            result = compute_cz(net, rates, dependents, claims)
+            result = compute_cz(
+                net, rates, dependents, claims,
+                two_thirds=self._cz_two_thirds_rule(orders),
+                pension_exempt=employee.l10n_cssk_garnishment_is_pensioner,
+            )
         else:
             result = compute_sk(
                 net,
@@ -461,6 +543,7 @@ class HrWageGarnishment(models.Model):
             payslip.date_from,
             payslip.date_to,
             payslip.company_id,
+            payment_date=self._payslip_payment_date(payslip),
         )
         if "l10n_cssk_garnishment_net" in payslip._fields:
             # Remember what the payslip was computed on, so confirming it
@@ -468,6 +551,14 @@ class HrWageGarnishment(models.Model):
             if payslip.l10n_cssk_garnishment_net != net:
                 payslip.sudo().l10n_cssk_garnishment_net = net
         return result.total if result else 0.0
+
+    @api.model
+    def _payslip_payment_date(self, payslip):
+        """The payslip's payday when the engine records one (Enterprise
+        ``paid_date``); ``None`` otherwise."""
+        if "paid_date" in payslip._fields and payslip.paid_date:
+            return payslip.paid_date
+        return None
 
     @api.model
     def _payslip_has_orders(self, payslip):

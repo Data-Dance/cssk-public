@@ -76,10 +76,9 @@ Configuration
 #. For each EDI trading partner, set their
    ``global_location_number`` on ``res.partner``. Inbound messages
    are auto-linked to the partner whose GLN matches the envelope.
-#. Per-partner you can choose the **EDI product code priority**
-   (``product_edi_code_priority``) which controls how a partner's
-   article codes are resolved to Odoo products
-   (default: ``barcode`` → supplier code → internal reference).
+#. Article codes are resolved to Odoo products by barcode, then the
+   partner's supplier code, then the internal reference (the per-partner
+   ``product_edi_code_priority`` that once chose the order is gone).
 
 Usage
 =====
@@ -154,7 +153,8 @@ Models & fields
     Transport contract — four stub methods that providers override.
 
 ``res.partner`` (extended)
-    Adds ``product_edi_code_priority`` (Selection).
+    EDI fields (GLN, auto-send override); see ``edi_base_gs1`` for the
+    communication endpoint and SSCC mode.
 
 ``stock.warehouse`` (extended)
     Adds ``edi_gln`` (Char) — Delivery Place GLN override.

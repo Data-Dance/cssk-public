@@ -29,7 +29,9 @@ msgid ""
 "        that will expire on\n"
 "        <span style=\"font-weight: bold;\" t-out=\"format_date(object.carried_over_days_expiration_date) or ''\">12/31/2026</span>.\n"
 "        <br/><br/>\n"
-"        Please schedule this time off before then, otherwise it will be forfeited.\n"
+"        Please agree with your manager when you will take this time off before then.\n"
+"        Annual leave does not lapse under the Labour Code; this is the date the\n"
+"        time-off plan removes it from your balance in Odoo.\n"
 "        <br/><br/>\n"
 "        Kind regards,\n"
 "    </p>\n"
@@ -90,7 +92,9 @@ msgstr ""
 #: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
 msgid ""
 "You have %(amount)s %(unit)s of %(leave)s that will expire on %(date)s. "
-"Please schedule this time off before then, otherwise it will be forfeited."
+"Please agree with your manager when you will take this time off before "
+"then. Annual leave does not lapse under the Labour Code; this is the date "
+"the time-off plan removes it from your balance in Odoo."
 msgstr ""
 
 #. module: l10n_cssk_leave_expiry_reminder
@@ -116,4 +120,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
 msgid "leave"
+msgstr ""
+
+#. module: l10n_cssk_leave_expiry_reminder
+#. odoo-python
+#: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
+msgid ""
+"%(employee)s has %(amount)s %(unit)s of %(leave)s that will expire on "
+"%(date)s. Please agree with them when they will take this time off before "
+"then. Annual leave does not lapse under the Labour Code; this is the date "
+"the time-off plan removes it from their balance in Odoo."
 msgstr ""

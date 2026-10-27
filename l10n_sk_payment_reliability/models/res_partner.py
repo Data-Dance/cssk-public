@@ -14,8 +14,9 @@ _IBAN_URL = f"{_BASE}/ds_dph_iban/search"   # registered bank accounts, by IČ D
 _RAN_URL = f"{_BASE}/ds_iz_ran/search"      # tax-reliability index, by IČO
 _LISTS_URL = "https://iz.opendata.financnasprava.sk/api/lists"
 
-#: "Zoznam platiteľov DPH, u ktorých nastali dôvody na zrušenie registrácie"
-#: (§ 81 ods. 4 písm. b) ZDPH). The slug is NOT verified against the live API
+#: "Zoznam platiteľov DPH, u ktorých nastali dôvody na zrušenie registrácie",
+#: published under § 69 ods. 14 ZDPH (ods. 15 until 31. 12. 2024) for the
+#: grounds in § 81 ods. 3 písm. b) druhý bod. The slug is NOT verified against the live API
 #: (it needs a key); ``_cssk_sk_searchable`` checks it at run time, so a wrong
 #: slug or column reports "unavailable" instead of a clean record.
 _DEREG_SLUG = "ds_dphz"

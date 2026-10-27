@@ -8,6 +8,24 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.1] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Fill missing DIČ from ORSF** in the contact *Actions* menu. The backfill
+  existed but nothing called it. Without ``l10n_sk_base`` it now says so
+  instead of doing nothing.
+
+Fixed
+~~~~~
+
+- **The bulk refresh leaves contact persons alone.** It looked up every
+  selected contact by *Company ID*, which Odoo copies from the company to each
+  person under it, and overwrote those people with the company's name, address
+  and IČ DPH. They are now skipped, as by *Update*.
+
 [19.0.1.4.0] — 2026-10-03
 -------------------------
 

@@ -156,3 +156,60 @@ class TestCzReliability(TransactionCase):
         self.assertEqual(reliability, "reliable")
         self.assertEqual(len(accounts), 1)
         self.assertTrue(accounts[0].startswith("CZ"))
+
+
+@tagged("post_install", "-at_install")
+class TestCzAccountForms(TransactionCase):
+    """The account on the bill is compared in the form ADIS publishes."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner = cls.env["res.partner"].create({
+            "name": "CZ Supplier", "country_id": cls.env.ref("base.cz").id,
+            "vat": "CZ25663585"})
+
+    def _verdict(self, acc_number, response=ADIS_RESPONSE):
+        bank = self.env["res.partner.bank"].create({
+            "acc_number": acc_number, "partner_id": self.partner.id})
+        fake = MagicMock()
+        fake.raise_for_status.return_value = None
+        fake.content = response
+        with patch(POST, return_value=fake):
+            return self.partner._cssk_reliability_verdict(bank)
+
+    def test_a_domestic_account_matches_its_published_iban(self):
+        for acc in ("2000145399/0800", "0-2000145399/0800", "000000-2000145399/0800"):
+            vals, warnings = self._verdict(acc)
+            self.assertEqual(vals["cssk_bank_acc_status"], "registered", acc)
+            self.assertFalse(warnings)
+            self.env["res.partner.bank"].search(
+                [("partner_id", "=", self.partner.id)]).unlink()
+
+    def test_another_domestic_account_is_still_not_registered(self):
+        vals, warnings = self._verdict("19-2000145399/0800")
+        self.assertEqual(vals["cssk_bank_acc_status"], "not_registered")
+        self.assertTrue(warnings)
+
+    def test_a_subject_that_is_no_vat_payer_is_not_reported_unregistered(self):
+        """NENALEZEN: not a plátce, so there are no accounts to publish and
+        § 109 does not apply. It used to read as NOT registered."""
+        response = ADIS_RESPONSE.replace(
+            b'nespolehlivyPlatce="NE"', b'nespolehlivyPlatce="NENALEZEN"'
+        ).replace(
+            b'<standardniUcet predcisli="0" cislo="2000145399" kodBanky="0800"/>', b"")
+        vals, warnings = self._verdict("2000145399/0800", response)
+        self.assertEqual(vals["cssk_bank_acc_status"], "unknown")
+        self.assertFalse(warnings)
+
+    def test_a_payer_that_published_nothing_is_told_so(self):
+        response = ADIS_RESPONSE.replace(
+            b'<standardniUcet predcisli="0" cislo="2000145399" kodBanky="0800"/>', b"")
+        vals, warnings = self._verdict("2000145399/0800", response)
+        self.assertEqual(vals["cssk_bank_acc_status"], "not_registered")
+        self.assertIn("published no bank account", warnings[0])
+
+    def test_the_contact_keeps_its_rating(self):
+        self._verdict("2000145399/0800")
+        self.assertEqual(self.partner.cssk_tax_reliability, "reliable")
+        self.assertTrue(self.partner.cssk_reliability_checked_on)

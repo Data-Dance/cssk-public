@@ -59,6 +59,17 @@
         <field name="name">balp[504%]</field>
     </record>
 
+    <record id="kpi_predane_nehnutelnosti" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_sk" />
+        <field name="name">predane_nehnutelnosti</field>
+        <field name="description">Predané nehnuteľnosti na predaj</field>
+        <field name="sequence">55</field>
+    </record>
+    <record id="kpi_expr_predane_nehnutelnosti" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_predane_nehnutelnosti" />
+        <field name="name">balp[507%]</field>
+    </record>
+
     <record id="kpi_spotreba" model="mis.report.kpi">
         <field name="report_id" ref="mis_report_pl_sk" />
         <field name="name">spotreba</field>
@@ -120,6 +131,7 @@
         <field name="description">(pomocný riadok) trieda 54 a 55 vrátane odpisov</field>
         <field name="sequence">105</field>
         <field name="auto_expand_accounts" eval="False" />
+        <field name="style_id" ref="style_hidden" />
     </record>
     <record id="kpi_expr_trieda_54_55" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="kpi_trieda_54_55" />
@@ -139,7 +151,7 @@
         <field name="name">naklady_spolu</field>
         <field name="description">Náklady spolu</field>
         <field name="sequence">130</field>
-        <field name="expression">predany_tovar + spotreba + sluzby + osobne + dane_poplatky + odpisy + ostatne_naklady</field>
+        <field name="expression">predany_tovar + predane_nehnutelnosti + spotreba + sluzby + osobne + dane_poplatky + odpisy + ostatne_naklady</field>
         <field name="style_id" ref="style_subtotal" />
     </record>
 
@@ -191,7 +203,18 @@
     </record>
     <record id="kpi_expr_dan_z_prijmov" model="mis.report.kpi.expression">
         <field name="kpi_id" ref="kpi_dan_z_prijmov" />
-        <field name="name">balp[591%,595%]</field>
+        <field name="name">balp[591%,592%,595%]</field>
+    </record>
+
+    <record id="kpi_prevod_podielov" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_sk" />
+        <field name="name">prevod_podielov</field>
+        <field name="description">Prevod podielov na výsledku hospodárenia spoločníkom</field>
+        <field name="sequence">185</field>
+    </record>
+    <record id="kpi_expr_prevod_podielov" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_prevod_podielov" />
+        <field name="name">balp[596%]</field>
     </record>
 
     <record id="kpi_vh_po_zdaneni" model="mis.report.kpi">
@@ -199,7 +222,7 @@
         <field name="name">vh_po_zdaneni</field>
         <field name="description">Výsledok hospodárenia po zdanení</field>
         <field name="sequence">190</field>
-        <field name="expression">vh_pred_zdanenim - dan_z_prijmov</field>
+        <field name="expression">vh_pred_zdanenim - dan_z_prijmov - prevod_podielov</field>
         <field name="style_id" ref="style_result" />
     </record>
 

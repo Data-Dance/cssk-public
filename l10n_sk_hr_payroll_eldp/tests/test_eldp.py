@@ -9,6 +9,9 @@ from datetime import date
 
 from lxml import etree
 
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
 
@@ -24,7 +27,7 @@ class TestEldp(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "SK ELDP Co",
             "country_id": cls.env.ref("base.sk").id,
-            "company_registry": "12345678",
+            "company_registry": "12345679",
             "l10n_sk_sp_vs": "1234567890",
             "city": "Bratislava",
             "zip": "81101",
@@ -54,15 +57,15 @@ class TestEldp(TransactionCase):
             return "oca"
         return "ee"
 
-    def _employee_payslip(self, wage=2000.0):
+    def _employee_payslip(self, wage=2000.0, start=date(2026, 1, 1)):
         emp_vals = {
             "name": "Jozko Mrkvicka",
             "company_id": self.company.id,
             "resource_calendar_id": self.calendar.id,
             "identification_id": "8501011234",
             "birthday": date(1985, 1, 1),
-            "date_version": date(2026, 1, 1),
-            "contract_date_start": date(2026, 1, 1),
+            "date_version": start,
+            "contract_date_start": start,
             "wage": wage,
         }
         if self.engine == "oca":
@@ -83,6 +86,7 @@ class TestEldp(TransactionCase):
         if self.engine == "ee":
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         return employee, slip
 
     def test_generate_and_validate(self):
@@ -118,3 +122,100 @@ class TestEldp(TransactionCase):
         self.assertAlmostEqual(float(vz.get("vzDP")), gross, 2)
         # Still employed -> relationship reported as ongoing (trva=1).
         self.assertEqual(rows[0].find(".//e:poistVztah/e:trva", NS).text, "1")
+
+    def test_start_date_is_the_contract_start(self):
+        """datVzniku / datOd carry the real start of employment.
+
+        The model read a non-existent ``first_contract_date`` and fell back to
+        1 January, so an employee hired on 1 February was reported insured for
+        January too.
+        """
+        self._employee_payslip(start=date(2026, 2, 1))
+        decl = self.env["l10n.sk.eldp"].with_company(self.company).create({
+            "company_id": self.company.id,
+            "year": "2026",
+        })
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        self.assertEqual(
+            root.find(".//e:poistVztah/e:datVzniku", NS).text, "01.02.2026")
+        self.assertEqual(
+            root.find(".//e:vzZaObdobiePoist", NS).get("datOd"), "01.02.2026")
+
+    def test_multi_word_first_name_is_kept(self):
+        """First word = first name, last word = surname dropped the middle
+        name; the surname is the last word and the rest the first name."""
+        employee, _slip = self._employee_payslip()
+        employee.name = "Ján Peter Novák"
+        decl = self.env["l10n.sk.eldp"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026"})
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        person = root.find(".//e:eldpZec//e:poistenec", NS)
+        self.assertEqual(person.find("e:meno", NS).text, "Ján Peter")
+        self.assertEqual(person.find("e:priezvisko", NS).text, "Novák")
+
+    def test_sp_vs_is_editable_on_the_form(self):
+        """The variable symbol is required by the preflight but was on no
+        form at all; it is edited on the ELDP form now."""
+        arch = self.env["l10n.sk.eldp"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="sp_vs"', arch)
+        decl = self.env["l10n.sk.eldp"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026"})
+        decl.sp_vs = "9988776655"
+        self.assertEqual(self.company.l10n_sk_sp_vs, "9988776655")
+
+
+@tagged("post_install", "-at_install")
+class TestSchemaPins(TransactionCase):
+    """The bundled schemas must match data/SCHEMA_VERSION.
+
+    Not a check that our copies are CURRENT — nothing local can answer that,
+    and a schema revised in place by the authority validates exactly as
+    before. What this checks is that the bundled bytes are the ones recorded
+    in SCHEMA_VERSION, and that no schema sits in data/ unpinned.
+    """
+
+    @staticmethod
+    def _data_dir():
+        import os
+        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(here, "data")
+
+    def _pins(self):
+        import os
+        pins = {}
+        path = os.path.join(self._data_dir(), "SCHEMA_VERSION")
+        with open(path, encoding="utf-8") as fh:
+            for raw in fh:
+                parts = raw.split()
+                if (len(parts) == 3 and parts[0].endswith(".xsd")
+                        and "/" not in parts[0]):
+                    pins[parts[0]] = (parts[1], int(parts[2]))
+        return pins
+
+    def test_bundled_schemas_match_the_pinned_digests(self):
+        import hashlib
+        import os
+        pins = self._pins()
+        self.assertTrue(pins, "SCHEMA_VERSION lists no schemas")
+        for name, (digest, size) in pins.items():
+            path = os.path.join(self._data_dir(), name)
+            self.assertTrue(os.path.exists(path),
+                            "%s is pinned but missing" % name)
+            with open(path, "rb") as fh:
+                blob = fh.read()
+            self.assertEqual(len(blob), size, "%s size moved" % name)
+            self.assertEqual(
+                hashlib.md5(blob).hexdigest(), digest,
+                "%s does not match its pin — if this is a deliberate "
+                "refresh, update data/SCHEMA_VERSION" % name)
+
+    def test_every_bundled_schema_is_pinned(self):
+        import os
+        on_disk = {f for f in os.listdir(self._data_dir())
+                   if f.endswith(".xsd")}
+        self.assertEqual(on_disk, set(self._pins()),
+                         "unpinned schema(s): %s"
+                         % sorted(on_disk - set(self._pins())))

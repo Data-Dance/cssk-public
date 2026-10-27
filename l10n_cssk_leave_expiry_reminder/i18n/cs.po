@@ -30,7 +30,9 @@ msgid ""
 "        that will expire on\n"
 "        <span style=\"font-weight: bold;\" t-out=\"format_date(object.carried_over_days_expiration_date) or ''\">12/31/2026</span>.\n"
 "        <br/><br/>\n"
-"        Please schedule this time off before then, otherwise it will be forfeited.\n"
+"        Please agree with your manager when you will take this time off before then.\n"
+"        Annual leave does not lapse under the Labour Code; this is the date the\n"
+"        time-off plan removes it from your balance in Odoo.\n"
 "        <br/><br/>\n"
 "        Kind regards,\n"
 "    </p>\n"
@@ -48,7 +50,9 @@ msgstr ""
 "        , která vyprší dne\n"
 "        <span style=\"font-weight: bold;\" t-out=\"format_date(object.carried_over_days_expiration_date) or ''\">12/31/2026</span>.\n"
 "        <br/><br/>\n"
-"        Naplánujte si prosím tuto dovolenou do té doby, jinak propadne.\n"
+"        Domluvte se prosím s vedoucím, kdy tuto dovolenou do té doby vyčerpáte.\n"
+"        Podle zákoníku práce dovolená nepropadá; k tomuto datu ji plán volna\n"
+"        odebere z vašeho zůstatku v Odoo.\n"
 "        <br/><br/>\n"
 "        S pozdravem,\n"
 "    </p>\n"
@@ -58,28 +62,28 @@ msgstr ""
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.activity.type,summary:l10n_cssk_leave_expiry_reminder.mail_activity_type_expiring_leave
 msgid "Carried-over leave is about to expire"
-msgstr "Převedená dovolená brzy propadne"
+msgstr "Převedená dovolená brzy vyprší"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.activity.type,name:l10n_cssk_leave_expiry_reminder.mail_activity_type_expiring_leave
 msgid "Expiring Leave"
-msgstr "Propadající dovolená"
+msgstr "Vypršující dovolená"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #. odoo-python
 #: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
 msgid "Expiring leave: %(amount)s %(unit)s"
-msgstr "Propadající dovolená: %(amount)s %(unit)s"
+msgstr "Vypršující dovolená: %(amount)s %(unit)s"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:ir.model.fields,field_description:l10n_cssk_leave_expiry_reminder.field_hr_leave_allocation__l10n_cssk_expiry_reminder_date
 msgid "Leave Expiry Reminded For"
-msgstr "Připomenuto propadnutí k datu"
+msgstr "Připomenuto vypršení k datu"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.template,description:l10n_cssk_leave_expiry_reminder.mail_template_leave_expiry
 msgid "Sent to an employee whose carried-over leave is about to expire."
-msgstr "Odesláno zaměstnanci, jehož převedená dovolená brzy propadne."
+msgstr "Odesláno zaměstnanci, jehož převedená dovolená brzy vyprší."
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:ir.model.fields,help:l10n_cssk_leave_expiry_reminder.field_hr_leave_allocation__l10n_cssk_expiry_reminder_date
@@ -87,7 +91,7 @@ msgid ""
 "The carried-over-days expiration date we last sent an expiry reminder about."
 " Used to avoid reminding twice for the same cohort."
 msgstr ""
-"Datum propadnutí převedených dní, o kterém jsme naposledy poslali "
+"Datum vypršení převedených dní, o kterém jsme naposledy poslali "
 "připomínku. Slouží k zamezení dvojí připomínky pro stejnou skupinu."
 
 #. module: l10n_cssk_leave_expiry_reminder
@@ -98,22 +102,26 @@ msgstr "Alokace dovolené"
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.template,name:l10n_cssk_leave_expiry_reminder.mail_template_leave_expiry
 msgid "Time Off: Expiring Leave Reminder"
-msgstr "Dovolená: Připomínka propadající dovolené"
+msgstr "Dovolená: Připomínka vypršující dovolené"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:ir.actions.server,name:l10n_cssk_leave_expiry_reminder.ir_cron_notify_expiring_carryover_ir_actions_server
 msgid "Time Off: Notify expiring carried-over leave (CZ/SK)"
-msgstr "Dovolená: Upozornit na propadající převedenou dovolenou (CZ/SK)"
+msgstr "Dovolená: Upozornit na vypršující převedenou dovolenou (CZ/SK)"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #. odoo-python
 #: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
 msgid ""
 "You have %(amount)s %(unit)s of %(leave)s that will expire on %(date)s. "
-"Please schedule this time off before then, otherwise it will be forfeited."
+"Please agree with your manager when you will take this time off before "
+"then. Annual leave does not lapse under the Labour Code; this is the date "
+"the time-off plan removes it from your balance in Odoo."
 msgstr ""
 "Máte %(amount)s %(unit)s dovolené typu %(leave)s, která vyprší dne %(date)s."
-" Naplánujte si prosím tuto dovolenou do té doby, jinak propadne."
+" Domluvte se prosím s vedoucím, kdy tuto dovolenou do té doby vyčerpáte. "
+"Podle zákoníku práce dovolená nepropadá; k tomuto datu ji plán volna odebere"
+" z vašeho zůstatku v Odoo."
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.template,subject:l10n_cssk_leave_expiry_reminder.mail_template_leave_expiry
@@ -121,7 +129,7 @@ msgid ""
 "You have leave expiring on {{ "
 "format_date(object.carried_over_days_expiration_date) }}"
 msgstr ""
-"Vaše dovolená propadá dne {{ "
+"Vaše převedená dovolená vyprší dne {{ "
 "format_date(object.carried_over_days_expiration_date) }}"
 
 #. module: l10n_cssk_leave_expiry_reminder
@@ -141,3 +149,17 @@ msgstr "hodin"
 #: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
 msgid "leave"
 msgstr "dovolená"
+
+#. module: l10n_cssk_leave_expiry_reminder
+#. odoo-python
+#: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
+msgid ""
+"%(employee)s has %(amount)s %(unit)s of %(leave)s that will expire on "
+"%(date)s. Please agree with them when they will take this time off before "
+"then. Annual leave does not lapse under the Labour Code; this is the date "
+"the time-off plan removes it from their balance in Odoo."
+msgstr ""
+"%(employee)s má %(amount)s %(unit)s dovolené typu %(leave)s, která vyprší "
+"dne %(date)s. Domluvte se prosím se zaměstnancem, kdy tuto dovolenou do té "
+"doby vyčerpá. Podle zákoníku práce dovolená nepropadá; k tomuto datu ji plán"
+" volna odebere z jeho zůstatku v Odoo."

@@ -54,19 +54,46 @@ class ResPartnerIndustry(models.Model):
                                 "nace_code": nace_digits(match.group(1))})
 
     @api.model
-    def _nace_find(self, code):
+    def _nace_find(self, code, country_code=None):
         """The industry for a partner's NACE code (digits): the code itself,
-        else its class (first four digits); Rev. 2.1 first, the current
-        classification in both countries, then Rev. 2."""
+        else its class (first four digits).
+
+        Which version a code is in depends on the partner's country and the
+        code's length, because Rev. 2 and Rev. 2.1 reuse codes with other
+        meanings:
+
+        * **SK, five digits** — SK NACE Rev. 2 (vyhláška 306/2007), which the
+          Slovak register keeps in parallel until 31. 12. 2028. Slovakia's
+          Rev. 2.1 has no national fifth digit, so a five-digit Slovak code
+          is never Rev. 2.1, and it is looked up in Rev. 2 **only**: falling
+          back to the Rev. 2.1 class with the same digits would give it an
+          industry with another meaning. Trying Rev. 2.1 first did exactly
+          that.
+        * anything else — Rev. 2.1 first (CZ-NACE 2025 in the Czech Republic,
+          the current classification in Slovakia), then Rev. 2.
+
+        A national subclass is matched only for the partner's own country.
+        """
         code = nace_digits(code)
         if not code:
             return self.browse()
         candidates = [code] + ([code[:4]] if len(code) > 4 else [])
-        for version in ("2.1", "2"):
+        if country_code == "SK" and len(code) == 5:
+            versions = ("2",)
+        else:
+            versions = ("2.1", "2")
+        country = country_code and self.env["res.country"].search(
+            [("code", "=", country_code)], limit=1)
+        for version in versions:
             for candidate in candidates:
-                industry = self.search([
-                    ("nace_version", "=", version), ("nace_code", "=", candidate)],
-                    limit=1)
+                domain = [("nace_version", "=", version), ("nace_code", "=", candidate)]
+                if len(candidate) > 4 and country:
+                    domain.append(("nace_country_id", "in", [False, country.id]))
+                # A Slovak Rev. 2 code stays Rev. 2 even after the import of
+                # Rev. 2.1 archived that version: an archived industry with
+                # the right meaning beats an active one with the wrong one.
+                searcher = self.with_context(active_test=False) if versions == ("2",) else self
+                industry = searcher.search(domain, limit=1, order="active desc, id")
                 if industry:
                     return industry
         return self.browse()

@@ -1,0 +1,23 @@
+rh2023.xsd  f85490a66f05615a22d06028530bc06a  13025
+
+Verified byte-identical to the published copy on 2026-10-27, fetched from
+https://ekr.financnasprava.sk/Formulare/XSD/rh2023.xsd, which answered HTTP 200.
+
+Hlásenie o vyúčtovaní dane (rh2023). FS SR keeps one XSD per vzor and keeps the old ones, so a new vintage
+arrives as a NEW file name rather than as a change to this one. The probes
+made on 2026-10-27 for a newer vintage or a _v2 revision beside this name all
+returned 404.
+
+THE FILE CANNOT PROVE IT IS CURRENT. Its annotation stamps a vintage at most,
+not a revision, and nothing validates the annotation; a file revised in place
+validates exactly as before. That is why the digest is pinned here.
+
+REFRESH PROCEDURE
+  1. Fetch the name above and compare md5 and size with the line here.
+  2. Check the STATUS CODE, not the size: a miss returns 404 with a
+     ~1 245-byte HTML error page, which is a perfectly plausible file size.
+  3. Probe for a newer vintage as well as a _v2 suffix on the existing name —
+     FS SR published a DPPO revision as dppo2025_v2.xsd beside an unchanged
+     dppo2025.xsd, and a digest comparison on a pinned name cannot see that.
+  4. A new vintage is a new cssk.payroll.declaration.version record with its
+     own template; update this file and re-run the module's tests.

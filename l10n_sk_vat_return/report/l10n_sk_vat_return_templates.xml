@@ -5,8 +5,10 @@
       dph2025.xsd (root 'dokument', generic eForm hlavicka/telo, no namespace).
       telo carries the full fixed r01..r37 line sequence (value-or-empty). The
       net-payable lines are empty pending extended-engine support + accountant
-      validation. Identification flags default to a standard VAT payer; adjust
-      per the taxpayer's real status.
+      validation. The `osoba` flags, the § 79 ods. 3 `splneniePodmienok`, the
+      oprávnená osoba and the dátum vyhlásenia come from the return's own
+      fields (``l10n_sk_*``); the seat's `ulica` / `cislo` from
+      ``sk_fs_address`` (never Street 2).
     -->
     <!--
       DPHv21 — the vzor in force to 30. 6. 2025, matching the official
@@ -49,12 +51,12 @@
                     <datumZisteniaDdp t-out="statement.discovery_date.strftime('%d.%m.%Y') if statement.discovery_date and statement.statement_type_id.fa_xml_value == 'D' else ''"/>
                 </typDP>
                 <osoba>
-                    <platitel>1</platitel>
-                    <registrovana>0</registrovana>
-                    <inaPovinna>0</inaPovinna>
-                    <zdanitelna>0</zdanitelna>
-                    <zastupca>0</zastupca>
-                    <zastupca69aa>0</zastupca69aa>
+                    <platitel t-out="sk_osoba['platitel']"/>
+                    <registrovana t-out="sk_osoba['registrovana']"/>
+                    <inaPovinna t-out="sk_osoba['inaPovinna']"/>
+                    <zdanitelna t-out="sk_osoba['zdanitelna']"/>
+                    <zastupca t-out="sk_osoba['zastupca']"/>
+                    <zastupca69aa t-out="sk_osoba['zastupca69aa']"/>
                 </osoba>
                 <zdanObd>
                     <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
@@ -65,19 +67,19 @@
                     <riadok t-out="company.name or ''"/>
                 </meno>
                 <adresa>
-                    <ulica t-out="company.street or ''"/>
-                    <cislo t-out="company.street2 or ''"/>
+                    <ulica t-out="sk_ulica"/>
+                    <cislo t-out="sk_cislo"/>
                     <psc t-out="company.zip or ''"/>
                     <obec t-out="company.city or ''"/>
                     <telefon t-out="company.phone or ''"/>
                     <email t-out="company.email or ''"/>
                 </adresa>
                 <opravnenaOsoba>
-                    <menoPriezvisko/>
-                    <telefon/>
-                    <email/>
+                    <menoPriezvisko t-out="statement.l10n_sk_authorized_name or ''"/>
+                    <telefon t-out="statement.l10n_sk_authorized_phone or ''"/>
+                    <email t-out="statement.l10n_sk_authorized_email or ''"/>
                 </opravnenaOsoba>
-                <datumVyhlasenia/>
+                <datumVyhlasenia t-out="sk_datum_vyhlasenia"/>
             </hlavicka>
             <telo>
                 <r01 t-out="values_fmt.get('r01', '')"/>
@@ -112,7 +114,7 @@
                 <r30 t-out="values_fmt.get('r30', '')"/>
                 <r31 t-out="values_fmt.get('r31', '')"/>
                 <r32 t-out="values_fmt.get('r32', '')"/>
-                <splneniePodmienok>0</splneniePodmienok>
+                <splneniePodmienok t-out="sk_splnenie_podmienok"/>
                 <r33 t-out="values_fmt.get('r33', '')"/>
                 <r34 t-out="values_fmt.get('r34', '')"/>
                 <r35 t-out="values_fmt.get('r35', '')"/>
@@ -139,12 +141,12 @@
                     <datumZisteniaDdp t-out="statement.discovery_date.strftime('%d.%m.%Y') if statement.discovery_date and statement.statement_type_id.fa_xml_value == 'D' else ''"/>
                 </typDP>
                 <osoba>
-                    <platitel>1</platitel>
-                    <registrovana>0</registrovana>
-                    <inaPovinna>0</inaPovinna>
-                    <zdanitelna>0</zdanitelna>
-                    <zastupca>0</zastupca>
-                    <zastupca69aa>0</zastupca69aa>
+                    <platitel t-out="sk_osoba['platitel']"/>
+                    <registrovana t-out="sk_osoba['registrovana']"/>
+                    <inaPovinna t-out="sk_osoba['inaPovinna']"/>
+                    <zdanitelna t-out="sk_osoba['zdanitelna']"/>
+                    <zastupca t-out="sk_osoba['zastupca']"/>
+                    <zastupca69aa t-out="sk_osoba['zastupca69aa']"/>
                 </osoba>
                 <zdanObd>
                     <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
@@ -155,19 +157,19 @@
                     <riadok t-out="company.name or ''"/>
                 </meno>
                 <adresa>
-                    <ulica t-out="company.street or ''"/>
-                    <cislo t-out="company.street2 or ''"/>
+                    <ulica t-out="sk_ulica"/>
+                    <cislo t-out="sk_cislo"/>
                     <psc t-out="company.zip or ''"/>
                     <obec t-out="company.city or ''"/>
                     <telefon t-out="company.phone or ''"/>
                     <email t-out="company.email or ''"/>
                 </adresa>
                 <opravnenaOsoba>
-                    <menoPriezvisko/>
-                    <telefon/>
-                    <email/>
+                    <menoPriezvisko t-out="statement.l10n_sk_authorized_name or ''"/>
+                    <telefon t-out="statement.l10n_sk_authorized_phone or ''"/>
+                    <email t-out="statement.l10n_sk_authorized_email or ''"/>
                 </opravnenaOsoba>
-                <datumVyhlasenia/>
+                <datumVyhlasenia t-out="sk_datum_vyhlasenia"/>
             </hlavicka>
             <telo>
                 <r01 t-out="values_fmt.get('r01', '')"/>
@@ -231,7 +233,7 @@
                 <r30 t-out="values_fmt.get('r30', '')"/>
                 <r31 t-out="values_fmt.get('r31', '')"/>
                 <r32 t-out="values_fmt.get('r32', '')"/>
-                <splneniePodmienok>0</splneniePodmienok>
+                <splneniePodmienok t-out="sk_splnenie_podmienok"/>
                 <r33 t-out="values_fmt.get('r33', '')"/>
                 <r34 t-out="values_fmt.get('r34', '')"/>
                 <r35 t-out="values_fmt.get('r35', '')"/>
@@ -273,11 +275,11 @@
                     <datumZisteniaDdp t-out="statement.discovery_date.strftime('%d.%m.%Y') if statement.discovery_date and statement.statement_type_id.fa_xml_value == 'D' else ''"/>
                 </typDP>
                 <osoba>
-                    <platitel>1</platitel>
-                    <registrovana>0</registrovana>
-                    <inaPovinna>0</inaPovinna>
-                    <zdanitelna>0</zdanitelna>
-                    <zastupca>0</zastupca>
+                    <platitel t-out="sk_osoba['platitel']"/>
+                    <registrovana t-out="sk_osoba['registrovana']"/>
+                    <inaPovinna t-out="sk_osoba['inaPovinna']"/>
+                    <zdanitelna t-out="sk_osoba['zdanitelna']"/>
+                    <zastupca t-out="sk_osoba['zastupca']"/>
                 </osoba>
                 <zdanObd>
                     <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
@@ -288,8 +290,8 @@
                     <riadok t-out="company.name or ''"/>
                 </meno>
                 <adresa>
-                    <ulica t-out="company.street or ''"/>
-                    <cislo t-out="company.street2 or ''"/>
+                    <ulica t-out="sk_ulica"/>
+                    <cislo t-out="sk_cislo"/>
                     <psc t-out="company.zip or ''"/>
                     <obec t-out="company.city or ''"/>
                     <tel>
@@ -302,13 +304,13 @@
                     </fax>
                 </adresa>
                 <opravnenaOsoba>
-                    <menoPriezvisko/>
+                    <menoPriezvisko t-out="statement.l10n_sk_authorized_name or ''"/>
                     <tel>
                         <predcislie/>
-                        <cislo/>
+                        <cislo t-out="statement.l10n_sk_authorized_phone or ''"/>
                     </tel>
                 </opravnenaOsoba>
-                <datumVyhlasenia/>
+                <datumVyhlasenia t-out="sk_datum_vyhlasenia"/>
             </hlavicka>
             <telo>
                 <r01 t-out="values_fmt.get('r01', '')"/>
@@ -344,7 +346,7 @@
                 <r29 t-out="values_fmt.get('r29', '')"/>
                 <r30 t-out="values_fmt.get('r30', '')"/>
                 <r31 t-out="values_fmt.get('r31', '')"/>
-                <splneniePodmienok>0</splneniePodmienok>
+                <splneniePodmienok t-out="sk_splnenie_podmienok"/>
                 <r32 t-out="values_fmt.get('r32', '')"/>
                 <r33 t-out="values_fmt.get('r33', '')"/>
                 <r34 t-out="values_fmt.get('r34', '')"/>
@@ -389,12 +391,12 @@
                     <datumZisteniaDdp t-out="statement.discovery_date.strftime('%d.%m.%Y') if statement.discovery_date and statement.statement_type_id.fa_xml_value == 'D' else ''"/>
                 </typDP>
                 <osoba>
-                    <platitel>1</platitel>
-                    <registrovana>0</registrovana>
-                    <inaPovinna>0</inaPovinna>
-                    <zdanitelna>0</zdanitelna>
-                    <zastupca>0</zastupca>
-                    <zastupca69aa>0</zastupca69aa>
+                    <platitel t-out="sk_osoba['platitel']"/>
+                    <registrovana t-out="sk_osoba['registrovana']"/>
+                    <inaPovinna t-out="sk_osoba['inaPovinna']"/>
+                    <zdanitelna t-out="sk_osoba['zdanitelna']"/>
+                    <zastupca t-out="sk_osoba['zastupca']"/>
+                    <zastupca69aa t-out="sk_osoba['zastupca69aa']"/>
                 </osoba>
                 <zdanObd>
                     <mesiac t-out="str(statement.date_from.month) if statement.period_type == 'month' else ''"/>
@@ -405,19 +407,19 @@
                     <riadok t-out="company.name or ''"/>
                 </meno>
                 <adresa>
-                    <ulica t-out="company.street or ''"/>
-                    <cislo t-out="company.street2 or ''"/>
+                    <ulica t-out="sk_ulica"/>
+                    <cislo t-out="sk_cislo"/>
                     <psc t-out="company.zip or ''"/>
                     <obec t-out="company.city or ''"/>
                     <telefon t-out="company.phone or ''"/>
                     <email t-out="company.email or ''"/>
                 </adresa>
                 <opravnenaOsoba>
-                    <menoPriezvisko/>
-                    <telefon/>
-                    <email/>
+                    <menoPriezvisko t-out="statement.l10n_sk_authorized_name or ''"/>
+                    <telefon t-out="statement.l10n_sk_authorized_phone or ''"/>
+                    <email t-out="statement.l10n_sk_authorized_email or ''"/>
                 </opravnenaOsoba>
-                <datumVyhlasenia/>
+                <datumVyhlasenia t-out="sk_datum_vyhlasenia"/>
             </hlavicka>
             <telo>
                 <r01 t-out="values_fmt.get('r01', '')"/>
@@ -453,7 +455,7 @@
                 <r29 t-out="values_fmt.get('r29', '')"/>
                 <r30 t-out="values_fmt.get('r30', '')"/>
                 <r31 t-out="values_fmt.get('r31', '')"/>
-                <splneniePodmienok>0</splneniePodmienok>
+                <splneniePodmienok t-out="sk_splnenie_podmienok"/>
                 <r32 t-out="values_fmt.get('r32', '')"/>
                 <r33 t-out="values_fmt.get('r33', '')"/>
                 <r34 t-out="values_fmt.get('r34', '')"/>

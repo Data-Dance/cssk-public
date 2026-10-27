@@ -15,6 +15,16 @@ Changed
   ``account_qr_code_frame_provider`` 19.0.1.1.0): a foreign EUR invoice now
   gets SEPA QR rather than payme.
 
+[19.0.1.2.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- payme ranks after PAY by square and before SEPA QR by sequence (18), not by
+  load order.
+- The error for an unusable account names payme instead of PAY by square.
+
 [19.0.1.1.3] — 2026-09-13
 -------------------------
 

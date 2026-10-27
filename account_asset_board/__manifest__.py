@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Asset Depreciation Board",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.2",
     "summary": "Interactive depreciation schedule and pivot/graph analysis "
     "for OCA assets (Community)",
     "description": """
@@ -18,7 +18,7 @@ Two screens, both under *Accounting → Assets*:
 
 * **Depreciation Analysis** — pivot/graph views on the depreciation lines
   (``account.asset.line``, type *Depreciation*): rows per asset, columns per
-  year, measures *Amount* and *Remaining Value*, with Posted/Planned filters
+  year, measure *Amount*, with Posted/Planned filters
   and asset / profile / year group-bys.
 
 * **Depreciation Schedule** — a dynamic, EE-style schedule for a chosen date

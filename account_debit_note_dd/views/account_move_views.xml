@@ -12,7 +12,7 @@
     </record>
 
     <record id="account.action_move_out_refund_type_non_legacy" model="ir.actions.act_window">
-        <field name="domain">['|', ('move_type', '=', 'out_refund'), ('debit_origin_id', '!=', False)]</field>
+        <field name="domain">['|', ('move_type', '=', 'out_refund'), '&amp;', ('move_type', '=', 'out_invoice'), ('debit_origin_id', '!=', False)]</field>
         <field name="context">{'default_move_type': 'out_refund', 'display_account_trust': True}</field>
     </record>
 </odoo>

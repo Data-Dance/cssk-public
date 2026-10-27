@@ -374,3 +374,18 @@ class TestRegisterLists(TransactionCase):
         ])
         kinds = self.partner.l10n_sk_history_ids.mapped("kind")
         self.assertEqual(sorted(kinds), ["address", "name"])
+
+
+@tagged("post_install", "-at_install")
+class TestDissolvedPartnersAreReachable(TransactionCase):
+    """The list of dissolved partners existed as an action with no menu."""
+
+    def test_a_menu_opens_the_list(self):
+        action = self.env.ref(
+            "l10n_sk_trade_registry.action_partner_l10n_sk_register_inactive")
+        menus = self.env["ir.ui.menu"].search([("action", "=", f"{action._name},{action.id}")])
+        self.assertTrue(menus)
+
+    def test_the_contact_search_can_filter_them(self):
+        arch = self.env["res.partner"].get_view(view_type="search")["arch"]
+        self.assertIn('name="l10n_sk_register_inactive"', arch)

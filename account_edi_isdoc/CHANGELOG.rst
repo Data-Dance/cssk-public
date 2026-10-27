@@ -45,6 +45,35 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.3.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A local reverse-charge line was imported at the ordinary VAT rate.**
+  ISDOC marks a § 92a supply with ``LocalReverseCharge``; the import ignored
+  it and gave the line the ordinary 21 % purchase tax, so the bill owed the
+  supplier VAT the supplier never charged. Such a line now gets the chart's
+  reverse-charge tax at its rate (``21% RC`` / ``12% RC``) or a tax flagged as
+  reverse charge, and is left untaxed — with a note in the chatter — when
+  there is none.
+- **The vendor was not matched by IČO.** Only DIČ, name, email and phone were
+  used, so a non-payer of VAT (no DIČ) or a supplier known under another
+  name was missed or created again. The IČO in ``PartyIdentification`` is
+  now tried first, unless the file's DIČ contradicts the partner's; a vendor
+  created by the import keeps the IČO.
+- The module description claimed ISDOC is offered for Czech companies. It is
+  selectable for any customer but never suggested: for a Czech customer Odoo
+  suggests Peppol BIS 3. The description now says so, and a test pins it.
+
+Added
+~~~~~
+
+- **Action → Download ISDOCX** on a posted customer invoice or credit note:
+  the ``.isdocx`` archive (ISDOC, manifest and PDF) could be read but never
+  produced, as nothing called its builder.
+
 [19.0.1.1.0] — 2026-07-14
 -------------------------
 

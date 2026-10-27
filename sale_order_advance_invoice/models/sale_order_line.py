@@ -97,49 +97,26 @@ class SaleOrderLine(models.Model):
         if not self.is_advance_tracking or not advance:
             return res
 
-        company = self.order_id.company_id
-        net_account = advance._get_advance_invoice_net_account()
-
-        # Determine whether the advance already has a posted tax document.
-        # The accounting treatment of the settlement deduction differs:
-        #   • With tax document    → debit the net received-advance account and
-        #                            keep taxes so Odoo generates the VAT reversal.
-        #   • Without tax document → debit the gross advance amount (no VAT split).
-        has_posted_tax_doc = advance._has_posted_advance_tax_document()
-
-        if has_posted_tax_doc and net_account:
-            # Reverse the tax-document entry: Dr net received-advance account +
-            # automatic VAT reversal generated from the kept taxes.
-            res.update({
-                'account_id': net_account.id,
-                'price_unit': advance.amount_untaxed,
-                'extra_tax_data': False,
-            })
-            # Give back the VAT at the taxes the tax document charged, not at
-            # the advance product's defaults: a 21 % advance deducted at 15 %
-            # bills the customer the difference again. Advances at several
-            # rates are split per rate later (_split_advance_deduction_lines).
-            groups = self.order_id._advance_deduction_tax_groups(advance)
-            if len(groups) == 1:
-                res['tax_ids'] = [Command.set(groups[0][0].ids)]
-        elif company.advance_received_account_id:
-            # No posted tax document: deduct the gross advance amount using the
-            # product's default income account (from super()).  The clearing
-            # account balance from the payment must be cleared via a separate
-            # journal entry after the settlement invoice is posted.
-            res.update({
-                'price_unit': advance.amount_total,
-                'tax_ids': [Command.clear()],
-                'extra_tax_data': False,
-            })
-        else:
-            # Fallback (no advance accounts configured): gross amount, no taxes.
-            res.update({
-                'price_unit': advance.amount_total,
-                'tax_ids': [Command.clear()],
-                'extra_tax_data': False,
-            })
-
+        # Deduct what the advance actually settled, not its face value: the
+        # net its posted tax documents declared, at their own taxes, so the
+        # VAT they charged is given back exactly; plus, gross and without VAT,
+        # whatever was received on it that no tax document covers yet (the
+        # final invoice then charges the VAT on that part itself). A partly
+        # paid advance is therefore deducted only for the part paid.
+        # Several parts - documents at several rates, or a documented and an
+        # undocumented part - are fanned out by _split_advance_deduction_lines.
+        components = advance._advance_deduction_components()
+        res['extra_tax_data'] = False
+        if not components:
+            res.update({'price_unit': 0.0, 'tax_ids': [Command.clear()]})
+            return res
+        first = components[0]
+        res.update({
+            'price_unit': first['amount'],
+            'tax_ids': [Command.set(first['taxes'].ids)],
+        })
+        if first['account']:
+            res['account_id'] = first['account'].id
         return res
 
     def _action_launch_stock_rule(self, *, previous_product_uom_qty=False):

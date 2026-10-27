@@ -85,3 +85,40 @@ class TestAboExport(AccountTestInvoicingCommon):
         order = self._order(currency_id=self.env.ref("base.EUR").id)
         with self.assertRaises(UserError):
             order.generate_payment_file()
+
+    def _add_line(self, order, **line_vals):
+        vals = {
+            "order_id": order.id,
+            "partner_id": self.supplier.id,
+            "partner_bank_id": self.supplier_bank.id,
+            "currency_id": self.czk.id,
+            "amount_currency": 100.0,
+            "date": "2026-03-15",
+            "communication": "FA 2026/0043",
+        }
+        vals.update(line_vals)
+        self.env["account.payment.line"].sudo().create(vals)
+
+    def test_lines_with_different_dates_are_refused(self):
+        """ABO carries one due date per file. With the default execution date
+        type (Due Date) lines are routinely dated differently, and the file
+        used to execute them all on the first line's date without a word."""
+        from odoo.exceptions import UserError
+        order = self._order()
+        self._add_line(order, date="2026-03-20")
+        with self.assertRaisesRegex(UserError, "one due date"):
+            order.generate_payment_file()
+
+    def test_lines_sharing_a_date_export_it(self):
+        order = self._order(date="2026-03-20")
+        self._add_line(order, date="2026-03-20")
+        text = order.generate_payment_file()[0].decode("cp1250")
+        group_header = text.split("\r\n")[2]
+        self.assertTrue(group_header.endswith(" 200326"), group_header)
+
+    def test_zero_amount_line_is_refused(self):
+        from odoo.exceptions import UserError
+        order = self._order()
+        self._add_line(order, amount_currency=0.0)
+        with self.assertRaisesRegex(UserError, "zero or negative"):
+            order.generate_payment_file()

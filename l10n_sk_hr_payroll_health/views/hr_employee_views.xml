@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The health insurer decides which monthly dávka 514 an employee is
+         reported in; it sits next to the identification number (rodné
+         číslo) that the same dávka carries. -->
+    <record id="view_employee_form_l10n_sk_health" model="ir.ui.view">
+        <field name="name">hr.employee.form.l10n_sk_health</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <field name="identification_id" position="after">
+                <field name="l10n_sk_health_insurer_code"
+                       groups="hr.group_hr_user"
+                       invisible="company_country_code != 'SK'"/>
+            </field>
+        </field>
+    </record>
+</odoo>

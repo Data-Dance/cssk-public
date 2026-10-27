@@ -8,6 +8,52 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.6.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The category's tax-return row is shown.** *Tax Return Code* — which row
+  of the personal income-tax return a category feeds — was on no view; it is
+  now on the category list and form.
+
+[19.0.1.6.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A reversed depreciation entry added to the depreciation instead of
+  reducing it.** A non-cash row always carried the line's amount as a plus, so
+  storno of a 300 odpis after a 900 one counted 1 200 towards the expenses
+  (SK Úč FO r. 10) instead of 600. A line whose sign runs against its category
+  is now a storno, the same rule the money rows follow. Regenerate the cash
+  journal for any period that contains such a reversal.
+
+[19.0.1.6.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A balance over several account groups was always 0.** The ledger balance
+  behind SK tabuľka 1a and CZ oddíl D matched only lines whose account code
+  began with every one of the groups at once, which no account does — so
+  nehmotný majetok, hmotný majetok and finančný majetok (SK) and items 1 and 6
+  (CZ) read 0. It now sums every group.
+
+- **The help of the VAT column cited the wrong paragraph** of the Slovak income
+  tax act: § 21 ods. 1 písm. i) is personal-use expenses. VAT stays out of a
+  VAT payer's tax base under § 3 ods. 2 písm. c) for income and § 21 ods. 2
+  písm. i) for expenses.
+
+Added
+~~~~~
+
+- The income and expense side of each tax-return code, kept apart
+  (``by_code_side``), for a form row that has a príjmy and a výdavky column.
+
 [19.0.1.6.0] — 2026-10-04
 -------------------------
 
@@ -240,7 +286,7 @@ Review record
 ~~~~~~~~~~~~~
 
 Second opinion taken from GitHub Copilot / **gpt-5.3-codex** on 2026-09-23, per
-the CLAUDE.md rule for money logic. Twelve findings; the disposition:
+the project rule for money logic. Twelve findings; the disposition:
 
 **Accepted and fixed**
 

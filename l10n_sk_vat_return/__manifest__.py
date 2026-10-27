@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — VAT Return (Daňové priznanie k DPH)",
-    "version": "19.0.1.12.0",
+    "version": "19.0.1.13.0",
     "summary": "Slovak VAT return (DPHv25) — output/input lines wired to the "
                "l10n_sk tax tags, with FS SR DPH XML export. Built on the "
                "shared l10n_cssk_vat_return_base framework.",
@@ -66,6 +66,7 @@ rate created by hand rather than duplicating it.
         "data/cssk_vat_return_2024_version_data.xml",
         "data/cssk_vat_return_legacy_version_data.xml",
         "views/l10n_sk_par53b_views.xml",
+        "views/cssk_vat_return_views.xml",
     ],
     "installable": True,
 }

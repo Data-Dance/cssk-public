@@ -24,6 +24,12 @@
 #   6. Compared with Σ advances actually withheld after the monthly slevy and
 #      child sleva -> přeplatek (refund, the common case; a nedoplatek is NOT
 #      collected through RZ) and the doplatek na daňovém bonusu.
+#   7. Previous employers in the year (§ 38ch odst. 4): their income,
+#      advances and bonuses come from the employee's Potvrzení o zdanitelných
+#      příjmech and are entered here; they count as if paid by this employer.
+#   8. Statutory minimums: the annual bonus is claimable only from 100 Kč
+#      (§ 35c odst. 3), and the přeplatek + doplatek na bonusu is paid only
+#      when together MORE than 50 Kč (§ 35d odst. 8, § 38ch odst. 5).
 #
 # Sources (2025 & 2026 figures / procedure, confirmed):
 #   https://financnisprava.gov.cz/cs/dane/dane/dan-z-prijmu/zamestnanci-zamestnavatele/obecne-informace
@@ -35,6 +41,7 @@
 from datetime import date
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
 class HrPayrollCzAnnualTaxRecon(models.Model):
@@ -84,6 +91,21 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         "Further-education exams",
         help="Repealed by the 2024 consolidation package - recorded for "
              "documentation only, NOT deducted for years >= 2024.")
+    # --- § 38ch odst. 4: previous employers' Potvrzení -------------------
+    l10n_cz_prev_income = fields.Monetary(
+        "Previous employers: taxable income",
+        help="Income from dependent activity paid by previous employers in "
+             "the year, from their Potvrzení o zdanitelných příjmech "
+             "(§ 38j odst. 3). Added to the annual tax base (§ 38ch odst. 4).")
+    l10n_cz_prev_advances = fields.Monetary(
+        "Previous employers: advances withheld",
+        help="Advances withheld by previous employers after the monthly "
+             "credits, from their Potvrzení. Counted with this employer's "
+             "own advances when the overpayment is worked out.")
+    l10n_cz_prev_bonus_paid = fields.Monetary(
+        "Previous employers: child bonuses paid",
+        help="Monthly child tax bonuses paid by previous employers, from "
+             "their Potvrzení.")
     l10n_cz_spouse_credit = fields.Monetary(
         "Spouse credit",
         help="Annual spouse tax credit (24 840; 49 680 for a ZTP/P "
@@ -121,13 +143,21 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         "Bonus top-up", readonly=True)
     l10n_cz_settlement_total = fields.Monetary(
         "Settlement Total", readonly=True,
-        help="Overpayment + bonus top-up; posted onto a payslip via the "
-             "ANNUAL_TAX_SETTLEMENT salary rule (increases net pay).")
+        help="Overpayment + bonus top-up actually paid; posted onto a "
+             "payslip via the ANNUAL_TAX_SETTLEMENT salary rule (increases "
+             "net pay). Zero when the two together are 50 Kč or less: "
+             "§ 35d odst. 8 / § 38ch odst. 5 ZDP pay them out only above "
+             "50 Kč.")
+    l10n_cz_settlement_payslip_id = fields.Many2one(
+        "hr.payslip", "Settlement Payslip",
+        domain="[('employee_id', '=', employee_id), ('state', '=', 'draft')]",
+        help="Draft payslip the settlement is paid with — at the latest the "
+             "March payslip after the tax year (§ 35d odst. 8 ZDP).")
 
-    _sql_constraints = [
-        ("employee_year_uniq", "unique(employee_id, year, company_id)",
-         "An annual reconciliation already exists for this employee and year."),
-    ]
+    # 19.0 dropped _sql_constraints silently: the list was never created.
+    _employee_year_uniq = models.Constraint(
+        "unique(employee_id, year, company_id)",
+        "An annual reconciliation already exists for this employee and year.")
 
     @api.depends("employee_id", "year")
     def _compute_name(self):
@@ -170,6 +200,12 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
                 for c in codes}
 
     # -- Reconciliation ----------------------------------------------------
+    # § 35c odst. 3 ZDP: the annual child bonus is claimable from 100 Kč.
+    _L10N_CZ_ANNUAL_BONUS_MIN = 100.0
+    # § 35d odst. 8 / § 38ch odst. 5 ZDP: refund + bonus top-up paid out only
+    # when together more than 50 Kč.
+    _L10N_CZ_SETTLEMENT_MIN = 50.0
+
 
     def action_compute(self):
         for rec in self:
@@ -184,12 +220,15 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
             payslips,
             ["TAXBASE", "INCOMETAX", "TAXCREDIT", "CHILDBEN", "CHILDBONUS"])
 
-        gross_base = sums["TAXBASE"]
+        # § 38ch odst. 4: income, advances and bonuses from previous
+        # employers (their Potvrzení) count as if paid here.
+        gross_base = sums["TAXBASE"] + self.l10n_cz_prev_income
         # INCOMETAX line totals are stored negative (a deduction); TAXCREDIT and
         # CHILDBEN are positive lines that offset the advance.
         advances_gross = -sums["INCOMETAX"]
-        advances_net = advances_gross - sums["TAXCREDIT"] - sums["CHILDBEN"]
-        bonus_paid = sums["CHILDBONUS"]
+        advances_net = (advances_gross - sums["TAXCREDIT"] - sums["CHILDBEN"]
+                        + self.l10n_cz_prev_advances)
+        bonus_paid = sums["CHILDBONUS"] + self.l10n_cz_prev_bonus_paid
 
         # -- §15 non-taxable parts (union dues / education repealed from 2024) --
         pension_life = min(
@@ -240,10 +279,18 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
             annual_bonus = max(entitlement - tax_after_slevy, 0.0)
         else:
             annual_bonus = 0.0
+        # § 35c odst. 3: "Poplatník může daňový bonus uplatnit, pokud jeho
+        # výše činí alespoň 100 Kč."
+        if annual_bonus < self._L10N_CZ_ANNUAL_BONUS_MIN:
+            annual_bonus = 0.0
 
         # -- Settlement (přeplatek + doplatek na bonusu; nedoplatek not taken) --
         overpayment = max(advances_net - final_tax, 0.0)
         bonus_doplatek = max(annual_bonus - bonus_paid, 0.0)
+        # § 35d odst. 8 / § 38ch odst. 5: paid only when "více než 50 Kč".
+        settlement = overpayment + bonus_doplatek
+        if settlement <= self._L10N_CZ_SETTLEMENT_MIN:
+            settlement = 0.0
 
         self.write({
             "l10n_cz_annual_gross_base": gross_base,
@@ -259,7 +306,7 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
             "l10n_cz_bonus_paid": bonus_paid,
             "l10n_cz_overpayment": overpayment,
             "l10n_cz_bonus_doplatek": bonus_doplatek,
-            "l10n_cz_settlement_total": overpayment + bonus_doplatek,
+            "l10n_cz_settlement_total": settlement,
             "state": "computed",
         })
 
@@ -275,6 +322,23 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
             "amount": self.l10n_cz_settlement_total,
             "contract_id": payslip.contract_id.id,
         }
+
+    def action_post_settlement(self):
+        """Form button: post onto the payslip chosen on the record."""
+        self.ensure_one()
+        if self.state != "computed":
+            raise UserError(self.env._(
+                "Compute the reconciliation before posting it."))
+        if not self.l10n_cz_settlement_total:
+            raise UserError(self.env._(
+                "There is nothing to pay: the overpayment and the bonus "
+                "top-up together are 50 Kč or less, which the Income Tax "
+                "Act does not pay out (§ 35d odst. 8, § 38ch odst. 5)."))
+        if not self.l10n_cz_settlement_payslip_id:
+            raise UserError(self.env._(
+                "Choose the draft payslip the settlement is paid with."))
+        self.action_post_to_payslip(self.l10n_cz_settlement_payslip_id)
+        return True
 
     def action_post_to_payslip(self, payslip):
         """Post the settlement onto ``payslip`` (usually the March slip) and

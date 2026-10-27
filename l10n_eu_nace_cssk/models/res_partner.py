@@ -18,7 +18,11 @@ class ResPartner(models.Model):
         for partner in self.filtered("nace_code"):
             if partner.industry_id and not partner.industry_id.nace_version:
                 continue  # a deliberate non-NACE industry
-            industry = self.env["res.partner.industry"]._nace_find(partner.nace_code)
+            country = (
+                partner.commercial_partner_id.country_id or partner.country_id
+            ).code
+            industry = self.env["res.partner.industry"]._nace_find(
+                partner.nace_code, country)
             if industry and industry != partner.industry_id:
                 partner.industry_id = industry
 

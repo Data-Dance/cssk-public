@@ -16,6 +16,18 @@ Carry-over to 18.0
   wrong-currency movement as delivered. Port ``_fio_check_currency`` /
   ``_fio_foreign_amount_vals`` and the four tests.
 
+[19.0.2.4.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- Grouping movements into statements now makes one statement per day, with
+  balances worked out from Fio's opening balance and the earlier movements. A
+  statement per run carried the balances of the whole re-read range but only
+  the new movements, so it never added up.
+- View texts missing from the Czech and Slovak catalogues are translated.
+
 [19.0.2.4.0] — 2026-09-27
 -------------------------
 

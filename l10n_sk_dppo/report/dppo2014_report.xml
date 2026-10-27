@@ -6,9 +6,9 @@
   <template id="dppo2014_xml">
       <dokument>
         <hlavicka>
-          <dic t-out="company.l10n_sk_dic or company.vat or ''"/>
-          <ico t-out="company.company_registry or ''"/>
-          <pravnaForma/>
+          <dic t-out="hdr['dic']"/>
+          <ico t-out="hdr['ico']"/>
+          <pravnaForma t-out="hdr['pravna_forma']"/>
           <typDP>
             <rdp t-out="'1' if statement.statement_type_id.code == 'R' else '0'"/>
             <odp t-out="'1' if statement.statement_type_id.code == 'O' else '0'"/>
@@ -19,9 +19,9 @@
             <do t-out="statement.date_to.strftime('%d.%m.%Y')"/>
           </zdanovacieObdobie>
           <skNace>
-            <k1>0</k1>
-            <k2>0</k2>
-            <k3>0</k3>
+            <k1 t-out="hdr['k1']"/>
+            <k2 t-out="hdr['k2']"/>
+            <k3 t-out="hdr['k3']"/>
             <cinnost/>
           </skNace>
           <obchodneMeno>
@@ -29,11 +29,11 @@
             <riadok/>
           </obchodneMeno>
           <sidlo>
-            <ulica t-out="company.street or ''"/>
-            <cislo t-out="company.street2 or ''"/>
-            <psc t-out="company.zip or ''"/>
-            <obec t-out="company.city or ''"/>
-            <stat t-out="company.country_id.name or ''"/>
+            <ulica t-out="hdr['ulica']"/>
+            <cislo t-out="hdr['cislo']"/>
+            <psc t-out="hdr['psc']"/>
+            <obec t-out="hdr['obec']"/>
+            <stat t-out="hdr['stat']"/>
             <tel/>
             <emailFax/>
           </sidlo>
@@ -46,10 +46,10 @@
           <polVyskaDanovejLicPar46bods3>0</polVyskaDanovejLicPar46bods3>
           <neplatimDanLicenciu>0</neplatimDanLicenciu>
           <stalaPrevadzkaren>
-            <ulica t-out="company.street or ''"/>
-            <cislo t-out="company.street2 or ''"/>
-            <psc t-out="company.zip or ''"/>
-            <obec t-out="company.city or ''"/>
+            <ulica/>
+            <cislo/>
+            <psc/>
+            <obec/>
             <pocetSp/>
           </stalaPrevadzkaren>
         </hlavicka>
@@ -318,17 +318,17 @@
           <c4r7/>
           <c4prijimatel1>
             <suma/>
-            <ico t-out="company.company_registry or ''"/>
+            <ico/>
             <sid/>
             <pravnaForma/>
             <obchodneMeno>
-              <riadok t-out="(company.name or '')[:75]"/>
+              <riadok/>
               <riadok/>
             </obchodneMeno>
-            <ulica t-out="company.street or ''"/>
-            <cislo t-out="company.street2 or ''"/>
-            <psc t-out="company.zip or ''"/>
-            <obec t-out="company.city or ''"/>
+            <ulica/>
+            <cislo/>
+            <psc/>
+            <obec/>
           </c4prijimatel1>
           <osobitneZaznamy/>
           <opravnenaOsoba>
@@ -338,17 +338,17 @@
             <titulZa/>
             <postavenie/>
             <trvalyPobyt>
-              <ulica t-out="company.street or ''"/>
-              <cislo t-out="company.street2 or ''"/>
-              <psc t-out="company.zip or ''"/>
-              <obec t-out="company.city or ''"/>
-              <stat t-out="company.country_id.name or ''"/>
+              <ulica/>
+              <cislo/>
+              <psc/>
+              <obec/>
+              <stat/>
               <tel/>
               <emailFax/>
             </trvalyPobyt>
           </opravnenaOsoba>
           <pocetPriloh/>
-          <datumVyhlasenia/>
+          <datumVyhlasenia t-out="hdr['datum_vyhlasenia']"/>
           <vrateniePreplatku>
             <vratit>0</vratit>
             <sposobPlatby>

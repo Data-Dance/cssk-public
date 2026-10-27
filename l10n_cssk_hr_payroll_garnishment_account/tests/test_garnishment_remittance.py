@@ -181,3 +181,31 @@ class TestGarnishmentRemittance(TransactionCase):
         move = wizard.line_ids.move_id
         self.assertEqual(len(move), 1)
         self.assertEqual(sum(move.line_ids.mapped("debit")), 1000.0)
+
+    def test_accounting_administrator_can_reach_the_remittance(self):
+        """On Community the Accounting administrator does not hold "Show
+        Full Accounting Features" (account.group_account_user) — no role
+        grants it without Enterprise — so gating the button and the menu on
+        it alone hid the remittance from everyone."""
+        admin = self.env["res.users"].create({
+            "name": "Accounting Admin", "login": "cssk_garnishment_acc_admin",
+            "company_ids": [(6, 0, [self.company.id])],
+            "company_id": self.company.id,
+            "group_ids": [(6, 0, [
+                self.env.ref("account.group_account_manager").id,
+                self.env.ref("base.group_user").id,
+            ])],
+        })
+        menu = self.env.ref(
+            "l10n_cssk_hr_payroll_garnishment_account."
+            "menu_wage_garnishment_remittance")
+        self.assertTrue(menu.group_ids & admin.all_group_ids)
+        arch = self.env["hr.wage.garnishment.line"].with_user(admin).get_views(
+            [(False, "list")])["views"]["list"]["arch"]
+        self.assertIn('name="action_remit"', arch)
+        wizard = self.env["hr.wage.garnishment.remittance"].with_user(
+            admin).create({"company_id": self.company.id})
+        self.assertTrue(wizard)
+        line = self._line(1000.0).with_user(admin)
+        line.action_remit()
+        self.assertEqual(line.sudo().state, "done")

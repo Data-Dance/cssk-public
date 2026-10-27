@@ -22,6 +22,39 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.3.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A následné souhrnné hlášení reports only the changes.** A row filed
+  earlier is withdrawn with a storno row (``k_storno="A"``, matched on
+  country, DIČ and code) and a corrected one is reported anew; unchanged
+  rows are no longer repeated. It used to re-file every row of the period
+  and could never cancel one. The filed statements of the period (submitted
+  or historical) are the basis; a následné hlášení with none recorded is
+  refused.
+- The bundled ``dphshv_epo2.xsd`` is refreshed to the published structure
+  02.01.05 (documentation changes only), ``verzePis`` states that version,
+  and both are pinned in ``data/SCHEMA_VERSION`` with a test.
+
+[19.0.1.2.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **``shvies_forma`` is R or N.** The types exported B, O and E, which the
+  DPHSHV structure does not know ("R - souhrnné hlášení, N - následné souhrnné
+  hlášení"). Řádné exports R; opravné and následné export N, since § 102
+  knows no opravné hlášení.
+- **The value is rounded up to whole crowns** ("zaokrouhlí na celé koruny
+  nahoru"); it was rounded to the nearest crown.
+- **Greece is ``EL`` and Northern Ireland ``XI``** in ``k_stat`` — the VAT
+  number's own prefix, not the partner country's ISO code. A Northern Ireland
+  customer is accepted for goods; a service to an XI number blocks the export.
+
 [19.0.1.0.1] — 2026-07-04
 -------------------------
 

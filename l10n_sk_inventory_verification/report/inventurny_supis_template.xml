@@ -16,6 +16,11 @@
                             <div class="col-6">
                                 <strong>Účtovná jednotka:</strong>
                                 <span t-field="doc.company_id.name"/><br/>
+                                <!-- právnická osoba: sídlo; fyzická osoba: bydlisko
+                                     (a miesto podnikania) — the company address -->
+                                <strong>Sídlo:</strong>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "separator": ", "}'/><br/>
                                 <span t-field="doc.company_id.partner_id.l10n_sk_dic"
                                       t-if="'l10n_sk_dic' in doc.company_id.partner_id._fields"/>
                             </div>
@@ -28,7 +33,7 @@
                             </div>
                         </div>
 
-                        <!-- § 30 ods. 2 písm. b), c), d): the three dates -->
+                        <!-- § 30 ods. 2 písm. b): the three dates -->
                         <table class="table table-sm table-borderless mb-3">
                             <tr>
                                 <td><strong>Deň začatia inventúry</strong></td>
@@ -40,7 +45,7 @@
                             </tr>
                         </table>
 
-                        <!-- § 30 ods. 2 písm. f) -->
+                        <!-- § 30 ods. 2 písm. d) -->
                         <p t-if="doc.location">
                             <strong>Miesto uloženia majetku:</strong>
                             <span t-field="doc.location"/>
@@ -51,7 +56,7 @@
                             <span t-field="doc.account_id.name"/>
                         </p>
 
-                        <!-- § 30 ods. 2 písm. e): množstvo a cena -->
+                        <!-- § 30 ods. 2 písm. c): množstvo a cena -->
                         <table class="table table-sm">
                             <thead>
                                 <tr>
@@ -111,7 +116,7 @@
                             <strong>Poznámky:</strong> <span t-field="doc.note"/>
                         </p>
 
-                        <!-- § 30 ods. 2 písm. g) and i): the two signatures -->
+                        <!-- § 30 ods. 2 písm. e) and i): the two signatures -->
                         <div class="row mt-5">
                             <div class="col-6">
                                 <p>

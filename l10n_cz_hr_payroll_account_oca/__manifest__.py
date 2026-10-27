@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic - Payroll with Accounting",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.1.1",
     "category": "Human Resources/Payroll",
     "summary": "Post Czech payslips to the general ledger",
     "countries": ["cz"],

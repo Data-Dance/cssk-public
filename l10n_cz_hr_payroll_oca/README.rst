@@ -68,8 +68,7 @@ Known issues / Roadmap
 Fields/parameters are present, but the following are not fully implemented (the
 payslip is computed as regular monthly employment):
 
-* Agreements (dohody) DPP / DPČ, the notified-agreement (oznámená dohoda) regime
-  and the insurance thresholds.
+* Agreements (dohody) DPP / DPČ and the insurance thresholds.
 * Sickness compensation (náhrada mzdy for the first 14 days) and the reduction
   bands (redukční hranice).
 * Wage attachments / insolvency deductions (exekuce/srážky) with the

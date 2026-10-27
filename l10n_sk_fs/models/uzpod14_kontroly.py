@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """UZPODv14 kontrolné pravidlá (business rules beyond the XSD).
 
-Source of truth: Opatrenie MF SR č. MF/23377/2014-74 (a nadv.), prílohy —
-Súvaha Úč POD 1-01 a Výkaz ziskov a strát Úč POD 2-01, kde každý medzisúčtový
+Source of truth: Opatrenie MF SR č. MF/23378/2014-74 (malé účtovné jednotky,
+oznámenie č. 389/2014 Z. z.) and č. MF/23377/2014-74 (veľké účtovné jednotky a
+subjekty verejného záujmu, oznámenie č. 388/2014 Z. z.), as amended, prílohy —
+Súvaha Úč POD 1-01 a Výkaz ziskov a strát Úč POD 2-01. UZPODv14 files both
+sizes, told apart by the veľkostná trieda in its header; každý medzisúčtový
 riadok je definovaný ako súčet uvedených riadkov; the per-row súčty below are
 the official cross-line totals.
 

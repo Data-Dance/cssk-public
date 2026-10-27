@@ -147,8 +147,9 @@ The final invoice posts the full supply, then deducts the advance:
   only once, on the full supply.
 
 If the advance had **no** tax document yet, the deduction instead removes the
-gross amount with no VAT split, and the clearing balance is cleared by a separate
-entry after posting.
+gross amount received with no VAT split, and the clearing balance is cleared by a
+separate entry after posting. Only what was received is deducted: a part paid but
+not covered by a tax document is deducted gross, beside the documented part.
 
 Long-term advances
 ==================
@@ -172,14 +173,16 @@ Statuses and deadlines
 * **Accounting status** — *nothing to account* → *waiting* (a tax document is due)
   → *accounted* (tax document posted, or the advance was settled on the parent's
   final invoice).
-* **Accounting due date** — the statutory tax-document deadline, by default the
-  earlier of 15 days after payment and the end of that month
-  (``_advance_invoice_tax_doc_deadline``, overridable per localization).
+* **Accounting due date** — the statutory tax-document deadline: 15 days after
+  payment in the Czech Republic (§ 28 odst. 8), the later of 15 days and the end
+  of that month in Slovakia (§ 73 ods. 1 písm. b), from 2016)
+  (``_advance_invoice_tax_doc_deadline``).
 
 Czech vs Slovak notes
 =====================
 
-The structural model, account numbers and the 15-day rule are shared. The
+The structural model and account numbers are shared; the tax-document deadline
+is not (CZ 15 days, SK 15 days or the month end, whichever is later). The
 differences are terminology (CZ *daňový doklad k přijaté platbě* vs SK *faktúra k
 prijatej platbe*; CZ *vyúčtovací* vs SK *vyúčtovacia / ostrá faktúra*) and CZ's
 more consistent use of 475 for long-term received advances.

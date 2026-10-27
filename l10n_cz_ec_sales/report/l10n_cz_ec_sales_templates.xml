@@ -6,10 +6,13 @@
       reported line. Header hand-mapped from the company/period. The export is
       validated against the official EPO DPHSHV XSD (data/dphshv_epo2.xsd),
       loaded onto the version record.
+      k_stat is the VAT number's own prefix (EL, XI), pln_hodnota is rounded
+      up to whole crowns, and shvies_forma is R or N — the only two forms the
+      structure and § 102 know (see the statement types).
     -->
     <template id="dphshv_2025">
         <Pisemnost nazevSW="Odoo / Data Dance">
-            <DPHSHV verzePis="02.01">
+            <DPHSHV verzePis="02.01.05">
                 <VetaD
                     dokument="SHV"
                     t-att-rok="statement.date_from.strftime('%Y')"
@@ -18,13 +21,17 @@
                     t-att-shvies_forma="statement.statement_type_id.fa_xml_value"
                     k_uladis="DPH"/>
                 <VetaP t-att="company._l10n_cz_epo_vetap(exclude=('email', 'c_telef'))"/>
-                <t t-foreach="lines" t-as="line">
+                <!-- A storno row (k_storno="A", následné only) names the
+                     filed row it cancels by k_stat, c_vat and k_pln_eu, and
+                     carries no values; it precedes the corrected row. -->
+                <t t-foreach="lines.sorted(lambda l: (l.partner_country_code, l.partner_vat, l.transaction_code, not l.is_storno))" t-as="line">
                     <VetaR
-                        t-att-k_stat="line.partner_country_code"
+                        t-att-k_storno="'A' if line.is_storno else None"
+                        t-att-k_stat="statement._cz_sh_country(line)"
                         t-att-c_vat="(line.partner_vat[2:] if (line.partner_vat or '')[:2].isalpha() else line.partner_vat) if line.partner_vat else ''"
                         t-att-k_pln_eu="line.transaction_code"
-                        t-att-pln_pocet="'%d' % line.supplies_count"
-                        t-att-pln_hodnota="'%.0f' % line.total_amount"/>
+                        t-att-pln_pocet="None if line.is_storno else '%d' % line.supplies_count"
+                        t-att-pln_hodnota="None if line.is_storno else '%d' % statement._cz_sh_whole(line.total_amount)"/>
                 </t>
             </DPHSHV>
         </Pisemnost>

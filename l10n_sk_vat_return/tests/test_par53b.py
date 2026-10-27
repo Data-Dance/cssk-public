@@ -88,8 +88,10 @@ class TestSkPar53b(AccountTestInvoicingCommon):
         # already corrected → no longer offered
         self.assertNotIn(bill, self._wizard().bill_ids)
 
-        # § 53b ods. 6 works AFTER payment — nothing paid yet, no re-claim
-        with self.assertRaises(UserError):
+        # § 53b ods. 4 works AFTER payment — nothing paid yet, no re-claim;
+        # the message cites the subsection that grants the re-claim (ods. 6
+        # is the § 54 adjustment rule)
+        with self.assertRaisesRegex(UserError, r"§ 53b ods\. 4 "):
             bill.action_par53b_reclaim()
 
         # full payment → the re-claim re-deducts the full corrected VAT
@@ -111,7 +113,7 @@ class TestSkPar53b(AccountTestInvoicingCommon):
             bill.action_par53b_reclaim()
 
     def test_par53b_reclaim_proportional_and_capped(self):
-        """§ 53b ods. 6: partial payment re-claims the paid share of the
+        """§ 53b ods. 4: partial payment re-claims the paid share of the
         corrected VAT; further re-claims only follow further payments and the
         cumulative re-claims never exceed the corrections."""
         bill = self._unpaid_bill()

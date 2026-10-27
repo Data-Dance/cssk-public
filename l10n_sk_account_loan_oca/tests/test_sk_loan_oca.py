@@ -70,7 +70,12 @@ class TestSkLoanOca(AccountTestInvoicingCommon):
 
         # Odpisová skupina 1 = 4 years => 48 months => minimum 29 months.
         self.assertEqual(sk_min_lease_months("1"), 29)
-        self.assertEqual(sk_min_lease_months("2"), 43)  # 6 years
+        # "Najmenej 60 %" is a floor: 43.2 months rounds UP. A 43-month lease
+        # of a group-2 asset is 59.7 % and not a finančný prenájom.
+        self.assertEqual(sk_min_lease_months("2"), 44)  # 6 years
+        self.assertEqual(sk_min_lease_months("4"), 87)  # 12 years = 86.4
+        # Skupina 0 (2 roky) since 2020: 14.4 => 15.
+        self.assertEqual(sk_min_lease_months("0"), 15)
 
         loan = self.env["account.loan"].with_company(self.company).new(
             {
@@ -86,24 +91,64 @@ class TestSkLoanOca(AccountTestInvoicingCommon):
         loan.periods = 36
         self.assertFalse(loan.l10n_sk_lease_term_warning)
 
-    def test_vat_treatment_defaults_to_supply_of_goods(self):
-        """§ 8 ods. 1 písm. c) is the ordinary finančný prenájom case."""
+        loan.l10n_sk_depreciation_group = "2"
+        loan.periods = 43
+        self.assertIn("44", loan.l10n_sk_lease_term_warning)
+        loan.periods = 44
+        self.assertFalse(loan.l10n_sk_lease_term_warning)
+
+        loan.l10n_sk_depreciation_group = "0"
+        loan.periods = 14
+        self.assertIn("15", loan.l10n_sk_lease_term_warning)
+
+    def test_vat_treatment_is_not_presumed(self):
+        """No default: "goods" strips the VAT from every instalment bill.
+
+        An operatívny prenájom, or a lease without the transfer of ownership
+        of § 8 ods. 1 písm. c), is a supply of services taxed per instalment;
+        presuming goods silently lost that VAT on every such contract.
+        """
         loan = self.env["account.loan"].with_company(self.company).new(
             {"company_id": self.company.id}
         )
-        self.assertEqual(loan.l10n_sk_vat_treatment, "goods")
+        self.assertFalse(loan.l10n_sk_vat_treatment)
+
+    def test_undecided_lease_instalments_keep_their_vat(self):
+        tax = self.env.ref(f"account.{self.company.id}_vs_tuz_23")
+        product = self.env["product.product"].create(
+            {"name": "Splátka", "supplier_taxes_id": [Command.set(tax.ids)]}
+        )
+        loan = self._leasing(None)
+        self.assertFalse(loan.l10n_sk_vat_treatment)
+        self.assertEqual(self._instalment_line(loan, product)._get_computed_taxes(), tax)
+
+    def test_the_slovak_fields_are_on_the_leasing_form(self):
+        """They were defined but on no view, so nobody could set them."""
+        arch = self.env["account.loan"].get_view(view_type="form")["arch"]
+        for fname in (
+            "l10n_sk_vat_treatment",
+            "l10n_sk_depreciation_group",
+            "l10n_sk_lease_months",
+            "l10n_sk_lease_term_warning",
+        ):
+            self.assertIn(f'name="{fname}"', arch, f"{fname} is not on the form")
+        loan = self.env["account.loan"].with_company(self.company).new(
+            {"company_id": self.company.id}
+        )
+        self.assertTrue(loan.l10n_sk_is_sk_company)
 
     def _leasing(self, treatment):
         journal = self.env["account.journal"].search(
             [("type", "=", "purchase"), ("company_id", "=", self.company.id)], limit=1
         )
+        vals = {} if treatment is None else {"l10n_sk_vat_treatment": treatment}
         return self.env["account.loan"].with_company(self.company).create(
             {
-                "name": f"Lízing {treatment}",
+                **vals,
+                "name": f"Lízing {treatment or 'nezvolený'}",
                 "company_id": self.company.id,
                 "journal_id": journal.id,
                 "loan_type": "leasing",
-                "l10n_sk_vat_treatment": treatment,
                 "partner_id": self.env["res.partner"].create({"name": "Lízingovka"}).id,
                 "loan_amount": 12000.0,
                 "periods": 12,

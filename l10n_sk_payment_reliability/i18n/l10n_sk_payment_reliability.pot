@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 20:28+0000\n"
-"PO-Revision-Date: 2026-06-13 20:28+0000\n"
+"POT-Creation-Date: 2026-10-27 19:17+0000\n"
+"PO-Revision-Date: 2026-10-27 19:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_sk_payment_reliability
-#: model:ir.model,name:l10n_sk_payment_reliability.model_res_config_settings
-msgid "Config Settings"
+#: model:ir.model.fields,help:l10n_sk_payment_reliability.field_res_config_settings__fa_api_key
+msgid ""
+"API key for the Slovak Financial Administration open-data service "
+"(opendata.financnasprava.sk), used to look up registered bank accounts and "
+"the tax-reliability index."
 msgstr ""
 
 #. module: l10n_sk_payment_reliability
@@ -32,6 +35,11 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_sk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_sk_payment_reliability.field_res_config_settings__fa_api_key
+msgid "FS open-data API key"
+msgstr ""
+
+#. module: l10n_sk_payment_reliability
 #: model_terms:ir.ui.view,arch_db:l10n_sk_payment_reliability.res_config_settings_view_form_sk_reliability
 msgid "FS open-data API key…"
 msgstr ""
@@ -43,27 +51,18 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_sk_payment_reliability
-#: model:ir.model.fields,help:l10n_sk_payment_reliability.field_res_config_settings__fa_api_key
-msgid ""
-"API key for the Slovak Financial Administration open-data service "
-"(opendata.financnasprava.sk), used to look up registered bank accounts and "
-"the tax-reliability index."
+#: model:ir.model,name:l10n_sk_payment_reliability.model_res_config_settings
+msgid "Provider"
 msgstr ""
 
 #. module: l10n_sk_payment_reliability
-#: model:ir.model.fields,field_description:l10n_sk_payment_reliability.field_res_config_settings__fa_api_key
-msgid "FS open-data API key"
+#. odoo-python
+#: code:addons/l10n_sk_payment_reliability/models/res_partner.py:0
+msgid "listed"
 msgstr ""
 
 #. module: l10n_sk_payment_reliability
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_payment_reliability
-msgid "SK Supplier Reliability — FS open-data provider"
-msgstr ""
-
-#. module: l10n_sk_payment_reliability
-#: model:ir.module.module,summary:base.module_l10n_sk_payment_reliability
-msgid ""
-"Slovak provider for the CZ/SK supplier-reliability check: registered bank "
-"accounts (ds_dph_iban) and the tax-reliability index (ds_iz_ran) from the "
-"Financial Administration open data."
+#. odoo-python
+#: code:addons/l10n_sk_payment_reliability/models/res_partner.py:0
+msgid "listed since %s"
 msgstr ""

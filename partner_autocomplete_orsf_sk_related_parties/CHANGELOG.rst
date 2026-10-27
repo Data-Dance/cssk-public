@@ -8,6 +8,37 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Register links** button on the contact, and an arrow on each row to open
+  the related contact. Both actions existed with no way to reach them.
+
+Fixed
+~~~~~
+
+- **Anybody who may edit the contact can fetch.** Only accounting
+  administrators could; everybody else got an access error.
+- **A corporate shareholder gets its own row** at degree 1, with its IČO and
+  role. Only the other companies it was linked to appeared.
+- **Slovak labels say "Väzby v registri"**, not "Závislé osoby": a link in the
+  register is a lead, and only § 2 písm. n) zákona o dani z príjmov makes a
+  závislá osoba.
+
+[19.0.2.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Legal citations.** Transfer-pricing documentation is required by § 18
+  ods. 1 zákona o dani z príjmov, not § 17 ods. 5 (which adds an arm's-length
+  difference to the tax base), and who is a *závislá osoba* is § 2 písm. n)
+  and o). The contact form's note, the README and the manifest are corrected.
+
 [19.0.2.0.0] — 2026-09-14
 -------------------------
 

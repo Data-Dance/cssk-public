@@ -26,9 +26,9 @@ Choosing the transport
 
 ``account.move._peppol_provider()`` is single-valued, so with more than one
 Peppol transport installed (ePošťák alongside ``edi_editel_peppol``, say) the
-winner would be decided by module load order. Set **Peppol Transport** in
-*Settings ▸ EDI ▸ Peppol BIS3* to make the choice explicit; leave it empty to
-use ePošťák. Dispatch itself routes on the provider stamped on each message,
+choice must be explicit: set **Peppol Transport** in *Settings ▸ EDI ▸
+Peppol BIS3* (the field lives in ``edi_base_peppol``). Left empty, nothing
+goes through Peppol until it is set. Dispatch itself routes on the provider stamped on each message,
 so documents already prepared under the previous transport still leave through
 it.
 

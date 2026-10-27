@@ -2,7 +2,7 @@ import json
 
 from odoo import _, api, fields, models
 from odoo.tools.translate import LazyTranslate
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 _lt = LazyTranslate(__name__)
 
@@ -34,6 +34,7 @@ class CSSKControlStatement(models.Model):
     country_id = fields.Many2one(
         related="company_id.account_fiscal_country_id", store=True
     )
+    country_code = fields.Char(related="country_id.code")
 
     version_id = fields.Many2one(
         "cssk.control.statement.version",
@@ -95,6 +96,25 @@ class CSSKControlStatement(models.Model):
         help="Snapshot of the FULL transaction list this amended KV represents "
              "(before it is reduced to a delta). It is the baseline the NEXT "
              "amendment diffs against, so chained amended statements stay correct.")
+
+    @api.constrains("period_type", "version_id")
+    def _check_period_type_allowed(self):
+        """The version's ``allow_monthly`` / ``allow_quarterly`` say which
+        periods its vzor can be filed for; a period it does not allow is
+        refused rather than exported."""
+        for rec in self:
+            version = rec.version_id
+            if not version or not rec.period_type:
+                continue
+            if ((rec.period_type == "month" and not version.allow_monthly)
+                    or (rec.period_type == "quarter"
+                        and not version.allow_quarterly)):
+                raise ValidationError(_(
+                    "The form version %(version)s cannot be filed for a "
+                    "%(period)s period.",
+                    version=version.display_name,
+                    period=dict(rec._fields["period_type"]._description_selection(
+                        rec.env))[rec.period_type].lower()))
 
     @api.depends("date_from", "date_to")
     def _compute_name(self):

@@ -73,7 +73,7 @@ class AccountMove(models.Model):
         The VAT-account line carries the r29 tag so the DPH return picks it up.
         Correction: credit input-VAT account, debit the cost account → r29 +,
         scaled by the *unpaid* fraction (only the unpaid share is corrected).
-        Re-claim (§ 53b ods. 6, after payment): the mirror → r29 −, based on
+        Re-claim (§ 53b ods. 4, after payment): the mirror → r29 −, based on
         the posted corrections' VAT × the bill's *paid* fraction, minus what
         was already re-claimed — cumulative re-claims can never exceed what
         the corrections un-deducted.
@@ -88,7 +88,7 @@ class AccountMove(models.Model):
             vat = currency.round(target - reclaimed)
             if vat <= 0:
                 raise UserError(_(
-                    "Faktúra %s nemá čo znovu uplatniť podľa § 53b ods. 6 — "
+                    "Faktúra %s nemá čo znovu uplatniť podľa § 53b ods. 4 — "
                     "buď nebola (ďalej) zaplatená, alebo už bola opravená "
                     "daň znovu uplatnená v plnej výške zaplatenia.")
                     % (self.name or ""))
@@ -188,7 +188,7 @@ class Par53bWizard(models.TransientModel):
             ("state", "=", "posted"),
             # correction candidates only: in_payment/paid bills have nothing
             # unpaid to correct (the reclaim path, action_par53b_reclaim,
-            # deliberately accepts them — § 53b ods. 6 applies AFTER payment)
+            # deliberately accepts them — § 53b ods. 4 applies AFTER payment)
             ("payment_state", "in", ("not_paid", "partial")),
             ("invoice_date_due", "!=", False),
             # 100 days elapsed ON the 100th day after due date, hence <=

@@ -40,14 +40,17 @@
                 <field name="employee_id" />
                 <field name="code" />
                 <filter name="flt_headline" string="Headline (gross/net/employer/tax)"
-                        domain="[('code', 'in', ['GROSS', 'NET', 'SOCIALEMPLOYERTOTAL', 'INCOMETAXTOTAL'])]" />
+                        domain="[('code', 'in', ['GROSS', 'NET', 'SOCIALEMPLOYERTOTAL', 'SOCIALERTOT', 'HEALTHERTOT', 'SOCIAL_DISCOUNT', 'INCOMETAXTOTAL', 'INCOMETAXTOT'])]" />
+                <separator />
+                <filter name="flt_done" string="Done payslips"
+                        domain="[('slip_id.state', '=', 'done')]" />
                 <separator />
                 <filter name="flt_gross" string="Gross" domain="[('code', '=', 'GROSS')]" />
                 <filter name="flt_net" string="Net" domain="[('code', '=', 'NET')]" />
                 <filter name="flt_employer" string="Employer cost"
-                        domain="[('code', '=', 'SOCIALEMPLOYERTOTAL')]" />
+                        domain="[('code', 'in', ['SOCIALEMPLOYERTOTAL', 'SOCIALERTOT', 'HEALTHERTOT', 'SOCIAL_DISCOUNT'])]" />
                 <filter name="flt_tax" string="Income tax"
-                        domain="[('code', '=', 'INCOMETAXTOTAL')]" />
+                        domain="[('code', 'in', ['INCOMETAXTOTAL', 'INCOMETAXTOT'])]" />
                 <group>
                     <filter name="grp_month" string="Period"
                             context="{'group_by': 'date_from:month'}" />
@@ -67,10 +70,14 @@
         <field name="res_model">hr.payslip.line</field>
         <field name="view_mode">pivot,graph</field>
         <field name="search_view_id" ref="payroll_dashboard_search" />
-        <field name="context">{'search_default_flt_headline': 1}</field>
+        <!-- Payslip lines carry no company rule of their own in the OCA
+             engine, so the screen is scoped to the companies selected in the
+             company switcher, like the Dashboard tiles. -->
+        <field name="domain">[('slip_id.company_id', 'in', allowed_company_ids)]</field>
+        <field name="context">{'search_default_flt_headline': 1, 'search_default_flt_done': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">Nothing to show yet</p>
-            <p>Once payslips are computed, this dashboard charts the headline
+            <p>Once payslips are done, this dashboard charts the headline
                figures — gross, net, employer cost and income tax — per month.
                Switch to the pivot for an employee × period breakdown.</p>
         </field>

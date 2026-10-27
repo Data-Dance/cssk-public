@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Which taxes report in the EC sales list, and with which transaction
+         code: read by the statement, set by the country modules' install
+         hook, and until now on no form — so a tax added by hand could never
+         be put on the list. -->
+    <record id="view_tax_form_cssk_ec_summary" model="ir.ui.view">
+        <field name="name">account.tax.form.cssk.ec.summary</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced_options']//group[@name='advanced_booleans']"
+                   position="inside">
+                <field name="cssk_ec_summary_code"
+                       invisible="country_code not in ('SK', 'CZ') or type_tax_use != 'sale'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

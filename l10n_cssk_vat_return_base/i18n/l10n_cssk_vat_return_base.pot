@@ -426,14 +426,6 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"Nadmerný odpočet na prenos (%(out).2f) nemôže byť vyšší ako nadmerný odpočet"
-" obdobia r33 (%(r33).2f)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__name
@@ -525,12 +517,6 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__period_type__quarter
 msgid "Quarterly"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid "Rendered XML root <%(got)s> does not match expected <%(exp)s>."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -671,22 +657,6 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__tag_formula
 msgid "Tax-tag formula for kind=tags, e.g. '-03' (tag '03', sign −1)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"The VAT return XML failed schema validation:\n"
-"%s"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"The VAT return failed kontrolné pravidlá:\n"
-"%s"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -939,9 +909,9 @@ msgid "Form line codes"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__state__legacy
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
 msgid "Historical filing"
 msgstr ""
 
@@ -1083,11 +1053,6 @@ msgid "recomputed"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "✓"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
 msgid "Filed history"
 msgstr ""
@@ -1095,23 +1060,17 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
 msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed "
-"XML' is the latest one; after a reset → recompute → resubmit cycle "
-"the previously-filed copies stay reachable here."
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
 msgid ""
-"This filing was not produced here — it records what was actually "
-"submitted for a period that predates this system, loaded from a "
-"migration. It is a historical fact, so it can never be exported, "
-"submitted or recomputed, and it is invisible to anything that looks "
-"for 'the return of the previous period'. It CAN be amended: a "
-"dodatočné filed later against a historical period is an ordinary "
-"submittable return.\n\nSetting this puts the record in state "
-"'Historical filing', which is terminal — the two are written "
-"together and cannot come apart."
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -1122,8 +1081,8 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
 msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' "
-"— or how it was captured if by hand."
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -1135,12 +1094,38 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
 msgid ""
 "Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced "
-"it."
+"materialised from, so a figure can be traced back to what produced it."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
 #. odoo-python
 #: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
 msgid "VAT return"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Carry excess deduction"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_comparison_count
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Comparisons"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.actions.server,name:l10n_cssk_vat_return_base.action_cssk_create_historic_vat_taxes
+msgid "Create historical VAT rates"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Settlement"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid "The form version %(version)s cannot be filed for a %(period)s period."
 msgstr ""

@@ -3,7 +3,8 @@ import zipfile
 
 from lxml import etree
 
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 from odoo.tools.mimetypes import guess_mimetype
 
 ISDOC_NS = "http://isdoc.cz/namespace/2013"
@@ -99,3 +100,42 @@ class AccountMove(models.Model):
             embedded_file_data['import_file_type'] = self._get_import_file_type(embedded_file_data)
             embedded.append(embedded_file_data)
         return embedded
+
+    # -------------------------------------------------------------------------
+    # .isdocx download
+    # -------------------------------------------------------------------------
+
+    def _isdoc_download_action(self, raw, filename, mimetype):
+        """ Store ``raw`` as this record's attachment ``filename`` (replacing an
+        earlier one of that name) and return the action that downloads it. """
+        self.ensure_one()
+        Attachment = self.env['ir.attachment']
+        attachment = Attachment.search([
+            ('res_model', '=', self._name), ('res_id', '=', self.id), ('name', '=', filename),
+        ], limit=1)
+        if attachment:
+            attachment.write({'raw': raw, 'mimetype': mimetype})
+        else:
+            attachment = Attachment.create({
+                'name': filename, 'raw': raw, 'mimetype': mimetype,
+                'res_model': self._name, 'res_id': self.id,
+            })
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{attachment.id}?download=true',
+            'target': 'download',
+        }
+
+    def action_isdoc_download_isdocx(self):
+        """ The invoice as an ``.isdocx`` archive: the ISDOC, its manifest and the PDF. """
+        self.ensure_one()
+        if self.move_type not in ('out_invoice', 'out_refund') or self.state != 'posted':
+            raise UserError(_("An ISDOCX archive can be made only for a posted customer invoice or credit note."))
+        builder = self.env['account.edi.xml.isdoc']
+        pdf = self.invoice_pdf_report_id.raw or self.env['ir.actions.report']._render_qweb_pdf(
+            'account.account_invoices', res_ids=self.ids)[0]
+        raw, errors = builder._export_invoice_isdocx(self, pdf=pdf)
+        if errors:
+            raise UserError("\n".join(sorted(errors)))
+        filename = builder._export_invoice_filename(self) + 'x'
+        return self._isdoc_download_action(raw, filename, 'application/zip')

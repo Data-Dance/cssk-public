@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Show only the tax offices of the company's fiscal country. -->
+    <!-- Show only the tax offices of the fiscal countries of the companies
+         the user is working in. `company_ids` (the ACTIVE companies), not
+         `user.company_id` (the default one): a user with a Slovak and a
+         Czech company selected saw only one country's offices, and could not
+         set the other company's tax authority at all. -->
     <record id="cssk_tax_authority_fiscal_country_rule" model="ir.rule">
-        <field name="name">Tax authority: current fiscal country only</field>
+        <field name="name">Tax authority: fiscal countries of the active companies</field>
         <field name="model_id" ref="model_cssk_tax_authority"/>
         <field name="domain_force">
-            [('country_code', '=',
-              (user.company_id.account_fiscal_country_id.code
-               or user.company_id.country_id.code))]
+            [('country_code', 'in',
+              user.company_ids.browse(company_ids).mapped(
+                  lambda c: c.account_fiscal_country_id.code or c.country_id.code))]
         </field>
         <field name="global" eval="True"/>
     </record>

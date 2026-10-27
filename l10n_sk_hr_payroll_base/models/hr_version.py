@@ -29,7 +29,8 @@ class HrVersion(models.Model):
         """
         self.ensure_one()
         return applies(concept, self.l10n_sk_employment_form(),
-                       self.l10n_sk_income_is_regular())
+                       self.l10n_sk_income_is_regular(),
+                       self.l10n_sk_pension_status())
 
     def l10n_sk_employment_form(self):
         """This contract's employment form, defaulting to a pracovný pomer.
@@ -42,6 +43,17 @@ class HrVersion(models.Model):
         if "l10n_sk_agreement_type" not in self._fields:
             return EMPLOYMENT
         return self.l10n_sk_agreement_type or EMPLOYMENT
+
+    def l10n_sk_pension_status(self):
+        """The pension granted to the worker, or ``False`` for none.
+
+        Declared by the country payroll modules, like the agreement fields,
+        and probed for the same reason.
+        """
+        self.ensure_one()
+        if "l10n_sk_pension_type" not in self._fields:
+            return False
+        return self.l10n_sk_pension_type or False
 
     def l10n_sk_income_is_regular(self):
         """Whether the remuneration is a regular monthly income.

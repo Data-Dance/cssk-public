@@ -29,18 +29,24 @@ class ResCompany(models.Model):
         "by statutory reports.",
     )
     # DIČ lives on the company's partner record — no duplicate storage.
-    # § 3a ods. 1 Obchodného zákonníka (SK) and § 435 občanského zákoníku (CZ)
-    # require business documents to state the register and the entry number, so
-    # this text is printed on invoices rather than merely stored.
-    # Translatable: the clause is printed in the language of the document, and a
-    # company registered in both countries needs both wordings.
+    #
+    # ⚠️ RETIRED. This field claimed to be "printed on invoices and other
+    # business documents" and was printed nowhere: no report ever read it.
+    # Odoo's own l10n_sk / l10n_cz already carry the same fact as
+    # ``res.company.trade_registry`` and print it on the invoice
+    # (``l10n_sk.report_invoice_document`` / ``l10n_cz``'s), and
+    # l10n_sk_trade_registry keeps that one in step with the register. So the
+    # register entry belongs there, not in a second field. The 19.0.1.18.0
+    # end-migration copies a value entered here into ``trade_registry`` where
+    # that is empty; the field stays (off the form) so nothing typed is lost.
     l10n_cssk_registration_info = fields.Text(
-        string="Registration Info",
+        string="Registration Info (retired)",
         translate=True,
-        help="Commercial-register entry printed on invoices and other business "
-        "documents, e.g. 'Spoločnosť zapísaná v obchodnom registri Mestského "
-        "súdu Bratislava III, oddiel: Sro, vložka č. 155723/B.'",
+        help="Retired: enter the commercial-register entry in 'Trade "
+        "registry' on the company, which Odoo prints on invoices. A value "
+        "here is no longer shown or printed.",
     )
+
     # Year-end closing and reopening entries (trieda 5/6 -> 710, súvahové účty
     # -> 702, reopened from 701) are an artefact of the ledger, not activity of
     # the period. Left in, they wreck every statutory statement: the balance
@@ -82,3 +88,21 @@ class ResCompany(models.Model):
         "close/reopen mechanics. Leave empty if the year is never closed in "
         "this database.",
     )
+
+    def _cssk_retire_registration_info(self):
+        """Copy the retired register text into ``trade_registry``.
+
+        Only where ``trade_registry`` exists (l10n_sk / l10n_cz installed) and
+        is empty: a value already there was entered or synced on purpose.
+        ``trade_registry`` is a Char printed on one line, so whitespace and
+        line breaks collapse to single spaces. Returns the companies changed.
+        """
+        if "trade_registry" not in self._fields:
+            return self.browse()
+        changed = self.browse()
+        for company in self:
+            text = " ".join((company.l10n_cssk_registration_info or "").split())
+            if text and not company.trade_registry:
+                company.trade_registry = text
+                changed |= company
+        return changed

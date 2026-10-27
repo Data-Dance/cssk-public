@@ -8,6 +8,8 @@
             <field name="date_to" position="after">
                 <field name="cssk_first_zavierka"
                        invisible="version_id != %(l10n_sk_single_entry_closing.uzfo_v14)d"/>
+                <field name="cssk_uzfo_nature"
+                       invisible="version_id != %(l10n_sk_single_entry_closing.uzfo_v14)d"/>
             </field>
         </field>
     </record>

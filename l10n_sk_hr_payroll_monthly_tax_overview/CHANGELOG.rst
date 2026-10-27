@@ -18,6 +18,22 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.2.1.0] — 2026-10-27
+=========================
+
+**Added**
+
+- **Refund of the child tax bonus difference (Part III).** When the child tax bonus paid in a month exceeds the withheld tax advances, the company pays the difference from its own money (row C of Part II). The overview for the last month of a quarter (March, June, September, December) now has *Request refund of the child tax bonus difference*; when ticked, Part III asks the tax administrator to pay out the sum of row C over the quarter's three months. It used to be impossible to file the request from Odoo at all. Off by default, so the file is unchanged unless you ask for it.
+- ``data/SCHEMA_VERSION`` pins the bundled ``prehlad2026.xsd`` (verified byte-identical to the Finančná správa copy on 2026-10-27), with a test that the bytes still match.
+
+
+[19.0.2.0.1] — 2026-10-27
+=========================
+
+**Fixed**
+
+- **pravnaForma** is filled from the company's *Právna forma* (recorded by l10n_sk_trade_registry). It called a method no module defines and was always empty.
+
 19.0.2.0.0 (2026-09-16)
 =======================
 

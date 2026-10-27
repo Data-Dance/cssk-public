@@ -28,11 +28,12 @@ Usage
 a period, **Compute** to populate the tag-based lines from the period's postings,
 review the lines, then **Export XML** for the EPO portal.
 
-**Scope note (v1):** the 48 base/tax lines auto-compute; the deduction-claim
-lines (krácení coefficient) and the totals are entered/reviewed by the accountant
-(manual) — the inter-line totals can be auto-wired after accountant validation.
-The official EPO XSD is not yet wired (the export validates the root element and
-is well-formed); add it for submission-grade validation.
+**Scope:** the base/tax lines compute from the tax tags; ř. 46 and the
+totals ř. 62 – 66 compute from them as the EPO structure defines them (an
+override on any of them is kept); the deduction-claim lines of the krácení
+coefficient and ř. 60 are entered by the accountant. The export is validated
+against the official EPO ``dphdp3_epo2.xsd``, pinned in
+``data/SCHEMA_VERSION``.
 
 Credits
 =======

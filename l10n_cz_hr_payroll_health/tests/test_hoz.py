@@ -24,7 +24,7 @@ class TestHoz(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "CZ HOZ Co",
             "country_id": cls.env.ref("base.cz").id,
-            "company_registry": "12345678",
+            "company_registry": "25596641",
             "street": "Dlouhá 5",
             "city": "Praha",
             "zip": "11000",

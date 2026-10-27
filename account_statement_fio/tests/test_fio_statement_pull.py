@@ -250,6 +250,39 @@ class TestFioStatementPull(FioCommon):
         self.assertTrue(lines.statement_id)
         self.assertIn(self.journal.code, lines.statement_id.name)
 
+    def test_grouped_statements_balance_across_overlapping_runs(self):
+        """Each run re-reads a few days. A statement per run carried the
+        balances of the whole window but only the movements not seen before,
+        so it never balanced; one statement per day does."""
+        self.journal.sudo().fio_create_statements = True
+        first = statement_xml(
+            [movement(movement_id=1, date="2026-10-20+02:00", amount="-10.00"),
+             movement(movement_id=2, date="2026-10-20+02:00", amount="25.00"),
+             movement(movement_id=3, date="2026-10-21+02:00", amount="-5.00")],
+            info={"openingBalance": "100.00", "closingBalance": "110.00"},
+        )
+        # the next run starts on the 21st: its opening balance is the 20th's
+        # closing one, and it brings movement 3 again
+        second = statement_xml(
+            [movement(movement_id=3, date="2026-10-21+02:00", amount="-5.00"),
+             movement(movement_id=4, date="2026-10-21+02:00", amount="-1.00"),
+             movement(movement_id=5, date="2026-10-22+02:00", amount="50.00")],
+            info={"openingBalance": "115.00", "closingBalance": "159.00"},
+        )
+        self._pull(first)
+        self._pull(second)
+        statements = self.env["account.bank.statement"].search(
+            [("journal_id", "=", self.journal.id)], order="date")
+        self.assertEqual(
+            [(s.name.split("/")[-1], s.balance_start, s.balance_end_real,
+              len(s.line_ids)) for s in statements],
+            [("2026-10-20", 100.0, 115.0, 2),
+             ("2026-10-21", 115.0, 109.0, 2),
+             ("2026-10-22", 109.0, 159.0, 1)],
+        )
+        for statement in statements:
+            self.assertTrue(statement.is_complete, statement.name)
+
     def test_movements_mode_does_not_group_by_default(self):
         lines = self._pull(statement_xml([movement(movement_id=9)]))
         self.assertFalse(lines.statement_id)

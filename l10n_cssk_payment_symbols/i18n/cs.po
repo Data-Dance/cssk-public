@@ -1,0 +1,259 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:28+0000\n"
+"PO-Revision-Date: 2026-10-27 19:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_payment_symbols
+#. odoo-python
+#: code:addons/l10n_cssk_payment_symbols/models/account_move.py:0
+#: code:addons/l10n_cssk_payment_symbols/models/account_payment.py:0
+msgid "%(label)s must be at most %(size)s digits (got %(value)r)."
+msgstr "%(label)s smí mít nejvýše %(size)s číslic (zadáno %(value)r)."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model,name:l10n_cssk_payment_symbols.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model,name:l10n_cssk_payment_symbols.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model,name:l10n_cssk_payment_symbols.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_bank_statement_line__constant_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_bank_statement_line__l10n_cssk_constant_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_move__l10n_cssk_constant_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_payment__l10n_cssk_constant_symbol
+msgid "Constant Symbol"
+msgstr "Konstantní symbol"
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_res_company__l10n_cssk_default_constant_symbol
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_res_config_settings__l10n_cssk_default_constant_symbol
+msgid ""
+"Constant symbol preset on customer documents (e.g. 0008 goods, 0308 "
+"services). Leave empty for none."
+msgstr ""
+"Konstantní symbol předvyplněný na dokladech vydaných zákazníkům (např. 0008 "
+"zboží, 0308 služby). Ponechte prázdné, pokud žádný."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_bank_statement_line__l10n_cssk_constant_symbol
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_move__l10n_cssk_constant_symbol
+msgid ""
+"Constant symbol — payment classification code (e.g. 0008 goods, 0308 "
+"services). Optional."
+msgstr ""
+"Konstantní symbol — kód druhu platby (např. 0008 zboží, 0308 služby). "
+"Nepovinné."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_payment__l10n_cssk_constant_symbol
+msgid "Constant symbol — payment classification code. Optional."
+msgstr "Konstantní symbol — kód druhu platby. Nepovinné."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_company__l10n_cssk_refund_vs_policy
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_config_settings__l10n_cssk_refund_vs_policy
+msgid "Credit Note Variable Symbol"
+msgstr "Variabilní symbol dobropisu"
+
+#. module: l10n_cssk_payment_symbols
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_symbols.res_config_settings_view_form_cssk_symbols
+msgid "Credit note variable symbol"
+msgstr "Variabilní symbol dobropisu"
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_symbols.selection__res_company__l10n_cssk_refund_vs_policy__own
+msgid "Credit note's own number"
+msgstr "Vlastní číslo dobropisu"
+
+#. module: l10n_cssk_payment_symbols
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_symbols.res_config_settings_view_form_cssk_symbols
+msgid ""
+"Customer documents use the variable symbol as payment reference on posting —"
+" QR codes, UBL and bank matching then carry it automatically."
+msgstr ""
+"Doklady vydané zákazníkům použijí při zaúčtování variabilní symbol jako "
+"referenci platby — QR kódy, UBL a párování z banky jej pak nesou "
+"automaticky."
+
+#. module: l10n_cssk_payment_symbols
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_symbols.res_config_settings_view_form_cssk_symbols
+msgid "Czech / Slovak Payment Symbols"
+msgstr "České / slovenské platební symboly"
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_company__l10n_cssk_default_constant_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_config_settings__l10n_cssk_default_constant_symbol
+msgid "Default Constant Symbol"
+msgstr "Výchozí konstantní symbol"
+
+#. module: l10n_cssk_payment_symbols
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_symbols.res_config_settings_view_form_cssk_symbols
+msgid "Default constant symbol"
+msgstr "Výchozí konstantní symbol"
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_payment__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_payment_register__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_payment__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_payment_register__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model,name:l10n_cssk_payment_symbols.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_res_company__l10n_cssk_payment_reference_use_vs
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_res_config_settings__l10n_cssk_payment_reference_use_vs
+msgid ""
+"On posting, customer documents use the variable symbol as their payment "
+"reference — core QR codes, UBL payment IDs and bank matching then carry the "
+"symbol automatically. Does not change already-posted documents."
+msgstr ""
+"Při zaúčtování použijí doklady vydané zákazníkům variabilní symbol jako "
+"referenci platby — QR kódy, platební identifikátory UBL a párování z banky "
+"pak symbol nesou automaticky. Již zaúčtované doklady se nemění."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_symbols.selection__res_company__l10n_cssk_refund_vs_policy__origin
+msgid "Original invoice's variable symbol"
+msgstr "Variabilní symbol původní faktury"
+
+#. module: l10n_cssk_payment_symbols
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_symbols.res_config_settings_view_form_cssk_symbols
+msgid ""
+"Own document number, or the reversed invoice's symbol (customers often net "
+"payments by the original symbol)."
+msgstr ""
+"Vlastní číslo dokladu, nebo symbol opravované faktury (zákazníci často "
+"započítávají platby podle původního symbolu)."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model,name:l10n_cssk_payment_symbols.model_account_payment_register
+msgid "Pay"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_symbols.view_move_form_cssk_symbols
+#: model:ir.model.fields,field_description:account.field_account_move__payment_reference
+#: model:ir.model.fields,field_description:account.field_account_payment__payment_reference
+msgid "Payment Reference"
+msgstr "Reference platby"
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_company__l10n_cssk_payment_reference_use_vs
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_res_config_settings__l10n_cssk_payment_reference_use_vs
+msgid "Payment Reference = Variable Symbol"
+msgstr "Reference platby = variabilní symbol"
+
+#. module: l10n_cssk_payment_symbols
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_symbols.res_config_settings_view_form_cssk_symbols
+msgid "Payment reference = variable symbol"
+msgstr "Reference platby = variabilní symbol"
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model,name:l10n_cssk_payment_symbols.model_account_payment
+msgid "Payments"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_symbols.res_config_settings_view_form_cssk_symbols
+msgid "Preset on customer documents, e.g. 0008 goods, 0308 services."
+msgstr ""
+"Předvyplněno na dokladech vydaných zákazníkům, např. 0008 zboží, 0308 "
+"služby."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_bank_statement_line__l10n_cssk_specific_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_bank_statement_line__specific_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_move__l10n_cssk_specific_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_payment__l10n_cssk_specific_symbol
+msgid "Specific Symbol"
+msgstr "Specifický symbol"
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_bank_statement_line__l10n_cssk_specific_symbol
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_move__l10n_cssk_specific_symbol
+msgid ""
+"Specific symbol — additional payment identifier (used by insurers, leasing "
+"companies …). Optional."
+msgstr ""
+"Specifický symbol — doplňkový identifikátor platby (používají jej "
+"pojišťovny, leasingové společnosti …). Nepovinné."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_payment__l10n_cssk_specific_symbol
+msgid "Specific symbol — additional payment identifier. Optional."
+msgstr "Specifický symbol — doplňkový identifikátor platby. Nepovinné."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_bank_statement_line__l10n_cssk_variable_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_bank_statement_line__variable_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_move__l10n_cssk_variable_symbol
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols.field_account_payment__l10n_cssk_variable_symbol
+msgid "Variable Symbol"
+msgstr "Variabilní symbol"
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_payment__l10n_cssk_variable_symbol
+msgid ""
+"Variable symbol carried by the outgoing payment — pairs it with the "
+"supplier's document. Prefilled from the paid document(s) when unambiguous."
+msgstr ""
+"Variabilní symbol nesený odchozí platbou — páruje ji s dokladem dodavatele. "
+"Předvyplní se z hrazeného dokladu, je-li jednoznačný."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_bank_statement_line__l10n_cssk_variable_symbol
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_account_move__l10n_cssk_variable_symbol
+msgid ""
+"Variable symbol — pairs the payment with the invoice (usually the invoice "
+"number, digits only)."
+msgstr ""
+"Variabilní symbol — páruje platbu s fakturou (obvykle číslo faktury, pouze "
+"číslice)."
+
+#. module: l10n_cssk_payment_symbols
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_res_company__l10n_cssk_refund_vs_policy
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols.field_res_config_settings__l10n_cssk_refund_vs_policy
+msgid ""
+"Which variable symbol a customer credit note carries: its own document "
+"number (default), or the variable symbol of the invoice it reverses (common "
+"where customers net payments by the original symbol)."
+msgstr ""
+"Jaký variabilní symbol nese dobropis vydaný zákazníkovi: vlastní číslo "
+"dokladu (výchozí), nebo variabilní symbol faktury, kterou opravuje (běžné "
+"tam, kde zákazníci započítávají platby podle původního symbolu)."

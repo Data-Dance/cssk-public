@@ -187,6 +187,25 @@ Added
   (``l10n_sk_applies('SICKNESS_INSURANCE')``) and the answer lives in
   one readable table.
 
+[19.0.1.2.5] — 2026-10-27
+=========================
+
+Fixed
+~~~~~
+
+- **Paragraph numbers in the help texts.** The Zákonník práce numbers night
+  work § 123, Saturday § 122a, Sunday § 122b and the difficult-conditions
+  compensation § 124 (ods. 3); there is no § 122c. The rate and contract
+  help, the payslip section map and the README cited § 122a / § 122b /
+  § 122c / § 123. The percentages were right.
+- The reduced night / Saturday / Sunday rates can also be agreed in the
+  employment contract at an employer with no trade union and fewer than 20
+  employees (§ 123 ods. 2, § 122a ods. 2, § 122b ods. 2 písm. b)); the help
+  said a collective agreement only.
+- The stupeň náročnosti of a post is assigned under § 120 ods. 3 (was
+  ods. 2); the exclusions from the minimum-wage comparison are ods. 2 and the
+  proportional reduction of the monthly claim ods. 6 (code comments).
+
 [19.0.1.2.4] — 2026-09-13
 =========================
 

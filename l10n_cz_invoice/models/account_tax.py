@@ -17,3 +17,10 @@ class AccountTax(models.Model):
         "daňové povinnosti) so the mandatory §92a phrase is printed on the CZ "
         "invoice.",
     )
+    l10n_cz_invoice_triangular = fields.Boolean(
+        string="CZ Triangular trade phrase (§17)",
+        help="Mark the zero-rated tax used when this company is the middle "
+        "person of a triangular trade, so the CZ invoice states that it is a "
+        "triangular trade and that the customer pays the tax (§ 29 odst. 2 "
+        "písm. c) and e) of the Czech VAT Act).",
+    )

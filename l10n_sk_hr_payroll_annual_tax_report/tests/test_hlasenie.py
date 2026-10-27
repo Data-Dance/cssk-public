@@ -14,6 +14,9 @@ from datetime import date
 from lxml import etree
 
 from odoo.exceptions import UserError
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
 
@@ -115,6 +118,7 @@ class TestHlasenie(TransactionCase):
             if self.engine == "ee":
                 slip = slip.with_context(salary_simulation=True)
             slip.compute_sheet()
+            confirm_payslips(slip)
             for line in slip.line_ids:
                 totals[line.code] = totals.get(line.code, 0.0) + line.total
         return totals
@@ -271,3 +275,120 @@ class TestHlasenie(TransactionCase):
         decl = self._hlasenie(correction_type="corrective")
         with self.assertRaises(UserError):
             decl.action_generate()
+
+    def test_legal_form_comes_from_the_register_field(self):
+        """pravnaForma carries the partner's recorded právna forma (it called
+        a method no module defines and was always empty)."""
+        partner = self.company.partner_id
+        if "l10n_sk_legal_form" not in partner._fields:
+            self.skipTest("l10n_sk_trade_registry is not installed")
+        partner.l10n_sk_legal_form = "akciová spoločnosť"
+        self._seed_year()
+        decl = self._hlasenie()
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        self.assertEqual(root.findtext("hlavicka/po/pravnaForma"),
+                         "akciová spoločnosť")
+
+    # ------------------------------------------------------------------
+    # III. časť — bonus paid beyond the advances (2026-10-27)
+    # ------------------------------------------------------------------
+    def test_bonus_beyond_the_advances_is_recapitulated(self):
+        """r. 5 is capped at r. 4, so a bonus larger than the withheld advances
+        was reported nowhere: III. časť (rA/rB/rC) was emitted empty. The
+        poučenie: A = the whole bonus, B = the part paid from the advances,
+        C = A − B (paid from the employer's own money)."""
+        emp = self._create_employee("Bonus Velky", "8501011234", 915.0)
+        emp.version_id.write({
+            "l10n_sk_tax_declaration_signed": True,
+            "l10n_sk_children_under_15": 4,
+        })
+        totals = self._year_of_payslips(emp)
+        bonus = abs(round(totals.get("CHILD_BONUS", 0.0), 2))
+        advance = self._advance(totals)
+        self.assertGreater(bonus, advance,
+                           "premise: the bonus exceeds the withheld advances")
+        decl = self._hlasenie()
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        etree.XMLSchema(etree.parse(file_path(
+            "l10n_sk_hr_payroll_annual_tax_report/data/rh2023.xsd"))
+        ).assertValid(root)
+        r04 = float(root.findtext("telo/cast1/r04"))
+        r05 = float(root.findtext("telo/cast1/r05"))
+        self.assertAlmostEqual(r05, r04, 2, "r. 5 is capped at r. 4")
+        self.assertAlmostEqual(float(root.findtext("telo/cast3/rA")), bonus, 2)
+        self.assertAlmostEqual(float(root.findtext("telo/cast3/rB")), r05, 2)
+        self.assertAlmostEqual(
+            float(root.findtext("telo/cast3/rC")), round(bonus - r05, 2), 2)
+        self.assertGreater(float(root.findtext("telo/cast3/rC")), 0.0)
+
+    def test_multi_word_first_name_is_kept(self):
+        """The name was split as first word = first name, last word = surname,
+        dropping everything between. The surname is the last word; the first
+        name is everything before it."""
+        self._create_employee("Ján Peter Novák", "8501011234", 2000.0)
+        emp = self.env["hr.employee"].search(
+            [("identification_id", "=", "8501011234"),
+             ("company_id", "=", self.company.id)])
+        self._year_of_payslips(emp)
+        decl = self._hlasenie()
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        col = root.find("telo/cast5/c5stlpec1")
+        self.assertEqual(col.findtext("c5meno"), "Ján Peter")
+        self.assertEqual(col.findtext("c5priezvisko"), "Novák")
+
+
+@tagged("post_install", "-at_install")
+class TestSchemaPins(TransactionCase):
+    """The bundled schemas must match data/SCHEMA_VERSION.
+
+    Not a check that our copies are CURRENT — nothing local can answer that,
+    and a schema revised in place by the authority validates exactly as
+    before. What this checks is that the bundled bytes are the ones recorded
+    in SCHEMA_VERSION, and that no schema sits in data/ unpinned.
+    """
+
+    @staticmethod
+    def _data_dir():
+        import os
+        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(here, "data")
+
+    def _pins(self):
+        import os
+        pins = {}
+        path = os.path.join(self._data_dir(), "SCHEMA_VERSION")
+        with open(path, encoding="utf-8") as fh:
+            for raw in fh:
+                parts = raw.split()
+                if (len(parts) == 3 and parts[0].endswith(".xsd")
+                        and "/" not in parts[0]):
+                    pins[parts[0]] = (parts[1], int(parts[2]))
+        return pins
+
+    def test_bundled_schemas_match_the_pinned_digests(self):
+        import hashlib
+        import os
+        pins = self._pins()
+        self.assertTrue(pins, "SCHEMA_VERSION lists no schemas")
+        for name, (digest, size) in pins.items():
+            path = os.path.join(self._data_dir(), name)
+            self.assertTrue(os.path.exists(path),
+                            "%s is pinned but missing" % name)
+            with open(path, "rb") as fh:
+                blob = fh.read()
+            self.assertEqual(len(blob), size, "%s size moved" % name)
+            self.assertEqual(
+                hashlib.md5(blob).hexdigest(), digest,
+                "%s does not match its pin — if this is a deliberate "
+                "refresh, update data/SCHEMA_VERSION" % name)
+
+    def test_every_bundled_schema_is_pinned(self):
+        import os
+        on_disk = {f for f in os.listdir(self._data_dir())
+                   if f.endswith(".xsd")}
+        self.assertEqual(on_disk, set(self._pins()),
+                         "unpinned schema(s): %s"
+                         % sorted(on_disk - set(self._pins())))

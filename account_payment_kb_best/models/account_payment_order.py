@@ -40,8 +40,8 @@ class AccountPaymentOrder(models.Model):
                 # the database id makes Sekv_No unique across every file of
                 # the day, which KB requires and a per-file counter is not
                 ref_id=line.id,
-                iso_priority=getattr(line, "iso20022_priority", None),
-                iso_charge_bearer=getattr(line, "iso20022_charge_bearer", None),
+                iso_priority=line.iso20022_priority,
+                iso_charge_bearer=line.iso20022_charge_bearer,
             ))
         return items
 

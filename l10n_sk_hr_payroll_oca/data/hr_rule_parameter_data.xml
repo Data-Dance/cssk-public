@@ -123,6 +123,21 @@
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
 
+    <!-- § 136 písm. b) bod 2 zákona 461/2003: an employer who does NOT pay
+         the short-time financing for the worker (every dohoda — § 128 ods. 1
+         písm. g) limits it to a pracovný pomer) pays the unemployment
+         premium at 1 % instead of 0.5 %. Same text in the 1. 1. 2024 and
+         1. 9. 2026 consolidations on slov-lex. -->
+    <record id="rule_parameter_social_unemployment_er_no_shorttime" model="hr.rule.parameter">
+        <field name="name">Slovakia: Unemployment insurance rate (employer, no short-time financing)</field>
+        <field name="code">l10n_sk_social_unemployment_er_no_shorttime</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_social_unemployment_er_no_shorttime_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">1</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_unemployment_er_no_shorttime"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
     <record id="rule_parameter_social_shorttime_er" model="hr.rule.parameter">
         <field name="name">Slovakia: Short-time-work financing rate (employer)</field>
         <field name="code">l10n_sk_social_shorttime_er</field>
@@ -299,11 +314,12 @@
     </record>
 
     <!-- NČZD high-income taper. Annual tax base at/below the threshold => full
-         NČZD; above => NČZD_annual = max(0, taper_const - 0.25 * annual_base).
-         taper_const chosen for continuity at the threshold:
-           2025: 44.2 × ŽM(273.99) = 12110.36 ; threshold 25426.27 (92.8×)
-           2026: 43.95 × ŽM(284.13) = 12487.51 ; threshold 26083.13 (91.8×)
-         (The reform lowered the taper multiplier 92.8× -> 91.8×.) -->
+         NČZD; above => NČZD_annual = max(0, taper_const - annual_base / divisor)
+         (§ 11 ods. 2 písm. b) ZDP; divisor in l10n_sk_nczd_taper_divisor):
+           2025: 44.2 × ŽM(273.99) = 12110.36 − ¼ base ; threshold 25426.27 (92.8×)
+           2026: 51.6 × ŽM(284.13) = 14661.11 − ⅓ base ; threshold 26083.13 (91.8×)
+         (The 2026 wording lowered the threshold 92.8× -> 91.8× and changed
+         the taper from a quarter to a third of the base.) -->
     <record id="rule_parameter_nczd_taper_threshold" model="hr.rule.parameter">
         <field name="name">Slovakia: NČZD taper threshold (annual tax base)</field>
         <field name="code">l10n_sk_nczd_taper_threshold</field>
@@ -331,8 +347,32 @@
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
     <record id="rule_parameter_nczd_taper_const_2026" model="hr.rule.parameter.value">
-        <field name="parameter_value">12487.51</field>
+        <!-- § 11 ods. 2 písm. b) ZDP as in force from 1. 1. 2026:
+             51,6 × ŽM 284,13 = 14 661,11 €, minus ONE THIRD of the base
+             (zero at 43 983,33 €). Was 12 487,51 € with a quarter, which
+             is the 2025 shape carried over — it left a 2026 taxpayer with
+             NČZD up to a base of 49 950 €. -->
+        <field name="parameter_value">14661.11</field>
         <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_const"/>
+        <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+
+    <!-- Divisor of the base in the NČZD taper: NČZD = const − base / divisor.
+         § 11 ods. 2 písm. b) ZDP subtracts "jednej štvrtiny základu dane"
+         (2024, 2025) and "jednej tretiny základu dane" from 1. 1. 2026. -->
+    <record id="rule_parameter_nczd_taper_divisor" model="hr.rule.parameter">
+        <field name="name">Slovakia: NČZD taper divisor of the annual base</field>
+        <field name="code">l10n_sk_nczd_taper_divisor</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_nczd_taper_divisor_2024" model="hr.rule.parameter.value">
+        <field name="parameter_value">4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_divisor"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_nczd_taper_divisor_2026" model="hr.rule.parameter.value">
+        <field name="parameter_value">3</field>
+        <field name="rule_parameter_id" ref="rule_parameter_nczd_taper_divisor"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
 
@@ -393,11 +433,13 @@
     <!-- Annual income-tax bands [rate_fraction, annual_ceiling] applied
          progressively to the annual base after NČZD.
            2025: 19% <= 48 441,43 (176,8× ŽM 273,99) ; 25% above
-           2026: 19% <= 43 983,36 (154,8×) ; 25% <= 60 349,20 (212,4×) ;
+           2026: 19% <= 43 983,32 (154,8×) ; 25% <= 60 349,21 (212,4×) ;
                  30% <= 75 010,32 (264,0×) ; 35% above  [ŽM 284,13]
          2026 multipliers per the consolidation reform (Finančná správa; PwC,
-         KPMG, Accace). The 2026 annual ceilings are the monthly ceilings × 12,
-         keeping the RZ consistent with the monthly advance rule. -->
+         KPMG, Accace). The annual ceilings are the multiples of ŽM themselves
+         (§ 15 písm. a) bod 1 ZDP), NOT the monthly ceilings × 12: the monthly
+         ones are 1/12 of these rounded to the cent (§ 35 ods. 2), so × 12
+         gave 43 983,36 / 60 349,20 instead of 43 983,32 / 60 349,21. -->
     <record id="rule_parameter_income_tax_bands_annual" model="hr.rule.parameter">
         <field name="name">Slovakia: Income tax bands (annual)</field>
         <field name="code">l10n_sk_income_tax_bands_annual</field>
@@ -409,7 +451,7 @@
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
     <record id="rule_parameter_income_tax_bands_annual_2026" model="hr.rule.parameter.value">
-        <field name="parameter_value">[[0.19, 43983.36], [0.25, 60349.20], [0.30, 75010.32], [0.35, 1000000000.0]]</field>
+        <field name="parameter_value">[[0.19, 43983.32], [0.25, 60349.21], [0.30, 75010.32], [0.35, 1000000000.0]]</field>
         <field name="rule_parameter_id" ref="rule_parameter_income_tax_bands_annual"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>

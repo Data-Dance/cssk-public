@@ -23,9 +23,10 @@ Statutory basis, zákoník práce (zákon č. 262/2006 Sb.), private-sector *mzd
   a supplement of at least **100 %** of average earnings.
 * § 116 noční práce — at least **10 %** of average earnings. A different
   minimum may be agreed (``Je však možné sjednat jinou minimální výši``).
-* § 117 ztížené pracovní prostředí — at least **10 % of the basic minimum wage
-  rate**, per aggravating factor (nařízení vlády č. 567/2006 Sb. defines the
-  factors), NOT of average earnings.
+* § 117 ztížené pracovní prostředí — at least **10 % of the minimum wage**,
+  per aggravating factor (§ 3 odst. 1 nařízení vlády č. 443/2024 Sb., which
+  also defines the factors in § 2 odst. 2; until 31 December 2024 nařízení
+  vlády č. 567/2006 Sb.), NOT of average earnings.
 * § 118 práce v sobotu a v neděli — at least **10 %** of average earnings, and
   again a different minimum may be agreed.
 
@@ -180,12 +181,12 @@ def min_wage_hourly(
 
 
 def min_wage_topup_hourly(qualifying_wage, hours_worked, hourly_claim, digits=2):
-    """Doplatek to the minimum wage for an HOURLY-paid employee (§ 111 odst. 3).
+    """Doplatek to the HOURLY minimum wage (§ 111 odst. 2).
 
     The comparison is per hour, which makes part-timers and mid-month starters
     fall out for free: the fraction of the month worked appears on both sides.
 
-    *qualifying_wage* must already EXCLUDE what § 111 odst. 3 keeps out of the
+    *qualifying_wage* must already EXCLUDE what § 111 odst. 1 keeps out of the
     comparison — mzda za práci přesčas and the příplatky for svátek, noční
     práce, ztížené pracovní prostředí and sobota/neděle, i.e. every surcharge
     this module computes. Including them would let a night shift paper over a
@@ -205,15 +206,15 @@ def min_wage_topup_hourly(qualifying_wage, hours_worked, hourly_claim, digits=2)
 def min_wage_topup_monthly(
     qualifying_wage, hours_worked, full_time_hours, monthly_claim, digits=2
 ):
-    """Doplatek for a MONTHLY-paid employee (§ 111 odst. 3).
+    """Doplatek to the MONTHLY minimum wage (§ 111 odst. 2 and 6).
 
-    A monthly-paid employee is measured against the MONTHLY claim, not the
-    hourly one, and the two genuinely disagree: the published hourly figure is
-    the monthly amount over a nominal month, so in a month that schedules more
-    hours than that nominal an employee paid exactly the monthly minimum falls
-    short of the hourly minimum while being lawfully paid. Dividing their
-    salary by the month's hours and comparing against the hourly claim would
-    invent a top-up no employer owes.
+    Used only where the monthly minimum wage was agreed, set or determined
+    in advance; otherwise § 111 odst. 2 písm. a) compares per hour. The two
+    genuinely disagree: the published hourly figure is the monthly amount over
+    a nominal month, so in a month that schedules more hours than that nominal
+    an employee paid exactly the monthly minimum falls short of the hourly
+    minimum. On the hourly basis that shortfall IS owed; on an agreed monthly
+    basis it is not.
 
     *full_time_hours* must be what a FULL-TIME contract would have worked in
     the same period, not what this employee was scheduled: dividing a

@@ -14,7 +14,7 @@
                            options="{'no_create': True}"/>
                     <field name="tax_method" invisible="not tax_depreciation_enabled"/>
                     <field name="tax_increased_first_year"
-                           invisible="not tax_depreciation_enabled or tax_method != 'linear'"/>
+                           invisible="not tax_depreciation_enabled or tax_method not in ('linear', 'accelerated')"/>
                 </group>
             </xpath>
         </field>
@@ -64,7 +64,7 @@
                                    invisible="not tax_depreciation_enabled"
                                    readonly="tax_method_locked"/>
                             <field name="tax_increased_first_year"
-                                   invisible="not tax_depreciation_enabled or tax_method != 'linear' or tax_country_code != 'CZ'"/>
+                                   invisible="not tax_depreciation_enabled or tax_method not in ('linear', 'accelerated') or tax_country_code != 'CZ'"/>
                             <field name="tax_method_locked"
                                    invisible="not tax_depreciation_enabled"/>
                         </group>
@@ -73,6 +73,8 @@
                                    invisible="not tax_depreciation_enabled"/>
                             <field name="tax_vehicle_capped"
                                    invisible="not tax_depreciation_enabled"/>
+                            <field name="tax_sk_disposal_months"
+                                   invisible="not tax_depreciation_enabled or tax_country_code != 'SK'"/>
                             <field name="tax_in_service_date_override"
                                    invisible="not tax_depreciation_enabled"/>
                             <field name="tax_value_depreciated"
@@ -103,6 +105,7 @@
                             <!-- filed flag is set by the close-year / backfill
                                  wizards only; never hand-editable -->
                             <field name="posted" readonly="1"/>
+                            <field name="vehicle_addback" optional="hide"/>
                             <field name="note"/>
                             <field name="currency_id" column_invisible="1"/>
                         </list>

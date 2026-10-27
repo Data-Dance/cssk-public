@@ -101,13 +101,15 @@
                             <field name="line_ids">
                                 <list editable="bottom" create="false"
                                       delete="false"
-                                      decoration-warning="is_overridden">
+                                      decoration-warning="is_overridden"
+                                      decoration-muted="is_storno">
                                     <field name="partner_country_code"
                                            readonly="1"/>
                                     <field name="partner_vat" readonly="1"/>
                                     <field name="transaction_code" readonly="1"/>
                                     <field name="supplies_count" readonly="1"/>
                                     <field name="total_amount" readonly="1"/>
+                                    <field name="is_storno" optional="show"/>
                                     <field name="source_reconciles" string="✓"
                                            widget="boolean"/>
                                     <button name="action_view_source_lines"

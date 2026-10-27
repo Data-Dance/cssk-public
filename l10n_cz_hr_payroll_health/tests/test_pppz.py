@@ -11,6 +11,9 @@ from datetime import date
 from lxml import etree
 
 from odoo.exceptions import UserError
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
 
@@ -26,7 +29,7 @@ class TestPppz(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "CZ Health Co",
             "country_id": cls.env.ref("base.cz").id,
-            "company_registry": "12345678",
+            "company_registry": "25596641",
             "street": "Hluboká 1",
             "city": "Praha",
             "zip": "11000",
@@ -86,6 +89,7 @@ class TestPppz(TransactionCase):
         if self.engine == "ee":
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         return employee, slip
 
     def test_generate_and_validate(self):
@@ -124,7 +128,7 @@ class TestPppz(TransactionCase):
         self.assertEqual(root.find(".//p:soucetPojistneho", NS).text, "6750")
         # Envelope constants.
         self.assertEqual(
-            root.find(".//p:identifikacniCisloPlatce", NS).text, "1234567800")
+            root.find(".//p:identifikacniCisloPlatce", NS).text, "2559664100")
 
     def test_submit_locks(self):
         self._employee_payslip("Pavel Novak", 50000.0)

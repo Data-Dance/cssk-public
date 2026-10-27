@@ -120,17 +120,36 @@ class TestPurchaseAdvance(AccountTestInvoicingCommon):
         self.assertEqual(advance.advance_invoice_payment_status, "paid_fully")
         self.assertEqual(advance.amount_paid, advance.amount_total)
 
+    def _company_in(self, code):
+        country = self.env.ref("base.%s" % code)
+        self.env.company.country_id = country
+        self.env.company.account_fiscal_country_id = country
+
     def test_expected_doc_date(self):
+        """CZ § 28 odst. 8: 15 days, no month cap. SK § 73 ods. 1 písm. b):
+        15 days or the month end, whichever is later (from 2016)."""
         advance = self._advance()
-        # mid-month payment: +15 days wins
+        self._company_in("cz")
         self.assertEqual(
             advance._advance_invoice_tax_doc_deadline(date(2026, 7, 1)),
             date(2026, 7, 16),
         )
-        # late-month payment: end of month wins
         self.assertEqual(
             advance._advance_invoice_tax_doc_deadline(date(2026, 7, 25)),
+            date(2026, 8, 9),
+        )
+        self._company_in("sk")
+        self.assertEqual(
+            advance._advance_invoice_tax_doc_deadline(date(2026, 7, 1)),
             date(2026, 7, 31),
+        )
+        self.assertEqual(
+            advance._advance_invoice_tax_doc_deadline(date(2026, 7, 25)),
+            date(2026, 8, 9),
+        )
+        self.assertEqual(
+            advance._advance_invoice_tax_doc_deadline(date(2015, 7, 1)),
+            date(2015, 7, 16),
         )
 
     def test_tax_doc_full_cycle(self):
@@ -260,6 +279,62 @@ class TestPurchaseAdvance(AccountTestInvoicingCommon):
         self.assertEqual(len(deduction_lines), 1)
         self.assertFalse(deduction_lines.tax_ids)
         self.assertEqual(deduction_lines.price_unit, -advance.amount_paid)
+
+    def _bill(self):
+        return self.env["account.move"].create({
+            "move_type": "in_invoice",
+            "partner_id": self.partner_a.id,
+            "invoice_date": date(2026, 7, 15),
+            "invoice_line_ids": [
+                Command.create({
+                    "product_id": self.service.id,
+                    "quantity": 1,
+                    "price_unit": 1000.0,
+                })
+            ],
+        })
+
+    def _link(self, bill, advance):
+        self.env["account.move.link.purchase.advance.wizard"].with_context(
+            active_model="account.move", active_id=bill.id
+        ).create({"advance_ids": [Command.set(advance.ids)]}).action_link()
+        return bill.invoice_line_ids.filtered(
+            lambda line: line.advance_deduction_order_id == advance
+        )
+
+    def test_a_payment_no_tax_document_covers_is_deducted_gross(self):
+        """Paid in full, the supplier documented only half: the other half
+        used to be left out of the deduction altogether."""
+        advance = self._advance(price=400.0)
+        self._pay(advance)
+        half = advance.currency_id.round(advance.amount_total / 2)
+        self._register_tax_doc(advance, amount=half).action_post()
+
+        lines = self._link(self._bill(), advance)
+        taxed = lines.filtered("tax_ids")
+        untaxed = lines - taxed
+        self.assertAlmostEqual(-sum(taxed.mapped("price_total")), half, places=2)
+        self.assertEqual(len(untaxed), 1)
+        self.assertAlmostEqual(
+            -untaxed.price_total, advance.amount_paid - half, places=2)
+        self.assertAlmostEqual(
+            advance._advance_deducted_amount_now(), advance.amount_paid, places=2)
+
+    def test_documented_lines_are_not_deducted_twice(self):
+        """A second bill after a partial deduction takes only what is left."""
+        advance = self._advance(price=400.0)
+        self._pay(advance)
+        self._register_tax_doc(advance).action_post()
+        first = self._bill()
+        lines = self._link(first, advance)
+        # the first bill deducted only half of it, by hand
+        lines.price_unit = lines.price_unit / 2
+        left = advance.amount_paid - advance._advance_deducted_amount_now()
+
+        second = self._link(self._bill(), advance)
+        self.assertAlmostEqual(-sum(second.mapped("price_total")), left, places=2)
+        self.assertAlmostEqual(
+            advance._advance_deducted_amount_now(), advance.amount_paid, places=2)
 
     def test_parent_po_auto_deduction(self):
         parent = self.env["purchase.order"].create({

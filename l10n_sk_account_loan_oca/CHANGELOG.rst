@@ -8,6 +8,24 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.2.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- The Slovak lease fields are on the lease form, in the *Leasing* tab under
+  *Slovak tax treatment*: *Režim DPH* (required for a Slovak leasing
+  contract), *Odpisová skupina predmetu*, the computed lease term and the
+  warning when the term is below 60 % of the depreciation period. They existed
+  before but no form showed them, so the VAT treatment could not be changed.
+
+Fixed
+~~~~~
+
+- Instalment bills of a lease whose VAT treatment has not been chosen keep
+  their VAT (see ``l10n_sk_account_loan_base`` 19.0.1.0.3).
+
 [19.0.1.1.2] — 2026-09-13
 -------------------------
 

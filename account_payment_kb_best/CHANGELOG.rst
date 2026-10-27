@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- Priority and Charge Bearer on the payment line, read by the domestic and
+  foreign BEST records. They used to be read from fields no Community module
+  defines, so every payment was normal priority with shared charges.
+
 [19.0.1.0.0] — 2026-09-28
 -------------------------
 

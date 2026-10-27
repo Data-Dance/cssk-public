@@ -93,12 +93,20 @@ class PosCategory(models.Model):
     def _vrp2_pull(self, register):
         """Pull all categories from VRP2 and upsert as top-level pos.category.
 
+        Each pulled entry is linked to this till (not ``created_here``: it was
+        on the register first, so no push will ever delete it).
+
         Returns the count of categories synced.
         """
         client = self.env["vrp2.client"]
+        Link = self.env["vrp2.catalog.link"]
         company = register.company_id
         resp = client._get_category_list(register)
         categories = resp.get("categories", [])
+        by_remote = {
+            link.remote_ref: link
+            for link in Link._for(register, "category").values()
+        }
 
         synced = 0
         for cat_data in categories:
@@ -106,7 +114,10 @@ class PosCategory(models.Model):
             if not vrp2_id:
                 continue
 
-            existing = self.search([("vrp2_id", "=", vrp2_id)], limit=1)
+            link = by_remote.get(str(vrp2_id))
+            existing = self.browse(link.res_id).exists() if link else self.browse()
+            if not existing:
+                existing = self.search([("vrp2_id", "=", vrp2_id)], limit=1)
 
             color_data = cat_data.get("color", {})
             vrp2_color_id = color_data.get("id") or 66
@@ -124,7 +135,18 @@ class PosCategory(models.Model):
             if existing:
                 existing.write(vals)
             else:
-                self.create(vals)
+                existing = self.create(vals)
+            if link:
+                link.res_id = existing.id
+            else:
+                stale = Link._for(register, "category").get(existing.id)
+                if stale:
+                    stale.remote_ref = str(vrp2_id)
+                else:
+                    Link.create({
+                        "config_id": register.id, "kind": "category",
+                        "res_id": existing.id, "remote_ref": str(vrp2_id),
+                    })
             synced += 1
 
         _logger.info(
@@ -134,29 +156,43 @@ class PosCategory(models.Model):
         )
         return synced
 
+    @api.model
+    def _vrp2_intended(self, register):
+        """The top-level categories this till sells from."""
+        intended = self.search([("parent_id", "=", False)])
+        if register.limit_categories and register.iface_available_categ_ids:
+            roots = self.browse()
+            for categ in register.iface_available_categ_ids:
+                while categ.parent_id:
+                    categ = categ.parent_id
+                roots |= categ
+            intended &= roots
+        return intended
+
     # ------------------------------------------------------------------
     # Push: Odoo → VRP2  (bulk — single API call)
     # ------------------------------------------------------------------
 
     @api.model
     def _vrp2_push(self, register):
-        """Push all top-level POS categories to VRP2 in one bulk call.
+        """Push this till's top-level POS categories to VRP2 in one bulk call.
 
-        All top-level pos.category records are synced. If vrp2_short_name
-        is not set, it is auto-generated from the first 2 chars of the name.
+        If vrp2_short_name is not set, it is auto-generated from the first
+        2 chars of the name. Color is derived from pos.category.color.
 
-        Color is derived from Odoo's pos.category.color field.
-
-        Deletes from VRP2 any category that exists there but is no
-        longer in the intended set.
+        Deletes from VRP2 only a category that THIS till's pushes created
+        there (see ``vrp2.catalog.link``) and whose Odoo category is gone or
+        no longer offered on the till. A category made in the VRP2 app, by
+        another till or by another database is never deleted.
 
         Returns (created, updated, deleted) counts.
         """
         client = self.env["vrp2.client"]
+        Link = self.env["vrp2.catalog.link"]
         company = register.company_id
 
-        # 1. All top-level categories
-        intended = self.search([("parent_id", "=", False)])
+        # 1. The categories this till offers
+        intended = self._vrp2_intended(register)
 
         # Auto-fill vrp2_short_name where missing
         for cat in intended:
@@ -169,8 +205,28 @@ class PosCategory(models.Model):
         remote_cats = resp.get("categories", [])
         remote_ids = {c["id"] for c in remote_cats if c.get("id")}
 
+        links = Link._for(register, "category")
+        # A link whose entry is gone from the register (deleted in the app)
+        # is dropped: the category is created again rather than addressed by
+        # a dead id.
+        for res_id, link in list(links.items()):
+            if int(link.remote_ref) not in remote_ids:
+                link.unlink()
+                del links[res_id]
+        linked_remote = {int(link.remote_ref) for link in links.values()}
+        # Adopt the id from before per-till links: the category's own vrp2_id,
+        # when this register has it and no other record claims it. Adopted,
+        # not created here — so never deleted.
+        for cat in intended:
+            if cat.id not in links and cat.vrp2_id in remote_ids \
+                    and cat.vrp2_id not in linked_remote:
+                links[cat.id] = Link.create({
+                    "config_id": register.id, "kind": "category",
+                    "res_id": cat.id, "remote_ref": str(cat.vrp2_id),
+                })
+                linked_remote.add(cat.vrp2_id)
+
         # 3. Build setCategories
-        intended_vrp2_ids = set()
         set_categories = []
         for order, cat in enumerate(intended, start=1):
             vrp2_color = ODOO_TO_VRP2_COLOR.get(cat.color or 0, 66)
@@ -180,16 +236,18 @@ class PosCategory(models.Model):
                 "shortName": cat.vrp2_short_name,
                 "colorId": vrp2_color,
             }
-            if cat.vrp2_id:
-                entry["categoryId"] = cat.vrp2_id
-                intended_vrp2_ids.add(cat.vrp2_id)
+            if cat.id in links:
+                entry["categoryId"] = int(links[cat.id].remote_ref)
             set_categories.append(entry)
 
-        # 4. Build deleteCategories — remote IDs not in intended set
+        # 4. deleteCategories — only what this till created and no longer offers
+        doomed = [
+            link for res_id, link in links.items()
+            if res_id not in intended.ids
+        ]
         delete_categories = [
-            {"categoryId": rid}
-            for rid in remote_ids
-            if rid not in intended_vrp2_ids
+            {"categoryId": int(link.remote_ref)}
+            for link in doomed if link.created_here
         ]
 
         if not set_categories and not delete_categories:
@@ -201,35 +259,43 @@ class PosCategory(models.Model):
         }
         resp = client._set_category(register, data)
 
-        # 5. Update local vrp2_id from response
+        # 5. Record what the register answered
         created = 0
         updated = 0
         resp_cats = resp.get("categories", []) if resp else []
+        resp_by_id = {rc.get("id"): rc for rc in resp_cats if rc.get("id")}
         resp_by_name = {}
         for rc in resp_cats:
-            resp_by_name.setdefault(rc.get("name"), rc)
+            if rc.get("id") not in linked_remote:
+                resp_by_name.setdefault(rc.get("name"), rc)
 
         for cat in intended:
-            if cat.vrp2_id:
-                for rc in resp_cats:
-                    if rc.get("id") == cat.vrp2_id:
-                        cat.vrp2_order = rc.get("order", 0)
-                        break
+            link = links.get(cat.id)
+            if link:
+                rc = resp_by_id.get(int(link.remote_ref))
+                if rc:
+                    cat.vrp2_order = rc.get("order", 0)
                 updated += 1
             else:
-                rc = resp_by_name.get(cat.name)
+                rc = resp_by_name.pop(cat.name, None)
                 if rc and rc.get("id"):
+                    Link.create({
+                        "config_id": register.id, "kind": "category",
+                        "res_id": cat.id, "remote_ref": str(rc["id"]),
+                        "created_here": True,
+                    })
                     cat.vrp2_id = rc["id"]
                     cat.vrp2_order = rc.get("order", 0)
                     created += 1
 
         deleted = len(delete_categories)
-
-        if deleted:
-            orphaned = self.search([
-                ("vrp2_id", "in", [d["categoryId"] for d in delete_categories]),
-            ])
-            orphaned.write({"vrp2_id": False, "vrp2_order": False})
+        if doomed:
+            gone = [int(link.remote_ref) for link in doomed if link.created_here]
+            if gone:
+                self.search([("vrp2_id", "in", gone)]).write(
+                    {"vrp2_id": False, "vrp2_order": False})
+            for link in doomed:
+                link.unlink()
 
         _logger.info(
             "VRP2 category push for %s: %d created, %d updated, %d deleted",

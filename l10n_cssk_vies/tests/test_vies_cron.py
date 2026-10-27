@@ -17,8 +17,12 @@ class TestViesCron(TransactionCase):
         # A checksum-valid SK IČ DPH: base_vat rejects the number this fixture used
         # to carry (SK2022334455), so setUpClass died before a single test ran.
         cls.env.company.vat = "SK2022749619"
+        cls.env.company.country_id = cls.env.ref("base.sk")
+        cls.env.company.account_fiscal_country_id = cls.env.ref("base.sk")
         Partner = cls.env["res.partner"].with_context(no_vat_validation=True)
-        cls.eu_sk = Partner.create({"name": "EU SK", "vat": "SK2023456787"})
+        # Cross-border for the Slovak company: a Czech customer. (The name of
+        # the attribute predates the domestic exclusion below.)
+        cls.eu_sk = Partner.create({"name": "EU CZ", "vat": "CZ25596641"})
         cls.eu_el = Partner.create({"name": "EU Greek", "vat": "EL123456783"})
         cls.non_eu = Partner.create(
             {"name": "Swiss", "vat": "CHE-116.281.710"}
@@ -80,3 +84,19 @@ class TestViesCron(TransactionCase):
         self.assertTrue(checked)
         self.assertEqual(mock_sleep.call_count, len(checked))
         mock_sleep.assert_called_with(0.5)
+
+    def test_cron_skips_domestic_vat_numbers(self):
+        """VIES proves nothing about a domestic supply; core does not show the
+        status for one either. Every EU contact used to be re-checked."""
+        domestic = self.env["res.partner"].with_context(no_vat_validation=True).create(
+            {"name": "Domáca", "vat": "SK2023456787"})
+        checked, _s = self._run_cron()
+        self.assertNotIn(domestic.vat, checked)
+        self.assertIn(self.eu_sk.vat, checked)
+
+    def test_cron_skips_contacts_of_other_companies(self):
+        other = self.env["res.company"].create({"name": "Iná firma"})
+        theirs = self.env["res.partner"].with_context(no_vat_validation=True).create(
+            {"name": "Ich zákazník", "vat": "DE129273398", "company_id": other.id})
+        checked, _s = self._run_cron()
+        self.assertNotIn(theirs.vat, checked)

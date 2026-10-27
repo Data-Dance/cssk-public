@@ -5,6 +5,65 @@ Changelog
 Unreleased
 ==========
 
+[19.0.1.5.0] — 2026-10-27
+=========================
+
+Fixed
+~~~~~
+
+- **Draft and waiting payslips are no longer declared.** Every declaration
+  counted any payslip that was not cancelled, so a draft someone was still
+  working on — or had abandoned — reached the authority. Only confirmed
+  payroll is reported now: *Done* on the OCA engine, *Validated* or *Paid* on
+  Enterprise. Confirm the month's payslips before generating.
+- **Payslips that cross a month or year boundary were dropped.** A payslip
+  was taken only if it lay entirely inside the period, so one for 15 March
+  – 14 April, or a December payslip ending in January, appeared in no
+  declaration at all. A payslip now belongs to the period its end date falls
+  in, so each one is reported exactly once.
+- **Insured days follow the employment, not the length of the period.**
+  The per-employee days were always the whole month (or year); they are now
+  the days of employment inside the period, read from every contract version
+  of the employee rather than only the current one.
+- **The version picker offers only the form being prepared.** It listed the
+  vintages of every form of the country.
+
+Added
+~~~~~
+
+- A *Payroll Reporting* tab on the company form with the ČSSZ variable
+  symbol and OSSZ code; the declarations refused to generate without them but
+  there was nowhere to enter them.
+- The payslip adapter also returns each rule's base (amount × quantity), so a
+  form can report an assessment base instead of deriving it from a premium.
+
+[19.0.1.4.4] — 2026-10-27
+=========================
+
+Fixed
+~~~~~
+
+- **The form version now follows the period, not today.** A declaration
+  picked its form version from the day it was created, so last year's filing
+  prepared this year was rendered in this year's vintage. *Generate* now
+  switches to the version valid for the period, and refuses a period no
+  version covers — including a period after a form was discontinued — with a
+  message naming the form and, where the form module knows it, what replaced
+  it. *Version* is no longer a required field for that reason: its default
+  comes from today and may legitimately be empty.
+- **A correction of an annual filing prepared in a later month was refused.**
+  The check for an earlier submitted filing compared the year *and the
+  month*, and an annual form keeps the month it was created in. It now
+  compares the period (first and last day), so an annual corrective filing
+  finds the regular one whatever month either was created in.
+
+Added
+~~~~~
+
+- A shared helper that splits an employee's name into first name and surname
+  for the authority forms (the last word is the surname; separate first/last
+  name fields are used when a module provides them).
+
 19.0.1.4.1 — 2026-09-13
 =========================
 

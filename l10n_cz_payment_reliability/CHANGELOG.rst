@@ -16,6 +16,19 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A Czech account in the domestic form matches its published IBAN.**
+  ``19-2000145399/0800`` on the bill was compared as ``1920001453990800`` and
+  reported as NOT registered.
+- **A subject ADIS does not hold as a VAT payer** (NENALEZEN) is reported as
+  *Not checked / unavailable*, not as paying an unregistered account: § 109
+  zákona o DPH concerns supplies by "jiný plátce" only.
+
 [19.0.1.0.2] — 2026-07-04
 -------------------------
 

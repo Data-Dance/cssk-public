@@ -39,6 +39,13 @@
                         help="Move VAT declared in a later period than it is booked to this account until then, so 343 agrees with each VAT return. Empty: off.">
                         <field name="cssk_vat_deferral_account_id"/>
                     </setting>
+                    <setting
+                        id="cssk_closing_journals"
+                        string="Year-end closing journals"
+                        help="Journals holding the year-end closing and reopening entries. Left out of the financial statements, the income-tax return and the financial reports. Empty if the year is never closed in this database.">
+                        <field name="l10n_cssk_closing_journal_ids" widget="many2many_tags"
+                               options="{'no_create': True}"/>
+                    </setting>
                 </block>
             </xpath>
         </field>

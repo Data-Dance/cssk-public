@@ -16,3 +16,6 @@ class TestGarnishmentResetOca(GarnishmentResetCommon, TransactionCase):
 
     def test_reset_is_allowed_while_nothing_has_been_remitted(self):
         self._check_reset_allowed_before_remittance()
+
+    def test_cancel_is_blocked_once_the_deduction_is_remitted(self):
+        self._check_cancel_blocked_after_remittance()

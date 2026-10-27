@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "ISDOC Import — Received Advance Invoices",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "summary": "Route imported ISDOC advance documents (DocumentType 4/5/6) "
                "into the received-advances flow.",
     "description": """

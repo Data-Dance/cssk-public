@@ -8,6 +8,33 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.2.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The two wizards have a menu.** *Generate Balance Confirmations*
+  (Customers) and *Create Netting Agreement* (Vendors) existed with no way to
+  open them.
+
+- **A set-off line takes only the partner's open receivables and payables.**
+  The journal-item field offered any journal item of any partner and account;
+  it is now limited, and a line that is not a posted receivable or payable of
+  the agreement's partner in its company is refused.
+
+- **Set-off notice: when the claims extinguish, and under which law.** The
+  unilateral notice cited only § 358 of the Slovak Commercial Code, also for a
+  Czech company, and said the set-off takes effect on delivery. The claims
+  extinguish as of the moment they became capable of set-off (§ 580 of the
+  Slovak, § 1982 of the Czech Civil Code); the notice now says so and cites
+  the law of the company's country.
+
+- **PDF wording follows the company's country.** A Czech company gets Czech
+  text and *DIČ* instead of Slovak text and *IČ DPH*; the confirmation names
+  the parties *Company* and *Partner* instead of *Dodávateľ / Veriteľ* and
+  *Odberateľ*, which was wrong whenever payables were confirmed.
+
 [19.0.1.2.0] — 2026-09-28
 -------------------------
 

@@ -138,11 +138,35 @@ class AccountMove(models.Model):
     # Transport provider hooks (implemented by the provider module)
     # ------------------------------------------------------------------
 
+    def _peppol_transports(self):
+        """Provider keys of the installed Peppol transports. Each transport
+        module (``edi_editel_peppol``, ``edi_grit_peppol``,
+        ``edi_epostak_peppol``) adds its own."""
+        return []
+
+    def _peppol_chosen_transport(self):
+        """The transport that carries Peppol documents, or ``False``.
+
+        The only one installed, or — with several — the one the
+        ``peppol.transport`` setting names. Several and none named is
+        ``False`` on purpose: which one wins must not depend on the order
+        the modules happen to load in (see ``_peppol_route``).
+        """
+        transports = self._peppol_transports()
+        chosen = (
+            self.env["ir.config_parameter"].sudo().get_param("peppol.transport", "")
+        )
+        if chosen in transports:
+            return chosen
+        if len(transports) == 1:
+            return transports[0]
+        return False
+
     def _peppol_provider(self):
         """Return the transport provider key to stamp on outbound Peppol
         ``edi.message`` records. The neutral base returns ``False`` (no
-        transport installed); a provider module (``edi_editel_peppol`` /
-        ``edi_grit_peppol``) overrides to return e.g. ``'editel'``."""
+        transport chosen); a provider module overrides to return its key when
+        it is ``_peppol_chosen_transport()``."""
         return False
 
     def _peppol_send(self, msg):
@@ -206,11 +230,15 @@ class AccountMove(models.Model):
         if company.peppol_scope == "sk_mandate":
             if company.account_fiscal_country_id.code != "SK":
                 return "pdf", _("The Slovak mandate applies to a Slovak company.")
+            if not company.vat:
+                return "pdf", _(
+                    "%s has no VAT number: the Slovak mandate binds a VAT "
+                    "payer (§ 85o ods. 2 of the VAT Act).", company.name)
             if customer.country_id.code != "SK":
                 return "pdf", _(
                     "Cross-border customer (%s): not in the Slovak mandate.",
                     customer.country_id.code or _("no country"))
-            if not (customer.is_company or customer.vat):
+            if not customer._peppol_is_sk_business():
                 return "pdf", _("Consumer (B2C): not in the Slovak mandate.")
         if not self._peppol_partner_addressable(self.company_id.partner_id):
             return "blocked", _("%s has no Peppol address.", company.name)
@@ -220,6 +248,10 @@ class AccountMove(models.Model):
                     "%s is a Slovak business in the mandate but has no Peppol "
                     "address.", customer.name)
             return "pdf", _("%s has no Peppol address.", customer.name)
+        if not self._peppol_chosen_transport() and len(self._peppol_transports()) > 1:
+            return "blocked", _(
+                "Several Peppol transports are installed and none is chosen: "
+                "set Peppol Transport in Settings > EDI.")
         return "peppol", ""
 
     def _peppol_is_eligible(self):
@@ -326,6 +358,16 @@ class AccountMove(models.Model):
     # Emit
     # ------------------------------------------------------------------
 
+    def _peppol_check_send_access(self):
+        """Who may have a Peppol message recorded for this move: anyone who
+        may edit it, and an EDI Manager — who could create the message
+        anyway — on any move they may read. Both checks include the move's
+        company record rules."""
+        if self.env.user.has_group("edi_base.group_edi_manager"):
+            self.check_access("read")
+        else:
+            self.check_access("write")
+
     def _peppol_emit(self, queue_send=True, raise_on_error=True):
         """Generate the BIS3 UBL and create the outbound edi.message in
         state='ready'. When ``queue_send``, also dispatch it via the provider
@@ -335,14 +377,36 @@ class AccountMove(models.Model):
         auto-trigger callers pass False to log + continue across a batch.
         """
         self.ensure_one()
-        # Re-send reuses the single outbound message for this move (the Peppol
-        # message_id is the stable UBL cbc:ID, so a fresh create() would hit
-        # the (message_id, direction) uniqueness constraint). Guard against
+        # Posting with auto-send on, or Send & Print, is an accountant's
+        # action, and an accountant need not hold EDI Manager rights: the
+        # edi.message left behind is the transport's bookkeeping. So the
+        # message side runs as superuser, once the user has shown they may
+        # write this very move (its ACL and its company record rule).
+        self._peppol_check_send_access()
+        # Re-send reuses the single outbound message for this move: one
+        # invoice, one Peppol message (its message_id is the stable UBL
+        # cbc:ID), whatever was tried before. Guard against
         # clobbering an in-flight send (double-click / concurrent auto-post):
         # if the existing message is already queued or sent, don't touch it.
-        msg = self.peppol_message_ids.filtered(
+        msg = self.sudo().peppol_message_ids.filtered(
             lambda m: m.direction == "out"
         )[:1]
+        if msg and msg.state == "done" and not msg.is_test_mode:
+            # Delivered on the production network: a second transmission is
+            # a second invoice at the customer. A correction is a credit
+            # note, not a re-send. (Delivered from a sandbox, it never
+            # reached anyone, so it may go again — to production now.)
+            if raise_on_error:
+                raise UserError(
+                    _(
+                        "%(name)s was already delivered via Peppol (%(msg)s). "
+                        "Correct it with a credit note instead of sending it "
+                        "again.",
+                        name=self.name,
+                        msg=msg.name,
+                    )
+                )
+            return msg
         if msg and msg.state in ("queued", "sent"):
             if raise_on_error:
                 raise UserError(
@@ -358,12 +422,13 @@ class AccountMove(models.Model):
 
         try:
             xml_bytes, filename = self._peppol_generate_ubl()
-        except Exception:
+        except Exception as error:
             if raise_on_error:
                 raise
             _logger.exception(
                 "Error generating Peppol BIS3 for invoice %s", self.name
             )
+            self._peppol_report_auto_send_failure(error)
             return False
 
         doc_kind = "CreditNote" if self.move_type == "out_refund" else "Invoice"
@@ -373,16 +438,23 @@ class AccountMove(models.Model):
             else xml_bytes
         )
         if msg:
+            # Generated again, it goes where a new message would: through the
+            # transport and in the mode (test / production) in force now, not
+            # the ones of the first attempt — or a document once prepared in
+            # a sandbox could never reach production.
+            provider = self._peppol_provider()
             msg.write(
                 {
                     "name": filename,
                     "state": "ready",
                     "error_message": False,
                     "blocking_level": False,
+                    "provider": provider,
+                    "provider_mode": msg._edi_default_provider_mode(provider),
                 }
             )
         else:
-            msg = self.env["edi.message"].create(
+            msg = self.env["edi.message"].sudo().create(
                 {
                     "name": filename,
                     "direction": "out",
@@ -398,7 +470,7 @@ class AccountMove(models.Model):
         # the document). message_type/message_id/etc. are computed from it.
         msg._store_xml(xml_str, filename=filename)
         if queue_send:
-            self._peppol_send(msg)
+            self.sudo()._peppol_send(msg)
 
         link = Markup(
             '<a href="#" data-oe-model="edi.message" data-oe-id="%d">%s</a>'
@@ -414,6 +486,26 @@ class AccountMove(models.Model):
             },
         )
         return msg
+
+    def _peppol_report_auto_send_failure(self, error):
+        """Say on the invoice that its automatic Peppol send failed, and
+        leave the responsible person a To-Do: an invoice that is posted and
+        silently not e-invoiced looks exactly like one that was."""
+        self.ensure_one()
+        try:
+            self.message_post(body=_(
+                "Not sent via Peppol: the e-invoice could not be generated. "
+                "%(error)s Correct it and use Send via Peppol.",
+                error=str(error)))
+            self.activity_schedule(
+                "mail.mail_activity_data_warning",
+                summary=_("Peppol e-invoice not sent"),
+                note=str(error),
+                user_id=(self.invoice_user_id or self.env.user).id,
+            )
+        except Exception:
+            _logger.exception(
+                "Could not report the Peppol failure on invoice %s", self.name)
 
     # ------------------------------------------------------------------
     # Auto-send resolution + hooks
@@ -463,7 +555,7 @@ class AccountMove(models.Model):
         """The inbound Peppol Invoice/CreditNote ``edi.message`` this vendor
         bill was created from (carries the supplier's endpoint + invoice id)."""
         self.ensure_one()
-        return self.peppol_message_ids.filtered(
+        return self.sudo().peppol_message_ids.filtered(
             lambda m: m.direction == "in"
             and m.message_type in ("Invoice", "CreditNote")
         )[:1]
@@ -543,9 +635,15 @@ class AccountMove(models.Model):
             "<cbc:IssueDate>%(date)s</cbc:IssueDate>"
             "<cac:SenderParty>"
             '<cbc:EndpointID schemeID="%(beas)s">%(bend)s</cbc:EndpointID>'
+            "<cac:PartyLegalEntity>"
+            "<cbc:RegistrationName>%(bname)s</cbc:RegistrationName>"
+            "</cac:PartyLegalEntity>"
             "</cac:SenderParty>"
             "<cac:ReceiverParty>"
             '<cbc:EndpointID schemeID="%(seas)s">%(send)s</cbc:EndpointID>'
+            "<cac:PartyLegalEntity>"
+            "<cbc:RegistrationName>%(sname)s</cbc:RegistrationName>"
+            "</cac:PartyLegalEntity>"
             "</cac:ReceiverParty>"
             "<cac:DocumentResponse>"
             "<cac:Response><cbc:ResponseCode>%(code)s</cbc:ResponseCode>"
@@ -565,6 +663,8 @@ class AccountMove(models.Model):
             "date": issue_date,
             "beas": _xe(buyer_eas),
             "bend": _xe(buyer_endpoint),
+            "bname": _xe(buyer.name or ""),
+            "sname": _xe(seller.name or ""),
             "seas": _xe(supplier_eas),
             "send": _xe(supplier_endpoint),
             "code": _xe(code),
@@ -603,7 +703,10 @@ class AccountMove(models.Model):
             code, reason_clarifications, note
         )
         filename = "invoice_response_%s.xml" % response_id
-        msg = self.env["edi.message"].create(
+        # As in _peppol_emit: the message is bookkeeping, the move is what
+        # the user must be allowed to touch.
+        self._peppol_check_send_access()
+        msg = self.env["edi.message"].sudo().create(
             {
                 "name": filename,
                 "direction": "out",
@@ -617,7 +720,7 @@ class AccountMove(models.Model):
         )
         msg._store_xml(xml, filename=filename)
         if queue_send:
-            self._peppol_send(msg)
+            self.sudo()._peppol_send(msg)
 
         self.peppol_ir_sent_status = code
         label = dict(self._fields["peppol_ir_sent_status"].selection).get(

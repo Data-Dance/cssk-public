@@ -13,3 +13,7 @@ class AccountAssetLine(models.Model):
         help="Stored asset profile, so that depreciation lines can be "
         "grouped by profile in the pivot/graph analysis.",
     )
+    # OCA's remaining_value is a balance (what is left after the line), not a
+    # movement: the pivot summed it over every line of a year, which is a
+    # meaningless figure with monthly depreciation. Not a measure, then.
+    remaining_value = fields.Monetary(aggregator=None)

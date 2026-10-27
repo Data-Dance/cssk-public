@@ -195,3 +195,57 @@ class TestAccrual(AccountTestInvoicingCommon):
         self.assertTrue(est.reversal_move_id)
         lines = self._accrual_lines(est.move_id, est.reversal_move_id)
         self.assertTrue(all(lines.mapped("reconciled")))
+
+    def test_reset_to_draft_after_cancelling_a_posted_estimate(self):
+        """Cancelling reverses, it never unposts: the old check
+        (`move_id.state == 'posted'`) refused every such reset."""
+        est = self._estimate(1000.0, "payable")
+        est.action_post()
+        first_entry = est.move_id
+        est.action_cancel()
+        reversal = est.reversal_move_id
+
+        est.action_reset_to_draft()
+
+        self.assertEqual(est.state, "draft")
+        self.assertFalse(est.move_id)
+        self.assertFalse(est.reversal_move_id)
+        # The books keep both entries, netting to zero on the accrual account.
+        self.assertEqual(first_entry.state, "posted")
+        self.assertEqual(reversal.state, "posted")
+        self.assertTrue(
+            all(self._accrual_lines(first_entry, reversal).mapped("reconciled"))
+        )
+
+        est.amount = 1200.0
+        est.action_post()
+        self.assertEqual(est.state, "posted")
+        self.assertNotEqual(est.move_id, first_entry)
+        credit = est.move_id.line_ids.filtered(
+            lambda l: l.account_id == self.accrual_account
+        )
+        self.assertAlmostEqual(credit.credit, 1200.0)
+
+    def test_reset_to_draft_only_from_cancelled(self):
+        est = self._estimate(1000.0, "payable")
+        est.action_post()
+        with self.assertRaisesRegex(UserError, "Only a cancelled estimate"):
+            est.action_reset_to_draft()
+        self.assertEqual(est.state, "posted")
+
+    def test_reset_to_draft_refused_while_the_entry_stands(self):
+        """A cancelled estimate whose entry was never reversed keeps the guard."""
+        est = self._estimate(1000.0, "payable")
+        est.action_post()
+        est.state = "cancelled"  # e.g. data from before the reversal existed
+        with self.assertRaisesRegex(UserError, "Cancel the estimate first"):
+            est.action_reset_to_draft()
+
+    def test_accrual_type_labels_name_no_account(self):
+        """388 does not exist in the Slovak chart (§ 48 ods. 3 opatrenia
+        740/2002 books an unbilled receivable on the receivable account)."""
+        labels = dict(
+            self.env["cssk.accrual.estimate"]._fields["accrual_type"].selection
+        )
+        self.assertEqual(labels["payable"], "Estimated payable")
+        self.assertEqual(labels["receivable"], "Estimated receivable")

@@ -5,6 +5,14 @@ Changelog
 All notable changes to **l10n_sk_ekasa_receipt** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- Slovak translation.
+
 [19.0.1.1.0] — 2026-10-19
 -------------------------
 

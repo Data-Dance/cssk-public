@@ -14,6 +14,11 @@ class TestEcSummaryBase(TransactionCase):
         ):
             self.assertIn(model, self.env)
 
+    def test_the_code_is_on_the_tax_form(self):
+        arch = self.env["account.tax"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="cssk_ec_summary_code"', arch)
+
     def test_account_tax_field_present(self):
         self.assertIn(
             "cssk_ec_summary_code", self.env["account.tax"]._fields
@@ -33,11 +38,17 @@ class TestEcSummaryBase(TransactionCase):
         -1 836.07 where the filing has +2 235.57. Sixteen of eighteen rows
         matched because those documents stayed invoices.
         """
+        # Its own journal and account: at install time no chart is loaded
+        # yet, and a searched-for journal came back empty, so the test died
+        # in the fixture ("null value in column journal_id") and never
+        # reached its assertion.
         company = self.env.company
-        journal = self.env["account.journal"].search(
-            [("type", "=", "general"), ("company_id", "=", company.id)], limit=1)
-        account = self.env["account.account"].search(
-            [("company_ids", "in", company.id)], limit=1)
+        journal = self.env["account.journal"].create({
+            "name": "EC test", "code": "ECTST", "type": "general",
+            "company_id": company.id})
+        account = self.env["account.account"].create({
+            "code": "604999", "name": "EC test", "account_type": "income",
+            "company_ids": [(6, 0, company.ids)]})
         move = self.env["account.move"].create({
             "move_type": "entry", "journal_id": journal.id, "date": "2026-06-30",
             "line_ids": [

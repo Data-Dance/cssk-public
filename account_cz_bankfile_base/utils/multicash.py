@@ -130,6 +130,15 @@ def build_multicash_file(company_bank, company_partner, company_name, items,
                          payment_method_code, batch_type='outbound'):
     if not items:
         raise UserError(_("Cannot generate a MultiCash file from an empty payment list."))
+    # compared in hellers, as written: 0.004 is a zero item too
+    not_positive = [item.label for item in items
+                    if int(round((item.amount or 0) * 100)) <= 0]
+    if not_positive:
+        raise UserError(_(
+            "Banks reject a MultiCash file with an item that is zero or "
+            "negative. Remove these payments, or settle them otherwise: %s",
+            ", ".join(not_positive),
+        ))
     if payment_method_code == 'multicash_cfd':
         kind = _CFD_TYPE_INKASO if batch_type == 'inbound' else _CFD_TYPE_TRANSFER
         return _render_cfd(company_bank, company_partner, company_name, items, kind)
@@ -349,7 +358,18 @@ def _render_mt101(company_bank, company_partner, company_name, items):
         sender_bic += 'XXX'
 
     company_acc = (company_bank.acc_number or '').replace(' ', '').upper()
-    execution_date = format_date_yymmdd(items[0].date)
+    # MT101 carries ONE :30: execution date for the whole message; refuse
+    # rather than execute every payment on the first one's date.
+    dates = sorted({item.date for item in items})
+    if len(dates) > 1:
+        raise UserError(_(
+            "An MT101 message carries one execution date for all its payments, "
+            "but these are dated %s. Give them one date — on a payment order, "
+            "set the Payment Execution Date Type to Fixed Date or Immediately "
+            "— or split them into one file per date.",
+            ", ".join(str(d) for d in dates),
+        ))
+    execution_date = format_date_yymmdd(dates[0])
     message_ref = datetime.now().strftime('%y%m%d') + '01' + '%08d' % (items[0].ref_id or 1)
 
     lines = [

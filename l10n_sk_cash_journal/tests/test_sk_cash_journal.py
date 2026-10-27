@@ -269,8 +269,12 @@ class TestSkCashJournal(AccountTestInvoicingCommon):
         self.assertAlmostEqual(figures["t1r10_prijmy"], 1000.0, places=2)
         self.assertAlmostEqual(figures["t1r10_vydavky"], 400.0, places=2)
         self.assertAlmostEqual(figures["zaklad"], 600.0, places=2)
-        self.assertAlmostEqual(figures["t1r2"], 1400.0, places=2,
-                               msg="both sides of § 6 ods. 1 b) carry the code")
+        # Both sides of § 6 ods. 1 b) carry the code, and each lands in its
+        # own column of r. 2: stĺpec 1 príjmy, stĺpec 2 výdavky. This used to
+        # read 1400 — príjmy and výdavky added into one number.
+        self.assertNotIn("t1r2", figures)
+        self.assertAlmostEqual(figures["t1r2_prijmy"], 1000.0, places=2)
+        self.assertAlmostEqual(figures["t1r2_vydavky"], 400.0, places=2)
 
     def test_a_non_taxable_payment_stays_out_of_the_tax_base(self):
         """An owner's withdrawal is in the book and not in the return."""

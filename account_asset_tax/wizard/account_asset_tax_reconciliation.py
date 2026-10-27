@@ -17,9 +17,20 @@ class AccountAssetTaxReconciliation(models.TransientModel):
     depreciation (bridge-specific) with the *tax* board over the period, and
     classifies the difference:
 
-    * accounting > tax  -> **add-back** (SK DPPO line 150 / CZ ř. 50)
-    * tax > accounting  -> **deduction** (SK DPPO line 250)
+    * accounting > tax  -> **add-back** (SK DPPO r. 150 / CZ DPPO ř. 50)
+    * tax > accounting  -> **deduction** (SK DPPO r. 250 / CZ DPPO ř. 150)
+
+    The row numbers differ between the two returns, so the labels that name
+    them are derived from the company's country (``addback_row`` /
+    ``deduction_row``).
     """
+
+    # DPPO rows per country: (add-back, deduction). CZ: DPPDP9 ř. 50
+    # (kc_ii60_50) and ř. 150 (kc_ii170_150); SK: DPPO r. 150 and r. 250.
+    _DPPO_ROWS = {
+        "SK": ("r. 150", "r. 250"),
+        "CZ": ("ř. 50", "ř. 150"),
+    }
 
     _name = "account.asset.tax.reconciliation"
     _description = "Tax Depreciation Reconciliation (DPPO)"
@@ -38,10 +49,27 @@ class AccountAssetTaxReconciliation(models.TransientModel):
     line_ids = fields.One2many(
         "account.asset.tax.reconciliation.line", "wizard_id", readonly=True,
     )
+    addback_row = fields.Char(
+        string="Add-back Row", compute="_compute_dppo_rows",
+        help="The income-tax return row the add-back goes to: SK DPPO r. 150, "
+        "CZ DPPO ř. 50.",
+    )
+    deduction_row = fields.Char(
+        string="Deduction Row", compute="_compute_dppo_rows",
+        help="The income-tax return row the deduction goes to: SK DPPO r. 250, "
+        "CZ DPPO ř. 150.",
+    )
     total_accounting = fields.Monetary(compute="_compute_totals")
     total_tax = fields.Monetary(compute="_compute_totals")
     total_addback = fields.Monetary(compute="_compute_totals")
     total_deduction = fields.Monetary(compute="_compute_totals")
+    total_vehicle_addback = fields.Monetary(
+        string="Vehicle Add-back (SK §17(34))", compute="_compute_totals",
+        help="Slovakia, §17(34): the add-back for cars of 48 000 EUR or more, "
+        "due only when the tax base is lower than the number of such cars × "
+        "the annual straight-line depreciation of 48 000 EUR. Not included in "
+        "the add-back total; decide on the tax return.",
+    )
     total_deferred_tax = fields.Monetary(
         compute="_compute_totals",
         help="Net deferred tax: positive = liability (DTL), negative = asset (DTA).",
@@ -63,6 +91,17 @@ class AccountAssetTaxReconciliation(models.TransientModel):
         res.setdefault("date_to", today.replace(month=12, day=31))
         return res
 
+    @api.depends("company_id")
+    def _compute_dppo_rows(self):
+        for wiz in self:
+            country = (wiz.company_id.account_fiscal_country_id
+                       or wiz.company_id.country_id).code or ""
+            wiz.addback_row, wiz.deduction_row = self._DPPO_ROWS.get(
+                country.upper(), ("", ""))
+
+    def _row_label(self, label, row):
+        return "%s (%s)" % (label, row) if row else label
+
     @api.depends("line_ids")
     def _compute_totals(self):
         for wiz in self:
@@ -70,6 +109,7 @@ class AccountAssetTaxReconciliation(models.TransientModel):
             wiz.total_tax = sum(wiz.line_ids.mapped("tax_amount"))
             wiz.total_addback = sum(wiz.line_ids.mapped("addback"))
             wiz.total_deduction = sum(wiz.line_ids.mapped("deduction"))
+            wiz.total_vehicle_addback = sum(wiz.line_ids.mapped("vehicle_addback"))
             wiz.total_deferred_tax = sum(wiz.line_ids.mapped("deferred_tax"))
 
     def action_compute(self):
@@ -85,6 +125,9 @@ class AccountAssetTaxReconciliation(models.TransientModel):
         for asset in assets:
             acc = asset._tax_accounting_depreciation_for_period(self.date_from, self.date_to)
             tax = asset._tax_depreciation_for_period(self.date_from, self.date_to)
+            vehicle_addback = sum(
+                line.vehicle_addback for line in asset.tax_line_ids
+                if line.date_from and self.date_from <= line.date_from <= self.date_to)
             # cumulative (balance-sheet) view for deferred tax at period end
             acc_nbv = asset._tax_accounting_residual(self.date_to)
             tax_res = asset.tax_residual_at_year_end(self.date_to.year)
@@ -107,6 +150,7 @@ class AccountAssetTaxReconciliation(models.TransientModel):
                 "tax_residual": tax_res,
                 "temp_difference": temp_diff,
                 "deferred_tax": deferred,
+                "vehicle_addback": vehicle_addback,
             })
         Line.create(vals)
         return {
@@ -140,8 +184,10 @@ class AccountAssetTaxReconciliation(models.TransientModel):
         money_b = wb.add_format({"bold": True, "num_format": "#,##0.00"})
         headers = [
             "Asset", "Tax group", "Accounting depreciation", "Tax depreciation",
-            "Difference", "Add-back (150)", "Deduction (250)",
+            "Difference", self._row_label("Add-back", self.addback_row),
+            self._row_label("Deduction", self.deduction_row),
             "Accounting NBV", "Tax residual", "Temporary difference", "Deferred tax",
+            "Vehicle add-back (SK §17(34), conditional)",
         ]
         for col, head in enumerate(headers):
             ws.write(0, col, head, bold)
@@ -154,7 +200,7 @@ class AccountAssetTaxReconciliation(models.TransientModel):
             for col, val in enumerate([
                 ln.accounting_amount, ln.tax_amount, ln.difference, ln.addback,
                 ln.deduction, ln.accounting_residual, ln.tax_residual,
-                ln.temp_difference, ln.deferred_tax,
+                ln.temp_difference, ln.deferred_tax, ln.vehicle_addback,
             ], start=2):
                 ws.write_number(row, col, val or 0.0, money)
             row += 1
@@ -164,6 +210,7 @@ class AccountAssetTaxReconciliation(models.TransientModel):
         ws.write_number(row, 5, self.total_addback or 0.0, money_b)
         ws.write_number(row, 6, self.total_deduction or 0.0, money_b)
         ws.write_number(row, 10, self.total_deferred_tax or 0.0, money_b)
+        ws.write_number(row, 11, self.total_vehicle_addback or 0.0, money_b)
         wb.close()
         self.xlsx_file = base64.b64encode(buf.getvalue())
         self.xlsx_filename = "dppo_table_b_%s.xlsx" % self.date_to
@@ -195,11 +242,14 @@ class AccountAssetTaxReconciliation(models.TransientModel):
             raise UserError(_("Compute the reconciliation first."))
         ccy = company.currency_id
         closing_dtl = sum(self.line_ids.mapped("deferred_tax"))   # +DTL / -DTA
-        # current DTL = credit balance on the 481 account
+        # current DTL = credit balance on the 481 account AT THE PERIOD END:
+        # entries dated after date_to (next year's true-up, opening entries)
+        # belong to a later position and must not be netted into this one
         bs_lines = self.env["account.move.line"].search([
             ("account_id", "=", acc_bs.id),
             ("parent_state", "=", "posted"),
             ("company_id", "=", company.id),
+            ("date", "<=", self.date_to),
         ])
         current_dtl = -sum(bs_lines.mapped("balance"))
         delta = closing_dtl - current_dtl
@@ -256,8 +306,16 @@ class AccountAssetTaxReconciliationLine(models.TransientModel):
     accounting_amount = fields.Monetary(string="Accounting Depreciation")
     tax_amount = fields.Monetary(string="Tax Depreciation")
     difference = fields.Monetary(string="Difference (Acc − Tax)")
-    addback = fields.Monetary(string="Add-back (line 150)")
-    deduction = fields.Monetary(string="Deduction (line 250)")
+    addback = fields.Monetary(
+        string="Add-back",
+        help="Accounting depreciation above tax depreciation: SK DPPO r. 150, "
+        "CZ DPPO ř. 50.",
+    )
+    deduction = fields.Monetary(
+        string="Deduction",
+        help="Tax depreciation above accounting depreciation: SK DPPO r. 250, "
+        "CZ DPPO ř. 150.",
+    )
     # cumulative temporary difference + deferred tax (balance-sheet view)
     accounting_residual = fields.Monetary(string="Accounting NBV")
     tax_residual = fields.Monetary(string="Tax Residual")
@@ -265,6 +323,11 @@ class AccountAssetTaxReconciliationLine(models.TransientModel):
     deferred_tax = fields.Monetary(
         string="Deferred Tax",
         help="Positive = deferred tax liability (DTL); negative = deferred tax asset (DTA).",
+    )
+    vehicle_addback = fields.Monetary(
+        string="Vehicle Add-back (SK §17(34))",
+        help="Conditional add-back for a car of 48 000 EUR or more; see the "
+        "board line of the same name.",
     )
 
     def action_open_asset(self):

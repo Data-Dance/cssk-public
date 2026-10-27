@@ -54,6 +54,8 @@ SK_PAYROLL_ACCOUNT_MAPPING = {
     "l10n_sk_hr_payroll_structure_sk_employee_salary_reimbursement_salary_rule": {
         "debit": ACC_WAGE,
     },
+    # Náhrada mzdy pri prekážke na strane zamestnávateľa (§ 142 ZP).
+    "l10n_sk_employer_obstacle_allowance": {"debit": ACC_WAGE},
     # ---- Employee social + health withholdings (negative -> credit 336) ----
     "l10n_sk_sickness_insurance_employee": {"debit": ACC_SOCIAL},
     "l10n_sk_pension_contribution_employee": {"debit": ACC_SOCIAL},
@@ -65,6 +67,8 @@ SK_PAYROLL_ACCOUNT_MAPPING = {
     "l10n_sk_income_tax_employee": {"debit": ACC_TAX},
     # ---- Child tax bonus (positive -> debit 342, offsets tax liability) ----
     "l10n_sk_child_bonus": {"debit": ACC_TAX},
+    # ---- Annual tax reconciliation (signed -> debit 342: + refund / - due) --
+    "l10n_sk_annual_tax_settlement": {"debit": ACC_TAX},
     # ---- Employer contributions (positive -> debit 524 / credit 336) -------
     "l10n_sk_sickness_insurance_employer": {
         "debit": ACC_EMPLOYER,
@@ -133,11 +137,40 @@ SK_PAYROLL_ACCOUNT_MAPPING = {
     #   SOCIALEMPLOYERTOTAL, INCOMETAXTOTAL
 }
 
+# Rules of modules this bridge does NOT depend on, mapped when they are
+# installed: the wage surcharges and the minimum-wage top-up are wage
+# (positive -> debit 521). Full xmlids; a missing module is skipped. The
+# surcharges module calls _l10n_sk_payroll_map_rules() from its own
+# post_init_hook, so the order of installation does not matter.
+SK_OPTIONAL_ACCOUNT_MAPPING = {
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_noc": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_sobota": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_nedela": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_sviatok": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_nadcas_mzda": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_nadcas": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_stazeny": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_pohotovost": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_min_wage_topup": {"debit": ACC_WAGE},
+}
+
+
+def _sk_full_mapping(module=None):
+    """``{full xmlid: sides}``, optionally restricted to one module."""
+    mapping = {_M + xmlid: sides for xmlid, sides in SK_PAYROLL_ACCOUNT_MAPPING.items()}
+    mapping.update(SK_OPTIONAL_ACCOUNT_MAPPING)
+    if module:
+        mapping = {
+            xmlid: sides for xmlid, sides in mapping.items()
+            if xmlid.split(".", 1)[0] == module
+        }
+    return mapping
+
 
 class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
 
-    def _configure_sk_payroll_accounts(self, companies):
+    def _configure_sk_payroll_accounts(self, companies, module=None):
         """Resolve the SK payroll account codes to each company's accounts.
 
         ``account_debit`` / ``account_credit`` are ``company_dependent`` fields,
@@ -157,8 +190,8 @@ class AccountChartTemplate(models.AbstractModel):
                     )
                 return account_by_code[code]
 
-            for xmlid, sides in SK_PAYROLL_ACCOUNT_MAPPING.items():
-                rule = self.env.ref(_M + xmlid, raise_if_not_found=False)
+            for xmlid, sides in _sk_full_mapping(module).items():
+                rule = self.env.ref(xmlid, raise_if_not_found=False)
                 if not rule:
                     continue
                 vals = {}
@@ -169,7 +202,20 @@ class AccountChartTemplate(models.AbstractModel):
                 if credit and _account(credit):
                     vals["account_credit"] = _account(credit).id
                 if vals:
-                    rule.with_company(company).write(vals)
+                    # Chart setup is configuration done by an accounting manager, who
+                    # need not hold payroll rights (OCA payroll grants accounting none).
+                    rule.sudo().with_company(company).write(vals)
+
+    def _l10n_sk_payroll_map_rules(self, module):
+        """Map only the rules of *module* for every company on the SK chart.
+
+        Called by an optional module (the wage surcharges) installed after
+        this bridge, so its rules reach an account without re-running the
+        whole configuration over accounts a user may have changed since.
+        """
+        companies = self.env["res.company"].search([("chart_template", "=", "sk")])
+        if companies:
+            self._configure_sk_payroll_accounts(companies, module=module)
 
     def _load(self, template_code, company, install_demo, force_create=True):
         res = super()._load(

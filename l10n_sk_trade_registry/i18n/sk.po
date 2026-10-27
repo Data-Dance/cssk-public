@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-05 15:32+0000\n"
+"POT-Creation-Date: 2026-10-27 19:17+0000\n"
 "PO-Revision-Date: 2026-09-05 15:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -54,8 +54,8 @@ msgid ""
 "Aspoň jeden predmet podnikania je pozastavený — subjekt\n"
 "                        je aktívny, ale túto činnosť vykonávať nesmie."
 msgstr ""
-"Aspoň jeden predmet podnikania je pozastavený — subjekt je aktívny, ale túto"
-" činnosť vykonávať nesmie."
+"Aspoň jeden predmet podnikania je pozastavený — subjekt je aktívny, ale túto "
+"činnosť vykonávať nesmie."
 
 #. module: l10n_sk_trade_registry
 #: model:ir.model.fields,help:l10n_sk_trade_registry.field_cssk_tax_authority__l10n_sk_has_suspended_activity
@@ -503,8 +503,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_trade_registry_statement
 msgid ""
 "The sentence § 3a Obchodného zákonníka requires on business documents. "
-"Composed from the register coordinates; overwrite it freely — an edit sticks"
-" until the coordinates change again."
+"Composed from the register coordinates; overwrite it freely — an edit sticks "
+"until the coordinates change again."
 msgstr ""
 "Veta, ktorú § 3a Obchodného zákonníka vyžaduje na obchodných dokumentoch. "
 "Zostavuje sa z údajov o zápise; pokojne ju prepíšte — úprava vydrží, kým sa "
@@ -531,8 +531,7 @@ msgstr "Toto účtovné obdobie je pri tomto partnerovi už zaznamenané."
 #: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_partner__l10n_sk_register_inactive
 #: model:ir.model.fields,help:l10n_sk_trade_registry.field_res_users__l10n_sk_register_inactive
 msgid ""
-"True when the register shows the subject as zrušená, vymazaná or "
-"pozastavená."
+"True when the register shows the subject as zrušená, vymazaná or pozastavená."
 msgstr ""
 "Pravda, keď register vedie subjekt ako zrušený, vymazaný alebo pozastavený."
 
@@ -587,6 +586,8 @@ msgstr "Zrušená"
 
 #. module: l10n_sk_trade_registry
 #: model:ir.actions.act_window,name:l10n_sk_trade_registry.action_partner_l10n_sk_register_inactive
+#: model:ir.ui.menu,name:l10n_sk_trade_registry.menu_partner_l10n_sk_register_inactive
+#: model_terms:ir.ui.view,arch_db:l10n_sk_trade_registry.view_res_partner_filter_l10n_sk_trade_registry
 msgid "Zrušené subjekty (SK)"
 msgstr "Zrušené subjekty (SK)"
 

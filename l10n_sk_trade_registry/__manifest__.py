@@ -41,7 +41,7 @@ a stiff sentence beats a confidently wrong one on a statutory document.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.2.0.0",
+    "version": "19.0.2.0.1",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["account", "l10n_sk", "partner_nace"],

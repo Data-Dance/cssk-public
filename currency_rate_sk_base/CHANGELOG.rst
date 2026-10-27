@@ -16,6 +16,15 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The description no longer claims an Enterprise (currency_rate_live) provider
+  built on it; none exists.
+
 [19.0.1.0.1] — 2026-07-04
 -------------------------
 

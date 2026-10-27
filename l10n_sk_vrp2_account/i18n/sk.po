@@ -39,11 +39,13 @@ msgstr "Zrušené"
 
 #. module: l10n_sk_vrp2_account
 #: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__account_payment_register__vrp2_payment_type__card
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_fiscalize_wizard__payment_type__card
 msgid "Card"
 msgstr "Karta"
 
 #. module: l10n_sk_vrp2_account
 #: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__account_payment_register__vrp2_payment_type__cash
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_fiscalize_wizard__payment_type__cash
 msgid "Cash"
 msgstr "Hotovosť"
 
@@ -139,7 +141,12 @@ msgstr ""
 " 2)"
 
 #. module: l10n_sk_vrp2_account
+#. odoo-python
 #: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_account_payment_register__vrp2_fiscalize
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+#: model:ir.actions.server,name:l10n_sk_vrp2_account.action_vrp2_mass_fiscalize
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.view_move_form_vrp2
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_fiscalize_wizard_form
 msgid "Fiscalize in VRP2"
 msgstr "Fiskalizovať vo VRP2"
 
@@ -489,19 +496,6 @@ msgid "Vrp2 Receipt Count"
 msgstr "Počet dokladov VRP2"
 
 #. module: l10n_sk_vrp2_account
-#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_company__vrp2_fiscalize_on_payment
-msgid ""
-"When enabled, the standard Register Payment wizard offers a 'Fiscalize in "
-"VRP2' option that issues a VRP2 fiscal receipt for the customer-invoice "
-"payment it creates (payment + receipt in one transaction; a VRP2 error rolls"
-" both back)."
-msgstr ""
-"Po zapnutí ponúkne štandardný sprievodca Zaevidovať platbu možnosť "
-"„Fiskalizovať vo VRP2“, ktorá k úhrade odberateľskej faktúry vystaví "
-"fiskálny doklad VRP2 (úhrada aj doklad v jednej transakcii; chyba VRP2 vráti"
-" obe späť)."
-
-#. module: l10n_sk_vrp2_account
 #: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__receipt_type__withdraw
 msgid "Withdrawal"
 msgstr "Výber"
@@ -531,3 +525,126 @@ msgid ""
 msgstr ""
 "⚠ Fiskalizácia úhrady tejto faktúry vo VRP2 ZLYHALA: %s\n"
 "Úhrada bola zaevidovaná; vystavte fiskálny doklad znova z faktúry („Fiskalizovať vo VRP2“)."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_company__vrp2_fiscalize_on_payment
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_config_settings__vrp2_fiscalize_on_payment
+msgid ""
+"When enabled, the standard Register Payment wizard offers a 'Fiscalize in "
+"VRP2' option that issues a VRP2 fiscal receipt for the customer-invoice "
+"payment it creates. If VRP2 refuses the first receipt nothing is registered;"
+" once a receipt has been issued, a later failure keeps the payments and is "
+"noted on the invoice to be fiscalized again."
+msgstr ""
+"Po zapnutí ponúkne štandardný sprievodca Zaevidovať platbu možnosť "
+"„Fiskalizovať vo VRP2“, ktorá k úhrade odberateľskej faktúry vystaví "
+"fiskálny doklad VRP2. Ak VRP2 odmietne prvý doklad, nezaeviduje sa nič; keď "
+"už bol niektorý doklad vystavený, neskoršia chyba platby ponechá a zapíše sa"
+" k faktúre, aby sa dala fiskalizovať znova."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_res_company__vrp2_cash_rounding_id
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_res_config_settings__vrp2_cash_rounding_id
+msgid "VRP2 cash rounding"
+msgstr "Zaokrúhlenie hotovosti VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_company__vrp2_cash_rounding_id
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_config_settings__vrp2_cash_rounding_id
+msgid ""
+"Where Register Payment books the 0.05 € rounding of a cash payment it "
+"fiscalizes: its profit account when the customer paid more than the invoice,"
+" its loss account when less."
+msgstr ""
+"Kam sprievodca Zaevidovať platbu zaúčtuje zaokrúhlenie hotovostnej platby na"
+" 0,05 €, ktorú fiskalizuje: na účet výnosov, keď zákazník zaplatil viac ako "
+"faktúru, na účet nákladov, keď menej."
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model,name:l10n_sk_vrp2_account.model_vrp2_fiscalize_wizard
+msgid "Fiscalize invoices in VRP2"
+msgstr "Fiskalizovať faktúry vo VRP2"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_fiscalize_wizard__move_ids
+msgid "Invoices"
+msgstr "Faktúry"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_fiscalize_wizard__payment_type
+msgid "Paid by"
+msgstr "Spôsob úhrady"
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_fiscalize_wizard__payment_type
+msgid ""
+"How the customer paid. Cash is rounded to 0.05 € when the register rounds; a"
+" card payment never is."
+msgstr ""
+"Ako zákazník zaplatil. Hotovosť sa zaokrúhľuje na 0,05 €, ak pokladnica "
+"zaokrúhľuje; platba kartou nikdy."
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_fiscalize_wizard_form
+msgid "Fiscalize"
+msgstr "Fiskalizovať"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_fiscalize_wizard_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_fiscalize_wizard_form
+msgid ""
+"The receipt registers the invoice total. Register the\n"
+"                    payment itself in Odoo as usual."
+msgstr ""
+"Doklad zaeviduje celkovú sumu faktúry. Samotnú platbu zaevidujte\n"
+"                    v Odoo ako zvyčajne."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/wizard/vrp2_fiscalize_wizard.py:0
+msgid "Select the invoices to fiscalize."
+msgstr "Vyberte faktúry na fiskalizáciu."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid "Cash rounding"
+msgstr "Zaokrúhlenie hotovosti"
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid ""
+"A cash payment is rounded to 0.05 €. Pay %(amount)s in cash only together "
+"with the rest of the invoice, or enter an amount that is a multiple of 0.05 "
+"€."
+msgstr ""
+"Hotovostná platba sa zaokrúhľuje na 0,05 €. Sumu %(amount)s zaplaťte v "
+"hotovosti iba spolu so zvyškom faktúry, alebo zadajte sumu, ktorá je "
+"násobkom 0,05 €."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid ""
+"Invoice %(invoice)s is paid in cash, which is rounded to 0.05 €. Register "
+"its payment on its own so the rounding can be booked."
+msgstr ""
+"Faktúra %(invoice)s sa platí v hotovosti, ktorá sa zaokrúhľuje na 0,05 €. "
+"Zaevidujte jej platbu samostatne, aby sa zaokrúhlenie dalo zaúčtovať."
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid ""
+"The 0.05 € rounding of this cash payment has nowhere to be booked. Set the "
+"VRP2 cash rounding, with its profit and loss accounts, in Accounting ▸ "
+"Settings ▸ VRP2."
+msgstr ""
+"Zaokrúhlenie tejto hotovostnej platby na 0,05 € nie je kam zaúčtovať. "
+"Nastavte zaokrúhlenie hotovosti VRP2 s účtami výnosov a nákladov v "
+"Účtovníctvo ▸ Nastavenia ▸ VRP2."

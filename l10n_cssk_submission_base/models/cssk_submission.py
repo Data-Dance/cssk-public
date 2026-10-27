@@ -169,7 +169,18 @@ class CsskSubmission(models.Model):
         Transport modules extend this. Keep the codes stable — they are stored
         on every historical submission.
         """
-        return [("pfs_manual", _("PFS portal — filed by hand"))]
+        # Country-neutral: the same channel records a filing made by hand on
+        # the Slovak PFS and on the Czech EPO / daňová informační schránka.
+        return [("pfs_manual", _("Authority portal — filed by hand"))]
+
+    @api.model
+    def _get_channels_for_company(self, company):
+        """Channels that can file for *company*. Override to narrow by country.
+
+        ``_get_channels`` stays the full list: it is the selection, and every
+        historical submission's code has to keep its label.
+        """
+        return self._get_channels()
 
     @api.model
     def _selection_channel(self):
@@ -223,8 +234,62 @@ class CsskSubmission(models.Model):
             return self.env["cssk.submission"].browse()
         return self.env[self.res_model].browse(self.res_id).exists()
 
+    def _sync_payload_from_statement(self):
+        """Point a submission that has not gone out at the statement's CURRENT
+        export.
+
+        A submission is opened with whatever the statement had exported at
+        the time. Reset → recompute → export again and the statement holds a
+        new XML, while the submission would still have filed the old one. Only
+        a submission nothing has been sent for follows; one that went out keeps
+        what it carried, because that is what was filed.
+        """
+        for rec in self:
+            if rec.state not in ("draft", "failed"):
+                continue
+            statement = rec.statement()
+            if not statement or not hasattr(
+                    statement, "_submission_payload_attachment"):
+                continue
+            current = statement.sudo()._submission_payload_attachment()
+            if current and current != rec.payload_attachment_id:
+                old = rec.payload_attachment_id
+                rec.payload_attachment_id = current
+                rec.message_post(body=_(
+                    "The filing was exported again: this submission now "
+                    "carries %(new)s instead of %(old)s.",
+                    new=current.name, old=old.name or "—"))
+
+    def _check_statement_unchanged(self):
+        """Refuse to send a payload the statement no longer stands behind.
+
+        Between queueing and sending the statement can be reset to draft or
+        exported again; sending the queued copy would file figures nobody
+        meant to file.
+        """
+        self.ensure_one()
+        statement = self.statement()
+        if not statement or not hasattr(
+                statement, "_submission_payload_attachment"):
+            return
+        statement = statement.sudo()
+        ready = statement._submission_ready_states()
+        if ("state" in statement._fields and ready
+                and statement.state not in ready):
+            raise CsskSubmissionFatal(_(
+                "%(filing)s was reset to draft after this submission was "
+                "queued. Export it again and queue the submission anew.",
+                filing=statement.display_name))
+        if statement._submission_payload_attachment() != self.payload_attachment_id:
+            raise CsskSubmissionFatal(_(
+                "%(filing)s was exported again after this submission was "
+                "queued, so the queued XML is no longer the filing. Queue the "
+                "submission anew to send the current export.",
+                filing=statement.display_name))
+
     def action_validate(self):
         """Preflight. Raises rather than returning a verdict, so the UI shows why."""
+        self._sync_payload_from_statement()
         for rec in self:
             if not rec.payload_attachment_id:
                 raise UserError(_(
@@ -271,14 +336,51 @@ class CsskSubmission(models.Model):
         self.write({"state": "sending",
                     "attempt_count": self.attempt_count + 1})
         try:
-            method()
-        except CsskSubmissionRetryable as exc:
-            self._reschedule(str(exc))
+            self._check_statement_unchanged()
         except CsskSubmissionFatal as exc:
-            self._fail(str(exc))
-        except Exception as exc:  # noqa: BLE001 - an unclassified error is retryable
+            return self._fail(str(exc))
+        # The channel runs inside a savepoint so that an UNCLASSIFIED error —
+        # a bug, a database error after the authority answered — leaves a
+        # usable cursor behind and can be recorded here. A classified one is
+        # caught inside it, so whatever the channel wrote before raising it (an
+        # error answer attached to the chatter, say) is kept, as it always was.
+        outcome = None
+        try:
+            with self.env.cr.savepoint():
+                try:
+                    method()
+                except (CsskSubmissionRetryable, CsskSubmissionFatal) as exc:
+                    outcome = exc
+        except Exception as exc:  # noqa: BLE001 - see _channel_retry_unclassified
             _logger.exception("cssk.submission %s: unclassified send error", self.id)
-            self._reschedule(str(exc))
+            if self._channel_retry_unclassified():
+                self._reschedule(str(exc))
+            else:
+                self._fail(_(
+                    "Unexpected error while sending; the outcome is unknown "
+                    "(%(error)s). The filing may have reached the authority: "
+                    "check its portal before sending it again.", error=exc))
+            return
+        if isinstance(outcome, CsskSubmissionRetryable):
+            self._reschedule(str(outcome))
+        elif isinstance(outcome, CsskSubmissionFatal):
+            self._fail(str(outcome))
+
+    def _channel_retry_unclassified(self):
+        """May an unexpected exception from the sender be retried?
+
+        ⚠️ Not by default. An exception the channel did not classify can come
+        from anywhere — including from the code that records the authority's
+        answer AFTER the filing was made. Retrying that files the return a
+        second time. A channel that knows its unclassified errors all happen
+        before anything leaves the server says so with
+        ``_channel_retry_unclassified_<channel>``; everything else fails and
+        puts the question in front of a person, which is recoverable, where a
+        double filing is not.
+        """
+        self.ensure_one()
+        method = self._channel_method("retry_unclassified")
+        return bool(method and method())
 
     def _reschedule(self, error):
         """Back off, or give up once the channel's attempts are exhausted."""
@@ -334,6 +436,7 @@ class CsskSubmission(models.Model):
         if receipts:
             self.receipt_attachment_ids = [(4, a.id) for a in receipts]
         self.message_post(body=_("Delivered to the channel."))
+        self._sync_statement_filed()
 
     def _mark_accepted(self, external_ref=None, receipts=None):
         """Called once the AUTHORITY has accepted — not merely received."""
@@ -347,6 +450,47 @@ class CsskSubmission(models.Model):
         if receipts:
             self.receipt_attachment_ids = [(4, a.id) for a in receipts]
         self.message_post(body=_("Accepted by the authority."))
+        self._sync_statement_filed()
+
+    def _sync_statement_filed(self):
+        """Tell the statement it has been filed.
+
+        Filing through a channel used to leave the statement at `exported`:
+        no filed copy frozen, no submission date, no reference, and the
+        Re-export button still there — a filed return that the system said
+        had not been filed. Once the payload has reached the authority the
+        statement is marked submitted (which freezes the filed copy) and
+        carries the authority's reference.
+
+        Only when the payload IS the statement's current export: a submission
+        carrying an older XML must not stamp a newer one as filed. Never
+        raises — bookkeeping on the statement must not undo the record of a
+        filing that happened.
+        """
+        self.ensure_one()
+        statement = self.statement()
+        if not statement or "submitted_attachment_id" not in statement._fields:
+            return
+        statement = statement.sudo()
+        try:
+            with self.env.cr.savepoint():
+                if (statement.state == "exported"
+                        and not statement.legacy
+                        and statement.xml_attachment_id
+                        == self.payload_attachment_id):
+                    statement.action_submit()
+                if (statement.state == "submitted" and self.external_ref
+                        and not statement.submission_reference
+                        and statement.submitted_attachment_id
+                        == self.payload_attachment_id):
+                    statement.submission_reference = self.external_ref
+        except Exception:  # noqa: BLE001 - see the docstring
+            _logger.exception(
+                "cssk.submission %s: could not mark %s %s submitted",
+                self.id, statement._name, statement.id)
+            self.message_post(body=_(
+                "Could not mark %(filing)s submitted; do it on the filing.",
+                filing=statement.display_name))
 
     def action_cancel(self):
         for rec in self:
@@ -379,10 +523,17 @@ class CsskSubmission(models.Model):
             try:
                 with self.env.cr.savepoint():
                     submission._attempt_send()
-            except Exception:  # noqa: BLE001
+            except Exception as exc:  # noqa: BLE001
                 _logger.exception(
                     "cssk.submission %s: send aborted", submission.id
                 )
+                # The savepoint rolled the attempt back, so the row is
+                # `queued` and due again — and the request may have gone out.
+                # Leaving it there re-sends it on the next run.
+                submission._fail(_(
+                    "Sending was aborted; the outcome is unknown (%(error)s). "
+                    "The filing may have reached the authority: check its "
+                    "portal before sending it again.", error=exc))
         return True
 
     @api.model
@@ -417,12 +568,13 @@ class CsskSubmission(models.Model):
     def _channel_send_pfs_manual(self):
         self.ensure_one()
         raise CsskSubmissionFatal(_(
-            "A filing on the PFS portal is made by a person, not by this "
-            "server. Use 'Attest filing' once it has been submitted."
+            "A filing on the authority's portal is made by a person, not by "
+            "this server. Use 'Attest filing' once it has been submitted."
         ))
 
     def action_attest_manual(self):
         """Record that a human filed this on the portal, and by whom."""
+        self._sync_payload_from_statement()
         for rec in self:
             if rec.channel != "pfs_manual":
                 raise UserError(_(
@@ -435,7 +587,41 @@ class CsskSubmission(models.Model):
             rec.evidence_user_id = self.env.user
             rec._mark_delivered()
             rec.message_post(body=_(
-                "Attested as filed on the PFS portal by %(user)s.",
+                "Attested as filed on the authority's portal by %(user)s.",
+                user=self.env.user.display_name,
+            ))
+        return True
+
+    def action_attest_accepted_manual(self):
+        """Record that the authority accepted a filing made by hand.
+
+        The manual channel stopped at `delivered` for good: nothing could ever
+        move it on, so every hand-filed return read as "not yet accepted"
+        indefinitely. The person who holds the authority's confirmation says
+        so here — and must attach it, because the confirmation is the only
+        thing that makes the claim more than a click.
+        """
+        for rec in self:
+            if rec.channel != "pfs_manual":
+                raise UserError(_(
+                    "%(name)s is not a manual filing; its channel records "
+                    "acceptance itself.", name=rec.display_name,
+                ))
+            if rec.state != "delivered":
+                raise UserError(_(
+                    "Attest the filing on %(name)s before its acceptance.",
+                    name=rec.display_name,
+                ))
+            if not rec.receipt_attachment_ids:
+                raise UserError(_(
+                    "Attach the authority's confirmation (potvrdenie / "
+                    "doručenka / potvrzení) under Receipts first: it is the "
+                    "evidence that %(name)s was accepted.",
+                    name=rec.display_name,
+                ))
+            rec._mark_accepted()
+            rec.message_post(body=_(
+                "Acceptance by the authority attested by %(user)s.",
                 user=self.env.user.display_name,
             ))
         return True

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-01 14:31+0000\n"
+"POT-Creation-Date: 2026-10-27 19:42+0000\n"
 "PO-Revision-Date: 2026-10-01 14:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,7 +14,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: "
+"3);\n"
 
 #. module: edi_base_peppol
 #. odoo-python
@@ -26,8 +27,17 @@ msgstr "%(kind)s odoslané cez Peppol: %(link)s (%(state)s)."
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid ""
-"%s cannot be responded to via Peppol: it must be a vendor bill received over"
-" Peppol, with both parties Peppol-addressable and a transport provider "
+"%(name)s was already delivered via Peppol (%(msg)s). Correct it with a "
+"credit note instead of sending it again."
+msgstr ""
+"%(name)s už bola doručená cez Peppol (%(msg)s). Namiesto opätovného odoslania ju opravte dobropisom."
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"%s cannot be responded to via Peppol: it must be a vendor bill received over "
+"Peppol, with both parties Peppol-addressable and a transport provider "
 "installed."
 msgstr ""
 "Na %s nie je možné odpovedať cez Peppol: musí ísť o dodávateľskú faktúru "
@@ -49,6 +59,15 @@ msgstr "%s nemá Peppol adresu."
 #. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"%s has no VAT number: the Slovak mandate binds a VAT payer (§ 85o ods. 2 of "
+"the VAT Act)."
+msgstr ""
+"%s nemá IČ DPH: slovenská povinnosť sa vzťahuje na platiteľa DPH (§ 85o ods. 2 zákona o DPH)."
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "%s is a Slovak business in the mandate but has no Peppol address."
 msgstr ""
 "%s je slovenský podnikateľ podliehajúci povinnosti, ale nemá Peppol adresu."
@@ -57,9 +76,9 @@ msgstr ""
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid ""
-"%s is not eligible for Peppol sending: it must be a posted customer "
-"invoice/credit note, a Peppol transport provider must be installed, and both"
-" your company and the customer must have a Peppol address (EAS + endpoint) "
+"%s is not eligible for Peppol sending: it must be a posted customer invoice/"
+"credit note, a Peppol transport provider must be installed, and both your "
+"company and the customer must have a Peppol address (EAS + endpoint) "
 "configured."
 msgstr ""
 "%s nie je možné odoslať cez Peppol: musí ísť o zaúčtovanú odberateľskú "
@@ -80,19 +99,33 @@ msgid ""
 "A Peppol document for %(name)s is already being sent (status: %(state)s). "
 "Manage it from the linked EDI message before re-sending."
 msgstr ""
-"Peppol doklad pre %(name)s sa už odosiela (stav: %(state)s). Pred opakovaným"
-" odoslaním ho spravujte cez prepojenú EDI správu."
+"Peppol doklad pre %(name)s sa už odosiela (stav: %(state)s). Pred opakovaným "
+"odoslaním ho spravujte cez prepojenú EDI správu."
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_send_enabled
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_send_enabled
 msgid ""
-"A permission for this company, not a routing decision: it says e-invoicing MAY be used, never that a given invoice will be. Which documents actually leave through Peppol is decided per contact, by 'Invoice sending' on the contact, and for contacts that state no preference by the Peppol scope below.\n"
+"A permission for this company, not a routing decision: it says e-invoicing "
+"MAY be used, never that a given invoice will be. Which documents actually "
+"leave through Peppol is decided per contact, by 'Invoice sending' on the "
+"contact, and for contacts that state no preference by the Peppol scope "
+"below.\n"
 "\n"
-"Off: no customer invoice or credit note of this company ever goes out through Peppol, whatever a contact is set to — the invoice says so on its Peppol badge. Receiving vendor bills is unaffected; that is the provider's inbound poll, not this."
+"Off: no customer invoice or credit note of this company ever goes out "
+"through Peppol, whatever a contact is set to — the invoice says so on its "
+"Peppol badge. Receiving vendor bills is unaffected; that is the provider's "
+"inbound poll, not this."
 msgstr ""
-"Oprávnenie pre túto firmu, nie rozhodnutie o spôsobe odoslania: hovorí, že e-fakturácia SA MÔŽE použiť, nikdy nie že konkrétna faktúra pôjde cez Peppol. Ktoré doklady skutočne odídu cez Peppol, sa určuje pri každom kontakte poľom „Odosielanie faktúr“ a pri kontaktoch bez voľby rozsahom Peppol nižšie.\n"
+"Oprávnenie pre túto firmu, nie rozhodnutie o spôsobe odoslania: hovorí, že e-"
+"fakturácia SA MÔŽE použiť, nikdy nie že konkrétna faktúra pôjde cez Peppol. "
+"Ktoré doklady skutočne odídu cez Peppol, sa určuje pri každom kontakte poľom "
+"„Odosielanie faktúr“ a pri kontaktoch bez voľby rozsahom Peppol nižšie.\n"
 "\n"
-"Vypnuté: žiadna odberateľská faktúra ani dobropis tejto firmy nikdy neodíde cez Peppol, bez ohľadu na nastavenie kontaktu — faktúra to uvedie na svojom Peppol odznaku. Prijímanie dodávateľských faktúr to neovplyvňuje; to je príjmové dopytovanie poskytovateľa, nie toto."
+"Vypnuté: žiadna odberateľská faktúra ani dobropis tejto firmy nikdy neodíde "
+"cez Peppol, bez ohľadu na nastavenie kontaktu — faktúra to uvedie na svojom "
+"Peppol odznaku. Prijímanie dodávateľských faktúr to neovplyvňuje; to je "
+"príjmové dopytovanie poskytovateľa, nie toto."
 
 #. module: edi_base_peppol
 #: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_res_config_settings_peppol
@@ -101,20 +134,23 @@ msgid ""
 "                            company <b>may</b> e-invoice; which documents\n"
 "                            actually do is set per contact, in\n"
 "                            <i>Invoice sending</i> on the contact\n"
-"                            (\"by e-invoice (Peppol)\"), and for contacts that\n"
+"                            (\"by e-invoice (Peppol)\"), and for contacts "
+"that\n"
 "                            state no preference by the scope below.\n"
 "                            <br/>\n"
 "                            Off, no customer invoice or credit note of this\n"
-"                            company goes out through Peppol, whatever a contact\n"
-"                            says — each invoice shows why on its Peppol badge.\n"
+"                            company goes out through Peppol, whatever a "
+"contact\n"
+"                            says — each invoice shows why on its Peppol "
+"badge.\n"
 "                            Receiving vendor bills is unaffected."
 msgstr ""
 "Oprávnenie, nie rozhodnutie o spôsobe odoslania. Zapnuté: táto firma "
-"<b>môže</b> e-fakturovať; ktoré doklady tak skutočne odídu, sa nastavuje pri"
-" každom kontakte v poli <i>Odosielanie faktúr</i> („elektronickou faktúrou "
+"<b>môže</b> e-fakturovať; ktoré doklady tak skutočne odídu, sa nastavuje pri "
+"každom kontakte v poli <i>Odosielanie faktúr</i> („elektronickou faktúrou "
 "(Peppol)“), a pri kontaktoch bez voľby rozsahom nižšie.<br/>Vypnuté: žiadna "
-"odberateľská faktúra ani dobropis tejto firmy neodíde cez Peppol, bez ohľadu"
-" na nastavenie kontaktu — každá faktúra na svojom Peppol odznaku uvedie "
+"odberateľská faktúra ani dobropis tejto firmy neodíde cez Peppol, bez ohľadu "
+"na nastavenie kontaktu — každá faktúra na svojom Peppol odznaku uvedie "
 "dôvod. Prijímanie dodávateľských faktúr to neovplyvňuje."
 
 #. module: edi_base_peppol
@@ -140,12 +176,19 @@ msgstr ""
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ap
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ap
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__ap
 msgid "Accepted"
 msgstr "Akceptované"
 
 #. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_account_move_send
+msgid "Account Move Send"
+msgstr "Odoslanie účtovného záznamu"
+
+#. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ab
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ab
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__ab
 msgid "Acknowledged"
 msgstr "Potvrdené prijatie"
 
@@ -160,6 +203,7 @@ msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_send_enabled
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_send_enabled
 msgid "Allow e-invoicing via Peppol"
 msgstr "Povoliť e-fakturáciu cez Peppol"
 
@@ -170,6 +214,7 @@ msgstr "Každý odberateľ s Peppol adresou"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_auto_send
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_auto_send
 msgid "Auto-send Peppol on Invoice Post"
 msgstr "Automaticky odoslať cez Peppol pri zaúčtovaní faktúry"
 
@@ -189,6 +234,7 @@ msgstr ""
 "%(errors)s"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_ir_reason
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_reason
 msgid ""
 "Clarification the buyer gave with the Invoice Response — the reason for a "
@@ -208,14 +254,25 @@ msgid ""
 "Coded reason(s) for the response — required when rejecting, querying or "
 "conditionally accepting."
 msgstr ""
-"Kódované dôvody odpovede — povinné pri zamietnutí, dotaze alebo podmienečnom"
-" akceptovaní."
+"Kódované dôvody odpovede — povinné pri zamietnutí, dotaze alebo podmienečnom "
+"akceptovaní."
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ca
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ca
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__ca
 msgid "Conditionally accepted"
 msgstr "Podmienečne akceptované"
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavenia konfigurácie"
 
 #. module: edi_base_peppol
 #. odoo-python
@@ -224,10 +281,39 @@ msgid "Consumer (B2C): not in the Slovak mandate."
 msgstr "Spotrebiteľ (B2C): nepodlieha slovenskej povinnosti."
 
 #. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__create_uid
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__create_date
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__create_date
+msgid "Created on"
+msgstr "Vytvorené"
+
+#. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "Cross-border customer (%s): not in the Slovak mandate."
 msgstr "Zahraničný odberateľ (%s): nepodlieha slovenskej povinnosti."
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_res_config_settings_peppol
+msgid ""
+"Database-wide. Needed only when several Peppol transports are installed."
+msgstr ""
+"Pre celú databázu. Potrebné len vtedy, keď je nainštalovaných viac prenosov Peppol."
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_del
+msgid "Delivery issues"
+msgstr "Problémy s dodaním"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__description
@@ -235,18 +321,36 @@ msgid "Description"
 msgstr "Popis"
 
 #. module: edi_base_peppol
-#: model:ir.module.module,shortdesc:base.module_edi_base_peppol
-msgid "EDI Base: Peppol BIS 3.0"
-msgstr "EDI základ: Peppol BIS 3.0"
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move_send__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_message__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_edi_message
+msgid "EDI Message"
+msgstr "EDI správa"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_auto_send
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_auto_send
 msgid ""
 "Every posted customer document routed to Peppol is generated and queued at "
 "once. Off: use the 'Send via Peppol' button."
 msgstr ""
-"Každý zaúčtovaný odberateľský doklad smerovaný na Peppol sa ihneď vygeneruje"
-" a zaradí do frontu. Vypnuté: použite tlačidlo „Odoslať cez Peppol“."
+"Každý zaúčtovaný odberateľský doklad smerovaný na Peppol sa ihneď vygeneruje "
+"a zaradí do frontu. Vypnuté: použite tlačidlo „Odoslať cez Peppol“."
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_fin
+msgid "Finance incorrect"
+msgstr "Nesprávne finančné údaje"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_edi_peppol_invoice_response_wizard__note
@@ -255,11 +359,16 @@ msgstr "Zdôvodnenie vo voľnom texte odoslané dodávateľovi."
 
 #. module: edi_base_peppol
 #: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "From"
+msgstr "Od"
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
 msgid ""
 "Generate a Peppol BIS 3.0 UBL document for this posted                     "
 "customer invoice/credit note and queue it for sending                     "
-"through the installed transport provider. Auto-send on post"
-"                     can be enabled in Settings > EDI > Peppol BIS3."
+"through the installed transport provider. Auto-send on "
+"post                     can be enabled in Settings > EDI > Peppol BIS3."
 msgstr ""
 "Vygeneruje Peppol BIS 3.0 UBL doklad pre túto zaúčtovanú odberateľskú "
 "faktúru alebo dobropis a zaradí ho do frontu na odoslanie cez nainštalovaný "
@@ -267,6 +376,7 @@ msgstr ""
 "Nastavenia > EDI > Peppol BIS3."
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_route
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_route
 msgid ""
 "How this customer document goes out, by the company's Peppol settings and "
@@ -276,8 +386,21 @@ msgstr ""
 "odberateľa."
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move_send__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_message__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__id
+msgid "ID"
+msgstr "ID"
+
+#. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ip
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ip
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__ip
 msgid "In process"
 msgstr "V spracovaní"
 
@@ -289,30 +412,71 @@ msgstr "Prijatá Peppol správa neobsahuje XML prílohu."
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__invoice_sending_method
-msgid "Invoice Sending Method"
-msgstr "Spôsob odosielania faktúr"
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_users__invoice_sending_method
+msgid "Invoice sending"
+msgstr "Odosielanie faktúr"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_action_ncr
+msgid "Issue a credit note"
+msgstr "Vystaviť dobropis"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_action_nin
+msgid "Issue a new invoice"
+msgstr "Vystaviť novú faktúru"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_qua
+msgid "Item quality insufficient"
+msgstr "Nedostatočná kvalita položiek"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_itm
+msgid "Items incorrect"
+msgstr "Nesprávne položky"
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný záznam"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_purchase_journal_id
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_purchase_journal_id
 msgid ""
-"Journal for inbound Peppol vendor bills. Empty: the company's first purchase"
-" journal."
+"Journal for inbound Peppol vendor bills. Empty: the company's first purchase "
+"journal."
 msgstr ""
-"Denník pre prijaté Peppol dodávateľské faktúry. Prázdne: prvý nákupný denník"
-" firmy."
+"Denník pre prijaté Peppol dodávateľské faktúry. Prázdne: prvý nákupný denník "
+"firmy."
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__write_uid
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravoval"
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__write_date
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravované"
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_response
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_response
 msgid ""
 "Latest Peppol Message Level Response (MLR) received for this document — the "
-"delivery/acceptance code and description returned by the network (e.g. 'AB —"
-" Acknowledged')."
+"delivery/acceptance code and description returned by the network (e.g. 'AB — "
+"Acknowledged')."
 msgstr ""
 "Posledná odpoveď na úrovni správy (MLR) prijatá k tomuto dokladu — kód "
 "doručenia/akceptovania a popis vrátený sieťou (napr. „AB — Potvrdené "
 "prijatie“)."
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_ir_status
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_status
 msgid ""
 "Latest business-level Peppol Invoice Response received from the buyer for a "
@@ -321,6 +485,11 @@ msgstr ""
 "Posledná obchodná odpoveď na faktúru (Invoice Response) prijatá od "
 "odberateľa k odoslanej odberateľskej faktúre (akceptované / zamietnuté / "
 "sporné / …)."
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_leg
+msgid "Legal information incorrect"
+msgstr "Nesprávne právne údaje"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__list_identifier
@@ -348,20 +517,43 @@ msgstr ""
 "Nainštalujte modul poskytovateľa, napríklad edi_editel_peppol."
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_action_nop
+msgid "No action required"
+msgstr "Nevyžaduje sa žiadna akcia"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_non
+msgid "No issue"
+msgstr "Bez problému"
+
+#. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/edi_message.py:0
 msgid ""
-"No purchase journal found for company %s to book the inbound Peppol "
-"document."
+"No purchase journal found for company %s to book the inbound Peppol document."
 msgstr ""
 "Pre firmu %s sa nenašiel nákupný denník na zaúčtovanie prijatého Peppol "
 "dokladu."
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_unr
+msgid "Not recognized"
+msgstr "Nerozpoznané"
 
 #. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "Not sent via Peppol: %s"
 msgstr "Neodoslané cez Peppol: %s"
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"Not sent via Peppol: the e-invoice could not be generated. %(error)s Correct "
+"it and use Send via Peppol."
+msgstr ""
+"Neodoslané cez Peppol: e-faktúru sa nepodarilo vygenerovať. %(error)s Opravte ju a použite Odoslať cez Peppol."
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__note
@@ -374,6 +566,11 @@ msgid "Optional free-text clarification sent to the supplier…"
 msgstr "Nepovinné zdôvodnenie vo voľnom texte odoslané dodávateľovi…"
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_oth
+msgid "Other"
+msgstr "Iné"
+
+#. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_route__pdf
 msgid "PDF"
 msgstr "PDF"
@@ -381,10 +578,22 @@ msgstr "PDF"
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__pd
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__pd
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__pd
 msgid "Paid"
 msgstr "Zaplatené"
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_ppd
+msgid "Partially paid"
+msgstr "Čiastočne zaplatené"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_pay
+msgid "Payment terms incorrect"
+msgstr "Nesprávne platobné podmienky"
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_active
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_active
 msgid "Peppol Active"
 msgstr "Peppol aktívny"
@@ -400,6 +609,7 @@ msgid "Peppol BIS3 (this company)"
 msgstr "Peppol BIS3 (táto firma)"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_response
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_response
 msgid "Peppol Delivery Response"
 msgstr "Peppol odpoveď o doručení"
@@ -410,6 +620,7 @@ msgid "Peppol Document"
 msgstr "Peppol doklad"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_message_ids
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_message_ids
 msgid "Peppol EDI Messages"
 msgstr "Peppol EDI správy"
@@ -417,6 +628,7 @@ msgstr "Peppol EDI správy"
 #. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_ir_status
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_status
 #: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_peppol_invoice_response_wizard_form
 msgid "Peppol Invoice Response"
@@ -426,38 +638,47 @@ msgstr "Peppol odpoveď na faktúru"
 #. odoo-python
 #: code:addons/edi_base_peppol/models/edi_message.py:0
 msgid ""
-"Peppol Invoice Response received: <strong>%(label)s</strong> (%(code)s) "
-"%(reason)s — from %(sender)s."
+"Peppol Invoice Response received: <strong>%(label)s</strong> (%(code)s) %"
+"(reason)s — from %(sender)s."
 msgstr ""
-"Prijatá Peppol odpoveď na faktúru: <strong>%(label)s</strong> (%(code)s) "
-"%(reason)s — od %(sender)s."
+"Prijatá Peppol odpoveď na faktúru: <strong>%(label)s</strong> (%(code)s) %"
+"(reason)s — od %(sender)s."
 
 #. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid ""
-"Peppol Invoice Response sent: <strong>%(label)s</strong> (%(code)s) — "
-"%(link)s."
+"Peppol Invoice Response sent: <strong>%(label)s</strong> (%(code)s) — %"
+"(link)s."
 msgstr ""
-"Odoslaná Peppol odpoveď na faktúru: <strong>%(label)s</strong> (%(code)s) — "
-"%(link)s."
+"Odoslaná Peppol odpoveď na faktúru: <strong>%(label)s</strong> (%(code)s) — %"
+"(link)s."
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_ir_can_respond
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_can_respond
 msgid "Peppol Ir Can Respond"
 msgstr "Možné odpovedať na Peppol faktúru"
 
 #. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "Peppol Messages"
+msgstr "Peppol správy"
+
+#. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_purchase_journal_id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_purchase_journal_id
 msgid "Peppol Purchase Journal"
 msgstr "Nákupný denník pre Peppol"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_ir_reason
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_reason
 msgid "Peppol Response Reason"
 msgstr "Dôvod Peppol odpovede"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_ir_sent_status
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_sent_status
 #: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
 msgid "Peppol Response Sent"
@@ -470,13 +691,20 @@ msgstr "Peppol odpoveď…"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__peppol_sending_warning
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_users__peppol_sending_warning
 msgid "Peppol Sending Warning"
 msgstr "Upozornenie na odosielanie cez Peppol"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_status
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_status
 msgid "Peppol Status"
 msgstr "Peppol stav"
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_transport
+msgid "Peppol Transport"
+msgstr "Prenos Peppol"
 
 #. module: edi_base_peppol
 #: model:ir.model,name:edi_base_peppol.model_edi_peppol_clarification
@@ -487,11 +715,11 @@ msgstr "Peppol kód zdôvodnenia (dôvod/akcia odpovede na faktúru)"
 #. odoo-python
 #: code:addons/edi_base_peppol/models/edi_message.py:0
 msgid ""
-"Peppol delivery response received: <strong>%(code)s</strong> %(desc)s (from "
-"%(sender)s)."
+"Peppol delivery response received: <strong>%(code)s</strong> %(desc)s (from %"
+"(sender)s)."
 msgstr ""
-"Prijatá Peppol odpoveď o doručení: <strong>%(code)s</strong> %(desc)s (od "
-"%(sender)s)."
+"Prijatá Peppol odpoveď o doručení: <strong>%(code)s</strong> %(desc)s (od %"
+"(sender)s)."
 
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_route__peppol
@@ -499,7 +727,14 @@ msgid "Peppol e-invoice"
 msgstr "Peppol e-faktúra"
 
 #. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "Peppol e-invoice not sent"
+msgstr "Peppol e-faktúra nebola odoslaná"
+
+#. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_scope
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_scope
 msgid "Peppol scope"
 msgstr "Rozsah Peppol"
 
@@ -509,15 +744,19 @@ msgid "Peppol, but blocked"
 msgstr "Peppol, ale zablokované"
 
 #. module: edi_base_peppol
-#: model:ir.module.module,summary:base.module_edi_base_peppol
-msgid ""
-"Provider-neutral Peppol BIS Billing 3.0: send/receive invoices and credit "
-"notes, and business responses (MLR / Invoice Response), over any EDI "
-"transport provider"
-msgstr ""
-"Peppol BIS Billing 3.0 nezávisle od poskytovateľa: odosielanie a prijímanie "
-"faktúr a dobropisov a obchodných odpovedí (MLR / odpoveď na faktúru) cez "
-"ktorýkoľvek EDI prepravný modul"
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_pri
+msgid "Prices incorrect"
+msgstr "Nesprávne ceny"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_action_pin
+msgid "Provide additional information"
+msgstr "Poskytnúť doplňujúce informácie"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_qty
+msgid "Quantity incorrect"
+msgstr "Nesprávne množstvo"
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__reason_ids
@@ -525,8 +764,19 @@ msgid "Reasons"
 msgstr "Dôvody"
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_rec
+msgid "Receiver unknown"
+msgstr "Neznámy príjemca"
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_ref
+msgid "References incorrect"
+msgstr "Nesprávne referencie"
+
+#. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__re
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__re
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__re
 msgid "Rejected"
 msgstr "Zamietnuté"
 
@@ -566,6 +816,7 @@ msgid "Send via Peppol"
 msgstr "Odoslať cez Peppol"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_route
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_route
 msgid "Sent as"
 msgstr "Odoslané ako"
@@ -581,11 +832,21 @@ msgstr ""
 "nie cez EDI poskytovateľa."
 
 #. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"Several Peppol transports are installed and none is chosen: set Peppol "
+"Transport in Settings > EDI."
+msgstr ""
+"Je nainštalovaných viac prenosov Peppol a žiadny nie je zvolený: nastavte Prenos Peppol v Nastavenia > EDI."
+
+#. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_scope
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_scope
 msgid ""
 "Slovak mandate: a document goes through Peppol only when both parties are "
-"Slovak and the customer is a business or a public body; consumers, Czech and"
-" other foreign customers get the PDF."
+"Slovak and the customer is a business or a public body; consumers, Czech and "
+"other foreign customers get the PDF."
 msgstr ""
 "Slovenská povinnosť: doklad ide cez Peppol len vtedy, keď sú obe strany "
 "slovenské a odberateľ je podnikateľ alebo subjekt verejnej správy; "
@@ -597,6 +858,7 @@ msgid "Slovak mandate: domestic B2B and B2G only"
 msgstr "Slovenská povinnosť: len domáce B2B a B2G"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_status
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_status
 msgid "State of the most recent outbound Peppol message for this document."
 msgstr "Stav poslednej odoslanej Peppol správy k tomuto dokladu."
@@ -649,26 +911,33 @@ msgid "The e-invoice could not be sent"
 msgstr "Elektronickú faktúru sa nepodarilo odoslať"
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_ir_sent_status
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_sent_status
 msgid ""
 "The last business-level Peppol Invoice Response WE sent to the supplier for "
 "this received vendor bill (accepted / rejected / disputed)."
 msgstr ""
-"Posledná obchodná Peppol odpoveď na faktúru, ktorú sme odoslali dodávateľovi"
-" k tejto prijatej dodávateľskej faktúre (akceptované / zamietnuté / "
+"Posledná obchodná Peppol odpoveď na faktúru, ktorú sme odoslali dodávateľovi "
+"k tejto prijatej dodávateľskej faktúre (akceptované / zamietnuté / "
 "rozporované)."
 
 #. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/res_partner.py:0
 msgid ""
-"This customer is a Slovak business: from 1. 1. 2027 its invoices must be "
-"e-invoices, so sending them by email does not meet the mandate."
+"This customer is a Slovak business: from 1. 1. 2027 its invoices must be e-"
+"invoices, so sending them by email does not meet the mandate."
 msgstr ""
 "Tento odberateľ je slovenský podnikateľ: od 1. 1. 2027 musia byť jeho "
 "faktúry elektronické, takže odosielanie e-mailom nespĺňa túto povinnosť."
 
 #. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "To"
+msgstr "Do"
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_active
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_active
 msgid ""
 "True when this posted customer invoice/refund can be sent as a Peppol BIS3 "
@@ -680,18 +949,20 @@ msgstr ""
 "strany majú Peppol adresu)."
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_ir_can_respond
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_can_respond
 msgid ""
 "True when this vendor bill arrived via Peppol and we can send a business "
 "Invoice Response (accept/reject/dispute) back to the supplier."
 msgstr ""
 "Zapnuté, keď táto dodávateľská faktúra prišla cez Peppol a môžeme "
-"dodávateľovi odoslať obchodnú odpoveď na faktúru "
-"(akceptovanie/zamietnutie/rozpor)."
+"dodávateľovi odoslať obchodnú odpoveď na faktúru (akceptovanie/zamietnutie/"
+"rozpor)."
 
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__uq
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__uq
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__uq
 msgid "Under query"
 msgstr "Sporné"
 
@@ -705,6 +976,17 @@ msgstr ""
 "alebo požadovaná akcia."
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_transport
+msgid ""
+"Which installed EDI provider carries Peppol documents. Needed only when "
+"several are installed: with none chosen then, no document goes through "
+"Peppol and each invoice says why on its Peppol badge. With a single one "
+"installed it is used whatever this says."
+msgstr ""
+"Ktorý nainštalovaný poskytovateľ EDI prenáša doklady Peppol. Potrebné len vtedy, keď je nainštalovaných viac poskytovateľov: ak potom nie je zvolený žiadny, cez Peppol neodíde žiadny doklad a každá faktúra uvedie dôvod na svojom štítku Peppol. Ak je nainštalovaný len jeden, použije sa bez ohľadu na toto nastavenie."
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_route_reason
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_route_reason
 msgid "Why"
 msgstr "Dôvod"
@@ -731,3 +1013,18 @@ msgstr "bez krajiny"
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "queued"
 msgstr "vo fronte"
+
+#~ msgid "EDI Base: Peppol BIS 3.0"
+#~ msgstr "EDI základ: Peppol BIS 3.0"
+
+#~ msgid "Invoice Sending Method"
+#~ msgstr "Spôsob odosielania faktúr"
+
+#~ msgid ""
+#~ "Provider-neutral Peppol BIS Billing 3.0: send/receive invoices and credit "
+#~ "notes, and business responses (MLR / Invoice Response), over any EDI "
+#~ "transport provider"
+#~ msgstr ""
+#~ "Peppol BIS Billing 3.0 nezávisle od poskytovateľa: odosielanie a "
+#~ "prijímanie faktúr a dobropisov a obchodných odpovedí (MLR / odpoveď na "
+#~ "faktúru) cez ktorýkoľvek EDI prepravný modul"

@@ -117,6 +117,60 @@ class TestNetting(AccountTestInvoicingCommon):
         self.assertIn("§ 358", html)  # legal basis for unilateral set-off
         self.assertNotIn("Za partnera", html)  # single signature only
 
+    def test_pdf_states_when_the_claims_extinguish(self):
+        """Not "on delivery": by § 580 OZ (SK) and § 1982 NOZ (CZ) the claims
+        extinguish as of the moment they became capable of set-off."""
+        self._setup_balances(1000.0, 600.0)
+        agr = self._make_agreement()
+        agr.netting_mode = "unilateral"
+        html = self._render(agr)
+        self.assertIn("§ 580", html)
+        self.assertIn("okamihom", html)
+        self.assertNotIn("dňom doručenia", html)
+        self.assertNotIn("upon delivery", html)
+
+    def test_pdf_for_a_czech_company_cites_czech_law(self):
+        self.company.account_fiscal_country_id = self.env.ref("base.cz")
+        self._setup_balances(1000.0, 600.0)
+        agr = self._make_agreement()
+        agr.netting_mode = "unilateral"
+        html = self._render(agr)
+        self.assertIn("§ 1982", html)
+        self.assertIn("Oznámení o jednostranném započtení", html)
+        self.assertNotIn("Obchodného zákonníka", html)
+        self.assertNotIn("IČ DPH", html)
+        agr.netting_mode = "bilateral"
+        self.assertIn("Dohoda o vzájemném započtení", self._render(agr))
+
+    def test_only_the_partners_open_items_can_be_offset(self):
+        """The journal-item picker is limited to the agreement's partner's
+        open receivables and payables, and a line that is not one is
+        refused even when written directly."""
+        ar_line, _ap_line = self._setup_balances(1000.0, 600.0)
+        agr = self._make_agreement()
+        field = self.env["cssk.partner.netting.agreement.line"]._fields[
+            "move_line_id"]
+        self.assertIn("agreement_partner_id", field.domain)
+        other = self.init_invoice(
+            "out_invoice", partner=self.partner_b, invoice_date="2026-06-10",
+            amounts=[100.0], taxes=self.env["account.tax"], post=True)
+        foreign = other.line_ids.filtered(
+            lambda l: l.account_id.account_type == "asset_receivable")[:1]
+        income = ar_line.move_id.line_ids.filtered(
+            lambda l: l.account_id.account_type == "income")[:1]
+        for wrong in (foreign, income):
+            with self.assertRaises(ValidationError):
+                self.env["cssk.partner.netting.agreement.line"].create({
+                    "agreement_id": agr.id, "move_line_id": wrong.id,
+                    "amount_to_offset": 1.0})
+
+    def test_the_wizards_have_a_menu(self):
+        for xmlid in ("l10n_cssk_partner_balances.menu_cssk_partner_netting_wizard",
+                      "l10n_cssk_partner_balances."
+                      "menu_cssk_partner_confirmation_wizard"):
+            menu = self.env.ref(xmlid)
+            self.assertTrue(menu.action, xmlid)
+
     def _invoice_line(self, move, account_type):
         return move.line_ids.filtered(
             lambda l: l.account_id.account_type == account_type

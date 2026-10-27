@@ -7,7 +7,8 @@ The Czech country layer for the income-tax framework
 (Přiznání k dani z příjmů právnických osob, DPPDP9): ``ř.10`` (výsledek
 hospodaření před zdaněním) is computed from the P&L, the adjustments are entered
 by the accountant, and the II. oddíl tax-calculation spine
-(základ daně → daň 21 % → daň po slevách) is arithmetic.
+(základ daně → daň 21 %, 19 % for periods begun before 2024 → daň po slevách)
+is arithmetic.
 
 The export produces the official EPO ``Pisemnost``/``DPPDP9`` XML and validates
 it against the bundled official DPPDP9 XSD (``data/dppdp9_epo2.xsd``).
@@ -17,11 +18,13 @@ Features
 
 * ``ř.10`` (výsledek hospodaření před zdaněním) is computed from the P&L:
   class 6 − class 5, excluding the income-tax accounts 591–599.
-* The připočitatelné / odčitatelné adjustments (ř.20–170), the loss / § 34
-  deductions (ř.230 / ř.240) and the slevy na dani (ř.300) are manual,
-  accountant-entered, and aggregate into the spine.
+* The připočitatelné / odčitatelné adjustments (ř.20–170), the § 34
+  deductions (ř.230 ztráta, ř.240 pre-2005 odečty, ř.242 VaV, ř.243 odborné
+  vzdělávání), the § 20 odst. 8 dary (ř.260) and the slevy na dani (ř.300)
+  are manual, accountant-entered, and aggregate into the spine.
 * The II. oddíl tax-calculation spine (ř.10 → ř.340) is arithmetic:
-  základ daně → zaokrouhlení → daň 21 % (§ 21 odst. 1) → daň po slevách →
+  základ daně → zaokrouhlení → daň 21 % / 19 % (§ 21 odst. 1, by the
+  period's first day) → daň po slevách →
   celková daňová povinnost.
 * Each spine line maps to its official EPO ``VetaO/@kc_ii*`` attribute; only
   non-zero spine lines are emitted.

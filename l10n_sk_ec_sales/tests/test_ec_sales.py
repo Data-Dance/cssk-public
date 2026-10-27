@@ -3,7 +3,7 @@ import base64
 from lxml import etree
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -59,6 +59,75 @@ class TestSkEcSalesCompute(AccountTestInvoicingCommon):
             "period_type": "month",
             "statement_type_id": self.version.statement_type_ids[0].id,
         })
+
+    def test_a_period_the_version_does_not_allow_is_refused(self):
+        """``allow_monthly`` / ``allow_quarterly`` on the version used to be
+        stored and never read, so switching one off changed nothing."""
+        self.version.allow_monthly = False
+        with self.assertRaises(ValidationError):
+            self._make_statement()
+        self.version.allow_monthly = True
+        self._make_statement()
+
+    def test_a_dodatocny_vykaz_lists_only_what_changed(self):
+        """§ 80 ods. 8: "podá dodatočný súhrnný výkaz, v ktorom uvedie len
+        doplnené alebo opravené údaje". It used to re-file the whole period."""
+        de = self.env["res.partner"].create({
+            "name": "Kunde DE", "country_id": self.env.ref("base.de").id,
+            "vat": "DE811907980"})
+        pl = self.env["res.partner"].create({
+            "name": "Klient PL", "country_id": self.env.ref("base.pl").id,
+            "vat": "PL8942520778"})
+        for partner, amount in ((self.partner_eu, 1000.0), (de, 500.0),
+                                (pl, 300.0)):
+            self.init_invoice(
+                "out_invoice", partner=partner, invoice_date="2026-06-10",
+                amounts=[amount], taxes=self.tax_ic_goods, post=True)
+        riadny = self._make_statement()
+        riadny.action_compute_lines()
+        riadny.action_export_xml()
+        riadny.action_submit()
+
+        # Found later: BE was 200 short, PL was never a supply, FR missing.
+        self.init_invoice(
+            "out_invoice", partner=self.partner_eu, invoice_date="2026-06-20",
+            amounts=[200.0], taxes=self.tax_ic_goods, post=True)
+        self.init_invoice(
+            "out_refund", partner=pl, invoice_date="2026-06-25",
+            amounts=[300.0], taxes=self.tax_ic_goods, post=True)
+        dodatocny = self.env["cssk.ec.summary.statement"].browse(
+            riadny.action_create_amendment()["res_id"])
+        dodatocny.statement_type_id = self.version.statement_type_ids.filtered(
+            lambda t: t.fa_xml_value == "D")
+        dodatocny.action_compute_lines()
+        rows = {l.partner_vat: l.total_amount for l in dodatocny.line_ids}
+        self.assertEqual(rows, {"BE0477472701": 1200.0, "PL8942520778": 0.0},
+                         "the corrected value, the withdrawn row at 0, and "
+                         "nothing for the unchanged DE row")
+        dodatocny.action_export_xml()   # validates against the XSD
+
+    def test_a_dodatocny_vykaz_needs_the_filing_it_amends(self):
+        st = self._make_statement()
+        st.statement_type_id = self.version.statement_type_ids.filtered(
+            lambda t: t.fa_xml_value == "D")
+        with self.assertRaisesRegex(UserError, "no filed statement"):
+            st.action_compute_lines()
+
+    def test_the_house_number_is_not_street2(self):
+        """``cislo`` was filled from Street 2 — a building or c/o line."""
+        self.company.partner_id.write({
+            "street": "Hlavná 12", "street2": "c/o Účtovná kancelária"})
+        self.init_invoice(
+            "out_invoice", partner=self.partner_eu,
+            invoice_date="2026-06-10", amounts=[1000.0],
+            taxes=self.tax_ic_goods, post=True,
+        )
+        st = self._make_statement()
+        st.action_compute_lines()
+        st.action_export_xml()
+        root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
+        self.assertEqual(root.findtext("hlavicka/adresa/ulica"), "Hlavná")
+        self.assertEqual(root.findtext("hlavicka/adresa/cislo"), "12")
 
     def test_compute_and_export(self):
         self.init_invoice(
@@ -269,6 +338,43 @@ class TestSkEcSalesCompute(AccountTestInvoicingCommon):
         st.line_ids.transaction_code = "9"  # not a valid súhrnný-výkaz kód
         codes = [v["code"] for v in st.check_kontroly()]
         self.assertIn("SV_KOD", codes, "kontroly must reject an invalid kód")
+
+    # -- country codes as the poučenie lists them ---------------------------
+    def _partner(self, name, country, vat):
+        return self.env["res.partner"].with_context(no_vat_validation=True).create({
+            "name": name, "country_id": self.env.ref(country).id, "vat": vat})
+
+    def test_greece_is_el_and_northern_ireland_is_xi(self):
+        """kodStatu is the prefix of the customer's IČ DPH (Poučenie SVDPHv20:
+        EL Grécko, XI Severné Írsko) — not the partner country's ISO code."""
+        gr = self._partner("Pelatis GR", "base.gr", "EL094014201")
+        ni = self._partner("Customer NI", "base.uk", "XI123456789")
+        for partner in (gr, ni):
+            self.init_invoice(
+                "out_invoice", partner=partner, invoice_date="2026-06-10",
+                amounts=[500.0], taxes=self.tax_ic_goods, post=True)
+        st = self._make_statement()
+        st.action_compute_lines()
+        st.action_export_xml()
+        root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
+        rows = {z.findtext("kodStatu"): z.findtext("idCislo")
+                for z in root.findall(".//zaznam") if z.findtext("kodStatu")}
+        self.assertEqual(rows, {"EL": "094014201", "XI": "123456789"})
+
+    def test_a_service_to_northern_ireland_is_refused(self):
+        """XI is a goods-only number: a service to it is not a súhrnný výkaz
+        supply, so the export is blocked rather than filed."""
+        ni = self._partner("Customer NI", "base.uk", "XI123456789")
+        tax_srv = self.tax_ic_goods.copy({"name": "EU services 0%",
+                                          "cssk_ec_summary_code": "2"})
+        self.init_invoice(
+            "out_invoice", partner=ni, invoice_date="2026-06-10",
+            amounts=[500.0], taxes=tax_srv, post=True)
+        st = self._make_statement()
+        st.action_compute_lines()
+        with self.assertRaises(UserError) as cm:
+            st.action_export_xml()
+        self.assertIn("XI123456789", str(cm.exception))
 
 
 class TestSkEcSalesVintages(TransactionCase):

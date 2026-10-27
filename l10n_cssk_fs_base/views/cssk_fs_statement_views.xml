@@ -40,6 +40,10 @@
                             help="Open a delivery for this filing. With only the
                                   manual channel installed this records who filed
                                   it on the portal and holds the receipts."/>
+                    <button name="action_create_amendment" type="object"
+                            string="Corrective statement"
+                            invisible="state != 'submitted'"
+                            help="Copy this filed statement into a new draft flagged Corrective, linked to this one. Correct the accounting, then recompute and file the copy."/>
                     <button name="action_reset_to_draft" type="object"
                             string="Reset to Draft"
                             invisible="state not in ('exported', 'submitted')"
@@ -99,6 +103,10 @@
                             <field name="submitted_date"
                                    invisible="not submitted_date"/>
                             <field name="submission_reference"/>
+                            <field name="submission_type"
+                                   invisible="submission_type != 'opravna'"/>
+                            <field name="original_return_id"
+                                   invisible="not original_return_id"/>
                             <field name="filed_history_ids" widget="many2many_tags"
                                    invisible="not filed_history_ids"/>
                         </group>

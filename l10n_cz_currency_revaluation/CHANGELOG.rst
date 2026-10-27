@@ -8,6 +8,18 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The revaluation at the rate of the balance-sheet day is § 24c odst. 1
+  písm. b) zákona o účetnictví, not "§ 24 odst. 6" (which does not exist).
+  The user guide no longer says that Enterprise revalues a fixed-rate company
+  at the fixed rate: ``l10n_cz_currency_revaluation_ee`` now reads the ČNB
+  rate of the day as well.
+
 [19.0.1.1.0] — 2026-09-28
 -------------------------
 

@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **DPFO typ B, tabuľka 1 r. 2 showed príjmy and výdavky added together** as
+  one number (1 000 income and 400 expenses read 1 400). Every row of the table
+  has two columns, stĺpec 1 príjmy and stĺpec 2 výdavky, so each row is now
+  shown as two figures. The r. 10 totals and the základ dane were right before
+  and are unchanged.
+- **Tabuľka 1a showed 0 for nehmotný majetok, hmotný majetok and finančný
+  majetok.** Rows that combine several account groups are now summed
+  correctly; the fix is in ``l10n_cssk_cash_journal_base`` 19.0.1.6.1, which
+  this version needs.
+
 [19.0.1.1.0] — 2026-10-04
 -------------------------
 

@@ -454,3 +454,31 @@ msgid ""
 msgstr ""
 "Číselný kód (100–999) místně příslušné okresní správy sociálního "
 "zabezpečení (OSSZ) — prvek ELDP <eldp09 tco/dep>."
+
+#. module: l10n_cz_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
+msgid "Pension insurance periods from 1 January 2026 are reported in the monthly employer report (JMHZ, Act No. 323/2025 Coll.). The ČSSZ may still ask for an ELDP in individual cases; prepare that one outside this module."
+msgstr "Doby důchodového pojištění od 1. ledna 2026 se vykazují v jednotném měsíčním hlášení zaměstnavatele (JMHZ, zákon č. 323/2025 Sb.). ČSSZ může v odůvodněných případech ELDP stále vyžádat; takový připravte mimo tento modul."
+
+#. module: l10n_cz_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
+msgid "An ELDP for %(year)s is filed only for an employee whose pension insurance ended before 1 April 2026 (Act No. 360/2025 Coll., Art. V), and no employee with payslips in %(year)s left before that day. The year is reported in the monthly employer report (JMHZ); an ELDP the ČSSZ asks for has to be prepared outside this module."
+msgstr "ELDP za rok %(year)s se podává jen za zaměstnance, jehož účast na důchodovém pojištění skončila před 1. dubnem 2026 (zákon č. 360/2025 Sb., čl. V), a žádný zaměstnanec s výplatními páskami v roce %(year)s před tímto dnem neodešel. Rok se vykazuje v jednotném měsíčním hlášení zaměstnavatele (JMHZ); ELDP vyžádaný ČSSZ je třeba připravit mimo tento modul."
+
+#. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
+
+#. module: l10n_cz_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
+msgid ""
+"Employee '%(name)s' has %(count)s separate employment periods in %(year)s; "
+"one ELDP holds at most three. Prepare the ELDP for this employee by hand."
+msgstr ""
+"Zaměstnanec '%(name)s' má v roce %(year)s %(count)s samostatných období "
+"zaměstnání; jeden ELDP pojme nejvýše tři. ELDP pro tohoto zaměstnance "
+"připravte ručně."

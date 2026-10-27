@@ -71,6 +71,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"Company '%(company)s' needs a bank account for the refund of the child tax "
+"bonus difference requested in Part III of the overview."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__country_id
 msgid "Country"
 msgstr ""
@@ -129,6 +137,17 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__filed_history_ids
 msgid "Filed history"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__request_bonus_refund
+msgid ""
+"Fill in Part III of the overview: ask the tax administrator to pay out the "
+"child tax bonus the company paid from its own money because it exceeded the "
+"withheld tax advances (row C of Part II), summed over the three months of "
+"the quarter. Only possible in the overview for the last month of a calendar "
+"quarter (March, June, September, December). Leave it off to deduct the "
+"difference from the tax advances of the following months instead."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
@@ -281,6 +300,11 @@ msgid "Payment Date"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__request_bonus_refund
+msgid "Request refund of the child tax bonus difference"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_monthly_tax_overview.view_l10n_sk_prehlad_form
 msgid "Reset to Draft"
 msgstr ""
@@ -327,6 +351,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__submitted_date
 msgid "Submitted Date"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"The child tax bonus difference can only be claimed in the overview for the "
+"last month of a calendar quarter (March, June, September or December)."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview

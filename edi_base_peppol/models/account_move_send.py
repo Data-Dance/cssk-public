@@ -50,7 +50,7 @@ class AccountMoveSend(models.AbstractModel):
             if ("edi_peppol" not in invoice_data.get("sending_methods", ())
                     or not self._is_applicable_to_move("edi_peppol", invoice)):
                 continue
-            sent = invoice.peppol_message_ids.filtered(
+            sent = invoice.sudo().peppol_message_ids.filtered(
                 lambda m: m.direction == "out" and m.state in ("queued", "sent"))
             if sent:
                 continue  # already on its way, e.g. auto-sent when posted

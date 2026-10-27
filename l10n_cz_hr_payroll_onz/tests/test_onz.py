@@ -6,6 +6,7 @@ Builds an employee, registers a nástup and a skončení event, and validates th
 produced XML against the shipped ``ONZ2022_20230616.xsd`` (+ ``baseTypes2.xsd``)."""
 import base64
 from datetime import date
+from unittest.mock import patch
 
 from lxml import etree
 
@@ -23,7 +24,7 @@ class TestOnz(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "CZ ONZ Co",
             "country_id": cls.env.ref("base.cz").id,
-            "company_registry": "12345678",
+            "company_registry": "12345679",
             "l10n_cz_ossz_vs": "9992001215",
             "l10n_cz_ossz_code": "222",
         })
@@ -44,6 +45,11 @@ class TestOnz(TransactionCase):
             "contract_date_start": date(2022, 5, 4),
         })
 
+    def _generate_on(self, decl, day=date(2026, 3, 20)):
+        """Generate as if on *day*: ONZ can only be made until 31 March 2026."""
+        with patch.object(type(decl), "_filing_date", lambda self: day):
+            decl.action_generate()
+
     def _validate(self, decl):
         xml_bytes = base64.b64decode(decl.xml_attachment_id.datas)
         schema = etree.XMLSchema(etree.parse(
@@ -58,9 +64,9 @@ class TestOnz(TransactionCase):
             "event_type": "nastup",
             "employee_ids": [(6, 0, self.employee.ids)],
         })
-        self.assertTrue(decl.version_id, "ONZ version should default")
-        decl.action_generate()
+        self._generate_on(decl)
         self.assertEqual(decl.state, "generated")
+        self.assertTrue(decl.version_id, "the ONZ vintage follows the event")
         root = self._validate(decl)
 
         emps = root.findall(".//o:employee", NS)
@@ -69,6 +75,12 @@ class TestOnz(TransactionCase):
         self.assertEqual(emps[0].get("dep"), "222")
         client = emps[0].find("o:client", NS)
         self.assertEqual(client.get("bno"), "8001011117")
+        # "Jan Pokusny": příjmení (sur) is the LAST word, jméno (fir) the
+        # first — they used to be swapped.
+        name = client.find("o:name", NS)
+        self.assertEqual(name.get("sur"), "Pokusny")
+        self.assertEqual(name.get("fir"), "Jan")
+        self.assertEqual(client.find("o:birth", NS).get("nam"), "Pokusny")
         job = emps[0].find("o:job", NS)
         self.assertEqual(job.get("fro"), "2022-05-04")
         self.assertFalse(job.get("to"))  # no end date on nástup
@@ -76,18 +88,46 @@ class TestOnz(TransactionCase):
         self.assertEqual(comp.get("vs"), "9992001215")
 
     def test_skonceni(self):
-        self.employee.version_id.write({"contract_date_end": date(2026, 6, 30)})
+        self.employee.version_id.write({"contract_date_end": date(2026, 3, 31)})
         decl = self.env["l10n.cz.onz"].with_company(self.company).create({
             "company_id": self.company.id,
             "event_type": "skonceni",
             "employee_ids": [(6, 0, self.employee.ids)],
         })
-        decl.action_generate()
+        self._generate_on(decl, date(2026, 3, 31))
         root = self._validate(decl)
         emp = root.find(".//o:employee", NS)
         self.assertEqual(emp.get("act"), "2")  # skončení
         job = emp.find("o:job", NS)
-        self.assertEqual(job.get("to"), "2026-06-30")
+        self.assertEqual(job.get("to"), "2026-03-31")
+
+    def test_event_after_jmhz_cutoff_is_refused(self):
+        """ONZ is kept "do 31. 3. 2026" and replaced from 1. 4. 2026 by the
+        JMHZ registration (REGZEC); an event after that is not filed on ONZ."""
+        from odoo.exceptions import UserError
+        self.employee.version_id.write({"contract_date_end": date(2026, 4, 1)})
+        decl = self.env["l10n.cz.onz"].with_company(self.company).create({
+            "company_id": self.company.id,
+            "event_type": "skonceni",
+            "employee_ids": [(6, 0, self.employee.ids)],
+        })
+        with self.assertRaisesRegex(UserError, "JMHZ"):
+            self._generate_on(decl)
+        self.assertEqual(decl.state, "draft")
+        self.assertFalse(decl.xml_attachment_id)
+
+    def test_old_event_notified_after_cutoff_is_refused(self):
+        """Zákon č. 360/2025 Sb., čl. XXV bod 4: an event before 1 April 2026
+        not notified by then is registered the new way, through JMHZ."""
+        from odoo.exceptions import UserError
+        decl = self.env["l10n.cz.onz"].with_company(self.company).create({
+            "company_id": self.company.id,
+            "event_type": "nastup",
+            "employee_ids": [(6, 0, self.employee.ids)],
+        })
+        with self.assertRaisesRegex(UserError, "JMHZ"):
+            self._generate_on(decl, date(2026, 4, 2))
+        self.assertFalse(decl.xml_attachment_id)
 
     def test_no_employee_raises(self):
         from odoo.exceptions import UserError

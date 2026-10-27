@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Wage Garnishment — payroll engine bridge",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Human Resources/Payroll",
     "summary": "Apply the Czech/Slovak wage-garnishment waterfall on payslips "
     "computed by the OCA payroll engine.",

@@ -11,6 +11,8 @@
 from odoo.tests import BaseCase as TestCase
 
 from odoo.addons.account_cz_bankfile_base.utils.common import (
+    bare_account_key,
+    is_same_bare_account,
     parse_cz_account,
     parse_national_account,
 )
@@ -131,3 +133,27 @@ class TestNationalAccountKey(TestCase):
                          ('1200', '19', '8742637541'))
         self.assertIsNone(national_account_key('DE89370400440532013000'))
         self.assertIsNone(national_account_key(''))
+
+
+class TestBareAccountKey(TestCase):
+    """GPC's own-account field: 16 digits, no bank code."""
+
+    def test_matches_both_spellings_of_the_journal_account(self):
+        for acc in ("CZ65 0800 0000 1920 0014 5399", "19-2000145399/0800"):
+            self.assertTrue(is_same_bare_account(acc, "0000192000145399"), acc)
+            self.assertTrue(is_same_bare_account(acc, "192000145399"), acc)
+
+    def test_a_short_number_with_a_prefix_is_not_a_substring_match(self):
+        # ``19-123456789`` runs together as 190123456789 in GPC, which no
+        # substring search of "191234567890100" finds
+        self.assertTrue(is_same_bare_account("19-123456789/0100", "190123456789"))
+        self.assertFalse(is_same_bare_account("CZ6508000000192000145399", "2000145399"))
+        self.assertFalse(is_same_bare_account("2000145399/0800", "192000145399"))
+        # a journal whose account is itself stored as bare digits
+        self.assertTrue(is_same_bare_account("192000145399", "0000192000145399"))
+        self.assertFalse(is_same_bare_account("192000145399", "2000145399"))
+
+    def test_not_digits(self):
+        self.assertIsNone(bare_account_key("CZ6508000000192000145399"))
+        self.assertIsNone(bare_account_key("12345678901234567"))
+        self.assertEqual(bare_account_key("0000192000145399"), ("19", "2000145399"))

@@ -129,4 +129,25 @@
         <field name="domain">[('l10n_sk_register_inactive', '=', True)]</field>
         <field name="context">{'create': False}</field>
     </record>
+
+    <!-- The action had no menu, so nobody could open it. A filter on the
+         contact search reaches the same list from Customers, Vendors and
+         Contacts alike; the menu item is the direct way in. -->
+    <record id="view_res_partner_filter_l10n_sk_trade_registry" model="ir.ui.view">
+        <field name="name">res.partner.search.l10n_sk.trade.registry</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <separator/>
+                <filter name="l10n_sk_register_inactive" string="Zrušené subjekty (SK)"
+                        domain="[('l10n_sk_register_inactive', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_partner_l10n_sk_register_inactive"
+              action="action_partner_l10n_sk_register_inactive"
+              parent="account.menu_finance_receivables"
+              sequence="115"/>
 </odoo>

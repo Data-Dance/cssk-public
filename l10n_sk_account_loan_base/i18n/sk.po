@@ -79,9 +79,11 @@ msgstr ""
 #. module: l10n_sk_account_loan_base
 #: model:ir.model.fields,help:l10n_sk_account_loan_base.field_l10n_sk_lease_mixin__l10n_sk_vat_treatment
 msgid ""
-"Finančný prenájom je DODANÍM TOVARU, ak zo zmluvy vyplýva prevod vlastníctva najneskôr zaplatením poslednej splátky — vtedy daňová povinnosť vzniká RAZ, dňom odovzdania predmetu nájmu, z celej dohodnutej ceny.\n"
+"Finančný prenájom je DODANÍM TOVARU, ak sa podľa nájomnej zmluvy za normálnych okolností vlastníctvo k predmetu nájmu nadobudne najneskôr zaplatením poslednej splátky (§ 8 ods. 1 písm. c) zákona 222/2004) — vtedy daňová povinnosť vzniká RAZ, dňom odovzdania predmetu nájmu, z celej dohodnutej ceny, a splátky sa zaúčtujú bez DPH.\n"
 "\n"
 "Inak ide o DODANIE SLUŽBY a daň sa uplatňuje z každej splátky.\n"
+"\n"
+"Kým režim nie je zvolený, splátky si ponechajú DPH svojich produktov.\n"
 "\n"
 "Od 1. 1. 2025 sa posudzuje ekonomická podstata, nie znenie zmluvy: rozhoduje, či je uplatnenie opcie pre nájomcu jedinou ekonomicky racionálnou voľbou (v nadväznosti na C-164/16 Mercedes-Benz)."
 msgstr ""
@@ -140,15 +142,15 @@ msgid "Leasing — long-term liability"
 msgstr "Lízing — dlhodobý záväzok"
 
 #. module: l10n_sk_account_loan_base
-#. odoo-python
-#: code:addons/l10n_sk_account_loan_base/models/l10n_sk_lease_mixin.py:0
-msgid "Odpisová skupina %s (%s rokov)"
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_depreciation_group__0
+#: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_depreciation_group__0
+msgid "Odpisová skupina 0 (2 roky)"
 msgstr ""
 
 #. module: l10n_sk_account_loan_base
 #: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__account_loan__l10n_sk_depreciation_group__1
 #: model:ir.model.fields.selection,name:l10n_sk_account_loan_base.selection__l10n_sk_lease_mixin__l10n_sk_depreciation_group__1
-msgid "Odpisová skupina 1 (4 rokov)"
+msgid "Odpisová skupina 1 (4 roky)"
 msgstr ""
 
 #. module: l10n_sk_account_loan_base

@@ -207,6 +207,31 @@ class TestIsdocPurchaseAdvance(AccountTestInvoicingCommon):
         self.assertAlmostEqual(order.amount_total, 1210.0)
         self.assertFalse(order.order_line.tax_ids)
 
+    def test_the_same_proforma_twice_is_one_advance(self):
+        """Re-importing a proforma used to create a second advance to pay."""
+        first = self._import(_proforma(ref="ZF-2026-77", gross="1210"))
+        second = self._import(_proforma(ref="ZF-2026-77", gross="1210"))
+        self.assertEqual(
+            second.advance_purchase_order_id, first.advance_purchase_order_id)
+        self.assertEqual(self.env["purchase.order"].search_count([
+            ("is_advance_invoice", "=", True),
+            ("partner_ref", "=", "ZF-2026-77"),
+        ]), 1)
+
+    def test_another_proforma_is_another_advance(self):
+        first = self._import(_proforma(ref="ZF-2026-77", gross="1210"))
+        second = self._import(_proforma(ref="ZF-2026-78", gross="1210"))
+        self.assertNotEqual(
+            second.advance_purchase_order_id, first.advance_purchase_order_id)
+
+    def test_a_cancelled_advance_does_not_swallow_a_reimport(self):
+        first = self._import(_proforma(ref="ZF-2026-77", gross="1210"))
+        first.advance_purchase_order_id.button_cancel()
+        second = self._import(_proforma(ref="ZF-2026-77", gross="1210"))
+        self.assertTrue(second.advance_purchase_order_id)
+        self.assertNotEqual(
+            second.advance_purchase_order_id, first.advance_purchase_order_id)
+
     def test_tax_document_matched_by_order_reference(self):
         advance = self._paid_advance()
         invoice = self._import(_tax_document(order_ref=advance.name))

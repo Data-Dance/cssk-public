@@ -1,0 +1,203 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* payroll_dashboard
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:14+0000\n"
+"PO-Revision-Date: 2026-10-27 19:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: payroll_dashboard
+#: model:ir.ui.menu,name:payroll_dashboard.menu_payroll_dashboard
+msgid "Analysis"
+msgstr "Analýza"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Category"
+msgstr "Kategorie"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields,field_description:payroll_dashboard.field_payroll_kpi__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kind__count
+msgid "Count"
+msgstr "Počet"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields,field_description:payroll_dashboard.field_payroll_kpi__currency_id
+msgid "Currency"
+msgstr "Měna"
+
+#. module: payroll_dashboard
+#: model:ir.actions.act_window,name:payroll_dashboard.payroll_kpi_action model:ir.ui.menu,name:payroll_dashboard.menu_payroll_kpi
+msgid "Dashboard"
+msgstr "Přehled"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields,field_description:payroll_dashboard.field_payroll_kpi__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Done payslips"
+msgstr "Hotové výplatní pásky"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Employee"
+msgstr "Zaměstnanec"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kpi__employees
+msgid "Employees"
+msgstr "Zaměstnanci"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kpi__employer
+msgid "Employer contributions"
+msgstr "Odvody zaměstnavatele"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Employer cost"
+msgstr "Náklady zaměstnavatele"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields,field_description:payroll_dashboard.field_payroll_kpi__kpi model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Figure"
+msgstr "Ukazatel"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Gross"
+msgstr "Hrubá mzda"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Headline (gross/net/employer/tax)"
+msgstr "Hlavní ukazatele (hrubá/čistá/zaměstnavatel/daň)"
+
+#. module: payroll_dashboard
+#: model_terms:ir.actions.act_window,help:payroll_dashboard.payroll_kpi_action
+msgid "Headline payroll figures appear here once payslips are done."
+msgstr "Hlavní mzdové ukazatele se zde zobrazí, jakmile budou výplatní pásky hotové."
+
+#. module: payroll_dashboard
+#: model:ir.model.fields,field_description:payroll_dashboard.field_payroll_kpi__id
+msgid "ID"
+msgstr "ID"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kpi__income_tax model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Income tax"
+msgstr "Daň z příjmů"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields,field_description:payroll_dashboard.field_payroll_kpi__kind
+msgid "Kind"
+msgstr "Druh"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kind__money
+msgid "Money"
+msgstr "Částka"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Net"
+msgstr "Čistá mzda"
+
+#. module: payroll_dashboard
+#: model_terms:ir.actions.act_window,help:payroll_dashboard.payroll_kpi_action
+msgid "No payroll data yet"
+msgstr "Zatím žádná mzdová data"
+
+#. module: payroll_dashboard
+#: model_terms:ir.actions.act_window,help:payroll_dashboard.payroll_dashboard_action
+msgid "Nothing to show yet"
+msgstr "Zatím není co zobrazit"
+
+#. module: payroll_dashboard
+#: model_terms:ir.actions.act_window,help:payroll_dashboard.payroll_dashboard_action
+msgid ""
+"Once payslips are done, this dashboard charts the headline\n"
+"               figures — gross, net, employer cost and income tax — per month.\n"
+"               Switch to the pivot for an employee × period breakdown."
+msgstr ""
+"Jakmile budou výplatní pásky hotové, tento přehled zobrazí hlavní\n"
+"               ukazatele — hrubou mzdu, čistou mzdu, náklady zaměstnavatele a daň z příjmů — po měsících.\n"
+"               V kontingenční tabulce je rozepíšete podle zaměstnance a období."
+
+#. module: payroll_dashboard
+#: model:ir.actions.act_window,name:payroll_dashboard.payroll_dashboard_action
+msgid "Payroll Analysis"
+msgstr "Analýza mezd"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Payroll Dashboard"
+msgstr "Přehled mezd"
+
+#. module: payroll_dashboard
+#: model:ir.model,name:payroll_dashboard.model_payroll_kpi
+msgid "Payroll KPI tile"
+msgstr "Dlaždice mzdového ukazatele"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_pivot
+msgid "Payroll headline figures"
+msgstr "Hlavní mzdové ukazatele"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_graph
+msgid "Payroll headline figures over time"
+msgstr "Hlavní mzdové ukazatele v čase"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kpi__payslips
+msgid "Payslips"
+msgstr "Výplatní pásky"
+
+#. module: payroll_dashboard
+#: model_terms:ir.ui.view,arch_db:payroll_dashboard.payroll_dashboard_search
+msgid "Period"
+msgstr "Období"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields,field_description:payroll_dashboard.field_payroll_kpi__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kpi__gross
+msgid "Total gross"
+msgstr "Hrubé mzdy celkem"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kpi__labour_cost
+msgid "Total labour cost"
+msgstr "Celková cena práce"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields.selection,name:payroll_dashboard.selection__payroll_kpi__kpi__net
+msgid "Total net"
+msgstr "Čisté mzdy celkem"
+
+#. module: payroll_dashboard
+#: model:ir.model.fields,field_description:payroll_dashboard.field_payroll_kpi__value
+msgid "Value"
+msgstr "Hodnota"

@@ -81,3 +81,15 @@ class GarnishmentResetCommon:
         self._line_for(slip, "computed")
         slip.action_payslip_draft()
         self.assertEqual(slip.state, "draft")
+
+    def _check_cancel_blocked_after_remittance(self):
+        """Cancelling is the other way out of a confirmed payslip, and it ran
+        the same unregister without the guard: the remitted line stayed,
+        the payslip was voided, and a corrected payslip then deducted and
+        recorded the month a second time."""
+        slip = self._payslip()
+        self._line_for(slip, "done")
+        with self.assertRaises(UserError) as cm:
+            slip.action_payslip_cancel()
+        self.assertIn("remitted", str(cm.exception).lower())
+        self.assertNotEqual(slip.state, "cancel")

@@ -67,6 +67,14 @@ class HrWageGarnishmentRate(models.Model):
         help="Amount of the remainder above which the wage is seized without "
         "limitation — 1.9× the sum of the three components (NV 595/2006 § 2).",
     )
+    cz_trustee_monthly = fields.Float(
+        "Insolvency trustee monthly amount", digits=(16, 2), default=1089.0,
+        help="Monthly fee plus cash expenses of an insolvency trustee in a "
+        "debt relief, increased by VAT (vyhl. 313/2007 Sb. § 3 odst. 2 písm. "
+        "a) and § 7 odst. 4). Under § 279 odst. 5 písm. b) o. s. ř. the "
+        "two-thirds rule for four or more executions does not apply to a "
+        "pensioner while one third of the remainder stays below it.",
+    )
 
     # --- Slovakia: NV 268/2006 Z. z. --------------------------------------
     sk_zivotne_minimum = fields.Float(
@@ -145,6 +153,7 @@ class HrWageGarnishmentRate(models.Model):
                 "base_pct": self.cz_base_pct,
                 "dependent_fraction": self.cz_dependent_fraction,
                 "unlimited_limit": self.cz_unlimited_limit,
+                "trustee_monthly": self.cz_trustee_monthly,
             }
         return {
             "zivotne_minimum": self.sk_zivotne_minimum,

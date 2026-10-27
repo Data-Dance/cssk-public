@@ -42,8 +42,8 @@ Features
 Usage
 =====
 
-Build the účtovná závierka for the year (*Accounting ▸ Reporting ▸ Účtovná
-závierka*) and the DPPO return for the same period, compute both, then press
+Build the účtovná závierka for the year (*Accounting ▸ Reporting ▸ Statutory
+Reports ▸ Balance sheet*, version Úč POD) and the DPPO return for the same period, compute both, then press
 *Porovnať s účtovnou závierkou* on the return. With no závierka for the period
 the action explains that and stops rather than comparing against nothing.
 

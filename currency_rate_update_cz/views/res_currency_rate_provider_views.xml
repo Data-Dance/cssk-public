@@ -12,4 +12,27 @@
             </xpath>
         </field>
     </record>
+
+    <!-- The action-menu entry (data/res_currency_rate_provider_action.xml)
+         only appears once a record is SELECTED, and the list it is needed on
+         is usually empty — so it was unreachable exactly when it mattered.
+         A header button with display="always" shows on an empty list too.
+         List views keep only one <header>: with both currency_rate_update_cz
+         and _sk installed one of the two buttons wins, and the other module's
+         action stays in the action menu once the list has a row. -->
+    <record id="res_currency_rate_provider_list_cz_default" model="ir.ui.view">
+        <field name="name">res.currency.rate.provider.list.cz.default</field>
+        <field name="model">res.currency.rate.provider</field>
+        <field name="inherit_id" ref="currency_rate_update.res_currency_rate_provider_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <header>
+                    <button name="action_cz_ensure_default_provider" type="object"
+                            string="Create the Czech default provider"
+                            display="always"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

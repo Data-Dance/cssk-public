@@ -26,7 +26,7 @@ being automated.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.4.3",
+    "version": "19.0.1.4.6",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_income_tax_base", "l10n_sk", "l10n_sk_base"],

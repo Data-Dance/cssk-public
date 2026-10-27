@@ -1,6 +1,3 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* account_statement_fio
 #
 msgid ""
 msgstr ""
@@ -41,9 +38,19 @@ msgid "Bank Journal"
 msgstr "Bankovní deník"
 
 #. module: account_statement_fio
+#: model:ir.model,name:account_statement_fio.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: account_statement_fio
 #: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_list_fio_statement
 msgid "Bank feed"
 msgstr "Zdroj výpisů"
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid "Bank statements"
+msgstr ""
 
 #. module: account_statement_fio
 #: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__call_count
@@ -56,6 +63,16 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 #. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: account_statement_fio
 #: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__date_from
 msgid "Date From"
 msgstr "Datum od"
@@ -64,6 +81,13 @@ msgstr "Datum od"
 #: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__date_to
 msgid "Date To"
 msgstr "Datum do"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__display_name
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__display_name
+msgid "Display Name"
+msgstr ""
 
 #. module: account_statement_fio
 #: model:ir.model.fields,field_description:account_statement_fio.field_account_bank_statement_line__fio_instruction_id
@@ -102,9 +126,17 @@ msgid "Fio banka API"
 msgstr "Fio banka API"
 
 #. module: account_statement_fio
-#: model:ir.module.module,shortdesc:base.module_account_statement_fio
-msgid "Fio banka — bank statements"
-msgstr "Fio banka — bankovní výpisy"
+#. odoo-python
+#: code:addons/account_statement_fio/models/account_journal.py:0
+msgid ""
+"Fio journal %(journal)s is in %(journal_currency)s, but the account behind "
+"its token reports movement %(movement)s in %(currency)s. Each Fio currency "
+"account needs its own journal in that currency, with that account's own API "
+"token."
+msgstr ""
+"Deník Fio %(journal)s je v měně %(journal_currency)s, ale účet za jeho "
+"tokenem hlásí pohyb %(movement)s v %(currency)s. Každý měnový účet Fio "
+"potřebuje vlastní deník v této měně s vlastním tokenem API toho účtu."
 
 #. module: account_statement_fio
 #. odoo-python
@@ -167,6 +199,11 @@ msgstr ""
 " příkazu, takže jím nelze řádek výpisu spojit zpět s platebním příkazem."
 
 #. module: account_statement_fio
+#: model:ir.actions.server,name:account_statement_fio.cron_fio_pull_statements_ir_actions_server
+msgid "Fio: pull bank statements"
+msgstr "Fio: stažení bankovních výpisů"
+
+#. module: account_statement_fio
 #: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__statement_from
 msgid "First statement number"
 msgstr "První číslo výpisu"
@@ -197,6 +234,13 @@ msgid "History unlocked in internet banking"
 msgstr "Historie odemčena v internetovém bankovnictví"
 
 #. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__id
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__id
+msgid "ID"
+msgstr ""
+
+#. module: account_statement_fio
 #. odoo-python
 #: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
 msgid "Imported transactions"
@@ -214,6 +258,11 @@ msgstr ""
 "vynechaný běh nechal."
 
 #. module: account_statement_fio
+#: model:ir.model,name:account_statement_fio.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: account_statement_fio
 #. odoo-python
 #: code:addons/account_statement_fio/models/account_journal.py:0
 msgid ""
@@ -229,6 +278,16 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_statement_fio.field_account_journal__fio_last_movement_id
 msgid "Last Fio movement"
 msgstr "Poslední pohyb Fio"
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__write_date
+msgid "Last Updated on"
+msgstr ""
 
 #. module: account_statement_fio
 #: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__statement_to
@@ -259,11 +318,13 @@ msgstr "Pohyby v rozsahu dat"
 #. module: account_statement_fio
 #: model:ir.model.fields,help:account_statement_fio.field_account_journal__fio_create_statements
 msgid ""
-"Movements mode only. Official statements always produce an "
-"account.bank.statement, because that is the point of them."
+"Movements mode only: one statement per day of movements, with its opening "
+"and closing balance worked out from what Fio reports. Official statements "
+"always produce an account.bank.statement, because that is the point of them."
 msgstr ""
-"Pouze v režimu pohybů. Oficiální výpisy vytvářejí account.bank.statement "
-"vždy, protože právě o to u nich jde."
+"Jen v režimu pohybů: jeden výpis na každý den s pohyby, s počátečním a "
+"konečným zůstatkem dopočteným z údajů Fio. Oficiální výpisy vždy vytvoří "
+"account.bank.statement, protože právě o to v nich jde."
 
 #. module: account_statement_fio
 #: model:ir.model.fields,field_description:account_statement_fio.field_fio_statement_pull__needs_history_unlock
@@ -294,6 +355,11 @@ msgid "Pull"
 msgstr "Stáhnout"
 
 #. module: account_statement_fio
+#: model:ir.model,name:account_statement_fio.model_fio_statement_pull
+msgid "Pull Fio Bank Statements"
+msgstr "Stažení bankovních výpisů Fio"
+
+#. module: account_statement_fio
 #: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
 msgid "Pull a range…"
 msgstr "Stáhnout rozsah…"
@@ -303,15 +369,6 @@ msgstr "Stáhnout rozsah…"
 #: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
 msgid "Pull from Fio"
 msgstr "Stáhnout z Fio"
-
-#. module: account_statement_fio
-#: model:ir.module.module,summary:base.module_account_statement_fio
-msgid ""
-"Pull movements and official statements from the Fio banka API into bank "
-"journals. Community and Enterprise alike."
-msgstr ""
-"Stahuje pohyby a oficiální výpisy z Fio banka API do bankovních deníků. "
-"Stejně pro Community i Enterprise."
 
 #. module: account_statement_fio
 #: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
@@ -339,6 +396,20 @@ msgstr ""
 "Stáhněte jej po kratších částech."
 
 #. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid ""
+"The bookmark lives on the token inside Fio, not in Odoo.\n"
+"                        Anything else reading movements with this same token —\n"
+"                        another system, or a colleague testing — moves it, and\n"
+"                        those movements never arrive here. Use a dedicated token\n"
+"                        for this mode, or prefer the re-readable date range."
+msgstr ""
+"Záložka je uložena u tokenu ve Fio, ne v Odoo. Cokoli jiného, co tímto "
+"tokenem čte pohyby — jiný systém nebo kolega při zkoušení — ji posune a ty "
+"pohyby sem už nedorazí. Pro tento režim použijte samostatný token, nebo "
+"raději opakovatelně čitelný rozsah dat."
+
+#. module: account_statement_fio
 #. odoo-python
 #: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
 msgid "The first date is after the last one."
@@ -360,6 +431,18 @@ msgstr "Naplánované stahování z Fio selhalo: %(error)s"
 #: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
 msgid "The unlock lasts <b>ten minutes</b>, so do it now — then:"
 msgstr "Odemčení platí <b>deset minut</b>, udělejte to tedy teď — a pak:"
+
+#. module: account_statement_fio
+#: model_terms:ir.ui.view,arch_db:account_statement_fio.account_journal_view_form_fio_statement
+msgid ""
+"This journal has a Fio token but its bank feed is not set to\n"
+"                    <b>Fio banka API</b>, so no statements are pulled on a\n"
+"                    schedule and the <b>Bank statements</b> settings are hidden.\n"
+"                    The token is still used for payment orders."
+msgstr ""
+"Tento deník má token Fio, ale jeho bankovní zdroj není nastaven na <b>Fio "
+"banka API</b>, takže se výpisy podle plánu nestahují a nastavení <b>Bankovní"
+" výpisy</b> je skryté. Token se dál používá pro platební příkazy."
 
 #. module: account_statement_fio
 #: model_terms:ir.ui.view,arch_db:account_statement_fio.fio_statement_pull_view_form
@@ -385,6 +468,21 @@ msgstr ""
 "                    sekund, počítejte tedy zhruba s tolika půlminutami."
 
 #. module: account_statement_fio
-#: model:ir.model,name:account_statement_fio.model_fio_statement_pull
-msgid "Pull Fio Bank Statements"
-msgstr "Stažení bankovních výpisů Fio"
+#. odoo-python
+#: code:addons/account_statement_fio/wizard/fio_statement_pull.py:0
+msgid "id"
+msgstr ""
+
+#. module: account_statement_fio
+#: model:ir.module.module,shortdesc:base.module_account_statement_fio
+msgid "Fio banka — bank statements"
+msgstr "Fio banka — bankovní výpisy"
+
+#. module: account_statement_fio
+#: model:ir.module.module,summary:base.module_account_statement_fio
+msgid ""
+"Pull movements and official statements from the Fio banka API into bank "
+"journals. Community and Enterprise alike."
+msgstr ""
+"Stahuje pohyby a oficiální výpisy z Fio banka API do bankovních deníků. "
+"Stejně pro Community i Enterprise."

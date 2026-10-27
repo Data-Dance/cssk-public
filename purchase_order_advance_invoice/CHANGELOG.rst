@@ -14,6 +14,27 @@ Fixed
 - The *advance purchase journal* picker in Settings listed every journal: Odoo
   drops a string domain when it copies a field into a related one.
 
+[19.0.1.2.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The deduction covers what was paid but not yet documented.** With a
+  posted tax document the deduction copied the document's lines only, so an
+  advance paid in full but documented in part was deducted in part. The
+  undocumented rest is now deducted gross, without VAT. A second bill no
+  longer copies the tax documents again after an earlier deduction.
+- **The expected tax-document date is the statutory one**: 15 days in the
+  Czech Republic (§ 28 odst. 8 ZDPH), the later of 15 days and the month end in
+  Slovakia (§ 73 ods. 1 písm. b) zákona o DPH, payments from 2016). It was the
+  earlier of the two for everybody, so suppliers were chased before they were
+  late. Existing advances are recomputed on update.
+- **The supplier is chased once, in any language.** The cron recognised its
+  own activity by an English summary that is translated for a Slovak or Czech
+  user, and scheduled a new one every day. The activity now has its own type,
+  *Chase Advance Tax Document*.
+
 [19.0.1.1.0] — 2026-09-13
 -------------------------
 

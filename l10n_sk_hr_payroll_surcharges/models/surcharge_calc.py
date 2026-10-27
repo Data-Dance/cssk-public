@@ -13,7 +13,7 @@ Slovak payroll error:
 * **Minimum hourly wage** (``minimálna mzda v eurách za hodinu``) — the *base*
   first-degree figure, NOT the employee's own stupeň náročnosti. Drives the
   night / Saturday / Sunday / difficult-conditions / standby surcharges
-  (§ 122a–§ 123, § 96 ods. 5).
+  (§ 122a, § 122b, § 123, § 124, § 96 ods. 5).
 * **Average earnings** (``priemerný zárobok``, § 134) — drives the holiday and
   overtime surcharges (§ 121, § 122).
 
@@ -63,20 +63,21 @@ SURCHARGE_CODES = (
 
 # Statutory reference per code, for the payslip line help and the tests.
 SURCHARGE_SECTION = {
-    CODE_NIGHT: "§ 122a",
-    CODE_SATURDAY: "§ 122b",
-    CODE_SUNDAY: "§ 122c",
-    CODE_DIFFICULT: "§ 123",
+    CODE_NIGHT: "§ 123",
+    CODE_SATURDAY: "§ 122a",
+    CODE_SUNDAY: "§ 122b",
+    CODE_DIFFICULT: "§ 124",
     CODE_STANDBY: "§ 96 ods. 5",
     CODE_HOLIDAY: "§ 122",
     CODE_OVERTIME: "§ 121",
 }
 
 # Which flags may move a given surcharge off its standard percentage.
-#   "risk"    — riziková práca (§ 122a ods. 2, § 121 ods. 1)
-#   "reduced" — a lower rate agreed in a collective agreement where the nature
-#               of the work requires regular work at that time
-#               (§ 122a ods. 3, § 122b ods. 2, § 122c ods. 2)
+#   "risk"    — riziková práca (§ 123 ods. 1, § 121 ods. 1)
+#   "reduced" — a lower rate agreed in a collective agreement (or, at a small
+#               employer with no trade union, the employment contract) where
+#               the nature of the work requires regular work at that time
+#               (§ 123 ods. 2, § 122a ods. 2, § 122b ods. 2)
 SUPPORTS_RISK = (CODE_NIGHT, CODE_OVERTIME)
 SUPPORTS_REDUCED = (CODE_NIGHT, CODE_SATURDAY, CODE_SUNDAY)
 
@@ -103,7 +104,7 @@ def surcharge_pct(rates, code, risk=False, reduced=False):
 
     *rates* is a plain dict keyed ``<code>_pct`` plus the optional
     ``<code>_risk_pct`` / ``<code>_reduced_pct`` variants. The risk rate wins
-    over the reduced rate: § 122a ods. 3 allows the lower night rate only for
+    over the reduced rate: § 123 ods. 2 allows the lower night rate only for
     work that is *not* classified as risky, so the two can never both apply.
 
     A missing base percentage raises rather than defaulting to zero. Every
@@ -170,13 +171,13 @@ def min_wage_hourly(
 
 
 def min_wage_topup_hourly(qualifying_wage, hours_worked, hourly_claim, digits=2):
-    """Doplatok for an HOURLY-paid employee (§ 120 ods. 1 a 3).
+    """Doplatok for an HOURLY-paid employee (§ 120 ods. 1 a 2).
 
     The comparison is made per hour, which makes part-time and mid-month
     starters fall out for free: whatever fraction of the month was worked
     appears on both sides of the division.
 
-    *qualifying_wage* must already EXCLUDE everything § 120 ods. 3 keeps out
+    *qualifying_wage* must already EXCLUDE everything § 120 ods. 2 keeps out
     of the comparison — overtime pay, every mzdové zvýhodnenie computed by
     this module, and wage replacements (náhrady). Including them would let a
     night-shift surcharge paper over a sub-minimum base wage, which is the
@@ -195,7 +196,7 @@ def min_wage_topup_hourly(qualifying_wage, hours_worked, hourly_claim, digits=2)
 def min_wage_topup_monthly(
     qualifying_wage, hours_worked, full_time_hours, monthly_claim, digits=2
 ):
-    """Doplatok for a MONTHLY-paid employee (§ 120 ods. 1, 3 a 4).
+    """Doplatok for a MONTHLY-paid employee (§ 120 ods. 1, 2 a 6).
 
     A monthly-paid employee is measured against the MONTHLY claim, not the
     hourly one, and the two genuinely disagree: the published hourly figures
@@ -206,7 +207,7 @@ def min_wage_topup_monthly(
     comparing against the hourly claim would invent a top-up that no employer
     owes.
 
-    § 120 ods. 4 reduces the monthly claim in proportion where the employee
+    § 120 ods. 6 reduces the monthly claim in proportion where the employee
     did not work the whole month or works a shorter week. *full_time_hours*
     must therefore be what a FULL-TIME contract would have worked in the same
     period, not what this employee was scheduled: dividing a part-timer's

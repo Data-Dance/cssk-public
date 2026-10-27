@@ -172,7 +172,11 @@
         <field name="account_type">equity_unaffected</field>
         <field name="closing_type">balance</field>
     </record>
-    <!-- 710 itself is off_balance on the SK chart. -->
+    <!-- Stock l10n_sk ships 701/702/710 as off_balance; this module retypes
+         them to equity (models/account_chart_template.py), so they close
+         with the equity type above. The off_balance type stays for any
+         account still typed so — one created by hand, or a company whose
+         retyping was undone. -->
     <record id="fyc_type_sk_cl_off_balance" model="account.fiscalyear.closing.type.template">
         <field name="template_config_id" ref="fyc_config_sk_closing"/>
         <field name="account_type">off_balance</field>

@@ -2,11 +2,12 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 """ČNB's actual daily fixings, kept beside a fixed monthly rate.
 
-A company using a fixed rate (pevný kurz, § 24 odst. 6 ZoÚ, and for VAT § 38
-ZDPH) books every document of a month at one rate, which is what the ordinary
+A company using a fixed rate (pevný kurz, § 24c odst. 2 and § 24d odst. 4 ZoÚ;
+for VAT § 4 odst. 8 ZDPH) books every document of a month at one rate, which is what the ordinary
 rate table then holds. The balance-sheet date is the exception: open items and
 foreign-currency accounts are revalued at ČNB's rate OF THAT DAY, not at the
-fixed one. Those rates live here, where no document picks them up, and are
+fixed one (§ 24c odst. 1 písm. b) ZoÚ: the fixed rate is allowed only for the
+moment of the transaction, § 24c odst. 2). Those rates live here, where no document picks them up, and are
 read only when a caller asks for them with the context key
 ``cssk_actual_rates`` — the Czech revaluation does.
 """

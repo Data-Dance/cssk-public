@@ -28,7 +28,7 @@ schema, tighten this back to a hard ``assertValid``.
 Not covered
 -----------
 
-* Insurer selection (VšZP 25 / Dôvera 24 / Union 27) is company configuration
-  or a per-declaration choice; there is no validation that the employees in
-  the annex actually belong to the selected insurer.
+* Each dávka 514 takes only the employees whose *Health insurer (SK)* (or,
+  when empty, the company default) is the selected insurer. The insurer is
+  read as it is today; a mid-year change of insurer is not dated.
 * Corrections and annulment filings are not modelled.

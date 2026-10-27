@@ -1,3 +1,4 @@
+from . import models
 from odoo.addons.purchase_order_advance_invoice.tools import (
     apply_purchase_advance_spec,
 )

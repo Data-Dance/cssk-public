@@ -30,7 +30,7 @@ r22 = 19 %, r22a = 5 %, r23 = 23 %.
 The deduction gate
 ==================
 
-Per the DPHv25 poučenie bod 38 (§ 49 ods. 2 písm. d)), the platiteľ may deduct
+Per § 51 ods. 1 písm. d) (and the DPHv25 poučenie, bod 38), the platiteľ may deduct
 *"ak pri odpočítaní dane má dovozný doklad potvrdený colným orgánom, v ktorom je
 platiteľ uvedený ako príjemca alebo dovozca."*
 

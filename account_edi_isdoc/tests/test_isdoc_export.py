@@ -21,6 +21,15 @@ class TestISDOCExport(AccountTestInvoicingCommon):
         return company
 
     @classmethod
+    def get_default_groups(cls):
+        # account_payment_order (OCA) moves the bank-account access rule to
+        # its own group; without it these setups cannot create bank accounts.
+        return super().get_default_groups() | (
+            cls.env.ref("account_payment_order.group_account_payment", False)
+            or cls.env["res.groups"]
+        )
+
+    @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company_data['company'].partner_id.write({

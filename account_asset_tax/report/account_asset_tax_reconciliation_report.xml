@@ -29,8 +29,8 @@
                                     <th>Tax group</th>
                                     <th class="text-end">Accounting</th>
                                     <th class="text-end">Tax</th>
-                                    <th class="text-end">Add-back (150)</th>
-                                    <th class="text-end">Deduction (250)</th>
+                                    <th class="text-end">Add-back<t t-if="o.addback_row"> (<t t-out="o.addback_row"/>)</t></th>
+                                    <th class="text-end">Deduction<t t-if="o.deduction_row"> (<t t-out="o.deduction_row"/>)</t></th>
                                     <th class="text-end">Temp. diff</th>
                                     <th class="text-end">Deferred tax</th>
                                 </tr>
@@ -92,6 +92,14 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        <p t-if="o.total_vehicle_addback">
+                            <strong>Vehicle add-back (SK §17(34)):</strong>
+                            <span t-out="o.total_vehicle_addback"
+                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            — due only when the tax base is lower than the number of cars of
+                            48 000 EUR or more × the annual straight-line depreciation of
+                            48 000 EUR; not included in the add-back column.
+                        </p>
                         <p class="text-muted" style="font-size:11px">
                             Tax depreciation is not posted to the general ledger; it adjusts the
                             income-tax base (add-back / deduction). Deferred tax is the temporary

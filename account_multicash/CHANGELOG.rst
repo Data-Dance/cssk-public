@@ -16,6 +16,22 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.2.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- Priority and Charge Bearer on the payment line. A CFA payment can now be
+  urgent and carry OUR or BEN charges; they used to be read from fields no
+  Community module defines, so every CFA went out normal and shared.
+
+Fixed
+~~~~~
+
+- An MT101 order with lines of different dates is refused; a zero or negative
+  line is refused.
+
 [19.0.2.0.0] — 2026-07-04
 -------------------------
 

@@ -45,8 +45,10 @@ class CSSKPartnerNettingAgreement(models.Model):
         required=True,
         tracking=True,
         help="Bilateral: both parties sign the agreement before it is posted.\n"
-        "Unilateral: a one-sided declaration of set-off that takes legal effect "
-        "on delivery to the counterparty — no countersignature required. "
+        "Unilateral: a one-sided declaration of set-off delivered to the "
+        "counterparty — no countersignature required. The claims extinguish "
+        "as of the moment they became capable of set-off (§ 580 Civil Code "
+        "SK, § 1982 Civil Code CZ). "
         "Permitted for mutual, like-kind, due and eligible claims "
         "that are not excluded from set-off; verify these conditions hold "
         "before using it.",
@@ -369,8 +371,16 @@ class CSSKPartnerNettingAgreementLine(models.Model):
     # on would leave the agreement claiming to offset something that no longer
     # exists, which is a genuine integrity problem rather than a lost hyperlink.
     move_line_id = fields.Many2one(
-        "account.move.line", required=True, ondelete="restrict"
+        "account.move.line", required=True, ondelete="restrict",
+        domain="[('parent_state', '=', 'posted'),"
+               " ('company_id', '=', agreement_company_id),"
+               " ('partner_id', 'child_of', agreement_partner_id),"
+               " ('account_id.account_type', 'in',"
+               "  ('asset_receivable', 'liability_payable')),"
+               " ('reconciled', '=', False)]",
     )
+    agreement_partner_id = fields.Many2one(related="agreement_id.partner_id")
+    agreement_company_id = fields.Many2one(related="agreement_id.company_id")
     move_name = fields.Char(related="move_line_id.move_id.name", store=True)
     side = fields.Selection(
         [("receivable", "Receivable"), ("payable", "Payable")],
@@ -445,6 +455,29 @@ class CSSKPartnerNettingAgreementLine(models.Model):
         for line in self:
             if line.move_line_id and not line.amount_to_offset:
                 line.amount_to_offset = abs(line._cssk_open_amount())
+
+    @api.constrains("move_line_id", "agreement_id")
+    def _check_move_line_belongs_to_the_agreement(self):
+        """Only an open receivable or payable of the agreement's partner, in
+        its company, can be set off on it. The picker used to offer any
+        journal item at all — another partner's invoice, a bank line — and
+        the clearing entry would have reconciled whatever it was given."""
+        for line in self:
+            ml = line.move_line_id
+            agreement = line.agreement_id
+            if (ml.company_id != agreement.company_id
+                    or ml.partner_id.commercial_partner_id
+                    != agreement.partner_id.commercial_partner_id
+                    or ml.account_id.account_type
+                    not in ("asset_receivable", "liability_payable")
+                    or ml.parent_state != "posted"):
+                raise ValidationError(_(
+                    "%(move)s is not an open receivable or payable of "
+                    "%(partner)s in %(company)s and cannot be set off on "
+                    "%(agreement)s.",
+                    move=ml.display_name, partner=agreement.partner_id.name,
+                    company=agreement.company_id.name,
+                    agreement=agreement.name))
 
     @api.constrains("amount_to_offset", "move_line_id")
     def _check_amount_to_offset(self):

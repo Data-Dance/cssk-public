@@ -1,6 +1,6 @@
 {
     "name": "Tax Depreciation (CZ/SK dual depreciation core)",
-    "version": "19.0.1.9.4",
+    "version": "19.0.1.11.0",
     "summary": "Country-neutral engine for a second, non-posted tax-depreciation "
                "board alongside accounting depreciation (daňové vs účetní/účtovné odpisy)",
     "description": """
@@ -13,8 +13,9 @@ parallel depreciation plans:
 * **Accounting depreciation** (účetní / účtovné odpisy) — the company's own plan,
   posted to the general ledger (account 551).
 * **Tax depreciation** (daňové odpisy) — statutory groups and rates, *never*
-  posted; it only adjusts the income-tax base (DPPO line 150 add-back when
-  accounting > tax, line 250 deduction when tax > accounting).
+  posted; it only adjusts the income-tax base (add-back when accounting > tax:
+  SK DPPO r. 150 / CZ DPPO ř. 50; deduction when tax > accounting: SK r. 250 /
+  CZ ř. 150).
 
 This module provides the country-neutral core: the statutory depreciation-group
 model, the non-posted tax-depreciation board, and a pure-Python calculation
@@ -32,8 +33,6 @@ and a country data layer:
 
 * ``l10n_cz_account_asset_tax`` — Czech groups & coefficients
 * ``l10n_sk_account_asset_tax`` — Slovak groups & coefficients
-
-See ``static/description`` for the accounting cheat sheet.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

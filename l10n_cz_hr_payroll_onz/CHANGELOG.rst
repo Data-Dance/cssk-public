@@ -10,6 +10,25 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.0.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **First name and surname were swapped** in the XML. The surname is now the
+  last word of the employee's name.
+
+Changed
+~~~~~~~
+
+- **ONZ can no longer be generated from 1 April 2026.** From that day the
+  start and end of an employment are registered through the JMHZ employee
+  registration (REGZEC, Act No. 323/2025 Coll.) — for a new event, and for
+  an earlier one not notified by 31 March 2026 (Act No. 360/2025 Coll.,
+  Art. XXV point 4). *Generate* now refuses an event dated from 1 April 2026
+  and any ONZ made on or after that day.
+
 19.0.1.0.1 (2026-07-06)
 -----------------------
 

@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The automatic check keeps its proof.** The check Odoo runs when a VAT
+  number is entered fetched a consultation number and threw it away; it is
+  now logged like *Check now* (a contact not yet saved has nothing to log it
+  on).
+- **The daily refresh checks only what matters to the company**: no domestic
+  VAT numbers, which VIES proves nothing about, and no contacts of other
+  companies. It used to re-check every EU VAT contact in the database.
+- **Translations.** The Czech catalogue lacked most of the module's strings,
+  and both lacked the check log.
+
 [19.0.2.0.0] — 2026-09-27
 -------------------------
 

@@ -8,6 +8,21 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- Priority and Charge Bearer on the payment line: an urgent line is sent as a
+  priority payment, and a foreign payment carries the chosen charges.
+
+Fixed
+~~~~~
+
+- View texts that were missing from the Czech and Slovak catalogues are
+  translated.
+
 [19.0.1.2.1] — 2026-09-13
 -------------------------
 

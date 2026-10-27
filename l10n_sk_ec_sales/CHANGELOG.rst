@@ -8,6 +8,31 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A dodatočný súhrnný výkaz lists only what changed** (§ 80 ods. 8:
+  "uvedie len doplnené alebo opravené údaje"): a corrected record with its
+  correct value, a withdrawn one with 0, a missing one as new. It re-filed
+  the whole period. The filed statements of the period (submitted or
+  historical) are the basis; a dodatočný výkaz with none recorded is refused.
+- **The house number is no longer Street 2**: ``cislo`` is split off the
+  street (or taken from the street-number fields), never Street 2.
+
+[19.0.1.2.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Greece is ``EL`` and Northern Ireland ``XI``** in *kód štátu* — the prefix
+  of the customer's IČ DPH, as the poučenie lists it, not the partner country's
+  ISO code (``GR``, ``GB``). A Northern Ireland customer is accepted for goods;
+  a service to an XI number blocks the export.
+
 [19.0.1.2.2] — 2026-09-13
 -------------------------
 

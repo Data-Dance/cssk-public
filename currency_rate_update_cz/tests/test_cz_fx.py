@@ -186,3 +186,14 @@ class TestCzFixedMonthlyRate(TransactionCase):
             100.0, company.currency_id, company, date(2023, 12, 31))
         self.assertAlmostEqual(fixed, 2500.0)
         self.assertAlmostEqual(actual, 2400.0)
+
+    def test_the_mode_help_cites_the_rules_in_force(self):
+        """The fixed rate is § 24c odst. 2 / § 24d odst. 4 ZoÚ (there is no
+        § 24 odst. 6), and the VAT conversion rule is § 4 odst. 8 ZDPH, not
+        § 38 — which is the tax base on import."""
+        help_ = self.env["res.currency.rate.provider"]._fields["cnb_rate_mode"].help
+        self.assertIn("§ 24c odst. 2", help_)
+        self.assertIn("§ 24d odst. 4", help_)
+        self.assertIn("§ 4 odst. 8 ZDPH", help_)
+        self.assertNotIn("§ 24 odst. 6", help_)
+        self.assertNotIn("§ 38", help_)

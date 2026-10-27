@@ -21,7 +21,8 @@
 #     Finančná správa "Nezdaniteľná časť základu dane na daňovníka za rok 2025"
 #     <https://podpora.financnasprava.sk/844317>, podnikajte.sk
 #     "Nezdaniteľné časti základu dane 2025".
-#   * 2026 = 5 966,73 € (21× ŽM 284,13); full up to 26 083,13 €.
+#   * 2026 = 5 966,73 € (21× ŽM 284,13); full up to 26 083,13 € (91,8× ŽM),
+#     then 14 661,11 − ⅓ × base (51,6× ŽM), reaching 0 at 43 983,33 €.
 #   * 19 %/25 % annual band boundary 2025 = 48 441,43 € (176,8× ŽM 273,99).
 #     2026 reform bands 154,8×/212,4×/264,0× ŽM (19/25/30/35 %).
 #   * DDS / III. pilier annual cap = 180 € (§11 ods. 8 ZDP); NČZD na manželku up
@@ -172,14 +173,13 @@ class L10nSkTaxReconciliation(models.Model):
     )
     settlement_line_posted = fields.Boolean(readonly=True)
 
-    _sql_constraints = [
-        (
-            "employee_year_uniq",
-            "unique (employee_id, year, company_id)",
-            "An annual tax reconciliation already exists for this employee and "
-            "year.",
-        ),
-    ]
+    # Odoo 19 ignores ``_sql_constraints``; the declaration has to be a
+    # models.Constraint or the table silently has no unique index at all.
+    _employee_year_uniq = models.Constraint(
+        "unique (employee_id, year, company_id)",
+        "An annual tax reconciliation already exists for this employee and "
+        "year.",
+    )
 
     @api.depends("employee_id", "year")
     def _compute_name(self):
@@ -228,8 +228,11 @@ class L10nSkTaxReconciliation(models.Model):
             if base <= threshold:
                 nczd_tp = full
             else:
+                # § 11 ods. 2 písm. b): const minus a quarter of the base
+                # until 2025, minus a THIRD from 2026 — the divisor is dated.
                 const = rec._l10n_sk_rule_parameter("l10n_sk_nczd_taper_const")
-                nczd_tp = max(0.0, const - 0.25 * base)
+                divisor = rec._l10n_sk_rule_parameter("l10n_sk_nczd_taper_divisor")
+                nczd_tp = max(0.0, const - base / divisor)
             nczd_tp = round(nczd_tp, 2)
 
             # --- Other NČZD: na manželku + DDS (capped) --------------------
@@ -274,25 +277,33 @@ class L10nSkTaxReconciliation(models.Model):
                 rec.result_type = "none"
 
     def _l10n_sk_annual_child_bonus(self, base):
-        """Annual daňový bonus entitlement, with the %-of-base cap and taper."""
+        """Annual daňový bonus entitlement, with the per-child taper and cap.
+
+        § 33 ods. 11 ZDP reduces the bonus "na každé jedno vyživované dieťa"
+        by 1/10 of the excess over the threshold, so the reduction is taken
+        from EACH child's annual bonus (floored at 0 per child) before the
+        § 33 ods. 6 %-of-base cap is applied.
+        """
         self.ensure_one()
         n_young, n_teen = self._l10n_sk_children_counts()
         n = n_young + n_teen
         if n <= 0:
             return 0.0
-        amount = (
-            n_young * self._l10n_sk_rule_parameter("l10n_sk_child_bonus_under_15") * 12
-            + n_teen * self._l10n_sk_rule_parameter("l10n_sk_child_bonus_15_18") * 12
-        )
-        caps = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_pct_caps")
-        cap_pct = caps[min(n, len(caps)) - 1]
-        amount = min(amount, base * cap_pct / 100.0)
+        young = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_under_15") * 12
+        teen = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_15_18") * 12
+        reduction = 0.0
         cb_threshold = self._l10n_sk_rule_parameter(
             "l10n_sk_child_bonus_taper_threshold"
         )
         if base > cb_threshold:
             coeff = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_taper_coeff")
-            amount -= coeff * (base - cb_threshold)
+            reduction = coeff * (base - cb_threshold)
+        amount = n_young * max(0.0, young - reduction) + n_teen * max(
+            0.0, teen - reduction
+        )
+        caps = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_pct_caps")
+        cap_pct = caps[min(n, len(caps)) - 1]
+        amount = min(amount, base * cap_pct / 100.0)
         return round(max(0.0, amount), 2)
 
     def _l10n_sk_children_counts(self):

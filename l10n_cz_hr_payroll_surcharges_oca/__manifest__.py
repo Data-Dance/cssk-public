@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czechia — Wage Surcharges (příplatky) — OCA Payroll",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Human Resources/Payroll",
     "summary": "Statutory Czech wage surcharges (§§ 114–118 zákoníku práce) "
     "as salary rules for the OCA payroll engine.",

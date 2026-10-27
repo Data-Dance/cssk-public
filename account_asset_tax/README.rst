@@ -7,7 +7,8 @@ plan (daňové odpisy) that Czech and Slovak income-tax law requires alongside t
 posted *accounting* depreciation plan (účetní / účtovné odpisy).
 
 The tax plan is **never posted to the general ledger**; it only adjusts the
-income-tax base (DPPO line 150 add-back / line 250 deduction). This module keeps
+income-tax base (add-back: SK DPPO r. 150 / CZ ř. 50; deduction: SK r. 250 /
+CZ ř. 150). This module keeps
 it as a non-posted board computed by a pure-Python engine.
 
 Architecture
@@ -15,7 +16,7 @@ Architecture
 
 ::
 
-    account_asset_tax            core: models + engine + mixin + cheat sheet
+    account_asset_tax            core: models + engine + mixin
       ├── account_asset_tax_ee           bridge → Odoo EE account_asset
       └── account_asset_tax_oca     bridge → OCA account_asset_management (CE)
     l10n_cz_account_asset_tax    Czech groups & coefficients (§31/§32/§30a)

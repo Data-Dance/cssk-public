@@ -1,7 +1,31 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import re
+
 from odoo import models
+
+# DPHDP3 row a base line reports, read off its VAT-return tag ("VAT 3 Base",
+# "VAT 25"). Only the BASE tags: a tax line carries "VAT 3 Tax" and is never
+# classified (``tax_line_id`` lines are skipped before this is consulted).
+_DP_ROW_RE = re.compile(r"^[+-]?VAT (\d+)(?: Base)?$")
+
+# Rows of the přiznání whose base is reported in KH oddíl A.2 — the KH
+# structure's own definition of celk_zd_a2: "odpovídá řádkům: 3, 4, 5, 6, 9,
+# 12 a 13 přiznání k DPH". 3/4 + 9 are acquisitions from another member state
+# (§ 25, § 19), 5/6 services from an EU supplier (§ 108 odst. 3 písm. a)) and
+# 12/13 the other supplies a non-established person makes here, where the
+# recipient is liable (§ 108 odst. 3) — a service from a third country is the
+# everyday case.
+_DP_ROWS_A2 = frozenset({3, 4, 5, 6, 9, 12, 13})
+# Domestic reverse charge (§ 92a): ř. 10/11 received, ř. 25 supplied.
+_DP_ROWS_B1 = frozenset({10, 11})
+_DP_ROWS_A1 = frozenset({25})
+# Import of goods (§ 23, ř. 7/8). Not part of the kontrolní hlášení at all —
+# Metodická informace k vyplnění KH (1. 1. 2024), bod 1.2: "Do kontrolního
+# hlášení se neuvádí údaje týkající se dovozu zboží (§ 23), řádek daňového
+# přiznání: 7, 8".
+_DP_ROWS_IMPORT = frozenset({7, 8})
 
 
 class AccountMoveLine(models.Model):
@@ -44,18 +68,62 @@ class AccountMoveLine(models.Model):
                 return False
         is_rc = bool(taxes.filtered("cssk_control_is_reverse_charge"))
         is_eu = self._cssk_cz_is_eu()
+        rows = self._cz_kh_return_rows()
         if is_out:
-            if is_rc:
+            # The supplied side of § 92a is recognised by its row as well as by
+            # the flag: the flag is set on the PURCHASE taxes only, so the
+            # stock "0% RC" sale tax (ř. 25) never reached A.1.
+            if is_rc or rows & _DP_ROWS_A1:
                 return "A1"   # domestic reverse-charge supplied (§92a)
-            if is_eu:
-                return False  # intra-EU supply -> EC sales list, not KH
+            if is_eu and not self._cz_kh_charges_output_vat(taxes):
+                # Zero-rated intra-EU supply -> EC sales list, not KH. A supply
+                # to an EU customer that CHARGES Czech VAT is a domestic taxable
+                # supply all the same (ř. 1/2) and belongs in A.4/A.5.
+                return False
             return "A4"       # domestic taxable supply (split A4/A5 by amount)
         # inbound
+        if rows & _DP_ROWS_IMPORT:
+            return False      # import of goods (§ 23) is not reported in KH
         if is_eu:
             return "A2"       # acquisition from another member state
-        if is_rc:
+        if is_rc or rows & _DP_ROWS_B1:
             return "B1"       # domestic reverse-charge received
+        if rows & _DP_ROWS_A2 and not self._cz_kh_has_cz_dic():
+            # Recipient-liable supply by a non-established person (§ 108
+            # odst. 3) — e.g. a service from a third country. Reported in A.2,
+            # not B.2: B.2 is the deduction of VAT another plátce charged.
+            # A supplier invoicing under a CZ DIČ is a domestic supplier
+            # whatever the tax on the line says, as in ``_cssk_cz_is_eu``.
+            return "A2"
         return "B2"           # domestic received supply (split B2/B3)
+
+    def _cz_kh_return_rows(self):
+        """DPHDP3 rows this base line reports, from its VAT-return tags."""
+        rows = set()
+        for tag in self.tax_tag_ids.with_context(lang="en_US"):
+            match = _DP_ROW_RE.match((tag.name or "").strip())
+            if match:
+                rows.add(int(match.group(1)))
+        return rows
+
+    @staticmethod
+    def _cz_kh_charges_output_vat(taxes):
+        """Whether any of these taxes actually charges VAT (a non-zero
+        amount), groups looked through to their children."""
+        return any(t.amount for t in taxes.flatten_taxes_hierarchy())
+
+    def _cz_kh_has_cz_dic(self):
+        """Whether the counterparty is identified by a CZECH DIČ.
+
+        A.4 reports the customer's DIČ "kmenová část" — a Czech registration.
+        A customer known only by another member state's VAT number has none,
+        and stripping its prefix would file a foreign number as a Czech one.
+        """
+        self.ensure_one()
+        vat = "".join(self._cssk_partner_vat_for_statement().split()).upper()
+        if not self._cssk_partner_vat_stripped():
+            return False
+        return not vat[:2].isalpha() or vat[:2] == "CZ"
 
     def _cssk_cz_is_eu(self):
         """Whether this is an intra-EU acquisition rather than a domestic one.
@@ -102,7 +170,12 @@ class AccountMoveLine(models.Model):
         return tax.cssk_kh_commodity_code or ""
 
     def _cz_kh_commodity_code_for_doc(self):
-        """First §92a code among these lines (a document files under one code)."""
+        """First §92a code among these lines.
+
+        Kept for callers outside this module only: the KH itself groups A.1 /
+        B.1 rows per code (see ``l10n.cz.kh.row.mixin._cz_move_buckets``),
+        because a document carrying two kinds of supply is filed on two rows.
+        """
         for line in self:
             code = line._cz_kh_commodity_code()
             if code:

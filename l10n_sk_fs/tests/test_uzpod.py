@@ -272,6 +272,37 @@ class TestUzpod(AccountTestInvoicingCommon):
         filed = etree.fromstring(uz._build_xml())
         self.assertEqual(filed.findtext(".//ucPod1Suvaha/r004/s3"), "650")
 
+    def test_both_export_paths_take_the_dic_of_a_non_vat_payer(self):
+        """Identification is the DIČ: a unit with no IČ DPH still files.
+
+        The statement's export demanded ``company.vat`` and refused a non-VAT
+        payer; ``l10n.sk.uzpod`` skipped the check altogether. Both now run
+        the same preflight — DIČ or VAT — and both refuse a company with
+        neither.
+        """
+        self._post_sample()
+        has_dic = "l10n_sk_dic" in self.company._fields
+        self.company.vat = False
+        if has_dic:
+            self.company.l10n_sk_dic = "2023456787"
+            uz = self.env["l10n.sk.uzpod"].create({
+                "company_id": self.company.id,
+                "date_from": "2026-01-01", "date_to": "2026-12-31"})
+            uz._l10n_sk_statement().action_export_xml()
+            uz.action_export_xml()
+            self.assertEqual(uz.state, "exported")
+            root = etree.fromstring(
+                base64.b64decode(uz.xml_attachment_id.datas))
+            self.assertEqual(root.findtext(".//hlavicka/dic"), "2023456787")
+            self.company.l10n_sk_dic = False
+        uz = self.env["l10n.sk.uzpod"].create({
+            "company_id": self.company.id,
+            "date_from": "2026-01-01", "date_to": "2026-12-31"})
+        with self.assertRaisesRegex(UserError, "neither a Tax ID"):
+            uz.action_export_xml()
+        with self.assertRaisesRegex(UserError, "neither a Tax ID"):
+            uz._l10n_sk_statement().action_export_xml()
+
     def test_statement_export_runs_the_kontroly(self):
         """The statement's own Export XML runs the UZPODv14 rules: a sheet
         that does not balance is refused, not filed."""

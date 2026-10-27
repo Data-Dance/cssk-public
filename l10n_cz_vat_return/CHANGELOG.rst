@@ -8,6 +8,31 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.11.0] — 2026-10-27
+--------------------------
+
+Fixed
+~~~~~
+
+- **ř. 46 and ř. 62 – 66 are computed.** They were manual lines, so a return
+  filed vlastní daň, nadměrný odpočet and the totals as 0 unless every one
+  was overridden by hand. They now follow the EPO structure's own
+  definitions (ř. 62 = 1 … 13 − 61, ř. 63 = 46 + 52 + 53 + 60, ř. 64 / 65
+  the positive difference, ř. 66 the difference on a dodatečné přiznání
+  only), summed from the rows as filed so the totals foot. An override on
+  any of them is kept. The § 108 odst. 4 písm. g) and h) tax, which has no
+  row of its own, still has to be added to ř. 62 by override.
+- **One discovery date.** The return had two (the shared one, asked for on
+  an amendment, and the Czech *Důvody zjištěny dne* the XML read); they are
+  now the same field, and existing values of the Czech one are kept.
+- The settlement (*To pay / (refund)* and the excess carry-forward) now
+  works for Czech returns: the version names ř. 64 and ř. 65.
+- Content checks: ř. 64 and ř. 65 must not be negative and are never both
+  filled.
+- The bundled ``dphdp3_epo2.xsd`` is refreshed to the published structure
+  03.01.04 (documentation changes only), ``verzePis`` states that version,
+  and both are pinned in ``data/SCHEMA_VERSION`` with a test.
+
 [19.0.1.10.0] — 2026-09-29
 --------------------------
 

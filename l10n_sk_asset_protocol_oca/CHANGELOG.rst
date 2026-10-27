@@ -8,6 +8,38 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.2.0.3 (2026-10-27), not yet on 18.0:** amounts that foot (salvage
+  value, removal line) and the regenerated Slovak catalogue.
+
+[19.0.2.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- Printing *Protokol o zaradení majetku* and *Protokol o vyradení majetku*
+  failed: the print actions still named the templates of the removed module
+  ``l10n_sk_asset_protocol``. They now print the shared templates of
+  ``l10n_sk_asset_protocol_base``.
+
+[19.0.2.0.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Zostatková cena ignored the salvage value**, so purchase value − oprávky
+  did not give the printed residual; it is now the net book value.
+- **After removal the disposal protocol printed oprávky of the whole
+  depreciation base and a zostatková cena of nil**, because OCA counts the
+  removal line as depreciated. The oprávky are now the posted depreciation
+  lines only, and the zostatková cena is what was written off.
+- The protocol fields and the tab are translated into Slovak (the catalogue
+  was keyed to the module's old name and never loaded).
+
 [19.0.2.0.1] — 2026-09-13
 -------------------------
 

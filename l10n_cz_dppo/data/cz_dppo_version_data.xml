@@ -10,8 +10,9 @@
       Derivable lines are computed: ř.10 (účetní výsledek před zdaněním) from the
       P&L (class 6 − class 5, excluding income-tax accounts 591–599); the tax
       spine ř.200 → ř.340 is arithmetic. The připočitatelné / odčitatelné
-      adjustments (ř.20–170), loss/§34 deductions (ř.230/240) and slevy (ř.300)
-      are MANUAL — entered by the accountant; they aggregate into the spine.
+      adjustments (ř.20–170), the § 34 deductions (ř.230 ztráta, ř.240 pre-2005
+      odečty, ř.242 VaV, ř.243 odborné vzdělávání), the § 20 odst. 8 dary
+      (ř.260) and slevy (ř.300) are MANUAL — entered by the accountant; they aggregate into the spine.
 
       Out of scope (appendix tables — special regimes): odpisy (příloha 1B),
       §23e výpůjční náklady (příloha 3), zápočet daně ze zahraničí (příloha 1N),
@@ -24,15 +25,29 @@
       filing.
     -->
     <record id="cz_dppo_version_2025" model="cssk.income.tax.version">
-        <field name="name">DPPDP9 2025</field>
+        <field name="name">DPPDP9</field>
         <field name="country_id" ref="base.cz"/>
-        <field name="valid_from">2025-01-01</field>
+        <!-- ONE open-ended version: the Finanční správa files every period in
+             the current structure (dppdp9_epo2.xsd accepts zdaňovací období
+             from 2021), so the version is not dated from a year. What the
+             law changed between periods is gated inside the formulas
+             (period_start_year), not by splitting the version. -->
+        <field name="valid_from">2021-01-01</field>
         <field name="xml_template_ref_id" ref="l10n_cz_dppo.dppdp9_2025"/>
         <field name="xml_root_element">Pisemnost</field>
         <field name="xml_schema_filename">dppdp9_epo2.xsd</field>
         <field name="xml_schema_data" type="base64"
                file="l10n_cz_dppo/data/dppdp9_epo2.xsd"/>
         <field name="provision_line_code">r340</field>
+        <!-- Rows 240-270 follow the tiskopis 25 5404 MFin 5404 vzor č. 36
+             (zdaňovací období započatá v roce 2025) and the row texts in
+             dppdp9_epo2.xsd: ř.240 = § 34 odst. 3-10, 12 ve znění do
+             31. 12. 2004; ř.242 = VaV; ř.243 = odborné vzdělávání;
+             ř.250 = ř.220 − 230 − 240 − 241 − 242 − 243; ř.260 = dary
+             (§ 20 odst. 8); ř.270 = (ř.250 − 251 − 260) zaokrouhlený na
+             celé tisícikoruny dolů. ř.201/210/241/251 are not modelled
+             (ř.220 = ř.200 here). Dary used to sit on ř.240 and ř.270
+             ignored them. -->
         <field name="line_def_ids" eval="[
             (0,0,{'code':'r10','name':'ř.10 Výsledek hospodaření před zdaněním',
                   'kind':'account',
@@ -45,14 +60,20 @@
                   'kind':'aggregate','aggregate_formula':'r10 + r70 - r170','sequence':40}),
             (0,0,{'code':'r230','name':'ř.230 Odečet daňové ztráty (§ 34 odst. 1)',
                   'kind':'manual','sequence':50}),
-            (0,0,{'code':'r240','name':'ř.240 Odečty (§ 34 — VaV, odborné vzdělávání) a dary (§ 20 odst. 8)',
+            (0,0,{'code':'r240','name':'ř.240 Odečet podle § 34 odst. 3 až 10 a 12 ve znění do 31. 12. 2004',
                   'kind':'manual','sequence':60}),
-            (0,0,{'code':'r250','name':'ř.250 Základ daně po úpravě a odečtech',
-                  'kind':'aggregate','aggregate_formula':'max(r200 - r230 - r240, 0.0)','sequence':70}),
-            (0,0,{'code':'r270','name':'ř.270 Základ daně zaokrouhlený na celé tisíce Kč dolů',
-                  'kind':'aggregate','aggregate_formula':'int(r250 / 1000) * 1000','sequence':80}),
+            (0,0,{'code':'r242','name':'ř.242 Odečet na podporu výzkumu a vývoje (§ 34 odst. 4, § 34a až 34e)',
+                  'kind':'manual','sequence':62}),
+            (0,0,{'code':'r243','name':'ř.243 Odečet na podporu odborného vzdělávání (§ 34 odst. 4, § 34f až 34h)',
+                  'kind':'manual','sequence':64}),
+            (0,0,{'code':'r250','name':'ř.250 Základ daně snížený o položky podle § 34',
+                  'kind':'aggregate','aggregate_formula':'max(r200 - r230 - r240 - r242 - r243, 0.0)','sequence':70}),
+            (0,0,{'code':'r260','name':'ř.260 Odečet bezúplatných plnění (§ 20 odst. 8)',
+                  'kind':'manual','sequence':75}),
+            (0,0,{'code':'r270','name':'ř.270 Základ daně snížený o položky podle § 34 a § 20 odst. 8, zaokrouhlený na celé tisíce Kč dolů',
+                  'kind':'aggregate','aggregate_formula':'int(max(r250 - r260, 0.0) / 1000) * 1000','sequence':80}),
             (0,0,{'code':'r280','name':'ř.280 Sazba daně (%) podle § 21 odst. 1',
-                  'kind':'aggregate','aggregate_formula':'21.0 if r270 > 0 else 0.0','sequence':90}),
+                  'kind':'aggregate','aggregate_formula':'(21.0 if period_start_year >= 2024 else 19.0) if r270 > 0 else 0.0','sequence':90}),
             (0,0,{'code':'r290','name':'ř.290 Daň',
                   'kind':'aggregate','aggregate_formula':'round(r270 * r280 / 100)','sequence':100}),
             (0,0,{'code':'r300','name':'ř.300 Slevy na dani (§ 35)',

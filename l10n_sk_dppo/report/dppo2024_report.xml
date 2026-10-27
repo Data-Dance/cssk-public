@@ -3,9 +3,9 @@
   <template id="dppo2024_xml">
     <dokument>
       <hlavicka>
-        <dic><t t-out="company.l10n_sk_dic or company.vat or ''"/></dic>
-        <ico><t t-out="company.company_registry or ''"/></ico>
-        <pravnaForma><t t-out="''"/></pravnaForma>
+        <dic><t t-out="hdr['dic']"/></dic>
+        <ico><t t-out="hdr['ico']"/></ico>
+        <pravnaForma><t t-out="hdr['pravna_forma']"/></pravnaForma>
         <typDP>
           <rdp><t t-out="'1' if statement.statement_type_id.code == 'R' else '0'"/></rdp>
           <odp><t t-out="'1' if statement.statement_type_id.code == 'O' else '0'"/></odp>
@@ -15,17 +15,17 @@
           <od><t t-out="statement.date_from.strftime('%d.%m.%Y')"/></od>
           <do><t t-out="statement.date_to.strftime('%d.%m.%Y')"/></do>
         </zdanovacieObdobie>
-        <skNace><k1>0</k1><k2>0</k2><k3>0</k3><cinnost/></skNace>
+        <skNace><k1><t t-out="hdr['k1']"/></k1><k2><t t-out="hdr['k2']"/></k2><k3><t t-out="hdr['k3']"/></k3><cinnost/></skNace>
         <obchodneMeno>
           <riadok><t t-out="(company.name or '')[:75]"/></riadok>
           <riadok/>
         </obchodneMeno>
         <sidlo>
-          <ulica><t t-out="company.street or ''"/></ulica>
-          <cislo><t t-out="company.street2 or ''"/></cislo>
-          <psc><t t-out="company.zip or ''"/></psc>
-          <obec><t t-out="company.city or ''"/></obec>
-          <stat><t t-out="company.country_id.name or ''"/></stat>
+          <ulica><t t-out="hdr['ulica']"/></ulica>
+          <cislo><t t-out="hdr['cislo']"/></cislo>
+          <psc><t t-out="hdr['psc']"/></psc>
+          <obec><t t-out="hdr['obec']"/></obec>
+          <stat><t t-out="hdr['stat']"/></stat>
           <tel/>
           <emailFax/>
         </sidlo>
@@ -478,7 +478,7 @@
 </trvalyPobyt>
 </opravnenaOsoba>
 <pocetPriloh/>
-<datumVyhlasenia/>
+<datumVyhlasenia><t t-out="hdr['datum_vyhlasenia']"/></datumVyhlasenia>
 <platenieDanePar17f>
 <ziadam17f>0</ziadam17f>
 <splatka>

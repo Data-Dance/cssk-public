@@ -31,12 +31,13 @@ Starter set
 -----------
 * **Prevod peňazí cez účet 261** (peniaze na ceste), both legs, both directions:
   výber z pokladnice, príjem na bankový účet, vklad do pokladnice, výber z
-  bankového účtu.
+  bankového účtu — on the Liquidity Transfer account (261…; 261000 is the
+  SK chart's bank suspense account) and the bank / cash journals' accounts.
 * **Preúčtovanie výsledku hospodárenia** po schválení: zisk 431 → 428,
   strata 429 ← 431.
 
-New companies get the templates when the SK chart loads (via the chart
-template); SK companies that already had the chart get them on install
+New companies get the templates when the SK chart loads (right after it, once
+the journals exist); SK companies that already had the chart get them on install
 (post-init hook). Templates are ordinary editable records — the set is a
 **starting point, not a prescription**.
 
@@ -56,7 +57,7 @@ Licensed **AGPL-3** because it depends on the AGPL OCA template engine.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.1.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk", "account_move_template"],

@@ -14,6 +14,9 @@ from datetime import date
 from lxml import etree
 
 from odoo.exceptions import UserError
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
 
@@ -106,6 +109,7 @@ class TestHealth514(TransactionCase):
         if self.engine == "ee":
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         return employee, slip
 
     def test_generate_and_validate(self):
@@ -194,3 +198,111 @@ class TestHealth514(TransactionCase):
         })
         with self.assertRaises(UserError):
             decl.action_generate()
+
+    # ------------------------------------------------------------------
+    # One insurer per dávka (2026-10-27)
+    # ------------------------------------------------------------------
+    def _insured(self, name, rc, insurer):
+        employee, slip = self._employee_payslip()
+        employee.write({"name": name, "identification_id": rc,
+                        "l10n_sk_health_insurer_code": insurer})
+        return employee
+
+    def _rows(self, insurer):
+        decl = self.env["l10n.sk.health"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3",
+            "insurer_code": insurer})
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        return decl, [p.findtext("IdentificationNumberOfInsured")
+                      for p in root.findall("PersonData")]
+
+    def test_each_insurer_gets_only_its_insurees(self):
+        """Every employee went into every insurer's dávka 514: the insurer
+        was a property of the record, never of the employee."""
+        self._insured("Dovera Poistenec", "8501011234", "24")
+        self._insured("Vszp Poistenec", "9002022345", "25")
+        decl24, rows24 = self._rows("24")
+        decl25, rows25 = self._rows("25")
+        self.assertEqual(rows24, ["8501011234"])
+        self.assertEqual(rows25, ["9002022345"])
+        self.assertEqual(decl24.lines_count, 1)
+        self.assertEqual(decl25.lines_count, 1)
+
+    def test_employee_without_insurer_uses_the_company_default(self):
+        self._insured("Bez Poistovne", "8501011234", False)
+        _decl, rows = self._rows("24")  # the company default
+        self.assertEqual(rows, ["8501011234"])
+        decl = self.env["l10n.sk.health"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3",
+            "insurer_code": "25"})
+        with self.assertRaises(UserError):
+            decl.action_generate()  # nobody is insured with VšZP
+
+    def test_company_fields_are_on_the_forms(self):
+        """The payer number is required by the preflight but was on no form;
+        the employee's insurer has to be visible to be set."""
+        arch = self.env["l10n.sk.health"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="payer_number"', arch)
+        emp_arch = self.env["hr.employee"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="l10n_sk_health_insurer_code"', emp_arch)
+        decl = self.env["l10n.sk.health"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3"})
+        decl.payer_number = "1122334455"
+        self.assertEqual(self.company.l10n_sk_health_payer_number,
+                         "1122334455")
+
+@tagged("post_install", "-at_install")
+class TestSchemaPins(TransactionCase):
+    """The bundled schemas must match data/SCHEMA_VERSION.
+
+    Not a check that our copies are CURRENT — nothing local can answer that,
+    and a schema revised in place by the authority validates exactly as
+    before. What this checks is that the bundled bytes are the ones recorded
+    in SCHEMA_VERSION, and that no schema sits in data/ unpinned.
+    """
+
+    @staticmethod
+    def _data_dir():
+        import os
+        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(here, "data")
+
+    def _pins(self):
+        import os
+        pins = {}
+        path = os.path.join(self._data_dir(), "SCHEMA_VERSION")
+        with open(path, encoding="utf-8") as fh:
+            for raw in fh:
+                parts = raw.split()
+                if (len(parts) == 3 and parts[0].endswith(".xsd")
+                        and "/" not in parts[0]):
+                    pins[parts[0]] = (parts[1], int(parts[2]))
+        return pins
+
+    def test_bundled_schemas_match_the_pinned_digests(self):
+        import hashlib
+        import os
+        pins = self._pins()
+        self.assertTrue(pins, "SCHEMA_VERSION lists no schemas")
+        for name, (digest, size) in pins.items():
+            path = os.path.join(self._data_dir(), name)
+            self.assertTrue(os.path.exists(path),
+                            "%s is pinned but missing" % name)
+            with open(path, "rb") as fh:
+                blob = fh.read()
+            self.assertEqual(len(blob), size, "%s size moved" % name)
+            self.assertEqual(
+                hashlib.md5(blob).hexdigest(), digest,
+                "%s does not match its pin — if this is a deliberate "
+                "refresh, update data/SCHEMA_VERSION" % name)
+
+    def test_every_bundled_schema_is_pinned(self):
+        import os
+        on_disk = {f for f in os.listdir(self._data_dir())
+                   if f.endswith(".xsd")}
+        self.assertEqual(on_disk, set(self._pins()),
+                         "unpinned schema(s): %s"
+                         % sorted(on_disk - set(self._pins())))

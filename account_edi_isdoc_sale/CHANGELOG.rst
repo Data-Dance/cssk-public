@@ -16,6 +16,19 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **The proforma can now be downloaded.** The export existed but nothing
+  called it: no button, menu or Send option. A sales order now has
+  *Action → Download ISDOC Proforma*, which downloads ``<order>.isdoc`` and
+  keeps it as the order's attachment, replaced on every download. Missing
+  party data is reported instead of producing an incomplete file; a cancelled
+  order is refused.
+
 [19.0.1.0.0] — 2026-07-04
 -------------------------
 

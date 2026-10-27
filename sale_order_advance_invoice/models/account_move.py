@@ -55,7 +55,7 @@ class AccountMove(models.Model):
         """Rates for the lines of a foreign-currency invoice that deducts advances.
 
         An advance's tax document declared its VAT in the company currency at
-        the rate of ITS date (§ 38 ZDPH), and a received advance is a
+        the rate of ITS date (§ 4 odst. 8 ZDPH), and a received advance is a
         non-monetary item carried at that rate. So the deduction gives back
         exactly what the tax document declared, and the part of the supply the
         advance paid for is valued at the same rate: only the remainder is
@@ -195,7 +195,11 @@ class AccountMove(models.Model):
             orders = move.invoice_line_ids.sale_line_ids.order_id.filtered(
                 "is_advance_invoice"
             )
-            pay_lines = orders.transaction_ids.payment_id.move_id.line_ids.filtered(
+            pay_moves = (
+                orders.transaction_ids.payment_id.move_id
+                | orders.advance_clearing_transfer_ids
+            )
+            pay_lines = pay_moves.line_ids.filtered(
                 lambda l: l.account_id == clearing
                 and not l.reconciled
                 and l.parent_state == "posted"

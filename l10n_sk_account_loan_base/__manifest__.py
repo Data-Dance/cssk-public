@@ -29,8 +29,9 @@ account roles and their chart mapping — and the two bridges
 whichever engine is present.
 
 It depends on ``l10n_sk`` only and declares no loan models of its own, so it is
-safe on either edition. **LGPL-3**, so that both the AGPL Community bridge and
-the proprietary Enterprise bridge can import it — the same arrangement as
+safe on either edition. Licensed **AGPL-3**; Data Dance s.r.o. is its sole
+owner and dual-licenses it, so the same base serves the AGPL Community bridge
+and the proprietary Enterprise bridge — the same arrangement as
 ``l10n_cssk_intrastat_base``.
 
 Honesty flag
@@ -46,7 +47,7 @@ it is a period expense, handled by časové rozlíšenie
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.4",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk"],

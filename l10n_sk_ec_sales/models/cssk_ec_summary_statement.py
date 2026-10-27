@@ -9,14 +9,61 @@ Source: Poučenie na vyplnenie súhrnného výkazu k DPH (FS SR) + § 80 zákona
   2 = dodanie služby (§ 9 ods. 1 with place of supply in the customer's MS).
 Only these codes are accepted; any other value is portal-rejected.
 """
+import re
+
 from odoo import _, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_cssk_core.tools import statutory_whole
 
+#: SK kód plnenia that report GOODS (0 tovar, 1 trojstranný obchod). Northern
+#: Ireland (XI) belongs to the EU VAT area for goods only, so a service (2) to
+#: an XI number is not a súhrnný výkaz supply.
+SK_SV_GOODS_CODES = ("0", "1")
+
+#: A trailing house number: "Hlavná 12", "Mlynská 1234/5", "Nám. SNP 7A".
+_SK_STREET_RE = re.compile(r"^(?P<street>.*?\S),?\s+(?P<number>\d[\w]*(?:\s*/\s*\w+)?)\s*$")
+
+
+def sk_fs_address(partner):
+    """``(ulica, cislo)`` for the FS SR eForm header — the twin of
+    ``l10n_sk_vat_return``'s helper, kept here because this module does not
+    depend on that one. Never Street 2: it holds a building, a floor or a c/o
+    line, not the súpisné / orientačné číslo."""
+    if "street_name" in partner._fields and partner.street_name:
+        number = (partner.street_number or "").strip()
+        number2 = (partner.street_number2 or "").strip()
+        if number and number2:
+            number = "%s/%s" % (number, number2)
+        return partner.street_name.strip(), number or number2
+    street = (partner.street or "").strip()
+    match = _SK_STREET_RE.match(street)
+    if match:
+        return match.group("street").strip(), match.group("number").replace(" ", "")
+    return street, ""
+
 
 class CSSKEcSummaryStatement(models.Model):
     _inherit = "cssk.ec.summary.statement"
+
+    def _cssk_render_context(self):
+        ctx = super()._cssk_render_context()
+        if self.country_id.code == "SK":
+            ctx["sk_ulica"], ctx["sk_cislo"] = sk_fs_address(
+                self.company_id.partner_id)
+        return ctx
+
+    def _cssk_ec_is_delta(self):
+        # § 80 ods. 8: the dodatočný súhrnný výkaz carries only the added or
+        # corrected records. (An opravný one replaces the original whole.)
+        if self.country_id.code == "SK":
+            return self.statement_type_id.fa_xml_value == "D"
+        return super()._cssk_ec_is_delta()
+
+    def _cssk_ec_whole(self, value):
+        if self.country_id.code == "SK":
+            return self._sv_whole(value)
+        return super()._cssk_ec_whole(value)
 
     def _kontroly_valid_codes(self):
         if self.country_id.code == "SK":
@@ -55,6 +102,55 @@ class CSSKEcSummaryStatement(models.Model):
                     "plausible country code (fix the partner's Tax ID in "
                     "Contacts): %(refs)s", n=len(bad), refs=detail))
         return res
+
+    def _sv_vies_codes(self):
+        """Member-state codes as the poučenie lists them: the EU's ISO codes
+        with Greece as EL, plus XI (Severné Írsko od 1. 1. 2021)."""
+        eu = self.env.ref("base.europe", raise_if_not_found=False)
+        codes = {"EL" if c == "GR" else c
+                 for c in (eu.country_ids.mapped("code") if eu else [])}
+        return codes | {"XI"}
+
+    def _sv_country(self, line):
+        """kodStatu: "Kód štátu je súčasťou IČ DPH nadobúdateľa tovaru alebo
+        príjemcu služby" (Poučenie SVDPHv20) — the VAT number's own prefix,
+        so Greece is EL and Northern Ireland XI, never the partner country's
+        ISO code (GR, GB)."""
+        vat = "".join((line.partner_vat or "").split()).upper()
+        if len(vat) > 2 and vat[:2].isalpha():
+            return vat[:2]
+        code = (line.partner_country_code or "").upper()
+        return "EL" if code == "GR" else code
+
+    def _check_vies(self):
+        """The base gate, with the poučenie's own country codes.
+
+        The base accepts a line only when the partner's COUNTRY is in the EU,
+        which refuses every Northern Ireland customer (their country is GB)
+        although the poučenie lists XI. XI is accepted for goods only.
+        """
+        if self.country_id.code != "SK":
+            return super()._check_vies()
+        self.ensure_one()
+        allowed = self._sv_vies_codes()
+        invalid = []
+        for line in self.line_ids:
+            vat = "".join((line.partner_vat or "").split()).upper()
+            code = self._sv_country(line)
+            ok = (
+                len(vat) >= 3 and vat[:2].isalpha() and code in allowed
+                and (code != "XI" or line.transaction_code in SK_SV_GOODS_CODES)
+            )
+            if not ok:
+                invalid.append("%s / %s / %s" % (
+                    line.partner_country_code or "??", vat or "—",
+                    line.transaction_code or "—"))
+        if invalid:
+            raise UserError(_(
+                "The súhrnný výkaz cannot be exported — these lines have a "
+                "missing or non-EU VAT number, or report a service to a "
+                "Northern Ireland (XI) number, which is valid for goods only "
+                "(hard block):\n%s") % "\n".join(invalid))
 
     def _sv_whole(self, value):
         """Súhrnný výkaz amounts: whole euros, half-up (SVDPHv20 poučenie).

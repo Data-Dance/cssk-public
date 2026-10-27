@@ -143,3 +143,61 @@ class TestRelatedPartyParsing(TransactionCase):
                 patch(GET, return_value=None):
             with self.assertRaisesRegex(UserError, "no graph"):
                 self.partner.action_orsf_sk_fetch_related_parties()
+
+    # -- corporate shareholders, access, entry points ------------------------
+
+    def test_a_corporate_shareholder_gets_a_row_of_its_own(self):
+        graph = {
+            "nodes": NESTED_GRAPH["nodes"] + [
+                {"key": "c:66666666", "attributes": {
+                    "kind": "company", "label": "Matka a.s.", "ico": "66666666"}},
+                {"key": "c:77777777", "attributes": {
+                    "kind": "company", "label": "Sestra s.r.o.", "ico": "77777777"}},
+            ],
+            "edges": NESTED_GRAPH["edges"] + [
+                {"source": "c:66666666", "target": "c:31333532",
+                 "attributes": {"role": "spoločník"}},
+                {"source": "c:66666666", "target": "c:77777777",
+                 "attributes": {"role": "spoločník"}},
+            ],
+        }
+        rows = {r["related_name"]: r for r in self._rows(graph)}
+        parent = rows["Matka a.s."]
+        self.assertEqual(
+            (parent["degree"], parent["related_ico"], parent["link_role"]),
+            (1, "66666666", "spoločník"))
+        self.assertFalse(parent["link_person"])
+        sister = rows["Sestra s.r.o."]
+        self.assertEqual((sister["degree"], sister["link_person"]), (2, "Matka a.s."))
+
+    def test_any_user_who_may_edit_the_contact_can_fetch(self):
+        """The rows used to be writable by accounting administrators only, so
+        the button failed with an access error for everybody else."""
+        user = self.env["res.users"].create({
+            "name": "Fakturantka", "login": "related_parties_invoicing",
+            "group_ids": [(6, 0, [self.env.ref("account.group_account_invoice").id,
+                                  self.env.ref("base.group_partner_manager").id])],
+        })
+        self.assertFalse(user.has_group("account.group_account_manager"))
+        with patch(COOKIES, return_value={"__Secure-orsf.session_token": "x"}), \
+                patch(GET, return_value=NESTED_GRAPH):
+            self.partner.with_user(user).action_orsf_sk_fetch_related_parties()
+        self.assertEqual(len(self.partner.orsf_sk_related_party_ids), 2)
+
+    def test_the_list_and_the_contact_are_reachable(self):
+        neighbour = self.env["res.partner"].create(
+            {"name": "Druhá s.r.o.", "is_company": True,
+             "company_registry": "44444444"})
+        with patch(COOKIES, return_value={"__Secure-orsf.session_token": "x"}), \
+                patch(GET, return_value=NESTED_GRAPH):
+            self.partner.action_orsf_sk_fetch_related_parties()
+        arch = self.env["res.partner"].get_view(
+            self.env.ref("base.view_partner_form").id)["arch"]
+        self.assertIn("action_orsf_sk_open_related_parties", arch)
+        self.assertIn("action_open_related_partner", arch)
+        action = self.partner.action_orsf_sk_open_related_parties()
+        self.assertEqual(
+            self.env["orsf.sk.related.party"].search(action["domain"]),
+            self.partner.orsf_sk_related_party_ids)
+        row = self.partner.orsf_sk_related_party_ids.filtered("related_partner_id")
+        self.assertEqual(row.action_open_related_partner()["res_id"], neighbour.id)

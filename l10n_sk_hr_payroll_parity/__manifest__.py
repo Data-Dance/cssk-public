@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Payroll Engine Parity Harness",
-    "version": "19.0.1.8.0",
+    "version": "19.0.1.8.1",
     "category": "Human Resources/Payroll",
     "summary": "Cross-engine parity harness: drives one shared set of payroll "
     "scenarios through both the OCA payroll and the Enterprise hr_payroll "

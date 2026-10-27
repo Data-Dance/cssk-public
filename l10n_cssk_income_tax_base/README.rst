@@ -24,8 +24,7 @@ Architecture
   manual overrides preserved and fed into dependent aggregate lines on
   recompute, state machine (draft → submitted), amendment (dodatečné /
   opravné), XSD-validated statutory XML export, and an optional income-tax
-  provision posting (591/341).
-* A wizard to generate a return for a period + version.
+  posting of the splatná daň (591/341).
 
 Features
 ========
@@ -36,24 +35,17 @@ Features
   aggregate lines.
 * XSD-validated statutory XML export and a submission state machine with
   amendment support.
-* Optional income-tax provision journal entry (post / reverse).
+* Optional journal entry for the splatná daň z príjmov / daň z příjmů
+  (MD 591 / D 341; post / reverse).
 
 Usage
 =====
 
-*Accounting ▸ Reporting ▸ Income Tax (DPPO).* Use **Generate** to create a
-return for a period and version; the accounting result and the formulaic spine
-are computed automatically. Open the return, enter the manual adjustment lines,
-**Compute** to refresh the aggregates, then **Export XML** for submission.
-Optionally post the income-tax provision.
-
-Wizards
-=======
-
-* **Generate Income Tax Return** (*Accounting ▸ Reporting ▸ Income Tax (DPPO) ▸
-  Generate*) — pick the company, version, submission type and the period
-  (date from / date to); it creates the ``cssk.income.tax.return``, computes the
-  lines and opens the new return. The period end must be on or after the start.
+*Accounting ▸ Reporting ▸ Statutory Reports ▸ Income Tax (DPPO)*, then
+**New**: pick the company, version, submission type and the period; **Compute**
+fills the accounting result and the formulaic spine. Enter the manual
+adjustment lines, **Compute** again to refresh the aggregates, then
+**Export XML** for submission. Optionally post the splatná daň (591/341).
 
 Credits
 =======

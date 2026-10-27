@@ -23,7 +23,7 @@ class TestQrMethodPreference(AccountTestInvoicingCommon):
         cls.eur.active = True
         cls.holder = cls.env["res.partner"].create({
             "name": "Issuer", "country_id": cls.env.ref("base.sk").id})
-        cls.bank = cls.env["res.partner.bank"].create({
+        cls.bank = cls.env["res.partner.bank"].sudo().create({
             "acc_number": "SK3112000000198742637541",
             "partner_id": cls.holder.id,
         })
@@ -60,3 +60,18 @@ class TestQrMethodPreference(AccountTestInvoicingCommon):
         # With every candidate held back the code is still produced.
         self.patch(type(self.bank), "_qr_method_suits", lambda *a: False)
         self.assertTrue(self._auto(self.de_debtor))
+
+    def test_the_order_is_explicit_not_load_order(self):
+        """PAY by square, then payme, then core's SEPA QR — by sequence. They
+        all sat at 20, so the order was whatever the modules loaded in."""
+        order = [code for code, _name
+                 in self.bank.get_available_qr_methods_in_sequence()]
+        ranked = [code for code in ("skpaybysquare_qr", "skpayme_qr", "sct_qr")
+                  if code in order]
+        self.assertEqual(sorted(ranked, key=order.index), ranked)
+        sequences = {code: seq for code, _name, seq
+                     in self.bank._get_available_qr_methods()}
+        self.assertEqual(len(set(sequences[c] for c in ranked)), len(ranked))
+
+    def test_slovak_parties_get_pay_by_square(self):
+        self.assertEqual(self._auto(self.sk_debtor), METHOD)

@@ -30,7 +30,7 @@ class TestSkJcd(AccountTestInvoicingCommon):
         return self.env["l10n.sk.jcd"].create(vals)
 
     def _confirm_customs_document(self, jcd):
-        """MRN + an attached document — what § 49 ods. 2 písm. d) requires."""
+        """MRN + an attached document — what § 51 ods. 1 písm. d) requires."""
         jcd.mrn = "24SK5810000123456X"
         self.env["ir.attachment"].create(
             {
@@ -156,6 +156,10 @@ class TestSkJcd(AccountTestInvoicingCommon):
         self._historic_clone(current, 20.0, "2011-01-01", "2024-12-31")
         self._historic_clone(current, 19.0, "2004-01-01", "2020-12-31")
         jcd.invalidate_recordset()
+        # The form still opens: the computed figures fall back to the band
+        # rather than raising on every read...
+        self.assertEqual(jcd.vat_rate_effective, 23.0)
+        # ...and the refusal comes where the tax is actually resolved.
         with self.assertRaises(UserError):
             jcd._get_import_tax()
 
@@ -375,6 +379,26 @@ class TestSkJcd(AccountTestInvoicingCommon):
             sum(landed.valuation_adjustment_lines.mapped("additional_landed_cost")),
             500.0,
         )
+        # Validated by the posting: a draft landed cost would leave the duty
+        # expensed by the bill and never credited back into the stock value.
+        self.assertEqual(landed.state, "done")
+
+    def test_self_assessment_before_it_existed_is_refused(self):
+        """§ 84a ods. 3 applies from 1. 7. 2025; an import before that was
+        assessed by the customs office, and posting it as self-assessed would
+        put it on r. 11c–12e of a return that had no such rows to offer."""
+        before = self._confirm_customs_document(
+            self._jcd(vat_regime="postponed", date="2025-06-30", duty_amount=0.0)
+        )
+        with self.assertRaisesRegex(UserError, "84a"):
+            before.action_post()
+        self.assertEqual(before.state, "draft")
+
+        on_the_day = self._confirm_customs_document(
+            self._jcd(vat_regime="postponed", date="2025-07-01", duty_amount=0.0)
+        )
+        on_the_day.action_post()
+        self.assertEqual(on_the_day.state, "posted")
 
     def test_zero_base_is_refused(self):
         jcd = self._confirm_customs_document(

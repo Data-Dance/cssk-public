@@ -133,3 +133,46 @@ class TestNaceCssk(TransactionCase):
         with patch.object(OcaWizard, "_create_query", return_value="SELECT nothing"):
             with self.assertRaises(UserError):
                 wizard._create_query([("en_US", "EN")])
+
+    def test_a_slovak_five_digit_code_is_rev2(self):
+        """SK NACE Rev. 2 (five digits) stays in the Slovak register until
+        2028, and its class can exist in Rev. 2.1 with another meaning. Rev.
+        2.1 used to be tried first, for every partner."""
+        rev2 = REV2 + [
+            ("G", None, "Wholesale and retail trade"),
+            ("47", "G", "Retail trade"),
+            ("47.9", "47", "Retail trade not in stores"),
+            ("47.91", "47.9", "Retail sale via mail order houses or via Internet"),
+        ]
+        rev21 = REV21 + [
+            # Distinct from Rev. 2's G: partner_industry_secondary refuses two
+            # industries with one name and one parent.
+            ("G", None, "Wholesale and retail trade (Rev. 2.1)"),
+            ("47", "G", "Retail trade"),
+            ("47.9", "47", "Intermediation service activities for retail sale"),
+            ("47.91", "47.9", "Intermediation for non-specialised retail sale"),
+        ]
+        self._import(rev2, nace_version="2", archive_other_version=False)
+        self._import(rev21)  # archives Rev. 2, as the wizard does by default
+        sk = self.env.ref("base.sk")
+        shop = self.env["res.partner"].create({
+            "name": "E-shop s.r.o.", "is_company": True, "country_id": sk.id,
+            "nace_code": "47910"})
+        self.assertEqual(shop.industry_id, self._nace("4791", "2"))
+        # Four digits in Slovakia: the Rev. 2.1 the register now publishes.
+        shop.nace_code = "4791"
+        self.assertEqual(shop.industry_id, self._nace("4791"))
+        # A Czech five-digit code is CZ-NACE 2025, i.e. Rev. 2.1.
+        cz = self.env["res.partner"].create({
+            "name": "Hry s.r.o.", "is_company": True,
+            "country_id": self.env.ref("base.cz").id, "nace_code": "62101"})
+        self.assertEqual(cz.industry_id, self._nace("62101", country=True))
+
+    def test_a_national_subclass_is_only_for_its_country(self):
+        self._import(REV21)
+        sk = self.env["res.partner"].create({
+            "name": "Programy s.r.o.", "is_company": True,
+            "country_id": self.env.ref("base.sk").id, "nace_code": "6210"})
+        sk.nace_code = "62101"
+        # No Rev. 2 here and no Slovak subclass: nothing, not the Czech one.
+        self.assertNotEqual(sk.industry_id, self._nace("62101", country=True))

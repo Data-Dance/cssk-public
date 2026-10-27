@@ -6,9 +6,11 @@ class ResCompany(models.Model):
 
     tax_vehicle_cap_amount = fields.Monetary(
         string="Tax Vehicle Depreciation Cap",
-        help="Capped depreciable base for passenger vehicles flagged on the asset "
-        "(CZ §30e: 2 000 000 CZK for category M1; SK §17(34): 48 000 EUR). Leave "
-        "at 0 for no cap. Set per company in its own currency.",
+        help="Statutory limit for passenger vehicles flagged on the asset, in "
+        "the company currency. CZ §30e: 2 000 000 CZK for category M1 — the "
+        "tax board is computed on the limit. SK §17(34): 48 000 EUR — the "
+        "board keeps the full depreciation and shows the conditional add-back "
+        "separately. Leave at 0 for no limit.",
     )
     # Deferred-tax (odložená daň) posting from the reconciliation
     tax_deferred_journal_id = fields.Many2one(
@@ -19,7 +21,10 @@ class ResCompany(models.Model):
     account_deferred_tax_id = fields.Many2one(
         "account.account", string="Deferred Tax Account (481)",
         check_company=True,
-        help="Balance-sheet deferred-tax account (CZ/SK 481).",
+        help="Balance-sheet deferred-tax account (CZ/SK 481). The reconciliation "
+        "trues this account's balance at the period end up to the deferred tax "
+        "on asset depreciation, so use an account (e.g. an analytical 481 "
+        "sub-account) that holds no other deferred tax.",
     )
     account_deferred_tax_pl_id = fields.Many2one(
         "account.account", string="Deferred Tax P&L Account (592)",
@@ -33,8 +38,10 @@ class ResCompany(models.Model):
         as a plain method so the DPPO statement can pull it automatically.
 
         Returns ``{"book", "tax", "difference" (book−tax), "addback"
-        (=max(diff,0), SK pripočítateľná / CZ ř.50), "deduction" (=max(−diff,0),
-        odpočítateľná / ř.150)}``. Tax = the annual tax-board lines in the
+        (=max(diff,0), SK r. 150 / CZ ř. 50), "deduction" (=max(−diff,0),
+        SK r. 250 / CZ ř. 150), "vehicle_addback" (SK § 17 ods. 34 — the
+        add-back IF the statutory tax-base condition is met; the caller
+        decides)}``. Tax = the annual tax-board lines in the
         period; book = the **posted** accounting depreciation of the same assets
         over the period (``_tax_accounting_depreciation_for_period``, the same
         source the reconciliation wizard uses) — NOT the draft-inclusive
@@ -44,7 +51,7 @@ class ResCompany(models.Model):
         """
         self.ensure_one()
         empty = {"book": 0.0, "tax": 0.0, "difference": 0.0,
-                 "addback": 0.0, "deduction": 0.0}
+                 "addback": 0.0, "deduction": 0.0, "vehicle_addback": 0.0}
         Line = self.env["account.asset.tax.line"]
         if "asset_id" not in Line._fields:
             return empty
@@ -62,4 +69,5 @@ class ResCompany(models.Model):
         return {
             "book": book, "tax": tax, "difference": diff,
             "addback": max(diff, 0.0), "deduction": max(-diff, 0.0),
+            "vehicle_addback": sum(lines.mapped("vehicle_addback")),
         }

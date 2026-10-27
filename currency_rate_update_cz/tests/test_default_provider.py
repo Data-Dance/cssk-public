@@ -127,3 +127,18 @@ class TestCZDefaultProvider(TransactionCase):
         company.account_fiscal_country_id = self.cz
         self.assertEqual(len(self.Provider._cz_ensure_default_provider(company)), 1)
 
+
+    def test_the_re_run_is_reachable_from_an_empty_list(self):
+        """Bound to the action menu only, it appeared once a row was selected
+        — never on the empty list that prompts the question."""
+        arch = self.env["res.currency.rate.provider"].get_views(
+            [(False, "list")])["views"]["list"]["arch"]
+        self.assertIn('display="always"', arch)
+        # a list keeps one <header>: with the sk module also installed
+        # either button may be the one shown
+        other_installed = self.env["ir.module.module"].search_count([
+            ("name", "=", "currency_rate_update_sk"),
+            ("state", "=", "installed"),
+        ])
+        if not other_installed:
+            self.assertIn('name="action_cz_ensure_default_provider"', arch)

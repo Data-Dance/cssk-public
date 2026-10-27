@@ -26,9 +26,10 @@
         <field name="valid_from">2025-01-01</field>
         <field name="xml_template_ref_id" ref="l10n_sk_fs.cashflow_2025"/>
         <field name="xml_root_element">PrehladPP</field>
-        <!-- Finančná správa publishes uzsuv/uzvzs schemas for the Súvaha
-             and the VZS, and none for the prehľady — they are filed inside
-             the Úč POD envelope. The absence is the form, not a gap. -->
+        <!-- Finančná správa publishes a schema for the Úč POD (Súvaha and
+             VZS) and none for the prehľady: they are not part of the UZPODv14
+             filing at all, so their XML here is this module's own working
+             export. The absence is the form, not a gap. -->
         <field name="xml_schema_optional" eval="True"/>
         <field name="line_def_ids" eval="[
             (0, 0, {'code': 'A1', 'name': 'A.1. Výsledok hospodárenia pred zdanením',

@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-01 14:31+0000\n"
-"PO-Revision-Date: 2026-10-01 14:31+0000\n"
+"POT-Creation-Date: 2026-10-27 19:42+0000\n"
+"PO-Revision-Date: 2026-10-27 19:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "%(kind)s sent via Peppol: %(link)s (%(state)s)."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"%(name)s was already delivered via Peppol (%(msg)s). Correct it with a "
+"credit note instead of sending it again."
 msgstr ""
 
 #. module: edi_base_peppol
@@ -40,6 +48,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "%s has no Peppol address."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"%s has no VAT number: the Slovak mandate binds a VAT payer (§ 85o ods. 2 of "
+"the VAT Act)."
 msgstr ""
 
 #. module: edi_base_peppol
@@ -74,6 +90,7 @@ msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_send_enabled
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_send_enabled
 msgid ""
 "A permission for this company, not a routing decision: it says e-invoicing MAY be used, never that a given invoice will be. Which documents actually leave through Peppol is decided per contact, by 'Invoice sending' on the contact, and for contacts that state no preference by the Peppol scope below.\n"
 "\n"
@@ -115,12 +132,19 @@ msgstr ""
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ap
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ap
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__ap
 msgid "Accepted"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_account_move_send
+msgid "Account Move Send"
 msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ab
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ab
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__ab
 msgid "Acknowledged"
 msgstr ""
 
@@ -133,6 +157,7 @@ msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_send_enabled
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_send_enabled
 msgid "Allow e-invoicing via Peppol"
 msgstr ""
 
@@ -143,6 +168,7 @@ msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_auto_send
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_auto_send
 msgid "Auto-send Peppol on Invoice Post"
 msgstr ""
 
@@ -160,6 +186,7 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_ir_reason
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_reason
 msgid ""
 "Clarification the buyer gave with the Invoice Response — the reason for a "
@@ -179,9 +206,20 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ca
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ca
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__ca
 msgid "Conditionally accepted"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_res_config_settings
+msgid "Config Settings"
 msgstr ""
 
 #. module: edi_base_peppol
@@ -191,9 +229,37 @@ msgid "Consumer (B2C): not in the Slovak mandate."
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__create_uid
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__create_date
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "Cross-border customer (%s): not in the Slovak mandate."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_res_config_settings_peppol
+msgid ""
+"Database-wide. Needed only when several Peppol transports are installed."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_del
+msgid "Delivery issues"
 msgstr ""
 
 #. module: edi_base_peppol
@@ -202,20 +268,43 @@ msgid "Description"
 msgstr ""
 
 #. module: edi_base_peppol
-#: model:ir.module.module,shortdesc:base.module_edi_base_peppol
-msgid "EDI Base: Peppol BIS 3.0"
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move_send__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_message__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_edi_message
+msgid "EDI Message"
 msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_auto_send
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_auto_send
 msgid ""
 "Every posted customer document routed to Peppol is generated and queued at "
 "once. Off: use the 'Send via Peppol' button."
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_fin
+msgid "Finance incorrect"
+msgstr ""
+
+#. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_edi_peppol_invoice_response_wizard__note
 msgid "Free-text clarification sent to the supplier."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "From"
 msgstr ""
 
 #. module: edi_base_peppol
@@ -228,6 +317,7 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_route
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_route
 msgid ""
 "How this customer document goes out, by the company's Peppol settings and "
@@ -235,8 +325,21 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_move_send__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_message__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__ip
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__ip
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__ip
 msgid "In process"
 msgstr ""
 
@@ -248,17 +351,57 @@ msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__invoice_sending_method
-msgid "Invoice Sending Method"
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_users__invoice_sending_method
+msgid "Invoice sending"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_action_ncr
+msgid "Issue a credit note"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_action_nin
+msgid "Issue a new invoice"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_qua
+msgid "Item quality insufficient"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_itm
+msgid "Items incorrect"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model,name:edi_base_peppol.model_account_move
+msgid "Journal Entry"
 msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_purchase_journal_id
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_purchase_journal_id
 msgid ""
 "Journal for inbound Peppol vendor bills. Empty: the company's first purchase"
 " journal."
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__write_uid
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__write_date
+#: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_invoice_response_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_response
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_response
 msgid ""
 "Latest Peppol Message Level Response (MLR) received for this document — the "
@@ -267,10 +410,16 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_ir_status
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_status
 msgid ""
 "Latest business-level Peppol Invoice Response received from the buyer for a "
 "customer invoice we sent (accepted / rejected / under query / …)."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_leg
+msgid "Legal information incorrect"
 msgstr ""
 
 #. module: edi_base_peppol
@@ -297,6 +446,16 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_action_nop
+msgid "No action required"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_non
+msgid "No issue"
+msgstr ""
+
+#. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/edi_message.py:0
 msgid ""
@@ -305,9 +464,22 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_unr
+msgid "Not recognized"
+msgstr ""
+
+#. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "Not sent via Peppol: %s"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"Not sent via Peppol: the e-invoice could not be generated. %(error)s Correct"
+" it and use Send via Peppol."
 msgstr ""
 
 #. module: edi_base_peppol
@@ -321,6 +493,11 @@ msgid "Optional free-text clarification sent to the supplier…"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_oth
+msgid "Other"
+msgstr ""
+
+#. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_route__pdf
 msgid "PDF"
 msgstr ""
@@ -328,10 +505,22 @@ msgstr ""
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__pd
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__pd
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__pd
 msgid "Paid"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_ppd
+msgid "Partially paid"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_pay
+msgid "Payment terms incorrect"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_active
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_active
 msgid "Peppol Active"
 msgstr ""
@@ -347,6 +536,7 @@ msgid "Peppol BIS3 (this company)"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_response
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_response
 msgid "Peppol Delivery Response"
 msgstr ""
@@ -357,6 +547,7 @@ msgid "Peppol Document"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_message_ids
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_message_ids
 msgid "Peppol EDI Messages"
 msgstr ""
@@ -364,6 +555,7 @@ msgstr ""
 #. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_ir_status
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_status
 #: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_peppol_invoice_response_wizard_form
 msgid "Peppol Invoice Response"
@@ -386,21 +578,30 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_ir_can_respond
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_can_respond
 msgid "Peppol Ir Can Respond"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "Peppol Messages"
+msgstr ""
+
+#. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_purchase_journal_id
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_purchase_journal_id
 msgid "Peppol Purchase Journal"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_ir_reason
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_reason
 msgid "Peppol Response Reason"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_ir_sent_status
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_ir_sent_status
 #: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
 msgid "Peppol Response Sent"
@@ -413,12 +614,19 @@ msgstr ""
 
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__peppol_sending_warning
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_users__peppol_sending_warning
 msgid "Peppol Sending Warning"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_status
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_status
 msgid "Peppol Status"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_transport
+msgid "Peppol Transport"
 msgstr ""
 
 #. module: edi_base_peppol
@@ -440,7 +648,14 @@ msgid "Peppol e-invoice"
 msgstr ""
 
 #. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "Peppol e-invoice not sent"
+msgstr ""
+
+#. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_company__peppol_scope
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_scope
 msgid "Peppol scope"
 msgstr ""
 
@@ -450,11 +665,18 @@ msgid "Peppol, but blocked"
 msgstr ""
 
 #. module: edi_base_peppol
-#: model:ir.module.module,summary:base.module_edi_base_peppol
-msgid ""
-"Provider-neutral Peppol BIS Billing 3.0: send/receive invoices and credit "
-"notes, and business responses (MLR / Invoice Response), over any EDI "
-"transport provider"
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_pri
+msgid "Prices incorrect"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_action_pin
+msgid "Provide additional information"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_qty
+msgid "Quantity incorrect"
 msgstr ""
 
 #. module: edi_base_peppol
@@ -463,8 +685,19 @@ msgid "Reasons"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_rec
+msgid "Receiver unknown"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:edi.peppol.clarification,name:edi_base_peppol.clar_reason_ref
+msgid "References incorrect"
+msgstr ""
+
+#. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__re
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__re
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__re
 msgid "Rejected"
 msgstr ""
 
@@ -502,6 +735,7 @@ msgid "Send via Peppol"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_route
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_route
 msgid "Sent as"
 msgstr ""
@@ -515,7 +749,16 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"Several Peppol transports are installed and none is chosen: set Peppol "
+"Transport in Settings > EDI."
+msgstr ""
+
+#. module: edi_base_peppol
 #: model:ir.model.fields,help:edi_base_peppol.field_res_company__peppol_scope
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_scope
 msgid ""
 "Slovak mandate: a document goes through Peppol only when both parties are "
 "Slovak and the customer is a business or a public body; consumers, Czech and"
@@ -528,6 +771,7 @@ msgid "Slovak mandate: domestic B2B and B2G only"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_status
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_status
 msgid "State of the most recent outbound Peppol message for this document."
 msgstr ""
@@ -575,6 +819,7 @@ msgid "The e-invoice could not be sent"
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_ir_sent_status
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_sent_status
 msgid ""
 "The last business-level Peppol Invoice Response WE sent to the supplier for "
@@ -590,6 +835,12 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model_terms:ir.ui.view,arch_db:edi_base_peppol.view_move_form_peppol
+msgid "To"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_active
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_active
 msgid ""
 "True when this posted customer invoice/refund can be sent as a Peppol BIS3 "
@@ -598,6 +849,7 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_account_bank_statement_line__peppol_ir_can_respond
 #: model:ir.model.fields,help:edi_base_peppol.field_account_move__peppol_ir_can_respond
 msgid ""
 "True when this vendor bill arrived via Peppol and we can send a business "
@@ -607,6 +859,7 @@ msgstr ""
 #. module: edi_base_peppol
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_sent_status__uq
 #: model:ir.model.fields.selection,name:edi_base_peppol.selection__account_move__peppol_ir_status__uq
+#: model:ir.model.fields.selection,name:edi_base_peppol.selection__edi_peppol_invoice_response_wizard__response_code__uq
 msgid "Under query"
 msgstr ""
 
@@ -618,6 +871,16 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_transport
+msgid ""
+"Which installed EDI provider carries Peppol documents. Needed only when "
+"several are installed: with none chosen then, no document goes through "
+"Peppol and each invoice says why on its Peppol badge. With a single one "
+"installed it is used whatever this says."
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_account_bank_statement_line__peppol_route_reason
 #: model:ir.model.fields,field_description:edi_base_peppol.field_account_move__peppol_route_reason
 msgid "Why"
 msgstr ""

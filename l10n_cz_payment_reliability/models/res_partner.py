@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import logging
+import re
 from xml.sax.saxutils import escape
 
 import requests
@@ -20,6 +21,9 @@ _ADIS_URL = (
 _NS = "http://adis.mfcr.cz/rozhraniCRPDPH/"
 
 _RELIABILITY = {"ANO": "unreliable", "NE": "reliable", "NENALEZEN": "unknown"}
+
+#: A Czech account in the domestic form: [předčíslí-]číslo/kód banky.
+_DOMESTIC_ACCOUNT = re.compile(r"^(?:(\d{1,6})-)?(\d{1,10})/(\d{4})$")
 
 
 class ResPartner(models.Model):
@@ -88,6 +92,12 @@ class ResPartner(models.Model):
     def _cz_accounts_from_status(self, status):
         if status is None:
             return None
+        if (status.get("nespolehlivyPlatce") or "").upper() == "NENALEZEN":
+            # Not in the register of VAT payers. § 109 makes the recipient
+            # liable for the tax of "jiný plátce" only, so an account this
+            # subject never had to publish is not a finding: "unavailable",
+            # not "NOT registered".
+            return None
         accounts = []
         for el in status.iter():
             if not isinstance(el.tag, str):
@@ -130,6 +140,19 @@ class ResPartner(models.Model):
             self._cz_accounts_from_status(status),
             self._cz_reliability_from_status(status),
         )
+
+    def _cssk_paid_account_key(self, bank_account):
+        """A Czech account typed in the domestic form, as the IBAN that
+        ADIS's published accounts are compared in. Sanitising alone turns
+        ``19-2000145399/0800`` into ``1920001453990800``, which matches no
+        IBAN, so the published account read as NOT registered."""
+        raw = (bank_account.acc_number or "").replace(" ", "")
+        match = _DOMESTIC_ACCOUNT.match(raw)
+        if match and (self.country_id.code or "") == "CZ":
+            iban = self._cz_account_to_iban(*match.groups())
+            if iban:
+                return iban
+        return super()._cssk_paid_account_key(bank_account)
 
     @staticmethod
     def _cz_account_to_iban(predcisli, cislo, kod_banky):

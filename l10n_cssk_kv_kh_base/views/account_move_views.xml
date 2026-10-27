@@ -18,9 +18,24 @@
             </xpath>
             <xpath expr="//page[@id='other_tab_entry']//group[@name='misc_group']"
                    position="inside">
-                <field name="cssk_vat_correction" invisible="1"/>
+                <!-- Declared on an ENTRY that carries VAT: an entry's type
+                     cannot say which side of the control statement it is,
+                     nor whether it is a correction (see the field help). -->
+                <field name="cssk_vat_direction"
+                       invisible="country_code not in ('SK', 'CZ')"/>
+                <field name="cssk_vat_correction"
+                       invisible="country_code not in ('SK', 'CZ')"/>
                 <field name="cssk_control_original_ref"
                        invisible="country_code not in ('SK', 'CZ') or cssk_vat_correction != 'yes'"/>
+            </xpath>
+            <!-- Per-line identity override for a multi-VAT counterparty
+                 (a foreign branch with its own VAT number). -->
+            <xpath expr="//page[@id='aml_tab']//field[@name='line_ids']/list/field[@name='tax_tag_ids']"
+                   position="after">
+                <field name="cssk_control_partner_vat_override"
+                       string="Control-statement VAT" optional="hide"/>
+                <field name="cssk_control_section_code"
+                       string="Control-statement section" optional="hide"/>
             </xpath>
         </field>
     </record>

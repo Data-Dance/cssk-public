@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
-from odoo.tests import tagged
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -115,3 +115,104 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
         # R1: domestic supply 21% -> obrat23 = base 1000, dan23 = tax 210
         self.assertAlmostEqual(self._v(ret, "obrat23"), 1000.0, places=2)
         self.assertAlmostEqual(self._v(ret, "dan23"), 210.0, places=2)
+
+    # --- ř. 46 and ř. 62 – 66 are computed (were manual, so filed as 0) ---
+    def _sale(self, amount):
+        from odoo import Command
+        inv = self.env["account.move"].create({
+            "move_type": "out_invoice", "partner_id": self.partner_a.id,
+            "invoice_date": "2025-06-15", "date": "2025-06-15",
+            "taxable_supply_date": "2025-06-15",
+            "invoice_line_ids": [Command.create({
+                "name": "x", "quantity": 1, "price_unit": amount,
+                "tax_ids": [Command.set(self.tax21.ids)]})],
+        })
+        inv.action_post()
+        return inv
+
+    def test_the_total_rows_are_computed(self):
+        """dphdp3_epo2.xsd: ř.62 = 1 + … + 13 − 61, ř.63 = 46 + 52 + 53 + 60,
+        ř.64 = ř.62 − ř.63 when positive. They were manual lines and the
+        return filed vlastní daň 0 on a period with 210 of output tax."""
+        self._sale(1000.0)
+        ret = self._return()
+        self.assertAlmostEqual(self._v(ret, "dan_zocelk"), 210.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "odp_zocelk"), 0.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "dano_da"), 210.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "dano_no"), 0.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "dano"), 0.0, places=2)
+        self.assertAlmostEqual(ret.to_pay, 210.0, places=2,
+                               msg="the settlement now has its lines")
+        ret.action_export_xml()
+        veta6 = self._root(ret).find(".//Veta6")
+        self.assertEqual((veta6.get("dan_zocelk"), veta6.get("dano_da"),
+                          veta6.get("dano_no")), ("210", "210", "0"))
+
+    def test_an_override_on_a_total_is_kept_and_flows_on(self):
+        self._sale(1000.0)
+        ret = self._return()
+        row = ret.line_ids.filtered(lambda l: l.code == "dan_zocelk")
+        row.write({"is_overridden": True, "manual_value": 250.0})
+        ret.action_compute_lines()
+        self.assertAlmostEqual(self._v(ret, "dan_zocelk"), 250.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "dano_da"), 250.0, places=2)
+
+    def test_a_dodatecne_files_the_difference_row_only(self):
+        """ř. 66 "vyplňuje se pouze při podání dodatečného přiznání";
+        ř. 64 / 65 "při podání dodatečného přiznání se nevyplňuje"."""
+        self._sale(1000.0)
+        ret = self.env["cssk.vat.return"].create({
+            "company_id": self.company.id, "version_id": self.version.id,
+            "statement_type_id": self.env.ref("l10n_cz_vat_return.dphdp3_type_D").id,
+            "period_type": "month", "date_from": "2025-06-01",
+            "date_to": "2025-06-30", "discovery_date": "2025-07-20",
+        })
+        ret.action_compute_lines()
+        self.assertAlmostEqual(self._v(ret, "dano"), 210.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "dano_da"), 0.0, places=2)
+        # one date: the shared one is what d_zjist files
+        self.assertEqual(str(ret.cz_discovery_date), "2025-07-20")
+        ret.action_export_xml()
+        self.assertEqual(self._root(ret).find(".//VetaD").get("d_zjist"),
+                         "20.07.2025")
+        veta6 = self._root(ret).find(".//Veta6")
+        self.assertEqual((veta6.get("dano"), veta6.get("dano_da"),
+                          veta6.get("dano_no")), ("210", None, None),
+                         "ř. 64 / 65 are not filled on a dodatečné")
+
+
+@tagged("post_install", "-at_install")
+class TestSchemaPin(TransactionCase):
+    """data/SCHEMA_VERSION pins the bundled XSD (digest, size) and the
+    structure version, and the template's ``verzePis`` must say the same.
+    Nothing local can tell a stale schema from a current one — the pin makes
+    a refresh a deliberate change instead of a silent one."""
+
+    def _pin(self):
+        import os
+        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(here, "data", "SCHEMA_VERSION"), encoding="utf-8") as fh:
+            lines = [raw.split() for raw in fh]
+        return here, lines
+
+    def test_every_bundled_schema_matches_its_pin(self):
+        import hashlib
+        import os
+        here, lines = self._pin()
+        pins = {p[0]: (p[1], int(p[2])) for p in lines
+                if len(p) == 3 and p[0].endswith(".xsd")}
+        on_disk = {f for f in os.listdir(os.path.join(here, "data"))
+                   if f.endswith(".xsd")}
+        self.assertEqual(on_disk, set(pins), "unpinned or missing schema")
+        for name, (digest, size) in pins.items():
+            blob = open(os.path.join(here, "data", name), "rb").read()
+            self.assertEqual((hashlib.md5(blob).hexdigest(), len(blob)),
+                             (digest, size), "%s moved without its pin" % name)
+
+    def test_the_template_declares_the_pinned_structure_version(self):
+        import os
+        here, lines = self._pin()
+        version = [p[1] for p in lines if len(p) >= 2 and p[0].isupper()
+                   and not p[0].endswith(".xsd")][0]
+        template = open(os.path.join(here, "report/dphdp3_report.xml"), encoding="utf-8").read()
+        self.assertIn('verzePis="%s"' % version, template)

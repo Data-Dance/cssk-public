@@ -2,8 +2,9 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """Fetch the ownership / officer graph for one partner, on demand.
 
-§ 17 ods. 5 zákona o dani z príjmov subjects transactions between *závislé
-osoby* to transfer-pricing documentation. Nothing in an Odoo database knows
+§ 18 ods. 1 zákona o dani z príjmov obliges a taxpayer to document its
+controlled transactions with *závislé osoby* (§ 2 písm. n) and o)); § 17 ods. 5
+adds any departure from arm's-length prices in them to the tax base. Nothing in an Odoo database knows
 which partners are related to the company or to each other, so the question is
 answered — when it is answered at all — from memory.
 
@@ -74,9 +75,12 @@ class ResPartner(models.Model):
             raise UserError(
                 _("The ORSF provider module is not installed.")
             )
-        ico = provider._orsf_normalise_ico(
-            self.company_registry or self.partner_gid
-        )
+        # Whoever may edit the contact may refresh its register links. The
+        # rows themselves are written as superuser below: they are the
+        # register's answer, which nobody edits, and the model's ACL used to
+        # leave the button working for accounting administrators only.
+        self.check_access("write")
+        ico = provider._orsf_normalise_ico(self._autocomplete_lookup_key())
         if not ico:
             raise UserError(
                 _(
@@ -114,13 +118,14 @@ class ResPartner(models.Model):
             )
 
         rows = self._orsf_sk_parse_graph(body, ico)
-        self.orsf_sk_related_party_ids.unlink()
+        partner = self.sudo()
+        partner.orsf_sk_related_party_ids.unlink()
         now = fields.Datetime.now()
-        self.env["orsf.sk.related.party"].create(
+        partner.env["orsf.sk.related.party"].create(
             [dict(row, partner_id=self.id, fetched_at=now) for row in rows]
         )
         self.orsf_sk_related_parties_fetched_at = now
-        self._orsf_sk_link_related_partners()
+        partner._orsf_sk_link_related_partners()
         return True
 
     # -- parsing -----------------------------------------------------------
@@ -193,16 +198,22 @@ class ResPartner(models.Model):
             if person_ico and str(person_ico) == str(origin_ico):
                 continue
 
-            # Degree 1: the person themselves, as an officer of this partner.
-            if person_name and not person_ico:
-                key = (None, person_name, origin_role)
+            # Degree 1: the subject itself, holding a role in this partner —
+            # a natural person (no IČO), or a company such as a corporate
+            # shareholder, which used to get no row of its own.
+            if person_name:
+                key = (
+                    str(person_ico) if person_ico else None,
+                    person_name,
+                    origin_role,
+                )
                 if key not in seen:
                     seen.add(key)
                     rows.append(
                         {
                             "related_name": person_name,
-                            "related_ico": False,
-                            "link_person": person_name,
+                            "related_ico": str(person_ico) if person_ico else False,
+                            "link_person": False if person_ico else person_name,
                             "link_role": origin_role or False,
                             "degree": 1,
                         }

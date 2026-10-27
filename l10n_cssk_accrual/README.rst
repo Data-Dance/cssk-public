@@ -2,16 +2,23 @@
 CZ/SK Estimated Accruals (dohadné položky)
 ==========================================
 
-Implements the CZ/SK concept of **dohadné položky / dohadné účty** — items where
-the obligation exists but the exact amount is **not yet known** (e.g. energy
-consumed in December, the invoice arriving in January). This is distinct from
-*časové rozlíšenie / časové rozlišení* (deferrals of a *known* amount) and is
-shipped by neither Odoo Community nor Enterprise.
+Books unbilled items at the period end (e.g. energy consumed in December, the
+invoice arriving in January). This is distinct from *časové rozlíšenie /
+časové rozlišení* (deferrals) and is shipped by neither Odoo Community nor
+Enterprise.
+
+The two countries book such items differently. Czech accounting has
+**dohadné účty** 388 / 389 (vyhláška 500/2002) for amounts not supported by all
+the documents. Slovak accounting has **no** dohadné účty: **326**
+*Nevyfaktúrované dodávky* takes unbilled supplies whose amount the entity
+**knows** from a contract or delivery note (§ 50 ods. 6 opatrenia 740/2002); an
+uncertain amount is a provision on 323 (§ 50 ods. 3), which this module does not
+book; and an unbilled receivable goes on the receivable account it belongs to,
+on a separate analytic account (§ 48 ods. 3).
 
 Each estimate carries its own accrual and counterpart account and journal (no
-hard-coded chart), so it works for the Czech chart (388/389), the Slovak chart
-(326 *nevyfakturované dodávky*) and any custom one. Depends on **Odoo core only**
-(``account`` + ``l10n_cssk_core``).
+hard-coded chart), so it works for both charts and any custom one. Depends on
+**Odoo core only** (``account`` + ``l10n_cssk_core``).
 
 Features
 ========
@@ -20,10 +27,9 @@ Features
   draft → posted → settled / cancelled lifecycle.
 * Two estimate types:
 
-  * **Estimated payable** (dohadný účet pasívny): Dr expense / Cr accrual
-    (CZ 389, SK 326).
-  * **Estimated receivable** (dohadný účet aktívny): Dr accrual (CZ 388) /
-    Cr income.
+  * **Estimated payable**: Dr expense / Cr accrual (CZ 389, SK 326).
+  * **Estimated receivable**: Dr accrual (CZ 388, SK an analytic account of the
+    receivable) / Cr income.
 
 * **Link & true-up** settlement — link the actual invoice when it arrives; the
   estimate is reversed at the invoice date and reconciled against the
@@ -40,8 +46,9 @@ period end: pick the type, partner, amount, description, journal, accrual accoun
 and counterpart account, then **Post** to book the entry. When the real invoice
 arrives (booked normally), open the estimate, select it in *Actual Invoice* and
 **Settle** — the estimate is reversed at the invoice date and reconciled, leaving
-only the difference. **Cancel** reverses a posted estimate; a posted estimate
-must be cancelled before it can be reset to draft.
+only the difference. **Cancel** reverses a posted estimate. A cancelled estimate
+can be **reset to draft**, corrected and posted again: the cancelled entry and
+its reversal stay in the books, and posting books a new entry.
 
 Credits
 =======

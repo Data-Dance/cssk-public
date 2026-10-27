@@ -1,6 +1,17 @@
 Changelog
 =========
 
+19.0.1.2.0 (2026-10-27)
+-----------------------
+
+* The profiles now depreciate monthly with *Prorata Temporis* on, so the
+  first year carries only its share of the annual depreciation from the
+  depreciation start date. They used to charge a whole year in the first
+  year whatever the month the asset was put into use — for intangible assets
+  also the tax depreciation, which § 22 ods. 8 zákona 595/2003 ties to the
+  accounting one. Applies to profiles created from now on; existing profiles
+  are not changed.
+
 19.0.1.1.0 (2026-10-04)
 -----------------------
 

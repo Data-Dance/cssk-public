@@ -398,3 +398,54 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__year
 msgid "Year"
 msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__report_code
+msgid "Report Code"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_annual_tax_settlement.view_company_form_vyuctovani
+msgid "Annual tax settlement (FÚ)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_code
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_code
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_code
+msgid "Municipality code (ZÚJ)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_name
+msgid "Municipality name (ZÚJ)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_code
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_code
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_code
+msgid ""
+"6-digit code of the municipality (základní územní jednotka) this address "
+"lies in, from the Finanční správa register Obce ZUJ. Used in Příloha č. 1 of"
+" the annual tax settlement for employees whose place of work is this "
+"address."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_name
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_name
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_name
+msgid "Name of the municipality exactly as in the Obce ZUJ register."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_annual_tax_settlement/models/l10n_cz_vyuctovani.py:0
+msgid ""
+"Příloha č. 1 to the annual tax settlement counts employees per municipality "
+"of their place of work, and these addresses have no 6-digit municipality "
+"code (ZÚJ): %(places)s. Set 'Municipality code (ZÚJ)' on each of them."
+msgstr ""

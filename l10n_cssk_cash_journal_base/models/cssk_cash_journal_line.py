@@ -139,8 +139,9 @@ class CsskCashJournalLine(models.Model):
     amount_tax = fields.Monetary(
         string="VAT", currency_field="currency_id",
         help="The VAT part of the same payment. It never reaches the "
-             "income-tax base for a VAT payer (SK § 21 ods. 1 písm. i), and is "
-             "reported separately.",
+             "income-tax base for a VAT payer (SK § 3 ods. 2 písm. c) for "
+             "income, § 21 ods. 2 písm. i) for expenses), and is reported "
+             "separately.",
     )
     amount_signed = fields.Monetary(
         compute="_compute_amount_signed", store=True,
@@ -1043,6 +1044,13 @@ class CsskCashJournalLine(models.Model):
                 "in" if line.balance < 0 else "out")
             if not category.non_cash or not line.balance:
                 continue
+            # The same rule as a money row: a line whose sign runs against its
+            # category is a storno. A reversed or credited odpis credits the
+            # expense account, so it reduces the odpisy column instead of
+            # adding to it.
+            counter_entry = bool(
+                category.kind in ("income", "expense")
+                and category.kind != self._cssk_kind(line))
             vals.append({
                 "company_id": company.id,
                 "date": line.date,
@@ -1051,7 +1059,7 @@ class CsskCashJournalLine(models.Model):
                 "partner_id": line.partner_id.id,
                 "kind": category.kind,
                 "money_direction": "none",
-                "counter_entry": False,
+                "counter_entry": counter_entry,
                 "category_id": category.id,
                 "taxable": category.taxable,
                 "non_cash": True,

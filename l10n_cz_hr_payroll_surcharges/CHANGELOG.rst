@@ -40,6 +40,40 @@ Carry-over to 20.0
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Minimum wage top-up comparison** on the contract: hourly (the default,
+  as § 111 odst. 2 písm. a) of the Labour Code prescribes) or monthly, where
+  that was agreed in advance.
+- The arithmetic for the wage of overtime hours (§ 114 odst. 1) and for the
+  minimum wage top-up on the contract's basis, used by the engine bridges.
+
+Fixed
+~~~~~
+
+- Citations of the minimum wage rules point to § 111 odst. 1 and 2, as
+  renumbered from 2025.
+
+[19.0.1.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Part-time employees are no longer overpaid the difficult-environment
+  surcharge.** The hourly minimum wage behind § 117 was raised by the
+  employee's own calendar, so a 20 h/week employee was paid on twice the
+  hourly minimum wage. § 111 odst. 5 zákoníku práce raises it only for the
+  employer's shorter standard week; the company calendar is now the
+  reference.
+- Help texts cite nařízení vlády č. 443/2024 Sb. (in force since 1. 1. 2025)
+  instead of the repealed č. 567/2006 Sb., and the missing-rate errors point
+  to *Employees ▸ Configuration ▸ Czech Wage Surcharges*.
+
 [19.0.1.0.0]
 ------------
 

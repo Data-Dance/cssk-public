@@ -17,4 +17,10 @@
         <field name="background_color_inherit" eval="False" />
         <field name="background_color">#dce6f1</field>
     </record>
+    <!-- Helper rows: computed and referenced, never printed. -->
+    <record id="style_hidden" model="mis.report.style">
+        <field name="name">SK — pomocný (skrytý)</field>
+        <field name="hide_always_inherit" eval="False" />
+        <field name="hide_always" eval="True" />
+    </record>
 </odoo>

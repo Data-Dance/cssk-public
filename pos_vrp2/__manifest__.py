@@ -1,6 +1,6 @@
 {
     "name": "POS VRP2 Integration",
-    "version": "19.0.5.0.0",
+    "version": "19.0.5.1.1",
     "author": "Data Dance s.r.o.",
     "category": "Point of Sale",
     "summary": "Integrate Odoo POS with Slovak Virtual Cash Register (VRP 2)",
@@ -27,6 +27,7 @@ Calls the VRP2 REST API at vcrp.financnasprava.sk to:
         "python": ["requests"],
     },
     "data": [
+        "security/ir.model.access.csv",
         "views/res_config_settings_views.xml",
         "views/pos_config_views.xml",
         "views/pos_category_views.xml",

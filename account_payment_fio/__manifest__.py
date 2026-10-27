@@ -38,7 +38,7 @@ banking; only one of them re-enables sending.
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Accounting",
-    "version": "19.0.1.2.1",
+    "version": "19.0.1.3.0",
     "license": "AGPL-3",
     "depends": ["account_payment_order", "account_fio", "account_fio_base"],
     "data": [

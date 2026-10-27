@@ -185,6 +185,54 @@ class TestCzechAllocator(TransactionCase):
         self.assertEqual(result.total, 2 * result.third)
 
 
+    # --- § 279 odst. 4-6 o. s. ř.: four or more executions -----------------
+    def _four_ordinary(self, due=50000.0):
+        return [_claim(k, CLASS_ORDINARY, "2026-01-%02d" % (10 + k), due)
+                for k in range(1, 5)]
+
+    def test_four_executions_take_two_thirds(self):
+        """§ 279(4)+(6): with four executions the second third joins the
+        first, so ordinary claims reach two thirds. 39 270 Kč -> third
+        8 389 -> 16 778 deducted (one third, 8 389, without the rule)."""
+        rates = dict(CZ_RATES, trustee_monthly=1089.0)
+        plain = compute_cz(39270.0, rates, 0, self._four_ordinary())
+        self.assertEqual(plain.total, 8389.0)
+        result = compute_cz(
+            39270.0, rates, 0, self._four_ordinary(), two_thirds=True)
+        self.assertEqual(result.total, 16778.0)
+        self.assertTrue(result.detail["two_thirds"])
+        # Still by pořadí: the oldest order takes the whole joined pool.
+        self.assertEqual(result.allocations[1], 16778.0)
+
+    def test_four_executions_priority_first_from_second_third(self):
+        """§ 279(6): priority claims are satisfied from the second third
+        first (§ 280(2)); only what they leave joins the first third."""
+        rates = dict(CZ_RATES, trustee_monthly=1089.0)
+        claims = [_claim(1, CLASS_MAINTENANCE, "2026-01-20", 5000.0, 5000.0)]
+        claims += [_claim(k, CLASS_ORDINARY, "2026-01-%02d" % (10 + k),
+                          50000.0) for k in range(2, 5)]
+        result = compute_cz(39270.0, rates, 0, claims, two_thirds=True)
+        self.assertEqual(result.allocations[1], 5000.0)
+        self.assertEqual(result.breakdown[1]["second"], 5000.0)
+        self.assertEqual(result.total, 16778.0)
+        self.assertEqual(result.allocations[2], 11778.0)
+
+    def test_pensioner_below_trustee_amount_keeps_one_third(self):
+        """§ 279(5): a proven pension AND one third below the trustee's
+        monthly 1 089 Kč lifts the rule. 16 000 Kč -> remainder 1 898 ->
+        1 896 -> third 632 < 1 089: one third only."""
+        rates = dict(CZ_RATES, trustee_monthly=1089.0)
+        result = compute_cz(16000.0, rates, 0, self._four_ordinary(),
+                            two_thirds=True, pension_exempt=True)
+        self.assertEqual(result.total, 632.0)
+        self.assertFalse(result.detail["two_thirds"])
+        self.assertTrue(result.detail["two_thirds_lifted"])
+        # ...but not once a third reaches the trustee amount.
+        result = compute_cz(39270.0, rates, 0, self._four_ordinary(),
+                            two_thirds=True, pension_exempt=True)
+        self.assertEqual(result.total, 16778.0)
+
+
 class TestSlovakAllocator(TransactionCase):
     def test_protected_amounts_per_claim_class(self):
         """NV 268/2006: a priority creditor may reach deeper than an ordinary
@@ -199,14 +247,16 @@ class TestSlovakAllocator(TransactionCase):
         self.assertAlmostEqual(
             sk_protected_amount(SK_RATES, 0, CLASS_MAINTENANCE), 119.33, places=2
         )
+        # 50 % of 284,13 = 142,065 -> 142,06: NV 268/2006 § 4 rounds DOWN
         self.assertAlmostEqual(
-            sk_protected_amount(SK_RATES, 0, CLASS_FINE), 142.07, places=2
+            sk_protected_amount(SK_RATES, 0, CLASS_FINE), 142.06, places=2
         )
 
     def test_dependants_and_pensioner_coefficient(self):
-        # ordinary + 1 dependant = 397,78 + 25 % = 397,78 + 99,45
+        # ordinary + 1 dependant = 397,78 + 25 % of 397,782 = 99,4455,
+        # rounded DOWN to 99,44 (NV 268/2006 § 4), not half up to 99,45
         self.assertAlmostEqual(
-            sk_protected_amount(SK_RATES, 1, CLASS_ORDINARY), 497.23, places=2
+            sk_protected_amount(SK_RATES, 1, CLASS_ORDINARY), 497.22, places=2
         )
         # a pension recipient gets 50 % per dependant instead of 25 %
         self.assertAlmostEqual(

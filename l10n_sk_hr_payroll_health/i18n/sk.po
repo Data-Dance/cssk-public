@@ -60,11 +60,11 @@ msgstr "Spoločnosť"
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
 msgid ""
-"Company '%(company)s' needs a health payer number for the dávka 514. Set it "
-"on the company."
+"Company '%(company)s' needs a health payer number for the dávka 514. Fill in"
+" 'Health payer number' on this form."
 msgstr ""
 "Spoločnosť '%(company)s' potrebuje číslo platiteľa poistného pre dávku 514. "
-"Nastavte ho na spoločnosti."
+"Vyplňte 'Číslo platiteľa poistného' v tomto formulári."
 
 #. module: l10n_sk_hr_payroll_health
 #. odoo-python
@@ -113,9 +113,15 @@ msgid "Display Name"
 msgstr "Zobrazovaný názov"
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__hr_employee__l10n_sk_health_insurer_code__24
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__res_company__l10n_sk_health_insurer_code__24
 msgid "Dôvera (24)"
 msgstr "Dôvera (24)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model,name:l10n_sk_hr_payroll_health.model_hr_employee
+msgid "Employee"
+msgstr "Zamestnanec"
 
 #. module: l10n_sk_hr_payroll_health
 #. odoo-python
@@ -192,6 +198,12 @@ msgid "Health insurer (dávka 514)"
 msgstr "Zdravotná poisťovňa (dávka 514)"
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_hr_employee__l10n_sk_health_insurer_code
+msgid "Health insurer (SK)"
+msgstr "Zdravotná poisťovňa (SK)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__payer_number
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_res_company__l10n_sk_health_payer_number
 msgid "Health payer number"
 msgstr "Číslo platiteľa poistného"
@@ -313,6 +325,7 @@ msgstr ""
 "obdobia."
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__payer_number
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_res_company__l10n_sk_health_payer_number
 msgid ""
 "Payer number assigned to the employer by the health insurer — the payer-"
@@ -404,11 +417,23 @@ msgstr ""
 "platiteľovi/banke."
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_hr_employee__l10n_sk_health_insurer_code
+msgid ""
+"The health insurance company the employee is insured with. Each insurer gets"
+" its own monthly dávka 514 listing only its insurees. Leave empty when the "
+"employee is insured with the company's default insurer."
+msgstr ""
+"Zdravotná poisťovňa, v ktorej je zamestnanec poistený. Každá poisťovňa "
+"dostane vlastnú mesačnú dávku 514 len so svojimi poistencami. Nechajte "
+"prázdne, ak je zamestnanec poistený v predvolenej poisťovni spoločnosti."
+
+#. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Typ výnimočnej aktivity v zázname."
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__hr_employee__l10n_sk_health_insurer_code__27
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__res_company__l10n_sk_health_insurer_code__27
 msgid "Union (27)"
 msgstr "Union (27)"
@@ -419,6 +444,7 @@ msgid "Version"
 msgstr "Verzia"
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__hr_employee__l10n_sk_health_insurer_code__25
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__res_company__l10n_sk_health_insurer_code__25
 msgid "VšZP (25)"
 msgstr "VšZP (25)"

@@ -15,6 +15,37 @@ Fixed
   accounts: Odoo drops a string domain when it copies a field into a related
   one.
 
+[19.0.1.0.4] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The 60 % lease-term minimum rounds up.** It rounded to the nearest
+  month, so a 43-month lease of a group 2 asset (60 % of six years is 43.2
+  months) passed as a finančný prenájom. Group 2 now needs 44 months and
+  group 4 needs 87.
+- **Odpisová skupina 0** (two years, § 26 ods. 1) can be chosen.
+- The depreciation-group labels no longer call the translation function at
+  import (a warning in the server log); "4 roky", not "4 rokov".
+- Description and README said the module is LGPL-3; it is AGPL-3,
+  dual-licensed by its sole owner.
+
+[19.0.1.0.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The VAT treatment of a lease is no longer presumed to be a supply of
+  goods.** *Režim DPH* defaulted to goods, and with goods the instalment
+  bills carry no VAT — so every lease of a Slovak company lost the VAT on its
+  instalments, including operating leases and leases without a transfer of
+  ownership, which are supplies of services taxed per instalment. A new lease
+  now starts with no treatment and its instalments keep the taxes of their
+  products until somebody chooses *Dodanie tovaru*. Leases created before this
+  version keep the value they have; review them (see the user guide).
+
 [19.0.1.0.2] — 2026-09-13
 -------------------------
 

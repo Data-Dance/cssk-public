@@ -312,7 +312,7 @@ msgstr "Režim zálohových faktur"
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_advance_invoice_wizard__advance_payment_method
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.view_sale_advance_invoice_wizard
 msgid "Advance Invoice Type"
-msgstr "Typ zálohoé faktury"
+msgstr "Typ zálohové faktury"
 
 #. module: sale_order_advance_invoice
 #. odoo-python
@@ -789,7 +789,7 @@ msgstr "Zaplaceno dne"
 #. module: sale_order_advance_invoice
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.view_sale_order_form_advance_invoice
 msgid "Parent Order"
-msgstr "Objednáka"
+msgstr "Objednávka"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields.selection,name:sale_order_advance_invoice.selection__sale_order__advance_invoice_payment_status__paid_partially
@@ -970,7 +970,7 @@ msgstr "Prodej: Odeslat zálohovou fakturu"
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.sale_order_portal_content_advance_invoice
 msgid "Scan this QR Code with your banking application"
-msgstr "Naskenujte teno QR kód vaší bankovní aplikací"
+msgstr "Naskenujte tento QR kód vaší bankovní aplikací"
 
 #. module: sale_order_advance_invoice
 #. odoo-python
@@ -1281,3 +1281,21 @@ msgstr ""
 #: model:ir.module.module,shortdesc:base.module_sale_order_advance_invoice
 msgid "Sale Order Advance Invoice"
 msgstr "Zálohová faktura k objednávce"
+
+#. module: sale_order_advance_invoice
+#. odoo-python
+#: code:addons/sale_order_advance_invoice/models/sale_order.py:0
+msgid "Advance %(name)s: payment %(payment)s to the clearing account"
+msgstr "Záloha %(name)s: platba %(payment)s na zúčtovací účet"
+
+#. module: sale_order_advance_invoice
+#: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order__advance_clearing_transfer_ids
+msgid "Clearing Transfers"
+msgstr "Převody na zúčtovací účet"
+
+#. module: sale_order_advance_invoice
+#: model:ir.model.fields,help:sale_order_advance_invoice.field_sale_order__advance_clearing_transfer_ids
+msgid ""
+"Entries that moved payments attached with Link Manual Transfer from the "
+"receivable to the advance clearing account."
+msgstr "Zápisy, které přesunuly platby připojené přes Provázat platbu z pohledávky na zúčtovací účet záloh."

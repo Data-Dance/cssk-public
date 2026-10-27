@@ -48,7 +48,7 @@ class L10nSkMinimumWage(models.Model):
         LEVEL_SELECTION,
         required=True,
         string="Stupeň náročnosti",
-        help="Difficulty level of the job per § 120 ods. 2 and the Annex 1 to "
+        help="Difficulty level of the job per § 120 ods. 3 and the Annex 1 to "
         "the Zákonník práce.",
     )
     amount_monthly = fields.Float(

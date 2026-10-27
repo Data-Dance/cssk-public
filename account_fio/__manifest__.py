@@ -53,7 +53,7 @@ week.
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Bank",
-    "version": "19.0.2.2.3",
+    "version": "19.0.2.2.4",
     "license": "AGPL-3",
     "depends": ["account", "account_fio_base"],
     "data": [

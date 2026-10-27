@@ -8,6 +8,20 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **EPO cannot file a return twice after accepting it.** If anything failed
+  while recording EPO's potvrzení, the error reached the submission framework
+  unclassified and was retried — a second filing. It now fails the submission
+  with the podací číslo in the message and a warning not to send it again.
+- The EPO channel is offered only for companies whose fiscal country is
+  Czechia.
+- Czech translation.
+
 [19.0.1.0.0] — 2026-09-29
 -------------------------
 

@@ -3,17 +3,21 @@
 
 from odoo import models
 
-HEADERS = (
-    "Number", "Partner", "Date", "Currency", "Total", "Paid", "Paid Date",
-    "Tax Documented", "Deducted", "Open (Paid − Deducted)",
-    "Payment Status", "Accounting Status",
-)
-
 
 class AdvanceSaldoXlsx(models.AbstractModel):
     _name = "report.advance_invoice_saldo_xlsx.saldo"
     _description = "Open Advances Saldo XLSX"
     _inherit = "report.report_xlsx.abstract"
+
+    def _headers(self):
+        """Column headings, in the language of whoever exports."""
+        _ = self.env._
+        return (
+            _("Number"), _("Partner"), _("Date"), _("Currency"), _("Total"),
+            _("Paid"), _("Paid Date"), _("Tax Documented"), _("Deducted"),
+            _("Open (Paid − Deducted)"), _("Payment Status"),
+            _("Accounting Status"),
+        )
 
     def generate_xlsx_report(self, workbook, data, wizards):
         wizard = wizards[:1]
@@ -30,7 +34,7 @@ class AdvanceSaldoXlsx(models.AbstractModel):
             sheet.set_column(3, 3, 9)
             sheet.set_column(4, 9, 15)
             sheet.set_column(10, 11, 16)
-            for col, header in enumerate(HEADERS):
+            for col, header in enumerate(self._headers()):
                 sheet.write(0, col, header, bold)
             for row_index, row in enumerate(rows, start=1):
                 for col, value in enumerate(row):
@@ -68,7 +72,9 @@ class AdvanceSaldoXlsx(models.AbstractModel):
         ], order="date_order, name")
         rows = []
         for order in orders:
-            paid = order.amount_paid
+            # What was received, as the final invoice deducts it: an
+            # authorised card payment is not money received yet.
+            paid = order._advance_received_amount()
             accounted = sum(
                 invoice.amount_total
                 for invoice in order.invoice_ids
@@ -101,16 +107,34 @@ class AdvanceSaldoXlsx(models.AbstractModel):
         return rows
 
     def _sale_deducted(self, order):
-        parent = order.advance_invoice_parent_order_id
-        if not parent:
-            return 0.0
-        lines = parent.order_line.filtered(
+        """Gross amount deducted on posted final invoices: through the
+        parent order's tracking line, or - for an advance without an order -
+        with *Link Advance Invoices*, whose deduction lines hang on the
+        advance's own lines with a negative quantity (its tax documents hang
+        there too, with a positive one)."""
+        tracking = order.advance_invoice_parent_order_id.order_line.filtered(
             lambda line: line.is_advance_tracking
             and line.advance_source_order_id == order
-        ).invoice_lines.filtered(
+        ).invoice_lines
+        linked = order.order_line.invoice_lines.filtered(
+            lambda line: line.quantity < 0
+        )
+        lines = (tracking | linked).filtered(
             lambda line: line.move_id.state == "posted"
             and line.move_id.move_type == "out_invoice"
+            and line.display_type == "product"
         )
+        return -sum(lines.mapped("price_total"))
+
+    def _purchase_deducted(self, order):
+        """Gross amount deducted on posted vendor bills - posted only, like
+        the issued side; the advance's own flows also count drafts, to avoid
+        deducting twice."""
+        lines = self.env["account.move.line"].search([
+            ("advance_deduction_order_id", "=", order.id),
+            ("parent_state", "=", "posted"),
+            ("display_type", "=", "product"),
+        ])
         return -sum(lines.mapped("price_total"))
 
     def _purchase_rows(self, wizard):
@@ -122,7 +146,7 @@ class AdvanceSaldoXlsx(models.AbstractModel):
         rows = []
         for order in orders:
             paid = order.amount_paid
-            deducted = order._advance_deducted_amount_now()
+            deducted = self._purchase_deducted(order)
             if not self._keep(
                 wizard, order, paid, deducted,
                 order.advance_invoice_accounting_status,

@@ -11,6 +11,10 @@
                 <setting string="Fiscalize invoice payments"
                          help="Let the Register Payment wizard issue a VRP2 fiscal receipt for the customer-invoice payment it creates.">
                     <field name="vrp2_fiscalize_on_payment"/>
+                    <div class="mt8" invisible="not vrp2_fiscalize_on_payment">
+                        <label for="vrp2_cash_rounding_id" class="o_light_label"/>
+                        <field name="vrp2_cash_rounding_id"/>
+                    </div>
                 </setting>
             </xpath>
         </field>

@@ -40,12 +40,88 @@ class AccountPaymentRegister(models.TransientModel):
             wizard.vrp2_fiscalize = wizard.vrp2_available
 
     def _create_payments(self):
+        rounding = 0.0
+        if self.vrp2_fiscalize:
+            rounding = self._vrp2_prepare_cash_rounding()
         payments = super()._create_payments()
         if self.vrp2_fiscalize:
-            self._vrp2_fiscalize_payments(payments)
+            self._vrp2_fiscalize_payments(payments, rounding)
         return payments
 
-    def _vrp2_fiscalize_payments(self, payments):
+    def _vrp2_prepare_cash_rounding(self):
+        """Book the 0.05 € rounding of a fiscalized cash payment.
+
+        § 3 ods. 4 zákona č. 18/1996 Z. z.: "Cena platená v hotovosti sa
+        zaokrúhľuje na 5 eurocentov". The receipt reports the rounded sum as
+        paid, so the payment in Odoo must be that sum too, or the cash book
+        drifts from the register by every rounding. For a payment settling
+        the invoice in full, the wizard is switched to the rounded amount and
+        the difference written off to the company's VRP2 cash rounding
+        account. A partial cash payment or several invoices at once cannot be
+        rounded that way, so an amount that is not a multiple of 0.05 € is
+        refused before anything reaches VRP2.
+
+        Returns the difference (rounded − invoice amount) carried by the one
+        payment, 0.0 when nothing was rounded.
+        """
+        self.ensure_one()
+        company = self.company_id
+        if self.vrp2_payment_type != "CASH" or not company.vrp2_round_5c:
+            return 0.0
+        round5 = self.env["account.move"]._vrp2_round_5c_amount
+        currency = self.currency_id
+        batches = self.batches
+        edit_mode = self.can_edit_wizard and batches and (
+            len(batches[0]["lines"]) == 1 or self.group_payment
+        )
+        if not edit_mode:
+            for move in self.line_ids.move_id:
+                residual = abs(sum(
+                    self.line_ids.filtered(lambda l: l.move_id == move)
+                    .mapped("amount_residual_currency")
+                ))
+                if currency.compare_amounts(round5(residual), residual):
+                    raise UserError(_(
+                        "Invoice %(invoice)s is paid in cash, which is rounded "
+                        "to 0.05 €. Register its payment on its own so the "
+                        "rounding can be booked.",
+                        invoice=move.name,
+                    ))
+            return 0.0
+        amount = self.amount
+        rounded = round5(amount)
+        if not currency.compare_amounts(rounded, amount):
+            return 0.0
+        if self.payment_difference_handling == "reconcile" or not currency.is_zero(
+            self.payment_difference
+        ):
+            raise UserError(_(
+                "A cash payment is rounded to 0.05 €. Pay %(amount)s in cash "
+                "only together with the rest of the invoice, or enter an "
+                "amount that is a multiple of 0.05 €.",
+                amount=amount,
+            ))
+        rounding = company.vrp2_cash_rounding_id
+        account = (
+            rounding.profit_account_id if rounded > amount
+            else rounding.loss_account_id
+        )
+        if not account:
+            raise UserError(_(
+                "The 0.05 € rounding of this cash payment has nowhere to be "
+                "booked. Set the VRP2 cash rounding, with its profit and loss "
+                "accounts, in Accounting ▸ Settings ▸ VRP2."
+            ))
+        # Two writes: a new amount recomputes the difference handling.
+        self.amount = rounded
+        self.write({
+            "payment_difference_handling": "reconcile",
+            "writeoff_account_id": account.id,
+            "writeoff_label": _("Cash rounding"),
+        })
+        return currency.round(rounded - amount)
+
+    def _vrp2_fiscalize_payments(self, payments, rounding=0.0):
         """Issue a VRP2 invoice receipt for each created payment.
 
         Transactional design (fiscalization at the Financial Administration
@@ -68,6 +144,10 @@ class AccountPaymentRegister(models.TransientModel):
         No ``cr.commit()`` is used — persistence of the successful receipts
         comes from the request transaction committing normally because no
         exception escapes once a receipt exists remotely.
+
+        ``rounding`` is the cash rounding written off on the (single) payment
+        by :meth:`_vrp2_prepare_cash_rounding`: the receipt reports the
+        invoice part as the price and the payment as the rounded sum paid.
         """
         Receipt = self.env["vrp2.receipt"]
 
@@ -107,7 +187,7 @@ class AccountPaymentRegister(models.TransientModel):
                     done |= Receipt._create_for_invoice(
                         invoice,
                         payment_type=self.vrp2_payment_type,
-                        amount=payment.amount,
+                        amount=payment.amount - rounding,
                         payment=payment,
                     )
             except Exception as exc:

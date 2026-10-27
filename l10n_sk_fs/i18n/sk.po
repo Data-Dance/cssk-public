@@ -133,6 +133,11 @@ msgid "Company"
 msgstr "Spoločnosť"
 
 #. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__cssk_comparison_count
+msgid "Comparisons"
+msgstr "Porovnania"
+
+#. module: l10n_sk_fs
 #: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_poznamky__submission_type__opravna
 #: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__submission_type__opravna
 msgid "Corrective"
@@ -175,6 +180,8 @@ msgid "Depreciation schedule"
 msgstr "Odpisový plán"
 
 #. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__display_name
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement_version__display_name
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky__display_name
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky_odpis_line__display_name
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__display_name
@@ -198,9 +205,42 @@ msgid "Draft"
 msgstr "Koncept"
 
 #. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_statement_nature
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__statement_nature
+msgid "Druh závierky"
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_statement_nature
+msgid "Druh účtovnej závierky (§ 17/18 zákona o účtovníctve)."
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__statement_nature
+msgid ""
+"Druh účtovnej závierky (§ 17/18 zákona o účtovníctve): riadna (k poslednému "
+"dňu účtovného obdobia), mimoriadna (iný deň — napr. vstup do likvidácie), "
+"priebežná (v priebehu obdobia)."
+msgstr ""
+
+#. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky__schvalenie_date
 msgid "Dátum schválenia predchádzajúcej závierky"
 msgstr "Dátum schválenia predchádzajúcej závierky"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
+msgstr ""
+
+#. module: l10n_sk_fs
+#. odoo-python
+#: code:addons/l10n_sk_fs/models/l10n_sk_uzpod.py:0
+msgid "Export warning — %(desc)s: %(detail)s"
+msgstr "Varovanie pri exporte — %(desc)s: %(detail)s"
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__state__exported
@@ -216,6 +256,21 @@ msgstr "Mimoriadna"
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__submitted_attachment_id
 msgid "Filed XML"
 msgstr "Podané XML"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__filed_history_ids
+msgid "Filed history"
+msgstr "História podaní"
+
+#. module: l10n_sk_fs
+#: model:ir.model,name:l10n_sk_fs.model_cssk_fs_statement
+msgid "Financial Statement"
+msgstr "Účtovný výkaz"
+
+#. module: l10n_sk_fs
+#: model:ir.model,name:l10n_sk_fs.model_cssk_fs_statement_version
+msgid "Financial Statement Version"
+msgstr "Verzia účtovného výkazu"
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__message_follower_ids
@@ -238,11 +293,26 @@ msgid "Has Message"
 msgstr "Má správu"
 
 #. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__legacy
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__state__legacy
+msgid "Historical filing"
+msgstr "Historické podanie"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__id
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement_version__id
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky__id
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky_odpis_line__id
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__id
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__message_needaction
@@ -301,6 +371,12 @@ msgid "Majetok"
 msgstr "Majetok"
 
 #. module: l10n_sk_fs
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_size_class__mala
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__size_class__mala
+msgid "Malá účtovná jednotka"
+msgstr ""
+
+#. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__message_has_error
 msgid "Message Delivery error"
 msgstr "Chyba doručenia správy"
@@ -309,6 +385,12 @@ msgstr "Chyba doručenia správy"
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__message_ids
 msgid "Messages"
 msgstr "Správy"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_statement_nature__mimoriadna
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__statement_nature__mimoriadna
+msgid "Mimoriadna"
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky__name
@@ -357,6 +439,11 @@ msgid "Opis hospodárskej činnosti"
 msgstr "Opis hospodárskej činnosti"
 
 #. module: l10n_sk_fs
+#: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_uzpod_form
+msgid "Opravná závierka"
+msgstr ""
+
+#. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__amendment_ids
 msgid "Opravné podania"
 msgstr "Opravné podania"
@@ -375,6 +462,11 @@ msgstr "Orgány — príjmy a výhody"
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky__cl7
 msgid "Ostatné informácie"
 msgstr "Ostatné informácie"
+
+#. module: l10n_sk_fs
+#: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_uzpod_form
+msgid "Označiť ako podané"
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky__pdf_attachment_id
@@ -402,8 +494,8 @@ msgstr "Poznámky k závierke (SK)"
 msgid "Poznámky k účtovnej závierke"
 msgstr "Poznámky k účtovnej závierke"
 
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_poznamky_attached
 #. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_poznamky_attached
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__poznamky_attached
 msgid "Poznámky priložené"
 msgstr "Poznámky priložené"
@@ -422,6 +514,12 @@ msgstr "Prah DNM"
 #: model_terms:ir.ui.view,arch_db:l10n_sk_fs.report_l10n_sk_poznamky
 msgid "Predch. obdobie"
 msgstr "Predch. obdobie"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_statement_nature__priebezna
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__statement_nature__priebezna
+msgid "Priebežná"
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model_terms:ir.ui.view,arch_db:l10n_sk_fs.report_l10n_sk_poznamky
@@ -447,6 +545,17 @@ msgid ""
 "an already-submitted one for the same period (RÚZ document type 'opravná'; "
 "the body XML stays druh=riadna)."
 msgstr "Riadne = pôvodné podanie; Opravné = opravná účtovná závierka už podanej závierky za rovnaké obdobie (typ dokumentu RÚZ 'opravná'; telo XML zostáva druh=riadna)."
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_statement_nature__riadna
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__statement_nature__riadna
+msgid "Riadna"
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__legacy_stated_codes
+msgid "Rows the source states"
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model_terms:ir.ui.view,arch_db:l10n_sk_fs.report_l10n_sk_poznamky
@@ -486,10 +595,34 @@ msgid ""
 msgstr "Nastavené, keď sa Poznámky (Úč PODV 3-01) podávajú s touto závierkou; riadi príznak prilozeneSucasti/poznamky v hlavičke (pozri l10n.sk.poznamky)."
 
 #. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_poznamky_attached
+msgid ""
+"Set when the Notes (Úč PODV 3-01) are filed with this statement; drives the "
+"header prilozeneSucasti/poznamky flag."
+msgstr ""
+"Označte, ak sa s touto závierkou podávajú Poznámky (Úč PODV 3-01); určuje "
+"príznak prilozeneSucasti/poznamky v hlavičke."
+
+#. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky_odpis_line__nazov
 #: model_terms:ir.ui.view,arch_db:l10n_sk_fs.report_l10n_sk_poznamky
 msgid "Skupina / účet majetku"
 msgstr "Skupina / účet majetku"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__legacy_reference
+msgid "Source reference"
+msgstr "Zdrojová referencia"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__legacy_source
+msgid "Source system"
+msgstr "Zdrojový systém"
+
+#. module: l10n_sk_fs
+#: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_uzpod_form
+msgid "Späť na návrh"
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_poznamky__cl3_ocenovanie
@@ -529,6 +662,27 @@ msgid "Submitted Date"
 msgstr "Dátum podania"
 
 #. module: l10n_sk_fs
+#. odoo-python
+#: code:addons/l10n_sk_fs/models/l10n_sk_poznamky.py:0
+msgid ""
+"The company has no assets to load a depreciation plan from. The existing "
+"lines were left unchanged."
+msgstr ""
+"Spoločnosť nemá žiadny majetok, z ktorého by sa dal načítať odpisový plán. "
+"Existujúce riadky ostali nezmenené."
+
+#. module: l10n_sk_fs
+#. odoo-python
+#: code:addons/l10n_sk_fs/models/l10n_sk_poznamky.py:0
+msgid ""
+"The depreciation plan cannot be loaded: asset management (account.asset) is "
+"not installed. Enter the plan by hand; the existing lines were left "
+"unchanged."
+msgstr ""
+"Odpisový plán sa nedá načítať: správa majetku (account.asset) nie je "
+"nainštalovaná. Zadajte plán ručne; existujúce riadky ostali nezmenené."
+
+#. module: l10n_sk_fs
 #: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__submitted_attachment_id
 msgid "The exact XML that was submitted; preserved across reset-to-draft."
 msgstr "Presné XML, ktoré bolo podané; zachované aj po vrátení do konceptu."
@@ -537,6 +691,22 @@ msgstr "Presné XML, ktoré bolo podané; zachované aj po vrátení do konceptu
 #: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__original_return_id
 msgid "The originally-filed UZPODv14 this corrective statement corrects."
 msgstr "Pôvodne podaná UZPODv14, ktorú táto opravná závierka opravuje."
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
+msgstr ""
 
 #. module: l10n_sk_fs
 #. odoo-python
@@ -550,8 +720,7 @@ msgstr "Validácia schémy UZPODv14 XML zlyhala:\n%s"
 #. odoo-python
 #: code:addons/l10n_sk_fs/models/l10n_sk_uzpod.py:0
 msgid ""
-"UZPODv14 failed kontrolné pravidlá (XSD-valid but the výkaz would be "
-"rejected):\n"
+"UZPODv14 failed kontrolné pravidlá (XSD-valid but the výkaz would be rejected):\n"
 "%s"
 msgstr "UZPODv14 nevyhovela kontrolným pravidlám (XSD-validná, ale výkaz by bol zamietnutý):\n%s"
 
@@ -591,9 +760,47 @@ msgid "VZS XI.1 — výnosové úroky od prepojených ÚJ (662)"
 msgstr "VZS XI.1 — výnosové úroky od prepojených ÚJ (662)"
 
 #. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_size_class
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__size_class
+msgid "Veľkostná trieda"
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__size_class
+msgid ""
+"Veľkostná trieda účtovnej jednotky podľa § 2 ods. 5 až 8 zákona č. 431/2002 "
+"Z. z. o účtovníctve (kritériá: celková suma majetku, čistý obrat a priemerný"
+" prepočítaný počet zamestnancov za dve po sebe idúce účtovné obdobia). "
+"Mandatory in the UZPODv14 header (mikro jednotky file UZMIKv14, not "
+"UZPODv14)."
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_size_class
+msgid ""
+"Veľkostná trieda účtovnej jednotky podľa § 2 ods. 5 až 8 zákona č. 431/2002 "
+"Z. z. o účtovníctve. Mandatory in the UZPODv14 header (mikro jednotky file "
+"UZMIKv14, not UZPODv14)."
+msgstr ""
+"Veľkostná trieda účtovnej jednotky podľa § 2 ods. 5 až 8 zákona č. 431/2002 "
+"Z. z. o účtovníctve. V hlavičke UZPODv14 je povinná (mikro účtovné jednotky "
+"podávajú UZMIKv14, nie UZPODv14)."
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_size_class__velka
+#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__size_class__velka
+msgid "Veľká účtovná jednotka"
+msgstr ""
+
+#. module: l10n_sk_fs
 #: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_poznamky_form
 msgid "Vygenerovať PDF"
 msgstr "Vygenerovať PDF"
+
+#. module: l10n_sk_fs
+#: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_uzpod_form
+msgid "Vygenerovať XML (UZPODv14)"
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__website_message_ids
@@ -604,6 +811,13 @@ msgstr "Správy z webovej stránky"
 #: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__website_message_ids
 msgid "Website communication history"
 msgstr "História komunikácie cez web"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__xml_attachment_id
@@ -643,6 +857,21 @@ msgid ""
 msgstr ""
 "zostavené podľa Opatrenia MF/23378/2014-74 (malé účtovné jednotky)\n"
 "                            za obdobie"
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_is_uzpod
+msgid "Úč POD statement"
+msgstr "Výkaz Úč POD"
+
+#. module: l10n_sk_fs
+#: model:ir.actions.act_window,name:l10n_sk_fs.action_l10n_sk_uzpod
+msgid "Účtovná závierka (UZPODv14)"
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.ui.menu,name:l10n_sk_fs.menu_l10n_sk_uzpod
+msgid "Účtovná závierka UZPODv14 (SK)"
+msgstr ""
 
 #. module: l10n_sk_fs
 #: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_poznamky_form
@@ -699,60 +928,6 @@ msgstr "Čl. VII — Ostatné informácie"
 msgid "… (predchádzajúce obdobie)"
 msgstr "… (predchádzajúce obdobie)"
 
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_statement_nature
-#. module: l10n_sk_fs
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__statement_nature
-msgid "Druh závierky"
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__statement_nature
-msgid ""
-"Druh účtovnej závierky (§ 17/18 zákona o účtovníctve): riadna (k poslednému "
-"dňu účtovného obdobia), mimoriadna (iný deň — napr. vstup do likvidácie), "
-"priebežná (v priebehu obdobia)."
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__state__legacy
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__legacy
-msgid "Historical filing"
-msgstr "Historické podanie"
-
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_size_class__mala
-#. module: l10n_sk_fs
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__size_class__mala
-msgid "Malá účtovná jednotka"
-msgstr ""
-
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_statement_nature__mimoriadna
-#. module: l10n_sk_fs
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__statement_nature__mimoriadna
-msgid "Mimoriadna"
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_uzpod_form
-msgid "Opravná závierka"
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_uzpod_form
-msgid "Označiť ako podané"
-msgstr ""
-
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_statement_nature__priebezna
-#. module: l10n_sk_fs
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__statement_nature__priebezna
-msgid "Priebežná"
-msgstr ""
-
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_statement_nature__riadna
-#. module: l10n_sk_fs
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__statement_nature__riadna
-msgid "Riadna"
-msgstr ""
-
 #. module: l10n_sk_fs
 #: model:ir.module.module,summary:base.module_l10n_sk_fs
 msgid ""
@@ -764,127 +939,3 @@ msgstr ""
 #: model:ir.module.module,shortdesc:base.module_l10n_sk_fs
 msgid "Slovakia — Financial Statements (Súvaha / VZS)"
 msgstr ""
-
-#. module: l10n_sk_fs
-#: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_uzpod_form
-msgid "Späť na návrh"
-msgstr ""
-
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_size_class
-#. module: l10n_sk_fs
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__size_class
-msgid "Veľkostná trieda"
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__size_class
-msgid ""
-"Veľkostná trieda účtovnej jednotky podľa § 2 ods. 5 až 8 zákona č. 431/2002 "
-"Z. z. o účtovníctve (kritériá: celková suma majetku, čistý obrat a priemerný"
-" prepočítaný počet zamestnancov za dve po sebe idúce účtovné obdobia). "
-"Mandatory in the UZPODv14 header (mikro jednotky file UZMIKv14, not "
-"UZPODv14)."
-msgstr ""
-
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__cssk_fs_statement__l10n_sk_size_class__velka
-#. module: l10n_sk_fs
-#: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__size_class__velka
-msgid "Veľká účtovná jednotka"
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model_terms:ir.ui.view,arch_db:l10n_sk_fs.view_l10n_sk_uzpod_form
-msgid "Vygenerovať XML (UZPODv14)"
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.actions.act_window,name:l10n_sk_fs.action_l10n_sk_uzpod
-msgid "Účtovná závierka (UZPODv14)"
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.ui.menu,name:l10n_sk_fs.menu_l10n_sk_uzpod
-msgid "Účtovná závierka UZPODv14 (SK)"
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__filed_history_ids
-msgid "Filed history"
-msgstr "História podaní"
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__filed_history_ids
-msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed "
-"XML' is the latest one; after a reset → recompute → resubmit cycle "
-"the previously-filed copies stay reachable here."
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__legacy
-msgid ""
-"This filing was not produced here — it records what was actually "
-"submitted for a period that predates this system, loaded from a "
-"migration. It is a historical fact, so it can never be exported, "
-"submitted or recomputed, and it is invisible to anything that looks "
-"for 'the return of the previous period'. It CAN be amended: a "
-"dodatočné filed later against a historical period is an ordinary "
-"submittable return.\n\nSetting this puts the record in state "
-"'Historical filing', which is terminal — the two are written "
-"together and cannot come apart."
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__legacy_source
-msgid "Source system"
-msgstr "Zdrojový systém"
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__legacy_source
-msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' "
-"— or how it was captured if by hand."
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__legacy_reference
-msgid "Source reference"
-msgstr "Zdrojová referencia"
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__legacy_reference
-msgid ""
-"Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced "
-"it."
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_statement_nature
-msgid "Druh účtovnej závierky (§ 17/18 zákona o účtovníctve)."
-msgstr ""
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,field_description:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_is_uzpod
-msgid "Úč POD statement"
-msgstr "Výkaz Úč POD"
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_poznamky_attached
-msgid ""
-"Set when the Notes (Úč PODV 3-01) are filed with this statement; drives the "
-"header prilozeneSucasti/poznamky flag."
-msgstr ""
-"Označte, ak sa s touto závierkou podávajú Poznámky (Úč PODV 3-01); určuje "
-"príznak prilozeneSucasti/poznamky v hlavičke."
-
-#. module: l10n_sk_fs
-#: model:ir.model.fields,help:l10n_sk_fs.field_cssk_fs_statement__l10n_sk_size_class
-msgid ""
-"Veľkostná trieda účtovnej jednotky podľa § 2 ods. 5 až 8 zákona č. 431/2002 "
-"Z. z. o účtovníctve. Mandatory in the UZPODv14 header (mikro jednotky file "
-"UZMIKv14, not UZPODv14)."
-msgstr ""
-"Veľkostná trieda účtovnej jednotky podľa § 2 ods. 5 až 8 zákona č. 431/2002 "
-"Z. z. o účtovníctve. V hlavičke UZPODv14 je povinná (mikro účtovné jednotky "
-"podávajú UZMIKv14, nie UZPODv14)."

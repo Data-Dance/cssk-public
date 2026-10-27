@@ -29,6 +29,31 @@ class TestSkDppo(AccountTestInvoicingCommon):
         ret.action_compute_lines()
         return ret
 
+    def test_a_period_without_a_published_vzor_says_so(self):
+        """FS SR has not published a DPPO vzor for 2026 (dppo2026.xsd is a
+        404 on ekr.financnasprava.sk as of 27. 10. 2026). The module must not
+        invent one, and must say why the return cannot be created instead of
+        leaving an empty dropdown and a required-field error."""
+        Return = self.env["cssk.income.tax.return"]
+        self.assertFalse(
+            self.env["cssk.income.tax.version"].search([
+                ("country_id.code", "=", "SK"),
+                ("valid_from", "<=", "2026-12-31"),
+                "|", ("valid_to", "=", False),
+                ("valid_to", ">=", "2026-01-01")]),
+            "premise: no 2026 vzor is shipped")
+        draft = Return.new({"company_id": self.company.id,
+                            "date_from": "2026-01-01",
+                            "date_to": "2026-12-31"})
+        result = draft._onchange_period_version()
+        self.assertTrue(result and result.get("warning"),
+                        "a 2026 period must warn that no vzor covers it")
+        self.assertIn("2026-01-01", result["warning"]["message"])
+        covered = Return.new({"company_id": self.company.id,
+                              "date_from": "2025-01-01",
+                              "date_to": "2025-12-31"})
+        self.assertFalse(covered._onchange_period_version())
+
     def test_tax_spine(self):
         """The tax spine computes r100→daň: r310→r400→r500→r510, the § 15 rate
         (r550), r600=base×rate, r800, and the § 46b minimálna daň (r810)."""
@@ -666,6 +691,56 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
         self.assertAlmostEqual(
             Return._dppo_band_value(bands, 100000.0, {}), 960.0, places=2)
 
+    # ------------------------------------------------------------------
+    # § 52zk: the licencia ends with 2017 (a hospodársky rok: with 2018)
+    # ------------------------------------------------------------------
+    def _licencia_return(self, year, date_from, date_to, invoice_date):
+        self.init_invoice(
+            "out_invoice", partner=self.partner_a, invoice_date=invoice_date,
+            amounts=[100000.0], taxes=self.env["account.tax"], post=True,
+        )
+        ret = self.env["cssk.income.tax.return"].create({
+            "company_id": self.company.id,
+            "version_id": self._version(year).id,
+            "statement_type_id": self.env.ref(
+                "l10n_sk_dppo.dppo_type_R_%s" % year).id,
+            "date_from": date_from, "date_to": date_to,
+        })
+        ret.action_compute_lines()
+        return {l.code: l.value for l in ret.line_ids}
+
+    def test_no_licencia_for_a_calendar_2018(self):
+        """§ 52zk: § 46b in its wording to 31. 12. 2017 applies for the last
+        time to a period ending 31. 12. 2017. The 2018 vzor still prints the
+        rows; a calendar 2018 owes nothing on them."""
+        v = self._licencia_return("2018", "2018-01-01", "2018-12-31",
+                                  "2018-06-30")
+        self.assertAlmostEqual(v["r810"], 0.0, places=2,
+                               msg="no daňová licencia for a period ending "
+                                   "after 31. 12. 2017")
+        self.assertAlmostEqual(v["r820"], 0.0, places=2)
+        self.assertAlmostEqual(v["r1050"], v["r800"], places=2,
+                               msg="the daň alone, not a licencia")
+
+    def test_no_licencia_for_2019(self):
+        v = self._licencia_return("2019", "2019-01-01", "2019-12-31",
+                                  "2019-06-30")
+        self.assertAlmostEqual(v["r810"], 0.0, places=2)
+
+    def test_a_hospodarsky_rok_ending_in_2018_still_pays_it(self):
+        """§ 52zk, second limb: a hospodársky rok ending during 2018 is the
+        last period that pays the licencia."""
+        v = self._licencia_return("2018", "2017-07-01", "2018-06-30",
+                                  "2018-03-31")
+        self.assertAlmostEqual(v["r810"], 960.0, places=2,
+                               msg="platiteľ DPH, obrat ≤ 500 000 → 960")
+
+    def test_a_calendar_2017_still_pays_it(self):
+        v = self._licencia_return("2017", "2017-01-01", "2017-12-31",
+                                  "2017-06-30")
+        self.assertAlmostEqual(v["r810"], 960.0, places=2)
+
+
 
 class TestDerivedCodesHook(TransactionCase):
     """``_cssk_derived_codes`` must agree with what the spine actually writes.
@@ -1022,6 +1097,25 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
             "date_from": "%d-01-01" % year, "date_to": "%d-12-31" % year,
         })
 
+    def test_r200_totals_r120_and_r160_where_the_vzor_has_them(self):
+        """r200 is the total of the "zvyšujúce" block, riadky 110 až 180.
+
+        The 2015 and 2017 vzory carry r120 (pokuty and úroky z omeškania
+        under § 17 ods. 19 as in force to 2014, § 52 ods. 12 príjmy) and r160
+        (§ 17 ods. 17 kurzové rozdiely) inside that block; the spine used to
+        add only the rows the 2018+ vzory kept, understating the base.
+        """
+        for suffix, year in (("2015", 2015), ("2017", 2017)):
+            ret = self._return_for(suffix, year)
+            ret.action_compute_lines()
+            for code, value in (("r110", 1.0), ("r120", 20.0),
+                                ("r160", 300.0), ("r180", 4000.0)):
+                ret.line_ids.filtered(lambda l, c=code: l.code == c).write(
+                    {"is_overridden": True, "manual_value": value})
+            ret.action_compute_lines()
+            r200 = ret.line_ids.filtered(lambda l: l.code == "r200").value
+            self.assertAlmostEqual(r200, 4321.0, 2, "%s r200" % suffix)
+
     def test_each_vintage_carries_the_rate_that_applied_that_year(self):
         """The standard § 15 písm. b) rate, pinned per vintage.
 
@@ -1103,6 +1197,56 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
             root = etree.fromstring(
                 base64.b64decode(ret.xml_attachment_id.datas))
             self.assertEqual(etree.QName(root).localname, "dokument", suffix)
+
+    def test_the_company_fills_the_hlavicka_and_nothing_else(self):
+        """The company's IČO, name and address belong in ``hlavicka/sidlo``.
+
+        The generator used to bind every ``ico``/``ulica``/``riadok`` in the
+        schema by name, so the filer's own IČO and name went out as the § 50
+        prijímateľ, and its address as the oprávnená osoba's trvalý pobyt and
+        as a stála prevádzkareň. The house number came from ``street2``, the
+        DIČ from the IČ DPH with its "SK", and SK NACE was always 0.
+        """
+        import base64
+
+        from lxml import etree
+
+        self.company.l10n_sk_dic = False
+        self.company.vat = "SK2020317068"
+        self.company.partner_id.write({
+            "street": "Hlavná 1141/11", "street2": "3. poschodie",
+            "zip": "811 01"})
+        if "nace_code" in self.company.partner_id._fields:
+            self.company.partner_id.nace_code = "62010"
+        for suffix, _schema, first, _last in self.VINTAGES:
+            version = self._version(suffix)
+            if not version.rate_bands:
+                version.rate_bands = [[None, 21.0]]
+            ret = self._return_for(suffix, first)
+            ret.action_compute_lines()
+            ret.action_export_xml()
+            root = etree.fromstring(
+                base64.b64decode(ret.xml_attachment_id.datas))
+            head = root.find("hlavicka")
+            self.assertEqual(head.findtext("dic"), "2020317068", suffix)
+            self.assertEqual(head.findtext("sidlo/ulica"), "Hlavná", suffix)
+            self.assertEqual(head.findtext("sidlo/cislo"), "1141/11", suffix)
+            self.assertEqual(head.findtext("sidlo/psc"), "81101", suffix)
+            if "nace_code" in self.company.partner_id._fields:
+                self.assertEqual(
+                    [head.findtext("skNace/k%d" % i) for i in (1, 2, 3)],
+                    ["62", "01", "0"], suffix)
+            for node in head.iter("stalaPrevadzkaren"):
+                self.assertFalse("".join(node.itertext()).strip(),
+                                 "%s: no stála prevádzkareň" % suffix)
+            body = root.find("telo")
+            for tag in ("ico", "ulica", "cislo", "riadok"):
+                for node in body.iter(tag):
+                    self.assertFalse(
+                        (node.text or "").strip(),
+                        "%s: telo/%s carries the company's own data"
+                        % (suffix, tag))
+            self.assertTrue(body.findtext("datumVyhlasenia"), suffix)
 
     def test_the_2025_vzor_files_against_the_revision(self):
         """dppo2025_v2.xsd, not dppo2025.xsd.

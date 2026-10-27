@@ -16,17 +16,13 @@ from odoo import models
 class AccountMove(models.Model):
     _inherit = "account.move"
 
+    def _peppol_transports(self):
+        return super()._peppol_transports() + ["epostak"]
+
     def _peppol_provider(self):
-        # Claim the transport unless the deployment has explicitly named a
-        # different one, in which case defer to whoever it is.
-        chosen = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("peppol.transport", "")
-        )
-        if chosen and chosen != "epostak":
-            return super()._peppol_provider()
-        return "epostak"
+        if self._peppol_chosen_transport() == "epostak":
+            return "epostak"
+        return super()._peppol_provider()
 
     def _peppol_send(self, msg):
         """Dispatch an outbound Peppol edi.message through ePošťák.

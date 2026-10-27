@@ -11,21 +11,20 @@ no OCA report engine — so it installs on Community and Enterprise, 18.0 and 19
 Provides
 ========
 
-* ``cssk.tax.authority`` — tax-office registry (submission code for XML).
+* ``cssk.tax.authority`` — tax-office registry (submission code for XML);
+  the offices themselves are loaded by ``l10n_sk_statutory`` /
+  ``l10n_cz_statutory``.
 * ``cssk.person.type`` — person / entity-type catalogue.
-* ``res.company`` / ``res.partner`` field extensions.
-* Security + menu scaffolding.
+* ``res.company`` / ``res.partner`` field extensions and the IČO check.
+* A Settings block (Accounting → Settings → Czech / Slovak Localization):
+  default tax authority, year-end closing journals, VAT deferral account and
+  the optional Community report modules.
+* ``cssk.statutory.submission.mixin`` — the life cycle shared by every
+  statutory filing: export (content checks, XSD validation; non-blocking
+  warnings are shown to the user), the filed copy, amendments, and the
+  filed-versus-computed comparisons.
 
-Status
-======
-
-**Skeleton.** Models, fields, views and security are in place. To do:
-
-* Seed country tax-authority and person-type data (in the country modules).
-* Wire a Settings block (see ``views/res_config_settings_views.xml``).
-* Add hook-point glue for the customer's own components (PAY by Square, ARES).
-
-Pending validation by CZ/SK accountants.
+The user documentation is in ``doc/`` (English, Slovak, Czech).
 
 Credits
 =======

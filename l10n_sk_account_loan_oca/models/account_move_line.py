@@ -28,7 +28,9 @@ class AccountMoveLine(models.Model):
 
         Whether a given contract is one or the other is a judgement recorded on
         the lease: since 1. 1. 2025 the test is economic substance, not the
-        wording of the contract (C-164/16 Mercedes-Benz).
+        wording of the contract (C-164/16 Mercedes-Benz). Until somebody makes
+        it, the field is empty and the instalments keep their taxes — removing
+        VAT is the decision that has to be taken explicitly.
         """
         taxes = super()._get_computed_taxes()
         loan = self.move_id.loan_id

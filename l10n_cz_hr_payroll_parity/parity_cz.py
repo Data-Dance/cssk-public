@@ -129,6 +129,84 @@ SCENARIOS = [
             "GROSS": 50000.00,
         },
     },
+    {
+        "key": "dpp_below_dpp_threshold",
+        "doc": "A DPP paying 8 000 CZK in 2026: above the 4 500 DPČ rozhodný "
+        "příjem but below the 12 000 DPP amount of § 7a odst. 1 zák. "
+        "187/2006 Sb. Not insured at all, and without a declaration taxed by "
+        "the 15 % srážková daň of § 6 odst. 4 písm. a) ZDP. Both engines once "
+        "fell back to the DPČ threshold for a DPP not ticked as 'notified' — "
+        "a distinction the law does not make.",
+        "requires": [],
+        "wage": 8000.0,
+        "period": PERIOD,
+        "version": {
+            "l10n_cz_agreement_type": "dpp",
+            "l10n_cz_tax_declaration": False,
+        },
+        # Four hours on Mondays: 8000 for 16 hours is well above the hourly
+        # minimum wage, so the § 111 top-up of the surcharge bridges cannot
+        # fire. On the full-time calendar this DPP would be paid 85 Kč an
+        # hour and topped up to 134.40 - correctly.
+        "calendar_hours": {"0": 4.0},
+        "leaves": [],
+        # No insurance, no advance; NET = 8000 - int(8000 x 15 %) = 6800.
+        "expected": {
+            "GROSS": 8000.00,
+            "SOCIAL_EE_TOTAL": 0.00,
+            "SOCIAL_ER_TOTAL": 0.00,
+            "HEALTH_EE": 0.00,
+            "HEALTH_ER": 0.00,
+            "INCOME_TAX": 0.00,
+            "NET": 6800.00,
+        },
+    },
+    {
+        "key": "sick_beyond_fourteen_days",
+        "doc": "A DPN lasting all June. § 192 odst. 1 ZP: the employer pays "
+        "náhrada mzdy for the first 14 calendar days only (1-14 June, 80 h); "
+        "the rest is nemocenské from ČSSZ. The náhrada is taxed (§ 6 ZDP) but "
+        "not insured, and a whole month of DPN leaves no minimum health base "
+        "(§ 3 odst. 9 písm. b) zák. 592/1992). Both engines once paid all 176 "
+        "hours untaxed and charged a 3 024 Kč health top-up.",
+        "requires": [],
+        "wage": WAGE,
+        "period": PERIOD,
+        "version": {
+            "l10n_cz_tax_declaration": False,
+            "l10n_cz_avg_hourly_earnings": 200.0,
+        },
+        "leaves": [
+            ("leave_type_cz_sick", (2026, 6, 1), (2026, 6, 30)),
+        ],
+        # PHV 200 -> reduced 180; 0.60 x 180 x 80 = 8640. Tax: 8640 -> 8700 x
+        # 15 % = 1305. NET = 8640 - 1305.
+        "expected": {
+            "BASIC": 0.00,
+            "GROSS": 0.00,
+            "HEALTH_EE": 0.00,
+            "HEALTH_ER": 0.00,
+            "INCOME_TAX": -1305.00,
+            "NET": 7335.00,
+        },
+    },
+    {
+        "key": "health_premium_rounding",
+        "doc": "§ 2 odst. 2 zák. 592/1992: 13.5 % rounded UP per employee, "
+        "and the employee's third (§ 9 odst. 2 zák. 48/1997) rounded up too. "
+        "Both engines once booked 4.5 % and 9 % unrounded.",
+        "requires": [],
+        "wage": 30001.0,
+        "period": PERIOD,
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        # 30001 x 13.5 % = 4050.135 -> 4051; ceil(4051 / 3) = 1351; 2700.
+        "expected": {
+            "GROSS": 30001.00,
+            "HEALTH_EE": -1351.00,
+            "HEALTH_ER": 2700.00,
+        },
+    },
 ]
 
 # ---------------------------------------------------------------------------
@@ -167,16 +245,21 @@ AVG_EARNINGS_SCENARIOS = [
 # wage: social insurance is 7.1 % employee and 24.8 % employer, so 3 550.00 and
 # 12 400.00 against a 50 000.00 base.
 DECLARATION_WAGE = 50000.0
-DECLARATION_PERIOD = ((2026, 3, 1), (2026, 3, 31))
+# 2025, not 2026: the JMHZ reform (Act No. 323/2025 Coll., transitional
+# provisions in Act No. 360/2025 Coll.) ends PVPOJ after 2025 for an employer
+# that still employs anyone on 1 April 2026, and the 2026 ELDP covers only
+# employees who left before that day. The modules refuse those periods, so a
+# 2026 fixture would test the refusal, not the figures.
+DECLARATION_PERIOD = ((2025, 3, 1), (2025, 3, 31))
 
 DECLARATION_SCENARIOS = [
     {
-        "key": "pvpoj_2026_03",
+        "key": "pvpoj_2025_03",
         "doc": "Přehled o výši pojistného. The employer base is the gross wage "
         "and the two premiums are the statutory percentages of it.",
         "requires": ["l10n_cz_hr_payroll_pvpoj"],
         "model": "l10n.cz.pvpoj",
-        "create": {"year": "2026", "month": "3"},
+        "create": {"year": "2025", "month": "3"},
         "expected": {
             "zakladZamestnavateleA": 50000.00,
             "pojistneZamestnavateleA": 12400.00,
@@ -202,12 +285,12 @@ MONTHLY_TAX_ADVANCE = 4930  # 15 % of 50000 = 7500, less sleva 2570
 
 ANNUAL_DECLARATION_SCENARIOS = [
     {
-        "key": "cz_eldp_2026",
+        "key": "cz_eldp_2025",
         "doc": "Evidenční list důchodového pojištění. inc is the pension "
         "assessment base for the whole year: 12 x 50 000.",
         "requires": ["l10n_cz_hr_payroll_eldp"],
         "model": "l10n.cz.eldp",
-        "create": {"year": "2026"},
+        "create": {"year": "2025"},
         "expected": {
             "items@sinc": 600000.00,
             "items/t1@inc": 600000.00,

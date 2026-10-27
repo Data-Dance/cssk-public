@@ -14,6 +14,26 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.2.0.2] — 2026-10-27
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Fixed**
+
+- **Part III (rekapitulácia daňového bonusu) is filled.** Rows A, B and C were always empty, so a child tax bonus larger than the withheld advances — which row 5 may only report up to row 4 — appeared nowhere in the annual report. Row A is now the whole bonus paid, row B the part covered by the advances (row 5), row C the rest, paid from the company's own money.
+- **Employee names.** Part V took the first word of the name as the first name and the last word as the surname, dropping anything in between. The surname is now the last word and the first name everything before it, and separate first/last name fields are used when a module provides them.
+
+**Added**
+
+- ``data/SCHEMA_VERSION`` pins the bundled ``rh2023.xsd`` (verified byte-identical to the Finančná správa copy on 2026-10-27), with a test that the bytes still match.
+
+
+[19.0.2.0.1] — 2026-10-27
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Fixed**
+
+- **pravnaForma** is filled from the company's *Právna forma* (recorded by l10n_sk_trade_registry). It called a method no module defines and was always empty.
+
 19.0.2.0.0 (2026-09-16)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -39,10 +39,12 @@ it, so 702's own total is zero by the bilančná rovnosť rather than by omissio
 What it does **not** do
 =======================
 
-The **transfer of the approved result to 431** (and on to 428/429) is a separate
-event — it happens when the závierka is approved, not when it is closed. That
-posting ships as a *predkontácia* in ``l10n_sk_account_move_template``
-(*Preúčtovanie schváleného zisku / straty*).
+The **distribution of the approved result from 431** (to 428/429 and on) is a
+separate event — it happens when the závierka is approved, not when it is
+closed. That posting ships as a *predkontácia* in
+``l10n_sk_account_move_template`` (*Preúčtovanie schváleného zisku / straty*).
+The opening entry itself does put the previous year's result on 431, as § 7
+ods. 3 of the opatrenie requires.
 
 Honesty flag
 ============

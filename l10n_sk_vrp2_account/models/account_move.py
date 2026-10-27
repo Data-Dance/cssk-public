@@ -183,16 +183,24 @@ class AccountMove(models.Model):
                 )
         return receipts
 
+    def _vrp2_fiscalize_wizard_action(self):
+        """Ask for the form of payment first: the receipt states it."""
+        return {
+            "name": _("Fiscalize in VRP2"),
+            "type": "ir.actions.act_window",
+            "res_model": "vrp2.fiscalize.wizard",
+            "view_mode": "form",
+            "target": "new",
+            "context": {"default_move_ids": [(6, 0, self.ids)]},
+        }
+
     def action_vrp2_fiscalize(self):
-        """Fiscalize a single invoice in VRP2 (CASH) and download its PDF."""
+        """Fiscalize a single invoice in VRP2, asking how it was paid."""
         self.ensure_one()
-        receipts = self._vrp2_fiscalize("CASH")
-        return self._vrp2_merged_pdf_action(
-            receipts, "VRP2-%s.pdf" % (self.name or "receipt").replace("/", "_")
-        )
+        return self._vrp2_fiscalize_wizard_action()
 
     def action_vrp2_mass_fiscalize(self):
-        """Mass action: fiscalize all selected invoices, return one joined PDF."""
+        """Mass action: fiscalize the selected invoices, one joined PDF."""
         invoices = self.filtered(lambda m: m.move_type == "out_invoice")
         if not invoices:
             raise UserError(
@@ -202,10 +210,7 @@ class AccountMove(models.Model):
                     "original invoice)."
                 )
             )
-        receipts = invoices._vrp2_fiscalize("CASH")
-        return invoices._vrp2_merged_pdf_action(
-            receipts, "VRP2-receipts.pdf"
-        )
+        return invoices._vrp2_fiscalize_wizard_action()
 
     def action_vrp2_storno(self):
         """Storno the active VRP2 receipt of this invoice."""
@@ -282,13 +287,17 @@ class AccountMove(models.Model):
 
     @staticmethod
     def _vrp2_round_5c_amount(amount):
-        """Round to the nearest 0.05 € (round half up), matching VRP2 zaokruhli5.
+        """Round a cash price to 0.05 € as § 3 ods. 4 zákona č. 18/1996 Z. z.
+        prescribes: a remainder under 2.5 cents down, from 2.5 cents up — and
+        a price of 1 or 2 cents up to 5 cents, not down to nothing.
 
         Computed in integer cents to avoid binary-float drift.
         """
         cents = (Decimal(str(amount)) * 100).quantize(
             Decimal("1"), rounding=ROUND_HALF_UP
         )
+        if 0 < abs(cents) < 3:
+            return 0.05 if cents > 0 else -0.05
         rounded5 = (cents / 5).quantize(
             Decimal("1"), rounding=ROUND_HALF_UP
         ) * 5

@@ -231,8 +231,10 @@ msgstr "§ 53b — znovu uplatnenie odpočítanej dane"
 
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields,help:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__threshold_days
-msgid "§ 53b: oprava ak je faktúra nezaplatená viac ako 100 dní po splatnosti."
-msgstr "§ 53b: oprava ak je faktúra nezaplatená viac ako 100 dní po splatnosti."
+msgid ""
+"§ 53b: oprava ak je faktúra nezaplatená viac ako 100 dní po splatnosti."
+msgstr ""
+"§ 53b: oprava ak je faktúra nezaplatená viac ako 100 dní po splatnosti."
 
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields,help:l10n_sk_vat_return.field_l10n_sk_par53b_wizard__correction_account_id
@@ -251,7 +253,7 @@ msgstr "Žiadne faktúry nespĺňajú podmienky § 53b k %s."
 #. odoo-python
 #: code:addons/l10n_sk_vat_return/models/l10n_sk_par53b.py:0
 msgid ""
-"Faktúra %s nemá čo znovu uplatniť podľa § 53b ods. 6 — buď nebola (ďalej) "
+"Faktúra %s nemá čo znovu uplatniť podľa § 53b ods. 4 — buď nebola (ďalej) "
 "zaplatená, alebo už bola opravená daň znovu uplatnená v plnej výške "
 "zaplatenia."
 msgstr ""
@@ -274,8 +276,8 @@ msgid ""
 "l10n_cssk_vat_return_base framework."
 msgstr ""
 "Slovenské daňové priznanie k DPH (DPHv25) — riadky na výstupe/vstupe "
-"napojené na daňové značky l10n_sk, s exportom XML DPH pre FS SR. "
-"Postavené na spoločnom rámci l10n_cssk_vat_return_base."
+"napojené na daňové značky l10n_sk, s exportom XML DPH pre FS SR. Postavené "
+"na spoločnom rámci l10n_cssk_vat_return_base."
 
 #. module: l10n_sk_vat_return
 #: model:ir.module.module,shortdesc:base.module_l10n_sk_vat_return
@@ -289,18 +291,9 @@ msgid ""
 "\n"
 "Left on 'From the supplier's country' — the default, and right for the shared l10n_sk reverse-charge taxes — a line is treated as § 69 ods. 3 when its supplier is established outside Slovakia, which is what that paragraph says. Set it explicitly on a tax a company uses for ONE paragraph only: a dedicated domestic-construction prenos tax is '§ 69 ods. 2 a 9 až 12' whoever the supplier is, and a § 69 ods. 2 goods-with-installation tax is too, even though its supplier is foreign."
 msgstr ""
-"Ktorý riadok zaujme suma s prenesením daňovej povinnosti na priznaní "
-"k DPH za obdobie pred 1. 1. 2021. Len tie vzory odseky rozlišujú; od "
-"roku 2021 ich formulár zlučuje a toto sa ignoruje.\n"
+"Ktorý riadok zaujme suma s prenesením daňovej povinnosti na priznaní k DPH za obdobie pred 1. 1. 2021. Len tie vzory odseky rozlišujú; od roku 2021 ich formulár zlučuje a toto sa ignoruje.\n"
 "\n"
-"Ponechané na „Z krajiny dodávateľa“ — predvolené a správne pre "
-"zdieľané dane l10n_sk s prenosom — sa riadok považuje za § 69 ods. "
-"3, keď je jeho dodávateľ usadený mimo Slovenska, čo je presne to, čo "
-"tento odsek hovorí. Nastavte to výslovne na dani, ktorú spoločnosť "
-"používa len pre JEDEN odsek: vyhradená daň pre tuzemský stavebný "
-"prenos je „§ 69 ods. 2 a 9 až 12“ nech je dodávateľ ktokoľvek, a "
-"rovnako aj daň podľa § 69 ods. 2 pre tovar s inštaláciou, hoci jej "
-"dodávateľ je zahraničný."
+"Ponechané na „Z krajiny dodávateľa“ — predvolené a správne pre zdieľané dane l10n_sk s prenosom — sa riadok považuje za § 69 ods. 3, keď je jeho dodávateľ usadený mimo Slovenska, čo je presne to, čo tento odsek hovorí. Nastavte to výslovne na dani, ktorú spoločnosť používa len pre JEDEN odsek: vyhradená daň pre tuzemský stavebný prenos je „§ 69 ods. 2 a 9 až 12“ nech je dodávateľ ktokoľvek, a rovnako aj daň podľa § 69 ods. 2 pre tovar s inštaláciou, hoci jej dodávateľ je zahraničný."
 
 #. module: l10n_sk_vat_return
 #: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_tax__l10n_sk_dph_69_par__69_other
@@ -316,3 +309,196 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__account_move__l10n_sk_par53b_state__none
 msgid "—"
 msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
+msgid ""
+"A tax representative under § 69aa files from 1. 1. 2018; the form for an "
+"earlier period has no such box."
+msgstr ""
+"Daňový zástupca podľa § 69aa podáva od 1. 1. 2018; tlačivo za skoršie "
+"obdobie takéto políčko nemá."
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_country_code
+msgid "Country Code"
+msgstr "Kód krajiny"
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_declaration_date
+msgid ""
+"Date of the declaration that the figures are correct and complete. Left "
+"empty, the date of the XML export is used."
+msgstr ""
+"Dátum vyhlásenia, že uvedené údaje sú správne a úplné. Ak je prázdny, "
+"použije sa dátum exportu XML."
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.cssk_vat_return_view_form_sk
+msgid "Daňové priznanie podáva"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__cssk_vat_return__l10n_sk_filer_status__zastupca
+msgid "Daňový zástupca podľa § 69a"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__cssk_vat_return__l10n_sk_filer_status__zastupca69aa
+msgid "Daňový zástupca podľa § 69aa"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_declaration_date
+msgid "Dátum vyhlásenia (SK)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.cssk_vat_return_view_form_sk
+msgid "E-mail"
+msgstr "E-mail"
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.cssk_vat_return_view_form_sk
+msgid "Hlavička"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__cssk_vat_return__l10n_sk_filer_status__inapovinna
+msgid "Iná osoba povinná podať priznanie (§ 78 ods. 3, 4 a 9)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.cssk_vat_return_view_form_sk
+msgid "Meno a priezvisko"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
+msgid "Only a VAT payer can claim the § 79 ods. 2 refund within 30 days."
+msgstr ""
+"Vrátenie nadmerného odpočtu do 30 dní podľa § 79 ods. 2 môže uplatniť len "
+"platiteľ dane."
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.cssk_vat_return_view_form_sk
+msgid "Oprávnená osoba"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_authorized_email
+msgid "Oprávnená osoba — e-mail (SK)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_authorized_name
+msgid "Oprávnená osoba — meno a priezvisko (SK)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_authorized_phone
+msgid "Oprávnená osoba — telefón (SK)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__cssk_vat_return__l10n_sk_filer_status__registrovana
+msgid "Osoba registrovaná pre daň podľa § 7 alebo § 7a"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__cssk_vat_return__l10n_sk_filer_status__platitel
+msgid "Platiteľ dane (§ 4)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_filer_status
+msgid "Postavenie osoby (SK)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,field_description:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_par79_conditions_met
+msgid "Splnenie podmienok § 79 ods. 2 (SK)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.cssk_vat_return_view_form_sk
+msgid "Telefón"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+"Dvojznakový kód krajiny podľa ISO.\n"
+"Pole môžete použiť na rýchle vyhľadávanie."
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_authorized_name
+msgid ""
+"The person authorised to file on the filer's behalf (for example a "
+"representative under § 9 daňového poriadku). Leave empty when the filer "
+"files for itself."
+msgstr ""
+"Osoba oprávnená podať priznanie za daňový subjekt (napr. zástupca podľa § 9 "
+"daňového poriadku). Nechajte prázdne, ak subjekt podáva priznanie sám."
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
+msgid ""
+"The § 79 ods. 2 refund within 30 days is available only for a monthly tax "
+"period."
+msgstr ""
+"Vrátenie do 30 dní podľa § 79 ods. 2 je možné len pri mesačnom zdaňovacom "
+"období."
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.view_move_form_l10n_sk_par53b
+msgid ""
+"Vytvoriť a zaúčtovať znovu uplatnenie odpočítanej dane v pomere zaplatenej "
+"časti faktúry?"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_filer_status
+msgid ""
+"Who files this return, as ticked on the first page of the Slovak DPH form. A"
+" VAT payer under § 4 is the usual case; a person registered under § 7 or § "
+"7a (no right of deduction), a person liable under § 78 ods. 3, 4 a 9, and "
+"the tax representatives file on the same form with a different box ticked."
+msgstr ""
+"Kto podáva toto priznanie, ako sa vyznačuje na 1. strane tlačiva DPH. Bežne "
+"je to platiteľ dane podľa § 4; osoba registrovaná podľa § 7 alebo § 7a (bez "
+"nároku na odpočet), osoba povinná podľa § 78 ods. 3, 4 a 9 a daňoví "
+"zástupcovia podávajú to isté tlačivo s iným vyznačením."
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields.selection,name:l10n_sk_vat_return.selection__cssk_vat_return__l10n_sk_filer_status__zdanitelna
+msgid "Zdaniteľná osoba podľa § 3 ods. 5 uplatňujúca odpočítanie dane"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vat_return.view_move_form_l10n_sk_par53b
+msgid "Znovu uplatniť odpočet (§ 53b ods. 4)"
+msgstr ""
+
+#. module: l10n_sk_vat_return
+#: model:ir.model.fields,help:l10n_sk_vat_return.field_cssk_vat_return__l10n_sk_par79_conditions_met
+msgid ""
+"§ 79 ods. 3: a VAT payer meeting the § 79 ods. 2 conditions (monthly tax "
+"period, VAT payer for at least 12 calendar months, and tax, customs and "
+"insurance arrears of at most 1 000 € over the last 6 months) marks it on the"
+" return for the excess deduction to be refunded within 30 days. Odoo cannot "
+"check the arrears, so you declare it. Exported only when the return shows an"
+" excess deduction."
+msgstr ""
+"§ 79 ods. 3: platiteľ, ktorý spĺňa podmienky § 79 ods. 2 (mesačné zdaňovacie"
+" obdobie, platiteľ najmenej 12 kalendárnych mesiacov a daňové, colné a "
+"poistné nedoplatky za posledných 6 mesiacov najviac 1 000 €), to vyznačí v "
+"priznaní, aby sa nadmerný odpočet vrátil do 30 dní. Odoo nedoplatky overiť "
+"nevie, preto to vyhlasujete vy. Exportuje sa len vtedy, ak priznanie "
+"vykazuje nadmerný odpočet."

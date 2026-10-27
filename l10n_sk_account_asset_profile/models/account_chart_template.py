@@ -85,7 +85,16 @@ class AccountChartTemplate(models.AbstractModel):
                 "method": "linear",
                 "method_time": "year",
                 "method_number": years,
-                "method_period": "year",
+                # Monthly, from the depreciation start date (OCA's Prorata
+                # Temporis takes the first year's share by days): an asset put
+                # into use in November does not take a whole year's
+                # depreciation in its first year. § 28 ods. 4 zákona 431/2002 ties accounting
+                # depreciation to the consumption of the asset's benefits, and
+                # for intangibles § 22 ods. 8 zákona 595/2003 makes this same
+                # schedule the TAX depreciation too — a full first year there
+                # was a deduction for months the asset did not exist.
+                "method_period": "month",
+                "prorata": True,
                 # Left empty on purpose — see the module docstring.
                 "tax_depreciation_enabled": False,
             }

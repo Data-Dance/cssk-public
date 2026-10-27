@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Partner Balance Confirmation (Saldokonto)",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "summary": "Saldokonto / odsúhlasenie (potvrdenie) zostatkov pohľadávok a "
                "záväzkov — a stored, state-tracked confirmation of a partner's "
                "open AR/AP as of a date, with a PDF for countersigning.",
@@ -42,13 +42,15 @@ The same module also provides the **mutual-offset agreement**
     **countersigned** → posted (both parties sign before it takes effect).
   * *Unilateral* (``jednostranné započítanie``) — draft → confirmed → **sent**
     (delivered) → posted, **no countersignature**: a one-sided declaration of
-    set-off that takes legal effect on delivery, permitted for mutual, like-kind,
+    set-off, delivered to the counterparty; the claims extinguish as of the
+    moment they became capable of set-off (§ 580 OZ SK, § 1982 NOZ CZ),
+    permitted for mutual, like-kind,
     due and eligible claims not excluded from set-off.
 
-Both the saldokonto confirmation and the netting agreement print a bilingual
-SK/EN PDF; the zápočet PDF switches wording between the bilateral agreement (two
-signatures) and the unilateral set-off notice (single signature, effective on
-delivery).
+Both the saldokonto confirmation and the netting agreement print a PDF in
+Czech or Slovak (by the company's fiscal country) with English; the zápočet PDF
+switches wording between the bilateral agreement (two signatures) and the
+unilateral set-off notice (single signature).
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

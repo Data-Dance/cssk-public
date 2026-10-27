@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Statutory Submissions — Shared Framework",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.1.0",
     "summary": "Channel-agnostic delivery framework for statutory filings: one "
                "record per delivery attempt-set, a pluggable channel contract, "
                "retry with backoff, and durable authority receipts.",
@@ -29,15 +29,21 @@ authority, and what comes back. This module adds it:
 * **Authority receipts** — potvrdenky and doručenky land in
   ``receipt_attachment_ids``, so the proof of filing is ours and survives losing
   the channel provider.
-* **Retry with backoff**, on ``queue_job`` where it is installed and on a cron
-  otherwise; failures raise a ``mail.activity`` on whoever is responsible.
+* **Retry with backoff** on a cron, only for errors a channel classifies as
+  temporary; an unexpected error fails instead of retrying, because it may
+  have happened after the filing reached the authority. Failures raise a
+  ``mail.activity`` on whoever is responsible.
+* The submission **follows the statement**: one not yet sent carries the
+  statement's current export, and a filing that reaches the authority marks
+  the statement submitted.
 * ``cssk.submittable.mixin`` — the seam the statements inherit, adding
   ``submission_ids`` / ``active_submission_id`` / ``submission_state`` on top of
   the retention mixin they already have.
 
-Ships one channel, ``pfs_manual``: the accountant files by hand on the portal
-and attests it, which records the evidence and the person who filed. Automated
-channels (``govbox_fs``, ``upvs_general``, …) are separate modules.
+Ships one channel, ``pfs_manual``: the accountant files by hand on the
+authority's portal and attests it, which records the evidence and the person
+who filed, and later attests the acceptance with the confirmation attached.
+Automated channels are separate modules (``l10n_cz_epo`` for the Czech EPO).
 
 **Distinction worth keeping:** ``delivered`` means the channel confirmed receipt;
 ``accepted`` means the authority accepted the filing. A channel that cannot

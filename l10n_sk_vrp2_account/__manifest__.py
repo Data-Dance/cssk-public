@@ -1,6 +1,6 @@
 {
     "name": "Slovak VRP2 - Invoice Payments",
-    "version": "19.0.2.3.0",
+    "version": "19.0.2.4.0",
     "author": "Data Dance s.r.o.",
     "category": "Accounting/Localizations",
     "summary": "Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2)",
@@ -12,7 +12,8 @@ handled by your normal flow; this module only fiscalizes.
 - "Fiscalize in VRP2" on the invoice form (single invoice) and as a list mass
   action (many invoices → one merged PDF of the official VRP2 receipts).
 - 0.05 € cash rounding driven by the register's "Zaokrúhľovať na 5 centov"
-  setting.
+  setting; in Register Payment the difference is written off to the company's
+  VRP2 cash rounding accounts.
 - Storno: cancel the fiscal receipt of a fiscalized invoice.
 - Hidden "VRP2 Fiscalized" column on the invoice list.
 - Stores every receipt as a ``vrp2.receipt`` record (number, fiscal codes,
@@ -30,6 +31,7 @@ handled by your normal flow; this module only fiscalizes.
         "views/vrp2_receipt_views.xml",
         "views/account_move_views.xml",
         "views/account_payment_register_views.xml",
+        "wizard/vrp2_fiscalize_wizard_views.xml",
         "report/vrp2_receipt_report.xml",
     ],
     "installable": True,

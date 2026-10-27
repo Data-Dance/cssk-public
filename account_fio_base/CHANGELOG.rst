@@ -29,6 +29,17 @@ Carry-over to 18.0
   copies vendored into its own repository, which already carried the
   19.0.1.1.0 fixes while the ``18.0-fio-api`` branch did not.
 
+[19.0.1.2.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- A Slovak account written as number/bank code (its bank's, or else its
+  holder's, country is Slovakia) is refused with a request for the SK IBAN,
+  instead of being sent as a Czech domestic payment to a Czech bank with that
+  code.
+
 [19.0.1.2.0] — 2026-09-01
 -------------------------
 

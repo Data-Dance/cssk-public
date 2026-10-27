@@ -33,9 +33,11 @@ msgstr ""
 #. module: l10n_sk_account_loan_oca
 #: model:ir.model.fields,help:l10n_sk_account_loan_oca.field_account_loan__l10n_sk_vat_treatment
 msgid ""
-"Finančný prenájom je DODANÍM TOVARU, ak zo zmluvy vyplýva prevod vlastníctva najneskôr zaplatením poslednej splátky — vtedy daňová povinnosť vzniká RAZ, dňom odovzdania predmetu nájmu, z celej dohodnutej ceny.\n"
+"Finančný prenájom je DODANÍM TOVARU, ak sa podľa nájomnej zmluvy za normálnych okolností vlastníctvo k predmetu nájmu nadobudne najneskôr zaplatením poslednej splátky (§ 8 ods. 1 písm. c) zákona 222/2004) — vtedy daňová povinnosť vzniká RAZ, dňom odovzdania predmetu nájmu, z celej dohodnutej ceny, a splátky sa zaúčtujú bez DPH.\n"
 "\n"
 "Inak ide o DODANIE SLUŽBY a daň sa uplatňuje z každej splátky.\n"
+"\n"
+"Kým režim nie je zvolený, splátky si ponechajú DPH svojich produktov.\n"
 "\n"
 "Od 1. 1. 2025 sa posudzuje ekonomická podstata, nie znenie zmluvy: rozhoduje, či je uplatnenie opcie pre nájomcu jedinou ekonomicky racionálnou voľbou (v nadväznosti na C-164/16 Mercedes-Benz)."
 msgstr ""
@@ -72,4 +74,14 @@ msgid ""
 "bežné — lízingové odpisy boli zrušené zákonom 333/2014, takže prenajatý "
 "majetok sa odpisuje počas doby odpisovania v príslušnej odpisovej skupine (§"
 " 26 ods. 8)."
+msgstr ""
+
+#. module: l10n_sk_account_loan_oca
+#: model:ir.model.fields,field_description:l10n_sk_account_loan_oca.field_account_loan__l10n_sk_is_sk_company
+msgid "Slovak chart in use (technical)"
+msgstr ""
+
+#. module: l10n_sk_account_loan_oca
+#: model_terms:ir.ui.view,arch_db:l10n_sk_account_loan_oca.account_loan_form
+msgid "Slovak tax treatment"
 msgstr ""

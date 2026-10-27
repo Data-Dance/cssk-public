@@ -1,7 +1,7 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
-from odoo import api, models
+from odoo import api, fields, models
 
 # Slovak account role (from l10n_sk_account_loan_base) → OCA engine field.
 OCA_LOAN_ACCOUNT_FIELDS = {
@@ -16,6 +16,12 @@ OCA_LOAN_ACCOUNT_FIELDS = {
 class AccountLoan(models.Model):
     _inherit = ["account.loan", "l10n.sk.lease.mixin"]
     _name = "account.loan"
+
+    # The Slovak qualifiers are shown only to Slovak companies; a view
+    # condition cannot follow company_id itself.
+    l10n_sk_is_sk_company = fields.Boolean(
+        related="company_id.l10n_sk_loan_is_sk_company",
+    )
 
     @api.depends("periods", "method_period")
     def _compute_l10n_sk_lease_months(self):

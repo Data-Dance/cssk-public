@@ -77,6 +77,11 @@ class L10nSkHealth(models.Model):
         help="Health insurance company this dávka 514 is addressed to. "
         "Defaults from the company configuration.")
 
+    # Required by the preflight but on no company form; edit it here.
+    payer_number = fields.Char(
+        related="company_id.l10n_sk_health_payer_number", readonly=False,
+        string="Health payer number")
+
     @api.model
     def _insurer_code_selection(self):
         return self.env["res.company"]._fields[
@@ -103,8 +108,8 @@ class L10nSkHealth(models.Model):
             if not (company.l10n_sk_health_payer_number or "").strip():
                 raise UserError(_(
                     "Company '%(company)s' needs a health payer number "
-                    "for the dávka 514. Set it on the "
-                    "company.", company=company.display_name))
+                    "for the dávka 514. Fill in 'Health payer number' on "
+                    "this form.", company=company.display_name))
             if not rec.insurer_code:
                 raise UserError(_(
                     "Select the target health insurer on the dávka "
@@ -121,6 +126,22 @@ class L10nSkHealth(models.Model):
                     "<CompanyIDTaxCode> element. Set 'DIČ' on the company.",
                     company=company.display_name))
         return True
+
+    def _get_period_payslips(self):
+        """Only the payslips of employees insured with THIS insurer.
+
+        A dávka 514 goes to one health insurer and lists that insurer's
+        insurees. Every employee used to be reported to whichever insurer
+        the record was addressed to, so a company with employees at two
+        insurers filed everybody twice. An employee without an insurer of
+        their own counts as insured with the company's default one.
+        """
+        slips = super()._get_period_payslips()
+        if not slips:
+            return slips
+        return slips.filtered(
+            lambda s: s.employee_id._l10n_sk_health_insurer()
+            == self.insurer_code)
 
     # ------------------------------------------------------------------
     @staticmethod

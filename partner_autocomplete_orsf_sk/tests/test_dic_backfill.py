@@ -52,9 +52,9 @@ class TestOrsfDicBackfill(TransactionCase):
     def test_the_not_found_shape_is_not_mistaken_for_a_record(self):
         """{"ico": ..., "found": false} is how absence is reported. Reading it
         as a record is what produced a wrong commit (b85340c)."""
-        partner = self._partner(company_registry="36197514")
+        partner = self._partner(company_registry="36197513")
         with patch(f"{PROVIDER}._orsf_lookup_batch",
-                   return_value={"36197514": {"ico": "36197514",
+                   return_value={"36197513": {"ico": "36197513",
                                               "found": False}}):
             partner.action_orsf_fill_missing_dic()
         self.assertFalse(partner.l10n_sk_dic)

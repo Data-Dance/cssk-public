@@ -8,6 +8,37 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.4.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **B.3.1 / B.3.2 is decided on the DEDUCTED tax**, as § 78a ods. 6 says
+  ("celková suma odpočítanej dane zo zjednodušených faktúr 3 000 eur a
+  viac"). It compared the tax charged, so receipts deducted at 50 % (fuel, a
+  vehicle) were listed per supplier in B.3.2 from 3 000 € of tax instead of
+  from 3 000 € deducted.
+- **Debit notes (ťarchopisy) are reported in C.1 / C.2**, with a positive
+  difference and the corrected invoice as its number. A debit note is an
+  opravná faktúra under § 71 ods. 2; it was filed in A.1 / B.2 as a new
+  supply. Applies to debit notes raised with Odoo's *Debit Note* button
+  (``account_debit_note``).
+
+Changed
+~~~~~~~
+
+- **D.1 (eKasa) is reachable**: set ``D.1`` as the *VAT control statement*
+  section on the journal of an eKasa register (journal form, *Advanced
+  Settings*) and its sales are reported as eKasa turnover rather than in D.2.
+- **A section row can be corrected from the statement**: every section tab
+  except D.2 has an *Override* toggle; the row's amounts become editable and
+  the correction survives a recompute. The mechanism existed, but every tab
+  was read-only and did not show it.
+
+  ⚠️ Recomputing a filed period can now move receipts between B.3.1 and
+  B.3.2, and debit notes from A.1 / B.2 to C.1 / C.2.
+
 [19.0.2.3.0] — 2026-10-04
 -------------------------
 

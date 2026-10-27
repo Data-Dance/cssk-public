@@ -116,6 +116,18 @@ class CSSKControlStatement(models.Model):
                         "partner → Tax ID): %(refs)s",
                         sec=code, n=len(bad),
                         refs=self._kh_offenders_detail(bad)))
+            # kod_pred_pl is XSD-required in A.1 / B.1 and there is no default
+            # to fall back on: the old '1' filed every uncoded supply as GOLD.
+            for code in ("A1", "B1"):
+                bad = [r for r in sections.get(code, [])
+                       if not r.supplies_code]
+                if bad:
+                    problems.append(_(
+                        "%(sec)s: %(n)d row(s) without the §92a commodity "
+                        "code (kód předmětu plnění) — set it on the product or "
+                        "on the reverse-charge tax: %(refs)s",
+                        sec=code, n=len(bad),
+                        refs=self._kh_offenders_detail(bad)))
             for code in _KH_DATE_SECTIONS:
                 bad = [r for r in sections.get(code, []) if not r.supply_date]
                 if bad:

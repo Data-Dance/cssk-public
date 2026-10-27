@@ -21,8 +21,10 @@ Not covered
 * Two event kinds only: prihláška (PA) and odhláška (OD). Zmena (change) and
   storno (cancellation) registrations are not modelled, and both are ordinary
   in practice — a corrected registration has to be filed through the portal.
-* ``typZec`` is defaulted from the employee's agreement type and not validated
-  against the actual insurance obligation.
+* ``typZec`` is defaulted from the employee's agreement type and income
+  regularity when the employee is chosen, and not re-validated later. A
+  pracovný pomer is always proposed as ``ZEC``; ``ZECN`` (irregular income in
+  employment) has to be chosen by hand.
 * Events are derived from the ``hr.version`` lifecycle, so a site that back-dates
   or rewrites versions can produce registrations that do not match what was
   really filed.

@@ -37,6 +37,14 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- The user guide describes the now fixed order of PAY by square and payme.
+
 [19.0.1.0.1] — 2026-09-09
 -------------------------
 

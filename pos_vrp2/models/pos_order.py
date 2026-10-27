@@ -418,7 +418,7 @@ class PosOrder(models.Model):
         """One receipt item plus its signed line total."""
         figures = self._vrp2_line_figures(line)
         if line.qty > 0:
-            code = line.product_id.product_tmpl_id.vrp2_code
+            code = line.product_id.product_tmpl_id._vrp2_code_for(self.config_id)
             if not code:
                 raise UserError(_(
                     "Product '%(product)s' is not in this till's VRP2 "
@@ -444,7 +444,8 @@ class PosOrder(models.Model):
             # "vrátené obaly": the web app's parseToAPI keeps the serviceCode
             # for every type but REFUND/CORRECTION and negates the unit price
             # for every type but POSITIVE.
-            if not template.vrp2_code:
+            code = template._vrp2_code_for(self.config_id)
+            if not code:
                 raise UserError(_(
                     "Packaging '%(product)s' is not in this till's VRP2 "
                     "catalogue (it has no VRP2 service code). Push the "
@@ -456,7 +457,7 @@ class PosOrder(models.Model):
                 "discount": figures["discount"],
                 "quantity": figures["quantity"],
                 "type": "NEGATIVE",
-                "serviceCode": template.vrp2_code,
+                "serviceCode": code,
                 "vatRate": figures["rate"],
             }
             return item, -figures["total"]

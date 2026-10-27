@@ -98,6 +98,14 @@
                         <field name="provision_journal_id"
                                readonly="state == 'draft'"
                                invisible="provision_move_id" />
+                        <!-- The error for a chart without 591/341 says "set it
+                             explicitly on the return": these are where. -->
+                        <field name="provision_expense_account_id"
+                               readonly="state == 'draft'"
+                               invisible="provision_move_id" />
+                        <field name="provision_payable_account_id"
+                               readonly="state == 'draft'"
+                               invisible="provision_move_id" />
                         <field name="provision_move_id" readonly="1"
                                invisible="not provision_move_id" />
                         <field name="provision_posted" invisible="1" />

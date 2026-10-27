@@ -2,13 +2,20 @@
 <odoo noupdate="1">
 
     <!--
-      CZ účetní závěrka — full statutory line structure (vyhláška 500/2002 Sb.).
-      Rozvaha: plný-rozsah group + selected numbered lines; Výkaz zisku a ztráty
-      v druhovém členění. Each chart account (l10n_cz směrná osnova) is mapped to
+      CZ účetní závěrka (vyhláška 500/2002 Sb.) — NOT the plný rozsah.
+      Rozvaha: the items of the zkrácený rozsah (letters + Roman numerals);
+      Výkaz zisku a ztráty v druhovém členění without V., D.2.x, E.x, IV.x,
+      V.x, VI.x, J.x (§ 3a odst. 4: an obchodní společnost files the VZZ in
+      plný rozsah, so it completes those items outside Odoo). Each chart account (l10n_cz směrná osnova) is mapped to
       exactly one leaf line (verified partition) so the aggregates reconcile:
       AKTIVA = PASIVA and VHB = revenues − costs. A.V (výsledek běžného období)
-      is computed from class 5/6 (open-year) so the balance sheet ties out even
-      before the result is closed to 431.
+      is the MOVEMENT of class 5/6 within the period (basis='movement'), so it
+      equals the VZZ result and the sheet ties out before the year's result is
+      closed. It used to read the cumulative balance, which on a second year
+      without a closing put every earlier year's result into A.V. Earlier
+      results belong in A.IV through 431/428/429 (the závěrka and the opening
+      of the books); where they were never posted there, AKTIVA ≠ PASIVA by
+      exactly that amount — the signal, not a defect to plug.
 
       Dlouhodobé/krátkodobé receivable & payable splits and the opravné-položka
       allocations follow the standard chart convention — confirm with a CZ
@@ -72,7 +79,7 @@
             (0, 0, {'code': 'AIV', 'name': 'A.IV. Výsledek hospodaření minulých let',
                     'kind': 'accounts', 'account_formula': '-426,-428,-429,-431,-491', 'level': 2, 'sequence': 160}),
             (0, 0, {'code': 'AV', 'name': 'A.V. Výsledek hospodaření běžného účetního období',
-                    'kind': 'accounts', 'account_formula': '-5,-6', 'level': 2, 'sequence': 170}),
+                    'kind': 'accounts', 'basis': 'movement', 'account_formula': '-5,-6', 'level': 2, 'sequence': 170}),
             (0, 0, {'code': 'AVI', 'name': 'A.VI. Rozhodnuto o zálohové výplatě podílu na zisku',
                     'kind': 'accounts', 'account_formula': '-432', 'level': 2, 'sequence': 180}),
             (0, 0, {'code': 'VK', 'name': 'A. Vlastní kapitál',

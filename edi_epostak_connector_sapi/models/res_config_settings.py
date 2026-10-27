@@ -377,6 +377,25 @@ class ResConfigSettings(models.TransientModel):
         except UserError as e:
             return _note("danger", _("ePošťák is not configured"), "%s" % e)
 
+        others = self._epostak_unserved_companies()
+        if others:
+            # One account, one firm, one mailbox per database: say so where
+            # it is configured rather than let a second company's invoices be
+            # refused and its e-invoices never collected without a word.
+            return _note(
+                "warning",
+                _("ePošťák connection OK — for one company only"),
+                _(
+                    "Authenticated against %(url)s as participant %(pid)s. "
+                    "ePošťák credentials serve one company per database, and "
+                    "collection runs as %(company)s. These companies also "
+                    "allow e-invoicing and will not be served: %(others)s.",
+                    url=cfg["sapi_url"],
+                    pid=connector._epostak_own_participant_id() or _("(no Peppol address set)"),
+                    company=self._epostak_collecting_company().display_name,
+                    others=", ".join(others.mapped("display_name")),
+                ),
+            )
         return _note(
             "success",
             _("ePošťák connection OK"),
@@ -388,3 +407,22 @@ class ResConfigSettings(models.TransientModel):
             ),
             sticky=False,
         )
+
+    def _epostak_collecting_company(self):
+        """The company inbound collection runs as: that of the user of the
+        scheduled action (the connector polls ``env.company``)."""
+        cron = self.env.ref(
+            "edi_epostak_base.cron_epostak_get_messages", raise_if_not_found=False)
+        user = cron.sudo().user_id if cron else self.env.user
+        return user.company_id
+
+    def _epostak_unserved_companies(self):
+        """Companies that allow e-invoicing but are not the one the single
+        ePošťák account serves (the collecting company)."""
+        Company = self.env["res.company"].sudo()
+        if "peppol_send_enabled" not in Company._fields:
+            # edi_base_peppol is not installed: nothing is e-invoiced.
+            return Company
+        served = self._epostak_collecting_company()
+        return Company.search([
+            ("peppol_send_enabled", "=", True), ("id", "!=", served.id)])

@@ -26,6 +26,10 @@
     <field name="xml_root_element">Pisemnost</field>
     <field name="xml_schema_filename">dphdp3_epo2.xsd</field>
     <field name="xml_schema_data" type="base64" file="l10n_cz_vat_return/data/dphdp3_epo2.xsd"/>
+    <!-- ř. 64 vlastní daň / ř. 65 nadměrný odpočet: drive the settlement
+         (To pay / (refund)) and the § 105 carry. -->
+    <field name="own_tax_line_code">dano_da</field>
+    <field name="excess_line_code">dano_no</field>
   </record>
   <record id="dphdp3_type_B" model="cssk.vat.return.type">
     <field name="version_id" ref="dphdp3_version_2025"/><field name="code">B</field>

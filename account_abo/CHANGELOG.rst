@@ -11,10 +11,24 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Changed
 ~~~~~~~
 
+- The payment method is now **ABO (Czech credit transfer)**, no longer
+  *Czech/Slovak*: the file accepts CZK and Czech accounts only, and the user
+  guide is published in English and Czech.
+
 - Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+[19.0.2.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- A payment order whose lines carry different dates is refused rather than
+  executed on the first line's date; a zero or negative line is refused rather
+  than written.
 
 [19.0.2.0.0] — 2026-07-04
 -------------------------

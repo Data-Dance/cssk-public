@@ -83,6 +83,20 @@ class AccountEdiXmlISDOC(models.AbstractModel):
                 "ISDOC proforma (DocumentType 4): could not read the "
                 "document total; no received advance was created."
             )]
+        existing = self._isdoc_find_imported_proforma(invoice)
+        if existing:
+            # The same proforma a second time (re-sent, or the e-mail alias
+            # read it twice): one received advance, not two to pay.
+            invoice.advance_purchase_order_id = existing
+            invoice.message_post(body=self.env._(
+                "This ISDOC proforma (DocumentType 4) was already imported as "
+                "received advance %s; no new advance was created. Delete this "
+                "draft.", existing.name,
+            ))
+            return [self.env._(
+                "ISDOC proforma (DocumentType 4): already imported as received "
+                "advance %s. Do not post this draft bill.", existing.name,
+            )]
         product = self.env.ref(
             "account_edi_isdoc_purchase_advance.product_imported_advance"
         )
@@ -116,6 +130,20 @@ class AccountEdiXmlISDOC(models.AbstractModel):
             "over %s %s. Do not post this draft bill.",
             order.name, f"{gross_amount:.2f}", invoice.currency_id.name,
         )]
+
+    def _isdoc_find_imported_proforma(self, invoice):
+        """The open received advance this proforma already created: same
+        company, same supplier, same supplier's document number."""
+        if not invoice.ref or not invoice.partner_id:
+            return self.env["purchase.order"]
+        return self.env["purchase.order"].search([
+            ("company_id", "=", invoice.company_id.id),
+            ("is_advance_invoice", "=", True),
+            ("partner_id", "child_of",
+             invoice.partner_id.commercial_partner_id.id),
+            ("partner_ref", "=", invoice.ref),
+            ("state", "!=", "cancel"),
+        ], order="id", limit=1)
 
     # ------------------------------------------------------------------
     # DocumentType 5/6 — daňový doklad k přijaté platbě (+ its refund)

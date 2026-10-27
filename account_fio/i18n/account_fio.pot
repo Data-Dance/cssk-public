@@ -1,6 +1,3 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* account_fio
 #
 msgid ""
 msgstr ""
@@ -64,6 +61,18 @@ msgid ""
 msgstr ""
 
 #. module: account_fio
+#: model:ir.model,name:account_fio.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__display_name
+#: model:ir.model.fields,field_description:account_fio.field_fio_upload_mixin__display_name
+#: model:ir.model.fields,field_description:account_fio.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_fio
 #. odoo-python
 #: code:addons/account_fio/models/account_journal.py:0
 msgid "Fio %(label)s expires"
@@ -122,6 +131,11 @@ msgstr ""
 #. module: account_fio
 #: model:ir.model.fields,field_description:account_fio.field_account_journal__fio_last_write_at
 msgid "Fio Last Submit Call"
+msgstr ""
+
+#. module: account_fio
+#: model:ir.model,name:account_fio.model_fio_upload_mixin
+msgid "Fio Payment Upload"
 msgstr ""
 
 #. module: account_fio
@@ -193,26 +207,26 @@ msgstr ""
 #. module: account_fio
 #: model:ir.actions.act_window,name:account_fio.fio_journal_action
 #: model:ir.ui.menu,name:account_fio.fio_account_menu
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_form_fio
 msgid "Fio banka"
 msgstr ""
 
 #. module: account_fio
-#: model:ir.module.module,summary:base.module_account_fio
+#: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_write_expiry
 msgid ""
-"Fio banka API tokens per bank journal, with the mandatory 30-second throttle"
-" and token-expiry watch."
-msgstr ""
-
-#. module: account_fio
-#: model:ir.module.module,shortdesc:base.module_account_fio
-msgid "Fio banka — connection"
+"Fio caps a token's validity at 180 days and refuses to issue one without an "
+"expiry, so every token has one — but the API does not report it. Copy it "
+"from internet banking when you paste the token: left empty, the expiry "
+"warning cannot fire and payment orders will start failing without notice."
 msgstr ""
 
 #. module: account_fio
 #: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_read_expiry
 msgid ""
 "Fio caps a token's validity at 180 days and refuses to issue one without an "
-"expiry."
+"expiry, so every token has one — but the API does not report it. Copy it "
+"from internet banking when you paste the token: left empty, the expiry "
+"warning cannot fire and the feed will stop without notice."
 msgstr ""
 
 #. module: account_fio
@@ -227,6 +241,36 @@ msgstr ""
 #. odoo-python
 #: code:addons/account_fio/models/account_journal.py:0
 msgid "Fio keeps this account in %(fio)s while the journal is in %(journal)s."
+msgstr ""
+
+#. module: account_fio
+#: model:ir.actions.server,name:account_fio.cron_fio_token_expiry_ir_actions_server
+msgid "Fio: warn about expiring tokens"
+msgstr ""
+
+#. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_form_fio
+msgid ""
+"Generate the tokens in Fio internet banking under\n"
+"                        <b>Nastavení → API</b>. A token becomes usable five\n"
+"                        minutes after it is authorised, is bound to one account,\n"
+"                        and expires after at most 180 days. Use a read-only\n"
+"                        token for the statement pull and a separate submit token\n"
+"                        for payment orders — the read token is the one in\n"
+"                        constant use, and one that can only read cannot pay\n"
+"                        anyone."
+msgstr ""
+
+#. module: account_fio
+#: model:ir.model.fields,field_description:account_fio.field_account_journal__id
+#: model:ir.model.fields,field_description:account_fio.field_fio_upload_mixin__id
+#: model:ir.model.fields,field_description:account_fio.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: account_fio
+#: model:ir.model,name:account_fio.model_account_journal
+msgid "Journal"
 msgstr ""
 
 #. module: account_fio
@@ -251,6 +295,7 @@ msgid "No bank journal is connected to Fio yet"
 msgstr ""
 
 #. module: account_fio
+#: model:ir.model.fields.selection,name:account_fio.selection__account_payment_order__fio_upload_state__not_sent
 #: model:ir.model.fields.selection,name:account_fio.selection__fio_upload_mixin__fio_upload_state__not_sent
 msgid "Not sent"
 msgstr ""
@@ -264,6 +309,7 @@ msgstr ""
 
 #. module: account_fio
 #: model:ir.model.fields,field_description:account_fio.field_res_partner__fio_payment_reason
+#: model:ir.model.fields,field_description:account_fio.field_res_users__fio_payment_reason
 msgid "Platební titul"
 msgstr ""
 
@@ -273,13 +319,34 @@ msgid "Read token"
 msgstr ""
 
 #. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_form_fio
+msgid "Read token set"
+msgstr ""
+
+#. module: account_fio
+#: model:ir.model.fields.selection,name:account_fio.selection__account_payment_order__fio_upload_state__sent
 #: model:ir.model.fields.selection,name:account_fio.selection__fio_upload_mixin__fio_upload_state__sent
 msgid "Sent to Fio"
 msgstr ""
 
 #. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_form_fio
+msgid "Settings"
+msgstr ""
+
+#. module: account_fio
 #: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_list_fio
 msgid "Submit token"
+msgstr ""
+
+#. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_form_fio
+msgid "Submit token set"
+msgstr ""
+
+#. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_form_fio
+msgid "Test connection"
 msgstr ""
 
 #. module: account_fio
@@ -312,6 +379,11 @@ msgid ""
 "The previous upload's answer was lost, so nobody knows whether Fio holds "
 "this batch. Check internet banking for an unauthorised batch and record what"
 " you found — there is a button for each answer — before sending anything."
+msgstr ""
+
+#. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_form_fio
+msgid "The tokens themselves are visible to administrators only."
 msgstr ""
 
 #. module: account_fio
@@ -370,6 +442,7 @@ msgid ""
 msgstr ""
 
 #. module: account_fio
+#: model:ir.model.fields.selection,name:account_fio.selection__account_payment_order__fio_upload_state__unknown
 #: model:ir.model.fields.selection,name:account_fio.selection__fio_upload_mixin__fio_upload_state__unknown
 msgid "Unknown — check the bank"
 msgstr ""
@@ -380,6 +453,17 @@ msgstr ""
 msgid ""
 "Upload to Fio ended without an answer: %(error)s<br/><br/>The batch may or "
 "may not exist in the bank. Check internet banking before sending again."
+msgstr ""
+
+#. module: account_fio
+#: model_terms:ir.ui.view,arch_db:account_fio.account_journal_view_form_fio
+msgid "What Fio reports about this account"
+msgstr ""
+
+#. module: account_fio
+#. odoo-python
+#: code:addons/account_fio/models/account_journal.py:0
+msgid "fio_token_write_expiry"
 msgstr ""
 
 #. module: account_fio
@@ -396,6 +480,7 @@ msgstr ""
 
 #. module: account_fio
 #: model:ir.model.fields,help:account_fio.field_res_partner__fio_payment_reason
+#: model:ir.model.fields,help:account_fio.field_res_users__fio_payment_reason
 msgid ""
 "ČNB payment reason used as the default on foreign payments to this partner, "
 "where Fio requires one. Set it on the partner because it follows what you "
@@ -403,24 +488,13 @@ msgid ""
 msgstr ""
 
 #. module: account_fio
-#: model:ir.model,name:account_fio.model_fio_upload_mixin
-msgid "Fio Payment Upload"
+#: model:ir.module.module,summary:base.module_account_fio
+msgid ""
+"Fio banka API tokens per bank journal, with the mandatory 30-second throttle"
+" and token-expiry watch."
 msgstr ""
 
 #. module: account_fio
-#: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_write_expiry
-msgid ""
-"Fio caps a token's validity at 180 days and refuses to issue one without an "
-"expiry, so every token has one — but the API does not report it. Copy it "
-"from internet banking when you paste the token: left empty, the expiry "
-"warning cannot fire and payment orders will start failing without notice."
-msgstr ""
-
-#. module: account_fio
-#: model:ir.model.fields,help:account_fio.field_account_journal__fio_token_read_expiry
-msgid ""
-"Fio caps a token's validity at 180 days and refuses to issue one without an "
-"expiry, so every token has one — but the API does not report it. Copy it "
-"from internet banking when you paste the token: left empty, the expiry "
-"warning cannot fire and the feed will stop without notice."
+#: model:ir.module.module,shortdesc:base.module_account_fio
+msgid "Fio banka — connection"
 msgstr ""

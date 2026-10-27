@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Account Move Report Signed",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "author": "Data Dance s.r.o.",
     "category": "Accounting/Accounting",
     "summary": "Renders negative (signed) values in Account Move note PDF reports",

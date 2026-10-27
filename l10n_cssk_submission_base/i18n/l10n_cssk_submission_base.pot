@@ -1,0 +1,757 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_submission_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:14+0000\n"
+"PO-Revision-Date: 2026-10-27 19:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(filing)s was exported again after this submission was queued, so the "
+"queued XML is no longer the filing. Queue the submission anew to send the "
+"current export."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(filing)s was reset to draft after this submission was queued. Export it "
+"again and queue the submission anew."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(name)s has already reached the authority and cannot be cancelled. File a "
+"correction instead."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submittable_mixin.py:0
+msgid "%(name)s has no XML to file."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(name)s has no filed payload. Export and submit the statement first — a "
+"submission carries the statement's filed copy, it does not produce one."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "%(name)s is %(state)s and cannot be queued."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "%(name)s is already attested."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "%(name)s is not a manual filing."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(name)s is not a manual filing; its channel records acceptance itself."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submittable_mixin.py:0
+msgid ""
+"%(name)s is not exported yet. A submission carries the filed copy, so export"
+" and submit it first."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"A filing on the authority's portal is made by a person, not by this server. "
+"Use 'Attest filing' once it has been submitted."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.constraint,message:l10n_cssk_submission_base.constraint_cssk_submission_check_res
+msgid "A submission must point at a statement."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.actions.act_window,help:l10n_cssk_submission_base.cssk_submission_action
+msgid ""
+"A submission records how a statutory filing reached the\n"
+"                authority and what came back. Create one from the filing\n"
+"                itself once it has been exported."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Acceptance by the authority attested by %(user)s."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__accepted
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Accepted"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__accepted_date
+msgid "Accepted Date"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Accepted by the authority."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"Attach the authority's confirmation (potvrdenie / doručenka / potvrzení) "
+"under Receipts first: it is the evidence that %(name)s was accepted."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Attempt %(n)s failed, retrying in %(delay)s min: %(err)s"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__attempt_count
+msgid "Attempt Count"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Attest acceptance"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Attest filing"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Attest the filing on %(name)s before its acceptance."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Attested as filed on the authority's portal by %(user)s."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__evidence_user_id
+msgid "Attested by"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Authority"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Authority portal — filed by hand"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__external_ref
+msgid "Authority reference"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__cancelled
+msgid "Cancelled"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Cancelled."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__channel
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Channel"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Channel %(channel)s has no sender installed."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submittable_mixin.py:0
+msgid "Channel %(channel)s is not available for this filing."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__correlation_id
+msgid "Correlation"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Could not mark %(filing)s submitted; do it on the filing."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__active_submission_id
+msgid "Current submission"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__delivered
+msgid "Delivered"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__delivered_date
+msgid "Delivered Date"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Delivered to the channel."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__submission_state
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Delivery"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__failed
+msgid "Failed"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Failed: %(err)s"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submittable_mixin.py:0
+msgid "File %(name)s"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__payload_attachment_id
+msgid "Filed payload"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__statement_display
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_list
+msgid "Filing"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Filing %(name)s could not be sent: %(err)s"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Filing type"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Giving up after %(n)s attempts. Last error: %(err)s"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__id
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__correlation_id
+msgid "Key the authority's later receipt is matched on."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__last_error
+msgid "Last Error"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_id
+msgid "Message"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Needs attention"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "New"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__next_retry
+msgid "Next Retry"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.actions.act_window,help:l10n_cssk_submission_base.cssk_submission_action
+msgid "No submissions yet"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Not yet accepted"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_id
+msgid "Our identifier for this message, as sent to the channel."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__external_ref
+msgid "Podacie číslo / message reference assigned by the authority."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__receipt_attachment_ids
+msgid ""
+"Potvrdenky and doručenky. These are the proof the filing was made and "
+"accepted, so they are kept here rather than left with the channel provider."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Queue"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__queued
+msgid "Queued"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Queued for %(channel)s."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__receipt_attachment_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Receipts"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid ""
+"Record that the authority accepted this filing. Attach its confirmation "
+"under Receipts first."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid ""
+"Record that this was filed by hand on the authority's portal, and by whom."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__rejected
+msgid "Rejected"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__sealed_attachment_id
+msgid "Sealed payload"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Send now"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__sending
+msgid "Sending"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"Sending was aborted; the outcome is unknown (%(error)s). The filing may have"
+" reached the authority: check its portal before sending it again."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__sent_date
+msgid "Sent Date"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__sealed_attachment_id
+msgid "Signed/sealed container (ASiC-E), where the channel requires one."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__state
+msgid "State"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__res_id
+msgid "Statement"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__res_model
+msgid "Statement model"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model,name:l10n_cssk_submission_base.model_cssk_submittable_mixin
+msgid "Statement that can be filed through a channel"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Status"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model,name:l10n_cssk_submission_base.model_cssk_submission
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Statutory Submission"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.actions.act_window,name:l10n_cssk_submission_base.cssk_submission_action
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_list
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Statutory Submissions"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:res.groups,name:l10n_cssk_submission_base.group_cssk_submission_manager
+msgid "Statutory submissions: file"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.actions.server,name:l10n_cssk_submission_base.cron_cssk_submission_poll_ir_actions_server
+msgid "Statutory submissions: poll for acceptance"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:res.groups,name:l10n_cssk_submission_base.group_cssk_submission_user
+msgid "Statutory submissions: prepare"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.actions.server,name:l10n_cssk_submission_base.cron_cssk_submission_send_ir_actions_server
+msgid "Statutory submissions: send queued"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__submission_ids
+#: model:ir.ui.menu,name:l10n_cssk_submission_base.menu_cssk_submission
+msgid "Submissions"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__payload_attachment_id
+msgid ""
+"The XML that was filed. Points at the statement's own filed copy rather than"
+" duplicating it."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid ""
+"The channel confirmed it took this filing. Acceptance by\n"
+"                        the authority is a separate step and has not been\n"
+"                        recorded yet."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"The filing was exported again: this submission now carries %(new)s instead "
+"of %(old)s."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"Unexpected error while sending; the outcome is unknown (%(error)s). The "
+"filing may have reached the authority: check its portal before sending it "
+"again."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Unknown model %(model)s."
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__evidence_user_id
+msgid "Who confirmed a manual filing actually took place."
+msgstr ""

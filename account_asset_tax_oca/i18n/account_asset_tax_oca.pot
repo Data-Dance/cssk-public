@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-04 07:48+0000\n"
-"PO-Revision-Date: 2026-07-04 07:48+0000\n"
+"POT-Creation-Date: 2026-10-27 19:26+0000\n"
+"PO-Revision-Date: 2026-10-27 19:26+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -81,14 +81,6 @@ msgid "Book vs Tax Depreciation Report"
 msgstr ""
 
 #. module: account_asset_tax_oca
-#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_increased_first_year
-msgid ""
-"CZ §31(1)(b)/(c)/(d): a first depreciator of a group 1–3 asset may elect a "
-"higher first-year straight-line rate (+10/15/20 %). CZ + straight-line + "
-"groups 1–3 only."
-msgstr ""
-
-#. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__company_id
 msgid "Company"
 msgstr ""
@@ -104,8 +96,24 @@ msgid "Compute Tax Board"
 msgstr ""
 
 #. module: account_asset_tax_oca
+#: model:ir.actions.act_window,name:account_asset_tax_oca.action_account_asset_tax_compute_selected
+#: model:ir.ui.menu,name:account_asset_tax_oca.menu_account_asset_tax_compute
+msgid "Compute Tax Depreciation"
+msgstr ""
+
+#. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__currency_id
 msgid "Currency"
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_increased_first_year
+msgid ""
+"Czech Republic only, groups 1–3, and only for the FIRST depreciator (§ 31 odst. 6: the first to acquire the asset new and unused, or who built it). Straight-line uses the § 31 odst. 1 písm. b)–d) tables; accelerated adds the percentage of the entry price to the first-year charge (§ 32 odst. 2 písm. a)).\n"
+"+10 %: any group 1–3 asset (§ 31 odst. 4).\n"
+"+15 %: only water-treatment equipment CZ-CPA 28.29.12 used in buildings CZ-CC 125113, and sorting and processing equipment for secondary raw materials (§ 31 odst. 3).\n"
+"+20 %: only agricultural and forestry machines CZ-CPA 28.3 of a taxpayer with mainly agricultural and forestry production (§ 31 odst. 2).\n"
+"Never for aircraft, motorcycles and passenger cars outside the licensed uses, household appliances (CZ-CPA 27.5) or recreational boats (CZ-CPA 30.12) — § 31 odst. 5. Odoo cannot see these conditions; the choice is yours to justify."
 msgstr ""
 
 #. module: account_asset_tax_oca
@@ -122,6 +130,11 @@ msgid ""
 "Depreciable base for tax purposes (vstupní / vstupná cena). Defaults to the "
 "accounting acquisition value but can differ (e.g. capped M1 vehicle, non-"
 "deductible components)."
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_sk_disposal_months
+msgid "Depreciate Whole Months in Disposal Year"
 msgstr ""
 
 #. module: account_asset_tax_oca
@@ -194,6 +207,7 @@ msgstr ""
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__0
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset__tax_increased_first_year__0
 msgid "None"
 msgstr ""
 
@@ -217,9 +231,13 @@ msgstr ""
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_vehicle_capped
 msgid ""
-"Passenger vehicle subject to the statutory depreciation cap (CZ §30e 2M CZK "
-"/ SK §17(34) 48k EUR). The tax board is then computed on the company's "
-"capped base instead of the full entry value."
+"Passenger vehicle subject to the statutory vehicle limit set on the company."
+" CZ §30e (2 000 000 CZK, category M1): only the share limit / entry price of"
+" each depreciation is deductible, so the tax board is computed on the limit."
+" SK §17(34) (48 000 EUR): the car is depreciated in full and the board "
+"shows, per year, the excess over straight-line depreciation of 48 000 EUR — "
+"the amount added back to the tax base only when that base is lower than the "
+"statutory threshold."
 msgstr ""
 
 #. module: account_asset_tax_oca
@@ -227,6 +245,18 @@ msgstr ""
 msgid ""
 "Set once the first tax depreciation is filed. The statutory method may not "
 "change for the asset's whole life (CZ §30(2) / SK §26(3))."
+msgstr ""
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_sk_disposal_months
+msgid ""
+"Slovakia, §22(12): keep the depreciation for the whole months the asset was "
+"recorded in the year it is disposed of. Mandatory for assets depreciated "
+"under §26(6) and (7); optional (from 2016) for assets whose residual value "
+"is deductible only up to the sale proceeds under §19(3)(b) first point — "
+"passenger cars, boats, aircraft, motorcycles, bicycles, group-6 buildings "
+"sold. Every other asset gets no tax depreciation in the year of disposal "
+"(§22(11)); its residual value is expensed instead."
 msgstr ""
 
 #. module: account_asset_tax_oca
@@ -346,21 +376,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_depreciation_enabled
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__tax_depreciation_enabled
 msgid "Track Tax Depreciation"
-msgstr ""
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__10
-msgid "+10 %"
-msgstr ""
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__15
-msgid "+15 %"
-msgstr ""
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__20
-msgid "+20 %"
 msgstr ""
 
 #. module: account_asset_tax_oca

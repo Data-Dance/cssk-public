@@ -84,7 +84,7 @@ class TestMinWageWarning(TransactionCase):
         self.assertIn("1147", warning)
 
     def test_a_part_timer_on_a_proportionate_wage_is_not_warned(self):
-        """§ 120 ods. 4 halves the claim for a half-time contract.
+        """§ 120 ods. 6 halves the claim for a half-time contract.
 
         Warning here would be the false positive that trains people to ignore
         the banner.

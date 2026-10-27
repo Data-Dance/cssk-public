@@ -874,3 +874,72 @@ msgstr "napr. FD"
 #: model_terms:ir.ui.view,arch_db:pos_vrp2.pos_config_view_form_vrp2
 msgid "— DKP"
 msgstr "— DKP"
+
+#. module: pos_vrp2
+#: model:ir.model,name:pos_vrp2.model_vrp2_catalog_link
+msgid "VRP2 catalogue entry of a till"
+msgstr "Položka katalógu VRP2 pokladne"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__config_id
+msgid "Till"
+msgstr "Pokladňa"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__kind
+msgid "Kind"
+msgstr "Druh"
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__vrp2_catalog_link__kind__category
+msgid "Category"
+msgstr "Kategória"
+
+#. module: pos_vrp2
+#: model:ir.model.fields.selection,name:pos_vrp2.selection__vrp2_catalog_link__kind__service
+msgid "Product"
+msgstr "Produkt"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__res_id
+msgid "Odoo record"
+msgstr "Záznam v Odoo"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_vrp2_catalog_link__res_id
+msgid "pos.category id for a category, product.template id for a product."
+msgstr "ID pos.category pre kategóriu, ID product.template pre produkt."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__remote_ref
+msgid "VRP2 reference"
+msgstr "Referencia VRP2"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_vrp2_catalog_link__remote_ref
+msgid "categoryId for a category, the service code for a product."
+msgstr "categoryId pre kategóriu, kód služby pre produkt."
+
+#. module: pos_vrp2
+#: model:ir.model.fields,field_description:pos_vrp2.field_vrp2_catalog_link__created_here
+msgid "Created Here"
+msgstr "Vytvorené odtiaľto"
+
+#. module: pos_vrp2
+#: model:ir.model.fields,help:pos_vrp2.field_vrp2_catalog_link__created_here
+msgid ""
+"Created on the register by a push from this database. Only such entries are "
+"ever deleted or deactivated by a push."
+msgstr ""
+"Vytvorené v pokladnici odoslaním z tejto databázy. Odoslanie maže alebo "
+"deaktivuje iba takéto položky."
+
+#. module: pos_vrp2
+#: model:ir.model.constraint,message:pos_vrp2.constraint_vrp2_catalog_link_record_uniq
+msgid "An Odoo record is linked to one entry per till."
+msgstr "Záznam v Odoo je prepojený s jednou položkou na pokladňu."
+
+#. module: pos_vrp2
+#: model:ir.model.constraint,message:pos_vrp2.constraint_vrp2_catalog_link_remote_uniq
+msgid "A VRP2 entry is linked to one Odoo record per till."
+msgstr "Položka VRP2 je prepojená s jedným záznamom v Odoo na pokladňu."

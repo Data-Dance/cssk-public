@@ -72,6 +72,10 @@ class ProductTemplate(models.Model):
             cat_map[cat.vrp2_id] = cat.id
 
         vat_id_map = company._vrp2_vat_id_to_tax()
+        links_by_code = {
+            link.remote_ref: link
+            for link in self.env["vrp2.catalog.link"]._for(register, "service").values()
+        }
 
         synced = 0
         for svc in services:
@@ -79,7 +83,10 @@ class ProductTemplate(models.Model):
             if not code:
                 continue
 
-            existing = self.search([("vrp2_code", "=", code)], limit=1)
+            link = links_by_code.get(code)
+            existing = self.browse(link.res_id).exists() if link else self.browse()
+            if not existing:
+                existing = self.search([("vrp2_code", "=", code)], limit=1)
 
             vat_data = svc.get("vat", {})
             vat_id = vat_data.get("id")
@@ -119,13 +126,14 @@ class ProductTemplate(models.Model):
 
             if existing:
                 existing.write(vals)
-                # Barcode lives on product.product
-                if ean and existing.product_variant_ids:
-                    existing.product_variant_ids[0].barcode = ean
+                tmpl = existing
             else:
                 tmpl = self.create(vals)
-                if ean and tmpl.product_variant_ids:
-                    tmpl.product_variant_ids[0].barcode = ean
+            # Barcode lives on product.product
+            if ean and tmpl.product_variant_ids:
+                tmpl.product_variant_ids[0].barcode = ean
+            self._vrp2_link(register, tmpl, code,
+                            created_here=bool(link and link.created_here))
             synced += 1
 
         _logger.info(
@@ -140,11 +148,55 @@ class ProductTemplate(models.Model):
     # ------------------------------------------------------------------
 
     @api.model
-    def _vrp2_push(self, register):
-        """Push all POS-available products to VRP2.
+    def _vrp2_link(self, register, template, code, created_here=False):
+        """Link ``template`` to the service ``code`` on this till's register."""
+        Link = self.env["vrp2.catalog.link"]
+        link = Link.search([
+            ("config_id", "=", register.id), ("kind", "=", "service"),
+            "|", ("res_id", "=", template.id), ("remote_ref", "=", code),
+        ])
+        if link:
+            link.unlink()
+        if not template.vrp2_code:
+            template.vrp2_code = code
+        return Link.create({
+            "config_id": register.id, "kind": "service",
+            "res_id": template.id, "remote_ref": code,
+            "created_here": created_here,
+        })
 
-        Intended products = available_in_pos + has a tax mapped in VRP2.
-        Products in VRP2 but no longer intended get deactivated.
+    def _vrp2_code_for(self, till):
+        """This product's service code on ``till``'s register."""
+        self.ensure_one()
+        link = self.env["vrp2.catalog.link"].sudo().search([
+            ("config_id", "=", till.id), ("kind", "=", "service"),
+            ("res_id", "=", self.id),
+        ], limit=1)
+        return link.remote_ref or self.vrp2_code
+
+    @api.model
+    def _vrp2_intended(self, register):
+        """The products this till sells: in the POS, of the till's company,
+        within its categories when it limits them."""
+        domain = [
+            ("available_in_pos", "=", True),
+            ("sale_ok", "=", True),
+            *self._check_company_domain(register.company_id),
+        ]
+        if register.limit_categories and register.iface_available_categ_ids:
+            domain.append(
+                ("pos_categ_ids", "child_of", register.iface_available_categ_ids.ids))
+        return self.search(domain)
+
+    @api.model
+    def _vrp2_push(self, register):
+        """Push this till's POS products to VRP2.
+
+        Intended products = available on the till (see ``_vrp2_intended``)
+        + has a tax mapped in VRP2. A product that is no longer intended is
+        deactivated on the register only if THIS till's pushes created it
+        there (see ``vrp2.catalog.link``); a service typed in the VRP2 app,
+        another till's or another database's is never touched.
 
         Returns (created, updated, deactivated) counts.
         """
@@ -152,12 +204,8 @@ class ProductTemplate(models.Model):
         company = register.company_id
         tax_reverse = company._vrp2_tax_to_vat_id()
 
-        # 1. Intended products: available_in_pos + has a mapped tax
-        all_pos = self.search([
-            ("available_in_pos", "=", True),
-            ("sale_ok", "=", True),
-        ])
-        intended = all_pos.filtered(
+        # 1. Intended products: on this till + has a mapped tax
+        intended = self._vrp2_intended(register).filtered(
             lambda p: any(
                 tax_reverse.get(t.id) is not None for t in p.taxes_id
             )
@@ -167,10 +215,13 @@ class ProductTemplate(models.Model):
         resp = client._get_service_list(register)
         remote_products = resp.get("results", [])
         self._vrp2_warn_if_truncated(resp, "service")
-        remote_codes = {p["code"] for p in remote_products if p.get("code")}
+        remote_by_code = {p["code"]: p for p in remote_products if p.get("code")}
+        truncated = (resp.get("resultTotalCount") or 0) > len(remote_products)
+
+        links = self.env["vrp2.catalog.link"]._for(register, "service")
+        linked_codes = {link.remote_ref for link in links.values()}
 
         # 3. Push intended products
-        intended_codes = set()
         created = 0
         updated = 0
 
@@ -186,54 +237,64 @@ class ProductTemplate(models.Model):
             if vat_id is None:
                 continue
 
-            if product.vrp2_code:
+            link = links.get(product.id)
+            if not link and product.vrp2_code in remote_by_code \
+                    and product.vrp2_code not in linked_codes:
+                # The code from before per-till links, found on this
+                # register: adopted, not created here — never deactivated.
+                link = links[product.id] = self._vrp2_link(
+                    register, product, product.vrp2_code)
+                linked_codes.add(link.remote_ref)
+
+            if link:
                 # Update
-                dto = product._to_vrp2_update_dto(vat_id, matched_tax)
+                dto = product._to_vrp2_update_dto(
+                    vat_id, matched_tax, code=link.remote_ref)
                 client._set_service_data(register, {"dto": dto})
                 product.vrp2_synced = True
-                intended_codes.add(product.vrp2_code)
                 updated += 1
             else:
                 # Create
                 dto = product._to_vrp2_create_dto(vat_id, matched_tax)
                 resp = client._add_service(register, {"dto": dto})
                 if resp and resp.get("code"):
-                    product.vrp2_code = resp["code"]
+                    links[product.id] = self._vrp2_link(
+                        register, product, resp["code"], created_here=True)
                     product.vrp2_synced = True
-                    intended_codes.add(resp["code"])
                     created += 1
 
-        # 4. Deactivate VRP2 products no longer in intended set
+        # 4. Deactivate what this till created and no longer sells
         deactivated = 0
-        codes_to_deactivate = remote_codes - intended_codes
-
-        if codes_to_deactivate:
-            # We need vatId and priceWithVat for deactivation — get from remote data
-            remote_by_code = {p["code"]: p for p in remote_products}
-            for code in codes_to_deactivate:
-                rp = remote_by_code.get(code, {})
-                vat_id = rp.get("vat", {}).get("id")
-                price = rp.get("priceWithVat", 0)
-                if not vat_id:
-                    continue
-                dto = {
-                    "code": code,
-                    "vatId": vat_id,
-                    "priceWithVat": price,
-                    "invalid": True,
-                }
-                try:
-                    client._set_service_data(register, {"dto": dto})
-                    deactivated += 1
-                    # Clear vrp2_synced on local record if it exists
-                    local = self.search([("vrp2_code", "=", code)], limit=1)
-                    if local:
-                        local.vrp2_synced = False
-                except Exception:
-                    _logger.warning(
-                        "VRP2 failed to deactivate product code=%s", code,
-                        exc_info=True,
-                    )
+        for res_id, link in links.items():
+            if res_id in intended.ids or not link.created_here:
+                continue
+            rp = remote_by_code.get(link.remote_ref)
+            if not rp:
+                if not truncated:
+                    link.unlink()  # gone from the register already
+                continue
+            if rp.get("invalid"):
+                continue
+            vat_id = (rp.get("vat") or {}).get("id")
+            if not vat_id:
+                continue
+            dto = {
+                "code": link.remote_ref,
+                "vatId": vat_id,
+                "priceWithVat": rp.get("priceWithVat", 0),
+                "invalid": True,
+            }
+            try:
+                client._set_service_data(register, {"dto": dto})
+                deactivated += 1
+                local = self.browse(res_id).exists()
+                if local:
+                    local.vrp2_synced = False
+            except Exception:
+                _logger.warning(
+                    "VRP2 failed to deactivate product code=%s",
+                    link.remote_ref, exc_info=True,
+                )
 
         _logger.info(
             "VRP2 product push for %s: %d created, %d updated, %d deactivated",
@@ -268,14 +329,15 @@ class ProductTemplate(models.Model):
             dto["categoryId"] = cat_id
         if self.vrp2_note:
             dto["note"] = self.vrp2_note[:1000]
+        self._vrp2_add_special_regulation(dto, tax)
         return dto
 
-    def _to_vrp2_update_dto(self, vat_id, tax):
+    def _to_vrp2_update_dto(self, vat_id, tax, code=None):
         """Build dto for POST /v1/service/setservicedata."""
         self.ensure_one()
         price_with_vat = self._compute_price_with_vat(tax)
         dto = {
-            "code": self.vrp2_code,
+            "code": code or self.vrp2_code,
             "priceWithVat": price_with_vat,
             "vatId": vat_id,
             "favourite": self.vrp2_favourite,
@@ -291,7 +353,19 @@ class ProductTemplate(models.Model):
             dto["categoryId"] = cat_id
         if self.vrp2_note:
             dto["note"] = self.vrp2_note[:1000]
+        self._vrp2_add_special_regulation(dto, tax)
         return dto
+
+    def _vrp2_add_special_regulation(self, dto, tax):
+        """The verbal 0 % VAT reason, for the receipt to print.
+
+        It was pulled from VRP2 but never pushed, so a product set up in Odoo
+        reached the register without it. The VRP2 web app sends the field on
+        both addservice and setservicedata, and only for a 0 % rate (it
+        deletes it from the dto for any other) — this follows it.
+        """
+        if self.vrp2_special_regulation and tax and not tax.amount:
+            dto["specialRegulation"] = self.vrp2_special_regulation
 
     def _compute_price_with_vat(self, tax):
         """Compute gross price (with VAT) from Odoo's net list_price.

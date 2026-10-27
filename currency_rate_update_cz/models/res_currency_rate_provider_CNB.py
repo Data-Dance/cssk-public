@@ -40,9 +40,11 @@ class ResCurrencyRateProviderCNB(models.Model):
         string="ČNB rate", default="daily",
         help="Daily: every ČNB fixing is stored and a document takes the rate "
         "of its day. Fixed monthly: one rate per month, dated the 1st, which "
-        "Odoo then applies to the whole month (§ 24 odst. 6 ZoÚ; for VAT "
-        "§ 38 ZDPH). The actual daily fixings are still kept, apart, for the "
-        "balance-sheet revaluation, which must use the rate of that day.\n\n"
+        "Odoo then applies to the whole month (pevný kurz, § 24c odst. 2 and "
+        "§ 24d odst. 4 ZoÚ; for VAT the rate valid for the person converting "
+        "on the tax point, § 4 odst. 8 ZDPH). The actual daily fixings are "
+        "still kept, apart, for the balance-sheet revaluation, which must use "
+        "the rate of that day (§ 24c odst. 1 písm. b) ZoÚ).\n\n"
         "Switching to monthly does not delete daily rates already stored; "
         "remove those for the months that should use the fixed rate.")
     cnb_monthly_reference = fields.Selection(
@@ -146,8 +148,8 @@ class ResCurrencyRateProviderCNB(models.Model):
         The daily feed answers for ONE day, and this provider used to send it
         only ``date_to``: *Update rates* over January–June stored 30 June and
         nothing else, so a back-dated document took whatever earlier rate
-        happened to exist. § 38 ZDPH wants the rate valid on the day the tax
-        point arises, and a history import is exactly the job that needs it.
+        happened to exist. § 4 odst. 8 ZDPH wants the rate valid on the day
+        the tax point arises, and a history import is exactly the job that needs it.
 
         A range starting on a weekend or holiday has no fixing of its own; the
         rate valid then is the last one before it, so that is fetched too —

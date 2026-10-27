@@ -184,6 +184,23 @@ class TestLeaveExpiryReminder(TransactionCase):
         self.assertIn("day(s)", body)
         self.assertNotIn(">5</span>", body)
 
+    def test_no_claim_that_leave_is_forfeited(self):
+        """Neither labour code lets annual leave lapse (CZ § 218 zákoníku
+        práce, SK § 113 Zákonníka práce). The reminder may say when the plan
+        drops the days from the Odoo balance, never that the claim is lost."""
+        alloc = self._make_allocation(IN_WINDOW, 5.0, approve=True)
+        self.env["hr.leave.allocation"]._cron_notify_expiring_carryover()
+        acts = self._activities_for(self.employee)
+        self.assertEqual(len(acts), 1)
+
+        template = self.env.ref(MOD + ".mail_template_leave_expiry")
+        body = template._render_field(
+            "body_html", alloc.ids, engine="qweb"
+        )[alloc.id]
+        for text in (acts.note, body):
+            self.assertNotIn("forfeit", text)
+            self.assertIn("does not lapse", text)
+
     def test_statutory_quota_plan_is_never_reminded(self):
         """A §141 doctor-visit / OČR quota is granted whole on 1 January and
         lapses; nothing is carried over, so it must stay out of scope even if
@@ -239,3 +256,48 @@ class TestLeaveExpiryReminder(TransactionCase):
             "a skipped allocation must stay un-marked so a later cohort "
             "still gets its reminder",
         )
+
+    def test_hr_is_told_even_when_the_employee_has_a_user(self):
+        """The approver used to be a fallback only. The employer schedules
+        leave, so HR gets its own activity, worded about the employee."""
+        approver = self.env["res.users"].create(
+            {"name": "Leave Approver", "login": "expiry_approver"})
+        self.employee.leave_manager_id = approver
+        self._make_allocation(IN_WINDOW, 5.0)
+        self.env["hr.leave.allocation"]._cron_notify_expiring_carryover()
+        acts = self._activities_for(self.employee)
+        self.assertEqual(acts.user_id, self.user | approver)
+        hr_act = acts.filtered(lambda a: a.user_id == approver)
+        self.assertIn("Expiry Employee has 5 day(s)", hr_act.note)
+        own = acts.filtered(lambda a: a.user_id == self.user)
+        self.assertIn("You have 5 day(s)", own.note)
+
+    def test_not_marked_reminded_when_nobody_was_reached(self):
+        """No user, no approver, no manager, no work email: nothing was
+        delivered, so the cohort must stay open for the next run."""
+        lonely = self.env["hr.employee"].create({"name": "Nobody Knows"})
+        alloc = self.env["hr.leave.allocation"].create({
+            "name": "Lonely allocation",
+            "holiday_status_id": self.leave_type.id,
+            "employee_id": lonely.id,
+            "number_of_days": 20,
+            "date_from": date(2026, 1, 1),
+        })
+        alloc.write({"carried_over_days_expiration_date": IN_WINDOW,
+                     "expiring_carryover_days": 5.0})
+        self.env["hr.leave.allocation"]._cron_notify_expiring_carryover()
+        self.assertFalse(self._activities_for(lonely))
+        self.assertFalse(alloc.l10n_cssk_expiry_reminder_date)
+        # Once somebody can be told, the next run does tell them.
+        lonely.user_id = self.env["res.users"].create(
+            {"name": "Nobody Knows", "login": "expiry_lonely"})
+        self.env["hr.leave.allocation"]._cron_notify_expiring_carryover()
+        self.assertEqual(len(self._activities_for(lonely)), 1)
+        self.assertEqual(alloc.l10n_cssk_expiry_reminder_date, IN_WINDOW)
+
+    def test_allocation_awaiting_second_approval_is_reminded(self):
+        alloc = self._make_allocation(IN_WINDOW, 5.0)
+        alloc.write({"state": "validate1"})
+        self.env["hr.leave.allocation"]._cron_notify_expiring_carryover()
+        self.assertEqual(len(self._activities_for(self.employee)), 1)
+        self.assertEqual(alloc.l10n_cssk_expiry_reminder_date, IN_WINDOW)

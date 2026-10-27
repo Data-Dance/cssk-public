@@ -8,6 +8,34 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- Create the Slovak default provider is a button on the provider list, shown on
+  an empty list; the action-menu entry only appeared once a row was selected.
+
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A Slovak company's documents now take the reference rate announced on
+  the day before**, as § 24 ods. 2 písm. a) of the Accounting Act and § 26
+  ods. 1 of the VAT Act require. Until now an invoice, bill, payment or
+  bank-statement line got the rate announced on its own date. A document
+  dated after a weekend or a holiday takes the last rate announced before
+  it. An invoice with a *taxable supply date* takes the rate of the day
+  before that date, which is when the tax liability arises.
+- The year-end revaluation is deliberately unaffected: the balance-sheet day
+  keeps its own rate (§ 24 ods. 2 písm. b)).
+- Applies to companies whose country or fiscal country is Slovakia. Documents
+  already posted keep their rate; a draft takes the new rate when its date
+  changes.
+
 [19.0.1.1.0] — 2026-09-13
 -------------------------
 

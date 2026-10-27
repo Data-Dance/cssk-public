@@ -5,6 +5,14 @@ Changelog
 All notable changes to **edi_epostak_base** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- Slovak and Czech translations of the user interface (``i18n/sk.po``, ``i18n/cs.po``).
+
 [19.0.1.0.1] — 2026-10-01
 -------------------------
 

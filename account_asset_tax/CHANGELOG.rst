@@ -8,6 +8,100 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.11.0 (2026-10-27), not yet on 18.0:** the backfill residual check
+  replays lifecycle events, and Czech accelerated depreciation takes the §
+  32 odst. 2 písm. a) first-year increase (engine, mixin constraint and
+  help). Port the engine and wizard changes and their tests.
+
+[19.0.1.10.0] — 2026-10-27
+--------------------------
+
+Fixed
+~~~~~
+
+- **Slovak disposal year.** An asset disposed of during the year no longer
+  gets a pro-rated tax depreciation in that year: § 22 ods. 11 zákona
+  595/2003 Z. z. allows the annual charge only for an asset still recorded on
+  the last day of the tax period, so the whole remaining tax residual is the
+  § 19 ods. 3 písm. b) expense. The whole-month charge of § 22 ods. 12 is kept
+  only for assets ticked *Depreciate Whole Months in Disposal Year*.
+- **Slovak cars from 48 000 €.** *Apply Vehicle Depreciation Cap* no longer
+  caps a Slovak board at 48 000 €. § 17 ods. 34 is a conditional add-back, not
+  a cap: the car is depreciated in full, and the new *Vehicle Add-back (SK
+  §17(34))* column shows, per year, the excess over straight-line depreciation
+  of 48 000 €. The reconciliation, its PDF and XLSX show it in a separate
+  column and total, and the DPPO helper returns it as ``vehicle_addback``. The
+  Czech § 30e limit works as before.
+- **Czech rounding.** Czech straight-line, accelerated and extraordinary
+  depreciation, the increased-price charges after a technical improvement and
+  the half-year charge on disposal are rounded up to whole crowns (§ 31 odst.
+  9, § 32 odst. 5, § 30a odst. 2 zákona 586/1992 Sb.); the next year's
+  residual is computed from the rounded charges. They were rounded to the
+  haléř.
+- **Czech disposal in the first year.** An asset put into use and disposed of
+  in the same year gets no depreciation in that year (§ 26 odst. 7 písm. a)
+  grants the half-year charge only for an asset held at the start of the
+  period).
+- **Czech return rows.** The reconciliation labelled its columns with the
+  Slovak rows (150 / 250) for every company. The rows now follow the
+  company's country — SK r. 150 / r. 250, CZ ř. 50 / ř. 150 (DPPDP9) — in the
+  wizard, the PDF and the XLSX.
+- **§ 30a monthly boards.** The year's accounting depreciation was shown on
+  every monthly line, so the board's and the register's book total and
+  difference were multiplied by the number of months. It now sits on the
+  year's last line only, the register shows the asset once per year, and the
+  per-year book-versus-tax merge sums the months instead of taking the last.
+- **Deferred tax true-up.** The 481 balance it trues up is now the balance at
+  the end of the period; entries dated later no longer distort it.
+- **Tax Depreciation Register** could not be opened by anyone but the
+  superuser: the wizard had no access rule. Accounting administrators can now
+  use it.
+
+Added
+~~~~~
+
+- *Depreciate Whole Months in Disposal Year* on the asset (Slovakia,
+  § 22 ods. 12).
+
+Changed
+~~~~~~~
+
+- Boards with filed years computed by an earlier version keep their filed
+  figures; recomputing such an asset is refused where the rules above change a
+  filed year — correct it with *Backfill (migration)* if needed.
+
+Removed
+~~~~~~~
+
+- The two July-era HTML cheat sheets in ``static/description``; nothing
+  linked to them and they repeated the rules corrected above.
+
+[19.0.1.11.0] — 2026-10-27
+--------------------------
+
+Added
+~~~~~
+
+- **Czech accelerated depreciation takes the first-year increase.** A first
+  depreciator may raise the first accelerated charge by 10, 15 or 20 % of the
+  entry price (§ 32 odst. 2 písm. a) zákona 586/1992 Sb.), as straight-line
+  already could. *Increased First-Year Rate* is now offered and accepted for
+  accelerated depreciation too; its help lists which assets may take which
+  increase (§ 31 odst. 2 to 6).
+
+Fixed
+~~~~~
+
+- **Backfill refused a correct residual when the asset had events.** The
+  *Expected Tax Residual* check computed the board without the recorded
+  technical improvements and suspensions, so it disagreed with the board the
+  wizard then built. It now replays them. Its message no longer advises
+  recording an event inside a filed year, which is refused; it explains how
+  to do it on an asset with filed years.
+
 [19.0.1.9.4] — 2026-09-13
 -------------------------
 

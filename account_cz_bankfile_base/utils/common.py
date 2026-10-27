@@ -169,6 +169,44 @@ def national_account_key(acc_number, countries=('CZ', 'SK')):
     return bank, prefix.lstrip('0'), number.lstrip('0') or '0'
 
 
+def bare_account_key(digits):
+    """``(prefix, number)`` of an account written as bare digits, no bank code.
+
+    GPC statements carry the own account as 16 digits — six of prefix, ten of
+    number — and nothing else, so neither the IBAN nor ``prefix-number/bank``
+    spelling of the journal's account compares equal to it. Compare this with
+    the last two members of :func:`national_account_key` instead. ``None`` for
+    anything that is not 1 to 16 digits.
+    """
+    digits = (digits or '').strip()
+    if not digits.isdigit() or len(digits) > 16:
+        return None
+    digits = digits.zfill(16)
+    return digits[:6].lstrip('0'), digits[6:].lstrip('0') or '0'
+
+
+def account_number_key(acc_number):
+    """``(prefix, number)`` of a CZ/SK account written as an IBAN, as
+    ``prefix-number/bank`` or as bare digits; ``None`` for anything else."""
+    key = national_account_key(acc_number)
+    if key:
+        return key[1:]
+    return bare_account_key(sanitize_digits(acc_number))
+
+
+def sanitize_digits(acc_number):
+    """``acc_number`` without spaces and dashes, for a bare-digit compare."""
+    return re.sub(r'[\s-]', '', acc_number or '')
+
+
+def is_same_bare_account(acc_number, digits):
+    """True when ``acc_number`` (IBAN, national form or bare digits) is the
+    account that a bank-code-less ``digits`` field names. See
+    :func:`bare_account_key`."""
+    bare = bare_account_key(digits)
+    return bool(bare and account_number_key(acc_number) == bare)
+
+
 def fold_to_ascii(text):
     """Strip diacritics, return ASCII-only text."""
     if not text:

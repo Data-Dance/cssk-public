@@ -37,10 +37,18 @@ class AccountMoveLinkAdvanceInvoiceWizard(models.TransientModel):
         return values
 
     def _is_already_linked_elsewhere(self, advance, move):
+        """Whether another live invoice already deducts this advance.
+
+        A deduction is a negative-quantity line linked to the advance's order
+        lines. Its tax documents are linked to the same lines with a positive
+        quantity, and must not count: they are what makes an advance worth
+        deducting with its VAT in the first place.
+        """
         linked_invoice_lines = advance.order_line.invoice_lines.filtered(
             lambda line: line.move_id.move_type == "out_invoice"
             and line.move_id.state != "cancel"
             and line.move_id.id != move.id
+            and line.quantity < 0
         )
         return bool(linked_invoice_lines)
 
@@ -63,6 +71,7 @@ class AccountMoveLinkAdvanceInvoiceWizard(models.TransientModel):
 
             available = candidate_advances.filtered(
                 lambda advance: not wizard._is_already_linked_elsewhere(advance, move)
+                and advance._advance_deduction_components()
             )
             wizard.available_advance_invoice_ids = available
 
@@ -108,35 +117,27 @@ class AccountMoveLinkAdvanceInvoiceWizard(models.TransientModel):
             if already_linked_on_move:
                 continue
 
-            has_advance_invoice = bool(
-                advance.invoice_ids.filtered(
-                    lambda inv: inv.move_type == "out_invoice" and inv.state != "cancel"
-                )
-            )
-
-            tax_commands = [Command.set(source_line.tax_ids.ids)]
-            price_unit = source_line.price_unit
-            net_account = advance._get_advance_invoice_net_account()
-            line_vals = {
-                "product_id": source_line.product_id.id,
-                "name": _("Advance Invoice %(name)s", name=advance.name),
-                "quantity": -1.0,
-                "sale_line_ids": [Command.link(source_line.id)],
-                "sequence": max_seq + seq_offset,
-            }
-            if has_advance_invoice:
-                # With tax document: debit the net received-advance account and
-                # keep taxes so Odoo generates the VAT reversal automatically.
-                if net_account:
-                    line_vals["account_id"] = net_account.id
-            else:
-                # No tax document: deduct the gross amount, no VAT split.
-                tax_commands = [Command.clear()]
-                price_unit = advance.amount_total
-            line_vals["price_unit"] = price_unit
-            line_vals["tax_ids"] = tax_commands
-
-            lines_to_add.append(Command.create(line_vals))
+            # The same parts as on an order's final invoice: the net each
+            # posted tax document declared, at its own taxes, and gross
+            # without VAT whatever was received beyond them. A draft tax
+            # document has declared nothing yet.
+            components = advance._advance_deduction_components()
+            for offset, component in enumerate(components):
+                name = _("Advance Invoice %(name)s", name=advance.name)
+                if component["taxes"] and len(components) > 1:
+                    name = "%s (%s)" % (name, ", ".join(component["taxes"].mapped("name")))
+                line_vals = {
+                    "product_id": source_line.product_id.id,
+                    "name": name,
+                    "quantity": -1.0,
+                    "price_unit": component["amount"],
+                    "tax_ids": [Command.set(component["taxes"].ids)],
+                    "sale_line_ids": [Command.link(source_line.id)],
+                    "sequence": max_seq + seq_offset * 100 + offset,
+                }
+                if component["account"]:
+                    line_vals["account_id"] = component["account"].id
+                lines_to_add.append(Command.create(line_vals))
 
         if len(lines_to_add) == (1 if not has_advance_section else 0):
             raise UserError(_("No eligible advance invoices were found to link."))

@@ -100,11 +100,20 @@ class ResPartner(models.Model):
 
     def _vies_log(self, result, data=None, fault_reason=None):
         """Record one check by the current company. Created as superuser: the
-        log is evidence, so users read it but never write it."""
+        log is evidence, so users read it but never write it.
+
+        Also called from core's VIES compute, where ``self`` may be the
+        draft copy of a contact being edited: the check belongs to the
+        stored contact (``_origin``). A contact not yet saved has none, and
+        is not logged.
+        """
         self.ensure_one()
+        partner_id = self._origin.id
+        if not partner_id:
+            return self.env["cssk.vies.check"]
         data = data or {}
         vals = {
-            "partner_id": self.id,
+            "partner_id": partner_id,
             "company_id": self.env.company.id,
             "requester_vat": self.env.company.vat or False,
             "vat": self.vat or False,
@@ -127,18 +136,24 @@ class ResPartner(models.Model):
                 "name_match": data.get("traderNameMatch") or False,
             })
         check = self.env["cssk.vies.check"].sudo().create(vals)
-        self.invalidate_recordset(["vies_check_ids"])
+        self._origin.invalidate_recordset(["vies_check_ids"])
         return check
 
     # ------------------------------------------------------------------
     # Routing: core has a single VIES call site (_check_vies_iap), invoked
     # from _compute_vies_valid. Redirect it to the direct service when the
-    # company opted out of IAP. During that compute we must NOT write sibling
-    # fields, so proof storage is suppressed (store=False) on this path.
+    # company opted out of IAP.
+    #
+    # The check is logged on this path too. It used to be suppressed, so the
+    # automatic check run when a VAT number is typed fetched a consultation
+    # number and threw it away. Logging writes only the separate
+    # ``cssk.vies.check`` model — no field of the partner being computed —
+    # the same way core's ``_update_vies_status`` writes a chatter note from
+    # inside this compute.
     # ------------------------------------------------------------------
     def _check_vies_iap(self):
         if self.env.company.vies_use_direct:
-            return self._check_vies_direct(store=False)
+            return self._check_vies_direct(store=True)
         return super()._check_vies_iap()
 
     @api.model
@@ -296,6 +311,25 @@ class ResPartner(models.Model):
         return sorted(codes)
 
     @api.model
+    def _vies_cron_scope(self, company):
+        """The contacts whose VIES status matters to ``company``.
+
+        Not every EU VAT number in the database. A contact that belongs to
+        another company is that company's business, and a VAT number from the
+        company's own country is a domestic one: VIES proves nothing about a
+        domestic supply, and core does not show the VIES status for it either
+        (``perform_vies_validation``). Without this, every company with
+        direct checks re-checked every EU contact in the database each week,
+        a request apiece against a rate-limited service.
+        """
+        domain = Domain("company_id", "in", [False, company.id])
+        own = company.account_fiscal_country_id.code or company.country_id.code
+        if own:
+            prefix = "EL" if own == "GR" else own
+            domain &= Domain("vat", "not =ilike", prefix + "%")
+        return domain
+
+    @api.model
     def _cron_check_vies_direct(self, stale_days=7, limit=200, throttle=0.5):
         """Refresh partners with an EU VAT for companies using direct VIES."""
         companies = self.env["res.company"].sudo().search(
@@ -325,6 +359,7 @@ class ResPartner(models.Model):
                 .sudo()
                 .search(
                     eu_vat_domain
+                    & self._vies_cron_scope(company)
                     & Domain([("parent_id", "=", False),
                               ("id", "not in", recent.ids)]),
                     limit=limit,

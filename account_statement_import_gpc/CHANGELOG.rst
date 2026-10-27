@@ -17,6 +17,18 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.2.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The journal is found by comparing prefix and number with its account in any
+  spelling (IBAN, prefix-number/bank, bare digits), not by a substring search:
+  a prefixed short number such as 19-123456789/0100 is found, and a journal
+  whose account merely contains the file's digits is refused with a message
+  instead of receiving the statement.
+
 [19.0.2.0.0] — 2026-08-11
 -------------------------
 

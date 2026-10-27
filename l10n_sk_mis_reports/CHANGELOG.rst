@@ -8,6 +8,28 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Every class 5 account reaches the result.** 507 (predané nehnuteľnosti),
+  592 (odložená daň z príjmov) and 596 (prevod podielov na výsledku
+  hospodárenia spoločníkom) were on no line, so *Výsledok hospodárenia po
+  zdanení* differed from the ledger by whatever sat on them. 507 has its own
+  cost line, 592 joins *Daň z príjmov*, 596 has its own line below it.
+
+- **The helper line for classes 54/55 is no longer printed.** It now has a
+  hidden style.
+
+Changed
+~~~~~~~
+
+- An installed template is brought up to date on upgrade, but only where a
+  line still holds what an earlier version shipped; a line you changed is
+  left alone.
+
 [19.0.1.0.0] — 2026-08-06
 -------------------------
 

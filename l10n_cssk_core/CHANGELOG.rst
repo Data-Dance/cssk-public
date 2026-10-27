@@ -8,12 +8,41 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.18.0] — 2026-10-27
+--------------------------
+
+Added
+~~~~~
+
+- **Year-end closing journals in Settings** (Accounting → Settings → Czech /
+  Slovak Localization). The financial statements, the income-tax return and
+  the financial reports leave these journals' entries out, but the list could
+  only be set by import or by a developer.
+
 Fixed
 ~~~~~
 
+- **Export warnings reach the user.** A content check that does not block the
+  export (an unusual VAT rate, KV_RATE / KV_SIGN / KV_D2_BUSINESS, the OSS
+  checks) was written to the server log only. The export now shows them in a
+  notification, posts them to the filing's chatter, and keeps them on the
+  filing (*Export warnings*) until the next export. Errors still block.
+- **Tax offices of every company you work in.** The tax-office list followed
+  the fiscal country of the user's *default* company, so a user working in a
+  Czech and a Slovak company saw one country's offices only and could not set
+  the other company's tax authority. It now follows the companies currently
+  selected.
+- **Registration Info retired.** The field said it was printed on invoices and
+  was printed nowhere. Odoo's own *Trade registry* field (Slovak and Czech
+  localizations) already holds the register entry and is printed on the
+  invoice. The field is gone from the company form, and the upgrade copies a
+  value entered there into *Trade registry* where that is empty.
 - The *Default Tax Authority* settings field lost its filter on the fiscal
   country: Odoo drops a string domain when it copies a field into a related
   one.
+- Slovak and Czech translations: the VAT deferral texts, many error messages
+  and help texts were missing from the catalogues; *The ledger* (basis of a
+  comparison) now reads *Hlavná kniha* / *Hlavní kniha*.
 
 [19.0.1.17.0] — 2026-10-02
 --------------------------

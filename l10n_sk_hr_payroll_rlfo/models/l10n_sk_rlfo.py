@@ -38,8 +38,12 @@ AGREEMENT_TYP_ZEC = {
     ("dovp", False): "ZECD1N",  # DoVP - nepravidelný príjem
     ("dopc", True): "ZECD2",    # DoPČ - pravidelný príjem
     ("dopc", False): "ZECD2N",  # DoPČ - nepravidelný príjem
+    # DoBPŠ had no entry and fell back to ZEC, registering a student as an
+    # employee in a pracovný pomer with the full insurance scope.
+    ("dobps", True): "ZECD3",   # DoBPŠ - pravidelný príjem
+    ("dobps", False): "ZECD3N",  # DoBPŠ - nepravidelný príjem
 }
-DOHODA_CODES = ("ZECD1", "ZECD1N", "ZECD2", "ZECD2N")
+DOHODA_CODES = ("ZECD1", "ZECD1N", "ZECD2", "ZECD2N", "ZECD3", "ZECD3N")
 
 
 class L10nSkRlfo(models.Model):
@@ -57,6 +61,15 @@ class L10nSkRlfo(models.Model):
         "l10n.sk.rlfo.event", "rlfo_id", string="Registration events")
     events_count = fields.Integer(
         compute="_compute_events_count", string="Events")
+    # The company field is required for every Sociálna poisťovňa filing but
+    # appears on no company form (several modules declare it, and one view
+    # per module would show the input several times). Edit it here instead.
+    sp_vs = fields.Char(
+        related="company_id.l10n_sk_sp_vs", readonly=False,
+        string="Sociálna poisťovňa variable symbol",
+        help="10-digit number the Sociálna poisťovňa assigned to the "
+        "company. It is stored on the company and shared by every Sociálna "
+        "poisťovňa filing (MVP, VPP, ELDP, RLFO).")
 
     @api.depends("event_ids")
     def _compute_events_count(self):
@@ -73,8 +86,8 @@ class L10nSkRlfo(models.Model):
                 raise UserError(_(
                     "Company '%(company)s' needs a 10-digit Sociálna poisťovňa "
                     "identification number for the RLFO "
-                    "<variabilnySymbol> element. Set 'Sociálna poisťovňa "
-                    "variable symbol' on the company.",
+                    "<variabilnySymbol> element. Fill in 'Sociálna "
+                    "poisťovňa variable symbol' on this form.",
                     company=company.display_name))
             if not rec._company_ico(company):
                 raise UserError(_(
@@ -90,13 +103,6 @@ class L10nSkRlfo(models.Model):
     def _company_ico(self, company):
         ico = self._digits(company.company_registry)
         return ico if 8 <= len(ico) <= 12 else False
-
-    @staticmethod
-    def _split_name(name):
-        parts = (name or "").split()
-        meno = parts[0] if parts else "-"
-        priezvisko = parts[-1] if len(parts) > 1 else (parts[0] if parts else "-")
-        return priezvisko[:36], meno[:24]
 
     @staticmethod
     def _fmt(d):
@@ -157,7 +163,10 @@ class L10nSkRlfo(models.Model):
                     "De-registration for '%(name)s' needs both the "
                     "insurance start and end dates.",
                     name=employee.display_name))
-            priezvisko, meno = self._split_name(employee.name)
+            # Last word = surname, the rest = first name(s); separate first /
+            # last name fields win when hr_employee_firstname provides them.
+            meno, priezvisko = self._split_person_name(employee)
+            meno, priezvisko = (meno or "-")[:24], (priezvisko or "-")[:36]
             events.append({
                 "typ_rl": ev.typ_rl,
                 "typ_zec": code,
@@ -202,7 +211,9 @@ class L10nSkRlfoEvent(models.Model):
          ("ZECD1", "ZECD1 — DoVP, regular income"),
          ("ZECD1N", "ZECD1N — DoVP, irregular income"),
          ("ZECD2", "ZECD2 — DoPČ, regular income"),
-         ("ZECD2N", "ZECD2N — DoPČ, irregular income")],
+         ("ZECD2N", "ZECD2N — DoPČ, irregular income"),
+         ("ZECD3", "ZECD3 — DoBPŠ, regular income"),
+         ("ZECD3N", "ZECD3N — DoBPŠ, irregular income")],
         string="Relationship type (typZec)",
         compute="_compute_typ_zec", store=True, readonly=False)
     date_start = fields.Date(

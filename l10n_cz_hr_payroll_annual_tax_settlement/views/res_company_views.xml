@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_company_form_vyuctovani" model="ir.ui.view">
+        <field name="name">res.company.form.l10n.cz.vyuctovani</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration"/>
+        <field name="arch" type="xml">
+            <group name="cz_cssz" position="after">
+                <group name="cz_vyuctovani" string="Annual tax settlement (FÚ)"
+                       invisible="country_code != 'CZ'">
+                    <field name="l10n_cz_fu_code"/>
+                    <field name="l10n_cz_vyuctovani_typ_ds"/>
+                    <field name="l10n_cz_zuj_code"/>
+                    <field name="l10n_cz_zuj_name"/>
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <!-- A branch's work address carries its own municipality code for
+         Příloha č. 1 (employees counted per place of work). -->
+    <record id="view_partner_form_zuj" model="ir.ui.view">
+        <field name="name">res.partner.form.l10n.cz.zuj</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <group name="misc" position="inside">
+                <field name="l10n_cz_zuj_code"
+                       invisible="country_code != 'CZ'"/>
+                <field name="l10n_cz_zuj_name"
+                       invisible="country_code != 'CZ'"/>
+            </group>
+        </field>
+    </record>
+</odoo>

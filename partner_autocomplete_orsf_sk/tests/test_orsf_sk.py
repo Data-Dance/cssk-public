@@ -570,6 +570,30 @@ class TestOrsfBulkRefresh(TransactionCase):
         self.assertEqual(self.no_ico.name, "Bez ICO")
         self.assertIn("without a usable IČO", bus.call_args.args[1]["message"])
 
+    def test_bulk_refresh_leaves_contact_persons_alone(self):
+        """A person under a company carries the company's IČO — core copies
+        ``company_registry`` down — and used to be rewritten with the
+        company's name, street and IČ DPH."""
+        self.a.is_company = True
+        person = self.env["res.partner"].create({
+            "name": "Jozef Mrkvička", "parent_id": self.a.id,
+            "street": "Domáca 5",
+        })
+        self.assertEqual(person.company_registry, "31333532")
+        records = {"31333532": dict(LOOKUP, name="ESET, spol. s r.o.")}
+        with patch(
+            f"{PROVIDER_PATH}._orsf_lookup_batch", return_value=records
+        ), patch.object(type(self.env.user), "_bus_send") as bus:
+            (self.a | person).action_orsf_bulk_refresh()
+        self.assertEqual(self.a.name, "ESET, spol. s r.o.")
+        self.assertEqual(person.name, "Jozef Mrkvička")
+        self.assertIn("1 without a usable IČO", bus.call_args.args[1]["message"])
+
+    def test_the_dic_backfill_has_an_entry_point(self):
+        action = self.env.ref("partner_autocomplete_orsf_sk.action_orsf_fill_missing_dic")
+        self.assertEqual(action.binding_model_id.model, "res.partner")
+        self.assertIn("action_orsf_fill_missing_dic", action.code)
+
     def test_a_lookup_record_never_clears_lists_it_does_not_carry(self):
         """/lookup has no activities or filings; a bulk refresh must not wipe
         what the full record previously stored."""

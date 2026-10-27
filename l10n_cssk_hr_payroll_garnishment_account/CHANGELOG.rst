@@ -14,6 +14,17 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The remittance was out of reach on Community.** The *Remit to Payee*
+  button and the *Remit to Payees* menu required "Show Full Accounting
+  Features", which on Community no role grants — not even the Accounting
+  administrator. The Accounting administrator now has them as well.
+
 19.0.1.1.1 (2026-09-07)
 -----------------------
 

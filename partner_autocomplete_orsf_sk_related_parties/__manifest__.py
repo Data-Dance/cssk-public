@@ -1,16 +1,17 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
-    "name": "Partner Autocomplete using ORSF SK — Related Parties (závislé osoby)",
+    "name": "Partner Autocomplete using ORSF SK — Related Parties",
     "summary": "Pull one partner's ownership/officer graph from ORSF on demand, "
-               "so § 17 ods. 5 related-party transactions can be recognised "
-               "instead of remembered.",
+               "so related-party transactions needing transfer-pricing "
+               "documentation (§ 18 ods. 1) are recognised, not remembered.",
     "description": """
-ORSF SK — Related Parties (závislé osoby)
-=========================================
+ORSF SK — Related Parties
+==========================
 
-§ 17 ods. 5 zákona o dani z príjmov subjects transactions between **závislé
-osoby** to transfer-pricing documentation. Nothing in an Odoo database knows
+§ 18 ods. 1 zákona o dani z príjmov obliges a taxpayer to document its
+controlled transactions with **závislé osoby** (§ 2 písm. n) and o)), and
+§ 17 ods. 5 adds to the tax base any departure from arm's-length prices in them. Nothing in an Odoo database knows
 which partners are related to your company or to each other, so in practice the
 question gets answered from memory — or not at all, until a daňová kontrola
 asks.
@@ -55,13 +56,13 @@ correctness. Confirm it against a real signed-in response before relying on the
 output; correcting it means editing ``_orsf_sk_parse_graph``.
 
 Being *related* in the register is also not the same as being a **závislá
-osoba** under § 17 ods. 5 — the statutory test covers economic and personal
+osoba** under § 2 písm. n) — the statutory test covers economic and personal
 connection, not only a shared officer. Treat the output as a shortlist for an
 accountant, never as the conclusion.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.2.0.0",
+    "version": "19.0.2.1.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["partner_autocomplete_orsf_sk", "account"],

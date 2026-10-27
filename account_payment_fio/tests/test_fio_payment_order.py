@@ -76,6 +76,19 @@ class TestFioPaymentOrder(FioCommon):
         self.assertEqual(transaction.findtext("vs"), "987654")
         self.assertEqual(transaction.findtext("ks"), "0308")
 
+    def test_urgent_line_becomes_a_priority_payment(self):
+        """The priority used to be read from a field no Community module
+        defines, so every Fio order was a standard one."""
+        order = self._order()
+        root = etree.fromstring(order.generate_payment_file()[0])
+        # standard is Fio's default, so the element is left out
+        self.assertIsNone(
+            root.findtext("Orders/DomesticTransaction/paymentType"))
+        order.payment_line_ids.iso20022_priority = "URGP"
+        root = etree.fromstring(order.generate_payment_file()[0])
+        self.assertEqual(
+            root.findtext("Orders/DomesticTransaction/paymentType"), "431005")
+
     def test_another_payment_method_is_left_alone(self):
         """The override must not swallow ABO or MultiCash orders."""
         order = self._order()

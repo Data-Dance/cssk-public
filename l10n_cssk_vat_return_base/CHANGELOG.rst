@@ -8,6 +8,27 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.11.0] — 2026-10-27
+--------------------------
+
+Added
+~~~~~
+
+- A *Settlement* tab: the excess deduction carried in from the previous
+  period, the part carried forward, the amount to pay or refund, and the
+  *Carry excess deduction* button the help text already pointed at. The
+  fields existed in no view.
+- *Create historical VAT rates* in a company's Action menu (accounting
+  managers).
+
+Fixed
+~~~~~
+
+- A version's *Monthly* / *Quarterly* switches are enforced.
+- **The ✓ of a filtered line is right.** A line that reports a share of its
+  tags (SK r09 – r12 before 2021, split by § 69 paragraph) reconciled and
+  drilled into the whole tag, so both rows showed ✗ on a correct return.
+
 [19.0.1.10.5] — 2026-09-17
 --------------------------
 

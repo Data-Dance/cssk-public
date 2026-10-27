@@ -1,12 +1,16 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import math
 from datetime import date, datetime, time
 
 from dateutil.relativedelta import relativedelta
 from pytz import timezone
 
 from odoo import _, models
+from odoo.addons.l10n_cz_hr_payroll_base.models.health_calc import (
+    health_premiums,
+)
 
 # Stable Czech payroll worked-day codes for the absence taxonomy. Every one of
 # these is an ABSENCE: it prorates BASIC down. Holiday / paid-obstacle time is
@@ -38,6 +42,18 @@ CZ_ABSENCE_CODES = (
 
 class HrPayslip(models.Model):
     _inherit = "hr.payslip"
+
+    def _l10n_cz_version(self):
+        """The contract (``hr.version``) the payslip is computed on.
+
+        OCA payroll fills ``contract_id`` only in the form's onchange and in
+        the batch wizard; a payslip created through the API leaves it empty
+        while ``compute_sheet`` still resolves the employee's contract for the
+        rules. Fall back to that same resolution so the helpers below see the
+        contract the rules see.
+        """
+        self.ensure_one()
+        return self.contract_id or self._get_employee_contracts()[:1]
 
     def rule_parameter(self, code):
         """Accessor for dated statutory parameters.
@@ -132,7 +148,7 @@ class HrPayslip(models.Model):
         and divide by the full-period scheduled hours.
         """
         self.ensure_one()
-        contract = self.contract_id
+        contract = self._l10n_cz_version()
         calendar = contract.resource_calendar_id
         if not calendar:
             return 1.0
@@ -150,6 +166,178 @@ class HrPayslip(models.Model):
         worked_hours = sum(worked.mapped("number_of_hours"))
         absence = self.l10n_cz_leave_hours(CZ_ABSENCE_CODES)
         return min(max(worked_hours - absence, 0.0) / scheduled, 1.0)
+
+    def l10n_cz_sick_compensated_hours(self):
+        """CZSICK hours the employer compensates (§ 192 odst. 1 zákoníku práce).
+
+        Náhrada mzdy covers only the first 14 calendar days of an
+        uninterrupted dočasná pracovní neschopnost; from day 15 the employee
+        is paid nemocenské by ČSSZ. The hours past that point are traced back
+        to their time-off request and taken off.
+        """
+        self.ensure_one()
+        hours = self.l10n_cz_leave_hours("CZSICK")
+        if not hours:
+            return 0.0
+        calendar = (
+            self._l10n_cz_version().resource_calendar_id
+            or self.employee_id.resource_calendar_id
+        )
+        excess = self.employee_id._l10n_cz_sick_hours_after_employer_period(
+            self.date_from,
+            self.date_to,
+            calendar,
+            lambda leave_type: leave_type.l10n_cz_payroll_code == "CZSICK",
+        )
+        return max(hours - excess, 0.0)
+
+    def l10n_cz_health_premiums(self, base):
+        """Employee and employer health premium for this payslip.
+
+        Returns ``(employee, employer)``, both positive whole crowns: the
+        13,5 % premium rounded up per employee (§ 2 odst. 2 zák. 592/1992),
+        split one third / two thirds with the employee's third rounded up
+        (§ 9 odst. 2 zák. 48/1997), at least from the minimum base prorated by
+        calendar days (§ 3 odst. 9 zák. 592/1992). The minimum base applies to
+        standard employment only, and not to a state-insured person or a
+        ZTP/P holder (§ 3 odst. 8 písm. a) and d)). When an employer-side
+        obstacle (§§ 207-209 ZP) is on the payslip the employer pays the
+        top-up (§ 3 odst. 10, last sentence).
+        """
+        self.ensure_one()
+        version = self._l10n_cz_version()
+        min_base = 0.0
+        if (
+            version.l10n_cz_agreement_type == "standard"
+            and not version.l10n_cz_is_state_insured
+            and not version.l10n_cz_claim_ztpp
+        ):
+            min_base = self.rule_parameter(
+                "l10n_cz_health_min_base"
+            ) * version._l10n_cz_health_min_base_ratio(
+                self.date_from,
+                self.date_to,
+                lambda leave_type: leave_type.l10n_cz_payroll_code,
+            )
+        return health_premiums(
+            base,
+            min_base,
+            self.rule_parameter("l10n_cz_health_rate_ee"),
+            self.rule_parameter("l10n_cz_health_rate_er"),
+            employer_pays_topup=self.l10n_cz_leave_hours(
+                CZ_EMPLOYER_OBSTACLE_CODES
+            ) > 0,
+        )
+
+    def _l10n_cz_discount_hours(self):
+        """Hours counted for the § 7a odst. 3 písm. b) and c) zák. 589/1992 tests.
+
+        Hours worked, overtime included, plus every hour paid by a náhrada
+        mzdy (dovolená, obstacles, the employer's part of a sickness): the
+        statute counts "též hodina, za kterou ... náleží náhrada mzdy". With
+        no worked-day lines at all, the contract's scheduled hours.
+        """
+        self.ensure_one()
+        version = self._l10n_cz_version()
+        if not self.worked_days_line_ids:
+            calendar = (version.resource_calendar_id
+                        or self.employee_id.resource_calendar_id)
+            if not calendar:
+                return 0.0
+            return self.employee_id._get_work_days_data_batch(
+                datetime.combine(self.date_from, time.min),
+                datetime.combine(self.date_to, time.max),
+                calendar=calendar,
+                compute_leaves=False,
+            )[self.employee_id.id]["hours"]
+        # The OCA engine's WORK100 still contains the absences.
+        work = max(
+            sum(
+                abs(line.number_of_hours)
+                for line in self.worked_days_line_ids
+                if line.code == "WORK100"
+            ) - self.l10n_cz_leave_hours(CZ_ABSENCE_CODES),
+            0.0,
+        )
+        overtime = self.l10n_cz_leave_hours("PRESCAS") or sum(
+            abs(line.amount)
+            for line in self.input_line_ids
+            if line.code == "PRESCAS"
+        )
+        paid_absence = self.l10n_cz_leave_hours(
+            ("CZHOLIDAY", "CZOBSTACLE") + CZ_EMPLOYER_OBSTACLE_CODES
+        ) + self.l10n_cz_sick_compensated_hours()
+        if not self.l10n_cz_leave_hours("CZSICK"):
+            # The sickness compensation rule falls back to this input too.
+            paid_absence += sum(
+                abs(line.amount)
+                for line in self.input_line_ids
+                if line.code == "SICK_HOURS"
+            )
+        return work + overtime + paid_absence
+
+    def l10n_cz_social_discount_eligible(self, base):
+        """Whether the employer may claim the sleva na pojistném (§ 7a zák. 589/1992).
+
+        Checks what the payslip can see; the notification to ČSSZ (odst. 5),
+        the one-employer rule (odst. 4) and the eligibility reason itself are
+        the user's to vouch for through the category on the contract.
+
+        * pracovní poměr only (odst. 1) — never a dohoda;
+        * categories a)-f): an agreed shorter working time of 8-30 h a week
+          (odst. 2) and at most 138 hours in the month, prorated for a partial
+          month of employment and rounded up (odst. 3 písm. c));
+        * the monthly base at most 1,5 × the average wage (odst. 3 písm. a));
+        * the base per hour, rounded up, at most 1,15 % of the average wage,
+          rounded up (odst. 3 písm. b)).
+        """
+        self.ensure_one()
+        version = self._l10n_cz_version()
+        category = version.l10n_cz_social_discount_category
+        if not category or category == "none":
+            return False
+        if version.l10n_cz_agreement_type != "standard":
+            return False
+        if base <= 0.0:
+            return False
+        avg_wage = self.rule_parameter("l10n_cz_avg_wage")
+        if base > math.ceil(round(
+            avg_wage * self.rule_parameter("l10n_cz_social_disc_base_mult"), 6)):
+            return False
+        hours = self._l10n_cz_discount_hours()
+        if hours <= 0.0:
+            return False
+        hourly_cap = math.ceil(
+            round(avg_wage * self.rule_parameter("l10n_cz_social_disc_hourly_pct") / 100.0, 6)
+        )
+        if math.ceil(round(base / hours, 6)) > hourly_cap:
+            return False
+        if category == "under21":
+            return True
+        calendar = version.resource_calendar_id
+        if not calendar:
+            return False
+        if "hours_per_week" in calendar._fields:
+            weekly = calendar.hours_per_week
+        else:
+            weeks = 2.0 if calendar.two_weeks_calendar else 1.0
+            weekly = sum(
+                a.hour_to - a.hour_from for a in calendar.attendance_ids
+            ) / weeks
+        if not (
+            self.rule_parameter("l10n_cz_social_disc_hours_min")
+            <= weekly
+            <= self.rule_parameter("l10n_cz_social_disc_hours_max")
+        ):
+            return False
+        period_days = (self.date_to - self.date_from).days + 1
+        start = max(self.date_from, version.contract_date_start or self.date_from)
+        end = min(self.date_to, version.contract_date_end or self.date_to)
+        employed_days = max((end - start).days + 1, 0)
+        month_cap = math.ceil(round(
+            self.rule_parameter("l10n_cz_social_disc_hours_month_max")
+            * employed_days / period_days, 6))
+        return hours <= month_cap
 
     # -- Average earnings (průměrný výdělek, §351-362 zákoníku práce) -------
 
@@ -172,7 +360,7 @@ class HrPayslip(models.Model):
         scheduled hours rather than the earnings achieved so far in the quarter.
         """
         self.ensure_one()
-        contract = self.contract_id
+        contract = self._l10n_cz_version()
         # Fall back to the employee's own calendar. A version without one
         # would otherwise return 0.0 here, floor to the minimum wage and
         # pay every náhrada at that. The Enterprise engine has always had
@@ -205,7 +393,7 @@ class HrPayslip(models.Model):
         days" test approximated by "any worked hours in the quarter".
         """
         self.ensure_one()
-        contract = self.contract_id
+        contract = self._l10n_cz_version()
         min_hourly = self.rule_parameter("l10n_cz_min_wage_hourly")
         manual = contract.l10n_cz_avg_hourly_earnings
         if manual:

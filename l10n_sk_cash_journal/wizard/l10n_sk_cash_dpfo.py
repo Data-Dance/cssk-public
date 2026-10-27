@@ -114,7 +114,12 @@ class L10nSkCashDpfo(models.TransientModel):
             })
 
         # -- tabuľka 1: the flows, by § 6 source then the total ---------
-        by_code = flows["by_code"]
+        # Every row of the table has two columns, stĺpec 1 príjmy and
+        # stĺpec 2 výdavky (``tab2stlpceType`` = ``s1`` / ``s2`` in
+        # dpfo_b2025.xsd), and a category of either kind carries the row's
+        # code. So each row is two figures; adding the sides together, as
+        # ``by_code`` does, put príjmy + výdavky on the line.
+        by_code_side = flows["by_code_side"]
         for code, label in (
             ("t1r1", "r. 1 — príjmy z poľnohospodárskej výroby (§ 6 ods. 1 a)"),
             ("t1r2", "r. 2 — príjmy zo živnosti (§ 6 ods. 1 b)"),
@@ -123,8 +128,12 @@ class L10nSkCashDpfo(models.TransientModel):
             ("t1r6", "r. 6 — príjmy z inej samostatnej zárobkovej činnosti (§ 6 ods. 2 b)"),
             ("t1r11", "r. 11 — príjmy z prenájmu (§ 6 ods. 3)"),
         ):
-            if code in by_code or code == "t1r2":
-                row("t1", code, label, value=by_code.get(code, 0.0))
+            if code in by_code_side or code == "t1r2":
+                sides = by_code_side.get(code, {})
+                row("t1", "%s_prijmy" % code, "%s, stĺpec 1 — príjmy" % label,
+                    value=sides.get("income", 0.0))
+                row("t1", "%s_vydavky" % code, "%s, stĺpec 2 — výdavky" % label,
+                    value=sides.get("expense", 0.0))
         row("t1", "t1r10_prijmy", "r. 10 stĺpec 1 — príjmy spolu",
             value=flows["income"])
         row("t1", "t1r10_vydavky", "r. 10 stĺpec 2 — výdavky spolu",

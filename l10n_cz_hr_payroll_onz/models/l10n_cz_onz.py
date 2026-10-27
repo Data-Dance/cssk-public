@@ -70,12 +70,9 @@ class L10nCzOnz(models.Model):
         if self.state != "draft":
             raise UserError(_(
                 "Reset the declaration to draft before regenerating it."))
-        if not self.version_id:
-            raise UserError(_(
-                "No ONZ version is configured. Check the shipped version "
-                "data."))
         if not self.employee_ids:
             raise UserError(_("Select at least one employee to register."))
+        self._ensure_period_version()
         self._preflight()
         data = {"aggregate": {}, "per_employee": {}}
         xml_bytes = self._render_xml(data)
@@ -104,6 +101,41 @@ class L10nCzOnz(models.Model):
         return True
 
     # ------------------------------------------------------------------
+    def _event_date(self, employee):
+        """The day this filing registers for *employee*: the start of the
+        employment for a nástup, its end for a skončení."""
+        version = employee.version_id
+        if self.event_type == "nastup":
+            return version.contract_date_start
+        return version.contract_date_end
+
+    def _filing_date(self):
+        """The day the notification is made: today."""
+        return fields.Date.context_today(self)
+
+    def _version_reference_date(self):
+        """ONZ reports EVENTS and is filed on the day it is made, so the
+        version must cover both: the latest event in the batch and the
+        filing day. From 1 April 2026 neither is possible — a new event is
+        registered through JMHZ, and so is an older event not notified by
+        31 March 2026 (zákon č. 360/2025 Sb., čl. XXV bod 4)."""
+        self.ensure_one()
+        dates = [d for d in map(self._event_date, self.employee_ids) if d]
+        return max(dates + [self._filing_date()])
+
+    def _successor_hint(self):
+        # ČSSZ, "Přehled informací k jednotlivým agendám ČSSZ v přechodném
+        # období" (5. 3. 2026): ONZ "do 31. 3. 2026 je zachováno ve
+        # stávajícím rozsahu a formátu", and "se všemi jeho akcemi bude od
+        # 1. 4. 2026 plně nahrazeno v JMHZ podáním Registrace zaměstnance
+        # (REGZEC)" (zákon č. 323/2025 Sb.).
+        return _(
+            "From 1 April 2026 the start and end of an employment are "
+            "registered through the JMHZ employee registration (REGZEC, Act "
+            "No. 323/2025 Coll.), also for an earlier event that was not "
+            "notified by 31 March 2026 (Act No. 360/2025 Coll., Art. XXV "
+            "point 4).")
+
     @staticmethod
     def _digits(value):
         return "".join(ch for ch in (value or "") if ch.isdigit())
@@ -131,7 +163,7 @@ class L10nCzOnz(models.Model):
         company = self.company_id
         vs = self._digits(company.l10n_cz_ossz_vs)
         ossz = (company.l10n_cz_ossz_code or "").strip()
-        today = fields.Date.context_today(self).isoformat()
+        today = self._filing_date().isoformat()
         act = ACT_NASTUP if self.event_type == "nastup" else ACT_SKONCENI
         out = []
         sqnr = 0
@@ -152,8 +184,8 @@ class L10nCzOnz(models.Model):
                 raise UserError(_(
                     "Employee '%(name)s' needs a contract end date for the "
                     "ONZ end-of-employment event.", name=emp.display_name))
-            surname, _sep, first = (emp.name or "").rpartition(" ")
-            surname = surname or emp.name or "-"
+            first, surname = self._split_person_name(emp)
+            surname = surname or "-"
             first = first or "-"
             bno = self._digits(emp.identification_id)
 

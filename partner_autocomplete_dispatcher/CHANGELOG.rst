@@ -104,6 +104,26 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **"None" no longer means Odoo IAP.** The provider labelled *None* handed
+  every search back to core, which asks Odoo's paid in-app-purchase service.
+  It is now labelled **Odoo IAP**, and a real **None** looks nothing up outside
+  the national registers (a Czech or Slovak partner still goes to ARES / ORSF
+  when installed). A company that had chosen *None* keeps using Odoo IAP; choose
+  *None* again to stop.
+- **Update asks the register of the contact's country.** Without a provider
+  recorded by an earlier autocomplete, *Actions → Update* asked the current
+  company's provider, so a Czech contact typed in by hand in a company using
+  ORSF was looked up in the Slovak register. It now follows the contact's
+  country, as a search does. The recorded provider was also never actually
+  used: a provider is an abstract model, its empty recordset is falsy, and the
+  ``or`` fallback replaced it with the company's.
+
 [19.0.0.0.0] — 2026-07-04
 -------------------------
 

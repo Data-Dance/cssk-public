@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-13 20:27+0000\n"
+"POT-Creation-Date: 2026-10-27 19:17+0000\n"
 "PO-Revision-Date: 2026-06-13 20:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -14,14 +14,71 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
 
 #. module: l10n_cssk_payment_reliability
+#. odoo-python
+#: code:addons/l10n_cssk_payment_reliability/models/res_partner.py:0
+msgid ""
+"%(checked)s checked, %(unavailable)s with no answer (no register for the "
+"country, no identifier, or the register did not answer)."
+msgstr ""
+"%(checked)s overených, %(unavailable)s bez odpovede (pre štát nie je "
+"register, chýba identifikátor alebo register neodpovedal)."
+
+#. module: l10n_cssk_payment_reliability
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_reliability.view_account_payment_form_cssk_reliability
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_reliability.view_move_form_cssk_reliability
 msgid "<strong>⚠ Supplier reliability:</strong>"
 msgstr "<strong>⚠ Spoľahlivosť dodávateľa:</strong>"
 
 #. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_company__cssk_reliability_autocheck
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_config_settings__cssk_reliability_autocheck
+msgid "Auto-check supplier reliability"
+msgstr "Automaticky overovať spoľahlivosť dodávateľa"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_bank_statement_line__cssk_bank_acc_status
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_bank_acc_status
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_payment__cssk_bank_acc_status
+msgid "Bank Account Check"
+msgstr "Kontrola bankového účtu"
+
+#. module: l10n_cssk_payment_reliability
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_reliability.view_account_payment_form_cssk_reliability
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_reliability.view_move_form_cssk_reliability
 msgid "Check supplier reliability"
 msgstr "Skontrolovať spoľahlivosť dodávateľa"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.actions.server,name:l10n_cssk_payment_reliability.action_cssk_refresh_reliability
+msgid "Check tax reliability"
+msgstr "Overiť daňovú spoľahlivosť"
+
+#. module: l10n_cssk_payment_reliability
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_reliability.res_config_settings_view_form_cssk_reliability
+msgid ""
+"Check the supplier's tax reliability, VAT-deregistration listing and "
+"registered bank accounts when a vendor bill or a supplier payment is posted,"
+" and daily for unpaid bills; warn on risk (never blocks)."
+msgstr ""
+"Pri zaúčtovaní dodávateľskej faktúry alebo platby dodávateľovi a denne pri "
+"neuhradených faktúrach overiť daňovú spoľahlivosť dodávateľa, jeho uvedenie "
+"v zozname platiteľov s dôvodmi na zrušenie registrácie a zverejnené bankové "
+"účty; pri riziku upozorniť (nikdy neblokuje)."
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,help:l10n_cssk_payment_reliability.field_res_company__cssk_reliability_autocheck
+#: model:ir.model.fields,help:l10n_cssk_payment_reliability.field_res_config_settings__cssk_reliability_autocheck
+msgid ""
+"Check the supplier's tax reliability, VAT-deregistration listing and "
+"registered bank accounts when a vendor bill or an outbound supplier payment "
+"is posted, and daily for bills still unpaid; warn if there is a risk. Never "
+"blocks posting or payment."
+msgstr ""
+"Pri zaúčtovaní dodávateľskej faktúry alebo odchádzajúcej platby dodávateľovi"
+" a denne pri ešte neuhradených faktúrach overiť daňovú spoľahlivosť "
+"dodávateľa, jeho uvedenie v zozname platiteľov s dôvodmi na zrušenie "
+"registrácie a zverejnené bankové účty; pri riziku upozorniť. Nikdy neblokuje"
+" zaúčtovanie ani platbu."
 
 #. module: l10n_cssk_payment_reliability
 #: model:ir.model,name:l10n_cssk_payment_reliability.model_res_company
@@ -29,36 +86,40 @@ msgid "Companies"
 msgstr "Spoločnosti"
 
 #. module: l10n_cssk_payment_reliability
-#: model:ir.model,name:l10n_cssk_payment_reliability.model_res_config_settings
-msgid "Config Settings"
-msgstr "Nastavenia konfigurácie"
-
-#. module: l10n_cssk_payment_reliability
 #: model:ir.model,name:l10n_cssk_payment_reliability.model_res_partner
 msgid "Contact"
 msgstr "Kontakt"
 
 #. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_bank_statement_line__cssk_reliability_alert
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_reliability_alert
+msgid "Cssk Reliability Alert"
+msgstr "Text upozornenia na spoľahlivosť"
+
+#. module: l10n_cssk_payment_reliability
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_payment__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný názov"
 
 #. module: l10n_cssk_payment_reliability
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_supplier_reliability__highly_reliable
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_supplier_reliability__highly_reliable
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__res_partner__cssk_tax_reliability__highly_reliable
 msgid "Highly reliable"
 msgstr "Vysoko spoľahlivý"
 
 #. module: l10n_cssk_payment_reliability
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_payment__id
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_config_settings__id
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_partner__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_cssk_payment_reliability
 #: model:ir.model,name:l10n_cssk_payment_reliability.model_account_move
@@ -67,39 +128,92 @@ msgstr "Účtovný zápis"
 
 #. module: l10n_cssk_payment_reliability
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_supplier_reliability__less_reliable
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_supplier_reliability__less_reliable
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__res_partner__cssk_tax_reliability__less_reliable
 msgid "Less reliable"
 msgstr "Menej spoľahlivý"
 
 #. module: l10n_cssk_payment_reliability
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_bank_acc_status__no_account
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_bank_acc_status__no_account
 msgid "No bank account set"
 msgstr "Nie je nastavený bankový účet"
 
 #. module: l10n_cssk_payment_reliability
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_reliability.res_config_settings_view_form_cssk_reliability
-msgid ""
-"On vendor-bill posting, check the supplier's tax reliability and registered "
-"bank accounts; warn on risk (never blocks)."
-msgstr ""
-"Pri zaúčtovaní prijatej faktúry overí spoľahlivosť dodávateľa a zverejnené "
-"bankové účty; pri riziku upozorní (nikdy neblokuje)."
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_bank_acc_status__unknown
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_bank_acc_status__unknown
+msgid "Not checked / unavailable"
+msgstr "Neoverené / nedostupné"
 
 #. module: l10n_cssk_payment_reliability
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_bank_acc_status__not_registered
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_bank_acc_status__not_registered
 msgid "Paid account NOT registered"
 msgstr "Účet na platbu NIE JE zverejnený"
 
 #. module: l10n_cssk_payment_reliability
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_bank_acc_status__registered
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_bank_acc_status__registered
 msgid "Paid account is registered"
 msgstr "Účet na platbu je zverejnený"
 
 #. module: l10n_cssk_payment_reliability
+#: model:ir.model,name:l10n_cssk_payment_reliability.model_account_payment
+msgid "Payments"
+msgstr "Platby"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model,name:l10n_cssk_payment_reliability.model_res_config_settings
+msgid "Provider"
+msgstr "Poskytovateľ"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_bank_statement_line__cssk_registered_accounts
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_registered_accounts
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_payment__cssk_registered_accounts
+msgid "Registered Accounts (at check)"
+msgstr "Registrované účty (pri kontrole)"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_bank_statement_line__cssk_reliability_checked_on
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_reliability_checked_on
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_payment__cssk_reliability_checked_on
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_cssk_tax_authority__cssk_reliability_checked_on
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_partner__cssk_reliability_checked_on
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_users__cssk_reliability_checked_on
+msgid "Reliability Checked On"
+msgstr "Spoľahlivosť overená dňa"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_bank_statement_line__cssk_reliability_warning
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_reliability_warning
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_payment__cssk_reliability_warning
+msgid "Reliability Warning"
+msgstr "Upozornenie na spoľahlivosť"
+
+#. module: l10n_cssk_payment_reliability
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_supplier_reliability__reliable
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_supplier_reliability__reliable
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__res_partner__cssk_tax_reliability__reliable
 msgid "Reliable"
 msgstr "Spoľahlivý"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,help:l10n_cssk_payment_reliability.field_account_bank_statement_line__cssk_vat_deregistration
+#: model:ir.model.fields,help:l10n_cssk_payment_reliability.field_account_move__cssk_vat_deregistration
+msgid ""
+"Set when the supplier was on the tax authority's list of VAT payers with "
+"grounds for cancelling their registration at the time of the check."
+msgstr ""
+"Vyplnené, ak bol dodávateľ v čase kontroly v zozname platiteľov DPH, u "
+"ktorých nastali dôvody na zrušenie registrácie."
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_bank_statement_line__cssk_supplier_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_supplier_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_payment__cssk_supplier_reliability
+msgid "Supplier Reliability"
+msgstr "Spoľahlivosť dodávateľa"
 
 #. module: l10n_cssk_payment_reliability
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_payment_reliability.res_config_settings_view_form_cssk_reliability
@@ -107,119 +221,105 @@ msgid "Supplier reliability check (CZ/SK)"
 msgstr "Kontrola spoľahlivosti dodávateľa (CZ/SK)"
 
 #. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_supplier_reliability__unknown
-#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__res_partner__cssk_tax_reliability__unknown
-msgid "Unknown / not checked"
-msgstr "Neznáme / neskontrolované"
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_company__cssk_reliability_autocheck
-msgid "Auto-check supplier reliability on bill posting"
+#: model:ir.actions.server,name:l10n_cssk_payment_reliability.cron_cssk_recheck_open_bills_ir_actions_server
+msgid "Supplier reliability: re-check unpaid bills (CZ/SK)"
 msgstr ""
-"Automaticky kontrolovať spoľahlivosť dodávateľa pri zaúčtovaní "
-"faktúry"
+"Spoľahlivosť dodávateľa: opakovaná kontrola neuhradených faktúr (CZ/SK)"
 
 #. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_bank_acc_status
-msgid "Bank Account Check"
-msgstr "Kontrola bankového účtu"
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.module.module,summary:base.module_l10n_cssk_payment_reliability
-msgid ""
-"Before you pay a vendor, check the supplier's tax reliability and whether "
-"the bank account is the one registered with the tax authority — and snapshot"
-" the result onto the bill."
-msgstr ""
-"Pred úhradou dodávateľovi skontroluje jeho daňovú spoľahlivosť a to, "
-"či je bankový účet ten, ktorý je registrovaný u správcu dane — a "
-"výsledok zaznamená na faktúru."
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.module.module,shortdesc:base.module_l10n_cssk_payment_reliability
-msgid "CZ/SK Supplier Reliability Check (guarantor liability)"
-msgstr "CZ/SK kontrola spoľahlivosti dodávateľa (ručenie za daň)"
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_reliability_alert
-msgid "Cssk Reliability Alert"
-msgstr "Text upozornenia na spoľahlivosť"
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_bank_acc_status__unknown
-msgid "Not checked / unavailable"
-msgstr "Neoverené / nedostupné"
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_registered_accounts
-msgid "Registered Accounts (at check)"
-msgstr "Registrované účty (pri kontrole)"
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_reliability_checked_on
-#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_partner__cssk_reliability_checked_on
-msgid "Reliability Checked On"
-msgstr "Spoľahlivosť overená dňa"
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_reliability_warning
-msgid "Reliability Warning"
-msgstr "Upozornenie na spoľahlivosť"
-
-#. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_supplier_reliability
-msgid "Supplier Reliability"
-msgstr "Spoľahlivosť dodávateľa"
-
-#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,help:l10n_cssk_payment_reliability.field_cssk_tax_authority__cssk_tax_reliability
 #: model:ir.model.fields,help:l10n_cssk_payment_reliability.field_res_partner__cssk_tax_reliability
+#: model:ir.model.fields,help:l10n_cssk_payment_reliability.field_res_users__cssk_tax_reliability
 msgid ""
 "Supplier's tax-reliability rating from the tax authority register, as of the"
 " last check."
 msgstr ""
-"Hodnotenie daňovej spoľahlivosti dodávateľa z registra správcu dane, "
-"k poslednej kontrole."
+"Hodnotenie daňovej spoľahlivosti dodávateľa z registra správcu dane, k "
+"poslednej kontrole."
 
 #. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_cssk_tax_authority__cssk_tax_reliability
 #: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_partner__cssk_tax_reliability
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_res_users__cssk_tax_reliability
 msgid "Tax Reliability"
 msgstr "Daňová spoľahlivosť"
 
 #. module: l10n_cssk_payment_reliability
 #. odoo-python
-#: code:addons/l10n_cssk_payment_reliability/models/account_move.py:0
-msgid ""
-"The bank account %s is NOT among the accounts the supplier registered with "
-"the tax authority. Paying an unregistered account can make you liable for "
-"the supplier's unpaid VAT (§69 ods. 14 SK / §109 CZ); you may instead remit "
-"the VAT directly to the tax office."
-msgstr ""
-"Bankový účet %s NIE JE medzi účtami, ktoré dodávateľ zaregistroval u "
-"správcu dane. Úhrada na neregistrovaný účet môže založiť vaše "
-"ručenie za neodvedenú DPH dodávateľa (§ 69 ods. 14 SK / § 109 CZ); "
-"DPH môžete namiesto toho odviesť priamo daňovému úradu."
+#: code:addons/l10n_cssk_payment_reliability/models/res_partner.py:0
+msgid "Tax reliability"
+msgstr "Daňová spoľahlivosť"
 
 #. module: l10n_cssk_payment_reliability
 #. odoo-python
-#: code:addons/l10n_cssk_payment_reliability/models/account_move.py:0
+#: code:addons/l10n_cssk_payment_reliability/models/res_partner.py:0
+msgid ""
+"The bank account %s is NOT among the accounts the supplier registered with "
+"the tax authority. Paying an unregistered account can make you liable for "
+"the supplier's unpaid VAT (§ 69 ods. 13 písm. c) SK / § 109 CZ); you may "
+"instead remit the VAT directly to the tax office."
+msgstr ""
+"Bankový účet %s NIE JE medzi účtami, ktoré dodávateľ zaregistroval u správcu"
+" dane. Úhrada na neregistrovaný účet môže založiť vaše ručenie za neodvedenú"
+" DPH dodávateľa (§ 69 ods. 13 písm. c) SK / § 109 CZ); DPH môžete namiesto "
+"toho odviesť priamo daňovému úradu."
+
+#. module: l10n_cssk_payment_reliability
+#. odoo-python
+#: code:addons/l10n_cssk_payment_reliability/models/res_partner.py:0
+msgid ""
+"The supplier has published no bank account with the tax authority, so the "
+"account %s cannot be a published one. Paying it can make you liable for the "
+"supplier's unpaid VAT (§ 69 ods. 13 písm. c) SK / § 109 CZ); you may instead"
+" remit the VAT directly to the tax office."
+msgstr ""
+"Dodávateľ nezverejnil u správcu dane žiadny bankový účet, takže účet %s "
+"nemôže byť zverejnený. Platba naň vás môže urobiť ručiteľom za nezaplatenú "
+"DPH dodávateľa (§ 69 ods. 13 písm. c) SK / § 109 CZ); DPH môžete namiesto "
+"toho zaplatiť priamo správcovi dane."
+
+#. module: l10n_cssk_payment_reliability
+#. odoo-python
+#: code:addons/l10n_cssk_payment_reliability/models/res_partner.py:0
+msgid ""
+"The supplier is on the tax authority's list of VAT payers with grounds for "
+"cancelling their registration (%s)."
+msgstr ""
+"Dodávateľ je v zozname platiteľov DPH, u ktorých nastali dôvody na zrušenie "
+"registrácie (%s)."
+
+#. module: l10n_cssk_payment_reliability
+#. odoo-python
+#: code:addons/l10n_cssk_payment_reliability/models/res_partner.py:0
 msgid "The supplier's tax-reliability rating is '%s'."
 msgstr "Daňová spoľahlivosť dodávateľa je „%s“."
 
 #. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_supplier_reliability__unknown
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_supplier_reliability__unknown
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__res_partner__cssk_tax_reliability__unknown
+msgid "Unknown / not checked"
+msgstr "Neznáme / neskontrolované"
+
+#. module: l10n_cssk_payment_reliability
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_move__cssk_supplier_reliability__unreliable
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__account_payment__cssk_supplier_reliability__unreliable
 #: model:ir.model.fields.selection,name:l10n_cssk_payment_reliability.selection__res_partner__cssk_tax_reliability__unreliable
 msgid "Unreliable"
 msgstr "Nespoľahlivý"
 
 #. module: l10n_cssk_payment_reliability
-#: model:ir.model.fields,help:l10n_cssk_payment_reliability.field_res_company__cssk_reliability_autocheck
-msgid ""
-"When a vendor bill is posted, automatically check the supplier's tax "
-"reliability and registered bank accounts and warn if there is a risk. Never "
-"blocks posting or payment."
-msgstr ""
-"Pri zaúčtovaní dodávateľskej faktúry automaticky skontroluje daňovú "
-"spoľahlivosť dodávateľa a jeho registrované bankové účty a upozorní "
-"na riziko. Nikdy neblokuje zaúčtovanie ani úhradu."
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_bank_statement_line__cssk_vat_deregistration
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_move__cssk_vat_deregistration
+#: model:ir.model.fields,field_description:l10n_cssk_payment_reliability.field_account_payment__cssk_vat_deregistration
+msgid "VAT Deregistration Listing"
+msgstr "Zoznam platiteľov s dôvodmi na zrušenie registrácie"
+
+#. module: l10n_cssk_payment_reliability
+#. odoo-python
+#: code:addons/l10n_cssk_payment_reliability/models/account_payment.py:0
+msgid "⚠ Supplier reliability check at payment:"
+msgstr "⚠ Kontrola spoľahlivosti dodávateľa pri platbe:"
 
 #. module: l10n_cssk_payment_reliability
 #. odoo-python

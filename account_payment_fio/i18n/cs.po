@@ -1,6 +1,3 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* account_payment_fio
 #
 msgid ""
 msgstr ""
@@ -23,13 +20,38 @@ msgid "%(label)s must be a numeric string up to %(max_len)s digits."
 msgstr "%(label)s musí být číselný řetězec o nejvýše %(max_len)s číslicích."
 
 #. module: account_payment_fio
-#: model:ir.module.module,summary:base.module_account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
 msgid ""
-"Build Fio XML payment orders and send them to the bank from an OCA payment "
-"order."
+".\n"
+"                    It is <b>not paid yet</b>: somebody with signing rights has\n"
+"                    to authorise the batch in Fio internet banking."
 msgstr ""
-"Sestaví platební příkazy ve formátu Fio XML a odešle je do banky z "
-"platebního příkazu OCA."
+". Ještě <b>není zaplaceno</b>: dávku musí v internetovém bankovnictví Fio "
+"autorizovat někdo s podpisovým právem."
+
+#. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid ""
+"<b>The bank's answer to the last upload was lost.</b>\n"
+"                    Fio may or may not be holding this batch. Open internet\n"
+"                    banking, look for an unauthorised batch, and tell Odoo what\n"
+"                    you found — sending again without checking would pay\n"
+"                    everything twice."
+msgstr ""
+"<b>Odpověď banky na poslední odeslání se ztratila.</b> Fio tuto dávku možná "
+"má, možná ne. Otevřete internetové bankovnictví, vyhledejte neautorizovanou "
+"dávku a sdělte Odoo, co jste našli — opětovné odeslání bez kontroly by vše "
+"zaplatilo dvakrát."
+
+#. module: account_payment_fio
+#: model:ir.model.fields.selection,name:account_payment_fio.selection__account_payment_line__iso20022_charge_bearer__cred
+msgid "Beneficiary (BEN)"
+msgstr "Příjemce (BEN)"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__iso20022_charge_bearer
+msgid "Charge Bearer"
+msgstr "Plátce poplatků"
 
 #. module: account_payment_fio
 #: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__constant_symbol
@@ -64,9 +86,43 @@ msgstr ""
 "prázdný, použije se údaj `VS:` ze zprávy pro příjemce."
 
 #. module: account_payment_fio
-#: model:ir.module.module,shortdesc:base.module_account_payment_fio
-msgid "Fio banka — payment orders"
-msgstr "Fio banka — platební příkazy"
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__display_name
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_method__display_name
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_order__fio_id_instruction
+msgid "Fio Batch Number"
+msgstr "Číslo dávky Fio"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_order__fio_response
+msgid "Fio Response"
+msgstr "Odpověď Fio"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_order__fio_upload_state
+msgid "Fio Upload"
+msgstr "Odeslání do Fio"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_order__fio_uploaded_at
+msgid "Fio Uploaded At"
+msgstr "Odesláno do Fio"
+
+#. module: account_payment_fio
+#: model:account.payment.method,name:account_payment_fio.account_payment_method_fio_xml
+msgid "Fio XML (Fio banka API)"
+msgstr "Fio XML (Fio banka API)"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__id
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_method__id
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_order__id
+msgid "ID"
+msgstr ""
 
 #. module: account_payment_fio
 #: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
@@ -95,6 +151,11 @@ msgid "No payment file on this order — generate it first."
 msgstr "K tomuto příkazu není platební soubor — nejprve jej vygenerujte."
 
 #. module: account_payment_fio
+#: model:ir.model.fields.selection,name:account_payment_fio.selection__account_payment_line__iso20022_priority__norm
+msgid "Normal"
+msgstr "Běžná"
+
+#. module: account_payment_fio
 #: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
 msgid ""
 "Only press this after checking Fio internet banking and finding no batch. It"
@@ -113,9 +174,34 @@ msgstr ""
 " to Odoo odeslat tyto platby znovu."
 
 #. module: account_payment_fio
+#: model:ir.model.fields.selection,name:account_payment_fio.selection__account_payment_line__iso20022_charge_bearer__debt
+msgid "Payer (OUR)"
+msgstr "Plátce (OUR)"
+
+#. module: account_payment_fio
+#: model:ir.model,name:account_payment_fio.model_account_payment_line
+msgid "Payment Lines"
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model,name:account_payment_fio.model_account_payment_method
+msgid "Payment Methods"
+msgstr ""
+
+#. module: account_payment_fio
+#: model:ir.model,name:account_payment_fio.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: account_payment_fio
 #: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__fio_payment_reason
 msgid "Platební titul"
 msgstr "Platební titul"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__iso20022_priority
+msgid "Priority"
+msgstr "Priorita"
 
 #. module: account_payment_fio
 #: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
@@ -123,9 +209,30 @@ msgid "Send to Fio"
 msgstr "Odeslat do Fio"
 
 #. module: account_payment_fio
+#: model_terms:ir.ui.view,arch_db:account_payment_fio.account_payment_order_view_form_fio
+msgid "Sent to Fio as batch"
+msgstr "Odesláno do Fio jako dávka"
+
+#. module: account_payment_fio
+#: model:ir.model.fields.selection,name:account_payment_fio.selection__account_payment_line__iso20022_charge_bearer__shar
+msgid "Shared (SHA)"
+msgstr "Sdílené (SHA)"
+
+#. module: account_payment_fio
 #: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__specific_symbol
 msgid "Specific Symbol"
 msgstr "Specifický symbol"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,help:account_payment_fio.field_account_payment_order__fio_id_instruction
+msgid ""
+"The idInstruction Fio returned for the uploaded batch. It is the batch's "
+"number in internet banking, and is NOT the same number as the instruction id"
+" that later appears on statement lines."
+msgstr ""
+"idInstruction, které Fio vrátilo pro odeslanou dávku. Je to číslo dávky v "
+"internetovém bankovnictví a NENÍ to totéž číslo jako ID pokynu, které se "
+"později objeví na řádcích výpisu."
 
 #. module: account_payment_fio
 #. odoo-python
@@ -140,9 +247,32 @@ msgstr ""
 "%(problems)s"
 
 #. module: account_payment_fio
+#: model:ir.model.fields.selection,name:account_payment_fio.selection__account_payment_line__iso20022_priority__urgp
+msgid "Urgent"
+msgstr "Urgentní"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,help:account_payment_fio.field_account_payment_line__iso20022_priority
+msgid ""
+"Urgent asks the bank for express processing, at its express fee. Used by "
+"MultiCash CFA, KB BEST and Fio."
+msgstr ""
+"Urgentní žádá banku o expresní zpracování za její expresní poplatek. "
+"Používají MultiCash CFA, KB BEST a Fio."
+
+#. module: account_payment_fio
 #: model:ir.model.fields,field_description:account_payment_fio.field_account_payment_line__variable_symbol
 msgid "Variable Symbol"
 msgstr "Variabilní symbol"
+
+#. module: account_payment_fio
+#: model:ir.model.fields,help:account_payment_fio.field_account_payment_line__iso20022_charge_bearer
+msgid ""
+"Who pays the bank charges of a foreign payment. Into the EEA, banks accept "
+"Shared only."
+msgstr ""
+"Kdo platí bankovní poplatky zahraniční platby. Do EHP banky přijímají jen "
+"sdílené."
 
 #. module: account_payment_fio
 #: model:ir.model.fields,help:account_payment_fio.field_account_payment_line__fio_payment_reason
@@ -154,3 +284,17 @@ msgstr ""
 "Platební titul ČNB. Fio jej vyžaduje u každé zahraniční platby a u účtů "
 "vedených na slovenské pobočce také u Europlatby nad 50 000 EUR. Výchozí "
 "hodnota se přebírá z partnera."
+
+#. module: account_payment_fio
+#: model:ir.module.module,summary:base.module_account_payment_fio
+msgid ""
+"Build Fio XML payment orders and send them to the bank from an OCA payment "
+"order."
+msgstr ""
+"Sestaví platební příkazy ve formátu Fio XML a odešle je do banky z "
+"platebního příkazu OCA."
+
+#. module: account_payment_fio
+#: model:ir.module.module,shortdesc:base.module_account_payment_fio
+msgid "Fio banka — payment orders"
+msgstr "Fio banka — platební příkazy"

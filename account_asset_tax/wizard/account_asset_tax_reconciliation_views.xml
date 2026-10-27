@@ -19,8 +19,12 @@
                         <field name="total_accounting"/>
                         <field name="total_tax"/>
                         <field name="total_addback"/>
+                        <field name="addback_row" invisible="not addback_row"/>
                         <field name="total_deduction"/>
+                        <field name="deduction_row" invisible="not deduction_row"/>
                         <field name="total_deferred_tax"/>
+                        <field name="total_vehicle_addback"
+                               invisible="not total_vehicle_addback"/>
                     </group>
                 </group>
                 <button name="action_compute" type="object" string="Compute"
@@ -42,12 +46,13 @@
                         <field name="accounting_amount" sum="Accounting"/>
                         <field name="tax_amount" sum="Tax"/>
                         <field name="difference"/>
-                        <field name="addback" sum="Add-back (150)"/>
-                        <field name="deduction" sum="Deduction (250)"/>
+                        <field name="addback" sum="Add-back"/>
+                        <field name="deduction" sum="Deduction"/>
                         <field name="accounting_residual" optional="hide"/>
                         <field name="tax_residual" optional="hide"/>
                         <field name="temp_difference" optional="show"/>
                         <field name="deferred_tax" sum="Deferred tax" optional="show"/>
+                        <field name="vehicle_addback" sum="Vehicle add-back" optional="hide"/>
                         <field name="currency_id" column_invisible="1"/>
                         <button name="action_open_asset" type="object"
                                 string="Open" icon="fa-external-link"/>

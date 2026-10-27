@@ -81,4 +81,65 @@ result = payslip._l10n_cz_surcharge_amount('ZTIZENE')
         <field name="appears_on_payslip" eval="True"/>
         <field name="input_ids" eval="[(0, 0, {'name': 'Difficult-environment hours', 'code': 'ZTIZENE'})]"/>
     </record>
+
+    <!-- § 114 odst. 1: an overtime hour is paid its dosažená mzda AND the
+         surcharge. The hours overlay ordinary time and never reach BASIC, so
+         this line pays the wage for them; PRIPLATEK_PRESCAS pays the 25 %.
+         Reads the same PRESCAS input as the surcharge. -->
+    <record id="l10n_cz_mzda_prescas" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
+        <field name="name">Overtime Wage (§ 114)</field>
+        <field name="code">MZDA_PRESCAS</field>
+        <field name="sequence">59</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_cz_surcharge_hours('PRESCAS') &gt; 0</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_cz_overtime_wage()
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- § 111 odst. 2: doplatek do minimální mzdy. Runs after the náhrady and
+         before GROSS, so it is insured and taxed like the wage it tops up.
+         The qualifying wage is BASIC + allowances less what § 111 odst. 1
+         keeps out (overtime wage, surcharges) and the náhrady. -->
+    <record id="l10n_cz_doplatek_min_mzda" model="hr.salary.rule">
+        <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
+        <field name="name">Minimum Wage Top-up (§ 111)</field>
+        <field name="code">MINWAGE_TOPUP</field>
+        <field name="sequence">95</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+_wage = categories.BASIC + categories.ALW - sum(
+    result_rules.dict[_c].total
+    for _c in payslip._l10n_cz_min_wage_excluded_codes()
+    if _c in result_rules.dict)
+result = payslip._l10n_cz_min_wage_topup_amount(_wage) &gt; 0
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+_wage = categories.BASIC + categories.ALW - sum(
+    result_rules.dict[_c].total
+    for _c in payslip._l10n_cz_min_wage_excluded_codes()
+    if _c in result_rules.dict)
+result = payslip._l10n_cz_min_wage_topup_amount(_wage)
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- Attach every rule above to the Czech structure. The OCA engine links
+         rules through the structure's rule_ids m2m, not a struct_id on the
+         rule, so a rule that is not added here is installed but never runs:
+         a Czech payslip silently computed no surcharge at all. (4, id) adds
+         without touching the country module's own rules. -->
+    <record id="l10n_cz_hr_payroll_oca.hr_payroll_structure_cz_employee_salary" model="hr.payroll.structure">
+        <field name="rule_ids" eval="[(4, ref('l10n_cz_priplatek_prescas')),
+                                      (4, ref('l10n_cz_priplatek_svatek')),
+                                      (4, ref('l10n_cz_priplatek_nocni')),
+                                      (4, ref('l10n_cz_priplatek_vikend')),
+                                      (4, ref('l10n_cz_priplatek_ztizene')),
+                                      (4, ref('l10n_cz_mzda_prescas')),
+                                      (4, ref('l10n_cz_doplatek_min_mzda'))]"/>
+    </record>
 </odoo>

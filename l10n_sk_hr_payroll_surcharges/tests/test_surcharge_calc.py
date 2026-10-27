@@ -64,7 +64,7 @@ class TestSurchargePct(TransactionCase):
         self.assertEqual(surcharge_pct(RATES, CODE_SUNDAY, reduced=True), 90.0)
 
     def test_risk_beats_reduced(self):
-        """§ 122a ods. 3 bars the reduced night rate for risky work."""
+        """§ 123 ods. 2 bars the reduced night rate for risky work."""
         self.assertEqual(
             surcharge_pct(RATES, CODE_NIGHT, risk=True, reduced=True), 50.0
         )
@@ -185,7 +185,7 @@ class TestMinimumWageTopupMonthly(TransactionCase):
         self.assertEqual(min_wage_topup_monthly(915.0, 176.0, 176.0, 1147.0), 232.0)
 
     def test_part_month_prorates_the_claim(self):
-        """§ 120 ods. 4 — half a month worked, half the claim."""
+        """§ 120 ods. 6 — half a month worked, half the claim."""
         # Claim 915 x 88/176 = 457.50 against €400 paid.
         self.assertEqual(min_wage_topup_monthly(400.0, 88.0, 176.0, 915.0), 57.50)
 

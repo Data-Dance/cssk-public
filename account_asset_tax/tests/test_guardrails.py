@@ -216,6 +216,68 @@ class TestTaxGuardrails(TransactionCase):
         self.assertEqual(frozen.mapped("fiscal_year"), [2026])
         self.assertAlmostEqual(frozen.amount, 21000, 2)
 
+    def test_backfill_dry_run_replays_events(self):
+        """The expected-residual check ran on the CLEAN schedule, so an asset
+        with a recorded technical improvement could never pass it — the
+        wizard refused the very residual its own rebuild produces."""
+        asset = self._new_asset()
+        asset.compute_tax_depreciation_board()
+        asset._add_tax_event("improvement", date(2027, 6, 1), amount=20000)
+        # 2026: 11 % of 100 000; 2027: 20 % of the increased 120 000
+        residual = asset.tax_residual_at_year_end(2027)
+        self.assertAlmostEqual(residual, 85000, 2)
+        wiz = self.env["account.asset.tax.backfill"].with_context(
+            active_model="account.asset", active_id=asset.id,
+        ).create({
+            "tax_class_id": self.cls_cz2.id,
+            "tax_method": "linear",
+            "tax_entry_value": 100000,
+            "tax_in_service_date": date(2026, 1, 1),
+            "filed_through_year": 2027,
+            "expected_residual": 85000,
+        })
+        wiz.action_backfill()
+        self.assertEqual(
+            asset.tax_line_ids.filtered("posted").mapped("fiscal_year"),
+            [2026, 2027])
+        # and a figure that really disagrees is still refused
+        wiz2 = self.env["account.asset.tax.backfill"].with_context(
+            active_model="account.asset", active_id=asset.id,
+        ).create({
+            "tax_class_id": self.cls_cz2.id,
+            "tax_method": "linear",
+            "tax_entry_value": 100000,
+            "tax_in_service_date": date(2026, 1, 1),
+            "filed_through_year": 2027,
+            "expected_residual": 66750,   # the clean, event-less residual
+        })
+        with self.assertRaises(UserError) as caught:
+            wiz2.action_backfill()
+        # the computed figure is quoted, whatever the user's language
+        self.assertIn("85000", str(caught.exception))
+
+    def test_increased_first_year_allowed_on_accelerated(self):
+        """§ 32 odst. 2 písm. a): the first-year increase exists for the
+        accelerated method too; it was refused there."""
+        asset = self._new_asset(tax_method="accelerated")
+        asset.tax_increased_first_year = "10"
+        asset.compute_tax_depreciation_board()
+        first = asset.tax_line_ids.sorted("year_index")[:1]
+        self.assertAlmostEqual(first.amount, 30000, 2)   # 100 000 / 5 + 10 %
+
+    def test_batch_compute_is_reachable(self):
+        """The batch wizard had an action and no menu, binding or button."""
+        bound = self.env["ir.actions.act_window"].search([
+            ("res_model", "=", "account.asset.tax.compute"),
+            ("binding_model_id.model", "=", "account.asset"),
+        ])
+        self.assertTrue(bound, "not in the asset list's Action menu")
+        menu = self.env["ir.ui.menu"].search([
+            ("action", "=", "ir.actions.act_window,%d" % self.env.ref(
+                "account_asset_tax.action_account_asset_tax_compute").id),
+        ])
+        self.assertTrue(menu, "no menu opens the batch wizard")
+
     def test_backfill_rerun_on_frozen_asset(self):
         # the wizard is the sanctioned unfreeze path: re-running it on an asset
         # with filed lines must not trip the new freeze guards

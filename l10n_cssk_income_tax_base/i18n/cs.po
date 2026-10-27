@@ -23,7 +23,7 @@ msgstr "%s — splatná daň z příjmů"
 #. odoo-python
 #: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
 msgid "A provision entry already exists (%s). Reverse it first."
-msgstr "Zápis rezervy již existuje (%s). Nejprve jej stornujte."
+msgstr "Zápis splatné daně již existuje (%s). Nejprve jej stornujte."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__account_formula
@@ -171,13 +171,13 @@ msgstr "Před exportem přiznání vypočítejte."
 #. odoo-python
 #: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
 msgid "Compute the return before posting the provision."
-msgstr "Před zaúčtováním rezervy přiznání vypočítejte."
+msgstr "Před zaúčtováním splatné daně přiznání vypočítejte."
 
 #. module: l10n_cssk_income_tax_base
 #. odoo-python
 #: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
 msgid "Computed income tax (line %(c)s) is %(a)s — nothing to provision."
-msgstr "Vypočtená daň z příjmů (řádek %(c)s) je %(a)s — není co zaúčtovat do rezervy."
+msgstr "Vypočtená daň z příjmů (řádek %(c)s) je %(a)s — není co zaúčtovat."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_line_code
@@ -185,10 +185,7 @@ msgid ""
 "Computed line whose value is the bookable current income tax posted as the "
 "year-end provision — e.g. 'r1050' (SK DPPO daňová povinnosť) / 'r340' (CZ "
 "DPPDP9 celková daňová povinnost)."
-msgstr ""
-"Vypočítaný řádek, jehož hodnotou je zaúčtovatelná splatná daň z příjmů "
-"zaúčtovaná jako rezerva ke konci roku — např. 'r1050' (SK DPPO daňová "
-"povinnosť) / 'r340' (CZ DPPDP9 celková daňová povinnost)."
+msgstr "Vypočítaný řádek, jehož hodnotou je splatná daň z příjmů zaúčtovaná ke konci roku (MD 591 / D 341) — např. 'r1050' (SK DPPO daňová povinnosť) / 'r340' (CZ DPPDP9 celková daňová povinnost)."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__country_id
@@ -224,9 +221,7 @@ msgstr ""
 msgid ""
 "Current income tax to provision = value of the version's provision_line_code "
 "(e.g. r1050 / r340)."
-msgstr ""
-"Splatná daň z příjmů k zaúčtování do rezervy = hodnota pole "
-"provision_line_code dané verze (např. r1050 / r340)."
+msgstr "Splatná daň z příjmů k zaúčtování = hodnota pole provision_line_code dané verze (např. r1050 / r340)."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__date_from
@@ -426,7 +421,7 @@ msgstr "Přiznání k DPPO"
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
 msgid "Income-tax provision (591/341)"
-msgstr "Rezerva na daň z příjmů (591/341)"
+msgstr "Splatná daň z příjmů (591/341)"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_is_follower
@@ -448,9 +443,7 @@ msgstr "Položka deníku"
 msgid ""
 "Journal for the year-end income-tax provision entry. Defaults to the "
 "company's first general journal."
-msgstr ""
-"Deník pro zaúčtování rezervy na daň z příjmů ke konci roku. Výchozí je první "
-"obecný deník společnosti."
+msgstr "Deník pro zaúčtování splatné daně z příjmů ke konci roku. Výchozí je první obecný deník společnosti."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__kind
@@ -558,13 +551,13 @@ msgstr "Pro %(co)s nebyl nalezen účet %(label)s (předčíslí kódu %(p)s) �
 #. odoo-python
 #: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
 msgid "No general journal found for the provision entry."
-msgstr "Pro zaúčtování rezervy nebyl nalezen žádný obecný deník."
+msgstr "Pro zaúčtování splatné daně nebyl nalezen žádný obecný deník."
 
 #. module: l10n_cssk_income_tax_base
 #. odoo-python
 #: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
 msgid "No provision entry to reverse."
-msgstr "Žádná rezerva ke stornování."
+msgstr "Žádný zápis splatné daně ke stornování."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__message_needaction_counter
@@ -610,20 +603,19 @@ msgstr "Přepis; výchozí je předpona kódu 591 dané verze."
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
 msgid "Post tax provision"
-msgstr "Zaúčtovat daňovou rezervu"
+msgstr "Zaúčtovat splatnou daň"
 
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
 msgid ""
 "Post the year-end income-tax provision (MD 591 / D 341) for the computed tax?"
-msgstr ""
-"Zaúčtovat roční rezervu na daň z příjmů (MD 591 / D 341) na vypočtenou daň?"
+msgstr "Zaúčtovat splatnou daň z příjmů za rok (MD 591 / D 341) ve výši vypočtené daně?"
 
 #. module: l10n_cssk_income_tax_base
 #. odoo-python
 #: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
 msgid "Posted income-tax provision %(amt)s: %(exp)s / %(pay)s (%(mv)s)."
-msgstr "Zaúčtována rezerva na daň z příjmů %(amt)s: %(exp)s / %(pay)s (%(mv)s)."
+msgstr "Zaúčtována splatná daň z příjmů %(amt)s: %(exp)s / %(pay)s (%(mv)s)."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields.selection,name:l10n_cssk_income_tax_base.selection__cssk_income_tax_return__state__preview
@@ -633,37 +625,37 @@ msgstr "Náhled"
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_amount
 msgid "Provision Amount"
-msgstr "Výše rezervy"
+msgstr "Výše splatné daně"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_expense_code
 msgid "Provision Expense Code"
-msgstr "Kód nákladového účtu rezervy"
+msgstr "Kód nákladového účtu splatné daně"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_journal_id
 msgid "Provision Journal"
-msgstr "Deník rezervy"
+msgstr "Deník splatné daně"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_line_code
 msgid "Provision Line Code"
-msgstr "Kód řádku rezervy"
+msgstr "Kód řádku splatné daně"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__provision_payable_code
 msgid "Provision Payable Code"
-msgstr "Kód závazkového účtu rezervy"
+msgstr "Kód závazkového účtu splatné daně"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_move_id
 msgid "Provision entry"
-msgstr "Zaúčtování rezervy"
+msgstr "Zápis splatné daně"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_posted
 msgid "Provision posted"
-msgstr "Rezerva zaúčtována"
+msgstr "Splatná daň zaúčtována"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__xml_template_ref_id
@@ -706,12 +698,12 @@ msgstr "Storno %s"
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
 msgid "Reverse provision"
-msgstr "Stornovat rezervu"
+msgstr "Stornovat splatnou daň"
 
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
 msgid "Reverse the posted income-tax provision entry?"
-msgstr "Stornovat zaúčtovaný zápis rezervy na daň z příjmů?"
+msgstr "Stornovat zaúčtovaný zápis splatné daně z příjmů?"
 
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
@@ -736,7 +728,7 @@ msgstr "Pořadí"
 msgid ""
 "Set 'provision_line_code' on the version (e.g. r1050 / r340) to post the "
 "income-tax provision."
-msgstr "Pro zaúčtování rezervy na daň z příjmů nastavte na verzi 'provision_line_code' (např. r1050 / r340)."
+msgstr "Pro zaúčtování splatné daně z příjmů nastavte na verzi 'provision_line_code' (např. r1050 / r340)."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__source_domain
@@ -1135,3 +1127,25 @@ msgstr ""
 #: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
 msgid "income-tax return"
 msgstr "přiznání k dani z příjmů"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid "No form version for this period"
+msgstr "Pro toto období není verze tiskopisu"
+
+#. module: l10n_cssk_income_tax_base
+#. odoo-python
+#: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
+msgid ""
+"No version of the income-tax return form covers the period %(date_from)s – "
+"%(date_to)s for %(country)s. The tax authority has most likely not "
+"published the form (vzor) for this period yet. The return cannot be created "
+"until a version for the period is installed; it is not guessed from an "
+"earlier year's form."
+msgstr ""
+"Období %(date_from)s – %(date_to)s pro zemi %(country)s nepokrývá žádná "
+"verze tiskopisu přiznání k dani z příjmů. Správce daně tiskopis pro toto "
+"období nejspíš ještě nezveřejnil. Přiznání nelze vytvořit, dokud nebude "
+"nainstalována verze pro toto období; z tiskopisu dřívějšího roku se "
+"neodvozuje."

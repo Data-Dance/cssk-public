@@ -5,7 +5,7 @@
     "summary": "Slovak payme payment QR code on invoices — a payme.sk link that opens the "
         "customer's banking app with IBAN, amount, currency and payment identification "
         "pre-filled.",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

@@ -127,6 +127,33 @@ class TestSkAssetProfile(AccountTestInvoicingCommon):
                          "the profile's duration must reach the asset")
         self.assertEqual(profile.account_depreciation_id.code, "082000")
 
+    def test_the_first_year_is_not_a_whole_year(self):
+        """An asset put into use in July depreciates for July–December only.
+
+        The profiles used to depreciate for whole years with Prorata Temporis
+        off, so a July asset took a full year's charge in its first year —
+        and for an intangible that charge is also the tax depreciation
+        (§ 22 ods. 8 zákona 595/2003).
+        """
+        profile = self._by_asset_code()["022000"]
+        self.assertTrue(profile.prorata)
+        self.assertEqual(profile.method_period, "month")
+        asset = self.env["account.asset"].with_company(self.company).create({
+            "name": "July machine",
+            "profile_id": profile.id,
+            "purchase_value": 12000.0,
+            "date_start": "2026-07-01",
+        })
+        asset.compute_depreciation_board()
+        first_year = asset.depreciation_line_ids.filtered(
+            lambda l: l.type == "depreciate" and l.line_date.year == 2026)
+        # 12 000 over six years = 2 000 a year; OCA's Prorata Temporis
+        # takes the share of the year's days from the start date onwards
+        # (184 of 365), not a whole year
+        self.assertAlmostEqual(
+            sum(first_year.mapped("amount")), round(2000.0 * 184 / 365, 2), 2)
+        self.assertEqual(len(first_year), 6, "one entry per month")
+
     def test_a_company_that_had_its_chart_first_gets_them_once(self):
         """Installed after the chart, the module used to create nothing: the
         template only applies when the chart is LOADED. The hook gives them

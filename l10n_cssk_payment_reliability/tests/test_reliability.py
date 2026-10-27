@@ -12,6 +12,15 @@ PARTNER = "odoo.addons.l10n_cssk_payment_reliability.models.res_partner.ResPartn
 @tagged("post_install", "-at_install")
 class TestReliability(AccountTestInvoicingCommon):
     @classmethod
+    def get_default_groups(cls):
+        # account_payment_order (OCA) moves the bank-account access rule to
+        # its own group; without it these setups cannot create bank accounts.
+        return super().get_default_groups() | (
+            cls.env.ref("account_payment_order.group_account_payment", False)
+            or cls.env["res.groups"]
+        )
+
+    @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.company_data["company"]
@@ -47,7 +56,9 @@ class TestReliability(AccountTestInvoicingCommon):
         bill = self._bill()
         self._run(bill, ["SK9999999999999999999999"], "reliable")
         self.assertEqual(bill.cssk_bank_acc_status, "not_registered")
-        self.assertIn("§69", bill.cssk_reliability_warning)
+        # the liability since 1. 1. 2025 is § 69 ods. 13 písm. c); ods. 14
+        # is now the deregistration list
+        self.assertIn("§ 69 ods. 13 písm. c) SK", bill.cssk_reliability_warning)
         self.assertTrue(bill.cssk_reliability_alert)
 
     def test_unreliable_supplier_warns(self):
@@ -129,7 +140,7 @@ class TestReliability(AccountTestInvoicingCommon):
             payment.action_post()
         self.assertNotEqual(payment.state, "draft")
         self.assertEqual(payment.cssk_bank_acc_status, "not_registered")
-        self.assertIn("§69", payment.cssk_reliability_warning)
+        self.assertIn("§ 69 ods. 13 písm. c) SK", payment.cssk_reliability_warning)
 
     def test_a_customer_payment_is_not_checked(self):
         payment = self.env["account.payment"].create({
@@ -178,3 +189,39 @@ class TestReliability(AccountTestInvoicingCommon):
         self.assertNotIn(fresh.id, checked)
         self.assertNotIn(draft.id, checked)
         self.assertGreater(stale.cssk_reliability_checked_on.year, 2020)
+
+    # ------------------------------------------------------------------
+    # the contact's own rating, and an empty published list
+    # ------------------------------------------------------------------
+
+    def test_a_bill_check_keeps_the_contact_rating(self):
+        """cssk_tax_reliability on the contact was never written by anything."""
+        bill = self._bill()
+        self._run(bill, ["SK6807200002891987426353"], "less_reliable")
+        self.assertEqual(self.partner_a.cssk_tax_reliability, "less_reliable")
+        self.assertTrue(self.partner_a.cssk_reliability_checked_on)
+
+    def test_an_unavailable_rating_leaves_the_contact_alone(self):
+        self.partner_a.cssk_tax_reliability = "reliable"
+        bill = self._bill()
+        self._run(bill, None, None)
+        self.assertEqual(self.partner_a.cssk_tax_reliability, "reliable")
+
+    def test_the_contact_can_be_checked_on_demand(self):
+        person = self.env["res.partner"].create(
+            {"name": "Kontakt", "parent_id": self.partner_a.id})
+        action = self.env.ref(
+            "l10n_cssk_payment_reliability.action_cssk_refresh_reliability")
+        self.assertEqual(action.binding_model_id.model, "res.partner")
+        with patch(f"{PARTNER}._cssk_get_tax_reliability",
+                   return_value="highly_reliable"), \
+             patch.object(type(self.env.user), "_bus_send"):
+            person.action_cssk_refresh_reliability()
+        # Written where the bill check reads it: on the company.
+        self.assertEqual(self.partner_a.cssk_tax_reliability, "highly_reliable")
+
+    def test_a_payer_with_nothing_published_gets_its_own_warning(self):
+        bill = self._bill()
+        self._run(bill, [], "reliable")
+        self.assertEqual(bill.cssk_bank_acc_status, "not_registered")
+        self.assertIn("published no bank account", bill.cssk_reliability_warning)

@@ -4,7 +4,7 @@
 from odoo import fields
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import tagged
+from odoo.tests import TransactionCase, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -151,8 +151,9 @@ class TestCashJournalGeneration(TestCashJournalCommon):
     def test_vat_is_reported_apart_from_the_base(self):
         """A VAT payer's base is net; the VAT rides in its own column.
 
-        SK § 21 ods. 1 písm. i) keeps VAT out of the income-tax base, and the
-        denník has a DPH column for exactly this.
+        SK § 3 ods. 2 písm. c) (income) and § 21 ods. 2 písm. i) (expenses)
+        keep a VAT payer's VAT out of the income-tax base, and the denník has a
+        DPH column for exactly this.
         """
         invoice = self._invoice(
             lines=[(1000.0, self.income_account)], taxes=self.tax_sale_a)
@@ -394,6 +395,54 @@ class TestCashJournalGeneration(TestCashJournalCommon):
         self.assertEqual(row.kind, "expense")
         self.assertEqual(row.amount, 900.0)
         self.assertEqual(row.payment_kind, "none")
+
+    def test_a_reversed_odpis_reduces_the_odpisy(self):
+        """A reversal credits the depreciation account: a storno, not more
+        expense. Úč FO r. 10 must net to 900 - 300, not 900 + 300."""
+        depreciation_account = self.expense_account.copy({
+            "code": "%s7" % self.expense_account.code,
+        })
+        depreciation_account.cssk_cash_category_id = self.cat_depreciation
+        accumulated = self.expense_account.copy({
+            "code": "%s6" % self.expense_account.code,
+        })
+
+        def entry(amount, date):
+            sign = 1 if amount > 0 else -1
+            move = self.env["account.move"].create({
+                "journal_id": self.company_data["default_journal_misc"].id,
+                "date": fields.Date.to_date(date),
+                "line_ids": [
+                    (0, 0, {
+                        "account_id": depreciation_account.id,
+                        "name": "Odpis",
+                        "debit": amount if sign > 0 else 0.0,
+                        "credit": -amount if sign < 0 else 0.0,
+                    }),
+                    (0, 0, {
+                        "account_id": accumulated.id,
+                        "name": "Odpis",
+                        "debit": -amount if sign < 0 else 0.0,
+                        "credit": amount if sign > 0 else 0.0,
+                    }),
+                ],
+            })
+            move.action_post()
+            return move
+
+        entry(900.0, "2026-06-30")
+        entry(-300.0, "2026-12-31")
+        self._generate()
+        rows = self._rows().filtered("non_cash").sorted("date")
+        self.assertEqual(len(rows), 2)
+        self.assertEqual(rows.mapped("kind"), ["expense", "expense"])
+        self.assertEqual(rows.mapped("counter_entry"), [False, True])
+        self.assertEqual(rows.mapped("amount_classified"), [900.0, -300.0])
+        figures = self.env["cssk.cash.figures"]._cssk_flows(
+            self.company, fields.Date.to_date("2026-01-01"),
+            fields.Date.to_date("2026-12-31"))
+        self.assertEqual(figures["expense"], 600.0)
+        self.assertEqual(figures["by_category"][self.cat_depreciation.id], 600.0)
 
     def test_regeneration_is_idempotent_and_keeps_manual_rows(self):
         invoice = self._invoice(lines=[(1000.0, self.income_account)])
@@ -985,3 +1034,74 @@ class TestCashCategoryConstraints(TestCashJournalCommon):
         self.company.country_id = self.env.ref("base.cz")
         with self.assertRaises(ValidationError):
             self.company.cssk_bookkeeping_regime = "ju"
+
+
+class TestCashJournalBalances(TestCashJournalCommon):
+    """The ledger balances behind SK tabuľka 1a and CZ oddíl D."""
+
+    def _account(self, code, account_type="asset_current"):
+        return self.env["account.account"].create({
+            "code": code,
+            "name": "Balance test %s" % code,
+            "account_type": account_type,
+        })
+
+    def _entry(self, account, amount, date="2026-05-01", post=True):
+        counterpart = self.company_data["default_account_assets"]
+        move = self.env["account.move"].create({
+            "move_type": "entry",
+            "date": fields.Date.to_date(date),
+            "journal_id": self.company_data["default_journal_misc"].id,
+            "line_ids": [
+                (0, 0, {"account_id": account.id, "debit": amount, "credit": 0.0}),
+                (0, 0, {"account_id": counterpart.id, "debit": 0.0, "credit": amount}),
+            ],
+        })
+        if post:
+            move.action_post()
+        return move
+
+    def test_a_slot_with_several_prefixes_sums_all_of_them(self):
+        """Every multi-prefix slot (SK r1, r2, r6; CZ d1, d6) used to be 0."""
+        first = self._account("977101")
+        second = self._account("978101")
+        third = self._account("979101")
+        self._entry(first, 100.0)
+        self._entry(second, 20.0)
+        self._entry(third, 3.0)
+        self._entry(first, 5000.0, post=False)
+        self._entry(first, 7000.0, date="2027-01-15")
+        figures = self.env["cssk.cash.figures"]
+        date = fields.Date.to_date("2026-12-31")
+        self.assertAlmostEqual(
+            figures._cssk_balance(self.company, date, ["9771"]), 100.0, places=2)
+        self.assertAlmostEqual(
+            figures._cssk_balance(self.company, date, ["9771", "9781"]),
+            120.0, places=2,
+            msg="two prefixes are a union, not an intersection")
+        self.assertAlmostEqual(
+            figures._cssk_balance(self.company, date, ["9771", "9781", "9791"]),
+            123.0, places=2,
+            msg="a draft entry and one after the date stay out")
+
+    def test_the_company_filter_survives_several_prefixes(self):
+        other = self.setup_other_company()["company"]
+        self._entry(self._account("977201"), 40.0)
+        figures = self.env["cssk.cash.figures"]
+        date = fields.Date.to_date("2026-12-31")
+        self.assertAlmostEqual(
+            figures._cssk_balance(other, date, ["9772", "9782"]), 0.0, places=2,
+            msg="another company's lines must not be counted")
+
+
+@tagged("post_install", "-at_install")
+class TestCashCategoryViews(TransactionCase):
+    def test_the_tax_return_row_is_shown_on_the_category(self):
+        """Which DPFO / Příloha č. 1 row a category feeds decides the tax
+        return, and no view showed it."""
+        from lxml import etree
+        for view_type in ("list", "form"):
+            arch = self.env["cssk.cash.category"].get_views(
+                [(False, view_type)])["views"][view_type]["arch"]
+            self.assertTrue(etree.fromstring(arch).xpath(
+                "//field[@name='tax_return_code']"), view_type)

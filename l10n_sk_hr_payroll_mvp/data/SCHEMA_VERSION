@@ -1,0 +1,19 @@
+MVPP-v2026.xsd  fe334650431e06d6b4e0422c9cd0e8b3  36608
+
+NOT compared with a published copy. The Sociálna poisťovňa
+publishes its XSDs through a portal that is a JavaScript application, and no
+direct download URL for this file was found on 2026-10-27 (plain requests to
+the obvious paths return the portal's HTML shell). The digest above pins the
+bytes that are bundled and have been validated against by this module's
+tests, nothing more: it catches a silent local edit, not a revision by the
+authority.
+
+REFRESH PROCEDURE
+  1. Download the current schema from the authority's portal by hand.
+  2. Compare md5 and size with the line here. Never judge a download by its
+     size alone — a portal error page is a plausible size too.
+  3. If it differs, the authority revised the schema: review the diff, update
+     the bundled file and this line, and re-run the module's tests. A new
+     vintage is a new cssk.payroll.declaration.version record with its own
+     template.
+  4. Record the URL you used here, so the next refresh can be done by curl.

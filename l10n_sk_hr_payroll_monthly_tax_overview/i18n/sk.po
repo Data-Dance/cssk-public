@@ -76,6 +76,16 @@ msgstr ""
 "číslo) pre element <dic> mesačného prehľadu. Nastavte 'DIČ' na spoločnosti."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"Company '%(company)s' needs a bank account for the refund of the child tax "
+"bonus difference requested in Part III of the overview."
+msgstr ""
+"Spoločnosť '%(company)s' potrebuje bankový účet na poukázanie rozdielu "
+"daňového bonusu, o ktoré sa žiada v III. časti prehľadu."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__country_id
 msgid "Country"
 msgstr "Krajina"
@@ -135,6 +145,23 @@ msgstr "Podané XML"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__filed_history_ids
 msgid "Filed history"
 msgstr "História podaní"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__request_bonus_refund
+msgid ""
+"Fill in Part III of the overview: ask the tax administrator to pay out the "
+"child tax bonus the company paid from its own money because it exceeded the "
+"withheld tax advances (row C of Part II), summed over the three months of "
+"the quarter. Only possible in the overview for the last month of a calendar "
+"quarter (March, June, September, December). Leave it off to deduct the "
+"difference from the tax advances of the following months instead."
+msgstr ""
+"Vyplní III. časť prehľadu: požiada správcu dane o poukázanie daňového "
+"bonusu, ktorý spoločnosť vyplatila z vlastných prostriedkov, lebo prevýšil "
+"zrazené preddavky na daň (riadok C II. časti), spolu za tri mesiace "
+"štvrťroka. Možné len v prehľade za posledný mesiac kalendárneho štvrťroka "
+"(marec, jún, september, december). Ak pole nezaškrtnete, rozdiel si "
+"odpočítate od preddavkov v nasledujúcich mesiacoch."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_follower_ids
@@ -288,6 +315,11 @@ msgid "Payment Date"
 msgstr "Dátum výplaty"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__request_bonus_refund
+msgid "Request refund of the child tax bonus difference"
+msgstr "Žiadať o poukázanie rozdielu daňového bonusu"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_monthly_tax_overview.view_l10n_sk_prehlad_form
 msgid "Reset to Draft"
 msgstr "Vrátiť do konceptu"
@@ -339,6 +371,17 @@ msgstr "Referencia podania"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__submitted_date
 msgid "Submitted Date"
 msgstr "Dátum odoslania"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"The child tax bonus difference can only be claimed in the overview for the "
+"last month of a calendar quarter (March, June, September or December)."
+msgstr ""
+"O poukázanie rozdielu daňového bonusu možno žiadať len v prehľade za "
+"posledný mesiac kalendárneho štvrťroka (marec, jún, september alebo "
+"december)."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_exception_decoration

@@ -34,7 +34,7 @@ and lets the existing tag-driven ``l10n_sk_vat_return`` engine report it.
 The deduction gate
 ------------------
 
-Per the DPHv25 poučenie (bod 38, § 49 ods. 2 písm. d)): the platiteľ may deduct
+Per § 51 ods. 1 písm. d) (and the DPHv25 poučenie, bod 38): the platiteľ may deduct
 *"ak pri odpočítaní dane má dovozný doklad potvrdený colným orgánom, v ktorom je
 platiteľ uvedený ako príjemca alebo dovozca."* The declaration therefore refuses
 to post the deduction until the confirmed customs document is attached and the
@@ -62,7 +62,7 @@ Honesty flags
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.4",
+    "version": "19.0.1.2.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk", "stock_landed_costs", "purchase_stock"],

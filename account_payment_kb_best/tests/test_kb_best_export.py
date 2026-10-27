@@ -131,6 +131,37 @@ class TestKbBestExport(AccountTestInvoicingCommon):
         with self.assertRaisesRegex(UserError, "not a KB account"):
             order.generate_payment_file()
 
+    def test_foreign_priority_and_charge_bearer_come_from_the_line(self):
+        """They used to be read from fields no Community module defines, so
+        every foreign BEST payment went out normal priority, shared charges."""
+        usa = self.env.ref("base.us")
+        partner = self.env["res.partner"].create({
+            "name": "Supplier Inc", "street": "1 Main St", "city": "Boston",
+            "zip": "02110", "country_id": usa.id,
+        })
+        partner_bank = self.env["res.partner.bank"].sudo().create({
+            "acc_number": "123456789", "partner_id": partner.id,
+            "bank_id": self.env["res.bank"].create({
+                "name": "US Bank", "bic": "CHASUS33XXX",
+                "country": usa.id}).id,
+        })
+        line_vals = dict(
+            partner_id=partner.id, partner_bank_id=partner_bank.id,
+            currency_id=self.eur.id, amount_currency=41.0,
+            communication="Invoice 77",
+        )
+        order = self._order("account_payment_method_kb_best_foreign",
+                            **line_vals)
+        payment = self._records(order.generate_payment_file()[0])[1]
+        # charges at 47, then the 16-digit charges account, its currency, priority
+        self.assertEqual(payment[66:69], "CZK")
+        self.assertEqual((payment[47:50], payment[69]), ("SHA", "E"))
+        order.payment_line_ids.write({
+            "iso20022_priority": "URGP", "iso20022_charge_bearer": "DEBT",
+        })
+        payment = self._records(order.generate_payment_file()[0])[1]
+        self.assertEqual((payment[47:50], payment[69]), ("OUR", "U"))
+
 
 def _base36(number):
     digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"

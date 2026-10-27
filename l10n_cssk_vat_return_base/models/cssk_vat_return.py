@@ -218,6 +218,25 @@ class CSSKVatReturn(models.Model):
             ret.excess_carried_in = prior.excess_carried_out
         return True
 
+    @api.constrains("period_type", "version_id")
+    def _check_period_type_allowed(self):
+        """The version's ``allow_monthly`` / ``allow_quarterly`` say which
+        periods its vzor can be filed for; a period it does not allow is
+        refused rather than exported."""
+        for rec in self:
+            version = rec.version_id
+            if not version or not rec.period_type:
+                continue
+            if ((rec.period_type == "month" and not version.allow_monthly)
+                    or (rec.period_type == "quarter"
+                        and not version.allow_quarterly)):
+                raise ValidationError(_(
+                    "The form version %(version)s cannot be filed for a "
+                    "%(period)s period.",
+                    version=version.display_name,
+                    period=dict(rec._fields["period_type"]._description_selection(
+                        rec.env))[rec.period_type].lower()))
+
     @api.depends("date_from", "date_to")
     def _compute_name(self):
         for ret in self:
@@ -261,6 +280,9 @@ class CSSKVatReturn(models.Model):
                     ldef.tag_formula, move_lines, ldef.line_filter)
                 src_domain = self._tag_source_domain(
                     ldef.tag_formula, period_move_ids)
+                if ldef.line_filter and src_domain:
+                    src_domain = self._cssk_tag_source_line_filter(
+                        ldef.line_filter, src_domain)
             elif ldef.kind == "aggregate":
                 value = self._eval_aggregate(ldef.aggregate_formula, computed)
             else:  # manual without an override
@@ -355,6 +377,19 @@ class CSSKVatReturn(models.Model):
             "Line filter %r is not implemented for this country. A form line "
             "asking for a restriction nobody applies would report the whole "
             "of its tags instead of its share of them.", key))
+
+    def _cssk_tag_source_line_filter(self, key, domain):
+        """Narrow a filtered line's drill-down the way its figure is narrowed.
+
+        The figure is the FILTERED share of its tags (SK § 69 ods. 3 vs
+        ods. 2 a 9 až 12 before 2021: one tag, two rows), so the drill-down
+        must be too — otherwise both rows list, and reconcile against, the
+        whole tag and neither shows ✓. A country that computes a filtered
+        line some other way (CZ ř. 33 / ř. 34) overrides this.
+        """
+        kept = self._cssk_tag_line_filter(
+            key, self.env["account.move.line"].search(domain))
+        return domain + [("id", "in", kept.ids)]
 
     def _eval_tags(self, formula, move_lines, line_filter=None):
         """Signed sum of balances of move lines carrying the formula's tag.

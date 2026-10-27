@@ -63,6 +63,15 @@ class CsskSubmission(models.Model):
         return super()._get_channels() + [
             (CHANNEL, _("EPO — Finanční správa (signed, direct)"))]
 
+    @api.model
+    def _get_channels_for_company(self, company):
+        """EPO files for Czech taxpayers only: offering it on a Slovak filing
+        led nowhere but to the refusal in ``_channel_validate_cz_epo``."""
+        channels = super()._get_channels_for_company(company)
+        if company.account_fiscal_country_id.code != "CZ":
+            channels = [c for c in channels if c[0] != CHANNEL]
+        return channels
+
     # ------------------------------------------------------------------
     def _epo_certificate(self):
         self.ensure_one()
@@ -195,23 +204,23 @@ class CsskSubmission(models.Model):
                 "before sending it again.", error=exc)) from exc
         self.sent_date = fields.Datetime.now()
         kind = answer["kind"]
-        if kind == "receipt":
-            receipt = self._epo_attach(
-                "potvrzeni-%s.p7s" % (answer["number"] or self.name),
-                answer["raw"], "application/pkcs7-signature")
-            self.sudo().epo_password = answer["password"]
-            self._mark_delivered(external_ref=answer["number"], receipts=receipt)
-            self.message_post(body=_(
-                "Filed through EPO: podací číslo %(number)s, %(date)s.",
-                number=answer["number"], date=answer["date"] or ""))
-        elif kind == "offline":
-            self.epo_transfer_id = answer["transfer_id"]
-            self.sudo().epo_password = answer["password"]
-            self._mark_delivered()
-            self.message_post(body=_(
-                "EPO took this large filing for off-line processing (ID "
-                "předání %(id)s); the podací číslo follows.",
-                id=answer["transfer_id"]))
+        if kind in ("receipt", "offline"):
+            # EPO has taken the filing. Whatever goes wrong from here on must
+            # not reach the framework as an unclassified error — that is the
+            # one path where a retry files the return twice. Recorded in its
+            # own savepoint so even a database error leaves a cursor to say so.
+            try:
+                with self.env.cr.savepoint():
+                    self._epo_record_filed(answer)
+            except Exception as exc:  # noqa: BLE001 - see above
+                raise CsskSubmissionFatal(_(
+                    "EPO accepted the filing (podací číslo %(number)s, ID "
+                    "předání %(transfer)s), but recording its answer failed: "
+                    "%(error)s. Do NOT send it again — record the podací "
+                    "číslo from the EPO portal (MOJE daně) instead.",
+                    number=answer.get("number") or "—",
+                    transfer=answer.get("transfer_id") or "—",
+                    error=exc)) from exc
         elif kind == "errors":
             attachment = self._epo_attach(
                 "EPO-errors-%s.xml" % self.name, answer["xml"], "application/xml")
@@ -222,6 +231,27 @@ class CsskSubmission(models.Model):
         else:
             raise CsskSubmissionFatal(_(
                 "EPO answered a filing with %s.", kind))
+
+    def _epo_record_filed(self, answer):
+        """Record a filing EPO has taken: a receipt, or an off-line transfer."""
+        self.ensure_one()
+        if answer["kind"] == "receipt":
+            receipt = self._epo_attach(
+                "potvrzeni-%s.p7s" % (answer["number"] or self.name),
+                answer["raw"], "application/pkcs7-signature")
+            self.sudo().epo_password = answer["password"]
+            self._mark_delivered(external_ref=answer["number"], receipts=receipt)
+            self.message_post(body=_(
+                "Filed through EPO: podací číslo %(number)s, %(date)s.",
+                number=answer["number"], date=answer["date"] or ""))
+        else:
+            self.epo_transfer_id = answer["transfer_id"]
+            self.sudo().epo_password = answer["password"]
+            self._mark_delivered()
+            self.message_post(body=_(
+                "EPO took this large filing for off-line processing (ID "
+                "předání %(id)s); the podací číslo follows.",
+                id=answer["transfer_id"]))
 
     def _channel_poll_cz_epo(self):
         self.ensure_one()

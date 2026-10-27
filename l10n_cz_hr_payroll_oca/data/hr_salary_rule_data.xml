@@ -102,8 +102,12 @@ result_name = 'Paid Obstacle Compensation'
          reduced by the hourly redukční hranice (90/60/30 bands). Hours are
          driven from the CZSICK leave-derived worked-day line, falling back to
          the manual SICK_HOURS input. Memo category SICKNAHRADA: kept OUT of
-         GROSS (not subject to pojistné) and added back at NET. Simplification:
-         not run through income tax (see readme/ROADMAP). No waiting period
+         GROSS (náhrada mzdy při DPN is not in the vyměřovací základ of either
+         insurance) but added to TAXBASE (it is a příjem ze závislé činnosti
+         under § 6 ZDP and is taxed) and back at NET. Only the first 14
+         calendar days of an uninterrupted DPN are the employer's (§ 192
+         odst. 1 ZP); later days are nemocenské paid by ČSSZ, so their hours
+         are cut here (l10n_cz_sick_compensated_hours). No waiting period
          (paid from day 1 since 2019). -->
     <record id="cz_sick_nahrada_rule" model="hr.salary.rule">
         <field name="category_id" ref="hr_payroll_sick_nahrada"/>
@@ -122,8 +126,9 @@ reduced = (min(phv, rh1) * 0.90
            + (min(phv, rh2) - min(phv, rh1)) * 0.60
            + (min(phv, rh3) - min(phv, rh2)) * 0.30)
 # Drive the missed hours from the CZSICK leave; fall back to the manual input.
-hours = payslip.l10n_cz_leave_hours('CZSICK')
-if not hours and 'SICK_HOURS' in inputs.dict:
+# Only the first 14 calendar days of the DPN (§ 192 odst. 1 ZP).
+hours = payslip.l10n_cz_sick_compensated_hours()
+if not payslip.l10n_cz_leave_hours('CZSICK') and 'SICK_HOURS' in inputs.dict:
     hours = inputs.SICK_HOURS.amount
 nahrada = reduced * 0.60 * hours
 # náhrada mzdy is rounded up to whole crowns
@@ -155,12 +160,14 @@ result = categories.BASIC + categories.ALW
         <field name="condition_select">python</field>
         <field name="condition_python">
 # Dohody: social insurance is due only once the monthly income reaches the
-# rozhodný příjem. A single notified DPP (oznámená dohoda) uses the higher 25 %
-# average-wage threshold; a non-notified DPP falls back to the general rozhodný
-# příjem, same as DPČ. Standard employment is always insured.
+# rozhodný příjem. A DPP is insured from 25 % of the average wage rounded down
+# to 500 Kč (§ 7a odst. 1 zák. 187/2006 Sb. since 1. 1. 2025: 11 500 Kč in
+# 2025, 12 000 Kč in 2026), a DPČ from the general rozhodný příjem (§ 6 odst. 2).
+# The law knows no "notified" DPP: every DPP uses the DPP amount. Standard
+# employment is always insured.
 agr = contract.l10n_cz_agreement_type
 if agr == 'dpp':
-    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
 elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
@@ -196,7 +203,7 @@ result_rate = -payslip.rule_parameter('l10n_cz_social_rate_ee')
 # Employer social insurance follows the same rozhodný-příjem gate as the employee.
 agr = contract.l10n_cz_agreement_type
 if agr == 'dpp':
-    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
 elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
@@ -222,8 +229,10 @@ result_rate = payslip.rule_parameter('l10n_cz_social_rate_er')
     </record>
 
     <!-- 112. EMPLOYER SOCIAL-INSURANCE DISCOUNT (sleva na pojistném, §7a 589/1992).
-         5 % of the monthly assessment base (capped at 1.5x avg wage) for an eligible
-         part-time employee (8-30 h/week; under-21 exempt from the hours band).
+         5 % of the monthly assessment base for an eligible employee in a
+         pracovní poměr: base up to 1.5x the average wage and up to 1.15 % of it
+         per hour (§ 7a odst. 3 a), b)); categories a)-f) also need an agreed
+         8-30 h/week and at most 138 h in the month (odst. 2, odst. 3 c)).
          Negative line in its own SOCIAL_DISCOUNT category -> reduces EMPLOYERCOST
          but leaves the gross SOCIALER/SOCIALERTOT premium untouched (for PVPOJ). -->
     <record id="cz_social_discount_rule" model="hr.salary.rule">
@@ -233,21 +242,8 @@ result_rate = payslip.rule_parameter('l10n_cz_social_rate_er')
         <field name="code">SOCIAL_DISCOUNT</field>
         <field name="condition_select">python</field>
         <field name="condition_python">
-cat = contract.l10n_cz_social_discount_category
-result = False
-if cat and cat != 'none':
-    cal = contract.resource_calendar_id
-    if 'hours_per_week' in cal._fields:
-        hpw = cal.hours_per_week
-    else:
-        weeks = 2.0 if cal.two_weeks_calendar else 1.0
-        hpw = (sum(a.hour_to - a.hour_from for a in cal.attendance_ids) / weeks) if cal.attendance_ids else 0.0
-    hmin = payslip.rule_parameter('l10n_cz_social_disc_hours_min')
-    hmax = payslip.rule_parameter('l10n_cz_social_disc_hours_max')
-    parttime_ok = cat == 'under21' or (hmin &lt;= hpw &lt;= hmax)
-    cap = payslip.rule_parameter('l10n_cz_avg_wage') * payslip.rule_parameter('l10n_cz_social_disc_base_mult')
-    base = categories.GROSS
-    result = bool(parttime_ok and 0 &lt; base &lt;= cap)
+# All statutory tests live in hr.payslip.l10n_cz_social_discount_eligible.
+result = payslip.l10n_cz_social_discount_eligible(categories.GROSS)
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -259,9 +255,12 @@ result_rate = payslip.rule_parameter('l10n_cz_social_disc_rate')
         <field name="appears_on_payslip" eval="True"/>
     </record>
 
-    <!-- 120. HEALTH INSURANCE (Employee) 4.5 % with min-base top-up.
-         If gross &lt; min wage and the employee is NOT state-insured, the employee
-         bears the full 13.5 % shortfall on (min_base - gross) on top of 4.5 % of gross. -->
+    <!-- 120. HEALTH INSURANCE (Employee): one third of the 13.5 % premium,
+         the premium and the third each rounded UP to whole crowns (§ 2 odst. 2
+         zák. 592/1992, § 9 odst. 2 zák. 48/1997). If gross is below the minimum
+         base (prorated by calendar days, § 3 odst. 9) the employee also pays
+         13.5 % of the shortfall (§ 3 odst. 10) - unless an employer-side
+         obstacle caused it, when the employer does. -->
     <record id="cz_health_ee_rule" model="hr.salary.rule">
         <field name="category_id" ref="hr_payroll_health_employee"/>
         <field name="name">Health Insurance (Employee)</field>
@@ -272,7 +271,7 @@ result_rate = payslip.rule_parameter('l10n_cz_social_disc_rate')
 # Health insurance is due for dohody only once the income reaches the threshold.
 agr = contract.l10n_cz_agreement_type
 if agr == 'dpp':
-    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
 elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
@@ -281,22 +280,16 @@ result = agr == 'standard' or categories.GROSS &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-gross = categories.GROSS
-min_base = payslip.rule_parameter('l10n_cz_health_min_base')
-rate_ee = payslip.rule_parameter('l10n_cz_health_rate_ee')
-# The minimum-assessment-base top-up applies to standard employment only; dohody
-# are assessed on their actual income.
-if contract.l10n_cz_is_state_insured or contract.l10n_cz_agreement_type != 'standard' or gross &gt;= min_base:
-    result = gross
-    result_rate = -rate_ee
-else:
-    rate_total = rate_ee + payslip.rule_parameter('l10n_cz_health_rate_er')
-    result = -(gross * rate_ee / 100.0 + (min_base - gross) * rate_total / 100.0)
+# 13.5 % rounded up per employee, the employee's third rounded up, plus the
+# minimum-base top-up (prorated by calendar days) where it applies. See
+# hr.payslip.l10n_cz_health_premiums.
+result = -payslip.l10n_cz_health_premiums(categories.GROSS)[0]
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
 
-    <!-- 121. HEALTH INSURANCE (Employer) 9 % of actual gross (no min-base top-up) -->
+    <!-- 121. HEALTH INSURANCE (Employer): the rounded 13.5 % premium less the
+         employee's third (normally no min-base top-up; see rule 120). -->
     <record id="cz_health_er_rule" model="hr.salary.rule">
         <field name="category_id" ref="hr_payroll_health_employer"/>
         <field name="name">Health Insurance (Employer)</field>
@@ -307,7 +300,7 @@ else:
 # Employer health insurance follows the same threshold gate as the employee.
 agr = contract.l10n_cz_agreement_type
 if agr == 'dpp':
-    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
 elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
@@ -316,13 +309,16 @@ result = agr == 'standard' or categories.GROSS &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = categories.GROSS
-result_rate = payslip.rule_parameter('l10n_cz_health_rate_er')
+# Two thirds of the rounded premium (the rest after the employee's third),
+# plus the minimum-base top-up when an employer-side obstacle caused it.
+result = payslip.l10n_cz_health_premiums(categories.GROSS)[1]
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
 
-    <!-- 130. TAX BASE (= gross; NO superhrubá) -->
+    <!-- 130. TAX BASE (= gross; NO superhrubá) + sickness compensation, which
+         is taxable income (§ 6 odst. 1 ZDP) although outside the insurance
+         base. -->
     <record id="cz_tax_base_rule" model="hr.salary.rule">
         <field name="category_id" ref="hr_payroll_tax_base"/>
         <field name="name">Tax Base</field>
@@ -331,7 +327,7 @@ result_rate = payslip.rule_parameter('l10n_cz_health_rate_er')
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = categories.GROSS
+result = categories.GROSS + categories.SICKNAHRADA
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -351,7 +347,7 @@ result = categories.GROSS
 # withholding tax (WHTAX) instead.
 agr = contract.l10n_cz_agreement_type
 if agr == 'dpp':
-    thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+    thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
 elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
@@ -374,7 +370,9 @@ result = -tax
 
     <!-- 175. WITHHOLDING TAX (srážková daň, daň vybíraná srážkou) - the final 15 %
          tax on a below-threshold dohoda when no taxpayer declaration is signed
-         (§ 6 odst. 4 ZDP). Base and tax rounded down to whole CZK. No credits.
+         (§ 6 odst. 4 ZDP). For a DPP the ceiling is the DPP insurance amount
+         (§ 6 odst. 4 písm. a) ZDP), for a DPČ the rozhodný příjem (písm. b)).
+         Base and tax rounded down to whole CZK. No credits.
          Sources (2025/2026 limits & treatment):
          https://www.finance.cz/clanky/553494-prace-na-dohody-dpp-dpc-v-roce-2026-jak-se-zmeni-limity-a-zdaneni-prace-na-dohodu/
          https://www.mesec.cz/clanky/dohoda-o-pracovni-cinnosti-dpc-2025-jak-na-dane-a-pojistne-odvody/ -->
@@ -390,7 +388,7 @@ if agr not in ('dpp', 'dpc') or contract.l10n_cz_tax_declaration:
     result = False
 else:
     if agr == 'dpp':
-        thr = payslip.rule_parameter('l10n_cz_dpp_threshold') if contract.l10n_cz_dpp_notified else payslip.rule_parameter('l10n_cz_dpc_threshold')
+        thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
     else:
         thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
     result = categories.GROSS &lt; thr
@@ -472,7 +470,8 @@ benefit = contract.l10n_cz_children_t1 * p1 + contract.l10n_cz_children_t2 * p2 
 benefit += contract.l10n_cz_children_ztpp * p1
 bonus = benefit - result_rules.CHILDBEN.total
 threshold = payslip.rule_parameter('l10n_cz_bonus_min_income_month')
-if categories.GROSS &gt;= threshold and bonus &gt; 0:
+# The income test counts every příjem ze závislé činnosti, sick pay included.
+if categories.TAXBASE &gt;= threshold and bonus &gt; 0:
     result = bonus
 else:
     result = 0
@@ -556,7 +555,7 @@ result_name = inputs.CHILD_SUPPORT.name
 # Statutory net wage (čistá mzda): gross less insurance and net income tax.
 net = (categories.GROSS + categories.SOCIALEE + categories.HEALTHEE
        + categories.INCOMETAX + categories.TAXCREDIT + categories.CHILDBEN
-       + categories.WHTAX)
+       + categories.WHTAX + categories.SICKNAHRADA)
 # Prefer the garnishment register, but ONLY for employees who actually
 # have an order on file. Installing the register must not silently
 # disable the input-driven path for everyone else — a site can migrate
@@ -756,7 +755,11 @@ result = GROSS + categories.SOCIALER + categories.HEALTHER + categories.SOCIAL_D
            CZPROSTOJ       § 207 a)  prostoj                    nejméně  80 %
            CZPOVETRNOST    § 207 b)  povětrnostní vlivy         nejméně  60 %
            CZJINEPREKAZKY  § 208     jiné překážky                      100 %
-           CZCASTECNA      § 209     částečná nezaměstnanost    nejméně  60 %
+           CZCASTECNA      § 209     částečná nezaměstnanost   100 %, or the
+                                     rate agreed with the union / set by an
+                                     internal regulation, nejméně 60 %
+                                     (company setting; the parameter is the
+                                     60 % floor)
 
          BASIC has been prorated down for these hours (they are in
          CZ_ABSENCE_CODES), and this rule pays them back — at the statutory
@@ -785,7 +788,13 @@ _total = 0.0
 for _code, _param in _rates:
     _hours = payslip.l10n_cz_leave_hours(_code)
     if _hours:
-        _total += _hours * _phv * payslip.rule_parameter(_param) / 100.0
+        _pct = payslip.rule_parameter(_param)
+        if _code == 'CZCASTECNA':
+            # § 209 odst. 2: below 100 % only under an agreement with the
+            # union or an internal regulation - a company setting, never
+            # under the statutory 60 % floor kept in the parameter.
+            _pct = max(payslip.company_id.l10n_cz_partial_unemployment_pct, _pct)
+        _total += _hours * _phv * _pct / 100.0
 result = round(_total, 2)
 result_name = 'Employer Obstacle Compensation'
         </field>

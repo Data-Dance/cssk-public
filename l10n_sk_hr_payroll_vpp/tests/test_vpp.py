@@ -10,6 +10,9 @@ from datetime import date
 
 from lxml import etree
 
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
 
@@ -25,7 +28,7 @@ class TestVpp(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "SK VPP Co",
             "country_id": cls.env.ref("base.sk").id,
-            "company_registry": "12345678",
+            "company_registry": "12345679",
             "l10n_sk_sp_vs": "1234567890",
         })
         cls.env.user.company_ids |= cls.company
@@ -62,20 +65,32 @@ class TestVpp(TransactionCase):
             "contract_date_start": date(2026, 1, 1),
             "wage": wage,
         }
+        # The structure decides the employment form and a contract may not
+        # disagree with it, so a dohoda sits on the dohoda's own structure
+        # (OCA) or structure type (Enterprise) rather than having its
+        # agreement type set underneath the employment one.
+        structure = self.structure
         if self.engine == "oca":
-            emp_vals["struct_id"] = self.structure.id
+            if agreement != "none":
+                structure = self.env.ref(
+                    "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_%s"
+                    % agreement)
+            emp_vals["struct_id"] = structure.id
         else:
-            emp_vals["structure_type_id"] = self.structure.type_id.id
+            structure_type = self.structure.type_id
+            if agreement != "none":
+                structure_type = self.env.ref(
+                    "l10n_sk_hr_payroll_ee.structure_type_%s_sk" % agreement)
+                structure = structure_type.default_struct_id
+            emp_vals["structure_type_id"] = structure_type.id
         employee = self.env["hr.employee"].with_company(
             self.company).create(emp_vals)
-        # Mark the current version as a dohoda so the rules and the VPP scope
-        # both recognise it (engine-neutral: the field lives on hr.version).
-        employee.version_id.l10n_sk_agreement_type = agreement
+        self.assertEqual(employee.version_id.l10n_sk_agreement_type, agreement)
 
         slip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip",
             "employee_id": employee.id,
-            "struct_id": self.structure.id,
+            "struct_id": structure.id,
             "company_id": self.company.id,
             "date_from": date(2026, 3, 1),
             "date_to": date(2026, 3, 31),
@@ -83,13 +98,13 @@ class TestVpp(TransactionCase):
         if self.engine == "ee":
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         return employee, slip
 
     def test_generate_and_validate(self):
         employee, slip = self._dohodar_payslip()
         totals = {line.code: line.total for line in slip.line_ids}
         social_er = abs(round(totals.get("SOCIALEMPLOYERTOTAL", 0.0), 2))
-        social_ee = abs(round(totals.get("SOCIALEMPLOYEETOTAL", 0.0), 2))
         self.assertGreater(social_er, 0.0, "employer social must be computed")
         # DoVP is irregular income -> no sickness / unemployment employee side.
         self.assertAlmostEqual(abs(totals.get("SICK", 0.0)), 0.0, 2)
@@ -115,9 +130,20 @@ class TestVpp(TransactionCase):
         self.assertEqual(
             root.find("v:obdobieVyplPrijmov", NS).text, "032026")
 
-        # Aggregate total matches the payslip.
+        # spoluPoistne is the sum of the social fund rows the form reports.
+        # It used to be asserted against SOCIALEMPLOYERTOTAL +
+        # SOCIALEMPLOYEETOTAL, which on the OCA engine include health
+        # insurance — the test ratified the over-statement.
+        funds = (
+            "SICKEMPLOYER", "SICK", "PENSIONEMPLOYER", "PENSION",
+            "DISABILITYEMPLOYER", "DISABILITY", "UNEMPLOYMENTEMPLOYER",
+            "UNEMPLOYMENT", "ACCIDENT", "GUARANTEEEMPLOYER",
+            "RESERVEFUNDEMPLOYER",
+        )
+        expected = round(sum(abs(round(totals.get(c, 0.0), 2)) for c in funds), 2)
+        self.assertGreater(expected, 0.0)
         spolu = float(root.find(".//v:poistne/v:spoluPoistne", NS).text)
-        self.assertAlmostEqual(spolu, round(social_er + social_ee, 2), 2)
+        self.assertAlmostEqual(spolu, expected, 2)
 
         # Per-employee annex present with rodné číslo and dohoda typZec.
         annex = root.findall(".//v:poistneZamestnanca", NS)
@@ -135,3 +161,68 @@ class TestVpp(TransactionCase):
         # No dohoda payslip in the period -> generation refuses (nothing to file)
         with self.assertRaises(UserError):
             decl.action_generate()
+
+    def test_sp_vs_is_editable_on_the_form(self):
+        """The variable symbol is required by the preflight but was on no
+        form at all; it is edited on the declaration form now."""
+        arch = self.env["l10n.sk.vpp"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="sp_vs"', arch)
+        decl = self.env["l10n.sk.vpp"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3"})
+        decl.sp_vs = "9988776655"
+        self.assertEqual(self.company.l10n_sk_sp_vs, "9988776655")
+
+
+@tagged("post_install", "-at_install")
+class TestSchemaPins(TransactionCase):
+    """The bundled schemas must match data/SCHEMA_VERSION.
+
+    Not a check that our copies are CURRENT — nothing local can answer that,
+    and a schema revised in place by the authority validates exactly as
+    before. What this checks is that the bundled bytes are the ones recorded
+    in SCHEMA_VERSION, and that no schema sits in data/ unpinned.
+    """
+
+    @staticmethod
+    def _data_dir():
+        import os
+        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(here, "data")
+
+    def _pins(self):
+        import os
+        pins = {}
+        path = os.path.join(self._data_dir(), "SCHEMA_VERSION")
+        with open(path, encoding="utf-8") as fh:
+            for raw in fh:
+                parts = raw.split()
+                if (len(parts) == 3 and parts[0].endswith(".xsd")
+                        and "/" not in parts[0]):
+                    pins[parts[0]] = (parts[1], int(parts[2]))
+        return pins
+
+    def test_bundled_schemas_match_the_pinned_digests(self):
+        import hashlib
+        import os
+        pins = self._pins()
+        self.assertTrue(pins, "SCHEMA_VERSION lists no schemas")
+        for name, (digest, size) in pins.items():
+            path = os.path.join(self._data_dir(), name)
+            self.assertTrue(os.path.exists(path),
+                            "%s is pinned but missing" % name)
+            with open(path, "rb") as fh:
+                blob = fh.read()
+            self.assertEqual(len(blob), size, "%s size moved" % name)
+            self.assertEqual(
+                hashlib.md5(blob).hexdigest(), digest,
+                "%s does not match its pin — if this is a deliberate "
+                "refresh, update data/SCHEMA_VERSION" % name)
+
+    def test_every_bundled_schema_is_pinned(self):
+        import os
+        on_disk = {f for f in os.listdir(self._data_dir())
+                   if f.endswith(".xsd")}
+        self.assertEqual(on_disk, set(self._pins()),
+                         "unpinned schema(s): %s"
+                         % sorted(on_disk - set(self._pins())))

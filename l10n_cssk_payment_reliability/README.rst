@@ -3,7 +3,7 @@ CZ/SK Supplier Reliability Check (guarantor liability)
 ======================================================
 
 Protects the **buyer** from liability for a supplier's unpaid VAT
-(*ručenie za daň* §69 ods. 14 SK / *ručení* §109 CZ). Before you pay a vendor
+(*ručenie za daň* § 69 ods. 13 SK / *ručení* §109 CZ). Before you pay a vendor
 bill, it checks the supplier's **tax reliability** rating and whether the bank
 account you are about to pay is one the supplier has **registered / published**
 with the tax authority, then **snapshots the result onto the bill** as
@@ -25,7 +25,7 @@ Features
   timestamp — kept as proof, plus a warning posted to the chatter.
 * **Never blocks** the payment: paying an unregistered account or an unreliable
   payer stays possible (you may instead remit the VAT directly to the tax office
-  under §69b SK / §109a CZ); you are only warned and it is documented.
+  under § 69c SK / § 109a CZ); you are only warned and it is documented.
 * **VAT-deregistration listing** where the country provides it (SK: the list of
   VAT payers with grounds for cancelling their registration).
 * Optional **auto-check** (per company) when a vendor bill is posted, **again

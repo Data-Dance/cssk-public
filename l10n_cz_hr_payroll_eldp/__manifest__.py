@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic — ELDP (Pension Insurance Record)",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.4",
     "category": "Human Resources/Payroll",
     "countries": ["cz"],
     "summary": "Annual Czech pension-insurance record (ELDP) for the ČSSZ — "

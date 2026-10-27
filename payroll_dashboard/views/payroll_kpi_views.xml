@@ -9,8 +9,9 @@
         <field name="arch" type="xml">
             <kanban class="o_kanban_dashboard" create="0" edit="0"
                     records_draggable="0" group_create="0" default_order="sequence">
-                <field name="name" />
+                <field name="kpi" />
                 <field name="value" />
+                <field name="company_id" />
                 <field name="kind" />
                 <field name="currency_id" />
                 <templates>
@@ -26,7 +27,10 @@
                                 </t>
                             </div>
                             <div class="text-muted text-uppercase small mt-1">
-                                <field name="name" />
+                                <field name="kpi" />
+                            </div>
+                            <div class="text-muted small" groups="base.group_multi_company">
+                                <field name="company_id" />
                             </div>
                         </div>
                     </t>
@@ -41,7 +45,7 @@
         <field name="view_mode">kanban</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">No payroll data yet</p>
-            <p>Headline payroll figures appear here once payslips are computed.</p>
+            <p>Headline payroll figures appear here once payslips are done.</p>
         </field>
     </record>
 

@@ -10,6 +10,19 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.0] — 2026-10-27
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Fixed**
+
+- **Each insurer's dávka 514 lists only its own insurees.** Every employee with a payslip went into the dávka of whichever insurer the record was addressed to, so a company with employees at two insurers reported everybody to both. Employees now carry a *Health insurer (SK)* on their form; an employee without one counts as insured with the company's default insurer.
+
+**Added**
+
+- The *Health payer number* can be filled in on the dávka 514 form. Generation requires it, but it was on no form anywhere.
+- ``data/SCHEMA_VERSION`` pins the bundled ``514-2023.xsd``, with a test that the bytes still match.
+
+
 19.0.1.1.0 (2026-09-16)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

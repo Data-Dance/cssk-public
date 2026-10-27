@@ -4,7 +4,7 @@
     "name": "QR Code Frame Provider",
     "summary": "Shared QR-code frame parameters for the payment-QR providers (PAY by square, payme, "
         "QR Platba) that build on it.",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

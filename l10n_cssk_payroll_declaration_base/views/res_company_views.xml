@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The employer identifiers the payroll declarations refuse to generate
+         without. They had no place on any form, so the error telling the
+         user to "set it on the company" pointed at nothing. -->
+    <record id="view_company_form_payroll_declaration" model="ir.ui.view">
+        <field name="name">res.company.form.cssk.payroll.declaration</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='general_info']" position="after">
+                <page string="Payroll Reporting" name="cssk_payroll_reporting"
+                      invisible="country_code not in ('CZ', 'SK')">
+                    <group>
+                        <group name="cz_cssz" string="ČSSZ (social security)"
+                               invisible="country_code != 'CZ'">
+                            <field name="l10n_cz_ossz_vs"/>
+                            <field name="l10n_cz_ossz_code"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

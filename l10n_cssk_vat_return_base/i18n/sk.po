@@ -219,12 +219,12 @@ msgstr "Efektívna hodnota: vypočítaný výsledok alebo ručné prepísanie."
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__excess_carried_in
 msgid ""
 "Excess deduction carried IN from a prior period to offset this period's own "
-"tax liability (§ 79). Use 'Carry excess deduction' to pull it from the prior "
-"return, or set it manually."
+"tax liability (§ 79). Use 'Carry excess deduction' to pull it from the prior"
+" return, or set it manually."
 msgstr ""
 "Nadmerný odpočet prenesený DO tohto obdobia z predchádzajúceho obdobia na "
-"započítanie vlastnej daňovej povinnosti tohto obdobia (§ 79). Použite 'Carry "
-"excess deduction' na jeho prevzatie z predchádzajúceho priznania, alebo ho "
+"započítanie vlastnej daňovej povinnosti tohto obdobia (§ 79). Použite 'Carry"
+" excess deduction' na jeho prevzatie z predchádzajúceho priznania, alebo ho "
 "nastavte ručne."
 
 #. module: l10n_cssk_vat_return_base
@@ -430,14 +430,6 @@ msgid "My Activity Deadline"
 msgstr "Termín mojej aktivity"
 
 #. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"Nadmerný odpočet na prenos (%(out).2f) nemôže byť vyšší ako nadmerný odpočet "
-"obdobia r33 (%(r33).2f)."
-msgstr "Nadmerný odpočet na prenos (%(out).2f) nemôže byť vyšší ako nadmerný odpočet obdobia r33 (%(r33).2f)."
-
-#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__name
@@ -452,7 +444,9 @@ msgstr "Názov"
 msgid ""
 "Nenašlo sa predchádzajúce daňové priznanie, z ktorého by sa dal preniesť "
 "nadmerný odpočet."
-msgstr "Nenašlo sa predchádzajúce daňové priznanie, z ktorého by sa dal preniesť nadmerný odpočet."
+msgstr ""
+"Nenašlo sa predchádzajúce daňové priznanie, z ktorého by sa dal preniesť "
+"nadmerný odpočet."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__activity_date_deadline
@@ -524,18 +518,13 @@ msgstr "Predchádzajúce obdobie"
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__xml_template_ref_id
 msgid "QWeb template (ir.ui.view) that renders this version's statutory XML."
-msgstr "QWeb šablóna (ir.ui.view), ktorá generuje štatutárne XML tejto verzie."
+msgstr ""
+"QWeb šablóna (ir.ui.view), ktorá generuje štatutárne XML tejto verzie."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__period_type__quarter
 msgid "Quarterly"
 msgstr "Štvrťročne"
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid "Rendered XML root <%(got)s> does not match expected <%(exp)s>."
-msgstr "Koreňový element vygenerovaného XML <%(got)s> nezodpovedá očakávanému <%(exp)s>."
 
 #. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
@@ -639,7 +628,11 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
-msgstr "Stav na základe aktivít\nPo termíne: Dátum už uplynul\nDnes: Dátum aktivity je dnes\nNaplánované: Budúce aktivity."
+msgstr ""
+"Stav na základe aktivít\n"
+"Po termíne: Dátum už uplynul\n"
+"Dnes: Dátum aktivity je dnes\n"
+"Naplánované: Budúce aktivity."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_reference
@@ -686,22 +679,6 @@ msgstr ""
 "−1)."
 
 #. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"The VAT return XML failed schema validation:\n"
-"%s"
-msgstr "XML priznania k DPH neprešlo validáciou schémy:\n%s"
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"The VAT return failed kontrolné pravidlá:\n"
-"%s"
-msgstr "Priznanie k DPH neprešlo kontrolnými pravidlami:\n%s"
-
-#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__country_id
 msgid "The country to use the tax reports from for this company"
 msgstr "Krajina, ktorej daňové výkazy sa pre túto spoločnosť použijú"
@@ -731,14 +708,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid ""
 "Tick <b>Override</b> on a line to enter a manual\n"
-"                                value (carryover / external lines, or to "
-"correct\n"
-"                                a computed line), then press <b>Compute</b> "
-"—\n"
-"                                overrides are preserved and flow into "
-"dependent\n"
+"                                value (carryover / external lines, or to correct\n"
+"                                a computed line), then press <b>Compute</b> —\n"
+"                                overrides are preserved and flow into dependent\n"
 "                                lines."
-msgstr "Zaškrtnite <b>Prepis</b> pri riadku pre zadanie ručnej\n                                hodnoty (prevodové / externé riadky, alebo na opravu\n                                vypočítaného riadku), potom stlačte <b>Vypočítať</b> —\n                                prepisy sa zachovajú a premietnu sa do závislých\n                                riadkov."
+msgstr ""
+"Zaškrtnite <b>Prepis</b> pri riadku pre zadanie ručnej\n"
+"                                hodnoty (prevodové / externé riadky, alebo na opravu\n"
+"                                vypočítaného riadku), potom stlačte <b>Vypočítať</b> —\n"
+"                                prepisy sa zachovajú a premietnu sa do závislých\n"
+"                                riadkov."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line__is_overridden
@@ -751,8 +730,8 @@ msgstr ""
 "Zaškrtnite pre zadanie ručnej hodnoty tohto riadku — používa sa pre riadky "
 "prevodov / externé riadky (odpočet pri registrácii, vrátenie dane "
 "cestujúcim, započítanie nadmerného odpočtu, rozdiely dodatočného priznania) "
-"a pre opravu vypočítaného riadku. Hodnota sa zachová a pri prepočte vstupuje "
-"do závislých riadkov."
+"a pre opravu vypočítaného riadku. Hodnota sa zachová a pri prepočte vstupuje"
+" do závislých riadkov."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__to_pay
@@ -902,27 +881,6 @@ msgstr "id"
 msgid "manual input"
 msgstr "ručný vstup"
 
-#~ msgid "Cancel"
-#~ msgstr "Zrušiť"
-
-#~ msgid "Create"
-#~ msgstr "Vytvoriť"
-
-#~ msgid "Create VAT Return"
-#~ msgstr "Vytvoriť priznanie k DPH"
-
-#~ msgid "Generate"
-#~ msgstr "Generovať"
-
-#~ msgid "New VAT Return"
-#~ msgstr "Nové priznanie k DPH"
-
-#~ msgid "External id of the QWeb template that renders this version."
-#~ msgstr "Externé id QWeb šablóny, ktorá vykresľuje túto verziu."
-
-#~ msgid "Xml Template Ref"
-#~ msgstr "Odkaz na XML šablónu"
-
 #. module: l10n_cssk_vat_return_base
 #. odoo-python
 #: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
@@ -983,9 +941,9 @@ msgid "Form line codes"
 msgstr "Kódy riadkov formulára"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__state__legacy
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
 msgid "Historical filing"
 msgstr "Historické podanie"
 
@@ -1038,6 +996,9 @@ msgid ""
 " restriction nobody applies would report the whole of its tags instead of "
 "its share of them."
 msgstr ""
+"Filter riadku %r nie je pre túto krajinu implementovaný. Riadok tlačiva, "
+"ktorý žiada obmedzenie, ktoré nikto neuplatní, by vykázal celé svoje značky "
+"namiesto ich podielu."
 
 #. module: l10n_cssk_vat_return_base
 #. odoo-python
@@ -1062,6 +1023,8 @@ msgid ""
 " filed                                   it on the portal and holds the "
 "receipts."
 msgstr ""
+"Otvorí doručenie tohto podania. Ak je nainštalovaný len manuálny kanál, "
+"zaznamená, kto podanie podal na portáli, a uchová potvrdenia."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
@@ -1127,11 +1090,6 @@ msgid "recomputed"
 msgstr "prepočítané"
 
 #. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "✓"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
 msgid "Filed history"
 msgstr "História podaní"
@@ -1139,23 +1097,17 @@ msgstr "História podaní"
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
 msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed "
-"XML' is the latest one; after a reset → recompute → resubmit cycle "
-"the previously-filed copies stay reachable here."
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
 msgid ""
-"This filing was not produced here — it records what was actually "
-"submitted for a period that predates this system, loaded from a "
-"migration. It is a historical fact, so it can never be exported, "
-"submitted or recomputed, and it is invisible to anything that looks "
-"for 'the return of the previous period'. It CAN be amended: a "
-"dodatočné filed later against a historical period is an ordinary "
-"submittable return.\n\nSetting this puts the record in state "
-"'Historical filing', which is terminal — the two are written "
-"together and cannot come apart."
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -1166,8 +1118,8 @@ msgstr "Zdrojový systém"
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
 msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' "
-"— or how it was captured if by hand."
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -1179,8 +1131,7 @@ msgstr "Zdrojová referencia"
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
 msgid ""
 "Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced "
-"it."
+"materialised from, so a figure can be traced back to what produced it."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -1188,3 +1139,30 @@ msgstr ""
 #: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
 msgid "VAT return"
 msgstr "daňové priznanie k DPH"
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Carry excess deduction"
+msgstr "Preniesť nadmerný odpočet"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_comparison_count
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Comparisons"
+msgstr "Porovnania"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.actions.server,name:l10n_cssk_vat_return_base.action_cssk_create_historic_vat_taxes
+msgid "Create historical VAT rates"
+msgstr "Vytvoriť historické sadzby DPH"
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Settlement"
+msgstr "Vysporiadanie"
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid "The form version %(version)s cannot be filed for a %(period)s period."
+msgstr "Verziu tlačiva %(version)s nemožno podať za %(period)s obdobie."

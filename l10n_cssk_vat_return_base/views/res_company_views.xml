@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Generating the archived historical VAT rates (for importing an older
+         agenda) had a method and no way to call it. Offered from the
+         Action menu of a company, to accounting managers only. -->
+    <record id="action_cssk_create_historic_vat_taxes" model="ir.actions.server">
+        <field name="name">Create historical VAT rates</field>
+        <field name="model_id" ref="base.model_res_company"/>
+        <field name="binding_model_id" ref="base.model_res_company"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="group_ids" eval="[(4, ref('account.group_account_manager'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_cssk_create_historic_vat_taxes()</field>
+    </record>
+</odoo>

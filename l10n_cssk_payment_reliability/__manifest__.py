@@ -8,7 +8,7 @@ CZ/SK Supplier Reliability Check
 ================================
 
 Protects the *buyer* from liability for a supplier's unpaid VAT
-(*ručenie za daň* §69 ods. 14 SK / *ručení* §109 CZ). On a vendor bill it checks:
+(*ručenie za daň* § 69 ods. 13 SK / *ručení* §109 CZ). On a vendor bill it checks:
 
 1. **Tax reliability** of the supplier (the tax authority's rating).
 2. Whether the **bank account** you are about to pay is one the supplier has
@@ -18,14 +18,14 @@ The result is **snapshotted onto the bill** (status + the registered accounts +
 a timestamp) as point-in-time proof, and a warning is posted to the chatter.
 It **never blocks** the payment — paying an unregistered account or an
 unreliable payer stays possible (you may instead remit the VAT directly to the
-tax office under §69b / §109a), but you are warned and it is documented.
+tax office under § 69c SK / § 109a CZ), but you are warned and it is documented.
 
 This is the **country-neutral base**: the actual register lookups live in the
 country providers (``l10n_sk_payment_reliability`` etc.).
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.2.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["account", "l10n_cssk_core"],

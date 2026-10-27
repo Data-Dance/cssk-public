@@ -495,6 +495,30 @@ class TestEpostakIntegratorKey(TransactionCase):
         self.assertEqual(res["params"]["type"], "success")
         self.assertIn("a-firm-uuid", res["params"]["message"])
 
+    def test_test_connection_warns_about_a_second_company(self):
+        """One ePošťák account serves one company; a second company that
+        allows e-invoicing is told about where the account is configured."""
+        from unittest.mock import patch
+
+        if "peppol_send_enabled" not in self.env["res.company"]._fields:
+            self.skipTest("edi_base_peppol is not installed")
+        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_live_abc")
+        settings = self.env["res.config.settings"].create({})
+        served = settings._epostak_collecting_company()
+        served.peppol_send_enabled = True
+        others = self.env["res.company"].search([("id", "!=", served.id)])
+        others.peppol_send_enabled = False
+        second = self.env["res.company"].create(
+            {"name": "Second Peppol Company", "peppol_send_enabled": True})
+        connector_cls = type(self.env["epostak.connector"])
+        with patch.object(connector_cls, "_authenticate", return_value=True):
+            res = settings.action_epostak_test_connection()
+            self.assertEqual(res["params"]["type"], "warning")
+            self.assertIn(second.name, res["params"]["message"])
+            second.peppol_send_enabled = False
+            res = settings.action_epostak_test_connection()
+        self.assertEqual(res["params"]["type"], "success")
+
     def test_inbound_health_is_recorded_on_success_and_failure(self):
         """Receiving had no user-facing signal: the base _poll_provider swallows
         failures into the log, so with the Firm ID blank sending failed loudly

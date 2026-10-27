@@ -30,18 +30,21 @@ Mutual offsetting (zápočet)
   invoices (partial offsetting supported); ``ZAP/YYYY/NNNN`` sequence;
   *cancel with reversal* undoes a posted agreement.
 * **Bilateral** mode (``dohoda``) requires countersignature before posting;
-  **unilateral** mode (``jednostranné započítanie``) posts on delivery without
-  countersignature, for claims that meet the legal set-off conditions.
+  **unilateral** mode (``jednostranné započítanie``) posts once the notice has
+  been sent, without countersignature, for claims that meet the legal set-off conditions.
 
 Status
 ======
 
 **Functional.** Saldokonto (snapshot, totals, blocked lines, state machine,
-bulk wizard, bilingual SK/EN PDF) and the zápočet agreement (auto-allocation,
-clearing entry + reconciliation, both legal modes, cancel-with-reversal) are
-tested, including a bilingual SK/EN PDF whose wording switches between the
-bilateral *agreement* (two signatures) and the unilateral *set-off notice*
-(§ 358 Obchodného zákonníka, single signature, effective on delivery).
+bulk wizard, CZ or SK PDF with English) and the zápočet agreement
+(auto-allocation, clearing entry + reconciliation, both legal modes,
+cancel-with-reversal) are tested, including a PDF whose wording switches
+between the bilateral *agreement* (two signatures) and the unilateral
+*set-off notice* (single signature; § 580 Občianskeho zákonníka and § 358 a
+nasl. Obchodného zákonníka for a Slovak company, § 1982 občanského zákoníku
+for a Czech one; the claims extinguish as of the moment they became capable
+of set-off).
 
 Why not OCA ``account_netting``? That module is a single wizard that posts one
 compensating journal item — no agreement document, state machine, sequence,

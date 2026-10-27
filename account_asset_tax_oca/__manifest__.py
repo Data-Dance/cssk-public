@@ -1,6 +1,6 @@
 {
     "name": "Tax Depreciation - OCA bridge",
-    "version": "19.0.1.4.4",
+    "version": "19.0.1.5.0",
     "summary": "Attach the CZ/SK tax-depreciation board to OCA account_asset_management (Community)",
     "description": """
 Tax Depreciation — OCA bridge
@@ -25,6 +25,7 @@ Install together with a country data layer (``l10n_cz_account_asset_tax`` /
         "security/record_rules.xml",
         "views/account_asset_views.xml",
         "views/account_asset_book_tax_report_views.xml",
+        "views/account_asset_tax_compute_views.xml",
     ],
     "auto_install": False,
     "installable": True,

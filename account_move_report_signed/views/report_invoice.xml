@@ -9,14 +9,17 @@
         <xpath expr="//td[@name='td_price_unit']/span[@t-field='line.price_unit']" position="attributes">
             <attribute name="t-field"></attribute>
             <attribute name="t-out">line.price_unit * multiplier</attribute>
+            <attribute name="t-options">{"widget": "float", "decimal_precision": "Product Price"}</attribute>
         </xpath>
         <xpath expr="//td[@name='td_subtotal']/span[@t-field='line.price_subtotal']" position="attributes">
             <attribute name="t-field"></attribute>
             <attribute name="t-out">line.price_subtotal * multiplier</attribute>
+            <attribute name="t-options">{"widget": "monetary", "display_currency": o.currency_id}</attribute>
         </xpath>
         <xpath expr="//td[@name='td_subtotal']/span[@t-field='line.price_total']" position="attributes">
             <attribute name="t-field"></attribute>
             <attribute name="t-out">line.price_total * multiplier</attribute>
+            <attribute name="t-options">{"widget": "monetary", "display_currency": o.currency_id}</attribute>
         </xpath>
         <xpath expr="//td/span[@t-out='section_subtotal']" position="attributes">
             <attribute name="t-out">section_subtotal * multiplier</attribute>

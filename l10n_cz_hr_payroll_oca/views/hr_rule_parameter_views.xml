@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The dated statutory values every Czech salary rule reads (insurance
+         rates and caps, tax bands, credits, thresholds). Readable by payroll
+         users, editable by payroll managers (see ir.model.access.csv). -->
+    <record id="hr_rule_parameter_view_list" model="ir.ui.view">
+        <field name="name">hr.rule.parameter.list</field>
+        <field name="model">hr.rule.parameter</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="country_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_rule_parameter_view_form" model="ir.ui.view">
+        <field name="name">hr.rule.parameter.form</field>
+        <field name="model">hr.rule.parameter</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="country_id"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description"/>
+                    <field name="parameter_value_ids">
+                        <list editable="bottom">
+                            <field name="date_from"/>
+                            <field name="parameter_value"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_rule_parameter_view_search" model="ir.ui.view">
+        <field name="name">hr.rule.parameter.search</field>
+        <field name="model">hr.rule.parameter</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="country_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="hr_rule_parameter_action" model="ir.actions.act_window">
+        <field name="name">Rule Parameters</field>
+        <field name="res_model">hr.rule.parameter</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem
+        id="hr_rule_parameter_menu"
+        name="Rule Parameters"
+        action="hr_rule_parameter_action"
+        parent="payroll.payroll_menu_configuration"
+        sequence="40"
+    />
+</odoo>

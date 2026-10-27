@@ -66,7 +66,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools import float_round
 from odoo.tools.translate import LazyTranslate
 
@@ -127,6 +127,20 @@ class CsskOssReturn(models.Model):
         string="Registered until",
         help="Only when the registration ended during the quarter: the last "
              "day the return covers.")
+
+    @api.constrains("partial_date_from", "partial_date_to", "year", "quarter")
+    def _check_partial_dates(self):
+        for ret in self:
+            for day in (ret.partial_date_from, ret.partial_date_to):
+                if day and not (ret.date_from <= day <= ret.date_to):
+                    raise ValidationError(_(
+                        "The registration dates must fall within the "
+                        "quarter %(start)s – %(end)s.",
+                        start=ret.date_from, end=ret.date_to))
+            if (ret.partial_date_from and ret.partial_date_to
+                    and ret.partial_date_from > ret.partial_date_to):
+                raise ValidationError(_(
+                    "'Registered from' is after 'Registered until'."))
     state = fields.Selection(
         [
             ("draft", "Draft"),
@@ -230,7 +244,12 @@ class CsskOssReturn(models.Model):
         Move = self.env["account.move"]
         base = [("company_id", "=", self.company_id.id),
                 ("state", "=", "posted")]
-        start, end = self.date_from, self.date_to
+        # A registration that began or ended inside the quarter covers only
+        # those days: a supply before "Registered from" or after "Registered
+        # until" was not made under the scheme and is not this return's.
+        # (The dates used to reach the XML header and select nothing.)
+        start = max(self.date_from, self.partial_date_from or self.date_from)
+        end = min(self.date_to, self.partial_date_to or self.date_to)
         refunds = Move.search(base + [
             ("move_type", "=", "out_refund"),
             "|",
@@ -437,6 +456,7 @@ class CsskOssReturn(models.Model):
                 "taxable_amount": base,
                 "vat_amount": float_round(base * rate / 100.0, 2),
                 "move_line_ids": [(6, 0, supply_amls[key].ids)],
+                "is_manual": False,
             })
         self.env["cssk.oss.return.line"].create(line_vals)
 
@@ -457,6 +477,7 @@ class CsskOssReturn(models.Model):
             "taxable_amount": float_round(slot["base"], 2),
             "vat_amount": float_round(slot["vat"], 2),
             "move_line_ids": [(6, 0, slot["amls"].ids)],
+            "is_manual": False,
         } for (year, quarter, member_state), slot in grouped.items()])
 
         self.booked_vat = to_eur(booked)
@@ -722,6 +743,11 @@ class CsskOssReturnLine(models.Model):
                                  string="VAT (EUR)")
     is_manual = fields.Boolean(
         string="Manual",
+        # A row the user adds is manual by default; the computation passes
+        # False explicitly. Defaulting to False deleted a hand-entered row
+        # (an establishment elsewhere, a correction) on the next recompute
+        # unless the user had also ticked the box.
+        default=True,
         help="Entered by hand; kept when the return is recomputed.")
     move_line_ids = fields.Many2many("account.move.line",
                                      string="Journal items")
@@ -759,6 +785,11 @@ class CsskOssReturnCorrection(models.Model):
                                  string="VAT correction (EUR)")
     is_manual = fields.Boolean(
         string="Manual",
+        # A row the user adds is manual by default; the computation passes
+        # False explicitly. Defaulting to False deleted a hand-entered row
+        # (an establishment elsewhere, a correction) on the next recompute
+        # unless the user had also ticked the box.
+        default=True,
         help="Entered by hand; kept when the return is recomputed.")
     move_line_ids = fields.Many2many("account.move.line",
                                      string="Journal items")

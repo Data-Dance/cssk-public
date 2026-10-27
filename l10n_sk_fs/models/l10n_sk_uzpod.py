@@ -212,8 +212,10 @@ class L10nSkUzpod(models.Model):
         722/799, 751/772), ktoré sa navzájom rušia na nulu, hlásia ako chýbajúce
         mapovanie a topia skutočné nálezy v šume. Prvá číslica = účtová trieda
         je v CZ/SK osnove záväzná a modul sa na ňu spolieha aj inde (r100 =
-        pohyb tried 5/6). Účty typované ``off_balance`` sa vynechávajú rovnako
-        — l10n_sk tak typuje 701/702/710/711."""
+        pohyb tried 5/6). Účty typované ``off_balance`` sa vynechávajú rovnako.
+        (Stock l10n_sk typuje 701/702/710 ako ``off_balance``;
+        l10n_sk_fiscal_year_closing ich pretypuje na ``equity``, aby sa
+        uzávierka dala zaúčtovať — triedu 7 to z tohto filtra nevyberie.)"""
         off_balance = {
             code for code, account in self._cssk_account_by_code().items()
             if account.account_type == "off_balance"
@@ -309,8 +311,9 @@ class L10nSkUzpod(models.Model):
     # ------------------------------------------------------------------
     # The schema only checks structure (XSD-valid != portal-accepted). These
     # rules enforce the statutory content invariants of the účtovná závierka
-    # (Opatrenie MF SR č. MF/23377/2014-74, prílohy — Súvaha Úč POD 1-01 a
-    # Výkaz ziskov a strát Úč POD 2-01):
+    # (Opatrenie MF SR č. MF/23378/2014-74 for malé and č. MF/23377/2014-74
+    # for veľké účtovné jednotky, prílohy — Súvaha Úč POD 1-01 a Výkaz ziskov
+    # a strát Úč POD 2-01; see uzpod14_kontroly):
     #   * AKTÍVA (r001 netto) = PASÍVA (r079 netto)         — bilančná rovnosť
     #   * netto = brutto − korekcia                          — stĺpcová kontrola
     #   * každý medzisúčtový riadok = súčet zložkových riadkov (SUCET_BS/PL)
@@ -423,9 +426,20 @@ class L10nSkUzpod(models.Model):
             })
         return out
 
+    def _cssk_preflight_export(self):
+        """The same identification check as the statement it renders
+        through: the DIČ or, failing that, the VAT number — a non-VAT payer
+        files a závierka too. This path used to skip the preflight entirely,
+        while the statement's own export demanded an IČ DPH."""
+        for rec in self:
+            self.env["cssk.fs.statement"].new(
+                {"company_id": rec.company_id.id})._cssk_preflight_export()
+        return True
+
     def action_export_xml(self):
         self.ensure_one()
         self._ensure_not_submitted()
+        self._cssk_preflight_export()
         xml_bytes = self._build_xml()
         self._validate(xml_bytes)
         violations = self.check_kontroly(xml_bytes)
@@ -441,10 +455,20 @@ class L10nSkUzpod(models.Model):
                 "UZPODv14 failed kontrolné pravidlá (XSD-valid but the výkaz "
                 "would be rejected):\n%s") % "\n".join(
                 "  • %s: %s" % (vio["desc"], vio["detail"]) for vio in errors))
-        for vio in violations:
-            if vio not in errors:
+        warnings = [vio for vio in violations if vio not in errors]
+        # Through the framework's hook where it exists (it keeps them on the
+        # record, posts them to the chatter and notifies the user), so a
+        # BS_UNMAPPED is seen by the accountant rather than by the server log.
+        record = getattr(self, "_cssk_record_export_warnings", None)
+        if record:
+            record(warnings)
+        else:
+            for vio in warnings:
                 _logger.warning("UZPODv14 %s — %s: %s",
                                 self.display_name, vio["desc"], vio["detail"])
+                self.message_post(body=_(
+                    "Export warning — %(desc)s: %(detail)s",
+                    desc=vio["desc"], detail=vio["detail"]))
         att = self.env["ir.attachment"].create({
             "name": "UZPODv14%s-%s.xml" % (
                 "-opravna" if self.submission_type == "opravna" else "",
@@ -453,6 +477,8 @@ class L10nSkUzpod(models.Model):
             "datas": base64.b64encode(xml_bytes), "mimetype": "application/xml"})
         self.xml_attachment_id = att.id
         self.state = "exported"
+        notify = getattr(self, "_cssk_export_warnings_action", None)
+        return (notify and notify()) or True
 
     # ------------------------------------------------------------------
     # Amendment (opravná účtovná závierka)

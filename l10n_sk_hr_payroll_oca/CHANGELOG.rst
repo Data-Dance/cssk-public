@@ -2,6 +2,35 @@
 Changelog
 =========
 
+[19.0.1.19.0] — 2026-10-27
+==========================
+
+**Fixed**
+
+- **Pensioners.** New field *Pension granted (SK)* on the employee / contract (starobný, predčasný starobný, invalidný over or up to 70 %, invalidný at pension age, výsluhový at pension age, invalidný výsluhový). Per zákon 461/2003: a DoVP/DoPČ holder with any of them pays no sickness or unemployment insurance and gets no employer sick pay (§ 4 ods. 1 písm. b)); a starobný, predčasný starobný or over-70 % invalidný pensioner pays no unemployment insurance on any form (§ 19 ods. 3 písm. b)); after a starobný, predčasný starobný or a výsluhový dôchodok at pension age neither the employee nor the employer pays disability insurance (§ 128 ods. 3). Until now every pensioner was charged the full set. Set the field on existing pensioners; payslips already validated are not recomputed.
+- **Short-time work contribution only for a pracovný pomer** (§ 128 ods. 1 písm. g)). A dohoda with a regular income was charged 0.5 % of it; the employer instead pays unemployment insurance at 1 % rather than 0.5 % (§ 136 písm. b) bod 2, new dated parameter *Unemployment insurance rate (employer, no short-time financing)*). The employer's total is unchanged; the split between the two funds — and so the výkaz — is now right.
+- **One annual tax reconciliation per employee and year is enforced again.** The unique key was declared in a form Odoo 19 ignores, so it never existed. The upgrade deletes unposted duplicates (keeping the one furthest along, then the latest) and logs any posted duplicates, which it leaves for you to resolve. The same goes for the unique code of a rule parameter.
+- **The Slovak fields are on the employee form.** They were placed on the contract-template form only, so an employee's tax declaration, children, agreement type and the rest could not be entered. They now sit in the employee's *Payroll* tab, together with *Hourly Wage (SK)*, which no form showed.
+- The help of *Guarantee-insurance exempt* cites § 4 ods. 4 zákona 461/2003 (it said § 102).
+- A payslip created without a contract (through the API or an import) now computes the hourly rate and the calendar-based figures from the contract the engine computes on. OCA payroll fills the payslip's contract only in the form and the batch wizard.
+
+**Added**
+
+- *Payroll → Configuration → Rule Parameters*: the dated statutory rates and ceilings, which had no screen.
+- **Minimum hourly wage on a dohoda.** A new *Agreement Wage Warning* appears on a dohoda whose hourly rate is below the minimum hourly wage in force today (§ 119 ods. 1 extended to dohody by § 223 ods. 2 Zákonníka práce). A warning only.
+
+[19.0.1.18.4] — 2026-10-27
+==========================
+
+**Fixed**
+
+- **Annual non-taxable part for 2026** (ročné zúčtovanie): above 26 083,13 € it is now 14 661,11 € (51,6 × ŽM 284,13) less **one third** of the tax base, as § 11 ods. 2 písm. b) ZDP reads from 1. 1. 2026; it was the 2025 shape (a quarter of the base), which gave too high an NČZD up to a base of 49 950 €. 2024 and 2025 keep the quarter (new dated parameter *NČZD taper divisor*).
+- 2026 annual tax bands are the ŽM multiples of § 15 (43 983,32 / 60 349,21 / 75 010,32 €), not the rounded monthly ceilings × 12.
+- **Child tax bonus taper per child** (§ 33 ods. 11): above the threshold 1/10 of the excess is now taken from EACH child's bonus, monthly and in the annual reconciliation; it used to be taken once from the family total, so families with two or more children received too much.
+- **Health minimum preddavok** (§ 16a zákona 580/2004): no top-up for a ZŤP employee or a DoBPŠ student; the minimum is reduced pro rata for PN days and for days outside the contract; each component is rounded down to the cent.
+- **Annual leave no longer lapses.** The statutory dovolenka accrual plans — the monthly ones and the archived full-grant-on-1-January ones — forfeited carried-over leave after one year; § 113 Zákonníka práce has no forfeiture, so the validity window is removed. The upgrade clears the pending expiry date on existing allocations of these plans. Days that already lapsed are not restored automatically — check them.
+- The help of *Meal Allowance Type* states § 152 ods. 3 correctly: at least 55 % of the meal price, at most 55 % of the 5–12 h stravné per meal (it said "at least 55 % of the statutory meal allowance").
+
 19.0.1.18.0 (2026-08-07)
 ========================
 

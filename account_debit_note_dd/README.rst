@@ -17,8 +17,9 @@ Features
   ``debit_origin_id``.
 * The standard **Reverse** button is hidden on the invoice form (debit notes are
   created through the dedicated debit-note flow, not via reversal).
-* The customer *Credit Notes* action is widened to also list documents that have
-  a ``debit_origin_id``, so debit notes are reachable from the same place.
+* The customer *Credit Notes* action is widened to also list customer invoices
+  that have a ``debit_origin_id``, so customer debit notes are reachable from
+  the same place. Vendor debit notes are not listed.
 
 Usage
 =====

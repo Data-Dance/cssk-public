@@ -140,3 +140,86 @@ class TestSkPayrollAccount(TransactionCase):
             if line.account_id.code == "331000"
         )
         self.assertAlmostEqual(net_credit, net_total, places=2)
+
+    # Rules that carry a total or an informational figure, never money of
+    # their own. Anything else that ends on a payslip must reach an account,
+    # or payroll_account books it into the journal's adjustment line.
+    INFORMATIONAL = {
+        "GROSS", "TAXBASE", "OOP_PENSION",
+        "SOCIALEMPLOYEETOTAL", "SOCIALEMPLOYERTOTAL", "INCOMETAXTOTAL",
+    }
+
+    def _sk_rules(self):
+        data = self.env["ir.model.data"].search([
+            ("model", "=", "hr.salary.rule"),
+            ("module", "in", ("l10n_sk_hr_payroll_oca",
+                              "l10n_sk_hr_payroll_surcharges_oca")),
+        ])
+        return self.env["hr.salary.rule"].browse(
+            data.mapped("res_id")).with_company(self.company)
+
+    def test_every_money_rule_maps_to_an_account(self):
+        """ANNUAL_TAX_SETTLEMENT, PREKAZKA_NAHRADA and the surcharges used to
+        have no account at all."""
+        unmapped = self._sk_rules().filtered(
+            lambda r: r.code not in self.INFORMATIONAL
+            and not (r.account_debit or r.account_credit))
+        self.assertFalse(sorted(unmapped.mapped("code")))
+        settlement = self.env.ref(
+            "l10n_sk_hr_payroll_oca.l10n_sk_annual_tax_settlement"
+        ).with_company(self.company)
+        self.assertEqual(settlement.account_debit.code, "342000")
+        obstacle = self.env.ref(
+            "l10n_sk_hr_payroll_oca.l10n_sk_employer_obstacle_allowance"
+        ).with_company(self.company)
+        self.assertEqual(obstacle.account_debit.code, "521000")
+
+    def test_surcharges_installed_later_are_mapped_alone(self):
+        """The surcharges hook maps its own rules and nothing else."""
+        night = self.env.ref(
+            "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_noc",
+            raise_if_not_found=False)
+        if not night:
+            self.skipTest("l10n_sk_hr_payroll_surcharges_oca not installed")
+        night = night.with_company(self.company)
+        basic = self.env.ref(
+            "l10n_sk_hr_payroll_oca."
+            "l10n_sk_hr_payroll_structure_sk_employee_salary_basic_salary_rule"
+        ).with_company(self.company)
+        other = self._account("527000")
+        basic.account_debit = other  # a user's own choice since the install
+        night.account_debit = False  # as if installed after the bridge
+        self.env["account.chart.template"]._l10n_sk_payroll_map_rules(
+            "l10n_sk_hr_payroll_surcharges_oca")
+        self.assertEqual(night.account_debit.code, "521000")
+        self.assertEqual(basic.account_debit, other)
+
+
+@tagged("post_install", "-at_install")
+class TestSkChartLoadedWithoutPayrollRights(TransactionCase):
+    def test_accounting_admin_without_payroll_rights_loads_the_chart(self):
+        """Loading the Slovak chart maps the salary rules even when the user
+        doing it holds no payroll rights (an accounting manager / settings
+        admin, as when a new company is set up). OCA payroll grants such a
+        user no write on salary rules; the mapping used to raise AccessError
+        and abort the chart load."""
+        from odoo.tests import new_test_user
+
+        company = self.env["res.company"].create(
+            {"name": "SK No Payroll Co", "country_id": self.env.ref("base.sk").id}
+        )
+        user = new_test_user(
+            self.env,
+            login="sk_acct_no_payroll",
+            groups="base.group_user,base.group_system,account.group_account_manager",
+            company_id=company.id,
+            company_ids=[(6, 0, company.ids)],
+        )
+        rule = self.env.ref(
+            "l10n_sk_hr_payroll_oca.l10n_sk_income_tax_employee"
+        )
+        self.assertFalse(rule.with_user(user).has_access("write"))
+        self.env["account.chart.template"].with_user(user).try_loading(
+            "sk", company=company, install_demo=False
+        )
+        self.assertTrue(rule.with_company(company).account_debit)

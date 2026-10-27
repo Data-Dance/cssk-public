@@ -8,6 +8,25 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Header from the company, not from constants.** The DIČ is the Slovak
+  DIČ (the IČ DPH without "SK" only as a fallback), so a person who is not a
+  VAT payer files with her DIČ; the house number is taken from the end of
+  *Street* instead of from *Street2*; SK NACE comes from the company's NACE
+  code and is left out when there is none, instead of 00.00.0; the date of
+  compilation is the export day, not the last day of the period.
+
+Added
+~~~~~
+
+- **Druh závierky (Úč FO)** on the statement — riadna, mimoriadna or
+  priebežná — filed in the header instead of an always-riadna závierka.
+
 Fixed
 ~~~~~
 
@@ -23,6 +42,20 @@ Changed
   module was not yet installed in production. A development database that
   had it installed keeps an orphaned ``l10n_sk_ju_zavierka`` row. Install
   ``l10n_sk_single_entry_closing`` there.
+
+[19.0.1.0.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Depreciation now reaches r. 10 Ostatné výdavky.** The row names the
+  depreciation and tax-base adjustment categories (Z1, Z2), but the
+  computation dropped every non-cash row of the peňažný denník, so r. 10,
+  r. 11 and r. 12 never contained an odpis. Those rows are the denník's
+  uzávierkové účtovné operácie, which § 8 ods. 4 písm. a) of opatrenie
+  MF/27076/2007-74 adds to the výdavky and § 4 ods. 9 places among the
+  ostatné výdavky; they are now counted. Recompute a statement to pick it up.
 
 [19.0.1.0.2] — 2026-10-05
 -------------------------

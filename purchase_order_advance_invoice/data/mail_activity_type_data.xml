@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Its own type, so the chase cron recognises the activities it made by
+         type rather than by a summary that is translated into the language
+         of whoever runs the cron. -->
+    <record id="mail_activity_type_chase_tax_document" model="mail.activity.type">
+        <field name="name">Chase Advance Tax Document</field>
+        <field name="summary">Advance tax document overdue</field>
+        <field name="icon">fa-file-text-o</field>
+        <field name="res_model">purchase.order</field>
+        <field name="delay_count">0</field>
+        <field name="sequence">60</field>
+    </record>
+
+</odoo>

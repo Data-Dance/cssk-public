@@ -104,6 +104,11 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
     submitted_attachment_id = fields.Many2one(
         "ir.attachment", string="Filed XML", readonly=True, copy=False,
         help="The exact XML that was submitted; preserved across reset-to-draft.")
+    cssk_export_warnings = fields.Text(
+        string="Export warnings", readonly=True, copy=False,
+        help="Content checks that did not block the last export but need a "
+             "look before filing, one per line. Refreshed on every export; "
+             "empty when the last export raised none.")
     filed_history_ids = fields.Many2many(
         "ir.attachment", string="Filed history", readonly=True, copy=False,
         help="Every XML that was ever marked submitted for this filing. "
@@ -1106,6 +1111,8 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         if self.state == "draft":
             raise UserError(self._cssk_export_draft_error())
         self._cssk_preflight_export()
+        # A form whose checks are a no-op must not keep the last export's.
+        self.cssk_export_warnings = False
         # Content checks run BEFORE rendering (fail fast on a named rule,
         # never masked by a template/XSD problem).
         self._cssk_check_kontroly()
@@ -1113,7 +1120,29 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         self._validate_against_schema(xml_bytes)
         self._attach_xml(xml_bytes)
         self.state = "exported"
-        return True
+        return self._cssk_export_warnings_action() or True
+
+    def _cssk_export_warnings_action(self):
+        """A sticky notification listing the last export's warnings, or None.
+
+        The export succeeded; the warnings are what the accountant should read
+        before filing. ``soft_reload`` rather than ``reload``, which would tear
+        the toast down before anyone sees it.
+        """
+        self.ensure_one()
+        if not self.cssk_export_warnings:
+            return None
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Exported with warnings"),
+                "message": self.cssk_export_warnings,
+                "type": "warning",
+                "sticky": True,
+                "next": {"type": "ir.actions.client", "tag": "soft_reload"},
+            },
+        }
 
     def _cssk_export_draft_error(self):
         """State-gate wording hook (a draft record has nothing to export)."""
@@ -1131,8 +1160,16 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
 
     def _cssk_enforce_kontroly(self):
         """Run ``check_kontroly()`` and enforce its verdict: severity
-        ``error`` blocks the export, warnings are logged. Returns the full
-        violation list."""
+        ``error`` blocks the export, anything else is shown to the user and
+        does not. Returns the full violation list.
+
+        ⚠️ Warnings used to go to the server log only. The VAT-rate check,
+        KV_RATE / KV_SIGN / KV_D2_BUSINESS, the OSS checks: each was written
+        because a person needed to look at something before filing, and no
+        person ever saw one. They are now kept on the record
+        (``cssk_export_warnings``), posted to the chatter, and returned by
+        the export as a sticky notification. Errors still block.
+        """
         self.ensure_one()
         violations = self.check_kontroly()
         errors = [v for v in violations
@@ -1143,12 +1180,32 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
                 form=self.env._(self._cssk_form_label),
                 details="\n".join("  • %s: %s" % (v["desc"], v["detail"])
                                   for v in errors)))
-        if violations:
-            _logger.warning(
-                "%s kontrolné pravidlá warnings:\n%s", self.display_name,
-                "\n".join("  • %s: %s" % (v["desc"], v["detail"])
-                          for v in violations))
+        self._cssk_record_export_warnings(violations)
         return violations
+
+    def _cssk_record_export_warnings(self, warnings):
+        """Keep non-blocking check results where the user will see them.
+
+        Public to the statement modules that run their own checks outside
+        ``_cssk_enforce_kontroly`` (Úč POD's BS_UNMAPPED, for one): call it
+        with the list of non-blocking violations, empty to clear.
+        """
+        self.ensure_one()
+        lines = ["• %s: %s" % (v["desc"], v["detail"]) for v in warnings]
+        text = "\n".join(lines) or False
+        self.cssk_export_warnings = text
+        if not lines:
+            return
+        _logger.warning("%s kontrolné pravidlá warnings:\n%s",
+                        self.display_name, text)
+        if hasattr(self, "message_post"):
+            self.message_post(body=Markup(
+                "<p>%s</p><ul>%s</ul>") % (
+                    _("Exported with warnings — they did not block the export, "
+                      "but check them before filing:"),
+                    Markup("").join(
+                        Markup("<li><b>%s</b>: %s</li>") % (
+                            v["desc"], v["detail"]) for v in warnings)))
 
     def _cssk_render_context(self):
         """QWeb rendering context; bases add their form-specific variables

@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic - Payroll",
-    "version": "19.0.1.11.1",
+    "version": "19.0.1.13.0",
     "category": "Human Resources/Payroll",
     "summary": "Czech payroll rules for the payroll engine",
     "countries": ["cz"],
@@ -10,6 +10,7 @@
     "website": "https://github.com/OCA/payroll",
     "license": "AGPL-3",
     "depends": [
+        "l10n_cz_hr_payroll_base",
         "payroll",
     ],
     "data": [
@@ -18,11 +19,13 @@
         "data/hr_salary_rule_category_data.xml",
         "data/hr_rule_parameter_data.xml",
         "data/hr_leave_type_data.xml",
-        "data/hr_leave_accrual_plan_data.xml",
         "data/hr_leave_options_data.xml",
         "data/hr_salary_rule_data.xml",
         "data/hr_payroll_structure_data.xml",
         "views/hr_contract_views.xml",
+        "views/hr_employee_views.xml",
+        "views/hr_leave_type_views.xml",
+        "views/hr_rule_parameter_views.xml",
         "views/hr_payroll_cz_annual_tax_recon_views.xml",
     ],
     "demo": [

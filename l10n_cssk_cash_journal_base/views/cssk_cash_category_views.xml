@@ -12,6 +12,7 @@
                 <field name="kind"/>
                 <field name="taxable"/>
                 <field name="non_cash"/>
+                <field name="tax_return_code" optional="show"/>
             </list>
         </field>
     </record>
@@ -33,6 +34,7 @@
                             <field name="kind"/>
                             <field name="taxable" invisible="kind == 'transit'"/>
                             <field name="non_cash" invisible="kind == 'transit'"/>
+                            <field name="tax_return_code" invisible="kind == 'transit'"/>
                             <field name="sequence"/>
                         </group>
                     </group>

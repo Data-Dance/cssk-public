@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Localization — Shared Core",
-    "version": "19.0.1.17.0",
+    "version": "19.0.1.18.0",
     "summary": "Country-neutral foundation for the Czech & Slovak statutory "
                "localization: tax-authority registry, person types, shared "
                "company/partner fields, settings and security.",
@@ -19,10 +19,13 @@ Provides:
 * ``cssk.tax.authority`` — registry of tax offices (daňový úrad / finanční
   úřad) with the code used in statutory XML submissions.
 * ``cssk.person.type`` — person/entity-type catalogue (FO / PO …).
-* ``res.company`` / ``res.partner`` extensions wiring those registries.
-* Settings + security scaffolding.
-* Documented hook points for the customer's own components (PAY by Square,
-  ARES/FinStat lookup) — see ``static/description``.
+* ``res.company`` / ``res.partner`` extensions wiring those registries, and
+  the IČO check.
+* A Settings block (default tax authority, year-end closing journals, VAT
+  deferral account, optional Community report modules).
+* The life cycle every statutory filing shares
+  (``cssk.statutory.submission.mixin``): export with content checks and XSD
+  validation, the filed copy, amendments, filed-versus-computed comparisons.
 
 This module ships **no statutory logic itself**; it is the shared base for
 ``l10n_cssk_kv_kh_base`` (control statement), ``l10n_cssk_ec_summary_base``

@@ -17,11 +17,11 @@ tags** (no Enterprise ``account_reports`` dependency).
 * EPO **Pisemnost / DPHDP3** XML export (VetaD / VetaP / Veta1–Veta6), mirroring
   the Odoo EE export structure.
 
-**Scope note (v1):** the 48 base/tax lines auto-compute; the deduction-claim
-lines (krácení coefficient) and the totals are entered/reviewed by the accountant
-(manual) — the inter-line totals can be auto-wired after accountant validation.
-The official EPO XSD is not yet wired (export validates root element + is
-well-formed); add it for submission-grade validation.
+**Scope:** the base/tax lines compute from the tax tags; ř. 46 and the
+totals ř. 62 – 66 compute from them as the EPO structure defines them; the
+deduction-claim lines of the krácení coefficient (ř. 40 – 45 krácený, 52, 53)
+and ř. 60 are entered by the accountant. The export is validated against the
+official EPO ``dphdp3_epo2.xsd``, pinned in ``data/SCHEMA_VERSION``.
 
 Historical VAT rates (for history imports)
 ------------------------------------------
@@ -54,7 +54,7 @@ rate created by hand rather than duplicating it.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.10.0",
+    "version": "19.0.1.11.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_vat_return_base", "l10n_cz", "l10n_cz_statutory"],

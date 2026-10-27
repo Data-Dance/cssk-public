@@ -89,6 +89,7 @@ class CSSKGarnishmentPayslipMixin(models.AbstractModel):
                 slip.date_from,
                 slip.date_to,
                 slip.company_id,
+                payment_date=garnishment._payslip_payment_date(slip),
             )
             if not orders:
                 continue
@@ -102,7 +103,8 @@ class CSSKGarnishmentPayslipMixin(models.AbstractModel):
             )
 
     def _cssk_garnishment_check_resettable(self):
-        """Refuse to reset a payslip whose deduction has already been remitted.
+        """Refuse to reset or cancel a payslip whose deduction has already been
+        remitted.
 
         ``_cssk_garnishment_unregister`` deliberately keeps ``done`` lines —
         the money has gone to the bailiff and only a reversal undoes that. But
@@ -143,15 +145,15 @@ class CSSKGarnishmentPayslipMixin(models.AbstractModel):
             raise UserError(_(
                 "This payslip carries a wage deduction that has already been "
                 "remitted to the payee (%(orders)s), so it cannot be reset to "
-                "draft — resetting it would leave the garnishment ledger "
+                "draft or cancelled — that would leave the garnishment ledger "
                 "counting the deduction twice while the employee was debited "
                 "once. Reverse the remittance first.",
                 orders=orders,
             ))
         raise UserError(_(
             "This payslip carries a wage deduction that has already been "
-            "remitted to the payee, so it cannot be reset to draft — "
-            "resetting it would leave the garnishment ledger counting the "
+            "remitted to the payee, so it cannot be reset to draft or "
+            "cancelled — that would leave the garnishment ledger counting the "
             "deduction twice while the employee was debited once. Reverse the "
             "remittance first."
         ))

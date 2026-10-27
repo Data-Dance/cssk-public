@@ -8,6 +8,29 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.10.2] — 2026-10-27
+--------------------------
+
+Fixed
+~~~~~
+
+- **Export accepts the DIČ.** The export demanded the company's VAT number,
+  so a unit that is not a VAT payer could not export its závierka at all. The
+  DIČ (or, failing that, the VAT number) now identifies the filer, as on the
+  income-tax return.
+
+- **Class 7 is not an unmapped account.** Closing and off-balance accounts
+  (účtová třída / trieda 7) and accounts typed off-balance are no longer listed
+  under *Unmapped accounts*, where off-balance pairs that cancel out buried the
+  accounts that really reach no row.
+
+Added
+~~~~~
+
+- **Corrective statement** button on a submitted statement: copies it into a
+  draft flagged *Corrective* and linked to the original. It was reachable only
+  from the Slovak Úč POD filing record.
+
 [19.0.1.10.1] — 2026-10-23
 --------------------------
 

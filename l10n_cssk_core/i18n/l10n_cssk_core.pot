@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-05 15:32+0000\n"
-"PO-Revision-Date: 2026-09-05 15:32+0000\n"
+"POT-Creation-Date: 2026-10-27 19:14+0000\n"
+"PO-Revision-Date: 2026-10-27 19:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -39,13 +39,122 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid ""
+"%(n)d row(s) this filing does not carry under any name we recognise "
+"(%(examples)s%(more)s). Not %(n)d differences: the filed rows and the "
+"computed rows share no code at all, so the two vocabularies have not been "
+"mapped to each other. Map them and re-run — the real differences appear "
+"then."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid ""
+"%(name)s is inconsistent: 'Historical filing' is %(flag)s but its state is "
+"'%(state)s'. The flag and the state are the same fact and are written "
+"together — to un-mark a historical filing, set both."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid ""
 "%(name)s is marked submitted and cannot be deleted. Reset it to draft first "
 "if you really need to remove it (the filed copy is preserved)."
 msgstr ""
 
 #. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid ""
+"%(names)s %(verb)s a historical filing — a record of what was submitted, not"
+" a filing being made. It cannot be %(what)s. To correct the period, create "
+"an amendment (dodatočné) from it: the amendment is an ordinary return."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/res_partner.py:0
+msgid ""
+"%(value)r is not a valid IČO for %(partner)s.\n"
+"\n"
+"A Czech or Slovak company registry number is %(length)s digits and carries a check digit; this one does not add up. Please check it against the register — it is not the company name, the VAT number or the Tax ID."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/account_move.py:0
+msgid "%s filings cover this period"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/account_move_vat_deferral.py:0
+msgid ""
+"%s: VAT declared in a later period is moved through a miscellaneous journal,"
+" and the company has none."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__state
+msgid ""
+"'Agrees' and 'To review' are set by the comparison and follow the figures. "
+"Anything beyond them is somebody's answer and is never overwritten by a re-"
+"run."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__kind
+msgid ""
+"'Difference is expected' and 'Informational' are findings of neither "
+"agreement nor error: a KV is a proper subset of the priznanie, and the VAT "
+"base legitimately diverges from účtovná trieda 60. Reported, never flagged."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid "(vocabulary not mapped)"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_move_form_cssk_footprint
 msgid "<span class=\"o_stat_text\">Statutory footprint</span>"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_move_form_cssk_deduction_date
+msgid "<span> entries</span>"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statutory_footprint_wizard_form
+msgid ""
+"A blank filing means no return for this document's period\n"
+"                    has been generated yet — the rows above are what it would\n"
+"                    feed."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid ""
+"A gap in this direction is structural, not an error: the\n"
+"                        KV is a proper subset of the priznanie. Only the\n"
+"                        opposite direction is impossible, and only that is\n"
+"                        flagged."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__account_id
+msgid "Account"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statement_account_map.py:0
+msgid ""
+"Account %s is mapped for any balance AND for one side. Use either one 'any "
+"balance' mapping, or a debit and/or a credit mapping."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -64,6 +173,8 @@ msgid "Account Receivable"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_needaction
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_needaction
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -80,21 +191,25 @@ msgid "Active Lang Count"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_ids
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_ids
 msgid "Activities"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_exception_decoration
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_state
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_state
 msgid "Activity State"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_type_icon
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_type_icon
 msgid "Activity Type Icon"
 msgstr ""
@@ -127,6 +242,18 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__agree_count
+msgid "Agree"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__ok
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__agrees
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid "Agrees"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__lang
 msgid ""
 "All the emails and documents sent to this contact will be translated in this"
@@ -134,6 +261,57 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__amount
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Amount differs"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.constraint,message:l10n_cssk_core.constraint_cssk_statement_account_map_company_account_side_uniq
+msgid "An account can be mapped only once per balance side."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__basis__filing
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__basis__filing
+msgid "Another filing"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__answered_count
+msgid "Answered"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__any
+msgid "Any balance"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statement_account_map__balance_side
+msgid ""
+"Any balance: always reported under the code.\n"
+"Debit / credit balance only: reported under the code only when the account's balance at the period end has that sign (an overdrawn bank account reported as a bank loan); otherwise it keeps its own code. Applies to balance-sheet balances only."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__asked_count
+msgid "Asked"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid "Asked on … . Their answer: …"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__asked
+msgid "Asked the accountant"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_attachment_count
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
@@ -191,6 +369,11 @@ msgid "Avatar 512"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__balance_side
+msgid "Balance Side"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__bank_account_count
 msgid "Bank"
 msgstr ""
@@ -206,6 +389,11 @@ msgid "Barcode"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__state__in_progress
+msgid "Being worked through"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__is_blacklisted
 msgid "Blacklist"
 msgstr ""
@@ -213,6 +401,14 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__phone_blacklisted
 msgid "Blacklisted Phone is Phone"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid ""
+"Both sides carry this amount; they disagree about which\n"
+"                        row it belongs on. The question for the accountant is\n"
+"                        which box is right, not which figure."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -268,6 +464,7 @@ msgid "Close"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__code
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__code
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__code
 msgid "Code"
@@ -278,6 +475,15 @@ msgstr ""
 msgid ""
 "Code emitted in the statutory XML submission (FS SR / Finanční správa EPO "
 "identifier of the office)."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__nace_code
+msgid ""
+"Code of the partner's prevailing economic activity in its country's NACE "
+"classification, digits only: CZ-NACE 2025 in the Czech Republic (up to five "
+"digits), NACE Rev. 2.1 / SK NACE in Slovakia. Filled from the business "
+"register where the partner autocomplete supports it."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -298,14 +504,6 @@ msgid "Commercial Entity"
 msgstr ""
 
 #. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_res_company__l10n_cssk_registration_info
-msgid ""
-"Commercial-register entry printed on invoices and other business documents, "
-"e.g. 'Spoločnosť zapísaná v obchodnom registri Mestského súdu Bratislava "
-"III, oddiel: Sro, vložka č. 155723/B.'"
-msgstr ""
-
-#. module: l10n_cssk_core
 #: model:ir.model,name:l10n_cssk_core.model_res_company
 msgid "Companies"
 msgstr ""
@@ -315,10 +513,10 @@ msgstr ""
 msgid "Companies that refers to partner"
 msgstr ""
 
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__company_id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__company_id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__company_id
-#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__company_id
 msgid "Company"
 msgstr ""
@@ -368,6 +566,32 @@ msgid "Company database ID"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__basis
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__basis
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Compared against"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__basis_label
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__basis_label
+msgid "Compared against (detail)"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__comparison_id
+msgid "Comparison"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.actions.act_window,name:l10n_cssk_core.action_cssk_filing_comparison
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__cssk_comparison_count
+#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_filing_comparison_list
+msgid "Comparisons"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__contact_address
 msgid "Complete Address"
 msgstr ""
@@ -384,14 +608,39 @@ msgid "Compute the statement before exporting."
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__computed_total
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__computed
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_list
+msgid "Computed"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model,name:l10n_cssk_core.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model,name:l10n_cssk_core.model_res_partner
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__child_ids
 msgid "Contact"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__message_bounce
 msgid "Counter of the number of bounced emails for this contact"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__counterpart_id
+msgid "Counterpart"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -406,22 +655,22 @@ msgstr ""
 msgid "Country code"
 msgstr ""
 
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__create_uid
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__create_uid
-#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_wizard__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__create_uid
 msgid "Created by"
 msgstr ""
 
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__create_date
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__create_date
-#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_wizard__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__create_date
@@ -439,11 +688,24 @@ msgid "Credit To Invoice"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__credit
+msgid "Credit balance only"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__credit_limit
 msgid "Credit limit specific to this partner."
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_account_bank_statement_line__cssk_vat_deferral_count
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move__cssk_vat_deferral_count
+msgid "Cssk Vat Deferral Count"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__currency_id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__currency_id
 msgid "Currency"
 msgstr ""
@@ -480,6 +742,18 @@ msgid "DIČ"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__date_from
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__date_to
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__date_to
+msgid "Date To"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__reminder_date_before_receipt
 msgid "Days Before Receipt"
 msgstr ""
@@ -487,6 +761,11 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__days_sales_outstanding
 msgid "Days Sales Outstanding (DSO)"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__debit
+msgid "Debit balance only"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -505,10 +784,51 @@ msgid "Degree of trust you have in this debtor"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statement_account_map_view_search
+msgid "Depends on balance side"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__state
+msgid ""
+"Derived from the rows and never set by hand: a summary somebody could type "
+"would drift from what it summarises. Whether a human has ACCEPTED the "
+"comparison is the separate sign-off."
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__description
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__name
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statutory_footprint_wizard_form
 msgid "Description"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__detail
+msgid "Detail"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__difference_total
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__difference
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_list
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_list
+msgid "Difference"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__expected
+msgid "Difference is expected"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Differences only"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Different row, same amount"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -521,13 +841,13 @@ msgstr ""
 msgid "Display Invoice Template Pdf Report"
 msgstr ""
 
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__display_name
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__display_name
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__display_name
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__display_name
@@ -595,9 +915,50 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__state__resolved
+msgid "Every difference answered"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_discrepancy
+msgid ""
+"Every row of a migrated filing set beside what the ledger\n"
+"                produces for the same period lands here — the ones that agree\n"
+"                as well as the ones that do not, so the state of a migration\n"
+"                can be read off it. This list opens on the differences that\n"
+"                still need an answer; clear the filter to see the whole\n"
+"                comparison."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__state__clean
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
+msgid "Everything agrees"
+msgstr ""
+
+#. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid "Export the XML before marking the filing submitted."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__cssk_export_warnings
+msgid "Export warnings"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid "Exported with warnings"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid ""
+"Exported with warnings — they did not block the export, but check them "
+"before filing:"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -614,6 +975,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__filed_total
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__filed
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_list
+msgid "Filed"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__submitted_attachment_id
 msgid "Filed XML"
 msgstr ""
@@ -624,9 +992,79 @@ msgid "Filed history"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model,name:l10n_cssk_core.model_cssk_filing_comparison
+msgid "Filed vs Computed Comparison"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model,name:l10n_cssk_core.model_cssk_filing_discrepancy
+msgid "Filed vs Computed Comparison Row"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.actions.act_window,name:l10n_cssk_core.action_cssk_filing_discrepancy
+#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_filing_comparison
+msgid "Filed vs computed"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_filing_comparison.py:0
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid "Filed vs computed — %s"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__filing_name
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statutory_footprint_wizard_form
+msgid "Filing"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__filing_count
+msgid "Filing Count"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__filing_name
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__filing_name
+msgid "Filing Name"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__filing_res_id
+msgid "Filing Res"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__filing_res_model
+msgid "Filing Res Model"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__correct_as_filed
+msgid "Filing was right"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__filing_error
+msgid "Filing was wrong"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_res_config_settings__module_account_financial_report
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
 msgid "Financial reports (Community)"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__finding_count
+msgid "Findings"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__open_count
+msgid "Findings nobody has answered yet."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -645,16 +1083,21 @@ msgid "Fiscal Position"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_follower_ids
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_follower_ids
 msgid "Followers"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_partner_ids
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__activity_type_icon
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
@@ -664,6 +1107,14 @@ msgstr ""
 msgid ""
 "For a territorial workplace (územní pracoviště), the regional finanční úřad "
 "it belongs to. Empty for the regional offices themselves."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__res_model
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__res_model
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Form"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -704,17 +1155,24 @@ msgid "Global Location Number"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__has_message
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__has_message
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__has_message
 msgid "Has Message"
 msgstr ""
 
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__id
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__id
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__id
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy
+msgid "Historical filing"
+msgstr ""
+
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_wizard__id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__id
@@ -731,21 +1189,36 @@ msgid "IM Status"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_exception_icon
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_exception_icon
 msgid "Icon"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__activity_exception_icon
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__message_needaction
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__message_needaction
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__message_has_sms_error
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__message_has_sms_error
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__message_has_error
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
@@ -819,6 +1292,11 @@ msgid "Industry"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__info
+msgid "Informational, not a control"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__contact_address_inline
 msgid "Inlined Complete Address"
 msgstr ""
@@ -865,6 +1343,8 @@ msgid "Invoices"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_is_follower
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_is_follower
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_is_follower
 msgid "Is Follower"
 msgstr ""
@@ -900,6 +1380,12 @@ msgid "Is a Company"
 msgstr ""
 
 #. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/res_partner.py:0
+msgid "IČO"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__function
 msgid "Job Position"
 msgstr ""
@@ -916,12 +1402,26 @@ msgstr ""
 
 #. module: l10n_cssk_core
 #: model:ir.model.fields,help:l10n_cssk_core.field_res_company__l10n_cssk_closing_journal_ids
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_config_settings__l10n_cssk_closing_journal_ids
 msgid ""
 "Journals holding the year-end closing and reopening entries (e.g. UZAVIERKA "
 "and OTVORENIE). Entries in these journals are left out of the statutory "
 "financial statements and the income-tax return, which report the activity of"
 " the period, not the ledger's own close/reopen mechanics. Leave empty if the"
 " year is never closed in this database."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
+msgid ""
+"Journals holding the year-end closing and reopening entries. Left out of the"
+" financial statements, the income-tax return and the financial reports. "
+"Empty if the year is never closed in this database."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__kind
+msgid "Kind"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -934,26 +1434,43 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__write_uid
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__write_uid
-#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_wizard__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__write_uid
 msgid "Last Updated by"
 msgstr ""
 
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__write_date
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__write_date
-#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_wizard__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__last_run_date
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+msgid "Last run"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__last_run_uid
+msgid "Last run by"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__legacy_source
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__legacy_source
+msgid "Legacy Source"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -978,10 +1495,12 @@ msgstr ""
 #. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "Marked <b>submitted</b> on %s. Filed copy: %s"
+msgid "Marked <b>submitted</b> on %(date)s. Filed copy: %(name)s"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_has_error
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_has_error
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_has_error
 msgid "Message Delivery error"
 msgstr ""
@@ -997,8 +1516,18 @@ msgid "Message for Stock Picking"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_ids
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_ids
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_ids
 msgid "Messages"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_footprint_line__filing_count
+msgid ""
+"More than one filing can cover a period — an amendment, or a migrated filing"
+" beside a generated one. The link then opens the list rather than picking "
+"one."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1007,8 +1536,21 @@ msgid "Move"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
+msgid ""
+"Move VAT declared in a later period than it is booked to this account until "
+"then, so 343 agrees with each VAT return. Empty: off."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__my_activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__my_activity_date_deadline
 msgid "My Activity Deadline"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__nace_code
+msgid "NACE (main activity)"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1018,23 +1560,62 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
+msgid "Needs an answer"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_date_deadline
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_summary
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_summary
 msgid "Next Activity Summary"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_type_id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_type_id
 msgid "Next Activity Type"
 msgstr ""
 
 #. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid ""
+"No accounting data exists for %(df)s – %(dt)s, so there is nothing to "
+"compare against. This is not a difference of zero — the period was never "
+"imported."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_comparison
+msgid "No comparison has been run yet."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__stale_count
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid "No longer compared"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__email_normalized
 msgid "Normalized Email"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
+msgid "Not signed off"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__note
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__note
+msgid "Note"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1048,6 +1629,13 @@ msgid "Notes…"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model_terms:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_discrepancy
+msgid "Nothing to review."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_needaction_counter
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
@@ -1058,16 +1646,22 @@ msgid "Number of days to send reminder email before the promised receipt date"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_has_error_counter
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__message_needaction_counter
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__message_needaction_counter
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__message_needaction_counter
 msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__message_has_error_counter
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__message_has_error_counter
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
@@ -1083,11 +1677,58 @@ msgid "Offline since"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.constraint,message:l10n_cssk_core.constraint_cssk_filing_comparison_comparison_uniq
+msgid "One comparison per filing, per basis of comparison."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.constraint,message:l10n_cssk_core.constraint_cssk_filing_discrepancy_row_uniq
+msgid "One comparison row per row of a filing, per basis of comparison."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_comparison
+msgid ""
+"One entry per migrated filing put beside what the ledger\n"
+"                produces for the same period. The status is computed from the\n"
+"                rows, so this answers \"how much of the migration landed\"\n"
+"                without opening any of them."
+msgstr ""
+
+#. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid ""
 "Only Accounting administrators (group 'Accounting / Administrator') may "
 "reset a statutory filing to draft."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__only_filed
+msgid "Only the filing has it"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__only_computed
+msgid "Only we compute it"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statutory_footprint_wizard_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid "Open the filing"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_company__cssk_vat_deferral_account_id
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_config_settings__cssk_vat_deferral_account_id
+msgid ""
+"Optional. When a document's VAT is declared in a later period than it is "
+"booked (its 'VAT period declared' date), the tax is moved to this account on"
+" the booking date and back on the declaration date, so the VAT accounts "
+"(343) agree with the return of every period. Leave empty to keep the tax "
+"where it was booked."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1153,6 +1794,12 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__perform_vies_validation
 msgid "Perform Vies Validation"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Period"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1229,11 +1876,6 @@ msgid "Property Outbound Payment Method Line"
 msgstr ""
 
 #. module: l10n_cssk_core
-#: model:ir.model,name:l10n_cssk_core.model_res_config_settings
-msgid "Provider"
-msgstr ""
-
-#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__purchase_order_count
 msgid "Purchase Order Count"
 msgstr ""
@@ -1261,7 +1903,7 @@ msgstr ""
 
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_res_company__l10n_cssk_registration_info
-msgid "Registration Info"
+msgid "Registration Info (retired)"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1287,14 +1929,98 @@ msgid "Report"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model_terms:ir.actions.act_window,help:l10n_cssk_core.cssk_statement_account_map_action
+msgid "Report an account under another code"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__reported_code
+msgid "Reported Code"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid ""
+"Reported, never flagged. The two sides legitimately\n"
+"                        diverge — prijaté preddavky create daňová povinnosť\n"
+"                        without výnos, accruals the reverse — so a difference\n"
+"                        here is not by itself a finding."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__res_id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__res_id
+msgid "Res"
+msgstr ""
+
+#. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid "Reset to draft (from %s). Filed copy preserved: %s"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__resolved_date
+msgid "Resolved Date"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__resolved_uid
+msgid "Resolved Uid"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__activity_user_id
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Result"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_company__l10n_cssk_registration_info
+msgid ""
+"Retired: enter the commercial-register entry in 'Trade registry' on the "
+"company, which Odoo prints on invoices. A value here is no longer shown or "
+"printed."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__row_label
+msgid "Row name"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__line_ids
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__row_count
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+msgid "Rows"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Rows that agree"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__finding_count
+msgid ""
+"Rows that really disagree. A structural gap ('Difference is expected') and "
+"an informational row are not counted — they are neither agreement nor error."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_stated_codes
+msgid "Rows the source states"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_filing_discrepancy
+msgid "Rows to review"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1303,6 +2029,8 @@ msgid "Rtc Session"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_has_sms_error
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
@@ -1310,6 +2038,11 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__user_id
 msgid "Salesperson"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__classification
+msgid "Same amount, different row"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1333,6 +2066,13 @@ msgid "Set a value greater than 0.0 to activate a credit limit check"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__detail
+msgid ""
+"Set where one record stands for many rows — it says how many and why they "
+"are one fact rather than several."
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__partner_share
 msgid "Share Partner"
 msgstr ""
@@ -1340,6 +2080,22 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__show_credit_limit
 msgid "Show Credit Limit"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+msgid "Sign off"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__signed_off_date
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+msgid "Signed off"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__signed_off_uid
+msgid "Signed off by"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1361,13 +2117,19 @@ msgid "Slovakia"
 msgstr ""
 
 #. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__specific_property_product_pricelist
-msgid "Specific Property Product Pricelist"
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_reference
+msgid "Source reference"
 msgstr ""
 
 #. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_company_view_form_cssk
-msgid "Spoločnosť zapísaná v obchodnom registri…"
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_source
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
+msgid "Source system"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__specific_property_product_pricelist
+msgid "Specific Property Product Pricelist"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1383,8 +2145,22 @@ msgid "Stable technical code, e.g. SK-FO / SK-PO / CZ-FO."
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__stale
+msgid "Stale"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__state
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__state
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__state_id
 msgid "State"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.actions.act_window,name:l10n_cssk_core.cssk_statement_account_map_action
+#: model:ir.model,name:l10n_cssk_core.model_cssk_statement_account_map
+#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_statement_account_map
+msgid "Statement account mapping"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1393,6 +2169,12 @@ msgid "Stats"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Status"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__activity_state
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__activity_state
 msgid ""
 "Status based on activities\n"
@@ -1435,6 +2217,21 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statutory_footprint_wizard_form
 msgid "Statutory report lines this document feeds:"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.actions.act_window,help:l10n_cssk_core.cssk_statement_account_map_action
+msgid ""
+"Statutory statements read balances by the account codes their\n"
+"               rows name. An account of your own chart that no row names —\n"
+"               an analytic carried over from another system — lands on no row.\n"
+"               Map it to the code the form expects, for any balance or only\n"
+"               for a debit or credit balance at the period end."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "Still compared"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1520,6 +2317,11 @@ msgid "Tax office used by default on statutory filings for this company."
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_account_invoice_filter_cssk
+msgid "Taxable Supply Date"
+msgstr ""
+
+#. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid ""
@@ -1536,13 +2338,50 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_account_invoice_filter_cssk
-msgid "Taxable Supply Date"
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statement_account_map__reported_code
+msgid ""
+"The account code the statutory statements read this account as — a code the "
+"form's rows name, e.g. 461200 for a short-term bank loan on the Slovak Úč "
+"POD."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "The comparison"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_account_bank_statement_line__cssk_vat_deferral_origin_id
+#: model:ir.model.fields,help:l10n_cssk_core.field_account_move__cssk_vat_deferral_origin_id
+msgid ""
+"The document whose VAT this entry moves to or from the account for VAT "
+"declared in a later period."
 msgstr ""
 
 #. module: l10n_cssk_core
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__submitted_attachment_id
 msgid "The exact XML that was submitted; preserved across reset-to-draft."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid "The filing"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_footprint_line__filing_name
+msgid ""
+"The filing that reports this row, once one exists for the document's period."
+" Empty until then."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__basis__recomputed
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__basis__recomputed
+msgid "The filing, recomputed"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1554,6 +2393,19 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__user_id
 msgid "The internal user in charge of this contact."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__basis__ledger
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__basis__ledger
+msgid "The ledger"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__counterpart_id
+msgid ""
+"The other half of a classification disagreement: the row that carries the "
+"same amount on the other side."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1569,6 +2421,78 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statement_account_map.py:0
+msgid ""
+"The reported code must be a plain account code, without spaces, commas, "
+"signs or tag operators."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+msgid "The result"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__basis_label
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__basis_label
+msgid "The right-hand side named exactly — which account, which other filing."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__row_label
+msgid ""
+"The row in words, where the source of the comparison has one. A coded form "
+"identifies its rows by code alone."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__stale
+msgid ""
+"The row no longer appears in the comparison at all — neither side carries it"
+" any more. Kept rather than deleted: a deleted item that somebody resolved "
+"looks exactly like one nobody ever saw. A row that merely stopped DIFFERING "
+"is not stale; it is recorded as agreeing."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid "The row's leading amount agrees; %s."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__code
+msgid ""
+"The row: a line code on a coded form, or the section and identity of a row "
+"on a document-based one."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid ""
+"The source system's own filing has no figure for this row, so there is "
+"nothing to compare. What we compute is shown for information."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+msgid ""
+"The status above is computed from the rows. It says\n"
+"                        nobody still has to answer anything — not that anybody\n"
+"                        has looked."
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__property_stock_customer
 msgid ""
 "The stock location used as destination when sending goods to this contact."
@@ -1581,8 +2505,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__legacy_source
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__legacy_source
+msgid "The system the filing was migrated from."
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.constraint,message:l10n_cssk_core.constraint_cssk_tax_authority_uniq_code_per_country
 msgid "The tax-authority code must be unique per country."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "The two kinds that are about money."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1625,6 +2560,20 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid "This form does not support comparison."
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__tz
 msgid "Timezone"
 msgstr ""
@@ -1632,6 +2581,14 @@ msgstr ""
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__tz_offset
 msgid "Timezone offset"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__open_count
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__state__open
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__open
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
+msgid "To review"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1665,8 +2622,14 @@ msgid "True for a legal entity, False for a natural person."
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__activity_exception_decoration
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__activity_exception_decoration
 msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__no_action
+msgid "Understood, no action"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1692,6 +2655,54 @@ msgid "Users"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_account_bank_statement_line__cssk_vat_deferral_move_ids
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move__cssk_vat_deferral_move_ids
+msgid "VAT Deferral Entries"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_account_bank_statement_line__cssk_vat_deferral_origin_id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move__cssk_vat_deferral_origin_id
+msgid "VAT Deferral Of"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_company__cssk_vat_deferral_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_config_settings__cssk_vat_deferral_account_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
+msgid "VAT declared in a later period"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/account_move_vat_deferral.py:0
+msgid "VAT declared on %(date)s: %(label)s"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_move_form_cssk_deduction_date
+msgid "VAT deferral"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/account_move_vat_deferral.py:0
+msgid "VAT deferral entries"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/account_move_vat_deferral.py:0
+msgid "VAT of %s declared later"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/account_move_vat_deferral.py:0
+msgid "VAT of %s declared now"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_bank_statement_line__cssk_vat_deduction_date
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_account_move__cssk_vat_deduction_date
 msgid "VAT period declared"
@@ -1708,9 +2719,19 @@ msgid "Vendor Payment Terms"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__unmapped
+msgid "Vocabularies not mapped"
+msgstr ""
+
+#. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid "Vytvorené dodatočné / opravné podanie: %s."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__our_error
+msgid "We are wrong"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1719,13 +2740,53 @@ msgid "Website Link"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__website_message_ids
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__website_message_ids
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__website_message_ids
 msgid "Website Messages"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__website_message_ids
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__website_message_ids
 #: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
+msgid "What the accountant said"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__note
+msgid ""
+"What the accountant said, and anything else worth keeping. Survives a "
+"recompute."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__filed
+msgid "What the filing reports."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__basis
+msgid ""
+"What the right-hand column holds. Without it a reader cannot tell which "
+"question was asked, and correct figures look wrong."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__basis
+msgid ""
+"What the right-hand side of every row holds. The same filing is compared "
+"against more than one, and they are separate comparisons."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__computed
+msgid "What the right-hand side says — see Compared against."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1734,6 +2795,18 @@ msgid ""
 "When printing documents and exporting/importing data, time values are computed according to this timezone.\n"
 "If the timezone is not set, UTC (Coordinated Universal Time) is used.\n"
 "Anywhere else, time values are computed according to the time offset of your web client."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
+msgid "Withdraw sign-off"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -1750,6 +2823,8 @@ msgstr ""
 
 #. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_res_company__l10n_cssk_closing_journal_ids
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_config_settings__l10n_cssk_closing_journal_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
 msgid "Year-end closing journals"
 msgstr ""
 
@@ -1771,440 +2846,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__invoice_edi_format
-msgid "eInvoice format"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid ""
-"%(n)d row(s) this filing does not carry under any name we recognise "
-"(%(examples)s%(more)s). Not %(n)d differences: the filed rows and the "
-"computed rows share no code at all, so the two vocabularies have not been "
-"mapped to each other. Map them and re-run — the real differences appear "
-"then."
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid ""
-"%(name)s is inconsistent: 'Historical filing' is %(flag)s but its state is "
-"'%(state)s'. The flag and the state are the same fact and are written "
-"together — to un-mark a historical filing, set both."
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid ""
-"%(names)s %(verb)s a historical filing — a record of what was submitted, not"
-" a filing being made. It cannot be %(what)s. To correct the period, create "
-"an amendment (dodatočné) from it: the amendment is an ordinary return."
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/res_partner.py:0
-msgid ""
-"%(value)r is not a valid IČO for %(partner)s.\n"
-"\n"
-"A Czech or Slovak company registry number is %(length)s digits and carries a check digit; this one does not add up. Please check it against the register — it is not the company name, the VAT number or the Tax ID."
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "(vocabulary not mapped)"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "All %d rows agree."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__amount
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-msgid "Amount differs"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-msgid "Asked on … . Their answer: …"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__asked
-msgid "Asked the accountant"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-msgid ""
-"Both sides carry this amount; they disagree about which\n"
-"                        row it belongs on. The question for the accountant is\n"
-"                        which box is right, not which figure."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.module.module,shortdesc:base.module_l10n_cssk_core
-msgid "CZ/SK Localization — Shared Core"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__computed
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_list
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__computed_total
-msgid "Computed"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__counterpart_id
-msgid "Counterpart"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.module.module,summary:base.module_l10n_cssk_core
-msgid ""
-"Country-neutral foundation for the Czech & Slovak statutory localization: "
-"tax-authority registry, person types, shared company/partner fields, "
-"settings and security."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__date_from
-msgid "Date From"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__date_to
-msgid "Date To"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__detail
-msgid "Detail"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__difference
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_list
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__difference_total
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_list
-msgid "Difference"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_discrepancy
-msgid ""
-"Differences between a migrated filing and what the ledger\n"
-"                produces for the same period land here, so they can be put to\n"
-"                the accountant who filed them and the answer kept."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-msgid "Different row, same amount"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__filed
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_list
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__filed_total
-msgid "Filed"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-#: model:ir.actions.act_window,name:l10n_cssk_core.action_cssk_filing_discrepancy
-#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_filing_discrepancy
-#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_filing_comparison
-msgid "Filed vs computed"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "Filed vs computed — %s"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__filing_name
-msgid "Filing Name"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__correct_as_filed
-msgid "Filing was right"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__filing_error
-msgid "Filing was wrong"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__res_model
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__res_model
-msgid "Form"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy
-msgid "Historical filing"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_reference
-msgid ""
-"Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced it."
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/res_partner.py:0
-msgid "IČO"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__kind
-msgid "Kind"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__legacy_source
-msgid "Legacy Source"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "Marked <b>submitted</b> on %(date)s. Filed copy: %(name)s"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid ""
-"No accounting data exists for %(df)s – %(dt)s, so there is nothing to "
-"compare against. This is not a difference of zero — the period was never "
-"imported."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-msgid "No longer differs"
-msgstr ""
-
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__note
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__note
-msgid "Note"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_discrepancy
-msgid "Nothing to review."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__only_filed
-msgid "Only the filing has it"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__only_computed
-msgid "Only we compute it"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "Open the filing"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
-msgid "Period"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__res_id
-msgid "Res"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__res_model
-msgid "Res Model"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__resolved_date
-msgid "Resolved Date"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__resolved_uid
-msgid "Resolved Uid"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__classification
-msgid "Same amount, different row"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__detail
-msgid ""
-"Set where one record stands for many rows — it says how many and why they "
-"are one fact rather than several."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_reference
-msgid "Source reference"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_source
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
-msgid "Source system"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__stale
-msgid "Stale"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-msgid "Status"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-msgid "Still differing"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-msgid "The difference"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "The filing"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__counterpart_id
-msgid ""
-"The other half of a classification disagreement: the row that carries the "
-"same amount on the other side."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__stale
-msgid ""
-"The row no longer differs, or no longer appears at all. Kept rather than "
-"deleted: a deleted item that somebody resolved looks exactly like one nobody"
-" ever saw."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__code
-msgid ""
-"The row: a line code on a coded form, or the section and identity of a row "
-"on a document-based one."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__legacy_source
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__legacy_source
-msgid "The system the filing was migrated from."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-msgid "The two kinds that are about money."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy
-msgid ""
-"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
-"\n"
-"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "This form does not support comparison."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__open
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__open_count
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__state__open
-msgid "To review"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__no_action
-msgid "Understood, no action"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__unmapped
-msgid "Vocabularies not mapped"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__our_error
-msgid "We are wrong"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-msgid "What the accountant said"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__note
-msgid ""
-"What the accountant said, and anything else worth keeping. Survives a "
-"recompute."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__filed
-msgid "What the filing reports."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__computed
-msgid "What the ledger produces for the same row now."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statutory_submission_mixin__legacy_source
-msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
-" it was captured if by hand."
-msgstr ""
-
-#. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid "are"
@@ -2212,20 +2853,13 @@ msgstr ""
 
 #. module: l10n_cssk_core
 #. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "computed"
+#: code:addons/l10n_cssk_core/models/account_move_vat_deferral.py:0
+msgid "cssk_vat_deferral_origin_id"
 msgstr ""
 
 #. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "difference"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "every line agrees"
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__invoice_edi_format
+msgid "eInvoice format"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -2237,7 +2871,7 @@ msgstr ""
 #. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "filed"
+msgid "figure %(n)s: filed %(filed)s, computed %(computed)s"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -2255,6 +2889,12 @@ msgstr ""
 #. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
+msgid "statement"
+msgstr ""
+
+#. module: l10n_cssk_core
+#. odoo-python
+#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid "submitted"
 msgstr ""
 
@@ -2262,441 +2902,4 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/res_partner.py:0
 msgid "this contact"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__state
-msgid ""
-"'Agrees' and 'To review' are set by the comparison and follow the figures. "
-"Anything beyond them is somebody's answer and is never overwritten by a re-"
-"run."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__kind
-msgid ""
-"'Difference is expected' and 'Informational' are findings of neither "
-"agreement nor error: a KV is a proper subset of the priznanie, and the VAT "
-"base legitimately diverges from účtovná trieda 60. Reported, never flagged."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-msgid ""
-"A gap in this direction is structural, not an error: the\n"
-"                        KV is a proper subset of the priznanie. Only the\n"
-"                        opposite direction is impossible, and only that is\n"
-"                        flagged."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__ok
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__state__agrees
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-msgid "Agrees"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__basis__filing
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__basis__filing
-msgid "Another filing"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__basis
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__basis
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
-msgid "Compared against"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__expected
-msgid "Difference is expected"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-msgid "Differences only"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_discrepancy
-msgid ""
-"Every row of a migrated filing set beside what the ledger\n"
-"                produces for the same period lands here — the ones that agree\n"
-"                as well as the ones that do not, so the state of a migration\n"
-"                can be read off it. This list opens on the differences that\n"
-"                still need an answer; clear the filter to see the whole\n"
-"                comparison."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__kind__info
-msgid "Informational, not a control"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__stale_count
-msgid "No longer compared"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-msgid ""
-"Reported, never flagged. The two sides legitimately\n"
-"                        diverge — prijaté preddavky create daňová povinnosť\n"
-"                        without výnos, accruals the reverse — so a difference\n"
-"                        here is not by itself a finding."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
-msgid "Result"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__basis_label
-msgid "Right-hand side"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-msgid "Rows that agree"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
-msgid "Still compared"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "The comparison"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__basis__recomputed
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__basis__recomputed
-msgid "The filing, recomputed"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_discrepancy__basis__ledger
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__basis__ledger
-msgid "The ledger"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__basis_label
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__basis_label
-msgid "The right-hand side named exactly — which account, which other filing."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__row_label
-msgid ""
-"The row in words, where the source of the comparison has one. A coded form "
-"identifies its rows by code alone."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__stale
-msgid ""
-"The row no longer appears in the comparison at all — neither side carries it"
-" any more. Kept rather than deleted: a deleted item that somebody resolved "
-"looks exactly like one nobody ever saw. A row that merely stopped DIFFERING "
-"is not stale; it is recorded as agreeing."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__basis
-msgid ""
-"What the right-hand column holds. Without it a reader cannot tell which "
-"question was asked, and correct figures look wrong."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_discrepancy__computed
-msgid "What the right-hand side says — see Compared against."
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "the same filing, recomputed from the ledger"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__basis_label
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__basis_label
-msgid "Compared against (detail)"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__row_label
-msgid "Row name"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model,name:l10n_cssk_core.model_cssk_filing_discrepancy
-msgid "Filed vs Computed Comparison Row"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
-msgid "statement"
-msgstr ""
-
-
-#. module: l10n_cssk_core
-#: model:ir.model,name:l10n_cssk_core.model_cssk_filing_comparison
-msgid "Filed vs Computed Comparison"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__basis
-msgid ""
-"What the right-hand side of every row holds. The same filing is "
-"compared against more than one, and they are separate comparisons."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__line_ids
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__row_count
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "Rows"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__agree_count
-msgid "Agree"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__finding_count
-msgid "Findings"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__finding_count
-msgid ""
-"Rows that really disagree. A structural gap ('Difference is "
-"expected') and an informational row are not counted — they are "
-"neither agreement nor error."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__open_count
-msgid "Findings nobody has answered yet."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__asked_count
-msgid "Asked"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__answered_count
-msgid "Answered"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_filing_comparison__state
-msgid ""
-"Derived from the rows and never set by hand: a summary somebody "
-"could type would drift from what it summarises. Whether a human has "
-"ACCEPTED the comparison is the separate sign-off."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__state__clean
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
-msgid "Everything agrees"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__state__in_progress
-msgid "Being worked through"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_filing_comparison__state__resolved
-msgid "Every difference answered"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__last_run_uid
-msgid "Last run by"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__last_run_date
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "Last run"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__signed_off_uid
-msgid "Signed off by"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__signed_off_date
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "Signed off"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "Sign off"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "Withdraw sign-off"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid "The result"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
-msgid ""
-"The status above is computed from the rows. It says nobody still has "
-"to answer anything — not that anybody has looked."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
-msgid "Needs an answer"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
-msgid "Not signed off"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.actions.act_window,name:l10n_cssk_core.action_cssk_filing_comparison
-#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_filing_comparison_list
-msgid "Comparisons"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_comparison
-msgid "No comparison has been run yet."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.actions.act_window,help:l10n_cssk_core.action_cssk_filing_comparison
-msgid ""
-"One entry per migrated filing put beside what the ledger produces "
-"for the same period. The status is computed from the rows, so this "
-"answers \"how much of the migration landed\" without opening any of "
-"them."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_filing_discrepancy
-msgid "Rows to review"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__account_id
-msgid "Account"
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statement_account_map.py:0
-msgid ""
-"Account %s is mapped for any balance AND for one side. Use either one 'any "
-"balance' mapping, or a debit and/or a credit mapping."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.constraint,message:l10n_cssk_core.constraint_cssk_statement_account_map_company_account_side_uniq
-msgid "An account can be mapped only once per balance side."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__any
-msgid "Any balance"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statement_account_map__balance_side
-msgid ""
-"Any balance: always reported under the code.\n"
-"Debit / credit balance only: reported under the code only when the account's balance at the period end has that sign (an overdrawn bank account reported as a bank loan); otherwise it keeps its own code. Applies to balance-sheet balances only."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__balance_side
-msgid "Balance Side"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__credit
-msgid "Credit balance only"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__cssk_statement_account_map__balance_side__debit
-msgid "Debit balance only"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statement_account_map_view_search
-msgid "Depends on balance side"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.actions.act_window,help:l10n_cssk_core.cssk_statement_account_map_action
-msgid "Report an account under another code"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statement_account_map__reported_code
-msgid "Reported Code"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.actions.act_window,name:l10n_cssk_core.cssk_statement_account_map_action
-#: model:ir.model,name:l10n_cssk_core.model_cssk_statement_account_map
-#: model:ir.ui.menu,name:l10n_cssk_core.menu_cssk_statement_account_map
-msgid "Statement account mapping"
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model_terms:ir.actions.act_window,help:l10n_cssk_core.cssk_statement_account_map_action
-msgid ""
-"Statutory statements read balances by the account codes their\n"
-"               rows name. An account of your own chart that no row names —\n"
-"               an analytic carried over from another system — lands on no row.\n"
-"               Map it to the code the form expects, for any balance or only\n"
-"               for a debit or credit balance at the period end."
-msgstr ""
-
-#. module: l10n_cssk_core
-#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_statement_account_map__reported_code
-msgid ""
-"The account code the statutory statements read this account as — a code the "
-"form's rows name, e.g. 461200 for a short-term bank loan on the Slovak Úč "
-"POD."
-msgstr ""
-
-#. module: l10n_cssk_core
-#. odoo-python
-#: code:addons/l10n_cssk_core/models/cssk_statement_account_map.py:0
-msgid ""
-"The reported code must be a plain account code, without spaces, commas, "
-"signs or tag operators."
 msgstr ""

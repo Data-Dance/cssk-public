@@ -35,6 +35,11 @@
                     <field name="l10n_sk_agreement_hours_warning"
                            readonly="1"
                            invisible="not l10n_sk_agreement_hours_warning"/>
+                    <field name="l10n_sk_hourly_wage"/>
+                    <field name="l10n_sk_agreement_wage_warning"
+                           readonly="1"
+                           invisible="not l10n_sk_agreement_wage_warning"/>
+                    <field name="l10n_sk_pension_type"/>
                     <field name="l10n_sk_agreement_oop"
                            invisible="l10n_sk_agreement_type == 'none'"/>
                     <field name="l10n_sk_health_exempt"
@@ -45,6 +50,62 @@
                     <field name="l10n_sk_garnishment_dependents"/>
                 </group>
             </xpath>
+        </field>
+    </record>
+
+    <!--
+        The same fields on the EMPLOYEE form. On 19.0 a contract is the
+        employee's current hr.version, edited from the employee's Payroll tab;
+        the view above only reaches contract TEMPLATES, so until now an
+        employee's Slovak payroll settings could not be entered anywhere.
+    -->
+    <record id="hr_employee_view_form_l10n_sk" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.l10n_sk_payroll</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <group name="payroll_group" position="after">
+                <group name="l10n_sk_payroll" invisible="company_country_code != 'SK'">
+                    <group string="Slovak Payroll" groups="payroll.group_payroll_user">
+                        <field name="l10n_sk_tax_declaration_signed"/>
+                        <field name="l10n_sk_ztp"/>
+                        <field name="l10n_sk_children_under_15"/>
+                        <field name="l10n_sk_children_15_18"/>
+                        <field name="l10n_sk_health_oop_claim"
+                               invisible="l10n_sk_agreement_type != 'none'"/>
+                    </group>
+                    <group string="Meal Allowance (Slovakia)" groups="payroll.group_payroll_user">
+                        <field name="l10n_sk_meal_allowance_type"/>
+                        <field name="l10n_sk_meal_days"
+                               invisible="l10n_sk_meal_allowance_type == 'none'"/>
+                        <field name="l10n_sk_meal_voucher_employer"
+                               invisible="l10n_sk_meal_allowance_type == 'none'"/>
+                        <field name="l10n_sk_meal_voucher_employee"
+                               invisible="l10n_sk_meal_allowance_type != 'voucher'"/>
+                    </group>
+                    <group string="Agreement (Slovakia)" groups="payroll.group_payroll_user">
+                        <field name="l10n_sk_agreement_type"/>
+                        <field name="l10n_sk_income_regular"
+                               invisible="l10n_sk_agreement_type == 'none'"/>
+                        <field name="l10n_sk_agreement_hours_warning"
+                               readonly="1"
+                               invisible="not l10n_sk_agreement_hours_warning"/>
+                        <field name="l10n_sk_hourly_wage"/>
+                        <field name="l10n_sk_agreement_wage_warning"
+                               readonly="1"
+                               invisible="not l10n_sk_agreement_wage_warning"/>
+                        <field name="l10n_sk_pension_type"/>
+                        <field name="l10n_sk_agreement_oop"
+                               invisible="l10n_sk_agreement_type == 'none'"/>
+                        <field name="l10n_sk_health_exempt"
+                               invisible="l10n_sk_agreement_type == 'none'"/>
+                        <field name="l10n_sk_guarantee_exempt"/>
+                    </group>
+                    <group string="Garnishment (Slovakia)" groups="payroll.group_payroll_user">
+                        <field name="l10n_sk_garnishment_dependents"/>
+                    </group>
+                </group>
+            </group>
         </field>
     </record>
 </odoo>

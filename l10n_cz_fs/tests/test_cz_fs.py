@@ -128,6 +128,43 @@ class TestCzFs(AccountTestInvoicingCommon):
         root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
         self.assertEqual(etree.QName(root).localname, "Rozvaha")
 
+    def test_av_is_the_result_of_the_period_not_since_inception(self):
+        """Vyhláška 500/2002 Sb.: A.V. is the result of the CURRENT účetní
+        období. A.V read the cumulative 5/6 balance, so a prior year's result
+        that never went through 431 landed in this year's A.V.
+
+        Here 2024 earns 700 and the result is carried to 431 at the opening
+        of 2025 (the závěrka the books are expected to hold): A.V for 2025 is
+        2025's 2000 alone, the 700 sits in A.IV, and the sheet ties out."""
+        income, bank = self._acc("602%"), self._acc("221%")
+        self.env["account.move"].create({
+            "move_type": "entry", "journal_id": self.misc.id,
+            "date": "2024-06-30",
+            "line_ids": [
+                Command.create({"account_id": income.id, "credit": 700.0}),
+                Command.create({"account_id": bank.id, "debit": 700.0}),
+            ],
+        }).action_post()
+        st = self._statement(self.bs_version)
+        self.assertAlmostEqual(self._v(st, "AV"), 2000.0, places=2,
+                               msg="A.V must not carry 2024's result")
+        # The year-end close and the opening: 602 → 710 → 702 / 701 → 431,
+        # condensed to its net effect on the open accounts.
+        self.env["account.move"].create({
+            "move_type": "entry", "journal_id": self.misc.id,
+            "date": "2024-12-31",
+            "line_ids": [
+                Command.create({"account_id": income.id, "debit": 700.0}),
+                Command.create({"account_id": self._acc("431%").id,
+                                "credit": 700.0}),
+            ],
+        }).action_post()
+        st = self._statement(self.bs_version)
+        self.assertAlmostEqual(self._v(st, "AV"), 2000.0, places=2)
+        self.assertAlmostEqual(self._v(st, "AIV"), 700.0, places=2)
+        self.assertAlmostEqual(self._v(st, "AKTIVA"), self._v(st, "PASIVA"),
+                               places=2)
+
     def test_aktiva_carry_brutto_and_korekce(self):
         """The Rozvaha is filed in brutto / korekce / netto columns (DPPDP9
         VetaUA), so the oprávky and opravné položky must stay a column of the

@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Money in transit goes through the Liquidity Transfer account, not the
+  bank suspense account.** The templates booked it on 261000, which Odoo's
+  Slovak chart uses as the suspense account of bank statements. They now use
+  the company's Liquidity Transfer account (261…).
+- **Bank and cash legs use the journals' own accounts** (221001, …) instead
+  of the summary accounts 221000 / 211000, which no journal posts to and the
+  bank reconciliation never sees. Without a cash journal, 211000 is kept.
+- Upgrading repoints lines of the shipped templates that are still on
+  261000 / 221000 / 211000; a line somebody changed is left alone.
+
 [19.0.1.0.2] — 2026-09-13
 -------------------------
 

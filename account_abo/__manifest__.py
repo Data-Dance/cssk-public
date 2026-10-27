@@ -1,8 +1,8 @@
 {
     'name': "ABO Payment Export",
-    'summary': "Export Czech/Slovak domestic credit transfers in the ABO file format",
+    'summary': "Export Czech domestic credit transfers in the ABO file format",
     'description': """
-Generates ABO payment-order files used by Czech (and Slovak) banks
+Generates ABO payment-order files used by Czech banks
 (Česká spořitelna, ČSOB, KB, MONETA, Raiffeisenbank, UniCredit, …).
 
 Scope:
@@ -15,7 +15,7 @@ Scope:
     'author': "Data Dance s.r.o.",
     'website': "https://www.datadance.eu",
     'category': 'Accounting/Accounting',
-    'version': '19.0.2.0.0',
+    'version': '19.0.2.0.1',
     'depends': ['account_payment_order', 'account_cz_bankfile_base', 'base_iban'],
     'data': [
         'data/account_payment_method.xml',

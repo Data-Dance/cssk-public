@@ -24,9 +24,10 @@ lives in the Finančná správa registration record, which ORSF republishes as
 
 This module adds to ``res.partner``:
 
-* **Druh registrácie DPH** — § 4 / § 4b / § 5 / § 6 / § 7 / § 7a
+* **Druh registrácie DPH** — § 4 / § 4b / § 4c / § 5 / § 7 / § 7a, and § 6
+  (zásielkový predaj) for registrations made before 1. 7. 2021
 * **Platiteľ DPH od**
-* **Platiteľ dane** — computed; true only for § 4 / § 4b / § 5 / § 6
+* **Platiteľ dane** — computed; true only for § 4 / § 4b / § 4c / § 5 / § 6
 
 and warns on a customer invoice when a domestic reverse-charge tax is used for
 a § 7 / § 7a customer. The warning **never blocks the posting** — the register
@@ -43,7 +44,7 @@ reliable signal and the check stays quiet.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.1.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["account", "base_vat", "l10n_sk"],

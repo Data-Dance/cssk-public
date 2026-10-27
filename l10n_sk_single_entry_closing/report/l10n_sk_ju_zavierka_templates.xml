@@ -26,18 +26,20 @@
                     <mesiac t-out="'%02d' % statement.date_to.month"/>
                     <rok t-out="statement.date_to.year"/>
                 </datumK>
-                <dic t-out="(company.vat or '').replace('SK', '').replace(' ', '')"/>
-                <ico t-out="company.company_registry or ''"/>
-                <skNace>
-                    <k1>00</k1><k2>00</k2><k3>0</k3>
+                <dic t-out="uzfo['dic']"/>
+                <ico t-out="uzfo['ico']"/>
+                <!-- skNace is optional (minOccurs=0): left out when the
+                     company has no NACE code rather than filed as 00.00.0. -->
+                <skNace t-if="uzfo['nace']">
+                    <k1 t-out="uzfo['nace']['k1']"/><k2 t-out="uzfo['nace']['k2']"/><k3 t-out="uzfo['nace']['k3']"/>
                 </skNace>
-                <!-- Riadna závierka. A mimoriadna one (konkurz, likvidácia,
-                     skončenie podnikania) or a priebežná one is the filer's
-                     declaration, not something the books can tell. -->
+                <!-- Riadna, mimoriadna or priebežná is the filer's
+                     declaration (cssk_uzfo_nature), not something the books
+                     can tell. -->
                 <uctovnaZavierka>
-                    <riadna>1</riadna>
-                    <mimoriadna/>
-                    <priebezna/>
+                    <riadna t-out="uzfo['druh']['riadna']"/>
+                    <mimoriadna t-out="uzfo['druh']['mimoriadna']"/>
+                    <priebezna t-out="uzfo['druh']['priebezna']"/>
                 </uctovnaZavierka>
                 <zaObdobie>
                     <od>
@@ -67,14 +69,14 @@
                     <riadok t-out="company.name[36:72] or ''"/>
                 </nazovUJ>
                 <miestoPodnikania>
-                    <ulica t-out="company.street or ''"/>
-                    <cislo t-out="company.street2 or ''"/>
+                    <ulica t-out="uzfo['ulica']"/>
+                    <cislo t-out="uzfo['cislo']"/>
                     <psc t-out="(company.zip or '').replace(' ','')"/>
                     <obec t-out="company.city or ''"/>
                     <telefon t-out="company.phone or ''"/>
                     <email t-out="company.email or ''"/>
                 </miestoPodnikania>
-                <zostaveneDna t-out="statement.date_to.strftime('%d.%m.%Y')"/>
+                <zostaveneDna t-out="uzfo['zostavena']"/>
             </hlavicka>
             <telo>
                 <!-- Výkaz o príjmoch a výdavkoch Úč FO 1-01: one column, the

@@ -17,6 +17,42 @@ Carry-over to 18.0
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
 
+[19.0.1.13.0] — 2026-10-27
+--------------------------
+
+Added
+~~~~~
+
+- **The first page of the DPH is filled from the return**: a new *Hlavička*
+  tab sets who files (platiteľ § 4, osoba registrovaná § 7 / § 7a, iná
+  povinná osoba, zdaniteľná osoba § 3 ods. 5, daňový zástupca § 69a /
+  § 69aa), the § 79 ods. 3 box for a refund within 30 days, the oprávnená
+  osoba and the dátum vyhlásenia (the export date when left empty). The XML
+  used to hardcode a VAT payer, never tick the § 79 ods. 3 box and leave the
+  oprávnená osoba and the date empty.
+- The § 69 paragraph of a reverse-charge tax (pre-2021 vzory) is on the tax
+  form, and a § 53b-corrected bill has a button to re-claim the deduction
+  once paid, with its § 53b state shown. Both existed with no way to reach
+  them.
+
+Fixed
+~~~~~
+
+- **The seat's house number is no longer Street 2.** ``cislo`` is the
+  number split off the street ("Mlynská 1234/5" → "Mlynská", "1234/5"), or
+  the street-number fields where the address is kept split; Street 2 (a
+  building, a c/o line) is never filed as the súpisné / orientačné číslo.
+
+[19.0.1.12.1] — 2026-10-27
+--------------------------
+
+Fixed
+~~~~~
+
+- The § 53b re-claim message cited § 53b ods. 6, which is the adjustment of
+  deducted tax under § 54. The re-claim after payment is § 53b ods. 4 (in
+  force in that form since 1. 1. 2023).
+
 [19.0.1.12.0] — 2026-09-21
 --------------------------
 

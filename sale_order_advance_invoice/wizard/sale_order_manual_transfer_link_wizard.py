@@ -64,6 +64,7 @@ class SaleOrderManualTransferLinkWizard(models.TransientModel):
             raise UserError(_("This payment is already linked to the sale order."))
 
         tx = sale_order._link_payment_to_transaction(payment)
+        sale_order._move_advance_payment_to_clearing(payment)
 
         # Confirm the sale order if it's still in draft state
         if sale_order.state in ("draft", "sent"):

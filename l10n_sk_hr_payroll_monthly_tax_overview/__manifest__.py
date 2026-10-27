@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Prehľad o zrazených preddavkoch na daň",
-    "version": "19.0.2.0.0",
+    "version": "19.0.2.1.0",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
     "summary": "Monthly Slovak income-tax overview (Prehľad o zrazených a "

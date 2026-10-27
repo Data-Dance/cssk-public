@@ -22,12 +22,15 @@ class CSSKAccrualEstimate(models.Model):
     )
     accrual_type = fields.Selection(
         [
-            ("payable", "Estimated payable (389 / 326)"),
-            ("receivable", "Estimated receivable (388)"),
+            ("payable", "Estimated payable"),
+            ("receivable", "Estimated receivable"),
         ],
         default="payable",
         required=True,
         tracking=True,
+        help="Estimated payable: a cost not yet invoiced (Dr expense / Cr "
+        "accrual). Estimated receivable: revenue not yet invoiced (Dr accrual "
+        "/ Cr income). Which account takes it is chosen below.",
     )
     date = fields.Date(
         required=True, default=fields.Date.context_today, tracking=True,
@@ -45,8 +48,13 @@ class CSSKAccrualEstimate(models.Model):
     accrual_account_id = fields.Many2one(
         "account.account", string="Accrual Account", required=True,
         domain="[('company_ids', 'in', company_id)]",
-        help="Estimated-items account: CZ 389 (pasívny) / 388 (aktívny), "
-        "SK 326 (nevyfakturované dodávky). Should be reconcilable.",
+        help="CZ: 389 Dohadné účty pasivní / 388 Dohadné účty aktivní. "
+        "SK, which has no dohadné účty: 326 Nevyfaktúrované dodávky when the "
+        "amount is known from a contract or delivery note (§ 50 ods. 6 "
+        "opatrenia 740/2002; an uncertain amount is a provision on 323 "
+        "instead), and an unbilled receivable on a separate analytic account "
+        "of the receivable it belongs to (§ 48 ods. 3). Must allow "
+        "reconciliation.",
     )
     counterpart_account_id = fields.Many2one(
         "account.account", string="Counterpart Account", required=True,
@@ -234,11 +242,47 @@ class CSSKAccrualEstimate(models.Model):
             rec.state = "cancelled"
         return True
 
+    def _estimate_entry_reversed(self):
+        """True when the estimate entry is cancelled out by its reversal."""
+        self.ensure_one()
+        return bool(
+            self.reversal_move_id
+            and self.reversal_move_id.state == "posted"
+            and self.reversal_move_id.reversed_entry_id == self.move_id
+        )
+
     def action_reset_to_draft(self):
+        """Bring a cancelled estimate back to draft, to correct and post again.
+
+        Cancelling a posted estimate does not unpost its entry, it reverses it,
+        and both entries stay posted: they are the books' record that the
+        estimate existed and was withdrawn. So the estimate lets go of them
+        rather than requiring them to disappear, which they never would.
+        Posting again books a new entry.
+        """
         for rec in self:
-            if rec.move_id and rec.move_id.state == "posted":
+            if rec.state != "cancelled":
+                raise UserError(
+                    _("Only a cancelled estimate can be reset to draft "
+                      "(%(name)s is %(state)s).",
+                      name=rec.name, state=rec.state)
+                )
+            if (rec.move_id and rec.move_id.state == "posted"
+                    and not rec._estimate_entry_reversed()):
                 raise UserError(
                     _("Cancel the estimate first — it has a posted entry.")
                 )
-            rec.state = "draft"
+            if rec.move_id:
+                rec.message_post(
+                    body=_("Reset to draft. The estimate entry %(move)s and "
+                           "its reversal %(reversal)s stay in the books; "
+                           "posting again books a new entry.",
+                           move=rec.move_id.name,
+                           reversal=rec.reversal_move_id.name or "-")
+                )
+            rec.write({
+                "state": "draft",
+                "move_id": False,
+                "reversal_move_id": False,
+            })
         return True

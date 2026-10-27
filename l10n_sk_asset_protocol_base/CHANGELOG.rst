@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.1.0 (2026-10-27), not yet on 18.0:** document number, date of
+  drawing up, seat and IČO on both protocols; two new date fields. Port
+  together with the bridges.
+
 [19.0.1.0.4] — 2026-09-13
 -------------------------
 
@@ -16,6 +23,26 @@ Fixed
 
 - The module's own model name and the inventárne číslo help text had no
   Slovak. Both now do.
+
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **§ 10 ods. 1 particulars on both protocols.** Each protocol now carries a
+  document number (ZP- or VP- followed by the inventory number) and its date
+  of drawing up (§ 10 ods. 1 písm. a) and d) zákona 431/2002), plus the
+  company's seat and IČO. New fields *Commissioning protocol date* and
+  *Disposal protocol date* fix that date; left empty, the protocol shows the
+  day it is printed.
+
+Changed
+~~~~~~~
+
+- Dates on the protocols follow the user's date format instead of ISO.
+- The bridges now deliver amounts that foot: purchase value − oprávky =
+  zostatková cena, the net book value with any salvage value included.
 
 [19.0.1.0.3] — 2026-09-13
 -------------------------

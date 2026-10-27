@@ -312,9 +312,13 @@
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
 
-    <!-- DPP notified-agreement insurance threshold (25 % avg, rounded to 500).
-         11,500 in 2025, 12,000 in 2026. A non-notified DPP uses the general
-         rozhodný příjem (l10n_cz_dpc_threshold) instead. -->
+    <!-- DPP insurance threshold: 25 % of the average wage, rounded down to
+         whole 500 Kč (§ 7a odst. 1 zák. 187/2006 Sb. as amended by zák.
+         470/2024 Sb. from 1. 1. 2025; § 5 písm. a) bod 3 zák. 48/1997 Sb. for
+         health insurance; § 6 odst. 4 písm. a) ZDP for srážková daň). It
+         applies to EVERY DPP - the law has no "notified" variant. 11,500 in
+         2025, 12,000 in 2026 (sdělení MPSV č. 396/2025 Sb.). Until 31. 12. 2024
+         the test was "vyšší než 10 000 Kč"; the module computes 2025 onwards. -->
     <record id="rule_parameter_dpp_threshold" model="hr.rule.parameter">
         <field name="name">Czech Republic: DPP insurance threshold</field>
         <field name="code">l10n_cz_dpp_threshold</field>
@@ -480,7 +484,9 @@
     <!-- ================================================================ -->
     <!-- P3: Sickness compensation (náhrada mzdy) - hourly redukční       -->
     <!-- hranice for the first 14 calendar days (daily thresholds x       -->
-    <!-- 0.175). Bands: 90 % up to RH1, 60 % RH1..RH2, 30 % RH2..RH3, 0 % -->
+    <!-- 0.175, then rounded UP to the haléř - § 192 odst. 2 ZP; 2026     -->
+    <!-- daily thresholds per sdělení MPSV č. 397/2025 Sb.).              -->
+    <!-- Bands: 90 % up to RH1, 60 % RH1..RH2, 30 % RH2..RH3, 0 %          -->
     <!-- above RH3; the employer pays 60 % of the reduced hourly earnings. -->
     <!-- Sources:                                                          -->
     <!-- https://www.mesec.cz/kalkulacky/nemocenske-nahrada-mzdy/          -->
@@ -499,7 +505,7 @@
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
     <record id="rule_parameter_sick_rh1_2026" model="hr.rule.parameter.value">
-        <field name="parameter_value">285.775</field>
+        <field name="parameter_value">285.78</field>
         <field name="rule_parameter_id" ref="rule_parameter_sick_rh1"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
@@ -516,7 +522,7 @@
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
     <record id="rule_parameter_sick_rh2_2026" model="hr.rule.parameter.value">
-        <field name="parameter_value">428.575</field>
+        <field name="parameter_value">428.58</field>
         <field name="rule_parameter_id" ref="rule_parameter_sick_rh2"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
@@ -533,7 +539,7 @@
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
     <record id="rule_parameter_sick_rh3_2026" model="hr.rule.parameter.value">
-        <field name="parameter_value">856.975</field>
+        <field name="parameter_value">856.98</field>
         <field name="rule_parameter_id" ref="rule_parameter_sick_rh3"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
@@ -825,6 +831,19 @@
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
 
+    <!-- Hourly assessment-base cap: 1.15 % of the average wage
+         (§ 7a odst. 3 písm. b) zák. č. 589/1992 Sb.) -->
+    <record id="rule_parameter_social_disc_hourly_pct" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Social discount max base per hour (% of avg wage)</field>
+        <field name="code">l10n_cz_social_disc_hourly_pct</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_disc_hourly_pct_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">1.15</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_disc_hourly_pct"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
     <!-- §15 odst. 1 zák. č. 586/1992 Sb. — bezúplatná plnění (dary) are
          deductible up to this percentage of the annual tax base. The 15 %
          statutory ceiling has been temporarily raised to 30 % since 2020 and
@@ -892,8 +911,11 @@
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
 
+    <!-- § 209 odst. 2: the statutory FLOOR (60 %) for an agreed or internally
+         regulated short-time work rate. What is actually paid is the company
+         setting "Short-time work compensation", 100 % by default (§ 208). -->
     <record id="rule_parameter_prekazka_castecna_pct" model="hr.rule.parameter">
-        <field name="name">Czechia: Employer obstacle — short-time working (%)</field>
+        <field name="name">Czechia: Employer obstacle — short-time working, statutory minimum (%)</field>
         <field name="code">l10n_cz_prekazka_castecna_pct</field>
         <field name="country_id" ref="base.cz"/>
     </record>

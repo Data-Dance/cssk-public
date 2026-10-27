@@ -1,6 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from datetime import date
+
 from odoo import Command, _, api, fields, models
 from odoo.tools import float_compare
 from odoo.exceptions import UserError
@@ -14,6 +16,13 @@ from odoo.exceptions import UserError
 #
 # Verified against l10n_sk/data/template/account.tax-sk.csv and the DPHv25
 # poučenie (body 38 and 38a).
+# § 84a ods. 2 and 3 (self-assessment at import, for AEO payers) apply under
+# § 85l to imports whose tax liability arose after 30. 6. 2025, and § 21 ods. 2
+# dates that liability on the day the customs declaration was accepted — which
+# is what ``date`` records. So the declaration's own date decides, not the
+# posting date or the release date.
+SELF_ASSESSMENT_FROM = date(2025, 7, 1)
+
 JCD_TAX_XMLIDS = {
     "paid": {"23": "vs_cust_23", "19": "vs_cust_19", "5": "vs_cust_5"},
     "postponed": {
@@ -118,7 +127,7 @@ class L10nSkJcd(models.Model):
     customs_document_ok = fields.Boolean(
         string="Dovozný doklad potvrdený colným orgánom",
         compute="_compute_customs_document_ok",
-        help="§ 49 ods. 2 písm. d): odpočítať daň možno, len ak platiteľ má "
+        help="§ 51 ods. 1 písm. d): odpočítať daň možno, len ak platiteľ má "
              "dovozný doklad potvrdený colným orgánom. Splnené, keď je zadané MRN "
              "a doklad je priložený.",
     )
@@ -246,9 +255,9 @@ class L10nSkJcd(models.Model):
                     company=self.company_id.display_name,
                 )
             )
-        return self._rate_in_force(tax)
+        return self._rate_in_force(tax, raise_if_ambiguous=raise_if_missing)
 
-    def _rate_in_force(self, tax):
+    def _rate_in_force(self, tax, raise_if_ambiguous=True):
         """The member of this band that applied on the declaration's date.
 
         Guarded on the field rather than declared as a dependency: the windows
@@ -269,6 +278,11 @@ class L10nSkJcd(models.Model):
         # Overlapping windows are a configuration error and this says so
         # rather than picking one.
         if len({round(rate, 4) for rate in in_force.mapped("amount")}) > 1:
+            # Computes ask without raising: they run on every read and edit of
+            # the form, and an error there locks the declaration out of the
+            # screen where it would be corrected. Posting asks with raising.
+            if not raise_if_ambiguous:
+                return Tax
             raise UserError(
                 _(
                     "Two rates of the %(band)s band are recorded as in force "
@@ -329,8 +343,19 @@ class L10nSkJcd(models.Model):
             raise UserError(
                 _(
                     "Daň pri dovoze sa nedá odpočítať bez dovozného dokladu "
-                    "potvrdeného colným orgánom (§ 49 ods. 2 písm. d)).\n\n"
+                    "potvrdeného colným orgánom (§ 51 ods. 1 písm. d)).\n\n"
                     "Zadajte MRN a priložte potvrdený dovozný doklad."
+                )
+            )
+        if self.vat_regime == "postponed" and self.date < SELF_ASSESSMENT_FROM:
+            raise UserError(
+                _(
+                    "Self-assessment at import (§ 84a ods. 3) applies from "
+                    "%(start)s. A declaration dated %(date)s was assessed by the "
+                    "customs office: choose the regime \"Daň zaplatená colnému "
+                    "orgánu\".",
+                    start=SELF_ASSESSMENT_FROM.strftime("%d. %m. %Y"),
+                    date=self.date.strftime("%d. %m. %Y"),
                 )
             )
         # The stored figure was computed when the declaration was last
@@ -461,6 +486,12 @@ class L10nSkJcd(models.Model):
             }
         )
         landed.compute_landed_cost()
+        # Validated here, not left as a draft: the bill has already expensed the
+        # duty, and only validation credits it back into the stock value. A
+        # draft landed cost leaves the duty in the P&L, and nothing on the
+        # declaration says the second step is still owed. Raises (and so stops
+        # the posting) where Odoo cannot apply it, e.g. standard costing.
+        landed.button_validate()
         return landed
 
     # ------------------------------------------------------------------

@@ -23,10 +23,11 @@ class HrVersion(models.Model):
         string="Ztížené prostředí — počet vlivů",
         groups="hr.group_hr_user",
         tracking=True,
-        help="Number of aggravating influences under nařízení vlády č. "
-        "567/2006 Sb. Each earns a further 10 % of the basic minimum wage "
-        "rate (§ 117). Zero means the surcharge does not apply — recording "
-        "hours alone will not pay it.",
+        help="Number of aggravating influences under § 2 odst. 2 nařízení "
+        "vlády č. 443/2024 Sb. (until 31 December 2024: č. 567/2006 Sb.). "
+        "Each earns a further 10 % of the hourly minimum wage (§ 117). Zero "
+        "means the surcharge does not apply — recording hours alone will not "
+        "pay it.",
     )
     l10n_cz_surcharge_agreed = fields.Boolean(
         string="Sjednaná jiná výše příplatků",
@@ -36,4 +37,20 @@ class HrVersion(models.Model):
         "for the night (§ 116) and weekend (§ 118) surcharges. Only those two "
         "sections permit it; the agreed percentages are configured on the "
         "wage-surcharge rate record.",
+    )
+    l10n_cz_min_wage_basis = fields.Selection(
+        selection=[
+            ("hourly", "Hourly minimum wage"),
+            ("monthly", "Monthly minimum wage"),
+        ],
+        string="Minimum wage top-up compared with",
+        default="hourly",
+        groups="hr.group_hr_user",
+        tracking=True,
+        help="Which minimum wage the doplatek is computed against "
+        "(§ 111 odst. 2 písm. a) of the Labour Code). The law uses the "
+        "hourly minimum wage unless the monthly one was agreed, set or "
+        "determined in advance — so choose Monthly only where that is the "
+        "case. Agreements (DPP, DPČ) and hourly-paid employees are always "
+        "compared per hour.",
     )

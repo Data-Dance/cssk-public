@@ -2,11 +2,11 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Wage Surcharges (príplatky) — Base",
-    "version": "19.0.1.2.4",
+    "version": "19.0.1.2.5",
     "category": "Human Resources/Payroll",
     "summary": "Engine-neutral statutory wage surcharges for night, Saturday, "
     "Sunday, public-holiday, overtime, difficult-conditions and standby work "
-    "(§§ 121–123 Zákonníka práce), plus the six stupne náročnosti minimum "
+    "(§§ 121–124 and § 96 Zákonníka práce), plus the six stupne náročnosti minimum "
     "wage claims and the top-up to them.",
     "author": "Data Dance s.r.o.",
     "website": "https://github.com/Data-Dance/l10n_cssk",

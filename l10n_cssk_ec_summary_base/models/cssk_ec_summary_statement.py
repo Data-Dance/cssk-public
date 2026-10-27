@@ -1,6 +1,6 @@
 from odoo import _, api, fields, models
 from odoo.tools.translate import LazyTranslate
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 _lt = LazyTranslate(__name__)
 
@@ -87,6 +87,25 @@ class CSSKEcSummaryStatement(models.Model):
     amendment_ids = fields.One2many(
         "cssk.ec.summary.statement", "original_return_id", string="Amendments")
 
+    @api.constrains("period_type", "version_id")
+    def _check_period_type_allowed(self):
+        """The version's ``allow_monthly`` / ``allow_quarterly`` say which
+        periods its vzor can be filed for; a period it does not allow is
+        refused rather than exported."""
+        for rec in self:
+            version = rec.version_id
+            if not version or not rec.period_type:
+                continue
+            if ((rec.period_type == "month" and not version.allow_monthly)
+                    or (rec.period_type == "quarter"
+                        and not version.allow_quarterly)):
+                raise ValidationError(_(
+                    "The form version %(version)s cannot be filed for a "
+                    "%(period)s period.",
+                    version=version.display_name,
+                    period=dict(rec._fields["period_type"]._description_selection(
+                        rec.env))[rec.period_type].lower()))
+
     @api.depends("date_from", "date_to")
     def _compute_name(self):
         for st in self:
@@ -118,7 +137,101 @@ class CSSKEcSummaryStatement(models.Model):
             self._compute_line_values()
         )
         self._cssk_reapply_line_overrides(lines, overrides)
+        if self._cssk_ec_is_delta():
+            self._cssk_ec_reduce_to_delta(lines)
         self.state = "preview"
+
+    # ------------------------------------------------------------------
+    # A later filing for a period already filed (SK dodatočný, CZ následné)
+    # ------------------------------------------------------------------
+    def _cssk_ec_is_delta(self):
+        """True when this statement reports CHANGES to filings already made
+        for its period rather than the whole period. Country modules say
+        which of their submission types that is."""
+        return False
+
+    def _cssk_ec_cancels_by_storno(self):
+        """How a row filed earlier is withdrawn: a storno row (CZ ``k_storno``)
+        when True, a row with value 0 (SK) when False."""
+        return False
+
+    def _cssk_ec_whole(self, value):
+        """The value as the form files it, for deciding whether it changed."""
+        return round(value or 0.0, 2)
+
+    def _cssk_ec_filed_rows(self):
+        """``{(country, VAT, code): filed value}`` — what the authority holds
+        for this period, folded over every statement filed for it before
+        this one: a full statement replaces everything, a delta changes
+        what it names."""
+        self.ensure_one()
+        earlier = self.search([
+            ("company_id", "=", self.company_id.id),
+            ("country_id", "=", self.country_id.id),
+            ("date_from", "=", self.date_from),
+            ("date_to", "=", self.date_to),
+            ("state", "in", ("submitted", "legacy")),
+            ("id", "!=", self.id),
+        ])
+        if self.id:
+            earlier = earlier.filtered(lambda st: st.id < self.id)
+        # In the order they were filed: a historical filing imported later
+        # still precedes what this system filed (it has no filing time).
+        earlier = earlier.sorted(lambda st: (
+            bool(st.submitted_date), st.submitted_date or False, st.id))
+        if not earlier.filtered(lambda st: not st._cssk_ec_is_delta()):
+            raise UserError(_(
+                "%(form)s for %(period)s amends a filing, but no filed "
+                "statement for the period is recorded here. Record the "
+                "original filing (mark it submitted, or import it as a "
+                "historical filing) so that only the changes are reported.",
+                form=self.statement_type_id.name, period=self.name))
+        rows = {}
+        for st in earlier:
+            if not st._cssk_ec_is_delta():
+                rows = {}
+            for line in st.line_ids:
+                key = line._cssk_ec_override_key()
+                value = st._cssk_ec_whole(line.total_amount)
+                if line.is_storno or (st._cssk_ec_is_delta() and not value):
+                    rows.pop(key, None)
+                else:
+                    rows[key] = value
+        return rows
+
+    def _cssk_ec_reduce_to_delta(self, lines):
+        """Keep only what changed against the filed rows; withdraw what is
+        gone. SK § 80 ods. 8: the dodatočný súhrnný výkaz states "len
+        doplnené alebo opravené údaje". CZ DPHSHV: a následné hlášení
+        cancels a filed row with a storno row (``k_storno="A"``, matched on
+        country, DIČ and code) and reports the corrected row anew."""
+        self.ensure_one()
+        filed = self._cssk_ec_filed_rows()
+        storno = self._cssk_ec_cancels_by_storno()
+        Line = self.env["cssk.ec.summary.statement.line"]
+        cancel_vals = []
+        seen = set()
+        for line in lines:
+            key = line._cssk_ec_override_key()
+            seen.add(key)
+            if key not in filed:
+                continue                       # new: reported as is
+            if self._cssk_ec_whole(line.total_amount) == filed[key]:
+                line.unlink()                  # unchanged: not reported
+            elif storno:
+                cancel_vals.append(key)        # changed: storno + new row
+        for key in filed:
+            if key not in seen:
+                cancel_vals.append(key)        # gone: withdrawn
+        Line.create([{
+            "statement_id": self.id,
+            "partner_country_code": country,
+            "partner_vat": vat,
+            "transaction_code": code,
+            "total_amount": 0.0,
+            "supplies_count": 0,
+            "is_storno": storno,
+        } for country, vat, code in cancel_vals])
 
     def _cssk_reapply_line_overrides(self, lines, overrides):
         """Re-apply the snapshotted manual overrides onto the freshly
@@ -321,6 +434,13 @@ class CSSKEcSummaryStatementLine(models.Model):
         "manual override.",
     )
     supplies_count = fields.Integer()
+    is_storno = fields.Boolean(
+        string="Cancels a filed row",
+        readonly=True,
+        help="On a later filing for the period (CZ následné hlášení): this "
+        "row cancels the row with the same country, VAT number and code "
+        "filed before.",
+    )
 
     # --- manual override (preserved across recompute; mirrors the VAT return)
     is_overridden = fields.Boolean(

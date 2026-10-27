@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — RLFO (Registračný list FO)",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.2.0",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
     "summary": "Slovak social-insurance registration of employees (RLFO / "

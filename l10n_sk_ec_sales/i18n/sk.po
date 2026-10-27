@@ -45,3 +45,13 @@ msgstr ""
 "Súhrnný výkaz nemožno exportovať — %(n)d riadok(ov) nesie IČ DPH "
 "odberateľa, ktoré nezačína vierohodným kódom krajiny (opravte IČ DPH "
 "partnera v Kontaktoch): %(refs)s"
+
+#. module: l10n_sk_ec_sales
+#. odoo-python
+#: code:addons/l10n_sk_ec_sales/models/cssk_ec_summary_statement.py:0
+msgid ""
+"The súhrnný výkaz cannot be exported — these lines have a missing or non-EU VAT number, or report a service to a Northern Ireland (XI) number, which is valid for goods only (hard block):\n"
+"%s"
+msgstr ""
+"Súhrnný výkaz nemožno exportovať — tieto riadky nemajú IČ DPH alebo majú IČ DPH mimo EÚ, alebo vykazujú službu pre IČ DPH Severného Írska (XI), ktoré platí len pre tovar (tvrdá blokácia):\n"
+"%s"

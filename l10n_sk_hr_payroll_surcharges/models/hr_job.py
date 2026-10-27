@@ -22,7 +22,7 @@ class HrJob(models.Model):
         LEVEL_SELECTION,
         string="Stupeň náročnosti",
         groups="hr.group_hr_user",
-        help="Difficulty level of this post (§ 120 ods. 2 and Annex 1 to the "
+        help="Difficulty level of this post (§ 120 ods. 3 and Annex 1 to the "
         "Zákonník práce). New contracts on this job start from it. Left "
         "empty, contracts fall back to level 1 — the plain minimum wage.",
     )

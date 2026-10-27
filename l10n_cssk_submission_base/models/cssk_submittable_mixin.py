@@ -100,8 +100,11 @@ class CsskSubmittableMixin(models.AbstractModel):
         Submission = self.env["cssk.submission"].sudo()
         for rec in self:
             try:
-                if rec.sudo().submission_ids.filtered(
-                        lambda s: s.state != "cancelled"):
+                live = rec.sudo().submission_ids.filtered(
+                    lambda s: s.state != "cancelled")
+                if live:
+                    # One not yet sent follows a re-export.
+                    live._sync_payload_from_statement()
                     continue
                 attachment = rec._submission_payload_attachment()
                 if not attachment:
@@ -136,7 +139,8 @@ class CsskSubmittableMixin(models.AbstractModel):
     def _submission_channels(self):
         """Channels valid for this statement. Override to narrow."""
         self.ensure_one()
-        return self.env["cssk.submission"]._get_channels()
+        return self.env["cssk.submission"]._get_channels_for_company(
+            self.company_id or self.env.company)
 
     def _submission_payload_attachment(self):
         """The attachment a submission should carry.
@@ -145,7 +149,11 @@ class CsskSubmittableMixin(models.AbstractModel):
         XML for a statement that does not inherit it.
         """
         self.ensure_one()
-        for fname in ("submitted_attachment_id", "xml_attachment_id"):
+        # The CURRENT export first. ``submitted_attachment_id`` survives a
+        # reset to draft on purpose (it is the filed copy), so preferring it
+        # handed a re-exported statement's submission the OLD XML. While a
+        # statement is submitted the two are the same attachment anyway.
+        for fname in ("xml_attachment_id", "submitted_attachment_id"):
             if fname in self._fields and self[fname]:
                 return self[fname]
         return self.env["ir.attachment"]

@@ -121,13 +121,8 @@
         <field name="cap_accrued_time_yearly" eval="True"/>
         <field name="maximum_leave_yearly">20</field>
         <field name="action_with_unused_accruals">all</field>
-        <!-- §113: unused dovolenka carried into the following year is forfeited
-             if still unused a year later. accrual_validity counts 364 days from the
-             1 Jan carryover, so the window closes ~31 Dec, just before the next
-             1 Jan carryover -> a clean one-year forfeit every cycle. -->
-        <field name="accrual_validity" eval="True"/>
-        <field name="accrual_validity_count">364</field>
-        <field name="accrual_validity_type">day</field>
+        <!-- §113 ZP: carried-over dovolenka never lapses — no validity window. -->
+        <field name="accrual_validity" eval="False"/>
     </record>
 
     <!-- 25 dní (5 týždňov, §103 ods. 2) granted on 1 Jan -->
@@ -148,10 +143,8 @@
         <field name="cap_accrued_time_yearly" eval="True"/>
         <field name="maximum_leave_yearly">25</field>
         <field name="action_with_unused_accruals">all</field>
-        <!-- §113: one-year carryover window, then forfeit (364 days from carryover, so it expires ~31 Dec, just before the next 1 Jan carryover). -->
-        <field name="accrual_validity" eval="True"/>
-        <field name="accrual_validity_count">364</field>
-        <field name="accrual_validity_type">day</field>
+        <!-- §113 ZP: carried-over dovolenka never lapses — no validity window. -->
+        <field name="accrual_validity" eval="False"/>
     </record>
 
     <!-- 40 dní (8 týždňov, §103 ods. 3) granted on 1 Jan -->
@@ -172,10 +165,8 @@
         <field name="cap_accrued_time_yearly" eval="True"/>
         <field name="maximum_leave_yearly">40</field>
         <field name="action_with_unused_accruals">all</field>
-        <!-- §113: one-year carryover window, then forfeit (364 days from carryover, so it expires ~31 Dec, just before the next 1 Jan carryover). -->
-        <field name="accrual_validity" eval="True"/>
-        <field name="accrual_validity_count">364</field>
-        <field name="accrual_validity_type">day</field>
+        <!-- §113 ZP: carried-over dovolenka never lapses — no validity window. -->
+        <field name="accrual_validity" eval="False"/>
     </record>
 
     <!-- ============================================================== -->

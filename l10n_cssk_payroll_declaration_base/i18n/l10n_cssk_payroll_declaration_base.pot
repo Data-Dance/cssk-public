@@ -229,14 +229,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid ""
-"No declaration version is configured for %s in this period. Check the "
-"shipped version data."
-msgstr ""
-
-#. module: l10n_cssk_payroll_declaration_base
-#. odoo-python
-#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
-msgid ""
 "No payroll engine is installed (hr.payslip is unavailable), so there are no "
 "payslips to aggregate."
 msgstr ""
@@ -520,4 +512,54 @@ msgid ""
 "Whether this is the ordinary filing for the period or an amendment to one "
 "already sent. The choices are limited to what this particular authority "
 "accepts."
+msgstr ""
+
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "%(form)s is not filed for periods after %(end)s: the form was discontinued. %(successor)s"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid "No declaration version is configured for %(code)s in the period starting %(date)s. Check the shipped version data."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__report_code
+msgid "Report Code"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration
+msgid "Payroll Reporting"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration
+msgid "ČSSZ (social security)"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_vs
+msgid "ČSSZ variable symbol (VS)"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_code
+msgid "OSSZ code"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_vs
+msgid "Variable symbol the ČSSZ assigned to the employer (10 digits)."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_code
+msgid ""
+"Numeric code (100-999) of the locally competent District Social Security "
+"Administration (OSSZ)."
 msgstr ""

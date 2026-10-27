@@ -30,7 +30,9 @@ msgid ""
 "        that will expire on\n"
 "        <span style=\"font-weight: bold;\" t-out=\"format_date(object.carried_over_days_expiration_date) or ''\">12/31/2026</span>.\n"
 "        <br/><br/>\n"
-"        Please schedule this time off before then, otherwise it will be forfeited.\n"
+"        Please agree with your manager when you will take this time off before then.\n"
+"        Annual leave does not lapse under the Labour Code; this is the date the\n"
+"        time-off plan removes it from your balance in Odoo.\n"
 "        <br/><br/>\n"
 "        Kind regards,\n"
 "    </p>\n"
@@ -48,7 +50,9 @@ msgstr ""
 "        , ktorá vyprší dňa\n"
 "        <span style=\"font-weight: bold;\" t-out=\"format_date(object.carried_over_days_expiration_date) or ''\">12/31/2026</span>.\n"
 "        <br/><br/>\n"
-"        Naplánujte si prosím túto dovolenku dovtedy, inak prepadne.\n"
+"        Dohodnite sa, prosím, s vedúcim, kedy túto dovolenku dovtedy vyčerpáte.\n"
+"        Podľa Zákonníka práce dovolenka neprepadá; k tomuto dátumu ju plán voľna\n"
+"        odoberie z vášho zostatku v Odoo.\n"
 "        <br/><br/>\n"
 "        S pozdravom,\n"
 "    </p>\n"
@@ -58,28 +62,28 @@ msgstr ""
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.activity.type,summary:l10n_cssk_leave_expiry_reminder.mail_activity_type_expiring_leave
 msgid "Carried-over leave is about to expire"
-msgstr "Prenesená dovolenka čoskoro prepadne"
+msgstr "Prenesená dovolenka čoskoro vyprší"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.activity.type,name:l10n_cssk_leave_expiry_reminder.mail_activity_type_expiring_leave
 msgid "Expiring Leave"
-msgstr "Prepadajúca dovolenka"
+msgstr "Vypršiavajúca dovolenka"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #. odoo-python
 #: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
 msgid "Expiring leave: %(amount)s %(unit)s"
-msgstr "Prepadajúca dovolenka: %(amount)s %(unit)s"
+msgstr "Vypršiavajúca dovolenka: %(amount)s %(unit)s"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:ir.model.fields,field_description:l10n_cssk_leave_expiry_reminder.field_hr_leave_allocation__l10n_cssk_expiry_reminder_date
 msgid "Leave Expiry Reminded For"
-msgstr "Pripomenuté prepadnutie k dátumu"
+msgstr "Pripomenuté vypršanie k dátumu"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.template,description:l10n_cssk_leave_expiry_reminder.mail_template_leave_expiry
 msgid "Sent to an employee whose carried-over leave is about to expire."
-msgstr "Odoslané zamestnancovi, ktorého prenesená dovolenka čoskoro prepadne."
+msgstr "Odoslané zamestnancovi, ktorého prenesená dovolenka čoskoro vyprší."
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:ir.model.fields,help:l10n_cssk_leave_expiry_reminder.field_hr_leave_allocation__l10n_cssk_expiry_reminder_date
@@ -87,7 +91,7 @@ msgid ""
 "The carried-over-days expiration date we last sent an expiry reminder about."
 " Used to avoid reminding twice for the same cohort."
 msgstr ""
-"Dátum prepadnutia prenesených dní, o ktorom sme naposledy poslali "
+"Dátum vypršania prenesených dní, o ktorom sme naposledy poslali "
 "pripomienku. Slúži na zamedzenie dvojitej pripomienky pre tú istú skupinu."
 
 #. module: l10n_cssk_leave_expiry_reminder
@@ -98,22 +102,26 @@ msgstr "Alokácia dovolenky"
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.template,name:l10n_cssk_leave_expiry_reminder.mail_template_leave_expiry
 msgid "Time Off: Expiring Leave Reminder"
-msgstr "Dovolenka: Pripomienka prepadajúcej dovolenky"
+msgstr "Dovolenka: Pripomienka vypršiavajúcej dovolenky"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:ir.actions.server,name:l10n_cssk_leave_expiry_reminder.ir_cron_notify_expiring_carryover_ir_actions_server
 msgid "Time Off: Notify expiring carried-over leave (CZ/SK)"
-msgstr "Dovolenka: Upozorniť na prepadajúcu prenesenú dovolenku (CZ/SK)"
+msgstr "Dovolenka: Upozorniť na vypršiavajúcu prenesenú dovolenku (CZ/SK)"
 
 #. module: l10n_cssk_leave_expiry_reminder
 #. odoo-python
 #: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
 msgid ""
 "You have %(amount)s %(unit)s of %(leave)s that will expire on %(date)s. "
-"Please schedule this time off before then, otherwise it will be forfeited."
+"Please agree with your manager when you will take this time off before "
+"then. Annual leave does not lapse under the Labour Code; this is the date "
+"the time-off plan removes it from your balance in Odoo."
 msgstr ""
 "Máte %(amount)s %(unit)s dovolenky typu %(leave)s, ktorá vyprší dňa "
-"%(date)s. Naplánujte si prosím túto dovolenku dovtedy, inak prepadne."
+"%(date)s. Dohodnite sa, prosím, s vedúcim, kedy túto dovolenku dovtedy "
+"vyčerpáte. Podľa Zákonníka práce dovolenka neprepadá; k tomuto dátumu ju "
+"plán voľna odoberie z vášho zostatku v Odoo."
 
 #. module: l10n_cssk_leave_expiry_reminder
 #: model:mail.template,subject:l10n_cssk_leave_expiry_reminder.mail_template_leave_expiry
@@ -121,7 +129,7 @@ msgid ""
 "You have leave expiring on {{ "
 "format_date(object.carried_over_days_expiration_date) }}"
 msgstr ""
-"Vaša dovolenka prepadá dňa {{ "
+"Vaša prenesená dovolenka vyprší dňa {{ "
 "format_date(object.carried_over_days_expiration_date) }}"
 
 #. module: l10n_cssk_leave_expiry_reminder
@@ -141,3 +149,17 @@ msgstr "hodín"
 #: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
 msgid "leave"
 msgstr "dovolenka"
+
+#. module: l10n_cssk_leave_expiry_reminder
+#. odoo-python
+#: code:addons/l10n_cssk_leave_expiry_reminder/models/hr_leave_allocation.py:0
+msgid ""
+"%(employee)s has %(amount)s %(unit)s of %(leave)s that will expire on "
+"%(date)s. Please agree with them when they will take this time off before "
+"then. Annual leave does not lapse under the Labour Code; this is the date "
+"the time-off plan removes it from their balance in Odoo."
+msgstr ""
+"%(employee)s má %(amount)s %(unit)s dovolenky typu %(leave)s, ktorá vyprší "
+"dňa %(date)s. Dohodnite sa, prosím, so zamestnancom, kedy túto dovolenku "
+"dovtedy vyčerpá. Podľa Zákonníka práce dovolenka neprepadá; k tomuto dátumu "
+"ju plán voľna odoberie z jeho zostatku v Odoo."

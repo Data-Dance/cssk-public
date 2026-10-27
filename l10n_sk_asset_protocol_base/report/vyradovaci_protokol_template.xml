@@ -5,7 +5,7 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
-                    <t t-set="v" t-value="doc._l10n_sk_protocol_values()" />
+                    <t t-set="v" t-value="doc._l10n_sk_protocol_document_values()" />
                     <div class="page">
                         <h2>Protokol o vyradení dlhodobého majetku</h2>
                         <p class="text-muted">
@@ -14,11 +14,23 @@
                         <div class="row mb-3">
                             <div class="col-6">
                                 <strong>Účtovná jednotka:</strong>
-                                <span t-field="doc.company_id.name"/>
+                                <span t-field="doc.company_id.name"/><br/>
+                                <strong>Sídlo:</strong>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "separator": ", "}'/>
+                                <t t-if="doc.company_id.company_registry">
+                                    <br/><strong>IČO:</strong>
+                                    <span t-field="doc.company_id.company_registry"/>
+                                </t>
                             </div>
+                            <!-- § 10 ods. 1 písm. a) and d) zákona 431/2002 -->
                             <div class="col-6">
+                                <strong>Číslo dokladu:</strong>
+                                <span t-esc="v['disposal_number']"/><br/>
+                                <strong>Dátum vyhotovenia:</strong>
+                                <span t-esc="v['disposal_doc_date']" t-options='{"widget": "date"}'/><br/>
                                 <strong>Dátum vyradenia:</strong>
-                                <span t-esc="v['disposal_date']"/>
+                                <span t-esc="v['disposal_date']" t-options='{"widget": "date"}'/>
                             </div>
                         </div>
                         <table class="table table-sm">
@@ -36,7 +48,7 @@
                             </tr>
                             <tr>
                                 <th>Dátum zaradenia</th>
-                                <td><span t-esc="v['acquisition_date']"/></td>
+                                <td><span t-esc="v['acquisition_date']" t-options='{"widget": "date"}'/></td>
                             </tr>
                             <tr>
                                 <th>Obstarávacia cena</th>

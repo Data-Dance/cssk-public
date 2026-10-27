@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class AbstractWizard(models.AbstractModel):
@@ -6,12 +6,24 @@ class AbstractWizard(models.AbstractModel):
 
     cssk_exclude_closing_journals = fields.Boolean(
         string="Exclude year-end closing and archive journals",
-        default=lambda self: bool(
-            self.env.company.l10n_cssk_closing_journal_ids),
+        compute="_compute_cssk_exclude_closing_journals", store=True,
+        readonly=False,
         help="Leave out the journals the company names as year-end closing / "
         "reopening and migration archive journals (Accounting settings), as "
         "the statutory statements do. Without it a fiscal year's opening entry "
         "is reported as movement inside the year.")
+
+    @api.depends("company_id")
+    def _compute_cssk_exclude_closing_journals(self):
+        """Ticked when the company CHOSEN IN THE WIZARD names closing
+        journals — the same company whose journals are then left out. It
+        used to follow the company the user happened to be working in, so in
+        a multi-company database the box could start unticked for a company
+        that has them, or ticked for one that has none."""
+        for wizard in self:
+            company = wizard.company_id or self.env.company
+            wizard.cssk_exclude_closing_journals = bool(
+                company.l10n_cssk_closing_journal_ids)
 
     def _cssk_excluded_journals(self):
         """The journals this run leaves out — none unless the box is ticked."""

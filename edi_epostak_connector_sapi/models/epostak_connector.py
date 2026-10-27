@@ -484,9 +484,13 @@ class EpostakConnectorSapi(models.TransientModel):
     # Transport: authenticate
     # ------------------------------------------------------------------
 
-    def _authenticate(self):
-        """Mint a token to prove the configuration works end to end."""
-        cfg = self._validate_config()
+    def _authenticate(self, mode=None):
+        """Mint a token to prove the configuration works end to end.
+
+        ``mode`` as everywhere else in the connector (default: the active
+        one); a layer above passes it through, so the signature must take
+        it."""
+        cfg = self._validate_config(mode=mode)
         self._get_token(cfg, force_refresh=True)
         return True
 

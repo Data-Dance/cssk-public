@@ -21,7 +21,7 @@ class HrVersion(models.Model):
         string="Stupeň náročnosti",
         groups="hr.group_hr_user",
         tracking=True,
-        help="Difficulty level of the job (§ 120 ods. 2 Zákonníka práce). "
+        help="Difficulty level of the job (§ 120 ods. 3 Zákonníka práce). "
         "Sets the minimum wage claim the achieved wage is topped up to. "
         "Left empty it is treated as level 1, the plain minimum wage.",
     )
@@ -43,7 +43,9 @@ class HrVersion(models.Model):
         string="Reduced night rate agreed",
         groups="hr.group_hr_user",
         tracking=True,
-        help="§ 122a ods. 3 — a collective agreement sets the night surcharge "
+        help="§ 123 ods. 2 — a collective agreement (or, at an employer with no trade union and "
+        "fewer than 20 employees on 31 December of the previous year, the "
+        "employment contract) sets the night surcharge "
         "at the lower statutory floor because the predominant part of the "
         "work is performed at night. Ignored for risky work.",
     )
@@ -51,7 +53,9 @@ class HrVersion(models.Model):
         string="Reduced Saturday rate agreed",
         groups="hr.group_hr_user",
         tracking=True,
-        help="§ 122b ods. 2 — a collective agreement sets the Saturday "
+        help="§ 122a ods. 2 — a collective agreement (or, at an employer with no trade union and "
+        "fewer than 20 employees on 31 December of the previous year, the "
+        "employment contract) sets the Saturday "
         "surcharge at the lower statutory floor because the nature of the "
         "work requires regular work on Saturdays.",
     )
@@ -59,7 +63,9 @@ class HrVersion(models.Model):
         string="Reduced Sunday rate agreed",
         groups="hr.group_hr_user",
         tracking=True,
-        help="§ 122c ods. 2 — a collective agreement sets the Sunday "
+        help="§ 122b ods. 2 — a collective agreement (or, at an employer with no trade union and "
+        "fewer than 20 employees on 31 December of the previous year, the "
+        "employment contract) sets the Sunday "
         "surcharge at the lower statutory floor because the nature of the "
         "work requires regular work on Sundays.",
     )
@@ -89,7 +95,7 @@ class HrVersion(models.Model):
     def _l10n_sk_full_time_fraction(self):
         """This contract's working time as a fraction of full time.
 
-        § 120 ods. 4 reduces the monthly claim in proportion for a shorter
+        § 120 ods. 6 reduces the monthly claim in proportion for a shorter
         working week, so a part-timer on a proportionately lower wage is
         lawfully paid and must not be warned about.
         """

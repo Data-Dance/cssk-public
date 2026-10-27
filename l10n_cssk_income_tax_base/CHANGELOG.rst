@@ -8,6 +8,33 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.5.7] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The 591/341 entry is the splatná daň, not a rezerva.** The Slovak and
+  Czech translations called the year-end income-tax entry (MD 591 / D 341) a
+  *rezerva*; a rezerva is a different thing on different accounts. They now
+  say *splatná daň*.
+
+- **The tax expense and tax payable accounts are on the form.** When the
+  chart has no 591 or 341 the posting asks you to set the accounts on the
+  return, and the form did not show them.
+
+[19.0.1.5.6] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A period no form version covers now says so.** Entering dates for which
+  no version of the return exists — typically a year whose form the tax
+  authority has not yet published — left the *Version* list empty and
+  failed on a required field. A warning now explains that no version covers
+  the period and that none is guessed from an earlier year.
+
 [19.0.1.5.5] — 2026-09-17
 -------------------------
 

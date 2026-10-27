@@ -8,6 +8,31 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A cancelled estimate that had been posted can be reset to draft.**
+  Cancelling reverses the entry rather than unposting it, so *Reset to
+  Draft* — offered on every cancelled estimate — always refused. The
+  estimate now lets go of the cancelled entry and its reversal, which stay
+  in the books and are named in the chatter; posting again books a new
+  entry. *Reset to Draft* now refuses anything but a cancelled estimate.
+
+Changed
+~~~~~~~
+
+- The accrual types are *Estimated payable* and *Estimated receivable*,
+  without account numbers: the receivable named 388, which the Slovak chart
+  does not have (an unbilled receivable goes on a separate analytic account
+  of the receivable, § 48 ods. 3 opatrenia 740/2002). The help of *Accrual
+  Account* names the accounts of both countries.
+- README and description: 326 is for unbilled supplies whose amount is
+  **known** (§ 50 ods. 6), not a Slovak *dohadná položka*; an uncertain
+  amount is a provision on 323.
+
 [19.0.1.0.4] — 2026-09-13
 -------------------------
 

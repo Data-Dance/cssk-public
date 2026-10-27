@@ -17,6 +17,9 @@ class TestVatRegistrationCategory(TransactionCase):
         self.assertEqual(parse("§ 7a"), "7a")
         self.assertEqual(parse("7A"), "7a")
         self.assertEqual(parse("§4b"), "4b")
+        # § 4c: a group registered ex officio; § 69 ods. 12 names it
+        # alongside § 4, § 4b and § 5
+        self.assertEqual(parse("§ 4c"), "4c")
         # These arrive via HTML/PDF scrapes and carry every kind of space.
         self.assertEqual(parse("§\u00a07a"), "7a")
         self.assertEqual(parse("§\t7a\n"), "7a")
@@ -27,8 +30,15 @@ class TestVatRegistrationCategory(TransactionCase):
         for value in ("§ 12", "platiteľ", "", None, "§4x"):
             self.assertFalse(parse(value), value)
 
+    def test_par_6_is_labelled_as_the_repealed_distance_selling(self):
+        """§ 6 registers nobody since 1. 7. 2021 (today it is the bank-account
+        duty); the option survives only for registrations made before."""
+        labels = dict(self.env["res.partner"]._fields[
+            "l10n_sk_vat_registration_category"].selection)
+        self.assertIn("do 30. 6. 2021", labels["6"])
+
     def test_only_par_4_family_makes_a_platitel(self):
-        for category in ("4", "4b", "5", "6"):
+        for category in ("4", "4b", "4c", "5", "6"):
             self.partner.l10n_sk_vat_registration_category = category
             self.assertTrue(self.partner.l10n_sk_is_full_vat_payer, category)
         for category in ("7", "7a"):

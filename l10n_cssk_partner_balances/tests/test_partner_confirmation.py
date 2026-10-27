@@ -161,3 +161,21 @@ class TestPartnerConfirmation(AccountTestInvoicingCommon):
         self.assertAlmostEqual(
             partner_conf.total_receivable, 700.0, places=2
         )
+
+    def _render(self, conf):
+        return self.env["ir.actions.report"]._render_qweb_html(
+            "l10n_cssk_partner_balances.action_report_partner_confirmation",
+            conf.ids)[0].decode()
+
+    def test_pdf_names_the_parties_neutrally(self):
+        """The company is not always the supplier or the creditor — a
+        confirmation of payables makes it the debtor."""
+        self._post_receivable(500.0)
+        conf = self._make_confirmation()
+        html = self._render(conf)
+        self.assertNotIn("Dodávateľ", html)
+        self.assertIn("Účtovná jednotka", html)
+        self.company.account_fiscal_country_id = self.env.ref("base.cz")
+        html = self._render(conf)
+        self.assertIn("Odsouhlasení zůstatků", html)
+        self.assertNotIn("IČ DPH", html)

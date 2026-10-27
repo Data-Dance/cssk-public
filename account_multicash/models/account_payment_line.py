@@ -29,6 +29,30 @@ class AccountPaymentLine(models.Model):
              "If empty, falls back to a `SS:` token in the communication.",
     )
 
+    # Read by MultiCash CFA, KB BEST and Fio. The names match the
+    # ``account.payment`` fields of Enterprise's account_iso20022, so
+    # ``BankPaymentItem`` is filled the same way in both editions. Declared
+    # identically by account_multicash, account_payment_kb_best and
+    # account_payment_fio.
+    iso20022_priority = fields.Selection(
+        selection=[("NORM", "Normal"), ("URGP", "Urgent")],
+        string="Priority",
+        default="NORM",
+        help="Urgent asks the bank for express processing, at its express "
+             "fee. Used by MultiCash CFA, KB BEST and Fio.",
+    )
+    iso20022_charge_bearer = fields.Selection(
+        selection=[
+            ("SHAR", "Shared (SHA)"),
+            ("DEBT", "Payer (OUR)"),
+            ("CRED", "Beneficiary (BEN)"),
+        ],
+        string="Charge Bearer",
+        default="SHAR",
+        help="Who pays the bank charges of a foreign payment. Into the EEA, "
+             "banks accept Shared only.",
+    )
+
     @api.constrains('variable_symbol', 'constant_symbol', 'specific_symbol')
     def _check_payment_symbols_cz(self):
         for rec in self:

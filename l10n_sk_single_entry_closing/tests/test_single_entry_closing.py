@@ -143,8 +143,10 @@ class TestJuZavierkaCashRows(AccountTestInvoicingCommon):
         self.assertAlmostEqual(values["p"], 750.0, places=2)
         self.assertAlmostEqual(values["r"], 750.0, places=2)
 
-    def test_non_cash_rows_stay_out_of_a_statement_of_money(self):
-        """An odpis belongs to the tax base, not to príjmy a výdavky."""
+    def test_a_non_cash_row_reaches_only_a_row_naming_its_category(self):
+        """The odpis is in the denník, but this version's výdavky row names no
+        Z category, so it adds nothing here. The shipped Úč FO r. 10 does name
+        Z1 — see TestUzfoV14.test_an_odpis_lands_on_ostatne_vydavky."""
         depreciation = self.expense_account.copy({
             "code": "551900",
             "cssk_cash_category_id": self.env.ref(
@@ -170,7 +172,8 @@ class TestJuZavierkaCashRows(AccountTestInvoicingCommon):
             "the denník does carry the odpis")
         values = self._statement()
         self.assertAlmostEqual(values["v"], 0.0, places=2,
-                               msg="but the výkaz o príjmoch a výdavkoch does not")
+                               msg="but a row that names no Z category "
+                                   "does not take it")
 
     def test_a_storno_reduces_its_own_row(self):
         """A refunded sale lowers príjmy; it is not an expense of the year."""
@@ -346,6 +349,38 @@ class TestUzfoV14(AccountTestInvoicingCommon):
                      "VN5", "VN9", "C1"):
             self.assertNotIn(code, formulas.split(","))
 
+    def test_an_odpis_lands_on_ostatne_vydavky(self):
+        """§ 4 ods. 9 and § 8 ods. 4 písm. a) bod 1c opatrenia
+        MF/27076/2007-74: the odpis is an uzávierková operácia of the denník
+        and an ostatný výdavok, so it must reach r. 10 and r. 11 — not only be
+        named in the row's formula. The computation used to drop every
+        non-cash row, so r. 10 never held an odpis."""
+        depreciation = self.company_data["default_account_expense"].copy({
+            "code": "551901",
+            "cssk_cash_category_id": self.env.ref(
+                "l10n_sk_cash_journal.cat_z_odpisy").id,
+        })
+        accumulated = self.company_data["default_account_expense"].copy(
+            {"code": "082901"})
+        self.env["account.move"].create({
+            "journal_id": self.company_data["default_journal_misc"].id,
+            "date": fields.Date.to_date("2026-12-31"),
+            "line_ids": [
+                (0, 0, {"account_id": depreciation.id, "name": "odpis",
+                        "debit": 900.0, "credit": 0.0}),
+                (0, 0, {"account_id": accumulated.id, "name": "odpis",
+                        "debit": 0.0, "credit": 900.0}),
+            ],
+        }).action_post()
+        self.env["cssk.cash.journal.line"]._cssk_regenerate(
+            self.company, fields.Date.to_date("2026-01-01"),
+            fields.Date.to_date("2026-12-31"))
+        values = self._values(self._statement())
+        self.assertAlmostEqual(values["f10"], 900.0, places=2,
+                               msg="r. 10 Ostatné výdavky carries the odpis")
+        self.assertAlmostEqual(values["f11"], 900.0, places=2)
+        self.assertAlmostEqual(values["f12"], -900.0, places=2)
+
     def test_odpisy_reach_ostatne_vydavky(self):
         """§ 4 ods. 9 names odpisy in r. 10 — a statement of money that holds
         one non-cash row, by the opatrenie's own instruction."""
@@ -472,6 +507,50 @@ class TestUzfoV14(AccountTestInvoicingCommon):
                          "the preceding period is left empty")
         self.assertEqual(len(root.findall("telo/ucFo2/*")), 21)
 
+
+    def test_the_header_comes_from_the_company_not_from_constants(self):
+        """DIČ, SK NACE, druh závierky, ulica/číslo and zostavené dňa.
+
+        The header used to file NACE 00.00.0, always a riadna závierka,
+        the balance-sheet date as the day it was compiled, the IČ DPH as the
+        DIČ and street2 as the house number.
+        """
+        import base64
+        from lxml import etree
+        partner = self.company.partner_id
+        if "l10n_sk_dic" in self.company._fields:
+            self.company.l10n_sk_dic = "1020304050"
+        partner.write({"street": "Hlavná 1141/11", "street2": "3. poschodie",
+                       "zip": "811 01", "city": "Bratislava"})
+        statement = self._statement()
+        statement.cssk_uzfo_nature = "mimoriadna"
+        statement.action_export_xml()
+        root = etree.fromstring(
+            base64.b64decode(statement.xml_attachment_id.datas))
+        head = root.find("hlavicka")
+        if "l10n_sk_dic" in self.company._fields:
+            self.assertEqual(head.findtext("dic"), "1020304050")
+        self.assertEqual(head.findtext("uctovnaZavierka/riadna"), "")
+        self.assertEqual(head.findtext("uctovnaZavierka/mimoriadna"), "1")
+        self.assertEqual(head.findtext("miestoPodnikania/ulica"), "Hlavná")
+        self.assertEqual(head.findtext("miestoPodnikania/cislo"), "1141/11")
+        self.assertEqual(head.findtext("miestoPodnikania/psc"), "81101")
+        self.assertEqual(
+            head.findtext("zostaveneDna"),
+            fields.Date.context_today(statement).strftime("%d.%m.%Y"))
+        if not ("nace_code" in partner._fields and partner.nace_code):
+            self.assertIsNone(head.find("skNace"),
+                              "no NACE code is no element, not 00.00.0")
+        self.assertNotIn(b"<k1>00</k1><k2>00</k2>",
+                         base64.b64decode(statement.xml_attachment_id.datas))
+
+    def test_a_street2_that_is_only_a_number_is_still_the_cislo(self):
+        from ..models.cssk_fs_statement import _sk_street_and_number
+        partner = self.company.partner_id
+        partner.write({"street": "Hlavná", "street2": "12"})
+        self.assertEqual(_sk_street_and_number(partner), ("Hlavná", "12"))
+        partner.write({"street": "Hlavná", "street2": "budova B"})
+        self.assertEqual(_sk_street_and_number(partner), ("Hlavná", ""))
 
 @tagged("post_install", "-at_install")
 class TestUzfoV14Partition(AccountTestInvoicingCommon):

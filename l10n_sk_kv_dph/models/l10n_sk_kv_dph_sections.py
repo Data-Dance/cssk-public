@@ -457,8 +457,10 @@ class L10nSKKvDphSectionC2(models.Model):
 # B.3 — simplified invoices (receipts). Below the 3 000 EUR period threshold
 # they aggregate into B.3.1; at/above it they are listed per supplier in B.3.2.
 #
-# ASSUMPTION (validate with accountant): B.3.1 and B.3.2 are treated as mutually
-# exclusive on the period grand total of deductible VAT.
+# B.3.1 and B.3.2 are mutually exclusive on the period total of DEDUCTED VAT
+# (§ 78a ods. 6 zákona č. 222/2004 Z. z. from 1. 4. 2016: "Ak ... je celková
+# suma odpočítanej dane zo zjednodušených faktúr 3 000 eur a viac ..."), not
+# on the VAT charged: a receipt deducted at 50 % counts half.
 # ----------------------------------------------------------------------
 class L10nSKKvDphB3Mixin(models.AbstractModel):
     _name = "l10n.sk.kv.dph.b3.mixin"
@@ -509,6 +511,15 @@ class L10nSKKvDphB3Mixin(models.AbstractModel):
             sup["moves"].add(line.move_id.id)
             sup["lines"] |= line
         return grand_base, grand_tax, by_supplier
+
+    @api.model
+    def _cssk_b3_over_threshold(self, statement, by_supplier):
+        """True when § 78a ods. 6 requires the per-supplier B.3.2 split: the
+        period's total DEDUCTED tax from simplified invoices is 3 000 € or
+        more. The tax charged is the wrong measure — fuel or a vehicle at
+        50 % deducts half of it."""
+        return (self._cssk_b3_deducted(by_supplier)
+                >= statement.version_id.threshold_value)
 
     @api.model
     def _cssk_b3_deducted(self, by_supplier):
@@ -580,7 +591,7 @@ class L10nSKKvDphSectionB31(models.Model):
     @api.model
     def _populate_for_statement(self, statement, section_code):
         grand_base, grand_tax, by_supplier = self._cssk_b3_totals(statement)
-        if not by_supplier or grand_tax >= statement.version_id.threshold_value:
+        if not by_supplier or self._cssk_b3_over_threshold(statement, by_supplier):
             return self.browse()  # at/above threshold → B.3.2
         moves = set().union(*(s["moves"] for s in by_supplier.values()))
         lines = self.env["account.move.line"].union(
@@ -613,7 +624,7 @@ class L10nSKKvDphSectionB32(models.Model):
     @api.model
     def _populate_for_statement(self, statement, section_code):
         grand_base, grand_tax, by_supplier = self._cssk_b3_totals(statement)
-        if grand_tax < statement.version_id.threshold_value:
+        if not self._cssk_b3_over_threshold(statement, by_supplier):
             return self.browse()  # below threshold → B.3.1
         return self.create(
             [

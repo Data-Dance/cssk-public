@@ -4,9 +4,11 @@
         Oznámení plátce mzdy / Oznámenie platiteľa mzdy.
 
         Covers the three notification duties the employer owes the court or
-        the bailiff: that a debtor has joined (§ 294/1 o. s. ř.), that a
-        debtor has left, and the answer to an enquiry about which orders are
-        on file, in which rank and for how much (§ 294/2, § 295 o. s. ř.).
+        the bailiff: that a debtor has joined (CZ § 294 odst. 2 o. s. ř.,
+        SK § 84 ods. 2 EP), that a debtor has left (CZ § 295 odst. 2, SK § 85
+        ods. 2), and the answer to an enquiry about which orders are on file,
+        in which rank and for how much (CZ § 128 o. s. ř. / § 33 odst. 5 EŘ).
+        The citation printed is the one of the company's country.
     -->
     <template id="report_garnishment_notice">
         <t t-call="web.html_container">
@@ -34,17 +36,8 @@
                                 Statement on wage deductions
                             </t>
                         </h3>
-                        <p class="text-muted">
-                            <t t-if="doc.notice_type == 'employment_start'">
-                                Oznámení podle § 294 odst. 1 o. s. ř.
-                            </t>
-                            <t t-elif="doc.notice_type == 'employment_end'">
-                                Oznámení podle § 294 odst. 1 o. s. ř.
-                            </t>
-                            <t t-else="">
-                                Sdělení podle § 294 odst. 2 a § 295 o. s. ř.
-                            </t>
-                        </p>
+                        <p class="text-muted" t-if="doc._legal_basis()"
+                           t-out="doc._legal_basis()"/>
 
                         <p class="mt32">
                             As the payer of the wage of

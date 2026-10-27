@@ -182,7 +182,8 @@ result_rate = 100
         <field name="name">Disability Insurance</field>
         <field name="code">DISABILITY</field>
         <field name="sequence">120</field>
-        <field name="condition_select">none</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.l10n_sk_applies('DISABILITY_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
@@ -257,7 +258,8 @@ result_rate = 100
         <field name="name">Disability Insurance (Employer)</field>
         <field name="code">DISABILITYEMPLOYER</field>
         <field name="sequence">120</field>
-        <field name="condition_select">none</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = contract.l10n_sk_applies('DISABILITY_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
@@ -280,7 +282,12 @@ result_rate = 100
         <field name="condition_python">result = contract.l10n_sk_applies('UNEMPLOYMENT_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-_r = payslip.rule_parameter('l10n_sk_social_unemployment_er')
+# § 136 písm. b): 0.5 % where the employer also pays the short-time
+# financing (a pracovný pomer, § 128 ods. 1 písm. g)), the full 1 % otherwise.
+_r = payslip.rule_parameter(
+    'l10n_sk_social_unemployment_er'
+    if contract.l10n_sk_applies('SHORTTIME_CONTRIBUTION')
+    else 'l10n_sk_social_unemployment_er_no_shorttime')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
 result_rate = 100
@@ -317,7 +324,7 @@ _r = payslip.rule_parameter('l10n_sk_social_guarantee_er')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
 result_rate = 100
-# ≥50% statutory owner is not guarantee-insured (§102 z. 461/2003).
+# ≥50% statutory owner is not guarantee-insured (§ 4 ods. 4 z. 461/2003).
 if contract.l10n_sk_guarantee_exempt:
     result = 0.0
         </field>
@@ -416,12 +423,12 @@ if contract.l10n_sk_health_exempt:
         <field name="appears_on_payslip" eval="False"/>
     </record>
 
-    <!-- Health minimum-base doplatok (subsistence-minimum floor). If the combined
-         ee+er premium falls below the premium computed on the subsistence minimum
-         (životné minimum), the shortfall is topped up. Charged here to the
-         EMPLOYEE (approximation — see README; only triggers for sub-minimum
-         wages, i.e. GROSS < subsistence minimum). Placed in SOCIALEMPLOYEE so it
-         feeds TAXBASE and NET like any employee health premium. -->
+    <!-- Minimálny preddavok zamestnanca (§ 16a zákona 580/2004): if the
+         combined ee+er health preddavok falls below the one on the životné
+         minimum, the EMPLOYEE's preddavok is raised by the shortfall (ods. 4).
+         None for ZŤP or a DoBPŠ student; reduced pro rata for PN days and days
+         outside the contract (ods. 2). Placed in SOCIALEMPLOYEE so it feeds
+         TAXBASE and NET like any employee health premium. -->
     <record id="l10n_sk_health_doplatok_employee" model="hr.salary.rule">
         <field name="category_id" ref="hr_payroll_social_security_employee"/>
         <field name="name">Health Insurance Minimum Top-up</field>
@@ -430,18 +437,51 @@ if contract.l10n_sk_health_exempt:
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-min_base = payslip.rule_parameter('l10n_sk_health_min_base')
-if contract.l10n_sk_ztp:
-    rate_ee = payslip.rule_parameter('l10n_sk_health_rate_employee_ztp')
-    rate_er = payslip.rule_parameter('l10n_sk_health_rate_employer_ztp')
-else:
-    rate_ee = payslip.rule_parameter('l10n_sk_health_rate_employee')
-    rate_er = payslip.rule_parameter('l10n_sk_health_rate_employer')
-min_combined = min_base * (rate_ee + rate_er) / 100.0
-actual_combined = abs(result_rules.HEALTH.total) + result_rules.HEALTHEMPLOYER.total
-result = -max(0.0, min_combined - actual_combined)
-if contract.l10n_sk_health_exempt:
+# § 16a zákona 580/2004: the employer tops the employee's monthly preddavok
+# up to the MINIMUM preddavok (ee + er premium on the životné minimum valid
+# on 1 January, § 16a ods. 1; OOP not applied), and charges the difference to
+# the employee (ods. 4). The minimum is reduced pro rata by every calendar
+# day on which the person (ods. 2) was a poistenec štátu — PN with náhrada
+# príjmu or nemocenské (§ 11 ods. 7), a student — was an "osoba so zdravotným
+# postihnutím", or was not an employee at all. So:
+#   * ZŤP (ZP) for the whole month -> no minimum at all (ods. 2 písm. c));
+#   * a DoBPŠ student is a poistenec štátu (§ 11 ods. 7 písm. a)) -> none;
+#   * PN days and days outside the contract shrink it proportionally.
+# The annual true-up is the insurer's (§ 13b, § 19); this is the monthly
+# advance only. A concurrent-employment opt-out (ods. 5) is not modelled.
+if contract.l10n_sk_health_exempt or contract.l10n_sk_ztp or contract.l10n_sk_agreement_type == 'dobps':
     result = 0.0
+else:
+  min_base = payslip.rule_parameter('l10n_sk_health_min_base')
+  rate_ee = payslip.rule_parameter('l10n_sk_health_rate_employee')
+  rate_er = payslip.rule_parameter('l10n_sk_health_rate_employer')
+  # Each component is a preddavok, floored to the eurocent (§ 16 ods. 1).
+  min_combined = (int(round(min_base * rate_ee, 4)) + int(round(min_base * rate_er, 4))) / 100.0
+  period_days = (payslip.date_to - payslip.date_from).days + 1
+  emp_from = payslip.date_from
+  emp_to = payslip.date_to
+  # Contract dates are HR-manager fields; a payroll officer must still
+  # be able to compute the slip.
+  c_start = contract.sudo().contract_date_start
+  c_end = contract.sudo().contract_date_end
+  if c_start and c_start &gt; emp_from:
+    emp_from = c_start
+  if c_end and c_end &lt; emp_to:
+    emp_to = c_end
+  days = max(0, (emp_to - emp_from).days + 1)
+  # PN calendar days: the PN_DAYS input when given; otherwise the PN leave's
+  # days (working days — a proxy that under-reduces, as in SICK_COMP).
+  if 'PN_DAYS' in inputs.dict:
+    pn_days = inputs.PN_DAYS.amount
+  elif 'PN' in worked_days.dict:
+    pn_days = abs(worked_days.dict['PN'].number_of_days)
+  else:
+    pn_days = 0.0
+  days = max(0.0, days - pn_days)
+  if days &lt; period_days:
+    min_combined = int(round(min_combined * days / period_days * 100.0, 4)) / 100.0
+  actual_combined = abs(result_rules.HEALTH.total) + result_rules.HEALTHEMPLOYER.total
+  result = -max(0.0, round(min_combined - actual_combined, 2))
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -501,8 +541,9 @@ result = -tax
     </record>
 
     <!-- ========================================================= CHILD BONUS -->
-    <!-- Daňový bonus na dieťa: per-child amount by age tier, capped at a % of the
-         partial tax base (by number of children), then a high-income taper. It is
+    <!-- Daňový bonus na dieťa: per-child amount by age tier, less the
+         high-income taper applied to EACH child (§ 33 ods. 11), capped at a %
+         of the partial tax base by number of children (§ 33 ods. 6). It is
          a credit added to NET (can exceed the tax => paid out). Gated on the
          signed Vyhlásenie (only one parent may claim). -->
     <record id="l10n_sk_child_bonus" model="hr.salary.rule">
@@ -520,21 +561,27 @@ n = n_young + n_teen
 if n &lt;= 0 or not contract.l10n_sk_tax_declaration_signed:
     result = 0.0
 else:
-    amount = (n_young * payslip.rule_parameter('l10n_sk_child_bonus_under_15')
-              + n_teen * payslip.rule_parameter('l10n_sk_child_bonus_15_18'))
-
-    # Cap at %-of-(partial)-tax-base by number of children (1..6+).
-    caps = payslip.rule_parameter('l10n_sk_child_bonus_pct_caps')
-    cap_pct = caps[min(n, len(caps)) - 1]
+    young = payslip.rule_parameter('l10n_sk_child_bonus_under_15')
+    teen = payslip.rule_parameter('l10n_sk_child_bonus_15_18')
     base = result_rules.TAXBASE.total
-    amount = min(amount, base * cap_pct / 100.0)
 
-    # High-income taper (annual base above threshold).
+    # § 33 ods. 11 ZDP: above the threshold the bonus "na každé jedno
+    # vyživované dieťa sa znižuje o 1/10 rozdielu" — the reduction is
+    # applied to EACH child's bonus (floored at 0 per child), not once to
+    # the family total.
+    reduction = 0.0
     threshold = payslip.rule_parameter('l10n_sk_child_bonus_taper_threshold')
     threshold_m = threshold / 12.0
     if base &gt; threshold_m:
         coeff = payslip.rule_parameter('l10n_sk_child_bonus_taper_coeff')
-        amount -= coeff * (base - threshold_m)
+        reduction = coeff * (base - threshold_m)
+    amount = (n_young * max(0.0, young - reduction)
+              + n_teen * max(0.0, teen - reduction))
+
+    # § 33 ods. 6: cap at %-of-(partial)-tax-base by number of children (1..6+).
+    caps = payslip.rule_parameter('l10n_sk_child_bonus_pct_caps')
+    cap_pct = caps[min(n, len(caps)) - 1]
+    amount = min(amount, base * cap_pct / 100.0)
 
     result = max(0.0, amount)
         </field>

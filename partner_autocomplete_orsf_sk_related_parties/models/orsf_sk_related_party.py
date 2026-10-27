@@ -7,7 +7,7 @@ from odoo import api, fields, models
 
 class L10nSkRelatedParty(models.Model):
     _name = "orsf.sk.related.party"
-    _description = "SK Related Party (závislá osoba)"
+    _description = "SK Related Party (register link)"
     _order = "degree, related_name"
 
     partner_id = fields.Many2one(
@@ -28,7 +28,8 @@ class L10nSkRelatedParty(models.Model):
     related_name = fields.Char(string="Name", required=True)
     link_person = fields.Char(
         string="Through",
-        help="The natural person who links the two subjects.",
+        help="The natural person — or, for a corporate shareholder, the "
+        "company — that links the two subjects. Empty on a degree-1 company.",
     )
     link_role = fields.Char(
         string="Role",
@@ -38,8 +39,9 @@ class L10nSkRelatedParty(models.Model):
     degree = fields.Integer(
         string="Degree",
         default=2,
-        help="1 = a person holding a role directly in this partner. "
-        "2 = another company that person also holds a role in.",
+        help="1 = a person or company holding a role directly in this "
+        "partner. 2 = another company that person or company is also "
+        "linked to.",
     )
     fetched_at = fields.Datetime(string="Fetched", readonly=True)
     source = fields.Char(string="Source", default="ORSF", readonly=True)

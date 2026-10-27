@@ -23,4 +23,5 @@ Not covered
 * Line mapping is r00↔GROSS, r01↔the income-tax advance, r05↔CHILD_BONUS,
   r08 = r04 − r05. Employers with additional taxable components must confirm
   they land in GROSS.
-* Opravný / dodatočný prehľad markers are not set.
+* Only riadny and opravný prehľad are produced; the FS wire format has no
+  dodatočný or storno prehľad.

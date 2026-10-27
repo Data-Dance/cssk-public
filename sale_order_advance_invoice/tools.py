@@ -22,6 +22,9 @@ Spec shape::
     }
 """
 
+import calendar
+from datetime import date, timedelta
+
 
 def apply_advance_invoice_spec(env, chart_template_code, spec):
     """Apply ``spec`` to every company installed on ``chart_template_code``.
@@ -34,3 +37,27 @@ def apply_advance_invoice_spec(env, chart_template_code, spec):
         return
     for company in companies:
         company.with_company(company)._apply_advance_invoice_setup(spec)
+
+
+def advance_tax_doc_deadline(company, paid_date):
+    """Last day to issue the tax document on an advance paid on ``paid_date``.
+
+    * Czech Republic - 15 days from the day the obligation to declare the tax
+      arose (§ 28 odst. 8 zákona č. 235/2004 Sb.), with no month-end cap.
+    * Slovakia - 15 days from receiving the payment *or* the end of the month
+      in which it was received, whichever is later (§ 73 ods. 1 písm. b)
+      zákona č. 222/2004 Z. z.); the month-end alternative is in force from
+      1. 1. 2016, before which it was 15 days only.
+    * Anywhere else - the 15 days, which neither rule above undercuts.
+
+    The country is the company's fiscal country: the deadline is the issuer's,
+    and an advance between two domestic parties is the case both laws mean.
+    """
+    fifteen_days = paid_date + timedelta(days=15)
+    country = company.account_fiscal_country_id.code or company.country_id.code
+    if country == "SK" and paid_date >= date(2016, 1, 1):
+        end_of_month = paid_date.replace(
+            day=calendar.monthrange(paid_date.year, paid_date.month)[1]
+        )
+        return max(fifteen_days, end_of_month)
+    return fifteen_days

@@ -24,3 +24,17 @@ Added
 - The Slovak 5 % rate in core's OSS tax mapping, both directions, through a
   scoped overlay of core's map lookup (no core edit); domestic taxes sharing a
   foreign rate are all linked, as in 18.0.
+
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **"Registered from" / "Registered until" limit the documents** the return
+  reads. They reached the XML header only, so a registration that began
+  mid-quarter reported the whole quarter. The dates must fall within the
+  quarter.
+- **A row added by hand survives a recompute** without ticking *Manual*:
+  rows created by hand are manual by default.
+

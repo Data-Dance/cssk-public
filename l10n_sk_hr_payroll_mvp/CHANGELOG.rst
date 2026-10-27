@@ -10,6 +10,15 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.0] — 2026-10-27
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Added**
+
+- The *Sociálna poisťovňa variable symbol* can be filled in on the MVP form. Generation requires it, but it was on no form anywhere.
+- ``data/SCHEMA_VERSION`` pins the bundled schema, with a test that the bytes still match.
+
+
 19.0.1.0.1 (2026-07-06)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

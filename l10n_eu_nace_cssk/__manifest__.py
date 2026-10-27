@@ -4,7 +4,7 @@
     "name": "EU NACE: Rev. 2.1 and the Czech subclasses",
     "summary": "NACE Rev. 2.1 industries with the CZ-NACE 2025 fifth digit, "
     "linked to the partner's NACE code",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "category": "Hidden/Tools",
     "license": "AGPL-3",
     "author": "Data Dance s.r.o.",

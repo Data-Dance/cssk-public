@@ -8,10 +8,11 @@ Leave Expiry Reminder (CZ/SK)
 |badge1|
 
 Proactively reminds employees and HR about carried-over leave that is about to
-expire. The Czech and Slovak statutory annual-leave (dovolená / dovolenka)
-accrual plans set a carryover validity, so unused carried-over days are
-forfeited about a year later (``carried_over_days_expiration_date`` on
-``hr.leave.allocation``). Core Odoo only highlights this passively on the Time
+expire under its accrual plan (``carried_over_days_expiration_date`` on
+``hr.leave.allocation``). The Slovak statutory annual-leave (dovolenka) plans
+set such a validity; the Czech plans do not, as § 218 zákoníku práce has no
+forfeiture. The reminder says so: annual leave does not lapse, the date is
+when the plan removes the days from the Odoo balance. Core Odoo only highlights this passively on the Time
 Off dashboard; this module adds a proactive daily reminder.
 
 This module is engine-neutral: it depends only on core ``hr_holidays`` and

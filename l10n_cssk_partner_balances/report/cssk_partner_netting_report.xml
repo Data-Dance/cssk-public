@@ -15,11 +15,25 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
-                    <div class="page">
+                    <!-- Czech or Slovak wording by the company's fiscal
+                         country: the legal basis differs (CZ § 1982 NOZ,
+                         SK § 580 OZ + § 358 a nasl. ObZ), and so does what
+                         the tax number on the record is called. -->
+                    <t t-set="cz" t-value="(doc.company_id.account_fiscal_country_id or doc.company_id.country_id).code == 'CZ'"/>
+                    <t t-set="vat_label" t-value="'DIČ' if cz else 'IČ DPH'"/>
+                    <div class="page" t-translation="off">
                         <!-- Title depends on the legal mode -->
-                        <h2 t-if="doc.netting_mode == 'bilateral'">
+                        <h2 t-if="doc.netting_mode == 'bilateral' and cz">
+                            Dohoda o vzájemném započtení pohledávek<br/>
+                            <small class="text-muted">Agreement on mutual set-off of receivables and payables</small>
+                        </h2>
+                        <h2 t-elif="doc.netting_mode == 'bilateral'">
                             Dohoda o vzájomnom započítaní pohľadávok a záväzkov<br/>
                             <small class="text-muted">Agreement on mutual set-off of receivables and payables</small>
+                        </h2>
+                        <h2 t-elif="cz">
+                            Oznámení o jednostranném započtení pohledávek<br/>
+                            <small class="text-muted">Notice of unilateral set-off of receivables and payables</small>
                         </h2>
                         <h2 t-else="">
                             Oznámenie o jednostrannom započítaní pohľadávok a záväzkov<br/>
@@ -27,48 +41,70 @@
                         </h2>
                         <p>
                             <strong t-out="doc.name"/> —
-                            zo dňa / dated <strong t-out="doc.agreement_date"/>
+                            <t t-if="cz">ze dne</t><t t-else="">zo dňa</t> / dated <strong t-out="doc.agreement_date"/>
                         </p>
 
                         <div class="row mt-3">
                             <div class="col-6">
-                                <strong>Navrhovateľ / Proposing party:</strong><br/>
+                                <strong t-if="cz">Navrhovatel / Proposing party:</strong>
+                                <strong t-else="">Navrhovateľ / Proposing party:</strong><br/>
                                 <span t-field="doc.company_id.partner_id"
                                       t-options='{"widget": "contact"}'/>
-                                <div>IČ DPH: <span t-out="doc.company_id.vat or ''"/></div>
+                                <div t-if="doc.company_id.company_registry">IČO: <span t-out="doc.company_id.company_registry"/></div>
+                                <div t-if="doc.company_id.vat"><t t-out="vat_label"/>: <span t-out="doc.company_id.vat"/></div>
                             </div>
                             <div class="col-6">
                                 <strong>Partner / Counterparty:</strong><br/>
                                 <span t-field="doc.partner_id"
                                       t-options='{"widget": "contact"}'/>
-                                <div>IČ DPH: <span t-out="doc.partner_id.vat or ''"/></div>
+                                <div t-if="doc.partner_id.company_registry">IČO: <span t-out="doc.partner_id.company_registry"/></div>
+                                <div t-if="doc.partner_id.vat"><t t-out="vat_label"/>: <span t-out="doc.partner_id.vat"/></div>
                             </div>
                         </div>
 
-                        <p class="mt-3" t-if="doc.netting_mode == 'bilateral'">
+                        <p class="mt-3" t-if="doc.netting_mode == 'bilateral' and cz">
+                            Smluvní strany se dohodly na vzájemném započtení níže
+                            uvedených pohledávek.
+                            <span class="text-muted">The parties agree to mutually
+                            set off the receivables and payables listed below.</span>
+                        </p>
+                        <p class="mt-3" t-elif="doc.netting_mode == 'bilateral'">
                             Zmluvné strany sa dohodli na vzájomnom započítaní nižšie
                             uvedených pohľadávok a záväzkov.
                             <span class="text-muted">The parties agree to mutually
                             set off the receivables and payables listed below.</span>
                         </p>
+                        <p class="mt-3" t-elif="cz">
+                            Tímto Vám oznamujeme, že podle § 1982 a násl. občanského
+                            zákoníku započítáváme níže uvedené vzájemné pohledávky.
+                            Pohledávky zanikají v rozsahu, v jakém se vzájemně kryjí,
+                            k okamžiku, kdy se obě staly způsobilými k započtení.
+                            <span class="text-muted">We hereby give notice of the
+                            set-off of the mutual claims listed below. The claims are
+                            extinguished to the extent they cover each other as of the
+                            moment both became capable of set-off.</span>
+                        </p>
                         <p class="mt-3" t-else="">
                             Týmto Vám oznamujeme jednostranné započítanie nižšie
-                            uvedených pohľadávok a záväzkov podľa § 358 a nasl.
-                            Obchodného zákonníka. Započítanie nadobúda účinnosť dňom
-                            doručenia tohto oznámenia.
+                            uvedených pohľadávok a záväzkov podľa § 580 Občianskeho
+                            zákonníka a § 358 a nasl. Obchodného zákonníka. Pohľadávky
+                            zanikajú v rozsahu, v akom sa vzájomne kryjú, okamihom,
+                            keď sa stretli pohľadávky spôsobilé na započítanie.
                             <span class="text-muted">We hereby give notice of the
                             unilateral set-off of the receivables and payables listed
-                            below; it takes effect upon delivery of this notice.</span>
+                            below. The claims are extinguished to the extent they cover
+                            each other as of the moment they became capable of
+                            set-off.</span>
                         </p>
 
-                        <h4 class="mt-4">Pohľadávky / Receivables</h4>
+                        <h4 class="mt-4"><t t-if="cz">Pohledávky</t><t t-else="">Pohľadávky</t> / Receivables</h4>
                         <table class="table table-sm">
                             <thead>
                                 <tr>
                                     <th>Doklad / Document</th>
-                                    <th>Dátum</th>
-                                    <th>Splatnosť</th>
-                                    <th class="text-end">Započítaná suma / Set-off amount</th>
+                                    <th><t t-if="cz">Datum</t><t t-else="">Dátum</t> / Date</th>
+                                    <th><t t-if="cz">Splatnost</t><t t-else="">Splatnosť</t> / Due</th>
+                                    <th class="text-end"><t t-if="cz">Započtená částka</t><t t-else="">Započítaná suma</t> / Set-off amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,14 +120,14 @@
                             </tbody>
                         </table>
 
-                        <h4 class="mt-3">Záväzky / Payables</h4>
+                        <h4 class="mt-3"><t t-if="cz">Závazky</t><t t-else="">Záväzky</t> / Payables</h4>
                         <table class="table table-sm">
                             <thead>
                                 <tr>
                                     <th>Doklad / Document</th>
-                                    <th>Dátum</th>
-                                    <th>Splatnosť</th>
-                                    <th class="text-end">Započítaná suma / Set-off amount</th>
+                                    <th><t t-if="cz">Datum</t><t t-else="">Dátum</t> / Date</th>
+                                    <th><t t-if="cz">Splatnost</t><t t-else="">Splatnosť</t> / Due</th>
+                                    <th class="text-end"><t t-if="cz">Započtená částka</t><t t-else="">Započítaná suma</t> / Set-off amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,7 +147,7 @@
                             <div class="col-6 offset-6">
                                 <table class="table table-sm">
                                     <tr>
-                                        <th>Započítaná suma / Set-off amount</th>
+                                        <th><t t-if="cz">Započtená částka</t><t t-else="">Započítaná suma</t> / Set-off amount</th>
                                         <th class="text-end">
                                             <span t-field="doc.netting_amount"/>
                                         </th>
@@ -124,7 +160,7 @@
                         <div class="row mt-5" t-if="doc.netting_mode == 'bilateral'">
                             <div class="col-6 text-center">
                                 ____________________________<br/>
-                                Za navrhovateľa / For the proposing party
+                                <t t-if="cz">Za navrhovatele</t><t t-else="">Za navrhovateľa</t> / For the proposing party
                             </div>
                             <div class="col-6 text-center">
                                 ____________________________<br/>
@@ -134,7 +170,7 @@
                         <div class="row mt-5" t-else="">
                             <div class="col-6 text-center">
                                 ____________________________<br/>
-                                Za navrhovateľa / For the proposing party
+                                <t t-if="cz">Za navrhovatele</t><t t-else="">Za navrhovateľa</t> / For the proposing party
                             </div>
                         </div>
                     </div>

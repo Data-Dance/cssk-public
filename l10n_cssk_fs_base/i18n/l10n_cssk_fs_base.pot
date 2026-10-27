@@ -264,6 +264,16 @@ msgid "Company"
 msgstr ""
 
 #. module: l10n_cssk_fs_base
+#. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
+msgid ""
+"Company '%(company)s' has neither a Tax ID (DIČ) nor a VAT number set, but "
+"the financial statements XML must carry the filer's tax identification. Set "
+"'Tax ID (DIČ)' or 'Tax ID' (VAT) on the company (Settings → Users & "
+"Companies → Companies → %(company)s) and export again."
+msgstr ""
+
+#. module: l10n_cssk_fs_base
 #: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__cssk_comparison_count
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
 msgid "Comparisons"
@@ -272,6 +282,13 @@ msgstr ""
 #. module: l10n_cssk_fs_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
 msgid "Compute"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid ""
+"Copy this filed statement into a new draft flagged Corrective, linked to "
+"this one. Correct the accounting, then recompute and file the copy."
 msgstr ""
 
 #. module: l10n_cssk_fs_base
@@ -289,6 +306,11 @@ msgstr ""
 #. module: l10n_cssk_fs_base
 #: model:ir.model.fields.selection,name:l10n_cssk_fs_base.selection__cssk_fs_statement__submission_type__opravna
 msgid "Corrective"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_fs_base.cssk_fs_statement_view_form
+msgid "Corrective statement"
 msgstr ""
 
 #. module: l10n_cssk_fs_base
@@ -486,15 +508,15 @@ msgstr ""
 
 #. module: l10n_cssk_fs_base
 #. odoo-python
+#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
 #: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
-msgid "Financial statements (balance sheet + income statement)"
+msgid "Financial statements"
 msgstr ""
 
 #. module: l10n_cssk_fs_base
 #. odoo-python
-#: code:addons/l10n_cssk_fs_base/models/account_move_line.py:0
 #: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
-msgid "Financial statements"
+msgid "Financial statements (balance sheet + income statement)"
 msgstr ""
 
 #. module: l10n_cssk_fs_base
@@ -1166,6 +1188,11 @@ msgid "Version"
 msgstr ""
 
 #. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__statement_kind
+msgid "Version Kind"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
 #. odoo-javascript
 #: code:addons/l10n_cssk_fs_base/static/src/fs_tree_field/fs_tree_field.xml:0
 msgid "View source documents"
@@ -1246,9 +1273,4 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
 msgid "recomputed"
-msgstr ""
-
-#. module: l10n_cssk_fs_base
-#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__statement_kind
-msgid "Version Kind"
 msgstr ""

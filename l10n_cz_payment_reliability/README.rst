@@ -16,10 +16,13 @@ Features
   ``adisrws.mfcr.cz/.../rozhraniCRPDPH.rozhraniCRPDPHSOAP``, operation
   ``getStatusNespolehlivyPlatce``.
 * Tax reliability mapping: ``nespolehlivyPlatce`` ANO → unreliable, NE →
-  reliable, NENALEZEN → unknown.
+  reliable, NENALEZEN → unknown. A NENALEZEN subject is not a VAT payer, so
+  its bank account is reported unavailable rather than unregistered.
 * Registered bank accounts: ``standardníÚčet`` (předčíslí/číslo/kódBanky) is
   converted to its IBAN so it matches the bank account on the bill;
-  ``nestandardníÚčet`` (already an IBAN) is taken as-is.
+  ``nestandardníÚčet`` (already an IBAN) is taken as-is. An account entered on
+  the bill in the domestic form (``19-2000145399/0800``) is converted the same
+  way before comparing.
 * Gracefully returns no result on network or parsing errors, leaving the
   supplier status unknown.
 

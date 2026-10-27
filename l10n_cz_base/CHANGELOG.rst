@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.0.3] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- The module description and README no longer claim it provides and computes
+  the payment symbols: those are owned by ``l10n_cssk_payment_symbols``, and
+  this module only keeps their old field names as aliases.
+
 [19.0.2.0.2] — 2026-09-13
 -------------------------
 

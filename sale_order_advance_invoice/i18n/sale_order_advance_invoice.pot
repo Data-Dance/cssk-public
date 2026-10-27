@@ -1169,3 +1169,21 @@ msgstr ""
 #: model:ir.module.module,shortdesc:base.module_sale_order_advance_invoice
 msgid "Sale Order Advance Invoice"
 msgstr ""
+
+#. module: sale_order_advance_invoice
+#. odoo-python
+#: code:addons/sale_order_advance_invoice/models/sale_order.py:0
+msgid "Advance %(name)s: payment %(payment)s to the clearing account"
+msgstr ""
+
+#. module: sale_order_advance_invoice
+#: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order__advance_clearing_transfer_ids
+msgid "Clearing Transfers"
+msgstr ""
+
+#. module: sale_order_advance_invoice
+#: model:ir.model.fields,help:sale_order_advance_invoice.field_sale_order__advance_clearing_transfer_ids
+msgid ""
+"Entries that moved payments attached with Link Manual Transfer from the "
+"receivable to the advance clearing account."
+msgstr ""

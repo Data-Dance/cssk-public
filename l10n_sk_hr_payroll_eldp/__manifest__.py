@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — ELDP (Evidenčný list dôchodkového poistenia)",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.1.0",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
     "summary": "Annual per-employee Slovak pension record (ELDP) filed to the "

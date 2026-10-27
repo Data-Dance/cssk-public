@@ -27,6 +27,9 @@ from odoo.addons.l10n_sk_hr_payroll_parity.parity import (
     DECLARATION_WAGE,
     ENGINE_OCA,
 )
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 
 
@@ -86,7 +89,7 @@ class TestDeclarationParity(TransactionCase):
             {
                 "name": "SK Declaration Parity Co",
                 "country_id": cls.env.ref("base.sk").id,
-                "company_registry": "12345678",
+                "company_registry": "12345679",
                 # The ELDP refuses to render without a korAdresa.
                 "street": "Hlavna 1",
                 "city": "Bratislava",
@@ -166,6 +169,7 @@ class TestDeclarationParity(TransactionCase):
         if cls.engine != ENGINE_OCA:
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         cls.employee, cls.slip = employee, slip
 
     def _module_installed(self, name):
@@ -302,6 +306,7 @@ class TestDeclarationParity(TransactionCase):
         if self.engine != ENGINE_OCA:
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         return employee
 
     def _generate_xml(self, model, create_vals):
@@ -389,6 +394,7 @@ class TestDeclarationParity(TransactionCase):
             if self.engine != ENGINE_OCA:
                 slip = slip.with_context(salary_simulation=True)
             slip.compute_sheet()
+            confirm_payslips(slip)
 
     def test_annual_declarations_report_the_shared_figures(self):
         """The ELDP and the Hlásenie, against twelve times a monthly constant.

@@ -44,6 +44,59 @@ Fixed
   endpoint, so a re-delivery of the same document is still recognised and
   acknowledged once.
 
+[19.0.1.6.0] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Peppol Transport moved here** from ``edi_epostak_peppol`` (*Settings →
+  EDI*, Peppol block), so it exists whichever transports are installed.
+  With several installed it must be set: none chosen routes every invoice to
+  **blocked** with the reason, instead of letting module load order decide.
+  An upgrade pins the transport of the last Peppol document sent, so a
+  database that was sending keeps sending.
+
+Fixed
+~~~~~
+
+- **Slovak mandate: a sole trader is a business.** § 85o ods. 3 covers every
+  taxable person established in Slovakia, VAT-registered or not; a contact
+  that is not a company and has no VAT number but has an IČO or DIČ was
+  treated as a consumer and got the PDF. A company without a VAT number is
+  not a VAT payer, so the mandate does not route its invoices.
+- **A delivered invoice is not sent again.** Once its Peppol message is
+  *Done* in production, sending again is refused (a correction is a credit
+  note). A document sent again goes through the transport and in the mode
+  (test or production) in force now; the message kept those of its first
+  attempt, so a document once tried in a sandbox could never reach
+  production.
+- **A failed automatic send is reported on the invoice**: a chatter line with
+  the errors and a *Peppol e-invoice not sent* activity. It was only in the
+  server log.
+- The Invoice Response lacked the mandatory
+  ``cac:PartyLegalEntity/cbc:RegistrationName`` of the sender and the
+  receiver (Peppol BIS Invoice Response 3, tir111-007/-009).
+
+Added
+~~~~~
+
+- Czech translation of the user interface (``i18n/cs.po``); the Slovak one is complete again.
+
+[19.0.1.5.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **An accountant without EDI Manager rights could not post an invoice routed
+  to Peppol while *Auto-send* was on**: posting stopped with an access error
+  on the EDI message. The *Send via Peppol* button and the *Peppol Response…*
+  wizard failed the same way for an *EDI User*. The EDI message is now recorded
+  on the user's behalf, after checking that the user may edit the invoice
+  itself (an EDI Manager: read it); nothing else about the invoice is done
+  with raised rights.
+
 [19.0.1.5.1] — 2026-10-01
 -------------------------
 

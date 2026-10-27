@@ -20,6 +20,10 @@ Changed
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.1.0 (2026-10-27), not yet on 18.0:** súpis opens in a form, print
+  and refresh buttons, seat on both printouts, the § 30 ods. 3 písm. d)
+  label.
+
 - DISCHARGED 2026-09-30 by 6f9cc41 on branch 18.0-catch-up (reaches 18.0
   when that branch lands) — do not port this again.
   **The rename (2026-09-30), not yet on 18.0.** 18.0 still ships
@@ -39,6 +43,42 @@ Carry-over to 20.0
   settlement and inventory verification modules). Rename every reference
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
+
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The items of a súpis could not be entered.** The súpisy were an
+  inline-editable list, so the súpis form holding its položky never opened.
+  Adding or clicking a súpis now opens it in its own window.
+- **The inventúrny súpis could not be printed.** *Tlačiť inventúrne súpisy*
+  at the top of the inventarizácia prints them.
+- **The seat was missing on both printouts.** The súpis and the zápis now
+  print the company's address next to its name (§ 30 ods. 2 písm. a) and
+  ods. 3 písm. a) zákona 431/2002).
+- The person on the zápis is *Zodpovedný za vykonanie inventarizácie*, as
+  § 30 ods. 3 písm. d) words it (was *Zápis vyhotovil*).
+
+Added
+~~~~~
+
+- **Načítať zostatok účtu** (in a súpis) and **Načítať účtovné stavy** (on the
+  inventarizácia) re-read the ledger for a dokladová inventúra, picking up
+  entries posted after the súpis was made. A fyzická inventúra's typed
+  účtovný stav is left alone.
+
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Field help cited the wrong letters of § 30 ods. 2.** Miesto uloženia
+  majetku is písm. d) (was f)), hmotne zodpovedná osoba písm. e) (was g)).
+  The day of the inventory is § 29 ods. 2 (was ods. 1) and the physical /
+  documentary inventory § 30 ods. 1 (was § 29 ods. 2).
 
 [19.0.1.0.1] — 2026-09-13
 -------------------------

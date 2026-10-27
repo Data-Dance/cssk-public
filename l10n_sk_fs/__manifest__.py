@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Financial Statements (Súvaha / VZS)",
-    "version": "19.0.1.7.0",
+    "version": "19.0.1.7.2",
     "summary": "Slovak balance sheet (Súvaha) on the shared "
                "l10n_cssk_fs_base framework — account-code line mapping + "
                "comparison period + XML export.",

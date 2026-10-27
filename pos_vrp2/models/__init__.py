@@ -1,3 +1,4 @@
+from . import vrp2_catalog_link
 from . import res_company
 from . import res_config_settings
 from . import pos_config

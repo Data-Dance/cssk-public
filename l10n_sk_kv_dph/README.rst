@@ -20,8 +20,11 @@ Features
   which the recipient is liable under § 69 ods. 2, 3, 6, 7, 9–12 — including
   self-assessed foreign services (§ 69 ods. 2 / § 15 ods. 1) and intra-EU goods
   acquisitions (§ 11) — carrying the **gross** self-assessed tax (base × rate).
-* B.3 simplified-invoice threshold split (B.3.1 below / B.3.2 above the period
-  limit) and the D.2 basic/reduced rate-band split.
+* B.3 simplified-invoice threshold split (B.3.1 below / B.3.2 at or above
+  3 000 € of DEDUCTED tax in the period, § 78a ods. 6) and the D.2
+  basic/reduced rate-band split.
+* D.1 (eKasa turnover) for the journals marked ``D.1`` in their
+  control-statement section; debit notes (ťarchopisy) in C.1 / C.2.
 * ``KVDPH`` XML export covering all sections, for direct upload to the FS portal.
 * Dodatočný (supplementary) control statement support via the shared retention /
   amendment mixin.

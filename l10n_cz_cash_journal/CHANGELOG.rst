@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.0.5] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Oddíl D items 1 (hmotný majetek) and 6 (ostatní majetek) always showed 0**,
+  on the screen and in the zápis. Items that combine several account groups are
+  now summed correctly; the fix is in ``l10n_cssk_cash_journal_base``
+  19.0.1.6.1, which this version needs.
+
 [19.0.1.0.4] — 2026-09-28
 -------------------------
 

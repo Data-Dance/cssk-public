@@ -24,11 +24,136 @@ Likewise the settlement / amendment line codes (r32 / r33 / r36) come from
 the version's ``own_tax_line_code`` / ``excess_line_code`` /
 ``diff_line_code``.
 """
-from odoo import models
+import re
+from datetime import date
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+
+#: A trailing house number: "Hlavná 12", "Mlynská 1234/5", "Nám. SNP 7A".
+_SK_STREET_RE = re.compile(r"^(?P<street>.*?\S),?\s+(?P<number>\d[\w]*(?:\s*/\s*\w+)?)\s*$")
+
+
+def sk_fs_address(partner):
+    """``(ulica, cislo)`` for the FS SR eForm header.
+
+    ``base_address_extended``'s split fields when they are filled, else the
+    trailing house number split off ``street``. A street that does not end in
+    a number goes out whole as ``ulica`` with ``cislo`` empty. **Never
+    Street 2**: it holds a building, a floor or a c/o line, and filing one of
+    those as the súpisné / orientačné číslo misstates the seat.
+    """
+    if "street_name" in partner._fields and partner.street_name:
+        number = (partner.street_number or "").strip()
+        number2 = (partner.street_number2 or "").strip()
+        if number and number2:
+            number = "%s/%s" % (number, number2)
+        return partner.street_name.strip(), number or number2
+    street = (partner.street or "").strip()
+    match = _SK_STREET_RE.match(street)
+    if match:
+        return match.group("street").strip(), match.group("number").replace(" ", "")
+    return street, ""
+
+
+#: Who files (tlačivo, 1. strana: "postavenie osoby, ktorá podáva daňové
+#: priznanie"), mapped to the six ``osoba`` flags of the XSD.
+SK_FILER_STATUS = [
+    ("platitel", "Platiteľ dane (§ 4)"),
+    ("registrovana", "Osoba registrovaná pre daň podľa § 7 alebo § 7a"),
+    ("inaPovinna", "Iná osoba povinná podať priznanie (§ 78 ods. 3, 4 a 9)"),
+    ("zdanitelna", "Zdaniteľná osoba podľa § 3 ods. 5 uplatňujúca odpočítanie dane"),
+    ("zastupca", "Daňový zástupca podľa § 69a"),
+    ("zastupca69aa", "Daňový zástupca podľa § 69aa"),
+]
+_SK_ZASTUPCA_69AA_FROM = date(2018, 1, 1)
 
 
 class CSSKVatReturn(models.Model):
     _inherit = "cssk.vat.return"
+
+    # --- hlavička of the SK DPH (filled on the export) -----------------------
+    l10n_sk_country_code = fields.Char(related="country_id.code")
+    l10n_sk_filer_status = fields.Selection(
+        SK_FILER_STATUS,
+        string="Postavenie osoby (SK)",
+        default="platitel",
+        help="Who files this return, as ticked on the first page of the "
+        "Slovak DPH form. A VAT payer under § 4 is the usual case; a person "
+        "registered under § 7 or § 7a (no right of deduction), a person "
+        "liable under § 78 ods. 3, 4 a 9, and the tax representatives file "
+        "on the same form with a different box ticked.",
+    )
+    l10n_sk_par79_conditions_met = fields.Boolean(
+        string="Splnenie podmienok § 79 ods. 2 (SK)",
+        help="§ 79 ods. 3: a VAT payer meeting the § 79 ods. 2 conditions "
+        "(monthly tax period, VAT payer for at least 12 calendar months, and "
+        "tax, customs and insurance arrears of at most 1 000 € over the last "
+        "6 months) marks it on the return for the excess deduction to be "
+        "refunded within 30 days. Odoo cannot check the arrears, so you "
+        "declare it. Exported only when the return shows an excess deduction.",
+    )
+    l10n_sk_authorized_name = fields.Char(
+        string="Oprávnená osoba — meno a priezvisko (SK)",
+        help="The person authorised to file on the filer's behalf (for "
+        "example a representative under § 9 daňového poriadku). Leave empty "
+        "when the filer files for itself.",
+    )
+    l10n_sk_authorized_phone = fields.Char(string="Oprávnená osoba — telefón (SK)")
+    l10n_sk_authorized_email = fields.Char(string="Oprávnená osoba — e-mail (SK)")
+    l10n_sk_declaration_date = fields.Date(
+        string="Dátum vyhlásenia (SK)",
+        help="Date of the declaration that the figures are correct and "
+        "complete. Left empty, the date of the XML export is used.",
+    )
+
+    @api.constrains("l10n_sk_par79_conditions_met", "period_type")
+    def _check_l10n_sk_par79(self):
+        for ret in self:
+            if ret.l10n_sk_par79_conditions_met and ret.period_type != "month":
+                # § 79 ods. 2 písm. a): "zdaňovacím obdobím platiteľa je
+                # kalendárny mesiac".
+                raise ValidationError(_(
+                    "The § 79 ods. 2 refund within 30 days is available only "
+                    "for a monthly tax period."))
+            if (ret.l10n_sk_par79_conditions_met
+                    and ret.l10n_sk_filer_status != "platitel"):
+                raise ValidationError(_(
+                    "Only a VAT payer can claim the § 79 ods. 2 refund "
+                    "within 30 days."))
+
+    @api.constrains("l10n_sk_filer_status", "date_from")
+    def _check_l10n_sk_filer_status(self):
+        for ret in self:
+            if (ret.l10n_sk_filer_status == "zastupca69aa" and ret.date_from
+                    and ret.date_from < _SK_ZASTUPCA_69AA_FROM):
+                raise ValidationError(_(
+                    "A tax representative under § 69aa files from "
+                    "1. 1. 2018; the form for an earlier period has no such "
+                    "box."))
+
+    def _cssk_render_context(self):
+        ctx = super()._cssk_render_context()
+        if self.country_id.code != "SK":
+            return ctx
+        ulica, cislo = sk_fs_address(self.company_id.partner_id)
+        excess_code = self.version_id.excess_line_code
+        excess = {line.code: line.value for line in self.line_ids}.get(
+            excess_code, 0.0) if excess_code else 0.0
+        declared = self.l10n_sk_declaration_date or fields.Date.context_today(self)
+        ctx.update({
+            "sk_ulica": ulica,
+            "sk_cislo": cislo,
+            "sk_osoba": {
+                key: "1" if self.l10n_sk_filer_status == key else "0"
+                for key, _label in SK_FILER_STATUS
+            },
+            "sk_splnenie_podmienok": (
+                "1" if self.l10n_sk_par79_conditions_met and excess > 0
+                else "0"),
+            "sk_datum_vyhlasenia": declared.strftime("%d.%m.%Y"),
+        })
+        return ctx
 
     def _kontroly_rules(self):
         rules = super()._kontroly_rules()

@@ -8,6 +8,25 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Translations.** "listed" / "listed since" on the deregistration check were
+  missing from the Slovak catalogue.
+
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The deregistration list was attributed to § 81 ods. 4 písm. b) ZDPH. It is
+  published under § 69 ods. 14 (ods. 15 until 31. 12. 2024) for the grounds
+  of § 81 ods. 3 písm. b) druhý bod.
+
 [19.0.1.1.0] — 2026-09-27
 -------------------------
 

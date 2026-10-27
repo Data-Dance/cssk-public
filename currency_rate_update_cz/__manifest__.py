@@ -18,7 +18,7 @@ Licensed AGPL-3 (derives from the AGPL ``currency_rate_update`` framework).
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.3.2",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "post_init_hook": "post_init_hook",

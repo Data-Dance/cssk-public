@@ -226,6 +226,53 @@ class TestFsEngine(AccountTestInvoicingCommon):
         st.action_export_xml()
         self.assertEqual(st.state, "exported")
 
+    def test_a_submitted_statement_offers_the_corrective_one(self):
+        """The opravná závierka was reachable only from l10n.sk.uzpod; every
+        statement form now carries the button, and it makes a linked draft
+        flagged Corrective."""
+        from lxml import etree
+        arch = self.env["cssk.fs.statement"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        button = etree.fromstring(arch).xpath(
+            "//button[@name='action_create_amendment']")
+        self.assertTrue(button, "the form has the corrective-statement button")
+        self.company.vat = "SK2023456787"
+        self._post_entry("2026-06-15", 1000.0)
+        st = self._make_statement()
+        st.action_compute_lines()
+        st.action_export_xml()
+        st.action_submit()
+        action = st.action_create_amendment()
+        amendment = st.browse(action["res_id"])
+        self.assertEqual(amendment.submission_type, "opravna")
+        self.assertEqual(amendment.original_return_id, st)
+
+    def test_class_7_is_not_an_unmapped_account(self):
+        """Třída / trieda 7 is závěrkové a podrozvahové: no statement row
+        takes it by definition, so naming it as unmapped only buries the
+        accounts that really are. A class-4 account no row claims still is
+        reported."""
+        def account(code, kind):
+            return self.env["account.account"].create({
+                "name": code, "code": code, "account_type": kind,
+                "company_ids": [(6, 0, [self.company.id])]})
+        off_a = account("751999", "off_balance")
+        off_b = account("799999", "off_balance")
+        loan = account("461999", "liability_current")
+        for debit, credit in ((off_a, off_b), (self.acc_asset, loan)):
+            self.env["account.move"].create({
+                "move_type": "entry", "journal_id": self.journal.id,
+                "date": "2026-03-01",
+                "line_ids": [
+                    (0, 0, {"account_id": debit.id, "debit": 500.0}),
+                    (0, 0, {"account_id": credit.id, "credit": 500.0}),
+                ]}).action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        codes = set(st.unmapped_line_ids.mapped("code"))
+        self.assertFalse({"751999", "799999"} & codes, codes)
+        self.assertIn("461999", codes)
+
     def test_export_runs_kontroly_hook(self):
         """Task-1 regression: the consolidated pipeline gives the FS the
         ``_cssk_check_kontroly`` stage (no-op until a country module uses

@@ -176,6 +176,32 @@
                                 </list>
                             </field>
                         </page>
+                        <!-- § 79 (SK) / § 105 (CZ): an excess deduction not
+                             refunded is carried into the next period. The
+                             fields and the button existed with no view, so
+                             the help pointed at a button nobody could
+                             press. -->
+                        <page string="Settlement" name="settlement"
+                              invisible="legacy">
+                            <group>
+                                <group>
+                                    <field name="prior_return_id"
+                                           readonly="state not in ('draft', 'preview')"/>
+                                    <field name="excess_carried_in"
+                                           readonly="state not in ('draft', 'preview')"/>
+                                    <button name="action_pull_prior_carry"
+                                            type="object"
+                                            string="Carry excess deduction"
+                                            class="btn-secondary" colspan="2"
+                                            invisible="state not in ('draft', 'preview')"/>
+                                </group>
+                                <group>
+                                    <field name="excess_carried_out"
+                                           readonly="state not in ('draft', 'preview')"/>
+                                    <field name="to_pay"/>
+                                </group>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <chatter/>

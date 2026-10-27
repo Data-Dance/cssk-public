@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Kontrolný výkaz DPH (KV DPH)",
-    "version": "19.0.2.3.0",
+    "version": "19.0.2.4.0",
     "summary": "Slovak VAT control statement (Kontrolný výkaz DPH) — sections "
                "A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared "
                "l10n_cssk_kv_kh_base framework.",
@@ -10,8 +10,10 @@ Slovakia — Kontrolný výkaz DPH (KV DPH)
 
 Concrete Slovak control statement on top of ``l10n_cssk_kv_kh_base``.
 
-* Sections **A.1, A.2, B.1, B.2, B.3.1, B.3.2, C.1, C.2, D.1, D.2** — note we
-  implement **D.1** (which Consystech and most vendors skip).
+* Sections **A.1, A.2, B.1, B.2, B.3.1, B.3.2, C.1, C.2, D.1, D.2**. D.1
+  (eKasa turnover) is reached through the journal's control-statement section
+  (set ``D.1`` on the journal of an eKasa register); debit notes go to
+  C.1 / C.2 with credit notes.
 * SK move-line section resolver (reverse-charge first).
 * FS SR ``KVDPH`` XML export (QWeb template + XSD slot on the version record).
 

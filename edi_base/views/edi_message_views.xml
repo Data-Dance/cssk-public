@@ -72,6 +72,8 @@
                     </group>
                     <group invisible="not error_message">
                         <field name="error_message" widget="text" readonly="1"/>
+                        <field name="send_attempt_count" invisible="not send_attempt_count"/>
+                        <field name="send_retry_after" invisible="not send_retry_after"/>
                     </group>
                     <notebook>
                         <page string="XML Content">

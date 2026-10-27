@@ -45,9 +45,16 @@
                             string="Reset to Draft"
                             invisible="state not in ('exported', 'submitted')"
                             confirm="Reset this filing to draft? The originally filed copy is kept."/>
+                    <!-- The statutory name of a later filing differs: SK
+                         dodatočný / opravný (§ 78a), CZ opravné / následné
+                         kontrolní hlášení (§ 101f ZDPH). -->
+                    <field name="country_code" invisible="1"/>
                     <button name="action_create_amendment" type="object"
                             string="Dodatočný / opravný"
-                            invisible="state != 'submitted'"/>
+                            invisible="state != 'submitted' or country_code == 'CZ'"/>
+                    <button name="action_create_amendment" type="object"
+                            string="Opravné / následné"
+                            invisible="state != 'submitted' or country_code != 'CZ'"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,preview,exported,submitted"/>
                     <field name="submission_state" widget="badge" optional="show"

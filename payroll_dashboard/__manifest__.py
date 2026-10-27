@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Payroll Dashboard (lightweight)",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.2.0",
     "category": "Human Resources/Payroll",
     "summary": "A lightweight graph + pivot dashboard of payroll headline "
     "figures (gross, net, employer cost, income tax) per period and employee, "
@@ -15,6 +15,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "security/payroll_kpi_security.xml",
         "views/payroll_kpi_views.xml",
         "views/payroll_dashboard_views.xml",
     ],

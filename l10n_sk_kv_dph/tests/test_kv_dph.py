@@ -192,6 +192,15 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
             "statement_type_id": self._sk_type("R").id,
         })
 
+    def test_a_period_the_version_does_not_allow_is_refused(self):
+        """``allow_monthly`` / ``allow_quarterly`` on the version used to be
+        stored and never read, so switching one off changed nothing."""
+        self.version.allow_monthly = False
+        with self.assertRaises(ValidationError):
+            self._make_statement()
+        self.version.allow_monthly = True
+        self._make_statement()
+
     def _sk_type(self, fa_xml_value):
         """The Slovak submission type by its XML value.
 
@@ -1389,6 +1398,32 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         self.assertGreaterEqual(b32.total_tax_amount, 3000.0)
         self.assertEqual(b32.row_count, 1)
 
+    def test_b3_threshold_is_on_deducted_not_charged_tax(self):
+        """§ 78a ods. 6: B.3.2 is required when the DEDUCTED tax from
+        simplified invoices reaches 3 000 €, not the tax charged.
+
+        4 000 € of VAT on receipts deducted at 50 % is 2 000 € deducted —
+        below the limit, so it stays one B.3.1 aggregate. Comparing the
+        charged tax listed it per supplier in B.3.2 instead."""
+        half = self._partial_tax(self.tax_purchase, 50, "B.3 50 %")
+        base = round(4000.0 * 100.0 / half.amount, 2)
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a,
+            invoice_date="2026-06-07", amounts=[base],
+            taxes=half, post=False,
+        )
+        bill.l10n_sk_kv_is_simplified = True
+        bill.action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertEqual(len(st.sk_section_b32_ids), 0,
+                         "2 000 € deducted is below the § 78a ods. 6 limit")
+        b31 = st.sk_section_b31_ids
+        self.assertEqual(len(b31), 1)
+        self.assertGreaterEqual(b31.total_tax_amount, 3000.0,
+                                "premise: the CHARGED tax is over the limit")
+        self.assertLess(b31.total_deducted_amount, 3000.0)
+
     def test_price_included_tax_amounts(self):
         """Price-INCLUDED tax: the posted base-line balance is already NET, so
         the KV row must carry the invoice's actual base/tax — the engine must
@@ -1865,6 +1900,96 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         credit = self._credit(cssk_control_original_ref="FV2026/0042")
         self.assertEqual(
             credit.line_ids.filtered("tax_ids")[:1].cssk_control_section_code, "C.1")
+
+    # --- D.1: eKasa turnover through the journal override -------------
+    def test_an_ekasa_journal_reports_in_d1(self):
+        """§ 78a ods. 8 písm. a): turnover recorded by an eKasa register is
+        D.1. The resolver cannot tell an eKasa sale from any other retail
+        sale, so the journal says so — and the setting is on the journal
+        form, where it used to be reachable from no view at all."""
+        ekasa = self.company_data["default_journal_sale"].copy({
+            "name": "eKasa", "code": "EKS",
+            "cssk_control_section_override": "D.1"})
+        person = self.env["res.partner"].create({"name": "Zákazník"})
+        inv = self.init_invoice(
+            "out_invoice", partner=person, invoice_date="2026-06-10",
+            amounts=[100.0], taxes=self.tax_sale, post=False)
+        inv.journal_id = ekasa
+        inv.action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        d1 = st.sk_section_d1_ids
+        self.assertEqual(len(d1), 1)
+        self.assertAlmostEqual(d1.total_tax_base, 100.0, 2)
+        self.assertFalse(st.sk_section_d2_ids, "not also in D.2")
+        st.action_export_xml()
+        arch = self.env["account.journal"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="cssk_control_section_override"', arch)
+
+        def form(model):
+            return self.env[model].get_views([(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="cssk_control_is_reverse_charge"', form("account.tax"))
+        move = form("account.move")
+        for name in ("cssk_vat_direction", "cssk_vat_correction",
+                     "cssk_control_partner_vat_override"):
+            self.assertIn('name="%s"' % name, move)
+
+    def test_a_section_row_can_be_overridden_from_the_form(self):
+        """Rows had an Override that survived a recompute, but every section
+        tab was read-only and did not show it."""
+        from lxml import etree as ET
+        arch = ET.fromstring(self.env["cssk.control.statement"].get_views(
+            [(False, "form")])["views"]["form"]["arch"])
+        for page in ("sk_a1", "sk_b2", "sk_b31", "sk_c1", "sk_d1"):
+            lst = arch.find(".//page[@name='%s']//list" % page)
+            self.assertEqual(lst.get("editable"), "bottom", page)
+            self.assertIsNotNone(
+                lst.find("field[@name='is_overridden']"), page)
+
+    # --- a debit note (ťarchopis) is a § 71 ods. 2 correction ---------
+    def _debit_note(self, move_type, partner, original, amount, taxes):
+        if "debit_origin_id" not in self.env["account.move"]._fields:
+            self.skipTest("account_debit_note is not installed")
+        note = self.init_invoice(
+            move_type, partner=partner, invoice_date="2026-06-20",
+            amounts=[amount], taxes=taxes, post=False)
+        note.write({"debit_origin_id": original.id, "ref": "TAR-1"})
+        note.action_post()
+        return note
+
+    def test_a_debit_note_is_reported_in_c1_and_c2(self):
+        """A ťarchopis raises the base under § 25 and is a faktúra podľa
+        § 71 ods. 2, so it belongs in C.1 / C.2 with a positive difference
+        and the corrected invoice as FO. It used to be filed in A.1 / B.2 as
+        a fresh supply."""
+        invoice = self.init_invoice(
+            "out_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_sale, post=True)
+        debit = self._debit_note(
+            "out_invoice", self.partner_a, invoice, 200.0, self.tax_sale)
+        self.assertEqual(
+            debit.line_ids.filtered("tax_ids")[:1].cssk_control_section_code, "C.1")
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=False)
+        bill.ref = "DF-2026-0001"
+        bill.action_post()
+        vdebit = self._debit_note(
+            "in_invoice", self.partner_a, bill, 100.0, self.tax_purchase)
+        self.assertEqual(
+            vdebit.line_ids.filtered("tax_ids")[:1].cssk_control_section_code, "C.2")
+
+        st = self._make_statement()
+        st.action_compute_lines()
+        c1 = st.sk_section_c1_ids
+        self.assertEqual(len(c1), 1)
+        self.assertAlmostEqual(c1.tax_base_amount, 200.0, 2,
+                               msg="a debit note raises the base: positive")
+        self.assertEqual(len(st.sk_section_a1_ids), 1, "only the invoice")
+        self.assertEqual(len(st.sk_section_c2_ids), 1)
+        self.assertEqual(len(st.sk_section_b2_ids), 1, "only the bill")
+        self.assertEqual(self._c1_fo(st), [invoice.name.replace(" ", "")])
 
     # --- C.2 original from the vendor credit note's Source Document ----
     def _vendor_credit(self, **vals):

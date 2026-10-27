@@ -38,11 +38,13 @@ msgstr ""
 
 #. module: l10n_sk_vrp2_account
 #: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__account_payment_register__vrp2_payment_type__card
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_fiscalize_wizard__payment_type__card
 msgid "Card"
 msgstr ""
 
 #. module: l10n_sk_vrp2_account
 #: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__account_payment_register__vrp2_payment_type__cash
+#: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_fiscalize_wizard__payment_type__cash
 msgid "Cash"
 msgstr ""
 
@@ -130,7 +132,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_vrp2_account
+#. odoo-python
 #: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_account_payment_register__vrp2_fiscalize
+#: code:addons/l10n_sk_vrp2_account/models/account_move.py:0
+#: model:ir.actions.server,name:l10n_sk_vrp2_account.action_vrp2_mass_fiscalize
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.view_move_form_vrp2
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_fiscalize_wizard_form
 msgid "Fiscalize in VRP2"
 msgstr ""
 
@@ -466,15 +473,6 @@ msgid "Vrp2 Receipt Count"
 msgstr ""
 
 #. module: l10n_sk_vrp2_account
-#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_company__vrp2_fiscalize_on_payment
-msgid ""
-"When enabled, the standard Register Payment wizard offers a 'Fiscalize in "
-"VRP2' option that issues a VRP2 fiscal receipt for the customer-invoice "
-"payment it creates (payment + receipt in one transaction; a VRP2 error rolls"
-" both back)."
-msgstr ""
-
-#. module: l10n_sk_vrp2_account
 #: model:ir.model.fields.selection,name:l10n_sk_vrp2_account.selection__vrp2_receipt__receipt_type__withdraw
 msgid "Withdrawal"
 msgstr ""
@@ -499,4 +497,107 @@ msgstr ""
 msgid ""
 "⚠ VRP2 fiscalization of this invoice's payment FAILED: %s\n"
 "The payment was registered; issue the fiscal receipt again from the invoice ('Fiscalize in VRP2')."
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_company__vrp2_fiscalize_on_payment
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_config_settings__vrp2_fiscalize_on_payment
+msgid ""
+"When enabled, the standard Register Payment wizard offers a 'Fiscalize in "
+"VRP2' option that issues a VRP2 fiscal receipt for the customer-invoice "
+"payment it creates. If VRP2 refuses the first receipt nothing is registered;"
+" once a receipt has been issued, a later failure keeps the payments and is "
+"noted on the invoice to be fiscalized again."
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_res_company__vrp2_cash_rounding_id
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_res_config_settings__vrp2_cash_rounding_id
+msgid "VRP2 cash rounding"
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_company__vrp2_cash_rounding_id
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_res_config_settings__vrp2_cash_rounding_id
+msgid ""
+"Where Register Payment books the 0.05 € rounding of a cash payment it "
+"fiscalizes: its profit account when the customer paid more than the invoice,"
+" its loss account when less."
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model,name:l10n_sk_vrp2_account.model_vrp2_fiscalize_wizard
+msgid "Fiscalize invoices in VRP2"
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_fiscalize_wizard__move_ids
+msgid "Invoices"
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,field_description:l10n_sk_vrp2_account.field_vrp2_fiscalize_wizard__payment_type
+msgid "Paid by"
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model:ir.model.fields,help:l10n_sk_vrp2_account.field_vrp2_fiscalize_wizard__payment_type
+msgid ""
+"How the customer paid. Cash is rounded to 0.05 € when the register rounds; a"
+" card payment never is."
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_fiscalize_wizard_form
+msgid "Fiscalize"
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_fiscalize_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vrp2_account.vrp2_fiscalize_wizard_form
+msgid ""
+"The receipt registers the invoice total. Register the\n"
+"                    payment itself in Odoo as usual."
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/wizard/vrp2_fiscalize_wizard.py:0
+msgid "Select the invoices to fiscalize."
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid "Cash rounding"
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid ""
+"A cash payment is rounded to 0.05 €. Pay %(amount)s in cash only together "
+"with the rest of the invoice, or enter an amount that is a multiple of 0.05 "
+"€."
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid ""
+"Invoice %(invoice)s is paid in cash, which is rounded to 0.05 €. Register "
+"its payment on its own so the rounding can be booked."
+msgstr ""
+
+#. module: l10n_sk_vrp2_account
+#. odoo-python
+#: code:addons/l10n_sk_vrp2_account/models/account_payment_register.py:0
+msgid ""
+"The 0.05 € rounding of this cash payment has nowhere to be booked. Set the "
+"VRP2 cash rounding, with its profit and loss accounts, in Accounting ▸ "
+"Settings ▸ VRP2."
 msgstr ""

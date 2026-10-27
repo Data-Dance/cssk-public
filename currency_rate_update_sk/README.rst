@@ -40,13 +40,14 @@ Notes & limitations
   fail until the host can pass the challenge (e.g. an IP allow-list with TB, or
   a headless-browser/proxy fetch). The provider code is correct and will work
   against the documented feed once it is reachable.
-* **Statutory caveat (needs accountant sign-off):** SK law values a
-  foreign-currency transaction at the ECB reference rate of the *preceding*
-  business day. Odoo's rate lookup returns the latest rate dated on-or-before
-  the transaction date, so when a same-day ECB rate exists it is used rather
-  than the prior day's. Aligning strictly with the "preceding day" rule would
-  require posting each ECB rate under the following day's date — not done here;
-  raise with the customer's accountant before enabling.
+* **Preceding-day rule.** SK law converts an accounting case at the reference
+  rate announced on the day *before* it (§ 24 ods. 2 písm. a) zákona 431/2002)
+  and a VAT base at the rate announced the day before the tax liability arises
+  (§ 26 ods. 1 zákona 222/2004). Rates stay stored under the day the ECB
+  announced them; for a company whose country or fiscal country is Slovakia,
+  invoices (taxable supply date, else invoice date), payments, bank-statement
+  lines and journal-entry lines look the rate up one day earlier. The
+  balance-sheet revaluation is not shifted (§ 24 ods. 2 písm. b)).
 
 License
 =======

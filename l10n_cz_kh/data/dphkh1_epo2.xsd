@@ -173,7 +173,7 @@ Pro popis číselníku Pracoviště FÚ klikněte &lt;a href="https://mojedane.g
                   </xs:attribute>
                   <xs:attribute name="dic" use="required">
                     <xs:annotation>
-                      <xs:documentation>Kmenová část daňového identifikačního čísla (pouze číselná část).
+                      <xs:documentation>Kmenová část daňového identifikačního čísla (pouze číselná část). U daňového subjektu typu fyzická osoba musí být kmenová část DIČ tvořena RČ nebo vlastním číslem plátce. U daňového subjektu typu právnická osoba musí být kmenová část DIČ tvořena IČ nebo vlastním číslem plátce.
 					</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
@@ -492,7 +492,7 @@ Pro popis číselníku Země klikněte &lt;a href="https://mojedane.gov.cz/pmd/d
                   </xs:attribute>
                   <xs:attribute name="dic_odb" use="required">
                     <xs:annotation>
-                      <xs:documentation>(kmenová část bez mezer, pouze číselná část), povinný. Nesmí být uvedeno vlastní DIČ.</xs:documentation>
+                      <xs:documentation>(kmenová část bez mezer, pouze číselná část), povinný. Nesmí být uvedeno vlastní DIČ. U daňového subjektu typu fyzická osoba musí být kmenová část DIČ tvořena RČ nebo vlastním číslem plátce. U daňového subjektu typu právnická osoba musí být kmenová část DIČ tvořena IČ nebo vlastním číslem plátce.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                       <xs:restriction base="xs:string">
@@ -885,7 +885,7 @@ prvních deset znaků jsou číslice nebo velká písmena nebo "+" nebo "*", pos
                   </xs:attribute>
                   <xs:attribute name="dic_odb" use="required">
                     <xs:annotation>
-                      <xs:documentation>(kmenová část bez mezer, pouze číselná část), povinný. Nesmí být uvedeno vlastní DIČ.</xs:documentation>
+                      <xs:documentation>(kmenová část bez mezer, pouze číselná část), povinný. Nesmí být uvedeno vlastní DIČ. U daňového subjektu typu fyzická osoba musí být kmenová část DIČ tvořena RČ nebo vlastním číslem plátce. U daňového subjektu typu právnická osoba musí být kmenová část DIČ tvořena IČ nebo vlastním číslem plátce.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                       <xs:restriction base="xs:string">
@@ -1098,7 +1098,7 @@ prvních deset znaků jsou číslice nebo velká písmena nebo "+" nebo "*", pos
                   <xs:attribute name="dic_dod" use="required">
                     <xs:annotation>
                       <xs:documentation>Vyplňte kmenovou část daňového identifikačního čísla dodavatele (pouze číselná část). Vyplnění tohoto údaje je pro další zpracování nezbytné. 
-Nesmí být uvedeno DIČ subjektu, za který je KH podáváno.</xs:documentation>
+Nesmí být uvedeno DIČ subjektu, za který je KH podáváno. U daňového subjektu typu fyzická osoba musí být kmenová část DIČ tvořena RČ nebo vlastním číslem plátce. U daňového subjektu typu právnická osoba musí být kmenová část DIČ tvořena IČ nebo vlastním číslem plátce.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                       <xs:restriction base="xs:string">
@@ -1224,7 +1224,7 @@ Pro popis číselníku Kód předmětů plnění klikněte &lt;a href="https://m
                   <xs:attribute name="dic_dod" use="required">
                     <xs:annotation>
                       <xs:documentation>Vyplňte kmenovou část daňového identifikačního čísla dodavatele (pouze číselná část). Vyplnění tohoto údaje je pro další zpracování nezbytné. 
-Nesmí být uvedeno DIČ subjektu, za který je KH podáváno.</xs:documentation>
+Nesmí být uvedeno DIČ subjektu, za který je KH podáváno. U daňového subjektu typu fyzická osoba musí být kmenová část DIČ tvořena RČ nebo vlastním číslem plátce. U daňového subjektu typu právnická osoba musí být kmenová část DIČ tvořena IČ nebo vlastním číslem plátce.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                       <xs:restriction base="xs:string">

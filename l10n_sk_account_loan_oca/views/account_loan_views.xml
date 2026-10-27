@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="account_loan_form" model="ir.ui.view">
+        <field name="name">account.loan.form (l10n_sk_account_loan_oca)</field>
+        <field name="model">account.loan</field>
+        <field name="inherit_id" ref="account_leasing.account_loan_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@id='leasing']" position="inside">
+                <field name="l10n_sk_is_sk_company" invisible="1"/>
+                <group string="Slovak tax treatment"
+                       name="l10n_sk_lease"
+                       invisible="not l10n_sk_is_sk_company">
+                    <group>
+                        <field name="l10n_sk_vat_treatment"
+                               required="l10n_sk_is_sk_company and loan_type == 'leasing'"/>
+                    </group>
+                    <group>
+                        <field name="l10n_sk_depreciation_group"/>
+                        <field name="l10n_sk_lease_months"/>
+                    </group>
+                </group>
+                <div class="alert alert-warning" role="alert"
+                     invisible="not l10n_sk_is_sk_company or not l10n_sk_lease_term_warning">
+                    <field name="l10n_sk_lease_term_warning"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

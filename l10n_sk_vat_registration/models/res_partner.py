@@ -20,8 +20,11 @@ import re
 from odoo import api, fields, models
 
 # Registrations that make the holder a platiteľ dane. § 7 and § 7a deliberately
-# are not among them — that is the entire point of the field.
-FULL_PAYER_CATEGORIES = ("4", "4b", "5", "6")
+# are not among them — that is the entire point of the field. "6" is the
+# distance-selling registration of § 6 as worded until 30. 6. 2021 (its holders
+# were platitelia); the § 6 in force today is the bank-account notification
+# duty and registers nobody.
+FULL_PAYER_CATEGORIES = ("4", "4b", "4c", "5", "6")
 
 
 class ResPartner(models.Model):
@@ -31,8 +34,9 @@ class ResPartner(models.Model):
         selection=[
             ("4", "§ 4 — platiteľ dane"),
             ("4b", "§ 4b — skupinová registrácia"),
+            ("4c", "§ 4c — registrácia skupiny z úradnej moci"),
             ("5", "§ 5 — zahraničná osoba"),
-            ("6", "§ 6 — zásielkový predaj"),
+            ("6", "§ 6 — zásielkový predaj (do 30. 6. 2021)"),
             ("7", "§ 7 — nadobudnutie tovaru z EÚ (nie platiteľ)"),
             ("7a", "§ 7a — dodanie/prijatie služby (nie platiteľ)"),
         ],
@@ -50,8 +54,9 @@ class ResPartner(models.Model):
         string="Platiteľ dane",
         compute="_compute_l10n_sk_is_full_vat_payer",
         store=True,
-        help="True for a registration under § 4 / § 4b / § 5 / § 6. False for "
-        "§ 7 and § 7a, and unset when the category is unknown.",
+        help="True for a registration under § 4 / § 4b / § 4c / § 5, or under "
+        "§ 6 as worded until 30. 6. 2021. False for § 7 and § 7a, and unset "
+        "when the category is unknown.",
     )
 
     @api.depends("l10n_sk_vat_registration_category")

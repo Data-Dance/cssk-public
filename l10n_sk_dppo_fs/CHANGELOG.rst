@@ -8,6 +8,15 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.3] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- README: the menu path to the účtovná závierka is *Statutory Reports ▸
+  Balance sheet*.
+
 [19.0.1.1.2] — 2026-09-13
 -------------------------
 

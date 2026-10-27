@@ -138,7 +138,7 @@ Pro popis číselníku Pracoviště FÚ klikněte &lt;a href="https://mojedane.g
                   </xs:attribute>
                   <xs:attribute name="dic" use="required">
                     <xs:annotation>
-                      <xs:documentation>Kmenová část daňového identifikačního čísla (pouze číselná část), pokud bylo daňovému subjektu přiděleno.</xs:documentation>
+                      <xs:documentation>Kmenová část daňového identifikačního čísla (pouze číselná část), pokud bylo daňovému subjektu přiděleno. U daňového subjektu typu fyzická osoba musí být kmenová část DIČ tvořena RČ nebo vlastním číslem plátce. U daňového subjektu typu právnická osoba musí být kmenová část DIČ tvořena IČ nebo vlastním číslem plátce.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                       <xs:restriction base="xs:string">

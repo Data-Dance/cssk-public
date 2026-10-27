@@ -44,9 +44,22 @@ class AccountAssetTaxMixin(models.AbstractModel):
         [("0", "None"), ("10", "+10 %"), ("15", "+15 %"), ("20", "+20 %")],
         string="Increased First-Year Rate",
         default="0",
-        help="CZ §31(1)(b)/(c)/(d): a first depreciator of a group 1–3 asset may "
-        "elect a higher first-year straight-line rate (+10/15/20 %). CZ + "
-        "straight-line + groups 1–3 only.",
+        help="Czech Republic only, groups 1–3, and only for the FIRST "
+        "depreciator (§ 31 odst. 6: the first to acquire the asset new and "
+        "unused, or who built it). Straight-line uses the § 31 odst. 1 "
+        "písm. b)–d) tables; accelerated adds the percentage of the entry "
+        "price to the first-year charge (§ 32 odst. 2 písm. a)).\n"
+        "+10 %: any group 1–3 asset (§ 31 odst. 4).\n"
+        "+15 %: only water-treatment equipment CZ-CPA 28.29.12 used in "
+        "buildings CZ-CC 125113, and sorting and processing equipment for "
+        "secondary raw materials (§ 31 odst. 3).\n"
+        "+20 %: only agricultural and forestry machines CZ-CPA 28.3 of a "
+        "taxpayer with mainly agricultural and forestry production "
+        "(§ 31 odst. 2).\n"
+        "Never for aircraft, motorcycles and passenger cars outside the "
+        "licensed uses, household appliances (CZ-CPA 27.5) or recreational "
+        "boats (CZ-CPA 30.12) — § 31 odst. 5. Odoo cannot see these "
+        "conditions; the choice is yours to justify.",
     )
     tax_method_locked = fields.Boolean(
         string="Tax Method Locked",
@@ -69,9 +82,25 @@ class AccountAssetTaxMixin(models.AbstractModel):
     )
     tax_vehicle_capped = fields.Boolean(
         string="Apply Vehicle Depreciation Cap",
-        help="Passenger vehicle subject to the statutory depreciation cap "
-        "(CZ §30e 2M CZK / SK §17(34) 48k EUR). The tax board is then computed on "
-        "the company's capped base instead of the full entry value.",
+        help="Passenger vehicle subject to the statutory vehicle limit set on "
+        "the company. CZ §30e (2 000 000 CZK, category M1): only the share "
+        "limit / entry price of each depreciation is deductible, so the tax "
+        "board is computed on the limit. SK §17(34) (48 000 EUR): the car is "
+        "depreciated in full and the board shows, per year, the excess over "
+        "straight-line depreciation of 48 000 EUR — the amount added back to "
+        "the tax base only when that base is lower than the statutory "
+        "threshold.",
+    )
+    tax_sk_disposal_months = fields.Boolean(
+        string="Depreciate Whole Months in Disposal Year",
+        help="Slovakia, §22(12): keep the depreciation for the whole months "
+        "the asset was recorded in the year it is disposed of. Mandatory for "
+        "assets depreciated under §26(6) and (7); optional (from 2016) for "
+        "assets whose residual value is deductible only up to the sale "
+        "proceeds under §19(3)(b) first point — passenger cars, boats, "
+        "aircraft, motorcycles, bicycles, group-6 buildings sold. Every other "
+        "asset gets no tax depreciation in the year of disposal (§22(11)); its "
+        "residual value is expensed instead.",
     )
     tax_in_service_date_override = fields.Date(
         string="Tax In-Service Date",
@@ -136,14 +165,22 @@ class AccountAssetTaxMixin(models.AbstractModel):
         """
         self.ensure_one()
         book = self._cssk_book_depreciation_by_year()
-        tax_lines = {line.fiscal_year: line for line in self.tax_line_ids}
+        # a §30a board has several (monthly) lines per year: sum the charge,
+        # take the residual from the year's last line
+        tax_amounts = {}
+        tax_lines = {}
+        for line in self.tax_line_ids.sorted(
+                lambda l: (l.date_from, l.year_index, l.id)):
+            tax_amounts[line.fiscal_year] = (
+                tax_amounts.get(line.fiscal_year, 0.0) + line.amount)
+            tax_lines[line.fiscal_year] = line
         rows = []
         cumulative = 0.0
         for year in sorted(set(book) | set(tax_lines)):
             b = book.get(year) or {}
             tl = tax_lines.get(year)
             book_amt = b.get("amount", 0.0)
-            tax_amt = tl.amount if tl else 0.0
+            tax_amt = tax_amounts.get(year, 0.0)
             cumulative += book_amt - tax_amt
             rows.append({
                 "year": year,
@@ -254,12 +291,14 @@ class AccountAssetTaxMixin(models.AbstractModel):
             if not asset.tax_depreciation_enabled or asset.tax_increased_first_year in (False, "0"):
                 continue
             ok = (asset._tax_get_country_code() == eng.CZ
-                  and asset.tax_method == eng.METHOD_LINEAR
+                  and asset.tax_method in (eng.METHOD_LINEAR,
+                                           eng.METHOD_ACCELERATED)
                   and asset.tax_class_id.group_number in (1, 2, 3))
             if not ok:
                 raise ValidationError(_(
-                    "The increased first-year rate (§31) applies only to Czech "
-                    "straight-line depreciation of groups 1–3."))
+                    "The increased first-year depreciation (§ 31 odst. 1 "
+                    "písm. b)–d), § 32 odst. 2 písm. a)) applies only to Czech "
+                    "straight-line or accelerated depreciation of groups 1–3."))
 
     @api.constrains("tax_method", "tax_class_id")
     def _check_tax_method_allowed(self):
@@ -295,8 +334,16 @@ class AccountAssetTaxMixin(models.AbstractModel):
             tax_class=self.tax_class_id.to_engine(),
             monthly=(self.tax_method == eng.METHOD_EXTRAORDINARY),
             increased_first_year=int(self.tax_increased_first_year or "0"),
-            entry_cap=(self.company_id.tax_vehicle_cap_amount or 0.0) if self.tax_vehicle_capped else 0.0,
+            entry_cap=self._tax_vehicle_cap(),
+            sk_disposal_months=bool(self.tax_sk_disposal_months),
         )
+
+    def _tax_vehicle_cap(self):
+        """The company's vehicle limit when the asset is flagged, else 0."""
+        self.ensure_one()
+        if not self.tax_vehicle_capped:
+            return 0.0
+        return self.company_id.tax_vehicle_cap_amount or 0.0
 
     def _tax_year_index_for_date(self, schedule, dt):
         """Return the schedule year_index whose fiscal year contains ``dt``."""
@@ -351,6 +398,10 @@ class AccountAssetTaxMixin(models.AbstractModel):
             filed = asset.tax_line_ids.filtered("posted")
             schedule = eng.compute_schedule(asset._tax_engine_spec())
             schedule, _residual = asset._tax_fold_events(schedule)
+            # SK § 17 ods. 34: potential add-back per line (0 outside SK);
+            # a fresh spec, since compute_schedule() rewrites a CZ capped one
+            addbacks = eng.sk_vehicle_addbacks(
+                schedule, asset._tax_engine_spec(), asset._tax_vehicle_cap())
             ccy = asset.company_id.currency_id
             # Freeze integrity: the engine must still reproduce every FILED
             # year. A divergence means an asset parameter or event contradicts
@@ -375,7 +426,7 @@ class AccountAssetTaxMixin(models.AbstractModel):
             (asset.tax_line_ids - filed).unlink()
             filed_years = set(filed.mapped("year_index"))
             vals = []
-            for line in schedule:
+            for line, addback in zip(schedule, addbacks):
                 if line.year_index in filed_years:
                     continue
                 vals.append({
@@ -389,6 +440,7 @@ class AccountAssetTaxMixin(models.AbstractModel):
                     "amount_cumulative": ccy.round(line.cumulative),
                     "residual": ccy.round(line.residual),
                     "note": line.note,
+                    "vehicle_addback": ccy.round(addback),
                 })
             if vals:
                 TaxLine.create(vals)

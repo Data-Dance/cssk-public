@@ -37,6 +37,47 @@ Carry-over to 20.0:
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Příloha č. 1 — Počet zaměstnanců (VetaB).** Filed with every annual tax
+  settlement (§ 38j odst. 1 ZDP) and missing until now: the employees on the
+  payroll on 1 December, counted per municipality (ZÚJ) of their place of
+  work. The place is the employee's work address; agreement workers (DPP /
+  DPČ) and employees without a work address count at the employer's seat.
+  Set *Municipality code (ZÚJ)* on the company and on every work address;
+  generation stops and names the addresses that lack one.
+- The company form shows the tax-office code, the filing subject type and the
+  ZÚJ (tab *Payroll Reporting*).
+
+Fixed
+~~~~~
+
+- Draft payslips are no longer counted, and a payslip is placed in the month
+  it ends in, so a payslip crossing New Year lands in the right year.
+
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The tax advances were reported before tax credits.** Part I columns 1 and
+  2 and Part II row 1 took the payslip's tax before the basic taxpayer credit
+  and the child tax benefit, overstating the tax for everyone with a signed
+  declaration. They now report the advance after the monthly credits, as the
+  form's instructions require.
+- **Child tax bonuses were missing.** Part I column 5 (monthly bonuses paid)
+  and Part II row 4 (their total) are now filled from the payslips.
+- **Employee counts per month** now count the employees on the payroll on the
+  last day of the month, as the form asks, instead of everyone who had a
+  payslip in the month.
+- The record's period is now the whole calendar year (1 January to
+  31 December) whatever month it was created in.
+
 19.0.1.0.1 (2026-07-06)
 -----------------------
 

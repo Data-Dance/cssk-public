@@ -1,0 +1,796 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_submission_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:14+0000\n"
+"PO-Revision-Date: 2026-10-27 19:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(filing)s was exported again after this submission was queued, so the "
+"queued XML is no longer the filing. Queue the submission anew to send the "
+"current export."
+msgstr ""
+"%(filing)s bolo po zaradení tohto doručenia do frontu znova exportované, "
+"takže XML vo fronte už nie je podaním. Zaraďte doručenie do frontu znova, "
+"aby sa odoslal aktuálny export."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(filing)s was reset to draft after this submission was queued. Export it "
+"again and queue the submission anew."
+msgstr ""
+"%(filing)s bolo po zaradení tohto doručenia do frontu vrátené do konceptu. "
+"Znova ho exportujte a doručenie zaraďte do frontu znova."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(name)s has already reached the authority and cannot be cancelled. File a "
+"correction instead."
+msgstr ""
+"%(name)s sa už dostalo k úradu a nedá sa zrušiť. Podajte namiesto toho "
+"opravu."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submittable_mixin.py:0
+msgid "%(name)s has no XML to file."
+msgstr "%(name)s nemá XML na podanie."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(name)s has no filed payload. Export and submit the statement first — a "
+"submission carries the statement's filed copy, it does not produce one."
+msgstr ""
+"%(name)s nemá podávaný súbor. Najprv výkaz exportujte a označte ako podaný —"
+" doručenie nesie podanú kópiu výkazu, samo ju nevytvára."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "%(name)s is %(state)s and cannot be queued."
+msgstr "%(name)s je v stave %(state)s a nedá sa zaradiť do frontu."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "%(name)s is already attested."
+msgstr "%(name)s je už potvrdené."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "%(name)s is not a manual filing."
+msgstr "%(name)s nie je ručné podanie."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"%(name)s is not a manual filing; its channel records acceptance itself."
+msgstr "%(name)s nie je ručné podanie; prijatie zaznamenáva jeho kanál sám."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submittable_mixin.py:0
+msgid ""
+"%(name)s is not exported yet. A submission carries the filed copy, so export"
+" and submit it first."
+msgstr ""
+"%(name)s ešte nie je exportované. Doručenie nesie podanú kópiu, preto ho "
+"najprv exportujte a označte ako podané."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"A filing on the authority's portal is made by a person, not by this server. "
+"Use 'Attest filing' once it has been submitted."
+msgstr ""
+"Podanie na portáli úradu robí človek, nie tento server. Po podaní použite "
+"„Potvrdiť podanie“."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.constraint,message:l10n_cssk_submission_base.constraint_cssk_submission_check_res
+msgid "A submission must point at a statement."
+msgstr "Doručenie musí odkazovať na výkaz."
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.actions.act_window,help:l10n_cssk_submission_base.cssk_submission_action
+msgid ""
+"A submission records how a statutory filing reached the\n"
+"                authority and what came back. Create one from the filing\n"
+"                itself once it has been exported."
+msgstr ""
+"Doručenie zaznamenáva, ako sa zákonné podanie dostalo\n"
+"                k úradu a čo sa vrátilo. Vytvorte ho priamo z podania,\n"
+"                keď je exportované."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Acceptance by the authority attested by %(user)s."
+msgstr "Prijatie úradom potvrdil(a) %(user)s."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__accepted
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Accepted"
+msgstr "Prijaté"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__accepted_date
+msgid "Accepted Date"
+msgstr "Dátum prijatia"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Accepted by the authority."
+msgstr "Prijaté úradom."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_needaction
+msgid "Action Needed"
+msgstr "Potrebná akcia"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Výnimka aktivity"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"Attach the authority's confirmation (potvrdenie / doručenka / potvrzení) "
+"under Receipts first: it is the evidence that %(name)s was accepted."
+msgstr ""
+"Najprv priložte potvrdenie úradu (potvrdenie / doručenka) v záložke "
+"Potvrdenia: je dôkazom, že %(name)s bolo prijaté."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Attempt %(n)s failed, retrying in %(delay)s min: %(err)s"
+msgstr "Pokus %(n)s zlyhal, opakovanie o %(delay)s min: %(err)s"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__attempt_count
+msgid "Attempt Count"
+msgstr "Počet pokusov"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Attest acceptance"
+msgstr "Potvrdiť prijatie"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Attest filing"
+msgstr "Potvrdiť podanie"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Attest the filing on %(name)s before its acceptance."
+msgstr "Pred potvrdením prijatia potvrďte podanie na %(name)s."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Attested as filed on the authority's portal by %(user)s."
+msgstr "Podanie na portáli úradu potvrdil(a) %(user)s."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__evidence_user_id
+msgid "Attested by"
+msgstr "Potvrdil"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Authority"
+msgstr "Úrad"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Authority portal — filed by hand"
+msgstr "Portál úradu — podané ručne"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__external_ref
+msgid "Authority reference"
+msgstr "Číslo podania úradu"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__cancelled
+msgid "Cancelled"
+msgstr "Zrušené"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Cancelled."
+msgstr "Zrušené."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__channel
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Channel"
+msgstr "Kanál"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Channel %(channel)s has no sender installed."
+msgstr "Kanál %(channel)s nemá nainštalovaný odosielač."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submittable_mixin.py:0
+msgid "Channel %(channel)s is not available for this filing."
+msgstr "Kanál %(channel)s nie je pre toto podanie dostupný."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__correlation_id
+msgid "Correlation"
+msgstr "Párovací kľúč"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Could not mark %(filing)s submitted; do it on the filing."
+msgstr ""
+"%(filing)s sa nepodarilo označiť ako podané; urobte to priamo na podaní."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__create_date
+msgid "Created on"
+msgstr "Vytvorené"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__active_submission_id
+msgid "Current submission"
+msgstr "Aktuálne doručenie"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__delivered
+msgid "Delivered"
+msgstr "Doručené"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__delivered_date
+msgid "Delivered Date"
+msgstr "Dátum doručenia"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Delivered to the channel."
+msgstr "Doručené kanálu."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__submission_state
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Delivery"
+msgstr "Doručenie"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__draft
+msgid "Draft"
+msgstr "Koncept"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__failed
+msgid "Failed"
+msgstr "Zlyhalo"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Failed: %(err)s"
+msgstr "Zlyhalo: %(err)s"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submittable_mixin.py:0
+msgid "File %(name)s"
+msgstr "Podať %(name)s"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__payload_attachment_id
+msgid "Filed payload"
+msgstr "Podávaný súbor"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__statement_display
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_list
+msgid "Filing"
+msgstr "Podanie"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Filing %(name)s could not be sent: %(err)s"
+msgstr "Podanie %(name)s sa nepodarilo odoslať: %(err)s"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Filing type"
+msgstr "Typ podania"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_follower_ids
+msgid "Followers"
+msgstr "Sledovatelia"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledovatelia (partneri)"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, napr. fa-tasks"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Giving up after %(n)s attempts. Last error: %(err)s"
+msgstr "Vzdávam to po %(n)s pokusoch. Posledná chyba: %(err)s"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__id
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označujúca výnimku aktivity."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je začiarknuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je začiarknuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledovateľ"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__correlation_id
+msgid "Key the authority's later receipt is matched on."
+msgstr "Kľúč, podľa ktorého sa páruje neskoršie potvrdenie úradu."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__last_error
+msgid "Last Error"
+msgstr "Posledná chyba"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_id
+msgid "Message"
+msgstr "Správa"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mojej aktivity"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Needs attention"
+msgstr "Vyžaduje pozornosť"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "New"
+msgstr "Nové"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín ďalšej aktivity"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_summary
+msgid "Next Activity Summary"
+msgstr "Zhrnutie ďalšej aktivity"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ ďalšej aktivity"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__next_retry
+msgid "Next Retry"
+msgstr "Ďalší pokus"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.actions.act_window,help:l10n_cssk_submission_base.cssk_submission_action
+msgid "No submissions yet"
+msgstr "Zatiaľ žiadne doručenia"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Not yet accepted"
+msgstr "Zatiaľ neprijaté"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__message_id
+msgid "Our identifier for this message, as sent to the channel."
+msgstr "Náš identifikátor tejto správy, ako bol odoslaný kanálu."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__external_ref
+msgid "Podacie číslo / message reference assigned by the authority."
+msgstr "Podacie číslo / identifikátor správy pridelený úradom."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__receipt_attachment_ids
+msgid ""
+"Potvrdenky and doručenky. These are the proof the filing was made and "
+"accepted, so they are kept here rather than left with the channel provider."
+msgstr ""
+"Potvrdenky a doručenky. Sú dôkazom, že podanie bolo urobené a prijaté, preto"
+" sa uchovávajú tu, a nie u poskytovateľa kanála."
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Queue"
+msgstr "Zaradiť do frontu"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__queued
+msgid "Queued"
+msgstr "Vo fronte"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Queued for %(channel)s."
+msgstr "Zaradené do frontu pre %(channel)s."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__receipt_attachment_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Receipts"
+msgstr "Potvrdenia"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid ""
+"Record that the authority accepted this filing. Attach its confirmation "
+"under Receipts first."
+msgstr ""
+"Zaznamenať, že úrad toto podanie prijal. Najprv priložte jeho potvrdenie v "
+"záložke Potvrdenia."
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid ""
+"Record that this was filed by hand on the authority's portal, and by whom."
+msgstr "Zaznamenať, že toto bolo podané ručne na portáli úradu, a kým."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__rejected
+msgid "Rejected"
+msgstr "Zamietnuté"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný používateľ"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__sealed_attachment_id
+msgid "Sealed payload"
+msgstr "Podpísaný súbor"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Send now"
+msgstr "Odoslať teraz"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields.selection,name:l10n_cssk_submission_base.selection__cssk_submission__state__sending
+msgid "Sending"
+msgstr "Odosiela sa"
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"Sending was aborted; the outcome is unknown (%(error)s). The filing may have"
+" reached the authority: check its portal before sending it again."
+msgstr ""
+"Odosielanie bolo prerušené; výsledok nie je známy (%(error)s). Podanie sa "
+"mohlo dostať k úradu: pred ďalším odoslaním to overte na jeho portáli."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__sent_date
+msgid "Sent Date"
+msgstr "Dátum odoslania"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__sealed_attachment_id
+msgid "Signed/sealed container (ASiC-E), where the channel requires one."
+msgstr "Podpísaný/zapečatený kontajner (ASiC-E), ak ho kanál vyžaduje."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__res_id
+msgid "Statement"
+msgstr "Výkaz"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__res_model
+msgid "Statement model"
+msgstr "Model výkazu"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model,name:l10n_cssk_submission_base.model_cssk_submittable_mixin
+msgid "Statement that can be filed through a channel"
+msgstr "Výkaz, ktorý možno podať cez kanál"
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Status"
+msgstr "Stav"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav podľa aktivít\n"
+"Po termíne: termín už uplynul\n"
+"Dnes: aktivita je dnes\n"
+"Naplánované: budúce aktivity."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model,name:l10n_cssk_submission_base.model_cssk_submission
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid "Statutory Submission"
+msgstr "Doručenie štatutárneho podania"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.actions.act_window,name:l10n_cssk_submission_base.cssk_submission_action
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_list
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_search
+msgid "Statutory Submissions"
+msgstr "Doručenia štatutárnych podaní"
+
+#. module: l10n_cssk_submission_base
+#: model:res.groups,name:l10n_cssk_submission_base.group_cssk_submission_manager
+msgid "Statutory submissions: file"
+msgstr "Štatutárne podania: podávať"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.actions.server,name:l10n_cssk_submission_base.cron_cssk_submission_poll_ir_actions_server
+msgid "Statutory submissions: poll for acceptance"
+msgstr "Štatutárne podania: zisťovať prijatie"
+
+#. module: l10n_cssk_submission_base
+#: model:res.groups,name:l10n_cssk_submission_base.group_cssk_submission_user
+msgid "Statutory submissions: prepare"
+msgstr "Štatutárne podania: pripravovať"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.actions.server,name:l10n_cssk_submission_base.cron_cssk_submission_send_ir_actions_server
+msgid "Statutory submissions: send queued"
+msgstr "Štatutárne podania: odoslať front"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submittable_mixin__submission_ids
+#: model:ir.ui.menu,name:l10n_cssk_submission_base.menu_cssk_submission
+msgid "Submissions"
+msgstr "Doručenia"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__payload_attachment_id
+msgid ""
+"The XML that was filed. Points at the statement's own filed copy rather than"
+" duplicating it."
+msgstr ""
+"XML, ktoré bolo podané. Odkazuje na podanú kópiu výkazu namiesto jej "
+"duplikovania."
+
+#. module: l10n_cssk_submission_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_submission_base.cssk_submission_view_form
+msgid ""
+"The channel confirmed it took this filing. Acceptance by\n"
+"                        the authority is a separate step and has not been\n"
+"                        recorded yet."
+msgstr ""
+"Kanál potvrdil, že podanie prevzal. Prijatie úradom\n"
+"                        je samostatný krok a zatiaľ nebolo\n"
+"                        zaznamenané."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"The filing was exported again: this submission now carries %(new)s instead "
+"of %(old)s."
+msgstr ""
+"Podanie bolo znova exportované: toto doručenie teraz nesie %(new)s namiesto "
+"%(old)s."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výnimky aktivity na zázname."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid ""
+"Unexpected error while sending; the outcome is unknown (%(error)s). The "
+"filing may have reached the authority: check its portal before sending it "
+"again."
+msgstr ""
+"Neočakávaná chyba pri odosielaní; výsledok nie je známy (%(error)s). Podanie"
+" sa mohlo dostať k úradu: pred ďalším odoslaním to overte na jeho portáli."
+
+#. module: l10n_cssk_submission_base
+#. odoo-python
+#: code:addons/l10n_cssk_submission_base/models/cssk_submission.py:0
+msgid "Unknown model %(model)s."
+msgstr "Neznámy model %(model)s."
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,field_description:l10n_cssk_submission_base.field_cssk_submission__website_message_ids
+msgid "Website Messages"
+msgstr "Správy z webu"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie z webu"
+
+#. module: l10n_cssk_submission_base
+#: model:ir.model.fields,help:l10n_cssk_submission_base.field_cssk_submission__evidence_user_id
+msgid "Who confirmed a manual filing actually took place."
+msgstr "Kto potvrdil, že ručné podanie skutočne prebehlo."

@@ -81,6 +81,23 @@ class TestEngine(unittest.TestCase):
         self.assertEqual(amounts, [20000, 32000, 24000, 16000, 8000])
         self.assertEqual(_total(lines), 100000)
 
+    def test_cz_accelerated_increased_first_year(self):
+        # § 32 odst. 2 písm. a) bod 3: a first depreciator adds 10 % of the
+        # entry price to the year-1 charge; the later years run the ordinary
+        # 2·ZC/(k−n) on what is left
+        lines = eng.compute_schedule(eng.TaxAssetSpec(
+            eng.CZ, eng.METHOD_ACCELERATED, 100000, date(2026, 3, 15), CZ2,
+            increased_first_year=10))
+        amounts = [round(l.amount, 2) for l in lines]
+        self.assertEqual(amounts, [30000, 28000, 21000, 14000, 7000])
+        self.assertEqual(_total(lines), 100000)
+        # bod 1: +20 %, rounded up to whole koruny with the 1/k1 part
+        l20 = eng.compute_schedule(eng.TaxAssetSpec(
+            eng.CZ, eng.METHOD_ACCELERATED, 99999, date(2026, 1, 1), CZ2,
+            increased_first_year=20))
+        self.assertEqual(l20[0].amount, 40000)   # ceil(19999.8 + 19999.8)
+        self.assertEqual(_total(l20), 99999)
+
     def test_sk_linear_monthly_proration_and_remainder(self):
         # in service March => 10 months in year 1, remainder pushed to year 5
         lines = eng.compute_schedule(eng.TaxAssetSpec(
@@ -159,11 +176,122 @@ class TestEngine(unittest.TestCase):
         self.assertAlmostEqual(residual, 55625, places=2)
         self.assertEqual(disp[-1].fiscal_year, 2028)
 
-    def test_sk_disposal_prorata(self):
+    def test_sk_disposal_no_depreciation_in_disposal_year(self):
+        # § 22 ods. 11 zákona 595/2003: the annual charge needs the asset on
+        # the books on the last day of the tax period — an ordinary asset
+        # disposed of during the year gets nothing that year, and the whole
+        # remaining tax residual goes to § 19 ods. 3 písm. b).
         spec = eng.TaxAssetSpec(eng.SK, eng.METHOD_LINEAR, 12000, date(2026, 1, 1), SK1)
+        disp, residual = eng.apply_disposal(eng.compute_schedule(spec), spec, date(2028, 4, 10))
+        self.assertEqual(disp[-1].fiscal_year, 2028)
+        self.assertAlmostEqual(disp[-1].amount, 0.0, places=2)
+        self.assertAlmostEqual(residual, 6000, places=2)     # 12000 - 2 x 3000
+        self.assertAlmostEqual(disp[-1].residual, 6000, places=2)
+        self.assertIn("§22(11)", disp[-1].note)
+
+    def test_sk_disposal_whole_months_when_flagged(self):
+        # § 22 ods. 12: § 26 ods. 6-7 assets, and (from 2016, optional) the
+        # assets whose residual is capped at the sale proceeds, keep the
+        # charge for the whole months recorded: Jan-Mar = 3/12.
+        spec = eng.TaxAssetSpec(eng.SK, eng.METHOD_LINEAR, 12000, date(2026, 1, 1), SK1,
+                                sk_disposal_months=True)
         disp, residual = eng.apply_disposal(eng.compute_schedule(spec), spec, date(2028, 4, 10))
         self.assertAlmostEqual(disp[-1].amount, 750, places=2)     # 3000 * 3/12
         self.assertAlmostEqual(residual, 5250, places=2)
+        self.assertAlmostEqual(disp[-1].fraction, 0.25, places=6)
+
+    def test_sk_disposal_whole_months_in_service_year(self):
+        # put into use in March (year 1 = 10/12), disposed in September:
+        # March-August are the whole months held = 6/12 of the annual charge
+        spec = eng.TaxAssetSpec(eng.SK, eng.METHOD_LINEAR, 12000, date(2026, 3, 15), SK1,
+                                sk_disposal_months=True)
+        disp, residual = eng.apply_disposal(eng.compute_schedule(spec), spec, date(2026, 9, 10))
+        self.assertEqual(len(disp), 1)
+        self.assertAlmostEqual(disp[0].amount, 1500, places=2)     # 3000 * 6/12
+        self.assertAlmostEqual(residual, 10500, places=2)
+
+    def test_cz_disposal_same_year_as_acquisition_gets_nothing(self):
+        # § 26 odst. 7 písm. a) ZDP: the half-year charge needs the asset to be
+        # registered at the START of the tax period
+        spec = eng.TaxAssetSpec(eng.CZ, eng.METHOD_LINEAR, 100000, date(2026, 2, 1), CZ2)
+        disp, residual = eng.apply_disposal(eng.compute_schedule(spec), spec, date(2026, 6, 15))
+        self.assertEqual(len(disp), 1)
+        self.assertAlmostEqual(disp[0].amount, 0.0, places=2)
+        self.assertAlmostEqual(residual, 100000, places=2)
+
+    def test_cz_disposal_half_rounded_up(self):
+        spec = eng.TaxAssetSpec(eng.CZ, eng.METHOD_LINEAR, 100001, date(2026, 1, 1), CZ2)
+        disp, residual = eng.apply_disposal(eng.compute_schedule(spec), spec, date(2028, 6, 15))
+        # annual 22.25 % of 100001 = 22250.22 -> 22251 Kč; half = 11125.5 -> 11126
+        self.assertEqual(disp[-1].amount, 11126)
+        self.assertEqual(residual, 100001 - 11001 - 22251 - 11126)
+
+    # --- CZ rounding (§ 31/9, § 32/5, § 30a/2 ZDP) ----------------------------
+    def test_cz_linear_rounds_up_to_whole_koruny(self):
+        lines = eng.compute_schedule(eng.TaxAssetSpec(
+            eng.CZ, eng.METHOD_LINEAR, 100001, date(2026, 1, 1), CZ2))
+        amounts = [l.amount for l in lines]
+        # 11 % = 11000.11 -> 11001; 22.25 % = 22250.22 -> 22251; last = rest
+        self.assertEqual(amounts, [11001, 22251, 22251, 22251, 22247])
+        self.assertTrue(all(a == int(a) for a in amounts))
+        self.assertEqual(sum(amounts), 100001)
+
+    def test_cz_accelerated_rounds_up_and_uses_rounded_residual(self):
+        lines = eng.compute_schedule(eng.TaxAssetSpec(
+            eng.CZ, eng.METHOD_ACCELERATED, 100003, date(2026, 1, 1), CZ2))
+        # y1 100003/5 = 20000.6 -> 20001; y2 2*80002/5 = 32000.8 -> 32001;
+        # y3 2*48001/4 = 24000.5 -> 24001; y4 2*24000/3 = 16000; y5 rest
+        self.assertEqual([l.amount for l in lines], [20001, 32001, 24001, 16000, 8000])
+
+    def test_cz_extraordinary_rounds_up_within_60_percent(self):
+        lines = eng.compute_schedule(eng.TaxAssetSpec(
+            eng.CZ, eng.METHOD_EXTRAORDINARY, 100001, date(2026, 1, 15),
+            CZ2, monthly=True))
+        first = [l.amount for l in lines[:12]]
+        self.assertEqual(first[:11], [5001] * 11)          # 5000.05 -> 5001
+        self.assertLessEqual(sum(first), 100001 * 0.60)    # "do výše 60 %"
+        self.assertTrue(all(a == int(a) for a in first))
+        self.assertAlmostEqual(_total(lines), 100001, places=2)
+
+    def test_cz_linear_improvement_rounds_up(self):
+        spec = eng.TaxAssetSpec(eng.CZ, eng.METHOD_LINEAR, 100001, date(2026, 1, 1), CZ2)
+        imp = eng.apply_technical_improvement(eng.compute_schedule(spec), spec, 3, 50000)
+        self.assertEqual(imp[2].amount, 30001)   # 20 % of 150001 = 30000.2 -> 30001
+        self.assertAlmostEqual(_total(imp), 150001, places=2)
+
+    # --- SK § 17 ods. 34 (cars of 48 000 EUR and more) ------------------------
+    def test_sk_vehicle_board_not_capped(self):
+        spec = eng.TaxAssetSpec(eng.SK, eng.METHOD_LINEAR, 60000, date(2026, 1, 10), SK1,
+                                entry_cap=48000)
+        lines = eng.compute_schedule(spec)
+        self.assertEqual(_total(lines), 60000)     # full entry price
+        self.assertAlmostEqual(lines[0].amount, 15000, places=2)
+
+    def test_sk_vehicle_addback_is_excess_over_48k_straight_line(self):
+        spec = eng.TaxAssetSpec(eng.SK, eng.METHOD_LINEAR, 60000, date(2026, 1, 10), SK1)
+        lines = eng.compute_schedule(spec)
+        add = eng.sk_vehicle_addbacks(lines, spec, 48000)
+        self.assertEqual([round(a, 2) for a in add], [3000.0] * 4)   # 15000 - 12000
+        # below the threshold there is nothing to add back
+        cheap = eng.TaxAssetSpec(eng.SK, eng.METHOD_LINEAR, 40000, date(2026, 1, 10), SK1)
+        self.assertEqual(eng.sk_vehicle_addbacks(eng.compute_schedule(cheap), cheap, 48000),
+                         [0.0] * 4)
+
+    def test_sk_vehicle_addback_follows_suspension_and_disposal(self):
+        spec = eng.TaxAssetSpec(eng.SK, eng.METHOD_LINEAR, 60000, date(2026, 1, 10), SK1,
+                                sk_disposal_months=True)
+        lines = eng.apply_suspension(eng.compute_schedule(spec), [2])
+        add = eng.sk_vehicle_addbacks(lines, spec, 48000)
+        self.assertEqual([round(a, 2) for a in add], [3000.0, 0.0, 3000.0, 3000.0, 3000.0])
+        disp, _res = eng.apply_disposal(lines, spec, date(2029, 4, 10))
+        add = eng.sk_vehicle_addbacks(disp, spec, 48000)
+        # 2029 = third charged year, Jan-Mar: 15000*3/12 - 12000*3/12
+        self.assertAlmostEqual(add[-1], 750, places=2)
+
+    def test_sk_vehicle_addback_not_before_2015(self):
+        spec = eng.TaxAssetSpec(eng.SK, eng.METHOD_LINEAR, 60000, date(2013, 1, 10), SK1)
+        add = eng.sk_vehicle_addbacks(eng.compute_schedule(spec), spec, 48000)
+        self.assertEqual([round(a, 2) for a in add], [0.0, 0.0, 3000.0, 3000.0])
 
     def test_extraordinary_improvement_rejected(self):
         # §30a(3): a TZ on an extraordinary asset is a separate asset, not folded

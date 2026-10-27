@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import api, models
+from odoo.fields import Domain
 
 
 class CsskCashFigures(models.AbstractModel):
@@ -41,6 +42,13 @@ class CsskCashFigures(models.AbstractModel):
         bank, ``vat_income`` / ``vat_expense``, ``by_code`` keyed by the
         categories' ``tax_return_code``, ``by_category``, and ``needs_review``.
 
+        ``by_code`` adds both sides of a code into one number, which is right
+        only where a code names one side (CZ ř. 101 / ř. 102). A form row with
+        a príjmy and a výdavky column, which is every row of SK tabuľka 1,
+        reads ``by_code_side`` instead: ``{code: {"income": …, "expense": …}}``
+        over the rows that reach the tax base, the same rows as ``income`` and
+        ``expense``.
+
         **Non-cash rows are included in the taxable totals** and excluded from
         the money ones: depreciation belongs in the tax base and never touched
         the bank, which is exactly the distinction the two pairs of keys make.
@@ -62,6 +70,7 @@ class CsskCashFigures(models.AbstractModel):
             "vat_income": 0.0,
             "vat_expense": 0.0,
             "by_code": {},
+            "by_code_side": {},
             "by_category": {},
             "needs_review": 0,
         }
@@ -98,6 +107,10 @@ class CsskCashFigures(models.AbstractModel):
             if code:
                 figures["by_code"][code] = \
                     figures["by_code"].get(code, 0.0) + classified
+                if row.taxable:
+                    sides = figures["by_code_side"].setdefault(
+                        code, {"income": 0.0, "expense": 0.0})
+                    sides[side] += classified
             if row.category_id:
                 figures["by_category"][row.category_id.id] = \
                     figures["by_category"].get(row.category_id.id, 0.0) \
@@ -124,14 +137,19 @@ class CsskCashFigures(models.AbstractModel):
         """
         if not prefixes:
             return 0.0
-        domain = [
-            ("company_id", "=", company.id),
-            ("parent_state", "=", "posted"),
-            ("date", "<=", date),
-            ("account_id.code", "=like", prefixes[0] + "%"),
-        ]
-        for prefix in prefixes[1:]:
-            domain = ["|"] + domain + [("account_id.code", "=like", prefix + "%")]
+        # Any of the prefixes, and every one of the other conditions. Prepending
+        # a bare "|" to the whole list used to OR the company with the state
+        # and AND the prefixes together, so a slot naming two prefixes matched
+        # no line at all.
+        domain = Domain.AND([
+            Domain("company_id", "=", company.id),
+            Domain("parent_state", "=", "posted"),
+            Domain("date", "<=", date),
+            Domain.OR([
+                Domain("account_id.code", "=like", prefix + "%")
+                for prefix in prefixes
+            ]),
+        ])
         # ``code`` is company-dependent in 19.0, so the company has to be in the
         # environment for the prefix match to read that company's codes.
         lines = self.env["account.move.line"].with_company(company).search(domain)

@@ -45,9 +45,11 @@ položka* in the DPPO.
 Honesty flags
 -------------
 
-* The **50 % regime is time-boxed** and the ratios are configuration, not
-  hard-coded — but this module does **not** date-gate them automatically. A
-  company still on an older period, or one past 30. 6. 2028, must set its own.
+* The **50 % regime is time-boxed** and this module does **not** date-gate
+  the ``vs_auto_*`` taxes: on bills outside 1. 1. 2026 – 30. 6. 2028 choose
+  the ordinary purchase tax. The 50 % share is fixed in the taxes'
+  repartition, as § 85n fixes it in law; only the 80 % fuel paušál is a
+  setting.
 * Vehicle **category** (M1/L1e/L3e) and the exempt activities are **not**
   modelled: the module does not know which of your vehicles the restriction
   applies to. Use the ``vs_auto_*`` taxes on the bills where it does.
@@ -57,7 +59,7 @@ Honesty flags
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.1.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk"],

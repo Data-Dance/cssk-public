@@ -96,9 +96,7 @@ class ResPartner(models.Model):
                     partner.id,
                 )
                 continue
-            model = self.env.get(
-                partner.partner_autocomplete_provider, None
-            ) or self.env.get(self.env.company.partner_autocomplete_provider, None)
+            model = self._autocomplete_update_provider(partner)
             if model is None:
                 raise UserError(
                     f"The provider ({partner.partner_autocomplete_provider}) is not installed."
@@ -122,6 +120,24 @@ class ResPartner(models.Model):
         if len(self) > 1 or empty or failed or skipped:
             self._notify_update_partner_info(enriched, empty, failed, skipped)
         return True
+
+    @api.model
+    def _autocomplete_update_provider(self, partner):
+        """The provider model *Update* asks about ``partner``, or None.
+
+        The provider an earlier autocomplete recorded on the partner first —
+        that register produced the data. Otherwise the provider of the
+        partner's country, as for a search: a Czech contact typed in by hand
+        in a company whose own provider is ORSF used to be looked up in the
+        Slovak register, by an IČO that may well exist there too.
+        """
+        recorded = self.env.get(partner.partner_autocomplete_provider or "")
+        if recorded is not None:
+            return recorded
+        country = (
+            partner.commercial_partner_id.country_id or partner.country_id
+        ).code
+        return self.env.get(self._autocomplete_provider_for(country) or "")
 
     def _notify_update_partner_info(self, enriched, empty, failed, skipped=0):
         parts = [_("%s updated", enriched)]

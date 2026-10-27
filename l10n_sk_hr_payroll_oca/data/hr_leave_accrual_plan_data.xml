@@ -21,16 +21,18 @@
                          kalendárny mesiac trvania pracovného pomeru.
           * §105         kto neodpracoval 60 dní: dovolenka za odpracované dni =
                          1/12 ročnej výmery za každých 21 odpracovaných dní.
-          * §113         čerpanie/prenos: nevyčerpanú dovolenku možno preniesť do
-                         nasledujúceho roka (can_be_carryover); prenesenú, no ani
-                         v nasledujúcom roku nevyčerpanú dovolenku zamestnávateľ
-                         nariadi vyčerpať, inak (praktický default) prepadá.
-                         Modelované jednoročným prenosovým oknom: na úrovni plánu
-                         accrual_validity=364 DNÍ OD dátumu prenosu (1. 1.), takže
-                         okno sa uzavrie ~31. 12., teda TESNE PRED ďalším prenosom
-                         1. 1. (12-mesačné okno by kolidovalo s prenosom v ten istý
-                         deň a v Odoo by prepadávanie driftovalo na 2-ročný rytmus;
-                         364 dní dáva čistý jednoročný prepad v každom cykle).
+          * §113         čerpanie/prenos: dovolenku, ktorú si zamestnanec
+                         nemohol vyčerpať, je zamestnávateľ povinný poskytnúť
+                         tak, aby sa skončila najneskôr do konca nasledujúceho
+                         roka; ak čerpanie neurčí do 30. júna, určí si ho
+                         zamestnanec sám (ods. 2), a po materskej/rodičovskej
+                         dovolenke alebo PN sa poskytne aj neskôr (ods. 3, 4).
+                         Zákon žiadne prepadnutie nepozná a náhrada za
+                         nevyčerpanú dovolenku patrí len pri skončení
+                         pracovného pomeru (§116). Nevyčerpaná dovolenka sa
+                         preto prenáša BEZ obmedzenia a NEPREPADÁ
+                         (accrual_validity=False). Plány do verzie 19.0.1.18.3
+                         ju po roku nechali prepadnúť (364-dňové okno).
 
         Proration model (assumption, documented in README/CHANGELOG):
           The annual entitlement is accrued MONTHLY at 1/12 per whole calendar
@@ -64,16 +66,8 @@
         <field name="cap_accrued_time_yearly" eval="True"/>
         <field name="maximum_leave_yearly">20</field>
         <field name="action_with_unused_accruals">all</field>
-        <!-- §113: unused dovolenka carried into the following year is forfeited
-             if still unused a year later. accrual_validity counts 364 DAYS FROM
-             the 1 Jan carryover date, so the window closes ~31 Dec, i.e. JUST
-             BEFORE the next 1 Jan carryover. This avoids the collision that a
-             12-month window has (expiry == carryover on 1 Jan overwrites Odoo's
-             single expiry-tracking field and drifts to a 2-year rhythm); 364
-             days gives a clean one-year forfeit every cycle. -->
-        <field name="accrual_validity" eval="True"/>
-        <field name="accrual_validity_count">364</field>
-        <field name="accrual_validity_type">day</field>
+        <!-- §113 ZP: carried-over dovolenka never lapses — no validity window. -->
+        <field name="accrual_validity" eval="False"/>
     </record>
 
     <!-- 5 týždňov = 25 dní (33+ / trvalá starostlivosť o dieťa, §103 ods. 2) -->
@@ -93,10 +87,8 @@
         <field name="cap_accrued_time_yearly" eval="True"/>
         <field name="maximum_leave_yearly">25</field>
         <field name="action_with_unused_accruals">all</field>
-        <!-- §113: one-year carryover window, then forfeit (364 days from carryover, so it expires ~31 Dec, just before the next 1 Jan carryover). -->
-        <field name="accrual_validity" eval="True"/>
-        <field name="accrual_validity_count">364</field>
-        <field name="accrual_validity_type">day</field>
+        <!-- §113 ZP: carried-over dovolenka never lapses — no validity window. -->
+        <field name="accrual_validity" eval="False"/>
     </record>
 
     <!-- 8 týždňov = 40 dní (pedagóg / akademik / výskum, §103 ods. 3) -->
@@ -116,9 +108,7 @@
         <field name="cap_accrued_time_yearly" eval="True"/>
         <field name="maximum_leave_yearly">40</field>
         <field name="action_with_unused_accruals">all</field>
-        <!-- §113: one-year carryover window, then forfeit (364 days from carryover, so it expires ~31 Dec, just before the next 1 Jan carryover). -->
-        <field name="accrual_validity" eval="True"/>
-        <field name="accrual_validity_count">364</field>
-        <field name="accrual_validity_type">day</field>
+        <!-- §113 ZP: carried-over dovolenka never lapses — no validity window. -->
+        <field name="accrual_validity" eval="False"/>
     </record>
 </odoo>

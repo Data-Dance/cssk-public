@@ -61,6 +61,14 @@ class TestCzKh(AccountTestInvoicingCommon):
         st.action_compute_lines()
         return st
 
+    def test_the_amendment_button_says_nasledne(self):
+        """A later KH is "opravné" or "následné" (§ 101f ZDPH); the button
+        said the Slovak "Dodatočný / opravný" on a Czech statement."""
+        arch = self.env["cssk.control.statement"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('string="Opravné / následné"', arch)
+        self.assertIn("country_code != 'CZ'", arch)
+
     def test_threshold_split_and_export(self):
         self._sale(15000.0)   # > 10000 -> A4 detail
         self._sale(5000.0)    # <= 10000 -> A5 aggregate

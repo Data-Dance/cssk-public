@@ -15,7 +15,7 @@ Both screens live under *Accounting → Assets* (group *Accountant*,
 Depreciation Analysis
     Pivot and graph views on the depreciation lines
     (``account.asset.line``, type *Depreciation*): rows per asset,
-    columns per year, measures *Amount* and *Remaining Value*.
+    columns per year, measure *Amount*.
     Filters *Posted* / *Planned* (with / without an accounting entry) and
     group-bys asset / asset profile / year.
 

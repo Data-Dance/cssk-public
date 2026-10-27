@@ -3,10 +3,14 @@
 """The employer's statutory paperwork around wage garnishments.
 
 Deducting the money is only half of what the law asks of a payer of wages.
-Czech ``§ 294`` and ``§ 295 o. s. ř.`` oblige the employer to *tell* the court
-or the bailiff when a debtor joins or leaves, to answer enquiries about the
-rank and size of the claims, and to render an account of what was deducted.
-Slovak ``§ 71 a nasl. Exekučného poriadku`` imposes the mirror duties.
+Czech Republic: the new employer of a debtor notifies the court that ordered
+the execution (``§ 294 odst. 2 o. s. ř.``); the employer the debtor leaves
+notifies it within a week and sends the account of deductions and the list
+of claims with their rank (``§ 295 odst. 2``); and it answers the court's
+(``§ 128 o. s. ř.``) or the bailiff's (``§ 33 odst. 5 exekučního řádu``)
+enquiries about the wage and the deductions.
+Slovakia: the same duties towards the exekútor under ``§ 84 ods. 2`` and
+``§ 85 ods. 2 Exekučného poriadku`` (zákon č. 233/1995 Z. z.).
 
 This wizard assembles those documents from the register, so the payroll
 officer prints rather than retypes.
@@ -15,18 +19,20 @@ officer prints rather than retypes.
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+# The statutory basis differs per country, so the labels stay neutral and
+# the printed notice cites the paragraph of the company's country.
 NOTICE_TYPES = [
     (
         "employment_start",
-        "Notice of employment start (§ 294/1 o. s. ř.)",
+        "Notice of employment start",
     ),
     (
         "employment_end",
-        "Notice of employment end (§ 294/1 o. s. ř.)",
+        "Notice of employment end",
     ),
     (
         "enquiry",
-        "Answer to an enquiry — rank and amount of claims (§ 294/2, § 295 o. s. ř.)",
+        "Answer to an enquiry — rank and amount of claims",
     ),
     (
         "settlement",
@@ -67,6 +73,25 @@ class HrWageGarnishmentNotice(models.TransientModel):
         help="Day the employment started or ended.",
     )
     note = fields.Text()
+
+    # Legal basis printed under the notice title, per country and type.
+    _LEGAL_BASIS = {
+        ("CZ", "employment_start"): "Oznámení podle § 294 odst. 2 o. s. ř.",
+        ("CZ", "employment_end"): "Oznámení podle § 295 odst. 2 o. s. ř.",
+        ("CZ", "enquiry"): "Sdělení podle § 128 o. s. ř. / § 33 odst. 5 "
+                           "exekučního řádu",
+        ("SK", "employment_start"): "Oznámenie podľa § 84 ods. 2 "
+                                    "Exekučného poriadku",
+        ("SK", "employment_end"): "Oznámenie podľa § 85 ods. 2 "
+                                  "Exekučného poriadku",
+        ("SK", "enquiry"): "Odpoveď na žiadosť exekútora",
+    }
+
+    def _legal_basis(self):
+        """The paragraph the printed notice is given under."""
+        self.ensure_one()
+        return self._LEGAL_BASIS.get(
+            (self.company_id.country_id.code, self.notice_type), "")
 
     # --- reporting helpers used by the QWeb templates ---------------------
     def _orders(self):

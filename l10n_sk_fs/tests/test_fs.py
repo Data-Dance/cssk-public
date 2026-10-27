@@ -59,6 +59,25 @@ class TestSkFs(TransactionCase):
         self.assertEqual(softver.account_formula, "013000")
         self.assertEqual(softver.account_formula_correction, "073000,091200")
 
+    def test_loading_the_plan_never_wipes_a_manual_one(self):
+        """Načítať odpisový plán deleted the lines BEFORE checking that
+        account.asset exists, so on Community it wiped the hand-entered plan
+        and loaded nothing. With no asset model, or no asset, it must refuse
+        and leave the lines alone."""
+        notes = self.env["l10n.sk.poznamky"].create({
+            "date_from": "2025-01-01", "date_to": "2025-12-31",
+            "odpis_line_ids": [(0, 0, {"nazov": "Budovy", "doba_rokov": 20.0,
+                                       "sadzba": 5.0})],
+        })
+        Asset = self.env.get("account.asset")
+        if Asset is not None and Asset.search_count(
+                [("company_id", "=", notes.company_id.id)]):
+            self.skipTest("the company has assets; the refusal is not reached")
+        with self.assertRaises(UserError):
+            notes.action_populate_odpis()
+        self.assertEqual(notes.odpis_line_ids.mapped("nazov"), ["Budovy"],
+                         "the manual plan must survive")
+
 
 @tagged("post_install", "-at_install")
 class TestSkFsCompute(AccountTestInvoicingCommon):

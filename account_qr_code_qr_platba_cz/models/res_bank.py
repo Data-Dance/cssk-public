@@ -11,6 +11,26 @@ from PIL import Image
 # SPD*1.0*ACC:CZ8120100000002701987951*AM:2418.79*CC:CZK*MSG:210054*RF:210054*DT:20211230*X-VS:210054
 
 
+def spd_value(text, limit):
+    """One free-text SPD value, escaped, at most ``limit`` characters long.
+
+    "Hodnota … nesmí obsahovat znak * (hvězdička). … Hodnota může obsahovat
+    speciální znaky kódované pomocí URL kódování … hvězdičku je tedy možno do
+    hodnoty zahrnout pomocí zápisu %2A." (qr-platba.cz, specifikace formátu).
+    An unescaped asterisk ends the field and shifts every later one. ``%``
+    goes first: once values are URL-decoded, a literal ``%2A`` in a reference
+    would otherwise come back as an asterisk.
+    """
+    escaped = ""
+    for char in text or "":
+        char = {"%": "%25", "*": "%2A"}.get(char, char)
+        # A reader keeps only ``limit`` characters; never cut an escape.
+        if len(escaped) + len(char) > limit:
+            break
+        escaped += char
+    return escaped
+
+
 class ResPartnerBank(models.Model):
     _inherit = "res.partner.bank"
 
@@ -42,7 +62,7 @@ class ResPartnerBank(models.Model):
                 # "ALT-ACC" + ..[93] <Alternative Account Numbers of the Beneficiary> ALTACC:CZ5855000000001265098001+RZBCCZPP,CZ5855000000001265098001*
                 "AM:" + f"{amount:.2f}",  # ..[10] AM:<Amount of the Transfer>
                 "CC:" + currency.name,  # CC:<Currency>
-                "MSG:" + free_communication[:60],  # ..[60], # MSG:<VS> - check for "*"
+                "MSG:" + spd_value(free_communication, 60),  # ..[60] MSG:<message>
                 "RF:"
                 + (variable_symbol or re.sub("\\D", "", free_communication))[
                     :16
@@ -50,9 +70,8 @@ class ResPartnerBank(models.Model):
                 # TODO
                 # "DT:" + .., # DT:<Date Due>
                 "RN:"
-                + (self.acc_holder_name or self.partner_id.name)[
-                    :71
-                ],  # ..[71], # RN:<Receiver Name>
+                + spd_value(self.acc_holder_name or self.partner_id.name, 71),
+                # ..[71] RN:<Receiver Name>
                 # "NT:" + ..[1], # NT:<Notification Channel> "P"=phone "E"=email
                 # "NTA:" + ..[320], # NTA:<Notification Channel> for NT:P number[:12], for NT:E e-mailAddress[:64]@domainName[:255]
                 # "X-ID:" + ..[20], # X-ID:<ID>

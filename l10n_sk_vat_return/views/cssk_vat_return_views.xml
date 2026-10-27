@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- The first page of the Slovak DPH form: who files, the § 79 ods. 3
+         box, the authorised person and the date of the declaration. -->
+    <record id="cssk_vat_return_view_form_sk" model="ir.ui.view">
+        <field name="name">cssk.vat.return.form.sk</field>
+        <field name="model">cssk.vat.return</field>
+        <field name="inherit_id" ref="l10n_cssk_vat_return_base.cssk_vat_return_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='settlement']" position="after">
+                <field name="l10n_sk_country_code" invisible="1"/>
+                <page string="Hlavička" name="l10n_sk_header"
+                      invisible="l10n_sk_country_code != 'SK' or legacy">
+                    <group>
+                        <group string="Daňové priznanie podáva">
+                            <field name="l10n_sk_filer_status"
+                                   readonly="state not in ('draft', 'preview')"/>
+                            <field name="l10n_sk_par79_conditions_met"
+                                   readonly="state not in ('draft', 'preview')"
+                                   invisible="period_type != 'month' or l10n_sk_filer_status != 'platitel'"/>
+                            <field name="l10n_sk_declaration_date"
+                                   readonly="state not in ('draft', 'preview')"/>
+                        </group>
+                        <group string="Oprávnená osoba">
+                            <field name="l10n_sk_authorized_name" string="Meno a priezvisko"
+                                   readonly="state not in ('draft', 'preview')"/>
+                            <field name="l10n_sk_authorized_phone" string="Telefón"
+                                   readonly="state not in ('draft', 'preview')"/>
+                            <field name="l10n_sk_authorized_email" string="E-mail"
+                                   readonly="state not in ('draft', 'preview')"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- § 69 paragraph for the pre-2021 vzory: read by the return, set on
+         the tax, and until now on no form. -->
+    <record id="view_tax_form_l10n_sk_dph_69_par" model="ir.ui.view">
+        <field name="name">account.tax.form.l10n_sk_dph_69_par</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced_options']//group[@name='advanced_booleans']"
+                   position="inside">
+                <field name="l10n_sk_dph_69_par"
+                       invisible="country_code != 'SK' or type_tax_use != 'purchase'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- § 53b: where a bill stands, and the re-claim once it is paid. -->
+    <record id="view_move_form_l10n_sk_par53b" model="ir.ui.view">
+        <field name="name">account.move.form.l10n_sk_par53b</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="l10n_sk_par53b_state" invisible="1"/>
+                <button name="action_par53b_reclaim" type="object"
+                        string="Znovu uplatniť odpočet (§ 53b ods. 4)"
+                        invisible="state != 'posted' or move_type != 'in_invoice' or l10n_sk_par53b_state != 'corrected'"
+                        groups="account.group_account_invoice"
+                        confirm="Vytvoriť a zaúčtovať znovu uplatnenie odpočítanej dane v pomere zaplatenej časti faktúry?"/>
+            </xpath>
+            <xpath expr="//page[@id='other_tab']//group[@name='accounting_info_group']"
+                   position="inside">
+                <field name="l10n_sk_par53b_state"
+                       invisible="move_type != 'in_invoice' or l10n_sk_par53b_state == 'none'"/>
+                <field name="l10n_sk_par53b_correction_ids" widget="many2many_tags" readonly="1"
+                       invisible="not l10n_sk_par53b_correction_ids"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

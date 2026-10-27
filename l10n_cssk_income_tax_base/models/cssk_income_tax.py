@@ -66,6 +66,43 @@ class CSSKIncomeTaxReturn(models.Model):
     # Health roll-up: drillable leaves that don't tie to their journal items.
     unreconciled_count = fields.Integer(compute="_compute_unreconciled_count")
 
+    @api.onchange("company_id", "date_from", "date_to")
+    def _onchange_period_version(self):
+        """Say plainly when no form version (vzor) covers the period.
+
+        Without this the version dropdown is simply empty and saving fails on
+        a required field, which reads as a bug rather than as the fact it is:
+        the authority has not published the form for that period yet (the SK
+        DPPO for 2026 is the case that prompted it), and a form is never
+        invented here.
+        """
+        if not (self.company_id and self.date_from and self.date_to):
+            return None
+        country = self.company_id.account_fiscal_country_id
+        if not country:
+            return None
+        found = self.env["cssk.income.tax.version"].with_context(
+            active_test=False).search_count([
+                ("country_id", "=", country.id),
+                ("valid_from", "<=", self.date_to),
+                "|", ("valid_to", "=", False),
+                ("valid_to", ">=", self.date_from),
+            ])
+        if found:
+            return None
+        return {"warning": {
+            "title": _("No form version for this period"),
+            "message": _(
+                "No version of the income-tax return form covers the period "
+                "%(date_from)s – %(date_to)s for %(country)s. The tax "
+                "authority has most likely not published the form (vzor) for "
+                "this period yet. The return cannot be created until a "
+                "version for the period is installed; it is not guessed from "
+                "an earlier year's form.",
+                date_from=self.date_from, date_to=self.date_to,
+                country=country.name),
+        }}
+
     @api.depends("line_ids.has_source", "line_ids.source_reconciles")
     def _compute_unreconciled_count(self):
         for ret in self:

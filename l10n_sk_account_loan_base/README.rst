@@ -43,8 +43,9 @@ leased_asset   ``leased_asset_account_id``       — (uses ``asset_group_id``)
 ============== ================================= ===========================
 
 It depends on ``l10n_sk`` only and declares no loan models, so it is safe on either
-edition. Licensed **LGPL-3** so that both the AGPL Community bridge and the
-proprietary Enterprise bridge can import it — the same arrangement as
+edition. Licensed **AGPL-3**; Data Dance s.r.o. is its sole owner and
+dual-licenses it, so the same base serves the AGPL Community bridge and the
+proprietary Enterprise bridge — the same arrangement as
 ``l10n_cssk_intrastat_base``.
 
 The parity invariants (twin pairing, engine exclusivity, and that this base reaches

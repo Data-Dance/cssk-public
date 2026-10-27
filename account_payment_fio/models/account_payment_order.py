@@ -50,6 +50,8 @@ class AccountPaymentOrder(models.Model):
             label=line.name or line.display_name,
             partner=line.partner_id,
             ref_id=line.id,
+            iso_priority=line.iso20022_priority,
+            iso_charge_bearer=line.iso20022_charge_bearer,
         )
 
     def _fio_build_orders(self):

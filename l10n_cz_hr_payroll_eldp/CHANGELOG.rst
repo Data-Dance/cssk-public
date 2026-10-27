@@ -10,6 +10,46 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.0.4] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Employment periods from every contract, not today's.** Days, dates and
+  the type of the record were read from the employee's current contract
+  version, so an employee who left and came back, or whose contract was
+  replaced during the year, was reported with the wrong period. Each
+  employment period in the year now gets its own row (up to the three one
+  ELDP holds; more is refused with a message).
+- **The assessment base is capped and insured-only.** The base was the sum of
+  the gross wage — over the annual maximum assessment base (§ 15a zák.
+  589/1992 Sb.) for high earners, and including months that were not insured.
+  It is now the sum of the monthly bases from the social-insurance line, each
+  rounded up (§ 5d), split by period.
+- Draft payslips are no longer counted.
+
+[19.0.1.0.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **First name and surname were swapped** in the XML: "Pavel Novák" was filed
+  as first name *Novák*, surname *Pavel*. The surname is now the last word of
+  the employee's name.
+
+Changed
+~~~~~~~
+
+- **ELDP follows the JMHZ transition.** From 2026 the ČSSZ compiles the
+  ELDP from the unified monthly employer report (JMHZ, Act No. 323/2025
+  Coll.). Under Act No. 360/2025 Coll., Art. V, the employer still files it
+  for years before 2026 and, for 2026, only for an employee whose pension
+  insurance ended before 1 April 2026. An ELDP for 2026 now contains only
+  those employees and is refused when there are none; 2027 and later are
+  refused. The record's period is now the whole calendar year.
+
 19.0.1.0.1 (2026-07-06)
 -----------------------
 

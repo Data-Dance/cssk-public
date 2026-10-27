@@ -8,6 +8,24 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **§ 4c — registrácia skupiny z úradnej moci.** A group registered ex
+  officio is a platiteľ and is named in § 69 ods. 12; it had no option and
+  the register's "§4c" was read as unknown.
+
+Changed
+~~~~~~~
+
+- **§ 6 — zásielkový predaj** is now labelled *(do 30. 6. 2021)*. Distance
+  selling was registered under § 6 until then; the § 6 in force today is the
+  bank-account notification duty and registers nobody. Existing values keep
+  counting as a platiteľ.
+
 [19.0.1.0.1] — 2026-09-13
 -------------------------
 

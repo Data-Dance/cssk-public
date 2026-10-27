@@ -8,8 +8,10 @@ from odoo import fields, models
 # tracking daňovo neuznané náklady on its own analytic account will want its own.
 SK_VEHICLE_NONDEDUCTIBLE_ACCOUNT = "chart_sk_548000"
 
-# § 85n zákona 222/2004 (od 1. 1. 2026 do 30. 6. 2028).
-SK_VEHICLE_VAT_RATIO = 50.0
+# The § 85n VAT share (50 %, 1. 1. 2026 - 30. 6. 2028) is not a setting: the
+# law allows exactly 50 % or, with the ods. 6 records, the ordinary 100 %, and
+# it lives in the repartition of the vs_auto_* taxes, the only place the DPH
+# return reads it from.
 # § 19 ods. 2 písm. l) bod 3 zákona 595/2003 — unaffected by the VAT change.
 SK_FUEL_INCOME_RATIO = 80.0
 
@@ -17,13 +19,6 @@ SK_FUEL_INCOME_RATIO = 80.0
 class ResCompany(models.Model):
     _inherit = "res.company"
 
-    l10n_sk_vehicle_vat_ratio = fields.Float(
-        string="Vehicle VAT deduction (%)",
-        default=SK_VEHICLE_VAT_RATIO,
-        help="§ 85n: paušálny odpočet DPH pri osobných vozidlách (M1, L1e, L3e) "
-             "používaných aj na súkromné účely — 50 % od 1. 1. 2026 do 30. 6. 2028. "
-             "100 % odpočet vyžaduje registráciu a elektronickú evidenciu jázd.",
-    )
     l10n_sk_fuel_income_ratio = fields.Float(
         string="Fuel tax-expense share (%)",
         default=SK_FUEL_INCOME_RATIO,

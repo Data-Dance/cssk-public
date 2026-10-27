@@ -784,8 +784,9 @@ netting the clearing account to zero. Result: 221 debit 1 210, 324000 credit
 only once, on the full supply.</p></li>
 </ul>
 <p>If the advance had <strong>no</strong> tax document yet, the deduction instead removes the
-gross amount with no VAT split, and the clearing balance is cleared by a separate
-entry after posting.</p>
+gross amount received with no VAT split, and the clearing balance is cleared by a
+separate entry after posting. Only what was received is deducted: a part paid but
+not covered by a tax document is deducted gross, beside the documented part.</p>
 </section>
 <section id="long-term-advances">
 <h2><a class="toc-backref" href="#toc-entry-7" role="doc-backlink">Long-term advances</a></h2>
@@ -807,14 +808,16 @@ tax-document accounting rules apply to the deduction lines.</p>
 <li><p><strong>Accounting status</strong> — <em>nothing to account</em> → <em>waiting</em> (a tax document is due)
 → <em>accounted</em> (tax document posted, or the advance was settled on the parent's
 final invoice).</p></li>
-<li><p><strong>Accounting due date</strong> — the statutory tax-document deadline, by default the
-earlier of 15 days after payment and the end of that month
-(<span class="docutils literal">_advance_invoice_tax_doc_deadline</span>, overridable per localization).</p></li>
+<li><p><strong>Accounting due date</strong> — the statutory tax-document deadline: 15 days after
+payment in the Czech Republic (§ 28 odst. 8), the later of 15 days and the end
+of that month in Slovakia (§ 73 ods. 1 písm. b), from 2016)
+(<span class="docutils literal">_advance_invoice_tax_doc_deadline</span>).</p></li>
 </ul>
 </section>
 <section id="czech-vs-slovak-notes">
 <h2><a class="toc-backref" href="#toc-entry-10" role="doc-backlink">Czech vs Slovak notes</a></h2>
-<p>The structural model, account numbers and the 15-day rule are shared. The
+<p>The structural model and account numbers are shared; the tax-document deadline
+is not (CZ 15 days, SK 15 days or the month end, whichever is later). The
 differences are terminology (CZ <em>daňový doklad k přijaté platbě</em> vs SK <em>faktúra k
 prijatej platbe</em>; CZ <em>vyúčtovací</em> vs SK <em>vyúčtovacia / ostrá faktúra</em>) and CZ's
 more consistent use of 475 for long-term received advances.</p>

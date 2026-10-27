@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- The batch wizard lives in the core module, which knows no asset model.
+         The bridge makes it reachable: from the asset list (Action menu, on the
+         selected assets) and from Configuration (every tax-tracked asset). -->
+    <record id="action_account_asset_tax_compute_selected" model="ir.actions.act_window">
+        <field name="name">Compute Tax Depreciation</field>
+        <field name="res_model">account.asset.tax.compute</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_account_asset"/>
+        <field name="binding_view_types">list,form</field>
+        <field name="group_ids" eval="[(4, ref('account.group_account_manager'))]"/>
+    </record>
+
+    <menuitem id="menu_account_asset_tax_compute"
+              name="Compute Tax Depreciation"
+              action="account_asset_tax.action_account_asset_tax_compute"
+              parent="account.menu_finance_configuration"
+              sequence="97"
+              groups="account.group_account_manager"/>
+
+</odoo>

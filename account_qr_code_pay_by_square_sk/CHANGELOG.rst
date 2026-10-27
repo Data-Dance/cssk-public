@@ -8,12 +8,39 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- 19.0.1.2.1 (2026-10-27) is owed to 18.0: the invoice due date in the code.
+  The module exists on ``origin/18.0``.
+
 Changed
 ~~~~~~~
 
 - Declared a Slovak scheme for the automatic QR choice (see
   ``account_qr_code_frame_provider`` 19.0.1.1.0): a foreign EUR invoice now
   gets SEPA QR rather than PAY by square.
+
+[19.0.1.2.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- PAY by square ranks before payme and SEPA QR by sequence (17), so the
+  automatic choice no longer depends on module load order.
+- The tests' bank account is created with sufficient rights; their setUpClass
+  failed, so they had not run.
+
+[19.0.1.2.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The PAY by square due date was the day the code was generated.** It is now
+  the invoice's due date (today when that has passed), so banking apps propose
+  the right payment date.
 
 [19.0.1.1.3] — 2026-09-13
 -------------------------

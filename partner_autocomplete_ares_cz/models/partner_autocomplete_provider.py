@@ -124,14 +124,51 @@ class PartnerAutocompleteProvider(models.AbstractModel):
 
     @api.model
     def read_by_vat(self, vat):
+        """Suggest the company behind a Czech DIČ.
+
+        ARES has no search by DIČ, but a legal person's DIČ is ``CZ`` + its
+        IČO, so an eight-digit DIČ is looked up as an IČO and offered only if
+        ARES confirms that very DIČ for it. A ten-digit DIČ (a natural person,
+        derived from the birth number) has no IČO to try and finds nothing.
+
+        Returns a list of suggestions; it used to return ``[{}]``, a single
+        empty suggestion the widget then offered as a nameless row.
         """
-        This code is reachable only with semantically correct VAT numbers
-        It is ensured by JavaScript library used in partner_autocomplete
-        See: partner_autocomplete/static/lib/jsvat.js
+        digits = (vat or "").replace(" ", "").upper()
+        if digits.startswith("CZ"):
+            digits = digits[2:]
+        if len(digits) != 8 or not digits.isdigit():
+            return []
+        data = self.enrich_company(None, digits, None)
+        if not data.get("name") or (data.get("vat") or "").replace(" ", "").upper() != "CZ" + digits:
+            return []
+        return [self._ares_suggestion(data, digits)]
+
+    @api.model
+    def _ares_suggestion(self, data, ico):
+        """A dropdown suggestion for one enriched ARES record.
+
+        ``partner_gid``/``duns`` carry the IČO the suggestion was found by:
+        picking it sends that number back to :meth:`enrich_company`. They
+        used to read ``company_registry`` from the enrichment, which exists
+        only when the IČO mapping points at that very field, so with any
+        other setting the picked suggestion enriched nothing.
         """
-        result = {}
-        # TODO: find a method to search by VAT number
-        return [result]
+        return {
+            "country_id": False,
+            "ignored": False,
+            "logo": False,
+            "name": data.get("name", ""),
+            "legal_name": False,
+            "partner_gid": ico,
+            "duns": ico,
+            "state_id": False,
+            "vat": data.get("vat", ""),
+            # A subject with no seat in ARES has no city: "" rather than a
+            # TypeError on ``str + None``.
+            "website": f"{ico} | {data.get('city') or ''}",
+            "partner_autocomplete_provider": self._name,
+        }
 
     @api.model
     def _enrich_dynamic_mapping(self, result, mapping):
@@ -214,23 +251,8 @@ class PartnerAutocompleteProvider(models.AbstractModel):
         results = []
         if query.isdigit():
             data = self.enrich_company(None, query, None)
-            if data:
-                results.append(
-                    {
-                        "country_id": False,
-                        "ignored": False,
-                        "logo": False,
-                        "name": data.get("name", ""),
-                        "legal_name": False,
-                        "partner_gid": data.get("company_registry", ""),
-                        "duns": data.get("company_registry", ""),
-                        "state_id": False,
-                        "vat": data.get("vat", ""),
-                        "website": data.get("company_registry", "")
-                        + " | "
-                        + data.get("city"),
-                    }
-                )
+            if data and data.get("name"):
+                results.append(self._ares_suggestion(data, query))
         else:
             try:
                 url = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty/vyhledat"
@@ -263,7 +285,7 @@ class PartnerAutocompleteProvider(models.AbstractModel):
                                 "vat": record.get("dic", ""),
                                 "website": record.get("ico", "")
                                 + " | "
-                                + record["sidlo"].get("nazevObce", ""),
+                                + ((record.get("sidlo") or {}).get("nazevObce") or ""),
                             }
                         )
                 return results

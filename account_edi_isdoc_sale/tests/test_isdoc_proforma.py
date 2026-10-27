@@ -73,6 +73,15 @@ class TestISDOCProforma(AccountTestInvoicingCommon):
         return company
 
     @classmethod
+    def get_default_groups(cls):
+        # account_payment_order (OCA) moves the bank-account access rule to
+        # its own group; without it these setups cannot create bank accounts.
+        return super().get_default_groups() | (
+            cls.env.ref("account_payment_order.group_account_payment", False)
+            or cls.env["res.groups"]
+        )
+
+    @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.company_data['company']
@@ -128,3 +137,26 @@ class TestISDOCProforma(AccountTestInvoicingCommon):
         self.assertEqual(invoice.move_type, 'in_invoice')
         self.assertEqual(invoice.ref, 'ZAL-2024-001')
         self.assertAlmostEqual(invoice.amount_total, 1210.0, places=2)
+
+    def test_the_proforma_can_be_downloaded_from_the_order(self):
+        """The proforma export had no button, menu or caller: unreachable."""
+        order = self.env['sale.order'].with_company(self.company).sudo().create({
+            'partner_id': self.cz_customer.id,
+            'order_line': [Command.create({
+                'product_id': self.product_a.id, 'product_uom_qty': 1, 'price_unit': 500.0,
+                'tax_ids': [Command.set(self.tax_sale_21.ids)],
+            })],
+        })
+        self.env.user.group_ids |= self.env.ref('sales_team.group_sale_salesman')
+        action = self.env.ref('account_edi_isdoc_sale.action_isdoc_download_proforma')
+        self.assertEqual(action.binding_model_id.model, 'sale.order')
+        result = action.with_company(self.company).with_context(
+            active_model='sale.order', active_id=order.id, active_ids=order.ids).run()
+        self.assertEqual(result['type'], 'ir.actions.act_url')
+        attachment = self.env['ir.attachment'].search([
+            ('res_model', '=', 'sale.order'), ('res_id', '=', order.id)])
+        self.assertEqual(len(attachment), 1)
+        self.assertIn(f'/web/content/{attachment.id}', result['url'])
+        root = etree.fromstring(attachment.raw)
+        self.schema.assertValid(root)
+        self.assertEqual(self._find(root, 'DocumentType'), '4')

@@ -14,6 +14,18 @@ SK_CUTOFF_ACCOUNTS = {
 }
 
 
+# No VAT on an accrual. The OCA engine defaults to accruing the tax as well
+# (French practice, on a "TVA sur factures non parvenues" account), which has
+# no account to go to here and makes every taxed accrual fail with "Missing
+# 'Accrued Expense Tax Account'". Nor would it be right: input VAT cannot be
+# deducted before the invoice is in hand (§ 51 ods. 1 písm. a) zákona
+# 222/2004), and output VAT reaches the return through the invoice itself.
+# So the accrual on 383/385 is the amount without VAT.
+SK_CUTOFF_FLAGS = {
+    "accrual_taxes": False,
+}
+
+
 class AccountChartTemplate(models.AbstractModel):
     _inherit = "account.chart.template"
 
@@ -21,4 +33,4 @@ class AccountChartTemplate(models.AbstractModel):
     def _get_sk_res_company_cutoff(self):
         # Merged with l10n_sk's own res.company contribution when the SK chart
         # is loaded — wires the deferral default accounts for new companies.
-        return {self.env.company.id: dict(SK_CUTOFF_ACCOUNTS)}
+        return {self.env.company.id: {**SK_CUTOFF_ACCOUNTS, **SK_CUTOFF_FLAGS}}

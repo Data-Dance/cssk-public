@@ -39,8 +39,8 @@ class AccountPaymentOrder(models.Model):
                 label=line.display_name,
                 partner=line.partner_id,
                 ref_id=line.id,
-                iso_priority=getattr(line, 'iso20022_priority', None),
-                iso_charge_bearer=getattr(line, 'iso20022_charge_bearer', None),
+                iso_priority=line.iso20022_priority,
+                iso_charge_bearer=line.iso20022_charge_bearer,
             ))
         return items
 

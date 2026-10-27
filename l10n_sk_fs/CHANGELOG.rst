@@ -8,6 +8,42 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.7.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Both export paths identify the filer by the DIČ.** The statement's
+  *Export XML* demanded a VAT number, so a company that is not a VAT payer
+  could export only through the filing record — which ran no identification
+  check at all. Both now run the same check: the DIČ, or the VAT number if
+  there is none.
+
+- **The unmapped-accounts warning reaches the user.** *Účty nezachytené v
+  žiadnom riadku výkazu* from the filing record's export went to the server
+  log only; it is now kept on the record through the filing framework's
+  export warnings (posted to the chatter where that is not available).
+
+Changed
+~~~~~~~
+
+- Source notes name both opatrenia of the Ministry of Finance — MF/23378/2014-74
+  for malé and MF/23377/2014-74 for veľké účtovné jednotky — instead of only
+  the latter, and no longer describe the prehľady as filed inside the Úč POD.
+
+[19.0.1.7.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Načítať odpisový plán z majetku no longer wipes a hand-entered plan.** It
+  deleted the schedule lines before checking that asset management
+  (``account.asset``, Enterprise) was installed, so on Community it emptied
+  the plan and loaded nothing. Without asset management, or without any
+  asset, it now says so and leaves the lines as they are.
+
 [19.0.1.7.0] — 2026-10-05
 -------------------------
 

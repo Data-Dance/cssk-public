@@ -8,6 +8,27 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **A revision was filed as a further declaration, doubling the month.**
+  An OCA revision carried function code ``O`` under the next declaration
+  number, which INTRASTAT-SK reads as one more partial declaration that adds
+  to the month. A revision with the action *Replace* now files, in one
+  envelope, a cancellation (function ``D``, ``previousDeclarationId`` 1) of
+  every declaration still standing for the month and flow, followed by the
+  correct items under the next number — the Statistical Office's procedure
+  for replacing a declaration (Príručka pre spravodajské jednotky 2026,
+  ods. 229–230, príklad 19 b). An *Append* revision stays a further partial
+  declaration (ods. 221–222) and must hold only the added transactions.
+
+- **A nil declaration is filed as one.** The action *Nil* now gives function
+  code ``N`` (nulové hlásenie) with no items, where it used to be an
+  original with none; a *Nil* revision first cancels what was filed.
+
 [19.0.1.1.0] — 2026-10-03
 -------------------------
 

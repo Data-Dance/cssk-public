@@ -97,6 +97,11 @@ class AccountAssetTaxBackfill(models.TransientModel):
             "tax_in_service_date_override": self.tax_in_service_date,
         })
         schedule = eng.compute_schedule(virtual._tax_engine_spec())
+        # Replay the recorded lifecycle events exactly as the final rebuild
+        # (compute_tax_depreciation_board) will: a technical improvement or a
+        # suspension changes the residual, so checking the clean schedule
+        # refused the very backfill that would have produced the figure.
+        schedule, _disposal_residual = virtual._tax_fold_events(schedule)
         past = [l for l in schedule if l.fiscal_year <= self.filed_through_year]
         return past[-1].residual if past else self.tax_entry_value
 
@@ -113,9 +118,17 @@ class AccountAssetTaxBackfill(models.TransientModel):
                     "The statutory tax residual at the end of %(year)s is "
                     "%(computed)s, but you entered %(expected)s.\n\n"
                     "Tax depreciation is statutory, so a mismatch usually means a "
-                    "past technical improvement or suspension is not yet recorded, "
-                    "or the tax in-service date is wrong. Fix those first (add the "
-                    "events, correct the date), then backfill.",
+                    "past technical improvement or suspension is not recorded "
+                    "as a lifecycle event yet, or the tax in-service date, "
+                    "entry value or group is wrong. Correct the values here, or "
+                    "record the missing event on the Tax Depreciation tab and "
+                    "run the backfill again.\n\n"
+                    "An event cannot be recorded inside a year that is already "
+                    "filed. If the asset has filed years, first run this "
+                    "backfill with no expected residual and Filed Through "
+                    "Fiscal Year set to the year before the event, record the "
+                    "event, then run the backfill again with the real filed "
+                    "year and the expected residual.",
                     year=self.filed_through_year,
                     computed=ccy.round(computed),
                     expected=ccy.round(self.expected_residual),

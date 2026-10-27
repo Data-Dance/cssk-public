@@ -10,9 +10,14 @@
                 <header>
                     <!-- Posting the entry needs account.move.create, so an
                          HR-only user reaching this button failed on it. Offer
-                         it to the group that can actually complete it. -->
+                         it to the groups that can actually complete it.
+                         "Show Full Accounting Features" alone is not enough:
+                         on Community nobody is given it, not even the
+                         Accounting administrator, so the button and the menu
+                         were invisible to everyone. -->
                     <button name="action_remit" type="object" string="Remit to Payee"
-                            class="btn-primary" groups="account.group_account_user"/>
+                            class="btn-primary"
+                            groups="account.group_account_user,account.group_account_manager"/>
                 </header>
             </list>
             <field name="state" position="after">
@@ -68,6 +73,6 @@
               name="Remit to Payees"
               parent="l10n_cssk_hr_payroll_garnishment_base.menu_wage_garnishment_root"
               action="hr_wage_garnishment_remittance_action"
-              groups="account.group_account_user"
+              groups="account.group_account_user,account.group_account_manager"
               sequence="25"/>
 </odoo>

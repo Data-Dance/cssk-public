@@ -32,6 +32,9 @@
                     <setting>
                         <field name="peppol_purchase_journal_id"/>
                     </setting>
+                    <setting help="Database-wide. Needed only when several Peppol transports are installed.">
+                        <field name="peppol_transport"/>
+                    </setting>
                 </block>
             </xpath>
         </field>

@@ -162,19 +162,23 @@ msgstr ""
 
 #. module: l10n_cssk_accrual
 #: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__accrual_type__payable
-msgid "Estimated payable (389 / 326)"
+msgid "Estimated payable"
 msgstr ""
 
 #. module: l10n_cssk_accrual
 #: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__accrual_type__receivable
-msgid "Estimated receivable (388)"
+msgid "Estimated receivable"
 msgstr ""
 
 #. module: l10n_cssk_accrual
 #: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__accrual_account_id
 msgid ""
-"Estimated-items account: CZ 389 (pasívny) / 388 (aktívny), SK 326 "
-"(nevyfakturované dodávky). Should be reconcilable."
+"CZ: 389 Dohadné účty pasivní / 388 Dohadné účty aktivní. SK, which has no "
+"dohadné účty: 326 Nevyfaktúrované dodávky when the amount is known from a "
+"contract or delivery note (§ 50 ods. 6 opatrenia 740/2002; an uncertain "
+"amount is a provision on 323 instead), and an unbilled receivable on a "
+"separate analytic account of the receivable it belongs to (§ 48 ods. 3). "
+"Must allow reconciliation."
 msgstr ""
 
 #. module: l10n_cssk_accrual
@@ -473,4 +477,26 @@ msgid ""
 "The accrual line of %(name)s on account %(account)s is already reconciled "
 "(moves: %(moves)s). Unreconcile it first if you really want to reverse this "
 "estimate."
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__accrual_type
+msgid ""
+"Estimated payable: a cost not yet invoiced (Dr expense / Cr accrual). "
+"Estimated receivable: revenue not yet invoiced (Dr accrual / Cr income). "
+"Which account takes it is chosen below."
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "Only a cancelled estimate can be reset to draft (%(name)s is %(state)s)."
+msgstr ""
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid ""
+"Reset to draft. The estimate entry %(move)s and its reversal %(reversal)s "
+"stay in the books; posting again books a new entry."
 msgstr ""

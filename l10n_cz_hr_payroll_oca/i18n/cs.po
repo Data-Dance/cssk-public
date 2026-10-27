@@ -24,21 +24,6 @@ msgstr ""
 "slovník."
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_dpp_notified
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_dpp_notified
-msgid ""
-"A single notified DPP enjoys the higher insurance threshold (25 % of the "
-"average wage); a non-notified DPP uses the general decisive-income threshold."
-msgstr ""
-"Jediná oznámená DPP má vyšší rozhodný příjem (25 % průměrné mzdy); "
-"neoznámená DPP používá obecný rozhodný příjem."
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_leave_accrual_plan
-msgid "Accrual Plan"
-msgstr "Plán nároku"
-
-#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_advances_withheld
 msgid "Advances Withheld (net of monthly credits)"
 msgstr "Sražené zálohy (po měsíčních slevách)"
@@ -90,21 +75,6 @@ msgstr "Roční zúčtování daně"
 #: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_annual_tax_settlement_rule
 msgid "Annual Tax Settlement"
 msgstr "Roční zúčtování daně"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_oca.accrual_plan_cz_holiday_4w_yearstart
-msgid "Annual leave — 4 weeks, full entitlement on 1 Jan (160 h)"
-msgstr "Dovolená – 4 týdny, celý nárok k 1. 1. (160 h)"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_oca.accrual_plan_cz_holiday_5w
-msgid "Annual leave — 5 weeks (200 h/year)"
-msgstr "Dovolená – 5 týdnů (200 h/rok)"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_oca.accrual_plan_cz_holiday_5w_yearstart
-msgid "Annual leave — 5 weeks, full entitlement on 1 Jan (200 h)"
-msgstr "Dovolená – 5 týdnů, celý nárok k 1. 1. (200 h)"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_credit
@@ -200,6 +170,7 @@ msgstr "Daňové zvýhodnění na děti (§35c)"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_contract_view_form_l10n_cz
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
 msgid "Children"
 msgstr "Děti"
 
@@ -572,6 +543,7 @@ msgstr "Srážka"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter__description
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_rule_parameter_view_form
 msgid "Description"
 msgstr "Popis"
 
@@ -583,7 +555,6 @@ msgstr "Určuje slevu na invaliditu (základní / rozšířenou)."
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__display_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_accrual_plan__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_type__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_structure__display_name
@@ -756,7 +727,6 @@ msgstr "Náhrada mzdy za dovolenou"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__id
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_accrual_plan__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_type__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_structure__id
@@ -885,7 +855,6 @@ msgid "Mortgage interest"
 msgstr "Úroky z úvěru na bydlení"
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_accrual_plan__name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter__name
 msgid "Name"
@@ -932,12 +901,6 @@ msgid "None"
 msgstr "Žádná"
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_dpp_notified
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_dpp_notified
-msgid "Notified DPP"
-msgstr "Oznámená DPP"
-
-#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
 msgid "Number of children holding a ZTP/P card (benefit doubled)."
@@ -965,15 +928,6 @@ msgstr "Nad 55 let (§7a/1/a)"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_overpayment
 msgid "Overpayment"
 msgstr "Přeplatek"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_total
-msgid ""
-"Overpayment + bonus top-up; posted onto a payslip via the "
-"ANNUAL_TAX_SETTLEMENT salary rule (increases net pay)."
-msgstr ""
-"Přeplatek + doplatek na bonusu; zaúčtováno na výplatní pásku mzdovým "
-"pravidlem ANNUAL_TAX_SETTLEMENT (zvyšuje čistou mzdu)."
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_obstacle_nahrada_rule
@@ -1183,11 +1137,6 @@ msgid "State-insured person"
 msgstr "Osoba, za kterou platí pojistné stát"
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_oca.accrual_plan_cz_holiday_4w
-msgid "Statutory annual leave — 4 weeks (160 h/year)"
-msgstr "Zákonná dovolená – 4 týdny (160 h/rok)"
-
-#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__student
 msgid "Student preparing for a profession (§7a/1/d)"
 msgstr "Student připravující se na povolání (§7a/1/d)"
@@ -1332,3 +1281,134 @@ msgstr "Rodičovská dovolená (§ 196)"
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__CZOTCOVSKA
 msgid "Paternity leave"
 msgstr "Otcovská dovolená"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
+msgid "Czech Payroll"
+msgstr "Česká mzdová agenda"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_social_disc_hourly_pct
+msgid "Czech Republic: Social discount max base per hour (% of avg wage)"
+msgstr "Česká republika: Sleva na pojistném - max. základ na hodinu (% průměrné mzdy)"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_prekazka_castecna_pct
+msgid "Czechia: Employer obstacle — short-time working, statutory minimum (%)"
+msgstr "Česko: Překážka na straně zaměstnavatele — částečná nezaměstnanost, zákonné minimum (%)"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.actions.act_window,name:l10n_cz_hr_payroll_oca.hr_rule_parameter_action
+#: model:ir.ui.menu,name:l10n_cz_hr_payroll_oca.hr_rule_parameter_menu
+msgid "Rule Parameters"
+msgstr "Parametry pravidel"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.constraint,message:l10n_cz_hr_payroll_oca.constraint_hr_rule_parameter_code_uniq
+msgid "Two rule parameters cannot share the same code."
+msgstr "Dva parametry pravidel nemohou mít stejný kód."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_income
+msgid "Previous employers: taxable income"
+msgstr "Předchozí plátci: zdanitelné příjmy"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_advances
+msgid "Previous employers: advances withheld"
+msgstr "Předchozí plátci: sražené zálohy"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_bonus_paid
+msgid "Previous employers: child bonuses paid"
+msgstr "Předchozí plátci: vyplacené daňové bonusy"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_payslip_id
+msgid "Settlement Payslip"
+msgstr "Výplatní páska pro vyrovnání"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_income
+msgid ""
+"Income from dependent activity paid by previous employers in the year, from "
+"their Potvrzení o zdanitelných příjmech (§ 38j odst. 3). Added to the annual"
+" tax base (§ 38ch odst. 4)."
+msgstr ""
+"Příjmy ze závislé činnosti vyplacené v roce předchozími plátci, podle jejich"
+" Potvrzení o zdanitelných příjmech (§ 38j odst. 3). Přičítají se k ročnímu "
+"základu daně (§ 38ch odst. 4)."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_advances
+msgid ""
+"Advances withheld by previous employers after the monthly credits, from "
+"their Potvrzení. Counted with this employer's own advances when the "
+"overpayment is worked out."
+msgstr ""
+"Zálohy sražené předchozími plátci po měsíčních slevách, podle jejich "
+"Potvrzení. Při výpočtu přeplatku se počítají spolu se zálohami tohoto "
+"plátce."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_bonus_paid
+msgid ""
+"Monthly child tax bonuses paid by previous employers, from their Potvrzení."
+msgstr ""
+"Měsíční daňové bonusy vyplacené předchozími plátci, podle jejich Potvrzení."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_payslip_id
+msgid ""
+"Draft payslip the settlement is paid with — at the latest the March payslip "
+"after the tax year (§ 35d odst. 8 ZDP)."
+msgstr ""
+"Výplatní páska v návrhu, se kterou se vyrovnání vyplatí — nejpozději páska "
+"za březen po skončení zdaňovacího období (§ 35d odst. 8 ZDP)."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_total
+msgid ""
+"Overpayment + bonus top-up actually paid; posted onto a payslip via the "
+"ANNUAL_TAX_SETTLEMENT salary rule (increases net pay). Zero when the two "
+"together are 50 Kč or less: § 35d odst. 8 / § 38ch odst. 5 ZDP pay them out "
+"only above 50 Kč."
+msgstr ""
+"Skutečně vyplácený přeplatek a doplatek na daňovém bonusu; zaúčtuje se na "
+"výplatní pásku pravidlem ANNUAL_TAX_SETTLEMENT (zvyšuje čistou mzdu). Nula, "
+"pokud obě částky dohromady nepřesahují 50 Kč: § 35d odst. 8 / § 38ch odst. 5"
+" ZDP je vyplácí jen nad 50 Kč."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
+msgid "Post to Payslip"
+msgstr "Zaúčtovat na výplatní pásku"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
+msgid "Previous Employers (Potvrzení, § 38ch odst. 4)"
+msgstr "Předchozí plátci (Potvrzení, § 38ch odst. 4)"
+
+#. module: l10n_cz_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
+msgid "Compute the reconciliation before posting it."
+msgstr "Před zaúčtováním roční zúčtování nejprve spočítejte."
+
+#. module: l10n_cz_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
+msgid ""
+"There is nothing to pay: the overpayment and the bonus top-up together are "
+"50 Kč or less, which the Income Tax Act does not pay out (§ 35d odst. 8, § "
+"38ch odst. 5)."
+msgstr ""
+"Není co vyplatit: přeplatek a doplatek na daňovém bonusu dohromady "
+"nepřesahují 50 Kč, a takovou částku zákon o daních z příjmů nevyplácí (§ 35d"
+" odst. 8, § 38ch odst. 5)."
+
+#. module: l10n_cz_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
+msgid "Choose the draft payslip the settlement is paid with."
+msgstr "Vyberte výplatní pásku v návrhu, se kterou se vyrovnání vyplatí."

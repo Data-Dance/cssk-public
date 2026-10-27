@@ -82,3 +82,57 @@ class TestMultiCashExport(AccountTestInvoicingCommon):
         order = self._order(mode, self.foreign, self.foreign_bank, self.eur)
         with self.assertRaises(UserError):
             order.generate_payment_file()
+
+    def _add_line(self, order, partner, partner_bank, currency, **vals):
+        line_vals = {
+            "order_id": order.id, "partner_id": partner.id,
+            "partner_bank_id": partner_bank.id, "currency_id": currency.id,
+            "amount_currency": 100.0, "date": "2026-03-15",
+            "communication": "FA 2026/0043",
+        }
+        line_vals.update(vals)
+        self.env["account.payment.line"].sudo().create(line_vals)
+
+    def test_mt101_lines_with_different_dates_are_refused(self):
+        """MT101 has one :30: execution date for the whole message; the file
+        used to take the first line's date for every payment."""
+        from odoo.exceptions import UserError
+        mode = self._mode("multicash_mt101")
+        order = self._order(mode, self.foreign, self.foreign_bank, self.eur)
+        self._add_line(order, self.foreign, self.foreign_bank, self.eur,
+                       date="2026-03-20")
+        with self.assertRaisesRegex(UserError, "one execution date"):
+            order.generate_payment_file()
+
+    def test_cfd_lines_keep_their_own_dates(self):
+        mode = self._mode("multicash_cfd")
+        order = self._order(mode, self.supplier, self.supplier_bank, self.czk)
+        self._add_line(order, self.supplier, self.supplier_bank, self.czk,
+                       date="2026-03-20")
+        body = order.generate_payment_file()[0].decode("cp852")
+        self.assertIn("HD:11 260315", body)
+        self.assertIn("HD:11 260320", body)
+
+    def test_zero_amount_line_is_refused(self):
+        from odoo.exceptions import UserError
+        mode = self._mode("multicash_cfd")
+        order = self._order(mode, self.supplier, self.supplier_bank, self.czk)
+        self._add_line(order, self.supplier, self.supplier_bank, self.czk,
+                       amount_currency=0.0)
+        with self.assertRaisesRegex(UserError, "zero or negative"):
+            order.generate_payment_file()
+
+    def test_cfa_priority_and_charge_bearer_come_from_the_line(self):
+        """They used to be read from fields no Community module defines, so
+        every CFA went out as normal priority with shared charges."""
+        mode = self._mode("multicash_cfa")
+        order = self._order(mode, self.foreign, self.foreign_bank, self.eur)
+        body = order.generate_payment_file()[0].decode("cp852")
+        self.assertIn("N1}{4:", body)
+        self.assertIn(":71A:BN1", body)
+        order.payment_line_ids.write({
+            "iso20022_priority": "URGP", "iso20022_charge_bearer": "DEBT",
+        })
+        body = order.generate_payment_file()[0].decode("cp852")
+        self.assertIn("S1}{4:", body)
+        self.assertIn(":71A:OUR", body)

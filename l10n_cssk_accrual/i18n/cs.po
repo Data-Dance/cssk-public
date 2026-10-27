@@ -160,22 +160,30 @@ msgstr "Dohadné položky"
 
 #. module: l10n_cssk_accrual
 #: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__accrual_type__payable
-msgid "Estimated payable (389 / 326)"
-msgstr "Odhadovaný závazek (389 / 326)"
+msgid "Estimated payable"
+msgstr "Odhadovaný závazek"
 
 #. module: l10n_cssk_accrual
 #: model:ir.model.fields.selection,name:l10n_cssk_accrual.selection__cssk_accrual_estimate__accrual_type__receivable
-msgid "Estimated receivable (388)"
-msgstr "Odhadovaná pohledávka (388)"
+msgid "Estimated receivable"
+msgstr "Odhadovaná pohledávka"
 
 #. module: l10n_cssk_accrual
 #: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__accrual_account_id
 msgid ""
-"Estimated-items account: CZ 389 (pasívny) / 388 (aktívny), SK 326 "
-"(nevyfakturované dodávky). Should be reconcilable."
+"CZ: 389 Dohadné účty pasivní / 388 Dohadné účty aktivní. SK, which has no "
+"dohadné účty: 326 Nevyfaktúrované dodávky when the amount is known from a "
+"contract or delivery note (§ 50 ods. 6 opatrenia 740/2002; an uncertain "
+"amount is a provision on 323 instead), and an unbilled receivable on a "
+"separate analytic account of the receivable it belongs to (§ 48 ods. 3). "
+"Must allow reconciliation."
 msgstr ""
-"Účet dohadných položek: CZ 389 (pasivní) / 388 (aktivní), SK 326 "
-"(nevyfakturované dodávky). Měl by umožňovat párování."
+"CZ: 389 Dohadné účty pasivní / 388 Dohadné účty aktivní. SK, které "
+"dohadné účty nemá: 326 Nevyfaktúrované dodávky, je-li částka známa ze "
+"smlouvy nebo dodacího listu (§ 50 ods. 6 opatrenia 740/2002; nejistá "
+"částka je místo toho rezerva na 323), a nevyfakturovaná pohledávka na "
+"samostatném analytickém účtu pohledávky, k níž patří (§ 48 ods. 3). Musí "
+"umožňovat párování."
 
 #. module: l10n_cssk_accrual
 #: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__counterpart_account_id
@@ -438,6 +446,33 @@ msgstr "Historie komunikace webu"
 #: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__label
 msgid "What is being accrued (printed on the journal items)."
 msgstr "Co se odhaduje (vytištěno na řádcích účetního zápisu)."
+
+#. module: l10n_cssk_accrual
+#: model:ir.model.fields,help:l10n_cssk_accrual.field_cssk_accrual_estimate__accrual_type
+msgid ""
+"Estimated payable: a cost not yet invoiced (Dr expense / Cr accrual). "
+"Estimated receivable: revenue not yet invoiced (Dr accrual / Cr income). "
+"Which account takes it is chosen below."
+msgstr ""
+"Odhadovaný závazek: náklad, který ještě nebyl vyfakturován (MD náklad / D "
+"účet odhadu). Odhadovaná pohledávka: výnos, který ještě nebyl vyfakturován "
+"(MD účet odhadu / D výnos). Účet se vybírá níže."
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid "Only a cancelled estimate can be reset to draft (%(name)s is %(state)s)."
+msgstr "Do konceptu lze vrátit jen stornovaný odhad (%(name)s je ve stavu %(state)s)."
+
+#. module: l10n_cssk_accrual
+#. odoo-python
+#: code:addons/l10n_cssk_accrual/models/cssk_accrual_estimate.py:0
+msgid ""
+"Reset to draft. The estimate entry %(move)s and its reversal %(reversal)s "
+"stay in the books; posting again books a new entry."
+msgstr ""
+"Vráceno do konceptu. Zápis odhadu %(move)s a jeho storno %(reversal)s "
+"zůstávají v účetnictví; opětovné zaúčtování vytvoří nový zápis."
 
 #~ msgid "Estimated Accruals (dohadné)"
 #~ msgstr "Dohadné položky"

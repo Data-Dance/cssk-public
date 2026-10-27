@@ -15,11 +15,14 @@ employee:
   (``zanik``).
 
 The ``typZec`` relationship code defaults from the employee's agreement type
-(employment → ``ZEC``, DoVP → ``ZECD1``, DoPČ → ``ZECD2``) and selects the right
-odhláška branch (``zecPPOdhl`` / ``zecNPOdhl`` / ``zecDOdhl``). The birth number
-(``rc``) is read from the employee's Identification No., the name is split into
-surname/first name and the birth date from the employee — review these against
-your master data before filing.
+and income regularity (employment → ``ZEC``; DoVP → ``ZECD1`` / ``ZECD1N``;
+DoPČ → ``ZECD2`` / ``ZECD2N``; DoBPŠ → ``ZECD3`` / ``ZECD3N``, the ``N``
+variants for an irregular income) and selects the right odhláška branch
+(``zecPPOdhl`` / ``zecNPOdhl`` / ``zecDOdhl``). The birth number (``rc``) is
+read from the employee's Identification No., the surname is the last word of
+the name (separate first/last name fields win when installed) and the birth
+date comes from the employee. The Sociálna poisťovňa variable symbol is
+edited on the RLFO form.
 
 Change (``ZM``), interruption (``PE``) and cancellation (``ZP``) events are not
 modelled yet.

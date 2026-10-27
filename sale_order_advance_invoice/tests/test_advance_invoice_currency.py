@@ -36,7 +36,7 @@ class TestAdvanceInvoiceCurrency(AdvanceInvoiceCommon):
             "name": "EUR", "currency_id": cls.eur.id})
 
     def _duzp(self, move, date):
-        """With l10n_cz the rate is the one of the DUZP (§ 38 ZDPH), which
+        """With l10n_cz the rate is the one of the DUZP (§ 4 odst. 8 ZDPH), which
         defaults to today; the dates these tests set must include it."""
         if "taxable_supply_date" in move._fields:
             move.taxable_supply_date = date
@@ -89,7 +89,7 @@ class TestAdvanceInvoiceCurrency(AdvanceInvoiceCommon):
             msg="the deducted base is valued at the final invoice's rate, not "
                 "at the rate of the advance's tax document")
         # The advance paid for the whole supply, so the supply is valued at
-        # the advance's rate too (§ 38 ZDPH; a received advance is a
+        # the advance's rate too (§ 4 odst. 8 ZDPH; a received advance is a
         # non-monetary item): revenue 25 000, and the VAT nets to zero.
         supply = final.invoice_line_ids.filtered(lambda l: l.price_subtotal > 0)
         self.assertAlmostEqual(sum(supply.mapped("balance")), -25000.0, places=2)

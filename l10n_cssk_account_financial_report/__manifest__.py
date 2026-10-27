@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK: financial reports without the year-end closing journals",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "summary": "Trial balance, general ledger, open items and aged partner "
                "balance leave out the company's year-end closing and archive "
                "journals, as the statutory statements already do.",

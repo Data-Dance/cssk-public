@@ -32,6 +32,12 @@
                             class="oe_highlight" invisible="state != 'in_progress'"/>
                     <button name="action_draft" type="object" string="Späť na návrh"
                             invisible="state == 'draft'"/>
+                    <button name="action_refresh_book_amounts" type="object"
+                            string="Načítať účtovné stavy"
+                            invisible="state == 'done' or not supis_ids"/>
+                    <button name="action_print_supisy" type="object"
+                            string="Tlačiť inventúrne súpisy"
+                            invisible="not supis_ids"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -55,7 +61,9 @@
                     <notebook>
                         <page string="Inventúrne súpisy">
                             <field name="supis_ids">
-                                <list editable="bottom">
+                                <!-- not editable inline: a súpis has položky,
+                                     which only its form can take -->
+                                <list>
                                     <field name="sequence" widget="handle"/>
                                     <field name="name"/>
                                     <field name="inventory_type"/>
@@ -86,6 +94,9 @@
                                             <field name="currency_id" invisible="1"/>
                                         </group>
                                     </group>
+                                    <button name="action_refresh_book_amount" type="object"
+                                            string="Načítať zostatok účtu"
+                                            invisible="inventory_type != 'dokladova' or not account_id"/>
                                     <field name="line_ids">
                                         <list editable="bottom">
                                             <field name="sequence" widget="handle"/>

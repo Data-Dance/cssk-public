@@ -59,14 +59,17 @@ Starter set
 ===========
 
 * **Prevod peňazí cez účet 261** (peniaze na ceste), both legs, both directions —
-  výber z pokladnice (261/211), príjem na bankový účet (221/261), výber z
-  bankového účtu (261/221), vklad do pokladnice (211/261).
+  výber z pokladnice, príjem na bankový účet, výber z bankového účtu, vklad do
+  pokladnice — on the company's *Liquidity Transfer* account (261…, not
+  261000, which the SK chart makes the bank suspense account) and the accounts
+  of its bank and cash journals.
 * **Preúčtovanie výsledku hospodárenia** po schválení — zisk (431/428) and
   strata (429/431).
 
-New companies receive the templates when the SK chart loads (via the chart
-template); existing SK companies get them on install (post-init hook), through the
-same loader, so the xmlids match either way.
+New companies receive the templates when the SK chart loads (after it, once the
+journals and the Liquidity Transfer account exist); existing SK companies get
+them on install (post-init hook), through the same loader, so the xmlids match
+either way.
 
 The hook loads only what a company does not already have. That makes it
 idempotent, and — the reason that matters — it means **an edit the accountant

@@ -8,6 +8,25 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.7.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- A later filing for a period already filed can report only the changes:
+  the countries say which submission type that is and how a filed row is
+  withdrawn (a storno row, or a row at 0). Rows that cancel are marked
+  *Cancels a filed row*.
+- The EC sales list code is on the tax form (Advanced Options).
+
+Fixed
+~~~~~
+
+- A version's *Monthly* / *Quarterly* switches are enforced.
+- A test that could never pass at install time (it looked for a journal
+  before any chart existed) builds its own.
+
 [19.0.1.6.5] — 2026-09-17
 -------------------------
 

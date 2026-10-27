@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The scheduled matching reaches every open transaction.** It took the 200
+  newest unreconciled transactions on every run, so once 200 of them could
+  not be matched, nothing older was ever tried again. It now takes the
+  transactions it has not seen yet first and walks the older ones in turn.
+
 [19.0.1.0.1] — 2026-09-29
 -------------------------
 

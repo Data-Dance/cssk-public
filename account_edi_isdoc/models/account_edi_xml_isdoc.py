@@ -540,8 +540,8 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         party_node = tree.find(f'{q(party_tag)}/{q("Party")}')
         partner_logs = []
         if party_node is not None:
-            partner, partner_logs = self._import_partner(
-                invoice.company_id, **self._import_isdoc_party_vals(party_node))
+            partner, partner_logs = self._import_isdoc_partner(
+                invoice.company_id, self._import_isdoc_party_vals(party_node))
             invoice.partner_id = partner.id  # set before lines/bank so they resolve correctly
 
         # ==== Currency, dates ====
@@ -605,6 +605,12 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         return {
             'name': party_node.findtext(f'{q("PartyName")}/{q("Name")}'),
             'vat': party_node.findtext(f'{q("PartyTaxScheme")}/{q("CompanyID")}'),
+            # IČO: PartyIdentification/ID is the identifikační číslo, with
+            # CatalogFirmIdentification as the alternative carrier.
+            'company_registry': (
+                party_node.findtext(f'{q("PartyIdentification")}/{q("ID")}')
+                or party_node.findtext(f'{q("PartyIdentification")}/{q("CatalogFirmIdentification")}')
+            ),
             'phone': party_node.findtext(f'{q("Contact")}/{q("Telephone")}'),
             'email': party_node.findtext(f'{q("Contact")}/{q("ElectronicMail")}'),
             'postal_address': {
@@ -615,6 +621,36 @@ class AccountEdiXmlISDOC(models.AbstractModel):
                 'zip': party_node.findtext(f'{q("PostalAddress")}/{q("PostalZone")}'),
             },
         }
+
+    def _import_isdoc_partner(self, company, party_vals):
+        """ The partner of an imported document: by IČO first, then core's search.
+
+        Core's ``_import_partner`` knows DIČ, name, email and phone. A Czech
+        supplier is identified by its IČO above all, and a non-payer of VAT has
+        no DIČ at all, so without this it was found by name only, or not at all.
+        An IČO match is dropped when the file's DIČ contradicts the partner's. """
+        party_vals = dict(party_vals)
+        ico = re.sub(r'\s', '', party_vals.pop('company_registry', None) or '')
+        vat = party_vals.get('vat')
+        if re.fullmatch(r'\d{6,8}', ico):
+            Partner = self.env['res.partner'].with_company(company)
+            matches = Partner.search([
+                *Partner._check_company_domain(company),
+                ('company_registry', 'in', list({ico, ico.zfill(8)})),
+            ]).commercial_partner_id
+            if len(matches) == 1 and not (
+                vat and matches.vat
+                and not self._vat_is_equal(matches.vat, vat, matches.country_id)
+            ):
+                return matches, []
+        else:
+            ico = ''
+        partner, logs = self._import_partner(company, **party_vals)
+        if partner and ico and not partner.company_registry \
+                and partner.create_date and partner.create_date >= self.env.cr.now():
+            # created by this import: keep the IČO, so the next import finds it
+            partner.company_registry = ico
+        return partner, logs
 
     def _import_isdoc_bank(self, invoice, tree):
         """ Attach the document's bank account (the issuer's) to the partner and the move.
@@ -677,7 +713,17 @@ class AccountEdiXmlISDOC(models.AbstractModel):
                 'price_unit': price_unit,
                 'tax_nodes': line.findall(f'{q("ClassifiedTaxCategory")}/{q("Percent")}'),
             }
-            tax_ids, tax_logs = self._retrieve_taxes(invoice, line_values, tax_type)
+            reverse_charge = line.find(f'{q("ClassifiedTaxCategory")}/{q("LocalReverseCharge")}')
+            if reverse_charge is not None:
+                # Tuzemský režim přenesení daňové povinnosti (§ 92a ZDPH): the
+                # supplier charges no VAT and the recipient self-assesses it.
+                # The rate's ordinary tax would have the supplier bill VAT it
+                # never charged, so only a reverse-charge tax will do.
+                tax_ids, tax_logs = self._isdoc_reverse_charge_taxes(
+                    invoice, line.findtext(f'{q("ClassifiedTaxCategory")}/{q("Percent")}'),
+                    reverse_charge.findtext(q('LocalReverseChargeCode')), name, tax_type)
+            else:
+                tax_ids, tax_logs = self._retrieve_taxes(invoice, line_values, tax_type)
             logs += tax_logs
 
             vals_list.append({
@@ -689,6 +735,44 @@ class AccountEdiXmlISDOC(models.AbstractModel):
                 'tax_ids': [Command.set(tax_ids)],
             })
         return vals_list, logs
+
+    def _isdoc_reverse_charge_taxes(self, invoice, percent, code, line_name, tax_type):
+        """ (tax_ids, logs) for a line in the local reverse-charge regime.
+
+        The Czech chart's reverse-charge tax at the line's rate (purchase), or
+        its 0 % "RC" tax (sale); failing that, a tax flagged as reverse charge
+        (``cssk_control_is_reverse_charge``) at that rate. Never the ordinary
+        tax: with none found the line gets no tax and the log says so. """
+        company = invoice.company_id
+        try:
+            rate = float(percent or 0.0)
+        except ValueError:
+            rate = 0.0
+        Tax = self.env['account.tax']
+        ChartTemplate = self.env['account.chart.template'].with_company(company)
+        if tax_type == 'purchase':
+            xmlid = f'l10n_cz_{rate:g}_tax_reverse_charge_scheme'
+        else:
+            xmlid = 'l10n_cz_tax_reverse_charge_mode'
+        tax = ChartTemplate.ref(xmlid, raise_if_not_found=False) or Tax
+        if tax and (tax.type_tax_use != tax_type or not tax.active):
+            tax = Tax
+        if not tax and 'cssk_control_is_reverse_charge' in Tax._fields:
+            tax = Tax.search([
+                *Tax._check_company_domain(company),
+                ('type_tax_use', '=', tax_type),
+                ('amount_type', '=', 'percent'),
+                ('amount', '=', rate if tax_type == 'purchase' else 0.0),
+                ('cssk_control_is_reverse_charge', '=', True),
+            ], limit=1)
+        if tax:
+            return tax.ids, []
+        return [], [_(
+            "Line '%(line)s' is in the local reverse-charge regime (code %(code)s) at "
+            "%(rate)s %%, but no reverse-charge tax was found: it was left without tax. "
+            "Set the reverse-charge tax before posting.",
+            line=line_name or '', code=code or '-', rate=f'{rate:g}',
+        )]
 
     def _import_isdoc_deposits(self, invoice, tree, qty_factor):
         """ Deducted advance payments (TaxedDeposits/NonTaxedDeposits) become negative lines,

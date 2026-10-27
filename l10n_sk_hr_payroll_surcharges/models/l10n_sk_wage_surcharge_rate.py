@@ -34,40 +34,46 @@ class L10nSkWageSurchargeRate(models.Model):
     # --- percentages of the MINIMUM HOURLY WAGE ---------------------------
     noc_pct = fields.Float(
         "Night work %", digits=(16, 2), default=40.0,
-        help="§ 122a ods. 1 — at least 40 % of the minimum hourly wage.",
+        help="§ 123 ods. 1 — at least 40 % of the minimum hourly wage.",
     )
     noc_risk_pct = fields.Float(
         "Night work % (risk)", digits=(16, 2), default=50.0,
-        help="§ 122a ods. 2 — at least 50 % where the work is classified as "
+        help="§ 123 ods. 1 — at least 50 % where the work is classified as "
         "risky (riziková práca).",
     )
     noc_reduced_pct = fields.Float(
         "Night work % (reduced)", digits=(16, 2), default=35.0,
-        help="§ 122a ods. 3 — at least 35 %, available only by collective "
-        "agreement to employers whose work is predominantly performed at "
-        "night, and never for risky work.",
+        help="§ 123 ods. 2 — at least 35 %, agreed in a collective agreement "
+        "(or in the employment contract at an employer with no trade union "
+        "and fewer than 20 employees on 31 December of the previous year) "
+        "where the predominant part of the work is performed at night; never "
+        "for risky work.",
     )
     sobota_pct = fields.Float(
         "Saturday %", digits=(16, 2), default=50.0,
-        help="§ 122b ods. 1 — at least 50 % of the minimum hourly wage.",
+        help="§ 122a ods. 1 — at least 50 % of the minimum hourly wage.",
     )
     sobota_reduced_pct = fields.Float(
         "Saturday % (reduced)", digits=(16, 2), default=45.0,
-        help="§ 122b ods. 2 — at least 45 % by collective agreement where the "
-        "nature of the work requires regular work on Saturdays.",
+        help="§ 122a ods. 2 — at least 45 %, agreed in a collective agreement "
+        "(or in the employment contract at an employer with no trade union "
+        "and fewer than 20 employees on 31 December of the previous year) "
+        "where the nature of the work requires regular work on Saturdays.",
     )
     nedela_pct = fields.Float(
         "Sunday %", digits=(16, 2), default=100.0,
-        help="§ 122c ods. 1 — at least 100 % of the minimum hourly wage.",
+        help="§ 122b ods. 1 — at least 100 % of the minimum hourly wage.",
     )
     nedela_reduced_pct = fields.Float(
         "Sunday % (reduced)", digits=(16, 2), default=90.0,
-        help="§ 122c ods. 2 — at least 90 % by collective agreement where the "
-        "nature of the work requires regular work on Sundays.",
+        help="§ 122b ods. 2 — at least 90 %, agreed in a collective agreement "
+        "(or in the employment contract at an employer with no trade union "
+        "and fewer than 20 employees on 31 December of the previous year) "
+        "where the nature of the work requires regular work on Sundays.",
     )
     stazeny_pct = fields.Float(
         "Difficult conditions %", digits=(16, 2), default=20.0,
-        help="§ 123 — mzdová kompenzácia za sťažený výkon práce, at least "
+        help="§ 124 ods. 3 — mzdová kompenzácia za sťažený výkon práce, at least "
         "20 % of the minimum hourly wage.",
     )
     pohotovost_pct = fields.Float(

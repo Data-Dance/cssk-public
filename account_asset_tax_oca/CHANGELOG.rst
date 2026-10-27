@@ -5,6 +5,39 @@ Changelog
 All notable changes to **account_asset_tax_oca** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.5.0 (2026-10-27), not yet on 18.0:** the *Compute Tax Depreciation*
+  binding and menu (``views/account_asset_tax_compute_views.xml``) and the
+  increased-first-year field shown for accelerated depreciation. 18.0 uses
+  ``groups_id`` on actions, not ``group_ids``.
+
+[19.0.1.5.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **Compute Tax Depreciation is reachable.** The batch recomputation had no
+  menu or button. It is now in the asset list's *Action* menu (for the
+  selected assets) and under *Accounting → Configuration* (for every asset
+  that tracks tax depreciation).
+- *Increased First-Year Rate* is shown for Czech accelerated depreciation too.
+
+[19.0.1.4.5] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- The asset form shows *Depreciate Whole Months in Disposal Year* (Slovak
+  companies) and the board's hidden *Vehicle Add-back (SK §17(34))* column;
+  see ``account_asset_tax`` 19.0.1.10.0. Slovak and Czech terms for both.
+
 [19.0.1.4.4] — 2026-09-17
 -------------------------
 

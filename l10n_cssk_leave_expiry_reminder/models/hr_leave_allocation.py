@@ -56,7 +56,9 @@ class HrLeaveAllocation(models.Model):
 
         allocations = self.search(
             [
-                ("state", "in", ("validate", "confirm")),
+                # 'validate1' is an allocation waiting for its second
+                # approval: its days are as real as a first-level one's.
+                ("state", "in", ("validate", "validate1", "confirm")),
                 ("carried_over_days_expiration_date", "!=", False),
                 ("carried_over_days_expiration_date", ">=", today),
                 ("carried_over_days_expiration_date", "<=", limit),
@@ -96,7 +98,7 @@ class HrLeaveAllocation(models.Model):
             if allocation._l10n_cssk_net_expiring_days() <= 0:
                 continue
             try:
-                allocation._l10n_cssk_notify_expiry(
+                delivered = allocation._l10n_cssk_notify_expiry(
                     activity_type, mail_template if send_email else False
                 )
             except Exception:  # never let one allocation break the cron
@@ -104,6 +106,13 @@ class HrLeaveAllocation(models.Model):
                     "Leave expiry reminder failed for allocation %s",
                     allocation.id,
                 )
+                continue
+            if not delivered:
+                # Nobody to tell (no user anywhere, no work email): leave it
+                # unmarked so the next run tries again once someone is set.
+                _logger.info(
+                    "Leave expiry reminder for allocation %s reached nobody; "
+                    "it will be retried.", allocation.id)
                 continue
             # Mark this cohort as reminded (dedupe).
             allocation.l10n_cssk_expiry_reminder_date = expiry
@@ -114,15 +123,17 @@ class HrLeaveAllocation(models.Model):
     # Helpers
     # ------------------------------------------------------------------
     def _l10n_cssk_expiry_responsible_user(self):
-        """Best assignee for the reminder: the employee's user, else the
-        time-off approver, else the manager's user. May be empty."""
+        """The employee's own user (may be empty)."""
+        self.ensure_one()
+        return self.employee_id.user_id
+
+    def _l10n_cssk_expiry_hr_user(self):
+        """Who on the HR side is told: the time-off approver, else the
+        manager's user — never the employee themselves. May be empty."""
         self.ensure_one()
         employee = self.employee_id
-        return (
-            employee.user_id
-            or employee.leave_manager_id
-            or employee.parent_id.user_id
-        )
+        user = employee.leave_manager_id or employee.parent_id.user_id
+        return user if user != employee.user_id else user.browse()
 
     def _l10n_cssk_hours_per_day(self):
         """Hours in a working day for this allocation's employee.
@@ -173,9 +184,10 @@ class HrLeaveAllocation(models.Model):
         return ("%g" % round(amount, 2)), unit_word
 
     def _l10n_cssk_notify_expiry(self, activity_type, mail_template):
-        """Schedule the reminder activity and (optionally) send the email for
-        a single allocation. Each channel is guarded independently so a missing
-        user or email simply skips that channel."""
+        """Schedule the reminder activities and (optionally) send the email
+        for a single allocation. Each channel is guarded independently so a
+        missing user or email simply skips that channel. Returns whether
+        anything reached anybody."""
         self.ensure_one()
         employee = self.employee_id
         if not employee:
@@ -185,18 +197,22 @@ class HrLeaveAllocation(models.Model):
         leave_name = self.holiday_status_id.display_name or _("leave")
         expiry_str = format_date(self.env, expiry)
 
-        # --- Channel 1: activity on the employee -----------------------
+        delivered = False
+        summary = _(
+            "Expiring leave: %(amount)s %(unit)s",
+            amount=amount,
+            unit=unit_word,
+        )
+
+        # --- Channel 1: activity for the employee ----------------------
         responsible = self._l10n_cssk_expiry_responsible_user()
         if activity_type and responsible:
-            summary = _(
-                "Expiring leave: %(amount)s %(unit)s",
-                amount=amount,
-                unit=unit_word,
-            )
             note = _(
                 "You have %(amount)s %(unit)s of %(leave)s that will expire "
-                "on %(date)s. Please schedule this time off before then, "
-                "otherwise it will be forfeited.",
+                "on %(date)s. Please agree with your manager when you will "
+                "take this time off before then. Annual leave does not lapse "
+                "under the Labour Code; this is the date the time-off plan "
+                "removes it from your balance in Odoo.",
                 amount=amount,
                 unit=unit_word,
                 leave=leave_name,
@@ -209,7 +225,37 @@ class HrLeaveAllocation(models.Model):
                 note=note,
                 user_id=responsible.id,
             )
+            delivered = True
 
-        # --- Channel 2: email to the employee --------------------------
+        # --- Channel 2: activity for HR (approver / manager) -----------
+        # Always, not only when the employee has no user: the employer
+        # schedules leave, so HR has to know what is about to fall off the
+        # balance even when the employee was told too.
+        hr_user = self._l10n_cssk_expiry_hr_user()
+        if activity_type and hr_user:
+            hr_note = _(
+                "%(employee)s has %(amount)s %(unit)s of %(leave)s that will "
+                "expire on %(date)s. Please agree with them when they will "
+                "take this time off before then. Annual leave does not lapse "
+                "under the Labour Code; this is the date the time-off plan "
+                "removes it from their balance in Odoo.",
+                employee=employee.name,
+                amount=amount,
+                unit=unit_word,
+                leave=leave_name,
+                date=expiry_str,
+            )
+            employee.activity_schedule(
+                activity_type_id=activity_type.id,
+                date_deadline=expiry,
+                summary=summary,
+                note=hr_note,
+                user_id=hr_user.id,
+            )
+            delivered = True
+
+        # --- Channel 3: email to the employee --------------------------
         if mail_template and employee.work_email:
             mail_template.send_mail(self.id, force_send=False)
+            delivered = True
+        return delivered

@@ -76,10 +76,18 @@ class L10nSkFuelSplit(models.TransientModel):
         ratio = self.income_ratio / 100.0
         new_lines = []
         for line in self.line_ids:
-            net = line.price_subtotal
-            if not net:
+            # Split the line's own price, in the convention it was entered in:
+            # with a price-included tax, price_unit is gross. Splitting
+            # price_subtotal (always net) and writing the halves back as
+            # price_unit would make Odoo take VAT out of them a second time,
+            # lowering the bill total. Both parts keep the line's taxes, so
+            # each part's net and VAT follow from its share of this amount.
+            amount = move.currency_id.round(
+                line.quantity * line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+            )
+            if not amount:
                 continue
-            non_tax = move.currency_id.round(net * (1 - ratio))
+            non_tax = move.currency_id.round(amount * (1 - ratio))
             if not non_tax:
                 continue
             # Same taxes on both parts: the VAT treatment does not change, only
@@ -101,14 +109,14 @@ class L10nSkFuelSplit(models.TransientModel):
                     }
                 )
             )
-            # price_subtotal is already net of any discount, so the remainder is
+            # The amount is already net of any discount, so the remainder is
             # written as a plain 1 × price with the discount cleared. Leaving a
             # non-zero discount here would apply it a second time to a figure
             # that has already had it deducted.
             line.write(
                 {
                     "quantity": 1.0,
-                    "price_unit": move.currency_id.round(net - non_tax),
+                    "price_unit": move.currency_id.round(amount - non_tax),
                     "discount": 0.0,
                     "l10n_sk_fuel_split_done": True,
                 }

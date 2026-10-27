@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 class AccountPayment(models.Model):
     """The same check as on the vendor bill, at the moment that matters.
 
-    The liability for a supplier's unpaid VAT (§69 ods. 14 SK / §109 CZ)
+    The liability for a supplier's unpaid VAT (§ 69 ods. 13 SK / § 109 CZ)
     attaches to *paying* an unregistered account, and weeks can pass between
     the bill and the payment. So an outbound supplier payment is checked again
     when it is posted, against the account it actually pays. Warns; never

@@ -15,28 +15,38 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
-                    <div class="page">
-                        <h2>Odsúhlasenie zostatkov / Balance confirmation</h2>
+                    <!-- Czech or Slovak wording by the company's fiscal
+                         country. The parties are named neutrally: a
+                         confirmation of payables makes the company the
+                         debtor, not the supplier or the creditor. -->
+                    <t t-set="cz" t-value="(doc.company_id.account_fiscal_country_id or doc.company_id.country_id).code == 'CZ'"/>
+                    <t t-set="vat_label" t-value="'DIČ' if cz else 'IČ DPH'"/>
+                    <div class="page" t-translation="off">
+                        <h2 t-if="cz">Odsouhlasení zůstatků / Balance confirmation</h2>
+                        <h2 t-else="">Odsúhlasenie zostatkov / Balance confirmation</h2>
                         <p>
                             <strong t-out="doc.name"/> —
-                            k dátumu / as of
+                            k <t t-if="cz">datu</t><t t-else="">dátumu</t> / as of
                             <strong t-out="doc.as_of_date"/>
                         </p>
                         <div class="row mt-3">
                             <div class="col-6">
-                                <strong>Dodávateľ / Veriteľ:</strong><br/>
+                                <strong t-if="cz">Účetní jednotka / Company:</strong>
+                                <strong t-else="">Účtovná jednotka / Company:</strong><br/>
                                 <span t-field="doc.company_id.partner_id"
                                       t-options='{"widget": "contact"}'/>
-                                <div>IČ DPH:
-                                    <span t-out="doc.company_id.vat or ''"/>
+                                <div t-if="doc.company_id.company_registry">IČO: <span t-out="doc.company_id.company_registry"/></div>
+                                <div t-if="doc.company_id.vat"><t t-out="vat_label"/>:
+                                    <span t-out="doc.company_id.vat"/>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <strong>Odberateľ / Partner:</strong><br/>
+                                <strong>Partner:</strong><br/>
                                 <span t-field="doc.partner_id"
                                       t-options='{"widget": "contact"}'/>
-                                <div>IČ DPH:
-                                    <span t-out="doc.partner_id.vat or ''"/>
+                                <div t-if="doc.partner_id.company_registry">IČO: <span t-out="doc.partner_id.company_registry"/></div>
+                                <div t-if="doc.partner_id.vat"><t t-out="vat_label"/>:
+                                    <span t-out="doc.partner_id.vat"/>
                                 </div>
                             </div>
                         </div>
@@ -45,10 +55,10 @@
                             <thead>
                                 <tr>
                                     <th>Doklad / Document</th>
-                                    <th>Dátum</th>
-                                    <th>Splatnosť</th>
-                                    <th>Typ</th>
-                                    <th class="text-end">Suma / Amount</th>
+                                    <th><t t-if="cz">Datum</t><t t-else="">Dátum</t> / Date</th>
+                                    <th><t t-if="cz">Splatnost</t><t t-else="">Splatnosť</t> / Due</th>
+                                    <th>Typ / Type</th>
+                                    <th class="text-end"><t t-if="cz">Částka</t><t t-else="">Suma</t> / Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -71,13 +81,13 @@
                             <div class="col-6 offset-6">
                                 <table class="table table-sm">
                                     <tr>
-                                        <td>Pohľadávky / Receivables</td>
+                                        <td><t t-if="cz">Pohledávky</t><t t-else="">Pohľadávky</t> / Receivables</td>
                                         <td class="text-end">
                                             <span t-field="doc.total_receivable"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Záväzky / Payables</td>
+                                        <td><t t-if="cz">Závazky</t><t t-else="">Záväzky</t> / Payables</td>
                                         <td class="text-end">
                                             <span t-field="doc.total_payable"/>
                                         </td>
@@ -95,11 +105,11 @@
                         <div class="row mt-5">
                             <div class="col-6 text-center">
                                 ____________________________<br/>
-                                Za dodávateľa / For the supplier
+                                <t t-if="cz">Za účetní jednotku</t><t t-else="">Za účtovnú jednotku</t> / For the company
                             </div>
                             <div class="col-6 text-center">
                                 ____________________________<br/>
-                                Za odberateľa / For the partner
+                                Za partnera / For the partner
                             </div>
                         </div>
                     </div>

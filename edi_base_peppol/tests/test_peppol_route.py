@@ -2,7 +2,9 @@
 
 import importlib.util
 from pathlib import Path
+from unittest.mock import patch
 
+from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 
@@ -18,7 +20,14 @@ class TestPeppolRoute(TransactionCase):
             "account_fiscal_country_id": cls.sk.id,
             "peppol_send_enabled": True, "peppol_scope": "sk_mandate"})
         cls.company.partner_id.write({
+            "vat": "SK2020000004",
             "peppol_eas": "9950", "peppol_endpoint": "SK2020000004"})
+        # With several transports installed one must be chosen, or nothing
+        # is routed to Peppol at all (tested below).
+        transports = cls.env["account.move"]._peppol_transports()
+        if transports:
+            cls.env["ir.config_parameter"].sudo().set_param(
+                "peppol.transport", transports[0])
 
     def _customer(self, country, company=True, vat=False, address=True):
         vals = {"name": "Customer %s" % country.code, "country_id": country.id,
@@ -48,6 +57,42 @@ class TestPeppolRoute(TransactionCase):
         self.assertEqual(
             self._route(self._customer(self.sk, company=False, vat="SK2021111114"))[0],
             "peppol")
+
+    def test_a_sole_trader_without_vat_is_a_business(self):
+        """§ 85o ods. 3: a taxable person, VAT-registered or not. A natural
+        person with an IČO is a sole trader, not a consumer."""
+        trader = self._customer(self.sk, company=False)
+        trader.company_registry = "12345678"
+        self.assertEqual(self._route(trader)[0], "peppol")
+        self.assertFalse(
+            self._customer(self.sk, company=False)._peppol_is_sk_business())
+
+    def test_the_mandate_binds_a_vat_payer(self):
+        self.company.partner_id.vat = False
+        route, reason = self._route(self._customer(self.sk))
+        self.assertEqual(route, "pdf")
+        self.assertIn("§ 85o", reason)
+
+    def test_several_transports_need_a_choice(self):
+        Move = type(self.env["account.move"])
+        customer = self._customer(self.sk)
+        with patch.object(Move, "_peppol_transports",
+                          lambda self: ["editel", "grit"]):
+            ICP = self.env["ir.config_parameter"].sudo()
+            ICP.set_param("peppol.transport", False)
+            route, reason = self._route(customer)
+            self.assertEqual(route, "blocked")
+            self.assertIn("Peppol Transport", reason)
+            ICP.set_param("peppol.transport", "grit")
+            self.assertEqual(self._route(customer)[0], "peppol")
+            self.assertEqual(
+                self.env["account.move"]._peppol_chosen_transport(), "grit")
+            ICP.set_param("peppol.transport", "nonexistent")
+            self.assertFalse(self.env["account.move"]._peppol_chosen_transport())
+        with patch.object(Move, "_peppol_transports", lambda self: ["grit"]):
+            self.assertEqual(
+                self.env["account.move"]._peppol_chosen_transport(), "grit",
+                "a single transport is used whatever the setting says")
 
     def test_czech_and_other_foreign_customers_get_the_pdf(self):
         self.assertEqual(self._route(self._customer(self.cz))[0], "pdf")
@@ -111,3 +156,29 @@ class TestPeppolRoute(TransactionCase):
         self.assertTrue(self.company.peppol_send_enabled, "it had an address")
         self.assertTrue(self.company.peppol_auto_send)
         self.assertFalse(silent.peppol_send_enabled)
+
+
+@tagged("post_install", "-at_install")
+class TestPeppolTransports(TransactionCase):
+    """After every module is loaded, so the installed transports are there."""
+
+    def test_every_transport_honours_the_setting(self):
+        """No transport claims Peppol unless it is the chosen one — Editel
+        used to claim it always, so with Editel loaded last the setting was
+        ignored. Each module's own override is called, so the test does not
+        depend on the order the modules load in."""
+        Move = self.env["account.move"]
+        ICP = self.env["ir.config_parameter"].sudo()
+        overrides = [
+            cls for cls in type(Move).mro()
+            if "_peppol_provider" in vars(cls)
+            and cls.__module__.startswith("odoo.addons.edi_")
+            and not cls.__module__.startswith("odoo.addons.edi_base_peppol")
+        ]
+        for key in Move._peppol_transports():
+            ICP.set_param("peppol.transport", key)
+            self.assertEqual(Move._peppol_provider(), key)
+            for cls in overrides:
+                self.assertIn(
+                    cls._peppol_provider(Move), (key, False),
+                    "%s claims Peppol while %s is chosen" % (cls.__module__, key))

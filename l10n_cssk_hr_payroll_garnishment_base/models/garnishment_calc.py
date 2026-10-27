@@ -34,6 +34,15 @@ Czech Republic
   disregarding arrears. Other priority claims follow by pořadí.
 * ``§ 280(3)``: pořadí is the day the order was delivered to the payer of
   the wage; same day means equal rank and pro-rata satisfaction.
+* ``§ 279(4)-(6)``: with **at least four** executions for due money claims
+  ordered against the same wage (and the order or § 294(3) notice delivered
+  to the payer), two thirds are seized always — the second third joins the
+  first. Priority claims still take the second third first (§ 280(2)); what
+  they leave joins the first third instead of staying with the employee.
+  ``§ 279(5)``: not when the employee has proved an old-age, 2nd/3rd-degree
+  disability or orphan's pension AND one third is below the insolvency
+  trustee's monthly fee plus expenses incl. VAT (vyhl. 313/2007 Sb. § 3(2)
+  písm. a), § 7(4): (750 + 150) x 1.21 = 1 089 Kč).
 * Official methodology for the fully seizable part (exekuce.justice.cz):
   *"Plně zabavitelná část zbytku čisté mzdy se připočte ke druhé třetině v
   rozsahu, který je potřebný k uspokojení přednostních pohledávek; zbývající
@@ -58,8 +67,9 @@ pokuta za priestupok (§ 2a)    50 % ŽM                      25 % ŽM
 
 For a *poberateľ dôchodkových dávok* the per-dependant coefficient is 50 %
 instead of 25 %. ``§ 3``: the part of the remainder above 3× the § 1 ods. 1
-basic sum is seized without limitation. The remainder is rounded down to a
-sum divisible by three (in cents).
+basic sum is seized without limitation. ``§ 4``: every one of those sums is
+rounded DOWN to whole cents. The remainder is rounded down to a sum divisible
+by three (in cents).
 
 Modelling choice (documented deviation)
 +++++++++++++++++++++++++++++++++++++++
@@ -167,10 +177,12 @@ class Result:
 # ---------------------------------------------------------------------------
 # generic distribution helpers
 # ---------------------------------------------------------------------------
-def _round(value, digits):
-    """Round half up, and squash the float noise that ``-0.0`` produces."""
-    factor = 10**digits
-    return math.floor(abs(value) * factor + 0.5) / factor * (1 if value >= 0 else -1)
+def _floor_cents(value, digits):
+    """Round *value* DOWN to the currency unit — NV 268/2006 Z. z. § 4:
+    "Sumy podľa § 1 až 2b a § 3 ods. 1 sa zaokrúhľujú na eurocenty smerom
+    nadol." Unlike :func:`_floor_unit` this does not clamp at zero."""
+    scale = 10**digits
+    return math.floor(_to_units(value, digits)) / scale
 
 
 def _to_units(value, digits):
@@ -348,7 +360,8 @@ def cz_protected_amount(rates, dependents):
     return math.ceil(total - _EPS)
 
 
-def compute_cz(net, rates, dependents, claims, digits=0):
+def compute_cz(net, rates, dependents, claims, digits=0, two_thirds=False,
+               pension_exempt=False):
     """Allocate a Czech payslip's seizable amount across *claims*.
 
     :param net: čistá mzda for the period.
@@ -358,6 +371,11 @@ def compute_cz(net, rates, dependents, claims, digits=0):
     :param claims: list of :class:`Claim`.
     :param digits: currency precision — 0, since CZK garnishments work in
         whole crowns.
+    :param two_thirds: § 279(4) applies — at least four executions for due
+        money claims are ordered against this wage.
+    :param pension_exempt: the employee has proved a pension of the kind
+        § 279(5) písm. a) names. The rule is then lifted while one third is
+        below ``rates['trustee_monthly']`` (§ 279(5) písm. b)).
     """
     claims = [c for c in claims if c.due > _EPS]
     protected = cz_protected_amount(rates, dependents)
@@ -410,9 +428,15 @@ def compute_cz(net, rates, dependents, claims, digits=0):
     pool = _distribute_by_rank(
         other_priority, pool, alloc, breakdown, SOURCE_SECOND, digits
     )
-    # The unused part of the second third is NOT moved to the first third —
-    # § 279(1) leaves it with the employee.
     second_unused = pool
+    # § 279(1): the unused part of the second third stays with the employee.
+    # § 279(4)+(6): with four or more executions it joins the first third.
+    trustee_monthly = rates.get("trustee_monthly") or 0.0
+    lifted = bool(pension_exempt and third < trustee_monthly)
+    two_thirds_applied = bool(two_thirds and not lifted)
+    if two_thirds_applied and second_unused > _EPS:
+        first_pool = _floor_unit(first_pool + second_unused, digits)
+        second_unused = 0.0
 
     # --- first third: everything still unpaid, strictly by pořadí ---------
     first_unused = _distribute_by_rank(
@@ -430,6 +454,8 @@ def compute_cz(net, rates, dependents, claims, digits=0):
             "first_pool": first_pool,
             "second_unused": second_unused,
             "first_unused": first_unused,
+            "two_thirds": two_thirds_applied,
+            "two_thirds_lifted": bool(two_thirds and lifted),
         }
     )
     return Result(protected, remainder, third, unlimited, alloc, breakdown, detail)
@@ -458,7 +484,12 @@ def sk_protected_amount(rates, dependents, claim_class, is_pensioner=False, digi
     else:  # CLASS_PRIORITY — § 2 ods. 2
         debtor = zm * rates["priority_coeff"]
         per_dependent = zm * rates["priority_coeff"] * dep_coeff
-    return _round(debtor, digits) + dependents * _round(per_dependent, digits)
+    # § 4: every sum of § 1 to § 2b is rounded DOWN to whole cents — the
+    # debtor's sum and the per-dependant sum each, as each is "a sum
+    # under" its paragraph. Half-up rounding protected up to a cent per
+    # component more than the decree allows.
+    return _floor_cents(debtor, digits) + dependents * _floor_cents(
+        per_dependent, digits)
 
 
 def compute_sk(net, rates, dependents, claims, is_pensioner=False, digits=2):
@@ -481,9 +512,12 @@ def compute_sk(net, rates, dependents, claims, is_pensioner=False, digits=2):
 
     # § 3 — the unlimited-seizure threshold always keys off the § 1 ods. 1
     # basic sum, regardless of which claim is being collected.
-    threshold = _round(rates["zivotne_minimum"] * rates["basic_coeff"], digits) * rates[
-        "unlimited_mult"
-    ]
+    # § 3 ods. 1 sum, itself rounded down to cents per § 4.
+    threshold = _floor_cents(
+        _floor_cents(rates["zivotne_minimum"] * rates["basic_coeff"], digits)
+        * rates["unlimited_mult"],
+        digits,
+    )
 
     bases = {}
     pools = {}

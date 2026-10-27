@@ -1,5 +1,5 @@
 ===========================================
-ORSF SK — Related Parties (závislé osoby)
+ORSF SK — Related Parties
 ===========================================
 
 .. |badge1| image:: https://raster.shields.io/badge/license-AGPL--3-blue.png
@@ -18,8 +18,9 @@ ORSF SK — Related Parties (závislé osoby)
 Why
 ===
 
-§ 17 ods. 5 zákona o dani z príjmov subjects transactions between **závislé
-osoby** to transfer-pricing documentation. Nothing in an Odoo database knows
+§ 18 ods. 1 zákona o dani z príjmov obliges a taxpayer to document its
+controlled transactions with **závislé osoby** (§ 2 písm. n) and o)), and
+§ 17 ods. 5 adds to the tax base any departure from arm's-length prices in them. Nothing in an Odoo database knows
 which partners are related to your company or to each other, so in practice the
 question is answered from memory — or not at all, until a daňová kontrola asks.
 
@@ -31,11 +32,13 @@ What it adds
 ============
 
 A **Related parties (SK)** tab on the contact, a *Fetch from register* button,
-and an ``orsf.sk.related.party`` row per edge found — degree 1 for a person
-holding a role in this partner, degree 2 for another company that person is
-also attached to. The IČO and name are kept even when the counterpart is not a
-contact in this database, which it usually is not; where it is, the row links
-to it.
+and an ``orsf.sk.related.party`` row per edge found — degree 1 for a person or
+company (a corporate shareholder) holding a role in this partner, degree 2 for
+another company that person or company is also attached to. The IČO and name
+are kept even when the counterpart is not a contact in this database, which it
+usually is not; where it is, the row links to it. Anybody who may edit the
+contact may fetch. The Slovak labels call them *väzby v registri*, not
+*závislé osoby*: see the last section.
 
 
 Two things it deliberately does not do
@@ -104,7 +107,8 @@ Confirm it against a real signed-in response before relying on the output.
 Correcting it means editing ``_orsf_sk_parse_graph`` and nothing else.
 
 **Being related in the register is not the same as being a závislá osoba.**
-§ 17 ods. 5 covers economic and personal connection, not only a shared officer.
+§ 2 písm. n) and o) cover economic and personal connection, not only a shared
+officer.
 Treat the output as a shortlist for an accountant, never as the conclusion.
 
 

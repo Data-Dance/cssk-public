@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic — Annual Tax Settlement Statement (DPZVD6)",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.1.0",
     "category": "Human Resources/Payroll",
     "countries": ["cz"],
     "summary": "Annual Czech income-tax reconciliation (annual tax settlement "
@@ -20,6 +20,7 @@
         "report/vyuctovani_templates.xml",
         "data/vyuctovani_version_data.xml",
         "views/l10n_cz_vyuctovani_views.xml",
+        "views/res_company_views.xml",
     ],
     "installable": True,
 }

@@ -18,10 +18,42 @@ DPPO is a FULL restatement, so ``original_return_id`` holds the previous full
 values and this chains correctly across repeated dodatočné priznania (the prior
 amendment's r1050/r400/… are its restated totals — no snapshot needed, unlike KV).
 """
-from odoo import _, models
+import re
+from datetime import date
+
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_cssk_core.tools import statutory_round
+
+# A trailing house number: "Hlavná 12", "Hlavná 1141/11", "Hlavná 12A".
+# The same reading as l10n_sk_single_entry_closing's Úč FO header.
+_STREET_RE = re.compile(
+    r"^(?P<street>.*?\D)[\s,]*(?P<number>\d{1,6}[A-Za-z]?(?:\s*/\s*\w{1,6})?[A-Za-z]?)\s*$")
+_NUMBER_RE = re.compile(r"^\d{1,6}[A-Za-z]?(?:\s*/\s*\w{1,6})?[A-Za-z]?$")
+
+
+def _sk_street_and_number(partner):
+    """``(ulica, číslo)``: ``base_address_extended``'s split fields when they
+    are there, else the trailing number of ``street``. ``street2`` is the
+    second address line, not a house number, and is used as ``cislo`` only
+    when it holds nothing but one (how the earlier export taught users to
+    fill it)."""
+    if "street_name" in partner._fields and partner.street_name:
+        number = (partner.street_number or "").strip()
+        number2 = (partner.street_number2 or "").strip()
+        return partner.street_name.strip(), (
+            "%s/%s" % (number, number2) if number and number2 else number)
+    street = (partner.street or "").strip()
+    match = _STREET_RE.match(street)
+    if match:
+        return match.group("street").strip().rstrip(","), \
+            re.sub(r"\s+", "", match.group("number"))
+    street2 = (partner.street2 or "").strip()
+    if _NUMBER_RE.match(street2):
+        return street, re.sub(r"\s+", "", street2)
+    return street, ""
+
 
 # (posledná_známa_row, rozdiel_row, source_row)
 _DODATOCNE_DIFF = [
@@ -81,6 +113,64 @@ class CSSKIncomeTaxReturn(models.Model):
         self.ensure_one()
         codes = set(self.version_id.line_def_ids.mapped("code"))
         return self._SK_DPPO_SPINE_CODES.issubset(codes)
+
+    def _cssk_render_context(self):
+        ctx = super()._cssk_render_context()
+        ctx["hdr"] = self._l10n_sk_dppo_header()
+        return ctx
+
+    def _l10n_sk_dppo_header(self):
+        """The company-derived DPPO ``hlavicka`` values, for every vzor.
+
+        * ``dic`` — the Slovak DIČ (``l10n_sk_dic``); the IČ DPH only as a
+          fallback and without its "SK", which is not part of a DIČ.
+        * ``k1``/``k2``/``k3`` — SK NACE from ``partner_nace`` when installed
+          and filled; the schema makes them mandatory digits, so "0" otherwise.
+        * ``pravna_forma`` — the register's wording from
+          ``l10n_sk_trade_registry`` when installed.
+        * ``cislo`` — the house number split off ``street`` (never the
+          second address line, unless that is only a number).
+        * ``datum_vyhlasenia`` — the day the return is exported.
+
+        What the data model does not hold (oprávnená osoba, the § 50
+        prijímateľ, tables A–K) is left empty for the filer.
+        """
+        self.ensure_one()
+        company = self.company_id
+        partner = company.partner_id
+        dic = ((company.l10n_sk_dic if "l10n_sk_dic" in company._fields
+                else "") or "").strip()
+        if not dic:
+            dic = (company.vat or "").replace(" ", "")
+            if dic[:2].upper() == "SK":
+                dic = dic[2:]
+        nace = re.sub(r"\D", "", (partner.nace_code or "")
+                      if "nace_code" in partner._fields else "")
+        if nace:
+            nace = nace.ljust(5, "0")
+            k1, k2, k3 = nace[:2], nace[2:4], nace[4:5]
+        else:
+            k1 = k2 = k3 = "0"
+        legal_form = ""
+        for holder in (company, partner):
+            if "l10n_sk_legal_form" in holder._fields:
+                legal_form = holder.l10n_sk_legal_form or ""
+                if legal_form:
+                    break
+        street, number = _sk_street_and_number(partner)
+        return {
+            "dic": dic,
+            "ico": (company.company_registry or "").replace(" ", ""),
+            "pravna_forma": legal_form,
+            "k1": k1, "k2": k2, "k3": k3,
+            "ulica": street,
+            "cislo": number,
+            "psc": (partner.zip or "").replace(" ", ""),
+            "obec": partner.city or "",
+            "stat": partner.country_id.name or "",
+            "datum_vyhlasenia":
+                fields.Date.context_today(self).strftime("%d.%m.%Y"),
+        }
 
     def action_compute_lines(self):
         res = super().action_compute_lines()
@@ -189,7 +279,10 @@ class CSSKIncomeTaxReturn(models.Model):
             since = partner.l10n_sk_vat_payer_since
             if since:
                 return since <= self.date_to
-            return bool(partner.l10n_sk_is_full_vat_payer)
+            if partner.l10n_sk_vat_registration_category:
+                return bool(partner.l10n_sk_is_full_vat_payer)
+            # Category never recorded: the module knows nothing, so it must
+            # not decide "not a payer" — fall back as if it were absent.
         return bool(self.company_id.vat)
 
     def _dppo_min_tax(self, r560):
@@ -211,6 +304,8 @@ class CSSKIncomeTaxReturn(models.Model):
         Override r810 where the taxpayer's obrat differs from class 6.
         """
         self.ensure_one()
+        if self._dppo_licencia_abolished():
+            return 0.0
         if "r560" not in set(self.version_id.line_def_ids.mapped("code")):
             r560 = self._eval_accounts("6")
         if r560 <= 0:
@@ -225,6 +320,36 @@ class CSSKIncomeTaxReturn(models.Model):
         months = self._period_months()
         return base if months == 12 else statutory_round(
             base / 12.0 * months, 2)
+
+    def _dppo_licencia_abolished(self):
+        """Whether § 52zk says this period owes no daňová licencia at all.
+
+        § 52zk zák. 595/2003 Z. z. (prechodné ustanovenie k úpravám účinným
+        od 1. januára 2018): "Ustanovenie § 46b v znení účinnom do
+        31. decembra 2017 sa naposledy uplatní za zdaňovacie obdobie končiace
+        31. decembra 2017, a ak je zdaňovacím obdobím hospodársky rok, za
+        zdaňovacie obdobie končiace v priebehu kalendárneho roka 2018."
+
+        The 2018 and 2019 vzory still print the licencia rows — the zápočet of
+        an earlier licencia (§ 46b ods. 5) runs on after 2017, and a
+        hospodársky rok ending in 2018 still pays one — so their version
+        records keep the bands. Whether a band applies is a fact about the
+        PERIOD, not about the vzor, and it is decided here.
+
+        Only the licencia-era vzory (before the 2020 form) are gated: the
+        minimálna daň from 2024 is a different § 46b and has its own vzory.
+        """
+        self.ensure_one()
+        version_from = self.version_id.valid_from
+        if not version_from or version_from >= date(2020, 1, 1):
+            return False
+        end = self.date_to
+        if not end or end <= date(2017, 12, 31):
+            return False
+        # A hospodársky rok is a twelve-month period that is not the calendar
+        # year, so it cannot end on 31 December.
+        hospodarsky_rok = (end.month, end.day) != (12, 31)
+        return not (hospodarsky_rok and end.year == 2018)
 
     def _compute_tax_spine(self):
         self.ensure_one()
@@ -258,8 +383,14 @@ class CSSKIncomeTaxReturn(models.Model):
         # the individual judgment rows (r110…r290), not r301 itself. (The eForm
         # adds ± r.11 tabuľky H transfer-pricing úprava; model that as an r301
         # override when it applies.)
-        r200 = statutory_round(g("r110") + g("r130") + g("r140") + g("r150")
-                               + g("r170") + g("r180"), 2)
+        # The 2013-2017 vzory also carry r120 (pokuty/úroky z omeškania
+        # under § 17 ods. 19 as in force to 2014, § 52 ods. 12 príjmy, studies)
+        # and r160 (§ 17 ods. 17 kurzové rozdiely), both in the "zvyšujúce"
+        # block that r200 totals (DPPOv15/v17 poučenie, riadky 110 až 180).
+        # g() is 0 for a vzor without them, so one formula serves every vzor.
+        r200 = statutory_round(g("r110") + g("r120") + g("r130") + g("r140")
+                               + g("r150") + g("r160") + g("r170")
+                               + g("r180"), 2)
         put("r200", r200)
         r300 = statutory_round(g("r210") + g("r220") + g("r230") + g("r240")
                                + g("r250") + g("r260") + g("r270") + g("r280")

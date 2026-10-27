@@ -17,7 +17,7 @@ class L10nSkInventarizacia(models.Model):
     )
     currency_id = fields.Many2one(related="company_id.currency_id")
 
-    # § 30 ods. 2 prescribes three distinct dates, not one.
+    # § 30 ods. 2 písm. b) prescribes three distinct dates, not one.
     date_start = fields.Date(
         string="Deň začatia inventúry", required=True, tracking=True
     )
@@ -25,7 +25,7 @@ class L10nSkInventarizacia(models.Model):
         string="Deň, ku ktorému bola inventúra vykonaná",
         required=True,
         tracking=True,
-        help="Spravidla deň, ku ktorému sa zostavuje účtovná závierka (§ 29 ods. 1).",
+        help="Spravidla deň, ku ktorému sa zostavuje účtovná závierka (§ 29 ods. 2).",
     )
     date_end = fields.Date(
         string="Deň skončenia inventúry", required=True, tracking=True
@@ -48,8 +48,9 @@ class L10nSkInventarizacia(models.Model):
     )
     approved_by_id = fields.Many2one(
         "res.users",
-        string="Zápis vyhotovil",
-        help="Podpisový záznam osoby zodpovednej za vyhotovenie zápisu.",
+        string="Zodpovedný za vykonanie inventarizácie",
+        help="§ 30 ods. 3 písm. d) — meno, priezvisko a podpisový záznam osoby "
+             "zodpovednej za vykonanie inventarizácie v účtovnej jednotke.",
     )
 
     book_amount = fields.Monetary(compute="_compute_totals", string="Účtovný stav")
@@ -118,6 +119,30 @@ class L10nSkInventarizacia(models.Model):
     def action_draft(self):
         self.write({"state": "draft"})
 
+    def action_refresh_book_amounts(self):
+        """Re-read the ledger for every dokladová inventúra of the exercise.
+
+        The účtovný stav follows the account and the deň ku ktorému on its
+        own, but not entries posted afterwards — this picks those up.
+        """
+        self.supis_ids.action_refresh_book_amount()
+
+    def action_print_supisy(self):
+        """Print every inventúrny súpis of the exercise in one PDF.
+
+        A súpis is edited inside the inventarizácia, never on a screen of its
+        own, so the report bound to the súpis model had no Print menu to
+        appear in.
+        """
+        self.ensure_one()
+        if not self.supis_ids:
+            raise UserError(
+                self.env._("Inventarizácia zatiaľ nemá žiadny inventúrny súpis.")
+            )
+        return self.env.ref(
+            "l10n_sk_inventory_verification.action_report_inventurny_supis"
+        ).report_action(self.supis_ids)
+
 
 class L10nSkInventurnySupis(models.Model):
     _name = "l10n.sk.inventurny.supis"
@@ -140,8 +165,9 @@ class L10nSkInventurnySupis(models.Model):
         ],
         required=True,
         default="fyzicka",
-        help="§ 29 ods. 2: fyzická pri majetku hmotnej povahy, dokladová pri "
-             "záväzkoch a majetku, pri ktorom nemožno vykonať fyzickú inventúru.",
+        help="§ 30 ods. 1: fyzická pri majetku hmotnej a nehmotnej povahy, "
+             "dokladová pri záväzkoch, rozdiele majetku a záväzkov a majetku, "
+             "pri ktorom nemožno vykonať fyzickú inventúru.",
     )
     account_id = fields.Many2one(
         "account.account",
@@ -150,12 +176,12 @@ class L10nSkInventurnySupis(models.Model):
         help="Pri dokladovej inventúre — účet, ktorého zostatok sa overuje.",
     )
     location = fields.Char(
-        string="Miesto uloženia majetku", help="§ 30 ods. 2 písm. f)."
+        string="Miesto uloženia majetku", help="§ 30 ods. 2 písm. d)."
     )
     responsible_person_id = fields.Many2one(
         "res.partner",
         string="Hmotne zodpovedná osoba",
-        help="§ 30 ods. 2 písm. g) — meno a podpisový záznam.",
+        help="§ 30 ods. 2 písm. e) — meno, priezvisko a podpisový záznam.",
     )
     counted_by_id = fields.Many2one(
         "res.users",
@@ -208,8 +234,15 @@ class L10nSkInventurnySupis(models.Model):
         return groups[0][0] if groups else 0.0
 
     def action_refresh_book_amount(self):
+        """Re-read the ledger balance of a dokladová inventúra.
+
+        Only a súpis with an account has a balance to read: a fyzická
+        inventúra's účtovný stav is typed in, and must not be overwritten
+        with zero.
+        """
         for supis in self:
-            supis.book_amount = supis._account_book_balance()
+            if supis.inventory_type == "dokladova" and supis.account_id:
+                supis.book_amount = supis._account_book_balance()
 
 
 class L10nSkInventurnySupisLine(models.Model):
@@ -224,7 +257,7 @@ class L10nSkInventurnySupisLine(models.Model):
     currency_id = fields.Many2one(related="supis_id.currency_id")
     name = fields.Char(string="Popis", required=True)
     product_id = fields.Many2one("product.product", string="Produkt")
-    # § 30 ods. 2 písm. e): "stav majetku s uvedením jednotiek množstva a ceny"
+    # § 30 ods. 2 písm. c): "stav majetku s uvedením jednotiek množstva a ceny"
     # — quantity, unit AND price, all three.
     quantity = fields.Float(string="Množstvo", default=1.0)
     uom_name = fields.Char(string="Jednotka")

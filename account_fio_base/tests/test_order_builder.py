@@ -93,6 +93,23 @@ class TestFioClassification(TestCase):
             KIND_DOMESTIC,
         )
 
+    def test_slovak_bban_is_refused_not_sent_to_a_czech_bank(self):
+        """``number/0900`` reads as a Czech account with bank code 0900; a
+        Slovak one written that way used to go out as a DomesticTransaction."""
+        by_bank = FakeBank("2900123456/0900")
+        by_bank.bank_id = type("Bank", (), {"country": FakeCountry("SK")})()
+        by_holder = FakeBank("2900123456/0900")
+        by_holder.partner_id = FakePartner(country="SK")
+        for bank in (by_bank, by_holder):
+            with self.assertRaisesRegex(FioOrderError, "SK IBAN"):
+                classify(bank, "EUR")
+
+    def test_a_czech_bank_wins_over_a_slovak_holder(self):
+        bank = FakeBank("19012333/0300")
+        bank.bank_id = type("Bank", (), {"country": FakeCountry("CZ")})()
+        bank.partner_id = FakePartner(country="SK")
+        self.assertEqual(classify(bank, "CZK"), KIND_DOMESTIC)
+
     def test_slovak_iban_in_eur_is_a_europlatba(self):
         """Not domestic: §6.2 says EUR orders to Slovak banks left that path."""
         self.assertEqual(

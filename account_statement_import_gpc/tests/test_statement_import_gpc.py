@@ -152,3 +152,52 @@ class TestStatementImportGpc(TransactionCase):
         )
         self.assertEqual(len(statements), 2)
         self.assertEqual(len(statements.mapped("line_ids")), 2)
+
+    def _journal(self, acc_number, code):
+        return self.env["account.journal"].create({
+            "name": "GPC %s" % code,
+            "code": code,
+            "type": "bank",
+            "bank_account_id": self.env["res.partner.bank"].create({
+                "acc_number": acc_number,
+                "partner_id": self.env.company.partner_id.id,
+            }).id,
+            "currency_id": self.czk.id,
+        })
+
+    def _import_into(self, journal, *records):
+        wizard = self.env["account.statement.import"].with_context(
+            journal_id=journal.id
+        ).create({
+            "statement_file": _gpc_file(*records),
+            "statement_filename": "vypis.gpc",
+        })
+        wizard.import_file_button()
+        return self.env["account.bank.statement"].search(
+            [("journal_id", "=", journal.id)])
+
+    def test_prefixed_short_number_is_found(self):
+        """``19-123456789/0100`` is ``190123456789`` in GPC, which no
+        substring search of the journal's account finds — the import used to
+        stop with "Could not find any bank account"."""
+        journal = self._journal("19-123456789/0100", "GPCPF")
+        account = "190123456789"
+        statement = self._import_into(
+            journal, _rec074(account=account), _rec075(account=account))
+        self.assertEqual(len(statement.line_ids), 1)
+
+    def test_iban_journal_is_found(self):
+        self.journal.bank_account_id.acc_number = "CZ65 0800 0000 1920 0014 5399"
+        statement = self._import_into(self.journal, _rec074(), _rec075())
+        self.assertEqual(len(statement.line_ids), 1)
+
+    def test_a_journal_merely_containing_the_digits_is_not_chosen(self):
+        """``2000145399`` (no prefix) appears inside the account of the
+        ``19-2000145399`` journal; the substring search took that journal."""
+        from odoo.exceptions import UserError
+        with self.assertRaises(UserError):
+            self._import_into(
+                self.journal,
+                _rec074(account="2000145399"), _rec075(account="2000145399"))
+        self.assertFalse(self.env["account.bank.statement"].search(
+            [("journal_id", "=", self.journal.id)]))

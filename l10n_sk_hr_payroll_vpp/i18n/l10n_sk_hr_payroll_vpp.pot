@@ -23,6 +23,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__sp_vs
+msgid ""
+"10-digit number the Sociálna poisťovňa assigned to the company. It is stored"
+" on the company and shared by every Sociálna poisťovňa filing (MVP, VPP, "
+"ELDP, RLFO)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -67,8 +75,8 @@ msgstr ""
 #: code:addons/l10n_sk_hr_payroll_vpp/models/l10n_sk_vpp.py:0
 msgid ""
 "Company '%(company)s' needs a 10-digit Sociálna poisťovňa variable symbol "
-"for the VPP <variabilnySymbol> element. Set 'Sociálna poisťovňa variable "
-"symbol' on the company."
+"for the VPP <variabilnySymbol> element. Fill in 'Sociálna poisťovňa variable"
+" symbol' on this form."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_vpp
@@ -313,6 +321,7 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__sp_vs
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_res_company__l10n_sk_sp_vs
 msgid "Sociálna poisťovňa variable symbol"
 msgstr ""

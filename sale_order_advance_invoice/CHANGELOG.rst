@@ -8,6 +8,39 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.8.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **An advance is deducted for what was received on it, not for its face
+  value.** The final invoice deducted the whole advance as soon as anything
+  had been paid, so a half-paid advance wiped out half of a supply nobody had
+  paid for. It now deducts the net the posted tax documents declared, at their
+  own VAT rates, plus, gross and without VAT, whatever was received but not
+  yet covered by a tax document. A tax document still in draft covers nothing.
+- **Link Advance Invoices deducts every line and rate of the advance.** It read
+  the amount and VAT of the advance's first line only, and treated a draft tax
+  document as posted. It now adds the same deduction lines as an order's final
+  invoice.
+- **Link Advance Invoices offers advances that have a tax document.** Their tax
+  document counted as "linked to another invoice", so such an advance could
+  never be settled this way. Unpaid advances are no longer offered.
+- **The tax-document deadline is the statutory one.** It was the earlier of 15
+  days and the month end for everybody, stricter than either law. It is now
+  15 days in the Czech Republic (§ 28 odst. 8 ZDPH) and the later of 15 days
+  and the month end in Slovakia (§ 73 ods. 1 písm. b) zákona o DPH, payments
+  from 2016). Existing advances are recomputed on update.
+- **Online and linked payments reach the clearing account.** A payment made
+  online is booked to the advance clearing account, like *Register Payment*.
+  A payment attached with *Link Manual Transfer* that sits on the
+  receivable is moved there with a transfer entry. Posting the tax document
+  then reconciles the clearing account with either.
+- Exchange-rate citations corrected from § 38 to § 4 odst. 8 ZDPH (§ 38 is
+  the tax base on import).
+- Czech translation typos.
+
 [19.0.2.7.1] — 2026-09-30
 -------------------------
 
@@ -40,7 +73,7 @@ Tests
   too. It now states the rule: the deduction gives back the advance's VAT and
   the final invoice settles the difference to the order's VAT.
 - The foreign-currency tests set the DUZP as well: with ``l10n_cz`` the rate is
-  the DUZP's (§ 38 ZDPH), which defaults to today.
+  the DUZP's (§ 4 odst. 8 ZDPH), which defaults to today.
 - Run on both a CZ-chart and an SK-chart database.
 
 [19.0.2.6.0] — 2026-09-29
@@ -51,7 +84,7 @@ Fixed
 
 - **A foreign-currency advance is deducted at the rate its VAT was declared
   at.** The tax document for a received advance declares its VAT in CZK at
-  the rate of its own date (§ 38 ZDPH); the final invoice gave it back at the
+  the rate of its own date (§ 4 odst. 8 ZDPH); the final invoice gave it back at the
   final invoice's rate, so the return reversed a different amount than it had
   declared. The deduction now uses the rate of the advance's posted tax
   documents, and the part of the supply the advance paid for is valued at
@@ -391,4 +424,4 @@ Fixed
 [19.0.1.0.0]
 ------------
 
-- Initial version (built in VS Code Copilot Chat, see ``docs/creation_transcript.md``).
+- Initial version.

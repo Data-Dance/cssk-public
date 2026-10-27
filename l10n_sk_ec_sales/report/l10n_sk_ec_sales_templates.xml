@@ -37,8 +37,8 @@
                     <riadok/>
                 </obchodneMeno>
                 <adresa>
-                    <ulica t-out="company.street or ''"/>
-                    <cislo t-out="company.street2 or ''"/>
+                    <ulica t-out="sk_ulica"/>
+                    <cislo t-out="sk_cislo"/>
                     <psc t-out="company.zip or ''"/>
                     <obec t-out="company.city or ''"/>
                     <tel t-out="company.phone or ''"/>
@@ -60,7 +60,7 @@
                             <t t-set="idx" t-value="p * 12 + i"/>
                             <t t-set="rec" t-value="lines[idx] if idx &lt; n else None"/>
                             <zaznam>
-                                <kodStatu t-out="rec.partner_country_code if rec else ''"/>
+                                <kodStatu t-out="statement._sv_country(rec) if rec else ''"/>
                                 <idCislo t-out="(rec.partner_vat[2:] if rec.partner_vat[:2].isalpha() else rec.partner_vat) if rec else ''"/>
                                 <hodnota t-out="('%d' % statement._sv_whole(rec.total_amount)) if rec else ''"/>
                                 <!-- kód: only '1' (trojstranný) / '2' (služba); goods are
@@ -127,8 +127,8 @@
                     <riadok/>
                 </obchodneMeno>
                 <adresa>
-                    <ulica t-out="company.street or ''"/>
-                    <cislo t-out="company.street2 or ''"/>
+                    <ulica t-out="sk_ulica"/>
+                    <cislo t-out="sk_cislo"/>
                     <psc t-out="company.zip or ''"/>
                     <obec t-out="company.city or ''"/>
                     <tel>
@@ -162,7 +162,7 @@
                             <t t-set="idx" t-value="p * 27 + i"/>
                             <t t-set="rec" t-value="lines[idx] if idx &lt; n else None"/>
                             <zaznam>
-                                <kodStatu t-out="rec.partner_country_code if rec else ''"/>
+                                <kodStatu t-out="statement._sv_country(rec) if rec else ''"/>
                                 <idCislo t-out="(rec.partner_vat[2:] if rec.partner_vat[:2].isalpha() else rec.partner_vat) if rec else ''"/>
                                 <hodnota t-out="('%d' % statement._sv_whole(rec.total_amount)) if rec else ''"/>
                                 <!-- kód: only '1' (trojstranný) / '2' (služba);

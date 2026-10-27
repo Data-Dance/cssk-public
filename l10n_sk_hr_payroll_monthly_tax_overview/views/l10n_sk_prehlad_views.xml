@@ -41,6 +41,8 @@
                             <field name="year"/>
                             <field name="month"/>
                             <field name="payment_date"/>
+                            <field name="request_bonus_refund"
+                                   invisible="month not in ('3', '6', '9', '12')"/>
                         </group>
                         <group>
                             <field name="version_id"/>

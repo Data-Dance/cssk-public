@@ -17,6 +17,18 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The same proforma imported twice created two received advances**, both
+  waiting to be paid. A proforma (DocumentType 4) whose supplier's number is
+  already on an open received advance of the same supplier now links the new
+  draft to that advance and says so in the chatter; a cancelled advance does
+  not count.
+
 [19.0.1.0.0] — 2026-07-18
 -------------------------
 

@@ -25,13 +25,14 @@ Licensed **AGPL-3** because it depends on the AGPL OCA engine.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.2.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk_account_loan_base", "account_leasing"],
     # Belt and braces: `account_loan` already excludes `account_loans`, but state
     # it here too so the exclusivity is visible on the module a user installs.
     "excludes": ["account_loans"],
+    "data": ["views/account_loan_views.xml"],
     "auto_install": True,
     "installable": True,
 }

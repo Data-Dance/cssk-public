@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 from odoo import Command, fields
 from odoo.tests import tagged
 
@@ -192,6 +194,42 @@ class TestAdvanceStatementMatch(AccountTestInvoicingCommon):
         ]._cron_match_advance_statement_lines()
         self.assertTrue(line.is_reconciled)
         self.assertEqual(advance.advance_invoice_payment_status, "paid_fully")
+
+    def test_cron_reaches_every_line_in_turn(self):
+        """A batch of lines that never match must not starve the others.
+
+        The cron used to take the newest ``batch_size`` lines every run, so
+        with that many unmatchable lines nothing older was ever tried again.
+        """
+        StLine = self.env["account.bank.statement.line"]
+        # unmatchable noise, older than the lines that matter below
+        noise = StLine
+        for index in range(3):
+            noise |= self._st_line(10.0 + index, "NOISE %s" % index)
+        tried = []
+        original = type(StLine)._cssk_try_match_advance
+
+        def spy(record):
+            tried.append(record.id)
+            return original(record)
+
+        with patch.object(type(StLine), "_cssk_try_match_advance", spy):
+            StLine._cron_match_advance_statement_lines(batch_size=2)
+            StLine._cron_match_advance_statement_lines(batch_size=2)
+            self.assertLessEqual(set(noise.ids), set(tried),
+                                 "a line was never tried")
+            # a line created now is tried on the next run ...
+            advance = self._advance()
+            line = self._st_line(advance.amount_total, advance.name)
+            tried.clear()
+            StLine._cron_match_advance_statement_lines(batch_size=2)
+            self.assertEqual(tried[0], line.id, "new lines go first")
+            self.assertTrue(line.is_reconciled)
+            # ... and the old ones keep coming round
+            tried.clear()
+            for _run in range(3):
+                StLine._cron_match_advance_statement_lines(batch_size=2)
+            self.assertLessEqual(set(noise.ids), set(tried))
 
     def test_wizard_suggests_and_applies(self):
         self.env.company.advance_invoice_auto_tax_doc = "none"

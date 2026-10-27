@@ -65,10 +65,18 @@ class AccountMoveLine(models.Model):
         # `move_type` sends every correction to A.1/B.2 and oddiel C.1 and C.2
         # can never be reached at all. Same reasoning as
         # `cssk_vat_direction` directly above it on the move.
+        #
+        # A DEBIT NOTE (ťarchopis) is a correction too: § 71 ods. 2 covers
+        # every opravná faktúra under § 25, upward as well as downward, and
+        # C.1 / C.2 report "údaje z každej faktúry podľa § 71 ods. 2". Odoo
+        # issues it as an ordinary invoice / bill linked by `debit_origin_id`
+        # (account_debit_note), so `move_type` alone sent it to A.1 / B.2 as
+        # a new supply with no reference to the invoice it corrects.
         declared = move.cssk_vat_correction
         is_correction = (
             declared == "yes" if declared
             else move.move_type in ("out_refund", "in_refund")
+            or bool("debit_origin_id" in move._fields and move.debit_origin_id)
         )
         is_reverse_charge = bool(
             taxes.filtered("cssk_control_is_reverse_charge")

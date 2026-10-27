@@ -10,7 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2026-06-28 23:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: \n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -66,8 +66,8 @@ msgid ""
 "Book depreciation minus tax depreciation for the year — the income-tax base "
 "adjustment (SK pripočítateľná/odpočítateľná položka, CZ § 23 ods. 3)."
 msgstr ""
-"Účetní odpisy minus daňové odpisy za rok — úprava základu daně z "
-"příjmů (SK pripočítateľná/odpočítateľná položka, CZ § 23 odst. 3)."
+"Účetní odpisy minus daňové odpisy za rok — úprava základu daně z příjmů (SK "
+"pripočítateľná/odpočítateľná položka, CZ § 23 odst. 3)."
 
 #. module: account_asset_tax_oca
 #: model:ir.actions.act_window,name:account_asset_tax_oca.action_asset_book_tax_report
@@ -84,20 +84,9 @@ msgid "Book vs Tax Depreciation Report"
 msgstr "Přehled účetních a daňových odpisů"
 
 #. module: account_asset_tax_oca
-#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_increased_first_year
-msgid ""
-"CZ §31(1)(b)/(c)/(d): a first depreciator of a group 1–3 asset may elect a "
-"higher first-year straight-line rate (+10/15/20 %). CZ + straight-line + "
-"groups 1–3 only."
-msgstr ""
-"CZ §31(1)(b)/(c)/(d): první odpisovatel majetku odpisové skupiny 1–3 může "
-"uplatnit vyšší rovnoměrnou sazbu v 1. roce (+10/15/20 %). Pouze CZ + "
-"rovnoměrný odpis + skupiny 1–3."
-
-#. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__company_id
 msgid "Company"
-msgstr ""
+msgstr "Společnost"
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_currency_id
@@ -110,16 +99,37 @@ msgid "Compute Tax Board"
 msgstr "Vypočítat daňový odpisový plán"
 
 #. module: account_asset_tax_oca
+#: model:ir.actions.act_window,name:account_asset_tax_oca.action_account_asset_tax_compute_selected
+#: model:ir.ui.menu,name:account_asset_tax_oca.menu_account_asset_tax_compute
+msgid "Compute Tax Depreciation"
+msgstr "Vypočítat daňové odpisy"
+
+#. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__currency_id
 msgid "Currency"
+msgstr "Měna"
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_increased_first_year
+msgid ""
+"Czech Republic only, groups 1–3, and only for the FIRST depreciator (§ 31 odst. 6: the first to acquire the asset new and unused, or who built it). Straight-line uses the § 31 odst. 1 písm. b)–d) tables; accelerated adds the percentage of the entry price to the first-year charge (§ 32 odst. 2 písm. a)).\n"
+"+10 %: any group 1–3 asset (§ 31 odst. 4).\n"
+"+15 %: only water-treatment equipment CZ-CPA 28.29.12 used in buildings CZ-CC 125113, and sorting and processing equipment for secondary raw materials (§ 31 odst. 3).\n"
+"+20 %: only agricultural and forestry machines CZ-CPA 28.3 of a taxpayer with mainly agricultural and forestry production (§ 31 odst. 2).\n"
+"Never for aircraft, motorcycles and passenger cars outside the licensed uses, household appliances (CZ-CPA 27.5) or recreational boats (CZ-CPA 30.12) — § 31 odst. 5. Odoo cannot see these conditions; the choice is yours to justify."
 msgstr ""
+"Jen Česká republika, skupiny 1–3 a jen PRVNÍ odpisovatel (§ 31 odst. 6: kdo si jako první pořídil nový, dosud neužívaný majetek, nebo jej vyrobil ve vlastní režii). Rovnoměrné odpisování použije tabulky § 31 odst. 1 písm. b) až d); zrychlené přičte procento ze vstupní ceny k prvnímu odpisu (§ 32 odst. 2 písm. a)).\n"
+"+10 %: každý majetek skupin 1–3 (§ 31 odst. 4).\n"
+"+15 %: jen zařízení pro čištění a úpravu vod CZ-CPA 28.29.12 využívané ve stavbách CZ-CC 125113 a třídicí a úpravárenská zařízení na zhodnocení druhotných surovin (§ 31 odst. 3).\n"
+"+20 %: jen stroje pro zemědělství a lesnictví CZ-CPA 28.3 poplatníka s převážně zemědělskou a lesní výrobou (§ 31 odst. 2).\n"
+"Nikdy u letadel, motocyklů a osobních automobilů mimo koncesované užití, spotřebičů převážně pro domácnost (CZ-CPA 27.5) ani rekreačních a sportovních člunů (CZ-CPA 30.12) — § 31 odst. 5. Odoo tyto podmínky nevidí; jejich splnění musíte doložit vy."
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_in_service_date_override
 msgid ""
 "Date the asset entered use for tax purposes (zaradenie do užívania). "
-"Defaults to the accounting depreciation start; override it when migrating an "
-"asset whose tax depreciation started on another date."
+"Defaults to the accounting depreciation start; override it when migrating an"
+" asset whose tax depreciation started on another date."
 msgstr ""
 "Datum zařazení majetku do užívání pro daňové účely (zaradenie do užívania). "
 "Výchozí je počátek účetního odpisování; přepište jej při migraci majetku, "
@@ -137,6 +147,11 @@ msgstr ""
 "neodpočitatelné složky)."
 
 #. module: account_asset_tax_oca
+#: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_sk_disposal_months
+msgid "Depreciate Whole Months in Disposal Year"
+msgstr "Odpis za celé měsíce v roce vyřazení"
+
+#. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__difference
 msgid "Difference (Book − Tax)"
 msgstr "Rozdíl (účetní − daňové)"
@@ -148,7 +163,7 @@ msgstr "Rozdíl (účetní − daňové)"
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_event__display_name
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_line__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný název"
 
 #. module: account_asset_tax_oca
 #: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.account_asset_view_form_tax
@@ -175,7 +190,7 @@ msgstr "Podáno"
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_book_tax_report__fiscal_year
 #: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_search
 msgid "Fiscal Year"
-msgstr ""
+msgstr "Zdaňovací období"
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__id
@@ -184,7 +199,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_event__id
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_tax_line__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_increased_first_year
@@ -208,6 +223,7 @@ msgstr ""
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__0
+#: model:ir.model.fields.selection,name:account_asset_tax.selection__account_asset__tax_increased_first_year__0
 msgid "None"
 msgstr "Žádný"
 
@@ -233,13 +249,20 @@ msgstr ""
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_vehicle_capped
 msgid ""
-"Passenger vehicle subject to the statutory depreciation cap (CZ §30e 2M "
-"CZK / SK §17(34) 48k EUR). The tax board is then computed on the company's "
-"capped base instead of the full entry value."
+"Passenger vehicle subject to the statutory vehicle limit set on the company."
+" CZ §30e (2 000 000 CZK, category M1): only the share limit / entry price of"
+" each depreciation is deductible, so the tax board is computed on the limit."
+" SK §17(34) (48 000 EUR): the car is depreciated in full and the board "
+"shows, per year, the excess over straight-line depreciation of 48 000 EUR — "
+"the amount added back to the tax base only when that base is lower than the "
+"statutory threshold."
 msgstr ""
-"Osobní vozidlo podléhající zákonnému limitu odpisu (CZ §30e 2 mil. CZK / SK "
-"§17(34) 48 tis. EUR). Daňový plán se poté počítá z limitované základny "
-"společnosti namísto plné vstupní ceny."
+"Osobní vozidlo podléhající zákonnému limitu nastavenému na společnosti. CZ §"
+" 30e (2 000 000 Kč, kategorie M1): do výdajů jde jen část každého odpisu v "
+"poměru limitu ke vstupní ceně, proto se daňový plán počítá z limitu. SK § 17"
+" ods. 34 (48 000 EUR): automobil se odepisuje v plné výši a plán za každý "
+"rok ukáže částku nad rovnoměrným odpisem ze 48 000 EUR — částku, která se "
+"připočte k základu daně, jen je-li základ nižší než zákonná hranice."
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_method_locked
@@ -247,8 +270,27 @@ msgid ""
 "Set once the first tax depreciation is filed. The statutory method may not "
 "change for the asset's whole life (CZ §30(2) / SK §26(3))."
 msgstr ""
-"Nastaví se po podání prvních daňových odpisů. Zákonnou metodu nelze po celou "
-"dobu odpisování majetku změnit (CZ §30(2) / SK §26(3))."
+"Nastaví se po podání prvních daňových odpisů. Zákonnou metodu nelze po celou"
+" dobu odpisování majetku změnit (CZ §30(2) / SK §26(3))."
+
+#. module: account_asset_tax_oca
+#: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_sk_disposal_months
+msgid ""
+"Slovakia, §22(12): keep the depreciation for the whole months the asset was "
+"recorded in the year it is disposed of. Mandatory for assets depreciated "
+"under §26(6) and (7); optional (from 2016) for assets whose residual value "
+"is deductible only up to the sale proceeds under §19(3)(b) first point — "
+"passenger cars, boats, aircraft, motorcycles, bicycles, group-6 buildings "
+"sold. Every other asset gets no tax depreciation in the year of disposal "
+"(§22(11)); its residual value is expensed instead."
+msgstr ""
+"Slovensko, § 22 ods. 12: ponechat odpis za celé měsíce, po které se majetek "
+"v roce vyřazení účtoval. Povinné u majetku odpisovaného podle § 26 ods. 6 a "
+"7; volitelné (od roku 2016) u majetku, jehož zůstatková cena je daňovým "
+"výdajem jen do výše příjmů z prodeje podle § 19 ods. 3 písm. b) prvního bodu"
+" — osobní automobily, čluny, letadla, motocykly, jízdní kola, prodané budovy"
+" skupiny 6. Ostatní majetek se v roce vyřazení daňově neodepisuje (§ 22 ods."
+" 11); výdajem je jeho zůstatková cena."
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,help:account_asset_tax_oca.field_account_asset__tax_class_id
@@ -361,28 +403,13 @@ msgstr "Technické zhodnocení"
 #. module: account_asset_tax_oca
 #: model_terms:ir.ui.view,arch_db:account_asset_tax_oca.view_asset_book_tax_report_list
 msgid "Total"
-msgstr ""
+msgstr "Celkem"
 
 #. module: account_asset_tax_oca
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset__tax_depreciation_enabled
 #: model:ir.model.fields,field_description:account_asset_tax_oca.field_account_asset_profile__tax_depreciation_enabled
 msgid "Track Tax Depreciation"
 msgstr "Sledovat daňové odpisy"
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__10
-msgid "+10 %"
-msgstr ""
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__15
-msgid "+15 %"
-msgstr ""
-
-#. module: account_asset_tax_oca
-#: model:ir.model.fields.selection,name:account_asset_tax_oca.selection__account_asset_profile__tax_increased_first_year__20
-msgid "+20 %"
-msgstr ""
 
 #. module: account_asset_tax_oca
 #: model:ir.module.module,summary:base.module_account_asset_tax_oca

@@ -40,7 +40,12 @@
                             string="Attest filing" class="oe_highlight"
                             invisible="channel != 'pfs_manual' or state in ('delivered', 'accepted', 'cancelled')"
                             groups="l10n_cssk_submission_base.group_cssk_submission_manager"
-                            help="Record that this was filed on the PFS portal, and by whom."/>
+                            help="Record that this was filed by hand on the authority's portal, and by whom."/>
+                    <button name="action_attest_accepted_manual" type="object"
+                            string="Attest acceptance" class="oe_highlight"
+                            invisible="channel != 'pfs_manual' or state != 'delivered'"
+                            groups="l10n_cssk_submission_base.group_cssk_submission_manager"
+                            help="Record that the authority accepted this filing. Attach its confirmation under Receipts first."/>
                     <button name="action_send" type="object" string="Send now"
                             invisible="state != 'queued'"
                             groups="l10n_cssk_submission_base.group_cssk_submission_manager"/>

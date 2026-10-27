@@ -12,6 +12,9 @@ from datetime import date
 from lxml import etree
 
 from odoo.exceptions import UserError, ValidationError
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
 
@@ -105,6 +108,7 @@ class TestPrehlad(TransactionCase):
         if self.engine == "ee":
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         return employee, slip
 
     def test_generate_and_validate(self):
@@ -231,3 +235,172 @@ class TestPrehlad(TransactionCase):
         # reason the constraint exists rather than relying on the field.
         with self.assertRaises(ValidationError):
             self._prehlad(correction_type="storno")
+
+    def test_legal_form_comes_from_the_register_field(self):
+        """pravnaForma carries the partner's recorded právna forma.
+
+        The model called a ``company.l10n_sk_legal_form()`` method that no
+        module defines, behind a ``hasattr`` that was therefore always False,
+        so the element was always empty.
+        """
+        partner = self.company.partner_id
+        if "l10n_sk_legal_form" not in partner._fields:
+            self.skipTest("l10n_sk_trade_registry is not installed")
+        partner.l10n_sk_legal_form = "spoločnosť s ručením obmedzeným"
+        self._employee_payslip()
+        decl = self.env["l10n.sk.prehlad"].with_company(self.company).create({
+            "company_id": self.company.id,
+            "year": "2026",
+            "month": "3",
+            "payment_date": date(2026, 3, 31),
+        })
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        self.assertEqual(root.findtext("hlavicka/po/pravnaForma"),
+                         "spoločnosť s ručením obmedzeným")
+
+    # ------------------------------------------------------------------
+    # III. časť — žiadosť o poukázanie rozdielu daňového bonusu (2026-10-27)
+    # ------------------------------------------------------------------
+    def _bonus_quarter(self):
+        """A low wage with four children: in each month of Q1 2026 the § 33
+        bonus exceeds the withheld advance. Returns Σ r. C of the quarter."""
+        emp_vals = {
+            "name": "Bonus Velky",
+            "company_id": self.company.id,
+            "resource_calendar_id": self.calendar.id,
+            "identification_id": "8501011234",
+            "date_version": date(2026, 1, 1),
+            "contract_date_start": date(2026, 1, 1),
+            "wage": 915.0,
+        }
+        if self.engine == "oca":
+            emp_vals["struct_id"] = self.structure.id
+        else:
+            emp_vals["structure_type_id"] = self.structure.type_id.id
+        employee = self.env["hr.employee"].with_company(
+            self.company).create(emp_vals)
+        employee.version_id.write({
+            "l10n_sk_tax_declaration_signed": True,
+            "l10n_sk_children_under_15": 4,
+        })
+        expected = 0.0
+        for month, last in ((1, 31), (2, 28), (3, 31)):
+            slip = self.env["hr.payslip"].with_company(self.company).create({
+                "name": "Payslip %d" % month,
+                "employee_id": employee.id,
+                "struct_id": self.structure.id,
+                "company_id": self.company.id,
+                "date_from": date(2026, month, 1),
+                "date_to": date(2026, month, last),
+            })
+            if self.engine == "ee":
+                slip = slip.with_context(salary_simulation=True)
+            slip.compute_sheet()
+            confirm_payslips(slip)
+            totals = {}
+            for line in slip.line_ids:
+                totals[line.code] = totals.get(line.code, 0.0) + line.total
+            advance = abs(round(
+                totals.get("INCOMETAX19", 0.0)
+                + totals.get("INCOMETAX25", 0.0), 2)) or abs(
+                round(totals.get("INCOMETAX", 0.0), 2))
+            bonus = abs(round(totals.get("CHILD_BONUS", 0.0), 2))
+            self.assertGreater(bonus, advance, "premise: bonus > advance")
+            expected += bonus - min(bonus, advance)
+        self.company.partner_id.bank_ids = [(0, 0, {
+            "acc_number": "SK3112000000198742637541"})]
+        return round(expected, 2)
+
+    def _cast3(self, decl):
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        etree.XMLSchema(etree.parse(file_path(
+            "l10n_sk_hr_payroll_monthly_tax_overview/data/prehlad2026.xsd"))
+        ).assertValid(root)
+        return root.find("telo/cast3/poukazatBonus")
+
+    def test_bonus_difference_refund_is_claimed_for_the_quarter(self):
+        """The bonus paid beyond the advances (r. C) was reported but could
+        never be claimed: III. časť was hardcoded to ziadam=0."""
+        expected = self._bonus_quarter()
+        self.assertGreater(expected, 0.0)
+        decl = self.env["l10n.sk.prehlad"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3",
+            "request_bonus_refund": True,
+        })
+        decl.action_generate()
+        node = self._cast3(decl)
+        self.assertEqual(node.findtext("ziadam"), "1")
+        self.assertAlmostEqual(float(node.findtext("suma")), expected, 2)
+
+    def test_bonus_difference_refund_is_opt_in(self):
+        self._bonus_quarter()
+        decl = self.env["l10n.sk.prehlad"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3"})
+        decl.action_generate()
+        node = self._cast3(decl)
+        self.assertEqual(node.findtext("ziadam"), "0")
+        self.assertFalse((node.findtext("suma") or "").strip())
+
+    def test_bonus_difference_refund_only_at_quarter_end(self):
+        """The poučenie: no žiadosť in the overviews for January and
+        February — only after the quarter ends."""
+        with self.assertRaises(ValidationError):
+            self.env["l10n.sk.prehlad"].with_company(self.company).create({
+                "company_id": self.company.id, "year": "2026", "month": "2",
+                "request_bonus_refund": True,
+            })
+
+
+@tagged("post_install", "-at_install")
+class TestSchemaPins(TransactionCase):
+    """The bundled schemas must match data/SCHEMA_VERSION.
+
+    Not a check that our copies are CURRENT — nothing local can answer that,
+    and a schema revised in place by the authority validates exactly as
+    before. What this checks is that the bundled bytes are the ones recorded
+    in SCHEMA_VERSION, and that no schema sits in data/ unpinned.
+    """
+
+    @staticmethod
+    def _data_dir():
+        import os
+        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(here, "data")
+
+    def _pins(self):
+        import os
+        pins = {}
+        path = os.path.join(self._data_dir(), "SCHEMA_VERSION")
+        with open(path, encoding="utf-8") as fh:
+            for raw in fh:
+                parts = raw.split()
+                if (len(parts) == 3 and parts[0].endswith(".xsd")
+                        and "/" not in parts[0]):
+                    pins[parts[0]] = (parts[1], int(parts[2]))
+        return pins
+
+    def test_bundled_schemas_match_the_pinned_digests(self):
+        import hashlib
+        import os
+        pins = self._pins()
+        self.assertTrue(pins, "SCHEMA_VERSION lists no schemas")
+        for name, (digest, size) in pins.items():
+            path = os.path.join(self._data_dir(), name)
+            self.assertTrue(os.path.exists(path),
+                            "%s is pinned but missing" % name)
+            with open(path, "rb") as fh:
+                blob = fh.read()
+            self.assertEqual(len(blob), size, "%s size moved" % name)
+            self.assertEqual(
+                hashlib.md5(blob).hexdigest(), digest,
+                "%s does not match its pin — if this is a deliberate "
+                "refresh, update data/SCHEMA_VERSION" % name)
+
+    def test_every_bundled_schema_is_pinned(self):
+        import os
+        on_disk = {f for f in os.listdir(self._data_dir())
+                   if f.endswith(".xsd")}
+        self.assertEqual(on_disk, set(self._pins()),
+                         "unpinned schema(s): %s"
+                         % sorted(on_disk - set(self._pins())))

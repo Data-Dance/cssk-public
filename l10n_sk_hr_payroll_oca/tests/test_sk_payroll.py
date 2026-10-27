@@ -12,7 +12,10 @@
 
 from datetime import date
 
+from psycopg2 import IntegrityError
+
 from odoo.tests import TransactionCase, tagged
+from odoo.tools import mute_logger
 
 
 @tagged("post_install", "-at_install")
@@ -986,7 +989,10 @@ class TestSkPayroll(TransactionCase):
         line = p.get_salary_line_total
         self.assertAlmostEqual(line("SICK"), -14.0, places=2)
         self.assertAlmostEqual(line("UNEMPLOYMENT"), -10.0, places=2)
-        self.assertAlmostEqual(line("SHORTTIMEEMPLOYER"), 5.0, places=2)
+        # § 128 ods. 1 písm. g): no short-time financing for a dohoda, so the
+        # employer pays the full 1 % unemployment rate (§ 136 písm. b) bod 2).
+        self.assertAlmostEqual(line("SHORTTIMEEMPLOYER"), 0.0, places=2)
+        self.assertAlmostEqual(line("UNEMPLOYMENTEMPLOYER"), 10.0, places=2)
 
     def test_dopc_with_irregular_income_pays_the_reduced_set(self):
         """...and the converse: a DoPČ paid once on completion."""
@@ -1241,3 +1247,267 @@ class TestSkPayroll(TransactionCase):
                 ltype = self.env.ref("l10n_sk_hr_payroll_oca." + xmlid)
                 self.assertEqual(ltype.l10n_sk_payroll_code, "OBSTACLE")
                 self.assertFalse(ltype.requires_allocation)
+
+    # ------------------------------------------------------------------
+    # 2026-10-27 docs-findings fixes
+    # ------------------------------------------------------------------
+    def test_rz_2026_nczd_taper_is_a_third(self):
+        """§ 11 ods. 2 písm. b) ZDP as of 1. 1. 2026: 51,6 × ŽM − ⅓ base.
+
+        Base 40 000 > 26 083,13: NČZD = 14 661,11 − 40 000/3 = 1 327,78.
+        The 2025 shape carried over (12 487,51 − ¼ base) gave 2 487,51.
+        Taxable 38 672,22 × 19 % = 7 347,72.
+        """
+        rz = self.env["l10n.sk.tax.reconciliation"].create(
+            {
+                "employee_id": self.employee_nodecl.id,
+                "company_id": self.company.id,
+                "year": 2026,
+                "gather_from_payslips": False,
+                "annual_tax_base": 40000.0,
+                "annual_advance_tax": 7000.0,
+            }
+        )
+        self.assertAlmostEqual(rz.nczd_taxpayer, 1327.78, places=2)
+        self.assertAlmostEqual(rz.annual_tax, 7347.72, places=2)
+        self.assertAlmostEqual(rz.result_amount, -347.72, places=2)
+        # ...and it reaches zero at 3 × 14 661,11 = 43 983,33.
+        rz.annual_tax_base = 43983.33
+        self.assertAlmostEqual(rz.nczd_taxpayer, 0.0, places=2)
+        # 2025 keeps the quarter: 12 110,36 − 30 000/4 = 4 610,36.
+        rz.write({"year": 2025, "annual_tax_base": 30000.0})
+        self.assertAlmostEqual(rz.nczd_taxpayer, 4610.36, places=2)
+
+    def test_2026_annual_bands_are_the_zm_multiples(self):
+        """§ 15 písm. a) bod 1: 154,8× / 212,4× / 264× ŽM 284,13."""
+        bands = self.env["hr.rule.parameter"]._get_parameter_value(
+            "l10n_sk_income_tax_bands_annual", date(2026, 12, 31)
+        )
+        self.assertEqual(
+            [c for _r, c in bands[:3]], [43983.32, 60349.21, 75010.32]
+        )
+
+    def test_child_bonus_taper_applies_per_child(self):
+        """§ 33 ods. 11: the 1/10 reduction is taken from EACH child.
+
+        2026, wage 3 500: TAXBASE = 3 500 − 329 − 175 = 2 996, monthly
+        threshold 27 432 / 12 = 2 286, reduction 0,1 × 710 = 71 per child,
+        so 2 × (100 − 71) = 58 — not 200 − 71 = 129.
+        """
+        contract, employee = self._make_contract(
+            "Vysoky Prijem", 3500.0, date(2024, 1, 1), self.calendar,
+            l10n_sk_tax_declaration_signed=True,
+            l10n_sk_children_under_15=2,
+        )
+        p = self._make_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        self.assertAlmostEqual(p.get_salary_line_total("TAXBASE"), 2996.0, 2)
+        self.assertAlmostEqual(p.get_salary_line_total("CHILD_BONUS"), 58.0, 2)
+
+    def test_rz_child_bonus_taper_applies_per_child(self):
+        """Annual: base 35 000, two children < 15 (2026).
+
+        Reduction 0,1 × (35 000 − 27 432) = 756,80 per child:
+        2 × (1 200 − 756,80) = 886,40 (once in total gave 1 643,20).
+        """
+        rz = self.env["l10n.sk.tax.reconciliation"].create(
+            {
+                "employee_id": self.employee.id,
+                "company_id": self.company.id,
+                "year": 2026,
+                "gather_from_payslips": False,
+                "annual_tax_base": 35000.0,
+            }
+        )
+        self.assertAlmostEqual(rz.child_bonus_entitlement, 886.40, places=2)
+
+    def test_dobps_student_owes_no_sickness_or_unemployment(self):
+        """§ 4 ods. 1 písm. a) zákona 461/2003 excludes the DoBPŠ outright.
+
+        Even with a regular monthly income the student is a zamestnanec for
+        pension insurance only (§ 4 ods. 2 písm. b) bod 1).
+        """
+        contract, employee = self._make_dohodar(
+            l10n_sk_agreement_type="dobps", l10n_sk_income_regular=True
+        )
+        p = self._make_payslip(
+            contract, employee, date(2025, 6, 1), date(2025, 6, 30)
+        )
+        line = p.get_salary_line_total
+        self.assertAlmostEqual(line("SICK"), 0.0, places=2)
+        self.assertAlmostEqual(line("SICKEMPLOYER"), 0.0, places=2)
+        self.assertAlmostEqual(line("UNEMPLOYMENT"), 0.0, places=2)
+        self.assertAlmostEqual(line("UNEMPLOYMENTEMPLOYER"), 0.0, places=2)
+        self.assertAlmostEqual(line("SHORTTIMEEMPLOYER"), 0.0, places=2)
+        self.assertAlmostEqual(line("PENSION"), -40.0, places=2)
+
+    def _tiny_part_timer(self, **vals):
+        """€100 a month on two hours a week — below the životné minimum,
+        yet above the pro-rated minimum wage (≈ 8,7 h × 5,259 €)."""
+        calendar = self.env["resource.calendar"].create(
+            {
+                "name": "SK 2h/week",
+                "company_id": self.company.id,
+                "hours_per_day": 2.0,
+                "attendance_ids": [
+                    (0, 0, {
+                        "name": "Mon",
+                        "dayofweek": "0",
+                        "hour_from": 8.0,
+                        "hour_to": 10.0,
+                        "day_period": "morning",
+                    })
+                ],
+            }
+        )
+        return self._make_contract(
+            "Minimalny Preddavok", 100.0, date(2024, 1, 1), calendar, **vals
+        )
+
+    def test_health_minimum_preddavok(self):
+        """§ 16a zákona 580/2004 (2026, ŽM 284,13).
+
+        Minimum = ⌊284,13 × 5 %⌋ + ⌊284,13 × 11 %⌋ = 14,20 + 31,25 = 45,45;
+        actual 5,00 + 11,00 → top-up 29,45.
+        """
+        contract, employee = self._tiny_part_timer()
+        p = self._make_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        self.assertAlmostEqual(p.get_salary_line_total("HEALTH"), -5.0, 2)
+        self.assertAlmostEqual(
+            p.get_salary_line_total("HEALTHDOPLATOK"), -29.45, 2)
+
+    def test_health_minimum_preddavok_not_for_ztp(self):
+        """§ 16a ods. 2 písm. c): every ZP day removes its share — a ZŤP
+        employee for the whole month owes no minimum at all."""
+        contract, employee = self._tiny_part_timer(l10n_sk_ztp=True)
+        p = self._make_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        self.assertAlmostEqual(
+            p.get_salary_line_total("HEALTHDOPLATOK"), 0.0, 2)
+
+    def test_health_minimum_preddavok_reduced_by_pn_days(self):
+        """§ 16a ods. 2 + § 11 ods. 7: PN days are poistenec-štátu days.
+
+        10 of 30 calendar days: 45,45 × 20/30 = 30,30 − 16,00 = 14,30.
+        """
+        contract, employee = self._tiny_part_timer()
+        p = self._payslip_with_inputs(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30),
+            [("PN_DAYS", 10.0)],
+        )
+        self.assertAlmostEqual(
+            p.get_salary_line_total("HEALTHDOPLATOK"), -14.30, 2)
+
+    # ------------------------------------------------------------------
+    # Pension status (zákon 461/2003 § 4 ods. 1 písm. b), § 19, § 128)
+    # ------------------------------------------------------------------
+    def test_old_age_pensioner_on_dopc_is_pension_insured_only(self):
+        """§ 4 ods. 1 písm. b): no sickness, no unemployment, regular income
+        or not; § 128 ods. 3: no disability premium either side."""
+        contract, employee = self._make_dohodar(
+            l10n_sk_agreement_type="dopc", l10n_sk_income_regular=True,
+            l10n_sk_pension_type="old_age",
+        )
+        p = self._make_payslip(contract, employee, date(2025, 6, 1), date(2025, 6, 30))
+        line = p.get_salary_line_total
+        for code in ("SICK", "SICKEMPLOYER", "UNEMPLOYMENT",
+                     "UNEMPLOYMENTEMPLOYER", "SHORTTIMEEMPLOYER",
+                     "DISABILITY", "DISABILITYEMPLOYER"):
+            self.assertAlmostEqual(line(code), 0.0, places=2, msg=code)
+        self.assertAlmostEqual(line("PENSION"), -40.0, places=2)
+        self.assertAlmostEqual(line("PENSIONEMPLOYER"), 140.0, places=2)
+        self.assertAlmostEqual(line("RESERVEFUNDEMPLOYER"), 47.5, places=2)
+
+    def test_disability_pensioner_on_dopc_still_pays_disability(self):
+        """An invalidný pensioner is out of sickness and unemployment on a
+        dohoda (§ 4 ods. 1 písm. b) bod 3) but § 128 ods. 3 does not spare
+        the disability premium."""
+        contract, employee = self._make_dohodar(
+            l10n_sk_agreement_type="dopc", l10n_sk_income_regular=True,
+            l10n_sk_pension_type="disability",
+        )
+        p = self._make_payslip(contract, employee, date(2025, 6, 1), date(2025, 6, 30))
+        line = p.get_salary_line_total
+        self.assertAlmostEqual(line("SICK"), 0.0, places=2)
+        self.assertAlmostEqual(line("UNEMPLOYMENT"), 0.0, places=2)
+        self.assertAlmostEqual(line("DISABILITY"), -30.0, places=2)
+        self.assertAlmostEqual(line("DISABILITYEMPLOYER"), 30.0, places=2)
+
+    def test_old_age_pensioner_in_employment(self):
+        """A pracovný pomer stays sickness-insured; § 19 ods. 3 písm. b)
+        removes unemployment and § 128 ods. 3 the disability premium; the
+        short-time financing is owed for every pracovný pomer (§ 128 ods. 1
+        písm. g))."""
+        contract, employee = self._make_dohodar(
+            l10n_sk_agreement_type="none", l10n_sk_pension_type="old_age",
+        )
+        p = self._make_payslip(contract, employee, date(2025, 6, 1), date(2025, 6, 30))
+        line = p.get_salary_line_total
+        self.assertAlmostEqual(line("SICK"), -14.0, places=2)
+        self.assertAlmostEqual(line("UNEMPLOYMENT"), 0.0, places=2)
+        self.assertAlmostEqual(line("UNEMPLOYMENTEMPLOYER"), 0.0, places=2)
+        self.assertAlmostEqual(line("DISABILITY"), 0.0, places=2)
+        self.assertAlmostEqual(line("SHORTTIMEEMPLOYER"), 5.0, places=2)
+
+    # ------------------------------------------------------------------
+    # Minimum hourly wage on a dohoda (§ 119 ods. 1 + § 223 ods. 2 ZP)
+    # ------------------------------------------------------------------
+    def test_agreement_below_minimum_hourly_wage_warns(self):
+        contract, _employee = self._make_dohodar(
+            l10n_sk_agreement_type="dopc", l10n_sk_hourly_wage=4.50,
+            contract_date_end=date(2026, 6, 30),
+        )
+        self.assertIn("5.259", contract.l10n_sk_agreement_wage_warning or "")
+        contract.l10n_sk_hourly_wage = 5.30
+        self.assertFalse(contract.l10n_sk_agreement_wage_warning)
+
+    def test_employment_is_not_measured_against_the_hourly_minimum(self):
+        """§ 120 minimum wage claims cover a pracovný pomer (surcharges)."""
+        contract, _employee = self._make_dohodar(
+            l10n_sk_agreement_type="none", l10n_sk_hourly_wage=4.50,
+            contract_date_end=date(2026, 6, 30),
+        )
+        self.assertFalse(contract.l10n_sk_agreement_wage_warning)
+
+    # ------------------------------------------------------------------
+    # Unique keys (Odoo 19 ignored the _sql_constraints that held them)
+    # ------------------------------------------------------------------
+    def test_rule_parameter_code_is_unique(self):
+        Param = self.env["hr.rule.parameter"]
+        Param.create({"name": "Dup A", "code": "l10n_sk_test_dup"})
+        with mute_logger("odoo.sql_db"), self.assertRaises(IntegrityError), \
+                self.env.cr.savepoint():
+            Param.create({"name": "Dup B", "code": "l10n_sk_test_dup"})
+
+    def test_one_tax_reconciliation_per_employee_and_year(self):
+        vals = {
+            "employee_id": self.employee.id,
+            "company_id": self.company.id,
+            "year": 2025,
+            "gather_from_payslips": False,
+        }
+        Rz = self.env["l10n.sk.tax.reconciliation"]
+        Rz.create(vals)
+        with mute_logger("odoo.sql_db"), self.assertRaises(IntegrityError), \
+                self.env.cr.savepoint():
+            Rz.create(vals)
+
+    # ------------------------------------------------------------------
+    # Screens
+    # ------------------------------------------------------------------
+    def test_slovak_fields_are_on_the_employee_form(self):
+        """They used to be on contract TEMPLATES only."""
+        arch = self.env["hr.employee"].get_views([(False, "form")])["views"]["form"]["arch"]
+        for name in ("l10n_sk_agreement_type", "l10n_sk_hourly_wage",
+                     "l10n_sk_pension_type", "l10n_sk_tax_declaration_signed"):
+            self.assertIn('name="%s"' % name, arch)
+
+    def test_rule_parameters_have_a_menu(self):
+        menu = self.env.ref("l10n_sk_hr_payroll_oca.hr_rule_parameter_menu")
+        self.assertEqual(menu.action.res_model, "hr.rule.parameter")
+        arch = self.env["hr.rule.parameter"].get_views([(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="parameter_value_ids"', arch)

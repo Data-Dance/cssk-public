@@ -6,17 +6,20 @@ Czech Republic base localization
 ================================
 
 Provides the Czech-specific building blocks shared by other modules
-(e.g. ISDOC e-invoicing), kept lightweight (depends only on ``account``):
+(e.g. ISDOC e-invoicing), kept lightweight (``account`` and
+``l10n_cssk_payment_symbols``):
 
 * res.partner.bank: bidirectional Czech IBAN <-> legacy "prefix-number/bankcode"
   conversion, with the legacy account number, account prefix and bank code
   computed from the IBAN (IBAN stays the primary storage format).
-* account.move: Variable / Constant / Specific symbol fields (VS / KS / SS).
+* account.move: the legacy ``variable_symbol`` / ``constant_symbol`` /
+  ``specific_symbol`` names, kept as aliases of the payment symbols that
+  ``l10n_cssk_payment_symbols`` owns, so older code keeps working.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Localizations",
-    "version": "19.0.2.0.2",
+    "version": "19.0.2.0.3",
     "depends": ["account", "l10n_cssk_payment_symbols"],
     "data": [
         "views/res_partner_bank_views.xml",

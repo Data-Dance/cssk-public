@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.0.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Zrušené subjekty (SK) can be opened.** The list existed as an action with
+  no menu. It is now under *Accounting → Customers*, and as a filter in every
+  contact search.
+
 [19.0.2.0.0] — 2026-09-29
 -------------------------
 

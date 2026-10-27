@@ -9,6 +9,8 @@ _logger = logging.getLogger(__name__)
 
 SK_CLOSING_ACCOUNT_CODE = "702000"  # Konečný účet súvahový
 SK_OPENING_ACCOUNT_CODE = "701000"  # Začiatočný účet súvahový
+SK_PL_ACCOUNT_CODE = "710000"  # Účet ziskov a strát
+SK_RESULT_APPROVAL_ACCOUNT_CODE = "431000"  # Výsledok hospodárenia v schvaľovaní
 
 
 class AccountFiscalyearClosingConfig(models.Model):
@@ -85,13 +87,22 @@ class AccountFiscalyearClosingConfig(models.Model):
         return mirrored
 
     def inverse_move_prepare(self):
-        """Reopen through 701, not through 702.
+        """Reopen through 701, and reopen the result on 431, not on 710.
 
         The engine builds the opening move by plainly reversing the closing one,
-        which would leave **702** as the counterpart on both sides. Slovak
-        practice uses a matching pair — the year closes on *Konečný účet
-        súvahový* (702) and reopens on *Začiatočný účet súvahový* (701) — so the
-        counterpart is swapped here, on the freshly reversed draft move.
+        which would leave **702** as the counterpart on both sides and put the
+        year's result back on **710**. Slovak practice uses a matching pair —
+        the year closes on *Konečný účet súvahový* (702) and reopens on
+        *Začiatočný účet súvahový* (701) — so that counterpart is swapped.
+
+        The result is the other half. The closing carries it from 710 to 702
+        (§ 8 ods. 2 písm. f) opatrenia MF SR č. 23054/2002-92), and a plain
+        reversal would reopen it on 710, a závierkový účet with no place in
+        the new year. § 7 ods. 3 says where it goes instead: "Pri otvorení
+        účtov sa výsledok hospodárenia bezprostredne predchádzajúceho účtovného
+        obdobia zaúčtuje na účte 431 - Výsledok hospodárenia v schvaľovaní" —
+        zisk 701 / 431, strata 431 / 701. Reversing the 710 ↔ 702 pair and
+        swapping both accounts gives exactly that, with the sign carried over.
         """
         move_ids = super().inverse_move_prepare()
         if not move_ids or self.move_type != "opening":
@@ -101,27 +112,44 @@ class AccountFiscalyearClosingConfig(models.Model):
             return move_ids
 
         Account = self.env["account.account"]
-        closing_account = Account.search(
-            [("company_ids", "in", company.ids), ("code", "=", SK_CLOSING_ACCOUNT_CODE)],
-            limit=1,
-        )
-        opening_account = Account.search(
-            [("company_ids", "in", company.ids), ("code", "=", SK_OPENING_ACCOUNT_CODE)],
-            limit=1,
-        )
+
+        def account(code):
+            return Account.search(
+                [("company_ids", "in", company.ids), ("code", "=", code)],
+                limit=1,
+            )
+
+        closing_account = account(SK_CLOSING_ACCOUNT_CODE)
+        opening_account = account(SK_OPENING_ACCOUNT_CODE)
+        moves = self.env["account.move"].browse(move_ids)
         if not (closing_account and opening_account):
             _logger.warning(
                 "SK závierka: účet %s alebo %s chýba, otvorenie zostáva na 702.",
                 SK_CLOSING_ACCOUNT_CODE,
                 SK_OPENING_ACCOUNT_CODE,
             )
+            # Leave the reversal whole rather than half-converted: a 702 /
+            # 431 opening is neither the engine's entry nor the Slovak one.
             return move_ids
-
-        lines = (
-            self.env["account.move"]
-            .browse(move_ids)
-            .line_ids.filtered(lambda line: line.account_id == closing_account)
+        lines = moves.line_ids.filtered(
+            lambda line: line.account_id == closing_account
         )
         if lines:
             lines.account_id = opening_account
+
+        pl_account = account(SK_PL_ACCOUNT_CODE)
+        result_lines = moves.line_ids.filtered(
+            lambda line: pl_account and line.account_id == pl_account
+        )
+        if result_lines:
+            approval_account = account(SK_RESULT_APPROVAL_ACCOUNT_CODE)
+            if approval_account:
+                result_lines.account_id = approval_account
+            else:
+                _logger.warning(
+                    "SK závierka: účet %s chýba, výsledok hospodárenia sa "
+                    "otvára na %s.",
+                    SK_RESULT_APPROVAL_ACCOUNT_CODE,
+                    SK_PL_ACCOUNT_CODE,
+                )
         return move_ids

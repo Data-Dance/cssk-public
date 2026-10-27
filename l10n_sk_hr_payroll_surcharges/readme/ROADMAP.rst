@@ -16,12 +16,13 @@
   ADDITION to the ordinary one) is supported: the payslip mixin prefers a
   worked-days line of that code over the input.
 * The reduced night / Saturday / Sunday rates are contract-level flags. The
-  statute ties them to a collective agreement, so there is no check that one
-  exists.
+  statute ties them to a collective agreement or, at an employer with no
+  trade union and fewer than 20 employees, to the employment contract, so
+  there is no check that either exists.
 * § 96 standby is modelled only as the inactive part performed away from the
   workplace. Inactive standby AT the workplace counts as working time and is
   paid as such, which this module does not attempt to detect.
-* Surcharges for work in a "sťažené prostredie" (§ 123) are a single rate; the
+* Surcharges for work in a "sťažené prostredie" (§ 124) are a single rate; the
   hazard-specific rates some collective agreements set are not modelled.
 * Only the percentage regime in force from 1 June 2023 is shipped. Recomputing
   a period before that date needs a rate record expressing the old fixed euro

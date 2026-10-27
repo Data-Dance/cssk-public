@@ -13,7 +13,8 @@ class WizardCurrencyRevaluation(models.TransientModel):
         A company on a fixed monthly rate (currency_rate_update_cz) books its
         documents at one rate per month, and that is what the ordinary rate
         table holds; the balance sheet must still be revalued at the rate of
-        its own day (§ 24 odst. 6 ZoÚ). The context key makes currency
+        its own day — the obecný kurz, § 24c odst. 1 písm. b) ZoÚ; the fixed
+        rate of § 24c odst. 2 is for the moment of the transaction only. The context key makes currency
         conversion read the actual fixings kept for exactly this — and is
         inert where none are kept, so a company on daily rates is unaffected.
         """

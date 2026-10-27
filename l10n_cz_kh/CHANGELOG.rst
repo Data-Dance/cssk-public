@@ -38,6 +38,54 @@ Carry-over to 18.0
   cash-basis entry through ``_cssk_vat_document`` (commit 02eda35); ports with
   the ``l10n_cssk_kv_kh_base`` change it depends on.
 
+[19.0.1.9.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The bundled ``dphkh1_epo2.xsd`` is refreshed to the published structure
+  03.01.15 of 11. 8. 2026 (documentation changes only) and ``verzePis``
+  states it.
+- The amendment button on a Czech statement reads *Opravné / následné*
+  (§ 101f ZDPH) instead of the Slovak *Dodatočný / opravný*.
+
+[19.0.1.9.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Section C (VetaC) totals were crossed.** The A.1 total was written as
+  ``rez_pren23`` and the B.1 total as ``pln_rez_pren``; ``rez_pren5`` (B.1 at
+  the reduced rate) was never written and ``celk_zd_a2`` held only A.2's
+  standard rate. They now follow the structure: ``pln_rez_pren`` = A.1 (ř. 25),
+  ``rez_pren23`` / ``rez_pren5`` = B.1 (ř. 10 / 11), ``celk_zd_a2`` = all of
+  A.2 (ř. 3, 4, 5, 6, 9, 12, 13).
+- **The second reduced rate (10 %, until 31. 12. 2023) is reported in
+  ``zakl_dane3`` / ``dan3``**, not merged into ``zakl_dane2``. A 10 % line in a
+  later period — a correction of such a supply — goes there too, as the form
+  requires. Section C's reduced-rate totals include it.
+- **A.1 / B.1: one row per §92a commodity code.** A document carrying two kinds
+  of reverse-charge supply was filed on one row under the first code. A row
+  without a code now blocks the export, naming the document — it used to be
+  filed as code 1 (gold).
+- **A.1 from the stock "0% RC" sale tax.** The supplied side of a § 92a
+  reverse charge is recognised by its VAT-return row (ř. 25) as well as by the
+  reverse-charge flag, which only the purchase taxes carry; A.1 used to stay
+  empty, and its base was reported in a reduced-rate column A.1 does not have.
+- **Czech VAT charged to an EU customer is a domestic supply** (A.4 / A.5); it
+  used to be dropped as an intra-EU supply. A.4 now requires a Czech DIČ, so a
+  customer known only by another member state's VAT number is reported in A.5.
+- **A service from outside the EU (ř. 12 / 13) is reported in A.2**, not B.2,
+  with no supplier identification. **An import of goods (§ 23, ř. 7 / 8) is
+  not reported at all**, as the Finanční správa's guidance on the form says.
+- **A.2 uses the VIES country code**: Greece is ``EL`` and Northern Ireland
+  ``XI``, not ``GR`` / ``GB``.
+- The A.2 section label cited § 108 odst. 1; it is § 108 odst. 2 a 3.
+- The upgrade re-assigns the section of existing posted lines. Statements
+  already computed keep their rows until you recompute them.
+
 [19.0.1.6.6] — 2026-09-21
 -------------------------
 

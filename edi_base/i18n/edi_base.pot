@@ -1,0 +1,726 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* edi_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 19:41+0000\n"
+"PO-Revision-Date: 2026-10-27 19:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+msgid ""
+"  %(i)d. EAN=%(ean)s  qty=%(qty)s %(unit)s  price=%(price)s\n"
+"     name: %(name)s\n"
+"     supplier code: %(art)s  buyer code: %(buyer)s"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+msgid "%(msg_type)s queued for dispatch via %(provider)s: %(link)s"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__send_retry_after
+msgid ""
+"After a temporary failure, the send cron leaves the message alone until then"
+" — the provider's Retry-After, or a growing pause."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__blocking_level
+msgid "Blocking Level"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model,name:edi_base.model_edi_message_send_wizard
+msgid "Bulk-queue selected EDI messages for sending"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_send_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+msgid ""
+"Cannot process inbound document: %d product(s) not found in master data."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__company_id
+msgid "Company"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model,name:edi_base.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.ui.menu,name:edi_base.menu_edi_config
+msgid "Configuration"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model,name:edi_base.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+msgid ""
+"Create the missing product(s) in your catalog, then reprocess this EDI "
+"message."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__create_uid
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__create_date
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__customer_ref
+msgid "Customer / Vendor Reference"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__direction
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Direction"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_account_move__display_name
+#: model:ir.model.fields,field_description:edi_base.field_edi_connector_mixin__display_name
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__display_name
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__display_name
+#: model:ir.model.fields,field_description:edi_base.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:edi_base.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__doc_family
+msgid "Document Family"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__name
+msgid "Document Name"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__doc_type_code
+msgid "Document Type Code"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__state__done
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Done"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+#: model:ir.ui.menu,name:edi_base.menu_edi_root
+#: model_terms:ir.ui.view,arch_db:edi_base.view_res_config_settings_edi_base
+msgid "EDI"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model,name:edi_base.model_edi_connector_mixin
+msgid "EDI Connector (Abstract Mixin)"
+msgstr ""
+
+#. module: edi_base
+#: model:res.groups,name:edi_base.group_edi_manager
+msgid "EDI Manager"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model,name:edi_base.model_edi_message
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_form
+msgid "EDI Message"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.actions.act_window,name:edi_base.action_edi_message
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_tree
+msgid "EDI Messages"
+msgstr ""
+
+#. module: edi_base
+#: model:res.groups,name:edi_base.group_edi_user
+msgid "EDI User"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+msgid "EDI message"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.actions.server,name:edi_base.cron_edi_send_queued_ir_actions_server
+msgid "EDI: send queued messages (no job runner)"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__doc_type_code
+msgid ""
+"EDIFACT document type code from the message body (e.g. 220=ORDERS, "
+"231=ORDRSP, 351=DESADV, 380=INVOIC). More reliable than message_type for "
+"dispatch because some EDI providers rewrite the header message_type."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_res_partner__edi_auto_send_override
+#: model:ir.model.fields,help:edi_base.field_res_users__edi_auto_send_override
+msgid ""
+"Enable per-message-type overrides of the global auto-send configuration for "
+"this customer/vendor. When off (the default), outbound EDI messages follow "
+"the global ir.config_parameter values. When on, each provider module exposes"
+" per-message-type Selection fields (`always` / `never` / `default`) that "
+"take precedence over the global setting for this commercial partner."
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_form
+msgid "Environment"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__blocking_level__error
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__state__error
+msgid "Error"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__error_message
+msgid "Error Details"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Errors"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__external_id
+msgid "External Reference"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_account_move__id
+#: model:ir.model.fields,field_description:edi_base.field_edi_connector_mixin__id
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__id
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__id
+#: model:ir.model.fields,field_description:edi_base.field_res_config_settings__id
+#: model:ir.model.fields,field_description:edi_base.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__message_has_error
+#: model:ir.model.fields,help:edi_base.field_edi_message__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__direction__in
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Inbound"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__blocking_level__info
+msgid "Info"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model,name:edi_base.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__write_uid
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__write_date
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_date
+msgid "Message Date"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_id
+msgid "Message ID"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_type
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Message Type"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_ids
+#: model:ir.ui.menu,name:edi_base.menu_edi_messages
+msgid "Messages"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__provider_mode
+msgid "Mode"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+msgid ""
+"None of the selected messages can be sent (must be outbound and in state "
+"draft / ready / error)."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__direction__out
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Outbound"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_res_partner__edi_auto_send_override
+#: model:ir.model.fields,field_description:edi_base.field_res_users__edi_auto_send_override
+msgid "Override EDI auto-send"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__partner_id
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Partner"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Pending"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Production"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__provider
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Provider"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__provider_interchange_id
+msgid "Provider Interchange ID"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_form
+msgid "Provider correlation"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__state__queued
+msgid "Queued"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__provider_mode
+msgid ""
+"Raw test/production mode value stamped at create time. Meaning is provider-"
+"specific (e.g. 'test'/'production' for Editel, '1'/'0' for GRiT)."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__state__ready
+msgid "Ready"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__state__received
+msgid "Received"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__receiver_gln
+msgid "Receiver GLN"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_form
+msgid "Reprocess"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__send_retry_after
+msgid "Retry Not Before"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_form
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_send_wizard_form
+msgid "Send"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.actions.server,name:edi_base.action_server_edi_message_bulk_send
+msgid "Send (queue dispatch)"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__send_attempt_count
+msgid "Send Attempts"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_send_wizard_form
+msgid "Send EDI Messages"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__sendable_count
+msgid "Sendable Count"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__sender_gln
+msgid "Sender GLN"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__state__sent
+msgid "Sent"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.actions.act_window,name:edi_base.action_edi_config_settings
+#: model:ir.ui.menu,name:edi_base.menu_edi_config_settings
+msgid "Settings"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__skipped_count
+msgid "Skipped Count"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__state
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "State"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/models/edi_message.py:0
+msgid "Still failing after %(count)s attempts: %(error)s"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_form
+msgid "TEST"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__send_attempt_count
+msgid ""
+"Temporary send failures so far, when the send cron dispatches this provider."
+" Reset when the message is queued again."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__is_test_mode
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_search
+msgid "Test Mode"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__customer_ref
+msgid ""
+"The counterparty's reference number — the buyer's order number for sale-side"
+" messages, the vendor's order reference for purchase-side messages. "
+"Propagated from the originating sale_order.client_order_ref / "
+"purchase_order.partner_ref so a whole document conversation (ORDERS → ORDRSP"
+" → DESADV → INVOIC) can be searched by the same reference value."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__doc_family
+msgid ""
+"The document standard of this message (e.g. EDIFACT vs Peppol BIS3). "
+"Independent of the provider/transport used to carry it."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__transmission_uuid
+msgid "Transmission UUID"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__is_test_mode
+msgid "True if this message was created in test mode."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields.selection,name:edi_base.selection__edi_message__blocking_level__warning
+msgid "Warning"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,help:edi_base.field_edi_message__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__sendable_ids
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_send_wizard_form
+msgid "Will be sent"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message_send_wizard__skipped_ids
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_send_wizard_form
+msgid "Will be skipped"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__attachment_id
+msgid "XML Attachment"
+msgstr ""
+
+#. module: edi_base
+#: model:ir.model.fields,field_description:edi_base.field_edi_message__message_xml
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_form
+msgid "XML Content"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/wizards/edi_message_send_wizard.py:0
+msgid "already done"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/wizards/edi_message_send_wizard.py:0
+msgid "already sent"
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/wizards/edi_message_send_wizard.py:0
+msgid "inbound"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_send_wizard_form
+msgid ""
+"message(s) will be\n"
+"                    queued for sending."
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_send_wizard_form
+msgid ""
+"of the selected message(s) cannot be sent and\n"
+"                    will be skipped (already sent/done, inbound, or otherwise not in a sendable state).\n"
+"                    Only the"
+msgstr ""
+
+#. module: edi_base
+#: model_terms:ir.ui.view,arch_db:edi_base.view_edi_message_send_wizard_form
+msgid "sendable message(s) will be queued."
+msgstr ""
+
+#. module: edi_base
+#. odoo-python
+#: code:addons/edi_base/wizards/edi_message_send_wizard.py:0
+msgid "state '%s'"
+msgstr ""

@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Súhrnný výkaz (EC Sales List)",
-    "version": "19.0.1.2.2",
+    "version": "19.0.1.3.0",
     "summary": "Slovak EC sales list (Súhrnný výkaz) — codes 0/1/2 (goods / "
                "triangulation / services), FS SR SDV XML export. Built on the "
                "shared l10n_cssk_ec_summary_base framework.",

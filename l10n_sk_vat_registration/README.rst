@@ -36,9 +36,10 @@ What it adds
 
 On ``res.partner``:
 
-#. **Druh registrácie DPH** — § 4 / § 4b / § 5 / § 6 / § 7 / § 7a
+#. **Druh registrácie DPH** — § 4 / § 4b / § 4c / § 5 / § 7 / § 7a, and § 6
+   (zásielkový predaj) for registrations made before 1. 7. 2021
 #. **Platiteľ DPH od**
-#. **Platiteľ dane** — computed, true only for § 4 / § 4b / § 5 / § 6
+#. **Platiteľ dane** — computed, true only for § 4 / § 4b / § 4c / § 5 / § 6
 
 On a customer invoice, a **warning** when a domestic reverse-charge tax is used
 for a § 7 / § 7a customer.

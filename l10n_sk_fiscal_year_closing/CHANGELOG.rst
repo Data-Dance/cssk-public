@@ -40,6 +40,21 @@ Carry-over to 20.0
   manifests, ``odoo.addons.*`` imports, the ``.pot`` file name and
   ``module_*`` settings toggles. The 19.0 commit is the checklist.
 
+[19.0.1.0.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The opening entry reopens the year's result on 431, not on 710.** The
+  opening is built by reversing the closing entry, so the result the closing
+  carried from 710 to 702 came back on 710 in the new year. It is now booked
+  on 431000 *Výsledok hospodárenia v schvaľovaní*, as § 7 ods. 3 of opatrenie
+  MF SR č. 23054/2002-92 requires (profit: 701 debit / 431 credit; loss:
+  431 debit / 701 credit), and 710 no longer appears in the opening entry.
+  An opening entry posted with an earlier version still has the result on
+  710; move it to 431 with an entry on that opening date.
+
 [19.0.1.0.1] — 2026-09-13
 -------------------------
 

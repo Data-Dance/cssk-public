@@ -1,10 +1,11 @@
-import calendar
-from datetime import timedelta
+from collections import Counter
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 from odoo.fields import Command
 from odoo.tools.misc import format_date
+
+from ..tools import advance_tax_doc_deadline
 
 
 class SaleOrder(models.Model):
@@ -159,6 +160,16 @@ class SaleOrder(models.Model):
     )
     show_manual_transfer_link = fields.Boolean(
         compute="_compute_show_manual_transfer_link",
+    )
+    advance_clearing_transfer_ids = fields.Many2many(
+        "account.move",
+        "sale_order_advance_clearing_transfer_rel",
+        "order_id",
+        "move_id",
+        string="Clearing Transfers",
+        copy=False,
+        help="Entries that moved payments attached with Link Manual Transfer "
+        "from the receivable to the advance clearing account.",
     )
 
     def _create_advance_invoice_section_line_if_needed(self):
@@ -365,6 +376,73 @@ class SaleOrder(models.Model):
             return tx
         return self._create_transaction_from_payment(payment)
 
+    def _move_advance_payment_to_clearing(self, payment):
+        """Carry a payment booked to the customer's receivable over to the
+        advance clearing account, so the tax document meets it there.
+
+        A payment attached with *Link Manual Transfer* was booked before
+        anyone knew it paid an advance, usually to the receivable. Its open
+        receivable leg is cleared by a transfer entry - receivable to
+        clearing - in a miscellaneous journal, and the transfer's clearing
+        leg is what the tax document reconciles with. Returns the posted
+        transfer, or nothing when there is nothing to carry over.
+        """
+        self.ensure_one()
+        company = self.company_id
+        clearing = company.advance_received_account_id
+        if not clearing or payment.destination_account_id == clearing:
+            return self.env["account.move"]
+        open_lines = payment.move_id.line_ids.filtered(
+            lambda line: line.account_id == payment.destination_account_id
+            and not line.reconciled
+        )
+        if not open_lines or payment.move_id.state != "posted":
+            return self.env["account.move"]
+        journal = self.env["account.journal"].search([
+            ("company_id", "=", company.id),
+            ("type", "=", "general"),
+            ("id", "!=", company.advance_invoice_journal_id.id),
+        ], order="sequence, id", limit=1)
+        if not journal:
+            return self.env["account.move"]
+        partner = payment.partner_id.commercial_partner_id
+        label = _("Advance %(name)s: payment %(payment)s to the clearing account",
+                  name=self.name, payment=payment.name)
+        line_vals = []
+        for line in open_lines:
+            common = {
+                "name": label,
+                "partner_id": partner.id,
+                "currency_id": line.currency_id.id,
+            }
+            line_vals += [
+                Command.create(dict(common,
+                    account_id=line.account_id.id,
+                    balance=-line.amount_residual,
+                    amount_currency=-line.amount_residual_currency,
+                )),
+                Command.create(dict(common,
+                    account_id=clearing.id,
+                    balance=line.amount_residual,
+                    amount_currency=line.amount_residual_currency,
+                )),
+            ]
+        transfer = self.env["account.move"].create({
+            "move_type": "entry",
+            "journal_id": journal.id,
+            "date": payment.date,
+            "ref": label,
+            "line_ids": line_vals,
+        })
+        transfer.action_post()
+        for line in open_lines:
+            (line | transfer.line_ids.filtered(
+                lambda l, account=line.account_id: l.account_id == account
+                and not l.reconciled
+            )[:1]).reconcile()
+        self.advance_clearing_transfer_ids = [Command.link(transfer.id)]
+        return transfer
+
     def _get_advance_product(self):
         product_tmpl = self.env.ref(
             'sale_order_advance_invoice.product_advance_invoice',
@@ -518,7 +596,7 @@ class SaleOrder(models.Model):
             due_dates = [line["date"] for line in terms.get("line_ids", []) if line.get("date")]
             order.advance_invoice_date_due = max(due_dates) if due_dates else date_ref
 
-    @api.depends("advance_invoice_paid_date", "state")
+    @api.depends("advance_invoice_paid_date", "state", "company_id")
     def _compute_advance_invoice_accounting_date_due(self):
         for order in self:
             paid = order.advance_invoice_paid_date
@@ -542,14 +620,18 @@ class SaleOrder(models.Model):
     def _advance_invoice_tax_doc_deadline(self, paid_date):
         """Statutory deadline to issue the tax document on a received advance.
 
-        Default (shared by the Czech and Slovak rules): the earlier of 15 days
-        after the payment was received and the end of that calendar month.
-        Localizations may override this for country-specific deadlines.
+        * Czech Republic: 15 days from the day the obligation to declare the
+          tax arose, i.e. from the payment - § 28 odst. 8 zákona č. 235/2004 Sb.
+          There is no month-end alternative.
+        * Slovakia: 15 days from the payment *or* the end of the calendar month
+          in which it was received - § 73 ods. 1 písm. b) zákona č. 222/2004
+          Z. z. - so whichever is later. The month-end alternative applies to
+          payments from 1. 1. 2016; before that it was 15 days only.
+
+        Any other country gets the 15 days, which no deadline above undercuts.
         """
         self.ensure_one()
-        last_day = calendar.monthrange(paid_date.year, paid_date.month)[1]
-        end_of_month = paid_date.replace(day=last_day)
-        return min(paid_date + timedelta(days=15), end_of_month)
+        return advance_tax_doc_deadline(self.company_id, paid_date)
 
     def _get_advance_invoice_net_account(self):
         """Net (ex-VAT) received-advance liability account for this advance.
@@ -751,36 +833,116 @@ class SaleOrder(models.Model):
         return sum(docs.mapped('amount_untaxed')) / value
 
     def _advance_deduction_tax_groups(self, advance):
-        """The advance's net amount broken down by the taxes it charged.
+        """The net the advance's posted tax documents declared, by tax.
 
-        Returns ``[(taxes, net), ...]``, in the order the advance lists them. A
-        lump-sum advance has a single group and is unaffected; an itemised one
-        at two VAT rates has two, which is the point: the deduction has to give
-        back exactly the VAT the tax document took.
+        Returns ``[(taxes, net), ...]``, in the order the documents list them.
+        A lump-sum advance has a single group; an itemised one at two VAT
+        rates has two, which is the point: the deduction has to give back
+        exactly the VAT the tax documents took - no more for a part they never
+        covered.
         """
-        groups = {}
-        lines = advance.order_line.filtered(
-            lambda line: not line.display_type and not line.is_advance_tracking
+        return [
+            (taxes, net) for taxes, net, _gross
+            in advance._advance_documented_tax_groups()
+        ]
+
+    def _advance_received_amount(self):
+        """The gross amount actually received on this advance.
+
+        Only settled transactions count: an authorised card payment is not
+        money received, and Odoo's own ``amount_paid`` includes it.
+        """
+        self.ensure_one()
+        return sum(
+            self.transaction_ids.filtered(lambda tx: tx.state == "done").mapped("amount")
         )
-        for line in lines:
+
+    def _advance_documented_tax_groups(self):
+        """``[(taxes, net, gross), ...]`` declared by this advance's tax documents.
+
+        Read from the posted tax-document lines themselves (credit notes on
+        them subtract), never from the advance's own lines: an advance paid
+        or documented only in part has declared only part of its amount.
+        Deductions of a standalone advance on a final invoice are linked to the
+        same order lines with a negative quantity, and are not documents.
+        """
+        self.ensure_one()
+        groups = {}
+        lines = self.order_line.invoice_lines.filtered(
+            lambda line: line.parent_state == "posted"
+            and line.display_type == "product"
+            and (
+                (line.move_id.move_type == "out_invoice" and line.quantity > 0)
+                or line.move_id.move_type == "out_refund"
+            )
+        )
+        for line in lines.sorted(lambda l: (l.move_id.id, l.sequence, l.id)):
+            sign = -1.0 if line.move_id.move_type == "out_refund" else 1.0
             key = tuple(sorted(line.tax_ids.ids))
-            groups.setdefault(key, [line.tax_ids, 0.0])[1] += line.price_subtotal
-        return [(taxes, net) for taxes, net in groups.values()]
+            group = groups.setdefault(key, [line.tax_ids, 0.0, 0.0])
+            group[1] += sign * line.price_subtotal
+            group[2] += sign * line.price_total
+        return [
+            (taxes, net, gross) for taxes, net, gross in groups.values()
+            if not self.currency_id.is_zero(net)
+        ]
+
+    def _advance_deduction_components(self):
+        """What a final invoice deducts for this advance, part by part.
+
+        ``[{"taxes", "amount", "account"}, ...]``, in the advance's currency:
+
+        * one part per tax the posted tax documents charged - their net, on the
+          received-advance account, with those taxes, so the VAT declared on
+          the payment is given back (CZ § 37a zákona o DPH);
+        * then whatever was received but no tax document covers yet - gross,
+          without VAT and without an account (the product's own), so the final
+          invoice charges the VAT on that part itself.
+
+        An advance received only in part is deducted only for that part; one
+        with nothing received is not deducted at all. Without a received-
+        advance account configured, everything received is deducted gross.
+        """
+        self.ensure_one()
+        currency = self.currency_id
+        net_account = self._get_advance_invoice_net_account()
+        groups = self._advance_documented_tax_groups() if net_account else []
+        components = [
+            {"taxes": taxes, "amount": net, "account": net_account}
+            for taxes, net, _gross in groups
+        ]
+        documented = sum(gross for _taxes, _net, gross in groups)
+        remainder = currency.round(self._advance_received_amount() - documented)
+        if currency.compare_amounts(remainder, 0.0) > 0:
+            components.append({
+                "taxes": self.env["account.tax"],
+                "amount": remainder,
+                "account": False,
+            })
+        return components
 
     def _split_advance_deduction_lines(self, invoice_vals_list):
-        """Fan a deduction line out into one line per rate the advance charged.
+        """Fan a deduction line out into one line per part of the advance.
 
         The deduction is prepared from a single tracking line on the order, so
-        it can carry only one tax - which is right until an advance charges
-        more than one. Then a single line reverses the wrong amount of VAT and
-        the difference is billed to a customer who has already paid it.
+        it can carry only one tax and one amount - which is right until an
+        advance's tax documents charge more than one rate, or cover only part
+        of what was received. Then a single line reverses the wrong amount of
+        VAT, and the difference is billed to a customer who has already paid it.
         """
         Line = self.env['sale.order.line']
         for vals in invoice_vals_list:
             commands = vals.get('invoice_line_ids') or []
+            # A tracking line already referred to by several commands has
+            # been split before; splitting a share again would deduct the
+            # advance twice over.
+            references = Counter()
+            for cmd in commands:
+                if cmd[0] == 0:
+                    references.update(self._command_record_ids(cmd[2].get('sale_line_ids')))
             new_commands = []
             for cmd in commands:
-                new_commands.extend(self._split_one_advance_deduction(Line, cmd))
+                new_commands.extend(self._split_one_advance_deduction(Line, cmd, references))
             if len(new_commands) != len(commands):
                 vals['invoice_line_ids'] = new_commands
 
@@ -796,38 +958,33 @@ class SaleOrder(models.Model):
                 ids.extend(command[2] or [])
         return ids
 
-    def _split_one_advance_deduction(self, Line, cmd):
+    def _split_one_advance_deduction(self, Line, cmd, references=None):
         if cmd[0] != 0:
             return [cmd]
         line = Line.browse(self._command_record_ids(cmd[2].get('sale_line_ids'))).exists()
         advance = line.advance_source_order_id
         if len(line) != 1 or not line.is_advance_tracking or not advance:
             return [cmd]
-        # Only the deduction of an advance that raised a tax document carries
-        # VAT to give back. Without one the deduction is the gross amount with
-        # no taxes at all, and there is nothing to split.
-        if not advance._has_posted_advance_tax_document():
+        if references is not None and references[line.id] > 1:
             return [cmd]
 
-        groups = self._advance_deduction_tax_groups(advance)
-        if len(groups) < 2:
-            return [cmd]
-        # Only the command carrying the advance's whole net is the one to
-        # split. Anything else is a share of it that has been split already,
-        # and splitting a share again would deduct the advance twice over.
-        if advance.currency_id.compare_amounts(
-            cmd[2].get('price_unit', 0.0), advance.amount_untaxed
-        ):
+        components = advance._advance_deduction_components()
+        if len(components) < 2:
             return [cmd]
 
         split = []
-        for taxes, net in groups:
+        for component in components:
             group_vals = dict(cmd[2])
-            group_vals['price_unit'] = net
-            group_vals['tax_ids'] = [Command.set(taxes.ids)]
-            group_vals['name'] = "%s (%s)" % (
-                cmd[2].get('name', ''), ", ".join(taxes.mapped('name')),
-            )
+            group_vals['price_unit'] = component['amount']
+            group_vals['tax_ids'] = [Command.set(component['taxes'].ids)]
+            if component['account']:
+                group_vals['account_id'] = component['account'].id
+            else:
+                group_vals.pop('account_id', None)
+            if component['taxes']:
+                group_vals['name'] = "%s (%s)" % (
+                    cmd[2].get('name', ''), ", ".join(component['taxes'].mapped('name')),
+                )
             split.append(Command.create(group_vals))
         return split
 

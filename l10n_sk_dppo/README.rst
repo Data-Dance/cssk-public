@@ -26,15 +26,17 @@ Features
 Usage
 =====
 
-*Accounting ▸ Reporting ▸ Slovakia ▸ DPPO.* Create a return for the tax period,
+*Accounting ▸ Reporting ▸ Statutory Reports ▸ Income Tax (DPPO)*. Create a return for the tax period,
 review/enter the body lines (r100 is filled from the P&L), then **Export XML** —
-the export is validated against ``dppo2025.xsd`` before download.
+the export is validated against the schema of the vzor for that period before
+download.
 
-**Scope note (v1):** the module auto-computes the accounting result and produces
-schema-valid XML. The accounting→tax transformation (adjustment lines, loss
-deduction, tax credits, minimum tax) is the accountant's domain and is entered
-manually; the inter-line computation formulas need accountant validation before
-being automated.
+**Scope:** the adjustment rows (pripočítateľné / odpočítateľné položky, loss
+deduction, credits) are entered by the accountant. From them the module computes
+the tax cascade (r200 → základ dane → sadzba → daň → minimálna daň / daňová
+licencia → daň na úhradu) on the 2015–2019 and 2024+ vzory; on 2013, 2014 and
+2020–2023 it computes r100 only. Have the computation reviewed by your
+accountant before the first filing.
 
 Credits
 =======

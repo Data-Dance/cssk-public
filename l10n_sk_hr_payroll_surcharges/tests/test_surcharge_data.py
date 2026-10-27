@@ -15,7 +15,7 @@ from odoo.tests import TransactionCase
 # § 120 ods. 4: the 2020 anchor and the six coefficients.
 ANCHOR_2020 = 580.0
 COEFFICIENTS = {"1": 1.0, "2": 1.2, "3": 1.4, "4": 1.6, "5": 1.8, "6": 2.0}
-# § 134 — the statutory average monthly working hours the hourly figures use.
+# § 120 ods. 4 — the hourly claim is 1/174 of the monthly one.
 MONTHLY_HOURS = 174.0
 
 
@@ -88,3 +88,33 @@ class TestSurchargeRateData(TransactionCase):
         """Before 1 June 2023 the surcharges were fixed euro amounts."""
         with self.assertRaises(UserError):
             self.model._get_rate(date(2023, 5, 31))
+
+    def test_rates_cite_the_paragraphs_in_force(self):
+        """The Zákonník práce numbers night work § 123, Saturday § 122a, Sunday
+        § 122b and difficult conditions § 124; there is no § 122c. The help a
+        payroll clerk reads, and the section map, must say so."""
+        from ..models.surcharge_calc import SURCHARGE_SECTION
+
+        self.assertEqual(SURCHARGE_SECTION["NOC"], "§ 123")
+        self.assertEqual(SURCHARGE_SECTION["SOBOTA"], "§ 122a")
+        self.assertEqual(SURCHARGE_SECTION["NEDELA"], "§ 122b")
+        self.assertEqual(SURCHARGE_SECTION["STAZENY"], "§ 124")
+        fields_ = self.model._fields
+        expected = {
+            "noc_pct": "§ 123 ods. 1",
+            "noc_risk_pct": "§ 123 ods. 1",
+            "noc_reduced_pct": "§ 123 ods. 2",
+            "sobota_pct": "§ 122a ods. 1",
+            "sobota_reduced_pct": "§ 122a ods. 2",
+            "nedela_pct": "§ 122b ods. 1",
+            "nedela_reduced_pct": "§ 122b ods. 2",
+            "stazeny_pct": "§ 124 ods. 3",
+        }
+        for name, cite in expected.items():
+            self.assertTrue(fields_[name].help.startswith(cite), name)
+        version = self.env["hr.version"]._fields
+        self.assertIn("§ 120 ods. 3", version["l10n_sk_wage_level"].help)
+        self.assertIn("§ 123 ods. 2", version["l10n_sk_night_reduced"].help)
+        self.assertIn("§ 122a ods. 2", version["l10n_sk_saturday_reduced"].help)
+        self.assertIn("§ 122b ods. 2", version["l10n_sk_sunday_reduced"].help)
+        self.assertIn("§ 120 ods. 3", self.env["hr.job"]._fields["l10n_sk_wage_level"].help)

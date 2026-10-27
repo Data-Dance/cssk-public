@@ -220,3 +220,29 @@ class TestIncomeTaxBase(AccountTestInvoicingCommon):
                 ret2.action_export_xml()
         self.assertFalse(ret2.xml_attachment_id)
         self.assertNotEqual(ret2.state, "exported")
+
+
+@tagged("post_install", "-at_install")
+class TestProvisionWording(AccountTestInvoicingCommon):
+    """The 591/341 entry is the splatná daň, not a rezerva."""
+
+    def test_the_override_accounts_the_error_names_are_on_the_form(self):
+        from lxml import etree
+        arch = self.env["cssk.income.tax.return"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        root = etree.fromstring(arch)
+        for name in ("provision_expense_account_id",
+                     "provision_payable_account_id"):
+            self.assertTrue(root.xpath("//field[@name='%s']" % name), name)
+
+    def test_the_catalogues_do_not_call_it_a_rezerva(self):
+        """A rezerva (účty 451/459) is a different thing; 591/341 is the
+        splatná daň."""
+        from odoo.tools.misc import file_path
+        for lang in ("sk", "cs"):
+            path = file_path("l10n_cssk_income_tax_base/i18n/%s.po" % lang)
+            with open(path, encoding="utf-8") as handle:
+                msgstrs = [line for line in handle
+                           if line.startswith("msgstr")]
+            self.assertFalse(
+                [m for m in msgstrs if "rezerv" in m.lower()], lang)

@@ -8,6 +8,59 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.6] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **r200 on the 2015 and 2017 editions now includes r120 and r160.** Both rows
+  sit in the block of pripočítateľné položky that r200 totals (DPPOv15 and
+  DPPOv17 poučenie, riadky 110 až 180) — r120 for pokuty and úroky z
+  omeškania under § 17 ods. 19 as in force to 2014, r160 for § 17 ods. 17
+  kurzové rozdiely — and were left out, understating the tax base.
+
+- **The XML no longer names the company as the § 50 recipient.** The
+  generated templates filled every IČO, name and address in the schema with
+  the company's own, so the § 50 prijímateľ, the oprávnená osoba's trvalý
+  pobyt and a stála prevádzkareň carried the filer's data. Only the header
+  (sídlo) does now; the rest is left for you.
+
+- **Header from the company record.** The DIČ is the Slovak DIČ, or the
+  IČ DPH without its "SK"; the house number is taken from the end of
+  *Street* instead of from *Street2*; the SK NACE code comes from the
+  company's NACE code and the právna forma from the trade register module
+  when they are installed; the date of the declaration is the export day.
+
+[19.0.1.4.5] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Daňová licencia in the lower band when the VAT registration category is
+  blank.** With ``l10n_sk_vat_registration`` installed but neither the
+  registration date nor the category filled in, the company was treated as
+  not a VAT payer, so the licencia came out at 480 € instead of 960 €. A blank
+  category now falls back to the *Tax ID*, as without that module.
+
+[19.0.1.4.4] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **No daňová licencia on the 2018 and 2019 editions after § 52zk.** r810
+  carried a licencia of 480 € / 960 € / 2 880 € on every return filed on the
+  2018 or 2019 vzor, overstating the tax. § 52zk applies the licencia for the
+  last time to a period ending on 31 December 2017, or to a hospodársky rok
+  ending in 2018; for every later period r810 is now 0 and r1050 is the tax
+  alone. A hospodársky rok ending in 2018 still gets its licencia.
+- **A 2026 period explains why it cannot be created.** Finančná správa SR has
+  not published the DPPO vzor for 2026 (checked 27. 10. 2026), and none is
+  invented here; instead of an empty *Version* list the return now warns
+  that no form version covers the period.
+
 [19.0.1.4.3] — 2026-09-13
 -------------------------
 

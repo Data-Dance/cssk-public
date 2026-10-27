@@ -8,6 +8,28 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- Create the Czech default provider is a button on the provider list, shown on
+  an empty list; the action-menu entry only appeared once a row was selected.
+- Czech translation completed.
+
+[19.0.1.3.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Legal citations in the ČNB rate help.** The fixed rate is § 24c odst. 2
+  and § 24d odst. 4 zákona o účetnictví (there is no § 24 odst. 6), the
+  balance-sheet revaluation at the rate of the day is § 24c odst. 1 písm. b),
+  and the VAT conversion rule is § 4 odst. 8 ZDPH — § 38 is the tax base on
+  import.
+
 [19.0.1.3.0] — 2026-09-28
 -------------------------
 

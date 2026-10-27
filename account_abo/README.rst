@@ -2,7 +2,7 @@
 ABO Payment Export
 ==================
 
-Generates **ABO payment-order files** used by Czech (and Slovak) banks — Česká
+Generates **ABO payment-order files** used by Czech banks — Česká
 spořitelna, ČSOB, KB, MONETA, Raiffeisenbank, UniCredit and others — from an OCA
 ``account.payment.order``. CE-clean: it builds on ``account_payment_order`` and
 the shared ``account_cz_bankfile_base`` builders, with **no Enterprise
@@ -29,7 +29,7 @@ Features
 Usage
 =====
 
-Set the bank journal's outgoing payment method to **ABO (Czech/Slovak credit
+Set the bank journal's outgoing payment method to **ABO (Czech credit
 transfer)**. Build a payment order from vendor bills as usual
 (*Accounting ▸ Vendor ▸ Payment Orders*), fill the VS/KS/SS symbols on the lines
 (or leave them empty to fall back to the communication), confirm the order and
