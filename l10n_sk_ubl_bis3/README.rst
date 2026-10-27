@@ -19,6 +19,10 @@ produces correctly for a Slovak company. This module only fills the gaps:
   ``SK`` and makes it the default ``invoice_edi_format`` for Slovak partners.
 * **Extension point.** ``account.edi.xml.ubl_sk`` subclasses the generic Peppol
   builder, giving a stable place to add Slovak-specific behaviour later.
+* **Dátum dodania.** ``taxable_supply_date`` is written as ``cbc:TaxPointDate``
+  (BT-7) on invoices and credit notes, and read back from it on import. Core
+  fills that element only from a Studio field, so the statutory date of supply
+  (§ 74 ods. 1 písm. d) zákona o DPH) otherwise never left the document.
 * **Variabilný symbol (VS).** Mapped onto ``cac:PaymentMeans/cbc:PaymentID``
   (BT-83): the explicit payment reference if set, otherwise the numeric tail of
   the invoice number.

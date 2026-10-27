@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
+from datetime import date
 
 from lxml import etree
 
@@ -130,3 +131,94 @@ class TestUBLSlovakia(TestUBLCommon):
         )
         filename = self.env['account.edi.xml.ubl_sk']._export_invoice_filename(invoice)
         self.assertTrue(filename.endswith('_ubl_bis3_sk.xml'))
+
+    # -------------------------------------------------------------------------
+    # Dátum dodania <-> cbc:TaxPointDate (BT-7)
+    # -------------------------------------------------------------------------
+
+    def _sk_move(self, **kwargs):
+        return self._generate_move(
+            self.seller, self.buyer, send=False,
+            currency_id=self.eur.id,
+            invoice_line_ids=[{
+                'product_id': self.product_a.id,
+                'quantity': 1,
+                'price_unit': 100.0,
+                'tax_ids': [Command.set(self.company_data['default_tax_sale'].ids)],
+            }],
+            **kwargs,
+        )
+
+    def test_export_tax_point_date_is_the_taxable_supply_date(self):
+        invoice = self._sk_move(
+            move_type='out_invoice',
+            invoice_date='2026-01-20', date='2026-01-20',
+            taxable_supply_date='2026-01-15',
+        )
+        xml_bytes, _errors = self.env['account.edi.xml.ubl_sk']._export_invoice(invoice)
+        tree = etree.fromstring(xml_bytes)
+
+        self.assertEqual(tree.findtext('cbc:IssueDate', namespaces=NS), '2026-01-20')
+        self.assertEqual(tree.findtext('cbc:TaxPointDate', namespaces=NS), '2026-01-15')
+        # BR-CO-3: BT-7 and BT-8 are mutually exclusive.
+        self.assertIsNone(tree.find('cac:InvoicePeriod/cbc:DescriptionCode', namespaces=NS))
+        # UBL 2.1 element order: after InvoiceTypeCode, before DocumentCurrencyCode.
+        order = [etree.QName(child).localname for child in tree]
+        self.assertLess(order.index('InvoiceTypeCode'), order.index('TaxPointDate'))
+        self.assertLess(order.index('TaxPointDate'), order.index('DocumentCurrencyCode'))
+
+    def test_export_tax_point_date_on_credit_note(self):
+        refund = self._sk_move(
+            move_type='out_refund',
+            invoice_date='2026-01-20', date='2026-01-20',
+            taxable_supply_date='2026-01-15',
+        )
+        xml_bytes, _errors = self.env['account.edi.xml.ubl_sk']._export_invoice(refund)
+        tree = etree.fromstring(xml_bytes)
+        self.assertEqual(etree.QName(tree).localname, 'CreditNote')
+        self.assertEqual(tree.findtext('cbc:TaxPointDate', namespaces=NS), '2026-01-15')
+
+    def test_import_tax_point_date_fills_taxable_supply_date(self):
+        invoice = self._sk_move(
+            move_type='out_invoice',
+            invoice_date='2026-01-20', date='2026-01-20',
+            taxable_supply_date='2026-01-15',
+        )
+        xml_bytes, _errors = self.env['account.edi.xml.ubl_sk']._export_invoice(invoice)
+        self.assertIn(b'<cbc:TaxPointDate>2026-01-15</cbc:TaxPointDate>', xml_bytes)
+
+        attachment = self.env['ir.attachment'].create({
+            'name': 'inbound_sk_invoice.xml',
+            'raw': xml_bytes,
+            'mimetype': 'application/xml',
+        })
+        journal = self.company_data['default_journal_purchase']
+        journal.create_document_from_attachment(attachment.ids)
+        bill = self.env['account.move'].search([('journal_id', '=', journal.id)], order='id desc', limit=1)
+
+        self.assertEqual(bill.move_type, 'in_invoice')
+        self.assertEqual(bill.invoice_date, date(2026, 1, 20))
+        # Inbound documents resolve to the generic BIS 3 builder by their
+        # CustomizationID and take account.edi.ubl's import pipeline, so this
+        # exercises that hook, not the Slovak builder.
+        self.assertEqual(bill.taxable_supply_date, date(2026, 1, 15))
+
+    def test_import_without_tax_point_date_keeps_the_default(self):
+        invoice = self._sk_move(move_type='out_invoice', invoice_date='2026-01-20', date='2026-01-20')
+        xml_bytes, _errors = self.env['account.edi.xml.ubl_sk']._export_invoice(invoice)
+        # Strip the element to simulate a sender that does not fill BT-7.
+        xml_bytes = re.sub(rb'<cbc:TaxPointDate>[^<]*</cbc:TaxPointDate>', b'', xml_bytes)
+        self.assertNotIn(b'TaxPointDate', xml_bytes)
+
+        attachment = self.env['ir.attachment'].create({
+            'name': 'inbound_no_bt7.xml',
+            'raw': xml_bytes,
+            'mimetype': 'application/xml',
+        })
+        journal = self.company_data['default_journal_purchase']
+        journal.create_document_from_attachment(attachment.ids)
+        bill = self.env['account.move'].search([('journal_id', '=', journal.id)], order='id desc', limit=1)
+        # The hook must not invent a date. (l10n_sk's own default — the invoice
+        # date — keys on the company's FISCAL country, which the generic test
+        # chart leaves outside Slovakia, so it does not apply here.)
+        self.assertFalse(bill.taxable_supply_date)

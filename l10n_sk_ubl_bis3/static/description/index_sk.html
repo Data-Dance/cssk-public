@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_ubl_bis3/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Slovensko — Peppol BIS Billing 3.0 (eFaktúra)</h1>
 <p class="cssk-summary">Vyhotovuje slovenské elektronické faktúry vo formáte Peppol BIS Billing 3.0, identifikuje slovenské subjekty v sieti Peppol podľa DIČ a zapisuje variabilný symbol tam, kde ho hľadá banka platiteľa.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.3.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.3.3.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Odoo vie zapísať faktúru ako súbor Peppol BIS Billing 3.0 (UBL 2.1,
@@ -46,6 +46,9 @@ medzery dopĺňa:</p>
   nemá vyplnené DIČ, a pomenuje kontakt, ktorý treba opraviť;</li>
 <li>zapíše <strong>variabilný symbol</strong> do identifikátora platby v súbore
   (<em>PaymentID</em>, BT-83), podľa ktorého banka platiteľa platbu páruje.</li>
+<li>zapíše <strong>dátum dodania</strong> do súboru ako dátum vzniku daňovej povinnosti
+  (<em>TaxPointDate</em>, BT-7) a z prijatých faktúr ho číta späť; samotné Odoo
+  tento prvok z dátumu dodania faktúry nikdy nevyplní.</li>
 </ul>
 <p>Samotný súbor je čistý Peppol BIS Billing 3.0 bez národného rozšírenia.
 Modul súbor vytvorí; na jeho <strong>odoslanie</strong> cez Peppol je potrebný prístupový
@@ -151,6 +154,9 @@ Spoločnosť založená k existujúcemu kontaktu si ponechá jeho schému.</p>
 <li><strong>PaymentID (BT-83)</strong> — variabilný symbol: variabilný symbol faktúry, ak je
   nainštalovaný modul platobných symbolov, inak jej referencia platby, inak
   číslo faktúry; zredukované na číslice, ponechaných posledných 10.</li>
+<li><strong>TaxPointDate (BT-7)</strong> — dátum dodania z poľa <em>Dátum dodania</em> faktúry, na
+  faktúrach aj dobropisoch. Prijatá faktúra s týmto prvkom vyplní to isté pole
+  na dodávateľskej faktúre.</li>
 <li>PDF faktúry vložené do súboru.</li>
 <li>Názov súboru <code>INV_2026_00042_ubl_bis3_sk.xml</code> (číslo faktúry s <code>/</code>
   nahradeným).</li>
@@ -171,7 +177,7 @@ schémou prejde, ak má DIČ vyplnené.</p>
 <li>Pri odinštalovaní sa formát z kontaktov odstráni; ich adresy Peppol
   zostanú.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.3.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.3.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

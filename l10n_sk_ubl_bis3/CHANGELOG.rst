@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.3.3.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- ``taxable_supply_date`` is exported as ``cbc:TaxPointDate`` (BT-7) on
+  invoices and credit notes, and an inbound ``TaxPointDate`` fills the field
+  on the vendor bill. Core writes the element only from a Studio field
+  (``x_studio_peppol_tax_point_date``), so the statutory *dátum dodania* was
+  silently dropped on the way out. The import side sits on the generic
+  ``account.edi.ubl`` pipeline (and on the legacy ``account.edi.xml.ubl_20``
+  one for documents without a CustomizationID), because an inbound Peppol
+  BIS 3 document is routed by its CustomizationID to the generic builder and
+  never reaches the Slovak one. Reported by a community member on 2026-10-27.
+
 [19.0.3.2.0] — 2026-10-23
 -------------------------
 

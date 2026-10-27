@@ -1,7 +1,7 @@
 ---
 title: Slovensko — Peppol BIS Billing 3.0 (eFaktúra)
 summary: Vyhotovuje slovenské elektronické faktúry vo formáte Peppol BIS Billing 3.0, identifikuje slovenské subjekty v sieti Peppol podľa DIČ a zapisuje variabilný symbol tam, kde ho hľadá banka platiteľa.
-verified: 19.0.3.2.0
+verified: 19.0.3.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -20,6 +20,9 @@ medzery dopĺňa:
   nemá vyplnené DIČ, a pomenuje kontakt, ktorý treba opraviť;
 - zapíše **variabilný symbol** do identifikátora platby v súbore
   (*PaymentID*, BT-83), podľa ktorého banka platiteľa platbu páruje.
+- zapíše **dátum dodania** do súboru ako dátum vzniku daňovej povinnosti
+  (*TaxPointDate*, BT-7) a z prijatých faktúr ho číta späť; samotné Odoo
+  tento prvok z dátumu dodania faktúry nikdy nevyplní.
 
 Samotný súbor je čistý Peppol BIS Billing 3.0 bez národného rozšírenia.
 Modul súbor vytvorí; na jeho **odoslanie** cez Peppol je potrebný prístupový
@@ -114,6 +117,9 @@ Spoločnosť založená k existujúcemu kontaktu si ponechá jeho schému.
 - **PaymentID (BT-83)** — variabilný symbol: variabilný symbol faktúry, ak je
   nainštalovaný modul platobných symbolov, inak jej referencia platby, inak
   číslo faktúry; zredukované na číslice, ponechaných posledných 10.
+- **TaxPointDate (BT-7)** — dátum dodania z poľa *Dátum dodania* faktúry, na
+  faktúrach aj dobropisoch. Prijatá faktúra s týmto prvkom vyplní to isté pole
+  na dodávateľskej faktúre.
 - PDF faktúry vložené do súboru.
 - Názov súboru `INV_2026_00042_ubl_bis3_sk.xml` (číslo faktúry s `/`
   nahradeným).

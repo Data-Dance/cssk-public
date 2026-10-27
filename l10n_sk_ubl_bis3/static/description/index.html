@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_ubl_bis3/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>Slovakia — Peppol BIS Billing 3.0 (eFaktúra)</h1>
 <p class="cssk-summary">Produces Slovak electronic invoices in Peppol BIS Billing 3.0, identifies Slovak parties on Peppol by their DIČ, and puts the variable symbol where the payer&#x27;s bank looks for it.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.3.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.3.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Odoo can write an invoice as a Peppol BIS Billing 3.0 file (UBL 2.1,
@@ -47,6 +47,10 @@ This module fills those gaps:</p>
 <li>it writes the <strong>variable symbol</strong> into the payment identifier of the file
   (<em>PaymentID</em>, BT-83), which is what the payer's bank uses to match the
   payment.</li>
+<li>it writes the <strong>date of supply</strong> (<em>dátum dodania</em>) into the file as the
+  VAT point date (<em>TaxPointDate</em>, BT-7) and reads it back from received
+  invoices; Odoo itself never fills that element from the invoice's taxable
+  supply date.</li>
 </ul>
 <p>The file itself is plain Peppol BIS Billing 3.0, with no national
 extension. The module creates the file; <strong>sending</strong> it over Peppol needs an
@@ -156,6 +160,9 @@ A company created for an existing contact keeps that contact's scheme.</p>
   when the payment-symbols module is installed, otherwise its payment
   reference, otherwise the invoice number; reduced to digits and the last
   10 kept.</li>
+<li><strong>TaxPointDate (BT-7)</strong> — the date of supply from the invoice's <em>Taxable
+  Supply Date</em>, on invoices and credit notes. A received invoice carrying
+  the element fills the same field on the vendor bill.</li>
 <li>The invoice PDF embedded in the file.</li>
 <li>File name <code>INV_2026_00042_ubl_bis3_sk.xml</code> (the invoice number with <code>/</code>
   replaced).</li>
@@ -177,7 +184,7 @@ recorded.</p>
 <li>On uninstalling, the format is removed from contacts; their Peppol
   addresses are kept.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.3.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.3.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

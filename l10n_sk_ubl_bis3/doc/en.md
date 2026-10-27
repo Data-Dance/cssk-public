@@ -1,7 +1,7 @@
 ---
 title: Slovakia — Peppol BIS Billing 3.0 (eFaktúra)
 summary: Produces Slovak electronic invoices in Peppol BIS Billing 3.0, identifies Slovak parties on Peppol by their DIČ, and puts the variable symbol where the payer's bank looks for it.
-verified: 19.0.3.2.0
+verified: 19.0.3.3.0
 ---
 
 ## What it is for {#purpose}
@@ -21,6 +21,10 @@ This module fills those gaps:
 - it writes the **variable symbol** into the payment identifier of the file
   (*PaymentID*, BT-83), which is what the payer's bank uses to match the
   payment.
+- it writes the **date of supply** (*dátum dodania*) into the file as the
+  VAT point date (*TaxPointDate*, BT-7) and reads it back from received
+  invoices; Odoo itself never fills that element from the invoice's taxable
+  supply date.
 
 The file itself is plain Peppol BIS Billing 3.0, with no national
 extension. The module creates the file; **sending** it over Peppol needs an
@@ -119,6 +123,9 @@ A company created for an existing contact keeps that contact's scheme.
   when the payment-symbols module is installed, otherwise its payment
   reference, otherwise the invoice number; reduced to digits and the last
   10 kept.
+- **TaxPointDate (BT-7)** — the date of supply from the invoice's *Taxable
+  Supply Date*, on invoices and credit notes. A received invoice carrying
+  the element fills the same field on the vendor bill.
 - The invoice PDF embedded in the file.
 - File name `INV_2026_00042_ubl_bis3_sk.xml` (the invoice number with `/`
   replaced).

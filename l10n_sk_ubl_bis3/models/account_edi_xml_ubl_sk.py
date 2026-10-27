@@ -26,6 +26,34 @@ class AccountEdiXmlUbl_Sk(models.AbstractModel):
     # Billing 3.0 CustomizationID, with no national CIUS deviation.
 
     # -------------------------------------------------------------------------
+    # Dátum dodania (taxable_supply_date) -> cbc:TaxPointDate (BT-7)
+    # -------------------------------------------------------------------------
+
+    def _add_invoice_header_nodes(self, document_node, vals):
+        """Carry the date of supply as the EN 16931 VAT point date.
+
+        § 74 ods. 1 písm. d) zákona o DPH makes the date of supply a mandatory
+        element of a Slovak invoice, and core already keeps it on the move as
+        ``taxable_supply_date`` (``l10n_sk`` shows the field and defaults it to
+        the invoice date). Core's UBL writer never reads it: ``cbc:TaxPointDate``
+        is filled only from a Studio field, ``x_studio_peppol_tax_point_date``,
+        so the date left the document silently. A Slovak recipient reads BT-7
+        as *dátum dodania*; without it the invoice date stands in for it.
+
+        BT-7 and the VAT point date *code* (BT-8, ``cac:InvoicePeriod/
+        cbc:DescriptionCode``) are mutually exclusive (BR-CO-3). Core never
+        writes BT-8, so writing BT-7 here cannot collide with it. The node's
+        position is fixed by the UBL 2.1 template, not by insertion order.
+        Core's Studio mapping runs after this and still wins when that field
+        is set, which keeps an explicit per-invoice override possible.
+        """
+        # EXTENDS 'account.edi.xml.ubl_bis3'
+        super()._add_invoice_header_nodes(document_node, vals)
+        invoice = vals['invoice']
+        if invoice.taxable_supply_date:
+            document_node['cbc:TaxPointDate'] = {'_text': invoice.taxable_supply_date}
+
+    # -------------------------------------------------------------------------
     # Slovak variabilný symbol (VS) -> cbc:PaymentID (BT-83)
     # -------------------------------------------------------------------------
 
