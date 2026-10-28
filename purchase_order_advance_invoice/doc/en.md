@@ -88,6 +88,12 @@ Optionally choose the **Parent Purchase Order** it belongs to, and tick
 
 A purchase order with advances shows an **Advances** smart button.
 
+**With Inventory.** The goods are received on the parent purchase order,
+never on the advance: with
+[module:purchase_order_advance_invoice_stock](module:purchase_order_advance_invoice_stock),
+which installs itself when Inventory is present, confirming or paying an
+advance creates no receipt, even when its lines are stockable products.
+
 ## Paying it {#payment}
 
 On the advance:
@@ -161,9 +167,7 @@ scheduled once whatever language the scheduled action runs in.
 ## Limitations {#limitations}
 
 - The advance is an ordinary purchase order underneath. Do not use *Create
-  Bills* on the advance itself. With Inventory installed, confirming an advance
-  with stockable products can create a receipt; the module does not prevent
-  it, unlike the sales side.
+  Bills* on the advance itself.
 - **Link Payment** does not check which account the payment was booked to.
   Only a payment booked to the clearing account is reconciled with the tax
   document automatically.

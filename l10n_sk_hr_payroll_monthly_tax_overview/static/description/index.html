@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_hr_payroll_monthly_tax_overview/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Monthly Tax Overview (Prehľad)</h1>
 <p class="cssk-summary">The monthly overview of income-tax advances withheld from employees and the child tax bonus paid, generated from the month&#x27;s payslips as XML for the Slovak financial administration.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.1.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Every Slovak employer that withholds income tax from wages files, each month, a
@@ -71,10 +71,10 @@ príjmov</em>). Statutory terms are given in Slovak.</p>
 <ul>
 <li><strong>DIČ of the company.</strong> Fill in <em>DIČ</em> (the 10-digit tax identification
   number) on the company. Generation stops with an error until it is there.</li>
-<li><strong>Company address, phone and e-mail</strong> go into the header of the overview.
-  The XML puts <em>Street</em> into the street element and <em>Street2</em> into the
-  house-number element, so keep the house number in <em>Street2</em>, or check the
-  header after export.</li>
+<li><strong>Company address, phone and e-mail</strong> go into the header of the overview. The house
+  number is taken from the end of <em>Street</em> (<em>Hlavná 12</em>, <em>Hlavná 1141/11</em>);
+  <em>Street2</em> is used only when it holds nothing but a number — a building, a
+  floor or a c/o line there is never filed as the house number.</li>
 <li><strong>Bank account.</strong> The first bank account of the company's partner is
   written into Part III as the account for a refund. It is required when you
   request one (see <a href="#bonus-refund">Claiming the bonus difference back</a>).</li>
@@ -189,7 +189,7 @@ cancelling overview cannot be produced.</p>
 <li>Nothing is sent to the authority: <em>Mark Submitted</em> only records that you
   filed it.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.2.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.2.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

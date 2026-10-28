@@ -36,20 +36,21 @@ Features
   ``l10n_cz_fs`` Rozvaha and Výkaz zisku a ztráty of the same period, and the
   export files them as ``VetaUA`` (aktiva — brutto / korekce / netto / netto
   minulé), ``VetaUD`` (pasiva) and ``VetaUB`` (VZZ druhové členění), in
-  thousands, zkrácený rozsah per vyhláška 500/2002 Sb. Each EPO row takes the
+  thousands, in the plný or zkrácený rozsah of the linked statements
+  (vyhláška 500/2002 Sb., § 3a; both must be of the same one). Each EPO row
+  takes the
   ``l10n_cz_fs`` row of the same statutory designation — one account mapping,
   not two. The row numbers come from the EPO číselník vendored as
-  ``data/uv_radky_500.csv``; ``models/dppdp9_vykazy.py`` maps every row of the
-  zkrácený rozsah or states why it is not applicable. XSD and číselník are
+  ``data/uv_radky_500.csv``; ``models/dppdp9_vykazy.py`` maps every row of
+  either rozsah or states why it is not applicable. XSD and číselník are
   pinned in ``data/SCHEMA_VERSION``.
 
-**Not applicable, by design:** C.II.1. dlouhodobé pohledávky (the chart
-convention files every receivable as krátkodobé), C.II.3. / pasiva C.III. (the
-alternative placement of časové rozlišení, which is filed under D.) and VZZ
-V. (účet 665 is not split, so it is all filed on IV.) — confirm these with the
-accountant. The plný rozsah is not produced: an entity obliged to file it
-(střední a velké účetní jednotky, or any with a statutory audit) attaches the
-závěrka as an E-příloha and leaves the statements unlinked.
+**Not applicable, by design:** C.II.3. / pasiva C.III. in both rozsahy (the
+alternative placement of časové rozlišení, which is filed under D.); in the
+zkrácený rozsah also C.II.1. dlouhodobé pohledávky (the chart convention files
+every receivable as krátkodobé) and VZZ V. (účet 665 is not split there, so it
+is all filed on IV.; the plný-rozsah VZZ splits it by account tag) — confirm
+these with the accountant. The mikro rozsah (M) is not produced.
 
 **Out of scope:** the appendix tables (odpisy příl. 1B, § 23e výpůjční náklady
 příl. 3, zápočet daně ze zahraničí, investiční fondy), the přehledy and the

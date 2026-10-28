@@ -128,6 +128,72 @@ class TestSkEcSalesCompute(AccountTestInvoicingCommon):
         root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
         self.assertEqual(root.findtext("hlavicka/adresa/ulica"), "Hlavná")
         self.assertEqual(root.findtext("hlavicka/adresa/cislo"), "12")
+        # The same reading as every other export (l10n_cssk_core.split_street):
+        # a Street 2 that is only a number, and a village's bare č. p.
+        self.company.partner_id.write({"street": "Hlavná", "street2": "12"})
+        ctx = st._cssk_render_context()
+        self.assertEqual((ctx["sk_ulica"], ctx["sk_cislo"]), ("Hlavná", "12"))
+        self.company.partner_id.write({"street": "č. p. 45", "street2": ""})
+        ctx = st._cssk_render_context()
+        self.assertEqual((ctx["sk_ulica"], ctx["sk_cislo"]), ("", "45"))
+
+    def test_the_header_names_the_konatel_and_the_date(self):
+        """konatel and datumVyhlasenia were always exported empty."""
+        self.init_invoice(
+            "out_invoice", partner=self.partner_eu,
+            invoice_date="2026-06-10", amounts=[1000.0],
+            taxes=self.tax_ic_goods, post=True,
+        )
+        st = self._make_statement()
+        st.write({
+            "l10n_sk_authorized_name": "Ján Konateľ",
+            "l10n_sk_authorized_phone": "+421 900 000 000",
+            "l10n_sk_authorized_email": "konatel@example.com",
+            "l10n_sk_declaration_date": "2026-07-20",
+        })
+        st.action_compute_lines()
+        st.action_export_xml()   # validates against svdph20.xsd
+        h = etree.fromstring(
+            base64.b64decode(st.xml_attachment_id.datas)).find("hlavicka")
+        self.assertEqual(h.findtext("konatel"), "Ján Konateľ")
+        self.assertEqual(h.findtext("konatelTel"), "+421 900 000 000")
+        self.assertEqual(h.findtext("konatelEmail"), "konatel@example.com")
+        self.assertEqual((h.findtext("datumVyhlasenia/den"),
+                          h.findtext("datumVyhlasenia/mesiac"),
+                          h.findtext("datumVyhlasenia/rok")),
+                         ("20", "7", "2026"))
+
+    def test_the_2010_header_carries_a_structured_konatel_phone(self):
+        old_version = self.env.ref("l10n_sk_ec_sales.sdv_version_2010")
+        self.init_invoice(
+            "out_invoice", partner=self.partner_eu,
+            invoice_date="2019-06-10", amounts=[1000.0],
+            taxes=self.tax_ic_goods, post=True,
+        )
+        st = self.env["cssk.ec.summary.statement"].create({
+            "company_id": self.company.id, "version_id": old_version.id,
+            "date_from": "2019-06-01", "date_to": "2019-06-30",
+            "period_type": "month",
+            "statement_type_id": old_version.statement_type_ids[0].id,
+            "l10n_sk_authorized_name": "Ján Konateľ",
+            "l10n_sk_authorized_phone": "0900 000 000",
+            "l10n_sk_declaration_date": "2019-07-15",
+        })
+        st.action_compute_lines()
+        st.action_export_xml()   # validates against svdph2010.xsd
+        h = etree.fromstring(
+            base64.b64decode(st.xml_attachment_id.datas)).find("hlavicka")
+        self.assertEqual(h.findtext("konatel"), "Ján Konateľ")
+        self.assertEqual(h.findtext("konatelTel/cislo"), "0900 000 000")
+        self.assertIsNone(h.find("konatelEmail"))
+        self.assertEqual(h.findtext("datumVyhlasenia/den"), "15")
+
+    def test_the_header_page_is_on_the_form(self):
+        arch = self.env["cssk.ec.summary.statement"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        tree = etree.fromstring(arch)
+        for name in ("l10n_sk_authorized_name", "l10n_sk_declaration_date"):
+            self.assertIsNotNone(tree.find(".//field[@name='%s']" % name), name)
 
     def test_compute_and_export(self):
         self.init_invoice(

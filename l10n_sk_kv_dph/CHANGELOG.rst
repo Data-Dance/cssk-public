@@ -8,6 +8,26 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.5.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **D.1 files the eKasa turnover and the rate split.** ``SumaObratov`` is
+  the turnover including VAT ("obrat", zákon č. 384/2025 Z. z., § 2 písm.
+  z); before 2026 zákon č. 289/2008 Z. z., § 2 písm. ag)) and Z / D /
+  ZZn / DZn the bases and taxes at the basic and the
+  reduced rate. It filed the base as the turnover and every reduced-rate
+  sale at the basic rate, with ZZn / DZn always 0. The D.1 tab shows the
+  turnover and the four columns, and an override corrects them.
+
+Removed
+~~~~~~~
+
+- The section hint on the § 69 ods. 12 sale tax (the field it set no
+  longer exists; the tax still reaches A.2 by its reverse-charge mark).
+
 [19.0.2.4.0] — 2026-10-27
 -------------------------
 

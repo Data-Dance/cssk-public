@@ -75,7 +75,6 @@ class ResCompany(models.Model):
                 "amount": 0.0, "amount_type": "percent", "type_tax_use": "sale",
                 "tax_group_id": group.id, "company_id": company.id,
                 "cssk_control_is_reverse_charge": True,
-                "cssk_control_section_default": "A.2",
                 "repartition_line_ids": rep,
             })
             self.env["ir.model.data"].create({

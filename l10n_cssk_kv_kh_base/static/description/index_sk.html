@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cssk_kv_kh_base/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/l10n_cssk_kv_kh_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>Kontrolný výkaz DPH / kontrolní hlášení CZ/SK</h1>
 <p class="cssk-summary">Obrazovky a výpočet spoločné pre slovenský kontrolný výkaz DPH a české kontrolní hlášení — oddiely z zaúčtovaných dokladov, kontroly pred exportom, XML overené voči XSD a záznam o podaní.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.3.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index_sk.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_cz_kh/static/description/index.html"><code>l10n_cz_kh</code></a>, <a href="/l10n_sk_kv_dph/static/description/index_sk.html"><code>l10n_sk_kv_dph</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.4.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index_sk.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_cz_kh/static/description/index.html"><code>l10n_cz_kh</code></a>, <a href="/l10n_sk_kv_dph/static/description/index_sk.html"><code>l10n_sk_kv_dph</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Na Slovensku aj v Česku podáva platiteľ popri daňovom priznaní aj prehľad
@@ -155,8 +155,8 @@ prepočítať správca; prepočet samotného výkazu nestačí.</p>
 <li>vecné pravidlá: podrobný riadok, ktorého daň nezodpovedá základu ×
      sadzbe, export zastaví, ak sa líši dvojnásobne a viac, a zdaniteľný
      riadok so základom bez dane ho zastaví vždy. Menšie rozdiely
-     (zaokrúhlenie) a ostatné upozornenia sa zapíšu len do logu servera, na
-     obrazovke sa nezobrazia.</li>
+     (zaokrúhlenie) a ostatné upozornenia ho nezastavia: zobrazia sa v žltom
+     pruhu navrchu výkazu a v chatteri až do ďalšieho exportu.</li>
 </ol>
 <p>XML sa potom overí voči úradnej XSD uloženej na verzii a priloží sa k
    výkazu (<em>XML príloha</em>). Výkaz je v stave <em>Exportované</em>. Po novom výpočte
@@ -193,9 +193,6 @@ prepočítať, exportovať ani podať.</p>
 <ul>
 <li>Tento modul sám nič nepodáva; podáva sa ručne na portáli alebo cez modul
   kanála podania.</li>
-<li>Upozornenia, ktoré export nezastavia (rozdiely zo zaokrúhlenia, opačné
-  znamienko základu a dane a upozornenia modulov krajín), sa zapisujú len do
-  logu servera. Vidíte chyby, upozornenia nie.</li>
 <li>Oddiel položky denníka je uložený. Po zmene daňovej krajiny alebo po zmene
   samotných pravidiel ich musí správca prepočítať skôr, než sa výkazy
   počítajú znova.</li>
@@ -204,7 +201,7 @@ prepočítať, exportovať ani podať.</p>
 <li>Pravidlá zaradenia sú najlepším možným odhadom a stránky krajín uvádzajú, čo
   treba ešte potvrdiť s účtovníkom. Každý výkaz pred podaním skontrolujte.</li>
 </ul>
-<footer><p>Text overený voči verzii modulu: 19.0.2.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 19.0.2.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

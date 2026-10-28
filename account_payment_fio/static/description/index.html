@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/account_payment_fio/static/description/index_sk.html">Slovenčina</a> · <a href="/account_payment_fio/static/description/index_cs.html">Čeština</a></nav>
 <h1>Fio banka — Payment Orders</h1>
 <p class="cssk-summary">Builds Fio XML payment orders from an OCA payment order or an Enterprise batch payment and sends them to Fio banka over the API, for authorisation in internet banking.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_fio/static/description/index.html"><code>account_fio</code></a>, <a href="/account_fio_base/static/description/index.html"><code>account_fio_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_fio/static/description/index.html"><code>account_fio</code></a>, <a href="/account_fio_base/static/description/index.html"><code>account_fio_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Instead of downloading a payment file and uploading it in internet banking,
@@ -170,6 +170,12 @@ same button and the same <em>Unknown</em> safeguard.</p>
 <p>Both modules can be installed side by side.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
+<li>A credit note grouped with its invoice on the payment order (the payment
+  mode's <em>Group Transactions in Payment Orders</em>) becomes <strong>one item of the net
+  amount</strong> — the amount of the payment the order books. It carries the
+  invoice's variable symbol; when one credit note is netted against several
+  invoices their symbols differ and none is sent. Groups without a credit note
+  keep one item per invoice. Without grouping, a credit-note line is refused.</li>
 <li><strong>"Sent" is not "paid"</strong>: the batch waits in internet banking for
   authorisation.</li>
 <li>Fio's batch number is not the instruction ID that later appears on the
@@ -185,7 +191,7 @@ same button and the same <em>Unknown</em> safeguard.</p>
 <li>Fio operates no test environment; check the first batch carefully in
   internet banking before authorising it.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

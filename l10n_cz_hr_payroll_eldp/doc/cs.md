@@ -1,7 +1,7 @@
 ---
 title: CZ Evidenční list důchodového pojištění (ELDP)
 summary: Evidenční list důchodového pojištění za kalendářní rok — vyměřovací základ a dny pojištění každého zaměstnance sestavené z výplatních pásek roku a vyexportované do hromadného XML ve struktuře ČSSZ ELDP09.
-verified: 19.0.1.0.4
+verified: 19.0.1.0.5
 ---
 
 ## K čemu slouží {#purpose}

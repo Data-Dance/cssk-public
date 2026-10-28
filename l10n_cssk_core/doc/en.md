@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Localization — Shared Core
 summary: The common foundation of the Czech and Slovak statutory modules — settings, tax offices, IČO checking, the VAT period of a document, the life cycle of a statutory filing and the filed-versus-computed comparison.
-verified: 19.0.1.18.0
+verified: 19.0.1.18.1
 ---
 
 ## What it is for {#purpose}

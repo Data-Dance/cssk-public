@@ -8,6 +8,38 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.12.0] — 2026-10-27
+--------------------------
+
+Fixed
+~~~~~
+
+- **Whole crowns by the rule, not by banker's rounding.** Tax rows (daň na
+  výstupu, odpočet, ř. 62 – 66) are rounded up to the next crown, as § 146
+  odst. 1 daňového řádu says ("Daň se zaokrouhluje na celé koruny
+  nahoru"); bases and values to the nearest crown, half away from zero; the
+  ř. 52 / 53 coefficients up to a whole percent (§ 76 odst. 3 ZDPH). The
+  export used ``'%.0f'``, which rounds a half to the even crown: 1 002.50
+  of base was filed as 1 002.
+- **A dodatečné přiznání files the differences.** Every row now states the
+  difference from the return it amends ("V dodatečném přiznání se uvádí
+  pouze rozdíly od údajů, ze kterých byla stanovena poslední známá daň",
+  pokyny 25 5412), and ř. 66 the difference from the last known tax. It
+  filed the full values of the period, so ř. 66 claimed the whole period's
+  tax again. The rows on screen keep the full values. A dodatečné/opravné
+  (E) raised from a dodatečné differs from what that dodatečné amended.
+
+- **The settlement of a dodatečné přiznání is ř. 66.** *To pay* read ř. 64 /
+  65, which a dodatečné leaves empty, so it showed nothing to pay; it now
+  shows the difference against the poslední známá daň.
+
+Changed
+~~~~~~~
+
+- A dodatečné (D) or dodatečné/opravné (E) return must be created with
+  *Amended / corrective* on the filed return: without the return it amends
+  there is nothing to state differences from, and the export says so.
+
 [19.0.1.11.0] — 2026-10-27
 --------------------------
 

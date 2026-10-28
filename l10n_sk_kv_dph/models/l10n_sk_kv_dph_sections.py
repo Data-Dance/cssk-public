@@ -647,37 +647,80 @@ class L10nSKKvDphSectionB32(models.Model):
 # D.1 — e-kasa / cash-register supplies (single aggregate)
 # ----------------------------------------------------------------------
 class L10nSKKvDphSectionD1(models.Model):
-    """D.1 — supplies recorded via e-kasa.
+    """D.1 — turnover recorded by eKasa (ERP / pokladnica e-kasa klient).
 
-    This data originates from the registered-sales (e-kasa) system, not from
-    ``account.move.line``; it is normally imported. Implemented as an aggregate
-    over any moves explicitly tagged ``D.1`` (inert by default — the resolver
-    never assigns D.1).
+    Fed by the VAT lines of journals whose section override is ``D.1``, and,
+    with ``l10n_sk_kv_dph_pos``, by the closing entries of point-of-sale
+    sessions.
+
+    Every vzor from 2014 to 2025 types the row the same way: ``SumaObratov``
+    "celková suma obratov … evidovaných všetkými elektronickými registračnými
+    pokladnicami", then ``Z``/``D`` and ``ZZn``/``DZn`` the bases and taxes
+    at the basic and the reduced rate. A turnover (obrat) is "tržby znížené o
+    sumu záporného obratu" (zákon č. 384/2025 Z. z., § 2 písm. z), from
+    2026; zákon č. 289/2008 Z. z., § 2 písm. ag), before) — what the
+    customer paid, VAT included. The row used to file the BASE as the
+    turnover, and every reduced-rate sale at the basic rate with ZZn / DZn
+    hardcoded to 0.
     """
 
     _name = "l10n.sk.kv.dph.section.d1"
     _inherit = "cssk.control.statement.summary.mixin"
     _description = "KV DPH Section D.1"
 
+    turnover = fields.Monetary(
+        string="Turnover (VAT included)", currency_field="company_currency_id",
+        help="SumaObratov: the eKasa turnover, VAT included.")
+    tax_base_basic = fields.Monetary(currency_field="company_currency_id")
+    tax_amount_basic = fields.Monetary(currency_field="company_currency_id")
+    tax_base_lower = fields.Monetary(currency_field="company_currency_id")
+    tax_amount_lower = fields.Monetary(currency_field="company_currency_id")
+
+    # The filed columns are what an override corrects (the totals are not
+    # filed), and what a dodatočný storno must reproduce.
+    _KV_OVERRIDE_FIELDS = (
+        "turnover", "tax_base_basic", "tax_amount_basic",
+        "tax_base_lower", "tax_amount_lower")
+    _KV_SNAPSHOT_FIELDS = [
+        "partner_id", "partner_vat", "total_tax_base", "total_tax_amount",
+        "total_deducted_amount", "row_count", "turnover",
+        "tax_base_basic", "tax_amount_basic", "tax_base_lower",
+        "tax_amount_lower"]
+
+    def _kv_values(self):
+        self.ensure_one()
+        return (round(self.turnover, 2),
+                round(self.tax_base_basic, 2), round(self.tax_amount_basic, 2),
+                round(self.tax_base_lower, 2), round(self.tax_amount_lower, 2))
+
     @api.model
     def _populate_for_statement(self, statement, section_code):
-        grand_base = grand_tax = 0.0
-        moves = set()
+        basic_base = basic_tax = lower_base = lower_tax = 0.0
         lines = self._eligible_move_lines(statement, section_code)
+        if not lines:
+            return self.browse()
         for line in lines:
             base, tax = line._cssk_base_and_tax_amounts()
-            grand_base += base
-            grand_tax += tax
-            moves.add(line.move_id.id)
-        if not moves:
-            return self.browse()
+            # Same banding as D.2: >= 20 % is the basic rate (20 % and the
+            # 23 % of 2025), anything below a reduced one.
+            if line._cssk_tax_rate() >= 20.0:
+                basic_base += base
+                basic_tax += tax
+            else:
+                lower_base += base
+                lower_tax += tax
         return self.create(
             [
                 {
                     "statement_id": statement.id,
-                    "total_tax_base": grand_base,
-                    "total_tax_amount": grand_tax,
-                    "row_count": len(moves),
+                    "turnover": basic_base + basic_tax + lower_base + lower_tax,
+                    "tax_base_basic": basic_base,
+                    "tax_amount_basic": basic_tax,
+                    "tax_base_lower": lower_base,
+                    "tax_amount_lower": lower_tax,
+                    "total_tax_base": basic_base + lower_base,
+                    "total_tax_amount": basic_tax + lower_tax,
+                    "row_count": len(lines.move_id),
                     "source_move_line_ids": [(6, 0, lines.ids)],
                 }
             ]

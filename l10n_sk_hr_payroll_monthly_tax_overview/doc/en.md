@@ -1,7 +1,7 @@
 ---
 title: SK Monthly Tax Overview (Prehľad)
 summary: The monthly overview of income-tax advances withheld from employees and the child tax bonus paid, generated from the month's payslips as XML for the Slovak financial administration.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## What it is for {#purpose}
@@ -48,10 +48,10 @@ príjmov*). Statutory terms are given in Slovak.
 
 - **DIČ of the company.** Fill in *DIČ* (the 10-digit tax identification
   number) on the company. Generation stops with an error until it is there.
-- **Company address, phone and e-mail** go into the header of the overview.
-  The XML puts *Street* into the street element and *Street2* into the
-  house-number element, so keep the house number in *Street2*, or check the
-  header after export.
+- **Company address, phone and e-mail** go into the header of the overview. The house
+  number is taken from the end of *Street* (*Hlavná 12*, *Hlavná 1141/11*);
+  *Street2* is used only when it holds nothing but a number — a building, a
+  floor or a c/o line there is never filed as the house number.
 - **Bank account.** The first bank account of the company's partner is
   written into Part III as the account for a refund. It is required when you
   request one (see [Claiming the bonus difference back](#bonus-refund)).

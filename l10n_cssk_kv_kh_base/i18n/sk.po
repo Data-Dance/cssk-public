@@ -168,7 +168,6 @@ msgid "Control Statement Versions"
 msgstr "Verzie kontrolného výkazu"
 
 #. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_tax__cssk_control_section_default
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_form_cssk_control_original_ref
 msgid "Control-statement section"
 msgstr "Sekcia kontrolného výkazu"
@@ -256,15 +255,6 @@ msgstr "Dátum do"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__deducted_amount
 msgid "Deducted Amount"
 msgstr "Odpočítaná suma"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_tax__cssk_control_section_default
-msgid ""
-"Default control-statement section code for lines using this tax. Used by the"
-" section resolver as a starting hint."
-msgstr ""
-"Predvolený kód sekcie kontrolného výkazu pre riadky používajúce túto daň. "
-"Resolver sekcií ho použije ako východiskovú nápovedu."
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_line_kvkh_audit
@@ -1238,3 +1228,19 @@ msgstr ""
 "vystaviť z faktúry. Kontrolný výkaz ho uvádza ako pôvodný doklad riadku C.1 "
 "/ C.2 (poradové číslo pôvodnej faktúry). Prepojený pôvodný doklad má vždy "
 "prednosť."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornenia exportu"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, ktoré posledný export nezablokovali, ale pred podaním si "
+"ich treba pozrieť, každá na samostatnom riadku. Obnovujú sa pri každom "
+"exporte; prázdne, ak posledný export žiadne nenašiel."

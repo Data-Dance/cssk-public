@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_ubl_bis3/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Slovensko — Peppol BIS Billing 3.0 (eFaktúra)</h1>
 <p class="cssk-summary">Vyhotovuje slovenské elektronické faktúry vo formáte Peppol BIS Billing 3.0, identifikuje slovenské subjekty v sieti Peppol podľa DIČ a zapisuje variabilný symbol tam, kde ho hľadá banka platiteľa.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.3.3.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.3.4.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Odoo vie zapísať faktúru ako súbor Peppol BIS Billing 3.0 (UBL 2.1,
@@ -120,18 +120,23 @@ IČ DPH začínajúcim na SK):</p>
 <td>to, čo vypočíta Odoo — pri platiteľovi DPH 9950 : IČ DPH — kým sa DIČ nevyplní; export sa medzitým odmieta</td>
 </tr>
 <tr>
+<td>Na 9950, keď sa mu prvýkrát vyplní DIČ</td>
+<td><strong>presunie sa na 0245 : DIČ</strong> pri uložení DIČ, ak jeho koncový bod nebol zadaný ručne</td>
+</tr>
+<tr>
 <td>Už na 0245</td>
 <td>koncový bod nasleduje DIČ, keď ho zmeníte</td>
 </tr>
 <tr>
-<td>Už na 9950 alebo inej skôr zvolenej schéme</td>
+<td>Na 9950 alebo inej schéme zvolenej, keď už DIČ bolo vyplnené</td>
 <td><strong>bez zmeny</strong> — modul neprepíše schému, ktorú mohol niekto zvoliť zámerne</td>
 </tr>
 </tbody>
 </table>
-<p>Posledný riadok je dôležitý pre kontakty, ktoré existovali skôr, než sa im
-vyplnilo DIČ: zostanú na 9950 aj po vyplnení DIČ, a keďže DIČ už majú,
-export ich nezastaví. Ich presun je zámerný a opakovateľný krok: v
+<p>Kým kontakt nemá DIČ, schéma 0245 nie je možná, takže jeho 9950 je to, na čo
+Odoo prešlo, nie voľba: vyplnenie DIČ — ručne alebo z registra — ho presunie.
+DIČ zapísané mimo formulára (import priamo do databázy, staršia verzia modulu)
+ho nepresunie a pre také kontakty je presun zámerný a opakovateľný krok: v
 <em>Kontaktoch</em> (v zozname alebo vo formulári) označte kontakty a zvoľte
 <em>Actions → Peppol: použiť 0245 + DIČ</em>. Akcia je dostupná správcom
 účtovníctva (<em>Účtovníctvo / Administrátor</em>). Presunie každý označený
@@ -169,15 +174,12 @@ schémou prejde, ak má DIČ vyplnené.</p>
 <ul>
 <li>Modul vytvára len súbor. Prenos cez Peppol a oznamovanie údajov z faktúr
   Finančnej správe zabezpečuje prístupový bod.</li>
-<li>Kontakty, ktoré boli na 9950 pred vyplnením DIČ, tam zostanú, kým na nich
-  niekto nespustí <em>Peppol: použiť 0245 + DIČ</em>; neskoršie vyplnenie DIČ ho
-  nespustí automaticky.</li>
 <li>Nerozhoduje, ktoré faktúry treba podľa § 85o poslať elektronicky; formát
   ponúka pre každý slovenský kontakt.</li>
 <li>Pri odinštalovaní sa formát z kontaktov odstráni; ich adresy Peppol
   zostanú.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.3.3.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.3.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

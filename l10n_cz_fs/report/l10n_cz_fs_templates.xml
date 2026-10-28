@@ -16,6 +16,7 @@
                 <Nazev t-out="company.name or ''"/>
                 <Rok t-out="statement.date_to.year"/>
                 <TypZaverky t-out="statement.submission_type"/>
+                <Rozsah t-out="'P' if statement.version_id.l10n_cz_fs_scope == 'full' else 'Z'"/>
             </Hlavicka>
             <Telo>
                 <t t-foreach="lines" t-as="line">
@@ -35,6 +36,7 @@
                 <Nazev t-out="company.name or ''"/>
                 <Rok t-out="statement.date_to.year"/>
                 <TypZaverky t-out="statement.submission_type"/>
+                <Rozsah t-out="'P' if statement.version_id.l10n_cz_fs_scope == 'full' else 'Z'"/>
             </Hlavicka>
             <Telo>
                 <t t-foreach="lines" t-as="line">

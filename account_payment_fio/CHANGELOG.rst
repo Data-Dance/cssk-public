@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.0] — 2026-10-27
+--------------------------
+
+Fixed
+~~~~~
+
+- **A credit note grouped with its invoice can now be paid by file.** The
+  file had one item per payment line, so the credit note became a negative
+  item and the export was refused, although the order books one payment of
+  the net amount. Such a group is now one item of that net amount, under the
+  invoices' variable symbol (none when the netted invoices carry different
+  ones). Groups without a credit note still have one item per invoice.
+- The pre-flight check runs after the order is confirmed instead of
+  before, because confirmation dates the lines and the dates decide which
+  lines are grouped. A refusal still leaves the order in draft.
+
 [19.0.1.3.0] — 2026-10-27
 -------------------------
 

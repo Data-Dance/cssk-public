@@ -13,8 +13,10 @@ class ResConfigSettings(models.TransientModel):
     )
     epostak_firm_id = fields.Char(
         string="ePošťák Firm ID",
-        config_parameter="epostak.firm_id",
-        help="Required when the configured secret is an integrator key "
+        related="company_id.epostak_firm_id",
+        readonly=False,
+        help="Per company: the company you are working in. "
+        "Required when the configured secret is an integrator key "
         "(sk_int_*), which speaks for several firms: the UUID of the TARGET "
         "firm we are acting for, sent as the X-Firm-Id header. Leave empty for "
         "a firm key (sk_live_*), where the firm is implied by the credentials. "

@@ -24,37 +24,12 @@ Likewise the settlement / amendment line codes (r32 / r33 / r36) come from
 the version's ``own_tax_line_code`` / ``excess_line_code`` /
 ``diff_line_code``.
 """
-import re
 from datetime import date
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
-#: A trailing house number: "Hlavná 12", "Mlynská 1234/5", "Nám. SNP 7A".
-_SK_STREET_RE = re.compile(r"^(?P<street>.*?\S),?\s+(?P<number>\d[\w]*(?:\s*/\s*\w+)?)\s*$")
-
-
-def sk_fs_address(partner):
-    """``(ulica, cislo)`` for the FS SR eForm header.
-
-    ``base_address_extended``'s split fields when they are filled, else the
-    trailing house number split off ``street``. A street that does not end in
-    a number goes out whole as ``ulica`` with ``cislo`` empty. **Never
-    Street 2**: it holds a building, a floor or a c/o line, and filing one of
-    those as the súpisné / orientačné číslo misstates the seat.
-    """
-    if "street_name" in partner._fields and partner.street_name:
-        number = (partner.street_number or "").strip()
-        number2 = (partner.street_number2 or "").strip()
-        if number and number2:
-            number = "%s/%s" % (number, number2)
-        return partner.street_name.strip(), number or number2
-    street = (partner.street or "").strip()
-    match = _SK_STREET_RE.match(street)
-    if match:
-        return match.group("street").strip(), match.group("number").replace(" ", "")
-    return street, ""
-
+from odoo.addons.l10n_cssk_core.tools import split_street
 
 #: Who files (tlačivo, 1. strana: "postavenie osoby, ktorá podáva daňové
 #: priznanie"), mapped to the six ``osoba`` flags of the XSD.
@@ -136,7 +111,7 @@ class CSSKVatReturn(models.Model):
         ctx = super()._cssk_render_context()
         if self.country_id.code != "SK":
             return ctx
-        ulica, cislo = sk_fs_address(self.company_id.partner_id)
+        ulica, cislo = split_street(self.company_id.partner_id)
         excess_code = self.version_id.excess_line_code
         excess = {line.code: line.value for line in self.line_ids}.get(
             excess_code, 0.0) if excess_code else 0.0

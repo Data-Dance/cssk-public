@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_dppo/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>CZ přiznání k dani z příjmů PO (DPPDP9)</h1>
 <p class="cssk-summary">České přiznání k dani z příjmů právnických osob — ř. 10 z účetnictví, úpravy účetní, výpočet daně ve II. oddílu a soubor pro EPO ověřený proti schématu Finanční správy, včetně rozvahy a výkazu zisku a ztráty podaných uvnitř přiznání.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.4.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_income_tax_base/static/description/index_cs.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a>, <a href="/l10n_cz_fs/static/description/index_cs.html"><code>l10n_cz_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.5.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_income_tax_base/static/description/index_cs.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a>, <a href="/l10n_cz_fs/static/description/index_cs.html"><code>l10n_cz_fs</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Česká obchodní korporace podává jednou ročně přiznání k dani z příjmů
@@ -251,15 +251,20 @@ této verzi anglicky) propojte obě:</p>
 <li><strong>Rozvaha</strong> — rozvaha společnosti se stejným koncovým datem;</li>
 <li><strong>Výkaz zisku a ztráty</strong> — výkaz se stejným obdobím.</li>
 </ul>
-<p>Export je pak podá ve zkráceném rozsahu podle vyhlášky č. 500/2002 Sb., v
+<p>Export je pak podá v rozsahu propojených výkazů — v plném (<code>uv_rozsah</code> P),
+jsou-li oba ve verzi plného rozsahu, ve zkráceném (Z), jsou-li oba zkrácené —
+podle vyhlášky č. 500/2002 Sb., v
 tisících Kč (zaokrouhleno matematicky) a se sloupcem minulého období: aktiva
 s hodnotami brutto, korekce a netto, pasiva a výkaz zisku a ztráty v
-druhovém členění s běžným a minulým obdobím. Každý řádek zkráceného rozsahu
+druhovém členění s běžným a minulým obdobím. Každý řádek podávaného rozsahu
 se vyplní z řádku výkazu se stejným označením; přiřazení účtů je to z
 <code>l10n_cz_fs</code>, žádné druhé.</p>
 <p>Export odmítne, s hlášením, které problém pojmenuje:</p>
 <ul>
 <li>propojený jen jeden z obou výkazů — propojte oba, nebo žádný;</li>
+<li>jeden výkaz v plném a druhý ve zkráceném rozsahu — tiskopis uvádí jeden
+  rozsah pro oba, proto oba vypočtěte v plném rozsahu (ten je přípustný
+  vždy), nebo oba ve zkráceném;</li>
 <li>výkaz jiné společnosti, jiného druhu nebo jiného období;</li>
 <li>výkaz dosud nevypočtený nebo vypočtený na verzi, které chybí řádek, jenž
   tiskopis potřebuje;</li>
@@ -291,13 +296,16 @@ E-přílohu.</p>
 <li>Období započatá před rokem 2021 zadat nelze; struktura je nepřijímá. Za
   roky 2021–2024 se podávají řádky uvedené výše tak, jak jsou; řádek, který
   se ve starším znění tiskopisu lišil, si zkontrolujte.</li>
-<li>Výkazy se podávají jen ve zkráceném rozsahu. Společnost povinná sestavit
-  závěrku v plném rozsahu — zejména ta s povinným auditem — ji musí místo
-  propojení přiložit jako E-přílohu.</li>
+<li>Rozsah pro mikro účetní jednotky (M) se nepodává; mikro jednotka může
+  propojit výkazy ve zkráceném rozsahu. Nepodává se ani časové rozlišení v
+  položkách C.II.3. / C.III.: výkazy používají D.</li>
+<li>Každý řádek se zaokrouhluje na tisíce samostatně, takže u mnoha drobných
+  položek se součet může od součtu zaokrouhlených položek lišit o tisíc či
+  dva; takové součty před podáním zkontrolujte.</li>
 <li>Kódy záhlaví (typ přiznání, typ poplatníka) a úplnou sadu úprav je třeba
   před prvním podáním potvrdit s vaší účetní.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.5.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

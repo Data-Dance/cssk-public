@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 
 
@@ -77,8 +78,12 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
     def test_a_dodatecne_priznani_needs_its_discovery_date(self):
         from odoo.exceptions import UserError
 
-        ret = self._return()
-        ret.statement_type_id = self.env.ref("l10n_cz_vat_return.dphdp3_type_D")
+        original = self._return()
+        action = original.action_create_amendment()
+        ret = self.env["cssk.vat.return"].browse(action["res_id"])
+        ret.write({"statement_type_id": self.env.ref(
+            "l10n_cz_vat_return.dphdp3_type_D").id, "discovery_date": False})
+        ret.action_compute_lines()
         with self.assertRaisesRegex(UserError, "d_zjist"):
             ret.action_export_xml()
         ret.cz_discovery_date = "2025-07-20"
@@ -157,9 +162,75 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
         self.assertAlmostEqual(self._v(ret, "dan_zocelk"), 250.0, places=2)
         self.assertAlmostEqual(self._v(ret, "dano_da"), 250.0, places=2)
 
+    def _amend(self, ret, code):
+        """An amendment raised from ``ret`` the way the form raises it."""
+        action = ret.action_create_amendment()
+        amendment = self.env["cssk.vat.return"].browse(action["res_id"])
+        amendment.write({
+            "statement_type_id": self.env.ref(
+                "l10n_cz_vat_return.dphdp3_type_%s" % code).id,
+            "discovery_date": "2025-07-20",
+        })
+        return amendment
+
     def test_a_dodatecne_files_the_difference_row_only(self):
         """ř. 66 "vyplňuje se pouze při podání dodatečného přiznání";
         ř. 64 / 65 "při podání dodatečného přiznání se nevyplňuje"."""
+        self._sale(1000.0)
+        original = self._return()
+        ret = self._amend(original, "D")
+        self._sale(500.0)
+        ret.action_compute_lines()
+        # full values stay on the rows (the next amendment's baseline) …
+        self.assertAlmostEqual(self._v(ret, "dan23"), 315.0, places=2)
+        # … ř. 66 is the difference against the poslední známá daň
+        self.assertAlmostEqual(self._v(ret, "dano"), 105.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "dano_da"), 0.0, places=2)
+        # the settlement is ř. 66 (ř. 64 / 65 are empty on a dodatečné)
+        self.assertAlmostEqual(ret.to_pay, 105.0, places=2)
+        # one date: the shared one is what d_zjist files
+        self.assertEqual(str(ret.cz_discovery_date), "2025-07-20")
+        ret.action_export_xml()
+        self.assertEqual(self._root(ret).find(".//VetaD").get("d_zjist"),
+                         "20.07.2025")
+        veta6 = self._root(ret).find(".//Veta6")
+        self.assertEqual((veta6.get("dano"), veta6.get("dano_da"),
+                          veta6.get("dano_no")), ("105", None, None),
+                         "ř. 64 / 65 are not filled on a dodatečné")
+
+    def test_a_dodatecne_files_differences_not_full_values(self):
+        """Pokyny 25 5412: "V dodatečném přiznání se uvádí pouze rozdíly od
+        údajů, ze kterých byla stanovena poslední známá daň". Every row used
+        to be filed at its full value, so a dodatečné declared the whole
+        period's tax again."""
+        self._sale(1000.0)
+        original = self._return()
+        ret = self._amend(original, "D")
+        self._sale(500.0)
+        ret.action_compute_lines()
+        ret.action_export_xml()
+        root = self._root(ret)
+        veta1 = root.find(".//Veta1")
+        self.assertEqual((veta1.get("obrat23"), veta1.get("dan23")),
+                         ("500", "105"))
+        veta6 = root.find(".//Veta6")
+        self.assertEqual((veta6.get("dan_zocelk"), veta6.get("dano")),
+                         ("105", "105"))
+
+    def test_a_dodatecne_opravne_differs_from_what_the_dodatecne_amended(self):
+        """An E replaces the D it is raised from, so its baseline is the D's
+        own baseline, not the D."""
+        self._sale(1000.0)
+        original = self._return()
+        first = self._amend(original, "D")
+        self._sale(500.0)
+        first.action_compute_lines()
+        replacement = self._amend(first, "E")
+        replacement.action_compute_lines()
+        self.assertEqual(replacement._cz_baseline_return(), original)
+        self.assertAlmostEqual(self._v(replacement, "dano"), 105.0, places=2)
+
+    def test_a_dodatecne_without_the_return_it_amends_is_refused(self):
         self._sale(1000.0)
         ret = self.env["cssk.vat.return"].create({
             "company_id": self.company.id, "version_id": self.version.id,
@@ -168,17 +239,40 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
             "date_to": "2025-06-30", "discovery_date": "2025-07-20",
         })
         ret.action_compute_lines()
-        self.assertAlmostEqual(self._v(ret, "dano"), 210.0, places=2)
-        self.assertAlmostEqual(self._v(ret, "dano_da"), 0.0, places=2)
-        # one date: the shared one is what d_zjist files
-        self.assertEqual(str(ret.cz_discovery_date), "2025-07-20")
+        with self.assertRaisesRegex(UserError, "differences"):
+            ret.action_export_xml()
+
+    # --- whole crowns: § 146 odst. 1 daňového řádu, § 76 odst. 3 ZDPH ------
+    def test_whole_crowns_round_tax_up_and_bases_half_away_from_zero(self):
+        from odoo.addons.l10n_cz_vat_return.models.cssk_vat_return import (
+            _cz_whole)
+        # a tax: up, to the next crown, ties included
+        self.assertEqual(_cz_whole(210.50, "dan23"), 211.0)
+        self.assertEqual(_cz_whole(210.01, "dan23"), 211.0)
+        self.assertEqual(_cz_whole(211.50, "dan23"), 212.0)
+        self.assertEqual(_cz_whole(-10.30, "dan23"), -10.0)
+        self.assertEqual(_cz_whole(40.50, "odp_tuz23_nar"), 41.0)
+        # float noise in a sum is not a part of a crown
+        self.assertEqual(_cz_whole(210.0000000001, "dan23"), 210.0)
+        # a base: nearest crown, .5 away from zero ('%.0f' gave 1002, 1000)
+        self.assertEqual(_cz_whole(1002.50, "obrat23"), 1003.0)
+        self.assertEqual(_cz_whole(1000.50, "obrat23"), 1001.0)
+        self.assertEqual(_cz_whole(1000.49, "obrat23"), 1000.0)
+        self.assertEqual(_cz_whole(-1000.50, "obrat23"), -1001.0)
+        # a coefficient: whole percent, up
+        self.assertEqual(_cz_whole(37.2, "koef_p20_nov"), 38.0)
+
+    def test_export_files_whole_crowns_by_the_rule(self):
+        """1 002.50 of base at 21 % is 210.53 of tax: the return files 1003
+        and 211. '%.0f' (round-half-even) filed 1002 and 211."""
+        self._sale(1002.50)
+        ret = self._return()
         ret.action_export_xml()
-        self.assertEqual(self._root(ret).find(".//VetaD").get("d_zjist"),
-                         "20.07.2025")
+        veta1 = self._root(ret).find(".//Veta1")
+        self.assertEqual((veta1.get("obrat23"), veta1.get("dan23")),
+                         ("1003", "211"))
         veta6 = self._root(ret).find(".//Veta6")
-        self.assertEqual((veta6.get("dano"), veta6.get("dano_da"),
-                          veta6.get("dano_no")), ("210", None, None),
-                         "ř. 64 / 65 are not filled on a dodatečné")
+        self.assertEqual(veta6.get("dano_da"), "211")
 
 
 @tagged("post_install", "-at_install")

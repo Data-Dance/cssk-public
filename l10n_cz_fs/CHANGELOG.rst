@@ -8,6 +8,36 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.2.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **The Rozvaha and the Výkaz zisku a ztráty in plný rozsah.** Two new
+  versions carry every item of přílohy 1 and 2 of vyhláška č. 500/2002 Sb.,
+  in the statute's order: B.I.2.1. Software, C.II.2.4.3. Stát – daňové
+  pohledávky, D.2.1–D.2.2, E.1–E.3, IV.1–IV.2, V., VI.1–VI.2, J.1–J.2 and the
+  rest. A commercial company files the výkaz zisku a ztráty in full
+  (§ 3a odst. 3 písm. a) and can now do so from Odoo.
+- **Account tags for the items no account number can tell apart:** IV. / V.
+  (both on 665), the ovládaná osoba items IV.1, V.1, VI.1 and J.1, and E.1.2 /
+  E.2 of 559. Untagged amounts go to the "ostatní" item, so nothing needs
+  setting up where there are no such flows. An account carries at most one.
+- In the full-scope rozvaha, 221, 336, 341–347, 373 and 481 are reported on
+  the side their own balance dictates (an overdraft as a bank liability, a
+  tax prepayment as a receivable, a deferred tax asset as C.II.1.4), and 491
+  is A.I.1 as § 14 of the decree says.
+- The XML export states the rozsah in its header.
+
+Changed
+~~~~~~~
+
+- **New Rozvaha and Výkaz zisku a ztráty statements default to the plný
+  rozsah.** The existing versions are renamed "(zkrácený rozsah)" on upgrade
+  (unless you renamed them) and remain available in the Version field;
+  statements already computed on them are unchanged.
+
 [19.0.1.1.2] — 2026-10-27
 -------------------------
 

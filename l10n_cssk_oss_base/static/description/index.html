@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cssk_oss_base/static/description/index_sk.html">Slovenčina</a> · <a href="/l10n_cssk_oss_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ/SK OSS VAT Return (Union scheme)</h1>
 <p class="cssk-summary">The quarterly One-Stop-Shop VAT return for distance sales and services to consumers in other EU states — computed from Odoo&#x27;s OSS taxes, converted to euro at the ECB rate, with corrections of earlier quarters.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <code>l10n_eu_oss</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_oss/static/description/index.html"><code>l10n_cz_oss</code></a>, <a href="/l10n_sk_oss/static/description/index.html"><code>l10n_sk_oss</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <code>l10n_eu_oss</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_oss/static/description/index.html"><code>l10n_cz_oss</code></a>, <a href="/l10n_sk_oss/static/description/index.html"><code>l10n_sk_oss</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A seller registered for the <strong>One-Stop-Shop, Union scheme</strong> charges the VAT of
@@ -220,6 +220,9 @@ changes a mapping already on a fiscal position.</p>
 <p>On installation the mapping is completed for every company that already has
 OSS taxes. Companies that never used OSS are left alone. These mappings are
 proposals, like Odoo's own: check them against the goods you sell.</p>
+<p><strong>Export warnings.</strong> Checks that do not stop the export are listed in a
+yellow banner at the top of the form, and in the chatter, until the next
+export.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>Only the <strong>Union scheme</strong>. The non-Union and import (IOSS) schemes are not
@@ -240,7 +243,7 @@ proposals, like Odoo's own: check them against the goods you sell.</p>
 <li>The rate-type table and the 5 % mapping reflect rates known when the module
   was released. A later change of a standard rate needs a module update.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

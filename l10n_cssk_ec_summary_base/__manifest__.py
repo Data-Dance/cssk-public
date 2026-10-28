@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK EC Sales List — Shared Framework (Súhrnný výkaz / Souhrnné hlášení)",
-    "version": "19.0.1.7.0",
+    "version": "19.0.1.7.1",
     "summary": "Country-neutral framework for the Slovak Súhrnný výkaz and Czech "
                "Souhrnné hlášení (EC sales list): single-line aggregation per "
                "(country, VAT, transaction code), mandatory VIES preflight, and "

@@ -170,7 +170,6 @@ msgid "Control Statement Versions"
 msgstr ""
 
 #. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_tax__cssk_control_section_default
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_form_cssk_control_original_ref
 msgid "Control-statement section"
 msgstr ""
@@ -252,13 +251,6 @@ msgstr ""
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__deducted_amount
 msgid "Deducted Amount"
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_tax__cssk_control_section_default
-msgid ""
-"Default control-statement section code for lines using this tax. Used by the"
-" section resolver as a starting hint."
 msgstr ""
 
 #. module: l10n_cssk_kv_kh_base
@@ -1200,4 +1192,17 @@ msgid ""
 " be raised from the invoice. The control statement reports it as the "
 "original document of a C.1 / C.2 row (Slovak kontrolný výkaz: poradové číslo"
 " pôvodnej faktúry). A linked original always wins over this."
+msgstr ""
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
+msgid "Export warnings"
+msgstr ""
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
 msgstr ""

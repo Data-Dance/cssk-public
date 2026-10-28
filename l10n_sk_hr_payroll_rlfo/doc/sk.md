@@ -1,7 +1,7 @@
 ---
 title: SK RLFO — prihlásenie a odhlásenie zamestnancov
 summary: Prihlášky a odhlášky zamestnancov do Sociálnej poisťovne zadané ako dávka udalostí a vyexportované do XML overeného voči oficiálnej schéme.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## Na čo slúži {#purpose}

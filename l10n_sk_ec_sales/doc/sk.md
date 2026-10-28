@@ -1,7 +1,7 @@
 ---
 title: SK Súhrnný výkaz
 summary: Slovenský súhrnný výkaz vypočítaný z daní pre dodania do EÚ v slovenskej účtovej osnove Odoo a exportovaný do XML finančnej správy podľa vzoru platného pre dané obdobie.
-verified: 19.0.1.3.0
+verified: 19.0.1.4.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -92,7 +92,7 @@ Export potrebuje aj IČ DPH spoločnosti a daňový úrad v nastavení
 Hlavička tlačiva sa vyplní zo spoločnosti: názov, ulica a číslo, PSČ, obec,
 telefón a e-mail. *Číslo* je číslo na konci poľa **Ulica** („Hlavná 12“ dá
 *ulica* „Hlavná“ a *číslo* „12“), prípadne polia čísla domu, ak sa adresa
-vedie rozdelená; *Ulica 2* sa ako číslo nikdy nepodáva.
+vedie rozdelená; *Ulica 2* sa ako číslo podá, len ak obsahuje iba číslo.
 
 ## Príprava a podanie {#usage}
 
@@ -114,8 +114,10 @@ riadkoch; celková hodnota v hlavičke je súčtom zaokrúhlených riadkov.
 Elektronický kanál na slovenské podania tento modul nemá: exportované XML
 nahrajte na portál finančnej správy a potom kliknite na **Označiť ako
 podané** — alebo na **Podať**, ktoré zaznamená ručné podanie a uchová
-potvrdenie. Osobu, ktorá výkaz podáva (konateľ), a dátum vyhlásenia XML
-nechá prázdne; ak ich tlačivo vyžaduje, doplňte ich na portáli.
+potvrdenie. Osobu, ktorá výkaz podáva, a dátum vyplňte na záložke
+**Hlavička**: *Meno a priezvisko*, *Telefón* a *E-mail* konateľa alebo
+oprávnenej osoby (vzor 2010 e-mail nemá) a *Dátum vyhlásenia*; ak dátum
+chýba, použije sa dátum exportu.
 
 **Dodatočný súhrnný výkaz obsahuje len zmeny**, ako požaduje
 [§ 80 ods. 8](law:sk/2004/222#paragraf-80.odsek-8). Pri **Vypočítať** modul

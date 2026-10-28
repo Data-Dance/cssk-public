@@ -1,7 +1,7 @@
 ---
 title: CZ VAT Control Statement (Kontrolní hlášení)
 summary: The Czech kontrolní hlášení (DPHKH1) — sections A.1 to B.3 computed from the books with the 10 000 CZK split, checked against the form's requirements and exported as the EPO XML in the current structure for any period.
-verified: 19.0.1.9.1
+verified: 19.0.1.10.0
 ---
 
 ## What it is for {#purpose}
@@ -104,7 +104,8 @@ Besides the [shared setup](module:l10n_cssk_kv_kh_base#setup):
   reverse-charge supply (gold, real estate, construction work, goods of
   Annex 5, emission allowances and the other codes of the form). Set it on the
   product, field *Kód předmětu plnění (§92a)* under the product category, or on
-  the reverse-charge tax, where the field appears for marked taxes. The
+  the reverse-charge tax, where the field appears for marked taxes and for the
+  sale tax reporting on row 25 (the stock *0% RC*). The
   product's code wins over the tax's. A document whose lines carry different
   codes is reported on one row per code, under the same document number.
 - **Counterparty DIČ.** A.1, A.4, B.1 and B.2 identify the other party by its
@@ -150,6 +151,13 @@ The control totals (*VetaC*) are computed from the sections as the form
 defines them: A.1 in `pln_rez_pren`, B.1 in `rez_pren23` / `rez_pren5`, all of
 A.2 in `celk_zd_a2`, and the reduced-rate totals including the second reduced
 rate.
+
+**Correcting a row.** Each section tab can be edited row by row: tick
+**Override** on the row and correct its standard, reduced or second-reduced
+base and tax. The corrected figures are the ones exported, and they are kept
+when the statement is computed again, on the row of the same document (and,
+in A.1 / B.1, of the same kód předmětu plnění). A correction whose row
+disappears is listed in the chatter.
 
 ## Filing types and corrections {#usage}
 

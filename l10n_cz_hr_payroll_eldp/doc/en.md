@@ -1,7 +1,7 @@
 ---
 title: CZ Pension Insurance Record Sheet (ELDP)
 summary: The evidenční list důchodového pojištění for a calendar year — each employee's pension assessment base and insured days, built from the year's payslips and exported as a batch XML in the ČSSZ ELDP09 structure.
-verified: 19.0.1.0.4
+verified: 19.0.1.0.5
 ---
 
 ## What it is for {#purpose}

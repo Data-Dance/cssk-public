@@ -1,7 +1,7 @@
 ---
 title: CZ přiznání k dani z příjmů PO (DPPDP9)
 summary: České přiznání k dani z příjmů právnických osob — ř. 10 z účetnictví, úpravy účetní, výpočet daně ve II. oddílu a soubor pro EPO ověřený proti schématu Finanční správy, včetně rozvahy a výkazu zisku a ztráty podaných uvnitř přiznání.
-verified: 19.0.1.4.0
+verified: 19.0.1.5.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -117,16 +117,21 @@ této verzi anglicky) propojte obě:
 - **Rozvaha** — rozvaha společnosti se stejným koncovým datem;
 - **Výkaz zisku a ztráty** — výkaz se stejným obdobím.
 
-Export je pak podá ve zkráceném rozsahu podle vyhlášky č. 500/2002 Sb., v
+Export je pak podá v rozsahu propojených výkazů — v plném (`uv_rozsah` P),
+jsou-li oba ve verzi plného rozsahu, ve zkráceném (Z), jsou-li oba zkrácené —
+podle vyhlášky č. 500/2002 Sb., v
 tisících Kč (zaokrouhleno matematicky) a se sloupcem minulého období: aktiva
 s hodnotami brutto, korekce a netto, pasiva a výkaz zisku a ztráty v
-druhovém členění s běžným a minulým obdobím. Každý řádek zkráceného rozsahu
+druhovém členění s běžným a minulým obdobím. Každý řádek podávaného rozsahu
 se vyplní z řádku výkazu se stejným označením; přiřazení účtů je to z
 `l10n_cz_fs`, žádné druhé.
 
 Export odmítne, s hlášením, které problém pojmenuje:
 
 - propojený jen jeden z obou výkazů — propojte oba, nebo žádný;
+- jeden výkaz v plném a druhý ve zkráceném rozsahu — tiskopis uvádí jeden
+  rozsah pro oba, proto oba vypočtěte v plném rozsahu (ten je přípustný
+  vždy), nebo oba ve zkráceném;
 - výkaz jiné společnosti, jiného druhu nebo jiného období;
 - výkaz dosud nevypočtený nebo vypočtený na verzi, které chybí řádek, jenž
   tiskopis potřebuje;
@@ -155,8 +160,11 @@ E-přílohu.
 - Období započatá před rokem 2021 zadat nelze; struktura je nepřijímá. Za
   roky 2021–2024 se podávají řádky uvedené výše tak, jak jsou; řádek, který
   se ve starším znění tiskopisu lišil, si zkontrolujte.
-- Výkazy se podávají jen ve zkráceném rozsahu. Společnost povinná sestavit
-  závěrku v plném rozsahu — zejména ta s povinným auditem — ji musí místo
-  propojení přiložit jako E-přílohu.
+- Rozsah pro mikro účetní jednotky (M) se nepodává; mikro jednotka může
+  propojit výkazy ve zkráceném rozsahu. Nepodává se ani časové rozlišení v
+  položkách C.II.3. / C.III.: výkazy používají D.
+- Každý řádek se zaokrouhluje na tisíce samostatně, takže u mnoha drobných
+  položek se součet může od součtu zaokrouhlených položek lišit o tisíc či
+  dva; takové součty před podáním zkontrolujte.
 - Kódy záhlaví (typ přiznání, typ poplatníka) a úplnou sadu úprav je třeba
   před prvním podáním potvrdit s vaší účetní.

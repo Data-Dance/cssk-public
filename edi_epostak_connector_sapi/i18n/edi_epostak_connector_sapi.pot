@@ -1,6 +1,3 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* edi_epostak_connector_sapi
 #
 msgid ""
 msgstr ""
@@ -110,9 +107,10 @@ msgstr ""
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
 msgid ""
-"Authenticated against %(url)s as participant %(pid)s. ePošťák credentials "
-"serve one company per database, and collection runs as %(company)s. These "
-"companies also allow e-invoicing and will not be served: %(others)s."
+"Authenticated against %(url)s as participant %(pid)s. These companies also "
+"allow e-invoicing but have no ePošťák credentials of their own, so they "
+"neither send nor collect: %(others)s. Switch to each company and fill in its"
+" own on this page."
 msgstr ""
 
 #. module: edi_epostak_connector_sapi
@@ -124,6 +122,11 @@ msgstr ""
 #. module: edi_epostak_connector_sapi
 #: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_partner_form_epostak
 msgid "Check Peppol reachability"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model,name:edi_epostak_connector_sapi.model_res_company
+msgid "Companies"
 msgstr ""
 
 #. module: edi_epostak_connector_sapi
@@ -191,6 +194,7 @@ msgstr ""
 
 #. module: edi_epostak_connector_sapi
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_epostak_connector__display_name
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__display_name
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_partner__display_name
 msgid "Display Name"
@@ -251,6 +255,7 @@ msgstr ""
 
 #. module: edi_epostak_connector_sapi
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_epostak_connector__id
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__id
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__id
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_partner__id
 msgid "ID"
@@ -546,6 +551,26 @@ msgid "ePošťák Connector"
 msgstr ""
 
 #. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__epostak_prod_client_id
+msgid "ePošťák Production Client ID"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__epostak_prod_client_secret
+msgid "ePošťák Production Client Secret"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__epostak_sandbox_client_id
+msgid "ePošťák Sandbox Client ID"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__epostak_sandbox_client_secret
+msgid "ePošťák Sandbox Client Secret"
+msgstr ""
+
+#. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
 msgid "ePošťák authentication failed (HTTP %(status)s): %(detail)s"
@@ -560,7 +585,7 @@ msgstr ""
 #. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
-msgid "ePošťák connection OK — for one company only"
+msgid "ePošťák connection OK — other companies have no credentials"
 msgstr ""
 
 #. module: edi_epostak_connector_sapi
@@ -572,15 +597,18 @@ msgstr ""
 #. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
-msgid "ePošťák credentials are not configured for the %s environment."
+msgid ""
+"ePošťák credentials of company %(company)s are not configured for the "
+"%(mode)s environment."
 msgstr ""
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
 msgid ""
-"ePošťák credentials are not configured for the %s environment. Go to "
-"Settings ▸ EDI ▸ ePošťák and fill in the client ID and client secret."
+"ePošťák credentials of company %(company)s are not configured for the "
+"%(mode)s environment. Go to Settings ▸ EDI ▸ ePošťák with that company "
+"selected and fill in the client ID and client secret."
 msgstr ""
 
 #. module: edi_epostak_connector_sapi

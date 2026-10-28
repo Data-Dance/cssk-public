@@ -1,7 +1,7 @@
 ---
 title: Platební soubory ABO
 summary: Tuzemské úhrady v CZK exportované do souboru ABO k nahrání do banky, z platebního příkazu OCA nebo z hromadné platby Enterprise.
-verified: 19.0.2.0.1
+verified: 19.0.2.1.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -132,6 +132,12 @@ obrazovku nemá.
 
 ## Omezení {#limitations}
 
+- Dobropis seskupený s fakturou v platebním příkazu (volba způsobu platby
+  *Group Transactions in Payment Orders*) se zapíše jako **jedna položka
+  v čisté částce** — té, kterou příkaz zaúčtuje jako platbu. Nese variabilní
+  symbol faktury; započte-li se jeden dobropis proti více fakturám, symboly se
+  liší a neodejde žádný. Skupiny bez dobropisu mají dál jednu položku za
+  fakturu. Bez seskupení se řádek dobropisu odmítne.
 - **Jen CZK a české účty.** Soubor odmítne jakoukoli jinou měnu než CZK
   i každý jiný než český účet, včetně slovenských IBAN. Platby v
   EUR posílejte přes SEPA (ISO 20022) nebo
@@ -145,6 +151,5 @@ obrazovku nemá.
 - Jen úhrady. Inkasa ve formátu ABO se nezapisují; na ně použijte MultiCash
   CFD nebo KB BEST.
 - Řádek s nulovou nebo zápornou částkou zastaví export se zprávou, která ho
-  jmenuje (banka by soubor odmítla). Takovým řádkem je i dobropis seskupený
-  s fakturou v platebním příkazu: ABO zapisuje jednu položku za řádek.
+  jmenuje (banka by soubor odmítla).
 - Soubor se do banky automaticky nenahraje (kromě Fio, jak je uvedeno výše).

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:40+0000\n"
-"PO-Revision-Date: 2026-07-06 21:40+0000\n"
+"POT-Creation-Date: 2026-10-27 22:27+0000\n"
+"PO-Revision-Date: 2026-10-27 22:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -96,6 +96,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_reference
+msgid "Correction Reference"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_type
+msgid "Correction Type"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__country_id
 msgid "Country"
 msgstr ""
@@ -116,6 +126,11 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__active_submission_id
+msgid "Current submission"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__date_from
 msgid "Date From"
 msgstr ""
@@ -123,6 +138,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__date_to
 msgid "Date To"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submission_state
+msgid "Delivery"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
@@ -225,6 +245,11 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__is_correction
+msgid "Is Correction"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_is_follower
 msgid "Is Follower"
 msgstr ""
@@ -267,6 +292,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
@@ -314,6 +344,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__payment_date
 msgid "Payment Date"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__report_code
+msgid "Report Code"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
@@ -367,8 +402,25 @@ msgid "Submission Reference"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submission_ids
+msgid "Submissions"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submitted_date
 msgid "Submitted Date"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
@@ -392,6 +444,14 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__xml_attachment_id
 msgid "Xml Attachment"
 msgstr ""
@@ -399,26 +459,4 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__year
 msgid "Year"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_eldp
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
-msgid ""
-"10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the employer identifier (<icz>/<variabilnySymbol>) of the SP "
-"submissions."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_eldp
-#: model:ir.module.module,summary:base.module_l10n_sk_hr_payroll_eldp
-msgid ""
-"Annual per-employee Slovak pension record (ELDP) filed to the Sociálna "
-"poisťovňa — aggregates each year's pension assessment base and insured "
-"period per employee, XML validated against ELDP-v2015_1.3.xsd. Engine-"
-"neutral (payroll or the hr_payroll engine)."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_eldp
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_hr_payroll_eldp
-msgid "Slovakia — ELDP (Evidenčný list dôchodkového poistenia)"
 msgstr ""

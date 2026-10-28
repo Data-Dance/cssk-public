@@ -1,7 +1,7 @@
 ---
 title: CZ Přehled o výši pojistného (PVPOJ)
 summary: Měsíční přehled o výši pojistného pro ČSSZ — celkové pojistné na sociální zabezpečení zaměstnavatele za měsíc, sečtené z výplatních pásek a vyexportované do XML ve struktuře PVPOJ 2025.
-verified: 19.0.1.1.3
+verified: 19.0.1.1.4
 ---
 
 ## K čemu slouží {#purpose}
@@ -63,7 +63,7 @@ Na společnosti:
 | *Variabilní symbol ČSSZ (VS)*, **přesně 10 číslic** | `<vs>`, variabilní symbol zaměstnavatele u ČSSZ |
 | *Kód OSSZ*, číslo od 100 do 999 | `<kodOSSZ>`, příslušná správa sociálního zabezpečení; výchozí hodnota je 100 |
 | *IČO*, není-li vyplněno, pak *DIČ* | `<IC>` |
-| obec a PSČ (ulice nepovinná) | adresa zaměstnavatele |
+| obec a PSČ (ulice nepovinná) | adresa zaměstnavatele; číslo popisné je číslo na konci ulice, druhý řádek ulice se použije, jen obsahuje-li pouze číslo |
 
 Pole *Variabilní symbol ČSSZ (VS)* a *Kód OSSZ* jsou na záložce **Mzdové
 výkazy** formuláře společnosti (viz

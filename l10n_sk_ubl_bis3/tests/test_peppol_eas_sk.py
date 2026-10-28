@@ -190,11 +190,37 @@ class TestSlovakPeppolEas(TransactionCase):
         treats it as chosen. 1003 of 1105 backfilled partners sat like that."""
         partner = self._partner(vat="SK2020317068")
         self.assertEqual(partner.peppol_eas, '9950')
-        partner.l10n_sk_dic = "2020317068"          # as a backfill would
-        self.assertEqual(partner.peppol_eas, '9950', "compute leaves it alone")
+        # As a migration or an SQL backfill would: past write(), which now
+        # moves the partner itself.
+        self.env.cr.execute(
+            "UPDATE res_partner SET l10n_sk_dic = %s WHERE id = %s",
+            ("2020317068", partner.id))
+        partner.invalidate_recordset(['l10n_sk_dic'])
+        self.assertEqual(partner.peppol_eas, '9950', "nothing moved it yet")
         partner.action_l10n_sk_adopt_dic_participant()
         self.assertEqual(partner.peppol_eas, '0245')
         self.assertEqual(partner.peppol_endpoint, "2020317068")
+
+    def test_a_dic_filled_in_later_moves_the_partner_onto_0245(self):
+        """Recording the DIČ is enough: nobody has to remember the action."""
+        partner = self._partner(vat="SK2020317068")
+        self.assertEqual(partner.peppol_eas, '9950')
+        partner.l10n_sk_dic = "2020317068"
+        self.assertEqual(partner.peppol_eas, '0245')
+        self.assertEqual(partner.peppol_endpoint, "2020317068")
+
+    def test_a_dic_filled_in_later_leaves_a_hand_set_endpoint_alone(self):
+        partner = self._partner(vat="SK2020317068")
+        partner.write({'peppol_eas': '9950', 'peppol_endpoint': "0123456789"})
+        partner.l10n_sk_dic = "2020317068"
+        self.assertEqual(partner.peppol_eas, '9950')
+
+    def test_a_changed_dic_does_not_move_a_deliberate_9950(self):
+        """9950 set while the DIČ was already known is a decision."""
+        partner = self._partner(vat="SK2020317068", l10n_sk_dic="2020317068")
+        partner.peppol_eas = '9950'
+        partner.l10n_sk_dic = "2020317077"
+        self.assertEqual(partner.peppol_eas, '9950')
 
     def test_adopting_leaves_a_hand_set_endpoint_alone(self):
         """A typed endpoint is a deliberate registration. Only an empty one, or
@@ -248,10 +274,11 @@ class TestSlovakPeppolEas(TransactionCase):
     def test_company_on_an_existing_partner_keeps_its_scheme(self):
         """An existing contact's 9950 may be a decision; only partners core
         creates for the company are moved."""
-        partner = self._partner(vat="SK2020317068")
-        # read before the DIČ lands, or the pending compute sees both at once
+        # 9950 chosen with the DIČ already on file: a DIČ filled in later now
+        # moves a partner itself (test_a_dic_filled_in_later_moves_...).
+        partner = self._partner(vat="SK2020317068", l10n_sk_dic="2020317068")
+        partner.peppol_eas = '9950'
         self.assertEqual(partner.peppol_eas, '9950')
-        partner.l10n_sk_dic = "2020317068"
         self.env['res.company'].create({
             'name': "SK Firma s.r.o.", 'partner_id': partner.id})
         self.assertEqual(partner.peppol_eas, '9950')

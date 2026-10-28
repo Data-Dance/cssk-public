@@ -5,6 +5,15 @@ Changelog
 Unreleased
 ==========
 
+Fixed
+~~~~~
+
+- **A form filed separately to several recipients can scope its amendments
+  to the recipient.** The check that a corrective filing has something to
+  amend matched company and period only; a form now names the fields that
+  identify the original (``_amendment_scope_fields``), such as the health
+  insurer of a per-insurer overview.
+
 [19.0.1.5.0] — 2026-10-27
 =========================
 

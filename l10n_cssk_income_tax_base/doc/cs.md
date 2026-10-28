@@ -1,7 +1,7 @@
 ---
 title: Přiznání k dani z příjmů PO (CZ/SK)
 summary: Obrazovka, na které se připravuje přiznání k dani z příjmů právnických osob — výsledek hospodaření z účetnictví, úpravy účetní, výpočet daně, XML ověřené proti schématu a zaúčtování splatné daně.
-verified: 19.0.1.5.7
+verified: 19.0.1.5.8
 ---
 
 ## K čemu slouží {#purpose}
@@ -102,6 +102,9 @@ ji zaúčtuje:
 Nejde o rezervu na daň z příjmů (účet 453), ale o splatnou daň, kterou se
 uzavírá výkaz zisku a ztráty a rozvaha za rok. **Stornovat splatnou daň** ji zruší opačným zápisem. Tlačítko se zobrazí, jen je-li
 daň vyšší než nula, a jen u verzí tiskopisu, které řádek daně určují.
+
+**Upozornění exportu.** Kontroly, které export nezastaví, se zobrazí ve
+žlutém pruhu nahoře na formuláři a v chatteru až do dalšího exportu.
 
 ## Omezení {#limitations}
 

@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_hr_payroll_health/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK dávka 514 — mesačný výkaz preddavkov na zdravotné poistenie</h1>
 <p class="cssk-summary">Mesačný výkaz preddavkov na poistné pre slovenskú zdravotnú poisťovňu (VšZP, Dôvera, Union) v spoločnom formáte dávky 514, zostavený z výplatných pások mesiaca a vyexportovaný do XML.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Zamestnávateľ každý mesiac vykazuje každej <strong>zdravotnej poisťovni</strong>
@@ -82,12 +82,12 @@ takže funguje s oboma mzdovými jadrami — pozri
 </tr>
 <tr>
 <td><em>Číslo platiteľa poistného</em></td>
-<td>formulár dávky 514</td>
+<td>formulár spoločnosti alebo formulár dávky 514</td>
 <td><code>CodeOfPayer</code> — číslo, ktoré zamestnávateľovi pridelila poisťovňa</td>
 </tr>
 <tr>
 <td><em>Zdravotná poisťovňa (dávka 514)</em></td>
-<td>pozri nižšie</td>
+<td>formulár spoločnosti</td>
 <td>predvolená poisťovňa nového výkazu (ak nie je nastavená, VšZP)</td>
 </tr>
 <tr>
@@ -97,10 +97,10 @@ takže funguje s oboma mzdovými jadrami — pozri
 </tr>
 </tbody>
 </table>
-<p><em>Číslo platiteľa poistného</em> vyplňte priamo vo formulári dávky 514; ukladá sa
-na spoločnosti, takže sa zadáva raz (na jeho zmenu treba právo upravovať
-spoločnosti). <em>Zdravotná poisťovňa (dávka 514)</em> nie je na žiadnom formulári:
-je to VšZP, kým správca neimportuje inú hodnotu v zozname spoločností.</p>
+<p>Obidva údaje sú na formulári spoločnosti, karta <em>Mzdové výkazy</em>, skupina
+<em>Zdravotné poistenie (dávka 514)</em>. <em>Číslo platiteľa poistného</em> sa dá vyplniť aj
+priamo vo formulári dávky 514; ukladá sa vždy na spoločnosti, takže sa zadáva
+raz (na jeho zmenu treba právo upravovať spoločnosti).</p>
 <p>Každý zamestnanec vo výkaze musí mať <strong>rodné číslo</strong> v poli <em>Identifikačné č</em>
 a mal by mať vyplnenú <strong>Zdravotnú poisťovňu (SK)</strong>, hneď vedľa na karte
 <em>Personal</em>. Každá dávka 514 zoberie len zamestnancov poistených v poisťovni,
@@ -113,8 +113,8 @@ každom zamestnancovi.</p>
 <li>Zvoľte <strong>Zdravotnú poisťovňu</strong>, <strong>Rok</strong> a <strong>Mesiac</strong>. <em>Dátum výplaty</em>
    určuje deň platby v <code>DateOfPayment</code>; ak ho nevyplníte, použije sa posledný
    deň mesiaca.</li>
-<li>Kliknite na <strong>Generovať</strong>. Modul zoberie výplatné pásky spoločnosti, ktorých
-   obdobie leží v danom mesiaci, vytvorí riadok za každého zamestnanca
+<li>Kliknite na <strong>Generovať</strong>. Modul zoberie potvrdené výplatné pásky
+   spoločnosti, ktorých obdobie sa v danom mesiaci končí, vytvorí riadok za každého zamestnanca
    a vygeneruje XML.</li>
 <li>Súbor nahrajte cez elektronickú pobočku poisťovne a kliknite na <strong>Označiť
    ako odoslané</strong>. <strong>Vrátiť do konceptu</strong> výkaz znova otvorí.</li>
@@ -168,14 +168,12 @@ element, tri bloky hlavičky a zhodu počtu viet.</p>
   podľa zákona o zdravotnom poistení; zobrazená sadzba sa odvodzuje z neho.</li>
 <li>Každý zamestnanec má plný počet kalendárnych dní mesiaca a všetci sa
   vykazujú v prvej skupine (druhá skupina počtov a základov je vždy nulová).</li>
-<li>Započítajú sa aj koncepty výplatných pások, vynechajú sa len zrušené.
-  Výplatná páska presahujúca hranicu mesiaca sa ignoruje.</li>
 <li>Len riadny výkaz (<em>N</em>) s poradovým číslom 1. Opravy po chybovom protokole
   treba urobiť cez elektronickú pobočku poisťovne.</li>
 <li>Keďže oficiálnu schému nemožno uplatniť, modul nezaručí, že poisťovňa súbor
   prijme. Prvý výkaz odsúhlaste s poisťovňou.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.2.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

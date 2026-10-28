@@ -1,7 +1,7 @@
 ---
 title: Elektronická fakturace Peppol (BIS Billing 3.0)
 summary: Odesílá faktury a opravné daňové doklady odběratelům jako elektronické faktury Peppol BIS Billing 3.0, z přijatých elektronických faktur vytváří koncepty přijatých faktur a zpracovává obchodní odpovědi — přes kteréhokoli nainstalovaného poskytovatele EDI.
-verified: 19.0.1.7.0
+verified: 19.0.1.7.1
 ---
 
 ## K čemu slouží {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Fio banka — platobné príkazy
 summary: Zostaví platobné príkazy Fio XML z platobného príkazu OCA alebo z hromadnej platby Enterprise a odošle ich cez API do Fio banky na autorizáciu v internetbankingu.
-verified: 19.0.1.3.0
+verified: 19.0.1.4.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -144,6 +144,12 @@ Oba moduly možno mať nainštalované súčasne.
 
 ## Obmedzenia {#limitations}
 
+- Dobropis zoskupený s faktúrou v platobnom príkaze (voľba spôsobu platby
+  *Group Transactions in Payment Orders*) sa zapíše ako **jedna položka
+  v čistej sume** — tej, ktorú príkaz zaúčtuje ako platbu. Nesie variabilný
+  symbol faktúry; ak sa jeden dobropis započíta proti viacerým faktúram,
+  symboly sa líšia a neodíde žiadny. Skupiny bez dobropisu majú naďalej jednu
+  položku za faktúru. Bez zoskupenia sa riadok dobropisu odmietne.
 - **„Odoslané“ neznamená „zaplatené“**: dávka čaká v internetbankingu na
   autorizáciu.
 - Číslo dávky Fio nie je ID pokynu, ktoré sa neskôr objaví na riadkoch výpisu,

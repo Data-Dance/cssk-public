@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/account_edi_isdoc/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/account_edi_isdoc/static/description/index_cs.html">Čeština</a></nav>
 <h1>Elektronické faktúry ISDOC (český formát)</h1>
 <p class="cssk-summary">Odosiela faktúry a dobropisy odberateľom ako súbory ISDOC 6.0.2, vložené aj do PDF faktúry, a z prijatých súborov ISDOC vytvára koncepty dodávateľských faktúr.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.4.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account_edi_ubl_cii</code>, <a href="/l10n_cz_base/static/description/index.html"><code>l10n_cz_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/account_edi_isdoc_purchase_advance/static/description/index_sk.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/account_edi_isdoc_sale/static/description/index_sk.html"><code>account_edi_isdoc_sale</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.4.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account_edi_ubl_cii</code>, <a href="/l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cz_base/static/description/index.html"><code>l10n_cz_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/account_edi_isdoc_kh/static/description/index_sk.html"><code>account_edi_isdoc_kh</code></a>, <a href="/account_edi_isdoc_purchase_advance/static/description/index_sk.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/account_edi_isdoc_sale/static/description/index_sk.html"><code>account_edi_isdoc_sale</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p><strong>ISDOC</strong> (<em>Information System Document</em>) je český národný formát
@@ -49,7 +49,7 @@ a ďalších formátov UBL/CII:</p>
 <em>Poslať</em> a štandardné nahrávanie dodávateľských faktúr. Kvôli českým číslam
 bankových účtov potrebuje <a href="/l10n_cz_base/static/description/index.html"><code>l10n_cz_base</code></a>. Modul
 nemá slovenský preklad; jeho texty sa zobrazujú po anglicky.</p>
-<p>Tri doplnky sa inštalujú samy, keď je prítomný ich náprotivok:</p>
+<p>Štyri doplnky sa inštalujú samy, keď je prítomný ich náprotivok:</p>
 <table>
 <thead>
 <tr>
@@ -73,6 +73,11 @@ nemá slovenský preklad; jeho texty sa zobrazujú po anglicky.</p>
 <td><a href="/account_edi_isdoc_purchase_advance/static/description/index_sk.html"><code>account_edi_isdoc_purchase_advance</code></a></td>
 <td>prijaté zálohové faktúry</td>
 <td>importované typy 4, 5 a 6 idú do evidencie prijatých záloh — <a href="#received-advances">prijaté zálohy</a></td>
+</tr>
+<tr>
+<td><a href="/account_edi_isdoc_kh/static/description/index_sk.html"><code>account_edi_isdoc_kh</code></a></td>
+<td>české kontrolné hlásenie</td>
+<td>tuzemské prenesenie daňovej povinnosti s kódom predmetu plnenia na exportovaných faktúrach — <a href="#reverse-charge">prenesenie</a></td>
 </tr>
 </tbody>
 </table>
@@ -171,6 +176,14 @@ Ponechá sa ako príloha faktúry a pri každom stiahnutí sa nahradí.</p>
 </tbody>
 </table>
 <p>Faktúra musí byť v <strong>mene spoločnosti</strong>; faktúru v cudzej mene ISDOC odmietne.</p>
+<h3 id="reverse-charge">Tuzemské prenesenie daňovej povinnosti</h3>
+<p>S modulom <a href="/account_edi_isdoc_kh/static/description/index_sk.html"><code>account_edi_isdoc_kh</code></a>
+(inštaluje sa s českým kontrolným hlásením) sa riadok v českom tuzemskom
+prenesení daňovej povinnosti (§ 92a ZDPH) exportuje ako taký:
+<em>LocalReverseCharge</em> s <strong>kódom predmetu plnenia</strong> (<em>kód předmětu plnění</em>),
+ktorý vykazuje kontrolné hlásenie; jeho riadok rekapitulácie DPH je označený
+ako prenesenie a oddelený od oslobodených plnení. Pozri
+<a href="/account_edi_isdoc_kh/static/description/index_sk.html"><code>account_edi_isdoc_kh</code></a>.</p>
 <h2 id="import">Prijímanie ISDOC</h2>
 <p>Súbor nahrajte do dodávateľských faktúr, presuňte ho na zoznam alebo ho
 pošlite na e-mailový alias nákupného denníka. Prijme sa samostatný súbor
@@ -277,12 +290,13 @@ idú importované zálohové doklady do evidencie prijatých záloh:</p>
   domácej mene dokladu.</li>
 <li>Opravné doklady typu ťarchopis (typ 3) a zjednodušené faktúry (typ 7) sa
   importujú ako bežné faktúry.</li>
-<li>Export prvok tuzemského prenesenia daňovej povinnosti nikdy nezapisuje:
-  faktúra s prenesením odíde ako plnenie bez DPH a bez kódu predmetu plnenia.</li>
+<li>Bez modulu <a href="/account_edi_isdoc_kh/static/description/index_sk.html"><code>account_edi_isdoc_kh</code></a>
+  export prvok tuzemského prenesenia daňovej povinnosti nezapisuje: faktúra
+  s prenesením odíde ako plnenie bez DPH a bez kódu predmetu plnenia.</li>
 <li>Dodávateľ bez DIČ, ktorého nenájde IČO, názov, e-mail ani telefón, sa
   nezaloží; vyberte ho na faktúre.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.4.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

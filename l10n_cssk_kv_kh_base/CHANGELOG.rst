@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.4.0] — 2026-10-27
+-------------------------
+
+Removed
+~~~~~~~
+
+- The tax field *Control-statement section* (``cssk_control_section_default``).
+  No section rule ever read it, so a value set on a tax changed nothing; a
+  single section per tax could not express a correction or a private
+  customer anyway. Use the journal's *Control-statement section override*.
+
+Added
+~~~~~
+
+- The warnings of the last export are shown as a banner on the statement.
+
 [19.0.2.3.0] — 2026-10-27
 -------------------------
 

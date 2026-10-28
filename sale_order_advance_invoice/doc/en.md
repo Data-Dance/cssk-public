@@ -1,7 +1,7 @@
 ---
 title: Advance Invoices (Sales)
 summary: Advance (proforma) invoices as their own documents, a tax document for every payment received on them, and the deduction of the advance on the final invoice.
-verified: 19.0.2.8.0
+verified: 19.0.2.8.1
 ---
 
 ## What it is for {#purpose}

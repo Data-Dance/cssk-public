@@ -65,7 +65,6 @@ class AccountMoveLine(models.Model):
         "move_id.move_type",
         "parent_state",
         "tax_ids",
-        "tax_ids.cssk_control_section_default",
         "tax_ids.cssk_control_is_reverse_charge",
         "tax_ids.tax_exigibility",
         "tax_ids.children_tax_ids.tax_exigibility",

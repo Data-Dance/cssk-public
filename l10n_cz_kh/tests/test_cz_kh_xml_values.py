@@ -256,3 +256,80 @@ class TestCzKhXmlValues(AccountTestInvoicingCommon):
     def test_a2_section_label_cites_108_2_and_3(self):
         a2 = self.version.section_code_ids.filtered(lambda s: s.code == "A2")
         self.assertIn("§ 108 odst. 2 a 3", a2.name)
+
+    # ------------------------------------------------------------------
+    # manual override of a row reaches the export and survives a recompute
+    # ------------------------------------------------------------------
+    def test_an_override_is_filed_and_survives_recompute(self):
+        """An override used to edit tax_base_amount / tax_amount, which no CZ
+        export reads: the row was filed with its computed split."""
+        tax21 = self._tax("l10n_cz_21_domestic_supplies")
+        self._move("out_invoice", self.cz_partner, [(20000.0, tax21, None)])
+        st, root = self._export()
+        a4 = st.cz_a4_ids
+        self.assertEqual(len(a4), 1)
+        st.action_reset_to_draft()
+        a4.write({"is_overridden": True, "base_std": 19000.0,
+                  "tax_std": 3990.0})
+        st.action_compute_lines()
+        a4 = st.cz_a4_ids
+        self.assertTrue(a4.is_overridden)
+        self.assertEqual((a4.base_std, a4.tax_std), (19000.0, 3990.0),
+                         "the override is re-applied to the recomputed row")
+        st.action_export_xml()
+        root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
+        row = root.find(".//VetaA4")
+        self.assertEqual((row.get("zakl_dane1"), row.get("dan1")),
+                         ("19000", "3990"))
+
+    def test_an_override_key_tells_commodity_codes_apart(self):
+        rc_sale = self._tax("l10n_cz_tax_reverse_charge_mode")
+        self._move("out_invoice", self.cz_partner,
+                   [(30000.0, rc_sale, self._product("4")),
+                    (10000.0, rc_sale, self._product("5"))])
+        st, _root = self._export()
+        a1 = st.cz_a1_ids
+        self.assertEqual(len(a1), 2)
+        self.assertEqual(len({r._kv_override_key() for r in a1}), 2,
+                         "one document, two § 92a codes, two override keys")
+
+    def test_the_sections_offer_the_override(self):
+        arch = self.env["cssk.control.statement"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        tree = etree.fromstring(arch)
+        for name in ("cz_a1_ids", "cz_a2_ids", "cz_a4_ids", "cz_a5_ids",
+                     "cz_b1_ids", "cz_b2_ids", "cz_b3_ids"):
+            field = tree.find(".//field[@name='%s']" % name)
+            self.assertIsNotNone(
+                field.find(".//field[@name='is_overridden']"), name)
+            self.assertIsNotNone(
+                field.find(".//field[@name='base_std']"), name)
+
+    # ------------------------------------------------------------------
+    # § 92a kód předmětu plnění on the SALE reverse-charge tax
+    # ------------------------------------------------------------------
+    def test_the_sale_rc_tax_code_is_used(self):
+        """The stock "0% RC" sale tax carries no Reverse charge mark (A.1 is
+        recognised by its ř. 25 row), so a code set on it was ignored and a
+        sale without a coded product could not be exported."""
+        rc_sale = self._tax("l10n_cz_tax_reverse_charge_mode")
+        self.assertFalse(rc_sale.cssk_control_is_reverse_charge,
+                         "premise: the sale RC tax is unmarked")
+        self.assertTrue(rc_sale.cssk_kh_domestic_rc,
+                        "the field is offered on the tax form")
+        rc_sale.cssk_kh_commodity_code = "4"
+        self._move("out_invoice", self.cz_partner, [(30000.0, rc_sale, None)])
+        _st, root = self._export()
+        a1 = root.findall(".//VetaA1")
+        self.assertEqual([r.get("kod_pred_pl") for r in a1], ["4"])
+
+    def test_an_ordinary_sale_tax_code_is_not_a_92a_code(self):
+        tax21 = self._tax("l10n_cz_21_domestic_supplies")
+        self.assertFalse(tax21.cssk_kh_domestic_rc)
+
+    def test_the_code_help_lists_the_form_codes(self):
+        help_text = self.env["account.tax"]._fields[
+            "cssk_kh_commodity_code"].help
+        self.assertIn("6 = goods originally provided as a guarantee", help_text)
+        self.assertIn("11 = greenhouse-gas emission allowances", help_text)
+        self.assertNotIn("6 = emission allowances", help_text)

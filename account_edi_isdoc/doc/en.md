@@ -1,7 +1,7 @@
 ---
 title: ISDOC e-invoices (Czech format)
 summary: Sends customer invoices and credit notes as ISDOC 6.0.2 files, embedded in the invoice PDF as well, and turns received ISDOC files into draft vendor bills.
-verified: 19.0.1.4.0
+verified: 19.0.1.4.2
 ---
 
 ## What it is for {#purpose}
@@ -22,13 +22,14 @@ It builds on Odoo's `account_edi_ubl_cii`, so it uses the standard *Send*
 dialog and the standard bill upload. It needs
 [module:l10n_cz_base](module:l10n_cz_base) for Czech bank account numbers.
 
-Three add-ons install themselves when their counterpart is present:
+Four add-ons install themselves when their counterpart is present:
 
 | Add-on | With | Adds |
 |---|---|---|
 | [module:account_edi_isdoc_sale](module:account_edi_isdoc_sale) | Sales | an ISDOC proforma (document type 4) from a sales order — [proformas](#proforma) |
 | [module:account_edi_isdoc_sale_advance](module:account_edi_isdoc_sale_advance) | advance invoices (sales) | tax documents for received payments as types 5 and 6, and deducted advances on the final invoice — [advances](#advances) |
 | [module:account_edi_isdoc_purchase_advance](module:account_edi_isdoc_purchase_advance) | received advance invoices | imported types 4, 5 and 6 go into the received-advance flow — [received advances](#received-advances) |
+| [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh) | Czech control statement | the local reverse charge with its commodity code on exported invoices — [reverse charge](#reverse-charge) |
 
 ## Legal background {#legal}
 
@@ -96,6 +97,15 @@ What the file contains:
 
 The invoice must be in the **company currency**; an invoice in a foreign
 currency is refused for ISDOC.
+
+### Domestic reverse charge {#reverse-charge}
+
+With [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh) (installed
+with the Czech control statement), a line in the Czech domestic reverse
+charge (§ 92a ZDPH) is exported as one: *LocalReverseCharge* with the
+**commodity code** (*kód předmětu plnění*) the control statement reports,
+its VAT breakdown row marked as reverse charge and kept apart from exempt
+supplies. See [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh).
 
 ## Receiving ISDOC {#import}
 
@@ -200,7 +210,8 @@ for what happens next.
   in the local currency are used.
 - Debit notes (type 3) and simplified tax documents (type 7) are imported as
   ordinary bills.
-- The export never writes ISDOC's local reverse-charge element: a
+- Without [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh) the
+  export does not write ISDOC's local reverse-charge element: a
   reverse-charge invoice goes out as a supply without VAT, with no commodity
   code.
 - A vendor without a DIČ that is not found by IČO, name, email or phone is

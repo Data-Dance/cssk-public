@@ -87,6 +87,12 @@ Voliteľne zvoľte **Nadradenú objednávku**, ku ktorej patrí, a označte
 
 Nákupná objednávka s preddavkami má tlačidlo **Preddavky**.
 
+**So Skladom.** Tovar sa prijíma na nadradenej objednávke, nikdy na
+preddavku: s modulom
+[module:purchase_order_advance_invoice_stock](module:purchase_order_advance_invoice_stock),
+ktorý sa nainštaluje sám, keď je Sklad nainštalovaný, potvrdenie ani úhrada
+preddavku nevytvorí príjemku, ani keď sú na ňom skladované produkty.
+
 ## Úhrada {#payment}
 
 Na preddavku:
@@ -162,9 +168,7 @@ jazyk, v ktorom plánovaná akcia beží.
 ## Obmedzenia {#limitations}
 
 - Preddavok je v skutočnosti obyčajná nákupná objednávka. Nepoužívajte na
-  ňom *Vytvoriť prijaté faktúry*. S nainštalovaným Skladom môže potvrdenie
-  preddavku so skladovanými produktmi vytvoriť príjemku; modul tomu na
-  rozdiel od strany predaja nebráni.
+  ňom *Vytvoriť prijaté faktúry*.
 - **Prepojiť platbu** nekontroluje, na aký účet bola platba zaúčtovaná. S
   faktúrou k platbe sa automaticky spáruje len platba zaúčtovaná na zúčtovací
   účet.

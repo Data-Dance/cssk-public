@@ -297,6 +297,12 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
     # than offering an amendment the receiving system will bounce.
     _supported_correction_types = ("regular",)
 
+    # Fields besides company and period that identify WHICH filing an
+    # amendment amends. A form filed separately to several recipients (one
+    # per health insurer, say) lists the field naming the recipient here, so a
+    # corrective filing finds only the original sent to that same recipient.
+    _amendment_scope_fields = ()
+
     def _selection_correction_type(self):
         supported = self._supported_correction_types
         return [(key, label) for key, label in CORRECTION_TYPES
@@ -319,13 +325,19 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         self.ensure_one()
         if not (self.company_id and self.date_from and self.date_to):
             return self.browse()
-        return self.search([
+        domain = [
             ("id", "!=", self.id or 0),
             ("company_id", "=", self.company_id.id),
             ("date_from", "=", self.date_from),
             ("date_to", "=", self.date_to),
             ("state", "=", "submitted"),
-        ])
+        ]
+        for fname in self._amendment_scope_fields:
+            value = self[fname]
+            if self._fields[fname].type == "many2one":
+                value = value.id
+            domain.append((fname, "=", value or False))
+        return self.search(domain)
 
     @api.constrains("correction_type")
     def _check_correction_type_supported(self):

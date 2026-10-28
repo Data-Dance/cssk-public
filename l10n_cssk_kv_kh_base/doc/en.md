@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VAT Control Statement
 summary: The screens and the engine shared by the Slovak kontrolný výkaz DPH and the Czech kontrolní hlášení — sections computed from posted documents, checks before export, an XSD-validated XML file and a record of what was filed.
-verified: 19.0.2.3.0
+verified: 19.0.2.4.0
 ---
 
 ## What it is for {#purpose}
@@ -129,7 +129,8 @@ statement alone is not enough.
    - content rules: a detail row whose tax is not base × rate stops the export
      when it is off by a factor of two or more, and a taxable row with a base
      but no tax stops it always. Smaller differences (rounding) and other
-     warnings are written only to the server log, not shown on screen.
+     warnings do not stop it: they are listed in a yellow banner at the top
+     of the statement and in the chatter until the next export.
 
    The XML is then validated against the official XSD held on the version and
    attached to the statement (*Xml Attachment*). The statement is now

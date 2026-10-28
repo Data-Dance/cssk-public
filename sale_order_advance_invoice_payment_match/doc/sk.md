@@ -1,7 +1,7 @@
 ---
 title: Zálohové faktúry — párovanie bankových výpisov
 summary: Páruje prijaté bankové platby s otvorenými zálohovými faktúrami podľa čísla preddavku alebo variabilného symbolu, zaeviduje platbu a podľa nastavenia vytvorí faktúru k prijatej platbe.
-verified: 19.0.1.0.2
+verified: 19.0.1.1.0
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Elektronické faktury ISDOC
 summary: Odesílá faktury a opravné daňové doklady odběratelům jako soubory ISDOC 6.0.2, vložené i do PDF faktury, a z přijatých souborů ISDOC vytváří koncepty přijatých faktur.
-verified: 19.0.1.4.0
+verified: 19.0.1.4.2
 ---
 
 ## K čemu slouží {#purpose}
@@ -23,13 +23,14 @@ Staví na modulu Odoo `account_edi_ubl_cii`, takže používá standardní dialo
 bankovních účtů potřebuje [module:l10n_cz_base](module:l10n_cz_base). Modul
 nemá český překlad; jeho texty se zobrazují anglicky.
 
-Tři doplňky se instalují samy, je-li přítomen jejich protějšek:
+Čtyři doplňky se instalují samy, je-li přítomen jejich protějšek:
 
 | Doplněk | S modulem | Přidává |
 |---|---|---|
 | [module:account_edi_isdoc_sale](module:account_edi_isdoc_sale) | Prodej | zálohovou fakturu ISDOC (typ dokladu 4) z prodejní objednávky — [zálohové faktury](#proforma) |
 | [module:account_edi_isdoc_sale_advance](module:account_edi_isdoc_sale_advance) | zálohové faktury (prodej) | daňové doklady k přijaté platbě jako typy 5 a 6 a odečtené zálohy na vyúčtovací faktuře — [zálohy](#advances) |
 | [module:account_edi_isdoc_purchase_advance](module:account_edi_isdoc_purchase_advance) | přijaté zálohové faktury | importované typy 4, 5 a 6 jdou do evidence přijatých záloh — [přijaté zálohy](#received-advances) |
+| [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh) | kontrolní hlášení | tuzemský režim přenesení daňové povinnosti s kódem předmětu plnění na exportovaných fakturách — [přenesení](#reverse-charge) |
 
 ## Právní rámec {#legal}
 
@@ -94,6 +95,15 @@ Co soubor obsahuje:
 | PaymentMeans | převodem: datum splatnosti, číslo účtu, kód banky, IBAN, BIC, VS, KS, SS |
 
 Faktura musí být v **měně společnosti**; fakturu v cizí měně ISDOC odmítne.
+
+### Tuzemský režim přenesení daňové povinnosti {#reverse-charge}
+
+S modulem [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh)
+(instaluje se s kontrolním hlášením) se řádek v tuzemském režimu přenesení
+daňové povinnosti (§ 92a ZDPH) exportuje jako takový: *LocalReverseCharge*
+s **kódem předmětu plnění**, který vykazuje kontrolní hlášení; jeho řádek
+rekapitulace DPH je označen jako přenesení a oddělen od osvobozených plnění.
+Viz [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh).
 
 ## Příjem ISDOC {#import}
 
@@ -199,7 +209,8 @@ Co následuje, popisuje
   tuzemské měně.
 - Opravné daňové doklady typu vrubopis (typ 3) a zjednodušené daňové doklady
   (typ 7) se importují jako běžné faktury.
-- Export prvek přenesení daňové povinnosti nikdy nezapisuje: faktura v režimu
+- Bez modulu [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh)
+  export prvek přenesení daňové povinnosti nezapisuje: faktura v režimu
   přenesení odejde jako plnění bez DPH a bez kódu předmětu plnění.
 - Dodavatel bez DIČ, kterého nenajde IČO, název, e-mail ani telefon, se
   nezaloží; vyberte ho na faktuře.

@@ -132,6 +132,27 @@ class TestISDOCExport(AccountTestInvoicingCommon):
         root = self._export(invoice)
         self.assertEqual(self._find(root, 'DocumentType'), '2')
 
+    def test_building_number_is_never_a_street2_line(self):
+        """BuildingNumber used to take Street 2 whole whenever the street did
+        not end in a number, so a c/o or a floor went out as the číslo
+        popisné. It now reads the address the way every CZ/SK export does."""
+        party = 'AccountingCustomerParty/Party/PostalAddress/'
+        self.cz_customer.write({'street': "Diabasová", 'street2': "3. patro"})
+        invoice = self.init_invoice(
+            'out_invoice', partner=self.cz_customer, invoice_date='2024-07-10',
+            amounts=[100.0], taxes=self.tax_21, post=True,
+        )
+        root = self._export(invoice)
+        self.assertEqual(self._find(root, party + 'StreetName'), "Diabasová")
+        self.assertFalse(self._find(root, party + 'BuildingNumber'))
+        self.cz_customer.write({'street': "Diabasová", 'street2': "1141/11"})
+        root = self._export(invoice)
+        self.assertEqual(self._find(root, party + 'BuildingNumber'), "1141/11")
+        self.cz_customer.write({'street': "Diabasová 1141/11", 'street2': "3. patro"})
+        root = self._export(invoice)
+        self.assertEqual(self._find(root, party + 'StreetName'), "Diabasová")
+        self.assertEqual(self._find(root, party + 'BuildingNumber'), "1141/11")
+
     def test_cz_bank_account_conversion(self):
         # Conversion lives in l10n_cz_base (res.partner.bank._cz_account_parts).
         # Stored as a Czech IBAN -> derive legacy account number + bank code, incl. computed fields.

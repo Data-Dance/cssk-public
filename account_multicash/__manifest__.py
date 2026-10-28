@@ -16,7 +16,7 @@ dependency).
     'author': "Data Dance s.r.o.",
     'website': "https://www.datadance.eu",
     'category': 'Accounting/Accounting',
-    'version': '19.0.2.1.0',
+    'version': '19.0.2.2.0',
     'depends': ['account_payment_order', 'account_cz_bankfile_base', 'base_iban'],
     'data': [
         'data/account_payment_method.xml',

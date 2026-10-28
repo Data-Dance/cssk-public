@@ -20,7 +20,7 @@ Architecture
   ``...reconciliation.mixin`` (fixed lines, e.g. CZ section C).
 * ``account.move.line.cssk_control_section_code`` — stored, computed by a
   country-overridable ``_cssk_resolve_section_code`` (**reverse charge first**).
-* ``account.tax`` — ``cssk_control_section_default`` + ``cssk_control_is_reverse_charge``.
+* ``account.tax`` — ``cssk_control_is_reverse_charge``.
 * ``account.journal`` — section override.
 
 Status

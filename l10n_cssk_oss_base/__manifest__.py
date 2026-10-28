@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK OSS VAT Return — Shared Framework (Union scheme)",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "summary": "Country-neutral engine for the quarterly One-Stop-Shop VAT "
                "return (Union scheme): OSS-tagged sales aggregated by member "
                "state of consumption, rate and supply type, converted to EUR "

@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.3.4.0] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Recording a contact's first DIČ moves it from 9950 to 0245 + DIČ.** Without
+  a DIČ, 0245 was impossible, so the 9950 was Odoo's fallback rather than a
+  choice; it stayed after the DIČ was filled in until somebody ran *Peppol: use
+  0245 + DIČ*. Saving the DIČ now applies the same move, with the same
+  safeguard: a hand-typed endpoint is left alone. A contact put on 9950 while
+  its DIČ was already recorded, or whose DIČ merely changes, keeps its scheme.
+
 [19.0.3.3.1] — 2026-10-27
 -------------------------
 

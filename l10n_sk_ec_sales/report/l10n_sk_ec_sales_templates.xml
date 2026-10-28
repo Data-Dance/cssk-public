@@ -45,11 +45,13 @@
                     <email t-out="company.email or ''"/>
                 </adresa>
                 <celkovaHodnota t-out="'%d' % sum(statement._sv_whole(a) for a in lines.mapped('total_amount'))"/>
-                <konatel/>
+                <konatel t-out="statement.l10n_sk_authorized_name or ''"/>
+                <konatelTel t-if="statement.l10n_sk_authorized_phone" t-out="statement.l10n_sk_authorized_phone"/>
+                <konatelEmail t-if="statement.l10n_sk_authorized_email" t-out="statement.l10n_sk_authorized_email"/>
                 <datumVyhlasenia>
-                    <den/>
-                    <mesiac/>
-                    <rok/>
+                    <den t-out="sk_datum_vyhlasenia['den']"/>
+                    <mesiac t-out="sk_datum_vyhlasenia['mesiac']"/>
+                    <rok t-out="sk_datum_vyhlasenia['rok']"/>
                 </datumVyhlasenia>
             </hlavicka>
             <telo>
@@ -142,11 +144,15 @@
                 </adresa>
                 <celkovaHodnota t-out="'%d' % sum(statement._sv_whole(a) for a in lines.mapped('total_amount'))"/>
                 <pocet2Stran t-out="str((len(lines) + 26) // 27)"/>
-                <konatel/>
+                <konatel t-out="statement.l10n_sk_authorized_name or ''"/>
+                <konatelTel t-if="statement.l10n_sk_authorized_phone">
+                    <predcislie/>
+                    <cislo t-out="statement.l10n_sk_authorized_phone"/>
+                </konatelTel>
                 <datumVyhlasenia>
-                    <den/>
-                    <mesiac/>
-                    <rok/>
+                    <den t-out="sk_datum_vyhlasenia['den']"/>
+                    <mesiac t-out="sk_datum_vyhlasenia['mesiac']"/>
+                    <rok t-out="sk_datum_vyhlasenia['rok']"/>
                 </datumVyhlasenia>
             </hlavicka>
             <telo>

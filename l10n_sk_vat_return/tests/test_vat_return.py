@@ -496,6 +496,11 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
         self.assertEqual(h.findtext("adresa/ulica"), "Mlynská")
         self.assertEqual(h.findtext("adresa/cislo"), "1234/5",
                          "the house number, never Street 2")
+        # The same reading as every other export (l10n_cssk_core.split_street):
+        # a Street 2 that is nothing but a number is still the číslo.
+        self.company.partner_id.write({"street": "Mlynská", "street2": "7"})
+        ctx = ret._cssk_render_context()
+        self.assertEqual((ctx["sk_ulica"], ctx["sk_cislo"]), ("Mlynská", "7"))
         self.assertEqual(h.findtext("osoba/platitel"), "1")
         self.assertEqual(h.findtext("opravnenaOsoba/menoPriezvisko"), "Ján Účtovník")
         self.assertEqual(h.findtext("opravnenaOsoba/email"), "uctovnik@example.com")

@@ -35,6 +35,8 @@ class TestPrehlad(TransactionCase):
             "company_registry": "12345679",
             "l10n_sk_dic": "1234567890",
             "street": "Hlavna 1",
+            # A second address line, never the house number.
+            "street2": "Budova B",
             "city": "Bratislava",
             "zip": "81101",
         })
@@ -141,6 +143,9 @@ class TestPrehlad(TransactionCase):
         self.assertEqual(root.findtext("hlavicka/dic"), "1234567890")
         self.assertEqual(
             root.findtext("hlavicka/zdanovacieObdobie/mesiac"), "3")
+        # sídlo: the house number split off the street, never Street 2
+        self.assertEqual(root.findtext("hlavicka/sidlo/ulica"), "Hlavna")
+        self.assertEqual(root.findtext("hlavicka/sidlo/cislo"), "1")
 
         # r00 = gross, r01/suma = withheld tax advance, r04 = r01
         self.assertAlmostEqual(

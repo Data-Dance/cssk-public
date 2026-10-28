@@ -1,7 +1,7 @@
 ---
 title: SK Social Insurance Registration of Employees (RLFO)
 summary: Registrations (prihláška) and de-registrations (odhláška) of employees with the Sociálna poisťovňa, entered as a batch of events and exported as XML checked against the official schema.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## What it is for {#purpose}

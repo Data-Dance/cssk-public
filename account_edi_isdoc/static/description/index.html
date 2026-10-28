@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/account_edi_isdoc/static/description/index_sk.html">Slovenčina</a> · <a href="/account_edi_isdoc/static/description/index_cs.html">Čeština</a></nav>
 <h1>ISDOC e-invoices (Czech format)</h1>
 <p class="cssk-summary">Sends customer invoices and credit notes as ISDOC 6.0.2 files, embedded in the invoice PDF as well, and turns received ISDOC files into draft vendor bills.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account_edi_ubl_cii</code>, <a href="/l10n_cz_base/static/description/index.html"><code>l10n_cz_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/account_edi_isdoc_purchase_advance/static/description/index.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/account_edi_isdoc_sale/static/description/index.html"><code>account_edi_isdoc_sale</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account_edi_ubl_cii</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cz_base/static/description/index.html"><code>l10n_cz_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/account_edi_isdoc_kh/static/description/index.html"><code>account_edi_isdoc_kh</code></a>, <a href="/account_edi_isdoc_purchase_advance/static/description/index.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/account_edi_isdoc_sale/static/description/index.html"><code>account_edi_isdoc_sale</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p><strong>ISDOC</strong> (<em>Information System Document</em>) is the Czech national format for
@@ -47,7 +47,7 @@ the other UBL/CII formats:</p>
 <p>It builds on Odoo's <code>account_edi_ubl_cii</code>, so it uses the standard <em>Send</em>
 dialog and the standard bill upload. It needs
 <a href="/l10n_cz_base/static/description/index.html"><code>l10n_cz_base</code></a> for Czech bank account numbers.</p>
-<p>Three add-ons install themselves when their counterpart is present:</p>
+<p>Four add-ons install themselves when their counterpart is present:</p>
 <table>
 <thead>
 <tr>
@@ -71,6 +71,11 @@ dialog and the standard bill upload. It needs
 <td><a href="/account_edi_isdoc_purchase_advance/static/description/index.html"><code>account_edi_isdoc_purchase_advance</code></a></td>
 <td>received advance invoices</td>
 <td>imported types 4, 5 and 6 go into the received-advance flow — <a href="#received-advances">received advances</a></td>
+</tr>
+<tr>
+<td><a href="/account_edi_isdoc_kh/static/description/index.html"><code>account_edi_isdoc_kh</code></a></td>
+<td>Czech control statement</td>
+<td>the local reverse charge with its commodity code on exported invoices — <a href="#reverse-charge">reverse charge</a></td>
 </tr>
 </tbody>
 </table>
@@ -170,6 +175,13 @@ It is kept as the invoice's attachment and replaced on every download.</p>
 </table>
 <p>The invoice must be in the <strong>company currency</strong>; an invoice in a foreign
 currency is refused for ISDOC.</p>
+<h3 id="reverse-charge">Domestic reverse charge</h3>
+<p>With <a href="/account_edi_isdoc_kh/static/description/index.html"><code>account_edi_isdoc_kh</code></a> (installed
+with the Czech control statement), a line in the Czech domestic reverse
+charge (§ 92a ZDPH) is exported as one: <em>LocalReverseCharge</em> with the
+<strong>commodity code</strong> (<em>kód předmětu plnění</em>) the control statement reports,
+its VAT breakdown row marked as reverse charge and kept apart from exempt
+supplies. See <a href="/account_edi_isdoc_kh/static/description/index.html"><code>account_edi_isdoc_kh</code></a>.</p>
 <h2 id="import">Receiving ISDOC</h2>
 <p>Upload the file into vendor bills, drop it on the list, or send it to the
 purchase journal's email alias. Accepted are a plain <code>.isdoc</code> file (even when
@@ -275,13 +287,14 @@ for what happens next.</p>
   in the local currency are used.</li>
 <li>Debit notes (type 3) and simplified tax documents (type 7) are imported as
   ordinary bills.</li>
-<li>The export never writes ISDOC's local reverse-charge element: a
+<li>Without <a href="/account_edi_isdoc_kh/static/description/index.html"><code>account_edi_isdoc_kh</code></a> the
+  export does not write ISDOC's local reverse-charge element: a
   reverse-charge invoice goes out as a supply without VAT, with no commodity
   code.</li>
 <li>A vendor without a DIČ that is not found by IČO, name, email or phone is
   not created; choose it on the bill.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.4.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

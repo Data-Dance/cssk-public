@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Corporate Income Tax Return
 summary: The screen on which the corporate income tax return (DPPO) is prepared — the accounting result from the books, the accountant's adjustments, the tax computation, a schema-checked XML file and the year-end tax entry.
-verified: 19.0.1.5.7
+verified: 19.0.1.5.8
 ---
 
 ## What it is for {#purpose}
@@ -109,6 +109,10 @@ splatná*) that closes the profit and loss statement and the balance sheet of
 the year. **Reverse provision** cancels it with a reversing entry. The button
 appears only when the tax is above zero and only on form versions that
 designate a tax row.
+
+**Export warnings.** Checks that do not stop the export are listed in a
+yellow banner at the top of the form, and in the chatter, until the next
+export.
 
 ## Limitations {#limitations}
 

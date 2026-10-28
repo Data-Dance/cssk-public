@@ -1,7 +1,7 @@
 ---
 title: SK Financial Statements (Úč POD)
 summary: The Slovak účtovná závierka of an entrepreneur in double-entry bookkeeping — the súvaha and the výkaz ziskov a strát computed from the ledger and exported as the official UZPODv14 file, plus the cash flow and equity statements and the notes.
-verified: 19.0.1.7.2
+verified: 19.0.1.7.4
 ---
 
 ## What it is for {#purpose}
@@ -69,7 +69,7 @@ contact:
 | DIČ | *DIČ* (with the Slovak base module installed), otherwise the *Tax ID*; an `SK` prefix is removed |
 | IČO | *Company ID* |
 | SK NACE | *NACE (main activity)* on the company's contact |
-| Name, address, phone, e-mail | the company's contact |
+| Name, address, phone, e-mail | the company's contact; the house number (*číslo*) is the number at the end of *Street*, and *Street 2* counts only when it holds nothing but a number |
 | Commercial register entry | *Trade Registry* |
 
 **Related-party split of financial income and costs (optional).** Rows IX, X,
@@ -134,9 +134,8 @@ rows.
   liabilities are both zero is refused as well, as a sign that no account
   reached any row. Accounts that carry more than 100 € and reach no row are
   reported as a warning (*Účty nezachytené v žiadnom riadku výkazu*): it does
-  not block the export but appears on the record (in its chatter, and as a
-  notification where the filing framework shows export warnings), not only
-  in the server log. Account 431 appears there whenever it carries a balance.
+  not block the export but appears on the record as a yellow banner at the top
+  of the form and in its chatter, not only in the server log. Account 431 appears there whenever it carries a balance.
 
 The date of compilation in the header is the day of the export. The signature
 record is not part of the file.

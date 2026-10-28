@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/account_payment_kb_best/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>Platební soubory KB BEST</h1>
 <p class="cssk-summary">Tuzemské úhrady, inkasa a zahraniční platby / platby SEPA z účtu u Komerční banky exportované ve formátu BEST z platebního příkazu OCA.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.1.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_kb_best_base/static/description/index_cs.html"><code>account_kb_best_base</code></a>, <code>base_iban</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.2.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_kb_best_base/static/description/index_cs.html"><code>account_kb_best_base</code></a>, <code>base_iban</code></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p><strong>BEST</strong> je vlastní klientský formát Komerční banky s pevnou délkou záznamů
@@ -148,6 +148,12 @@ tento modul i
 Vlastní obrazovku nemá.</p>
 <h2 id="limitations">Omezení</h2>
 <ul>
+<li>Dobropis seskupený s fakturou v platebním příkazu (volba způsobu platby
+  <em>Group Transactions in Payment Orders</em>) se zapíše jako <strong>jedna položka
+  v čisté částce</strong> — té, kterou příkaz zaúčtuje jako platbu. Nese variabilní
+  symbol faktury; započte-li se jeden dobropis proti více fakturám, symboly se
+  liší a neodejde žádný. Skupiny bez dobropisu mají dál jednu položku za
+  fakturu. Bez seskupení se řádek dobropisu odmítne.</li>
 <li>Jen z účtu u KB; je to vlastní formát KB.</li>
 <li>Jen platební příkazy Community — varianta pro hromadné platby Enterprise
   tohoto modulu neexistuje.</li>
@@ -160,7 +166,7 @@ Vlastní obrazovku nemá.</p>
 <li>Formát XML pro platby SEPA u KB řeší samostatný modul
   <a href="/account_payment_kb_sepa/static/description/index_cs.html"><code>account_payment_kb_sepa</code></a>.</li>
 </ul>
-<footer><p>Text ověřen vůči verzi modulu: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text ověřen vůči verzi modulu: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

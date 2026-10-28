@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k DPH CZ/SK — spoločný základ
 summary: Obrazovky a postup, na ktorých stojí slovenské aj české daňové priznanie k DPH — výpočet riadkov z daňových značiek, kontrola voči účtovným zápisom, export úradného XML a uchovanie podanej verzie.
-verified: 19.0.1.11.0
+verified: 19.0.1.11.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -187,6 +187,9 @@ ani podať. Jediná akcia, **Porovnať s vypočítaným**, prepočíta obdobie z
 účtovníctva a zaznamená rozdiely v *Účtovníctvo → Výkazy → Zákonné výkazy →
 Podané vs vypočítané*. Ak treba také obdobie opraviť, založte z neho dodatočné
 priznanie; to je už bežné priznanie.
+
+**Upozornenia exportu.** Kontroly, ktoré export nezastavia, sa zobrazia v
+žltom pruhu navrchu formulára a v chatteri až do ďalšieho exportu.
 
 ## Obmedzenia {#limitations}
 

@@ -33,6 +33,7 @@ from datetime import date
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+from odoo.addons.l10n_cssk_core.tools import split_street
 from odoo.addons.l10n_cssk_payroll_declaration_base.rule_codes import sum_concept
 
 # The rule codes carrying the income-tax advance differ per engine (Enterprise
@@ -176,6 +177,9 @@ class L10nSkPrehlad(models.Model):
         if banks:
             iban = (banks[0].acc_number or "").replace(" ", "")[:34]
 
+        # The house number is split off the street (l10n_cssk_core), never
+        # Street 2 — a building, a floor or a c/o line.
+        ulica, cislo = split_street(company)
         prehlad = {
             "dic": self._company_dic(company),
             # Riadny and opravný are mutually exclusive flags in the FS wire
@@ -189,8 +193,8 @@ class L10nSkPrehlad(models.Model):
             "nazov": (company.name or "")[:255],
             "pravna_forma": self._company_legal_form(company),
             # sídlo
-            "ulica": (company.street or "")[:255],
-            "cislo": (company.street2 or "")[:20],
+            "ulica": ulica[:255],
+            "cislo": cislo[:20],
             "psc": self._digits(company.zip)[:5],
             "obec": (company.city or "")[:255],
             "stat": (company.country_id.code or "SK"),

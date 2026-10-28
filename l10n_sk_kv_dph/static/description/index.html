@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_kv_dph/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK VAT Control Statement (KV DPH)</h1>
 <p class="cssk-summary">The Slovak kontrolný výkaz DPH — sections A.1 to D.2 computed from the books, checked against the form&#x27;s requirements and exported as the Finančná správa XML in the form version in force for the period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.5.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a>, <a href="/l10n_sk_kv_dph_pos/static/description/index.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Slovak VAT payer files a <strong>kontrolný výkaz DPH</strong> (VAT control statement)
@@ -180,7 +180,9 @@ automatically.</p>
   section override</strong> (block <em>VAT control statement</em>) to <code>D.1</code>. Every VAT line
   of that journal is then reported as eKasa turnover in D.1 instead of D.2.
   Invoices issued to businesses should go through an ordinary sales journal,
-  so that they still reach A.1.</li>
+  so that they still reach A.1. With Odoo Point of Sale, install
+  <a href="/l10n_sk_kv_dph_pos/static/description/index.html"><code>l10n_sk_kv_dph_pos</code></a>: the sales of every
+  POS session go to D.1 without this setting.</li>
 </ul>
 <h2 id="sections">Sections</h2>
 <p>How the module fills each section. A document with several VAT rates gives
@@ -223,7 +225,7 @@ one row per rate.</p>
 </tr>
 <tr>
 <td>D.1</td>
-<td>eKasa turnover: the VAT lines of journals whose control-statement section is set to <code>D.1</code> (see <a href="#setup">Setting it up</a>).</td>
+<td>eKasa turnover: the VAT lines of journals whose control-statement section is set to <code>D.1</code> (see <a href="#setup">Setting it up</a>), and POS sessions with <a href="/l10n_sk_kv_dph_pos/static/description/index.html"><code>l10n_sk_kv_dph_pos</code></a>. Filed as the turnover including VAT (<em>SumaObratov</em>) and the base and tax at the basic rate (20 % and more) and at the reduced rates; an override corrects these five columns.</td>
 </tr>
 <tr>
 <td>D.2</td>
@@ -284,9 +286,12 @@ Prepare and export the statement as in the
 the period (year and month, or year and quarter).</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li><strong>D.1 (eKasa) is not derived from the documents.</strong> Only journals set to
-  <code>D.1</code> report there; any other point-of-sale or cash-register sale without
-  an identified business customer is reported in <strong>D.2</strong>.</li>
+<li><strong>D.1 (eKasa) is not derived from ordinary documents.</strong> Journals set to
+  <code>D.1</code> and, with <a href="/l10n_sk_kv_dph_pos/static/description/index.html"><code>l10n_sk_kv_dph_pos</code></a>, POS
+  sessions report there; any other cash-register sale without an identified
+  business customer is reported in <strong>D.2</strong>. Whether D.1's Z / D / ZZn / DZn
+  should carry the rate split or zeros on the forms from 2021 (whose poučenie
+  asks only for the turnover) is still to be confirmed by an accountant.</li>
 <li><strong>Debit notes</strong> reach C.1 / C.2 only when linked to the invoice they
   correct (the <em>Debit Note</em> button). One raised as a plain invoice is still
   reported in A.1 / B.2.</li>
@@ -306,7 +311,7 @@ the period (year and month, or year and quarter).</p>
   particular still need confirmation by a Slovak accountant. Review each
   statement before filing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.2.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.2.5.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

@@ -29,12 +29,12 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_fs/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>CZ účetní výkazy (rozvaha / VZZ)</h1>
 <p class="cssk-summary">Česká rozvaha, výkaz zisku a ztráty, přehled o peněžních tocích a přehled o změnách vlastního kapitálu sestavené z účetnictví a připravené k podání s přiznáním k dani z příjmů právnických osob.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.1.2</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_fs_base/static/description/index_cs.html"><code>l10n_cssk_fs_base</code></a>, <code>l10n_cz</code></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_dppo/static/description/index_cs.html"><code>l10n_cz_dppo</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.2.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_fs_base/static/description/index_cs.html"><code>l10n_cssk_fs_base</code></a>, <code>l10n_cz</code></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_dppo/static/description/index_cs.html"><code>l10n_cz_dppo</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Česká národní vrstva účetních výkazů popsaných v
-<a href="/l10n_cssk_fs_base/static/description/index_cs.html"><code>l10n_cssk_fs_base</code></a>. Instaluje čtyři verze
-výkazů platné od 1. 1. 2025:</p>
+<a href="/l10n_cssk_fs_base/static/description/index_cs.html"><code>l10n_cssk_fs_base</code></a>. Instaluje šest verzí
+výkazů platných od 1. 1. 2025:</p>
 <table>
 <thead>
 <tr>
@@ -44,12 +44,20 @@ výkazů platné od 1. 1. 2025:</p>
 </thead>
 <tbody>
 <tr>
-<td>Rozvaha 2025</td>
-<td>rozvaha; aktiva v brutto / korekce / netto</td>
+<td>Rozvaha 2025 (plný rozsah)</td>
+<td>rozvaha v plném rozsahu; aktiva v brutto / korekce / netto</td>
 </tr>
 <tr>
-<td>Výkaz zisku a ztráty 2025</td>
-<td>výkaz zisku a ztráty v druhovém členění</td>
+<td>Rozvaha 2025 (zkrácený rozsah)</td>
+<td>rozvaha ve zkráceném rozsahu</td>
+</tr>
+<tr>
+<td>Výkaz zisku a ztráty 2025 (plný rozsah)</td>
+<td>výkaz zisku a ztráty v druhovém členění, plný rozsah</td>
+</tr>
+<tr>
+<td>Výkaz zisku a ztráty 2025 (zkrácený rozsah)</td>
+<td>totéž ve zkráceném rozsahu</td>
 </tr>
 <tr>
 <td>Přehled o peněžních tocích 2025</td>
@@ -102,24 +110,91 @@ zvláštního nevyžaduje. Pro export jsou potřeba dvě pole společnosti:</p>
 <li><em>Finanční úřad</em> — vyžaduje se navíc, je-li nainstalován český modul pro
   podání (<a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a>).</li>
 </ul>
+<p><strong>Štítky účtů pro výkaz zisku a ztráty v plném rozsahu.</strong> Několik položek
+plného rozsahu nelze rozlišit číslem účtu, proto čtou štítek účtu
+(<em>Účetnictví → Konfigurace → Účtová osnova</em>, pole <em>Štítky</em>). Pro daný tok
+založte analytický účet a dejte mu štítek:</p>
+<table>
+<thead>
+<tr>
+<th>Štítek</th>
+<th>Položka</th>
+<th>Účet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VZZ IV.1</td>
+<td>výnosy z podílů – ovládaná nebo ovládající osoba</td>
+<td>665…</td>
+</tr>
+<tr>
+<td>VZZ V.1 / V.2</td>
+<td>výnosy z ostatního dlouhodobého finančního majetku (dluhopisy, zápůjčky) – ovládaná osoba / ostatní</td>
+<td>665…</td>
+</tr>
+<tr>
+<td>VZZ VI.1</td>
+<td>výnosové úroky – ovládaná nebo ovládající osoba</td>
+<td>662…, 666…</td>
+</tr>
+<tr>
+<td>VZZ J.1</td>
+<td>nákladové úroky – ovládaná nebo ovládající osoba</td>
+<td>562…</td>
+</tr>
+<tr>
+<td>VZZ E.1.2</td>
+<td>úpravy hodnot dlouhodobého nehmotného a hmotného majetku – dočasné</td>
+<td>559…</td>
+</tr>
+<tr>
+<td>VZZ E.2</td>
+<td>úpravy hodnot zásob</td>
+<td>559…</td>
+</tr>
+</tbody>
+</table>
+<p>Částky bez štítku jdou do IV.2, VI.2, J.2 a E.3 (účet 558, zákonné opravné
+položky, které zákon připouští jen k pohledávkám, je vždy E.3), takže
+jednotka bez takových toků nic nastavovat nemusí. Účet smí nést jen jeden z
+těchto štítků.</p>
 <h2 id="usage">Příprava výkazů</h2>
 <p><em>Účetnictví → Výkazy → Zákonné výkazy → Rozvaha</em> (nebo <em>Výkaz zisku a
 ztráty</em>, <em>Přehled o peněžních tocích</em>, <em>Přehled o změnách vlastního
 kapitálu</em>), <em>Nový</em>. Pro období od roku 2025 se předvyplní příslušná verze
-2025. Klikněte na <strong>Vypočítat</strong> a strom zkontrolujte podle
+2025 — u rozvahy a výkazu zisku a ztráty <strong>plný rozsah</strong>, který smí použít
+každá jednotka a který každá obchodní společnost musí použít pro výkaz zisku
+a ztráty. Pro zkrácený rozsah vyberte před výpočtem v poli <em>Verze</em> verzi
+<em>(zkrácený rozsah)</em>. Klikněte na <strong>Vypočítat</strong> a strom zkontrolujte podle
 <a href="/l10n_cssk_fs_base/static/description/index_cs.html#review">příručky mechanismu</a>.</p>
 <p><strong>Co obsahují řádky:</strong></p>
 <ul>
-<li><strong>Rozvaha.</strong> Položky označené písmeny a římskými číslicemi: v aktivech A.,
+<li><strong>Rozvaha v plném rozsahu.</strong> Všechny položky přílohy č. 1 v jejím pořadí
+  až po B.I.2.1. Software nebo C.II.2.4.3. Stát – daňové pohledávky. Několik
+  účtů se vykazuje na straně, kterou určí jejich vlastní zůstatek: přečerpaný
+  bankovní účet (221) v C.II.2. Závazky k úvěrovým institucím, debetní
+  zůstatek 336 nebo 341–347 v C.II.2.4.2 / C.II.2.4.3, kreditní zůstatek 373
+  v C.II.8.7, odložená daňová pohledávka (debetní 481) v C.II.1.4. Osnova
+  nemá účty dlouhodobých pohledávek, proto jsou položky C.II.1. kromě
+  C.II.1.4 — a C.I.4., C.I.9.1., C.I.9.2. a vyměnitelné dluhopisy — <em>ruční</em>
+  řádky: nulové, dokud nad ně nezadáte částku (o tutéž částku pak snižte
+  krátkodobou položku).</li>
+<li><strong>Rozvaha ve zkráceném rozsahu.</strong> Položky označené písmeny a římskými
+  číslicemi: v aktivech A.,
   B.I.–B.III., C.I.–C.IV., D., v pasivech A.I.–A.VI., B., C.I., C.II., D.
-  Aktiva mají <em>Brutto</em> a <em>Korekci</em> (oprávky a opravné položky). Časové
+  V obou rozsazích mají aktiva <em>Brutto</em> a <em>Korekci</em> (oprávky a opravné položky). Časové
   rozlišení se vykazuje v položkách D. Časové rozlišení aktiv / pasiv.
   <strong>A.V. Výsledek hospodaření běžného účetního období</strong> je pohyb účtových
   tříd 5 a 6 za období — tatáž částka jako výsledek ve výkazu zisku a
   ztráty —, takže rozvaha je vyrovnaná ještě před převodem výsledku na 431.</li>
-<li><strong>Výkaz zisku a ztráty.</strong> Položky označené písmeny a římskými číslicemi s
-  částí podpoložek (A.1–A.3, D.1–D.2, III.1–III.3, F.1–F.5, L.1–L.2),
-  výpočtové položky a <em>Čistý obrat za účetní období</em>.</li>
+<li><strong>Výkaz zisku a ztráty v plném rozsahu.</strong> Všechny položky přílohy č. 2
+  včetně D.2.1–D.2.2 (524–526 / 527–528), E.1.1 (551, 557) a položek čtených
+  ze štítků účtů popsaných v <a href="#setup">Nastavení</a>.</li>
+<li><strong>Výkaz zisku a ztráty ve zkráceném rozsahu.</strong> Položky označené písmeny a
+  římskými číslicemi s částí podpoložek (A.1–A.3, D.1–D.2, III.1–III.3,
+  F.1–F.5, L.1–L.2), výpočtové položky a <em>Čistý obrat za účetní období</em>. Účet
+  665 se vykazuje celý v položce IV.</li>
 <li><strong>Přehled o peněžních tocích.</strong> Každý nepeněžní účet patří do provozní (A),
   investiční (B) nebo finanční (C) činnosti, takže A + B + C se rovná změně
   peněžních prostředků mezi <em>P.</em> (začátek) a <em>R.</em> (konec); řádek
@@ -132,7 +207,8 @@ kapitálu</em>), <em>Nový</em>. Pro období od roku 2025 se předvyplní přís
 <ul>
 <li><strong>S přiznáním k dani z příjmů právnických osob.</strong> Vypočtenou rozvahu a
   výkaz zisku a ztráty připojte k přiznání v
-  <a href="/l10n_cz_dppo/static/description/index_cs.html"><code>l10n_cz_dppo</code></a>; podá je jako výkazy přiznání.</li>
+  <a href="/l10n_cz_dppo/static/description/index_cs.html"><code>l10n_cz_dppo</code></a>; podá je jako výkazy přiznání v
+  rozsahu připojených výkazů. Oba musí být ve stejném rozsahu.</li>
 <li><strong>Exportovat XML</strong> u výkazu vytvoří strukturovaný soubor ve vlastním
   formátu modulu. Pro samotné české účetní výkazy žádné oficiální schéma
   neexistuje, verze to uvádějí a soubor se exportuje bez ověření XSD. Není
@@ -142,21 +218,29 @@ kapitálu</em>), <em>Nový</em>. Pro období od roku 2025 se předvyplní přís
 </ul>
 <h2 id="limitations">Omezení</h2>
 <ul>
-<li><strong>Rozsah.</strong> Rozvaha pokrývá položky zkráceného rozsahu; výkaz zisku a
-  ztráty není ani plný, ani přesně zkrácený rozsah: chybí položka <strong>V. Výnosy
-  z ostatního dlouhodobého finančního majetku</strong> (účet 665 se vykazuje v
-  položce IV.) a podpoložky D.2.1–D.2.2, E.1–E.3, IV.1–IV.2, V.1–V.2,
-  VI.1–VI.2 a J.1–J.2. Obchodní společnost nebo jednotka povinná podávat plný
-  rozsah musí chybějící položky doplnit mimo Odoo.</li>
+<li><strong>Jen umístění časového rozlišení v D.</strong> Vyhláška dovoluje vykázat časové
+  rozlišení buď v C.II.3. / C.III., nebo v D. (<a href="https://e-sbirka.gov.cz/sb/2002/500">§ 3 odst. 3 a
+  4</a>); oba rozsahy používají D.</li>
+<li><strong>Zkrácená a plná verze se liší u několika účtů.</strong> Zkrácená rozvaha
+  vykazuje 491 v A.IV. (plná v A.I.1, jak říká § 14 vyhlášky) a účty 221,
+  336, 341–347, 373 a 481 netto jen na jedné straně. Součty sedí; kde na
+  těchto účtech záleží, použijte plný rozsah.</li>
+<li><strong>Rozsah pro mikro účetní jednotky</strong> (jen položky označené písmeny) není k
+  dispozici; mikro jednotka může použít zkrácený rozsah.</li>
 <li><strong>Výsledky minulých let se do A.IV. musí dostat zápisy v účetnictví.</strong>
-  A.IV. čte účty 426, 428, 429, 431 a 491. Pokud předchozí rok nebyl uzavřen
+  A.IV. čte účty 426, 428, 429 a 431 (ve zkráceném rozsahu i 491). Pokud předchozí rok nebyl uzavřen
   — jeho výsledek nebyl převeden na 431 účetní závěrkou a otevřením účetních
   knih —, není tento výsledek na žádném řádku a <strong>AKTIVA a PASIVA se liší
   právě o tuto částku</strong>. Zaúčtujte za ten rok uzavření a otevření (nebo
   převod na 431), řádek neupravujte. Do verze 19.0.1.1.1 četla A.V.
   kumulativní zůstatek tříd 5 a 6, a součty tak seděly jen proto, že
   výsledky minulých let skončily v A.V.</li>
-<li>C.II. Pohledávky nejsou rozděleny na dlouhodobé a krátkodobé.</li>
+<li>C.II. Pohledávky nejsou z účetnictví rozděleny na dlouhodobé a krátkodobé
+  (osnova pro to nemá účty); dlouhodobé částky zadejte nad ruční řádky
+  C.II.1. plného rozsahu.</li>
+<li>Souhrnné opravné položky 091, 092, 095, 096 a 391 se vykazují u B.I.4,
+  B.II.4.3, B.II.5.1, B.III.5 a C.II.2.1. Pokud se některá vztahuje k jiné
+  položce, proberte vykázání s účetním.</li>
 <li>Výkazy lze založit až od roku 2025; starší verze neexistuje.</li>
 <li>Podrozvahové účty třídy 7 do žádného výkazu nepatří; pokud mají zůstatek,
   mohou se objevit v <em>Nepřiřazené účty</em> a tam je lze ignorovat.</li>
@@ -164,7 +248,7 @@ kapitálu</em>), <em>Nový</em>. Pro období od roku 2025 se předvyplní přís
   odsouhlasit s účetním, zejména rozdělení pohledávek a závazků a přiřazení
   opravných položek.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

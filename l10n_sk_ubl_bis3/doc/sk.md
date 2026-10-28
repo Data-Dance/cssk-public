@@ -1,7 +1,7 @@
 ---
 title: Slovensko — Peppol BIS Billing 3.0 (eFaktúra)
 summary: Vyhotovuje slovenské elektronické faktúry vo formáte Peppol BIS Billing 3.0, identifikuje slovenské subjekty v sieti Peppol podľa DIČ a zapisuje variabilný symbol tam, kde ho hľadá banka platiteľa.
-verified: 19.0.3.3.1
+verified: 19.0.3.4.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -87,12 +87,14 @@ IČ DPH začínajúcim na SK):
 |---|---|
 | Nový, s DIČ | **0245** : DIČ — aj spoločnosť založená vo formulári spoločnosti s vyplneným DIČ |
 | Nový, bez DIČ | to, čo vypočíta Odoo — pri platiteľovi DPH 9950 : IČ DPH — kým sa DIČ nevyplní; export sa medzitým odmieta |
+| Na 9950, keď sa mu prvýkrát vyplní DIČ | **presunie sa na 0245 : DIČ** pri uložení DIČ, ak jeho koncový bod nebol zadaný ručne |
 | Už na 0245 | koncový bod nasleduje DIČ, keď ho zmeníte |
-| Už na 9950 alebo inej skôr zvolenej schéme | **bez zmeny** — modul neprepíše schému, ktorú mohol niekto zvoliť zámerne |
+| Na 9950 alebo inej schéme zvolenej, keď už DIČ bolo vyplnené | **bez zmeny** — modul neprepíše schému, ktorú mohol niekto zvoliť zámerne |
 
-Posledný riadok je dôležitý pre kontakty, ktoré existovali skôr, než sa im
-vyplnilo DIČ: zostanú na 9950 aj po vyplnení DIČ, a keďže DIČ už majú,
-export ich nezastaví. Ich presun je zámerný a opakovateľný krok: v
+Kým kontakt nemá DIČ, schéma 0245 nie je možná, takže jeho 9950 je to, na čo
+Odoo prešlo, nie voľba: vyplnenie DIČ — ručne alebo z registra — ho presunie.
+DIČ zapísané mimo formulára (import priamo do databázy, staršia verzia modulu)
+ho nepresunie a pre také kontakty je presun zámerný a opakovateľný krok: v
 *Kontaktoch* (v zozname alebo vo formulári) označte kontakty a zvoľte
 *Actions → Peppol: použiť 0245 + DIČ*. Akcia je dostupná správcom
 účtovníctva (*Účtovníctvo / Administrátor*). Presunie každý označený
@@ -133,9 +135,6 @@ schémou prejde, ak má DIČ vyplnené.
 
 - Modul vytvára len súbor. Prenos cez Peppol a oznamovanie údajov z faktúr
   Finančnej správe zabezpečuje prístupový bod.
-- Kontakty, ktoré boli na 9950 pred vyplnením DIČ, tam zostanú, kým na nich
-  niekto nespustí *Peppol: použiť 0245 + DIČ*; neskoršie vyplnenie DIČ ho
-  nespustí automaticky.
 - Nerozhoduje, ktoré faktúry treba podľa § 85o poslať elektronicky; formát
   ponúka pre každý slovenský kontakt.
 - Pri odinštalovaní sa formát z kontaktov odstráni; ich adresy Peppol

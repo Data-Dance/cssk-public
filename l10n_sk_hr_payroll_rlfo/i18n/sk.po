@@ -105,6 +105,16 @@ msgstr ""
 "pre element <identifikator> výkazu RLFO."
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid "Correction Reference"
+msgstr "Referencia opravy"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__country_id
 msgid "Country"
 msgstr "Krajina"
@@ -125,6 +135,11 @@ msgstr "Vytvorené dňa"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__currency_id
 msgid "Currency"
 msgstr "Mena"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__active_submission_id
+msgid "Current submission"
+msgstr "Aktuálne doručenie"
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__date_from
@@ -161,6 +176,11 @@ msgstr "Odhláška"
 msgid ""
 "De-registration for '%(name)s' needs both the insurance start and end dates."
 msgstr "Odhláška pre '%(name)s' vyžaduje dátum vzniku aj zániku poistenia."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_state
+msgid "Delivery"
+msgstr "Doručenie"
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__display_name
@@ -278,6 +298,11 @@ msgid "Insurance start (datVznikPoist)"
 msgstr "Vznik poistenia (datVznikPoist)"
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_is_follower
 msgid "Is Follower"
 msgstr "Je odberateľ"
@@ -323,6 +348,11 @@ msgstr "Termín mojej aktivity"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__name
 msgid "Name"
 msgstr "Názov"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Kalendár ďalších aktivít eventu"
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_date_deadline
@@ -416,6 +446,11 @@ msgid "Relationship type (typZec)"
 msgstr "Typ vzťahu (typZec)"
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
 msgid "Reset the declaration to draft before regenerating it."
@@ -491,9 +526,28 @@ msgid "Submission Reference"
 msgstr "Referencia podania"
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_ids
+msgid "Submissions"
+msgstr "Podania"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submitted_date
 msgid "Submitted Date"
 msgstr "Dátum odoslania"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pre všetko, čo opravuje skoršie podanie."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Referencia úradu na opravované podanie, ak ju prijímajúci systém potrebuje "
+"na spárovanie oboch."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_exception_decoration
@@ -514,6 +568,16 @@ msgstr "Správy webstránok"
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__website_message_ids
 msgid "Website communication history"
 msgstr "História komunikácie webstránok"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Či ide o riadne podanie za obdobie alebo o opravu už odoslaného. Voľby sú "
+"obmedzené na to, čo tento konkrétny úrad prijíma."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__xml_attachment_id
@@ -569,31 +633,3 @@ msgstr "ZECN — zamestnanec, nepravidelný príjem"
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.rlfo_xml
 msgid "false"
 msgstr "false"
-
-#. module: l10n_sk_hr_payroll_rlfo
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_res_company__l10n_sk_sp_vs
-msgid ""
-"10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the employer identifier (<variabilnySymbol>) of the RLFO / RLZEC"
-" registration batch."
-msgstr ""
-"10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
-"poisťovňou — identifikátor zamestnávateľa (<variabilnySymbol>) "
-"registračnej dávky RLFO / RLZEC."
-
-#. module: l10n_sk_hr_payroll_rlfo
-#: model:ir.module.module,summary:base.module_l10n_sk_hr_payroll_rlfo
-msgid ""
-"Slovak social-insurance registration of employees (RLFO / RLZEC) filed to "
-"the Sociálna poisťovňa — prihláška / odhláška events built from the employee"
-" + hr.version lifecycle, XML validated against RLZEC-v2026.xsd."
-msgstr ""
-"Registrácia zamestnancov do sociálneho poistenia (RLFO / RLZEC) "
-"podávaná Sociálnej poisťovni — udalosti prihláška / odhláška "
-"zostavené zo životného cyklu zamestnanca a hr.version, XML "
-"validované voči RLZEC-v2026.xsd."
-
-#. module: l10n_sk_hr_payroll_rlfo
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_hr_payroll_rlfo
-msgid "Slovakia — RLFO (Registračný list FO)"
-msgstr "Slovensko — RLFO (Registračný list FO)"

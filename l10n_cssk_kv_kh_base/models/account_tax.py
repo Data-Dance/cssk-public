@@ -5,11 +5,6 @@ from odoo.tools import float_is_zero
 class AccountTax(models.Model):
     _inherit = "account.tax"
 
-    cssk_control_section_default = fields.Char(
-        string="Control-statement section",
-        help="Default control-statement section code for lines using this tax. "
-        "Used by the section resolver as a starting hint.",
-    )
     cssk_control_is_reverse_charge = fields.Boolean(
         string="Reverse charge",
         help="Marks this tax as triggering reverse-charge classification "

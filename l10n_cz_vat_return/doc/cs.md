@@ -1,7 +1,7 @@
 ---
 title: CZ Přiznání k DPH (DPHDP3)
 summary: České přiznání k DPH vypočtené z daňových štítků české účtové osnovy Odoo a exportované jako XML DPHDP3 pro EPO, pro každé období ověřené proti aktuálnímu úřednímu XSD.
-verified: 19.0.1.11.0
+verified: 19.0.1.12.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -65,8 +65,12 @@ tohoto záznamu odchýlí. Nabízí se pro období od **1. 1. 2016**; toto
 datum je opatrná hranice zvolená modulem, ne zákonná, a pro dřívější období
 verze není.
 
-Částky se exportují v celých korunách. Datum podání v XML (*d_poddp*) je den
-exportu.
+Částky se exportují v celých korunách: daň (daň na výstupu, odpočet a řádky
+62–66) zaokrouhlená **nahoru** na celé koruny, jak říká § 146 odst. 1
+daňového řádu („Daň se zaokrouhluje na celé koruny nahoru“); základ nebo
+hodnota na nejbližší celou korunu, polovina nahoru; koeficienty řádků 52 a
+53 nahoru na celé procento (§ 76 odst. 3 ZDPH). Datum podání v XML
+(*d_poddp*) je den exportu.
 
 ## Nastavení {#setup}
 
@@ -107,7 +111,7 @@ souhlasily):
 | 63 | řádek 46 *v plné výši* + řádek 52 + řádek 53 + řádek 60 |
 | 64 | řádek 62 − řádek 63, je-li kladný (vlastní daň) |
 | 65 | řádek 63 − řádek 62, je-li kladný (nadměrný odpočet) |
-| 66 | řádek 62 − řádek 63, jen u dodatečného přiznání |
+| 66 | (řádek 62 − řádek 63) minus totéž u opravovaného přiznání, jen u dodatečného přiznání |
 
 **Přepis** na kterémkoli z nich zůstane zachován a promítne se do dalších
 řádků. Řádky 64 a 65 se do XML dodatečného přiznání nezapisují, řádek 66 do
@@ -131,7 +135,17 @@ a převod nadměrného odpočtu).
 **Obsahové kontroly při exportu**: řádky 64 a 65 nesmějí být záporné a
 nesmějí být vyplněny oba.
 
-**Dodatečné přiznání** (typ D a E) nelze exportovat bez pole **Důvody
+**Dodatečné přiznání** (typ D a E) se vytváří tlačítkem **Amended /
+corrective** na podaném přiznání a uvádí jen **rozdíly** proti němu: „V
+dodatečném přiznání se uvádí pouze rozdíly od údajů, ze kterých byla
+stanovena poslední známá daň“ (pokyny k přiznání). Řádky na obrazovce
+ponechávají plné údaje období — od nich se liší další dodatečné přiznání — a
+XML uvádí každý řádek minus týž řádek opravovaného přiznání; koeficienty
+řádků 52 a 53 se uvádějí tak, jak jsou. Dodatečné/opravné přiznání (E)
+vytvořené z dodatečného ho nahrazuje, takže se liší od toho, co opravovalo
+ono dodatečné. Bez opravovaného přiznání export odmítne.
+
+Nelze ho ani exportovat bez pole **Důvody
 zjištěny dne** (*d_zjist*), které se zobrazí vedle typu výkazu. Je to totéž
 datum jako *Den zjištění rozdílu* společného základu (jedno pole, zobrazené
 jednou pod českým názvem), takže přiznání vytvořené tlačítkem ho už nese.
@@ -199,8 +213,9 @@ mezi nimi její data nevylučují.
 - Obsahové kontroly pokrývají jen řádky 64 a 65; schéma nepozná, zda jsou
   ostatní údaje navzájem konzistentní.
 - Pro období před rokem 2016 verze není.
-- U dodatečného přiznání jsou řádky přepočtené údaje období a řádek 66 je
-  řádek 62 − řádek 63 tohoto přiznání; s opravovaným přiznáním se nesrovnává.
+- Dodatečné přiznání se liší od přiznání, ze kterého bylo vytvořeno.
+  Vytvořte ho z posledního přiznání podaného za období, aby to byla poslední
+  známá daň.
 - Záznam v `data/SCHEMA_VERSION` dokládá, že přiložené schéma je to, které
   bylo ověřeno k uvedenému dni, ne že je stále aktuální; aktualizujte ho
   postupem popsaným v tomto souboru.

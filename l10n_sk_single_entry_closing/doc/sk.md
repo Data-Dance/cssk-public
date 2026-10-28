@@ -1,7 +1,7 @@
 ---
 title: SK účtovná závierka v jednoduchom účtovníctve (Úč FO)
 summary: Účtovná závierka SZČO v jednoduchom účtovníctve — výkaz o príjmoch a výdavkoch z peňažného denníka a výkaz o majetku a záväzkoch z účtovníctva, exportované ako oficiálny súbor UZFOv14.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}

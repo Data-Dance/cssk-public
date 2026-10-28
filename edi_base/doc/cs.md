@@ -1,7 +1,7 @@
 ---
 title: EDI — základ
 summary: Společný základ každého připojení EDI a Peppol — evidence EDI zpráv, jejich stavy, odesílání a příjem a nastavení partnerů, která sdílejí všichni poskytovatelé.
-verified: 19.0.1.9.0
+verified: 19.0.1.9.1
 ---
 
 ## K čemu slouží {#purpose}

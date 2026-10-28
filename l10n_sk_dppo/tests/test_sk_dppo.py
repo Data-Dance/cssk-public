@@ -1248,6 +1248,16 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
                         % (suffix, tag))
             self.assertTrue(body.findtext("datumVyhlasenia"), suffix)
 
+    def test_a_village_number_is_the_cislo(self):
+        """``č. p. 45`` (a village without streets) is a house number with no
+        street name, read by l10n_cssk_core's shared helper; it went out whole
+        as the ulica."""
+        suffix, _schema, first, _last = self.VINTAGES[-1]
+        ret = self._return_for(suffix, first)
+        self.company.partner_id.write({"street": "č. p. 45", "street2": ""})
+        head = ret._l10n_sk_dppo_header()
+        self.assertEqual((head["ulica"], head["cislo"]), ("", "45"))
+
     def test_the_2025_vzor_files_against_the_revision(self):
         """dppo2025_v2.xsd, not dppo2025.xsd.
 

@@ -30,6 +30,8 @@ kind of thing that surfaces during a daňová kontrola, which is far too late.
 import logging
 from datetime import timedelta
 
+from psycopg2 import errors as pg_errors
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -322,10 +324,40 @@ class CsskSubmission(models.Model):
         for rec in self:
             if rec.state not in ("queued", "sending"):
                 continue
-            rec._attempt_send()
+            # Raise only for a single submission: nothing has been sent in
+            # this transaction then. In a batch, an error after the first
+            # filing would roll back the record of filings already made.
+            if rec._attempt_send() is False and len(self) == 1:
+                raise UserError(_(
+                    "%(name)s is being sent right now by another process "
+                    "(the scheduled sender or another user). Reload it in a "
+                    "moment to see the outcome.", name=rec.display_name))
+        return True
+
+    def _lock_for_send(self):
+        """Take this submission's row for the duration of the transaction.
+
+        "Send now" and the scheduled sender run in different transactions,
+        and each used to read the row as ``queued`` and go on to file it, so
+        the return could reach the authority twice. Whoever locks the row
+        first sends; the other gets ``False`` and leaves it alone. A row that
+        another transaction has already changed and committed (a
+        serialization failure under REPEATABLE READ) is treated the same way:
+        it is no longer the row this transaction read.
+        """
+        self.ensure_one()
+        try:
+            with self.env.cr.savepoint(flush=False):
+                self.env.cr.execute(
+                    "SELECT id FROM cssk_submission WHERE id = %s FOR UPDATE NOWAIT",
+                    [self.id], log_exceptions=False)
+        except (pg_errors.LockNotAvailable, pg_errors.SerializationFailure):
+            return False
         return True
 
     def _attempt_send(self):
+        """Send once. Returns ``False`` when another transaction holds the
+        submission (it is being sent there), ``None`` otherwise."""
         self.ensure_one()
         method = self._channel_method("send")
         if not method:
@@ -333,6 +365,10 @@ class CsskSubmission(models.Model):
                 "Channel %(channel)s has no sender installed.",
                 channel=self.channel,
             ))
+        if not self._lock_for_send():
+            _logger.info("cssk.submission %s: locked by another transaction, "
+                         "not sending it here", self.id)
+            return False
         self.write({"state": "sending",
                     "attempt_count": self.attempt_count + 1})
         try:

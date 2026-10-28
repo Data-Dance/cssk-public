@@ -39,6 +39,8 @@ class TestHlasenie(TransactionCase):
             "company_registry": "12345679",
             "l10n_sk_dic": "1234567890",
             "street": "Hlavna 1",
+            # A second address line, never the house number.
+            "street2": "Budova B",
             "city": "Bratislava",
             "zip": "81101",
         })
@@ -132,6 +134,7 @@ class TestHlasenie(TransactionCase):
     def test_full_year_generate_and_validate(self):
         emp1 = self._create_employee("Jozko Mrkvicka", "8501011234", 2000.0)
         emp2 = self._create_employee("Anna Novakova", "9002022345", 1500.0)
+        emp1.write({"private_street": "Krátka 7/3", "private_street2": "byt 12"})
         t1 = self._year_of_payslips(emp1)
         t2 = self._year_of_payslips(emp2)
 
@@ -164,6 +167,9 @@ class TestHlasenie(TransactionCase):
             root.findtext("hlavicka/zdanovacieObdobie/rok"), str(YEAR))
         self.assertEqual(root.findtext("hlavicka/druhHlasenia/rh"), "1")
         self.assertEqual(root.findtext("hlavicka/pocetZamC5"), "2")
+        # sídlo: the house number split off the street, never Street 2
+        self.assertEqual(root.findtext("hlavicka/sidlo/ulica"), "Hlavna")
+        self.assertEqual(root.findtext("hlavicka/sidlo/cislo"), "1")
 
         # aggregate Časť I: r00 = Σ gross, r01 = r04 = Σ withheld advance
         self.assertAlmostEqual(
@@ -182,6 +188,8 @@ class TestHlasenie(TransactionCase):
         by_rc = {c.findtext("c5rodneCislo"): c for c in cols}
         self.assertIn("8501011234", by_rc)
         col1 = by_rc["8501011234"]
+        self.assertEqual(col1.findtext("c5ulica"), "Krátka")
+        self.assertEqual(col1.findtext("c5cislo"), "7/3")
         self.assertAlmostEqual(
             float(col1.findtext("c5r3a")),
             abs(round(t1.get("GROSS", 0.0), 2)), 2)

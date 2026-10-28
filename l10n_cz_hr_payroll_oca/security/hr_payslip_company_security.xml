@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        OCA payroll scopes hr.payslip to the user's companies but not the
+        records hanging off a payslip, so payslip lines, inputs and worked
+        days of every company were readable from the Payslip Lines list, a
+        report or an export. Scope them through their payslip, the same way
+        the engine scopes the payslip itself.
+    -->
+    <record id="hr_payslip_line_rule_company" model="ir.rule">
+        <field name="name">Payslip Line: multi-company</field>
+        <field name="model_id" ref="payroll.model_hr_payslip_line"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('slip_id.company_id', '=', False),
+             ('slip_id.company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+    <record id="hr_payslip_input_rule_company" model="ir.rule">
+        <field name="name">Payslip Input: multi-company</field>
+        <field name="model_id" ref="payroll.model_hr_payslip_input"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('payslip_id.company_id', '=', False),
+             ('payslip_id.company_id', 'in', company_ids)]
+        </field>
+    </record>
+
+    <record id="hr_payslip_worked_days_rule_company" model="ir.rule">
+        <field name="name">Payslip Worked Days: multi-company</field>
+        <field name="model_id" ref="payroll.model_hr_payslip_worked_days"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">
+            ['|', ('payslip_id.company_id', '=', False),
+             ('payslip_id.company_id', 'in', company_ids)]
+        </field>
+    </record>
+</odoo>

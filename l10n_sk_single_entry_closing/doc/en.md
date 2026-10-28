@@ -1,7 +1,7 @@
 ---
 title: SK Single-Entry Financial Statements (Úč FO)
 summary: The účtovná závierka of a Slovak self-employed person keeping single-entry books — the výkaz o príjmoch a výdavkoch from the cash journal and the výkaz o majetku a záväzkoch from the ledger, exported as the official UZFOv14 file.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

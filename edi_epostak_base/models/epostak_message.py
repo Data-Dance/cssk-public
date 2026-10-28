@@ -64,6 +64,26 @@ class EdiMessage(models.Model):
                 vals["provider_mode"] = self._default_provider_mode_epostak()
         return super().create(vals_list)
 
+    def _poll_provider(self, provider):
+        """Poll each ePošťák mailbox once, as a company that owns it.
+
+        The connector reads the firm, the credentials and the participant from
+        ``env.company``, so a poll run as whichever company the cron user
+        happens to have would collect that company's documents only — and a
+        second company's never.
+        """
+        if provider != "epostak" or self.env.context.get("epostak_poll_account"):
+            return super()._poll_provider(provider)
+        connector = self.env["epostak.connector"]
+        accounts = {}
+        for company in self.env["res.company"].sudo().search([]):
+            key = connector.with_company(company)._epostak_account_key()
+            if key:
+                accounts.setdefault(key, company)
+        for key, company in accounts.items():
+            self.with_company(company).with_context(
+                epostak_poll_account=key)._poll_provider(provider)
+
     def _epostak_mode(self):
         """The environment this message belongs to, with a safe fallback."""
         self.ensure_one()

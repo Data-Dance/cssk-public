@@ -1,7 +1,7 @@
 ---
 title: SK Corporate Income Tax Return (DPPO)
 summary: The Slovak corporate income tax return — every official form edition since 2013, the accounting result from the books, the tax computation with the rate and minimum tax of the year, and an XML file checked against the Financial Administration's schema.
-verified: 19.0.1.4.6
+verified: 19.0.1.4.7
 ---
 
 ## What it is for {#purpose}

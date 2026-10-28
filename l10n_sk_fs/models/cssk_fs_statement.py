@@ -13,6 +13,8 @@ from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models
 from odoo.tools import float_round
 
+from odoo.addons.l10n_cssk_core.tools import split_street
+
 from .uzpod14_rows import CLAIMED_ANALYTICS
 
 
@@ -137,6 +139,10 @@ class CSSKFsStatement(models.Model):
         prior_from = self.date_from - relativedelta(years=1)
         prior_to = self.date_to - relativedelta(years=1)
         name = company.name or ""
+        # sídlo: the house number split off the street (l10n_cssk_core), the
+        # same reading as every other FS SR form. It used to go out inside
+        # ulica, with cislo always empty.
+        ulica, cislo = split_street(partner)
         return {
             "den": str(self.date_to.day),
             "mesiac": str(self.date_to.month),
@@ -153,7 +159,8 @@ class CSSKFsStatement(models.Model):
             "poznamky": "1" if poznamky else "0",
             # obchMeno / oznObchodReg require exactly 2 <riadok> lines
             "meno": [name[:36], name[36:72]],
-            "ulica": partner.street or "",
+            "ulica": ulica,
+            "cislo": cislo,
             "psc": (partner.zip or "").replace(" ", ""),
             "obec": partner.city or "",
             "register": [getattr(company, "trade_registry", "") or "", ""],

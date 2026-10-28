@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_hr_payroll_health/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>CZ Hlášení zdravotním pojišťovnám (PPPZ, HOZ)</h1>
 <p class="cssk-summary">Dvě hlášení zaměstnavatele zdravotním pojišťovnám — měsíční přehled o platbě pojistného (PPPZ) sečtený z výplatních pásek a hromadné oznámení zaměstnavatele (HOZ) o nástupech a odchodech zaměstnanců — jako XML za každou pojišťovnu.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.1.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_cs.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.1.1</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_cs.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Český zaměstnavatel hlásí <strong>každé zdravotní pojišťovně</strong>, u níž jsou
@@ -78,7 +78,8 @@ i nadále.</p>
   odst. 1 poslední věta) a podává se jen elektronicky (§ 10c).</li>
 </ul>
 <h2 id="setup">Nastavení</h2>
-<p>Na společnosti:</p>
+<p>Na formuláři společnosti, karta <em>Mzdové výkazy</em>, skupina <em>Zdravotní
+pojištění (PPPZ / HOZ)</em>, a v adrese společnosti:</p>
 <table>
 <thead>
 <tr>
@@ -101,17 +102,14 @@ i nadále.</p>
 </tr>
 <tr>
 <td>ulice, obec, PSČ, telefon</td>
-<td>adresa zaměstnavatele (obec a PSČ povinné). Číslo na konci ulice, případně druhý řádek ulice, se bere jako číslo domu.</td>
+<td>adresa zaměstnavatele (obec a PSČ povinné). Číslo domu je číslo na konci ulice; druhý řádek ulice se použije, jen obsahuje-li pouze číslo.</td>
 </tr>
 </tbody>
 </table>
 <p>U zaměstnance: <em>Zdravotní pojišťovna</em> (jedna z 111, 201, 205, 207, 209, 211,
-213), rodné číslo v poli <em>Identifikační č.</em> (pro HOZ), soukromá adresa
-a data smlouvy.</p>
-<p><strong>Žádné z těchto polí není v této verzi na formuláři</strong> — ani pole
-společnosti, ani <em>Zdravotní pojišťovna</em> zaměstnance. Správce je musí vyplnit
-jinak, například importem v seznamu společností a zaměstnanců. Dokud není
-pojišťovna zaměstnance vyplněna, vykazuje se každý zaměstnanec výchozí
+213), na formuláři zaměstnance vedle pole <em>Identifikační č.</em>, rodné číslo
+v poli <em>Identifikační č.</em> (pro HOZ), soukromá adresa a data smlouvy. Dokud
+není pojišťovna zaměstnance vyplněna, vykazuje se zaměstnanec výchozí
 pojišťovně společnosti.</p>
 <h2 id="pppz">Měsíční přehled (PPPZ)</h2>
 <p><em>Mzdová hlášení → CZ PPPZ (zdravotní)</em>, pak <em>Nový</em>.</p>
@@ -119,9 +117,10 @@ pojišťovně společnosti.</p>
 <li>Zvolte <strong>Zdravotní pojišťovnu</strong>, <strong>Rok</strong> a <strong>Měsíc</strong>.</li>
 <li><em>Typ opravy</em> (Correction Type) ponechte na <em>Řádný</em>, nebo pro opravný
    přehled zvolte <em>Opravný</em>. Opravný přehled lze vygenerovat jen tehdy,
-   existuje-li odeslaný přehled téže společnosti za stejný rok a měsíc.</li>
-<li>Klikněte na <strong>Vygenerovat</strong>. Modul vezme výplatní pásky měsíce (období
-   uvnitř měsíce, kromě zrušených) zaměstnanců, kteří k dané pojišťovně
+   existuje-li přehled téže společnosti za stejný rok a měsíc odeslaný téže
+   pojišťovně.</li>
+<li>Klikněte na <strong>Vygenerovat</strong>. Modul vezme potvrzené výplatní pásky měsíce
+   (ty, jejichž období v měsíci končí) zaměstnanců, kteří k dané pojišťovně
    patří, ověří XML a přiloží ho.</li>
 <li>Nahrajte XML na portál pojišťovny a klikněte na <strong>Označit jako
    odeslané</strong>.</li>
@@ -179,13 +178,7 @@ o 9 nebo 10 číslicích nebo bez data, které událost potřebuje.</p>
   platí pojistné i stát, nebo který je z minimálního vyměřovacího základu
   vyňat, nemusí pojistné ÷ 13,5 % odpovídat vyměřovacímu základu. Tyto
   zaměstnance zkontrolujte.</li>
-<li><strong>Opravy napříč pojišťovnami.</strong> Kontrola, že opravný přehled má co
-  opravovat, hledá jakýkoli odeslaný přehled téže společnosti a měsíce
-  <strong>bez ohledu na pojišťovnu</strong>. Ověřte, že původní přehled šel stejné
-  pojišťovně. Pole <em>Reference opravy</em> (Correction Reference) se do XML
-  nezapisuje.</li>
-<li><strong>Započítávají se i koncepty</strong> výplatních pásek; páska, jejíž období
-  přesahuje hranici měsíce, se nezapočte.</li>
+<li>Pole <em>Reference opravy</em> (Correction Reference) se do XML nezapisuje.</li>
 <li><strong>Kódy HOZ.</strong> Jen <em>P</em> a <em>O</em>. Změnu pojišťovny, státního pojištěnce, první
   přihlášení cizinců a opravy modul nezná a zaměstnance bez českého rodného
   čísla oznámit nelze.</li>
@@ -196,7 +189,7 @@ o 9 nebo 10 číslicích nebo bez data, které událost potřebuje.</p>
 <li>Ověření proti schématu kontroluje tvar souboru, ne částky. Žádné hlášení
   z tohoto modulu dosud nebylo potvrzeno ostrým podáním.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/592">Zákon č. 592/1992 Sb., o pojistném na veřejné zdravotní pojištění</a></li><li><a href="https://e-sbirka.gov.cz/sb/1997/48">Zákon č. 48/1997 Sb., o veřejném zdravotním pojištění a o změně a doplnění některých souvisejících zákonů</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/592">Zákon č. 592/1992 Sb., o pojistném na veřejné zdravotní pojištění</a></li><li><a href="https://e-sbirka.gov.cz/sb/1997/48">Zákon č. 48/1997 Sb., o veřejném zdravotním pojištění a o změně a doplnění některých souvisejících zákonů</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

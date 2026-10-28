@@ -1,7 +1,7 @@
 ---
 title: Česká mzdová agenda (OCA)
 summary: Česká měsíční výplatní páska pro aplikaci OCA payroll v Odoo Community — pracovní poměr, DPP a DPČ, s datovanými zákonnými sazbami, nepřítomnostmi a ročním zúčtováním daně.
-verified: 19.0.1.13.0
+verified: 19.0.1.13.1
 family: l10n_cz_hr_payroll_base#engines
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: Czech Base Localization (bank account numbers)
 summary: Shows a Czech IBAN in the domestic form — prefix, account number and bank code — and converts between the two for the modules that need it.
-verified: 19.0.2.0.3
+verified: 19.0.2.0.4
 ---
 
 ## What it is for {#purpose}

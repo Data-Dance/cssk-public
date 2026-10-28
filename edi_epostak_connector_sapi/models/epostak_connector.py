@@ -104,12 +104,16 @@ class EpostakConnectorSapi(models.TransientModel):
 
         Credentials are per-environment on purpose: sandbox keys are rejected
         by the production host by design, so keeping both sets lets a
-        deployment flip environments without re-entering secrets.
+        deployment flip environments without re-entering secrets. They are
+        ``env.company``'s (see ``_get_config``); URLs and tuning stay
+        database-wide.
         """
         ICP = self.env["ir.config_parameter"].sudo()
         cfg = self._get_config(mode=mode)
         mode = cfg["mode"]
         prefix = "epostak.sapi.%s" % ("prod" if mode == PRODUCTION else "sandbox")
+        company = self.env.company.sudo()
+        env_ = "prod" if mode == PRODUCTION else "sandbox"
         cfg.update(
             {
                 "sapi_url": (
@@ -124,8 +128,8 @@ class EpostakConnectorSapi(models.TransientModel):
                     )
                     or DEFAULT_API_URLS[mode]
                 ).rstrip("/"),
-                "client_id": ICP.get_param("%s.client_id" % prefix, ""),
-                "client_secret": ICP.get_param("%s.client_secret" % prefix, ""),
+                "client_id": company["epostak_%s_client_id" % env_] or "",
+                "client_secret": company["epostak_%s_client_secret" % env_] or "",
                 "scope": ICP.get_param(
                     "epostak.sapi.scope",
                     "documents:send documents:read documents:write",
@@ -152,6 +156,15 @@ class EpostakConnectorSapi(models.TransientModel):
         )
         return cfg
 
+    def _epostak_account_key(self):
+        """``env.company``'s mailbox: its credentials, the firm it acts as and
+        its participant, which scopes the inbox. None without credentials."""
+        cfg = self._get_sapi_config()
+        if not (cfg["client_id"] and cfg["client_secret"]):
+            return None
+        return (cfg["mode"], cfg["client_id"], cfg["firm_id"],
+                self._epostak_own_participant_id())
+
     def _validate_config(self, mode=None):
         """Check credentials *and* Peppol addressability for one environment.
 
@@ -164,10 +177,12 @@ class EpostakConnectorSapi(models.TransientModel):
         if not cfg["client_id"] or not cfg["client_secret"]:
             raise UserError(
                 _(
-                    "ePošťák credentials are not configured for the %s "
-                    "environment. Go to Settings ▸ EDI ▸ ePošťák and fill in "
-                    "the client ID and client secret.",
-                    cfg["mode"],
+                    "ePošťák credentials of company %(company)s are not "
+                    "configured for the %(mode)s environment. Go to Settings ▸ "
+                    "EDI ▸ ePošťák with that company selected and fill in the "
+                    "client ID and client secret.",
+                    company=self.env.company.display_name,
+                    mode=cfg["mode"],
                 )
             )
         self._assert_firm_scope(cfg)
@@ -555,8 +570,12 @@ class EpostakConnectorSapi(models.TransientModel):
             return True
 
         for msg in message_records:
+            # As the message's company: its credentials, its firm. edi_base
+            # already dispatches that way; a caller handing over messages of
+            # several companies at once must get the same.
+            connector = self.with_company(msg.company_id) if msg.company_id else self
             try:
-                self._send_one(msg, msg._epostak_mode())
+                connector._send_one(msg, msg._epostak_mode())
             except (EpostakApiError, UserError) as e:
                 # A UserError here is a configuration/addressing problem: no
                 # amount of retrying fixes it, and its text already says what
@@ -706,6 +725,12 @@ class EpostakConnectorSapi(models.TransientModel):
     POLL_ACTIVITY_MARKER = "[ePostak-inbound]"
     DEFAULT_ACTIVITY_AFTER = 3
 
+    def _poll_key(self, param):
+        """The parameter ``param`` for ``env.company``'s mailbox: each company
+        is polled on its own, so one company's success must not reset another's
+        failure streak (and close its activity)."""
+        return "%s.%s" % (param, self.env.company.id)
+
     def _record_poll(self, error=None, count=0):
         """Remember how the last inbound poll went, for Settings to show.
 
@@ -717,16 +742,17 @@ class EpostakConnectorSapi(models.TransientModel):
         try:
             ICP = self.env["ir.config_parameter"].sudo()
             now = fields.Datetime.to_string(fields.Datetime.now())
-            ICP.set_param(self.PARAM_POLL_AT, now)
-            ICP.set_param(self.PARAM_POLL_ERROR, error or "")
+            key = self._poll_key
+            ICP.set_param(key(self.PARAM_POLL_AT), now)
+            ICP.set_param(key(self.PARAM_POLL_ERROR), error or "")
             if error:
-                streak = int(ICP.get_param(self.PARAM_POLL_STREAK, "0") or "0") + 1
-                ICP.set_param(self.PARAM_POLL_STREAK, str(streak))
+                streak = int(ICP.get_param(key(self.PARAM_POLL_STREAK), "0") or "0") + 1
+                ICP.set_param(key(self.PARAM_POLL_STREAK), str(streak))
                 self._poll_failure_activity(error, streak)
                 return
-            ICP.set_param(self.PARAM_POLL_OK, now)
-            ICP.set_param(self.PARAM_POLL_COUNT, str(count))
-            ICP.set_param(self.PARAM_POLL_STREAK, "0")
+            ICP.set_param(key(self.PARAM_POLL_OK), now)
+            ICP.set_param(key(self.PARAM_POLL_COUNT), str(count))
+            ICP.set_param(key(self.PARAM_POLL_STREAK), "0")
             self._poll_failure_resolved()
         except Exception:  # noqa: BLE001
             _logger.exception("Could not record the ePošťák inbound poll state")
@@ -1012,19 +1038,22 @@ class EpostakConnectorSapi(models.TransientModel):
         if not message_records:
             return
 
-        by_mode = {}
+        # By environment and by company: each company asks with its own
+        # credentials, under its own firm.
+        groups = {}
         for msg in message_records:
-            by_mode.setdefault(msg._epostak_mode(), self.env["edi.message"])
-            by_mode[msg._epostak_mode()] |= msg
+            key = (msg._epostak_mode(), msg.company_id or self.env.company)
+            groups[key] = groups.get(key, self.env["edi.message"]) | msg
 
-        for mode, msgs in by_mode.items():
+        for (mode, company), msgs in groups.items():
+            connector = self.with_company(company)
             try:
-                cfg = self._validate_config(mode=mode)
+                cfg = connector._validate_config(mode=mode)
             except UserError:
                 continue
             if not cfg["status_tracking"]:
                 continue
-            self._query_status_for_mode(cfg, msgs)
+            connector._query_status_for_mode(cfg, msgs)
 
     def _query_status_for_mode(self, cfg, msgs):
         for msg in msgs:
@@ -1113,9 +1142,10 @@ class EpostakConnectorSapi(models.TransientModel):
         if not cfg["client_id"] or not cfg["client_secret"]:
             raise UserError(
                 _(
-                    "ePošťák credentials are not configured for the %s "
-                    "environment.",
-                    cfg["mode"],
+                    "ePošťák credentials of company %(company)s are not "
+                    "configured for the %(mode)s environment.",
+                    company=self.env.company.display_name,
+                    mode=cfg["mode"],
                 )
             )
         # /firms is gated on firms:manage, which our ordinary token does not

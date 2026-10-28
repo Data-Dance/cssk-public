@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_kh/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>Kontrolní hlášení DPH (DPHKH1)</h1>
 <p class="cssk-summary">České kontrolní hlášení (DPHKH1) — oddíly A.1 až B.3 vypočtené z účetnictví s hranicí 10 000 Kč, zkontrolované podle požadavků formuláře a exportované jako XML pro EPO v aktuální struktuře pro jakékoli období.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.9.1</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index_cs.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_datadance/static/description/index_cs.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index_cs.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.10.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index_cs.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/account_edi_isdoc_kh/static/description/index_cs.html"><code>account_edi_isdoc_kh</code></a>, <a href="/l10n_cz_datadance/static/description/index_cs.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index_cs.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Plátce DPH podává vedle přiznání k DPH <strong>kontrolní hlášení</strong>. Uvádí v něm
@@ -136,7 +136,8 @@ změně zveřejněné struktury je třeba modul aktualizovat.</p>
   přenesení (zlato, nemovitost, stavební a montážní práce, zboží z přílohy
   č. 5, povolenky na emise a další kódy formuláře). Nastavte ho na produktu,
   pole <em>Kód předmětu plnění (§92a)</em> pod kategorií produktu, nebo na dani v
-  režimu přenesení, kde se pole u označených daní zobrazí. Kód z produktu má
+  režimu přenesení, kde se pole zobrazí u označených daní a u prodejní daně
+  vykazované na řádku 25 (standardní <em>0% RC</em>). Kód z produktu má
   přednost před kódem z daně. Doklad, jehož řádky nesou různé kódy, se uvede
   na jednom řádku za každý kód se stejným evidenčním číslem.</li>
 <li><strong>DIČ druhé strany.</strong> Oddíly A.1, A.4, B.1 a B.2 identifikují druhou stranu
@@ -201,6 +202,11 @@ pohledávky</em> (<code>P</code>, nebo <code>A</code> pro § 44 ve znění do 31
 <p>Kontrolní součty (<em>VetaC</em>) se počítají z oddílů tak, jak je formulář
 definuje: A.1 v <code>pln_rez_pren</code>, B.1 v <code>rez_pren23</code> / <code>rez_pren5</code>, celý oddíl
 A.2 v <code>celk_zd_a2</code> a součty snížené sazby včetně druhé snížené sazby.</p>
+<p><strong>Oprava řádku.</strong> Každou záložku oddílu lze upravit po řádcích: na řádku
+zaškrtněte <strong>Override</strong> a opravte základ a daň v základní, snížené či druhé
+snížené sazbě. Exportují se opravené údaje a zůstanou zachovány i po novém
+výpočtu, na řádku téhož dokladu (a v A.1 / B.1 téhož kódu předmětu plnění).
+Oprava, jejíž řádek zmizí, se vypíše v chatteru.</p>
 <h2 id="usage">Druhy podání a opravy</h2>
 <p>Typy hlášení jsou <strong>Řádné</strong> (B), <strong>Opravné</strong> (O, ve formuláři <em>řádné/opravné</em>),
 <strong>Následné</strong> (N) a <strong>Následné/opravné</strong> (E). Hlášení připravte a exportujte
@@ -241,7 +247,7 @@ zvláštnosti:</p>
   podle § 92a a opravy u nedobytných pohledávek ještě musí potvrdit český
   účetní. Každé hlášení před podáním zkontrolujte.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.9.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.10.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

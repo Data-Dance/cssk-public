@@ -1,7 +1,7 @@
 ---
 title: Účtovné výkazy CZ/SK
 summary: Slovenské a české účtovné výkazy zostavené z účtovníctva riadok po riadku, s porovnateľným obdobím, ručne zadanými údajmi tam, kde ich účtovníctvo nedá, kontrolou, či sa každý účet dostal do niektorého riadku, a evidenciou podania.
-verified: 19.0.1.10.2
+verified: 19.0.1.10.3
 ---
 
 ## Na čo slúži {#purpose}
@@ -158,6 +158,9 @@ podielom za bežné aj minulé obdobie. Dokument s dvoma výkazmi, napríklad
 slovenská Úč POD, má pre každú časť samostatný hárok. Sumy riadkov sú uložené
 sumy výkazu, takže zošit ukazuje presne to, čo sa kontrolovalo, vrátane ručne
 zadaných súm; účty pod prepísaným riadkom ukazujú stav účtovníctva.
+
+**Upozornenia exportu.** Kontroly, ktoré export nezastavia, sa zobrazia v
+žltom pruhu navrchu formulára a v chatteri až do ďalšieho exportu.
 
 ## Obmedzenia {#limitations}
 

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:14+0000\n"
-"PO-Revision-Date: 2026-07-06 21:14+0000\n"
+"POT-Creation-Date: 2026-10-27 22:27+0000\n"
+"PO-Revision-Date: 2026-10-27 22:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -91,6 +91,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__correction_reference
+msgid "Correction Reference"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__correction_type
+msgid "Correction Type"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__country_id
 msgid "Country"
 msgstr ""
@@ -111,6 +121,11 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__active_submission_id
+msgid "Current submission"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model,name:l10n_cz_hr_payroll_pvpoj.model_l10n_cz_pvpoj
 msgid "Czech PVPOJ — Social Insurance Overview"
 msgstr ""
@@ -123,6 +138,11 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__date_to
 msgid "Date To"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__submission_state
+msgid "Delivery"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
@@ -167,6 +187,14 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_pvpoj/models/l10n_cz_pvpoj.py:0
+msgid ""
+"From January 2026 the social insurance premium is reported in the monthly "
+"employer report (JMHZ, Act No. 323/2025 Coll.)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_pvpoj.view_l10n_cz_pvpoj_form
 msgid "Generate"
 msgstr ""
@@ -201,6 +229,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__message_has_error
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__is_correction
+msgid "Is Correction"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
@@ -306,6 +339,16 @@ msgid "PVPOJ (social)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_pvpoj/models/l10n_cz_pvpoj.py:0
+msgid ""
+"PVPOJ for %(month)s/%(year)s is filed only by an employer that was no longer"
+" an employer on 1 April 2026 (Act No. 360/2025 Coll., Art. IX point 3). "
+"%(count)s employee(s) of %(company)s are still employed on that day, so the "
+"period is reported in the monthly employer report (JMHZ)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__payment_date
 msgid ""
 "Payday reported to the authority (SK denVyplaty). Defaults to the period "
@@ -315,6 +358,11 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__payment_date
 msgid "Payment Date"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__report_code
+msgid "Report Code"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
@@ -352,8 +400,25 @@ msgid "Submission Reference"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__submission_ids
+msgid "Submissions"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__submitted_date
 msgid "Submitted Date"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
@@ -377,6 +442,14 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__xml_attachment_id
 msgid "Xml Attachment"
 msgstr ""
@@ -389,22 +462,4 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_res_company__l10n_cz_ossz_vs
 msgid "ČSSZ variable symbol (VS)"
-msgstr ""
-
-
-#. module: l10n_cz_hr_payroll_pvpoj
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_pvpoj/models/l10n_cz_pvpoj.py:0
-msgid "From January 2026 the social insurance premium is reported in the monthly employer report (JMHZ, Act No. 323/2025 Coll.)."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_pvpoj
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_pvpoj/models/l10n_cz_pvpoj.py:0
-msgid "PVPOJ for %(month)s/%(year)s is filed only by an employer that was no longer an employer on 1 April 2026 (Act No. 360/2025 Coll., Art. IX point 3). %(count)s employee(s) of %(company)s are still employed on that day, so the period is reported in the monthly employer report (JMHZ)."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_pvpoj
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__report_code
-msgid "Report Code"
 msgstr ""

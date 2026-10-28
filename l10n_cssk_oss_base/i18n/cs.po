@@ -1130,3 +1130,19 @@ msgstr "„Registrován od“ je pozdější než „Registrován do“."
 msgid ""
 "The registration dates must fall within the quarter %(start)s – %(end)s."
 msgstr "Data registrace musí spadat do čtvrtletí %(start)s – %(end)s."
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornění exportu"
+
+#. module: l10n_cssk_oss_base
+#: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, které poslední export nezablokovaly, ale před podáním je "
+"třeba je projít, každá na samostatném řádku. Obnovují se při každém "
+"exportu; prázdné, pokud poslední export žádné nenašel."

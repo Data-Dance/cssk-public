@@ -109,11 +109,11 @@
                 </t>
                 <t t-foreach="sections_by_code.get('D.1', [])" t-as="row">
                     <D1 t-att-KOpr="row.kod_opravy or None"
-                        t-att-SumaObratov="'%.2f' % row.total_tax_base"
-                        t-att-Z="'%.2f' % row.total_tax_base"
-                        t-att-D="'%.2f' % row.total_tax_amount"
-                        t-att-ZZn="'%.2f' % 0.0"
-                        t-att-DZn="'%.2f' % 0.0"/>
+                        t-att-SumaObratov="'%.2f' % row.turnover"
+                        t-att-Z="'%.2f' % row.tax_base_basic"
+                        t-att-D="'%.2f' % row.tax_amount_basic"
+                        t-att-ZZn="'%.2f' % row.tax_base_lower"
+                        t-att-DZn="'%.2f' % row.tax_amount_lower"/>
                 </t>
                 <t t-foreach="sections_by_code.get('D.2', [])" t-as="row">
                     <D2 t-att-KOpr="row.kod_opravy or None"
@@ -225,11 +225,11 @@
                 </t>
                 <t t-foreach="sections_by_code.get('D.1', [])" t-as="row">
                     <D1 t-att-KOpr="row.kod_opravy or None"
-                        t-att-SumaObratov="'%.2f' % row.total_tax_base"
-                        t-att-Z="'%.2f' % row.total_tax_base"
-                        t-att-D="'%.2f' % row.total_tax_amount"
-                        t-att-ZZn="'%.2f' % 0.0"
-                        t-att-DZn="'%.2f' % 0.0"/>
+                        t-att-SumaObratov="'%.2f' % row.turnover"
+                        t-att-Z="'%.2f' % row.tax_base_basic"
+                        t-att-D="'%.2f' % row.tax_amount_basic"
+                        t-att-ZZn="'%.2f' % row.tax_base_lower"
+                        t-att-DZn="'%.2f' % row.tax_amount_lower"/>
                 </t>
                 <t t-foreach="sections_by_code.get('D.2', [])" t-as="row">
                     <D2 t-att-KOpr="row.kod_opravy or None"
@@ -349,11 +349,11 @@
                 </t>
                 <t t-foreach="sections_by_code.get('D.1', [])" t-as="row">
                     <D1 t-att-KOpr="row.kod_opravy or None"
-                        t-att-SumaObratov="'%.2f' % row.total_tax_base"
-                        t-att-Z="'%.2f' % row.total_tax_base"
-                        t-att-D="'%.2f' % row.total_tax_amount"
-                        t-att-ZZn="'%.2f' % 0.0"
-                        t-att-DZn="'%.2f' % 0.0"/>
+                        t-att-SumaObratov="'%.2f' % row.turnover"
+                        t-att-Z="'%.2f' % row.tax_base_basic"
+                        t-att-D="'%.2f' % row.tax_amount_basic"
+                        t-att-ZZn="'%.2f' % row.tax_base_lower"
+                        t-att-DZn="'%.2f' % row.tax_amount_lower"/>
                 </t>
                 <t t-foreach="sections_by_code.get('D.2', [])" t-as="row">
                     <D2 t-att-KOpr="row.kod_opravy or None"
@@ -458,11 +458,11 @@
                 </t>
                 <t t-foreach="sections_by_code.get('D.1', [])" t-as="row">
                     <D1 t-att-KOpr="row.kod_opravy or None"
-                        t-att-SumaObratov="'%.2f' % row.total_tax_base"
-                        t-att-Z="'%.2f' % row.total_tax_base"
-                        t-att-D="'%.2f' % row.total_tax_amount"
-                        t-att-ZZn="'%.2f' % 0.0"
-                        t-att-DZn="'%.2f' % 0.0"/>
+                        t-att-SumaObratov="'%.2f' % row.turnover"
+                        t-att-Z="'%.2f' % row.tax_base_basic"
+                        t-att-D="'%.2f' % row.tax_amount_basic"
+                        t-att-ZZn="'%.2f' % row.tax_base_lower"
+                        t-att-DZn="'%.2f' % row.tax_amount_lower"/>
                 </t>
                 <t t-foreach="sections_by_code.get('D.2', [])" t-as="row">
                     <D2 t-att-KOpr="row.kod_opravy or None"

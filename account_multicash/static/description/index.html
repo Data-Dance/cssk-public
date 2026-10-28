@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/account_multicash/static/description/index_cs.html">Čeština</a></nav>
 <h1>MultiCash Payment Files</h1>
 <p class="cssk-summary">Domestic, urgent, direct-debit and foreign payments exported as MultiCash files (CFD, CFU, CFA, MT101), from an OCA payment order or an Enterprise batch payment.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_cz_bankfile_base/static/description/index.html"><code>account_cz_bankfile_base</code></a>, <code>base_iban</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_cz_bankfile_base/static/description/index.html"><code>account_cz_bankfile_base</code></a>, <code>base_iban</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p><strong>MultiCash</strong> is the client application several Czech banks give their
@@ -169,6 +169,12 @@ format under the same names.</p>
 <p>Both modules can be installed side by side.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
+<li>A credit note grouped with its invoice on the payment order (the payment
+  mode's <em>Group Transactions in Payment Orders</em>) becomes <strong>one item of the net
+  amount</strong> — the amount of the payment the order books. It carries the
+  invoice's variable symbol; when one credit note is netted against several
+  invoices their symbols differ and none is sent. Groups without a credit note
+  keep one item per invoice. Without grouping, a credit-note line is refused.</li>
 <li><strong>Czech domestic formats.</strong> CFD and CFU take only CZK and Czech accounts; a
   Slovak IBAN is refused. CFA also needs the ordering account to be Czech.</li>
 <li><strong>MT101 from a payment order</strong> has one execution date for the whole
@@ -182,7 +188,7 @@ format under the same names.</p>
 <li>Only the Česká spořitelna layout was used as the specification. Other banks'
   MultiCash imports usually accept it, but test one file with your bank first.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.2.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.2.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

@@ -1,0 +1,114 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_fs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 22:37+0000\n"
+"PO-Revision-Date: 2026-10-27 22:37+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_fs
+#: model:ir.model.fields.selection,name:l10n_cz_fs.selection__cssk_fs_statement_version__l10n_cz_fs_scope__abridged
+msgid "Abridged (zkrácený rozsah)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:ir.model,name:l10n_cz_fs.model_account_account
+msgid "Account"
+msgstr ""
+
+#. module: l10n_cz_fs
+#. odoo-python
+#: code:addons/l10n_cz_fs/models/account_account.py:0
+msgid ""
+"Account %(account)s carries %(tags)s. Each of these tags moves the account's"
+" balance to its own row of the Výkaz zisku a ztráty, so an account can carry"
+" only one of them."
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:ir.model.fields,help:l10n_cz_fs.field_cssk_fs_statement_version__l10n_cz_fs_scope
+msgid ""
+"Czech statements only (vyhláška č. 500/2002 Sb., § 3a). The full scope "
+"carries every item of přílohy 1 and 2; the abridged one only the items "
+"marked with letters and Roman numerals (plus C.II.1 and C.II.2 of the "
+"Rozvaha). The DPPDP9 return files its výkazy in the rozsah of the linked "
+"statements."
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:ir.model.fields,field_description:l10n_cz_fs.field_account_account__display_name
+#: model:ir.model.fields,field_description:l10n_cz_fs.field_cssk_fs_statement__display_name
+#: model:ir.model.fields,field_description:l10n_cz_fs.field_cssk_fs_statement_version__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:ir.model,name:l10n_cz_fs.model_cssk_fs_statement
+msgid "Financial Statement"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:ir.model,name:l10n_cz_fs.model_cssk_fs_statement_version
+msgid "Financial Statement Version"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:ir.model.fields.selection,name:l10n_cz_fs.selection__cssk_fs_statement_version__l10n_cz_fs_scope__full
+msgid "Full (plný rozsah)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:ir.model.fields,field_description:l10n_cz_fs.field_account_account__id
+#: model:ir.model.fields,field_description:l10n_cz_fs.field_cssk_fs_statement__id
+#: model:ir.model.fields,field_description:l10n_cz_fs.field_cssk_fs_statement_version__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:ir.model.fields,field_description:l10n_cz_fs.field_cssk_fs_statement_version__l10n_cz_fs_scope
+msgid "Scope (rozsah)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:account.account.tag,name:l10n_cz_fs.account_tag_vzz_E_1_2
+msgid "VZZ E.1.2 — úpravy hodnot DNM a DHM, dočasné (559)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:account.account.tag,name:l10n_cz_fs.account_tag_vzz_E_2
+msgid "VZZ E.2 — úpravy hodnot zásob (559)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:account.account.tag,name:l10n_cz_fs.account_tag_vzz_IV_1
+msgid "VZZ IV.1 — výnosy z podílů, ovládaná nebo ovládající osoba (665)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:account.account.tag,name:l10n_cz_fs.account_tag_vzz_J_1
+msgid "VZZ J.1 — nákladové úroky, ovládaná nebo ovládající osoba (562)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:account.account.tag,name:l10n_cz_fs.account_tag_vzz_V_1
+msgid "VZZ V.1 — výnosy z ostatního DFM, ovládaná nebo ovládající osoba (665)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:account.account.tag,name:l10n_cz_fs.account_tag_vzz_V_2
+msgid "VZZ V.2 — ostatní výnosy z ostatního DFM (665)"
+msgstr ""
+
+#. module: l10n_cz_fs
+#: model:account.account.tag,name:l10n_cz_fs.account_tag_vzz_VI_1
+msgid "VZZ VI.1 — výnosové úroky, ovládaná nebo ovládající osoba (662, 666)"
+msgstr ""

@@ -1,7 +1,7 @@
 ---
 title: Štatutárne podania CZ/SK — doručenie
 summary: Záznam o tom, ako sa každé štatutárne podanie dostalo k úradu — kanál, pokusy, doručenie, prijatie — a miesto na potvrdenky, ktoré to dokazujú.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -57,6 +57,9 @@ Dve skupiny v časti *Účtovníctvo* v nastaveniach používateľa:
    *Doručené*.
 4. **Elektronický kanál**: kliknite na **Zaradiť do frontu**. Doručenie sa
    odošle do niekoľkých minút, alebo hneď tlačidlom **Odoslať teraz**.
+   Doručenie sa odošle raz, aj keď sa *Odoslať teraz* stretne s plánovaným
+   odosielaním: odošle ho ten, kto ho prevezme prvý, a *Odoslať teraz* oznámi,
+   že sa práve odosiela — o chvíľu ho obnovte a uvidíte výsledok.
 5. Potvrdenky priložte na karte **Potvrdenia** a podacie číslo zapíšte do poľa
    **Číslo podania úradu**.
 6. **Ručné podanie bolo prijaté**: keď máte potvrdenie úradu, priložte ho na

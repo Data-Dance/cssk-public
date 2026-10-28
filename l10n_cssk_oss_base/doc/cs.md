@@ -1,7 +1,7 @@
 ---
 title: Přiznání k DPH OSS CZ/SK (režim Unie)
 summary: Čtvrtletní přiznání ve zvláštním režimu jednoho správního místa pro prodej zboží na dálku a služby spotřebitelům v jiných státech EU — z daní OSS v Odoo, přepočtené na eura kurzem ECB, s opravami předchozích čtvrtletí.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## K čemu slouží {#purpose}
@@ -193,6 +193,9 @@ mapování, které už na fiskální pozici je.
 Při instalaci se mapování doplní každé společnosti, která už daně OSS má.
 Společnosti, které OSS nikdy nepoužily, zůstanou beze změny. Mapování je návrh,
 stejně jako v samotném Odoo: zkontrolujte ho podle zboží, které prodáváte.
+
+**Upozornění exportu.** Kontroly, které export nezastaví, se zobrazí ve
+žlutém pruhu nahoře na formuláři a v chatteru až do dalšího exportu.
 
 ## Omezení {#limitations}
 

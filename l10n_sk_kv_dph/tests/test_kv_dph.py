@@ -1923,6 +1923,16 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         self.assertAlmostEqual(d1.total_tax_base, 100.0, 2)
         self.assertFalse(st.sk_section_d2_ids, "not also in D.2")
         st.action_export_xml()
+        # SumaObratov is the turnover — VAT included (zákon č. 384/2025 Z. z.,
+        # § 2 písm. z)); it used to file the base. The rate columns carry
+        # the split; ZZn / DZn used to be hardcoded 0.
+        root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
+        row = root.find(".//{*}D1")
+        tax = round(self.rate_s, 2)
+        self.assertEqual(row.get("SumaObratov"), "%.2f" % (100.0 + tax))
+        band = ("Z", "D") if self.rate_s >= 20 else ("ZZn", "DZn")
+        self.assertEqual((row.get(band[0]), row.get(band[1])),
+                         ("100.00", "%.2f" % tax))
         arch = self.env["account.journal"].get_views(
             [(False, "form")])["views"]["form"]["arch"]
         self.assertIn('name="cssk_control_section_override"', arch)

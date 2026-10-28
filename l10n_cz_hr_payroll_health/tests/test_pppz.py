@@ -181,3 +181,21 @@ class TestPppz(TransactionCase):
         fix = self._pppz(correction_type="corrective")
         with self.assertRaises(UserError):
             fix.action_generate()
+
+    def test_correction_scoped_to_insurer(self):
+        """A PPPZ is filed per insurer: a submitted overview to one insurer is
+        not something a corrective overview to another insurer can amend."""
+        self._employee_payslip("Jina Pojistovna", 50000.0, insurer="111")
+        self._employee_payslip("Druha Pojistovna", 50000.0, insurer="201")
+        first = self._pppz(insurer_code="111")
+        first.action_generate()
+        first.action_submit()
+
+        other = self._pppz(insurer_code="201", correction_type="corrective")
+        self.assertFalse(other._prior_submitted())
+        with self.assertRaises(UserError):
+            other.action_generate()
+
+        same = self._pppz(insurer_code="111", correction_type="corrective")
+        self.assertEqual(same._prior_submitted(), first)
+        same.action_generate()

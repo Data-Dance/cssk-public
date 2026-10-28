@@ -1,7 +1,7 @@
 ---
 title: Zákonná podání CZ/SK — doručení
 summary: Záznam o tom, jak se každé zákonné podání dostalo k úřadu — kanál, pokusy, doručení, přijetí — a místo pro potvrzení, která to dokládají.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## K čemu slouží {#purpose}
@@ -59,6 +59,9 @@ Dvě skupiny v části *Účetnictví* v nastavení uživatele:
    *Doručeno*.
 4. **Elektronický kanál**: klikněte na **Zařadit do fronty**. Doručení se
    odešle během několika minut, nebo hned tlačítkem **Odeslat nyní**.
+   Doručení se odešle jednou, i když se *Odeslat nyní* setká s plánovaným
+   odesíláním: odešle ho ten, kdo ho převezme první, a *Odeslat nyní* oznámí,
+   že se právě odesílá — za chvíli ho obnovte a uvidíte výsledek.
 5. Potvrzení přiložte na kartě **Potvrzení** a číslo podání zapište do pole
    **Číslo podání úřadu**.
 6. **Ruční podání bylo přijato**: jakmile máte potvrzení úřadu, přiložte ho na

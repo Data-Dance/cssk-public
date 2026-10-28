@@ -1,7 +1,7 @@
 ---
 title: Platební soubory MultiCash
 summary: Tuzemské, prioritní, inkasní a zahraniční platby exportované do souborů MultiCash (CFD, CFU, CFA, MT101) z platebního příkazu OCA nebo z hromadné platby Enterprise.
-verified: 19.0.2.1.0
+verified: 19.0.2.2.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -118,6 +118,12 @@ Oba moduly lze mít nainstalované současně.
 
 ## Omezení {#limitations}
 
+- Dobropis seskupený s fakturou v platebním příkazu (volba způsobu platby
+  *Group Transactions in Payment Orders*) se zapíše jako **jedna položka
+  v čisté částce** — té, kterou příkaz zaúčtuje jako platbu. Nese variabilní
+  symbol faktury; započte-li se jeden dobropis proti více fakturám, symboly se
+  liší a neodejde žádný. Skupiny bez dobropisu mají dál jednu položku za
+  fakturu. Bez seskupení se řádek dobropisu odmítne.
 - **České tuzemské formáty.** CFD a CFU přijmou jen CZK a české účty; slovenský
   IBAN se odmítne. CFA vyžaduje český účet i na straně plátce.
 - **MT101 z platebního příkazu** má pro celou zprávu jedno datum provedení,

@@ -166,10 +166,12 @@ generate without them. Other modules add their own fields to the same tab.
 
 ## Delivery and receipts {#delivery}
 
-*Mark Submitted* records that someone filed the XML. How it reached the
-authority, whether it was accepted, and the receipts that prove it are
-tracked by [module:l10n_cssk_submission_base](module:l10n_cssk_submission_base),
-which every payroll declaration uses. See
+*Mark Submitted* records that someone filed the XML, and opens a
+**submission** for it in *Draft* — the record that holds how the XML reached
+the authority, whether it was accepted, and the receipts that prove it. It is
+[module:l10n_cssk_submission_base](module:l10n_cssk_submission_base)'s, which
+every payroll declaration uses; find it under *Accounting → Reporting →
+Statutory Reports → Submissions*. See
 [Filing a return](module:l10n_cssk_submission_base#usage) there.
 
 ## Limitations {#limitations}

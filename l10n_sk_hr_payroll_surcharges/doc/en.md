@@ -1,7 +1,7 @@
 ---
 title: SK Wage Surcharges and Minimum Wage Claims
 summary: Statutory Slovak wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work, and the top-up to the minimum wage claim of the job's stupeň náročnosti, on either payroll engine.
-verified: 19.0.1.2.5
+verified: 19.0.1.2.6
 ---
 
 ## What it is for {#purpose}

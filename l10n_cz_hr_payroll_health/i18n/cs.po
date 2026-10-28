@@ -187,9 +187,16 @@ msgstr ""
 "number'."
 
 #. module: l10n_cz_hr_payroll_health
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__report_type__opravny
-msgid "Corrective"
-msgstr "Opravný"
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__correction_reference
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__correction_reference
+msgid "Correction Reference"
+msgstr "Reference opravy"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__correction_type
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
 
 #. module: l10n_cz_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__country_id
@@ -214,6 +221,12 @@ msgstr "Vytvořeno dne"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__currency_id
 msgid "Currency"
 msgstr "Měna"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__active_submission_id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__active_submission_id
+msgid "Current submission"
+msgstr "Aktuální doručení"
 
 #. module: l10n_cz_hr_payroll_health
 #: model:ir.model,name:l10n_cz_hr_payroll_health.model_l10n_cz_hoz
@@ -250,6 +263,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_res_company__l10n_cz_health_insurer_code
 msgid "Default health insurer"
 msgstr "Výchozí zdravotní pojišťovna"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__submission_state
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__submission_state
+msgid "Delivery"
+msgstr "Doručení"
 
 #. module: l10n_cz_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_hr_employee__display_name
@@ -371,6 +390,11 @@ msgid "Has Message"
 msgstr "Má zprávu"
 
 #. module: l10n_cz_hr_payroll_health
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_health.view_company_form_l10n_cz_health
+msgid "Health insurance (PPPZ / HOZ)"
+msgstr "Zdravotní pojištění (PPPZ / HOZ)"
+
+#. module: l10n_cz_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_hr_employee__l10n_cz_health_insurer_code
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__insurer_code
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__insurer_code
@@ -438,6 +462,12 @@ msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__is_correction
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
 
 #. module: l10n_cz_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__message_is_follower
@@ -568,11 +598,6 @@ msgstr ""
 "(odhlášení)."
 
 #. module: l10n_cz_hr_payroll_health
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__report_type
-msgid "Overview type"
-msgstr "Typ přehledu"
-
-#. module: l10n_cz_hr_payroll_health
 #: model:ir.actions.act_window,name:l10n_cz_hr_payroll_health.action_l10n_cz_pppz
 msgid "PPPZ (health)"
 msgstr "PPPZ (zdravotní)"
@@ -599,9 +624,10 @@ msgid "Přehled platby zaměstnavatele pro ZP 2026+"
 msgstr "Přehled platby zaměstnavatele pro ZP 2026+"
 
 #. module: l10n_cz_hr_payroll_health
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_pppz__report_type__radny
-msgid "Regular"
-msgstr "Řádný"
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__report_code
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
 
 #. module: l10n_cz_hr_payroll_health
 #. odoo-python
@@ -672,15 +698,37 @@ msgid "Submission Reference"
 msgstr "Reference podání"
 
 #. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__submission_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__submission_ids
+msgid "Submissions"
+msgstr "Podání"
+
+#. module: l10n_cz_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__submitted_date
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__submitted_date
 msgid "Submitted Date"
 msgstr "Datum odeslání"
 
 #. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__is_correction
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pro vše, co opravuje dřívější podání."
+
+#. module: l10n_cz_hr_payroll_health
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_health.selection__l10n_cz_hoz__event_type__terminate
 msgid "Terminate (O)"
 msgstr "Odhlášení (O)"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__correction_reference
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Reference úřadu na opravované podání, pokud ji přijímající systém potřebuje "
+"ke spárování obou."
 
 #. module: l10n_cz_hr_payroll_health
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_hr_employee__l10n_cz_health_insurer_code
@@ -716,6 +764,17 @@ msgstr "Zprávy webu"
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__website_message_ids
 msgid "Website communication history"
 msgstr "Historie komunikace webu"
+
+#. module: l10n_cz_hr_payroll_health
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__correction_type
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_health.field_l10n_cz_pppz__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Zda jde o řádné podání za období, nebo o opravu již odeslaného. Volby jsou "
+"omezeny na to, co tento konkrétní úřad přijímá."
 
 #. module: l10n_cz_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_health.field_l10n_cz_hoz__xml_attachment_id

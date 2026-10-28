@@ -1,6 +1,6 @@
 {
     'name': "Import/Export Czech e-invoices (ISDOC)",
-    'version': '19.0.1.4.0',
+    'version': '19.0.1.4.2',
     'category': 'Accounting/Accounting',
     'summary': "Import and export ISDOC 6.0.2 electronic invoices (Czech national e-invoicing standard)",
     'description': """
@@ -23,7 +23,7 @@ Supported representations:
 This module hooks into ``account_edi_ubl_cii`` so it reuses the existing
 send/print and bill-import plumbing.
     """,
-    'depends': ['account_edi_ubl_cii', 'l10n_cz_base'],
+    'depends': ['account_edi_ubl_cii', 'l10n_cssk_core', 'l10n_cz_base'],
     'data': [
         'data/ir_actions_server.xml',
     ],

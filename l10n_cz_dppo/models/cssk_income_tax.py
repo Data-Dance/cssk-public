@@ -203,6 +203,17 @@ class CSSKIncomeTaxReturn(models.Model):
                 "neither. The DPPDP9 files the účetní závěrka as a whole "
                 "(uv_rozsah covers both výkazy); one without the other is "
                 "an incomplete závěrka."))
+        scopes = {st.version_id.l10n_cz_fs_scope or "abridged"
+                  for st in statements.values()}
+        if len(scopes) > 1:
+            raise UserError(_(
+                "The linked Rozvaha and Výkaz zisku a ztráty are computed in "
+                "different rozsahy (plný and zkrácený). The DPPDP9 return "
+                "files one rozsah for both výkazy (uv_rozsah). Compute both "
+                "in the plný rozsah — always permitted, vyhláška č. 500/2002 "
+                "Sb., § 3a odst. 1 and 3 — or both in the zkrácený rozsah "
+                "where the unit may use it."))
+        rng = self._l10n_cz_vykaz_range()
         currency = self.company_id.currency_id.name
         if currency not in _UV_CURRENCIES:
             raise UserError(_(
@@ -233,7 +244,8 @@ class CSSKIncomeTaxReturn(models.Model):
                     "%(statement)s has not been computed. Compute it (and "
                     "review it) before filing it with the return.",
                     statement=label))
-            missing = vykazy.fs_codes(kind) - set(st.line_ids.mapped("code"))
+            missing = vykazy.fs_codes(kind, rng) - set(
+                st.line_ids.mapped("code"))
             if missing:
                 raise UserError(_(
                     "%(statement)s has no row %(codes)s, which the DPPDP9 "
@@ -256,6 +268,19 @@ class CSSKIncomeTaxReturn(models.Model):
                     "of B.I.–C.III. into the correction formula of their "
                     "rows and recompute.", statement=label))
 
+    def _l10n_cz_vykaz_range(self):
+        """``"P"`` where every linked statement is of the plný rozsah, else
+        ``"Z"``. A version without a rozsah predates the plný one and is the
+        zkrácený rozsah; a mixed pair never gets this far
+        (``_l10n_cz_check_vykazy`` refuses it)."""
+        self.ensure_one()
+        statements = self._l10n_cz_vykaz_statements()
+        if statements and all(
+                st.version_id.l10n_cz_fs_scope == "full"
+                for st in statements.values()):
+            return vykazy.FULL
+        return vykazy.ABRIDGED
+
     # ------------------------------------------------------------------
     def _l10n_cz_vykaz_rows(self):
         """``{věta: [attribute dict, …]}`` for the linked výkazy.
@@ -275,8 +300,9 @@ class CSSKIncomeTaxReturn(models.Model):
             values[kind] = (current, prior, self._l10n_cz_corrections(st))
 
         out = {}
+        row_map = vykazy.rows(self._l10n_cz_vykaz_range())
         for (veta, row), (designation, codes) in sorted(
-                vykazy.ROWS.items(), key=lambda it: (it[0][0], it[0][1])):
+                row_map.items(), key=lambda it: (it[0][0], it[0][1])):
             current, prior, correction = values[vykazy.TABLES[veta]]
             netto = _thousands(sum(current.get(c, 0.0) for c in codes))
             netto_min = _thousands(sum(prior.get(c, 0.0) for c in codes))
@@ -331,7 +357,7 @@ class CSSKIncomeTaxReturn(models.Model):
         # nothing is still a filed závěrka, and must not read as "none".
         ctx["vykazy_header"] = {
             "uv_vyhl": vykazy.DECREE,
-            "uv_rozsah": vykazy.RANGE,
+            "uv_rozsah": self._l10n_cz_vykaz_range(),
             "uv_mena": self.company_id.currency_id.name,
             "uz_rad": "T",
             "d_uv": self.date_to.strftime("%d.%m.%Y"),

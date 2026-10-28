@@ -22,6 +22,25 @@ Fixed
   transaction: *sent*, *queued* with a warning, *sent*. A job still records
   its failure outside the transaction, as before.
 
+[19.0.1.2.0] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **ePošťák credentials belong to the company.** The Client ID and Client
+  Secret of each environment were global, so one account served one company per
+  database. They are now set per company in *Settings → EDI*; a document is sent
+  with its own company's credentials, and delivery status is asked for the same
+  way. The upgrade gives the old credentials to the company the inbound
+  scheduled action ran as; URLs and transfer tuning stay database-wide.
+- *Last inbound poll*, *Poll inbound now* and the failed-collection To-Do are
+  per company: one company's successful collection no longer resets another's
+  failure count or closes its To-Do.
+- *Test Connection* tests the selected company and names other companies that
+  allow e-invoicing but have no credentials of their own, instead of warning
+  that only one company can be served.
+
 [19.0.1.1.2] — 2026-10-27
 -------------------------
 

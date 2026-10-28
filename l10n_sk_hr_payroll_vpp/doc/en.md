@@ -1,7 +1,7 @@
 ---
 title: SK Social Insurance Statement for Work Agreements (VPP)
 summary: The výkaz poistného a príspevkov for employees with an irregular income — in practice the DoVP and DoPČ work agreements — built from the month's payslips and exported as XML checked against the official schema.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

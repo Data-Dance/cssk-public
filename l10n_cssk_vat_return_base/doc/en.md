@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VAT Return — Shared Engine
 summary: The screens and the workflow behind the Slovak and Czech VAT returns — compute the rows from tax tags, check them against the journal items, export the official XML and keep the filed copy.
-verified: 19.0.1.11.0
+verified: 19.0.1.11.1
 ---
 
 ## What it is for {#purpose}
@@ -185,6 +185,10 @@ submitted. Its one action, **Compare with computed**, recomputes the period
 from the books and records the differences under *Accounting → Reporting →
 Statutory Reports → Filed vs computed*. To correct such a period, create an
 amendment from it; the amendment is an ordinary return.
+
+**Export warnings.** Checks that do not stop the export are listed in a
+yellow banner at the top of the form, and in the chatter, until the next
+export.
 
 ## Limitations {#limitations}
 

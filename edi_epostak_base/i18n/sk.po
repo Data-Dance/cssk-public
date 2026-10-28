@@ -1,6 +1,3 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* edi_epostak_base
 #
 msgid ""
 msgstr ""
@@ -10,11 +7,11 @@ msgstr ""
 "PO-Revision-Date: 2026-10-27 19:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: sk_SK\n"
 
 #. module: edi_epostak_base
 #. odoo-python
@@ -31,7 +28,8 @@ msgid ""
 "%s does not carry a Peppol UBL document (no UBL root element or no "
 "cbc:CustomizationID). ePošťák transports Peppol documents only."
 msgstr ""
-"%s neobsahuje Peppol UBL doklad (chýba koreňový element UBL alebo cbc:CustomizationID). ePošťák prenáša len doklady Peppol."
+"%s neobsahuje Peppol UBL doklad (chýba koreňový element UBL alebo "
+"cbc:CustomizationID). ePošťák prenáša len doklady Peppol."
 
 #. module: edi_epostak_base
 #: model_terms:ir.ui.view,arch_db:edi_epostak_base.view_res_config_settings_epostak
@@ -43,6 +41,11 @@ msgstr ""
 "<strong>Sandbox je aktívny.</strong>\n"
 "                        Doklady sa vymieňajú v testovacej sieti ePošťáka a\n"
 "                        nikdy sa nedostanú do živej siete Peppol."
+
+#. module: edi_epostak_base
+#: model:ir.model,name:edi_epostak_base.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
 
 #. module: edi_epostak_base
 #: model:ir.model,name:edi_epostak_base.model_res_config_settings
@@ -62,6 +65,7 @@ msgstr "Vytvorené"
 #. module: edi_epostak_base
 #: model:ir.model.fields,field_description:edi_epostak_base.field_edi_message__display_name
 #: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__display_name
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_company__display_name
 #: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
@@ -79,6 +83,7 @@ msgstr "Prostredie"
 #. module: edi_epostak_base
 #: model:ir.model.fields,field_description:edi_epostak_base.field_edi_message__id
 #: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__id
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_company__id
 #: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__id
 msgid "ID"
 msgstr "ID"
@@ -94,25 +99,35 @@ msgid "Last Updated on"
 msgstr "Naposledy upravované"
 
 #. module: edi_epostak_base
+#: model:ir.model.fields,help:edi_epostak_base.field_res_config_settings__epostak_firm_id
+msgid ""
+"Per company: the company you are working in. Required when the configured "
+"secret is an integrator key (sk_int_*), which speaks for several firms: the "
+"UUID of the TARGET firm we are acting for, sent as the X-Firm-Id header. "
+"Leave empty for a firm key (sk_live_*), where the firm is implied by the "
+"credentials. The secret is write-only, so check 'Configured key' above to "
+"see which one you have rather than guessing from your contract — a direct "
+"customer can still be issued an integrator key, and then every call fails "
+"with 400 'X-Firm-Id header is required' until this is set. Press Test "
+"Connection to list the firms the key may act for and their UUIDs. This is "
+"NOT the firm_id claim inside the token — that one identifies the integrator "
+"itself and selects nothing."
+msgstr ""
+"Pre každú spoločnosť: tú, v ktorej pracujete. Povinné, keď je nastaveným "
+"tajným kľúčom integrátorský kľúč (sk_int_*), ktorý koná za viac firiem: UUID"
+" CIEĽOVEJ firmy, za ktorú konáme, odosielané v hlavičke X-Firm-Id. Pri "
+"firemnom kľúči (sk_live_*) nechajte prázdne — firma vyplýva z prihlasovacích"
+" údajov. Tajný kľúč je len na zápis, preto namiesto odhadovania podľa zmluvy"
+" pozrite vyššie 'Nastavený kľúč' — aj priamy zákazník môže dostať "
+"integrátorský kľúč a potom každé volanie zlyhá s 400 'X-Firm-Id header is "
+"required', kým sa toto pole nevyplní. Tlačidlo Test pripojenia vypíše firmy,"
+" za ktoré môže kľúč konať, aj s ich UUID. NEJDE o nárok firm_id v tokene — "
+"ten identifikuje samotného integrátora a nič nevyberá."
+
+#. module: edi_epostak_base
 #: model:ir.model.fields.selection,name:edi_epostak_base.selection__res_config_settings__epostak_mode__production
 msgid "Production"
 msgstr "Produkcia"
-
-#. module: edi_epostak_base
-#: model:ir.model.fields,help:edi_epostak_base.field_res_config_settings__epostak_firm_id
-msgid ""
-"Required when the configured secret is an integrator key (sk_int_*), which "
-"speaks for several firms: the UUID of the TARGET firm we are acting for, "
-"sent as the X-Firm-Id header. Leave empty for a firm key (sk_live_*), where "
-"the firm is implied by the credentials. The secret is write-only, so check "
-"'Configured key' above to see which one you have rather than guessing from "
-"your contract — a direct customer can still be issued an integrator key, and"
-" then every call fails with 400 'X-Firm-Id header is required' until this is"
-" set. Press Test Connection to list the firms the key may act for and their "
-"UUIDs. This is NOT the firm_id claim inside the token — that one identifies "
-"the integrator itself and selects nothing."
-msgstr ""
-"Povinné, keď je nastaveným tajným kľúčom integrátorský kľúč (sk_int_*), ktorý koná za viac firiem: UUID CIEĽOVEJ firmy, za ktorú konáme, odosielané v hlavičke X-Firm-Id. Pri firemnom kľúči (sk_live_*) nechajte prázdne — firma vyplýva z prihlasovacích údajov. Tajný kľúč je len na zápis, preto namiesto odhadovania podľa zmluvy pozrite vyššie 'Nastavený kľúč' — aj priamy zákazník môže dostať integrátorský kľúč a potom každé volanie zlyhá s 400 'X-Firm-Id header is required', kým sa toto pole nevyplní. Tlačidlo Test pripojenia vypíše firmy, za ktoré môže kľúč konať, aj s ich UUID. NEJDE o nárok firm_id v tokene — ten identifikuje samotného integrátora a nič nevyberá."
 
 #. module: edi_epostak_base
 #: model:ir.model.fields.selection,name:edi_epostak_base.selection__res_config_settings__epostak_mode__sandbox
@@ -127,6 +142,17 @@ msgid ""
 msgstr ""
 "Určuje, ktoré prostredie ePošťáka a ktorú sadu\n"
 "                                prihlasovacích údajov používa každá požiadavka."
+
+#. module: edi_epostak_base
+#: model_terms:ir.ui.view,arch_db:edi_epostak_base.view_res_config_settings_epostak
+msgid ""
+"The Firm ID, the credentials and the inbound poll below\n"
+"                        belong to the company you are working in; switch company\n"
+"                        to configure another. The environment applies to all."
+msgstr ""
+"ID firmy, prihlasovacie údaje a vyzdvihovanie nižšie patria spoločnosti, v "
+"ktorej pracujete; inú spoločnosť nastavíte po prepnutí do nej. Prostredie "
+"platí pre všetky."
 
 #. module: edi_epostak_base
 #. odoo-python
@@ -144,7 +170,9 @@ msgid ""
 " (EAS) and Peppol Endpoint on the company's partner record — ePošťák scopes "
 "every request to that participant identifier."
 msgstr ""
-"Peppol adresa spoločnosti %s nie je nastavená. Nastavte Peppol e-adresu (EAS) a Peppol koncový bod na kontakte spoločnosti — ePošťák viaže každú požiadavku na tento identifikátor účastníka."
+"Peppol adresa spoločnosti %s nie je nastavená. Nastavte Peppol e-adresu "
+"(EAS) a Peppol koncový bod na kontakte spoločnosti — ePošťák viaže každú "
+"požiadavku na tento identifikátor účastníka."
 
 #. module: edi_epostak_base
 #. odoo-python
@@ -153,7 +181,17 @@ msgid ""
 "The Peppol document %(name)s is missing: %(missing)s. Check the Peppol "
 "e-address (EAS) and Endpoint on both your company and the counterparty."
 msgstr ""
-"V Peppol doklade %(name)s chýba: %(missing)s. Skontrolujte Peppol e-adresu (EAS) a koncový bod pri vašej spoločnosti aj pri protistrane."
+"V Peppol doklade %(name)s chýba: %(missing)s. Skontrolujte Peppol e-adresu "
+"(EAS) a koncový bod pri vašej spoločnosti aj pri protistrane."
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,help:edi_epostak_base.field_res_company__epostak_firm_id
+msgid ""
+"UUID of the ePošťák firm this company acts as, sent as X-Firm-Id. Needed "
+"only with an integrator key (sk_int_*)."
+msgstr ""
+"UUID firmy v ePošťáku, za ktorú táto spoločnosť koná, odosielané ako X-Firm-"
+"Id. Potrebné len pri integrátorskom kľúči (sk_int_*)."
 
 #. module: edi_epostak_base
 #. odoo-python
@@ -189,6 +227,7 @@ msgid "ePošťák Environment"
 msgstr "Prostredie ePošťák"
 
 #. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_company__epostak_firm_id
 #: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__epostak_firm_id
 msgid "ePošťák Firm ID"
 msgstr "ePošťák Firm ID"
@@ -228,7 +267,8 @@ msgid ""
 "scheme %(scheme)s expects a %(length)s-digit Slovak DIČ, but the endpoint is"
 " %(value)r.%(hint)s"
 msgstr ""
-"schéma %(scheme)s očakáva %(length)s-miestne slovenské DIČ, ale koncový bod je %(value)r.%(hint)s"
+"schéma %(scheme)s očakáva %(length)s-miestne slovenské DIČ, ale koncový bod "
+"je %(value)r.%(hint)s"
 
 #. module: edi_epostak_base
 #. odoo-python

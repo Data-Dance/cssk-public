@@ -1,7 +1,7 @@
 ---
 title: Czech Payroll (OCA)
 summary: The Czech monthly payslip for the OCA payroll app on Odoo Community — pracovní poměr, DPP and DPČ, with dated statutory rates, time off and the annual tax reconciliation.
-verified: 19.0.1.13.0
+verified: 19.0.1.13.1
 family: l10n_cz_hr_payroll_base#engines
 ---
 

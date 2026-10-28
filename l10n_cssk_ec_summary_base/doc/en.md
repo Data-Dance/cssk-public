@@ -1,7 +1,7 @@
 ---
 title: CZ/SK EC Sales List
 summary: The shared screens and workflow behind the Slovak súhrnný výkaz and the Czech souhrnné hlášení — one line per customer, VAT number and transaction code, checked and exported as XML.
-verified: 19.0.1.7.0
+verified: 19.0.1.7.1
 ---
 
 ## What it is for {#purpose}
@@ -157,6 +157,10 @@ with the value each writes into the XML. A list offers only the versions
 whose validity covers its period, including archived ones, so archiving a
 version tidies the list without making old periods unfileable. You normally
 do not change anything here.
+
+**Export warnings.** Checks that do not stop the export are listed in a
+yellow banner at the top of the form, and in the chatter, until the next
+export.
 
 ## Limitations {#limitations}
 

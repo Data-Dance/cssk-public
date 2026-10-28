@@ -1,7 +1,7 @@
 ---
 title: Peppol e-invoicing (BIS Billing 3.0)
 summary: Sends customer invoices and credit notes as Peppol BIS Billing 3.0 e-invoices, turns received e-invoices into draft vendor bills and handles business responses — through whichever EDI provider is installed.
-verified: 19.0.1.7.0
+verified: 19.0.1.7.1
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Kontrolní hlášení DPH (DPHKH1)
 summary: České kontrolní hlášení (DPHKH1) — oddíly A.1 až B.3 vypočtené z účetnictví s hranicí 10 000 Kč, zkontrolované podle požadavků formuláře a exportované jako XML pro EPO v aktuální struktuře pro jakékoli období.
-verified: 19.0.1.9.1
+verified: 19.0.1.10.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -100,7 +100,8 @@ Kromě [společného nastavení](module:l10n_cssk_kv_kh_base#setup):
   přenesení (zlato, nemovitost, stavební a montážní práce, zboží z přílohy
   č. 5, povolenky na emise a další kódy formuláře). Nastavte ho na produktu,
   pole *Kód předmětu plnění (§92a)* pod kategorií produktu, nebo na dani v
-  režimu přenesení, kde se pole u označených daní zobrazí. Kód z produktu má
+  režimu přenesení, kde se pole zobrazí u označených daní a u prodejní daně
+  vykazované na řádku 25 (standardní *0% RC*). Kód z produktu má
   přednost před kódem z daně. Doklad, jehož řádky nesou různé kódy, se uvede
   na jednom řádku za každý kód se stejným evidenčním číslem.
 - **DIČ druhé strany.** Oddíly A.1, A.4, B.1 a B.2 identifikují druhou stranu
@@ -142,6 +143,12 @@ pohledávky* (`P`, nebo `A` pro § 44 ve znění do 31. 3. 2019).
 Kontrolní součty (*VetaC*) se počítají z oddílů tak, jak je formulář
 definuje: A.1 v `pln_rez_pren`, B.1 v `rez_pren23` / `rez_pren5`, celý oddíl
 A.2 v `celk_zd_a2` a součty snížené sazby včetně druhé snížené sazby.
+
+**Oprava řádku.** Každou záložku oddílu lze upravit po řádcích: na řádku
+zaškrtněte **Override** a opravte základ a daň v základní, snížené či druhé
+snížené sazbě. Exportují se opravené údaje a zůstanou zachovány i po novém
+výpočtu, na řádku téhož dokladu (a v A.1 / B.1 téhož kódu předmětu plnění).
+Oprava, jejíž řádek zmizí, se vypíše v chatteru.
 
 ## Druhy podání a opravy {#usage}
 

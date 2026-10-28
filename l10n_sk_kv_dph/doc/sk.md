@@ -1,7 +1,7 @@
 ---
 title: Kontrolný výkaz DPH (KV DPH)
 summary: Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.
-verified: 19.0.2.4.0
+verified: 19.0.2.5.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -126,7 +126,9 @@ Okrem [spoločného nastavenia](module:l10n_cssk_kv_kh_base#setup):
   pokladnice eKasa, otvorte *Rozšírené nastavenia* a v bloku *Kontrolný výkaz* nastavte **Prepis sekcie kontrolného výkazu** na `D.1`. Každý
   riadok s DPH tohto denníka sa potom vykáže ako obrat z eKasy v D.1 namiesto
   D.2. Faktúry podnikateľom vystavujte cez bežný predajný denník, aby sa
-  naďalej dostali do A.1.
+  naďalej dostali do A.1. S pokladnicou Odoo (Point of Sale) nainštalujte
+  [module:l10n_sk_kv_dph_pos](module:l10n_sk_kv_dph_pos): predaje každej
+  pokladničnej relácie idú do D.1 aj bez tohto nastavenia.
 
 ## Oddiely {#sections}
 
@@ -142,7 +144,7 @@ jeden riadok za každú sadzbu.
 | B.3.1 / B.3.2 | Prijaté zjednodušené faktúry: jeden súhrn v B.3.1, kým je z nich **odpočítaná** daň za obdobie pod 3 000 eur ([§ 78a ods. 6](law:sk/2004/222#paragraf-78a.odsek-6)); od 3 000 eur odpočítanej dane súhrny podľa dodávateľov v B.3.2. Bloček s odpočtom 50 % sa započíta polovicou. Do marca 2016 jeden súhrn v B.3. |
 | C.1 | Dobropisy a ťarchopisy vyhotovené odberateľom, ktorí sú zdaniteľnými osobami, s číslom opravovanej faktúry. Ťarchopis vykáže kladný rozdiel. |
 | C.2 | Prijaté dobropisy a ťarchopisy s číslom opravovanej faktúry; aj opravy odpočítanej dane podľa § 53b zaznamenané modulom `l10n_sk_par53b`. |
-| D.1 | Obraty z eKasy: riadky s DPH denníkov, ktorých sekcia kontrolného výkazu je nastavená na `D.1` (pozri [Nastavenie](#setup)). |
+| D.1 | Obraty z eKasy: riadky s DPH denníkov, ktorých sekcia kontrolného výkazu je nastavená na `D.1` (pozri [Nastavenie](#setup)), a s modulom [module:l10n_sk_kv_dph_pos](module:l10n_sk_kv_dph_pos) pokladničné relácie. Vykazuje sa obrat vrátane DPH (*SumaObratov*) a základ a daň v základnej sadzbe (20 % a viac) a v znížených sadzbách; prepis opravuje týchto päť stĺpcov. |
 | D.2 | Zdaniteľné plnenia odberateľom bez IČ DPH aj IČO (alebo bez partnera) a dobropisy k nim: súhrn základov a dane v základnej sadzbe (20 % a viac) a v znížených sadzbách. |
 
 Mimo výkazu zostávajú dodania tovaru a služieb do iného členského štátu
@@ -200,9 +202,13 @@ mesiac alebo rok a štvrťrok).
 
 ## Obmedzenia {#limitations}
 
-- **D.1 (eKasa) sa neodvodzuje z dokladov.** Vykazujú sa tam len denníky
-  nastavené na `D.1`; každý iný predaj cez pokladnicu bez identifikovaného
-  odberateľa-podnikateľa sa vykáže v **D.2**.
+- **D.1 (eKasa) sa neodvodzuje z bežných dokladov.** Vykazujú sa tam
+  denníky nastavené na `D.1` a s modulom
+  [module:l10n_sk_kv_dph_pos](module:l10n_sk_kv_dph_pos) pokladničné relácie;
+  každý iný predaj cez pokladnicu bez identifikovaného odberateľa-podnikateľa
+  sa vykáže v **D.2**. Či majú Z / D / ZZn / DZn v D.1 na tlačivách od roku
+  2021 (ktorých poučenie žiada len obrat) niesť rozdelenie podľa sadzieb
+  alebo nuly, ešte musí potvrdiť účtovník.
 - **Ťarchopisy** sa dostanú do C.1 / C.2, len ak sú prepojené s opravovanou
   faktúrou (tlačidlo *Debit Note*). Ťarchopis vystavený ako bežná faktúra sa
   stále vykáže v A.1 / B.2.

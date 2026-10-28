@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k DPH OSS CZ/SK (úprava pre Úniu)
 summary: Štvrťročné daňové priznanie v osobitnej úprave pre predaj tovaru na diaľku a služby spotrebiteľom v iných štátoch EÚ — z daní OSS v Odoo, prepočítané na eurá kurzom ECB, s opravami predchádzajúcich štvrťrokov.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -203,6 +203,9 @@ mapovanie, ktoré už na fiškálnej pozícii je.
 Pri inštalácii sa mapovanie doplní každej spoločnosti, ktorá už dane OSS má.
 Spoločnosti, ktoré OSS nikdy nepoužili, ostanú bez zmeny. Mapovanie je návrh,
 rovnako ako v samotnom Odoo: skontrolujte ho podľa tovaru, ktorý predávate.
+
+**Upozornenia exportu.** Kontroly, ktoré export nezastavia, sa zobrazia v
+žltom pruhu navrchu formulára a v chatteri až do ďalšieho exportu.
 
 ## Obmedzenia {#limitations}
 

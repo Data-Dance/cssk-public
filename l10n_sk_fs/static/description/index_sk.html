@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_fs/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK účtovná závierka (Úč POD)</h1>
 <p class="cssk-summary">Účtovná závierka podnikateľa v podvojnom účtovníctve — súvaha a výkaz ziskov a strát zostavené z účtovníctva a exportované ako oficiálny súbor UZPODv14, k tomu prehľad peňažných tokov, prehľad zmien vlastného imania a poznámky.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.7.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_fs_base/static/description/index_sk.html"><code>l10n_cssk_fs_base</code></a>, <code>l10n_sk</code>, <a href="/partner_nace/static/description/index_sk.html"><code>partner_nace</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_dppo_fs/static/description/index_sk.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.7.4</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_fs_base/static/description/index_sk.html"><code>l10n_cssk_fs_base</code></a>, <code>l10n_sk</code>, <a href="/partner_nace/static/description/index_sk.html"><code>partner_nace</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_dppo_fs/static/description/index_sk.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Slovenská spoločnosť, ktorá vedie podvojné účtovníctvo, uzatvára každý rok
@@ -108,7 +108,7 @@ kontakte:</p>
 </tr>
 <tr>
 <td>Obchodné meno, adresa, telefón, e-mail</td>
-<td>kontakt spoločnosti</td>
+<td>kontakt spoločnosti; <em>číslo</em> domu je číslo na konci poľa <em>Ulica</em>, <em>Ulica 2</em> sa použije, len ak obsahuje iba číslo</td>
 </tr>
 <tr>
 <td>Zápis v obchodnom registri</td>
@@ -170,8 +170,8 @@ výkazu ziskov a strát.</p>
   nulové — to znamená, že sa do riadkov nedostal žiadny účet. Účty so
   zostatkom nad 100 €, ktoré sa nedostali do žiadneho riadku, sa ohlásia ako
   varovanie (<em>Účty nezachytené v žiadnom riadku výkazu</em>): export nezastavia,
-  ale objavia sa na zázname (v jeho chatteri a ako upozornenie tam, kde
-  mechanizmus podaní varovania exportu zobrazuje), nielen v logu servera.
+  ale objavia sa na zázname ako žltý pruh navrchu formulára a v jeho
+  chatteri, nielen v logu servera.
   Účet 431 sa tam objaví vždy, keď má zostatok.</li>
 </ul>
 <p>Deň zostavenia v hlavičke je deň exportu. Podpisový záznam súčasťou súboru nie
@@ -242,7 +242,7 @@ záznamu a stiahne.</p>
   účtovej osnovy; sledujte <em>Nepriradené účty</em> a pred prvým podaním dajte
   priradenie odsúhlasiť účtovníkovi.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.7.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.7.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

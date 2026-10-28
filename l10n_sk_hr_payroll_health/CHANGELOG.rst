@@ -10,6 +10,22 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.1] — 2026-10-27
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Fixed**
+
+- **The company's default health insurer is on the company form** (tab
+  *Payroll Reporting*, together with the *Health payer number*). It decides
+  the dávka 514 of every employee without an insurer of their own, and could
+  be changed only by import.
+- A correction of a dávka 514, once offered, will look only for the statement
+  sent to the same insurer.
+
+**Changed**
+
+- **Slovak translation.** The correction and submission fields every declaration shares (*Correction Type*, *Correction Reference*, *Delivery*, *Submissions*) showed in English; they are translated now, as is the message asking for the company DIČ.
+
 [19.0.1.2.0] — 2026-10-27
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

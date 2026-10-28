@@ -1,7 +1,7 @@
 ---
 title: SK daňové priznanie k dani z príjmov PO (DPPO)
 summary: Slovenské daňové priznanie k dani z príjmov právnických osôb — všetky vzory od roku 2013, výsledok hospodárenia z účtovníctva, výpočet dane so sadzbou a minimálnou daňou daného roka a XML overené proti schéme finančnej správy.
-verified: 19.0.1.4.6
+verified: 19.0.1.4.7
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK VAT Return (Daňové priznanie k DPH)
 summary: The Slovak VAT return computed from the tax tags of Odoo's Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.
-verified: 19.0.1.13.0
+verified: 19.0.1.13.1
 ---
 
 ## What it is for {#purpose}
@@ -117,8 +117,9 @@ Beyond the [engine's setup](module:l10n_cssk_vat_return_base#setup):
   city, phone and e-mail. The house number (*číslo*) is the number at the end
   of **Street** ("Mlynská 1234/5" gives *ulica* "Mlynská" and *číslo*
   "1234/5"), or the street-number fields where the address is kept split.
-  **Street 2** is never filed as the house number; a street that does not end
-  in a number is written whole with *číslo* empty.
+  **Street 2** is filed as the house number only when it holds nothing but a
+  number — a building, a floor or a c/o line there never is; a street that
+  does not end in a number is written whole with *číslo* empty.
 - **Service products bought from the EU** need the right vendor tax; see
   [below](#eu-services).
 

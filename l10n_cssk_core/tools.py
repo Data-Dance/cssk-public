@@ -232,3 +232,82 @@ def normalize_vat(vat, keep_prefix=False):
     if not keep_prefix and len(vat) > 2 and vat[:2].isalpha():
         vat = vat[2:]
     return vat
+
+
+#: A house number as Czech and Slovak addresses write it: ``12``, ``12A``,
+#: ``12 A``, the súpisné / popisné and orientačné pair ``1141/11``,
+#: ``1141/11b``, and a range ``12-14``.
+_HOUSE_NUMBER = r"\d{1,6}(?:\s?[A-Za-z])?(?:\s*[/-]\s*\w{1,6})?[A-Za-z]?"
+#: ``č. p.`` / ``č.p.`` / ``č. o.`` written before a bare number, as villages
+#: without street names do (``č. p. 123``).
+_NUMBER_PREFIX = r"(?:[čc]\.\s*[po]\.)"
+_HOUSE_NUMBER_RE = re.compile(
+    r"^(?:%s\s*)?(?P<number>%s)$" % (_NUMBER_PREFIX, _HOUSE_NUMBER), re.IGNORECASE)
+_STREET_NUMBER_RE = re.compile(
+    r"^(?P<street>.*?\D)[\s,]*(?P<number>%s)$" % _HOUSE_NUMBER)
+_TRAILING_PREFIX_RE = re.compile(r"[\s,]*%s$" % _NUMBER_PREFIX, re.IGNORECASE)
+
+
+def _compact_number(number):
+    return re.sub(r"\s+", "", number)
+
+
+def split_street_text(street, street2=""):
+    """``(street name, house number)`` out of Odoo's free-text address lines.
+
+    The trailing house number of ``street`` is split off (``Hlavná 12``,
+    ``Vinohradská 1511/230``, ``Nám. SNP 7A``); a street that is nothing but a
+    number (``123``, ``č. p. 123``, a village without street names) gives an
+    empty street name.
+
+    ``street2`` is Odoo's SECOND ADDRESS LINE — a building, a floor, a c/o —
+    and is never a house number in its own right. It is used as one only when
+    ``street`` carries no number and ``street2`` holds nothing but one, which
+    is how earlier exports taught users to fill it. Anything else in it is
+    ignored: filing a floor or a c/o line as the súpisné / popisné číslo
+    misstates the seat.
+
+    A street that ends in no number goes out whole with an empty number, the
+    way a filer leaves a field blank rather than guess. No length limit is
+    applied here; each export clips to its own form.
+    """
+    street = " ".join((street or "").split())
+    street2 = " ".join((street2 or "").split())
+    only = _HOUSE_NUMBER_RE.match(street)
+    if only:
+        return "", _compact_number(only.group("number"))
+    match = _STREET_NUMBER_RE.match(street)
+    if match:
+        name = match.group("street").strip().rstrip(",").strip()
+        return (_TRAILING_PREFIX_RE.sub("", name),
+                _compact_number(match.group("number")))
+    only = _HOUSE_NUMBER_RE.match(street2)
+    if only:
+        return street, _compact_number(only.group("number"))
+    return street, ""
+
+
+def split_street(record):
+    """``(street name, house number)`` of a partner or a company.
+
+    ``base_address_extended``'s split fields win when they are installed and
+    filled: *House* is the number and *Door*, when there, is joined as
+    ``house/door`` (the súpisné / orientačné pair entered in two fields).
+    Otherwise :func:`split_street_text` reads ``street`` / ``street2``.
+
+    This is the ONE reading every statutory export and e-invoice uses, so a
+    seat is filed the same way on every form.
+    """
+    if not record:
+        return "", ""
+    partner = record.partner_id if record._name == "res.company" else record
+    if "street_name" in partner._fields and (partner.street_name or "").strip():
+        number = (partner.street_number or "").strip()
+        number2 = (partner.street_number2 or "").strip()
+        if number and number2:
+            number = "%s/%s" % (number, number2)
+        number = number or number2
+        if not number:
+            number = split_street_text("", partner.street2)[1]
+        return partner.street_name.strip(), _compact_number(number)
+    return split_street_text(partner.street, partner.street2)

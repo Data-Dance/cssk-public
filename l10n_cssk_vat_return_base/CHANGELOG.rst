@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.11.1] — 2026-10-27
+--------------------------
+
+Added
+~~~~~
+
+- The warnings of the last export (checks that did not block it but
+  need a look before filing) are shown as a banner at the top of the
+  form. They were kept on the record and in the chatter, out of sight.
+
 [19.0.1.11.0] — 2026-10-27
 --------------------------
 

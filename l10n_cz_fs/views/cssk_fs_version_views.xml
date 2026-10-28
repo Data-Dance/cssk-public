@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cssk_fs_version_view_form_cz" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.version.form.cz</field>
+        <field name="model">cssk.fs.statement.version</field>
+        <field name="inherit_id" ref="l10n_cssk_fs_base.cssk_fs_version_view_form"/>
+        <field name="arch" type="xml">
+            <field name="statement_kind" position="after">
+                <field name="l10n_cz_fs_scope"
+                       invisible="statement_kind not in ('balance_sheet', 'profit_loss')"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="cssk_fs_version_view_list_cz" model="ir.ui.view">
+        <field name="name">cssk.fs.statement.version.list.cz</field>
+        <field name="model">cssk.fs.statement.version</field>
+        <field name="inherit_id" ref="l10n_cssk_fs_base.cssk_fs_version_view_list"/>
+        <field name="arch" type="xml">
+            <field name="statement_kind" position="after">
+                <field name="l10n_cz_fs_scope" optional="show"/>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -792,11 +792,13 @@ msgstr "Suma dane"
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__tax_amount_basic
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__tax_amount_basic
 msgid "Tax Amount Basic"
 msgstr "Suma dane (základná sadzba)"
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__tax_amount_lower
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__tax_amount_lower
 msgid "Tax Amount Lower"
 msgstr "Suma dane (znížená sadzba)"
 
@@ -813,11 +815,13 @@ msgstr "Základ dane"
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__tax_base_basic
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__tax_base_basic
 msgid "Tax Base Basic"
 msgstr "Základ dane (základná sadzba)"
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__tax_base_lower
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__tax_base_lower
 msgid "Tax Base Lower"
 msgstr "Základ dane (znížená sadzba)"
 
@@ -975,3 +979,13 @@ msgstr "§ 69 ods. 12 písm. i) — integrované obvody"
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_cn_code
 msgid "Číselný kód tovaru (KV DPH)"
 msgstr "Číselný kód tovaru (KV DPH)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__turnover
+msgid "Turnover (VAT included)"
+msgstr "Obrat (vrátane DPH)"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__turnover
+msgid "SumaObratov: the eKasa turnover, VAT included."
+msgstr "SumaObratov: obrat z eKasy vrátane DPH."

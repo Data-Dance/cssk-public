@@ -24,36 +24,7 @@ from datetime import date
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_cssk_core.tools import statutory_round
-
-# A trailing house number: "Hlavná 12", "Hlavná 1141/11", "Hlavná 12A".
-# The same reading as l10n_sk_single_entry_closing's Úč FO header.
-_STREET_RE = re.compile(
-    r"^(?P<street>.*?\D)[\s,]*(?P<number>\d{1,6}[A-Za-z]?(?:\s*/\s*\w{1,6})?[A-Za-z]?)\s*$")
-_NUMBER_RE = re.compile(r"^\d{1,6}[A-Za-z]?(?:\s*/\s*\w{1,6})?[A-Za-z]?$")
-
-
-def _sk_street_and_number(partner):
-    """``(ulica, číslo)``: ``base_address_extended``'s split fields when they
-    are there, else the trailing number of ``street``. ``street2`` is the
-    second address line, not a house number, and is used as ``cislo`` only
-    when it holds nothing but one (how the earlier export taught users to
-    fill it)."""
-    if "street_name" in partner._fields and partner.street_name:
-        number = (partner.street_number or "").strip()
-        number2 = (partner.street_number2 or "").strip()
-        return partner.street_name.strip(), (
-            "%s/%s" % (number, number2) if number and number2 else number)
-    street = (partner.street or "").strip()
-    match = _STREET_RE.match(street)
-    if match:
-        return match.group("street").strip().rstrip(","), \
-            re.sub(r"\s+", "", match.group("number"))
-    street2 = (partner.street2 or "").strip()
-    if _NUMBER_RE.match(street2):
-        return street, re.sub(r"\s+", "", street2)
-    return street, ""
-
+from odoo.addons.l10n_cssk_core.tools import split_street, statutory_round
 
 # (posledná_známa_row, rozdiel_row, source_row)
 _DODATOCNE_DIFF = [
@@ -157,7 +128,7 @@ class CSSKIncomeTaxReturn(models.Model):
                 legal_form = holder.l10n_sk_legal_form or ""
                 if legal_form:
                     break
-        street, number = _sk_street_and_number(partner)
+        street, number = split_street(partner)
         return {
             "dic": dic,
             "ico": (company.company_registry or "").replace(" ", ""),

@@ -17,6 +17,19 @@ Carry-over to 18.0
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
 
+[19.0.1.13.1] — 2026-10-27
+--------------------------
+
+Fixed
+~~~~~
+
+- The seat's *ulica* / *číslo* are read by the shared helper of
+  ``l10n_cssk_core``, the same as on every other Finančná správa form. A
+  *Street 2* that holds nothing but a house number (``Hlavná`` / ``12``) is
+  now filed as the *číslo* (it was left empty); a building, a floor or a c/o
+  line there is still never filed. A street that is only a number
+  (``č. p. 123``) files an empty *ulica*.
+
 [19.0.1.13.0] — 2026-10-27
 --------------------------
 

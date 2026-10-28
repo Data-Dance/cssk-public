@@ -44,6 +44,17 @@ Fixed
   endpoint, so a re-delivery of the same document is still recognised and
   acknowledged once.
 
+[19.0.1.7.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak translation: *company* is *spoločnosť* throughout, as in Odoo's own
+  Slovak; half the strings said *firma*, so the Settings block "Peppol BIS3
+  (táto firma)" sat next to fields about *spoločnosť*. The Slovak user guide
+  follows.
+
 [19.0.1.7.0] — 2026-10-27
 -------------------------
 

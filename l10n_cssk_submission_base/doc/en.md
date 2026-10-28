@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Statutory Submissions
 summary: A record of how each statutory filing reached the authority — channel, attempts, delivery, acceptance — and a place to keep the receipts that prove it.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}
@@ -59,7 +59,10 @@ Two groups under *Accounting* in the user settings:
    the data box — then click **Attest filing**. Odoo records who attested and
    when, and the submission becomes *Delivered*.
 4. **Electronic channel**: click **Queue**. The submission is sent within a few
-   minutes, or immediately with **Send now**.
+   minutes, or immediately with **Send now**. A submission is sent once even
+   when *Send now* and the scheduled sender meet: whichever takes it first
+   sends it, and *Send now* says that it is being sent — reload it in a
+   moment to see the outcome.
 5. Attach the receipts on the **Receipts** tab and enter the authority's
    reference (*podacie číslo*, *číslo podání*) in **Authority reference**.
 6. **Filed by hand, accepted**: once you hold the authority's confirmation,

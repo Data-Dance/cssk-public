@@ -1,7 +1,7 @@
 ---
 title: SK Pension Insurance Record Sheet (ELDP)
 summary: The evidenčný list dôchodkového poistenia for a calendar year — each employee's pension assessment base and insured period, built from the year's payslips and exported as a batch XML for the Sociálna poisťovňa.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

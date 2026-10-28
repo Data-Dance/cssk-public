@@ -48,7 +48,12 @@ class TestKvKhBase(TransactionCase):
     def test_account_tax_fields_present(self):
         field_names = self.env["account.tax"]._fields
         self.assertIn("cssk_control_is_reverse_charge", field_names)
-        self.assertIn("cssk_control_section_default", field_names)
+        # A per-tax "default section" was offered and never read by any
+        # resolver: a value set on a tax changed nothing. Removed rather than
+        # wired in — a single section per tax cannot express a correction
+        # (C.1 / C.2) or a customer who is not a taxable person (D.2), and it
+        # would have outranked the rules that do.
+        self.assertNotIn("cssk_control_section_default", field_names)
 
 
 @tagged("post_install", "-at_install")

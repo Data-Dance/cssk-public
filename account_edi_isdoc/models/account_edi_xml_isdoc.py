@@ -12,6 +12,7 @@ from odoo.tools.float_utils import float_is_zero
 from odoo.addons.account.tools import dict_to_xml
 from odoo.addons.account_edi_ubl_cii.models.account_edi_common import FloatFmt
 from odoo.addons.account_edi_isdoc.tools import isdoc_invoice
+from odoo.addons.l10n_cssk_core.tools import split_street
 
 # ISDOC 6.0.2 - Czech national e-invoicing standard.
 # Schema: http://isdoc.cz/namespace/2013 (xsd/isdoc-invoice-6.0.2.xsd)
@@ -60,12 +61,9 @@ class AccountEdiXmlISDOC(models.AbstractModel):
     @staticmethod
     def _split_street(partner):
         """ ISDOC wants StreetName + BuildingNumber separately; Odoo stores a combined street.
-        Split off a trailing house number (incl. forms like '1141/11'). """
-        street = (partner.street or '').strip()
-        m = re.search(r'^(.*?)[\s,]+(\d+[\w/]*)$', street)
-        if m:
-            return m.group(1).strip(), m.group(2).strip()
-        return street, (partner.street2 or '').strip()
+        The one reading every CZ/SK export shares (l10n_cssk_core): the trailing house number
+        of the street (incl. '1141/11'), a Street 2 only when it is nothing but a number. """
+        return split_street(partner)
 
     def _get_document_type_code(self, invoice):
         # Advance tax documents (DocumentType 5/6, daňový doklad k přijaté platbě) are emitted
@@ -149,15 +147,29 @@ class AccountEdiXmlISDOC(models.AbstractModel):
             )
         return amounts
 
+    def _isdoc_tax_group_key(self, line):
+        """ Key of the VAT breakdown row (TaxSubTotal) `line` is summed into: its rate.
+        Override point, together with _isdoc_tax_category_node: a bridge that must keep
+        two kinds of supply at one rate apart (the local reverse charge next to an
+        exempt 0 % supply) returns a richer, sortable key. """
+        return round(self._line_tax_percent(line), 2)
+
+    def _isdoc_tax_category_node(self, key):
+        """ <TaxCategory> of the breakdown row grouped under `key`. """
+        return {
+            'Percent': self._text(self.format_float(key, 2)),
+            'VATApplicable': self._text('true' if key else 'false'),
+        }
+
     def _isdoc_group_by_rate(self, lines, currency, sign=1, amounts=None):
-        """ {percent: {'taxable','inclusive','tax'}} summed (and rounded) over `lines`.
+        """ {key: {'taxable','inclusive','tax'}} summed (and rounded) over `lines`,
+        keyed by _isdoc_tax_group_key (the rate, unless a bridge says otherwise).
 
         `amounts` is _isdoc_line_amounts of their document; a line it does not know falls
         back to its own price_subtotal / price_total. """
         groups = {}
         for line in lines:
-            percent = round(self._line_tax_percent(line), 2)
-            g = groups.setdefault(percent, {'taxable': 0.0, 'tax': 0.0})
+            g = groups.setdefault(self._isdoc_tax_group_key(line), {'taxable': 0.0, 'tax': 0.0})
             untaxed, tax = (amounts or {}).get(
                 line, (line.price_subtotal, line.price_total - line.price_subtotal))
             g['taxable'] += sign * untaxed
@@ -202,6 +214,7 @@ class AccountEdiXmlISDOC(models.AbstractModel):
         # {ns}-qualified post-processing matches.
         self._apply_namespace(xml_content)
         self._postprocess_bank_groups(xml_content)
+        self._postprocess_building_number(xml_content)
 
         return etree.tostring(xml_content, xml_declaration=True, encoding='UTF-8'), set(errors)
 
@@ -227,6 +240,20 @@ class AccountEdiXmlISDOC(models.AbstractModel):
             if pdf:
                 archive.writestr(f"{invoice.name.replace('/', '_')}.pdf", pdf)
         return buffer.getvalue(), errors
+
+    @staticmethod
+    def _postprocess_building_number(root):
+        """ BuildingNumber is mandatory in ISDOC, but an address with no house number has none
+        to give, and dict_to_xml drops an empty node. Emit it empty right after StreetName, as
+        a filer leaves a field blank rather than guess (a Street 2 line is not a house number). """
+        street_tag = f'{{{ISDOC_NS}}}StreetName'
+        building_tag = f'{{{ISDOC_NS}}}BuildingNumber'
+        for address in root.iter(f'{{{ISDOC_NS}}}PostalAddress'):
+            if address.find(building_tag) is not None:
+                continue
+            street = address.find(street_tag)
+            position = list(address).index(street) + 1 if street is not None else 0
+            address.insert(position, etree.Element(building_tag))
 
     def _postprocess_bank_groups(self, root):
         """ Ensure every transfer <Details> carries the full ordered BankAccount group.
@@ -371,9 +398,9 @@ class AccountEdiXmlISDOC(models.AbstractModel):
 
         subtotals = []
         total_tax = 0.0
-        for percent in sorted(set(full) | set(claimed)):
-            f = full.get(percent, zero)
-            c = claimed.get(percent, zero)
+        for key in sorted(set(full) | set(claimed)):
+            f = full.get(key, zero)
+            c = claimed.get(key, zero)
             total_tax += f['tax']
             subtotals.append({
                 'TaxableAmount': self._text(self.format_float(f['taxable'], dp)),
@@ -385,10 +412,7 @@ class AccountEdiXmlISDOC(models.AbstractModel):
                 'DifferenceTaxableAmount': self._text(self.format_float(f['taxable'] - c['taxable'], dp)),
                 'DifferenceTaxAmount': self._text(self.format_float(f['tax'] - c['tax'], dp)),
                 'DifferenceTaxInclusiveAmount': self._text(self.format_float(f['inclusive'] - c['inclusive'], dp)),
-                'TaxCategory': {
-                    'Percent': self._text(self.format_float(percent, 2)),
-                    'VATApplicable': self._text('true' if percent else 'false'),
-                },
+                'TaxCategory': self._isdoc_tax_category_node(key),
             })
         return {
             'TaxSubTotal': subtotals,

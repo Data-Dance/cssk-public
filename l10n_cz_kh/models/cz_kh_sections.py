@@ -55,6 +55,22 @@ class L10nCzKhRowMixin(models.AbstractModel):
     supplies_code = fields.Char()
     row_count = fields.Integer(default=1)
 
+    # --- manual override ---------------------------------------------------
+    # The DPHDP3/DPHKH1 rows are filed from the rate split, not from the base
+    # mixin's single tax_base_amount / tax_amount pair, so THOSE are what an
+    # override must snapshot and re-apply. Overriding the inherited pair
+    # changed two columns no export reads: a corrected row filed its computed
+    # figures.
+    _KV_OVERRIDE_FIELDS = (
+        "base_std", "tax_std", "base_red", "tax_red", "base_red3", "tax_red3")
+
+    def _kv_override_key(self):
+        # A.1 / B.1 split one document into one row per § 92a code (see
+        # ``_cz_move_buckets``), so the code is part of what makes an override
+        # row-specific; elsewhere it is empty and changes nothing.
+        self.ensure_one()
+        return super()._kv_override_key() + (self.supplies_code or "",)
+
     def _drill_expected_amounts(self):
         """CZ rows carry the standard/reduced split instead of the base
         mixin's single tax_base_amount/tax_amount pair — the source lines

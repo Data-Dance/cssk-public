@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The seat's *ulica* / *číslo* are read by the shared helper of
+  ``l10n_cssk_core``, the same as on every other Finančná správa form. A
+  street that is only a number (``č. p. 123``) now files an empty *ulica* and
+  the number as *číslo*, instead of the whole text as *ulica*.
+
 [19.0.1.1.0] — 2026-10-27
 -------------------------
 

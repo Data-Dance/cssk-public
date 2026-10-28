@@ -1,7 +1,7 @@
 ---
 title: Příplatky ke mzdě (CZ)
 summary: Zákonné příplatky ke mzdě za práci přesčas, ve svátek, v noci, v sobotu a v neděli a ve ztíženém pracovním prostředí, mzda za práci přesčas a doplatek do minimální mzdy, z datovaných sazeb, pro obě mzdová jádra.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na co slouží {#purpose}

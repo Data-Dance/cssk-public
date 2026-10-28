@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cssk_fs_base/static/description/index_sk.html">Slovenčina</a> · <a href="/l10n_cssk_fs_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ/SK Financial Statements</h1>
 <p class="cssk-summary">The Slovak and Czech financial statements computed from the ledger, row by row, with a comparative period, figures entered by hand where the books cannot supply them, checks that every account reached a row, and the filing record.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.10.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cssk_fs_xlsx/static/description/index.html"><code>l10n_cssk_fs_xlsx</code></a>, <a href="/l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a>, <a href="/l10n_sk_fs/static/description/index.html"><code>l10n_sk_fs</code></a>, <a href="/l10n_sk_single_entry_closing/static/description/index.html"><code>l10n_sk_single_entry_closing</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.10.3</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cssk_fs_xlsx/static/description/index.html"><code>l10n_cssk_fs_xlsx</code></a>, <a href="/l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a>, <a href="/l10n_sk_fs/static/description/index.html"><code>l10n_sk_fs</code></a>, <a href="/l10n_sk_single_entry_closing/static/description/index.html"><code>l10n_sk_single_entry_closing</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The statutory financial statements in Slovakia and the Czech Republic are
@@ -212,6 +212,9 @@ statements, such as the Slovak Úč POD, gets one sheet per part. The row
 figures are the statement's stored figures, so the workbook shows exactly what
 was reviewed, figures entered by hand included; the account lines below an
 overridden row still show what the ledger holds.</p>
+<p><strong>Export warnings.</strong> Checks that do not stop the export are listed in a
+yellow banner at the top of the form, and in the chatter, until the next
+export.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li><strong>Year-end closing journals have no field on screen.</strong> The setting exists on
@@ -227,7 +230,7 @@ overridden row still show what the ledger holds.</p>
 <li>The account mapping follows the standard national chart of accounts and must
   be reviewed with your accountant before the first filing.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.1.10.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.10.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

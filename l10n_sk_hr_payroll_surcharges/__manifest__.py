@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Wage Surcharges (príplatky) — Base",
-    "version": "19.0.1.2.5",
+    "version": "19.0.1.2.6",
     "category": "Human Resources/Payroll",
     "summary": "Engine-neutral statutory wage surcharges for night, Saturday, "
     "Sunday, public-holiday, overtime, difficult-conditions and standby work "

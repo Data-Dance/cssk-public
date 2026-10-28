@@ -1,7 +1,7 @@
 ---
 title: Zálohové faktury — párování bankovních výpisů
 summary: Páruje přijaté bankovní platby s otevřenými zálohovými fakturami podle čísla zálohy nebo variabilního symbolu, zaeviduje platbu a podle nastavení vytvoří daňový doklad k přijaté platbě.
-verified: 19.0.1.0.2
+verified: 19.0.1.1.0
 ---
 
 ## K čemu slouží {#purpose}

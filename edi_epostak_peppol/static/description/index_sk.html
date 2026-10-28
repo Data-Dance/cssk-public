@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/edi_epostak_peppol/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>ePošťák — elektronická fakturácia Peppol</h1>
 <p class="cssk-summary">Odosiela a prijíma elektronické faktúry a obchodné odpovede Peppol cez slovenský prístupový bod ePošťák — s vlastnou zmluvou s ePošťákom alebo cez hostovanú službu Data Dance.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/edi_base_peppol/static/description/index_sk.html"><code>edi_base_peppol</code></a>, <a href="/edi_epostak_base/static/description/index_sk.html"><code>edi_epostak_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/edi_base_peppol/static/description/index_sk.html"><code>edi_base_peppol</code></a>, <a href="/edi_epostak_base/static/description/index_sk.html"><code>edi_epostak_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p><strong>ePošťák</strong> je slovenský prístupový bod siete Peppol. Tieto moduly k nemu
@@ -76,7 +76,11 @@ robiť, keď niečo zlyhá.</p>
 tlačidiel uvedené v tomto návode (v zátvorke alebo kurzívou) zodpovedajú
 anglickej verzii.</p>
 <h2 id="setup">Nastavenie</h2>
-<p>Všetko je v <em>Nastavenia → EDI</em>, časť <strong>ePošťák</strong>, a platí pre celú databázu.</p>
+<p>Všetko je v <em>Nastavenia → EDI</em>, časť <strong>ePošťák</strong>. Prostredie platí pre celú
+databázu; ID firmy, prihlasovacie údaje (v hostovanej službe kľúč
+sprostredkovateľa) a vyzdvihovanie patria <strong>spoločnosti, v ktorej práve
+pracujete</strong>. Ďalšiu spoločnosť nastavíte tak, že sa do nej prepnete a vyplníte
+jej vlastné údaje.</p>
 <ol>
 <li><strong>Prostredie</strong> (<em>ePošťák Environment</em>): <strong>Sandbox</strong> (testovacie,
    predvolené) alebo <strong>Production</strong> (produkčné). Kým je aktívny sandbox,
@@ -113,7 +117,8 @@ anglickej verzii.</p>
 <li><strong>Test Connection</strong> (otestovať pripojenie). Uloží nastavenia a skúsi sa
    prihlásiť. S integrátorským kľúčom bez ID firmy vypíše firmy, za ktoré
    smie kľúč konať, aj s ich IČO a Peppol adresou; ak je práve jedna, ID
-   firmy doplní sám. Potom stlačte tlačidlo znova na potvrdenie. Výsledok sa
+   firmy spoločnosti doplní sám. Vymenuje aj ostatné spoločnosti, ktoré
+   povoľujú e-fakturáciu, ale vlastné prihlasovacie údaje k ePošťáku nemajú. Potom stlačte tlačidlo znova na potvrdenie. Výsledok sa
    vždy zobrazí ako oznámenie — zlyhanie nezahodí to, čo ste zadali.</li>
 <li><strong>Peppol adresa vašej spoločnosti</strong> — na kontakte spoločnosti, záložka
    <em>Fakturácia</em>: <strong>Peppol e-adresa (EAS)</strong> <code>0245</code> a ako koncový bod vaše
@@ -153,11 +158,11 @@ ePošťáku</strong>. V <em>Nastavenia → EDI → ePošťák</em>, blok <strong
 </tr>
 <tr>
 <td>Broker key ID</td>
-<td>identifikuje kľúč; sám osebe nie je tajný</td>
+<td>identifikuje kľúč; sám osebe nie je tajný — pre každú spoločnosť</td>
 </tr>
 <tr>
 <td>Broker key</td>
-<td>podpisuje každú požiadavku; zobrazí sa raz pri vydaní</td>
+<td>podpisuje každú požiadavku; zobrazí sa raz pri vydaní — pre každú spoločnosť</td>
 </tr>
 </tbody>
 </table>
@@ -255,8 +260,9 @@ zlúči a nedoručí sa dvakrát. <strong>Odoslať cez Peppol</strong> na faktú
 nanovo; ak sa v ňom čokoľvek zmenilo, je to pre ePošťák nový doklad.</p>
 <h2 id="receiving">Prijímanie</h2>
 <p>Naplánovaná akcia <strong>ePošťák: Poll Inbound Documents</strong> beží každých
-30 minút. Vypýta si od ePošťáka doklady čakajúce na Peppol adresu vašej
-spoločnosti, 20 na stránku a najviac 5 stránok na jeden beh (<em>Documents per
+30 minút. Za každú spoločnosť s vlastnými prihlasovacími údajmi k ePošťáku si
+ako táto spoločnosť vypýta doklady čakajúce na jej Peppol adresu (spoločnosti
+s jedným integrátorským kľúčom sa pýtajú po jednej Peppol adrese), 20 na stránku a najviac 5 stránok na jeden beh (<em>Documents per
 Poll Page</em>, <em>Max Pages per Poll</em>), a ak čakajú ďalšie, spustí sa hneď znova.
 Každý doklad sa uloží a spracuje podľa
 <a href="/edi_base_peppol/static/description/index_sk.html#receiving">prijímania elektronických faktúr</a> a až
@@ -265,9 +271,11 @@ obsah sa nedá stiahnuť, sa nepotvrdí a skúsi sa znova nabudúce. Potvrdenie
 sa týka len Odoo a ePošťáka; odosielateľ z neho nedostane nič.</p>
 <p>Prijímanie zlyháva potichu, ak sa nepozeráte, preto konektor hlási sám:</p>
 <ul>
-<li><strong>Last inbound poll</strong> v nastaveniach ukazuje „OK at … — N document(s)
-  fetched“, „FAILED at … — dôvod (last success: …)“ alebo „Never polled“.</li>
-<li><strong>Poll inbound now</strong> spustí vyzdvihnutie hneď a povie, ako dopadlo.</li>
+<li><strong>Last inbound poll</strong> v nastaveniach ukazuje pre spoločnosť, v ktorej
+  pracujete, „OK at … — N document(s) fetched“, „FAILED at … — dôvod (last
+  success: …)“ alebo „Never polled“.</li>
+<li><strong>Poll inbound now</strong> spustí vyzdvihnutie tejto spoločnosti hneď a povie,
+  ako dopadlo.</li>
 <li>Po <strong>Warn after N failed polls</strong> zlyhaniach po sebe (predvolene 3; 0 to
   vypne) vznikne na kontakte vašej spoločnosti aktivita To-Do „Incoming
   ePošťák documents are not arriving“ pre prvého používateľa so skupinou EDI
@@ -348,14 +356,11 @@ nie je pripravený na sieť (<em>not network-ready</em>).</p>
 </table>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
-<li><strong>Jeden účet ePošťák na databázu.</strong> Prostredie, prihlasovacie údaje a ID
-  firmy zdieľajú všetky spoločnosti a vyzdvihovanie sa pýta na doklady
-  <strong>jednej</strong> spoločnosti: tej, ktorú má používateľ spúšťajúci naplánovanú
-  akciu. Viac spoločností s vlastnými Peppol adresami jedna databáza v
-  priamom režime neobslúži; <strong>Test Connection</strong> na to upozorní a vymenuje
-  ostatné spoločnosti, ktoré povoľujú e-fakturáciu, a doklad odoslaný za
-  niektorú z nich ePošťák odmietne (<em>Error</em>), nedoručí ho pod nesprávnou
-  spoločnosťou.</li>
+<li><strong>Jedno prostredie na databázu.</strong> Sandbox alebo produkcia platí pre všetky
+  spoločnosti; prihlasovacie údaje a ID firmy má každá spoločnosť vlastné.
+  Spoločnosť, ktorá povoľuje e-fakturáciu bez vlastných prihlasovacích
+  údajov, neodosiela (jej doklady skončia v <em>Error</em> s menom spoločnosti) ani
+  nevyzdvihuje.</li>
 <li>Správa si počas odosielania ponechá prostredie, v ktorom vznikla;
   opätovné stlačenie <em>Odoslať cez Peppol</em> ju vytvorí znova v prostredí
   aktívnom <strong>teraz</strong> (pozri <a href="/edi_base_peppol/static/description/index_sk.html#sending">odoslanie</a>).</li>
@@ -367,7 +372,7 @@ nie je pripravený na sieť (<em>not network-ready</em>).</p>
 <li>Či je ePošťák certifikovaným poskytovateľom doručovacej služby podľa § 76a
   zákona o DPH, musí potvrdiť ePošťák; tento modul to neoveruje.</li>
 </ul>
-<footer><p>Text overený voči verzii modulu: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 19.0.1.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

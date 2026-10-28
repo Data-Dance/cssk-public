@@ -1,7 +1,7 @@
 ---
 title: Elektronické faktúry ISDOC (český formát)
 summary: Odosiela faktúry a dobropisy odberateľom ako súbory ISDOC 6.0.2, vložené aj do PDF faktúry, a z prijatých súborov ISDOC vytvára koncepty dodávateľských faktúr.
-verified: 19.0.1.4.0
+verified: 19.0.1.4.2
 ---
 
 ## Na čo slúži {#purpose}
@@ -24,13 +24,14 @@ Stavia na module Odoo `account_edi_ubl_cii`, takže používa štandardný dial�
 bankových účtov potrebuje [module:l10n_cz_base](module:l10n_cz_base). Modul
 nemá slovenský preklad; jeho texty sa zobrazujú po anglicky.
 
-Tri doplnky sa inštalujú samy, keď je prítomný ich náprotivok:
+Štyri doplnky sa inštalujú samy, keď je prítomný ich náprotivok:
 
 | Doplnok | S modulom | Pridáva |
 |---|---|---|
 | [module:account_edi_isdoc_sale](module:account_edi_isdoc_sale) | Predaj | zálohovú faktúru ISDOC (typ dokladu 4) z predajnej objednávky — [zálohové faktúry](#proforma) |
 | [module:account_edi_isdoc_sale_advance](module:account_edi_isdoc_sale_advance) | zálohové faktúry (predaj) | daňové doklady k prijatej platbe ako typy 5 a 6 a odpočítané zálohy na konečnej faktúre — [zálohy](#advances) |
 | [module:account_edi_isdoc_purchase_advance](module:account_edi_isdoc_purchase_advance) | prijaté zálohové faktúry | importované typy 4, 5 a 6 idú do evidencie prijatých záloh — [prijaté zálohy](#received-advances) |
+| [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh) | české kontrolné hlásenie | tuzemské prenesenie daňovej povinnosti s kódom predmetu plnenia na exportovaných faktúrach — [prenesenie](#reverse-charge) |
 
 ## Právny rámec {#legal}
 
@@ -97,6 +98,16 @@ Ponechá sa ako príloha faktúry a pri každom stiahnutí sa nahradí.
 | PaymentMeans | prevodom: dátum splatnosti, číslo účtu, kód banky, IBAN, BIC, VS, KS, ŠS |
 
 Faktúra musí byť v **mene spoločnosti**; faktúru v cudzej mene ISDOC odmietne.
+
+### Tuzemské prenesenie daňovej povinnosti {#reverse-charge}
+
+S modulom [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh)
+(inštaluje sa s českým kontrolným hlásením) sa riadok v českom tuzemskom
+prenesení daňovej povinnosti (§ 92a ZDPH) exportuje ako taký:
+*LocalReverseCharge* s **kódom predmetu plnenia** (*kód předmětu plnění*),
+ktorý vykazuje kontrolné hlásenie; jeho riadok rekapitulácie DPH je označený
+ako prenesenie a oddelený od oslobodených plnení. Pozri
+[module:account_edi_isdoc_kh](module:account_edi_isdoc_kh).
 
 ## Prijímanie ISDOC {#import}
 
@@ -202,7 +213,8 @@ idú importované zálohové doklady do evidencie prijatých záloh:
   domácej mene dokladu.
 - Opravné doklady typu ťarchopis (typ 3) a zjednodušené faktúry (typ 7) sa
   importujú ako bežné faktúry.
-- Export prvok tuzemského prenesenia daňovej povinnosti nikdy nezapisuje:
-  faktúra s prenesením odíde ako plnenie bez DPH a bez kódu predmetu plnenia.
+- Bez modulu [module:account_edi_isdoc_kh](module:account_edi_isdoc_kh)
+  export prvok tuzemského prenesenia daňovej povinnosti nezapisuje: faktúra
+  s prenesením odíde ako plnenie bez DPH a bez kódu predmetu plnenia.
 - Dodávateľ bez DIČ, ktorého nenájde IČO, názov, e-mail ani telefón, sa
   nezaloží; vyberte ho na faktúre.

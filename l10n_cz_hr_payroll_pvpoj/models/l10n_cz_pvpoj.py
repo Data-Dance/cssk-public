@@ -46,6 +46,8 @@ from datetime import date
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.l10n_cssk_core.tools import split_street
+
 # The unified monthly employer report (JMHZ, zákon č. 323/2025 Sb.) replaces
 # PVPOJ from January 2026. Only an employer that stopped being one before
 # 1 April 2026 still files PVPOJ for January-March 2026 (zákon č. 360/2025
@@ -230,8 +232,14 @@ class L10nCzPvpoj(models.Model):
             for b in buckets)
         pojistne_celkem = pojistne_er_total + pojistne_ee_total
         sleva = self._collect_social_discount(data)
+        # ulice / cisloDomu: the číslo popisné split off the street
+        # (l10n_cssk_core), never Street 2 — a building, a floor or a c/o
+        # line. uliceType is 50 characters, cisloDomuType 12.
+        ulice, cislo_domu = split_street(self.company_id)
         return {
             "mesic": str(int(self.month)),
+            "ulice": ulice[:50].strip(),
+            "cislo_domu": cislo_domu[:12],
             "rok": str(int(self.year)),
             "psc": (self.company_id.zip or "").replace(" ", ""),
             "today": fields.Date.context_today(self).isoformat(),

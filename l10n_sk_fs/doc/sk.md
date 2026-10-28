@@ -1,7 +1,7 @@
 ---
 title: SK účtovná závierka (Úč POD)
 summary: Účtovná závierka podnikateľa v podvojnom účtovníctve — súvaha a výkaz ziskov a strát zostavené z účtovníctva a exportované ako oficiálny súbor UZPODv14, k tomu prehľad peňažných tokov, prehľad zmien vlastného imania a poznámky.
-verified: 19.0.1.7.2
+verified: 19.0.1.7.4
 ---
 
 ## Na čo slúži {#purpose}
@@ -68,7 +68,7 @@ kontakte:
 | DIČ | *DIČ* (ak je nainštalovaný slovenský základný modul), inak *Tax ID*; predpona `SK` sa odstráni |
 | IČO | *IČO* |
 | SK NACE | *NACE (main activity)* na kontakte spoločnosti |
-| Obchodné meno, adresa, telefón, e-mail | kontakt spoločnosti |
+| Obchodné meno, adresa, telefón, e-mail | kontakt spoločnosti; *číslo* domu je číslo na konci poľa *Ulica*, *Ulica 2* sa použije, len ak obsahuje iba číslo |
 | Zápis v obchodnom registri | *Obchodný register* |
 
 **Rozdelenie finančných výnosov a nákladov podľa prepojenia (voliteľné).**
@@ -131,8 +131,8 @@ výkazu ziskov a strát.
   nulové — to znamená, že sa do riadkov nedostal žiadny účet. Účty so
   zostatkom nad 100 €, ktoré sa nedostali do žiadneho riadku, sa ohlásia ako
   varovanie (*Účty nezachytené v žiadnom riadku výkazu*): export nezastavia,
-  ale objavia sa na zázname (v jeho chatteri a ako upozornenie tam, kde
-  mechanizmus podaní varovania exportu zobrazuje), nielen v logu servera.
+  ale objavia sa na zázname ako žltý pruh navrchu formulára a v jeho
+  chatteri, nielen v logu servera.
   Účet 431 sa tam objaví vždy, keď má zostatok.
 
 Deň zostavenia v hlavičke je deň exportu. Podpisový záznam súčasťou súboru nie

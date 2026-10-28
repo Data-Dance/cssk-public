@@ -8,6 +8,23 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.5.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- **The výkazy are filed in plný rozsah** when the linked Rozvaha and Výkaz
+  zisku a ztráty are the full-scope versions of l10n_cz_fs (uv_rozsah P),
+  with every numbered row of the číselník; linked abridged statements are
+  filed in the zkrácený rozsah as before.
+
+Changed
+~~~~~~~
+
+- A Rozvaha and a Výkaz zisku a ztráty of different rozsahy are refused:
+  the return states one rozsah for both.
+
 [19.0.1.4.0] — 2026-10-27
 -------------------------
 

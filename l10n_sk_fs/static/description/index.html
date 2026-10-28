@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_fs/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Financial Statements (Úč POD)</h1>
 <p class="cssk-summary">The Slovak účtovná závierka of an entrepreneur in double-entry bookkeeping — the súvaha and the výkaz ziskov a strát computed from the ledger and exported as the official UZPODv14 file, plus the cash flow and equity statements and the notes.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.7.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_fs_base/static/description/index.html"><code>l10n_cssk_fs_base</code></a>, <code>l10n_sk</code>, <a href="/partner_nace/static/description/index.html"><code>partner_nace</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_dppo_fs/static/description/index.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.7.4</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_fs_base/static/description/index.html"><code>l10n_cssk_fs_base</code></a>, <code>l10n_sk</code>, <a href="/partner_nace/static/description/index.html"><code>partner_nace</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_dppo_fs/static/description/index.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Slovak company keeping double-entry books (<em>podvojné účtovníctvo</em>) closes
@@ -109,7 +109,7 @@ contact:</p>
 </tr>
 <tr>
 <td>Name, address, phone, e-mail</td>
-<td>the company's contact</td>
+<td>the company's contact; the house number (<em>číslo</em>) is the number at the end of <em>Street</em>, and <em>Street 2</em> counts only when it holds nothing but a number</td>
 </tr>
 <tr>
 <td>Commercial register entry</td>
@@ -173,9 +173,8 @@ rows.</p>
   liabilities are both zero is refused as well, as a sign that no account
   reached any row. Accounts that carry more than 100 € and reach no row are
   reported as a warning (<em>Účty nezachytené v žiadnom riadku výkazu</em>): it does
-  not block the export but appears on the record (in its chatter, and as a
-  notification where the filing framework shows export warnings), not only
-  in the server log. Account 431 appears there whenever it carries a balance.</li>
+  not block the export but appears on the record as a yellow banner at the top
+  of the form and in its chatter, not only in the server log. Account 431 appears there whenever it carries a balance.</li>
 </ul>
 <p>The date of compilation in the header is the day of the export. The signature
 record is not part of the file.</p>
@@ -249,7 +248,7 @@ record and downloads it.</p>
   watch <em>Unmapped accounts</em> and have the mapping confirmed by your accountant
   before the first filing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li></ul><p>Text checked against module version: 19.0.1.7.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li></ul><p>Text checked against module version: 19.0.1.7.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

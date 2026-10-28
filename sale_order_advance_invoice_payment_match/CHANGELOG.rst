@@ -8,6 +8,14 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- Slovak and Czech translations (the module had no catalogues).
+
 [19.0.1.0.2] — 2026-10-27
 -------------------------
 

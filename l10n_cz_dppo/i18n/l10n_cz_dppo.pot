@@ -147,6 +147,17 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
 msgid ""
+"The linked Rozvaha and Výkaz zisku a ztráty are computed in different "
+"rozsahy (plný and zkrácený). The DPPDP9 return files one rozsah for both "
+"výkazy (uv_rozsah). Compute both in the plný rozsah — always permitted, "
+"vyhláška č. 500/2002 Sb., § 3a odst. 1 and 3 — or both in the zkrácený "
+"rozsah where the unit may use it."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
 "The výkazy are kept in %(currency)s, but DPPDP9 accepts only CZK, EUR, USD "
 "or GBP as the accounting currency (uv_mena, § 24a zákona o účetnictví)."
 msgstr ""

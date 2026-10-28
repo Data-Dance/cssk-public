@@ -1,7 +1,7 @@
 ---
 title: Souhrnné hlášení CZ/SK
 summary: Společné obrazovky a postup českého souhrnného hlášení a slovenského súhrnného výkazu — jeden řádek na odběratele, DIČ a kód plnění, zkontrolovaný a exportovaný do XML.
-verified: 19.0.1.7.0
+verified: 19.0.1.7.1
 ---
 
 ## K čemu slouží {#purpose}
@@ -155,6 +155,9 @@ schéma a na kartě *Typy podání* typy výkazu s hodnotou, kterou každý zap�
 XML. Hlášení nabízí jen verze, jejichž platnost pokrývá jeho období, včetně
 archivovaných, takže archivací verze si seznam zpřehledníte, aniž by stará
 období nešla podat. Běžně zde nic neměníte.
+
+**Upozornění exportu.** Kontroly, které export nezastaví, se zobrazí ve
+žlutém pruhu nahoře na formuláři a v chatteru až do dalšího exportu.
 
 ## Omezení {#limitations}
 

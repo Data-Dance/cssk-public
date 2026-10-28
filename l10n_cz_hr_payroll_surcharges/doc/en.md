@@ -1,7 +1,7 @@
 ---
 title: CZ Wage Surcharges (příplatky)
 summary: Statutory Czech wage surcharges for overtime, public-holiday, night, weekend and difficult-environment work, the wage for overtime hours and the minimum wage top-up, from dated rates, on either payroll engine.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

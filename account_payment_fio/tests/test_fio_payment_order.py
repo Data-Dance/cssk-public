@@ -116,6 +116,29 @@ class TestFioPaymentOrder(FioCommon):
         self.assertIn("BIC", message)
         self.assertIn("platební titul", message)
 
+    def test_credit_note_grouped_with_its_invoice_is_one_net_payment(self):
+        """One transfer of the net amount: a negative item is refused by Fio,
+        and by the pre-flight at confirmation."""
+        order = self._order(amount_currency=1000.0)
+        self.env["account.payment.line"].sudo().create({
+            "order_id": order.id,
+            "partner_id": self.supplier.id,
+            "partner_bank_id": self.supplier_bank.id,
+            "currency_id": self.czk.id,
+            "amount_currency": -300.0,
+            "date": "2026-04-25",
+            "communication": "Dobropis 2026/0007",
+            "variable_symbol": "20260007",
+        })
+        order.draft2open()
+        self.assertEqual(order.state, "open")
+        self.assertEqual(order.payment_ids.mapped("amount"), [700.0])
+        root = etree.fromstring(order.generate_payment_file()[0])
+        transfers = root.findall(".//DomesticTransaction")
+        self.assertEqual(len(transfers), 1)
+        self.assertEqual(transfers[0].findtext("amount"), "700.00")
+        self.assertEqual(transfers[0].findtext("vs"), "20260042")
+
     def test_platebni_titul_defaults_from_the_partner(self):
         self.supplier.fio_payment_reason = "348"
         order = self._order()
@@ -133,7 +156,9 @@ class TestFioPaymentOrder(FioCommon):
             partner_id=foreign.id,
             partner_bank_id=foreign_bank.id,
             currency_id=self.env.ref("base.USD").id,
-            communication="",
+            # Not empty: draft2open refuses an empty communication itself, and
+            # Fio's check now runs after it (the grouping needs its dates).
+            communication="Invoice 2026/0042",
         )
         with self.assertRaises(UserError) as caught:
             order.draft2open()

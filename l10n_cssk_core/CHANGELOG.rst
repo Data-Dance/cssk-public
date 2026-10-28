@@ -8,6 +8,21 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.18.1] — 2026-10-27
+--------------------------
+
+Added
+~~~~~
+
+- **One reading of a street and its house number** for every statutory
+  export and e-invoice (``l10n_cssk_core.tools.split_street``). The house
+  number is the trailing number of *Street* (``Hlavná 12``, ``Hlavná 12 A``,
+  ``Vinohradská 1511/230``, ``Hlavná 12-14``); a street that is only a number (``č. p. 123``)
+  has no street name; *Street 2* counts only when it holds nothing but a
+  number. *Street 2* is otherwise the second address line — a building, a
+  floor, a c/o — and is never filed as the súpisné / popisné číslo. With
+  *base_address_extended* installed, its *House* / *Door* fields win.
+
 [19.0.1.18.0] — 2026-10-27
 --------------------------
 

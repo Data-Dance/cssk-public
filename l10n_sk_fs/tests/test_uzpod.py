@@ -49,6 +49,8 @@ class TestUzpod(AccountTestInvoicingCommon):
         move.action_post()
 
         self.company.partner_id.nace_code = "62090"
+        self.company.partner_id.write({
+            "street": "Hlavná 1141/11", "street2": "3. poschodie"})
         uz = self.env["l10n.sk.uzpod"].create({
             "company_id": self.company.id,
             "date_from": "2026-01-01", "date_to": "2026-12-31"})
@@ -77,6 +79,12 @@ class TestUzpod(AccountTestInvoicingCommon):
         # mandatory veľkostná trieda must be one-hot, never 0/0)
         # SK NACE 62.09.0 from the company partner (it used to be 00.00.0)
         nace = root.find(".//hlavicka/skNace")
+        # sídlo: the house number split off the street (it went out inside
+        # ulica, with cislo always empty), never Street 2.
+        self.assertEqual(
+            root.findtext(".//uctJednotka/sidlo/ulica"), "Hlavná")
+        self.assertEqual(
+            root.findtext(".//uctJednotka/sidlo/cislo"), "1141/11")
         self.assertEqual(
             [nace.findtext(k) for k in ("k1", "k2", "k3")], ["62", "09", "0"])
 
@@ -344,3 +352,37 @@ class TestUzpod(AccountTestInvoicingCommon):
         codes = [v["code"] for v in uz.check_kontroly(etree.tostring(root))]
         self.assertNotIn("BS_SUCET", codes)
         self.assertNotIn("BS_NETTO", codes)
+
+    def test_an_export_warning_is_kept_on_the_record(self):
+        """A non-blocking kontrola (BS_UNMAPPED) is kept on the record, where
+        the form shows it as a banner, and returned as a notification."""
+        from unittest.mock import patch
+
+        dev, opr, eq = self._acc("012"), self._acc("072"), self._acc("411")
+        self.env["account.move"].create({
+            "move_type": "entry", "journal_id": self.journal.id,
+            "date": "2026-06-30",
+            "line_ids": [
+                Command.create({"account_id": dev.id, "debit": 1000.0}),
+                Command.create({"account_id": opr.id, "credit": 300.0}),
+                Command.create({"account_id": eq.id, "credit": 700.0}),
+            ]}).action_post()
+        self.company.partner_id.nace_code = "62090"
+        uz = self.env["l10n.sk.uzpod"].create({
+            "company_id": self.company.id,
+            "date_from": "2026-01-01", "date_to": "2026-12-31"})
+        warning = {"code": "BS_UNMAPPED", "severity": "warning",
+                   "desc": "Účty nezachytené v žiadnom riadku výkazu",
+                   "detail": "378 1500"}
+        with patch.object(type(uz), "check_kontroly",
+                          lambda self, xml=None: [warning]):
+            action = uz.action_export_xml()
+        self.assertEqual(uz.state, "exported")
+        self.assertIn("378 1500", uz.cssk_export_warnings or "")
+        self.assertEqual(action.get("tag"), "display_notification")
+        # the next clean export clears it
+        uz.state = "draft"
+        with patch.object(type(uz), "check_kontroly",
+                          lambda self, xml=None: []):
+            self.assertTrue(uz.action_export_xml())
+        self.assertFalse(uz.cssk_export_warnings)

@@ -1,7 +1,7 @@
 ---
 title: CZ Corporate Income Tax Return (DPPDP9)
 summary: The Czech corporate income tax return — row 10 from the books, the accountant's adjustments, the tax computation of Part II, and an EPO file checked against the Financial Administration's schema, with the balance sheet and profit and loss statement filed inside it.
-verified: 19.0.1.4.0
+verified: 19.0.1.5.0
 ---
 
 ## What it is for {#purpose}
@@ -123,17 +123,22 @@ Balance sheet* and *Income statement*, from
 - **Výkaz zisku a ztráty** — a profit and loss statement with exactly the
   same period.
 
-The export then files them in the abridged scope (*zkrácený rozsah*) under
+The export then files them in the scope of the linked statements — full
+(*plný rozsah*, `uv_rozsah` P) when both are full-scope versions, abridged
+(*zkrácený rozsah*, Z) when both are abridged — under
 Decree 500/2002 Sb., in thousands of CZK (rounded half away from zero), with
 the prior-period column: the assets with gross, adjustment (*korekce*) and
 net amounts, the liabilities and the profit and loss statement (by nature)
-with current and prior figures. Every row of the abridged scope is filled
+with current and prior figures. Every row of the filed scope is filled
 from the row of the statement with the same designation; the account
 mapping is the one in `l10n_cz_fs`, not a second one.
 
 The export refuses, with a message naming the problem:
 
 - only one of the two statements linked — link both or neither;
+- one statement in full scope and the other abridged — the form states one
+  scope for both, so compute both in the full scope (always allowed) or both
+  abridged;
 - a statement of another company, of another kind, or of another period;
 - a statement not yet computed, or computed on a version that lacks a row
   the form needs;
@@ -163,9 +168,12 @@ as an attachment (*E-příloha*) instead.
 - Periods beginning before 2021 cannot be entered; the structure does not
   accept them. For 2021–2024 the rows above are filed as they are; a row that
   differed in an older wording of the form is yours to check.
-- The financial statements are filed only in the abridged scope. A company
-  obliged to draw up the full scope — in particular one subject to audit —
-  must attach its statements as an *E-příloha* instead of linking them.
+- The micro scope (M) is not filed; a micro entity can link abridged
+  statements. The C.II.3. / C.III. placement of accruals is not filed either:
+  the statements use D.
+- Each row is rounded to thousands on its own, so where many small items are
+  involved a total can differ by a thousand or two from the sum of its
+  rounded items; check such totals before filing.
 - The header codes (kind of return, taxpayer type) and the full set of
   adjustments should be confirmed with your accountant before the first
   filing.

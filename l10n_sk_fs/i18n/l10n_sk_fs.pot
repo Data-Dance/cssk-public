@@ -234,12 +234,6 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_fs
-#. odoo-python
-#: code:addons/l10n_sk_fs/models/l10n_sk_uzpod.py:0
-msgid "Export warning — %(desc)s: %(detail)s"
-msgstr ""
-
-#. module: l10n_sk_fs
 #: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__state__exported
 msgid "Exported"
 msgstr ""
@@ -924,4 +918,17 @@ msgstr ""
 #. module: l10n_sk_fs
 #: model:ir.module.module,shortdesc:base.module_l10n_sk_fs
 msgid "Slovakia — Financial Statements (Súvaha / VZS)"
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__cssk_export_warnings
+msgid "Export warnings"
+msgstr ""
+
+#. module: l10n_sk_fs
+#: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
 msgstr ""

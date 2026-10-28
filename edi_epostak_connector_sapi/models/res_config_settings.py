@@ -15,11 +15,13 @@ class ResConfigSettings(models.TransientModel):
     )
     epostak_sapi_sandbox_client_id = fields.Char(
         string="Sandbox Client ID",
-        config_parameter="epostak.sapi.sandbox.client_id",
+        related="company_id.epostak_sandbox_client_id",
+        readonly=False,
     )
     epostak_sapi_sandbox_client_secret = fields.Char(
         string="Sandbox Client Secret",
-        config_parameter="epostak.sapi.sandbox.client_secret",
+        related="company_id.epostak_sandbox_client_secret",
+        readonly=False,
     )
     epostak_api_sandbox_base_url = fields.Char(
         string="Enterprise API Sandbox URL",
@@ -37,11 +39,13 @@ class ResConfigSettings(models.TransientModel):
     )
     epostak_sapi_prod_client_id = fields.Char(
         string="Production Client ID",
-        config_parameter="epostak.sapi.prod.client_id",
+        related="company_id.epostak_prod_client_id",
+        readonly=False,
     )
     epostak_sapi_prod_client_secret = fields.Char(
         string="Production Client Secret",
-        config_parameter="epostak.sapi.prod.client_secret",
+        related="company_id.epostak_prod_client_secret",
+        readonly=False,
     )
     epostak_api_prod_base_url = fields.Char(
         string="Enterprise API Production URL",
@@ -111,12 +115,13 @@ class ResConfigSettings(models.TransientModel):
 
     def _compute_epostak_inbound_health(self):
         ICP = self.env["ir.config_parameter"].sudo()
-        connector = self.env["epostak.connector"]
         for rec in self:
-            last_at = ICP.get_param(connector.PARAM_POLL_AT, "")
-            last_ok = ICP.get_param(connector.PARAM_POLL_OK, "")
-            error = ICP.get_param(connector.PARAM_POLL_ERROR, "")
-            count = ICP.get_param(connector.PARAM_POLL_COUNT, "")
+            # The selected company's mailbox: each is polled on its own.
+            connector = self.env["epostak.connector"].with_company(rec.company_id)
+            last_at = ICP.get_param(connector._poll_key(connector.PARAM_POLL_AT), "")
+            last_ok = ICP.get_param(connector._poll_key(connector.PARAM_POLL_OK), "")
+            error = ICP.get_param(connector._poll_key(connector.PARAM_POLL_ERROR), "")
+            count = ICP.get_param(connector._poll_key(connector.PARAM_POLL_COUNT), "")
             if not last_at:
                 rec.epostak_inbound_health = _(
                     "Never polled. Use 'Poll inbound now', or wait for the "
@@ -150,21 +155,20 @@ class ResConfigSettings(models.TransientModel):
         # person who configures the connection. The work itself is what the
         # inbound cron does as superuser, so running it with the same rights is
         # the behaviour being reproduced, not an escalation of it.
-        Message = self.env["edi.message"].sudo()
-        connector = self.env["epostak.connector"].sudo()
+        #
+        # Only the selected company's mailbox, as that company: the page shows
+        # and edits its credentials, so the button tests those.
+        company = self.company_id
+        Message = self.env["edi.message"].sudo().with_company(company)
+        connector = self.env["epostak.connector"].sudo().with_company(company)
         ICP = self.env["ir.config_parameter"].sudo()
-        before = Message.search_count(
-            [("provider", "=", "epostak"), ("direction", "=", "in")]
-        )
-        Message._get_messages("epostak")
-        created = Message.search_count(
-            [("provider", "=", "epostak"), ("direction", "=", "in")]
-        ) - before
-        error = ICP.get_param(connector.PARAM_POLL_ERROR, "")
-        errored = Message.search_count([
-            ("provider", "=", "epostak"), ("direction", "=", "in"),
-            ("state", "=", "error"),
-        ])
+        domain = [("provider", "=", "epostak"), ("direction", "=", "in"),
+                  ("company_id", "=", company.id)]
+        before = Message.search_count(domain)
+        Message.with_context(epostak_poll_account="manual")._poll_provider("epostak")
+        created = Message.search_count(domain) - before
+        error = ICP.get_param(connector._poll_key(connector.PARAM_POLL_ERROR), "")
+        errored = Message.search_count(domain + [("state", "=", "error")])
 
         if error:
             kind, title = "danger", _("Inbound poll failed")
@@ -266,7 +270,8 @@ class ResConfigSettings(models.TransientModel):
         # Persist first: the button must test what the user just typed, not
         # the values that were saved before this form was opened.
         self.set_values()
-        connector = self.env["epostak.connector"]
+        # The selected company's credentials, as the page shows them.
+        connector = self.env["epostak.connector"].with_company(self.company_id)
         cfg = connector._get_sapi_config()
 
         def _note(kind, title, message, sticky=True):
@@ -318,8 +323,7 @@ class ResConfigSettings(models.TransientModel):
                 # busywork, and "this key speaks for several firms" is simply
                 # untrue of a key that manages one.
                 only = firms[0]
-                self.env["ir.config_parameter"].sudo().set_param(
-                    "epostak.firm_id", only["id"])
+                self.company_id.sudo().epostak_firm_id = only["id"]
                 return {
                     "type": "ir.actions.client",
                     "tag": "display_notification",
@@ -379,20 +383,20 @@ class ResConfigSettings(models.TransientModel):
 
         others = self._epostak_unserved_companies()
         if others:
-            # One account, one firm, one mailbox per database: say so where
-            # it is configured rather than let a second company's invoices be
-            # refused and its e-invoices never collected without a word.
+            # Each company sends and collects with its own credentials: say
+            # which ones have none, rather than let their invoices be refused
+            # and their e-invoices never collected without a word.
             return _note(
                 "warning",
-                _("ePošťák connection OK — for one company only"),
+                _("ePošťák connection OK — other companies have no credentials"),
                 _(
                     "Authenticated against %(url)s as participant %(pid)s. "
-                    "ePošťák credentials serve one company per database, and "
-                    "collection runs as %(company)s. These companies also "
-                    "allow e-invoicing and will not be served: %(others)s.",
+                    "These companies also allow e-invoicing but have no "
+                    "ePošťák credentials of their own, so they neither send "
+                    "nor collect: %(others)s. Switch to each company and fill "
+                    "in its own on this page.",
                     url=cfg["sapi_url"],
                     pid=connector._epostak_own_participant_id() or _("(no Peppol address set)"),
-                    company=self._epostak_collecting_company().display_name,
                     others=", ".join(others.mapped("display_name")),
                 ),
             )
@@ -408,21 +412,14 @@ class ResConfigSettings(models.TransientModel):
             sticky=False,
         )
 
-    def _epostak_collecting_company(self):
-        """The company inbound collection runs as: that of the user of the
-        scheduled action (the connector polls ``env.company``)."""
-        cron = self.env.ref(
-            "edi_epostak_base.cron_epostak_get_messages", raise_if_not_found=False)
-        user = cron.sudo().user_id if cron else self.env.user
-        return user.company_id
-
     def _epostak_unserved_companies(self):
-        """Companies that allow e-invoicing but are not the one the single
-        ePošťák account serves (the collecting company)."""
+        """Other companies that allow e-invoicing but hold no ePošťák
+        account of their own."""
         Company = self.env["res.company"].sudo()
         if "peppol_send_enabled" not in Company._fields:
             # edi_base_peppol is not installed: nothing is e-invoiced.
             return Company
-        served = self._epostak_collecting_company()
+        connector = self.env["epostak.connector"]
         return Company.search([
-            ("peppol_send_enabled", "=", True), ("id", "!=", served.id)])
+            ("peppol_send_enabled", "=", True), ("id", "!=", self.company_id.id),
+        ]).filtered(lambda c: not connector.with_company(c)._epostak_account_key())

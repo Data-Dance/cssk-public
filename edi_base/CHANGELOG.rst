@@ -23,6 +23,18 @@ Fixed
   message's outcome before the next send (``ir.cron._commit_progress``), so
   a run that dies late keeps what the provider already accepted.
 
+[19.0.1.9.1] — 2026-10-27
+--------------------------
+
+Added
+~~~~~
+
+- ``account.move._edi_payment_bank`` / ``_edi_iban``: the bank account an EDI
+  invoice names (the invoice's own, else the company's first IBAN account) and
+  its number as an IBAN — upper case, no spaces — or nothing when it is not one.
+  Checked by the number itself, not by ``acc_type``, which says ``iban`` only
+  when ``base_iban`` is installed.
+
 [19.0.1.9.0] — 2026-10-27
 -------------------------
 

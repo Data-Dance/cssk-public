@@ -161,10 +161,12 @@ generovat. Další moduly přidávají na stejnou záložku vlastní pole.
 
 ## Doručení a potvrzení {#delivery}
 
-*Označit jako odeslané* zaznamená, že někdo XML podal. Jak se dostalo na úřad,
-zda bylo přijato a potvrzení, která to dokládají, eviduje
+*Označit jako odeslané* zaznamená, že někdo XML podal, a otevře k němu
+**doručení** ve stavu *Koncept* — záznam, který eviduje, jak se XML dostalo na
+úřad, zda bylo přijato, a potvrzení, která to dokládají. Doručení patří modulu
 [module:l10n_cssk_submission_base](module:l10n_cssk_submission_base), který
-používá každé mzdové hlášení. Viz [Podání](module:l10n_cssk_submission_base#usage).
+používá každé mzdové hlášení; najdete je v *Účetnictví → Výkazy → Zákonné
+výkazy → Doručení*. Viz [Podání výkazu](module:l10n_cssk_submission_base#usage).
 
 ## Omezení {#limitations}
 

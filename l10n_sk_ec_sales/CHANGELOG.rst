@@ -8,6 +8,31 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.0] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **The hlavička names the konateľ and is dated.** New fields on the
+  *Hlavička* tab — meno a priezvisko, telefón, e-mail of the konateľ /
+  oprávnená osoba and *Dátum vyhlásenia* — fill ``konatel``,
+  ``konatelTel``, ``konatelEmail`` (2020 vzor) and ``datumVyhlasenia``,
+  which were always exported empty. Without a date, the export date is used.
+
+[19.0.1.3.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The seat's *ulica* / *číslo* are read by the shared helper of
+  ``l10n_cssk_core``, the same as on every other Finančná správa form. A
+  *Street 2* that holds nothing but a house number (``Hlavná`` / ``12``) is
+  now filed as the *číslo* (it was left empty); a building, a floor or a c/o
+  line there is still never filed. A street that is only a number
+  (``č. p. 123``) files an empty *ulica*.
+
 [19.0.1.3.0] — 2026-10-27
 -------------------------
 

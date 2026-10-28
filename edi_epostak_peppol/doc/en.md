@@ -1,7 +1,7 @@
 ---
 title: ePošťák — Peppol e-invoicing
 summary: Sends and receives Peppol e-invoices and business responses through the Slovak access point ePošťák, with your own ePošťák contract or through the Data Dance hosted service.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}
@@ -31,8 +31,10 @@ The Slovak e-invoicing obligation from 1 January 2027 is summarised in the
 
 ## Setting it up {#setup}
 
-Everything is in *Settings → EDI*, section **ePošťák**, and applies to the
-whole database.
+Everything is in *Settings → EDI*, section **ePošťák**. The environment
+applies to the whole database; the Firm ID, the credentials (on the hosted
+service, the broker key) and the inbound poll belong to the **company you are
+working in**. To set up another company, switch to it and fill in its own.
 
 1. **Environment** (*ePošťák Environment*): **Sandbox** (default) or
    **Production**. While the sandbox is active a yellow banner says so;
@@ -54,7 +56,8 @@ whole database.
 4. **Test Connection.** Saves the settings and tries to log in. With an
    integrator key and no Firm ID it lists the firms the key may act for, with
    their IČO and Peppol address; if there is exactly one, it fills in the
-   Firm ID for you. Press it again to confirm. The result is always shown as
+   company's Firm ID for you. It also names any other company that allows
+   e-invoicing but has no ePošťák credentials of its own. Press it again to confirm. The result is always shown as
    a notification — a failure does not discard what you typed.
 5. **Your company's Peppol address** — on your company's contact, tab
    *Invoicing*: **Peppol e-address (EAS)** `0245` and your **DIČ** as the
@@ -85,8 +88,8 @@ broker**:
 | Field | What it is |
 |---|---|
 | Broker URL | Setting it switches the database to broker mode; clearing it returns to a direct ePošťák contract |
-| Broker key ID | identifies the key; not secret on its own |
-| Broker key | signs every request; shown once when it is issued |
+| Broker key ID | identifies the key; not secret on its own — per company |
+| Broker key | signs every request; shown once when it is issued — per company |
 
 You receive these with the hosted service. The Client ID, Client Secret and
 Firm ID are then neither used nor needed — the broker decides which companies
@@ -152,8 +155,10 @@ it is a new document to ePošťák.
 ## Receiving {#receiving}
 
 The scheduled action **ePošťák: Poll Inbound Documents** runs every
-30 minutes. It asks ePošťák for documents waiting for your company's Peppol
-address, 20 per page and up to 5 pages per run (*Documents per Poll Page*,
+30 minutes. For every company with ePošťák credentials of its own it asks,
+as that company, for the documents waiting for that company's Peppol address
+(companies sharing one integrator key are still asked one Peppol address at a
+time), 20 per page and up to 5 pages per run (*Documents per Poll Page*,
 *Max Pages per Poll*), and runs again at once if more are waiting. Each
 document is stored and processed as described in
 [receiving e-invoices](module:edi_base_peppol#receiving), and only then
@@ -165,9 +170,11 @@ receives nothing from it.
 Receiving fails silently unless you look, so the connector reports on
 itself:
 
-- **Last inbound poll** in Settings shows "OK at … — N document(s) fetched",
-  "FAILED at … — reason (last success: …)" or "Never polled".
-- **Poll inbound now** runs a collection immediately and says what happened.
+- **Last inbound poll** in Settings shows, for the company you are working
+  in, "OK at … — N document(s) fetched", "FAILED at … — reason (last success:
+  …)" or "Never polled".
+- **Poll inbound now** runs that company's collection immediately and says
+  what happened.
 - After **Warn after N failed polls** consecutive failures (default 3; 0
   turns it off) a To-Do "Incoming ePošťák documents are not arriving" is put
   on your company's contact for the first EDI Manager (else an EDI User, else
@@ -204,13 +211,10 @@ Block *Transfer Tuning*; the defaults suit most databases.
 
 ## Limitations {#limitations}
 
-- **One ePošťák account per database.** Environment, credentials and Firm ID
-  are shared by all companies, and collection asks for the documents of
-  **one** company: the company of the user that runs the scheduled action.
-  Several companies with their own Peppol addresses are not served by one
-  database in direct mode; **Test Connection** says so, naming the other
-  companies that allow e-invoicing, and a document sent for one of them is
-  refused by ePošťák (*Error*), not delivered under the wrong company.
+- **One environment per database.** Sandbox or production applies to every
+  company; the credentials and the Firm ID are each company's own. A company
+  that allows e-invoicing without credentials of its own neither sends (its
+  documents end in *Error*, naming the company) nor collects.
 - A message keeps the environment it was created in while it is being
   sent; pressing *Send via Peppol* again generates it anew in the
   environment active **now** (see

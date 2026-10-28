@@ -1,7 +1,7 @@
 ---
 title: CZ Hlášení zdravotním pojišťovnám (PPPZ, HOZ)
 summary: Dvě hlášení zaměstnavatele zdravotním pojišťovnám — měsíční přehled o platbě pojistného (PPPZ) sečtený z výplatních pásek a hromadné oznámení zaměstnavatele (HOZ) o nástupech a odchodech zaměstnanců — jako XML za každou pojišťovnu.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## K čemu slouží {#purpose}
@@ -55,23 +55,20 @@ i nadále.
 
 ## Nastavení {#setup}
 
-Na společnosti:
+Na formuláři společnosti, karta *Mzdové výkazy*, skupina *Zdravotní
+pojištění (PPPZ / HOZ)*, a v adrese společnosti:
 
 | Údaj | Použije se jako |
 |---|---|
 | *Výchozí zdravotní pojišťovna* | pojišťovna každého zaměstnance, který žádnou nastavenou nemá; předvyplní se v nových hlášeních. Výchozí hodnota *111 — VZP*. |
 | *Číslo plátce zdravotního pojištění*, 10 číslic | `identifikacniCisloPlatce`, číslo zaměstnavatele u pojišťovny. Není-li vyplněno, použije se IČO doplněné o `00` (první mzdová účtárna). |
 | *IČO* | náhradní zdroj čísla plátce |
-| ulice, obec, PSČ, telefon | adresa zaměstnavatele (obec a PSČ povinné). Číslo na konci ulice, případně druhý řádek ulice, se bere jako číslo domu. |
+| ulice, obec, PSČ, telefon | adresa zaměstnavatele (obec a PSČ povinné). Číslo domu je číslo na konci ulice; druhý řádek ulice se použije, jen obsahuje-li pouze číslo. |
 
 U zaměstnance: *Zdravotní pojišťovna* (jedna z 111, 201, 205, 207, 209, 211,
-213), rodné číslo v poli *Identifikační č.* (pro HOZ), soukromá adresa
-a data smlouvy.
-
-**Žádné z těchto polí není v této verzi na formuláři** — ani pole
-společnosti, ani *Zdravotní pojišťovna* zaměstnance. Správce je musí vyplnit
-jinak, například importem v seznamu společností a zaměstnanců. Dokud není
-pojišťovna zaměstnance vyplněna, vykazuje se každý zaměstnanec výchozí
+213), na formuláři zaměstnance vedle pole *Identifikační č.*, rodné číslo
+v poli *Identifikační č.* (pro HOZ), soukromá adresa a data smlouvy. Dokud
+není pojišťovna zaměstnance vyplněna, vykazuje se zaměstnanec výchozí
 pojišťovně společnosti.
 
 ## Měsíční přehled (PPPZ) {#pppz}
@@ -81,9 +78,10 @@ pojišťovně společnosti.
 1. Zvolte **Zdravotní pojišťovnu**, **Rok** a **Měsíc**.
 2. *Typ opravy* (Correction Type) ponechte na *Řádný*, nebo pro opravný
    přehled zvolte *Opravný*. Opravný přehled lze vygenerovat jen tehdy,
-   existuje-li odeslaný přehled téže společnosti za stejný rok a měsíc.
-3. Klikněte na **Vygenerovat**. Modul vezme výplatní pásky měsíce (období
-   uvnitř měsíce, kromě zrušených) zaměstnanců, kteří k dané pojišťovně
+   existuje-li přehled téže společnosti za stejný rok a měsíc odeslaný téže
+   pojišťovně.
+3. Klikněte na **Vygenerovat**. Modul vezme potvrzené výplatní pásky měsíce
+   (ty, jejichž období v měsíci končí) zaměstnanců, kteří k dané pojišťovně
    patří, ověří XML a přiloží ho.
 4. Nahrajte XML na portál pojišťovny a klikněte na **Označit jako
    odeslané**.
@@ -125,13 +123,7 @@ o 9 nebo 10 číslicích nebo bez data, které událost potřebuje.
   platí pojistné i stát, nebo který je z minimálního vyměřovacího základu
   vyňat, nemusí pojistné ÷ 13,5 % odpovídat vyměřovacímu základu. Tyto
   zaměstnance zkontrolujte.
-- **Opravy napříč pojišťovnami.** Kontrola, že opravný přehled má co
-  opravovat, hledá jakýkoli odeslaný přehled téže společnosti a měsíce
-  **bez ohledu na pojišťovnu**. Ověřte, že původní přehled šel stejné
-  pojišťovně. Pole *Reference opravy* (Correction Reference) se do XML
-  nezapisuje.
-- **Započítávají se i koncepty** výplatních pásek; páska, jejíž období
-  přesahuje hranici měsíce, se nezapočte.
+- Pole *Reference opravy* (Correction Reference) se do XML nezapisuje.
 - **Kódy HOZ.** Jen *P* a *O*. Změnu pojišťovny, státního pojištěnce, první
   přihlášení cizinců a opravy modul nezná a zaměstnance bez českého rodného
   čísla oznámit nelze.

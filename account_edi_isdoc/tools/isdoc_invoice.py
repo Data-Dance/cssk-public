@@ -69,7 +69,10 @@ ClassifiedTaxCategory = {
     'Percent': {},
     'VATCalculationMethod': {},
     'VATApplicable': {},
-    'LocalReverseCharge': {},
+    'LocalReverseCharge': {
+        'LocalReverseChargeCode': {},
+        'LocalReverseChargeQuantity': {},
+    },
 }
 Item = {
     'Description': {},
@@ -112,7 +115,9 @@ TaxedDeposits = {'TaxedDeposit': TaxedDeposit}
 # -- Tax & monetary totals -------------------------------------------------
 TaxCategory = {
     'Percent': {},
+    'TaxScheme': {},
     'VATApplicable': {},
+    'LocalReverseChargeFlag': {},
 }
 TaxSubTotal = {
     'TaxableAmount': {},

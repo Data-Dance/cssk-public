@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_kv_dph/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Kontrolný výkaz DPH (KV DPH)</h1>
 <p class="cssk-summary">Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.4.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index_sk.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.5.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index_sk.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a>, <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Platiteľ DPH podáva <strong>kontrolný výkaz DPH</strong> za každé zdaňovacie obdobie, za
@@ -178,7 +178,9 @@ Finančnou správou. Súbor schémy neuvádza, kedy bol upravený, takže neskor
   pokladnice eKasa, otvorte <em>Rozšírené nastavenia</em> a v bloku <em>Kontrolný výkaz</em> nastavte <strong>Prepis sekcie kontrolného výkazu</strong> na <code>D.1</code>. Každý
   riadok s DPH tohto denníka sa potom vykáže ako obrat z eKasy v D.1 namiesto
   D.2. Faktúry podnikateľom vystavujte cez bežný predajný denník, aby sa
-  naďalej dostali do A.1.</li>
+  naďalej dostali do A.1. S pokladnicou Odoo (Point of Sale) nainštalujte
+  <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a>: predaje každej
+  pokladničnej relácie idú do D.1 aj bez tohto nastavenia.</li>
 </ul>
 <h2 id="sections">Oddiely</h2>
 <p>Ako modul napĺňa jednotlivé oddiely. Doklad s viacerými sadzbami dane dáva
@@ -221,7 +223,7 @@ jeden riadok za každú sadzbu.</p>
 </tr>
 <tr>
 <td>D.1</td>
-<td>Obraty z eKasy: riadky s DPH denníkov, ktorých sekcia kontrolného výkazu je nastavená na <code>D.1</code> (pozri <a href="#setup">Nastavenie</a>).</td>
+<td>Obraty z eKasy: riadky s DPH denníkov, ktorých sekcia kontrolného výkazu je nastavená na <code>D.1</code> (pozri <a href="#setup">Nastavenie</a>), a s modulom <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a> pokladničné relácie. Vykazuje sa obrat vrátane DPH (<em>SumaObratov</em>) a základ a daň v základnej sadzbe (20 % a viac) a v znížených sadzbách; prepis opravuje týchto päť stĺpcov.</td>
 </tr>
 <tr>
 <td>D.2</td>
@@ -278,9 +280,13 @@ Slovenské osobitosti:</p>
 mesiac alebo rok a štvrťrok).</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
-<li><strong>D.1 (eKasa) sa neodvodzuje z dokladov.</strong> Vykazujú sa tam len denníky
-  nastavené na <code>D.1</code>; každý iný predaj cez pokladnicu bez identifikovaného
-  odberateľa-podnikateľa sa vykáže v <strong>D.2</strong>.</li>
+<li><strong>D.1 (eKasa) sa neodvodzuje z bežných dokladov.</strong> Vykazujú sa tam
+  denníky nastavené na <code>D.1</code> a s modulom
+  <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a> pokladničné relácie;
+  každý iný predaj cez pokladnicu bez identifikovaného odberateľa-podnikateľa
+  sa vykáže v <strong>D.2</strong>. Či majú Z / D / ZZn / DZn v D.1 na tlačivách od roku
+  2021 (ktorých poučenie žiada len obrat) niesť rozdelenie podľa sadzieb
+  alebo nuly, ešte musí potvrdiť účtovník.</li>
 <li><strong>Ťarchopisy</strong> sa dostanú do C.1 / C.2, len ak sú prepojené s opravovanou
   faktúrou (tlačidlo <em>Debit Note</em>). Ťarchopis vystavený ako bežná faktúra sa
   stále vykáže v A.1 / B.2.</li>
@@ -300,7 +306,7 @@ mesiac alebo rok a štvrťrok).</p>
   § 69 ods. 12 a oddiel D.1 ešte musí potvrdiť slovenský účtovník. Každý
   výkaz pred podaním skontrolujte.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.5.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-07 11:58+0000\n"
-"PO-Revision-Date: 2026-07-07 11:58+0000\n"
+"POT-Creation-Date: 2026-10-27 22:27+0000\n"
+"PO-Revision-Date: 2026-10-27 22:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,14 @@ msgid "Advances Withheld (net of monthly credits)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_advances
+msgid ""
+"Advances withheld by previous employers after the monthly credits, from "
+"their Potvrzení. Counted with this employer's own advances when the "
+"overpayment is worked out."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_agreement_type
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_agreement_type
 msgid "Agreement Type"
@@ -35,6 +43,11 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.ALW
 msgid "Allowance"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.constraint,message:l10n_cz_hr_payroll_oca.constraint_hr_payroll_cz_annual_tax_recon_employee_year_uniq
+msgid "An annual reconciliation already exists for this employee and year."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -124,6 +137,11 @@ msgid "Basic Salary"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_darovani_krve
+msgid "Blood Donation (dárcovství krve, § 203)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_bonus_doplatek
 msgid "Bonus top-up"
 msgstr ""
@@ -132,11 +150,6 @@ msgstr ""
 #: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_payroll_cz_annual_tax_recon
 #: model:ir.ui.menu,name:l10n_cz_hr_payroll_oca.menu_hr_payroll_cz_annual_tax_recon
 msgid "CZ Annual Tax Reconciliation"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__carer
-msgid "Carer of a dependent person (§7a/1/c)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -185,6 +198,12 @@ msgid "Children (3rd+ tier)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
+msgid "Choose the draft payslip the settlement is paid with."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter__code
 msgid "Code"
 msgstr ""
@@ -210,6 +229,12 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
 msgid "Compute"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
+msgid "Compute the reconciliation before posting it."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -261,6 +286,11 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__currency_id
 msgid "Currency"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
+msgid "Czech Payroll"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -459,6 +489,11 @@ msgid "Czech Republic: Social discount base cap (x avg wage)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_social_disc_hourly_pct
+msgid "Czech Republic: Social discount max base per hour (% of avg wage)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_social_disc_hours_month_max
 msgid "Czech Republic: Social discount max hours/month"
 msgstr ""
@@ -509,13 +544,28 @@ msgid "Czech Republic: ZTP/P holder credit / year"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_agreement_type__dpp
-msgid "DPP (agreement to perform work)"
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_prekazka_povetrnost_pct
+msgid "Czechia: Employer obstacle — adverse weather (%)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_agreement_type__dpc
-msgid "DPČ (agreement to perform working activity)"
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_prekazka_jine_pct
+msgid "Czechia: Employer obstacle — other (%)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_prekazka_prostoj_pct
+msgid "Czechia: Employer obstacle — prostoj (%)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_prekazka_castecna_pct
+msgid "Czechia: Employer obstacle — short-time working, statutory minimum (%)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_gift_max_pct
+msgid "Czechia: Gift deduction cap (% of the annual tax base)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -554,6 +604,13 @@ msgid "Draft"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_payslip_id
+msgid ""
+"Draft payslip the settlement is paid with — at the latest the March payslip "
+"after the tax year (§ 35d odst. 8 ZDP)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_agreement_type
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_agreement_type
 msgid ""
@@ -581,7 +638,7 @@ msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_version
-msgid "Employee Contract / Version"
+msgid "Employee Contract"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -594,6 +651,51 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_claim_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_claim_ztpp
 msgid "Employee is a ZTP/P card holder, entitled to the ZTP/P tax credit."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_employer_povetrnost
+msgid "Employer Obstacle — Adverse Weather (§ 207 b, 60 %)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_employer_prostoj
+msgid "Employer Obstacle — Downtime / prostoj (§ 207 a, 80 %)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_employer_jine
+msgid "Employer Obstacle — Other (§ 208, 100 %)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_employer_castecna
+msgid "Employer Obstacle — Short-time Working (§ 209)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_employer_obstacle_nahrada_rule
+msgid "Employer Work Obstacle (§§ 207-209)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czjineprekazky
+msgid "Employer obstacle — other (§ 208)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czprostoj
+msgid "Employer obstacle — prostoj (§ 207 a)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czcastecna
+msgid "Employer obstacle — short-time (§ 209)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czpovetrnost
+msgid "Employer obstacle — weather (§ 207 b)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -731,6 +833,14 @@ msgid "Income Tax Total"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_income
+msgid ""
+"Income from dependent activity paid by previous employers in the year, from "
+"their Potvrzení o zdanitelných příjmech (§ 38j odst. 3). Added to the annual"
+" tax base (§ 38ch odst. 4)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_mortgage_interest
 msgid ""
 "Interest on a housing loan, capped at 150 000 CZK/year (300 000 for loans "
@@ -741,16 +851,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_disability
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_disability
 msgid "Invalidity Degree"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_disability__1_2
-msgid "Invalidity I / II degree"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_disability__3
-msgid "Invalidity III degree"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -788,6 +888,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_materska
+msgid "Maternity Leave (mateřská, § 195)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czmaterska
+msgid "Maternity leave (§ 195)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_meal_allowance_rule
 msgid "Meal Allowance"
 msgstr ""
@@ -811,6 +921,12 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_bonus_paid
 msgid "Monthly Bonus Already Paid"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_bonus_paid
+msgid ""
+"Monthly child tax bonuses paid by previous employers, from their Potvrzení."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -857,12 +973,6 @@ msgid "Non-taxable Parts (§15)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_disability__none
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__none
-msgid "None"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
 msgid "Number of children holding a ZTP/P card (benefit doubled)."
@@ -878,13 +988,22 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__over55
-msgid "Over 55 (§7a/1/a)"
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_obecny_zajem
+msgid "Other Acts in the Public Interest (§ 202)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_overpayment
 msgid "Overpayment"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_total
+msgid ""
+"Overpayment + bonus top-up actually paid; posted onto a payslip via the "
+"ANNUAL_TAX_SETTLEMENT salary rule (increases net pay). Zero when the two "
+"together are 50 Kč or less: § 35d odst. 8 / § 38ch odst. 5 ZDP pay them out "
+"only above 50 Kč."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -900,8 +1019,23 @@ msgid "Paid Obstacle - Doctor Visit / Escort"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__parent_under10
-msgid "Parent of a child under 10 (§7a/1/b)"
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_rodicovska
+msgid "Parental Leave (rodičovská, § 196)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czrodicovska
+msgid "Parental leave (§ 196)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_otcovska
+msgid "Paternity Leave (otcovská)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czotcovska
+msgid "Paternity leave"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -931,8 +1065,28 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__disabled
-msgid "Person with a disability (§7a/1/f)"
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
+msgid "Post to Payslip"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
+msgid "Previous Employers (Potvrzení, § 38ch odst. 4)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_advances
+msgid "Previous employers: advances withheld"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_bonus_paid
+msgid "Previous employers: child bonuses paid"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_income
+msgid "Previous employers: taxable income"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -940,6 +1094,16 @@ msgstr ""
 msgid ""
 "Private life-insurance premiums. Jointly with pension contributions capped "
 "at 48 000 CZK/year (§15(6))."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_verejna_funkce
+msgid "Public Office (výkon veřejné funkce, § 201)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_karantena
+msgid "Quarantine / Isolation (karanténa)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -963,13 +1127,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__retraining
-msgid "Retraining participant (§7a/1/e)"
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter_value__rule_parameter_id
+msgid "Rule Parameter"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter_value__rule_parameter_id
-msgid "Rule Parameter"
+#: model:ir.actions.act_window,name:l10n_cz_hr_payroll_oca.hr_rule_parameter_action
+#: model:ir.ui.menu,name:l10n_cz_hr_payroll_oca.hr_rule_parameter_menu
+msgid "Rule Parameters"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -990,6 +1155,11 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_payroll_cz_annual_tax_recon__state__done
 msgid "Settled"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_payslip_id
+msgid "Settlement Payslip"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1068,11 +1238,6 @@ msgid "Spouse credit"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_agreement_type__standard
-msgid "Standard employment"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__state
 msgid "State"
 msgstr ""
@@ -1084,8 +1249,13 @@ msgid "State-insured person"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__student
-msgid "Student preparing for a profession (§7a/1/d)"
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_vzdelavani
+msgid "Study Leave, paid (zvyšování kvalifikace, § 232)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_vzdelavani_unpaid
+msgid "Study Leave, unpaid (zvyšování kvalifikace, § 232)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1117,6 +1287,15 @@ msgid "Taxpayer declaration signed"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
+msgid ""
+"There is nothing to pay: the overpayment and the bonus top-up together are "
+"50 Kč or less, which the Income Tax Act does not pay out (§ 35d odst. 8, § "
+"38ch odst. 5)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_leave_type
 msgid "Time Off Type"
 msgstr ""
@@ -1124,6 +1303,16 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_employer_cost_rule
 msgid "Total Employer Cost"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_obstacle_transport_disabled
+msgid "Transport of a Disabled Child to a Facility — 6 days/year (paid)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.constraint,message:l10n_cz_hr_payroll_oca.constraint_hr_rule_parameter_code_uniq
+msgid "Two rule parameters cannot share the same code."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1166,177 +1355,17 @@ msgid "Withholding Tax"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__year
-msgid "Year"
+#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_oca.accrual_plan_cz_obstacle_transport_disabled_6d
+msgid "Work obstacle — transport of a disabled child, 6 days/year"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_version__l10n_cz_social_discount_category__under21
-msgid "Younger than 21 (§7a/1/g)"
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__year
+msgid "Year"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_ztpp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
 msgid "of which ZTP/P Children"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.module.module,shortdesc:base.module_l10n_cz_hr_payroll_oca
-msgid "Czech Republic - Payroll"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.module.module,summary:base.module_l10n_cz_hr_payroll_oca
-msgid "Czech payroll rules for the payroll engine"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__CZJINEPREKAZKY
-msgid "Employer obstacle — other (§ 208)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__CZPROSTOJ
-msgid "Employer obstacle — prostoj (§ 207 a)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__CZCASTECNA
-msgid "Employer obstacle — short-time (§ 209)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__CZPOVETRNOST
-msgid "Employer obstacle — weather (§ 207 b)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__CZMATERSKA
-msgid "Maternity leave (§ 195)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__CZRODICOVSKA
-msgid "Parental leave (§ 196)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__CZOTCOVSKA
-msgid "Paternity leave"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
-msgid "Czech Payroll"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_social_disc_hourly_pct
-msgid "Czech Republic: Social discount max base per hour (% of avg wage)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_prekazka_castecna_pct
-msgid "Czechia: Employer obstacle — short-time working, statutory minimum (%)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.actions.act_window,name:l10n_cz_hr_payroll_oca.hr_rule_parameter_action
-#: model:ir.ui.menu,name:l10n_cz_hr_payroll_oca.hr_rule_parameter_menu
-msgid "Rule Parameters"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.constraint,message:l10n_cz_hr_payroll_oca.constraint_hr_rule_parameter_code_uniq
-msgid "Two rule parameters cannot share the same code."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_income
-msgid "Previous employers: taxable income"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_advances
-msgid "Previous employers: advances withheld"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_bonus_paid
-msgid "Previous employers: child bonuses paid"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_payslip_id
-msgid "Settlement Payslip"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_income
-msgid ""
-"Income from dependent activity paid by previous employers in the year, from "
-"their Potvrzení o zdanitelných příjmech (§ 38j odst. 3). Added to the annual"
-" tax base (§ 38ch odst. 4)."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_advances
-msgid ""
-"Advances withheld by previous employers after the monthly credits, from "
-"their Potvrzení. Counted with this employer's own advances when the "
-"overpayment is worked out."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_bonus_paid
-msgid ""
-"Monthly child tax bonuses paid by previous employers, from their Potvrzení."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_payslip_id
-msgid ""
-"Draft payslip the settlement is paid with — at the latest the March payslip "
-"after the tax year (§ 35d odst. 8 ZDP)."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_settlement_total
-msgid ""
-"Overpayment + bonus top-up actually paid; posted onto a payslip via the "
-"ANNUAL_TAX_SETTLEMENT salary rule (increases net pay). Zero when the two "
-"together are 50 Kč or less: § 35d odst. 8 / § 38ch odst. 5 ZDP pay them out "
-"only above 50 Kč."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
-msgid "Post to Payslip"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
-msgid "Previous Employers (Potvrzení, § 38ch odst. 4)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
-msgid "Compute the reconciliation before posting it."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
-msgid ""
-"There is nothing to pay: the overpayment and the bonus top-up together are "
-"50 Kč or less, which the Income Tax Act does not pay out (§ 35d odst. 8, § "
-"38ch odst. 5)."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
-msgid "Choose the draft payslip the settlement is paid with."
 msgstr ""

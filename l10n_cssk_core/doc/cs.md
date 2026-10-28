@@ -1,7 +1,7 @@
 ---
 title: CZ/SK lokalizace — společné jádro
 summary: Společný základ českých a slovenských zákonných modulů — nastavení, finanční úřady, kontrola IČO, období DPH dokladu, životní cyklus podání a porovnání podaného s vypočteným.
-verified: 19.0.1.18.0
+verified: 19.0.1.18.1
 ---
 
 ## K čemu slouží {#purpose}

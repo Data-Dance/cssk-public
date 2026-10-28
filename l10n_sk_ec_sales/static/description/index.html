@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_ec_sales/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK EC Sales List (Súhrnný výkaz)</h1>
 <p class="cssk-summary">The Slovak EC sales list — súhrnný výkaz — computed from the intra-EU supply taxes of Odoo&#x27;s Slovak chart and exported as Finančná správa XML in the vzor in force for the period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_ec_summary_base/static/description/index.html"><code>l10n_cssk_ec_summary_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_statutory/static/description/index.html"><code>l10n_sk_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_ec_summary_base/static/description/index.html"><code>l10n_cssk_ec_summary_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_statutory/static/description/index.html"><code>l10n_sk_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Slovak VAT payer that supplies goods or services to customers identified for
@@ -146,7 +146,7 @@ header of the form is filled from the company: name, street and house
 number, ZIP, city, phone and e-mail. The house number (<em>číslo</em>) is the number
 at the end of <strong>Street</strong> ("Hlavná 12" gives <em>ulica</em> "Hlavná" and <em>číslo</em>
 "12"), or the street-number fields where the address is kept split; <em>Street 2</em>
-is never filed as the house number.</p>
+is filed as the house number only when it holds nothing but a number.</p>
 <h2 id="usage">Preparing and filing</h2>
 <p>Follow the <a href="/l10n_cssk_ec_summary_base/static/description/index.html#usage">shared workflow</a> at
 <em>Accounting → Reporting → Statutory Reports → EC Sales List</em>. On top of the
@@ -165,8 +165,10 @@ line by line; the total in the header is the sum of the rounded lines.</p>
 <p>There is no electronic channel for Slovak filings in this module: upload the
 exported XML on the Financial Administration's portal, then click <strong>Mark
 Submitted</strong> — or <strong>File it</strong> to record the manual filing and keep the receipt.
-The XML leaves the person making the declaration (<em>konateľ</em>) and the date of
-the declaration empty; complete them on the portal if the form asks for them.</p>
+The person making the declaration and the date go on the <strong>Hlavička</strong> tab:
+<em>Meno a priezvisko</em>, <em>Telefón</em> and <em>E-mail</em> of the konateľ or authorised
+person (the 2010 vzor has no e-mail) and <em>Dátum vyhlásenia</em>; left empty, the
+date of the export is used.</p>
 <p><strong>A dodatočný súhrnný výkaz lists only what changed</strong>, as
 <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/#paragraf-80.odsek-8">§ 80 ods. 8</a> asks. On <strong>Compute</strong> the
 module compares the recomputed period with what was filed for it — the
@@ -199,7 +201,7 @@ before the deadline, still lists the whole period.</p>
 <li>A street that does not end in a number is written whole, with the house
   number empty.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

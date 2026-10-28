@@ -1,6 +1,3 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* edi_epostak_base
 #
 msgid ""
 msgstr ""
@@ -40,6 +37,11 @@ msgid ""
 msgstr ""
 
 #. module: edi_epostak_base
+#: model:ir.model,name:edi_epostak_base.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: edi_epostak_base
 #: model:ir.model,name:edi_epostak_base.model_res_config_settings
 msgid "Config Settings"
 msgstr ""
@@ -57,6 +59,7 @@ msgstr ""
 #. module: edi_epostak_base
 #: model:ir.model.fields,field_description:edi_epostak_base.field_edi_message__display_name
 #: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__display_name
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_company__display_name
 #: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
@@ -74,6 +77,7 @@ msgstr ""
 #. module: edi_epostak_base
 #: model:ir.model.fields,field_description:edi_epostak_base.field_edi_message__id
 #: model:ir.model.fields,field_description:edi_epostak_base.field_epostak_connector__id
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_company__id
 #: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__id
 msgid "ID"
 msgstr ""
@@ -89,23 +93,24 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: edi_epostak_base
-#: model:ir.model.fields.selection,name:edi_epostak_base.selection__res_config_settings__epostak_mode__production
-msgid "Production"
+#: model:ir.model.fields,help:edi_epostak_base.field_res_config_settings__epostak_firm_id
+msgid ""
+"Per company: the company you are working in. Required when the configured "
+"secret is an integrator key (sk_int_*), which speaks for several firms: the "
+"UUID of the TARGET firm we are acting for, sent as the X-Firm-Id header. "
+"Leave empty for a firm key (sk_live_*), where the firm is implied by the "
+"credentials. The secret is write-only, so check 'Configured key' above to "
+"see which one you have rather than guessing from your contract — a direct "
+"customer can still be issued an integrator key, and then every call fails "
+"with 400 'X-Firm-Id header is required' until this is set. Press Test "
+"Connection to list the firms the key may act for and their UUIDs. This is "
+"NOT the firm_id claim inside the token — that one identifies the integrator "
+"itself and selects nothing."
 msgstr ""
 
 #. module: edi_epostak_base
-#: model:ir.model.fields,help:edi_epostak_base.field_res_config_settings__epostak_firm_id
-msgid ""
-"Required when the configured secret is an integrator key (sk_int_*), which "
-"speaks for several firms: the UUID of the TARGET firm we are acting for, "
-"sent as the X-Firm-Id header. Leave empty for a firm key (sk_live_*), where "
-"the firm is implied by the credentials. The secret is write-only, so check "
-"'Configured key' above to see which one you have rather than guessing from "
-"your contract — a direct customer can still be issued an integrator key, and"
-" then every call fails with 400 'X-Firm-Id header is required' until this is"
-" set. Press Test Connection to list the firms the key may act for and their "
-"UUIDs. This is NOT the firm_id claim inside the token — that one identifies "
-"the integrator itself and selects nothing."
+#: model:ir.model.fields.selection,name:edi_epostak_base.selection__res_config_settings__epostak_mode__production
+msgid "Production"
 msgstr ""
 
 #. module: edi_epostak_base
@@ -118,6 +123,14 @@ msgstr ""
 msgid ""
 "Selects which ePošťák environment and credential\n"
 "                                set every request uses."
+msgstr ""
+
+#. module: edi_epostak_base
+#: model_terms:ir.ui.view,arch_db:edi_epostak_base.view_res_config_settings_epostak
+msgid ""
+"The Firm ID, the credentials and the inbound poll below\n"
+"                        belong to the company you are working in; switch company\n"
+"                        to configure another. The environment applies to all."
 msgstr ""
 
 #. module: edi_epostak_base
@@ -142,6 +155,13 @@ msgstr ""
 msgid ""
 "The Peppol document %(name)s is missing: %(missing)s. Check the Peppol "
 "e-address (EAS) and Endpoint on both your company and the counterparty."
+msgstr ""
+
+#. module: edi_epostak_base
+#: model:ir.model.fields,help:edi_epostak_base.field_res_company__epostak_firm_id
+msgid ""
+"UUID of the ePošťák firm this company acts as, sent as X-Firm-Id. Needed "
+"only with an integrator key (sk_int_*)."
 msgstr ""
 
 #. module: edi_epostak_base
@@ -178,6 +198,7 @@ msgid "ePošťák Environment"
 msgstr ""
 
 #. module: edi_epostak_base
+#: model:ir.model.fields,field_description:edi_epostak_base.field_res_company__epostak_firm_id
 #: model:ir.model.fields,field_description:edi_epostak_base.field_res_config_settings__epostak_firm_id
 msgid "ePošťák Firm ID"
 msgstr ""

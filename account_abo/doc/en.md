@@ -1,7 +1,7 @@
 ---
 title: ABO Payment Files
 summary: Domestic CZK credit transfers exported as an ABO file for upload to the bank, from an OCA payment order or an Enterprise batch payment.
-verified: 19.0.2.0.1
+verified: 19.0.2.1.0
 ---
 
 ## What it is for {#purpose}
@@ -128,6 +128,12 @@ and KB statement imports. It has no screen of its own.
 
 ## Limitations {#limitations}
 
+- A credit note grouped with its invoice on the payment order (the payment
+  mode's *Group Transactions in Payment Orders*) becomes **one item of the net
+  amount** — the amount of the payment the order books. It carries the
+  invoice's variable symbol; when one credit note is netted against several
+  invoices their symbols differ and none is sent. Groups without a credit note
+  keep one item per invoice. Without grouping, a credit-note line is refused.
 - **CZK and Czech accounts only.** The file refuses any currency other
   than CZK and any non-Czech account, Slovak IBANs included. Pay in EUR through SEPA (ISO 20022) or
   [module:account_multicash](module:account_multicash) (CFA).
@@ -139,7 +145,6 @@ and KB statement imports. It has no screen of its own.
 - Only credit transfers. ABO direct debits (*inkaso*) are not written; use
   MultiCash CFD or KB BEST for those.
 - A line with a zero or negative amount stops the export with a message
-  naming it (banks reject such a file). A credit note grouped with its invoice
-  on a payment order is such a line: ABO writes one item per line.
+  naming it (banks reject such a file).
 - The file is not uploaded to the bank automatically (except through Fio, as
   above).

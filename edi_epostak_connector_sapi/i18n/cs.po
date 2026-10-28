@@ -1,6 +1,3 @@
-# Translation of Odoo Server.
-# This file contains the translation of the following modules:
-# 	* edi_epostak_connector_sapi
 #
 msgid ""
 msgstr ""
@@ -10,11 +7,11 @@ msgstr ""
 "PO-Revision-Date: 2026-10-27 19:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: cs_CZ\n"
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
@@ -62,9 +59,8 @@ msgid ""
 "address."
 msgstr ""
 "%(participant)s není zapsán v adresáři Peppol, takže mu Peppol nemůže "
-"doručit. Zkontrolujte schéma EAS a hodnotu koncového bodu — slovenské DIČ "
-"má schéma 0245, IČ DPH 9950 — nebo si vyžádejte Peppol adresu od "
-"protistrany."
+"doručit. Zkontrolujte schéma EAS a hodnotu koncového bodu — slovenské DIČ má"
+" schéma 0245, IČ DPH 9950 — nebo si vyžádejte Peppol adresu od protistrany."
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
@@ -122,22 +118,24 @@ msgid ""
 "It is closed automatically when polling succeeds again. Set to 0 to never "
 "raise one."
 msgstr ""
-"Po tolika po sobě jdoucích neúspěšných staženích příchozích dokladů "
-"vytvořit úkol pro správce EDI (nebo administrátora), aby se o tom někdo "
-"dozvěděl, i když tuto stránku nikdo neotevře. Úkol se uzavře automaticky, "
-"jakmile stahování opět uspěje. Hodnota 0 úkol nikdy nevytvoří."
+"Po tolika po sobě jdoucích neúspěšných staženích příchozích dokladů vytvořit"
+" úkol pro správce EDI (nebo administrátora), aby se o tom někdo dozvěděl, i "
+"když tuto stránku nikdo neotevře. Úkol se uzavře automaticky, jakmile "
+"stahování opět uspěje. Hodnota 0 úkol nikdy nevytvoří."
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
 msgid ""
-"Authenticated against %(url)s as participant %(pid)s. ePošťák credentials "
-"serve one company per database, and collection runs as %(company)s. These "
-"companies also allow e-invoicing and will not be served: %(others)s."
+"Authenticated against %(url)s as participant %(pid)s. These companies also "
+"allow e-invoicing but have no ePošťák credentials of their own, so they "
+"neither send nor collect: %(others)s. Switch to each company and fill in its"
+" own on this page."
 msgstr ""
-"Ověřeno vůči %(url)s jako účastník %(pid)s. Přístupové údaje ePošťák "
-"obsluhují jednu společnost na databázi a příjem běží jako %(company)s. Tyto "
-"společnosti také povolují e-fakturaci a nebudou obslouženy: %(others)s."
+"Ověřeno vůči %(url)s jako účastník %(pid)s. Tyto společnosti také povolují "
+"e-fakturaci, ale nemají vlastní přístupové údaje k ePošťáku, proto "
+"neodesílají ani nevyzvedávají: %(others)s. Přepněte se do každé z nich a na "
+"této stránce vyplňte její vlastní."
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
@@ -149,6 +147,11 @@ msgstr "Ověřeno vůči %(url)s jako účastník %(pid)s.%(firm)s"
 #: model_terms:ir.ui.view,arch_db:edi_epostak_connector_sapi.view_partner_form_epostak
 msgid "Check Peppol reachability"
 msgstr "Ověřit dosažitelnost v Peppolu"
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model,name:edi_epostak_connector_sapi.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
 
 #. module: edi_epostak_connector_sapi
 #: model:ir.model,name:edi_epostak_connector_sapi.model_res_config_settings
@@ -224,6 +227,7 @@ msgstr ""
 
 #. module: edi_epostak_connector_sapi
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_epostak_connector__display_name
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__display_name
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__display_name
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_partner__display_name
 msgid "Display Name"
@@ -286,6 +290,7 @@ msgstr ""
 
 #. module: edi_epostak_connector_sapi
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_epostak_connector__id
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__id
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_config_settings__id
 #: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_partner__id
 msgid "ID"
@@ -520,16 +525,11 @@ msgid ""
 "\n"
 "If this database has its own ePošťák contract instead, the secret should be a firm key (sk_live_*), and the Firm ID stays empty."
 msgstr ""
-"Client secret ePošťák nastavený pro prostředí %(mode)s je integrátorský "
-"klíč (sk_int_*), který jedná jménem firem, místo aby sám byl firmou, takže "
-"každý požadavek musí uvést firmu, za kterou jedná.\n"
+"Client secret ePošťák nastavený pro prostředí %(mode)s je integrátorský klíč (sk_int_*), který jedná jménem firem, místo aby sám byl firmou, takže každý požadavek musí uvést firmu, za kterou jedná.\n"
 "\n"
-"Nastavte Nastavení ▸ EDI ▸ ePošťák ▸ ePošťák Firm ID na UUID firmy, za "
-"kterou tato databáze fakturuje — tlačítko Test Connection tam zobrazí "
-"firmy, za které smí tento klíč jednat.\n"
+"Nastavte Nastavení ▸ EDI ▸ ePošťák ▸ ePošťák Firm ID na UUID firmy, za kterou tato databáze fakturuje — tlačítko Test Connection tam zobrazí firmy, za které smí tento klíč jednat.\n"
 "\n"
-"Má-li tato databáze místo toho vlastní smlouvu s ePošťákem, měl by být "
-"klíčem firemní klíč (sk_live_*) a Firm ID zůstává prázdné."
+"Má-li tato databáze místo toho vlastní smlouvu s ePošťákem, měl by být klíčem firemní klíč (sk_live_*) a Firm ID zůstává prázdné."
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
@@ -624,6 +624,26 @@ msgid "ePošťák Connector"
 msgstr "Konektor ePošťák"
 
 #. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__epostak_prod_client_id
+msgid "ePošťák Production Client ID"
+msgstr "ePošťák: produkční Client ID"
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__epostak_prod_client_secret
+msgid "ePošťák Production Client Secret"
+msgstr "ePošťák: produkční Client Secret"
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__epostak_sandbox_client_id
+msgid "ePošťák Sandbox Client ID"
+msgstr "ePošťák: testovací Client ID"
+
+#. module: edi_epostak_connector_sapi
+#: model:ir.model.fields,field_description:edi_epostak_connector_sapi.field_res_company__epostak_sandbox_client_secret
+msgid "ePošťák Sandbox Client Secret"
+msgstr "ePošťák: testovací Client Secret"
+
+#. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
 msgid "ePošťák authentication failed (HTTP %(status)s): %(detail)s"
@@ -638,8 +658,9 @@ msgstr "Připojení k ePošťáku OK"
 #. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/res_config_settings.py:0
-msgid "ePošťák connection OK — for one company only"
-msgstr "Připojení k ePošťáku OK — jen pro jednu společnost"
+msgid "ePošťák connection OK — other companies have no credentials"
+msgstr ""
+"Připojení k ePošťáku je v pořádku — jiné společnosti nemají přístupové údaje"
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
@@ -650,18 +671,24 @@ msgstr "Připojení k ePošťáku selhalo"
 #. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
-msgid "ePošťák credentials are not configured for the %s environment."
-msgstr "Přístupové údaje ePošťák nejsou nastaveny pro prostředí %s."
+msgid ""
+"ePošťák credentials of company %(company)s are not configured for the "
+"%(mode)s environment."
+msgstr ""
+"Přístupové údaje ePošťáku společnosti %(company)s nejsou pro prostředí "
+"%(mode)s nastaveny."
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
 #: code:addons/edi_epostak_connector_sapi/models/epostak_connector.py:0
 msgid ""
-"ePošťák credentials are not configured for the %s environment. Go to "
-"Settings ▸ EDI ▸ ePošťák and fill in the client ID and client secret."
+"ePošťák credentials of company %(company)s are not configured for the "
+"%(mode)s environment. Go to Settings ▸ EDI ▸ ePošťák with that company "
+"selected and fill in the client ID and client secret."
 msgstr ""
-"Přístupové údaje ePošťák nejsou nastaveny pro prostředí %s. Přejděte do "
-"Nastavení ▸ EDI ▸ ePošťák a vyplňte client ID a client secret."
+"Přístupové údaje ePošťáku společnosti %(company)s nejsou pro prostředí "
+"%(mode)s nastaveny. V této společnosti otevřete Nastavení ▸ EDI ▸ ePošťák a "
+"vyplňte Client ID a Client Secret."
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python
@@ -682,13 +709,11 @@ msgid ""
 "\n"
 "Check Settings ▸ EDI ▸ ePošťák — 'Last inbound poll' shows the same detail, and 'Poll inbound now' retries immediately."
 msgstr ""
-"Stahování příchozích dokladů z ePošťáku selhalo %(streak)s× po sobě, takže "
-"příchozí doklady se nepřijímají.\n"
+"Stahování příchozích dokladů z ePošťáku selhalo %(streak)s× po sobě, takže příchozí doklady se nepřijímají.\n"
 "\n"
 "Poslední chyba: %(error)s\n"
 "\n"
-"Zkontrolujte Nastavení ▸ EDI ▸ ePošťák — 'Last inbound poll' ukazuje stejné "
-"podrobnosti a 'Poll inbound now' to ihned zkusí znovu."
+"Zkontrolujte Nastavení ▸ EDI ▸ ePošťák — 'Last inbound poll' ukazuje stejné podrobnosti a 'Poll inbound now' to ihned zkusí znovu."
 
 #. module: edi_epostak_connector_sapi
 #. odoo-python

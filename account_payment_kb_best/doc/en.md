@@ -1,7 +1,7 @@
 ---
 title: KB BEST Payment Files
 summary: Domestic transfers, direct debits and foreign/SEPA payments from a Komerční banka account, exported in KB's BEST format from an OCA payment order.
-verified: 19.0.1.1.0
+verified: 19.0.1.2.0
 ---
 
 ## What it is for {#purpose}
@@ -108,6 +108,12 @@ build on. It has no screen of its own.
 
 ## Limitations {#limitations}
 
+- A credit note grouped with its invoice on the payment order (the payment
+  mode's *Group Transactions in Payment Orders*) becomes **one item of the net
+  amount** — the amount of the payment the order books. It carries the
+  invoice's variable symbol; when one credit note is netted against several
+  invoices their symbols differ and none is sent. Groups without a credit note
+  keep one item per invoice. Without grouping, a credit-note line is refused.
 - Only from a KB account; this is KB's own format.
 - Community payment orders only — there is no Enterprise batch-payment
   variant of this module.

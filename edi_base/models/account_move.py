@@ -1,8 +1,22 @@
-"""The variable symbol an EDI message carries for an invoice."""
+"""The variable symbol and the bank account an EDI message carries for an
+invoice."""
 
 import re
 
-from odoo import models
+from odoo import api, models
+
+# Country code, check digits, then 11 to 30 alphanumerics (ISO 13616).
+_IBAN_RE = re.compile(r"^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$")
+
+
+def _is_iban(number):
+    """ISO 13616 shape and its ISO 7064 mod-97 check. Done here rather than
+    with stdnum's ``iban``, which loads a data file at import and cannot be
+    relied on in every deployment's packaging."""
+    if not _IBAN_RE.match(number):
+        return False
+    rotated = number[4:] + number[:4]
+    return int("".join(str(int(char, 36)) for char in rotated)) % 97 == 1
 
 
 class AccountMove(models.Model):
@@ -29,3 +43,30 @@ class AccountMove(models.Model):
         else:
             source = self.payment_reference or self.name or ""
         return re.sub(r"\D", "", source)[-10:]
+
+    def _edi_payment_bank(self):
+        """The account this invoice asks to be paid to: its own (the one the
+        PDF and the payment QR code name), else the company's first account
+        that is an IBAN, else its first account."""
+        self.ensure_one()
+        banks = self.company_id.partner_id.bank_ids
+        return (
+            self.partner_bank_id
+            or banks.filtered(lambda bank: self._edi_iban(bank))[:1]
+            or banks[:1]
+        )
+
+    @api.model
+    def _edi_iban(self, bank):
+        """``bank``'s number as an IBAN for an ``<iban>`` element — upper case,
+        no spaces — or ``""`` when it is not one.
+
+        A domestic number (``19-2000145399/0800``) is not an IBAN, and neither
+        is an IBAN typed with spaces: the receiving system validates the
+        element and refuses the whole document, or misreads the account. The
+        check is the number's own (ISO 7064 mod 97), not ``acc_type``, which
+        reads ``iban`` only when ``base_iban`` is installed.
+        """
+        number = (bank.sanitized_acc_number or "") if bank else ""
+        number = number.replace(" ", "").upper()
+        return number if _is_iban(number) else ""

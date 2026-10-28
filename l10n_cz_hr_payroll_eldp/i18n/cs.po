@@ -51,6 +51,22 @@ msgid "Activity Type Icon"
 msgstr "Ikona typu aktivity"
 
 #. module: l10n_cz_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
+msgid ""
+"An ELDP for %(year)s is filed only for an employee whose pension insurance "
+"ended before 1 April 2026 (Act No. 360/2025 Coll., Art. V), and no employee "
+"with payslips in %(year)s left before that day. The year is reported in the "
+"monthly employer report (JMHZ); an ELDP the ČSSZ asks for has to be prepared"
+" outside this module."
+msgstr ""
+"ELDP za rok %(year)s se podává jen za zaměstnance, jehož účast na důchodovém"
+" pojištění skončila před 1. dubnem 2026 (zákon č. 360/2025 Sb., čl. V), a "
+"žádný zaměstnanec s výplatními páskami v roce %(year)s před tímto dnem "
+"neodešel. Rok se vykazuje v jednotném měsíčním hlášení zaměstnavatele "
+"(JMHZ); ELDP vyžádaný ČSSZ je třeba připravit mimo tento modul."
+
+#. module: l10n_cz_hr_payroll_eldp
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_eldp.view_l10n_cz_eldp_form
 msgid "Assessment base"
 msgstr "Vyměřovací základ"
@@ -96,6 +112,16 @@ msgstr ""
 "ELDP <comp vs>. Nastavte u společnosti 'ČSSZ variable symbol (VS)'."
 
 #. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__correction_reference
+msgid "Correction Reference"
+msgstr "Reference opravy"
+
+#. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_cz_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__country_id
 msgid "Country"
 msgstr "Země"
@@ -116,6 +142,11 @@ msgid "Currency"
 msgstr "Měna"
 
 #. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__active_submission_id
+msgid "Current submission"
+msgstr "Aktuální doručení"
+
+#. module: l10n_cz_hr_payroll_eldp
 #: model:ir.model,name:l10n_cz_hr_payroll_eldp.model_l10n_cz_eldp
 msgid "Czech ELDP — Pension Insurance Record"
 msgstr "České ELDP — Evidenční list důchodového pojištění"
@@ -131,6 +162,11 @@ msgid "Date To"
 msgstr "Datum do"
 
 #. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__submission_state
+msgid "Delivery"
+msgstr "Doručení"
+
+#. module: l10n_cz_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_res_company__display_name
 msgid "Display Name"
@@ -140,6 +176,17 @@ msgstr "Zobrazovaný název"
 #: model:ir.actions.act_window,name:l10n_cz_hr_payroll_eldp.action_l10n_cz_eldp
 msgid "ELDP (pension)"
 msgstr "ELDP (důchodové)"
+
+#. module: l10n_cz_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
+msgid ""
+"Employee '%(name)s' has %(count)s separate employment periods in %(year)s; "
+"one ELDP holds at most three. Prepare the ELDP for this employee by hand."
+msgstr ""
+"Zaměstnanec '%(name)s' má v roce %(year)s %(count)s samostatných období "
+"zaměstnání; jeden ELDP pojme nejvýše tři. ELDP pro tohoto zaměstnance "
+"připravte ručně."
 
 #. module: l10n_cz_hr_payroll_eldp
 #. odoo-python
@@ -228,6 +275,11 @@ msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
 
 #. module: l10n_cz_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__message_is_follower
@@ -343,6 +395,24 @@ msgid "Payment Date"
 msgstr "Datum výplaty"
 
 #. module: l10n_cz_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
+msgid ""
+"Pension insurance periods from 1 January 2026 are reported in the monthly "
+"employer report (JMHZ, Act No. 323/2025 Coll.). The ČSSZ may still ask for "
+"an ELDP in individual cases; prepare that one outside this module."
+msgstr ""
+"Doby důchodového pojištění od 1. ledna 2026 se vykazují v jednotném měsíčním"
+" hlášení zaměstnavatele (JMHZ, zákon č. 323/2025 Sb.). ČSSZ může v "
+"odůvodněných případech ELDP stále vyžádat; takový připravte mimo tento "
+"modul."
+
+#. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
+
+#. module: l10n_cz_hr_payroll_eldp
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_eldp.view_l10n_cz_eldp_form
 msgid "Reset to Draft"
 msgstr "Vrátit do konceptu"
@@ -381,9 +451,28 @@ msgid "Submission Reference"
 msgstr "Reference podání"
 
 #. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__submission_ids
+msgid "Submissions"
+msgstr "Podání"
+
+#. module: l10n_cz_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__submitted_date
 msgid "Submitted Date"
 msgstr "Datum odeslání"
+
+#. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pro vše, co opravuje dřívější podání."
+
+#. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Reference úřadu na opravované podání, pokud ji přijímající systém potřebuje "
+"ke spárování obou."
 
 #. module: l10n_cz_hr_payroll_eldp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__activity_exception_decoration
@@ -406,6 +495,16 @@ msgid "Website communication history"
 msgstr "Historie komunikace webu"
 
 #. module: l10n_cz_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Zda jde o řádné podání za období, nebo o opravu již odeslaného. Volby jsou "
+"omezeny na to, co tento konkrétní úřad přijímá."
+
+#. module: l10n_cz_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__xml_attachment_id
 msgid "Xml Attachment"
 msgstr "Příloha XML"
@@ -419,66 +518,3 @@ msgstr "Rok"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_res_company__l10n_cz_ossz_vs
 msgid "ČSSZ variable symbol (VS)"
 msgstr "Variabilní symbol ČSSZ (VS)"
-
-#. module: l10n_cz_hr_payroll_eldp
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_eldp.field_res_company__l10n_cz_ossz_vs
-msgid ""
-"8-10 digit variable symbol assigned to the employer by the ČSSZ — the ELDP "
-"<comp vs> attribute."
-msgstr ""
-"8–10místný variabilní symbol přidělený zaměstnavateli ČSSZ — atribut "
-"ELDP <comp vs>."
-
-#. module: l10n_cz_hr_payroll_eldp
-#: model:ir.module.module,summary:base.module_l10n_cz_hr_payroll_eldp
-msgid ""
-"Annual Czech pension-insurance record (ELDP) for the ČSSZ — per-employee "
-"assessment base and days aggregated over the calendar year, XML validated "
-"against the official ELDP09.xsd. Engine-neutral (payroll or hr_payroll)."
-msgstr ""
-"Roční evidenční list důchodového pojištění (ELDP) pro ČSSZ — "
-"vyměřovací základ a dny za jednotlivé zaměstnance agregované za "
-"kalendářní rok, XML validované proti oficiálnímu ELDP09.xsd. "
-"Nezávislé na mzdovém enginu (payroll nebo hr_payroll)."
-
-#. module: l10n_cz_hr_payroll_eldp
-#: model:ir.module.module,shortdesc:base.module_l10n_cz_hr_payroll_eldp
-msgid "Czech Republic — ELDP (Pension Insurance Record)"
-msgstr "Česká republika — ELDP (evidenční list důchodového pojištění)"
-
-#. module: l10n_cz_hr_payroll_eldp
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_eldp.field_res_company__l10n_cz_ossz_code
-msgid ""
-"Numeric code (100-999) of the locally competent District Social Security "
-"Administration (OSSZ) — the ELDP <eldp09 tco/dep>."
-msgstr ""
-"Číselný kód (100–999) místně příslušné okresní správy sociálního "
-"zabezpečení (OSSZ) — prvek ELDP <eldp09 tco/dep>."
-
-#. module: l10n_cz_hr_payroll_eldp
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
-msgid "Pension insurance periods from 1 January 2026 are reported in the monthly employer report (JMHZ, Act No. 323/2025 Coll.). The ČSSZ may still ask for an ELDP in individual cases; prepare that one outside this module."
-msgstr "Doby důchodového pojištění od 1. ledna 2026 se vykazují v jednotném měsíčním hlášení zaměstnavatele (JMHZ, zákon č. 323/2025 Sb.). ČSSZ může v odůvodněných případech ELDP stále vyžádat; takový připravte mimo tento modul."
-
-#. module: l10n_cz_hr_payroll_eldp
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
-msgid "An ELDP for %(year)s is filed only for an employee whose pension insurance ended before 1 April 2026 (Act No. 360/2025 Coll., Art. V), and no employee with payslips in %(year)s left before that day. The year is reported in the monthly employer report (JMHZ); an ELDP the ČSSZ asks for has to be prepared outside this module."
-msgstr "ELDP za rok %(year)s se podává jen za zaměstnance, jehož účast na důchodovém pojištění skončila před 1. dubnem 2026 (zákon č. 360/2025 Sb., čl. V), a žádný zaměstnanec s výplatními páskami v roce %(year)s před tímto dnem neodešel. Rok se vykazuje v jednotném měsíčním hlášení zaměstnavatele (JMHZ); ELDP vyžádaný ČSSZ je třeba připravit mimo tento modul."
-
-#. module: l10n_cz_hr_payroll_eldp
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_eldp.field_l10n_cz_eldp__report_code
-msgid "Report Code"
-msgstr "Kód výkazu"
-
-#. module: l10n_cz_hr_payroll_eldp
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_eldp/models/l10n_cz_eldp.py:0
-msgid ""
-"Employee '%(name)s' has %(count)s separate employment periods in %(year)s; "
-"one ELDP holds at most three. Prepare the ELDP for this employee by hand."
-msgstr ""
-"Zaměstnanec '%(name)s' má v roce %(year)s %(count)s samostatných období "
-"zaměstnání; jeden ELDP pojme nejvýše tři. ELDP pro tohoto zaměstnance "
-"připravte ručně."

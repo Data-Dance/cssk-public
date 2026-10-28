@@ -72,6 +72,26 @@ class TestKbBestExport(AccountTestInvoicingCommon):
         self.env["account.payment.line"].sudo().create(vals)
         return order.sudo()
 
+    def test_credit_note_grouped_with_its_invoice_is_one_net_item(self):
+        """One payment of the net amount, not a negative item KB refuses."""
+        order = self._order("account_payment_method_kb_best_domestic_out",
+                            amount_currency=1000.0, variable_symbol="20260042",
+                            date="2026-03-15")
+        self.env["account.payment.line"].sudo().create({
+            "order_id": order.id,
+            "partner_id": self.supplier.id,
+            "partner_bank_id": self.supplier_bank.id,
+            "currency_id": self.czk.id,
+            "amount_currency": -300.0,
+            "date": "2026-03-15",
+            "communication": "DOB 2026/0007",
+            "variable_symbol": "20260007",
+        })
+        header, payment, trailer = self._records(
+            order.generate_payment_file()[0])
+        self.assertEqual(payment[26:41], "000000000070000")
+        self.assertEqual(payment[292:302], "0020260042")
+
     def _records(self, data):
         return data.decode("cp1250")[:-2].split("\r\n")
 

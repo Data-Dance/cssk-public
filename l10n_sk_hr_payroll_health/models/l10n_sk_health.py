@@ -68,6 +68,9 @@ class L10nSkHealth(models.Model):
     _report_code = "sk_health"
     _country_code = "SK"
     _xml_name_fallback = "davka514"
+    # Filed separately to each insurer: an amendment amends the filing sent
+    # to the SAME insurer, never one sent to another.
+    _amendment_scope_fields = ("insurer_code",)
 
     insurer_code = fields.Selection(
         selection="_insurer_code_selection",

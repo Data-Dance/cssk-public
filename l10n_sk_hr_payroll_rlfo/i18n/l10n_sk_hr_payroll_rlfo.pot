@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:40+0000\n"
-"PO-Revision-Date: 2026-07-06 21:40+0000\n"
+"POT-Creation-Date: 2026-10-27 22:27+0000\n"
+"PO-Revision-Date: 2026-10-27 22:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -94,6 +94,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid "Correction Reference"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid "Correction Type"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__country_id
 msgid "Country"
 msgstr ""
@@ -113,6 +123,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__currency_id
 msgid "Currency"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__active_submission_id
+msgid "Current submission"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -147,6 +162,11 @@ msgstr ""
 #: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
 msgid ""
 "De-registration for '%(name)s' needs both the insurance start and end dates."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_state
+msgid "Delivery"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -263,6 +283,11 @@ msgid "Insurance start (datVznikPoist)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Is Correction"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_is_follower
 msgid "Is Follower"
 msgstr ""
@@ -307,6 +332,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -397,6 +427,11 @@ msgid "Relationship type (typZec)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__report_code
+msgid "Report Code"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
 msgid "Reset the declaration to draft before regenerating it."
@@ -468,8 +503,25 @@ msgid "Submission Reference"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_ids
+msgid "Submissions"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submitted_date
 msgid "Submitted Date"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -490,6 +542,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -545,25 +605,4 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.rlfo_xml
 msgid "false"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_rlfo
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_res_company__l10n_sk_sp_vs
-msgid ""
-"10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the employer identifier (<variabilnySymbol>) of the RLFO / RLZEC"
-" registration batch."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_rlfo
-#: model:ir.module.module,summary:base.module_l10n_sk_hr_payroll_rlfo
-msgid ""
-"Slovak social-insurance registration of employees (RLFO / RLZEC) filed to "
-"the Sociálna poisťovňa — prihláška / odhláška events built from the employee"
-" + hr.version lifecycle, XML validated against RLZEC-v2026.xsd."
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_rlfo
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_hr_payroll_rlfo
-msgid "Slovakia — RLFO (Registračný list FO)"
 msgstr ""

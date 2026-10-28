@@ -1,7 +1,7 @@
 ---
 title: CZ VAT Return (DPHDP3)
 summary: The Czech VAT return computed from the tax tags of Odoo's Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.
-verified: 19.0.1.11.0
+verified: 19.0.1.12.0
 ---
 
 ## What it is for {#purpose}
@@ -68,7 +68,11 @@ refreshing them; a test fails if the bundled file or the template's
 start date is a conservative bound chosen by the module, not a statutory one,
 and there is no version for earlier periods.
 
-Amounts are exported in whole crowns. The filing date in the XML
+Amounts are exported in whole crowns: a tax (output tax, deduction and
+rows 62–66) rounded **up** to the next crown, as § 146 odst. 1 of the
+daňový řád says ("Daň se zaokrouhluje na celé koruny nahoru"); a base or a
+value to the nearest crown, a half up; the coefficients of rows 52 and 53 up
+to a whole percent (§ 76 odst. 3 ZDPH). The filing date in the XML
 (*d_poddp*) is the day of the export.
 
 ## Setting it up {#setup}
@@ -109,7 +113,7 @@ the rows above (each summed in whole crowns, as exported, so the totals foot):
 | 63 | row 46 *v plné výši* + row 52 + row 53 + row 60 |
 | 64 | row 62 − row 63 when positive (vlastní daň) |
 | 65 | row 63 − row 62 when positive (nadměrný odpočet) |
-| 66 | row 62 − row 63, on a dodatečné return only |
+| 66 | (row 62 − row 63) minus the same of the return amended, on a dodatečné return only |
 
 An **Override** on any of them is kept and feeds the rows after it. Rows 64
 and 65 are left out of the XML of a dodatečné return, and row 66 out of any
@@ -133,10 +137,20 @@ refund, and the carry of an excess deduction).
 **Content checks at export**: rows 64 and 65 must not be negative and must
 not both be filled.
 
-**A dodatečné return** (types D and E) cannot be exported without **Důvody
-zjištěny dne** (*d_zjist*), shown next to the statement type. It is the same
-date as the engine's *Den zjištění rozdílu* (one field, shown once under its
-Czech name), so an amendment created with the button already carries it.
+**A dodatečné return** (types D and E) is created with **Amended /
+corrective** on the filed return, and states only the **differences** from it:
+"V dodatečném přiznání se uvádí pouze rozdíly od údajů, ze kterých byla
+stanovena poslední známá daň" (pokyny k přiznání). The rows on screen keep
+the period's full figures — they are what the next amendment differs from —
+and the XML files each row minus the same row of the return amended; the
+coefficients of rows 52 and 53 are filed as they are. A dodatečné/opravné
+return (E) raised from a dodatečné one replaces it, so it differs from what
+that dodatečné amended. Without the return it amends, the export refuses.
+
+It also cannot be exported without **Důvody zjištěny dne** (*d_zjist*),
+shown next to the statement type. It is the same date as the engine's *Den
+zjištění rozdílu* (one field, shown once under its Czech name), so an
+amendment created with the button already carries it.
 
 **Filing through EPO.** With [module:l10n_cz_epo](module:l10n_cz_epo)
 installed, **File it** offers the EPO channel: the return can be checked in
@@ -200,9 +214,9 @@ three years between are not excluded by its dates.
 - The content checks cover rows 64 and 65 only; the schema cannot tell
   whether the other figures are consistent.
 - Periods before 2016 have no version.
-- On a dodatečné return the rows are the period's figures as recomputed, and
-  row 66 is row 62 − row 63 of this return; it is not compared with the
-  return being amended.
+- A dodatečné return differs from the return it was created from. Create
+  it from the last return filed for the period, so that return is the last
+  known tax.
 - The pin in `data/SCHEMA_VERSION` shows that the bundled schema is the one
   verified on a stated date, not that it is still current; refresh it by the
   procedure in that file.

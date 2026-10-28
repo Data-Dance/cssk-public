@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_vat_return/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>CZ Přiznání k DPH (DPHDP3)</h1>
 <p class="cssk-summary">České přiznání k DPH vypočtené z daňových štítků české účtové osnovy Odoo a exportované jako XML DPHDP3 pro EPO, pro každé období ověřené proti aktuálnímu úřednímu XSD.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.11.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_vat_return_base/static/description/index_cs.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_datadance/static/description/index_cs.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index_cs.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.12.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_vat_return_base/static/description/index_cs.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_datadance/static/description/index_cs.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index_cs.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Česká vrstva <a href="/l10n_cssk_vat_return_base/static/description/index_cs.html">společného základu přiznání k DPH</a>.
@@ -88,8 +88,12 @@ aktualizace; test selže, pokud se přiložený soubor nebo <code>verzePis</code
 tohoto záznamu odchýlí. Nabízí se pro období od <strong>1. 1. 2016</strong>; toto
 datum je opatrná hranice zvolená modulem, ne zákonná, a pro dřívější období
 verze není.</p>
-<p>Částky se exportují v celých korunách. Datum podání v XML (<em>d_poddp</em>) je den
-exportu.</p>
+<p>Částky se exportují v celých korunách: daň (daň na výstupu, odpočet a řádky
+62–66) zaokrouhlená <strong>nahoru</strong> na celé koruny, jak říká § 146 odst. 1
+daňového řádu („Daň se zaokrouhluje na celé koruny nahoru“); základ nebo
+hodnota na nejbližší celou korunu, polovina nahoru; koeficienty řádků 52 a
+53 nahoru na celé procento (§ 76 odst. 3 ZDPH). Datum podání v XML
+(<em>d_poddp</em>) je den exportu.</p>
 <h2 id="setup">Nastavení</h2>
 <p>Kromě <a href="/l10n_cssk_vat_return_base/static/description/index_cs.html#setup">nastavení společného základu</a>
 potřebuje XML na společnosti:</p>
@@ -173,7 +177,7 @@ souhlasily):</p>
 </tr>
 <tr>
 <td>66</td>
-<td>řádek 62 − řádek 63, jen u dodatečného přiznání</td>
+<td>(řádek 62 − řádek 63) minus totéž u opravovaného přiznání, jen u dodatečného přiznání</td>
 </tr>
 </tbody>
 </table>
@@ -217,7 +221,16 @@ a převod nadměrného odpočtu).</p>
 </table>
 <p><strong>Obsahové kontroly při exportu</strong>: řádky 64 a 65 nesmějí být záporné a
 nesmějí být vyplněny oba.</p>
-<p><strong>Dodatečné přiznání</strong> (typ D a E) nelze exportovat bez pole <strong>Důvody
+<p><strong>Dodatečné přiznání</strong> (typ D a E) se vytváří tlačítkem <strong>Amended /
+corrective</strong> na podaném přiznání a uvádí jen <strong>rozdíly</strong> proti němu: „V
+dodatečném přiznání se uvádí pouze rozdíly od údajů, ze kterých byla
+stanovena poslední známá daň“ (pokyny k přiznání). Řádky na obrazovce
+ponechávají plné údaje období — od nich se liší další dodatečné přiznání — a
+XML uvádí každý řádek minus týž řádek opravovaného přiznání; koeficienty
+řádků 52 a 53 se uvádějí tak, jak jsou. Dodatečné/opravné přiznání (E)
+vytvořené z dodatečného ho nahrazuje, takže se liší od toho, co opravovalo
+ono dodatečné. Bez opravovaného přiznání export odmítne.</p>
+<p>Nelze ho ani exportovat bez pole <strong>Důvody
 zjištěny dne</strong> (<em>d_zjist</em>), které se zobrazí vedle typu výkazu. Je to totéž
 datum jako <em>Den zjištění rozdílu</em> společného základu (jedno pole, zobrazené
 jednou pod českým názvem), takže přiznání vytvořené tlačítkem ho už nese.</p>
@@ -313,15 +326,16 @@ mezi nimi její data nevylučují.</p>
 <li>Obsahové kontroly pokrývají jen řádky 64 a 65; schéma nepozná, zda jsou
   ostatní údaje navzájem konzistentní.</li>
 <li>Pro období před rokem 2016 verze není.</li>
-<li>U dodatečného přiznání jsou řádky přepočtené údaje období a řádek 66 je
-  řádek 62 − řádek 63 tohoto přiznání; s opravovaným přiznáním se nesrovnává.</li>
+<li>Dodatečné přiznání se liší od přiznání, ze kterého bylo vytvořeno.
+  Vytvořte ho z posledního přiznání podaného za období, aby to byla poslední
+  známá daň.</li>
 <li>Záznam v <code>data/SCHEMA_VERSION</code> dokládá, že přiložené schéma je to, které
   bylo ověřeno k uvedenému dni, ne že je stále aktuální; aktualizujte ho
   postupem popsaným v tomto souboru.</li>
 <li>Řádky se řídí štítky <code>l10n_cz</code>. Daň založená ručně bez správných štítků
   skončí ve špatném řádku nebo v žádném.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.11.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.12.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

@@ -838,3 +838,19 @@ msgstr ""
 #: code:addons/l10n_cssk_ec_summary_base/models/cssk_ec_summary_statement.py:0
 msgid "The form version %(version)s cannot be filed for a %(period)s period."
 msgstr "Verzi tiskopisu %(version)s nelze podat za %(period)s období."
+
+#. module: l10n_cssk_ec_summary_base
+#: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornění exportu"
+
+#. module: l10n_cssk_ec_summary_base
+#: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, které poslední export nezablokovaly, ale před podáním je "
+"třeba je projít, každá na samostatném řádku. Obnovují se při každém "
+"exportu; prázdné, pokud poslední export žádné nenašel."

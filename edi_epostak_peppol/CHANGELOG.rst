@@ -5,6 +5,16 @@ Changelog
 All notable changes to **edi_epostak_peppol** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- User guide: the Firm ID, the credentials and collection are per company
+  (``edi_epostak_base`` 19.0.1.1.0, ``edi_epostak_connector_sapi`` 19.0.1.2.0);
+  the "one ePošťák account per database" limitation is gone.
+
 [19.0.1.1.0] — 2026-10-27
 -------------------------
 

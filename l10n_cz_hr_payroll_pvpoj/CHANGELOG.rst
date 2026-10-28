@@ -10,6 +10,23 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.4] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **cisloDomu is no longer Street 2.** The employer's *ulice* was *Street*
+  whole and *cisloDomu* was *Street 2* whatever it held (a floor or a c/o
+  line too). Both are now read by the shared helper of ``l10n_cssk_core``:
+  the číslo popisné is split off the street, *Street 2* counts only when it
+  holds nothing but a number, and the values are clipped to the schema's
+  50 / 12 characters.
+
+**Changed**
+
+- **Czech translation.** The correction and submission fields every declaration shares (*Correction Type*, *Correction Reference*, *Delivery*, *Submissions*) showed in English; they are translated now.
+
 [19.0.1.1.3] — 2026-10-27
 -------------------------
 

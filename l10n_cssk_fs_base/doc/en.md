@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Financial Statements
 summary: The Slovak and Czech financial statements computed from the ledger, row by row, with a comparative period, figures entered by hand where the books cannot supply them, checks that every account reached a row, and the filing record.
-verified: 19.0.1.10.2
+verified: 19.0.1.10.3
 ---
 
 ## What it is for {#purpose}
@@ -165,6 +165,10 @@ statements, such as the Slovak Úč POD, gets one sheet per part. The row
 figures are the statement's stored figures, so the workbook shows exactly what
 was reviewed, figures entered by hand included; the account lines below an
 overridden row still show what the ledger holds.
+
+**Export warnings.** Checks that do not stop the export are listed in a
+yellow banner at the top of the form, and in the chatter, until the next
+export.
 
 ## Limitations {#limitations}
 

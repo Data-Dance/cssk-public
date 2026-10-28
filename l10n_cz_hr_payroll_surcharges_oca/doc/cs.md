@@ -1,7 +1,7 @@
 ---
 title: Příplatky ke mzdě CZ (OCA)
 summary: České příplatky ke mzdě jako mzdová pravidla aplikace OCA payroll.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 family: l10n_cz_hr_payroll_surcharges#engines
 ---
 

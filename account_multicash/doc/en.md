@@ -1,7 +1,7 @@
 ---
 title: MultiCash Payment Files
 summary: Domestic, urgent, direct-debit and foreign payments exported as MultiCash files (CFD, CFU, CFA, MT101), from an OCA payment order or an Enterprise batch payment.
-verified: 19.0.2.1.0
+verified: 19.0.2.2.0
 ---
 
 ## What it is for {#purpose}
@@ -118,6 +118,12 @@ Both modules can be installed side by side.
 
 ## Limitations {#limitations}
 
+- A credit note grouped with its invoice on the payment order (the payment
+  mode's *Group Transactions in Payment Orders*) becomes **one item of the net
+  amount** — the amount of the payment the order books. It carries the
+  invoice's variable symbol; when one credit note is netted against several
+  invoices their symbols differ and none is sent. Groups without a credit note
+  keep one item per invoice. Without grouping, a credit-note line is refused.
 - **Czech domestic formats.** CFD and CFU take only CZK and Czech accounts; a
   Slovak IBAN is refused. CFA also needs the ordering account to be Czech.
 - **MT101 from a payment order** has one execution date for the whole

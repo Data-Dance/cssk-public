@@ -1,7 +1,7 @@
 ---
 title: CZ Oznámení o nástupu do zaměstnání (ONZ)
 summary: Oznámení o nástupu do zaměstnání a o skončení zaměstnání pro ČSSZ ve struktuře XML ONZ 2022 — od 1. dubna 2026 nahrazené evidencí zaměstnanců podle zákona o JMHZ.
-verified: 19.0.1.0.3
+verified: 19.0.1.0.4
 ---
 
 ## K čemu slouží {#purpose}

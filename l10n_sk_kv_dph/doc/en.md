@@ -1,7 +1,7 @@
 ---
 title: SK VAT Control Statement (KV DPH)
 summary: The Slovak kontrolný výkaz DPH — sections A.1 to D.2 computed from the books, checked against the form's requirements and exported as the Finančná správa XML in the form version in force for the period.
-verified: 19.0.2.4.0
+verified: 19.0.2.5.0
 ---
 
 ## What it is for {#purpose}
@@ -128,7 +128,9 @@ Besides the [shared setup](module:l10n_cssk_kv_kh_base#setup):
   section override** (block *VAT control statement*) to `D.1`. Every VAT line
   of that journal is then reported as eKasa turnover in D.1 instead of D.2.
   Invoices issued to businesses should go through an ordinary sales journal,
-  so that they still reach A.1.
+  so that they still reach A.1. With Odoo Point of Sale, install
+  [module:l10n_sk_kv_dph_pos](module:l10n_sk_kv_dph_pos): the sales of every
+  POS session go to D.1 without this setting.
 
 ## Sections {#sections}
 
@@ -144,7 +146,7 @@ one row per rate.
 | B.3.1 / B.3.2 | Received simplified invoices: one total in B.3.1 while the tax **deducted** from them in the period is below 3 000 eur ([§ 78a ods. 6](law:sk/2004/222#paragraf-78a.odsek-6)); from 3 000 eur deducted, totals per supplier in B.3.2. A receipt deducted at 50 % counts half. Up to March 2016, one total in B.3. |
 | C.1 | Credit notes and debit notes (*ťarchopisy*) issued to customers that are taxable persons, with the corrected invoice's number. A debit note reports a positive difference. |
 | C.2 | Credit notes and debit notes received, with the corrected invoice's number; also corrections of deducted tax under § 53b recorded with `l10n_sk_par53b`. |
-| D.1 | eKasa turnover: the VAT lines of journals whose control-statement section is set to `D.1` (see [Setting it up](#setup)). |
+| D.1 | eKasa turnover: the VAT lines of journals whose control-statement section is set to `D.1` (see [Setting it up](#setup)), and POS sessions with [module:l10n_sk_kv_dph_pos](module:l10n_sk_kv_dph_pos). Filed as the turnover including VAT (*SumaObratov*) and the base and tax at the basic rate (20 % and more) and at the reduced rates; an override corrects these five columns. |
 | D.2 | Taxable supplies to customers with neither IČ DPH nor IČO (or with no partner), and their credit notes: totals of base and tax at the basic rate (20 % and more) and at the reduced rates. |
 
 Outside the statement altogether: intra-EU supplies (they belong in the EC
@@ -206,9 +208,12 @@ the period (year and month, or year and quarter).
 
 ## Limitations {#limitations}
 
-- **D.1 (eKasa) is not derived from the documents.** Only journals set to
-  `D.1` report there; any other point-of-sale or cash-register sale without
-  an identified business customer is reported in **D.2**.
+- **D.1 (eKasa) is not derived from ordinary documents.** Journals set to
+  `D.1` and, with [module:l10n_sk_kv_dph_pos](module:l10n_sk_kv_dph_pos), POS
+  sessions report there; any other cash-register sale without an identified
+  business customer is reported in **D.2**. Whether D.1's Z / D / ZZn / DZn
+  should carry the rate split or zeros on the forms from 2021 (whose poučenie
+  asks only for the turnover) is still to be confirmed by an accountant.
 - **Debit notes** reach C.1 / C.2 only when linked to the invoice they
   correct (the *Debit Note* button). One raised as a plain invoice is still
   reported in A.1 / B.2.

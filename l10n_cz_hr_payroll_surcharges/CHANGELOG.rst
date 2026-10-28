@@ -40,6 +40,13 @@ Carry-over to 20.0
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+**Changed**
+
+- **Czech translation.** The module had no Czech translation; one is added.
+
 [19.0.1.1.0] — 2026-10-27
 -------------------------
 

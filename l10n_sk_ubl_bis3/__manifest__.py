@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Slovakia - Peppol BIS Billing 3.0 (eFaktúra)",
-    'version': '19.0.3.3.1',
+    'version': '19.0.3.4.0',
     'category': 'Accounting/Localizations/EDI',
     'summary': "Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export",
     'description': """

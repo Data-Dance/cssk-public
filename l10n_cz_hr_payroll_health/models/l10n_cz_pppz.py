@@ -66,6 +66,9 @@ class L10nCzPppz(models.Model):
     # The zdravotní pojišťovny accept a corrective overview but no dodatečný
     # or storno, so only those two are offered.
     _supported_correction_types = ("regular", "corrective")
+    # Filed separately to each insurer: an amendment amends the filing sent
+    # to the SAME insurer, never one sent to another.
+    _amendment_scope_fields = ("insurer_code",)
 
     @api.depends("year", "month", "company_id", "insurer_code")
     def _compute_name(self):

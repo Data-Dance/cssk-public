@@ -54,6 +54,14 @@
                            decoration-info="submission_state in ('delivered',)"
                            decoration-danger="submission_state in ('rejected','failed')"/>
                 </header>
+                <!-- What the last export did not block but someone must read
+                     before filing (cssk.statutory.submission.mixin). -->
+                <div class="alert alert-warning mb-0" role="alert"
+                     name="cssk_export_warnings_banner"
+                     invisible="not cssk_export_warnings">
+                    <label for="cssk_export_warnings" class="fw-bold"/>
+                    <field name="cssk_export_warnings" nolabel="1" readonly="1"/>
+                </div>
                 <sheet>
                     <!-- A filing can have SEVERAL comparisons, one per
                          basis — itself recomputed, the ledger, another filing

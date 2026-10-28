@@ -1,7 +1,7 @@
 ---
 title: Česká základní lokalizace (čísla bankovních účtů)
 summary: Zobrazí český IBAN v národním formátu — předčíslí, číslo účtu a kód banky — a převádí mezi oběma tvary pro moduly, které to potřebují.
-verified: 19.0.2.0.3
+verified: 19.0.2.0.4
 ---
 
 ## K čemu slouží {#purpose}

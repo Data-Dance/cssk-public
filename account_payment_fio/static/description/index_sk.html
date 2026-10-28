@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/account_payment_fio/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/account_payment_fio/static/description/index_cs.html">Čeština</a></nav>
 <h1>Fio banka — platobné príkazy</h1>
 <p class="cssk-summary">Zostaví platobné príkazy Fio XML z platobného príkazu OCA alebo z hromadnej platby Enterprise a odošle ich cez API do Fio banky na autorizáciu v internetbankingu.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.3.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_fio/static/description/index_sk.html"><code>account_fio</code></a>, <a href="/account_fio_base/static/description/index_sk.html"><code>account_fio_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.4.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_fio/static/description/index_sk.html"><code>account_fio</code></a>, <a href="/account_fio_base/static/description/index_sk.html"><code>account_fio_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Namiesto sťahovania platobného súboru a jeho nahrávania do internetbankingu
@@ -174,6 +174,12 @@ tlačidlom s tou istou poistkou stavu <em>Neznáme</em>.</p>
 <p>Oba moduly možno mať nainštalované súčasne.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
+<li>Dobropis zoskupený s faktúrou v platobnom príkaze (voľba spôsobu platby
+  <em>Group Transactions in Payment Orders</em>) sa zapíše ako <strong>jedna položka
+  v čistej sume</strong> — tej, ktorú príkaz zaúčtuje ako platbu. Nesie variabilný
+  symbol faktúry; ak sa jeden dobropis započíta proti viacerým faktúram,
+  symboly sa líšia a neodíde žiadny. Skupiny bez dobropisu majú naďalej jednu
+  položku za faktúru. Bez zoskupenia sa riadok dobropisu odmietne.</li>
 <li><strong>„Odoslané“ neznamená „zaplatené“</strong>: dávka čaká v internetbankingu na
   autorizáciu.</li>
 <li>Číslo dávky Fio nie je ID pokynu, ktoré sa neskôr objaví na riadkoch výpisu,
@@ -189,7 +195,7 @@ tlačidlom s tou istou poistkou stavu <em>Neznáme</em>.</p>
 <li>Fio neprevádzkuje testovacie prostredie; prvú dávku si pred autorizáciou v
   internetbankingu dôkladne skontrolujte.</li>
 </ul>
-<footer><p>Text overený voči verzii modulu: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

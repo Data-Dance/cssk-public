@@ -1,7 +1,7 @@
 ---
 title: CZ Social Insurance Overview (PVPOJ)
 summary: The monthly přehled o výši pojistného for the ČSSZ — the employer's total social insurance premium for a month, summed from the payslips and exported as XML in the PVPOJ 2025 structure.
-verified: 19.0.1.1.3
+verified: 19.0.1.1.4
 ---
 
 ## What it is for {#purpose}
@@ -63,7 +63,7 @@ On the company:
 | *ČSSZ variable symbol (VS)*, **exactly 10 digits** | `<vs>`, the employer's variable symbol at the ČSSZ |
 | *OSSZ code*, a number from 100 to 999 | `<kodOSSZ>`, the competent social security office. Defaults to 100. |
 | *Company ID* (IČO) or, failing that, the *Tax ID* | `<IC>` |
-| city and ZIP (street optional) | the employer's address |
+| city and ZIP (street optional) | the employer's address; the číslo popisné is the number at the end of the street, and the second street line counts only when it holds nothing but a number |
 
 The *ČSSZ variable symbol (VS)* and *OSSZ code* fields are on the **Payroll
 Reporting** tab of the company form (see

@@ -17,15 +17,6 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_res_company__l10n_sk_dic
-msgid ""
-"10-digit tax identification number assigned by the tax administrator — the "
-"<dic> element of the monthly tax overview."
-msgstr ""
-"10-miestne daňové identifikačné číslo pridelené správcom dane — element "
-"<dic> mesačného prehľadu."
-
-#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_needaction
 msgid "Action Needed"
 msgstr "Potrebná akcia"
@@ -56,11 +47,6 @@ msgid "Attachment Count"
 msgstr "Počet príloh"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
-#: model:ir.model,name:l10n_sk_hr_payroll_monthly_tax_overview.model_res_company
-msgid "Companies"
-msgstr "Spoločnosti"
-
-#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__company_id
 msgid "Company"
 msgstr "Spoločnosť"
@@ -86,6 +72,16 @@ msgstr ""
 "daňového bonusu, o ktoré sa žiada v III. časti prehľadu."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__correction_reference
+msgid "Correction Reference"
+msgstr "Referencia opravy"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__country_id
 msgid "Country"
 msgstr "Krajina"
@@ -106,9 +102,9 @@ msgid "Currency"
 msgstr "Mena"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_res_company__l10n_sk_dic
-msgid "DIČ (tax identification number)"
-msgstr "DIČ (daňové identifikačné číslo)"
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__active_submission_id
+msgid "Current submission"
+msgstr "Aktuálne doručenie"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__date_from
@@ -121,8 +117,12 @@ msgid "Date To"
 msgstr "Dátum do"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__submission_state
+msgid "Delivery"
+msgstr "Doručenie"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__display_name
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_res_company__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
 
@@ -190,7 +190,6 @@ msgstr "Má správu"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__id
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_res_company__id
 msgid "ID"
 msgstr "ID"
 
@@ -214,6 +213,11 @@ msgstr "Ak označené, potom nové správy vyžadujú vašu pozornosť."
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Ak je začiarknuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_is_follower
@@ -266,6 +270,11 @@ msgid "Name"
 msgstr "Názov"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Kalendár ďalších aktivít eventu"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Termín ďalšej aktivity"
@@ -313,6 +322,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__payment_date
 msgid "Payment Date"
 msgstr "Dátum výplaty"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__request_bonus_refund
@@ -368,9 +382,28 @@ msgid "Submission Reference"
 msgstr "Referencia podania"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__submission_ids
+msgid "Submissions"
+msgstr "Podania"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__submitted_date
 msgid "Submitted Date"
 msgstr "Dátum odoslania"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pre všetko, čo opravuje skoršie podanie."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Referencia úradu na opravované podanie, ak ju prijímajúci systém potrebuje "
+"na spárovanie oboch."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #. odoo-python
@@ -402,6 +435,16 @@ msgstr "Správy webstránok"
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__website_message_ids
 msgid "Website communication history"
 msgstr "História komunikácie webstránok"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Či ide o riadne podanie za obdobie alebo o opravu už odoslaného. Voľby sú "
+"obmedzené na to, čo tento konkrétny úrad prijíma."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__xml_attachment_id

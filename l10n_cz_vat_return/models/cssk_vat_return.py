@@ -1,7 +1,9 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, fields, models
+from decimal import ROUND_CEILING, ROUND_HALF_UP, Decimal
+
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 #: line_filter keys of DPHDP3 ř. 33 / ř. 34 -> the side of the document
@@ -38,10 +40,50 @@ CZ_TOTALS = (
 )
 
 
-def _cz_whole(value):
-    """A DPHDP3 amount as the export writes it (``'%.0f'``), so a total
-    foots with the rows it is filed beside."""
-    return float("%.0f" % (value or 0.0))
+#: DPHDP3 attributes that state a TAX — daň na výstupu, odpočet daně and the
+#: rows computed from them. "Daň se zaokrouhluje na celé koruny nahoru"
+#: (zákon č. 280/2009 Sb., daňový řád, § 146 odst. 1); the form only says
+#: "Údaje v daňovém přiznání se uvedou zaokrouhlené na celé koruny" (25 5401
+#: vzor 26) and its pokyny (25 5412 vzor 22) name no direction.
+CZ_TAX_CODES = frozenset("""
+    dan23 dan5 dan_dzb23 dan_dzb5 dan_pdop_nrg dan_psl23_e dan_psl23_z
+    dan_psl5_e dan_psl5_z dan_pzb23 dan_pzb5 dan_rpren23 dan_rpren5
+    opr_dane_dan opr_verit opr_dluz
+    odp_tuz23_nar odp_tuz23 odp_tuz5_nar odp_tuz5 odp_cu_nar odp_cu
+    od_zdp23 odkr_zdp23 od_zdp5 odkr_zdp5 odp_rez_nar odp_rezim
+    odp_sum_nar odp_sum_kr od_maj odkr_maj odp_uprav_kf vypor_odp
+    uprav_odp dan_vrac dan_zocelk odp_zocelk dano dano_da dano_no
+""".split())
+
+#: ř. 52 / ř. 53 coefficients: "Vypočtený koeficient se zaokrouhlí na celé
+#: procento nahoru" (zákon č. 235/2004 Sb., § 76 odst. 3).
+CZ_COEFFICIENT_CODES = frozenset({"koef_p20_nov", "koef_p20_vypor"})
+
+#: Rows a dodatečné přiznání files AS THEY ARE rather than as a difference:
+#: the coefficient is stated ("do levého sloupce Koeficient (%) se uvede
+#: příslušný koeficient"), ř. 66 is itself the difference, ř. 64 / 65 are
+#: not filled at all.
+CZ_NOT_DIFFERENCED = CZ_COEFFICIENT_CODES | {"dano", "dano_da", "dano_no"}
+
+
+def _cz_whole(value, code=None):
+    """A DPHDP3 amount in whole crowns, as the export files it.
+
+    A tax (``CZ_TAX_CODES``) and a coefficient round UP — towards plus
+    infinity, the reading of "nahoru" that never states less tax; a base or
+    a value rounds to the nearest crown, half away from zero. The amount is
+    first taken at its two decimals so that float noise in a sum
+    (``1000.0000000001``) is not mistaken for a part of a crown.
+
+    This used to be ``'%.0f'``, which is round-half-EVEN: 210.50 of tax went
+    on the return as 210 and 211.50 as 212.
+    """
+    amount = Decimal("%.2f" % (value or 0.0))
+    if code in CZ_TAX_CODES or code in CZ_COEFFICIENT_CODES:
+        rounding = ROUND_CEILING
+    else:
+        rounding = ROUND_HALF_UP
+    return float(amount.to_integral_value(rounding=rounding))
 
 
 class CsskVatReturn(models.Model):
@@ -167,20 +209,100 @@ class CsskVatReturn(models.Model):
 
         for code, terms in CZ_TOTALS:
             put(code,
-                sum(sign * _cz_whole(vals.get(term, 0.0)) for sign, term in terms),
+                sum(sign * _cz_whole(vals.get(term, 0.0), term)
+                    for sign, term in terms),
                 " ".join("%s %s" % ("+" if sign > 0 else "-", term)
                          for sign, term in terms).lstrip("+ "))
-        net = _cz_whole(vals.get("dan_zocelk")) - _cz_whole(vals.get("odp_zocelk"))
+        net = (_cz_whole(vals.get("dan_zocelk"), "dan_zocelk")
+               - _cz_whole(vals.get("odp_zocelk"), "odp_zocelk"))
         if self.cz_filing_code in ("D", "E"):
             # "Vyplňuje se pouze při podání dodatečného přiznání … ř.62 - ř.63";
             # ř. 64 / 65 "Při podání dodatečného přiznání se nevyplňuje".
+            # The rows of a dodatečné are DIFFERENCES ("V dodatečném přiznání
+            # se uvádí pouze rozdíly od údajů, ze kterých byla stanovena
+            # poslední známá daň", pokyny 25 5412), so ř. 66 is this net
+            # minus the net of the return it amends — "Na ř. 66 se vyznačí
+            # rozdíl oproti poslední známé dani". It used to be the full net,
+            # which claimed the whole period's tax a second time.
+            base = self._cz_baseline_values() or {}
+            base_net = (_cz_whole(base.get("dan_zocelk"), "dan_zocelk")
+                        - _cz_whole(base.get("odp_zocelk"), "odp_zocelk"))
             put("dano_da", 0.0, "dan_zocelk - odp_zocelk (řádné/opravné)")
             put("dano_no", 0.0, "odp_zocelk - dan_zocelk (řádné/opravné)")
-            put("dano", net, "dan_zocelk - odp_zocelk")
+            put("dano", net - base_net,
+                "(dan_zocelk - odp_zocelk) - poslední známá daň")
         else:
             put("dano_da", max(net, 0.0), "dan_zocelk - odp_zocelk, if > 0")
             put("dano_no", max(-net, 0.0), "odp_zocelk - dan_zocelk, if > 0")
             put("dano", 0.0, "dan_zocelk - odp_zocelk (dodatečné)")
+
+    @api.depends("cz_filing_code")
+    def _compute_to_pay(self):
+        """On a dodatečné (D / E) the settlement is ř. 66.
+
+        ř. 64 / 65 are not filled on a dodatečné, so the base computation
+        read them as zero and showed nothing to pay. ř. 66 is the difference
+        against the poslední známá daň: positive is tax to pay, negative a
+        reduction, and no excess is carried on it.
+        """
+        super()._compute_to_pay()
+        for ret in self.filtered(lambda r: r.cz_filing_code in ("D", "E")):
+            dano = sum(ret.line_ids.filtered(lambda l: l.code == "dano").mapped("value"))
+            ret.to_pay = ret.currency_id.round(dano) if ret.currency_id else dano
+
+    # ------------------------------------------------------------------
+    # Dodatečné přiznání: differences against the poslední známá daň
+    # ------------------------------------------------------------------
+    def _cz_baseline_return(self):
+        """The return whose figures a dodatečné states its differences from.
+
+        The one it amends (``original_return_id``). A dodatečné/opravné (E)
+        REPLACES an earlier dodatečné filed within its deadline ("Takto lze
+        nahradit i dodatečná daňová přiznání", pokyny 25 5412), so where it
+        was raised from that dodatečné its baseline is what the dodatečné
+        itself amended. Rows of every return stay at their full values, so a
+        dodatečné is a valid baseline for the next one.
+        """
+        self.ensure_one()
+        base = self.original_return_id
+        if self.cz_filing_code == "E":
+            seen = set()
+            while (base and base.cz_filing_code in ("D", "E")
+                   and base.id not in seen):
+                seen.add(base.id)
+                base = base.original_return_id
+        return base
+
+    def _cz_baseline_values(self):
+        """``{code: full value}`` of the baseline, or None when this is not
+        a dodatečné or it has nothing to difference against."""
+        self.ensure_one()
+        if self.cz_filing_code not in ("D", "E"):
+            return None
+        base = self._cz_baseline_return()
+        if not base or not base.line_ids:
+            return None
+        return {line.code: line.value for line in base.line_ids}
+
+    def _cz_epo_values(self):
+        """``{code: 'whole crowns'}`` as the DPHDP3 attributes file them:
+        rounded per ``_cz_whole``, and on a dodatečné the difference against
+        the baseline for every row but ``CZ_NOT_DIFFERENCED``."""
+        self.ensure_one()
+        base = self._cz_baseline_values()
+        out = {}
+        for line in self.line_ids:
+            filed = _cz_whole(line.value, line.code)
+            if base is not None and line.code not in CZ_NOT_DIFFERENCED:
+                filed -= _cz_whole(base.get(line.code, 0.0), line.code)
+            out[line.code] = "%d" % filed
+        return out
+
+    def _cssk_render_context(self):
+        ctx = super()._cssk_render_context()
+        if self.country_id.code == "CZ":
+            ctx["cz_epo"] = self._cz_epo_values()
+        return ctx
 
     def _kontroly_rules(self):
         rules = super()._kontroly_rules()
@@ -204,4 +326,11 @@ class CsskVatReturn(models.Model):
                 raise UserError(_(
                     "A dodatečné přiznání needs the date its reasons were "
                     "found (Důvody zjištěny dne, d_zjist)."))
+            if (rec.cz_filing_code in ("D", "E")
+                    and rec._cz_baseline_values() is None):
+                raise UserError(_(
+                    "A dodatečné přiznání states only the differences from "
+                    "the return it amends, so it needs that return with its "
+                    "rows computed. Create it with \"Amended / corrective\" on "
+                    "the filed return."))
         return res

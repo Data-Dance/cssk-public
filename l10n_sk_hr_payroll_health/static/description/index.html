@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_hr_payroll_health/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Monthly Health Insurance Statement (dávka 514)</h1>
 <p class="cssk-summary">The monthly výkaz preddavkov na poistné for a Slovak health insurer (VšZP, Dôvera, Union) in the common dávka 514 format, built from the month&#x27;s payslips and exported as XML.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Every month the employer reports to each <strong>health insurer</strong> the health
@@ -84,12 +84,12 @@ o zdravotnom poistení</em>).</p>
 </tr>
 <tr>
 <td><em>Health payer number</em></td>
-<td>the dávka 514 form</td>
+<td>company form, or the dávka 514 form</td>
 <td><code>CodeOfPayer</code> — the number the insurer assigned to the employer</td>
 </tr>
 <tr>
 <td><em>Health insurer (dávka 514)</em></td>
-<td>see below</td>
+<td>company form</td>
 <td>the default insurer of a new statement (VšZP if not set)</td>
 </tr>
 <tr>
@@ -99,10 +99,10 @@ o zdravotnom poistení</em>).</p>
 </tr>
 </tbody>
 </table>
-<p>Fill in the <em>Health payer number</em> on the dávka 514 form itself; it is stored
-on the company, so it is entered once (changing it needs the right to edit
-companies). <em>Health insurer (dávka 514)</em> is not shown on any form: it is VšZP
-unless an administrator imports another value on the companies list.</p>
+<p>Both health fields sit on the company form, tab <em>Payroll Reporting</em>, group
+<em>Health insurance (dávka 514)</em>. The <em>Health payer number</em> can also be filled
+in on the dávka 514 form itself; it is stored on the company either way, so it
+is entered once (changing it needs the right to edit companies).</p>
 <p>Every employee on the statement needs the <strong>birth number</strong> in <em>Identification
 No</em>, and should carry their <strong>Health insurer (SK)</strong>, next to it on the
 <em>Personal</em> tab. Each dávka 514 takes only the employees insured with the
@@ -115,8 +115,8 @@ insurer on every employee rather than relying on the default.</p>
 <li>Choose the <strong>Health insurer</strong>, the <strong>Year</strong> and the <strong>Month</strong>. <em>Payment
    Date</em> gives the day of payment reported in <code>DateOfPayment</code>; left empty, the
    last day of the month is used.</li>
-<li>Click <strong>Generate</strong>. The module takes the company's payslips whose period
-   lies within the month, builds one row per employee and renders the XML.</li>
+<li>Click <strong>Generate</strong>. The module takes the company's confirmed payslips
+   whose period ends in the month, builds one row per employee and renders the XML.</li>
 <li>Upload the file through the insurer's electronic branch and click <strong>Mark
    Submitted</strong>. <strong>Reset to Draft</strong> reopens it.</li>
 </ol>
@@ -171,15 +171,13 @@ element, the three header blocks and that the number of rows matches.</p>
 <li>Every employee counts as a full calendar month of days, and everyone is
   reported in the first group (the second group of counts and bases is always
   zero).</li>
-<li>Draft payslips count; only cancelled ones are left out. A payslip whose
-  period crosses the month boundary is ignored.</li>
 <li>Only a regular statement (<em>N</em>) with serial number 1. Corrections after an
   error report must be made through the insurer's electronic branch.</li>
 <li>Because the official schema cannot be applied, the module cannot guarantee
   that the insurer will accept the file. Reconcile the first statement with
   the insurer.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.2.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

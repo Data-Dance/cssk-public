@@ -456,19 +456,12 @@ class L10nSkUzpod(models.Model):
                 "would be rejected):\n%s") % "\n".join(
                 "  • %s: %s" % (vio["desc"], vio["detail"]) for vio in errors))
         warnings = [vio for vio in violations if vio not in errors]
-        # Through the framework's hook where it exists (it keeps them on the
-        # record, posts them to the chatter and notifies the user), so a
-        # BS_UNMAPPED is seen by the accountant rather than by the server log.
-        record = getattr(self, "_cssk_record_export_warnings", None)
-        if record:
-            record(warnings)
-        else:
-            for vio in warnings:
-                _logger.warning("UZPODv14 %s — %s: %s",
-                                self.display_name, vio["desc"], vio["detail"])
-                self.message_post(body=_(
-                    "Export warning — %(desc)s: %(detail)s",
-                    desc=vio["desc"], detail=vio["detail"]))
+        # Through the framework's hook: it keeps them on the record (shown as
+        # the form's warning banner), posts them to the chatter and the
+        # export returns them as a notification — so a BS_UNMAPPED is seen by
+        # the accountant rather than by the server log. Empty clears the last
+        # export's.
+        self._cssk_record_export_warnings(warnings)
         att = self.env["ir.attachment"].create({
             "name": "UZPODv14%s-%s.xml" % (
                 "-opravna" if self.submission_type == "opravna" else "",
@@ -477,8 +470,7 @@ class L10nSkUzpod(models.Model):
             "datas": base64.b64encode(xml_bytes), "mimetype": "application/xml"})
         self.xml_attachment_id = att.id
         self.state = "exported"
-        notify = getattr(self, "_cssk_export_warnings_action", None)
-        return (notify and notify()) or True
+        return self._cssk_export_warnings_action() or True
 
     # ------------------------------------------------------------------
     # Amendment (opravná účtovná závierka)

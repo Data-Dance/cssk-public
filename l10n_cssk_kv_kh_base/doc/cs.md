@@ -1,7 +1,7 @@
 ---
 title: Kontrolní hlášení / kontrolný výkaz DPH CZ/SK
 summary: Obrazovky a výpočet společné pro české kontrolní hlášení a slovenský kontrolný výkaz DPH — oddíly ze zaúčtovaných dokladů, kontroly před exportem, XML ověřené proti XSD a záznam o podání.
-verified: 19.0.2.3.0
+verified: 19.0.2.4.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -123,8 +123,8 @@ správce; přepočet samotného hlášení nestačí.
    - věcná pravidla: podrobný řádek, jehož daň neodpovídá základu × sazbě,
      export zastaví, pokud se liší dvojnásobně a víc, a zdanitelný řádek se
      základem bez daně ho zastaví vždy. Menší rozdíly (zaokrouhlení) a
-     ostatní upozornění se zapíší jen do logu serveru, na obrazovce se
-     nezobrazí.
+     ostatní upozornění ho nezastaví: zobrazí se ve žlutém pruhu nahoře na
+     hlášení a v chatteru až do dalšího exportu.
 
    XML se pak ověří proti úřední XSD uložené na verzi a přiloží se k hlášení
    (*XML příloha*). Hlášení je ve stavu *Exportováno*. Po novém výpočtu můžete
@@ -164,9 +164,6 @@ exportovat ani podat.
 
 - Tento modul sám nic nepodává; podává se ručně na portálu, nebo přes modul
   kanálu podání.
-- Upozornění, která export nezastaví (rozdíly ze zaokrouhlení, opačné
-  znaménko základu a daně a upozornění modulů zemí), se zapisují jen do logu
-  serveru. Vidíte chyby, upozornění ne.
 - Oddíl položky deníku je uložený. Po změně daňové země nebo po změně
   samotných pravidel je musí správce přepočítat dřív, než se hlášení počítají
   znovu.

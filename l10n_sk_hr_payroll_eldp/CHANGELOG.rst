@@ -10,6 +10,13 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.1] — 2026-10-27
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Changed**
+
+- **Slovak translation.** The correction and submission fields every declaration shares (*Correction Type*, *Correction Reference*, *Delivery*, *Submissions*) showed in English; they are translated now.
+
 [19.0.1.1.0] — 2026-10-27
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

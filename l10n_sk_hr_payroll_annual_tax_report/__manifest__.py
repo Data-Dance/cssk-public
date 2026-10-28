@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Hlásenie o vyúčtovaní dane (annual)",
-    "version": "19.0.2.0.2",
+    "version": "19.0.2.0.3",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
     "summary": "Annual Slovak employer income-tax report (Hlásenie o "

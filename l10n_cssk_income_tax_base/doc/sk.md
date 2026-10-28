@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k dani z príjmov PO (CZ/SK)
 summary: Obrazovka, na ktorej sa pripravuje daňové priznanie k dani z príjmov právnických osôb (DPPO) — výsledok hospodárenia z účtovníctva, úpravy účtovníka, výpočet dane, XML overené proti schéme a zaúčtovanie splatnej dane.
-verified: 19.0.1.5.7
+verified: 19.0.1.5.8
 ---
 
 ## Na čo slúži {#purpose}
@@ -103,6 +103,9 @@ Nejde o rezervu, ale o splatnú daň z príjmov, ktorou sa uzatvára výkaz
 ziskov a strát a súvaha za rok. **Stornovať splatnú daň** ju
 zruší opačným zápisom. Tlačidlo sa zobrazí, len ak je daň vyššia ako nula a
 len pri verziách tlačiva, ktoré riadok dane určujú.
+
+**Upozornenia exportu.** Kontroly, ktoré export nezastavia, sa zobrazia v
+žltom pruhu navrchu formulára a v chatteri až do ďalšieho exportu.
 
 ## Obmedzenia {#limitations}
 

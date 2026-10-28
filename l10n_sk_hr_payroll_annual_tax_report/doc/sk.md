@@ -1,7 +1,7 @@
 ---
 title: SK Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti
 summary: Ročné hlásenie zamestnávateľa o príjmoch zo závislej činnosti, zrazených preddavkoch na daň a daňovom bonuse, s údajmi o každom zamestnancovi, zostavené z výplatných pások roka ako XML pre finančnú správu.
-verified: 19.0.2.0.2
+verified: 19.0.2.0.3
 ---
 
 ## Na čo slúži {#purpose}
@@ -40,14 +40,16 @@ Odkazy sú na [zákon o dani z príjmov](law:sk/2003/595).
 
 - **DIČ spoločnosti.** Na spoločnosti vyplňte *DIČ* (10-miestne daňové
   identifikačné číslo); bez neho generovanie skončí chybou.
-- **Adresa, telefón a e-mail spoločnosti** idú do hlavičky. *Ulica* vyplní
-  element ulice a *Ulica2* element čísla domu.
+- **Adresa, telefón a e-mail spoločnosti** idú do hlavičky. Číslo domu sa
+  berie z konca poľa *Ulica* (*Hlavná 12*, *Hlavná 1141/11*); *Ulica2* sa
+  použije, len ak obsahuje iba číslo — budova, poschodie či c/o sa ako číslo
+  domu nikdy nepodávajú.
 - **Každý zamestnanec potrebuje rodné číslo.** Zadajte ho (9 alebo 10 číslic)
   do poľa *Identifikačné č* na karte *Personal* formulára zamestnanca. Lomka a
   medzery sa ignorujú.
-- **Mená a adresy zamestnancov.** Príloha preberá súkromnú ulicu, PSČ a obec
-  zamestnanca. **Posledné slovo mena je priezvisko** a všetko pred ním meno,
-  preto mená zapisujte ako „Ján Peter Novák“, nie „Novák Ján“. Ak je
+- **Mená a adresy zamestnancov.** Príloha preberá súkromnú ulicu (číslo domu
+  oddelené rovnako), PSČ a obec zamestnanca. **Posledné slovo mena je
+  priezvisko** a všetko pred ním meno, preto mená zapisujte ako „Ján Peter Novák“, nie „Novák Ján“. Ak je
   nainštalovaný `hr_employee_firstname`, použijú sa jeho samostatné polia pre
   meno a priezvisko.
 - Verzia tlačiva **Annual tax reconciliation statement 2023+** (schéma

@@ -8,6 +8,27 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.7.4] — 2026-10-27
+-------------------------
+
+Added
+~~~~~
+
+- The warnings of the last Úč POD export (*Účty nezachytené v žiadnom
+  riadku výkazu*) are shown as a banner at the top of the form.
+
+[19.0.1.7.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **Úč POD: the house number is filed in** *číslo*. The seat went out as
+  *Street* whole in *ulica*, with *číslo* always empty; the house number is
+  now split off the street by the shared helper of ``l10n_cssk_core``, the
+  same as on every other Finančná správa form. *Street 2* is filed only when
+  it holds nothing but a number.
+
 [19.0.1.7.2] — 2026-10-27
 -------------------------
 

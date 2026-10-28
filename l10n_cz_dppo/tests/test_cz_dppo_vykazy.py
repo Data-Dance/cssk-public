@@ -5,7 +5,8 @@
 Three questions, three tests, because each check is blind to what the others
 catch (a balanced sheet proves none of them):
 
-* is every row of the zkrácený rozsah mapped or declared not applicable —
+* is every row of the filed rozsah (plný and zkrácený alike) mapped or
+  declared not applicable —
   a silent unmapped row files as zero and nothing anywhere complains;
 * does each EPO total equal the sum of its statutory parts by SIGNED WEIGHT
   per account — the only comparison that sees an account claimed by two
@@ -51,6 +52,42 @@ IDENTITIES = {
            56: [1, 2, 20, 31, 35, 39, 46]},
 }
 
+def _parent(designation):
+    """``B.I.2.1.`` -> ``B.I.2``; None for a top-level item."""
+    parts = _norm(designation).replace(" ", "").split(".")
+    return ".".join(parts[:-1]) if len(parts) > 1 else None
+
+
+def _identities_full(ciselnik):
+    """The plný rozsah's arithmetic: the top-level identities above, plus
+    every numbered item = the sum of the items one level below it, read off
+    the číselník's own designations (B.I.2. = B.I.2.1. + B.I.2.2.)."""
+    out = {veta: {total: list(parts) for total, parts in ids.items()}
+           for veta, ids in IDENTITIES.items()}
+    for veta in IDENTITIES:
+        rows = {key[1]: r for key, r in ciselnik.items()
+                if key[0] == veta and "P" in r["rozsah"]}
+        by_designation = {}
+        for row, r in rows.items():
+            by_designation.setdefault(_norm(r["oznaceni"]).replace(" ", ""),
+                                      []).append(row)
+        children = {}
+        for row, r in sorted(rows.items()):
+            # "B.+C." is a sum of two letters, not an item below "B."
+            parent = None if "+" in r["oznaceni"] else _parent(r["oznaceni"])
+            if not parent or parent not in by_designation:
+                continue
+            (total,) = by_designation[parent]
+            children.setdefault(total, []).append(row)
+        for total, parts in children.items():
+            if total in out[veta]:
+                # the top-level identity already says it — and must agree
+                assert set(parts) <= set(out[veta][total]), (veta, total)
+                continue
+            out[veta][total] = parts
+    return out
+
+
 #: Rows whose l10n_cz_fs designation legitimately differs from the číselník's.
 #: C.II.2. is filed from C.II. because the chart convention makes every
 #: receivable krátkodobé — NOT_APPLICABLE[("UA", 47)] states why.
@@ -83,8 +120,18 @@ class TestCzDppoVykazy(AccountTestInvoicingCommon):
         cls.type_b = cls.env.ref("l10n_cz_dppo.cz_dppo_type_B")
         cls.bs_version = cls.env.ref("l10n_cz_fs.rozvaha_version_2025")
         cls.pl_version = cls.env.ref("l10n_cz_fs.vysledovka_version_2025")
+        cls.bs_full = cls.env.ref("l10n_cz_fs.rozvaha_full_version_2025")
+        cls.pl_full = cls.env.ref("l10n_cz_fs.vysledovka_full_version_2025")
+        cls.versions = {
+            vykazy.ABRIDGED: {"balance_sheet": cls.bs_version,
+                              "profit_loss": cls.pl_version},
+            vykazy.FULL: {"balance_sheet": cls.bs_full,
+                          "profit_loss": cls.pl_full},
+        }
         cls.misc = cls.company_data["default_journal_misc"]
         cls.ciselnik = _load_ciselnik()
+        cls.identities = {vykazy.ABRIDGED: IDENTITIES,
+                          vykazy.FULL: _identities_full(cls.ciselnik)}
 
     # ------------------------------------------------------------------
     # helpers
@@ -147,7 +194,13 @@ class TestCzDppoVykazy(AccountTestInvoicingCommon):
                     if not tok:
                         continue
                     sign = -1 if tok.startswith("-") else 1
-                    prefix = tok.lstrip("-")
+                    body = tok.lstrip("-")
+                    # On the chart as shipped nothing is tagged: "&TAG"
+                    # (tagged accounts only) weighs nothing, "!TAG"
+                    # (everything not tagged) weighs the whole prefix.
+                    if "&" in body:
+                        continue
+                    prefix = body.split("!")[0]
                     self.assertTrue(prefix.isdigit(), "token %r" % tok)
                     for code in codes:
                         if code.startswith(prefix):
@@ -176,12 +229,12 @@ class TestCzDppoVykazy(AccountTestInvoicingCommon):
 
         return {code: weight(code) for code in defs}
 
-    def _row_weights(self):
+    def _row_weights(self, rng):
         codes = self._chart_codes()
-        fs = {"balance_sheet": self._fs_weights(self.bs_version, codes),
-              "profit_loss": self._fs_weights(self.pl_version, codes)}
+        fs = {kind: self._fs_weights(version, codes)
+              for kind, version in self.versions[rng].items()}
         rows = {}
-        for (veta, row), (_d, fs_codes) in vykazy.ROWS.items():
+        for (veta, row), (_d, fs_codes) in vykazy.rows(rng).items():
             w = Counter()
             for code in fs_codes:
                 w.update(fs[vykazy.TABLES[veta]][code])
@@ -214,94 +267,128 @@ class TestCzDppoVykazy(AccountTestInvoicingCommon):
             "a výkaz record of the XSD is neither filed nor declared")
         self.assertFalse(set(vykazy.TABLES) & set(vykazy.NOT_APPLICABLE_TABLES))
 
+        self.assertEqual({veta for veta, _row in self.ciselnik},
+                         set(vykazy.TABLES))
+        for rng in vykazy.RANGES:
+            self._check_rozsah_is_mapped(rng)
+
+    def _check_rozsah_is_mapped(self, rng):
         # Within the filed tables, every row of the filed rozsah is mapped or
         # declared, never both, and nothing outside the rozsah is filed.
         in_range = {key for key, r in self.ciselnik.items()
-                    if vykazy.RANGE in r["rozsah"]}
-        self.assertEqual({veta for veta, _row in self.ciselnik},
-                         set(vykazy.TABLES))
-        mapped, declared = set(vykazy.ROWS), set(vykazy.NOT_APPLICABLE)
-        self.assertFalse(mapped & declared, "a row is both mapped and n/a")
+                    if rng in r["rozsah"]}
+        row_map, na = vykazy.rows(rng), vykazy.not_applicable(rng)
+        mapped, declared = set(row_map), set(na)
+        self.assertFalse(mapped & declared, "%s: a row is both mapped and "
+                                            "n/a" % rng)
         silent = in_range - mapped - declared
-        self.assertFalse(silent, "zkrácený-rozsah rows filed as a silent zero: "
-                                 "%s" % sorted(silent))
+        self.assertFalse(silent, "%s-rozsah rows filed as a silent zero: "
+                                 "%s" % (rng, sorted(silent)))
         self.assertFalse((mapped | declared) - in_range,
-                         "rows outside the zkrácený rozsah (or outside the "
-                         "číselník altogether) are mapped")
-        for key, reason in vykazy.NOT_APPLICABLE.items():
+                         "rows outside the %s rozsah (or outside the "
+                         "číselník altogether) are mapped" % rng)
+        for key, reason in na.items():
             self.assertGreater(len(reason), 40, "%s needs a real reason" % (key,))
 
         # Mapping is by statutory designation: the číselník's and the
         # l10n_cz_fs row's must agree, so a row number typed wrong shows.
         names = {
             kind: {d.code: d.name for d in version.line_def_ids}
-            for kind, version in (("balance_sheet", self.bs_version),
-                                  ("profit_loss", self.pl_version))}
-        for (veta, row), (designation, codes) in vykazy.ROWS.items():
+            for kind, version in self.versions[rng].items()}
+        conventions = DESIGNATION_CONVENTIONS if rng == vykazy.ABRIDGED \
+            else set()
+        for (veta, row), (designation, codes) in row_map.items():
             official = self.ciselnik[(veta, row)]["oznaceni"]
             self.assertEqual(_norm(designation), _norm(official),
-                             "%s/%s: designation" % (veta, row))
+                             "%s %s/%s: designation" % (rng, veta, row))
             for code in codes:
                 self.assertIn(code, names[vykazy.TABLES[veta]],
-                              "%s/%s: l10n_cz_fs has no row %s"
-                              % (veta, row, code))
-            if len(codes) != 1 or (veta, row) in DESIGNATION_CONVENTIONS:
+                              "%s %s/%s: l10n_cz_fs has no row %s"
+                              % (rng, veta, row, code))
+            if len(codes) != 1 or (veta, row) in conventions:
                 continue
             first = names[vykazy.TABLES[veta]][codes[0]].split()[0]
             fs_designation = first if ("." in first or set(first) == {"*"}) \
                 else ""
-            self.assertEqual(_norm(fs_designation), _norm(official),
-                             "%s/%s is filed from l10n_cz_fs %s (%s)"
-                             % (veta, row, codes[0], first))
+            self.assertEqual(
+                _norm(fs_designation).replace(" ", ""),
+                _norm(official).replace(" ", ""),
+                "%s %s/%s is filed from l10n_cz_fs %s (%s)"
+                % (rng, veta, row, codes[0], first))
+        if rng == vykazy.FULL:
+            # The plný rozsah files every row of its versions: a row the
+            # version shows and the return never files would be a figure the
+            # accountant sees and the Finanční správa does not.
+            for kind, version in self.versions[rng].items():
+                filed = vykazy.fs_codes(kind, rng)
+                self.assertEqual(
+                    set(version.line_def_ids.mapped("code")) - filed, set(),
+                    "%s rows the DPPDP9 never files" % version.name)
 
     # ------------------------------------------------------------------
     # 2. the statute's arithmetic, by signed weight per account
     # ------------------------------------------------------------------
     def test_statutory_totals_hold_by_signed_weight(self):
-        rows = self._row_weights()
+        for rng in vykazy.RANGES:
+            rows = self._row_weights(rng)
 
-        def w(veta, row):
-            return rows.get((veta, row), Counter())   # n/a rows weigh nothing
+            def w(veta, row):
+                return rows.get((veta, row), Counter())   # n/a rows: nothing
 
-        for veta, identities in IDENTITIES.items():
-            for total, parts in identities.items():
-                expected = Counter()
-                for part in parts:
-                    for acc, n in w(veta, abs(part)).items():
-                        expected[acc] += n if part > 0 else -n
-                self.assertEqual(
-                    self._clean(w(veta, total)), self._clean(expected),
-                    "%s row %s is not the sum of %s" % (veta, total, parts))
+            for veta, identities in self.identities[rng].items():
+                for total, parts in identities.items():
+                    expected = Counter()
+                    for part in parts:
+                        for acc, n in w(veta, abs(part)).items():
+                            expected[acc] += n if part > 0 else -n
+                    self.assertEqual(
+                        self._clean(w(veta, total)), self._clean(expected),
+                        "%s: %s row %s is not the sum of %s"
+                        % (rng, veta, total, parts))
 
     def test_each_account_lands_on_one_leaf_row(self):
-        rows = self._row_weights()
-        for veta, identities in IDENTITIES.items():
-            leaves = [key for key in rows
-                      if key[0] == veta and key[1] not in identities]
-            reach = Counter()
-            for key in leaves:
-                for acc, n in rows[key].items():
-                    reach[acc] += abs(n)
-            doubled = {acc: n for acc, n in reach.items() if n > 1}
-            self.assertFalse(doubled, "%s: accounts on two leaf rows: %s"
-                             % (veta, doubled))
+        for rng in vykazy.RANGES:
+            rows = self._row_weights(rng)
+            for veta, identities in self.identities[rng].items():
+                leaves = [key for key in rows
+                          if key[0] == veta and key[1] not in identities]
+                reach = Counter()
+                for key in leaves:
+                    for acc, n in rows[key].items():
+                        reach[acc] += abs(n)
+                doubled = {acc: n for acc, n in reach.items() if n > 1}
+                self.assertFalse(doubled, "%s %s: accounts on two leaf rows: "
+                                          "%s" % (rng, veta, doubled))
 
     def test_every_account_reaches_the_zaverka(self):
-        rows = self._row_weights()
-        aktiva, pasiva = rows[("UA", 1)], rows[("UD", 1)]
-        missing = [code for code in self._chart_codes()
-                   if code[:1] in "01234"
-                   and abs(aktiva[code]) + abs(pasiva[code]) != 1]
-        self.assertFalse(missing, "balance-sheet accounts on neither or both "
-                                  "sides: %s" % missing)
-        # A.V of the Rozvaha and *** of the VZZ are one number: every class
-        # 5/6 account carries the same weight in both.
-        result_bs, result_pl = rows[("UD", 22)], rows[("UB", 55)]
-        drift = {code: (result_bs[code], result_pl[code])
-                 for code in self._chart_codes()
-                 if code[:1] in "56" and result_bs[code] != result_pl[code]}
-        self.assertFalse(drift, "A.V and VH za účetní období disagree on "
-                                "(A.V weight, *** weight): %s" % drift)
+        for rng in vykazy.RANGES:
+            rows = self._row_weights(rng)
+            # An account the version names on BOTH sides is reported by the
+            # sign of its own balance (221 in funds or overdrawn, 481 a
+            # pohledávka or a závazek): +1 on the aktiva, -1 on the pasiva.
+            two_sided = self.versions[rng][
+                "balance_sheet"]._cssk_two_sided_prefixes()
+            aktiva, pasiva = rows[("UA", 1)], rows[("UD", 1)]
+            wrong = []
+            for code in self._chart_codes():
+                if code[:1] not in "01234":
+                    continue
+                if any(code.startswith(p) for p in two_sided):
+                    if (aktiva[code], pasiva[code]) != (1, -1):
+                        wrong.append(code)
+                elif abs(aktiva[code]) + abs(pasiva[code]) != 1:
+                    wrong.append(code)
+            self.assertFalse(wrong, "%s: balance-sheet accounts on neither or "
+                                    "both sides: %s" % (rng, wrong))
+            # A.V of the Rozvaha and *** of the VZZ are one number: every
+            # class 5/6 account carries the same weight in both.
+            result_bs, result_pl = rows[("UD", 22)], rows[("UB", 55)]
+            drift = {code: (result_bs[code], result_pl[code])
+                     for code in self._chart_codes()
+                     if code[:1] in "56" and result_bs[code] != result_pl[code]}
+            self.assertFalse(drift, "%s: A.V and VH za účetní období disagree "
+                                    "on (A.V weight, *** weight): %s"
+                                    % (rng, drift))
 
     # ------------------------------------------------------------------
     # 3. a real ledger, exported
@@ -378,6 +465,60 @@ class TestCzDppoVykazy(AccountTestInvoicingCommon):
         order = [etree.QName(el).localname for el in root.find("DPPDP9")]
         self.assertEqual(order[:3], ["VetaD", "VetaP", "VetaO"])
         self.assertEqual(order.index("VetaUB"), order.index("VetaUA") + len(ua))
+
+    def test_export_files_the_full_vykazy(self):
+        """The plný rozsah: uv_rozsah P, the numbered rows filed, the korekce
+        on the row its brutto sits on, and every total still the sum of its
+        parts as filed."""
+        self._ledger()
+        self.company.partner_id.nace_code = "62101"
+        bs, pl = self._statement(self.bs_full), self._statement(self.pl_full)
+        ret = self._return(l10n_cz_fs_balance_sheet_id=bs.id,
+                           l10n_cz_fs_profit_loss_id=pl.id)
+        ret.action_export_xml()     # validates against the bundled XSD
+        root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
+        self.assertEqual(root.find(".//VetaD").get("uv_rozsah"), "P")
+        ua, ud, ub = (self._rows_of(root, v) for v in ("UA", "UD", "UB"))
+        # B.II. and B.II.2. Hmotné movité věci: 022 600 000 less 082 120 000
+        for row in (14, 18):
+            self.assertEqual(
+                {k: v for k, v in ua[row].items() if k != "c_radku"},
+                {"kc_brutto": "600", "kc_korekce": "120", "kc_netto": "480"})
+        # C.II.2.1. Pohledávky z obchodních vztahů: 311 less OP 391
+        self.assertEqual(ua[58]["kc_netto"], "480")
+        self.assertEqual(ua[58]["kc_korekce"], "20")
+        self.assertEqual(ua[57]["kc_netto"], "480")    # C.II.2.
+        self.assertNotIn(47, ua, "nothing long-term, nothing filed")
+        self.assertEqual(ua[73]["kc_netto"], "450")    # C.IV.2. na účtech
+        self.assertEqual(ua[1]["kc_netto"], "1410")
+        self.assertEqual(ud[4]["kc_sled"], "1050")     # A.I.1.
+        self.assertEqual(ud[52]["kc_sled"], "100")     # C.II.4. (321)
+        self.assertEqual(ud[1]["kc_sled"], "1410")
+        self.assertEqual(ub[5]["kc_sled"], "100")      # A.2. (501)
+        self.assertEqual(ub[16]["kc_sled"], "120")     # E.1.1. odpisy
+        self.assertEqual(ub[19]["kc_sled"], "20")      # E.3. OP k pohledávkám
+        self.assertEqual(ub[14]["kc_sled"], "140")     # E.
+        self.assertEqual(ub[55]["kc_sled"], "260")
+        for veta, rows in (("UA", ua), ("UD", ud), ("UB", ub)):
+            column = "kc_netto" if veta == "UA" else "kc_sled"
+            for total, parts in self.identities[vykazy.FULL][veta].items():
+                value = int(rows.get(total, {}).get(column, 0))
+                parts_sum = sum(
+                    (1 if p > 0 else -1)
+                    * int(rows.get(abs(p), {}).get(column, 0))
+                    for p in parts)
+                # Rounding to thousands is per row; the ledger is chosen so
+                # no row rounds.
+                self.assertEqual(value, parts_sum, "%s %s" % (veta, total))
+
+    def test_mixed_rozsah_is_refused(self):
+        """uv_rozsah covers both výkazy: a plný VZZ beside a zkrácený
+        Rozvaha cannot be filed as either without misstating one of them."""
+        ret = self._return(
+            l10n_cz_fs_balance_sheet_id=self._statement(self.bs_version).id,
+            l10n_cz_fs_profit_loss_id=self._statement(self.pl_full).id)
+        with self.assertRaisesRegex(UserError, "different rozsahy"):
+            ret.action_export_xml()
 
     def test_export_without_statements_says_so(self):
         ret = self._return()

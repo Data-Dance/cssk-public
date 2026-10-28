@@ -81,6 +81,12 @@ Volitelně zvolte **Nadřazenou objednávku**, ke které patří, a označte
 
 Nákupní objednávka se zálohami má tlačítko **Zálohy**.
 
+**Se Skladem.** Zboží se přijímá na nadřazené objednávce, nikdy na záloze:
+s modulem
+[module:purchase_order_advance_invoice_stock](module:purchase_order_advance_invoice_stock),
+který se nainstaluje sám, je-li nainstalován Sklad, potvrzení ani úhrada
+zálohy nevytvoří příjemku, ani když jsou na ní skladované produkty.
+
 ## Úhrada {#payment}
 
 Na záloze:
@@ -156,9 +162,7 @@ naplánovaná akce běží.
 ## Omezení {#limitations}
 
 - Záloha je ve skutečnosti obyčejná nákupní objednávka. Nepoužívejte na ní
-  *Vytvářejte přijaté faktury*. S nainstalovaným Skladem může potvrzení
-  zálohy se skladovanými produkty vytvořit příjemku; modul tomu na rozdíl od
-  strany prodeje nebrání.
+  *Vytvářejte přijaté faktury*.
 - **Propojit platbu** nekontroluje, na jaký účet byla platba zaúčtována.
   S daňovým dokladem se automaticky spáruje jen platba zaúčtovaná na
   zúčtovací účet.

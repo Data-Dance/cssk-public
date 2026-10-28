@@ -1,0 +1,276 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sale_order_advance_invoice_payment_match
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 22:41+0000\n"
+"PO-Revision-Date: 2026-10-27 22:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,help:sale_order_advance_invoice_payment_match.field_res_company__advance_invoice_auto_match_statement
+#: model:ir.model.fields,help:sale_order_advance_invoice_payment_match.field_res_config_settings__advance_invoice_auto_match_statement
+msgid ""
+"A scheduled action (and the Enterprise bank reconciliation, when installed) "
+"matches unreconciled incoming transactions to open advance invoices by their"
+" number / variable symbol and registers the payment automatically."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__order_id
+msgid "Advance Invoice"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid "Advance Invoices — Bank Matching"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.actions.server,name:sale_order_advance_invoice_payment_match.ir_cron_match_advance_statement_lines_ir_actions_server
+msgid "Advance Invoices: match bank statement lines"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__amount
+msgid "Amount"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_company__advance_invoice_auto_match_statement
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_config_settings__advance_invoice_auto_match_statement
+msgid "Auto-match Bank Statements to Advance Invoices"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid "Auto-match bank statements"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__statement_line_id
+msgid "Bank Transaction"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.view_advance_statement_match_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__candidate_order_ids
+msgid "Candidate Order"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid ""
+"Configure the advance clearing account on the company first (Advance "
+"Invoices settings)."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields.selection,name:sale_order_advance_invoice_payment_match.selection__res_company__advance_invoice_auto_tax_doc__post
+msgid "Create and post"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields.selection,name:sale_order_advance_invoice_payment_match.selection__res_company__advance_invoice_auto_tax_doc__draft
+msgid "Create as draft"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__display_name
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_company__display_name
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_sale_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__id
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_company__id
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_sale_order__id
+msgid "ID"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid ""
+"Journal %s has no inbound payment method with an outstanding receipts "
+"account."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__currency_id
+msgid "Journal Currency"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__payment_ref
+msgid "Label"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields.selection,name:sale_order_advance_invoice_payment_match.selection__res_company__advance_invoice_auto_tax_doc__none
+msgid "Leave for manual creation"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid ""
+"Leave for manual creation, create as draft, or create and post (the advance "
+"clearing account then nets to zero automatically)."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.actions.act_window,name:sale_order_advance_invoice_payment_match.action_advance_statement_match_wizard
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.view_advance_statement_match_wizard_form
+msgid "Match Advance Invoice"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_advance_statement_match_wizard
+msgid "Match Statement Line to Advance Invoice"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid ""
+"Match unreconciled incoming transactions to open advance invoices by number "
+"/ variable symbol and register the payment automatically (cron; also the "
+"Enterprise reconciliation widget when installed)."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid ""
+"Multi-currency transactions are not supported for automatic advance "
+"matching."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "Only incoming transactions can pay an advance invoice."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/wizard/advance_statement_match_wizard.py:0
+msgid "Payment"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.view_advance_statement_match_wizard_form
+msgid "Register Payment"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/wizard/advance_statement_match_wizard.py:0
+msgid "Select an advance invoice to match."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_company__advance_invoice_auto_tax_doc
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_config_settings__advance_invoice_auto_tax_doc
+msgid "Tax Document on Matched Payment"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid "Tax document on matched payment"
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "The advance invoice and the transaction use different currencies."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "The statement line is already reconciled."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "The statement line or the payment has no open leg left to reconcile."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "The transaction amount exceeds the advance's unpaid amount."
+msgstr ""
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,help:sale_order_advance_invoice_payment_match.field_res_company__advance_invoice_auto_tax_doc
+#: model:ir.model.fields,help:sale_order_advance_invoice_payment_match.field_res_config_settings__advance_invoice_auto_tax_doc
+msgid ""
+"What happens with the payment tax document when a bank transaction pays an "
+"advance invoice. Posting immediately also nets the advance clearing account "
+"automatically."
+msgstr ""

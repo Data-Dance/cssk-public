@@ -1,7 +1,7 @@
 ---
 title: SK EC Sales List (Súhrnný výkaz)
 summary: The Slovak EC sales list — súhrnný výkaz — computed from the intra-EU supply taxes of Odoo's Slovak chart and exported as Finančná správa XML in the vzor in force for the period.
-verified: 19.0.1.3.0
+verified: 19.0.1.4.0
 ---
 
 ## What it is for {#purpose}
@@ -96,7 +96,7 @@ header of the form is filled from the company: name, street and house
 number, ZIP, city, phone and e-mail. The house number (*číslo*) is the number
 at the end of **Street** ("Hlavná 12" gives *ulica* "Hlavná" and *číslo*
 "12"), or the street-number fields where the address is kept split; *Street 2*
-is never filed as the house number.
+is filed as the house number only when it holds nothing but a number.
 
 ## Preparing and filing {#usage}
 
@@ -119,8 +119,10 @@ line by line; the total in the header is the sum of the rounded lines.
 There is no electronic channel for Slovak filings in this module: upload the
 exported XML on the Financial Administration's portal, then click **Mark
 Submitted** — or **File it** to record the manual filing and keep the receipt.
-The XML leaves the person making the declaration (*konateľ*) and the date of
-the declaration empty; complete them on the portal if the form asks for them.
+The person making the declaration and the date go on the **Hlavička** tab:
+*Meno a priezvisko*, *Telefón* and *E-mail* of the konateľ or authorised
+person (the 2010 vzor has no e-mail) and *Dátum vyhlásenia*; left empty, the
+date of the export is used.
 
 **A dodatočný súhrnný výkaz lists only what changed**, as
 [§ 80 ods. 8](law:sk/2004/222#paragraf-80.odsek-8) asks. On **Compute** the

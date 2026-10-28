@@ -1,15 +1,15 @@
 ---
 title: Elektronická fakturácia Peppol (BIS Billing 3.0)
 summary: Odosiela faktúry a dobropisy odberateľom ako elektronické faktúry Peppol BIS Billing 3.0, z prijatých elektronických faktúr vytvára koncepty dodávateľských faktúr a spracúva obchodné odpovede — cez ktoréhokoľvek nainštalovaného poskytovateľa EDI.
-verified: 19.0.1.7.0
+verified: 19.0.1.7.1
 ---
 
 ## Na čo slúži {#purpose}
 
-**Peppol** je európska sieť na výmenu elektronických faktúr. Firma sa do nej
+**Peppol** je európska sieť na výmenu elektronických faktúr. Spoločnosť sa do nej
 pripája cez **prístupový bod** (poskytovateľa služieb Peppol) a v sieti ju
 nájdu podľa jej **Peppol adresy** — kódu schémy a identifikátora, napríklad
-`0245:2020123456` pre slovenskú firmu identifikovanú podľa DIČ. Samotná
+`0245:2020123456` pre slovenskú spoločnosť identifikovanú podľa DIČ. Samotná
 faktúra je súbor **Peppol BIS Billing 3.0**: XML vo formáte UBL 2.1 podľa
 európskej normy EN 16931.
 
@@ -100,8 +100,8 @@ syntaxi UBL.
 1. **Nainštalujte a pripojte poskytovateľa**, napríklad
    [ePošťák](module:edi_epostak_peppol#setup).
 2. **Nastavenia spoločnosti.** *Nastavenia → EDI*, blok **Peppol BIS3 (táto
-   firma)**. Všetky nastavenia patria spoločnosti, v ktorej práve pracujete,
-   takže slovenská firma môže fakturovať elektronicky a jej česká sesterská
+   spoločnosť)**. Všetky nastavenia patria spoločnosti, v ktorej práve pracujete,
+   takže slovenská spoločnosť môže fakturovať elektronicky a jej česká sesterská
    nie:
 
    | Nastavenie | Význam |
@@ -118,7 +118,7 @@ syntaxi UBL.
    poskytovateľovi na ňom nezáleží.
 3. **Peppol adresa vašej spoločnosti.** Na kontakte spoločnosti, záložka
    *Fakturácia*, skupina *Zákaznícke faktúry*: **Peppol e-adresa (EAS)** a
-   vedľa nej koncový bod. Slovenská firma používa schému **0245** so svojím
+   vedľa nej koncový bod. Slovenská spoločnosť používa schému **0245** so svojím
    **DIČ** (desať číslic) — nie IČ DPH (schéma 9950) a nie IČO; pozri
    [slovenský identifikátor Peppol](module:l10n_sk_ubl_bis3#participant).
 4. **Peppol adresu každého odberateľa a dodávateľa** na rovnakom mieste.
@@ -126,7 +126,7 @@ syntaxi UBL.
    vývojára skrýva, tento modul ho zobrazí) určuje, ako odberateľ faktúry
    dostáva. Voľba **elektronickou faktúrou (Peppol)** pošle cez Peppol každú
    jeho faktúru bez ohľadu na rozsah. Ak spoločnosť pracuje podľa slovenskej
-   povinnosti a slovenská firma má nastavené niečo iné, kontakt zobrazí
+   povinnosti a slovenská spoločnosť má nastavené niečo iné, kontakt zobrazí
    upozornenie, že od 1. 1. 2027 musia byť jej faktúry elektronické.
 6. **Prístup.** Tlačidlá **Odoslať cez Peppol** a **Peppol odpoveď…** vidí
    skupina *EDI User*. Faktúru môže odoslať každý, kto ju smie upravovať:
@@ -157,7 +157,7 @@ Rozhodnutie v tomto poradí:
 5. Na kontakte nie je nič zvolené a rozsah je **slovenská povinnosť**:
    spoločnosť, ktorej daňová krajina nie je Slovensko alebo ktorá nemá IČ DPH
    (nie je platiteľom), odberateľ mimo Slovenska alebo odberateľ bez
-   akéhokoľvek podnikateľského identifikátora — nie je firmou a nemá IČ DPH,
+   akéhokoľvek podnikateľského identifikátora — nie je spoločnosťou a nemá IČ DPH,
    IČO ani DIČ (považuje sa za spotrebiteľa) → **PDF**. Živnostník s IČO
    bez IČ DPH je podnikateľ: povinnosť sa týka každej zdaniteľnej osoby.
    Takisto faktúra, ktorej každý riadok je oslobodené plnenie (dane sú

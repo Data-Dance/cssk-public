@@ -99,6 +99,16 @@ msgstr ""
 "pre element <identifikator> výkazu MVP."
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__correction_reference
+msgid "Correction Reference"
+msgstr "Referencia opravy"
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__country_id
 msgid "Country"
 msgstr "Krajina"
@@ -119,6 +129,11 @@ msgid "Currency"
 msgstr "Mena"
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__active_submission_id
+msgid "Current submission"
+msgstr "Aktuálne doručenie"
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__date_from
 msgid "Date From"
 msgstr "Dátum od"
@@ -127,6 +142,11 @@ msgstr "Dátum od"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__date_to
 msgid "Date To"
 msgstr "Dátum do"
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__submission_state
+msgid "Delivery"
+msgstr "Doručenie"
 
 #. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__display_name
@@ -217,6 +237,11 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Ak je začiarknuté, niektoré správy majú chybu doručenia."
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__message_is_follower
 msgid "Is Follower"
 msgstr "Je odberateľ"
@@ -267,6 +292,11 @@ msgid "Name"
 msgstr "Názov"
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Kalendár ďalších aktivít eventu"
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Termín ďalšej aktivity"
@@ -314,6 +344,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__payment_date
 msgid "Payment Date"
 msgstr "Dátum výplaty"
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
 
 #. module: l10n_sk_hr_payroll_mvp
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_mvp.view_l10n_sk_mvp_form
@@ -370,9 +405,28 @@ msgid "Submission Reference"
 msgstr "Referencia podania"
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__submission_ids
+msgid "Submissions"
+msgstr "Podania"
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__submitted_date
 msgid "Submitted Date"
 msgstr "Dátum odoslania"
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pre všetko, čo opravuje skoršie podanie."
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Referencia úradu na opravované podanie, ak ju prijímajúci systém potrebuje "
+"na spárovanie oboch."
 
 #. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__activity_exception_decoration
@@ -395,6 +449,16 @@ msgid "Website communication history"
 msgstr "História komunikácie webstránok"
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Či ide o riadne podanie za obdobie alebo o opravu už odoslaného. Voľby sú "
+"obmedzené na to, čo tento konkrétny úrad prijíma."
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__xml_attachment_id
 msgid "Xml Attachment"
 msgstr "Príloha XML"
@@ -403,29 +467,3 @@ msgstr "Príloha XML"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__year
 msgid "Year"
 msgstr "Rok"
-
-#. module: l10n_sk_hr_payroll_mvp
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_res_company__l10n_sk_sp_vs
-msgid ""
-"10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the <variabilnySymbol> element of the MVP overview."
-msgstr ""
-"10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
-"poisťovňou — prvok <variabilnySymbol> výkazu MVP."
-
-#. module: l10n_sk_hr_payroll_mvp
-#: model:ir.module.module,summary:base.module_l10n_sk_hr_payroll_mvp
-msgid ""
-"Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna "
-"poisťovňa — aggregate summary + per-employee annex, XML validated against "
-"MVPP-v2026.xsd. Engine-neutral (payroll or the hr_payroll engine)."
-msgstr ""
-"Mesačný výkaz poistného a príspevkov (MVP/MVPP) pre Sociálnu "
-"poisťovňu — súhrnný prehľad + príloha za jednotlivých zamestnancov, "
-"XML validované voči MVPP-v2026.xsd. Nezávislé od mzdového enginu "
-"(payroll alebo engine hr_payroll)."
-
-#. module: l10n_sk_hr_payroll_mvp
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_hr_payroll_mvp
-msgid "Slovakia — MVP (Mesačný výkaz poistného a príspevkov)"
-msgstr "Slovensko — MVP (Mesačný výkaz poistného a príspevkov)"

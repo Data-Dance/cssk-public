@@ -275,11 +275,11 @@ class TestEpostakIntegratorKey(TransactionCase):
         cls.connector = cls.env["epostak.connector"]
         cls.ICP = cls.env["ir.config_parameter"].sudo()
         cls.ICP.set_param("epostak.mode", "sandbox")
-        cls.ICP.set_param("epostak.sapi.sandbox.client_id", "a-client-id")
+        cls.env.company.sudo().epostak_sandbox_client_id = "a-client-id"
 
     def _configure(self, secret, firm_id=""):
-        self.ICP.set_param("epostak.sapi.sandbox.client_secret", secret)
-        self.ICP.set_param("epostak.firm_id", firm_id)
+        self.env.company.sudo().epostak_sandbox_client_secret = secret
+        self.env.company.sudo().epostak_firm_id = firm_id
         return self.connector._get_sapi_config()
 
     def test_integrator_key_without_firm_id_is_refused(self):
@@ -441,8 +441,8 @@ class TestEpostakIntegratorKey(TransactionCase):
         """
         from unittest.mock import patch
 
-        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
-        self.ICP.set_param("epostak.firm_id", "")
+        self.env.company.sudo().epostak_sandbox_client_secret = "sk_int_live_abc"
+        self.env.company.sudo().epostak_firm_id = ""
         settings = self.env["res.config.settings"].create({})
         # TWO firms on purpose: with exactly one there is nothing to choose and
         # the button fills it in instead (covered separately). The property under
@@ -473,8 +473,8 @@ class TestEpostakIntegratorKey(TransactionCase):
             EpostakApiError,
         )
 
-        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
-        self.ICP.set_param("epostak.firm_id", "")
+        self.env.company.sudo().epostak_sandbox_client_secret = "sk_int_live_abc"
+        self.env.company.sudo().epostak_firm_id = ""
         settings = self.env["res.config.settings"].create({})
         connector_cls = type(self.env["epostak.connector"])
         with patch.object(connector_cls, "_list_firms",
@@ -486,8 +486,8 @@ class TestEpostakIntegratorKey(TransactionCase):
     def test_test_connection_success_names_the_firm(self):
         from unittest.mock import patch
 
-        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
-        self.ICP.set_param("epostak.firm_id", "a-firm-uuid")
+        self.env.company.sudo().epostak_sandbox_client_secret = "sk_int_live_abc"
+        self.env.company.sudo().epostak_firm_id = "a-firm-uuid"
         settings = self.env["res.config.settings"].create({})
         connector_cls = type(self.env["epostak.connector"])
         with patch.object(connector_cls, "_authenticate", return_value=True):
@@ -495,27 +495,28 @@ class TestEpostakIntegratorKey(TransactionCase):
         self.assertEqual(res["params"]["type"], "success")
         self.assertIn("a-firm-uuid", res["params"]["message"])
 
-    def test_test_connection_warns_about_a_second_company(self):
-        """One ePošťák account serves one company; a second company that
-        allows e-invoicing is told about where the account is configured."""
+    def test_test_connection_warns_about_a_company_without_credentials(self):
+        """Each company sends and collects with its own credentials; another
+        company that allows e-invoicing without any is named, and one with
+        its own is not."""
         from unittest.mock import patch
 
         if "peppol_send_enabled" not in self.env["res.company"]._fields:
             self.skipTest("edi_base_peppol is not installed")
-        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_live_abc")
-        settings = self.env["res.config.settings"].create({})
-        served = settings._epostak_collecting_company()
-        served.peppol_send_enabled = True
-        others = self.env["res.company"].search([("id", "!=", served.id)])
-        others.peppol_send_enabled = False
+        self.env.company.sudo().epostak_sandbox_client_secret = "sk_live_abc"
+        self.env["res.company"].search([]).peppol_send_enabled = False
         second = self.env["res.company"].create(
             {"name": "Second Peppol Company", "peppol_send_enabled": True})
+        settings = self.env["res.config.settings"].create({})
         connector_cls = type(self.env["epostak.connector"])
         with patch.object(connector_cls, "_authenticate", return_value=True):
             res = settings.action_epostak_test_connection()
             self.assertEqual(res["params"]["type"], "warning")
             self.assertIn(second.name, res["params"]["message"])
-            second.peppol_send_enabled = False
+            second.sudo().write({
+                "epostak_sandbox_client_id": "second-id",
+                "epostak_sandbox_client_secret": "sk_live_second",
+            })
             res = settings.action_epostak_test_connection()
         self.assertEqual(res["params"]["type"], "success")
 
@@ -525,22 +526,22 @@ class TestEpostakIntegratorKey(TransactionCase):
         while receiving stopped silently. These parameters are what Settings
         reads to show otherwise, so they must be written on BOTH paths."""
         c = self.connector
-        self.ICP.set_param(c.PARAM_POLL_AT, "")
-        self.ICP.set_param(c.PARAM_POLL_OK, "")
-        self.ICP.set_param(c.PARAM_POLL_ERROR, "")
+        self.ICP.set_param(c._poll_key(c.PARAM_POLL_AT), "")
+        self.ICP.set_param(c._poll_key(c.PARAM_POLL_OK), "")
+        self.ICP.set_param(c._poll_key(c.PARAM_POLL_ERROR), "")
 
         c._record_poll(count=3)
-        self.assertTrue(self.ICP.get_param(c.PARAM_POLL_AT))
-        self.assertTrue(self.ICP.get_param(c.PARAM_POLL_OK))
-        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_COUNT), "3")
-        self.assertFalse(self.ICP.get_param(c.PARAM_POLL_ERROR))
-        first_ok = self.ICP.get_param(c.PARAM_POLL_OK)
+        self.assertTrue(self.ICP.get_param(c._poll_key(c.PARAM_POLL_AT)))
+        self.assertTrue(self.ICP.get_param(c._poll_key(c.PARAM_POLL_OK)))
+        self.assertEqual(self.ICP.get_param(c._poll_key(c.PARAM_POLL_COUNT)), "3")
+        self.assertFalse(self.ICP.get_param(c._poll_key(c.PARAM_POLL_ERROR)))
+        first_ok = self.ICP.get_param(c._poll_key(c.PARAM_POLL_OK))
 
         c._record_poll(error="no firm id")
-        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_ERROR), "no firm id")
+        self.assertEqual(self.ICP.get_param(c._poll_key(c.PARAM_POLL_ERROR)), "no firm id")
         # The last SUCCESS must not move: a stale "last ok" beside a recent
         # failure is exactly the evidence a user needs.
-        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_OK), first_ok)
+        self.assertEqual(self.ICP.get_param(c._poll_key(c.PARAM_POLL_OK)), first_ok)
 
     def test_inbound_health_label_distinguishes_the_three_states(self):
         c = self.connector
@@ -550,9 +551,9 @@ class TestEpostakIntegratorKey(TransactionCase):
             ("2026-10-01 10:00:00", "2026-10-01 10:00:00", "", "OK at"),
             ("2026-10-01 11:00:00", "2026-10-01 10:00:00", "boom", "FAILED at"),
         ):
-            self.ICP.set_param(c.PARAM_POLL_AT, at)
-            self.ICP.set_param(c.PARAM_POLL_OK, ok)
-            self.ICP.set_param(c.PARAM_POLL_ERROR, err)
+            self.ICP.set_param(c._poll_key(c.PARAM_POLL_AT), at)
+            self.ICP.set_param(c._poll_key(c.PARAM_POLL_OK), ok)
+            self.ICP.set_param(c._poll_key(c.PARAM_POLL_ERROR), err)
             label = Settings.create({}).epostak_inbound_health
             self.assertIn(expected, label)
 
@@ -622,15 +623,15 @@ class TestEpostakIntegratorKey(TransactionCase):
         With one candidate there is nothing to choose."""
         from unittest.mock import patch
 
-        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
-        self.ICP.set_param("epostak.firm_id", "")
+        self.env.company.sudo().epostak_sandbox_client_secret = "sk_int_live_abc"
+        self.env.company.sudo().epostak_firm_id = ""
         settings = self.env["res.config.settings"].create({})
         connector_cls = type(self.env["epostak.connector"])
         with patch.object(connector_cls, "_list_firms", return_value=self._one_firm()):
             res = settings.action_epostak_test_connection()
         self.assertEqual(res["params"]["type"], "success")
         self.assertEqual(
-            self.ICP.get_param("epostak.firm_id"),
+            self.env.company.sudo().epostak_firm_id,
             "2b9f26f7-93d2-455e-aba8-1391fadd14cc",
         )
         # The form must refresh or it keeps showing the empty value we just
@@ -643,8 +644,8 @@ class TestEpostakIntegratorKey(TransactionCase):
     def test_several_firms_still_ask_and_state_the_count(self):
         from unittest.mock import patch
 
-        self.ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_int_live_abc")
-        self.ICP.set_param("epostak.firm_id", "")
+        self.env.company.sudo().epostak_sandbox_client_secret = "sk_int_live_abc"
+        self.env.company.sudo().epostak_firm_id = ""
         two = self._one_firm() + [{
             "id": "9403f4fd-5318-4cd0-b651-4e75ce3997af", "name": "Second",
             "ico": "", "peppol_id": "0245:5746203128", "peppol_status": "registered",
@@ -655,7 +656,7 @@ class TestEpostakIntegratorKey(TransactionCase):
             res = settings.action_epostak_test_connection()
         self.assertEqual(res["params"]["type"], "warning")
         self.assertIn("2", res["params"]["title"], "say how many there really are")
-        self.assertFalse(self.ICP.get_param("epostak.firm_id"),
+        self.assertFalse(self.env.company.sudo().epostak_firm_id,
                          "must not guess when there is a genuine choice")
 
     # ------------------------------------------------------------------
@@ -674,15 +675,15 @@ class TestEpostakIntegratorKey(TransactionCase):
         """One failed poll is normal; an activity per poll trains people to
         ignore them."""
         c = self.connector
-        self.ICP.set_param(c.PARAM_POLL_STREAK, "0")
+        self.ICP.set_param(c._poll_key(c.PARAM_POLL_STREAK), "0")
         self.ICP.set_param(c.PARAM_POLL_ACTIVITY_AFTER, "3")
         c._record_poll(error="transient")
         self.assertFalse(self._open_activities())
-        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_STREAK), "1")
+        self.assertEqual(self.ICP.get_param(c._poll_key(c.PARAM_POLL_STREAK)), "1")
 
     def test_activity_after_repeated_failures_then_closed_on_recovery(self):
         c = self.connector
-        self.ICP.set_param(c.PARAM_POLL_STREAK, "0")
+        self.ICP.set_param(c._poll_key(c.PARAM_POLL_STREAK), "0")
         self.ICP.set_param(c.PARAM_POLL_ACTIVITY_AFTER, "3")
         for _i in range(3):
             c._record_poll(error="no firm id")
@@ -698,11 +699,11 @@ class TestEpostakIntegratorKey(TransactionCase):
         # Recovery closes it — a stale to-do about a fixed problem is noise.
         c._record_poll(count=1)
         self.assertFalse(self._open_activities())
-        self.assertEqual(self.ICP.get_param(c.PARAM_POLL_STREAK), "0")
+        self.assertEqual(self.ICP.get_param(c._poll_key(c.PARAM_POLL_STREAK)), "0")
 
     def test_threshold_zero_disables_the_activity(self):
         c = self.connector
-        self.ICP.set_param(c.PARAM_POLL_STREAK, "0")
+        self.ICP.set_param(c._poll_key(c.PARAM_POLL_STREAK), "0")
         self.ICP.set_param(c.PARAM_POLL_ACTIVITY_AFTER, "0")
         for _i in range(5):
             c._record_poll(error="boom")
@@ -772,9 +773,11 @@ class TestEpostakCapabilities(TransactionCase):
         cls.connector = cls.env["epostak.connector"]
         ICP = cls.env["ir.config_parameter"].sudo()
         ICP.set_param("epostak.mode", "sandbox")
-        ICP.set_param("epostak.sapi.sandbox.client_id", "a-client-id")
-        ICP.set_param("epostak.sapi.sandbox.client_secret", "sk_live_test_x")
-        ICP.set_param("epostak.firm_id", "")
+        cls.env.company.sudo().write({
+            "epostak_sandbox_client_id": "a-client-id",
+            "epostak_sandbox_client_secret": "sk_live_test_x",
+            "epostak_firm_id": False,
+        })
 
     def _lookup(self, status, payload, participant="9950:SK2022913409"):
         """Run _check_capabilities against a canned HTTP response.

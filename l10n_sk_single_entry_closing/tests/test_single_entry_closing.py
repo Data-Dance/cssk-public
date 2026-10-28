@@ -545,12 +545,18 @@ class TestUzfoV14(AccountTestInvoicingCommon):
                          base64.b64decode(statement.xml_attachment_id.datas))
 
     def test_a_street2_that_is_only_a_number_is_still_the_cislo(self):
-        from ..models.cssk_fs_statement import _sk_street_and_number
+        """The header reads the seat through l10n_cssk_core's one helper."""
         partner = self.company.partner_id
+        statement = self._statement()
         partner.write({"street": "Hlavná", "street2": "12"})
-        self.assertEqual(_sk_street_and_number(partner), ("Hlavná", "12"))
+        head = statement._cssk_uzfo_header()
+        self.assertEqual((head["ulica"], head["cislo"]), ("Hlavná", "12"))
         partner.write({"street": "Hlavná", "street2": "budova B"})
-        self.assertEqual(_sk_street_and_number(partner), ("Hlavná", ""))
+        head = statement._cssk_uzfo_header()
+        self.assertEqual((head["ulica"], head["cislo"]), ("Hlavná", ""))
+        partner.write({"street": "č. p. 45", "street2": ""})
+        head = statement._cssk_uzfo_header()
+        self.assertEqual((head["ulica"], head["cislo"]), ("", "45"))
 
 @tagged("post_install", "-at_install")
 class TestUzfoV14Partition(AccountTestInvoicingCommon):

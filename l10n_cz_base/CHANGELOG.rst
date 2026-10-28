@@ -8,6 +8,14 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.0.4] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech translation of *Display Name* and *ID*.
+
 [19.0.2.0.3] — 2026-10-27
 -------------------------
 

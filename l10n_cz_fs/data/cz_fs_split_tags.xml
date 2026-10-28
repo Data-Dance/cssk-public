@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+      Account tags for the rows of the Výkaz zisku a ztráty v plném rozsahu
+      that no account of the směrná účtová osnova can tell apart (vyhláška
+      500/2002 Sb., příloha č. 2):
+
+      * IV. / V. — both výnosy z dlouhodobého finančního majetku sit on 665:
+        podíly (IV.) against dluhové cenné papíry, zápůjčky and other DFM (V.);
+      * IV.1, V.1, VI.1, J.1 — the part with an ovládaná nebo ovládající osoba;
+      * E.1.2 / E.2 — the part of 559 (účetní opravné položky) made to DNM and
+        DHM, resp. to zásoby. 558 holds the zákonné opravné položky, which
+        zákon č. 593/1992 Sb. allows to pohledávky only, so it is always E.3.
+
+      A unit that has such flows opens an analytic account (665100, 662100, …)
+      and gives it the matching tag. Untagged amounts land on the "ostatní"
+      row — IV.2, VI.2, J.2 and E.3 — so a unit with none needs no setup.
+      One account carries at most one of these tags (a constraint), because
+      each tag moves the balance to a row of its own.
+    -->
+    <record id="account_tag_vzz_E_1_2" model="account.account.tag">
+        <field name="name">VZZ E.1.2 — úpravy hodnot DNM a DHM, dočasné (559)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="account_tag_vzz_E_2" model="account.account.tag">
+        <field name="name">VZZ E.2 — úpravy hodnot zásob (559)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="account_tag_vzz_IV_1" model="account.account.tag">
+        <field name="name">VZZ IV.1 — výnosy z podílů, ovládaná nebo ovládající osoba (665)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="account_tag_vzz_V_1" model="account.account.tag">
+        <field name="name">VZZ V.1 — výnosy z ostatního DFM, ovládaná nebo ovládající osoba (665)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="account_tag_vzz_V_2" model="account.account.tag">
+        <field name="name">VZZ V.2 — ostatní výnosy z ostatního DFM (665)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="account_tag_vzz_VI_1" model="account.account.tag">
+        <field name="name">VZZ VI.1 — výnosové úroky, ovládaná nebo ovládající osoba (662, 666)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="account_tag_vzz_J_1" model="account.account.tag">
+        <field name="name">VZZ J.1 — nákladové úroky, ovládaná nebo ovládající osoba (562)</field>
+        <field name="applicability">accounts</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+</odoo>

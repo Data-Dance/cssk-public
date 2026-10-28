@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Control Statement — Shared Framework",
-    "version": "19.0.2.3.0",
+    "version": "19.0.2.4.0",
     "summary": "Abstract framework for the Slovak KV DPH and Czech KH DPH VAT "
                "control statements: versioned templates, section/summary/"
                "reconciliation row mixins, move-line section assignment and an "
@@ -33,7 +33,7 @@ Provides
   country-overridable resolver, **reverse-charge first**), multi-VAT override
   and ``cssk_control_rate_declared`` (the rate a tags-only line's source
   states, where the statutory line named none).
-* ``account.tax`` — ``cssk_control_section_default`` + ``cssk_control_is_reverse_charge``.
+* ``account.tax`` — ``cssk_control_is_reverse_charge``.
 * ``account.journal`` — default-section override.
 
 See the ``l10n_cssk_kv_kh_base`` design note for the data model and the

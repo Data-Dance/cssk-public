@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_vat_return/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ VAT Return (DPHDP3)</h1>
 <p class="cssk-summary">The Czech VAT return computed from the tax tags of Odoo&#x27;s Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.11.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.12.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Czech layer of the <a href="/l10n_cssk_vat_return_base/static/description/index.html">shared VAT-return engine</a>.
@@ -91,7 +91,11 @@ refreshing them; a test fails if the bundled file or the template's
 <strong>1 January 2016</strong>; that
 start date is a conservative bound chosen by the module, not a statutory one,
 and there is no version for earlier periods.</p>
-<p>Amounts are exported in whole crowns. The filing date in the XML
+<p>Amounts are exported in whole crowns: a tax (output tax, deduction and
+rows 62–66) rounded <strong>up</strong> to the next crown, as § 146 odst. 1 of the
+daňový řád says ("Daň se zaokrouhluje na celé koruny nahoru"); a base or a
+value to the nearest crown, a half up; the coefficients of rows 52 and 53 up
+to a whole percent (§ 76 odst. 3 ZDPH). The filing date in the XML
 (<em>d_poddp</em>) is the day of the export.</p>
 <h2 id="setup">Setting it up</h2>
 <p>Beyond the <a href="/l10n_cssk_vat_return_base/static/description/index.html#setup">engine's setup</a>, the XML
@@ -175,7 +179,7 @@ the rows above (each summed in whole crowns, as exported, so the totals foot):</
 </tr>
 <tr>
 <td>66</td>
-<td>row 62 − row 63, on a dodatečné return only</td>
+<td>(row 62 − row 63) minus the same of the return amended, on a dodatečné return only</td>
 </tr>
 </tbody>
 </table>
@@ -219,10 +223,19 @@ refund, and the carry of an excess deduction).</p>
 </table>
 <p><strong>Content checks at export</strong>: rows 64 and 65 must not be negative and must
 not both be filled.</p>
-<p><strong>A dodatečné return</strong> (types D and E) cannot be exported without <strong>Důvody
-zjištěny dne</strong> (<em>d_zjist</em>), shown next to the statement type. It is the same
-date as the engine's <em>Den zjištění rozdílu</em> (one field, shown once under its
-Czech name), so an amendment created with the button already carries it.</p>
+<p><strong>A dodatečné return</strong> (types D and E) is created with <strong>Amended /
+corrective</strong> on the filed return, and states only the <strong>differences</strong> from it:
+"V dodatečném přiznání se uvádí pouze rozdíly od údajů, ze kterých byla
+stanovena poslední známá daň" (pokyny k přiznání). The rows on screen keep
+the period's full figures — they are what the next amendment differs from —
+and the XML files each row minus the same row of the return amended; the
+coefficients of rows 52 and 53 are filed as they are. A dodatečné/opravné
+return (E) raised from a dodatečné one replaces it, so it differs from what
+that dodatečné amended. Without the return it amends, the export refuses.</p>
+<p>It also cannot be exported without <strong>Důvody zjištěny dne</strong> (<em>d_zjist</em>),
+shown next to the statement type. It is the same date as the engine's <em>Den
+zjištění rozdílu</em> (one field, shown once under its Czech name), so an
+amendment created with the button already carries it.</p>
 <p><strong>Filing through EPO.</strong> With <a href="/l10n_cz_epo/static/description/index.html"><code>l10n_cz_epo</code></a>
 installed, <strong>File it</strong> offers the EPO channel: the return can be checked in
 EPO's test mode and filed with the company's certificate.</p>
@@ -314,16 +327,16 @@ three years between are not excluded by its dates.</p>
 <li>The content checks cover rows 64 and 65 only; the schema cannot tell
   whether the other figures are consistent.</li>
 <li>Periods before 2016 have no version.</li>
-<li>On a dodatečné return the rows are the period's figures as recomputed, and
-  row 66 is row 62 − row 63 of this return; it is not compared with the
-  return being amended.</li>
+<li>A dodatečné return differs from the return it was created from. Create
+  it from the last return filed for the period, so that return is the last
+  known tax.</li>
 <li>The pin in <code>data/SCHEMA_VERSION</code> shows that the bundled schema is the one
   verified on a stated date, not that it is still current; refresh it by the
   procedure in that file.</li>
 <li>The rows follow <code>l10n_cz</code>'s tags. A tax created by hand without the right
   tags reaches the wrong row or none.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.11.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.12.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

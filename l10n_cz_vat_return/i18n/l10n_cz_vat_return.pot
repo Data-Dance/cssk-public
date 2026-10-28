@@ -1,0 +1,96 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_vat_return
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 22:56+0000\n"
+"PO-Revision-Date: 2026-10-27 22:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/cssk_vat_return.py:0
+msgid ""
+"A dodatečné přiznání needs the date its reasons were found (Důvody zjištěny "
+"dne, d_zjist)."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/cssk_vat_return.py:0
+msgid ""
+"A dodatečné přiznání states only the differences from the return it amends, "
+"so it needs that return with its rows computed. Create it with \"Amended / "
+"corrective\" on the filed return."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model,name:l10n_cz_vat_return.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model,name:l10n_cz_vat_return.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_cssk_vat_return__cz_country_code
+msgid "Country Code"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_cssk_vat_return__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_cssk_vat_return__cz_discovery_date
+msgid "Důvody zjištěny dne"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_cssk_vat_return__cz_filing_code
+msgid "Fa Xml Value"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_cssk_vat_return__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_cssk_vat_return__cz_country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model,name:l10n_cz_vat_return.model_cssk_vat_return
+msgid "VAT Return"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_cssk_vat_return__cz_filing_code
+msgid "Value emitted in the statutory XML for this type."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_cssk_vat_return__cz_discovery_date
+msgid ""
+"d_zjist — the day the reasons for a dodatečné přiznání were found. Required "
+"for a dodatečné (D) or dodatečné/opravné (E) return."
+msgstr ""

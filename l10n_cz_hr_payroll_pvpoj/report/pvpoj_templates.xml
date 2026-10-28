@@ -27,11 +27,11 @@
                     </t>
                     <nazev t-out="company.name"/>
                     <adresa>
-                        <t t-if="company.street">
-                            <ulice t-out="company.street"/>
+                        <t t-if="ulice">
+                            <ulice t-out="ulice"/>
                         </t>
-                        <t t-if="company.street2">
-                            <cisloDomu t-out="company.street2"/>
+                        <t t-if="cislo_domu">
+                            <cisloDomu t-out="cislo_domu"/>
                         </t>
                         <obec t-out="company.city"/>
                         <PSC t-out="psc"/>

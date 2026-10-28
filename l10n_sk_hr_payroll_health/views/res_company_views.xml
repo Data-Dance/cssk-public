@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The company's default insurer decides the dávka 514 of every employee
+         without one of their own, and the payer number is required by the
+         preflight. Neither had a place on the company form. -->
+    <record id="view_company_form_l10n_sk_health" model="ir.ui.view">
+        <field name="name">res.company.form.l10n_sk_health</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='cssk_payroll_reporting']/group" position="inside">
+                <group name="sk_health" string="Health insurance (dávka 514)"
+                       invisible="country_code != 'SK'">
+                    <field name="l10n_sk_health_insurer_code"/>
+                    <field name="l10n_sk_health_payer_number"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

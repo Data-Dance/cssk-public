@@ -10,7 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2026-04-06 12:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: cs\n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -167,6 +167,8 @@ msgid ""
 "<span invisible=\"advance_payment_method != 'percentage'\" "
 "class=\"oe_inline\">%</span>"
 msgstr ""
+"<span invisible=\"advance_payment_method != 'percentage'\" "
+"class=\"oe_inline\">%</span>"
 
 #. module: sale_order_advance_invoice
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.report_saleorder_document
@@ -176,7 +178,7 @@ msgstr "<strong>Číslo účtu: </strong>"
 #. module: sale_order_advance_invoice
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.report_saleorder_document
 msgid "<strong>BIC/SWIFT: </strong>"
-msgstr ""
+msgstr "<strong>BIC/SWIFT: </strong>"
 
 #. module: sale_order_advance_invoice
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.sale_order_portal_content_advance_invoice
@@ -207,7 +209,7 @@ msgstr "<strong>Datum vystavení</strong>"
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.report_saleorder_document
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.sale_order_portal_content_advance_invoice
 msgid "<strong>Reference: </strong>"
-msgstr ""
+msgstr "<strong>Reference: </strong>"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,help:sale_order_advance_invoice.field_res_company__advance_tax_doc_account_id
@@ -262,9 +264,9 @@ msgid "Advance Clearing Account"
 msgstr "Zúčtovací účet záloh"
 
 #. module: sale_order_advance_invoice
+#. odoo-python
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order__is_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__sale_order_id
-#. odoo-python
 #: code:addons/sale_order_advance_invoice/models/sale_order.py:0
 msgid "Advance Invoice"
 msgstr "Zálohová faktura"
@@ -291,7 +293,7 @@ msgstr "Zálohová faktura %(name)s (Zrušeno)"
 #. odoo-python
 #: code:addons/sale_order_advance_invoice/models/sale_order.py:0
 msgid "Advance Invoice %(name)s: %(date)s (Draft)"
-msgstr "Zálohová faktura %(name)s: %(date)s ()"
+msgstr "Zálohová faktura %(name)s: %(date)s (koncept)"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order__advance_invoice_count
@@ -454,7 +456,7 @@ msgstr "Společnosti"
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__company_id
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_transfer_link_wizard__company_id
 msgid "Company"
-msgstr ""
+msgstr "Společnost"
 
 #. module: sale_order_advance_invoice
 #. odoo-python
@@ -482,7 +484,7 @@ msgstr "Vytvořit platbu"
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__create_uid
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_transfer_link_wizard__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Vytvořil"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_account_move_link_advance_invoice_wizard__create_date
@@ -490,13 +492,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__create_date
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_transfer_link_wizard__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Vytvořeno"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_advance_invoice_wizard__currency_id
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Měna"
 
 #. module: sale_order_advance_invoice
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.report_invoice_document
@@ -581,7 +583,7 @@ msgstr "Má zálohové faktury"
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__id
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_transfer_link_wizard__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: sale_order_advance_invoice
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.report_invoice_document
@@ -608,7 +610,7 @@ msgstr "Datum vystavení"
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__journal_id
 msgid "Journal"
-msgstr ""
+msgstr "Deník"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model,name:sale_order_advance_invoice.model_account_move
@@ -640,7 +642,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__write_uid
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_transfer_link_wizard__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Naposledy upraveno uživatelem"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_account_move_link_advance_invoice_wizard__write_date
@@ -648,7 +650,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__write_date
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_transfer_link_wizard__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Naposledy upraveno"
 
 #. module: sale_order_advance_invoice
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.view_account_move_link_advance_invoice_wizard_form
@@ -704,8 +706,8 @@ msgid ""
 "Manual payment can only be registered when the advance invoice still has an "
 "unpaid amount."
 msgstr ""
-"Ruční platbu lze zaevidovat, jen dokud má zálohová faktura "
-"neuhrazenou částku."
+"Ruční platbu lze zaevidovat, jen dokud má zálohová faktura neuhrazenou "
+"částku."
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__memo
@@ -729,16 +731,14 @@ msgstr "Nebyly nalezeny žádné vhodné zálohové faktury k navázání."
 #: code:addons/sale_order_advance_invoice/models/sale_order.py:0
 msgid "No payment method was found to create the transaction link."
 msgstr ""
-"Nebyla nalezena žádná platební metoda pro vytvoření vazby na "
-"transakci."
+"Nebyla nalezena žádná platební metoda pro vytvoření vazby na transakci."
 
 #. module: sale_order_advance_invoice
 #. odoo-python
 #: code:addons/sale_order_advance_invoice/models/sale_order.py:0
 msgid "No payment provider was found to create the transaction link."
 msgstr ""
-"Nebyl nalezen žádný poskytovatel platby pro vytvoření vazby na "
-"transakci."
+"Nebyl nalezen žádný poskytovatel platby pro vytvoření vazby na transakci."
 
 #. module: sale_order_advance_invoice
 #. odoo-python
@@ -799,7 +799,7 @@ msgstr "Částečně zaplaceno"
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_account_move_link_advance_invoice_wizard__partner_id
 msgid "Partner"
-msgstr ""
+msgstr "Partner"
 
 #. module: sale_order_advance_invoice
 #. odoo-python
@@ -812,8 +812,8 @@ msgstr "Platba"
 #: code:addons/sale_order_advance_invoice/wizard/sale_order_manual_transfer_link_wizard.py:0
 msgid "Payment %(payment)s is now linked to %(order)s via transaction %(tx)s."
 msgstr ""
-"Platba %(payment)s je nyní navázána na %(order)s prostřednictvím "
-"transakce %(tx)s."
+"Platba %(payment)s je nyní navázána na %(order)s prostřednictvím transakce "
+"%(tx)s."
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_order_manual_payment_wizard__amount
@@ -854,7 +854,7 @@ msgstr "Přijatá platba pro Zálohovou fakturu %(name)s ze dne %(paid_date)s"
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_sale_advance_invoice_wizard__amount
 msgid "Percentage"
-msgstr ""
+msgstr "Procento"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields.selection,name:sale_order_advance_invoice.selection__sale_advance_invoice_wizard__advance_payment_method__percentage
@@ -882,7 +882,7 @@ msgstr "Vyberte prosím alespoň jednu zálohovou fakturu."
 #. module: sale_order_advance_invoice
 #: model:ir.model,name:sale_order_advance_invoice.model_res_config_settings
 msgid "Provider"
-msgstr ""
+msgstr "Poskytovatel"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,field_description:sale_order_advance_invoice.field_res_company__advance_tax_doc_account_lt_id
@@ -1032,7 +1032,7 @@ msgstr "Daňový doklad (ref: %(reference)s ze dne %(date)s)"
 #. odoo-python
 #: code:addons/sale_order_advance_invoice/models/sale_order_line.py:0
 msgid "Tax Document: %(date)s (Draft)"
-msgstr "Daňový doklad: %(date)s ()"
+msgstr "Daňový doklad: %(date)s (koncept)"
 
 #. module: sale_order_advance_invoice
 #. odoo-python
@@ -1092,8 +1092,7 @@ msgstr "Procento musí být kladné."
 #: model:ir.model.fields,help:sale_order_advance_invoice.field_sale_advance_invoice_wizard__amount
 msgid "The percentage of the order total to invoice as advance."
 msgstr ""
-"Procento z celkové částky objednávky, které se má fakturovat jako "
-"záloha."
+"Procento z celkové částky objednávky, které se má fakturovat jako záloha."
 
 #. module: sale_order_advance_invoice
 #. odoo-python
@@ -1118,9 +1117,7 @@ msgstr "Vybraná platba je již navázána na fakturu."
 #: code:addons/sale_order_advance_invoice/wizard/sale_order_manual_transfer_link_wizard.py:0
 msgid ""
 "The selected payment must belong to the same company as the sale order."
-msgstr ""
-"Vybraná platba musí patřit téže společnosti jako prodejní "
-"objednávka."
+msgstr "Vybraná platba musí patřit téže společnosti jako prodejní objednávka."
 
 #. module: sale_order_advance_invoice
 #. odoo-python
@@ -1145,7 +1142,7 @@ msgstr "Tato platba je již navázána na prodejní objednávku."
 #. module: sale_order_advance_invoice
 #: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice.view_advance_invoice_list
 msgid "Total"
-msgstr ""
+msgstr "Celkem"
 
 #. module: sale_order_advance_invoice
 #: model:ir.model.fields,help:sale_order_advance_invoice.field_sale_order__advance_invoice_qr_code_method
@@ -1154,9 +1151,8 @@ msgid ""
 " printing it. If left blank, the first available and usable method will be "
 "used."
 msgstr ""
-"Typ QR kódu, který se má vygenerovat pro úhradu této zálohové "
-"faktury při tisku. Ponecháte-li prázdné, použije se první dostupná a "
-"použitelná metoda."
+"Typ QR kódu, který se má vygenerovat pro úhradu této zálohové faktury při "
+"tisku. Ponecháte-li prázdné, použije se první dostupná a použitelná metoda."
 
 #. module: sale_order_advance_invoice
 #: model:mail.template,description:sale_order_advance_invoice.email_template_edi_advance_invoice
@@ -1221,9 +1217,6 @@ msgstr ""
 "{{ object.company_id.name }} Platba zálohové faktury (Ref {{ object.name or "
 "'n/a' }})"
 
-#~ msgid "Config Settings"
-#~ msgstr "Konfigurační nastavení"
-
 #. module: sale_order_advance_invoice
 #. odoo-python
 #: code:addons/sale_order_advance_invoice/models/sale_order.py:0
@@ -1249,8 +1242,8 @@ msgid ""
 "A fixed amount cannot be spread over the ordered items: the order has no "
 "untaxed amount to spread it over."
 msgstr ""
-"Pevnou částku nelze rozpustit na objednané položky: objednávka nemá "
-"základ daně, na který by se rozpustila."
+"Pevnou částku nelze rozpustit na objednané položky: objednávka nemá základ "
+"daně, na který by se rozpustila."
 
 #. module: sale_order_advance_invoice
 #: model:ir.module.module,summary:base.module_sale_order_advance_invoice
@@ -1269,13 +1262,9 @@ msgid ""
 "Each line then carries its own product and its own VAT rate, so an order mixing rates is requested — and later taxed on the tax document — at the right rate on every item.\n"
 "For a percentage or a fixed amount the unit prices are scaled down in the same proportion; the quantities stay as ordered."
 msgstr ""
-"Na zálohové faktuře uvede objednané produkty namísto jediného "
-"obecného řádku Záloha.\n"
-"Každý řádek pak nese vlastní produkt a vlastní sazbu DPH, takže "
-"objednávka s více sazbami se žádá — a později na daňovém dokladu "
-"zdaňuje — u každé položky správnou sazbou.\n"
-"Při procentu nebo pevné částce se jednotkové ceny sníží ve stejném "
-"poměru; množství zůstávají dle objednávky."
+"Na zálohové faktuře uvede objednané produkty namísto jediného obecného řádku Záloha.\n"
+"Každý řádek pak nese vlastní produkt a vlastní sazbu DPH, takže objednávka s více sazbami se žádá — a později na daňovém dokladu zdaňuje — u každé položky správnou sazbou.\n"
+"Při procentu nebo pevné částce se jednotkové ceny sníží ve stejném poměru; množství zůstávají dle objednávky."
 
 #. module: sale_order_advance_invoice
 #: model:ir.module.module,shortdesc:base.module_sale_order_advance_invoice
@@ -1298,4 +1287,9 @@ msgstr "Převody na zúčtovací účet"
 msgid ""
 "Entries that moved payments attached with Link Manual Transfer from the "
 "receivable to the advance clearing account."
-msgstr "Zápisy, které přesunuly platby připojené přes Provázat platbu z pohledávky na zúčtovací účet záloh."
+msgstr ""
+"Zápisy, které přesunuly platby připojené přes Provázat platbu z pohledávky "
+"na zúčtovací účet záloh."
+
+#~ msgid "Config Settings"
+#~ msgstr "Konfigurační nastavení"

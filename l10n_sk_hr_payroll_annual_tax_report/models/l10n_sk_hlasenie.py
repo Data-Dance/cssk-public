@@ -26,6 +26,7 @@ from datetime import date
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.l10n_cssk_core.tools import split_street, split_street_text
 from odoo.addons.l10n_cssk_payroll_declaration_base.rule_codes import sum_concept
 
 # The rule codes carrying the income-tax advance differ per engine (Enterprise
@@ -145,6 +146,9 @@ class L10nSkHlasenie(models.Model):
 
         pages, emp_count = self._build_annex_pages()
         today = fields.Date.context_today(self)
+        # The house number is split off the street (l10n_cssk_core), never
+        # Street 2 — a building, a floor or a c/o line.
+        ulica, cislo = split_street(company)
 
         header = {
             "dic": self._company_dic(company),
@@ -153,8 +157,8 @@ class L10nSkHlasenie(models.Model):
             "nazov": (company.name or "")[:255],
             "pravna_forma": self._company_legal_form(company),
             # sídlo
-            "ulica": (company.street or "")[:255],
-            "cislo": (company.street2 or "")[:20],
+            "ulica": ulica[:255],
+            "cislo": cislo[:20],
             "psc": self._digits(company.zip)[:5],
             "obec": (company.city or "")[:255],
             "stat": (company.country_id.code or "SK"),
@@ -208,6 +212,9 @@ class L10nSkHlasenie(models.Model):
         # last name fields win when hr_employee_firstname provides them.
         meno, priezvisko = self._split_person_name(employee)
         meno, priezvisko = meno[:24], priezvisko[:36]
+        ulica, cislo = split_street_text(
+            getattr(employee, "private_street", "") or "",
+            getattr(employee, "private_street2", "") or "")
         income = abs(round(totals.get("GROSS", 0.0), 2))
         advance = self._tax_advance_total(totals)
         bonus = abs(round(totals.get(BONUS_CODE, 0.0), 2))
@@ -218,8 +225,8 @@ class L10nSkHlasenie(models.Model):
             "dopln_udaj": "0",          # c5doplnUdaj (only_0_1)
             "priezvisko": priezvisko,
             "meno": meno,
-            "ulica": (employee.private_street or "")[:255]
-            if "private_street" in employee._fields else "",
+            "ulica": ulica[:255],
+            "cislo": cislo[:20],
             "psc": self._digits(getattr(employee, "private_zip", "") or "")[:5],
             "obec": (getattr(employee, "private_city", "") or "")[:255],
             "stat": "SK",
@@ -235,8 +242,8 @@ class L10nSkHlasenie(models.Model):
         mandatory 0/1 flag; every other element is an optional type emitted as
         an empty string (an explicit "" so QWeb keeps the element — a ``None``
         value would drop it)."""
-        keys = ("rodne_cislo", "priezvisko", "meno", "ulica", "psc", "obec",
-                "stat", "r3a", "r4a", "r6", "r8suma")
+        keys = ("rodne_cislo", "priezvisko", "meno", "ulica", "cislo", "psc",
+                "obec", "stat", "r3a", "r4a", "r6", "r8suma")
         col = {k: "" for k in keys}
         col["empty"] = True
         col["dopln_udaj"] = "0"

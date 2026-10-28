@@ -1,7 +1,7 @@
 ---
 title: Fio banka — Payment Orders
 summary: Builds Fio XML payment orders from an OCA payment order or an Enterprise batch payment and sends them to Fio banka over the API, for authorisation in internet banking.
-verified: 19.0.1.3.0
+verified: 19.0.1.4.0
 ---
 
 ## What it is for {#purpose}
@@ -139,6 +139,12 @@ Both modules can be installed side by side.
 
 ## Limitations {#limitations}
 
+- A credit note grouped with its invoice on the payment order (the payment
+  mode's *Group Transactions in Payment Orders*) becomes **one item of the net
+  amount** — the amount of the payment the order books. It carries the
+  invoice's variable symbol; when one credit note is netted against several
+  invoices their symbols differ and none is sent. Groups without a credit note
+  keep one item per invoice. Without grouping, a credit-note line is refused.
 - **"Sent" is not "paid"**: the batch waits in internet banking for
   authorisation.
 - Fio's batch number is not the instruction ID that later appears on the

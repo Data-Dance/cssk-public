@@ -2,6 +2,23 @@
 Changelog
 =========
 
+[19.0.1.13.1] — 2026-10-27
+==========================
+
+Fixed
+~~~~~
+
+- **Payslip lines, inputs and worked days are confined to your companies.**
+  OCA payroll restricts payslips to the user's companies but not what hangs
+  off them, so a payroll user of one company could read another company's
+  payslip lines — wages and deductions — from the *Payslip Lines* list, a
+  report or an export.
+
+Changed
+~~~~~~~
+
+- **Czech translation.** Time-off types, rule parameters and labels added since the last translation pass showed in English; they are translated now.
+
 [19.0.1.13.0] — 2026-10-27
 ==========================
 

@@ -1,7 +1,7 @@
 ---
 title: SK dávka 514 — mesačný výkaz preddavkov na zdravotné poistenie
 summary: Mesačný výkaz preddavkov na poistné pre slovenskú zdravotnú poisťovňu (VšZP, Dôvera, Union) v spoločnom formáte dávky 514, zostavený z výplatných pások mesiaca a vyexportovaný do XML.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -44,14 +44,14 @@ Na spoločnosti:
 |---|---|---|
 | *IČO*, 8 až 12 číslic | formulár spoločnosti | `IDCode`, `CompanyIDCode` |
 | *DIČ*, 10 číslic | formulár spoločnosti (zo slovenského základného modulu) | `CompanyIDTaxCode` |
-| *Číslo platiteľa poistného* | formulár dávky 514 | `CodeOfPayer` — číslo, ktoré zamestnávateľovi pridelila poisťovňa |
-| *Zdravotná poisťovňa (dávka 514)* | pozri nižšie | predvolená poisťovňa nového výkazu (ak nie je nastavená, VšZP) |
+| *Číslo platiteľa poistného* | formulár spoločnosti alebo formulár dávky 514 | `CodeOfPayer` — číslo, ktoré zamestnávateľovi pridelila poisťovňa |
+| *Zdravotná poisťovňa (dávka 514)* | formulár spoločnosti | predvolená poisťovňa nového výkazu (ak nie je nastavená, VšZP) |
 | bankový účet | kontakt spoločnosti | `IBAN` — použije sa prvý účet |
 
-*Číslo platiteľa poistného* vyplňte priamo vo formulári dávky 514; ukladá sa
-na spoločnosti, takže sa zadáva raz (na jeho zmenu treba právo upravovať
-spoločnosti). *Zdravotná poisťovňa (dávka 514)* nie je na žiadnom formulári:
-je to VšZP, kým správca neimportuje inú hodnotu v zozname spoločností.
+Obidva údaje sú na formulári spoločnosti, karta *Mzdové výkazy*, skupina
+*Zdravotné poistenie (dávka 514)*. *Číslo platiteľa poistného* sa dá vyplniť aj
+priamo vo formulári dávky 514; ukladá sa vždy na spoločnosti, takže sa zadáva
+raz (na jeho zmenu treba právo upravovať spoločnosti).
 
 Každý zamestnanec vo výkaze musí mať **rodné číslo** v poli *Identifikačné č*
 a mal by mať vyplnenú **Zdravotnú poisťovňu (SK)**, hneď vedľa na karte
@@ -67,8 +67,8 @@ každom zamestnancovi.
 1. Zvoľte **Zdravotnú poisťovňu**, **Rok** a **Mesiac**. *Dátum výplaty*
    určuje deň platby v `DateOfPayment`; ak ho nevyplníte, použije sa posledný
    deň mesiaca.
-2. Kliknite na **Generovať**. Modul zoberie výplatné pásky spoločnosti, ktorých
-   obdobie leží v danom mesiaci, vytvorí riadok za každého zamestnanca
+2. Kliknite na **Generovať**. Modul zoberie potvrdené výplatné pásky
+   spoločnosti, ktorých obdobie sa v danom mesiaci končí, vytvorí riadok za každého zamestnanca
    a vygeneruje XML.
 3. Súbor nahrajte cez elektronickú pobočku poisťovne a kliknite na **Označiť
    ako odoslané**. **Vrátiť do konceptu** výkaz znova otvorí.
@@ -107,8 +107,6 @@ element, tri bloky hlavičky a zhodu počtu viet.
   podľa zákona o zdravotnom poistení; zobrazená sadzba sa odvodzuje z neho.
 - Každý zamestnanec má plný počet kalendárnych dní mesiaca a všetci sa
   vykazujú v prvej skupine (druhá skupina počtov a základov je vždy nulová).
-- Započítajú sa aj koncepty výplatných pások, vynechajú sa len zrušené.
-  Výplatná páska presahujúca hranicu mesiaca sa ignoruje.
 - Len riadny výkaz (*N*) s poradovým číslom 1. Opravy po chybovom protokole
   treba urobiť cez elektronickú pobočku poisťovne.
 - Keďže oficiálnu schému nemožno uplatniť, modul nezaručí, že poisťovňa súbor

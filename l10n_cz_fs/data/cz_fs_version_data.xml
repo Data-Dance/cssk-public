@@ -2,11 +2,13 @@
 <odoo noupdate="1">
 
     <!--
-      CZ účetní závěrka (vyhláška 500/2002 Sb.) — NOT the plný rozsah.
-      Rozvaha: the items of the zkrácený rozsah (letters + Roman numerals);
-      Výkaz zisku a ztráty v druhovém členění without V., D.2.x, E.x, IV.x,
-      V.x, VI.x, J.x (§ 3a odst. 4: an obchodní společnost files the VZZ in
-      plný rozsah, so it completes those items outside Odoo). Each chart account (l10n_cz směrná osnova) is mapped to
+      CZ účetní závěrka (vyhláška 500/2002 Sb.) in the ZKRÁCENÝ ROZSAH.
+      Rozvaha: the items of the zkrácený rozsah (letters + Roman numerals,
+      § 3a odst. 2 písm. a); Výkaz zisku a ztráty v druhovém členění by its
+      letters, Roman numerals and výpočtové položky (§ 3a odst. 4) — except
+      V., which lives on 665 beside IV. and is reported there. The plný
+      rozsah is cz_fs_full_version_data.xml; it keeps these codes for every
+      item both carry. Each chart account (l10n_cz směrná osnova) is mapped to
       exactly one leaf line (verified partition) so the aggregates reconcile:
       AKTIVA = PASIVA and VHB = revenues − costs. A.V (výsledek běžného období)
       is the MOVEMENT of class 5/6 within the period (basis='movement'), so it
@@ -29,9 +31,10 @@
       k nedokončenému DHM) belongs to B.II., not B.I.
     -->
     <record id="rozvaha_version_2025" model="cssk.fs.statement.version">
-        <field name="name">Rozvaha 2025</field>
+        <field name="name">Rozvaha 2025 (zkrácený rozsah)</field>
         <field name="country_id" ref="base.cz"/>
         <field name="statement_kind">balance_sheet</field>
+        <field name="l10n_cz_fs_scope">abridged</field>
         <field name="valid_from">2025-01-01</field>
         <field name="xml_template_ref_id" ref="l10n_cz_fs.rozvaha_2025"/>
         <field name="xml_root_element">Rozvaha</field>
@@ -100,9 +103,10 @@
     </record>
 
     <record id="vysledovka_version_2025" model="cssk.fs.statement.version">
-        <field name="name">Výkaz zisku a ztráty 2025</field>
+        <field name="name">Výkaz zisku a ztráty 2025 (zkrácený rozsah)</field>
         <field name="country_id" ref="base.cz"/>
         <field name="statement_kind">profit_loss</field>
+        <field name="l10n_cz_fs_scope">abridged</field>
         <field name="valid_from">2025-01-01</field>
         <field name="xml_template_ref_id" ref="l10n_cz_fs.vysledovka_2025"/>
         <field name="xml_root_element">Vysledovka</field>

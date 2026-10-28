@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **"Send now" while the scheduled sender is sending the same submission no
+  longer files it twice.** Each ran in its own transaction and read the
+  submission as *Queued*. Sending now locks the submission first: whoever
+  holds it sends, the other leaves it alone — the scheduled run skips it, and
+  *Send now* says it is being sent and to reload in a moment (on several
+  submissions at once, the one being sent elsewhere is skipped).
+
 [19.0.1.1.0] — 2026-10-27
 -------------------------
 

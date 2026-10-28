@@ -129,6 +129,15 @@ class TestPvpoj(TransactionCase):
         self.assertEqual(int(er), 12400)
         self.assertEqual(int(ee), 3550)
         self.assertEqual(int(celkem), 15950)
+        # A Street 2 that is nothing but a number is still the číslo domu.
+        self.assertEqual(root.find(".//p:adresa/p:ulice", ns).text, "Hluboká")
+        self.assertEqual(root.find(".//p:adresa/p:cisloDomu", ns).text, "1")
+        # ...but a floor or a c/o line in Street 2 never is (it used to be
+        # copied into cisloDomu whatever it held).
+        self.company.write({"street": "Hluboká 1511/23", "street2": "3. patro"})
+        ctx = decl._declaration_render_context({"per_employee": {}})
+        self.assertEqual((ctx["ulice"], ctx["cislo_domu"]),
+                         ("Hluboká", "1511/23"))
 
     def _discount_employee_payslip(self, wage=20000.0):
         """A part-time §7a-eligible employee -> a SOCIAL_DISCOUNT payslip line."""

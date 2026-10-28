@@ -1,7 +1,7 @@
 ---
 title: SK Monthly Health Insurance Statement (dávka 514)
 summary: The monthly výkaz preddavkov na poistné for a Slovak health insurer (VšZP, Dôvera, Union) in the common dávka 514 format, built from the month's payslips and exported as XML.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## What it is for {#purpose}
@@ -46,14 +46,14 @@ On the company:
 |---|---|---|
 | *Company ID* (IČO), 8 to 12 digits | company form | `IDCode`, `CompanyIDCode` |
 | *DIČ*, 10 digits | company form (from the Slovak base module) | `CompanyIDTaxCode` |
-| *Health payer number* | the dávka 514 form | `CodeOfPayer` — the number the insurer assigned to the employer |
-| *Health insurer (dávka 514)* | see below | the default insurer of a new statement (VšZP if not set) |
+| *Health payer number* | company form, or the dávka 514 form | `CodeOfPayer` — the number the insurer assigned to the employer |
+| *Health insurer (dávka 514)* | company form | the default insurer of a new statement (VšZP if not set) |
 | a bank account | the company's contact | `IBAN` — the first account is used |
 
-Fill in the *Health payer number* on the dávka 514 form itself; it is stored
-on the company, so it is entered once (changing it needs the right to edit
-companies). *Health insurer (dávka 514)* is not shown on any form: it is VšZP
-unless an administrator imports another value on the companies list.
+Both health fields sit on the company form, tab *Payroll Reporting*, group
+*Health insurance (dávka 514)*. The *Health payer number* can also be filled
+in on the dávka 514 form itself; it is stored on the company either way, so it
+is entered once (changing it needs the right to edit companies).
 
 Every employee on the statement needs the **birth number** in *Identification
 No*, and should carry their **Health insurer (SK)**, next to it on the
@@ -69,8 +69,8 @@ insurer on every employee rather than relying on the default.
 1. Choose the **Health insurer**, the **Year** and the **Month**. *Payment
    Date* gives the day of payment reported in `DateOfPayment`; left empty, the
    last day of the month is used.
-2. Click **Generate**. The module takes the company's payslips whose period
-   lies within the month, builds one row per employee and renders the XML.
+2. Click **Generate**. The module takes the company's confirmed payslips
+   whose period ends in the month, builds one row per employee and renders the XML.
 3. Upload the file through the insurer's electronic branch and click **Mark
    Submitted**. **Reset to Draft** reopens it.
 
@@ -110,8 +110,6 @@ element, the three header blocks and that the number of rows matches.
 - Every employee counts as a full calendar month of days, and everyone is
   reported in the first group (the second group of counts and bases is always
   zero).
-- Draft payslips count; only cancelled ones are left out. A payslip whose
-  period crosses the month boundary is ignored.
 - Only a regular statement (*N*) with serial number 1. Corrections after an
   error report must be made through the insurer's electronic branch.
 - Because the official schema cannot be applied, the module cannot guarantee

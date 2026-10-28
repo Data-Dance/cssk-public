@@ -1,7 +1,7 @@
 ---
 title: Platební soubory KB BEST
 summary: Tuzemské úhrady, inkasa a zahraniční platby / platby SEPA z účtu u Komerční banky exportované ve formátu BEST z platebního příkazu OCA.
-verified: 19.0.1.1.0
+verified: 19.0.1.2.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -108,6 +108,12 @@ Vlastní obrazovku nemá.
 
 ## Omezení {#limitations}
 
+- Dobropis seskupený s fakturou v platebním příkazu (volba způsobu platby
+  *Group Transactions in Payment Orders*) se zapíše jako **jedna položka
+  v čisté částce** — té, kterou příkaz zaúčtuje jako platbu. Nese variabilní
+  symbol faktury; započte-li se jeden dobropis proti více fakturám, symboly se
+  liší a neodejde žádný. Skupiny bez dobropisu mají dál jednu položku za
+  fakturu. Bez seskupení se řádek dobropisu odmítne.
 - Jen z účtu u KB; je to vlastní formát KB.
 - Jen platební příkazy Community — varianta pro hromadné platby Enterprise
   tohoto modulu neexistuje.

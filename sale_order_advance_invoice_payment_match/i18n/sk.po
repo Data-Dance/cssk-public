@@ -1,0 +1,292 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sale_order_advance_invoice_payment_match
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 22:41+0000\n"
+"PO-Revision-Date: 2026-10-27 22:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : n%1!=0 ? 2: 3);\n"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,help:sale_order_advance_invoice_payment_match.field_res_company__advance_invoice_auto_match_statement
+#: model:ir.model.fields,help:sale_order_advance_invoice_payment_match.field_res_config_settings__advance_invoice_auto_match_statement
+msgid ""
+"A scheduled action (and the Enterprise bank reconciliation, when installed) "
+"matches unreconciled incoming transactions to open advance invoices by their"
+" number / variable symbol and registers the payment automatically."
+msgstr ""
+"Naplánovaná akcia (a bankové párovanie Enterprise, ak je nainštalované) "
+"páruje nespárované prichádzajúce transakcie s otvorenými zálohovými "
+"faktúrami podľa ich čísla / variabilného symbolu a platbu zaeviduje "
+"automaticky."
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__order_id
+msgid "Advance Invoice"
+msgstr "Zálohová faktúra"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid "Advance Invoices — Bank Matching"
+msgstr "Zálohové faktúry — párovanie s bankou"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.actions.server,name:sale_order_advance_invoice_payment_match.ir_cron_match_advance_statement_lines_ir_actions_server
+msgid "Advance Invoices: match bank statement lines"
+msgstr "Zálohové faktúry: párovanie riadkov bankových výpisov"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_company__advance_invoice_auto_match_statement
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_config_settings__advance_invoice_auto_match_statement
+msgid "Auto-match Bank Statements to Advance Invoices"
+msgstr "Automaticky párovať bankové výpisy so zálohovými faktúrami"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid "Auto-match bank statements"
+msgstr "Automaticky párovať bankové výpisy"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Riadok bankového výpisu"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__statement_line_id
+msgid "Bank Transaction"
+msgstr "Banková transakcia"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.view_advance_statement_match_wizard_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__candidate_order_ids
+msgid "Candidate Order"
+msgstr "Kandidátska objednávka"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavenia konfigurácie"
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid ""
+"Configure the advance clearing account on the company first (Advance "
+"Invoices settings)."
+msgstr ""
+"Najprv nastavte na spoločnosti zúčtovací účet preddavkov (nastavenia "
+"zálohových faktúr)."
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields.selection,name:sale_order_advance_invoice_payment_match.selection__res_company__advance_invoice_auto_tax_doc__post
+msgid "Create and post"
+msgstr "Vytvoriť a zaúčtovať"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields.selection,name:sale_order_advance_invoice_payment_match.selection__res_company__advance_invoice_auto_tax_doc__draft
+msgid "Create as draft"
+msgstr "Vytvoriť ako návrh"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__create_date
+msgid "Created on"
+msgstr "Vytvorené dňa"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__display_name
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_company__display_name
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_sale_order__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__id
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_company__id
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_sale_order__id
+msgid "ID"
+msgstr "ID"
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid ""
+"Journal %s has no inbound payment method with an outstanding receipts "
+"account."
+msgstr "Denník %s nemá spôsob prijatia platby s účtom neuhradených príjmov."
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__currency_id
+msgid "Journal Currency"
+msgstr "Mena denníka"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__payment_ref
+msgid "Label"
+msgstr "Popis"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_advance_statement_match_wizard__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené dňa"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields.selection,name:sale_order_advance_invoice_payment_match.selection__res_company__advance_invoice_auto_tax_doc__none
+msgid "Leave for manual creation"
+msgstr "Ponechať na ručné vytvorenie"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid ""
+"Leave for manual creation, create as draft, or create and post (the advance "
+"clearing account then nets to zero automatically)."
+msgstr ""
+"Ponechať na ručné vytvorenie, vytvoriť ako návrh, alebo vytvoriť a zaúčtovať"
+" (zúčtovací účet preddavkov sa potom vynuluje automaticky)."
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.actions.act_window,name:sale_order_advance_invoice_payment_match.action_advance_statement_match_wizard
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.view_advance_statement_match_wizard_form
+msgid "Match Advance Invoice"
+msgstr "Spárovať zálohovú faktúru"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_advance_statement_match_wizard
+msgid "Match Statement Line to Advance Invoice"
+msgstr "Spárovať riadok výpisu so zálohovou faktúrou"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid ""
+"Match unreconciled incoming transactions to open advance invoices by number "
+"/ variable symbol and register the payment automatically (cron; also the "
+"Enterprise reconciliation widget when installed)."
+msgstr ""
+"Párovať nespárované prichádzajúce transakcie s otvorenými zálohovými "
+"faktúrami podľa čísla / variabilného symbolu a platbu zaevidovať automaticky"
+" (naplánovaná akcia; aj párovací nástroj Enterprise, ak je nainštalovaný)."
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid ""
+"Multi-currency transactions are not supported for automatic advance "
+"matching."
+msgstr "Automatické párovanie záloh nepodporuje transakcie v inej mene."
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "Only incoming transactions can pay an advance invoice."
+msgstr "Zálohovú faktúru môže uhradiť len prichádzajúca transakcia."
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/wizard/advance_statement_match_wizard.py:0
+msgid "Payment"
+msgstr "Platba"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.view_advance_statement_match_wizard_form
+msgid "Register Payment"
+msgstr "Zaevidovať platbu"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model,name:sale_order_advance_invoice_payment_match.model_sale_order
+msgid "Sales Order"
+msgstr "Objednávka"
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/wizard/advance_statement_match_wizard.py:0
+msgid "Select an advance invoice to match."
+msgstr "Vyberte zálohovú faktúru na spárovanie."
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_company__advance_invoice_auto_tax_doc
+#: model:ir.model.fields,field_description:sale_order_advance_invoice_payment_match.field_res_config_settings__advance_invoice_auto_tax_doc
+msgid "Tax Document on Matched Payment"
+msgstr "Daňový doklad pri spárovanej platbe"
+
+#. module: sale_order_advance_invoice_payment_match
+#: model_terms:ir.ui.view,arch_db:sale_order_advance_invoice_payment_match.res_config_settings_view_form_advance_match
+msgid "Tax document on matched payment"
+msgstr "Daňový doklad pri spárovanej platbe"
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "The advance invoice and the transaction use different currencies."
+msgstr "Zálohová faktúra a transakcia sú v rôznych menách."
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "The statement line is already reconciled."
+msgstr "Riadok výpisu je už spárovaný."
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "The statement line or the payment has no open leg left to reconcile."
+msgstr ""
+"Riadok výpisu ani platba nemajú žiadnu otvorenú položku na spárovanie."
+
+#. module: sale_order_advance_invoice_payment_match
+#. odoo-python
+#: code:addons/sale_order_advance_invoice_payment_match/models/account_bank_statement_line.py:0
+msgid "The transaction amount exceeds the advance's unpaid amount."
+msgstr "Suma transakcie prevyšuje neuhradenú sumu zálohy."
+
+#. module: sale_order_advance_invoice_payment_match
+#: model:ir.model.fields,help:sale_order_advance_invoice_payment_match.field_res_company__advance_invoice_auto_tax_doc
+#: model:ir.model.fields,help:sale_order_advance_invoice_payment_match.field_res_config_settings__advance_invoice_auto_tax_doc
+msgid ""
+"What happens with the payment tax document when a bank transaction pays an "
+"advance invoice. Posting immediately also nets the advance clearing account "
+"automatically."
+msgstr ""
+"Čo sa stane s daňovým dokladom k prijatej platbe, keď banková transakcia "
+"uhradí zálohovú faktúru. Okamžité zaúčtovanie zároveň automaticky vynuluje "
+"zúčtovací účet preddavkov."

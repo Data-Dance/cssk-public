@@ -180,8 +180,11 @@
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
                                 <field name="row_count" readonly="1"/>
-                                <field name="total_tax_base" readonly="not is_overridden"/>
-                                <field name="total_tax_amount" readonly="not is_overridden"/>
+                                <field name="turnover" readonly="not is_overridden"/>
+                                <field name="tax_base_basic" readonly="not is_overridden"/>
+                                <field name="tax_amount_basic" readonly="not is_overridden"/>
+                                <field name="tax_base_lower" readonly="not is_overridden"/>
+                                <field name="tax_amount_lower" readonly="not is_overridden"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"

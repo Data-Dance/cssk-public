@@ -1,7 +1,7 @@
 ---
 title: Zálohové faktury (prodej)
 summary: Zálohová faktura jako samostatný doklad, daňový doklad ke každé přijaté platbě a odečtení zálohy na vyúčtovací faktuře.
-verified: 19.0.2.8.0
+verified: 19.0.2.8.1
 ---
 
 ## K čemu slouží {#purpose}

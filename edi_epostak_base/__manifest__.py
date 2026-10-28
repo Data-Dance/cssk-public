@@ -4,7 +4,7 @@
     "provider registration, environment/mode configuration and the Peppol "
     "addressing metadata every ePošťák wire protocol needs",
     "author": "Data Dance s.r.o.",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.1.0",
     "depends": [
         "edi_base",
         "account_edi_ubl_cii",

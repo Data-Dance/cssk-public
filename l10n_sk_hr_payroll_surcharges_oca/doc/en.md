@@ -1,7 +1,7 @@
 ---
 title: SK Wage Surcharges (OCA)
 summary: The Slovak wage surcharges and the minimum wage top-up as salary rules of the OCA payroll app.
-verified: 19.0.1.0.3
+verified: 19.0.1.0.4
 family: l10n_sk_hr_payroll_surcharges#engines
 ---
 

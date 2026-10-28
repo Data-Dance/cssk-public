@@ -81,15 +81,30 @@ class EpostakConnector(models.TransientModel):
         Credentials themselves belong to the concrete connector (they are
         API-surface specific), so this returns only what identifies the
         environment and the firm we speak for.
+
+        The firm is ``env.company``'s, like the credentials: edi_base sends a
+        message as its company, and the inbound poll runs as each company that
+        holds an account (``edi.message._poll_provider``). The environment
+        (sandbox or production) stays database-wide.
         """
-        ICP = self.env["ir.config_parameter"].sudo()
         mode = mode or self._get_mode()
         if mode not in (SANDBOX, PRODUCTION):
             mode = SANDBOX
         return {
             "mode": mode,
-            "firm_id": ICP.get_param("epostak.firm_id", ""),
+            "firm_id": self.env.company.sudo().epostak_firm_id or "",
         }
+
+    def _epostak_account_key(self):
+        """What identifies the mailbox ``env.company`` polls, or None when it
+        has no ePošťák account. Companies with the same key are polled once.
+
+        Nothing here: the credentials belong to the transport module, which
+        overrides this. The participant is part of the key there, because
+        ePošťák scopes the inbox to the ``X-Peppol-Participant-Id`` header —
+        two companies under one integrator key are two mailboxes.
+        """
+        return None
 
     def _validate_config(self, mode=None):
         """Verify the deployment can address itself on the Peppol network.

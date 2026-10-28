@@ -165,8 +165,8 @@ class AccountMoveLine(models.Model):
         if code:
             return code
         tax = self._cssk_taxes().filtered(
-            lambda t: t.cssk_control_is_reverse_charge
-            and t.cssk_kh_commodity_code)[:1]
+            lambda t: t.cssk_kh_commodity_code
+            and t._cz_kh_is_domestic_rc())[:1]
         return tax.cssk_kh_commodity_code or ""
 
     def _cz_kh_commodity_code_for_doc(self):

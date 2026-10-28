@@ -10,6 +10,13 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.1] — 2026-10-27
+-------------------------
+
+**Changed**
+
+- **Slovak translation.** A Slovak catalogue is added for its few labels.
+
 [19.0.1.1.0] — 2026-10-27
 -------------------------
 

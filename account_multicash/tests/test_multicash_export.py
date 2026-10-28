@@ -116,6 +116,8 @@ class TestMultiCashExport(AccountTestInvoicingCommon):
     def test_zero_amount_line_is_refused(self):
         from odoo.exceptions import UserError
         mode = self._mode("multicash_cfd")
+        # Ungrouped: grouped with the first line, a zero line now nets into it.
+        mode.group_lines = False
         order = self._order(mode, self.supplier, self.supplier_bank, self.czk)
         self._add_line(order, self.supplier, self.supplier_bank, self.czk,
                        amount_currency=0.0)
@@ -136,3 +138,26 @@ class TestMultiCashExport(AccountTestInvoicingCommon):
         body = order.generate_payment_file()[0].decode("cp852")
         self.assertIn("S1}{4:", body)
         self.assertIn(":71A:OUR", body)
+
+    def test_credit_note_grouped_with_its_invoice_is_one_net_item(self):
+        """One payment of the net amount, not a negative item every bank
+        refuses."""
+        mode = self._mode("multicash_cfd")
+        order = self._order(mode, self.supplier, self.supplier_bank, self.czk,
+                            amount=1000.0)
+        self._add_line(order, self.supplier, self.supplier_bank, self.czk,
+                       amount_currency=-300.0, variable_symbol="20260007")
+        body = order.generate_payment_file()[0].decode("cp852")
+        self.assertEqual(body.count("HD:11 "), 1, body)
+        self.assertIn("ZK:20260042", body)
+        self.assertNotIn("20260007", body)
+
+    def test_mt101_credit_note_nets_too(self):
+        mode = self._mode("multicash_mt101")
+        order = self._order(mode, self.foreign, self.foreign_bank, self.eur,
+                            amount=1000.0)
+        self._add_line(order, self.foreign, self.foreign_bank, self.eur,
+                       amount_currency=-250.0)
+        body = order.generate_payment_file()[0].decode("cp852")
+        self.assertIn("EUR750,", body)
+        self.assertNotIn("EUR1000,", body)

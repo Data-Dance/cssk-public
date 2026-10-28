@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_ubl_bis3/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>Slovakia — Peppol BIS Billing 3.0 (eFaktúra)</h1>
 <p class="cssk-summary">Produces Slovak electronic invoices in Peppol BIS Billing 3.0, identifies Slovak parties on Peppol by their DIČ, and puts the variable symbol where the payer&#x27;s bank looks for it.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.3.3.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.3.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Odoo can write an invoice as a Peppol BIS Billing 3.0 file (UBL 2.1,
@@ -125,20 +125,25 @@ its Peppol address:</p>
 <td>what Odoo computes — 9950 : IČ DPH for a VAT payer — until a DIČ is recorded; the export is refused meanwhile</td>
 </tr>
 <tr>
+<td>On 9950 when its first DIČ is recorded</td>
+<td><strong>moved to 0245 : DIČ</strong> as the DIČ is saved, unless its endpoint was typed by hand</td>
+</tr>
+<tr>
 <td>Already on 0245</td>
 <td>the endpoint follows the DIČ when you change it</td>
 </tr>
 <tr>
-<td>Already on 9950 or another scheme chosen earlier</td>
+<td>On 9950 or another scheme chosen with the DIČ already recorded</td>
 <td><strong>left alone</strong> — the module does not overwrite a scheme somebody may have chosen on purpose</td>
 </tr>
 </tbody>
 </table>
-<p>The last row matters for contacts that existed before their DIČ was
-recorded: they keep 9950 even after you fill in the DIČ, and because the DIČ
-is now present the export no longer stops them. Moving them is a
-deliberate, repeatable step: select the contacts in <em>Contacts</em> (list or
-form) and run <em>Actions → Peppol: use 0245 + DIČ</em>. It is available to
+<p>While a contact has no DIČ, 0245 is impossible, so its 9950 is what Odoo
+fell back to rather than a choice: recording the DIČ — by hand or from the
+register — moves it. A DIČ written past the form (an import into the
+database, an older module version) does not, and for those contacts the
+move is a deliberate, repeatable step: select the contacts in <em>Contacts</em>
+(list or form) and run <em>Actions → Peppol: use 0245 + DIČ</em>. It is available to
 accounting administrators (<em>Accounting / Administrator</em>). It moves every
 selected Slovak contact that has a DIČ and whose endpoint is either empty or
 exactly what Odoo derived from the VAT number; a hand-typed endpoint and a
@@ -176,15 +181,12 @@ recorded.</p>
 <ul>
 <li>The module produces the file only. Transmission over Peppol and the
   reporting of invoice data to Finančná správa are done by the access point.</li>
-<li>Contacts that were on 9950 before their DIČ was recorded stay there until
-  somebody runs <em>Peppol: use 0245 + DIČ</em> on them; nothing runs it
-  automatically when a DIČ is filled in later.</li>
 <li>It does not decide which invoices must be sent electronically under
   § 85o; it offers the format for every Slovak contact.</li>
 <li>On uninstalling, the format is removed from contacts; their Peppol
   addresses are kept.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.3.3.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.3.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

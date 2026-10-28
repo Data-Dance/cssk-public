@@ -165,11 +165,13 @@ polia.
 
 ## Doručenie a potvrdenky {#delivery}
 
-*Označiť ako odoslané* zaznamená, že niekto XML podal. Ako sa dostalo na
-úrad, či bolo prijaté a potvrdenky, ktoré to dokazujú, eviduje
-[module:l10n_cssk_submission_base](module:l10n_cssk_submission_base), ktorý
-používa každé mzdové hlásenie. Pozri
-[Podanie](module:l10n_cssk_submission_base#usage).
+*Označiť ako odoslané* zaznamená, že niekto XML podal, a otvorí k nemu
+**doručenie** v stave *Koncept* — záznam, ktorý eviduje, ako sa XML dostalo na
+úrad, či bolo prijaté, a potvrdenky, ktoré to dokazujú. Doručenia patria
+modulu [module:l10n_cssk_submission_base](module:l10n_cssk_submission_base),
+ktorý používa každé mzdové hlásenie; nájdete ich v *Účtovníctvo → Výkazy →
+Zákonné výkazy → Doručenia*. Pozri
+[Podanie výkazu](module:l10n_cssk_submission_base#usage).
 
 ## Obmedzenia {#limitations}
 

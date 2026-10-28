@@ -101,6 +101,16 @@ msgstr ""
 "<kodOSSZ> přehledu PVPOJ."
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__correction_reference
+msgid "Correction Reference"
+msgstr "Reference opravy"
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__country_id
 msgid "Country"
 msgstr "Země"
@@ -121,6 +131,11 @@ msgid "Currency"
 msgstr "Měna"
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__active_submission_id
+msgid "Current submission"
+msgstr "Aktuální doručení"
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model,name:l10n_cz_hr_payroll_pvpoj.model_l10n_cz_pvpoj
 msgid "Czech PVPOJ — Social Insurance Overview"
 msgstr "České PVPOJ — Přehled o výši pojistného"
@@ -134,6 +149,11 @@ msgstr "Datum od"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__date_to
 msgid "Date To"
 msgstr "Datum do"
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__submission_state
+msgid "Delivery"
+msgstr "Doručení"
 
 #. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__display_name
@@ -177,6 +197,16 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Ikona Font Awesome, např. fa-tasks"
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_pvpoj/models/l10n_cz_pvpoj.py:0
+msgid ""
+"From January 2026 the social insurance premium is reported in the monthly "
+"employer report (JMHZ, Act No. 323/2025 Coll.)."
+msgstr ""
+"Od ledna 2026 se pojistné na sociální zabezpečení vykazuje v jednotném "
+"měsíčním hlášení zaměstnavatele (JMHZ, zákon č. 323/2025 Sb.)."
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_pvpoj.view_l10n_cz_pvpoj_form
 msgid "Generate"
 msgstr "Vygenerovat"
@@ -212,6 +242,11 @@ msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
 
 #. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__message_is_follower
@@ -318,6 +353,21 @@ msgid "PVPOJ (social)"
 msgstr "PVPOJ (sociální)"
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_pvpoj/models/l10n_cz_pvpoj.py:0
+msgid ""
+"PVPOJ for %(month)s/%(year)s is filed only by an employer that was no longer"
+" an employer on 1 April 2026 (Act No. 360/2025 Coll., Art. IX point 3). "
+"%(count)s employee(s) of %(company)s are still employed on that day, so the "
+"period is reported in the monthly employer report (JMHZ)."
+msgstr ""
+"PVPOJ za %(month)s/%(year)s podává jen zaměstnavatel, který k 1. dubnu 2026 "
+"již nebyl zaměstnavatelem (zákon č. 360/2025 Sb., čl. IX bod 3). Ve "
+"společnosti %(company)s je k tomuto dni stále zaměstnáno %(count)s "
+"zaměstnanců, takže se období vykazuje v jednotném měsíčním hlášení "
+"zaměstnavatele (JMHZ)."
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__payment_date
 msgid ""
 "Payday reported to the authority (SK denVyplaty). Defaults to the period "
@@ -330,6 +380,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__payment_date
 msgid "Payment Date"
 msgstr "Datum výplaty"
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
 
 #. module: l10n_cz_hr_payroll_pvpoj
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_pvpoj.view_l10n_cz_pvpoj_form
@@ -370,9 +425,28 @@ msgid "Submission Reference"
 msgstr "Reference podání"
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__submission_ids
+msgid "Submissions"
+msgstr "Podání"
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__submitted_date
 msgid "Submitted Date"
 msgstr "Datum odeslání"
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pro vše, co opravuje dřívější podání."
+
+#. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Reference úřadu na opravované podání, pokud ji přijímající systém potřebuje "
+"ke spárování obou."
 
 #. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__activity_exception_decoration
@@ -395,6 +469,16 @@ msgid "Website communication history"
 msgstr "Historie komunikace webu"
 
 #. module: l10n_cz_hr_payroll_pvpoj
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Zda jde o řádné podání za období, nebo o opravu již odeslaného. Volby jsou "
+"omezeny na to, co tento konkrétní úřad přijímá."
+
+#. module: l10n_cz_hr_payroll_pvpoj
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__xml_attachment_id
 msgid "Xml Attachment"
 msgstr "Příloha XML"
@@ -408,21 +492,3 @@ msgstr "Rok"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_res_company__l10n_cz_ossz_vs
 msgid "ČSSZ variable symbol (VS)"
 msgstr "Variabilní symbol ČSSZ (VS)"
-
-
-#. module: l10n_cz_hr_payroll_pvpoj
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_pvpoj/models/l10n_cz_pvpoj.py:0
-msgid "From January 2026 the social insurance premium is reported in the monthly employer report (JMHZ, Act No. 323/2025 Coll.)."
-msgstr "Od ledna 2026 se pojistné na sociální zabezpečení vykazuje v jednotném měsíčním hlášení zaměstnavatele (JMHZ, zákon č. 323/2025 Sb.)."
-
-#. module: l10n_cz_hr_payroll_pvpoj
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_pvpoj/models/l10n_cz_pvpoj.py:0
-msgid "PVPOJ for %(month)s/%(year)s is filed only by an employer that was no longer an employer on 1 April 2026 (Act No. 360/2025 Coll., Art. IX point 3). %(count)s employee(s) of %(company)s are still employed on that day, so the period is reported in the monthly employer report (JMHZ)."
-msgstr "PVPOJ za %(month)s/%(year)s podává jen zaměstnavatel, který k 1. dubnu 2026 již nebyl zaměstnavatelem (zákon č. 360/2025 Sb., čl. IX bod 3). Ve společnosti %(company)s je k tomuto dni stále zaměstnáno %(count)s zaměstnanců, takže se období vykazuje v jednotném měsíčním hlášení zaměstnavatele (JMHZ)."
-
-#. module: l10n_cz_hr_payroll_pvpoj
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_pvpoj.field_l10n_cz_pvpoj__report_code
-msgid "Report Code"
-msgstr "Kód výkazu"

@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_dppo/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ Corporate Income Tax Return (DPPDP9)</h1>
 <p class="cssk-summary">The Czech corporate income tax return — row 10 from the books, the accountant&#x27;s adjustments, the tax computation of Part II, and an EPO file checked against the Financial Administration&#x27;s schema, with the balance sheet and profit and loss statement filed inside it.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a>, <a href="/l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.5.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a>, <a href="/l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Czech company files the <em>přiznání k dani z příjmů právnických osob</em>
@@ -253,16 +253,21 @@ Balance sheet</em> and <em>Income statement</em>, from
 <li><strong>Výkaz zisku a ztráty</strong> — a profit and loss statement with exactly the
   same period.</li>
 </ul>
-<p>The export then files them in the abridged scope (<em>zkrácený rozsah</em>) under
+<p>The export then files them in the scope of the linked statements — full
+(<em>plný rozsah</em>, <code>uv_rozsah</code> P) when both are full-scope versions, abridged
+(<em>zkrácený rozsah</em>, Z) when both are abridged — under
 Decree 500/2002 Sb., in thousands of CZK (rounded half away from zero), with
 the prior-period column: the assets with gross, adjustment (<em>korekce</em>) and
 net amounts, the liabilities and the profit and loss statement (by nature)
-with current and prior figures. Every row of the abridged scope is filled
+with current and prior figures. Every row of the filed scope is filled
 from the row of the statement with the same designation; the account
 mapping is the one in <code>l10n_cz_fs</code>, not a second one.</p>
 <p>The export refuses, with a message naming the problem:</p>
 <ul>
 <li>only one of the two statements linked — link both or neither;</li>
+<li>one statement in full scope and the other abridged — the form states one
+  scope for both, so compute both in the full scope (always allowed) or both
+  abridged;</li>
 <li>a statement of another company, of another kind, or of another period;</li>
 <li>a statement not yet computed, or computed on a version that lacks a row
   the form needs;</li>
@@ -291,14 +296,17 @@ as an attachment (<em>E-příloha</em>) instead.</p>
 <li>Periods beginning before 2021 cannot be entered; the structure does not
   accept them. For 2021–2024 the rows above are filed as they are; a row that
   differed in an older wording of the form is yours to check.</li>
-<li>The financial statements are filed only in the abridged scope. A company
-  obliged to draw up the full scope — in particular one subject to audit —
-  must attach its statements as an <em>E-příloha</em> instead of linking them.</li>
+<li>The micro scope (M) is not filed; a micro entity can link abridged
+  statements. The C.II.3. / C.III. placement of accruals is not filed either:
+  the statements use D.</li>
+<li>Each row is rounded to thousands on its own, so where many small items are
+  involved a total can differ by a thousand or two from the sum of its
+  rounded items; check such totals before filing.</li>
 <li>The header codes (kind of return, taxpayer type) and the full set of
   adjustments should be confirmed with your accountant before the first
   filing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.5.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

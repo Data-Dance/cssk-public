@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cssk_fs_base/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/l10n_cssk_fs_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>Účtovné výkazy CZ/SK</h1>
 <p class="cssk-summary">Slovenské a české účtovné výkazy zostavené z účtovníctva riadok po riadku, s porovnateľným obdobím, ručne zadanými údajmi tam, kde ich účtovníctvo nedá, kontrolou, či sa každý účet dostal do niektorého riadku, a evidenciou podania.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.10.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index_sk.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_cssk_fs_xlsx/static/description/index_sk.html"><code>l10n_cssk_fs_xlsx</code></a>, <a href="/l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a>, <a href="/l10n_sk_fs/static/description/index_sk.html"><code>l10n_sk_fs</code></a>, <a href="/l10n_sk_single_entry_closing/static/description/index_sk.html"><code>l10n_sk_single_entry_closing</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.10.3</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index_sk.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_cssk_fs_xlsx/static/description/index_sk.html"><code>l10n_cssk_fs_xlsx</code></a>, <a href="/l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a>, <a href="/l10n_sk_fs/static/description/index_sk.html"><code>l10n_sk_fs</code></a>, <a href="/l10n_sk_single_entry_closing/static/description/index_sk.html"><code>l10n_sk_single_entry_closing</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Účtovná závierka na Slovensku aj v Česku sa zostavuje na predpísaných
@@ -205,6 +205,8 @@ podielom za bežné aj minulé obdobie. Dokument s dvoma výkazmi, napríklad
 slovenská Úč POD, má pre každú časť samostatný hárok. Sumy riadkov sú uložené
 sumy výkazu, takže zošit ukazuje presne to, čo sa kontrolovalo, vrátane ručne
 zadaných súm; účty pod prepísaným riadkom ukazujú stav účtovníctva.</p>
+<p><strong>Upozornenia exportu.</strong> Kontroly, ktoré export nezastavia, sa zobrazia v
+žltom pruhu navrchu formulára a v chatteri až do ďalšieho exportu.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
 <li><strong>Denníky koncoročnej uzávierky nemajú pole na obrazovke.</strong> Nastavenie na
@@ -220,7 +222,7 @@ zadaných súm; účty pod prepísaným riadkom ukazujú stav účtovníctva.</p
 <li>Priradenie účtov vychádza zo štandardnej národnej účtovej osnovy a pred prvým
   podaním ho treba odsúhlasiť s účtovníkom.</li>
 </ul>
-<footer><p>Text overený voči verzii modulu: 19.0.1.10.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 19.0.1.10.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

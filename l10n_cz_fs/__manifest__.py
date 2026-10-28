@@ -12,18 +12,20 @@ The Czech country layer for the shared financial-statement framework
 ``account.move.line`` by account-code prefix (balance sheet = cumulative as-of
 date, P&L = period movement).
 
-**Scope:** vyhláška 500/2002 Sb. — the Rozvaha in the items of the
-zkrácený rozsah (letters and Roman numerals) and the Výkaz zisku a ztráty
-v druhovém členění in most of its numbered items, but NOT the full rozsah:
-the VZZ lacks V., D.2.1–D.2.2, E.1–E.3, IV.1–IV.2, V.1–V.2, VI.1–VI.2 and
-J.1–J.2, and the Rozvaha lacks the Arabic-numbered items. A obchodní
-společnost files the VZZ in full (§ 3a odst. 4 of the vyhláška), and a unit
-with an audit obligation files both in full (§ 3a odst. 1 and 3), so those
-items have to be completed outside Odoo. Every account of the l10n_cz směrná osnova is mapped to
-exactly one leaf line (partition verified in tests), so the aggregates
-reconcile: **AKTIVA = PASIVA** and výsledek hospodaření = výnosy − náklady. The
-current-year result (A.V) is the period movement of class 5/6 so the balance
-sheet ties out even before the result is closed to účet 431.
+**Scope:** vyhláška 500/2002 Sb. — the Rozvaha and the Výkaz zisku a ztráty
+v druhovém členění each in BOTH rozsahy (§ 3a): the **plný rozsah** with every
+item of přílohy 1 and 2, and the **zkrácený rozsah** with the items marked by
+letters and Roman numerals. New statements default to the plný rozsah, which
+every unit may file and every obchodní společnost must file for the VZZ
+(§ 3a odst. 3 písm. a); the zkrácený one is a choice of version. Both keep
+the same codes for the items they share. Every account of the l10n_cz
+směrná osnova is mapped to exactly one leaf line (partition verified in
+tests), so the aggregates reconcile: **AKTIVA = PASIVA** and výsledek
+hospodaření = výnosy − náklady. The current-year result (A.V) is the period
+movement of class 5/6 so the balance sheet ties out even before the result
+is closed to účet 431. The VZZ splits no account code can make (IV./V., the
+ovládaná osoba items IV.1, V.1, VI.1, J.1, and E.1.2 / E.2 of 559) read
+account tags; untagged amounts land on the "ostatní" item.
 
 The **Přehled o peněžních tocích** (cash flow, nepřímá metoda) and **Přehled o
 změnách vlastního kapitálu** (changes in equity) are the příloha components,
@@ -33,23 +35,27 @@ and počátek + Σ změny = konec (G = 0, asserted in tests). They are filed as 
 within the commercial-register submission; there is no standalone EPO XSD for
 them, so the XML export is a structured stand-in.
 
-**Accountant note:** the dlouhodobé/krátkodobé receivable & payable splits and
-the opravné-položka allocations follow the standard chart convention — confirm
+**Accountant note:** the dlouhodobé/krátkodobé receivable & payable splits,
+the opravné-položka allocations and the two-sided accounts of the plný rozsah
+follow the standard chart convention — confirm
 with a CZ accountant for entities using non-standard account assignments. The
 statements feed the DPPDP9 appendices / commercial-register filing; there is no
 single standalone EPO XSD for the full závěrka.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.2.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_fs_base", "l10n_cz"],
     "data": [
         "report/l10n_cz_fs_templates.xml",
+        "data/cz_fs_split_tags.xml",
         "data/cz_fs_version_data.xml",
+        "data/cz_fs_full_version_data.xml",
         "data/cz_cashflow_version_data.xml",
         "data/cz_equity_changes_version_data.xml",
+        "views/cssk_fs_version_views.xml",
     ],
     "installable": True,
 }

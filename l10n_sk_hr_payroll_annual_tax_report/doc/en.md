@@ -1,7 +1,7 @@
 ---
 title: SK Annual Tax Report (Hlásenie)
 summary: The employer's annual report on employment income, withheld tax advances and the child tax bonus, with one annex column per employee, generated from the year's payslips as XML for the Slovak financial administration.
-verified: 19.0.2.0.2
+verified: 19.0.2.0.3
 ---
 
 ## What it is for {#purpose}
@@ -44,15 +44,17 @@ príjmov*). Statutory terms are given in Slovak.
 
 - **DIČ of the company.** Fill in *DIČ* (the 10-digit tax identification
   number) on the company; generation stops with an error without it.
-- **Company address, phone and e-mail** go into the header. *Street* fills the
-  street element and *Street2* the house-number element.
+- **Company address, phone and e-mail** go into the header. The house
+  number is taken from the end of *Street* (*Hlavná 12*, *Hlavná 1141/11*);
+  *Street2* is used only when it holds nothing but a number — a building, a
+  floor or a c/o line there is never filed as the house number.
 - **Every employee needs a birth number.** Enter it, 9 or 10 digits, in
   *Identification No* on the *Personal* tab of the employee form. Slashes and
   spaces are ignored.
 - **Employee names and addresses.** The annex takes the employee's private
-  street, ZIP and city. The **last word of the name is the surname** and
-  everything before it the first name, so record names as "Ján Peter Novák",
-  not "Novák Ján". With `hr_employee_firstname` installed, its separate first
+  street (its house number split off the same way), ZIP and city. The **last
+  word of the name is the surname** and everything before it the first name,
+  so record names as "Ján Peter Novák", not "Novák Ján". With `hr_employee_firstname` installed, its separate first
   and last name fields are used instead.
 - The form vintage **Annual tax reconciliation statement 2023+** (the
   `HLASENIEv23` schema, valid from 1 January 2023) is installed with the module

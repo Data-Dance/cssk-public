@@ -8,6 +8,18 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.8.1] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- The duplicate ``cs_CZ`` / ``sk_SK`` catalogues and their stale compiled
+  ``.mo`` files are gone; ``cs.po`` / ``sk.po`` hold every translation (they
+  were identical), and the Czech catalogue has its 15 missing terms.
+- Czech: a draft advance invoice and a draft tax document showed an empty
+  "()" after their date; they read "(koncept)".
+
 [19.0.2.8.0] — 2026-10-27
 -------------------------
 

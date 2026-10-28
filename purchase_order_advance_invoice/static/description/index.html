@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/purchase_order_advance_invoice/static/description/index_sk.html">Slovenčina</a> · <a href="/purchase_order_advance_invoice/static/description/index_cs.html">Čeština</a></nav>
 <h1>Received Advance Invoices (Purchase)</h1>
 <p class="cssk-summary">Suppliers&#x27; advance (proforma) invoices as purchase documents, the payment to them, the supplier&#x27;s tax document on that payment and the deduction on the final bill.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>purchase</code>, <code>account</code></td></tr><tr><th>Extended by</th><td><a href="/account_edi_isdoc_purchase_advance/static/description/index.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/advance_invoice_saldo_xlsx/static/description/index.html"><code>advance_invoice_saldo_xlsx</code></a>, <a href="/l10n_cz_purchase_order_advance_invoice/static/description/index.html"><code>l10n_cz_purchase_order_advance_invoice</code></a>, <a href="/l10n_sk_purchase_order_advance_invoice/static/description/index.html"><code>l10n_sk_purchase_order_advance_invoice</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>purchase</code>, <code>account</code></td></tr><tr><th>Extended by</th><td><a href="/account_edi_isdoc_purchase_advance/static/description/index.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/advance_invoice_saldo_xlsx/static/description/index.html"><code>advance_invoice_saldo_xlsx</code></a>, <a href="/l10n_cz_purchase_order_advance_invoice/static/description/index.html"><code>l10n_cz_purchase_order_advance_invoice</code></a>, <a href="/l10n_sk_purchase_order_advance_invoice/static/description/index.html"><code>l10n_sk_purchase_order_advance_invoice</code></a>, <a href="/purchase_order_advance_invoice_stock/static/description/index.html"><code>purchase_order_advance_invoice_stock</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>This is the supplier side of
@@ -149,6 +149,11 @@ lines as on the supplier's advance invoice, with the VAT rates it states.
 Optionally choose the <strong>Parent Purchase Order</strong> it belongs to, and tick
 <strong>Long-term Advance</strong> to use the long-term account (when one is configured).</p>
 <p>A purchase order with advances shows an <strong>Advances</strong> smart button.</p>
+<p><strong>With Inventory.</strong> The goods are received on the parent purchase order,
+never on the advance: with
+<a href="/purchase_order_advance_invoice_stock/static/description/index.html"><code>purchase_order_advance_invoice_stock</code></a>,
+which installs itself when Inventory is present, confirming or paying an
+advance creates no receipt, even when its lines are stockable products.</p>
 <h2 id="payment">Paying it</h2>
 <p>On the advance:</p>
 <ul>
@@ -234,9 +239,7 @@ scheduled once whatever language the scheduled action runs in.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>The advance is an ordinary purchase order underneath. Do not use <em>Create
-  Bills</em> on the advance itself. With Inventory installed, confirming an advance
-  with stockable products can create a receipt; the module does not prevent
-  it, unlike the sales side.</li>
+  Bills</em> on the advance itself.</li>
 <li><strong>Link Payment</strong> does not check which account the payment was booked to.
   Only a payment booked to the clearing account is reconciled with the tax
   document automatically.</li>

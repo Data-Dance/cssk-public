@@ -168,7 +168,6 @@ msgid "Control Statement Versions"
 msgstr "Verze kontrolního hlášení"
 
 #. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_tax__cssk_control_section_default
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_form_cssk_control_original_ref
 msgid "Control-statement section"
 msgstr "Sekce kontrolního hlášení"
@@ -255,15 +254,6 @@ msgstr "Datum do"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__deducted_amount
 msgid "Deducted Amount"
 msgstr "Odpočtená částka"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_tax__cssk_control_section_default
-msgid ""
-"Default control-statement section code for lines using this tax. Used by the"
-" section resolver as a starting hint."
-msgstr ""
-"Výchozí kód sekce kontrolního hlášení pro řádky používající tuto daň. "
-"Resolver sekcí jej použije jako výchozí nápovědu."
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_line_kvkh_audit
@@ -1235,3 +1225,19 @@ msgstr ""
 "ním propojen — dobropis vytvořený ručně, protože jej nebylo možné vystavit z"
 " faktury. Kontrolní výkaz jej uvádí jako původní doklad řádku C.1 / C.2. "
 "Propojený původní doklad má vždy přednost."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornění exportu"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, které poslední export nezablokovaly, ale před podáním je "
+"třeba je projít, každá na samostatném řádku. Obnovují se při každém "
+"exportu; prázdné, pokud poslední export žádné nenašel."

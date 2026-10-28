@@ -104,25 +104,6 @@ msgid "Code"
 msgstr "Kód"
 
 #. module: l10n_cz_kh
-#: model:ir.model.fields,help:l10n_cz_kh.field_account_tax__cssk_kh_commodity_code
-#: model:ir.model.fields,help:l10n_cz_kh.field_product_product__cssk_kh_commodity_code
-#: model:ir.model.fields,help:l10n_cz_kh.field_product_template__cssk_kh_commodity_code
-msgid ""
-"Commodity code for the VAT control statement (§92a reverse charge), reported "
-"in sections A.1 (supplier) and B.1 (customer). E.g. 1 = gold, 3 = supply of "
-"immovable property, 4 = construction or assembly work, 5 = goods listed in "
-"Annex 5, 6 = emission allowances, 11–21 = other (mobile phones, "
-"microprocessors, cereals, metals, …). Set it on the reverse-charge tax or on "
-"the product."
-msgstr ""
-"Kód předmětu plnění pro kontrolní hlášení (§92a, přenesená daňová "
-"povinnost), vykazovaný v oddílech A.1 (dodavatel) a B.1 (odběratel). Např. 1 "
-"= zlato, 3 = dodání nemovité věci, 4 = stavební nebo montážní práce, 5 = "
-"zboží uvedené v příloze č. 5, 6 = emisní povolenky, 11–21 = ostatní (mobilní "
-"telefony, mikroprocesory, obiloviny, kovy …). Nastavte na dani s přenesenou "
-"daňovou povinností nebo na produktu."
-
-#. module: l10n_cz_kh
 #: model:ir.model.fields,field_description:l10n_cz_kh.field_l10n_cz_kh_a1__create_uid
 #: model:ir.model.fields,field_description:l10n_cz_kh.field_l10n_cz_kh_a2__create_uid
 #: model:ir.model.fields,field_description:l10n_cz_kh.field_l10n_cz_kh_a4__create_uid
@@ -668,3 +649,48 @@ msgid ""
 "2023, and corrections of such supplies."
 msgstr ""
 "zakl_dane3 — základ daně ve druhé snížené sazbě (10 %) platné do 31. 12. 2023 a opravy takových plnění."
+
+#. module: l10n_cz_kh
+#: model:ir.model.fields,help:l10n_cz_kh.field_account_tax__cssk_kh_commodity_code
+#: model:ir.model.fields,help:l10n_cz_kh.field_product_product__cssk_kh_commodity_code
+#: model:ir.model.fields,help:l10n_cz_kh.field_product_template__cssk_kh_commodity_code
+msgid ""
+"Commodity code for the VAT control statement (§92a reverse charge), "
+"reported in sections A.1 (supplier) and B.1 (customer): 1 = gold, 3 = "
+"supply of immovable property, 4 = construction or assembly work, 5 = goods "
+"listed in Annex 5, 6 = goods originally provided as a guarantee, 7 = goods "
+"after an assigned retention of title, 11 = greenhouse-gas emission "
+"allowances, 12 = cereals and technical crops, 13 = metals, 14 = mobile "
+"phones, 15 = integrated circuits, 16 = portable data-processing devices, 17 "
+"= video game consoles, 18 = electricity certificates, 19 = electricity to a "
+"trader, 20 = gas to a trader, 21 = specified electronic communications "
+"services; 1a, 3a and 4a as the form defines them. Set it on the "
+"reverse-charge tax or on the product."
+msgstr ""
+"Kód předmětu plnění pro kontrolní hlášení (§92a, přenesená daňová "
+"povinnost), vykazovaný v oddílech A.1 (dodavatel) a B.1 (odběratel): 1 = "
+"zlato, 3 = dodání nemovité věci, 4 = stavební a montážní práce, 5 = zboží "
+"uvedené v příloze č. 5, 6 = dodání zboží poskytnutého původně jako záruka, "
+"7 = dodání zboží po postoupení výhrady vlastnictví, 11 = povolenky na emise "
+"skleníkových plynů, 12 = obiloviny a technické plodiny, 13 = kovy, 14 = "
+"mobilní telefony, 15 = integrované obvody, 16 = přenosná zařízení pro "
+"automatizované zpracování dat, 17 = videoherní konzole, 18 = dodání "
+"certifikátů elektřiny, 19 = dodání elektřiny obchodníkovi, 20 = dodání "
+"plynu obchodníkovi, 21 = poskytnutí vymezených služeb elektronických "
+"komunikací; 1a, 3a a 4a tak, jak je definuje formulář. Nastavte na dani s "
+"přenesenou daňovou povinností nebo na produktu."
+
+#. module: l10n_cz_kh
+#: model:ir.model.fields,field_description:l10n_cz_kh.field_account_tax__cssk_kh_domestic_rc
+msgid "§ 92a reverse charge (KH)"
+msgstr "Přenesení daňové povinnosti § 92a (KH)"
+
+#. module: l10n_cz_kh
+#: model:ir.model.fields,help:l10n_cz_kh.field_account_tax__cssk_kh_domestic_rc
+msgid ""
+"Technical: a § 92a reverse-charge tax as the kontrolní hlášení recognises "
+"it — marked Reverse charge, or reporting on ř. 25."
+msgstr ""
+"Technické: daň v režimu přenesení podle § 92a tak, jak ji rozpozná "
+"kontrolní hlášení — označená jako přenesení daňové povinnosti, nebo "
+"vykazovaná na ř. 25."

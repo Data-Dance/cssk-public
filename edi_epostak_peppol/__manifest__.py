@@ -3,7 +3,7 @@
     "summary": "Send & receive Peppol BIS Billing 3.0 (invoices, credit notes, "
     "business responses) through the ePošťák access point",
     "author": "Data Dance s.r.o.",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "depends": [
         "edi_base_peppol",
         "edi_epostak_base",

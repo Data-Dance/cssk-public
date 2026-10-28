@@ -1,7 +1,7 @@
 ---
 title: CZ/SK lokalizácia — spoločné jadro
 summary: Spoločný základ českých a slovenských štatutárnych modulov — nastavenia, daňové úrady, kontrola IČO, obdobie DPH dokladu, životný cyklus podania a porovnanie podaného s vypočítaným.
-verified: 19.0.1.18.0
+verified: 19.0.1.18.1
 ---
 
 ## Na čo slúži {#purpose}

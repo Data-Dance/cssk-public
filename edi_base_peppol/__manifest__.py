@@ -4,7 +4,7 @@
     "and credit notes, and business responses (MLR / Invoice Response), over "
     "any EDI transport provider",
     "author": "Data Dance s.r.o.",
-    "version": "19.0.1.7.0",
+    "version": "19.0.1.7.1",
     "depends": [
         "edi_base",
         "account_edi_ubl_cii",

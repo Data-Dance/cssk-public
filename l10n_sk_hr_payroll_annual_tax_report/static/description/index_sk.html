@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_hr_payroll_annual_tax_report/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti</h1>
 <p class="cssk-summary">Ročné hlásenie zamestnávateľa o príjmoch zo závislej činnosti, zrazených preddavkoch na daň a daňovom bonuse, s údajmi o každom zamestnancovi, zostavené z výplatných pások roka ako XML pre finančnú správu.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.0.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.0.3</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Po skončení roka podáva zamestnávateľ, ktorý zráža preddavky na daň, správcovi
@@ -63,14 +63,16 @@ prostredníctvom
 <ul>
 <li><strong>DIČ spoločnosti.</strong> Na spoločnosti vyplňte <em>DIČ</em> (10-miestne daňové
   identifikačné číslo); bez neho generovanie skončí chybou.</li>
-<li><strong>Adresa, telefón a e-mail spoločnosti</strong> idú do hlavičky. <em>Ulica</em> vyplní
-  element ulice a <em>Ulica2</em> element čísla domu.</li>
+<li><strong>Adresa, telefón a e-mail spoločnosti</strong> idú do hlavičky. Číslo domu sa
+  berie z konca poľa <em>Ulica</em> (<em>Hlavná 12</em>, <em>Hlavná 1141/11</em>); <em>Ulica2</em> sa
+  použije, len ak obsahuje iba číslo — budova, poschodie či c/o sa ako číslo
+  domu nikdy nepodávajú.</li>
 <li><strong>Každý zamestnanec potrebuje rodné číslo.</strong> Zadajte ho (9 alebo 10 číslic)
   do poľa <em>Identifikačné č</em> na karte <em>Personal</em> formulára zamestnanca. Lomka a
   medzery sa ignorujú.</li>
-<li><strong>Mená a adresy zamestnancov.</strong> Príloha preberá súkromnú ulicu, PSČ a obec
-  zamestnanca. <strong>Posledné slovo mena je priezvisko</strong> a všetko pred ním meno,
-  preto mená zapisujte ako „Ján Peter Novák“, nie „Novák Ján“. Ak je
+<li><strong>Mená a adresy zamestnancov.</strong> Príloha preberá súkromnú ulicu (číslo domu
+  oddelené rovnako), PSČ a obec zamestnanca. <strong>Posledné slovo mena je
+  priezvisko</strong> a všetko pred ním meno, preto mená zapisujte ako „Ján Peter Novák“, nie „Novák Ján“. Ak je
   nainštalovaný <code>hr_employee_firstname</code>, použijú sa jeho samostatné polia pre
   meno a priezvisko.</li>
 <li>Verzia tlačiva <strong>Annual tax reconciliation statement 2023+</strong> (schéma
@@ -193,7 +195,7 @@ mesiaci</strong>, v ktorom bol nový záznam vytvorený.</p>
 <li>Úradu sa nič neposiela: <em>Označiť ako odoslané</em> len zaznamená, že ste
   hlásenie podali.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.0.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.0.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

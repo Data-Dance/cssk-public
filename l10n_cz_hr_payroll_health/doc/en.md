@@ -1,7 +1,7 @@
 ---
 title: CZ Health Insurance Filings (PPPZ, HOZ)
 summary: The two employer filings to Czech health insurers — the monthly přehled o platbě pojistného (PPPZ) summed from the payslips, and the hromadné oznámení zaměstnavatele (HOZ) of employees joining and leaving — as XML per insurer.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}
@@ -52,24 +52,21 @@ by the JMHZ in 2026; they still go to the insurers.
 
 ## Setting it up {#setup}
 
-On the company:
+On the company form, tab *Payroll Reporting*, group *Health insurance
+(PPPZ / HOZ)*, and the company's address:
 
 | Value | Used as |
 |---|---|
 | *Default health insurer* | the insurer of every employee who has none set; preselected on new filings. Defaults to *111 — VZP*. |
 | *Health payer number*, 10 digits | `identifikacniCisloPlatce`, the employer's number at the insurer. Left empty, it is taken as the IČO followed by `00` (the first payroll office). |
 | *Company ID* (IČO) | the fallback for the payer number |
-| street, city, ZIP, phone | the employer's address (city and ZIP required). A trailing number in the street, or the second street line, is the house number. |
+| street, city, ZIP, phone | the employer's address (city and ZIP required). The house number is the number at the end of the street; the second street line counts only when it holds nothing but a number. |
 
 Per employee: *Health insurer* (one of 111, 201, 205, 207, 209, 211, 213),
-the birth number in *Identification No* (for the HOZ), the private address,
-and the contract dates.
-
-**None of these fields is shown on a form in this version** — not the
-company fields, not the employee's *Health insurer*. An administrator has to
-fill them in another way, for example by importing them on the companies and
-employees lists. Until the employee's insurer is set, every employee is
-reported to the company's default insurer.
+next to *Identification No* on the employee form, the birth number in
+*Identification No* (for the HOZ), the private address, and the contract
+dates. Until the employee's insurer is set, the employee is reported to the
+company's default insurer.
 
 ## Monthly overview (PPPZ) {#pppz}
 
@@ -78,9 +75,10 @@ reported to the company's default insurer.
 1. Choose the **Health insurer**, the **Year** and the **Month**.
 2. Leave **Correction Type** on *Regular*, or choose *Corrective* for a
    corrective overview. A corrective overview can be generated only when a
-   submitted overview for the same company, year and month exists.
-3. Click **Generate**. The module takes the month's payslips (period inside
-   the month, cancelled ones excepted) of the employees who belong to that
+   submitted overview to the same insurer, for the same company, year and
+   month exists.
+3. Click **Generate**. The module takes the month's confirmed payslips
+   (those whose period ends in the month) of the employees who belong to that
    insurer, validates the XML and attaches it.
 4. Upload the XML to the insurer's portal and click **Mark Submitted**.
 
@@ -120,12 +118,7 @@ or 10-digit birth number or without the date the event needs.
 - **Derived base for special cases.** For an employee for whom the state also
   pays premium, or who is exempt from the minimum base, premium ÷ 13.5 % need
   not equal the assessment base. Check those employees.
-- **Corrections across insurers.** The check that a corrective PPPZ has
-  something to correct looks for any submitted overview of the same company
-  and month, **whatever the insurer**. Make sure the original went to the
-  same insurer. The *Correction Reference* field is not written into the XML.
-- **Draft payslips count**; a payslip whose period crosses the month boundary
-  is ignored.
+- The *Correction Reference* field is not written into the XML.
 - **HOZ codes.** Only *P* and *O*. Change of insurer, state-insured status,
   first registration of foreigners and corrections are not modelled, and an
   employee without a Czech birth number cannot be notified.

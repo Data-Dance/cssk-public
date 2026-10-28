@@ -5,37 +5,7 @@ import re
 
 from odoo import _, api, fields, models
 
-# A trailing house number: "Hlavná 12", "Hlavná 1141/11", "Hlavná 12A".
-_STREET_RE = re.compile(
-    r"^(?P<street>.*?\D)[\s,]*(?P<number>\d{1,6}[A-Za-z]?(?:\s*/\s*\w{1,6})?[A-Za-z]?)\s*$")
-_NUMBER_RE = re.compile(r"^\d{1,6}[A-Za-z]?(?:\s*/\s*\w{1,6})?[A-Za-z]?$")
-
-
-def _sk_street_and_number(partner):
-    """``(ulica, číslo)`` for a FS SR hlavička.
-
-    ``base_address_extended``'s split fields when they are there, else the
-    trailing number of ``street``. ``street2`` is NOT a house number in Odoo —
-    it is the second address line (a building, a floor, "c/o") — so it is
-    sent as ``cislo`` only when it is nothing but a house number, which is
-    how the earlier export taught users to fill it. Otherwise a street that
-    ends in no number goes out whole with an empty číslo, the way a filer
-    leaves an unknown field.
-    """
-    if "street_name" in partner._fields and partner.street_name:
-        number = (partner.street_number or "").strip()
-        number2 = (partner.street_number2 or "").strip()
-        return partner.street_name.strip(), (
-            "%s/%s" % (number, number2) if number and number2 else number)
-    street = (partner.street or "").strip()
-    match = _STREET_RE.match(street)
-    if match:
-        return match.group("street").strip().rstrip(","), \
-            re.sub(r"\s+", "", match.group("number"))
-    street2 = (partner.street2 or "").strip()
-    if _NUMBER_RE.match(street2):
-        return street, re.sub(r"\s+", "", street2)
-    return street, ""
+from odoo.addons.l10n_cssk_core.tools import split_street
 
 
 class CsskFsStatement(models.Model):
@@ -118,7 +88,7 @@ class CsskFsStatement(models.Model):
         nace = ((partner.nace_code if "nace_code" in partner._fields else "")
                 or "").replace(".", "")
         nace = nace.ljust(5, "0") if nace.isdigit() else ""
-        street, number = _sk_street_and_number(partner)
+        street, number = split_street(partner)
         nature = self.cssk_uzfo_nature or "riadna"
         return {
             "dic": dic,

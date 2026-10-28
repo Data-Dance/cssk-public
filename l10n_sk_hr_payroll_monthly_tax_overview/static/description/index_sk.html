@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_hr_payroll_monthly_tax_overview/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK Prehľad o zrazených a odvedených preddavkoch na daň</h1>
 <p class="cssk-summary">Mesačný prehľad o preddavkoch na daň zrazených zamestnancom a o vyplatenom daňovom bonuse, zostavený z výplatných pások mesiaca ako XML pre finančnú správu.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.1.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.1.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Každý zamestnávateľ, ktorý zráža zamestnancom preddavky na daň zo mzdy,
@@ -67,10 +67,10 @@ prostredníctvom
 <ul>
 <li><strong>DIČ spoločnosti.</strong> Na spoločnosti vyplňte <em>DIČ</em> (10-miestne daňové
   identifikačné číslo). Kým chýba, generovanie skončí chybou.</li>
-<li><strong>Adresa, telefón a e-mail spoločnosti</strong> idú do hlavičky prehľadu. Do
-  elementu ulice sa zapíše <em>Ulica</em> a do elementu súpisného/orientačného čísla
-  <em>Ulica2</em>, takže číslo domu majte v poli <em>Ulica2</em>, alebo hlavičku po
-  exporte skontrolujte.</li>
+<li><strong>Adresa, telefón a e-mail spoločnosti</strong> idú do hlavičky prehľadu. Číslo domu sa
+  berie z konca poľa <em>Ulica</em> (<em>Hlavná 12</em>, <em>Hlavná 1141/11</em>); <em>Ulica2</em> sa
+  použije, len ak obsahuje iba číslo — budova, poschodie či c/o sa ako číslo
+  domu nikdy nepodávajú.</li>
 <li><strong>Bankový účet.</strong> Do III. časti sa ako účet na vrátenie zapíše prvý bankový
   účet partnera spoločnosti. Ak o poukázanie žiadate, je povinný (pozri
   <a href="#bonus-refund">Vrátenie rozdielu daňového bonusu</a>).</li>
@@ -183,7 +183,7 @@ Dodatočný ani stornovací prehľad vytvoriť nemožno.</p>
 <li>Úradu sa nič neposiela: <em>Označiť ako odoslané</em> len zaznamená, že ste
   prehľad podali.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

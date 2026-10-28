@@ -7,19 +7,22 @@ The Czech country layer for the shared financial-statement framework
 ``account.move.line`` by account-code prefix — the balance sheet (Rozvaha) is
 cumulative as-of the report date, while the P&L (Výkaz zisku a ztráty) reports
 the period movement. The module ships the
-statement structure of vyhláška 500/2002 Sb. in the zkrácený rozsah for the
-Rozvaha and most of the numbered items of the Výkaz zisku a ztráty — not the
-plný rozsah — and the structured XML exports that feed the DPPDP9 appendices.
+statement structure of vyhláška 500/2002 Sb. in both the plný and the zkrácený
+rozsah, and the structured XML exports that feed the DPPDP9 appendices.
 
 Features
 ========
 
-* Line structure per vyhláška 500/2002 Sb.: the Rozvaha in the items of the
-  zkrácený rozsah and the Výkaz zisku a ztráty v druhovém členění without
-  V., D.2.1–D.2.2, E.1–E.3, IV.1–IV.2, V.1–V.2, VI.1–VI.2 and J.1–J.2. An
-  obchodní společnost must file the VZZ in plný rozsah (§ 3a odst. 4 of the
-  vyhláška), and a unit with an audit obligation both statements; complete
-  the missing items outside Odoo.
+* Line structure per vyhláška 500/2002 Sb., § 3a, in both rozsahy: the
+  plný rozsah with every item of přílohy 1 and 2, and the zkrácený rozsah with
+  the items marked by letters and Roman numerals. New statements default to
+  the plný rozsah — the one every unit may file and every obchodní společnost
+  must file for the Výkaz zisku a ztráty (§ 3a odst. 3 písm. a); the
+  zkrácený rozsah is chosen as the version.
+* VZZ items no account code distinguishes — IV. / V. (both on 665), the
+  ovládaná nebo ovládající osoba items IV.1, V.1, VI.1, J.1, and E.1.2 / E.2
+  of 559 — read account tags; untagged amounts land on the "ostatní" item, so
+  a unit without such flows needs no setup.
 * Every account of the l10n_cz směrná účtová osnova maps to exactly one leaf
   line (the partition is verified in tests), so the aggregates reconcile:
   AKTIVA = PASIVA and výsledek hospodaření = výnosy − náklady.
@@ -46,8 +49,10 @@ posted journal items, the aggregates reconcile by construction, and the result
 can be exported as structured XML for the DPPDP9 appendices and the
 commercial-register filing.
 
-Accountant note: the dlouhodobé/krátkodobé receivable & payable splits and the
-opravné-položka allocations follow the standard chart convention — confirm with
+Accountant note: the dlouhodobé/krátkodobé receivable & payable splits, the
+opravné-položka allocations and the two-sided accounts of the plný rozsah
+(221, 336, 341–347, 373, 481 — reported by the sign of each account's own
+balance) follow the standard chart convention — confirm with
 a CZ accountant for entities using non-standard account assignments.
 
 Credits

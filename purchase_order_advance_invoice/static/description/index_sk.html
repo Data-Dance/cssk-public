@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/purchase_order_advance_invoice/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/purchase_order_advance_invoice/static/description/index_cs.html">Čeština</a></nav>
 <h1>Prijaté zálohové faktúry (nákup)</h1>
 <p class="cssk-summary">Zálohová faktúra od dodávateľa ako nákupný doklad, jej úhrada, faktúra dodávateľa k prijatej platbe a odpočet preddavku na konečnej faktúre.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>purchase</code>, <code>account</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/account_edi_isdoc_purchase_advance/static/description/index_sk.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/advance_invoice_saldo_xlsx/static/description/index_sk.html"><code>advance_invoice_saldo_xlsx</code></a>, <a href="/l10n_cz_purchase_order_advance_invoice/static/description/index.html"><code>l10n_cz_purchase_order_advance_invoice</code></a>, <a href="/l10n_sk_purchase_order_advance_invoice/static/description/index_sk.html"><code>l10n_sk_purchase_order_advance_invoice</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>purchase</code>, <code>account</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/account_edi_isdoc_purchase_advance/static/description/index_sk.html"><code>account_edi_isdoc_purchase_advance</code></a>, <a href="/advance_invoice_saldo_xlsx/static/description/index_sk.html"><code>advance_invoice_saldo_xlsx</code></a>, <a href="/l10n_cz_purchase_order_advance_invoice/static/description/index.html"><code>l10n_cz_purchase_order_advance_invoice</code></a>, <a href="/l10n_sk_purchase_order_advance_invoice/static/description/index_sk.html"><code>l10n_sk_purchase_order_advance_invoice</code></a>, <a href="/purchase_order_advance_invoice_stock/static/description/index_sk.html"><code>purchase_order_advance_invoice_stock</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Je to strana dodávateľa k modulu
@@ -148,6 +148,11 @@ riadky podľa zálohovej faktúry dodávateľa, so sadzbami DPH, ktoré uvádza.
 Voliteľne zvoľte <strong>Nadradenú objednávku</strong>, ku ktorej patrí, a označte
 <strong>Dlhodobý preddavok</strong>, ak sa má použiť dlhodobý účet (ak je nastavený).</p>
 <p>Nákupná objednávka s preddavkami má tlačidlo <strong>Preddavky</strong>.</p>
+<p><strong>So Skladom.</strong> Tovar sa prijíma na nadradenej objednávke, nikdy na
+preddavku: s modulom
+<a href="/purchase_order_advance_invoice_stock/static/description/index_sk.html"><code>purchase_order_advance_invoice_stock</code></a>,
+ktorý sa nainštaluje sám, keď je Sklad nainštalovaný, potvrdenie ani úhrada
+preddavku nevytvorí príjemku, ani keď sú na ňom skladované produkty.</p>
 <h2 id="payment">Úhrada</h2>
 <p>Na preddavku:</p>
 <ul>
@@ -235,9 +240,7 @@ jazyk, v ktorom plánovaná akcia beží.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
 <li>Preddavok je v skutočnosti obyčajná nákupná objednávka. Nepoužívajte na
-  ňom <em>Vytvoriť prijaté faktúry</em>. S nainštalovaným Skladom môže potvrdenie
-  preddavku so skladovanými produktmi vytvoriť príjemku; modul tomu na
-  rozdiel od strany predaja nebráni.</li>
+  ňom <em>Vytvoriť prijaté faktúry</em>.</li>
 <li><strong>Prepojiť platbu</strong> nekontroluje, na aký účet bola platba zaúčtovaná. S
   faktúrou k platbe sa automaticky spáruje len platba zaúčtovaná na zúčtovací
   účet.</li>

@@ -99,6 +99,16 @@ msgstr ""
 "pre element <identifikator> výkazu VPP."
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__correction_reference
+msgid "Correction Reference"
+msgstr "Referencia opravy"
+
+#. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__country_id
 msgid "Country"
 msgstr "Krajina"
@@ -119,6 +129,11 @@ msgid "Currency"
 msgstr "Mena"
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__active_submission_id
+msgid "Current submission"
+msgstr "Aktuálne doručenie"
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__date_from
 msgid "Date From"
 msgstr "Dátum od"
@@ -127,6 +142,11 @@ msgstr "Dátum od"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__date_to
 msgid "Date To"
 msgstr "Dátum do"
+
+#. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__submission_state
+msgid "Delivery"
+msgstr "Doručenie"
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__display_name
@@ -217,6 +237,11 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Ak je začiarknuté, niektoré správy majú chybu doručenia."
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__message_is_follower
 msgid "Is Follower"
 msgstr "Je odberateľ"
@@ -260,6 +285,11 @@ msgstr "Termín mojej aktivity"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__name
 msgid "Name"
 msgstr "Názov"
+
+#. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Kalendár ďalších aktivít eventu"
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__activity_date_deadline
@@ -309,6 +339,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__payment_date
 msgid "Payment Date"
 msgstr "Dátum výplaty"
+
+#. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_vpp.view_l10n_sk_vpp_form
@@ -365,9 +400,28 @@ msgid "Submission Reference"
 msgstr "Referencia podania"
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__submission_ids
+msgid "Submissions"
+msgstr "Podania"
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__submitted_date
 msgid "Submitted Date"
 msgstr "Dátum odoslania"
+
+#. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pre všetko, čo opravuje skoršie podanie."
+
+#. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Referencia úradu na opravované podanie, ak ju prijímajúci systém potrebuje "
+"na spárovanie oboch."
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__activity_exception_decoration
@@ -393,6 +447,16 @@ msgstr "Správy webstránok"
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__website_message_ids
 msgid "Website communication history"
 msgstr "História komunikácie webstránok"
+
+#. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Či ide o riadne podanie za obdobie alebo o opravu už odoslaného. Voľby sú "
+"obmedzené na to, čo tento konkrétny úrad prijíma."
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__xml_attachment_id

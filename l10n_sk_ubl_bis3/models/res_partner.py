@@ -177,6 +177,38 @@ class ResPartner(models.Model):
             )
         return moved
 
+    def write(self, vals):
+        """A DIČ filled in later moves a partner from core's ``9950`` onto
+        ``0245`` + that DIČ, through the same conservative rule as the action.
+
+        While a partner had no DIČ, ``0245`` was impossible, so its ``9950``
+        was what core fell back to rather than a decision; once the DIČ is
+        known it is the routable identifier. The compute cannot do the move
+        (``9950`` is a valid Slovak code, so it reads as a choice) and the
+        action only runs when somebody remembers it, so a DIČ typed in or
+        fetched from a register left the partner published under its IČ DPH.
+
+        Only on the first DIČ: a partner whose DIČ merely changes may have
+        been put on ``9950`` deliberately after it was known. And only where
+        the endpoint was, before this write, empty or what core derives from
+        the VAT number — the action's own test, applied to the endpoint the
+        user saw, since the endpoint compute reruns on this very write.
+        """
+        first_dic = self.browse()
+        if vals.get('l10n_sk_dic') and 'l10n_sk_dic' in self._fields:
+            first_dic = self.filtered(
+                lambda p: p.peppol_eas == '9950'
+                and not p._l10n_sk_get_dic()
+                and (p.peppol_endpoint or '').strip().upper()
+                in ('', (p.vat or '').strip().upper().replace(' ', ''))
+            )
+        res = super().write(vals)
+        if first_dic:
+            first_dic.filtered(
+                lambda p: p.peppol_eas == '9950' and p._l10n_sk_get_dic()
+            ).action_l10n_sk_adopt_dic_participant()
+        return res
+
     def _peppol_eas_endpoint_depends(self):
         # EXTENDS 'account_edi_ubl_cii' - the endpoint now moves with the DIČ.
         return super()._peppol_eas_endpoint_depends() + ['l10n_sk_dic']

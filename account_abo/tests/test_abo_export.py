@@ -118,7 +118,101 @@ class TestAboExport(AccountTestInvoicingCommon):
 
     def test_zero_amount_line_is_refused(self):
         from odoo.exceptions import UserError
+        # Ungrouped: grouped with the first line, a zero line now nets into it.
+        self.mode.group_lines = False
         order = self._order()
         self._add_line(order, amount_currency=0.0)
         with self.assertRaisesRegex(UserError, "zero or negative"):
             order.generate_payment_file()
+
+    # ------------------------------------------------------------------
+    # credit notes grouped with their invoice
+    # ------------------------------------------------------------------
+
+    def _items(self, text):
+        """The item records: everything between the group header and the
+        group trailer."""
+        lines = text.split("\r\n")
+        start = next(i for i, line in enumerate(lines) if line.startswith("2 "))
+        end = next(i for i, line in enumerate(lines) if line.startswith("3 +"))
+        return lines[start + 1:end]
+
+    def test_credit_note_grouped_with_its_invoice_is_one_net_item(self):
+        """A credit note grouped with its invoice is one payment of the net
+        amount, and the file must say so: one item per payment line put a
+        negative item in the file, which every bank refuses."""
+        order = self._order(amount_currency=1000.0, variable_symbol="20260042")
+        self._add_line(order, amount_currency=-300.0, variable_symbol="20260007",
+                       communication="DOB 2026/0007")
+        items = self._items(order.generate_payment_file()[0].decode("cp1250"))
+        self.assertEqual(len(items), 1, items)
+        self.assertIn(" 70000 ", items[0])
+        # the invoice's symbol: the credit note is deducted from it
+        self.assertIn("20260042", items[0])
+        self.assertNotIn("20260007", items[0])
+
+    def test_invoices_sharing_a_symbol_keep_it_when_netted(self):
+        """Two instalments of one invoice (one VS) and a credit note: the
+        symbol the payable lines share survives the credit note's own."""
+        order = self._order(amount_currency=600.0, variable_symbol="20260042")
+        self._add_line(order, amount_currency=400.0, variable_symbol="20260042")
+        self._add_line(order, amount_currency=-300.0, variable_symbol="20260007")
+        items = self._items(order.generate_payment_file()[0].decode("cp1250"))
+        self.assertEqual(len(items), 1, items)
+        self.assertIn(" 70000 20260042 ", items[0])
+
+    def test_grouped_invoices_keep_one_item_each(self):
+        """Without a credit note nothing is netted: each invoice still travels
+        under its own variable symbol."""
+        order = self._order(amount_currency=1000.0, variable_symbol="20260042")
+        self._add_line(order, amount_currency=500.0, variable_symbol="20260043")
+        items = self._items(order.generate_payment_file()[0].decode("cp1250"))
+        self.assertEqual(len(items), 2, items)
+        self.assertIn("20260042", items[0])
+        self.assertIn("20260043", items[1])
+
+    def test_ungrouped_credit_note_is_still_refused(self):
+        from odoo.exceptions import UserError
+        self.mode.group_lines = False
+        order = self._order(amount_currency=1000.0)
+        self._add_line(order, amount_currency=-300.0)
+        with self.assertRaisesRegex(UserError, "zero or negative"):
+            order.generate_payment_file()
+
+    def test_bill_and_credit_note_through_the_order_workflow(self):
+        """End to end: a vendor bill and its credit note added to one order,
+        confirmed (which groups them into one 700 payment), then exported."""
+        self.czk.active = True
+        self.mode.write({
+            "payment_order_ok": True, "default_date_prefered": "now",
+        })
+        self.supplier.supplier_payment_mode_id = self.mode
+        self.supplier_bank.sudo().allow_out_payment = True
+        moves = self.env["account.move"]
+        for move_type, amount in (("in_invoice", 1000.0), ("in_refund", 300.0)):
+            moves |= self.env["account.move"].create({
+                "move_type": move_type,
+                "partner_id": self.supplier.id,
+                "partner_bank_id": self.supplier_bank.id,
+                "currency_id": self.czk.id,
+                "invoice_date": "2026-03-01",
+                "ref": "%s-1" % move_type,
+                "payment_mode_id": self.mode.id,
+                "invoice_line_ids": [Command.create({
+                    "name": "Goods", "quantity": 1, "price_unit": amount,
+                    "tax_ids": [Command.clear()],
+                })],
+            })
+        moves.action_post()
+        # sudo: the test user is not in Accounting / Payments
+        moves.sudo().create_account_payment_line()
+        order = moves.sudo().line_ids.payment_line_ids.order_id
+        self.assertEqual(len(order), 1)
+        self.assertEqual(
+            sorted(order.payment_line_ids.mapped("amount_currency")),
+            [-300.0, 1000.0])
+        order.draft2open()
+        self.assertEqual(order.payment_ids.mapped("amount"), [700.0])
+        items = self._items(order.generate_payment_file()[0].decode("cp1250"))
+        self.assertEqual(len(items), 1, items)
+        self.assertIn(" 70000 ", items[0])

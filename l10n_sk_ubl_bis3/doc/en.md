@@ -1,7 +1,7 @@
 ---
 title: Slovakia — Peppol BIS Billing 3.0 (eFaktúra)
 summary: Produces Slovak electronic invoices in Peppol BIS Billing 3.0, identifies Slovak parties on Peppol by their DIČ, and puts the variable symbol where the payer's bank looks for it.
-verified: 19.0.3.3.1
+verified: 19.0.3.4.0
 ---
 
 ## What it is for {#purpose}
@@ -92,14 +92,16 @@ its Peppol address:
 |---|---|
 | New, with a DIČ | **0245** : DIČ — also for a company created on the company form with its DIČ filled in |
 | New, without a DIČ | what Odoo computes — 9950 : IČ DPH for a VAT payer — until a DIČ is recorded; the export is refused meanwhile |
+| On 9950 when its first DIČ is recorded | **moved to 0245 : DIČ** as the DIČ is saved, unless its endpoint was typed by hand |
 | Already on 0245 | the endpoint follows the DIČ when you change it |
-| Already on 9950 or another scheme chosen earlier | **left alone** — the module does not overwrite a scheme somebody may have chosen on purpose |
+| On 9950 or another scheme chosen with the DIČ already recorded | **left alone** — the module does not overwrite a scheme somebody may have chosen on purpose |
 
-The last row matters for contacts that existed before their DIČ was
-recorded: they keep 9950 even after you fill in the DIČ, and because the DIČ
-is now present the export no longer stops them. Moving them is a
-deliberate, repeatable step: select the contacts in *Contacts* (list or
-form) and run *Actions → Peppol: use 0245 + DIČ*. It is available to
+While a contact has no DIČ, 0245 is impossible, so its 9950 is what Odoo
+fell back to rather than a choice: recording the DIČ — by hand or from the
+register — moves it. A DIČ written past the form (an import into the
+database, an older module version) does not, and for those contacts the
+move is a deliberate, repeatable step: select the contacts in *Contacts*
+(list or form) and run *Actions → Peppol: use 0245 + DIČ*. It is available to
 accounting administrators (*Accounting / Administrator*). It moves every
 selected Slovak contact that has a DIČ and whose endpoint is either empty or
 exactly what Odoo derived from the VAT number; a hand-typed endpoint and a
@@ -140,9 +142,6 @@ recorded.
 
 - The module produces the file only. Transmission over Peppol and the
   reporting of invoice data to Finančná správa are done by the access point.
-- Contacts that were on 9950 before their DIČ was recorded stay there until
-  somebody runs *Peppol: use 0245 + DIČ* on them; nothing runs it
-  automatically when a DIČ is filled in later.
 - It does not decide which invoices must be sent electronically under
   § 85o; it offers the format for every Slovak contact.
 - On uninstalling, the format is removed from contacts; their Peppol

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK OSS VAT Return (Union scheme)
 summary: The quarterly One-Stop-Shop VAT return for distance sales and services to consumers in other EU states — computed from Odoo's OSS taxes, converted to euro at the ECB rate, with corrections of earlier quarters.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}
@@ -199,6 +199,10 @@ changes a mapping already on a fiscal position.
 On installation the mapping is completed for every company that already has
 OSS taxes. Companies that never used OSS are left alone. These mappings are
 proposals, like Odoo's own: check them against the goods you sell.
+
+**Export warnings.** Checks that do not stop the export are listed in a
+yellow banner at the top of the form, and in the chatter, until the next
+export.
 
 ## Limitations {#limitations}
 

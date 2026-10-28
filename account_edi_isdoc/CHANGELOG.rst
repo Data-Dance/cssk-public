@@ -45,6 +45,30 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.4.2] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **BuildingNumber is never a Street 2 line.** When the street did not end in
+  a number, *Street 2* went out whole as the číslo popisné — a floor or a c/o
+  line included. The address is now read by the shared helper of
+  ``l10n_cssk_core`` (a new dependency): the trailing number of *Street*, and
+  *Street 2* only when it holds nothing but a number.
+
+[19.0.1.4.1] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- The VAT breakdown can now keep two kinds of supply at the same rate apart,
+  and the ISDOC templates know the local reverse-charge elements
+  (``LocalReverseCharge``, ``LocalReverseChargeFlag``). Nothing changes in the
+  files this module writes on its own; ``account_edi_isdoc_kh`` uses this to
+  export Czech domestic reverse-charge invoices properly.
+
 [19.0.1.4.0] — 2026-10-27
 -------------------------
 

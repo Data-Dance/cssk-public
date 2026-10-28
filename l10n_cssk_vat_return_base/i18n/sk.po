@@ -1166,3 +1166,19 @@ msgstr "Vysporiadanie"
 #: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
 msgid "The form version %(version)s cannot be filed for a %(period)s period."
 msgstr "Verziu tlačiva %(version)s nemožno podať za %(period)s obdobie."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornenia exportu"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, ktoré posledný export nezablokovali, ale pred podaním si "
+"ich treba pozrieť, každá na samostatnom riadku. Obnovujú sa pri každom "
+"exporte; prázdne, ak posledný export žiadne nenašiel."

@@ -55,3 +55,71 @@ msgid ""
 msgstr ""
 "Súhrnný výkaz nemožno exportovať — tieto riadky nemajú IČ DPH alebo majú IČ DPH mimo EÚ, alebo vykazujú službu pre IČ DPH Severného Írska (XI), ktoré platí len pre tovar (tvrdá blokácia):\n"
 "%s"
+
+#. module: l10n_sk_ec_sales
+#: model:ir.model.fields,field_description:l10n_sk_ec_sales.field_cssk_ec_summary_statement__l10n_sk_authorized_name
+msgid "Konateľ / oprávnená osoba — meno a priezvisko (SK)"
+msgstr ""
+
+#. module: l10n_sk_ec_sales
+#: model:ir.model.fields,help:l10n_sk_ec_sales.field_cssk_ec_summary_statement__l10n_sk_authorized_name
+msgid ""
+"konatel: the statutory body or the person authorised to file the súhrnný "
+"výkaz for a legal person."
+msgstr ""
+"konatel: štatutárny orgán alebo osoba oprávnená podať súhrnný výkaz za "
+"právnickú osobu."
+
+#. module: l10n_sk_ec_sales
+#: model:ir.model.fields,field_description:l10n_sk_ec_sales.field_cssk_ec_summary_statement__l10n_sk_authorized_phone
+msgid "Konateľ / oprávnená osoba — telefón (SK)"
+msgstr ""
+
+#. module: l10n_sk_ec_sales
+#: model:ir.model.fields,field_description:l10n_sk_ec_sales.field_cssk_ec_summary_statement__l10n_sk_authorized_email
+msgid "Konateľ / oprávnená osoba — e-mail (SK)"
+msgstr ""
+
+#. module: l10n_sk_ec_sales
+#: model:ir.model.fields,help:l10n_sk_ec_sales.field_cssk_ec_summary_statement__l10n_sk_authorized_email
+msgid "konatelEmail — carried by the 2020 vzor only."
+msgstr "konatelEmail — má ho len vzor 2020."
+
+#. module: l10n_sk_ec_sales
+#: model:ir.model.fields,field_description:l10n_sk_ec_sales.field_cssk_ec_summary_statement__l10n_sk_declaration_date
+msgid "Dátum vyhlásenia (SK)"
+msgstr ""
+
+#. module: l10n_sk_ec_sales
+#: model:ir.model.fields,help:l10n_sk_ec_sales.field_cssk_ec_summary_statement__l10n_sk_declaration_date
+msgid ""
+"Date of the declaration that the figures are correct and complete. Left "
+"empty, the date of the XML export is used."
+msgstr ""
+"Dátum vyhlásenia, že údaje sú správne a úplné. Ak zostane prázdny, použije "
+"sa dátum exportu XML."
+
+#. module: l10n_sk_ec_sales
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ec_sales.cssk_ec_summary_statement_view_form_sk
+msgid "Hlavička"
+msgstr ""
+
+#. module: l10n_sk_ec_sales
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ec_sales.cssk_ec_summary_statement_view_form_sk
+msgid "Konateľ / oprávnená osoba"
+msgstr ""
+
+#. module: l10n_sk_ec_sales
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ec_sales.cssk_ec_summary_statement_view_form_sk
+msgid "Meno a priezvisko"
+msgstr ""
+
+#. module: l10n_sk_ec_sales
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ec_sales.cssk_ec_summary_statement_view_form_sk
+msgid "Telefón"
+msgstr ""
+
+#. module: l10n_sk_ec_sales
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ec_sales.cssk_ec_summary_statement_view_form_sk
+msgid "E-mail"
+msgstr ""

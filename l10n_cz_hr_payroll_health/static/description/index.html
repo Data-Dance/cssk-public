@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_hr_payroll_health/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ Health Insurance Filings (PPPZ, HOZ)</h1>
 <p class="cssk-summary">The two employer filings to Czech health insurers — the monthly přehled o platbě pojistného (PPPZ) summed from the payslips, and the hromadné oznámení zaměstnavatele (HOZ) of employees joining and leaving — as XML per insurer.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Czech employer reports to <strong>each health insurer</strong> whose clients it employs:</p>
@@ -75,7 +75,8 @@ by the JMHZ in 2026; they still go to the insurers.</p>
   (§ 10c).</li>
 </ul>
 <h2 id="setup">Setting it up</h2>
-<p>On the company:</p>
+<p>On the company form, tab <em>Payroll Reporting</em>, group <em>Health insurance
+(PPPZ / HOZ)</em>, and the company's address:</p>
 <table>
 <thead>
 <tr>
@@ -98,27 +99,25 @@ by the JMHZ in 2026; they still go to the insurers.</p>
 </tr>
 <tr>
 <td>street, city, ZIP, phone</td>
-<td>the employer's address (city and ZIP required). A trailing number in the street, or the second street line, is the house number.</td>
+<td>the employer's address (city and ZIP required). The house number is the number at the end of the street; the second street line counts only when it holds nothing but a number.</td>
 </tr>
 </tbody>
 </table>
 <p>Per employee: <em>Health insurer</em> (one of 111, 201, 205, 207, 209, 211, 213),
-the birth number in <em>Identification No</em> (for the HOZ), the private address,
-and the contract dates.</p>
-<p><strong>None of these fields is shown on a form in this version</strong> — not the
-company fields, not the employee's <em>Health insurer</em>. An administrator has to
-fill them in another way, for example by importing them on the companies and
-employees lists. Until the employee's insurer is set, every employee is
-reported to the company's default insurer.</p>
+next to <em>Identification No</em> on the employee form, the birth number in
+<em>Identification No</em> (for the HOZ), the private address, and the contract
+dates. Until the employee's insurer is set, the employee is reported to the
+company's default insurer.</p>
 <h2 id="pppz">Monthly overview (PPPZ)</h2>
 <p><em>Payroll Declarations → CZ PPPZ (health)</em>, then <em>New</em>.</p>
 <ol>
 <li>Choose the <strong>Health insurer</strong>, the <strong>Year</strong> and the <strong>Month</strong>.</li>
 <li>Leave <strong>Correction Type</strong> on <em>Regular</em>, or choose <em>Corrective</em> for a
    corrective overview. A corrective overview can be generated only when a
-   submitted overview for the same company, year and month exists.</li>
-<li>Click <strong>Generate</strong>. The module takes the month's payslips (period inside
-   the month, cancelled ones excepted) of the employees who belong to that
+   submitted overview to the same insurer, for the same company, year and
+   month exists.</li>
+<li>Click <strong>Generate</strong>. The module takes the month's confirmed payslips
+   (those whose period ends in the month) of the employees who belong to that
    insurer, validates the XML and attaches it.</li>
 <li>Upload the XML to the insurer's portal and click <strong>Mark Submitted</strong>.</li>
 </ol>
@@ -174,12 +173,7 @@ or 10-digit birth number or without the date the event needs.</p>
 <li><strong>Derived base for special cases.</strong> For an employee for whom the state also
   pays premium, or who is exempt from the minimum base, premium ÷ 13.5 % need
   not equal the assessment base. Check those employees.</li>
-<li><strong>Corrections across insurers.</strong> The check that a corrective PPPZ has
-  something to correct looks for any submitted overview of the same company
-  and month, <strong>whatever the insurer</strong>. Make sure the original went to the
-  same insurer. The <em>Correction Reference</em> field is not written into the XML.</li>
-<li><strong>Draft payslips count</strong>; a payslip whose period crosses the month boundary
-  is ignored.</li>
+<li>The <em>Correction Reference</em> field is not written into the XML.</li>
 <li><strong>HOZ codes.</strong> Only <em>P</em> and <em>O</em>. Change of insurer, state-insured status,
   first registration of foreigners and corrections are not modelled, and an
   employee without a Czech birth number cannot be notified.</li>
@@ -191,7 +185,7 @@ or 10-digit birth number or without the date the event needs.</p>
 <li>Schema validation checks the shape of the file, not the figures. No filing
   from this module has been confirmed by a live submission.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/592">Zákon č. 592/1992 Sb., o pojistném na veřejné zdravotní pojištění</a></li><li><a href="https://e-sbirka.gov.cz/sb/1997/48">Zákon č. 48/1997 Sb., o veřejném zdravotním pojištění a o změně a doplnění některých souvisejících zákonů</a></li></ul><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/592">Zákon č. 592/1992 Sb., o pojistném na veřejné zdravotní pojištění</a></li><li><a href="https://e-sbirka.gov.cz/sb/1997/48">Zákon č. 48/1997 Sb., o veřejném zdravotním pojištění a o změně a doplnění některých souvisejících zákonů</a></li></ul><p>Text checked against module version: 19.0.1.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

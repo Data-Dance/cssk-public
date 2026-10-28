@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czechia — Wage Surcharges (příplatky) — Base",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "category": "Human Resources/Payroll",
     "summary": "Engine-neutral statutory wage surcharges for overtime, public "
     "holiday, night, weekend and difficult-environment work (§§ 114–118 "

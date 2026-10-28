@@ -1,7 +1,7 @@
 ---
 title: Advance Invoices — Bank Statement Matching
 summary: Matches incoming bank transactions to open advance invoices by the advance number or variable symbol, registers the payment and optionally creates the tax document.
-verified: 19.0.1.0.2
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}

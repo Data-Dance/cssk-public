@@ -38,6 +38,28 @@ Carry-over to 18.0
   cash-basis entry through ``_cssk_vat_document`` (commit 02eda35); ports with
   the ``l10n_cssk_kv_kh_base`` change it depends on.
 
+[19.0.1.10.0] — 2026-10-27
+--------------------------
+
+Fixed
+~~~~~
+
+- **A row override reaches the export.** Ticking *Override* on a section
+  row and correcting its amounts now changes the standard / reduced-rate
+  columns the XML files, and the correction survives *Compute*. The
+  sections were read-only and the override changed two columns no Czech
+  export reads. A.1 / B.1 rows of one document with two § 92a codes keep
+  separate overrides.
+- **The § 92a code set on the sale "0% RC" tax counts.** The supplied side
+  of the reverse charge is recognised by its ř. 25 row as well as by the
+  *Reverse charge* mark, and the code field appears on that tax. A code set
+  on it was ignored, so a sale without a coded product could not be
+  exported.
+- The help of *KH commodity code (§92a)* lists the codes as the Pokyny
+  k vyplnění KH do: 6 is goods originally provided as a guarantee, 7 goods
+  after an assigned retention of title, 11 emission allowances, 12 – 21 the
+  named commodities. It called 6 "emission allowances".
+
 [19.0.1.9.1] — 2026-10-27
 -------------------------
 

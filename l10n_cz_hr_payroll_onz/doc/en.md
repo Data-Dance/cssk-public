@@ -1,7 +1,7 @@
 ---
 title: CZ Employment Start/End Notification (ONZ)
 summary: The oznámení o nástupu do zaměstnání / skončení for the ČSSZ in the ONZ 2022 XML structure — superseded by the JMHZ employee register since 1 April 2026.
-verified: 19.0.1.0.3
+verified: 19.0.1.0.4
 ---
 
 ## What it is for {#purpose}

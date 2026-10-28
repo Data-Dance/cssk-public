@@ -60,8 +60,10 @@ class TestEpostakCronSend(TransactionCase):
         super().setUpClass()
         icp = cls.env["ir.config_parameter"].sudo()
         icp.set_param("epostak.mode", "sandbox")
-        icp.set_param("epostak.sapi.sandbox.client_id", "c1")
-        icp.set_param("epostak.sapi.sandbox.client_secret", "fake")
+        cls.env.company.sudo().write({
+            "epostak_sandbox_client_id": "c1",
+            "epostak_sandbox_client_secret": "fake",
+        })
         cls.env.company.partner_id.write(
             {"peppol_eas": "0245", "peppol_endpoint": US})
 

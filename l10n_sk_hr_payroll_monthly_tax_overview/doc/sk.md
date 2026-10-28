@@ -1,7 +1,7 @@
 ---
 title: SK Prehľad o zrazených a odvedených preddavkoch na daň
 summary: Mesačný prehľad o preddavkoch na daň zrazených zamestnancom a o vyplatenom daňovom bonuse, zostavený z výplatných pások mesiaca ako XML pre finančnú správu.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -44,10 +44,10 @@ Odkazy sú na [zákon o dani z príjmov](law:sk/2003/595).
 
 - **DIČ spoločnosti.** Na spoločnosti vyplňte *DIČ* (10-miestne daňové
   identifikačné číslo). Kým chýba, generovanie skončí chybou.
-- **Adresa, telefón a e-mail spoločnosti** idú do hlavičky prehľadu. Do
-  elementu ulice sa zapíše *Ulica* a do elementu súpisného/orientačného čísla
-  *Ulica2*, takže číslo domu majte v poli *Ulica2*, alebo hlavičku po
-  exporte skontrolujte.
+- **Adresa, telefón a e-mail spoločnosti** idú do hlavičky prehľadu. Číslo domu sa
+  berie z konca poľa *Ulica* (*Hlavná 12*, *Hlavná 1141/11*); *Ulica2* sa
+  použije, len ak obsahuje iba číslo — budova, poschodie či c/o sa ako číslo
+  domu nikdy nepodávajú.
 - **Bankový účet.** Do III. časti sa ako účet na vrátenie zapíše prvý bankový
   účet partnera spoločnosti. Ak o poukázanie žiadate, je povinný (pozri
   [Vrátenie rozdielu daňového bonusu](#bonus-refund)).

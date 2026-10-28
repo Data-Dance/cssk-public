@@ -18,93 +18,135 @@
                 <notebook>
                     <page string="A.1" name="cz_a1">
                         <field name="cz_a1_ids">
-                            <list create="false" delete="false" edit="false">
-                                <field name="entry_ref"/>
-                                <field name="partner_vat_stripped" string="DIČ"/>
-                                <field name="supplies_code" string="Code"/>
-                                <field name="base_std"/>
-                                <field name="tax_std"/>
+                            <list create="false" delete="false" editable="bottom"
+                                  decoration-warning="is_overridden">
+                                <field name="entry_ref" readonly="1"/>
+                                <field name="partner_vat_stripped" readonly="1" string="DIČ"/>
+                                <field name="supplies_code" readonly="1" string="Code"/>
+                                <field name="base_std" readonly="not is_overridden"/>
+                                <field name="tax_std" readonly="not is_overridden"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
                                         invisible="not source_move_line_ids"/>
+                                <field name="is_overridden" widget="boolean_toggle" optional="show"/>
                             </list>
                         </field>
                     </page>
                     <page string="A.2" name="cz_a2">
                         <field name="cz_a2_ids">
-                            <list create="false" delete="false" edit="false">
-                                <field name="entry_ref"/>
-                                <field name="partner_vat_stripped" string="DIČ"/>
-                                <field name="base_std"/>
-                                <field name="tax_std"/>
-                                <field name="base_red"/>
-                                <field name="tax_red"/>
-                                <field name="base_red3" optional="hide"/>
-                                <field name="tax_red3" optional="hide"/>
+                            <list create="false" delete="false" editable="bottom"
+                                  decoration-warning="is_overridden">
+                                <field name="entry_ref" readonly="1"/>
+                                <field name="partner_vat_stripped" readonly="1" string="DIČ"/>
+                                <field name="base_std" readonly="not is_overridden"/>
+                                <field name="tax_std" readonly="not is_overridden"/>
+                                <field name="base_red" readonly="not is_overridden"/>
+                                <field name="tax_red" readonly="not is_overridden"/>
+                                <field name="base_red3" optional="hide" readonly="not is_overridden"/>
+                                <field name="tax_red3" optional="hide" readonly="not is_overridden"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
                                         invisible="not source_move_line_ids"/>
+                                <field name="is_overridden" widget="boolean_toggle" optional="show"/>
                             </list>
                         </field>
                     </page>
                     <page string="A.4" name="cz_a4">
                         <field name="cz_a4_ids">
-                            <list create="false" delete="false" edit="false">
-                                <field name="entry_ref"/>
-                                <field name="partner_vat_stripped" string="DIČ"/>
-                                <field name="base_std"/>
-                                <field name="tax_std"/>
-                                <field name="base_red"/>
-                                <field name="tax_red"/>
-                                <field name="base_red3" optional="hide"/>
-                                <field name="tax_red3" optional="hide"/>
+                            <list create="false" delete="false" editable="bottom"
+                                  decoration-warning="is_overridden">
+                                <field name="entry_ref" readonly="1"/>
+                                <field name="partner_vat_stripped" readonly="1" string="DIČ"/>
+                                <field name="base_std" readonly="not is_overridden"/>
+                                <field name="tax_std" readonly="not is_overridden"/>
+                                <field name="base_red" readonly="not is_overridden"/>
+                                <field name="tax_red" readonly="not is_overridden"/>
+                                <field name="base_red3" optional="hide" readonly="not is_overridden"/>
+                                <field name="tax_red3" optional="hide" readonly="not is_overridden"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
                                         invisible="not source_move_line_ids"/>
+                                <field name="is_overridden" widget="boolean_toggle" optional="show"/>
                             </list>
                         </field>
                     </page>
                     <page string="A.5" name="cz_a5">
-                        <field name="cz_a5_ids"/>
-                    </page>
-                    <page string="B.1" name="cz_b1">
-                        <field name="cz_b1_ids">
-                            <list create="false" delete="false" edit="false">
-                                <field name="entry_ref"/>
-                                <field name="partner_vat_stripped" string="DIČ"/>
-                                <field name="supplies_code" string="Code"/>
-                                <field name="base_std"/>
-                                <field name="tax_std"/>
+                        <field name="cz_a5_ids">
+                            <list create="false" delete="false" editable="bottom"
+                                  decoration-warning="is_overridden">
+                                <field name="row_count" readonly="1"/>
+                                <field name="base_std" readonly="not is_overridden"/>
+                                <field name="tax_std" readonly="not is_overridden"/>
+                                <field name="base_red" readonly="not is_overridden"/>
+                                <field name="tax_red" readonly="not is_overridden"/>
+                                <field name="base_red3" optional="hide" readonly="not is_overridden"/>
+                                <field name="tax_red3" optional="hide" readonly="not is_overridden"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
                                         invisible="not source_move_line_ids"/>
+                                <field name="is_overridden" widget="boolean_toggle" optional="show"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="B.1" name="cz_b1">
+                        <field name="cz_b1_ids">
+                            <list create="false" delete="false" editable="bottom"
+                                  decoration-warning="is_overridden">
+                                <field name="entry_ref" readonly="1"/>
+                                <field name="partner_vat_stripped" readonly="1" string="DIČ"/>
+                                <field name="supplies_code" readonly="1" string="Code"/>
+                                <field name="base_std" readonly="not is_overridden"/>
+                                <field name="tax_std" readonly="not is_overridden"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                                <field name="is_overridden" widget="boolean_toggle" optional="show"/>
                             </list>
                         </field>
                     </page>
                     <page string="B.2" name="cz_b2">
                         <field name="cz_b2_ids">
-                            <list create="false" delete="false" edit="false">
-                                <field name="entry_ref"/>
-                                <field name="partner_vat_stripped" string="DIČ"/>
-                                <field name="base_std"/>
-                                <field name="tax_std"/>
-                                <field name="base_red"/>
-                                <field name="tax_red"/>
-                                <field name="base_red3" optional="hide"/>
-                                <field name="tax_red3" optional="hide"/>
+                            <list create="false" delete="false" editable="bottom"
+                                  decoration-warning="is_overridden">
+                                <field name="entry_ref" readonly="1"/>
+                                <field name="partner_vat_stripped" readonly="1" string="DIČ"/>
+                                <field name="base_std" readonly="not is_overridden"/>
+                                <field name="tax_std" readonly="not is_overridden"/>
+                                <field name="base_red" readonly="not is_overridden"/>
+                                <field name="tax_red" readonly="not is_overridden"/>
+                                <field name="base_red3" optional="hide" readonly="not is_overridden"/>
+                                <field name="tax_red3" optional="hide" readonly="not is_overridden"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
                                         invisible="not source_move_line_ids"/>
+                                <field name="is_overridden" widget="boolean_toggle" optional="show"/>
                             </list>
                         </field>
                     </page>
                     <page string="B.3" name="cz_b3">
-                        <field name="cz_b3_ids"/>
+                        <field name="cz_b3_ids">
+                            <list create="false" delete="false" editable="bottom"
+                                  decoration-warning="is_overridden">
+                                <field name="row_count" readonly="1"/>
+                                <field name="base_std" readonly="not is_overridden"/>
+                                <field name="tax_std" readonly="not is_overridden"/>
+                                <field name="base_red" readonly="not is_overridden"/>
+                                <field name="tax_red" readonly="not is_overridden"/>
+                                <field name="base_red3" optional="hide" readonly="not is_overridden"/>
+                                <field name="tax_red3" optional="hide" readonly="not is_overridden"/>
+                                <field name="source_reconciles" string="✓" widget="boolean"/>
+                                <button name="action_view_source_lines" type="object"
+                                        icon="fa-search-plus" string="Documents"
+                                        invisible="not source_move_line_ids"/>
+                                <field name="is_overridden" widget="boolean_toggle" optional="show"/>
+                            </list>
+                        </field>
                     </page>
                 </notebook>
             </page>
@@ -118,9 +160,9 @@
         <field name="inherit_id" ref="account.view_tax_form"/>
         <field name="arch" type="xml">
             <field name="type_tax_use" position="after">
-                <field name="cssk_control_is_reverse_charge" invisible="1"/>
+                <field name="cssk_kh_domestic_rc" invisible="1"/>
                 <field name="cssk_kh_commodity_code"
-                       invisible="not cssk_control_is_reverse_charge"/>
+                       invisible="not cssk_kh_domestic_rc"/>
             </field>
         </field>
     </record>

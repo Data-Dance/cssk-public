@@ -1,7 +1,7 @@
 ---
 title: Účetní výkazy CZ/SK
 summary: Slovenské a české účetní výkazy sestavené z účetnictví řádek po řádku, se srovnatelným obdobím, ručně zadanými údaji tam, kde je účetnictví nedá, kontrolou, zda se každý účet dostal do některého řádku, a evidencí podání.
-verified: 19.0.1.10.2
+verified: 19.0.1.10.3
 ---
 
 ## K čemu slouží {#purpose}
@@ -157,6 +157,9 @@ běžné i minulé období. Dokument se dvěma výkazy, například slovenská �
 má pro každou část samostatný list. Částky řádků jsou uložené částky výkazu,
 takže sešit ukazuje přesně to, co se kontrolovalo, včetně ručně zadaných
 částek; účty pod přepsaným řádkem ukazují stav účetnictví.
+
+**Upozornění exportu.** Kontroly, které export nezastaví, se zobrazí ve
+žlutém pruhu nahoře na formuláři a v chatteru až do dalšího exportu.
 
 ## Omezení {#limitations}
 

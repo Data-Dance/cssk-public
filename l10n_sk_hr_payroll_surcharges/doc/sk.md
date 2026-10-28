@@ -1,7 +1,7 @@
 ---
 title: SK mzdové zvýhodnenia a minimálne mzdové nároky
 summary: Zákonné mzdové zvýhodnenia za nočnú prácu, prácu v sobotu, v nedeľu a vo sviatok, za prácu nadčas, mzdová kompenzácia za sťažený výkon práce a náhrada za pracovnú pohotovosť, ako aj doplatok do minimálneho mzdového nároku podľa stupňa náročnosti, v oboch mzdových enginoch.
-verified: 19.0.1.2.5
+verified: 19.0.1.2.6
 ---
 
 ## Na čo slúži {#purpose}

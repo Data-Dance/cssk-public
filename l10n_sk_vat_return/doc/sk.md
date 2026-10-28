@@ -1,7 +1,7 @@
 ---
 title: SK Daňové priznanie k DPH
 summary: Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.
-verified: 19.0.1.13.0
+verified: 19.0.1.13.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -117,8 +117,8 @@ Okrem [nastavenia spoločného základu](module:l10n_cssk_vat_return_base#setup)
   názov, ulica a číslo, PSČ, obec, telefón a e-mail. *Číslo* je číslo na konci
   poľa **Ulica** („Mlynská 1234/5“ dá *ulica* „Mlynská“ a *číslo* „1234/5“),
   prípadne polia čísla domu, ak sa adresa vedie rozdelená. **Ulica2** sa ako
-  číslo nikdy nepodáva; ulica, ktorá nekončí číslom, sa zapíše celá a *číslo*
-  zostane prázdne.
+  číslo podá, len ak obsahuje iba číslo — budova, poschodie či c/o nikdy;
+  ulica, ktorá nekončí číslom, sa zapíše celá a *číslo* zostane prázdne.
 - **Služby nakupované z EÚ** potrebujú správnu daň dodávateľa, pozri
   [nižšie](#eu-services).
 

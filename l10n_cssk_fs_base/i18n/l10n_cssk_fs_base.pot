@@ -1274,3 +1274,16 @@ msgstr ""
 #: code:addons/l10n_cssk_fs_base/models/cssk_fs_statement.py:0
 msgid "recomputed"
 msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,field_description:l10n_cssk_fs_base.field_cssk_fs_statement__cssk_export_warnings
+msgid "Export warnings"
+msgstr ""
+
+#. module: l10n_cssk_fs_base
+#: model:ir.model.fields,help:l10n_cssk_fs_base.field_cssk_fs_statement__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""

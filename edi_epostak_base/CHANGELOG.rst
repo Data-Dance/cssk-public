@@ -5,6 +5,22 @@ Changelog
 All notable changes to **edi_epostak_base** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.1.0] — 2026-10-27
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The ePošťák Firm ID belongs to the company.** It was one global setting, so
+  a second company's documents went out under the first company's firm. It is
+  now set per company in *Settings → EDI* (the company you are working in); the
+  upgrade gives the old value to the company the inbound scheduled action ran
+  as. The environment (sandbox / production) stays database-wide.
+- **Every company's inbox is collected.** The inbound scheduled action used to
+  ask for the documents of one company only — that of its user. It now polls,
+  as that company, each company holding an ePošťák account, each mailbox
+  (credentials, firm and Peppol address) once.
+
 [19.0.1.0.2] — 2026-10-27
 -------------------------
 

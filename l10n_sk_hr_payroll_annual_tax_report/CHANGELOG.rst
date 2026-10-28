@@ -14,6 +14,24 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.2.0.3] — 2026-10-27
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fixed
+~~~~~
+
+- **The house number is no longer taken from Street 2.** The employer's
+  *číslo* was *Street 2* whatever it held (a building, a floor, a c/o line),
+  and the house number stayed inside *ulica*. Both are now read by the shared
+  helper of ``l10n_cssk_core``: the trailing number of *Street*, *Street 2*
+  only when it holds nothing but a number.
+- Časť V: the employee's house number is split off the private street into
+  *c5cislo*, which was always empty.
+
+**Changed**
+
+- **Slovak translation.** The correction and submission fields every declaration shares (*Correction Type*, *Correction Reference*, *Delivery*, *Submissions*) showed in English; they are translated now.
+
 [19.0.2.0.2] — 2026-10-27
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

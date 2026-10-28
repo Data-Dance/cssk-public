@@ -10,6 +10,33 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.1] — 2026-10-27
+=========================
+
+* **PPPZ / HOZ: Street 2 no longer wins as the číslo popisné.** Whatever
+  *Street 2* held (a floor, a c/o line) was filed as
+  *adresaPlatceCisloPopisneOrientacni* ahead of the number in the street. The
+  address is now read by the shared helper of ``l10n_cssk_core``: the
+  trailing number of *Street*, *Street 2* only when it holds nothing but a
+  number.
+
+Fixed
+~~~~~
+
+- **A corrective PPPZ amends only the overview sent to the same insurer.**
+  A submitted overview to one insurer let a corrective overview for the same
+  month go out to another insurer that had never received a regular one. The
+  same scoping applies to the HOZ.
+- **The health fields are on the forms.** The company's *Default health
+  insurer* and *Health payer number* are on the company form (tab *Payroll
+  Reporting*), the employee's *Health insurer* next to *Identification No*.
+  Neither was on any form, so they could be set only by import.
+
+Changed
+~~~~~~~
+
+- **Czech translation.** The correction and submission fields every declaration shares (*Correction Type*, *Correction Reference*, *Delivery*, *Submissions*) showed in English; they are translated now.
+
 19.0.1.1.0 (2026-08-06)
 =======================
 
@@ -19,14 +46,14 @@ Unreleased
   here too. ``<typPrehledu>`` still emits the Czech spelling.
 
 19.0.1.0.1 (2026-07-06)
------------------------
+=======================
 
 * Normalized user-facing strings to clean English (form name, selection labels,
   field labels/help and error messages; authority codes kept as tokens). Added
   a Czech translation (``i18n/cs.po``).
 
 19.0.1.0.0 (2026-07-05)
------------------------
+=======================
 
 * Initial release: Czech health-insurance employer e-filings.
 * **PPPZ** (Přehled o platbě pojistného zaměstnavatele) — monthly employer

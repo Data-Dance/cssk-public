@@ -11,46 +11,49 @@ Only these codes are accepted; any other value is portal-rejected.
 """
 import re
 
-from odoo import _, models
+from odoo import _, fields, models
 from odoo.exceptions import UserError
 
-from odoo.addons.l10n_cssk_core.tools import statutory_whole
+from odoo.addons.l10n_cssk_core.tools import split_street, statutory_whole
 
 #: SK kód plnenia that report GOODS (0 tovar, 1 trojstranný obchod). Northern
 #: Ireland (XI) belongs to the EU VAT area for goods only, so a service (2) to
 #: an XI number is not a súhrnný výkaz supply.
 SK_SV_GOODS_CODES = ("0", "1")
 
-#: A trailing house number: "Hlavná 12", "Mlynská 1234/5", "Nám. SNP 7A".
-_SK_STREET_RE = re.compile(r"^(?P<street>.*?\S),?\s+(?P<number>\d[\w]*(?:\s*/\s*\w+)?)\s*$")
-
-
-def sk_fs_address(partner):
-    """``(ulica, cislo)`` for the FS SR eForm header — the twin of
-    ``l10n_sk_vat_return``'s helper, kept here because this module does not
-    depend on that one. Never Street 2: it holds a building, a floor or a c/o
-    line, not the súpisné / orientačné číslo."""
-    if "street_name" in partner._fields and partner.street_name:
-        number = (partner.street_number or "").strip()
-        number2 = (partner.street_number2 or "").strip()
-        if number and number2:
-            number = "%s/%s" % (number, number2)
-        return partner.street_name.strip(), number or number2
-    street = (partner.street or "").strip()
-    match = _SK_STREET_RE.match(street)
-    if match:
-        return match.group("street").strip(), match.group("number").replace(" ", "")
-    return street, ""
-
 
 class CSSKEcSummaryStatement(models.Model):
     _inherit = "cssk.ec.summary.statement"
 
+    # The last block of the hlavička — svdph20.xsd / svdph2010.xsd `konatel`,
+    # `konatelTel`, `konatelEmail` (2020 only) and `datumVyhlasenia`. They
+    # were exported empty: a legal person's výkaz names the person who files
+    # it, and every výkaz is dated. Same fields as the Slovak DPH header.
+    l10n_sk_country_code = fields.Char(related="country_id.code")
+    l10n_sk_authorized_name = fields.Char(
+        string="Konateľ / oprávnená osoba — meno a priezvisko (SK)",
+        help="konatel: the statutory body or the person authorised to file "
+        "the súhrnný výkaz for a legal person.")
+    l10n_sk_authorized_phone = fields.Char(
+        string="Konateľ / oprávnená osoba — telefón (SK)")
+    l10n_sk_authorized_email = fields.Char(
+        string="Konateľ / oprávnená osoba — e-mail (SK)",
+        help="konatelEmail — carried by the 2020 vzor only.")
+    l10n_sk_declaration_date = fields.Date(
+        string="Dátum vyhlásenia (SK)",
+        help="Date of the declaration that the figures are correct and "
+        "complete. Left empty, the date of the XML export is used.")
+
     def _cssk_render_context(self):
         ctx = super()._cssk_render_context()
         if self.country_id.code == "SK":
-            ctx["sk_ulica"], ctx["sk_cislo"] = sk_fs_address(
+            ctx["sk_ulica"], ctx["sk_cislo"] = split_street(
                 self.company_id.partner_id)
+            declared = (self.l10n_sk_declaration_date
+                        or fields.Date.context_today(self))
+            ctx["sk_datum_vyhlasenia"] = {
+                "den": str(declared.day), "mesiac": str(declared.month),
+                "rok": str(declared.year)}
         return ctx
 
     def _cssk_ec_is_delta(self):

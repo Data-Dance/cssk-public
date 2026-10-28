@@ -23,6 +23,13 @@ class TestUBLSlovakia(TestUBLCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # account_payment_order, when installed alongside, takes bank-account
+        # rights away from the partner managers and gives them to its own
+        # Accounting / Payments group; the core helper writes bank accounts.
+        payments = cls.env.ref(
+            'account_payment_order.group_account_payment', raise_if_not_found=False)
+        if payments:
+            cls.env.user.group_ids |= payments
         cls.sk_country = cls.env.ref('base.sk')
         cls.eur = cls.env['res.currency'].with_context(active_test=False).search(
             [('name', '=', 'EUR')], limit=1)
