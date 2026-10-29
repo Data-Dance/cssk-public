@@ -8,6 +8,26 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.12.0] — 2026-10-29
+--------------------------
+
+Fixed
+~~~~~
+
+- **A historical rate is replaced by its own vintage, not by today's.**
+  ``original_tax_ids`` ("Replaces") and ``replacing_tax_ids`` ("Replaced
+  by") are the same relation read from either end, and ``copy()`` copies it,
+  so every generated rate arrived claiming the taxes in force now. On the
+  Czech chart ``20% G`` was replaced by seven taxes spanning three vintages
+  — ``21% EX G``, ``21% EX S``, ``20% EX G``, ``20% EX S``, ``19% EX G``,
+  ``19% EX S`` and ``0% EX G.Custom`` — and ``12% EX S`` listed every
+  reduced rate since 2004 as a source. A 2011 extra-Community purchase
+  entered at 20 % was therefore self-assessed by the fiscal position at
+  **21 %**: the restatement the historical rates exist to prevent, arriving
+  through the fiscal position instead of through the tax. Each link is now
+  moved to the counterpart of the same vintage; a related tax with no
+  counterpart at that rate (a zero-rated one) is kept rather than dropped.
+
 [19.0.1.11.1] — 2026-10-27
 --------------------------
 

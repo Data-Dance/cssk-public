@@ -23,6 +23,7 @@ sole trader, which ORSF gates behind ``addressLocked`` for GDPR.
 import logging
 import re
 from datetime import datetime, timedelta
+from urllib.parse import urlsplit
 
 import requests
 from odoo import api, fields, models
@@ -171,13 +172,22 @@ class PartnerAutocompleteProviderOrsfSk(models.AbstractModel):
         if not email or not password:
             return ""
 
-        url = f"{self._orsf_auth_url()}/api/auth/sign-in/email"
+        auth_url = self._orsf_auth_url()
+        url = f"{auth_url}/api/auth/sign-in/email"
+        # better-auth refuses a sign-in that carries no trusted Origin (HTTP
+        # 403, INVALID_ORIGIN), which a browser always sends and requests never
+        # does. The trusted origin is the auth site's own — verified against
+        # orsf.sk, which accepts https://orsf.sk and refuses the API host — and
+        # an Origin is scheme and host only, so a configured URL with a path
+        # must not pass that path along.
+        parts = urlsplit(auth_url)
+        origin = f"{parts.scheme}://{parts.netloc}"
         try:
             response = requests.post(
                 url,
                 json={"email": email, "password": password},
                 timeout=self._orsf_timeout(),
-                headers={"Accept": "application/json"},
+                headers={"Accept": "application/json", "Origin": origin},
             )
         except RequestException as err:
             _logger.warning("ORSF sign-in to %s failed: %s", url, err)

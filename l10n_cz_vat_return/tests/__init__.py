@@ -4,3 +4,4 @@ from . import test_cz_deduction
 from . import test_cz_refund_repartition
 from . import test_cz_intra_community_mapping
 from . import test_cz_bad_debt
+from . import test_cz_asset_acquisition

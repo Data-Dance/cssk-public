@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **Signing in to ORSF failed with "Invalid origin"** (cssk-public#1). ORSF's
+  sign-in (better-auth) refuses a request that carries no trusted ``Origin``
+  header (HTTP 403, ``INVALID_ORIGIN``); a browser always sends one, the
+  server's HTTP client never did, so the configured account could never get a
+  session and the gated endpoints stayed anonymous. The sign-in now sends the
+  auth site's own origin, scheme and host only, which is the one ORSF trusts.
+
 [19.0.1.4.1] — 2026-10-27
 -------------------------
 

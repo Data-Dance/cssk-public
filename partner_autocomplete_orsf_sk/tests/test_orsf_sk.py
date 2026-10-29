@@ -190,6 +190,29 @@ class TestOrsfSkProvider(TransactionCase):
             self.provider._orsf_cookies()
             post.assert_not_called()
 
+    def _signed_in_origin(self):
+        """The Origin header a sign-in sends."""
+        self.param.set_param("orsf_sk.login_email", "bot@example.org")
+        self.param.set_param("orsf_sk.login_password", "s3cret")
+        response = type("R", (), {
+            "status_code": 200,
+            "cookies": {"__Secure-orsf.session_token": "tok-1"},
+            "json": lambda self: {},
+        })()
+        with patch("requests.post", return_value=response) as post:
+            self.provider._orsf_sign_in()
+        return post.call_args.kwargs["headers"].get("Origin")
+
+    def test_sign_in_sends_the_auth_sites_origin(self):
+        """better-auth answers a sign-in without a trusted Origin with 403
+        INVALID_ORIGIN (cssk-public#1)."""
+        self.param.set_param("orsf_sk.auth_base_url", "")
+        self.assertEqual(self._signed_in_origin(), "https://orsf.sk")
+
+    def test_the_origin_is_scheme_and_host_only(self):
+        self.param.set_param("orsf_sk.auth_base_url", "https://auth.example.org:8443/orsf/")
+        self.assertEqual(self._signed_in_origin(), "https://auth.example.org:8443")
+
     def _cache_session(self, token="tok-cached"):
         self.param.set_param("orsf_sk.login_email", "bot@example.org")
         self.param.set_param("orsf_sk.login_password", "s3cret")

@@ -230,6 +230,7 @@ class ResCompany(models.Model):
                     "cssk_historic_valid_to": valid_to,
                     "active": False,
                 }
+                clones, fresh = {}, company_taxes.browse()
                 for source in sources:
                     name = company._cssk_historic_tax_name(
                         source.name, source_rate, rate
@@ -246,6 +247,11 @@ class ResCompany(models.Model):
                         company._cssk_remap_historic_tags(existing, tag_remap)
                         touched |= existing
                         adopted += 1
+                        # In the map as well as the clones: the re-vintaging
+                        # below has to be able to FIND an adopted counterpart,
+                        # or a freshly cloned 20 % domestic rate would lose its
+                        # link to a 20 % import tax somebody made by hand.
+                        clones[source] = existing
                         continue
                     clone = source.copy({
                         "name": name,
@@ -263,6 +269,9 @@ class ResCompany(models.Model):
                     company._cssk_remap_historic_tags(clone, tag_remap)
                     touched |= clone
                     created += 1
+                    clones[source] = clone
+                    fresh |= clone
+                company._cssk_revintage_replacements(clones, fresh)
             if created or adopted:
                 _logger.info(
                     "%s: %s historical VAT taxes created, %s adopted",
@@ -318,6 +327,138 @@ class ResCompany(models.Model):
             _logger.info(
                 "cssk: %s repartition line(s) of %s remapped to the tags of "
                 "the form in force at the time", moved, tax.name,
+            )
+        return moved
+
+    def _cssk_revintage_replacements(self, clones, fresh):
+        """Point a vintage's tax replacements at the same vintage.
+
+        ``account.tax`` carries the fiscal-position replacement in
+        ``original_tax_ids`` ("Replaces") and reads it back through
+        ``replacing_tax_ids`` ("Replaced by") — **one relation, two names**,
+        and ``copy()`` copies it. A clone therefore arrives claiming to be
+        replaceable by, and a replacement for, the taxes in force TODAY.
+
+        Measured on a Czech chart after the generator had run (19.0,
+        ``l10n_cz``)::
+
+            20% G  replaced_by  21% EX G, 21% EX S, 0% EX G.Custom,
+                                20% EX G, 20% EX S, 19% EX G, 19% EX S
+            12% EX S  replaces  12% G, 15% G, 14% G, 10% G, 9% G, 5% G
+
+        Seven destinations for one rate, spanning three vintages, and the
+        current-rate import tax listing every reduced rate since 2004 as a
+        source. What that buys, on the only documents these taxes exist for, is
+        a 2011 extra-Community purchase entered at 20 % and self-assessed by
+        the fiscal position at **21 %** — the precise restatement the whole
+        historical-rate feature exists to prevent, arriving by a different
+        door.
+
+        So each link is moved to the counterpart of the same vintage:
+        ``20% G`` is replaced by ``20% EX G`` and ``20% EX S``, and nothing
+        else. Three cases, and the third is the interesting one:
+
+        * **A counterpart at this rate** — re-pointed. This is the whole job.
+        * **A rate-free related tax** — kept as it is. ``0% EX G.Custom`` has
+          no vintage to speak of, and dropping it would remove a mapping on a
+          guess.
+        * **A related tax at some other current rate** — dropped, and each
+          one is **named in a warning**: it is the only thing here that loses
+          configuration, so it has to be greppable afterwards. ``21% ND``
+          replaces the reduced-rate EU acquisitions as well as the standard
+          ones, so the 2010 clone would otherwise keep today's ``12% EU G`` as
+          a source and restate a 2011 document at 20 % — the same defect one
+          band over. The 2010 reduced rate does exist, but which one it was is
+          genuinely ambiguous: 10 % ran 2010–2023 and 14 % through 2012, and
+          ``_cssk_historic_vat_rates`` records a window, not a pairing.
+          Guessing would be a tax decision; dropping the link means a fiscal
+          position leaves a historical document on the rate whoever entered it
+          chose, which is the conservative answer and the right one for the
+          history imports these rates exist for.
+
+        ``clones`` is ``{current-rate tax: this vintage's tax}`` for one
+        vintage, so the lookup is exact and no name is parsed. ``fresh`` is
+        the subset that was just created: those are rewritten outright, while
+        a rate somebody made **by hand** and this generator merely adopted has
+        its links swapped one at a time and nothing else removed. An exact-set
+        write on an adopted rate would discard the user's own mapping — twice
+        over, these two fields being one table read from both ends. Raised by
+        a GPT-5.3-Codex review of this change.
+
+        Idempotent, and it has to be: the generator runs on install, on every
+        chart load and from migrations, and ``_cssk_historic_vat_rates``
+        declares seven Czech vintages that each see the previous six.
+        """
+        self.ensure_one()
+        if not clones:
+            return 0
+        moved = 0
+        dropped = []
+        for source, clone in clones.items():
+            exact = clone in fresh
+            for field in ("original_tax_ids", "replacing_tax_ids"):
+                # ⚠️ Current rates only, and this filter is load-bearing. By
+                # the time a second vintage is generated the SOURCE's own links
+                # are already polluted by the first one's clones — that is the
+                # bug being repaired, read from the other end — so copying them
+                # forward would give the 2010 rate the 2004 rate's import
+                # taxes as well as its own. A re-run would then accumulate
+                # every vintage onto every vintage.
+                related = source[field].filtered(
+                    lambda t: not t.cssk_historic_valid_from)
+                keep = related.filtered(lambda t: t in clones or not t.amount)
+                dropped += [
+                    (clone.name, field, t.name)
+                    for t in related - keep
+                ]
+                wanted = [
+                    clones[tax].id if tax in clones else tax.id
+                    for tax in keep
+                ]
+                # Deduplicated: two current-rate taxes can share one vintage
+                # counterpart, and the relation is a set.
+                wanted = list(dict.fromkeys(wanted))
+                if exact:
+                    # Freshly cloned: the inherited list is the SOURCE's, which
+                    # is meaningless for a vintage, so replace it outright.
+                    if set(wanted) != set(clone[field].ids):
+                        clone[field] = [(6, 0, wanted)]
+                        moved += 1
+                else:
+                    # Adopted — somebody made this rate by hand, so the links
+                    # on it may be theirs. Swap only the ones that point at a
+                    # CURRENT rate with a counterpart at this vintage, and
+                    # remove nothing else. ⚠️ An exact-set write here would
+                    # discard a user's own mapping, and both these fields are
+                    # the same table read from opposite ends, so it would do it
+                    # twice over. Raised by a GPT-5.3-Codex review.
+                    swap = {
+                        tax.id: clones[tax].id
+                        for tax in related if tax in clones
+                        and clones[tax] != tax
+                    }
+                    commands = []
+                    for tax in clone[field]:
+                        if tax.id in swap:
+                            commands += [(3, tax.id), (4, swap[tax.id])]
+                    if commands:
+                        clone[field] = commands
+                        moved += 1
+        if dropped:
+            # Named rather than counted. Dropping a mapping is the one thing
+            # here that LOSES configuration, so it has to be greppable after
+            # the fact — a count would say that something went and not what.
+            _logger.warning(
+                "cssk: %s tax-replacement link(s) dropped from a historical "
+                "rate because the related tax is at a different current rate "
+                "and this vintage's counterpart is ambiguous: %s",
+                len(dropped),
+                "; ".join("%s.%s -> %s" % row for row in dropped),
+            )
+        if moved:
+            _logger.info(
+                "cssk: %s tax-replacement link set(s) re-pointed at the rates "
+                "of their own vintage on %s", moved, self.display_name,
             )
         return moved
 

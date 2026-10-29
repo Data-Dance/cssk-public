@@ -80,7 +80,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_purchase_order_advance_invoice` | 19.0.1.0.1 | Czech chart wiring for purchase_order_advance_invoice. |
 | `l10n_cz_sale_order_advance_invoice` | 19.0.1.1.0 | Czech chart wiring for advance invoices (zálohové faktury) |
 | `l10n_cz_statutory` | 19.0.1.3.0 | Czech statutory reference registries: finanční úřady (seeded from the official l10n_cz.tax_office codelist) and person types. |
-| `l10n_cz_vat_return` | 19.0.1.12.0 | Czech VAT return (přiznání k DPH / DPHDP3) on the shared VAT-return framework: line set mapped to the l10n_cz tax tags + the EPO Pisemnost/DPHDP3 XML export. |
+| `l10n_cz_vat_return` | 19.0.1.14.0 | Czech VAT return (přiznání k DPH / DPHDP3) on the shared VAT-return framework: line set mapped to the l10n_cz tax tags + the EPO Pisemnost/DPHDP3 XML export. |
 | `l10n_cz_vat_status` | 19.0.1.1.0 | The Czech company's own VAT registration status over time, and what it does to invoices, bills, DPHDP3 and the kontrolní hlášení. |
 | `l10n_cz_vat_status_purchase` | 19.0.1.0.0 | Purchase order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
 | `l10n_cz_vat_status_sale` | 19.0.1.0.0 | Sales order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
@@ -177,7 +177,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.0 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
 | `l10n_cssk_submission_base` | 19.0.1.1.1 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
-| `l10n_cssk_vat_return_base` | 19.0.1.11.1 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
+| `l10n_cssk_vat_return_base` | 19.0.1.12.0 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
 | `l10n_cssk_vies` | 19.0.2.1.0 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
 
 ### European Union (1)

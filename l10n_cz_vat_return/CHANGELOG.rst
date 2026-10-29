@@ -8,6 +8,56 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.14.0] — 2026-10-29
+--------------------------
+
+Added
+~~~~~
+
+- **ř. 47 — hodnota pořízeného majetku.** ``l10n_cz`` declares
+  ``VAT 47 Base`` and ``VAT 47 Total`` in its tax report and ships no tax
+  carrying either, so *hodnota pořízeného majetku vymezeného v § 4 odst. 4
+  písm. d) a e)* filed 0.00 on every return this module has produced.
+  Checked against a Czech agenda's own filed returns for 11 periods between
+  2021-09 and 2025-11, the row carried millions of crowns of base in a single
+  month on every one of them — so the shipped chart could not produce a
+  correct return for any taxpayer that buys fixed assets.
+
+  The missing fact is per-document and binary — is this purchase a long-term
+  asset? — and Odoo has nowhere to put it, so it goes where the return
+  already reads from: the tax. Every purchase tax whose acquisition is
+  deductible on ř. 40–44 now has a *Majetek* twin (``21% G Majetek``,
+  ``21% EU G Majetek``, …; 16 of them on the shipped chart), identical to its
+  source in rate, repartition, accounts and deduction tags, and additionally
+  carrying the ř. 47 tags: ``VAT 47 Base`` on the base repartition and
+  ``VAT 47 Total`` on the **positive** tax leg, so ``od_maj``'s unsigned
+  formula is unchanged. Picking a twin reports the acquisition on ř. 47 as
+  well as on ř. 40–44, with no other change to the return.
+
+  The twins follow the historical-rate generator, so each exists at every
+  Czech rate since 2004 (56 archived clones) and a history import can report
+  a 15 % asset purchase on ř. 47. ř. 9 (new means of transport), ř. 42 (daň
+  zaplacená celnímu orgánu, shipped at 0 %) and ř. 32 (osvobozené dovozy)
+  deliberately get no twin — see ``CZ_ASSET_SOURCE_TAGS``.
+
+[19.0.1.13.0] — 2026-10-29
+--------------------------
+
+Fixed
+~~~~~
+
+- **The Extra-Community position could not tell goods from services.**
+  ``l10n_cz`` points BOTH extra-Community service taxes at the domestic
+  **goods** tax, so one 1 000 CZK line carrying ``21% G`` was mapped onto
+  three taxes — ``21% EX G``, ``21% EX S`` and ``0% EX G.Custom`` — and the
+  same purchase was declared on ř. 7, ř. 12 and ř. 42 while ř. 43 deducted
+  420.00 against a real 210.00. The bill still totalled 1 000.00, because
+  each self-assessment cancels itself, so nothing on the document disagreed.
+  In the other direction ``21% S`` mapped to nothing at all, so a service
+  bought from outside the EU kept the Czech 21 % the supplier never charged
+  and was never self-assessed. ``0% EX G.Custom``'s own auto-mapping is
+  reported but deliberately left alone.
+
 [19.0.1.12.0] — 2026-10-27
 --------------------------
 

@@ -30,6 +30,16 @@ def post_init_hook(env):
         # l10n_cz maps nothing onto its intra-Community acquisition taxes, so
         # an EU vendor bill keeps the domestic VAT. See the method.
         companies._cz_map_intra_community_purchase_taxes()
+        # ...and points both extra-Community SERVICE taxes at the domestic
+        # goods tax, so one line self-assessed three times while a service
+        # bought outside the EU self-assessed not at all. See the method.
+        companies._cz_map_extra_community_service_taxes()
+        # ř47: l10n_cz declares VAT 47 Base/Total and no tax carries either, so
+        # the value of acquired assets filed 0.00 whatever was bought. The
+        # twins are copies — see the method for why they come last, and why the
+        # historical rates are then generated again.
+        companies._cz_create_asset_acquisition_taxes()
+        companies._cssk_create_historic_vat_taxes()
         _logger.info(
             "l10n_cz_vat_return: historical VAT rates prepared for %s company "
             "(companies)", len(companies),

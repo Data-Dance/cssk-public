@@ -187,3 +187,100 @@ class TestCzHistoricVatRates(AccountTestInvoicingCommon):
         self.assertEqual(handmade.cssk_historic_valid_from.year, 2013)
         self.assertEqual(handmade.cssk_historic_valid_to.year, 2023)
         self.assertEqual(handmade.cssk_historic_source_tax_id, source)
+
+    # -- the tax-replacement links ----------------------------------------
+
+    def test_a_vintage_is_replaced_by_its_own_vintage(self):
+        """``copy()`` copies the replacement link, and it is ONE relation.
+
+        ``original_tax_ids`` ("Replaces") and ``replacing_tax_ids``
+        ("Replaced by") are the same ``account_tax_alternatives`` rows read
+        from either end, and both are copied. A clone therefore arrived
+        claiming the taxes in force TODAY as its replacements — measured on
+        this chart before the repair::
+
+            20% G  replaced_by  21% EX G, 21% EX S, 0% EX G.Custom,
+                                20% EX G, 20% EX S, 19% EX G, 19% EX S
+
+        Seven destinations for one rate across three vintages. What that buys
+        is a 2011 extra-Community purchase entered at 20 % and self-assessed
+        by the fiscal position at 21 %, which is the restatement this whole
+        feature exists to prevent.
+        """
+        for rate in (20.0, 15.0):
+            for tax in self._historic(rate):
+                for field in ("original_tax_ids", "replacing_tax_ids"):
+                    wrong = tax[field].filtered(
+                        lambda t: t.amount and t.amount != rate)
+                    self.assertFalse(
+                        wrong,
+                        "%s (%g %%) %s a rate of its own vintage only, not %s"
+                        % (tax.name, rate, field,
+                           [(t.name, t.amount) for t in wrong]))
+
+    def test_a_rate_free_counterpart_is_kept_rather_than_dropped(self):
+        """A zero-rated destination has no vintage, so it is left alone.
+
+        ``0% EX G.Custom`` is wired by the chart as a replacement for every
+        domestic purchase tax. Re-pointing cannot improve that link — there is
+        no 20 % version of a 0 % tax — and dropping it would remove a mapping
+        on a guess, so it survives. Pinned because the obvious
+        "rebuild the list from the clones" implementation silently loses it.
+        """
+        custom = self.env["account.chart.template"].ref(
+            "l10n_cz_import_goods_tax_authority", raise_if_not_found=False)
+        if not custom:
+            self.skipTest("this chart ships no ř. 42 customs tax")
+        kept = self._historic(20.0).filtered(
+            lambda t: custom in t.replacing_tax_ids)
+        self.assertTrue(
+            kept,
+            "the 20 %% rates lost their rate-free replacements; "
+            "_cssk_revintage_replacements must keep what it cannot re-point")
+
+    def test_re_running_the_generator_does_not_accumulate_links(self):
+        """Seven vintages each see the previous six.
+
+        So the pass has to read the SOURCE's current-rate links, not whatever
+        the source has accumulated — otherwise every run adds every vintage to
+        every vintage, and the growth is silent.
+        """
+        # Run it ONCE first. The test framework creates its own copies of the
+        # domestic taxes after the chart loaded, so the first re-run legitimately
+        # gives those a vintage twin and the links legitimately grow. What must
+        # not grow is a run that found nothing new.
+        self.company._cssk_create_historic_vat_taxes()
+        before = {
+            tax: set(tax.replacing_tax_ids.ids)
+            for tax in self._historic()
+        }
+        self.company._cssk_create_historic_vat_taxes()
+        grown = {
+            tax.name: sorted(set(tax.replacing_tax_ids.ids) - ids)
+            for tax, ids in before.items()
+            if set(tax.replacing_tax_ids.ids) - ids
+        }
+        self.assertFalse(grown, "links accumulated on a re-run: %s" % grown)
+
+    def test_a_hand_made_rate_keeps_its_own_replacement_links(self):
+        """An ADOPTED vintage is swapped link by link, never rewritten.
+
+        Both of these fields are the same ``account_tax_alternatives`` table
+        read from opposite ends, so an exact-set write on a rate somebody
+        created by hand discards their mapping twice over. The generated
+        clones are rewritten outright — their inherited list is the current
+        rate's and means nothing for a vintage — but an adopted one is not.
+        Raised by a GPT-5.3-Codex review.
+        """
+        twenty = self._historic(20.0).filtered(
+            lambda t: t.type_tax_use == "purchase")[:1]
+        self.assertTrue(twenty)
+        unrelated = self.env["account.chart.template"].ref(
+            "l10n_cz_not_subject_vat")
+        twenty.original_tax_ids = [(4, unrelated.id)]
+        # Force the adoption path: the tax already carries the generated name.
+        self.company._cssk_create_historic_vat_taxes()
+        self.assertIn(
+            unrelated, twenty.original_tax_ids,
+            "re-vintaging discarded a link that was not the generator's to "
+            "remove")
