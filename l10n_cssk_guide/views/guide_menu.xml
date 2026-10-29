@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="action_cssk_guide" model="ir.actions.act_url">
+        <field name="name">Guides</field>
+        <field name="url">/cssk/guide</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_cssk_guide"
+              name="Guides"
+              parent="account.menu_finance_configuration"
+              action="action_cssk_guide"
+              sequence="100"/>
+</odoo>

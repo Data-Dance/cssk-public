@@ -2,6 +2,7 @@
 
 Czech and Slovak localization for Odoo: statutory accounting, VAT and control-statement filings, payroll, banking formats and company-register lookups. Published by Data Dance s.r.o. as a contribution to the Odoo community.
 
+- [User guide](https://data-dance.github.io/cssk-public/)
 - [Slovak modules](https://www.datadance.eu/en/moduly/slovensko)
 - [Czech modules](https://www.datadance.eu/en/moduly/cesko)
 - [Licensing FAQ](https://www.datadance.eu/en/moduly/licencia)
@@ -42,7 +43,7 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-174 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+175 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
 ### Czech Republic (35)
 
@@ -140,7 +141,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_vrp2_account` | 19.0.2.4.0 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_vrp2_base` | 19.0.2.4.0 | Connection layer for the Slovak Virtual Cash Register (VRP 2) |
 
-### Czech Republic and Slovakia (33)
+### Czech Republic and Slovakia (34)
 
 | Module | Version | What it does |
 |---|---|---|
@@ -152,6 +153,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_ec_summary_vies` | 19.0.1.0.4 | Validate EC sales list partners against VIES at export and snapshot the consultation number onto each line. |
 | `l10n_cssk_fs_base` | 19.0.1.10.3 | Country-neutral framework for the Slovak and Czech financial statements (balance sheet + P&L): line trees computed from account-code balances + aggregates… |
 | `l10n_cssk_fs_xlsx` | 19.0.1.0.0 | Export a financial statement to Excel: every row with its brutto / korekcia / netto and the analytic accounts behind it. |
+| `l10n_cssk_guide` | 19.0.1.0.0 | One page to start from: the first steps and the guide of every Czech and Slovak localization module on this server, by topic. |
 | `l10n_cssk_hr_payroll_garnishment_account` | 19.0.1.1.2 | Turn each wage-garnishment deduction into a payable to the bailiff, stamped with the case number as variable symbol, ready for the payment order and the bank… |
 | `l10n_cssk_hr_payroll_garnishment_base` | 19.0.1.3.0 | Engine-neutral register of Czech and Slovak wage-garnishment orders (exekuční / exekučný príkaz) with the statutory multi-claim waterfall and the employer's… |
 | `l10n_cssk_hr_payroll_garnishment_oca` | 19.0.1.0.2 | Apply the Czech/Slovak wage-garnishment waterfall on payslips computed by the OCA payroll engine. |

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- The text of this page comes from data/guide.json and data/start_*.html,
+         written by tools/gen_module_docs.py; it holds no text of its own. -->
+    <template id="guide_page" name="CZ/SK user guide">
+        <t t-out="doctype"/>
+        <html t-att-lang="guide_lang">
+            <head>
+                <meta charset="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                <title t-out="start['title']"/>
+                <link rel="stylesheet" type="text/css" href="/l10n_cssk_guide/static/src/css/guide.css"/>
+            </head>
+            <body>
+                <main class="cssk-doc cssk-wide">
+                    <nav class="cssk-lang">
+                        <t t-foreach="lang_links" t-as="link">
+                            <t t-if="not link_first" t-out="' · '"/>
+                            <a t-if="link[1]" t-att-href="link[1]" t-out="link[0]"/>
+                            <b t-else="" t-out="link[0]"/>
+                        </t>
+                    </nav>
+                    <h1 t-out="start['title']"/>
+                    <p class="cssk-summary" t-out="start['summary']"/>
+                    <t t-out="start_html"/>
+                    <h2 t-out="labels['topics']"/>
+                    <ul class="cssk-toc">
+                        <li t-foreach="topics" t-as="topic">
+                            <a t-att-href="'#' + topic['key']" t-out="topic['title']"/>
+                        </li>
+                    </ul>
+                    <div class="cssk-filter">
+                        <t t-out="labels['show'] + ':'"/>
+                        <t t-foreach="country_links" t-as="link">
+                            <a class="cssk-chip" t-att-href="link[1]"
+                               t-att-aria-current="'true' if link[2] else None"
+                               t-out="link[0]"/>
+                        </t>
+                    </div>
+                    <t t-foreach="topics" t-as="topic">
+                        <h2 t-att-id="topic['key']" t-out="topic['title']"/>
+                        <p class="cssk-note" t-out="topic['intro']"/>
+                        <div t-if="topic['rows']" class="cssk-scroll">
+                            <table class="cssk-guide">
+                                <tr>
+                                    <th t-out="labels['col_title']"/>
+                                    <th t-out="labels['col_name']"/>
+                                    <th t-out="labels['col_version']"/>
+                                    <th t-out="labels['col_summary']"/>
+                                    <th t-out="labels['col_state']"/>
+                                </tr>
+                                <tr t-foreach="topic['rows']" t-as="row" t-att-data-country="row['country']">
+                                    <td>
+                                        <a t-att-href="row['url']" target="_blank" t-out="row['title']"/>
+                                        <span t-if="row['country'] != 'both'" class="cssk-badge"
+                                              t-out="row['country'].upper()"/>
+                                    </td>
+                                    <td class="cssk-name"><code t-out="row['name']"/></td>
+                                    <td class="cssk-version" t-out="row['version']"/>
+                                    <td t-out="row['summary']"/>
+                                    <td class="cssk-version">
+                                        <span t-attf-class="cssk-state #{'cssk-on' if row['installed'] else ''}"
+                                              t-out="labels['installed'] if row['installed'] else labels['not_installed']"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <p t-else="" class="cssk-note"><i t-out="labels['empty']"/></p>
+                    </t>
+                    <footer>
+                        <p><a href="https://www.datadance.eu" t-out="'Data Dance s.r.o.'"/></p>
+                    </footer>
+                </main>
+            </body>
+        </html>
+    </template>
+</odoo>
