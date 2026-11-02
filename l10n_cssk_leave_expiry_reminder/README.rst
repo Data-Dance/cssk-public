@@ -3,7 +3,7 @@ Leave Expiry Reminder (CZ/SK)
 ==========================
 
 .. |badge1| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
-    :alt: License: Other proprietary
+    :alt: License: AGPL-3
 
 |badge1|
 

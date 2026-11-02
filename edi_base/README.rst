@@ -4,8 +4,8 @@ EDI Base
 
 .. |badge1| image:: https://img.shields.io/badge/maturity-Production%2FStable-green.png
     :alt: Production/Stable
-.. |badge2| image:: https://img.shields.io/badge/licence-Other%20proprietary-lightgray.png
-    :alt: License: Other proprietary
+.. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+    :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/Odoo-19.0-714B67.png
     :target: https://www.odoo.com
     :alt: Odoo 19.0
@@ -202,4 +202,4 @@ Maintainers
 License
 ~~~~~~~
 
-Data Dance Proprietary License v1.0 — see ``LICENSE`` and ``__manifest__.py``.
+AGPL-3.0 or later — see ``LICENSE``.

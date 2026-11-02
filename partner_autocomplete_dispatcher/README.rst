@@ -4,7 +4,7 @@ Partner Autocomplete Dispatcher
 
 
 .. |badge1| image:: https://raster.shields.io/badge/license-AGPL--3-blue.png
-    :alt: License: Other proprietary
+    :alt: License: AGPL-3
 
 |badge1| 
 
