@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_cssk_vat_return_base/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="../../../l10n_cssk_vat_return_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>Daňové priznanie k DPH CZ/SK — spoločný základ</h1>
 <p class="cssk-summary">Obrazovky a postup, na ktorých stojí slovenské aj české daňové priznanie k DPH — výpočet riadkov z daňových značiek, kontrola voči účtovným zápisom, export úradného XML a uchovanie podanej verzie.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.12.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="../../../l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="../../../l10n_cssk_submission_base/static/description/index_sk.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="../../../l10n_sk_vat_return/static/description/index_sk.html"><code>l10n_sk_vat_return</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.13.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="../../../l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="../../../l10n_cssk_submission_base/static/description/index_sk.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="../../../l10n_sk_vat_return/static/description/index_sk.html"><code>l10n_sk_vat_return</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Modul je spoločným jadrom daňového priznania k DPH (na Slovensku <em>daňové
@@ -182,6 +182,9 @@ poradí:</p>
 <p>Súbor sa priloží k priznaniu (<em>XML príloha</em>) a priznanie prejde do stavu
 <em>Exportované</em>. Prepočítať a exportovať ho môžete opakovane, kým ho neoznačíte
 ako podané.</p>
+<p><strong>Upozornenia exportu.</strong> Kontroly, ktoré export nezastavia (napríklad sadzba
+DPH, ktorá nezodpovedá žiadnej zákonnej), sa zobrazia v žltom pruhu navrchu
+formulára a v chatteri až do ďalšieho exportu.</p>
 <h2 id="submission">Podanie a podaná verzia</h2>
 <p>XML podajte na portáli finančnej správy alebo cez modul podacieho kanála. Potom:</p>
 <ul>
@@ -196,6 +199,32 @@ ako podané.</p>
   zmazať. <strong>Vrátiť do návrhu</strong> (len administrátor) ho znova otvorí; podaná
   verzia a história zostanú zachované.</li>
 </ul>
+<h2 id="vat-closing">Uzávierka DPH</h2>
+<p>Keď je priznanie <em>Exportované</em> alebo <em>Podané</em>, tlačidlo <strong>Uzávierka DPH</strong>
+pripraví doklad, ktorý zúčtuje účty DPH obdobia (analytické účty 343 podľa
+sadzby, na vstupe aj výstupe) na <strong>účet zúčtovania DPH</strong>; na ňom potom
+zostane vlastná daňová povinnosť alebo nadmerný odpočet obdobia. Doklad
+vznikne ako <strong>návrh</strong> k poslednému dňu obdobia; skontrolujete a zaúčtujete
+ho sami.</p>
+<ul>
+<li><strong>Ktoré doklady</strong> — presne tie z priznania: daň na výstupe podľa dňa
+  dodania, na vstupe podľa dátumu uplatnenia odpočtu. Doklad zaúčtovaný
+  v ďalšom mesiaci, ale s dodaním v tomto, sa uzavrie s týmto obdobím.</li>
+<li><strong>Musí súhlasiť s priznaním.</strong> Doklad prenáša vlastnú daňovú povinnosť
+  mínus nadmerný odpočet z priznania. Rozdiel do <em>tolerancie uzávierky DPH</em>
+  je zaokrúhlenie (priznanie sa zaokrúhľuje po riadkoch) a ide na účty
+  zaokrúhlenia; väčší rozdiel uzávierku zastaví a uvedie obe sumy — najprv
+  skontrolujte nezosúladené riadky.</li>
+<li><strong>Každý daňový riadok sa uzavrie raz.</strong> Opravné alebo dodatočné priznanie
+  toho istého obdobia uzavrie len to, čo predchádzajúca uzávierka nezahrnula,
+  a súhlasí s rozdielom voči predchádzajúcim priznaniam. Zmazaná alebo
+  zrušená uzávierka svoje riadky opäť uvoľní.</li>
+<li>Prenesený nadmerný odpočet v doklade nie je: je to zostatok, ktorý na účte
+  zúčtovania nechala predchádzajúca uzávierka.</li>
+</ul>
+<p>Účty sa nastavujú v <em>Účtovníctvo › Konfigurácia › Nastavenia › Uzávierka
+DPH</em>; prázdne sa nahradia účtami 343000 (zúčtovanie), 548000 a 648000
+(zaokrúhlenie).</p>
 <h2 id="amendments">Opravné a dodatočné priznanie</h2>
 <p>Na podanom priznaní tlačidlo <strong>Dodatočné / opravné</strong> založí nový návrh
 prepojený s pôvodným (<em>Opravuje</em>) a prenesie doň ručné prepisy. Na novom
@@ -229,7 +258,9 @@ vytvoriť znova (opakovanie je bezpečné), správca účtovníctva otvorí
 spoločnosť v <em>Nastavenia → Spoločnosti</em> a v ponuke <em>Akcia</em> spustí
 <strong>Vytvoriť historické sadzby DPH</strong>.</p>
 <p>Ak historická sadzba existuje, iné moduly lokalizácie podľa nej zdania doklad
-sadzbou platnou k jeho dátumu.</p>
+sadzbou platnou k jeho dátumu. Historická sadzba je prepojená s daňami svojho
+obdobia (<em>Nahradzuje (dane)</em> / <em>Nahradené (daňami)</em>), takže fiškálna pozícia priradí nákupu
+z roku 2011 so sadzbou 20 % samovyrubenie 20 %, nie dnešnú sadzbu.</p>
 <h2 id="legacy">Historické podania</h2>
 <p>Priznanie prenesené z predchádzajúceho systému je <strong>Historické podanie</strong>:
 záznam o tom, čo bolo podané, označený stuhou. Nedá sa prepočítať, exportovať
@@ -237,23 +268,18 @@ ani podať. Jediná akcia, <strong>Porovnať s vypočítaným</strong>, prepoč�
 účtovníctva a zaznamená rozdiely v <em>Účtovníctvo → Výkazy → Zákonné výkazy →
 Podané vs vypočítané</em>. Ak treba také obdobie opraviť, založte z neho dodatočné
 priznanie; to je už bežné priznanie.</p>
-<p><strong>Upozornenia exportu.</strong> Kontroly, ktoré export nezastavia, sa zobrazia v
-žltom pruhu navrchu formulára a v chatteri až do ďalšieho exportu.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
 <li>Verziu za vás nikto nevyberie: zvoľte ju na každom priznaní. Nekontroluje sa,
   či dátumy tvoria celý mesiac alebo štvrťrok. <em>Typ obdobia</em> sa kontroluje len
   voči obdobiam, ktoré verzia pripúšťa (každá dodaná verzia pripúšťa obe).</li>
-<li>Kontrola sadzby, ktorá iba varuje (odvodená sadzba nezodpovedá žiadnej
-  zákonnej), sa zapíše len do serverového logu a na obrazovke sa nezobrazí;
-  export zastavia iba chyby.</li>
 <li>Stĺpec ✓ porovnáva absolútne sumy, chybu v znamienku teda neukáže.</li>
 <li>Dodatočné priznanie preberie typ výkazu pôvodného; zmeniť ho musíte sami.</li>
 <li>Výpočet ukáže to, čo hovoria značky. Daň so zlými značkami alebo doklad bez
   značiek skončí v zlom riadku alebo v žiadnom; pred podaním si prejdite
   preklik <strong>Doklady</strong>.</li>
 </ul>
-<footer><p>Text overený voči verzii modulu: 19.0.1.11.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 19.0.1.13.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

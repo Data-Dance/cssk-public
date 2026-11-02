@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_cssk_vat_return_base/static/description/index_sk.html">Slovenčina</a> · <a href="../../../l10n_cssk_vat_return_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ/SK VAT Return — Shared Engine</h1>
 <p class="cssk-summary">The screens and the workflow behind the Slovak and Czech VAT returns — compute the rows from tax tags, check them against the journal items, export the official XML and keep the filed copy.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.12.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <a href="../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="../../../l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="../../../l10n_sk_vat_return/static/description/index.html"><code>l10n_sk_vat_return</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.13.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <a href="../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="../../../l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="../../../l10n_sk_vat_return/static/description/index.html"><code>l10n_sk_vat_return</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>This module is the common engine of the VAT return (<em>daňové priznanie k DPH</em>
@@ -181,6 +181,9 @@ version; the tab does not change any row of the form itself.</p>
 <p>The file is attached to the return (<em>Xml Attachment</em>) and the return becomes
 <em>Exported</em>. You can recompute and export again as often as needed until it is
 marked submitted.</p>
+<p><strong>Export warnings.</strong> Checks that do not stop the export (a VAT rate that
+matches no statutory rate, for example) are listed in a yellow banner at the
+top of the form, and in the chatter, until the next export.</p>
 <h2 id="submission">Filing and the filed copy</h2>
 <p>File the XML on the tax authority's portal, or through a channel module such
 as <a href="../../../l10n_cz_epo/static/description/index.html"><code>l10n_cz_epo</code></a>. Then:</p>
@@ -196,6 +199,30 @@ as <a href="../../../l10n_cz_epo/static/description/index.html"><code>l10n_cz_ep
   deleted. <strong>Reset to Draft</strong> (administrators only) reopens it; the filed copy
   and the history are kept.</li>
 </ul>
+<h2 id="vat-closing">VAT closing entry</h2>
+<p>Once a return is <em>Exported</em> or <em>Submitted</em>, <strong>VAT closing entry</strong> prepares the
+entry that clears the period's VAT accounts (the 343 sub-accounts per rate,
+input and output) into the <strong>VAT settlement account</strong>, which is then left
+with the period's own tax liability or excess deduction. The entry is created
+as a <strong>draft</strong>, dated the last day of the period; review and post it yourself.</p>
+<ul>
+<li><strong>Which documents</strong> — exactly those of the return: output tax by tax point,
+  input tax by deduction date. A document booked in the next month but
+  supplied in this one is closed with this period.</li>
+<li><strong>It must agree with the return.</strong> The entry moves the return's own tax
+  minus its excess deduction. A difference up to the <em>VAT closing tolerance</em>
+  is rounding (the return is rounded per row) and goes to the rounding
+  accounts; a larger one stops the closing and names both figures — check the
+  unreconciled rows first.</li>
+<li><strong>Each tax line is closed once.</strong> A corrective or supplementary return of
+  the same period closes only what the earlier closing did not, and agrees
+  with the difference against the earlier returns. Deleting or cancelling a
+  closing frees its lines again.</li>
+<li>The excess deduction carried forward is not in the entry: it is what the
+  previous closing left on the settlement account.</li>
+</ul>
+<p>Accounts are set in <em>Accounting › Configuration › Settings › VAT Closing</em>;
+empty ones fall back to 343000 (settlement), 548000 and 648000 (rounding).</p>
 <h2 id="amendments">Corrections and supplementary returns</h2>
 <p>On a submitted return, <strong>Amended / corrective</strong> creates a new draft linked to
 it (<em>Amends</em>), carrying over its manual overrides. On the new return:</p>
@@ -227,7 +254,10 @@ To generate them for a company again (it is safe to repeat), an accounting
 manager opens the company under <em>Settings → Companies</em> and runs <strong>Create
 historical VAT rates</strong> from the <em>Action</em> menu.</p>
 <p>When a historical rate exists, other localisation modules use it to tax a
-document at the rate in force on its date.</p>
+document at the rate in force on its date. A historical rate is linked to the
+taxes of its own vintage (<em>Replaces</em> / <em>Replaced by</em>), so a fiscal position
+maps a 2011 purchase at 20 % to the 20 % self-assessed tax, not to today's
+rate.</p>
 <h2 id="legacy">Historical filings</h2>
 <p>A return imported from a previous system is a <strong>Historical filing</strong>: a record
 of what was filed, marked with a ribbon. It cannot be recomputed, exported or
@@ -235,17 +265,11 @@ submitted. Its one action, <strong>Compare with computed</strong>, recomputes th
 from the books and records the differences under <em>Accounting → Reporting →
 Statutory Reports → Filed vs computed</em>. To correct such a period, create an
 amendment from it; the amendment is an ordinary return.</p>
-<p><strong>Export warnings.</strong> Checks that do not stop the export are listed in a
-yellow banner at the top of the form, and in the chatter, until the next
-export.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>The version is not chosen for you: pick it on each return. The dates are not
   checked to form a whole month or quarter. <em>Period Type</em> is checked only
   against the periods the version allows (every shipped version allows both).</li>
-<li>A rate check that only warns (an implied rate that matches no statutory
-  rate) is written to the server log and is not shown on screen; only errors
-  stop the export.</li>
 <li>The ✓ column compares absolute amounts, so a sign error does not show
   there.</li>
 <li>An amendment copies the original's statement type; nothing changes it for
@@ -254,7 +278,7 @@ export.</p>
   posted without tags, reaches the wrong row or none; review the
   <strong>Documents</strong> drill-down before filing.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.1.11.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.13.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

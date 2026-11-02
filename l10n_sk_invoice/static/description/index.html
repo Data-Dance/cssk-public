@@ -33,19 +33,21 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_invoice/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Invoice (statutory PDF)</h1>
 <p class="cssk-summary">Adds the customer&#x27;s DIČ, the payment symbols and the statutory VAT phrases — exemption and reverse charge — to the printed Slovak invoice.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.4</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_sk</code>, <a href="../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a>, <a href="../../../l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.5</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_sk</code>, <a href="../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a>, <a href="../../../l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Odoo's invoice PDF, together with the Slovak chart of accounts (<code>l10n_sk</code>),
 already prints most of what a Slovak <em>faktúra</em> needs: both parties' names,
 addresses and VAT numbers (IČ DPH), the customer's IČO, the invoice number and
 dates, the lines, the tax base and tax per rate, and the company's trade
-registry entry. This module adds the three things it is missing:</p>
+registry entry. This module adds the four things it is missing:</p>
 <ol>
 <li>the customer's <strong>DIČ</strong> under their address;</li>
 <li>the <strong>variable, constant and specific symbol</strong> next to the invoice dates;</li>
 <li>the <strong>statutory phrase</strong> a VAT-exempt or reverse-charge supply must carry,
-   chosen from the taxes on the invoice and the customer's country.</li>
+   chosen from the taxes on the invoice and the customer's country;</li>
+<li>the label <strong>IČO</strong> in front of both parties' registry number, where core
+   <code>l10n_sk</code> prints "ID:" (even in Slovak).</li>
 </ol>
 <p>Everything it prints appears only on documents of a company whose country is
 Slovakia, so it does no harm in a multi-company database with other
@@ -178,7 +180,7 @@ after the automatic phrase. It is not copied when the invoice is duplicated.</p>
 <li>The statutory phrases are in Slovak with an English gloss; they are not
   translated into the customer's language.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.0.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.0.5 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
