@@ -51,4 +51,4 @@ Kredity
 =======
 
 Autor: **Data Dance s.r.o.** — https://www.datadance.eu
-Licence: Data Dance Proprietary License v1.0.
+Licence: AGPL-3.0 or later.

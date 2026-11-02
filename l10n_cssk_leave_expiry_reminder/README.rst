@@ -2,8 +2,8 @@
 Leave Expiry Reminder (CZ/SK)
 ==========================
 
-.. |badge1| image:: https://img.shields.io/badge/licence-Other%20proprietary-blue.png
-    :alt: License: Other proprietary
+.. |badge1| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+    :alt: License: AGPL-3
 
 |badge1|
 
