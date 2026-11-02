@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """KV DPH ↔ DPH priznanie cross-form reconciliation (porovnanie KV a DP).
 
 The kontrolný výkaz and the daňové priznanie are built from the same tax-tagged

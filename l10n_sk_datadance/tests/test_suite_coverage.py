@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """What the one-click SK bundle actually delivers.
 
 The umbrella is how a customer gets this collection, so a module that is not

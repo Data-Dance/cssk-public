@@ -2,7 +2,7 @@
     "name": "EDI Base",
     "summary": "Shared infrastructure for EDI integrations (Editel, GRiT, ...)",
     "author": "Data Dance s.r.o.",
-    "version": "18.0.1.5.0",
+    "version": "18.0.1.5.1",
     "depends": [
         "account",
         "account_add_gln",

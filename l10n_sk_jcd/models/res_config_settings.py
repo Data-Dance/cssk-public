@@ -7,11 +7,14 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
+    # Domains repeated: Odoo drops a string domain on a related field.
     l10n_sk_jcd_clearing_account_id = fields.Many2one(
-        related="company_id.l10n_sk_jcd_clearing_account_id", readonly=False
+        related="company_id.l10n_sk_jcd_clearing_account_id", readonly=False,
+        domain="[('company_ids', 'in', company_id)]",
     )
     l10n_sk_jcd_duty_product_id = fields.Many2one(
-        related="company_id.l10n_sk_jcd_duty_product_id", readonly=False
+        related="company_id.l10n_sk_jcd_duty_product_id", readonly=False,
+        domain="[('landed_cost_ok', '=', True)]",
     )
     l10n_sk_jcd_default_regime = fields.Selection(
         related="company_id.l10n_sk_jcd_default_regime", readonly=False

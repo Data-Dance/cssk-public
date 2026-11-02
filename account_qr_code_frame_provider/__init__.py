@@ -2,7 +2,7 @@
 #
 #    Copyright (c) 2022 Data Dance s.r.o.
 
-#    Data Dance Proprietary License v1.0
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 #    This software and associated files (the "Software") may only be used
 #    (executed, modified, executed after modifications) if you have

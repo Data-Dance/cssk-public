@@ -274,7 +274,7 @@ Review record
 ~~~~~~~~~~~~~
 
 Second opinion taken from GitHub Copilot / **gpt-5.3-codex** on 2026-09-23, per
-the CLAUDE.md rule for money logic. Twelve findings; the disposition:
+the project rule for money logic. Twelve findings; the disposition:
 
 **Accepted and fixed**
 

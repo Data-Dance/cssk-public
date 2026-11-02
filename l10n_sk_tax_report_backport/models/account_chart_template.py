@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """Backport of the Odoo 19.0 core ``l10n_sk`` VAT tax template + report-tag set
 onto the smaller 18.0 ``l10n_sk`` chart.
 

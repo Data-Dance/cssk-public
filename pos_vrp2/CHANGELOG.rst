@@ -5,6 +5,16 @@ Changelog
 All notable changes to **pos_vrp2** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Fixed
+~~~~~
+
+- The six VRP2 *VAT rate* pickers in Settings listed every tax, purchase taxes
+  and other companies' included: Odoo drops a string domain when it copies a
+  field into a related one.
+
 [19.0.4.6.0]
 ------------
 

@@ -288,6 +288,33 @@ class EdiMessage(models.Model):
             return parsed.get("message_id", "")
         return super()._dedup_key_for_inbound(connector, xml_content)
 
+    def _inbound_duplicate_domain(self, provider, connector, xml_content):
+        # A cbc:ID is the sender's invoice number, unique per sender only: two
+        # suppliers' invoice 2026001 are two documents, and keyed on the
+        # number alone the second was skipped and acknowledged, i.e. deleted
+        # from the mailbox. The kind (an invoice and a credit note may share a
+        # number), the sender and the receiver (one mailbox, several of our
+        # companies) complete the key. The same values _compute_envelope_fields
+        # stores, so the domain compares like with like.
+        #
+        # When the sender cannot be read the document is stored, not deduped:
+        # a duplicate kept is a nuisance, a document acknowledged unstored is
+        # gone.
+        domain = super()._inbound_duplicate_domain(provider, connector, xml_content)
+        if domain and self._peppol_root_localname(xml_content) is not None:
+            try:
+                parsed = self._peppol_parse_envelope(xml_content)
+            except Exception:
+                return []
+            if not parsed.get("supplier_endpoint"):
+                return []
+            domain = domain + [
+                ("message_type", "=", parsed.get("doc_kind") or False),
+                ("sender_gln", "=", parsed.get("supplier_endpoint") or False),
+                ("receiver_gln", "=", parsed.get("customer_endpoint") or False),
+            ]
+        return domain
+
     def _inbound_stub_vals(self, provider, xml_content, pkg):
         vals = super()._inbound_stub_vals(provider, xml_content, pkg)
         if self._peppol_root_localname(xml_content) is not None:

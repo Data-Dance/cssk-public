@@ -1,43 +1,5 @@
-###################################################################################
-#
-#    Copyright (c) 2022 Data Dance s.r.o.
-#
-#    Data Dance Proprietary License v1.0
-#
-#    This software and associated files (the "Software") may only be used
-#    (executed, modified, executed after modifications) if you have
-#    purchased a valid license from Data Dance s.r.o.
-#
-#    The above permissions are granted for a single database per purchased
-#    license. Furthermore, with a valid license it is permitted to use the
-#    software on other databases as long as the usage is limited to a testing
-#    or development environment.
-#
-#    You may develop modules based on the Software or that use the Software
-#    as a library (typically by depending on it, importing it and using its
-#    resources), but without copying any source code or material from the
-#    Software. You may distribute those modules under the license of your
-#    choice, provided that this license is compatible with the terms of the
-#    Data Dance Proprietary License (For example: LGPL, MIT, or proprietary
-#    licenses similar to this one).
-#
-#    It is forbidden to publish, distribute, sublicense, or sell copies of
-#    the Software or modified copies of the Software.
-#
-#    The above copyright notice and this permission notice must be included
-#    in all copies or substantial portions of the Software.
-#
-#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-#    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-#    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-#    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-#    DEALINGS IN THE SOFTWARE.
-#
-###################################################################################
-
-
+# Copyright 2022 Data Dance s.r.o.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import re
 
 from odoo import _, api, models
@@ -47,6 +9,26 @@ from PIL import Image
 # https://cbaonline.cz/upload/1645-standard-qr-v1-2-cerven-2021.pdf
 # SPD*1.0*ACC:CZ8120100000002701987951*AM:1000*CC:EUR*DT:20221010*MSG:Message*X-KS:6666*X-VS:1234567890*X-SS:0987654321
 # SPD*1.0*ACC:CZ8120100000002701987951*AM:2418.79*CC:CZK*MSG:210054*RF:210054*DT:20211230*X-VS:210054
+
+
+def spd_value(text, limit):
+    """One free-text SPD value, escaped, at most ``limit`` characters long.
+
+    "Hodnota … nesmí obsahovat znak * (hvězdička). … Hodnota může obsahovat
+    speciální znaky kódované pomocí URL kódování … hvězdičku je tedy možno do
+    hodnoty zahrnout pomocí zápisu %2A." (qr-platba.cz, specifikace formátu).
+    An unescaped asterisk ends the field and shifts every later one. ``%``
+    goes first: once values are URL-decoded, a literal ``%2A`` in a reference
+    would otherwise come back as an asterisk.
+    """
+    escaped = ""
+    for char in text or "":
+        char = {"%": "%25", "*": "%2A"}.get(char, char)
+        # A reader keeps only ``limit`` characters; never cut an escape.
+        if len(escaped) + len(char) > limit:
+            break
+        escaped += char
+    return escaped
 
 
 class ResPartnerBank(models.Model):
@@ -80,7 +62,12 @@ class ResPartnerBank(models.Model):
                 # "ALT-ACC" + ..[93] <Alternative Account Numbers of the Beneficiary> ALTACC:CZ5855000000001265098001+RZBCCZPP,CZ5855000000001265098001*
                 "AM:" + f"{amount:.2f}",  # ..[10] AM:<Amount of the Transfer>
                 "CC:" + currency.name,  # CC:<Currency>
-                "MSG:" + free_communication[:60],  # ..[60], # MSG:<VS> - check for "*"
+                # PT:IP asks the payer's bank to execute the order as an
+                # instant payment where it can (standard 1.2, 2022). Czech
+                # instant payments settle in seconds and banks that cannot run
+                # one fall back to an ordinary transfer, so the key is harmless.
+                "PT:IP",
+                "MSG:" + spd_value(free_communication, 60),  # ..[60] MSG:<message>
                 "RF:"
                 + (variable_symbol or re.sub("\\D", "", free_communication))[
                     :16
@@ -88,9 +75,8 @@ class ResPartnerBank(models.Model):
                 # TODO
                 # "DT:" + .., # DT:<Date Due>
                 "RN:"
-                + (self.acc_holder_name or self.partner_id.name)[
-                    :71
-                ],  # ..[71], # RN:<Receiver Name>
+                + spd_value(self.acc_holder_name or self.partner_id.name, 71),
+                # ..[71] RN:<Receiver Name>
                 # "NT:" + ..[1], # NT:<Notification Channel> "P"=phone "E"=email
                 # "NTA:" + ..[320], # NTA:<Notification Channel> for NT:P number[:12], for NT:E e-mailAddress[:64]@domainName[:255]
                 # "X-ID:" + ..[20], # X-ID:<ID>
@@ -216,7 +202,16 @@ class ResPartnerBank(models.Model):
     @api.model
     def _get_available_qr_methods(self):
         rslt = super()._get_available_qr_methods()
-        rslt.append(("czqrplatba_qr", _("QR Platba (Czech Republic)"), 20))
+        # Ahead of the sequence-20 crowd (PAY by square, payme, core's SEPA
+        # sct_qr) on purpose. `_build_qr_code_vals` takes the FIRST eligible
+        # method, and PAY by square is eligible on any EUR SEPA IBAN without
+        # looking at the debtor at all — so with everyone tied at 20 the winner
+        # fell to module load order, and a Czech customer of a Slovak company
+        # got a Slovak code. Going first costs the others nothing, because this
+        # method gates itself on the debtor: `_get_error_messages_for_qr`
+        # requires `currency == CZK or debtor_partner.country_code == "CZ"`, so
+        # anyone else still falls straight through to the next candidate.
+        rslt.append(("czqrplatba_qr", _("QR Platba (Czech Republic)"), 15))
         return rslt
 
     def _get_qr_code_frame_generation_params(self, qr_method):

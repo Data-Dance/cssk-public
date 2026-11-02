@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — VAT Tax Template + Report Tags (18.0 backport of 19.0)",
     "version": "18.0.1.0.0",

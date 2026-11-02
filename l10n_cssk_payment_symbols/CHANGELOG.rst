@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **Two open documents with one variable symbol and one amount: the first was
+  taken** (cssk-public#7). Two sale journals can both issue a ``…00001``;
+  when a bank line with that VS and no identified payer matched both, the
+  matcher reconciled the lower id, though its own rule is to accept a single
+  document only. Both now fit, so neither is chosen and the line waits for a
+  person. A known payer, or an amount only one of them has, still decides
+  it.
+
 Carry-over to 19.0
 ~~~~~~~~~~~~~~~~~~
 
@@ -24,6 +35,40 @@ Carry-over to 19.0
   existing database**, so the view specs are the fix and the catalogue entry is
   a fresh-install convenience. Re-verify the node count against 19.0 core
   rather than assuming the line numbers carry over.
+
+[18.0.1.4.0] — 2026-10-24
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The variable-symbol matcher both reconciliation bridges use is now here**
+  (19.0's 1.4.0): ``_l10n_cssk_find_vs_counterpart_amls`` on
+  ``account.bank.statement.line``. ``l10n_cssk_payment_symbols_oca`` was
+  ported from 19.0 expecting it and called a method this branch did not have,
+  so the OCA bridge raised on any statement line carrying a variable symbol.
+  The Enterprise bridge keeps its own 18.0 implementation: 19.0's ``_ee``
+  hooks ``_try_auto_reconcile_statement_lines``, which 18.0 Enterprise has
+  no equivalent of, so here the pre-pass stays in
+  ``account.reconcile.model._apply_rules``. Its copy of the comparison got
+  the same single-document fix as the shared one.
+
+Fixed
+~~~~~
+
+- **The symbol lookup no longer takes another partner's document.** A variable
+  symbol is unique per issuer only — two vendors can number their bills alike —
+  yet a single open document with the symbol was matched whoever had paid.
+  When the statement line already knows the payer (from the account number),
+  a document of a different commercial partner is now skipped. Lines without a
+  partner match as before.
+- **Symbols carried only in the CAMT reference were missed** (19.0's 1.3.0,
+  which this branch's own 1.3.0 is not). OCA's CAMT import puts ``Ustrd`` in
+  the label and ``EndToEndId`` (or the structured reference) in ``ref``, and a
+  SEPA payment from a Czech or Slovak bank often carries its symbols only
+  there (``/VS53101/SS/KS``, Fio ``?/VS53155/SS/KS``) while the label is free
+  text. The reference and the note are now read after the label. An all-zero
+  symbol (``SS0``) counts as none.
 
 [18.0.1.3.0] — 2026-09-01
 -------------------------

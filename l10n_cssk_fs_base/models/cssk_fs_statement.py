@@ -56,7 +56,14 @@ class CSSKFsStatement(models.Model):
         # period unenterable or a historical filing un-repointable.
         context={'active_test': False},
     )
-    statement_kind = fields.Selection(related="version_id.statement_kind")
+    statement_kind = fields.Selection(
+        related="version_id.statement_kind", string="Version Kind")
+    # What the form and list show for the kind. The Slovak Úč POD is a
+    # balance_sheet version that also carries the výkaz ziskov a strát, and
+    # opened from the Income statement menu the raw kind read "Balance sheet"
+    # — which users took to mean New had created the wrong statement.
+    kind_label = fields.Char(
+        "Statement Kind", compute="_compute_kind_label")
 
     date_from = fields.Date(required=True)
     date_to = fields.Date(required=True)
@@ -232,6 +239,18 @@ class CSSKFsStatement(models.Model):
                 st.date_to or "",
                 (" " + suffix) if suffix else "",
             )
+
+    @api.depends("statement_kind", "version_id.covers_profit_loss")
+    def _compute_kind_label(self):
+        labels = dict(self._fields["statement_kind"]._description_selection(
+            self.env))
+        for st in self:
+            if (st.statement_kind == "balance_sheet"
+                    and st.version_id.covers_profit_loss):
+                st.kind_label = _("Financial statements (balance sheet + "
+                                  "income statement)")
+            else:
+                st.kind_label = labels.get(st.statement_kind, False)
 
     def _prior_dates(self):
         self.ensure_one()
@@ -623,6 +642,67 @@ class CSSKFsStatement(models.Model):
             out[code] = (computed.get(code, 0.0) + correction, correction)
         return out
 
+    def _fs_row_window(self, ldef, date_from, date_to):
+        """``(win_from, win_to)`` a leaf reads: the period movement, the
+        balance the day before the period, or the balance at its end — the
+        same choice ``_compute_period`` makes."""
+        if ldef.kind == "accounts_open":
+            return None, date_from - relativedelta(days=1)
+        if ldef.kind == "accounts_close" or not ldef._cssk_reads_movement():
+            return None, date_to
+        return date_from, date_to
+
+    def _fs_row_accounts(self, ldef, date_from, date_to, cache=None):
+        """The accounts behind a leaf row and what each contributes to it.
+
+        ``[{account, base, correction, value}]`` sorted by account code, where
+        ``value = base - correction`` and the values sum to the row. Each
+        account's share is the row's OWN formula evaluated over that account
+        alone, so the sign, the korekcia column, the statement account mapping
+        and the debit / credit gates come out exactly as the row computes them
+        — the accountant's question "which analytic accounts make this row"
+        answered by the same matcher that made it. ``cache`` (a dict) keeps the
+        per-window balance query across rows."""
+        self.ensure_one()
+        if ldef.kind not in ("accounts", "accounts_open", "accounts_close"):
+            return []
+        cache = {} if cache is None else cache
+        win_from, win_to = self._fs_row_window(ldef, date_from, date_to)
+        key = (win_from, win_to)
+        if key not in cache:
+            groups = self._cssk_account_balance_groups(win_from, win_to)
+            per_account = {}
+            if groups:
+                domain = self._cssk_account_balance_domain(win_from, win_to)
+                for account, balance in self.env["account.move.line"]._read_group(
+                        domain, groupby=["account_id"],
+                        aggregates=["balance:sum"]):
+                    per_account[account.id] = balance or 0.0
+            cache[key] = (groups, per_account)
+        groups, per_account = cache[key]
+        window = {code: entry[0] for code, entry in groups.items()}
+        codes = set()
+        formulas = [ldef.account_formula, ldef.account_formula_correction]
+        for formula in formulas:
+            if formula:
+                self._eval_accounts(formula, window, contributors=codes)
+        rows = []
+        Account = self.env["account.account"].with_company(self.company_id)
+        for code in codes:
+            for account_id in groups[code][1]:
+                alone = {code: per_account.get(account_id, 0.0)}
+                base = self._eval_accounts(ldef.account_formula, alone) \
+                    if ldef.account_formula else 0.0
+                correction = -self._eval_accounts(
+                    ldef.account_formula_correction, alone) \
+                    if ldef.account_formula_correction else 0.0
+                if abs(base) < 0.005 and abs(correction) < 0.005:
+                    continue
+                rows.append({"account": Account.browse(account_id),
+                             "base": base, "correction": correction,
+                             "value": base - correction})
+        return sorted(rows, key=lambda r: r["account"].code or "")
+
     def _eval_accounts(self, formula, balances, contributors=None):
         """Signed sum of the pre-fetched account-code balances matching the
         formula's comma-separated code prefixes.
@@ -868,8 +948,11 @@ class CSSKFsStatementLine(models.Model):
             "view_mode": "list,form",
             "views": [(view.id if view else False, "list"), (False, "form")],
             "domain": safe_eval(self.source_domain or "[]"),
+            # By account first: "which analytic accounts make this row" is
+            # the question an accountant checks a statement with; the
+            # documents are one level down.
             "context": {"create": False, "delete": False,
-                        "group_by": ["move_id"]},
+                        "group_by": ["account_id", "move_id"]},
         }
 
     _OVERRIDE_FIELDS = frozenset({

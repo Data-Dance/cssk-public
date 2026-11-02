@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_order_form_eet2" model="ir.ui.view">
+        <field name="name">pos.order.form.eet2</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pos_reference']" position="after">
+                <field name="l10n_cz_eet2_state"/>
+                <field name="l10n_cz_eet2_pok"/>
+                <field name="l10n_cz_eet2_is_test"/>
+                <field name="l10n_cz_eet2_transaction_id"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="l10n_cz_eet2_resend" type="object"
+                        string="Resend to EET"
+                        invisible="l10n_cz_eet2_state in ('accepted', False)"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

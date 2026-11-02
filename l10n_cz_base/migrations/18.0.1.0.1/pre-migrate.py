@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """Merge the legacy symbol values into the canonical l10n_cssk_* columns
 before the fields become stored related aliases (whose recompute would
 otherwise overwrite manually-set legacy values with the canonical ones)."""

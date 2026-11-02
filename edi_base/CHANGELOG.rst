@@ -5,6 +5,62 @@ Changelog
 All notable changes to **edi_base** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **The cron send dispatcher, and with it 19.0's cssk-public#6 fix.** 19.0
+  grew ``PROVIDER_DISPATCH_MAP``, ``_cron_send_queued`` and
+  ``data/ir_cron.xml`` so a provider can be sent by cron instead of by a job
+  runner, and then fixed that loop: it commits each message's outcome
+  (``ir.cron._commit_progress``) and tells the connector through
+  ``edi_cron_send`` not to stamp its failure the job way, because one failed
+  document used to roll the whole run back and re-queue what had already been
+  sent. **None of it applies here yet**: on this series ``edi_base`` depends
+  on ``queue_job`` and every provider is dispatched by a job, where
+  ``_write_outside_job`` is the correct behaviour and nothing rolls a run
+  back. ePošťák's only cron here queries delivery status.
+  Port the two together, and note that 18.0's ``ir.cron`` has
+  ``_notify_progress`` but **no** ``_commit_progress`` and no
+  ``cron_end_time``: the commit-per-item idiom is
+  ``auto_commit = not getattr(threading.current_thread(), "testing", False)``
+  plus ``_notify_progress(done=…, remaining=…)``, as
+  ``base/models/res_users_deletion.py`` does it. There is no time budget to
+  honour, so the "stop when the budget is spent" half has no counterpart.
+  19.0's ``edi_base_peppol`` migration-test flush fix (``4515f66b``) belongs
+  to the same tranche — the test file it fixes is not on this branch.
+
+[18.0.1.5.1] — 2026-10-24
+-------------------------
+
+Fixed
+~~~~~
+
+- **Two suppliers' invoices with the same number: one of them was deleted**
+  (cssk-public#8). A Peppol ``message_id`` is the sender's own invoice
+  number, so ``2026001`` from two suppliers is two documents; the inbound
+  poll keyed duplicates on that number alone, and a match is not merely
+  skipped but **acknowledged**, which removes the package from the provider's
+  mailbox. The decision moved to ``_inbound_duplicate_domain``, a seam each
+  document family widens (``edi_base_peppol`` adds the kind, the sender and
+  the receiver).
+- **``UNIQUE(message_id, direction)`` is gone**, with a migration that drops
+  it. 19.0 never created the index — ``_sql_constraints`` is not read there —
+  which is why the fix landed on that branch without touching the schema.
+  Here the index was live and refused the second supplier's invoice outright,
+  so the dedup fix alone would have turned a skipped document into a failed
+  poll. Do not reinstate it.
+
+Added
+~~~~~
+
+- ``_dispatch_ack(connector, raw_id)``, 19.0's seam for acknowledging an
+  inbound document, with the same name and signature. Behaviour is unchanged
+  here (always through a job): it exists so the ack is one overridable place
+  rather than two call sites, which is also what makes the dedup testable.
+
 [18.0.1.5.0] — 2026-08-23
 -------------------------
 

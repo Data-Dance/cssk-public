@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 # Backport of the ``l10n_cz.tax_office`` codelist that Odoo core added to the
 # ``l10n_cz`` module in 19.0 (finanční úřady / územní pracoviště, keyed by

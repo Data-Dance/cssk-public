@@ -5,6 +5,22 @@ Changelog
 All notable changes to **edi_base_peppol** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Fixed
+~~~~~
+
+- **An inbound document is a duplicate only of the same sender's same
+  document** (cssk-public#8). A ``cbc:ID`` is an invoice number, unique per
+  sender, so the kind (an invoice and a credit note may share a number), the
+  sender's endpoint and the receiver's (one mailbox, several of our
+  companies) complete the key — the same values ``_compute_envelope_fields``
+  stores. A document whose sender endpoint cannot be read is stored rather
+  than deduplicated: a duplicate kept is a nuisance, a document acknowledged
+  unstored is gone. The envelope parse is guarded, so a malformed payload
+  cannot abort the poll.
+
 [18.0.1.3.0] — 2026-08-23
 -------------------------
 

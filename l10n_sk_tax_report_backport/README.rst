@@ -90,4 +90,4 @@ Credits
 
 Tax template + tag data adapted from Odoo 19.0 core ``l10n_sk`` (LGPL-3).
 
-License: LGPL-3 (see the LICENSE file).
+License: AGPL-3.0 or later (see the LICENSE file).

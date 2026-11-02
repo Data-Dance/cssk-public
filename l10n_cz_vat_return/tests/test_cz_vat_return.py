@@ -115,3 +115,158 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
         # R1: domestic supply 21% -> obrat23 = base 1000, dan23 = tax 210
         self.assertAlmostEqual(self._v(ret, "obrat23"), 1000.0, places=2)
         self.assertAlmostEqual(self._v(ret, "dan23"), 210.0, places=2)
+
+    def test_a_self_assessed_purchase_declares_and_deducts_positive(self):
+        """ř3 and ř43 both read POSITIVE from one reverse-charge bill.
+
+        The end-to-end check the sign defect needed. ``l10n_cz`` on this series
+        tags the ř3 declaration on the −100 (output, credit) leg and the chart
+        signs its tag names, so the return read the declaration as −210 and the
+        deduction — never tagged at all, the band table being written unsigned
+        — as 0.00. Asserting the tag placement is not enough: the figure is
+        what is filed, and only summing it catches an inversion either way.
+        """
+        from odoo import Command
+        vat3_base = self.env["account.account.tag"]._get_tax_tags(
+            "VAT 3 Base", self.env.ref("base.cz").id)
+        tax = self.env["account.tax"].with_context(active_test=False).search([
+            ("type_tax_use", "=", "purchase"),
+            ("company_id", "=", self.company.id),
+            ("invoice_repartition_line_ids.tag_ids", "in", vat3_base.ids),
+        ], limit=1)
+        self.assertTrue(tax, "CZ intra-Community acquisition tax present")
+        bill = self.env["account.move"].create({
+            "move_type": "in_invoice",
+            "partner_id": self.partner_a.id,
+            "invoice_date": "2025-06-15", "date": "2025-06-15",
+            "taxable_supply_date": "2025-06-15",
+            "invoice_line_ids": [Command.create({
+                "name": "x", "quantity": 1, "price_unit": 1000.0,
+                "tax_ids": [Command.set(tax.ids)]})],
+        })
+        bill.action_post()
+        ret = self._return()
+        self.assertAlmostEqual(self._v(ret, "p_zb23"), 1000.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "dan_pzb23"), 210.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "nar_zdp23"), 1000.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "od_zdp23"), 210.0, places=2)
+
+    def test_a_self_assessed_credit_note_reduces_both_rows(self):
+        """The refund side's shape, which the hook leaves alone, must still
+        subtract — on both the declaration and the deduction."""
+        from odoo import Command
+        vat3_base = self.env["account.account.tag"]._get_tax_tags(
+            "VAT 3 Base", self.env.ref("base.cz").id)
+        tax = self.env["account.tax"].with_context(active_test=False).search([
+            ("type_tax_use", "=", "purchase"),
+            ("company_id", "=", self.company.id),
+            ("invoice_repartition_line_ids.tag_ids", "in", vat3_base.ids),
+        ], limit=1)
+        vals = {
+            "partner_id": self.partner_a.id,
+            "invoice_date": "2025-06-15", "date": "2025-06-15",
+            "taxable_supply_date": "2025-06-15",
+            "invoice_line_ids": [Command.create({
+                "name": "x", "quantity": 1, "price_unit": 1000.0,
+                "tax_ids": [Command.set(tax.ids)]})],
+        }
+        self.env["account.move"].create(dict(vals, move_type="in_invoice")).action_post()
+        self.env["account.move"].create(dict(vals, move_type="in_refund")).action_post()
+        ret = self._return()
+        for code in ("p_zb23", "dan_pzb23", "nar_zdp23", "od_zdp23"):
+            self.assertAlmostEqual(
+                self._v(ret, code), 0.0, places=2,
+                msg="%s: a credit note of the same amount must net to zero" % code)
+
+    def _selfassessed_tax(self):
+        tags = self.env["account.account.tag"]._get_tax_tags(
+            "VAT 3 Base", self.env.ref("base.cz").id)
+        return self.env["account.tax"].with_context(active_test=False).search([
+            ("type_tax_use", "=", "purchase"),
+            ("company_id", "=", self.company.id),
+            ("invoice_repartition_line_ids.tag_ids", "in", tags.ids)], limit=1)
+
+    def _unrelocate(self, tax):
+        """Put one tax back into the shape 18.0's ``l10n_cz`` ships.
+
+        The state of a company that posted entries before 18.0.1.11.0: the ř3
+        declaration on the −100 (output, credit) leg as ``-VAT 3 Tax``, no ř43
+        tags anywhere.
+        """
+        Tag = self.env["account.account.tag"]
+        cz = self.env.ref("base.cz").id
+        reps = tax.invoice_repartition_line_ids
+        base = reps.filtered(lambda r: r.repartition_type == "base")
+        legs = reps.filtered(lambda r: r.repartition_type == "tax")
+        pos = legs.filtered(lambda r: r.factor_percent > 0)
+        neg = legs.filtered(lambda r: r.factor_percent < 0)
+        pos.tag_ids = [(3, Tag.search([("name", "=", "+VAT 3 Tax"),
+                                       ("country_id", "=", cz)]).id)]
+        neg.tag_ids = [(4, Tag.search([("name", "=", "-VAT 3 Tax"),
+                                       ("country_id", "=", cz)]).id)]
+        for rep in base | neg:
+            for tag in rep.tag_ids.filtered(lambda t: "VAT 43" in t.name):
+                rep.tag_ids = [(3, tag.id)]
+        return base, pos, neg
+
+    def _selfassessed_bill(self, tax, day):
+        from odoo import Command
+        bill = self.env["account.move"].create({
+            "move_type": "in_invoice", "partner_id": self.partner_a.id,
+            "invoice_date": "2025-06-%s" % day, "date": "2025-06-%s" % day,
+            "taxable_supply_date": "2025-06-%s" % day,
+            "invoice_line_ids": [Command.create({
+                "name": "x", "quantity": 1, "price_unit": 1000.0,
+                "tax_ids": [Command.set(tax.ids)]})]})
+        bill.action_post()
+        return bill
+
+    def test_an_entry_posted_before_the_relocation_is_retagged(self):
+        """A bill posted with the old tags reads ř3 = +210 after the migration.
+
+        Relocating the tag on the chart and leaving the posted line alone is
+        worse than the defect it replaces: ``_get_tax_tags`` matches both
+        signed variants, so the old line's credit sums as −210 beside a new
+        line's debit at +210 and a straddling period CANCELS — 420 declared as
+        0.00, under a base row that still looks right. Both halves are
+        asserted here, before and after.
+        """
+        tax = self._selfassessed_tax()
+        self._unrelocate(tax)
+        old = self._selfassessed_bill(tax, "15")
+        self.assertEqual(
+            set(old.line_ids.filtered("tax_tag_ids").mapped(
+                lambda l: (l.balance, tuple(l.tax_tag_ids.mapped("name"))))),
+            {(1000.0, ("+VAT 3 Base",)), (-210.0, ("-VAT 3 Tax",))},
+            "the pre-upgrade shape, as 18.0's l10n_cz posts it")
+        ret = self._return()
+        self.assertAlmostEqual(self._v(ret, "dan_pzb23"), -210.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "od_zdp23"), 0.0, places=2)
+
+        # exactly what migrations/18.0.1.11.0/post-migration.py runs
+        self.company._cz_tag_selfassessed_deduction()
+        self.company._cz_retag_posted_selfassessed_lines()
+
+        ret = self._return()
+        self.assertAlmostEqual(self._v(ret, "p_zb23"), 1000.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "dan_pzb23"), 210.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "nar_zdp23"), 1000.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "od_zdp23"), 210.0, places=2)
+
+        # and the straddle the retag exists to prevent
+        self._selfassessed_bill(tax, "20")
+        ret = self._return()
+        self.assertAlmostEqual(self._v(ret, "dan_pzb23"), 420.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "od_zdp23"), 420.0, places=2)
+
+    def test_retagging_posted_lines_is_idempotent(self):
+        """Run twice, and the second run must find nothing left to do."""
+        tax = self._selfassessed_tax()
+        self._unrelocate(tax)
+        self._selfassessed_bill(tax, "15")
+        self.company._cz_tag_selfassessed_deduction()
+        self.assertTrue(self.company._cz_retag_posted_selfassessed_lines())
+        self.assertFalse(self.company._cz_retag_posted_selfassessed_lines())
+        ret = self._return()
+        self.assertAlmostEqual(self._v(ret, "dan_pzb23"), 210.0, places=2)
+        self.assertAlmostEqual(self._v(ret, "od_zdp23"), 210.0, places=2)

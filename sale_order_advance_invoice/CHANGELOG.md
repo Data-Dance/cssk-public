@@ -90,4 +90,4 @@
 - Removed dead commented code in the tracking-line description builder.
 
 ## 19.0.1.0.0
-- Initial version (built in VS Code Copilot Chat, see `docs/creation_transcript.md`).
+- Initial version.

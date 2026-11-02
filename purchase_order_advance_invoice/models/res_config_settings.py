@@ -4,8 +4,10 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
+    # Domain repeated: Odoo drops a string domain on a related field.
     advance_purchase_journal_id = fields.Many2one(
-        related="company_id.advance_purchase_journal_id", readonly=False
+        related="company_id.advance_purchase_journal_id", readonly=False,
+        domain="[('type', '=', 'purchase')]",
     )
     advance_paid_clearing_account_id = fields.Many2one(
         related="company_id.advance_paid_clearing_account_id", readonly=False

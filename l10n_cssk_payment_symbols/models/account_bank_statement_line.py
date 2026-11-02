@@ -1,10 +1,11 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import json
 import re
 
 from odoo import api, fields, models
+from odoo.tools import float_compare, html2plaintext
 
 # Token forms seen in bank labels: "VS:1234567890", "VS 123", "VS=123",
 # "/VS/123" (structured remittance), "VS123".
@@ -72,17 +73,32 @@ class AccountBankStatementLine(models.Model):
         or a re-import having prefixed already)."""
         details = vals.get("transaction_details")
         payment_ref = vals.get("payment_ref") or ""
+        # The label first, then the other texts a bank format carries. OCA's
+        # CAMT import puts Ustrd in payment_ref and the structured reference or
+        # EndToEndId in ref, and a SEPA payment from a Czech or Slovak bank
+        # often has its symbols ONLY there ("/VS53101/SS/KS", Fio
+        # "?/VS53155/SS/KS") while Ustrd is free text.
+        texts = [
+            payment_ref,
+            vals.get("ref") or "",
+            html2plaintext(vals.get("narration") or ""),
+        ]
         for field_name, keys in _DETAIL_KEYS.items():
             value = vals.get(field_name)
             if not value and details:
                 value = self._l10n_cssk_find_detail_value(details, keys)
-            if not value and payment_ref:
-                match = _TOKEN_RES[field_name].search(payment_ref)
+            for text in texts:
+                if value:
+                    break
+                match = text and _TOKEN_RES[field_name].search(text)
                 value = match.group(1) if match else False
             if value:
                 value = re.sub(r"\D", "", str(value))[
                     : _MAX_DIGITS[field_name]
                 ]
+            # "SS0" is a bank's way of saying there is none.
+            if value and not value.strip("0"):
+                value = False
             if value:
                 vals[field_name] = value
         variable_symbol = vals.get("variable_symbol")
@@ -117,3 +133,74 @@ class AccountBankStatementLine(models.Model):
                 if found:
                     return found
         return False
+
+    def _l10n_cssk_find_vs_counterpart_amls(self):
+        """Open journal items whose document carries this line's variable
+        symbol (leading-zero tolerant). Shared by the reconciliation bridges
+        (``_ee`` for Enterprise, ``_oca`` for OCA's widget). Empty recordset on no or ambiguous
+        match — ambiguity bails out rather than guessing (a VS is only
+        unique per issuer, not globally)."""
+        self.ensure_one()
+        Aml = self.env["account.move.line"]
+        vs = (self.variable_symbol or "").lstrip("0")
+        if not vs:
+            return Aml
+        candidates = Aml.search([
+            ("company_id", "=", self.company_id.id),
+            ("reconciled", "=", False),
+            ("parent_state", "=", "posted"),
+            ("account_id.reconcile", "=", True),
+            (
+                "account_id.account_type",
+                "not in",
+                ("asset_cash", "liability_credit_card"),
+            ),
+            ("balance", ">" if self.amount > 0 else "<", 0),
+            # candidate superset by trailing digits; the exact leading-zero
+            # tolerant comparison is the Python filter below
+            ("move_id.l10n_cssk_variable_symbol", "=like", "%" + vs),
+        ])
+        candidates = candidates.filtered(
+            lambda aml: (
+                aml.move_id.l10n_cssk_variable_symbol or ""
+            ).lstrip("0")
+            == vs
+            and aml.account_id != self.journal_id.suspense_account_id
+            and aml.account_id != self.journal_id.default_account_id
+            # a VS is unique per issuer only: once the bank line knows who
+            # paid (by account number), another partner's document is not it
+            and (
+                not self.partner_id
+                or aml.partner_id.commercial_partner_id
+                == self.partner_id.commercial_partner_id
+            )
+        )
+        if not candidates:
+            return Aml
+        moves = candidates.move_id
+        if len(moves) == 1:
+            return candidates
+        # several documents share the symbol: only accept a single document
+        # whose open amount equals the transaction (company currency only —
+        # FX journals are left to the stock matcher / manual handling). Two
+        # that both fit are as ambiguous as the symbol was: the first one
+        # found is not the one paid, merely the lower id.
+        if (
+            self.foreign_currency_id
+            or self.currency_id != self.company_id.currency_id
+        ):
+            return Aml
+        fitting = Aml
+        for move in moves:
+            move_amls = candidates.filtered(lambda aml: aml.move_id == move)
+            total = sum(move_amls.mapped("amount_residual"))
+            if (
+                float_compare(
+                    abs(total),
+                    abs(self.amount),
+                    precision_rounding=self.currency_id.rounding,
+                )
+                == 0
+            ):
+                fitting |= move_amls
+        return fitting if len(fitting.move_id) == 1 else Aml

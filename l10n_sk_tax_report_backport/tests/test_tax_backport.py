@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.tests import tagged
 

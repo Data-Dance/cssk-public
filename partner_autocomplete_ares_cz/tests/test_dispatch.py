@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """How core 18.0's partner_autocomplete reaches ARES through the dispatcher.
 
 Core's JS asks for suggestions with autocomplete_by_name / autocomplete_by_vat

@@ -11,6 +11,102 @@ releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+Carried over
+~~~~~~~~~~~~
+
+- **ř. 47 for periods already booked is derivable, and deliberately not
+  derived.** ``account_asset_management`` sets ``asset_id`` on a vendor
+  bill's own line at post time, so where that module is in use the asset
+  acquisitions are a recorded fact and ř. 47 could be computed for history.
+  The 1.12.0 migration's first note claimed otherwise and has been
+  corrected. Doing it needs a reviewable wizard rather than an unattended
+  upgrade — the asset module is optional, the link is absent for assets
+  entered by hand or imported from a legacy register, ``tax_tag_ids`` is
+  lock-date protected, and re-tagging a filed period adds reporting to a
+  return that was already filed.
+
+[18.0.1.12.0] — 2026-10-29
+--------------------------
+
+Added
+~~~~~
+
+- **ř. 47 — hodnota pořízeného majetku**, ported from 19.0.1.14.0.
+  ``l10n_cz`` declares ``+VAT 47 Base`` and ``+VAT 47 Total`` in its tax
+  report and ships no tax carrying either, so *hodnota pořízeného majetku
+  vymezeného v § 4 odst. 4 písm. d) a e)* filed 0.00 on every return this
+  module has produced.
+
+  Every purchase tax whose acquisition is deductible on ř. 40–44 now has a
+  *Majetek* twin, identical to its source in rate, repartition, accounts and
+  deduction tags, and additionally carrying the ř. 47 tags: ``VAT 47 Base``
+  on the base repartition and ``VAT 47 Total`` on the **positive** tax leg,
+  so ``od_maj``'s unsigned formula is unchanged. The twins follow the
+  historical-rate generator, so each exists at every Czech rate since 2004.
+
+  Three differences from the 19.0 original, all of them this series':
+
+  * **14 twins, not 16.** 18.0 ships the domestic rates as plain ``21%`` and
+    ``12%`` where 19.0 splits them into ``21% G``/``21% S``/``12% G``/
+    ``12% S``, so the domestic twins are ``21% Majetek`` and
+    ``12% Majetek``. Anything mapping legacy tax positions onto them has to
+    read the name off this series rather than assume 19.0's.
+  * **The tags are signed, per document side.** ``+VAT 47 Base`` /
+    ``+VAT 47 Total`` on the invoice repartition and the ``-`` pair on the
+    refund one, resolved through ``_cz_deduction_tag``. Our own reader would
+    not notice if that were wrong — ``_get_tax_tags`` matches both variants
+    and the figures net either way — but Odoo's own tax report multiplies by
+    ``tax_negate``, so an unsigned tag on a refund leg inverts ř. 47 there.
+  * **No fiscal-position rewiring, because there is nothing to rewire.**
+    19.0 carries the replacement on the tax (``original_tax_ids``), where a
+    copy inherits it and the Intra-Community position would map one domestic
+    line onto both the plain EU tax and its twin. 18.0 has no such field and
+    this module does not build the intra-Community mapping on this series, so
+    an EU asset purchase has to be entered with ``21% EU G Majetek``
+    directly.
+
+  ř. 9 (new means of transport), ř. 42 (daň zaplacená celnímu orgánu,
+  shipped at 0 %) and ř. 32 (osvobozené dovozy) deliberately get no twin —
+  see ``CZ_ASSET_SOURCE_TAGS``.
+
+  Not ported: 19.0.1.13.0's extra-Community goods/services mapping repair and
+  l10n_cssk_vat_return_base 19.0.1.12.0's vintage re-pointing. Both act on
+  ``account.tax.original_tax_ids`` / ``replacing_tax_ids``, which do not
+  exist on 18.0 — the defects they fix cannot arise here.
+
+
+[18.0.1.11.0] — 2026-10-28
+--------------------------
+
+Fixed
+~~~~~
+
+- **ř43/ř44 were still empty on this series, and ř3–13's tax read negative.**
+  The deduction hook looked its tags up by their 19.0 names (``VAT 3 Base``)
+  while Odoo 18 signs them (``+VAT 3 Base``), so it matched no tax at all and
+  tagged nothing; and the ``-VAT 3 Tax`` the 18.0 chart puts on the −100 leg
+  is a negating tag on a credit, which Odoo's engine reads as positive and the
+  return engine, summing raw balances, as negative. Measured on the first Czech
+  agenda compared on this series: ř3 tax −207 298.56 against 207 299 filed,
+  ř43 0.00 against 987 136. The hook now reads signed names, creates its
+  ř43/ř44 tags signed like the chart's own, and moves the declaration to the
+  +100 leg as ``+VAT 3 Tax`` — the shape 19.0's chart ships and the one both
+  engines read the same way. A migration re-runs it on existing companies.
+- **A period straddling that upgrade would have declared nothing.** Relocating
+  the tag on the chart and leaving the posted lines alone is worse than the
+  defect it replaces: ``_get_tax_tags`` matches both signed variants of a
+  name, so an old line's ``-VAT 3 Tax`` on the output credit leg still sums
+  raw as −210 beside a new line's ``+VAT 3 Tax`` on the input debit leg at
+  +210, and the two CANCEL. Measured on a throwaway database, one bill posted
+  either side of the upgrade: ř3 base 2 000 with ř3 tax 0.00, where 420 was
+  due — a plausible base row over an empty tax row. The migration now
+  reconciles the posted lines with the repartition's current tags as well,
+  through SQL on the tag relation so that a tax lock date cannot abort the
+  upgrade or, worse, leave it half done. It logs a warning naming the entries
+  and the date range, because those periods recompute differently afterwards;
+  nothing filed from Odoo can have depended on the old tags, which produced a
+  negative ř3 that no return could carry.
+
 [18.0.1.10.0] — 2026-10-19
 --------------------------
 

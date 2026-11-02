@@ -11,6 +11,40 @@ releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+[18.0.1.10.1] — 2026-10-24
+--------------------------
+
+Fixed
+~~~~~
+
+- **Brought to 19.0's 1.10.1 in one step, from 18.0.1.9.0.** The 18.0 copy
+  was the 1.9.0 port and had never diverged, so the model, the views, the
+  tests and the catalogues were taken whole from 19.0. Nothing in them uses a
+  19.0-only API: ``_read_group(domain, groupby=…, aggregates=…)`` and
+  ``_description_selection(env)`` exist on 18.0 at the same signatures.
+
+- **The Slovak Úč POD showed "Balance sheet" as its kind** (19.0's 1.10.1),
+  also when opened from the Income statement menu, so users took New there
+  for having created the wrong statement. A statement whose version carries
+  the výkaz ziskov a strát inside the balance-sheet document now reads
+  *Financial statements (balance sheet + income statement)* in the form and
+  the list.
+
+Added
+~~~~~
+
+- ``_fs_row_accounts`` (19.0's 1.10.0): the accounts behind a leaf row and
+  each one's contribution (brutto, korekcia, netto), evaluated with the row's
+  own formula over that account alone, so the shares sum to the row. On 19.0
+  the XLSX export uses it; ``l10n_cssk_fs_xlsx`` is not on this branch, so
+  here it is the tested helper that export will find when it arrives.
+
+Changed
+~~~~~~~
+
+- A row's drill-down groups its journal items by **account**, then by
+  document, so the accounts that make the row are the first thing shown.
+
 [18.0.1.9.0] — 2026-10-19
 -------------------------
 

@@ -2,7 +2,7 @@
 #
 #    Copyright (c) 2022 Data Dance s.r.o.
 #
-#    Data Dance Proprietary License v1.0
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 #
 #    This software and associated files (the "Software") may only be used
 #    (executed, modified, executed after modifications) if you have
@@ -40,7 +40,10 @@
 
 {
     "name": "QR Platba (Czech Republic)",
-    "version": "18.0.1.0.1",
+    "summary": "Czech QR Platba payment QR code on invoices — the Czech Banking Association short "
+        "payment descriptor (SPD) every Czech banking app reads, pre-filling IBAN, amount, "
+        "currency, message and the variable symbol.",
+    "version": "18.0.1.1.0",
     "category": "Accounting/Payment",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",

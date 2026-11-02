@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import json
 
@@ -130,6 +130,36 @@ class TestPaymentSymbols(AccountTestInvoicingCommon):
         line2 = self._st_line(payment_ref="uhrada VS: 4455 dakujeme")
         self.assertEqual(line2.variable_symbol, "4455")
 
+    def test_st_line_symbols_only_in_the_end_to_end_id(self):
+        """OCA CAMT puts EndToEndId in ref; the label is free text."""
+        cases = [
+            ("?/VS53155/SS/KS", ("53155", False, False)),  # Fio
+            ("/VS53101/SS/KS", ("53101", False, False)),
+            ("/VS26001001/SS55510022/KS", ("26001001", "55510022", False)),
+            ("/VS26004101/SS0/KS0008", ("26004101", False, "0008")),
+        ]
+        for ref, (vs, ss, ks) in cases:
+            line = self._st_line(payment_ref="Syntetická úhrada objednávky", ref=ref)
+            self.assertEqual(
+                (line.variable_symbol, line.specific_symbol, line.constant_symbol),
+                (vs, ss, ks), ref)
+            self.assertTrue(line.payment_ref.startswith(vs + " - "), ref)
+
+    def test_st_line_label_wins_over_ref(self):
+        line = self._st_line(payment_ref="VS 111", ref="/VS222/SS/KS")
+        self.assertEqual(line.variable_symbol, "111")
+
+    def test_st_line_card_order_number_is_not_a_vs(self):
+        """Tatra banka CardPay: EndToEndId is the e-shop order number."""
+        line = self._st_line(payment_ref="CardPay", ref="000053228")
+        self.assertFalse(line.variable_symbol)
+        line = self._st_line(payment_ref="Platba", ref="2428500179")
+        self.assertFalse(line.variable_symbol)
+
+    def test_st_line_symbols_from_the_narration(self):
+        line = self._st_line(payment_ref="x", narration="<p>/VS998877/SS/KS</p>")
+        self.assertEqual(line.variable_symbol, "998877")
+
     def test_st_line_no_symbols_noop(self):
         line = self._st_line(payment_ref="plain label without symbols")
         self.assertFalse(line.variable_symbol)
@@ -197,3 +227,50 @@ class TestPaymentSymbols(AccountTestInvoicingCommon):
         payment = self._register_payment(bill)
         with self.assertRaises(ValidationError):
             payment.l10n_cssk_constant_symbol = "12345"
+
+    # ------------------------------------------------------------------
+    # the variable-symbol matcher both reconciliation bridges share
+    # ------------------------------------------------------------------
+    def _posted_with_vs(self, vs, amount=100.0, partner=None):
+        invoice = self._invoice(
+            partner_id=(partner or self.partner_a).id,
+            invoice_line_ids=[Command.create({
+                "name": "Služba", "quantity": 1, "price_unit": amount,
+                "tax_ids": [Command.clear()],
+            })],
+        )
+        invoice.action_post()
+        invoice.l10n_cssk_variable_symbol = vs
+        return invoice
+
+    def _bank_line(self, amount, vs, partner=None):
+        return self.env["account.bank.statement.line"].create({
+            "journal_id": self.company_data["default_journal_bank"].id,
+            "date": fields.Date.from_string("2026-07-10"),
+            "amount": amount,
+            "payment_ref": "Platba",
+            "variable_symbol": vs,
+            "partner_id": partner.id if partner else False,
+        })
+
+    def test_vs_match_two_documents_of_one_amount_is_ambiguous(self):
+        """Two sale journals can both issue …00001: same VS, same amount, and
+        nothing on an unidentified bank line says which was paid
+        (cssk-public#7)."""
+        self._posted_with_vs("2026000001")
+        self._posted_with_vs("2026000001", partner=self.partner_b)
+        line = self._bank_line(100.0, "2026000001")
+        self.assertFalse(line._l10n_cssk_find_vs_counterpart_amls())
+
+    def test_vs_match_the_amount_still_tells_two_documents_apart(self):
+        self._posted_with_vs("2026000002", amount=100.0)
+        second = self._posted_with_vs("2026000002", amount=250.0,
+                                      partner=self.partner_b)
+        line = self._bank_line(250.0, "2026000002")
+        self.assertEqual(line._l10n_cssk_find_vs_counterpart_amls().move_id, second)
+
+    def test_vs_match_a_known_payer_settles_it(self):
+        self._posted_with_vs("2026000003")
+        second = self._posted_with_vs("2026000003", partner=self.partner_b)
+        line = self._bank_line(100.0, "2026000003", partner=self.partner_b)
+        self.assertEqual(line._l10n_cssk_find_vs_counterpart_amls().move_id, second)

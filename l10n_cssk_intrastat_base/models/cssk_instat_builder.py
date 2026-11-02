@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License LGPL-3 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """Edition-neutral INSTAT (instat62) XML builder + validator for INTRASTAT-SK.
 
 Renders and validates the official Finančná správa INTRASTAT-SK message

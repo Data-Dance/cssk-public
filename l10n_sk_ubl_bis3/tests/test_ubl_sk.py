@@ -41,7 +41,7 @@ class TestUBLSlovakia(TestUBLCommon):
             'city': "Bratislava",
             'country_id': cls.sk_country.id,
             'vat': "SK2020000004",
-            'company_registry': "12345678",
+            'company_registry': "12345679",
         })
         # OCA account_payment_order (present in the full install) gates
         # res.partner.bank creation behind group_account_payment; the test user

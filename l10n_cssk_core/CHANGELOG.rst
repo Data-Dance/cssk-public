@@ -11,6 +11,13 @@ releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- The *Default Tax Authority* settings field lost its filter on the fiscal
+  country: Odoo drops a string domain when it copies a field into a related
+  one.
+
 [18.0.1.17.0] — 2026-10-19
 --------------------------
 

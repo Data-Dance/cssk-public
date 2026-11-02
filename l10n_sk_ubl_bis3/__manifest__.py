@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Slovakia - Peppol BIS Billing 3.0 (eFaktúra)",
-    'version': '18.0.1.0.1',
+    'version': '18.0.3.2.0',
     'category': 'Accounting/Localizations/EDI',
     'summary': "Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export",
     'description': """
@@ -34,8 +34,12 @@ the Slovak Tax Data Document (TDD, ``urn:peppol:taxdata:sk-1``) and the
     'depends': [
         'account_edi_ubl_cii',
         'l10n_sk',
+        # for res.partner.l10n_sk_dic — the number Peppol EAS 0245 designates
+        'l10n_sk_base',
     ],
-    'data': [],
+    'data': [
+        'data/ir_actions_server.xml',
+    ],
     'installable': True,
     # Auto-installs once a Slovak CoA and the UBL/CII engine are both present,
     # mirroring l10n_ro_edi / l10n_pl_edi.

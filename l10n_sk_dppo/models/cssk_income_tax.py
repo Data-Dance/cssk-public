@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """SK DPPO dodatočné priznanie — auto-fill the difference rows.
 
 Per the DPPOv25 poučenie (§ II, oddiel Dodatočné daňové priznanie), each

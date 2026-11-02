@@ -10,6 +10,13 @@ kept verbatim.
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- The *non-deductible account* picker in Settings listed other companies'
+  accounts: Odoo drops a string domain when it copies a field into a related
+  one.
+
 [18.0.1.0.2] — 2026-10-20
 -------------------------
 

@@ -8,7 +8,7 @@
             <list string="Financial Statements">
                 <field name="name"/>
                 <field name="country_id"/>
-                <field name="statement_kind"/>
+                <field name="kind_label"/>
                 <field name="date_from"/>
                 <field name="date_to"/>
                 <field name="state" widget="badge"
@@ -88,7 +88,7 @@
                             <field name="company_id"/>
                             <field name="country_id"/>
                             <field name="version_id"/>
-                            <field name="statement_kind"/>
+                            <field name="kind_label"/>
                         </group>
                         <group>
                             <field name="date_from"/>

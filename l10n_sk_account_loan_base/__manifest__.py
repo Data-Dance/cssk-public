@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "SK Lízing — účty (base)",
     "summary": "Engine-neutral Slovak leasing/loan account defaults on the "

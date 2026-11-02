@@ -20,7 +20,36 @@ class TestCzSelfAssessedDeduction(AccountTestInvoicingCommon):
     chart_template = "cz"
 
     def _names(self, reps):
-        return set(reps.tag_ids.mapped("name"))
+        # Odoo 18 signs a tax tag's name; the statute does not.
+        return {name.lstrip("+-") for name in reps.tag_ids.mapped("name")}
+
+    def test_on_a_signed_chart_the_declaration_sits_on_the_positive_leg(self):
+        """Odoo 18 tags ``-VAT 3 Tax`` on the −100 leg; the return engine sums
+        raw balances and read it as a negative charge. After the hook the +100
+        leg declares (``+VAT 3 Tax``) and the −100 leg deducts only."""
+        company = self.env.company
+        self.assertTrue(
+            company._cz_signed_tags(),
+            "18.0's l10n_cz signs its tax tags; if this ever reads False the "
+            "relocation silently stops happening and nothing else asserts it")
+        company._cz_tag_selfassessed_deduction()
+        tax = self.env["account.tax"].with_context(active_test=False).search([
+            ("company_id", "=", company.id), ("name", "=", "21% EU G"),
+        ], limit=1)
+        legs = tax.invoice_repartition_line_ids.filtered(
+            lambda r: r.repartition_type == "tax")
+        positive = legs.filtered(lambda r: r.factor_percent > 0)
+        negative = legs.filtered(lambda r: r.factor_percent < 0)
+        self.assertEqual(set(positive.tag_ids.mapped("name")), {"+VAT 3 Tax"})
+        self.assertEqual(set(negative.tag_ids.mapped("name")), {"+VAT 43 Total"})
+        base = tax.invoice_repartition_line_ids.filtered(
+            lambda r: r.repartition_type == "base")
+        self.assertEqual(set(base.tag_ids.mapped("name")),
+                         {"+VAT 3 Base", "+VAT 43 Base"})
+        refund = tax.refund_repartition_line_ids.filtered(
+            lambda r: r.repartition_type == "tax" and r.factor_percent > 0)
+        self.assertEqual(set(refund.tag_ids.mapped("name")), {"-VAT 3 Tax"},
+                         "the refund side already had the shape and is left alone")
 
     def test_every_self_assessed_purchase_tax_tags_its_deduction(self):
         """Asserted over the WHOLE chart, because the defect was uniform.

@@ -47,4 +47,4 @@ Credits
 
 * Data Dance s.r.o. <https://www.datadance.eu>
 
-License: LGPL-3 (see the LICENSE file).
+License: AGPL-3.0 or later (see the LICENSE file).

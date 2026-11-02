@@ -8,6 +8,12 @@ Versioning follows the Odoo manifest (``18.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- The *advance purchase journal* picker in Settings listed every journal: Odoo
+  drops a string domain when it copies a field into a related one.
+
 [18.0.1.0.1] — 2026-07-18
 -------------------------
 

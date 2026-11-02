@@ -22,13 +22,14 @@ class EdiMessage(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _description = "EDI Message"
     _order = "create_date desc"
-    _sql_constraints = [
-        (
-            "message_id_direction_unique",
-            "UNIQUE(message_id, direction)",
-            "An EDI message with this ID and direction already exists.",
-        )
-    ]
+    # No UNIQUE(message_id, direction) index. It existed here until
+    # 18.0.1.5.1 and 19.0 never created one (_sql_constraints is not read
+    # there), which is why the Peppol dedup fix landed on 19.0 without
+    # touching the schema: a Peppol message_id is the SENDER's invoice
+    # number, so two suppliers' 2026001 are two legitimate inbound rows and
+    # the index refused the second one. Duplicates are decided in
+    # _inbound_duplicate_domain, where the key can be widened per document
+    # family. Do not reinstate it.
 
     # ------------------------------------------------------------------
     # Provider registry — extended by each provider module
@@ -1332,6 +1333,29 @@ class EdiMessage(models.Model):
         envelope_data = connector._parse_envelope(xml_content)
         return envelope_data.get("message_id", "")
 
+    def _inbound_duplicate_domain(self, provider, connector, xml_content):
+        """Return the domain that finds an already-stored copy of an inbound
+        payload, or ``[]`` when it cannot be deduplicated.
+
+        A match is skipped AND acknowledged, which removes the package from
+        the provider's mailbox — so a key that is too narrow does not merely
+        miss a duplicate, it deletes a document. The default key is the
+        biztalk ``message_id``, unique per interchange; a document family
+        whose identifier is only unique per sender (a UBL ``cbc:ID`` is an
+        invoice number) must widen the domain with whatever makes it unique.
+        """
+        try:
+            key = self._dedup_key_for_inbound(connector, xml_content)
+        except Exception:
+            key = ""
+        if not key:
+            return []
+        return [
+            ("provider", "=", provider),
+            ("message_id", "=", key),
+            ("direction", "=", "in"),
+        ]
+
     def _inbound_stub_vals(self, provider, xml_content, pkg):
         """Return the create-vals for an inbound stub message.
 
@@ -1349,6 +1373,16 @@ class EdiMessage(models.Model):
             "provider_interchange_id": pkg.get("raw_id") or False,
             "external_id": pkg.get("external_id") or False,
         }
+
+    def _dispatch_ack(self, connector, raw_id):
+        """Acknowledge an inbound document.
+
+        A seam, with 19.0's name and signature. Here it always goes through a
+        job: ``edi_base`` depends on ``queue_job`` on this series, where 19.0
+        made the runner optional (``edi_base_queue_job``) and acknowledges
+        synchronously without it.
+        """
+        return connector.with_delay(priority=0)._acknowledge_inbound(raw_id)
 
     def _inbound_dispatch_may_commit(self):
         """Whether dispatching this inbound message may COMMIT the cursor
@@ -1493,26 +1527,17 @@ class EdiMessage(models.Model):
             # Pre-parse the envelope out-of-band for duplicate detection.
             # Delegated to a seam so non-EDIFACT families (e.g. Peppol UBL,
             # which has no biztalk envelope) can supply their own dedup key.
-            try:
-                envelope_msg_id = self._dedup_key_for_inbound(connector, xml_content)
-            except Exception:
-                envelope_msg_id = ""
-
-            if envelope_msg_id and self.search(
-                [
-                    ("provider", "=", provider),
-                    ("message_id", "=", envelope_msg_id),
-                    ("direction", "=", "in"),
-                ],
-                limit=1,
-            ):
+            duplicate_domain = self._inbound_duplicate_domain(
+                provider, connector, xml_content
+            )
+            if duplicate_domain and self.search(duplicate_domain, limit=1):
                 _logger.info(
                     "Duplicate inbound %s %s, skipping",
                     self._name,
-                    envelope_msg_id,
+                    duplicate_domain,
                 )
                 if raw_id:
-                    connector.with_delay(priority=0)._acknowledge_inbound(raw_id)
+                    self._dispatch_ack(connector, raw_id)
                 continue
 
             # Phase 1: stub creation. No message_xml in vals so the create()
@@ -1615,7 +1640,7 @@ class EdiMessage(models.Model):
                     )
 
             if raw_id:
-                connector.with_delay(priority=0)._acknowledge_inbound(raw_id)
+                self._dispatch_ack(connector, raw_id)
 
         if has_more:
             cron_xmlid = self.PROVIDER_CRON_MAP.get(provider)

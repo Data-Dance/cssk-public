@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# License LGPL-3 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Intrastat — INSTAT XML builder (base)",
     "summary": "Edition-neutral INTRASTAT-SK INSTAT (instat62) XML renderer "

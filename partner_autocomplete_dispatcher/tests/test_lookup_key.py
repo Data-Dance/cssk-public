@@ -1,5 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
-# Data Dance Proprietary License v1.0 — see the LICENSE file.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """Which partners may be looked up in a company register, and by what.
 
 Pinned because the distinction is invisible in the data: a contact inside a

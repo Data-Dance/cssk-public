@@ -166,17 +166,30 @@ class TestCzHistoricVatRates(AccountTestInvoicingCommon):
         """
         self._historic().unlink()
         self.assertFalse(self._historic(), "starting from no generated rates")
+        # By its ř41 base tag, not by its name: the domestic reduced-rate
+        # purchase tax is ``12% G`` on 19.0's chart and plain ``12%`` on
+        # 18.0's, which ships neither ``12% G`` nor ``12% S``. The tag is the
+        # same on both.
+        vat41 = self.env["account.account.tag"]._get_tax_tags(
+            "VAT 41 Base", self.env.ref("base.cz").id)
         source = self._current(12.0).filtered(
-            lambda t: t.type_tax_use == "purchase" and t.name == "12% G"
+            lambda t: t.type_tax_use == "purchase" and (
+                t.invoice_repartition_line_ids.filtered(
+                    lambda r: r.repartition_type == "base").tag_ids & vat41)
         )[:1]
-        self.assertTrue(source, "expected a 12% G purchase tax")
-        handmade = source.copy({"name": "15% G", "amount": 15.0})
+        self.assertTrue(source, "expected a domestic 12% purchase tax")
+        # Named through the generator's own helper, so the hand-made rate
+        # carries the name the generator would give it on EITHER chart — a
+        # literal is a name only 19.0's chart produces.
+        handmade_name = self.company._cssk_historic_tax_name(
+            source.name, 12.0, 15.0)
+        handmade = source.copy({"name": handmade_name, "amount": 15.0})
         self.assertTrue(handmade.active)
 
         self.company._cssk_create_historic_vat_taxes()
 
         same = self.Tax.search([
-            ("company_id", "=", self.company.id), ("name", "=", "15% G"),
+            ("company_id", "=", self.company.id), ("name", "=", handmade_name),
             ("type_tax_use", "=", "purchase"),
         ])
         self.assertEqual(

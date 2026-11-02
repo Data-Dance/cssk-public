@@ -29,8 +29,10 @@ class ResCompany(models.Model):
 class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
 
+    # Domain repeated: Odoo drops a string domain on a related field.
     l10n_cssk_garnishment_journal_id = fields.Many2one(
-        related="company_id.l10n_cssk_garnishment_journal_id", readonly=False
+        related="company_id.l10n_cssk_garnishment_journal_id", readonly=False,
+        domain="[('type', '=', 'general')]",
     )
     l10n_cssk_garnishment_account_id = fields.Many2one(
         related="company_id.l10n_cssk_garnishment_account_id", readonly=False

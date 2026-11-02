@@ -1,6 +1,6 @@
 {
     'name': "Import/Export Czech e-invoices (ISDOC)",
-    'version': '18.0.1.0.1',
+    'version': '18.0.1.0.2',
     'category': 'Accounting/Accounting',
     'summary': "Import and export ISDOC 6.0.2 electronic invoices (Czech national e-invoicing standard)",
     'description': """
