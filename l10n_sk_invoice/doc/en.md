@@ -1,7 +1,7 @@
 ---
 title: SK Invoice (statutory PDF)
 summary: Adds the customer's DIČ, the payment symbols and the statutory VAT phrases — exemption and reverse charge — to the printed Slovak invoice.
-verified: 19.0.1.0.4
+verified: 19.0.1.0.5
 ---
 
 ## What it is for {#purpose}
@@ -10,12 +10,14 @@ Odoo's invoice PDF, together with the Slovak chart of accounts (`l10n_sk`),
 already prints most of what a Slovak *faktúra* needs: both parties' names,
 addresses and VAT numbers (IČ DPH), the customer's IČO, the invoice number and
 dates, the lines, the tax base and tax per rate, and the company's trade
-registry entry. This module adds the three things it is missing:
+registry entry. This module adds the four things it is missing:
 
 1. the customer's **DIČ** under their address;
 2. the **variable, constant and specific symbol** next to the invoice dates;
 3. the **statutory phrase** a VAT-exempt or reverse-charge supply must carry,
-   chosen from the taxes on the invoice and the customer's country.
+   chosen from the taxes on the invoice and the customer's country;
+4. the label **IČO** in front of both parties' registry number, where core
+   `l10n_sk` prints "ID:" (even in Slovak).
 
 Everything it prints appears only on documents of a company whose country is
 Slovakia, so it does no harm in a multi-company database with other

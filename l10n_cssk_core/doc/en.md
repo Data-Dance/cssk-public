@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Localization — Shared Core
 summary: The common foundation of the Czech and Slovak statutory modules — settings, tax offices, IČO checking, the VAT period of a document, the life cycle of a statutory filing and the filed-versus-computed comparison.
-verified: 19.0.1.18.1
+verified: 19.0.1.19.0
 ---
 
 ## What it is for {#purpose}
@@ -43,6 +43,10 @@ Localization**:
 | Year-end closing journals | The journals holding the year-end closing and reopening entries (e.g. *UZAVIERKA*, *OTVORENIE*). Their entries are left out of the financial statements, the income-tax return and the financial reports, so that closing the year does not wipe out the balance sheet and the profit and loss. Leave empty if the year is never closed in this database. |
 
 The full suites add their own switches to this block, one per optional module.
+
+**Slovak date format.** Installing the module sets the Slovak language to
+write dates as dd.mm.yyyy (31.12.2026), the way Slovak documents do; Odoo
+ships it as 31/12/2026. Czech already uses dd.mm.yyyy.
 
 ## Your company {#company}
 

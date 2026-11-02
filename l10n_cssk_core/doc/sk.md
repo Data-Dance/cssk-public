@@ -1,7 +1,7 @@
 ---
 title: CZ/SK lokalizácia — spoločné jadro
 summary: Spoločný základ českých a slovenských štatutárnych modulov — nastavenia, daňové úrady, kontrola IČO, obdobie DPH dokladu, životný cyklus podania a porovnanie podaného s vypočítaným.
-verified: 19.0.1.18.1
+verified: 19.0.1.19.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -44,6 +44,10 @@ lokalizácia**:
 
 Kompletné sady pridávajú do tohto bloku vlastné prepínače, jeden na každý
 voliteľný modul.
+
+**Formát dátumu v slovenčine.** Modul nastaví slovenčine zápis dátumu
+dd.mm.rrrr (31.12.2026), ako ho používajú slovenské doklady; Odoo ho
+dodáva ako 31/12/2026. Čeština už dd.mm.rrrr používa.
 
 ## Vaša spoločnosť {#company}
 
