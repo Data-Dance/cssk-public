@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.0.2] — 2026-11-02
+-------------------------
+
+Fixed
+~~~~~
+
+- Printing an invoice failed: the customer DIČ block read ``l10n_cssk_dic``,
+  a field 18.0 no longer has. The block is gone rather than renamed - in Czech
+  usage DIČ *is* the VAT number, which core already prints under the "DIČ"
+  label - so the number is printed once, as on 19.0.
+
 [18.0.1.0.1] — 2026-09-17
 -------------------------
 

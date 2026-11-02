@@ -265,11 +265,18 @@ class CSSKIncomeTaxReturn(models.Model):
 
     def _cssk_preflight_export(self):
         """DPPO identification: the SK template emits the DIČ
-        (``l10n_cssk_dic``, falling back to the VAT number), the CZ one the
+        (``l10n_sk_dic``, falling back to the VAT number), the CZ one the
         DIČ derived from the VAT number — either identifier satisfies the
-        form, so accept whichever is set (unlike the VAT-only base check)."""
+        form, so accept whichever is set (unlike the VAT-only base check).
+
+        The DIČ field is read by feature detection: it lives in
+        ``l10n_sk_base``, and this module is the shared CZ/SK base, which a
+        Czech-only deployment installs without any Slovak module. In Czech
+        usage the DIČ *is* the VAT number, so ``vat`` alone is the right
+        answer there.
+        """
         for rec in self:
-            if not (rec.company_id.l10n_cssk_dic or rec.company_id.vat):
+            if not (getattr(rec.company_id, "l10n_sk_dic", False) or rec.company_id.vat):
                 raise UserError(_(
                     "Company '%(company)s' has neither a Tax ID (DIČ) nor a "
                     "VAT number set, but the income-tax return XML must carry "

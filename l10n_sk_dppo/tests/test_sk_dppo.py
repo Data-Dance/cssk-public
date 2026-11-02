@@ -14,7 +14,7 @@ class TestSkDppo(AccountTestInvoicingCommon):
     def setUpClass(cls):
         super().setUpClass()
         cls.company = cls.company_data["company"]
-        cls.company.l10n_cssk_dic = "2020317068"
+        cls.company.l10n_sk_dic = "2020317068"
         cls.company.company_registry = "36000001"
         cls.version = cls.env.ref("l10n_sk_dppo.dppo_version_2025")
         cls.type_r = cls.env.ref("l10n_sk_dppo.dppo_type_R_2025")

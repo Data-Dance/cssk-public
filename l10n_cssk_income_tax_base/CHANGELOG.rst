@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.2.4] — 2026-11-02
+-------------------------
+
+Fixed
+~~~~~
+
+- The DPPO preflight read ``l10n_cssk_dic``, a field 18.0 no longer has
+  (it moved to ``l10n_sk_base`` as ``l10n_sk_dic``), so checking a return
+  raised ``AttributeError``. It now reads ``l10n_sk_dic`` when that module is
+  installed and falls back to the VAT number, as on 19.0.
+
 [19.0.1.2.3] — 2026-07-04
 -------------------------
 

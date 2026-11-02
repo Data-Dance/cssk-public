@@ -8,6 +8,15 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.0.5] — 2026-11-02
+-------------------------
+
+Fixed
+~~~~~
+
+- The DPPO XML read ``l10n_cssk_dic``, a field 18.0 no longer has; it reads
+  ``l10n_sk_base``'s ``l10n_sk_dic`` (falling back to the VAT number).
+
 [19.0.1.0.2] — 2026-07-04
 -------------------------
 

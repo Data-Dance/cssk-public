@@ -1,8 +1,11 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import base64
+
 from odoo import Command
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
@@ -32,12 +35,24 @@ class TestIncomeTaxBase(AccountTestInvoicingCommon):
             "type": "qweb",
             "arch": "<t t-name='cssk_income_tax_test_template'><dokument/></t>",
         })
+        # A minimal XSD for the one-element test template. Without it the
+        # two export tests below fail on "carries no XML schema" — the export
+        # refuses an unvalidated document on purpose, and the fixture predates
+        # that guard. (Pre-existing: reproduced on pristine HEAD.)
+        schema = (
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">'
+            '<xs:element name="dokument"/>'
+            "</xs:schema>"
+        )
         cls.version = cls.env["cssk.income.tax.version"].create({
             "name": "TEST DPPO",
             "country_id": cls.env.ref("base.sk").id,
             "valid_from": "2025-01-01",
             "xml_template_ref_id": cls.template.id,
             "xml_root_element": "dokument",
+            "xml_schema_data": base64.b64encode(schema.encode()),
+            "xml_schema_filename": "test_dppo.xsd",
         })
         cls.env["cssk.income.tax.type"].create({
             "version_id": cls.version.id, "code": "R", "name": "Riadne",
@@ -128,17 +143,17 @@ class TestIncomeTaxBase(AccountTestInvoicingCommon):
 
     def test_export_preflight_accepts_dic_or_vat(self):
         """Task 3 regression: the DPPO preflight accepts EITHER the DIČ
-        (l10n_cssk_dic — what the SK template emits) or the VAT number; with
+        (l10n_sk_dic — what the SK template emits) or the VAT number; with
         neither set the export fails early naming the field."""
         self._post_pl(revenue=2000.0, expense=800.0)
         ret = self._make_return()
         self.company.vat = False
-        self.company.l10n_cssk_dic = False
+        self.company.l10n_sk_dic = False
         with self.assertRaises(UserError) as cm:
             ret.action_export_xml()
         self.assertIn("DIČ", str(cm.exception))
         # a DIČ alone (no VAT number) satisfies the DPPO identification
-        self.company.l10n_cssk_dic = "2020317068"
+        self.company.l10n_sk_dic = "2020317068"
         ret.action_export_xml()
         self.assertEqual(ret.state, "exported")
 
@@ -149,7 +164,7 @@ class TestIncomeTaxBase(AccountTestInvoicingCommon):
         BEFORE rendering."""
         from unittest.mock import patch
         self._post_pl(revenue=2000.0, expense=800.0)
-        self.company.l10n_cssk_dic = "2020317068"
+        self.company.l10n_sk_dic = "2020317068"
         ret = self._make_return()
         Model = type(self.env["cssk.income.tax.return"])
 

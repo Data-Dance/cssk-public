@@ -8,6 +8,28 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.0.3] — 2026-11-02
+-------------------------
+
+Fixed
+~~~~~
+
+- Printing an invoice failed: the customer DIČ read ``l10n_cssk_dic``, a
+  field 18.0 no longer has. It prints ``l10n_sk_base``'s ``l10n_sk_dic``, and
+  the module now depends on ``l10n_sk_base``.
+
+[18.0.1.0.2] — 2026-11-02
+-------------------------
+
+Fixed
+~~~~~
+
+- Invoices print **IČO** before the company registry number of the supplier
+  and the customer. Core l10n_sk hardcodes "ID:" in six places (and its own
+  sk.po translates it as "ID:"); they now print the party's
+  ``company_registry_label`` - IČO for Slovak and Czech parties through
+  l10n_cssk_core, the core label for other countries. Ported from 19.0.1.0.5.
+
 [18.0.1.0.1] — 2026-09-17
 -------------------------
 

@@ -12,7 +12,7 @@ class TestSkInvoice(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.company.country_id = cls.env.ref("base.sk")
-        cls.company.partner_id.l10n_cssk_dic = "2020999999"
+        cls.company.partner_id.l10n_sk_dic = "2020999999"
 
         cls.eu_partner = cls.env["res.partner"].with_context(
             no_vat_validation=True
@@ -20,7 +20,7 @@ class TestSkInvoice(AccountTestInvoicingCommon):
             "name": "Berlin GmbH",
             "country_id": cls.env.ref("base.de").id,
             "vat": "DE123456788",
-            "l10n_cssk_dic": "DE-DIC-1",
+            "l10n_sk_dic": "DE-DIC-1",
         })
         cls.sk_partner = cls.env["res.partner"].with_context(
             no_vat_validation=True
@@ -28,7 +28,7 @@ class TestSkInvoice(AccountTestInvoicingCommon):
             "name": "Bratislava s.r.o.",
             "country_id": cls.env.ref("base.sk").id,
             "vat": "SK2023456787",
-            "l10n_cssk_dic": "2023456787",
+            "l10n_sk_dic": "2023456787",
         })
         group = cls.tax_sale_a.tax_group_id.id
         cls.zero_tax = cls.env["account.tax"].create({
@@ -81,3 +81,31 @@ class TestSkInvoice(AccountTestInvoicingCommon):
         self.assertIn("DIČ", html)
         self.assertIn("§43", html)
         self.assertIn("0308", html)
+
+
+@tagged("post_install", "-at_install")
+class TestSkInvoiceRegistryLabel(AccountTestInvoicingCommon):
+    """Core l10n_sk prints the registry number as "ID:" (and translates it as
+    "ID:"); a Slovak invoice must say IČO for the supplier and the customer."""
+
+    @classmethod
+    @AccountTestInvoicingCommon.setup_country("sk")
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.company_data["company"]
+        cls.company.country_id = cls.env.ref("base.sk")
+        cls.company.company_registry = "11111119"
+        cls.customer = cls.env["res.partner"].with_context(no_vat_validation=True).create({
+            "name": "Košice a.s.", "is_company": True,
+            "country_id": cls.env.ref("base.sk").id, "company_registry": "12345679"})
+
+    def _html(self, lang="en_US"):
+        inv = self.init_invoice("out_invoice", partner=self.customer, amounts=[100.0], post=True)
+        return self.env["ir.actions.report"].with_context(lang=lang)._render_qweb_html(
+            "account.account_invoices", inv.ids)[0].decode()
+
+    def test_supplier_and_customer_say_ico(self):
+        html = self._html()
+        for registry in ("11111119", "12345679"):
+            self.assertRegex(html, r"IČO:\s*<span[^>]*>\s*%s" % registry)
+        self.assertNotRegex(html, r"\bID:\s*<span")
