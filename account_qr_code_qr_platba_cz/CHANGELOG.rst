@@ -8,11 +8,21 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- ``PT:IP`` in every code: the payer's banking app is asked to execute the
+  transfer as an instant payment (ČBA standard 1.2). Banks that cannot fall
+  back to an ordinary transfer, so nothing is lost where it is unsupported.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
 - 19.0.1.1.2 (2026-10-27) is owed to 18.0: ``*`` / ``%`` escaping in ``MSG``
   and ``RN``. The module exists on ``origin/18.0``.
+  DISCHARGED 2026-10-31 by ac4f34f6 on branch 18.0 (origin/18.0 ea53193a) — do not port this again.
+- The ``PT:IP`` addition above is owed to 18.0 as well.
+  DISCHARGED 2026-10-31 by ac4f34f6 on branch 18.0 (origin/18.0 ea53193a) — do not port this again.
 
 Changed
 ~~~~~~~

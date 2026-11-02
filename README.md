@@ -43,9 +43,9 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-175 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+178 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
-### Czech Republic (35)
+### Czech Republic (38)
 
 | Module | Version | What it does |
 |---|---|---|
@@ -57,6 +57,9 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_datadance` | 19.0.1.1.1 | One-click Czech statutory localization: installs the core statutory reporting + invoice modules, with optional workflow pieces selectable in Settings. |
 | `l10n_cz_dppo` | 19.0.1.5.0 | Czech corporate income-tax return on the income-tax framework: ř.10 from the P&L, manual adjustments, the II. oddíl tax spine, and EPO Pisemnost/DPPDP9 XML… |
 | `l10n_cz_ec_sales` | 19.0.1.3.0 | Czech EC sales list / souhrnné hlášení (DPHSHV) on the shared EC-summary framework + the EPO Pisemnost/DPHSHV XML export. |
+| `l10n_cz_eet2` | 19.0.1.3.0 | Send registered-sale data messages to the Czech EET 2.0 system (data interface v4.1, SOAP + WS-Security). |
+| `l10n_cz_eet2_pos` | 19.0.1.3.0 | Register Point-of-Sale contact payments with the Czech EET 2.0 system and print the POK on the receipt. |
+| `l10n_cz_eet2_pos_loyalty` | 19.0.1.0.1 | Report gift-card / eWallet top-ups and redemptions in the EET 2.0 drawdown fields (urceno_cerp_zuct / cerp_zuct). |
 | `l10n_cz_epo` | 19.0.1.0.1 | Signs Czech statutory filings with the company's qualified certificate and sends them to EPO — to check (test mode) or to file — and follows the filing to… |
 | `l10n_cz_fiscal_year_closing` | 19.0.1.0.0 | Make the Czech year-end closing postable: retype 701/702/710 from off_balance, which Odoo refuses to mix with any other account in one entry. |
 | `l10n_cz_fs` | 19.0.1.2.0 | Czech balance sheet (Rozvaha), P&L (Výkaz zisku a ztráty), cash flow and changes in equity on the shared FS framework — account-code line mappings + XML. |
@@ -65,12 +68,12 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_hr_payroll_base` | 19.0.1.1.0 | Engine-neutral base for the Czech payroll: the Czech employee data (agreement type, taxpayer declaration, children, insurance flags) and the statutory… |
 | `l10n_cz_hr_payroll_eldp` | 19.0.1.0.5 | Annual Czech pension-insurance record (ELDP) for the ČSSZ — per-employee assessment base and days aggregated over the calendar year, XML validated against the… |
 | `l10n_cz_hr_payroll_health` | 19.0.1.1.1 | Czech health-insurance employer e-filings — monthly premium overview (PPPZ, payslip-aggregate) and bulk employee enrol/terminate notification (HOZ, employee… |
-| `l10n_cz_hr_payroll_oca` | 19.0.1.13.1 | Czech payroll rules for the payroll engine |
+| `l10n_cz_hr_payroll_oca` | 19.0.1.13.2 | Czech payroll rules for the payroll engine |
 | `l10n_cz_hr_payroll_onz` | 19.0.1.0.4 | Czech employment registration (ONZ) for the ČSSZ — per-employee start/end events built from the employee and hr.version lifecycle, XML validated against the… |
 | `l10n_cz_hr_payroll_parity` | 19.0.1.2.3 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Czech implementations and… |
 | `l10n_cz_hr_payroll_pvpoj` | 19.0.1.1.4 | Monthly Czech social-insurance overview (PVPOJ) for the ČSSZ — employer-aggregate XML export validated against the official PVPOJ25.xsd. Engine-neutral… |
 | `l10n_cz_hr_payroll_surcharges` | 19.0.1.1.1 | Engine-neutral statutory wage surcharges for overtime, public holiday, night, weekend and difficult-environment work (§§ 114–118 zákoníku práce), plus the… |
-| `l10n_cz_hr_payroll_surcharges_oca` | 19.0.1.1.1 | Statutory Czech wage surcharges (§§ 114–118 zákoníku práce) as salary rules for the OCA payroll engine. |
+| `l10n_cz_hr_payroll_surcharges_oca` | 19.0.1.1.2 | Statutory Czech wage surcharges (§§ 114–118 zákoníku práce) as salary rules for the OCA payroll engine. |
 | `l10n_cz_intrastat_oca` | 19.0.1.0.0 | INTRASTAT-CZ Celní správa InstatOnline CSV on the OCA intrastat_product engine (CE-clean). EE uses Odoo EE l10n_cz_intrastat instead. |
 | `l10n_cz_invoice` | 19.0.1.1.0 | Czech invoice layout: customer DIČ, payment symbols and the mandatory statutory phrases (reverse charge §92a, exemptions §64/§66). |
 | `l10n_cz_invoice_payment_mode` | 19.0.1.0.0 | Prints the payment mode as 'Forma úhrady' in the header of the Czech invoice. |
@@ -114,11 +117,11 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_health` | 19.0.1.2.1 | Monthly Slovak health-insurance advances statement (Mesačný výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / Union — employer header + per-employee… |
 | `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.1 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
 | `l10n_sk_hr_payroll_mvp` | 19.0.1.1.1 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
-| `l10n_sk_hr_payroll_oca` | 19.0.1.19.1 | Slovak payroll rules for the payroll engine |
+| `l10n_sk_hr_payroll_oca` | 19.0.1.19.2 | Slovak payroll rules for the payroll engine |
 | `l10n_sk_hr_payroll_parity` | 19.0.1.8.1 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and… |
 | `l10n_sk_hr_payroll_rlfo` | 19.0.1.2.1 | Slovak social-insurance registration of employees (RLFO / RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška events built from the employee +… |
 | `l10n_sk_hr_payroll_surcharges` | 19.0.1.2.6 | Engine-neutral statutory wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 and § 96… |
-| `l10n_sk_hr_payroll_surcharges_oca` | 19.0.1.0.4 | Statutory Slovak wage surcharges and the minimum-wage top-up as salary rules for the OCA payroll engine. |
+| `l10n_sk_hr_payroll_surcharges_oca` | 19.0.1.0.5 | Statutory Slovak wage surcharges and the minimum-wage top-up as salary rules for the OCA payroll engine. |
 | `l10n_sk_hr_payroll_vpp` | 19.0.1.1.1 | Slovak social-insurance statement for dohody / irregular income (VPP/VPP2026) filed to the Sociálna poisťovňa — aggregate summary + per-employee annex, XML… |
 | `l10n_sk_intrastat` | 19.0.1.1.1 | INTRASTAT-SK INSTAT XML on the OCA intrastat_product engine (CE-clean). EE variant: l10n_sk_intrastat_ee. |
 | `l10n_sk_inventory_verification` | 19.0.1.1.0 | Statutory Slovak inventory verification: inventúrne súpisy (§ 30 ods. 2) and the inventarizačný zápis (§ 30 ods. 3). |
@@ -178,7 +181,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
 | `l10n_cssk_submission_base` | 19.0.1.1.1 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
 | `l10n_cssk_vat_return_base` | 19.0.1.12.0 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
-| `l10n_cssk_vies` | 19.0.2.1.0 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
+| `l10n_cssk_vies` | 19.0.2.1.1 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
 
 ### European Union (1)
 
@@ -218,7 +221,7 @@ this repository. Add them to the addons path as well:
 | `account_qr_code_frame_provider` | 19.0.1.1.1 | Shared QR-code frame parameters for the payment-QR providers (PAY by square, payme, QR Platba) that build on it. |
 | `account_qr_code_pay_by_square_sk` | 19.0.1.2.2 | Slovak PAY by square payment QR code on invoices — the Slovak Banking Association standard every Slovak banking app reads, pre-filling IBAN, amount, currency… |
 | `account_qr_code_payme_sk` | 19.0.1.2.1 | Slovak payme payment QR code on invoices — a payme.sk link that opens the customer's banking app with IBAN, amount, currency and payment identification… |
-| `account_qr_code_qr_platba_cz` | 19.0.1.1.3 | Czech QR Platba payment QR code on invoices — the Czech Banking Association short payment descriptor (SPD) every Czech banking app reads, pre-filling IBAN… |
+| `account_qr_code_qr_platba_cz` | 19.0.1.1.4 | Czech QR Platba payment QR code on invoices — the Czech Banking Association short payment descriptor (SPD) every Czech banking app reads, pre-filling IBAN… |
 | `account_statement_fio` | 19.0.2.4.1 | Pull movements and official statements from the Fio banka API into bank journals. Community and Enterprise alike. |
 | `account_statement_import_camt_balance` | 19.0.1.0.0 | Last daily closing balance; one line per entry when a bank splits its details |
 | `account_statement_import_gpc` | 19.0.2.0.1 | Import Czech/Slovak GPC (ABO) bank statement files. |

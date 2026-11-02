@@ -1,7 +1,7 @@
 ---
 title: QR Platba (Czech Republic)
 summary: Prints the Czech QR Platba payment code on customer invoices, with the variable, constant and specific symbols as separate values.
-verified: 19.0.1.1.3
+verified: 19.0.1.1.4
 ---
 
 ## What it is for {#purpose}
@@ -39,6 +39,7 @@ the invoice's *Payment QR-code* field yourself; see
 |---|---|
 | `ACC` account | the IBAN of the invoice's *Recipient Bank* account |
 | `AM` amount, `CC` currency | the amount still open on the invoice, in the invoice currency |
+| `PT` payment type | always `IP`: the banking app is asked to send an instant payment, so the money usually arrives within seconds; a bank that cannot falls back to an ordinary transfer |
 | `MSG` message for the payee | the *Payment Reference*, or the invoice number when there is none; first 60 characters, with `*` written as `%2A` and `%` as `%25` as the standard prescribes |
 | `RF` payee's reference | the variable symbol, or else the digits of the message; at most 16 digits |
 | `RN` payee's name | *Account Holder Name*, or the name of the account's owner; escaped like `MSG` |

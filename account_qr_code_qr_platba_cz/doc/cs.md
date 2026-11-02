@@ -1,7 +1,7 @@
 ---
 title: QR Platba (Česká republika)
 summary: Tiskne na faktury odběratelům český platební kód QR Platba s variabilním, konstantním a specifickým symbolem jako samostatnými údaji.
-verified: 19.0.1.1.3
+verified: 19.0.1.1.4
 ---
 
 ## K čemu slouží {#purpose}
@@ -42,6 +42,7 @@ referenci platby.
 |---|---|
 | `ACC` účet | IBAN účtu v poli *Banka příjemce* na faktuře |
 | `AM` částka, `CC` měna | částka, která na faktuře zbývá uhradit, v měně faktury |
+| `PT` typ platby | vždy `IP`: bankovní aplikace je požádána o okamžitou platbu, peníze tak obvykle dorazí během sekund; banka, která to neumí, provede běžný převod |
 | `MSG` zpráva pro příjemce | reference platby, a není-li, číslo faktury; prvních 60 znaků, hvězdička zapsaná jako `%2A` a `%` jako `%25`, jak standard předepisuje |
 | `RF` identifikátor platby pro příjemce | variabilní symbol, jinak číslice ze zprávy; nejvýše 16 číslic |
 | `RN` jméno příjemce | *Jméno majitele účtu*, nebo jméno vlastníka účtu; ošetřené stejně jako `MSG` |

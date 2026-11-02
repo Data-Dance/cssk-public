@@ -12,6 +12,7 @@
         practice the inputs declared below are the route.
     -->
     <record id="l10n_cz_priplatek_prescas" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
         <field name="name">Overtime Surcharge (§ 114)</field>
         <field name="code">PRIPLATEK_PRESCAS</field>
@@ -26,6 +27,7 @@ result = payslip._l10n_cz_surcharge_amount('PRESCAS')
         <field name="input_ids" eval="[(0, 0, {'name': 'Overtime hours', 'code': 'PRESCAS'})]"/>
     </record>
     <record id="l10n_cz_priplatek_svatek" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
         <field name="name">Public Holiday Surcharge (§ 115)</field>
         <field name="code">PRIPLATEK_SVATEK</field>
@@ -40,6 +42,7 @@ result = payslip._l10n_cz_surcharge_amount('SVATEK')
         <field name="input_ids" eval="[(0, 0, {'name': 'Public holiday hours', 'code': 'SVATEK'})]"/>
     </record>
     <record id="l10n_cz_priplatek_nocni" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
         <field name="name">Night Work Surcharge (§ 116)</field>
         <field name="code">PRIPLATEK_NOCNI</field>
@@ -54,6 +57,7 @@ result = payslip._l10n_cz_surcharge_amount('NOCNI')
         <field name="input_ids" eval="[(0, 0, {'name': 'Night hours', 'code': 'NOCNI'})]"/>
     </record>
     <record id="l10n_cz_priplatek_vikend" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
         <field name="name">Saturday/Sunday Surcharge (§ 118)</field>
         <field name="code">PRIPLATEK_VIKEND</field>
@@ -68,6 +72,7 @@ result = payslip._l10n_cz_surcharge_amount('VIKEND')
         <field name="input_ids" eval="[(0, 0, {'name': 'Weekend hours', 'code': 'VIKEND'})]"/>
     </record>
     <record id="l10n_cz_priplatek_ztizene" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
         <field name="name">Difficult Environment Surcharge (§ 117)</field>
         <field name="code">PRIPLATEK_ZTIZENE</field>
@@ -87,6 +92,7 @@ result = payslip._l10n_cz_surcharge_amount('ZTIZENE')
          this line pays the wage for them; PRIPLATEK_PRESCAS pays the 25 %.
          Reads the same PRESCAS input as the surcharge. -->
     <record id="l10n_cz_mzda_prescas" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
         <field name="name">Overtime Wage (§ 114)</field>
         <field name="code">MZDA_PRESCAS</field>
@@ -105,6 +111,7 @@ result = payslip._l10n_cz_overtime_wage()
          The qualifying wage is BASIC + allowances less what § 111 odst. 1
          keeps out (overtime wage, surcharges) and the náhrady. -->
     <record id="l10n_cz_doplatek_min_mzda" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_cz_hr_payroll_oca.ALW"/>
         <field name="name">Minimum Wage Top-up (§ 111)</field>
         <field name="code">MINWAGE_TOPUP</field>

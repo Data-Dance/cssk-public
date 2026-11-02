@@ -2,6 +2,16 @@
 Changelog
 =========
 
+[19.0.1.1.2] — 2026-10-31
+=========================
+
+**Fixed**
+
+- **The surcharge rules are shared by every company.** They took the
+  company of whoever installed the module, so no other company saw them
+  and its payslips paid no Czech surcharges. Upgrading the module repairs an
+  existing database.
+
 All notable changes to **l10n_cz_hr_payroll_surcharges_oca** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 

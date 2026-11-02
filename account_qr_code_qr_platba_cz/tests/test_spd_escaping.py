@@ -34,7 +34,10 @@ class TestSpdEscaping(AccountTestInvoicingCommon):
         fields = self._fields(code)
         self.assertEqual(fields["MSG"], "FA%2A2026%2A0042")
         # Nothing was shifted: every field still has its own key.
-        self.assertEqual(set(fields), {"ACC", "AM", "CC", "MSG", "RF", "RN"})
+        self.assertEqual(set(fields), {"ACC", "AM", "CC", "PT", "MSG", "RF", "RN"})
+
+    def test_an_instant_payment_is_requested(self):
+        self.assertEqual(self._fields(self._code("INV/3"))["PT"], "IP")
 
     def test_the_payee_name_is_escaped_too(self):
         fields = self._fields(self._code("INV/1"))

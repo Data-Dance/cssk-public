@@ -1,0 +1,12 @@
+---
+title: Point of Sale — Czech EET 2.0 for gift cards and e-wallets
+summary: Reports gift-card and e-wallet top-ups and redemptions made at the till in the two dedicated EET 2.0 items, so each top-up and each redemption is a registered sale.
+verified: 19.0.1.0.1
+family: l10n_cz_eet2_pos#scope
+---
+
+A gift card or e-wallet is a means of payment usable only in a limited network, and the act on the registration of sales treats both its **top-up** and **every redemption** at the till as registered sales. The data message has two items for them: the amount intended for later drawing (*urceno_cerp_zuct*) on the top-up, and the amount drawn (*cerp_zuct*) on the redemption, both also counted in the total. A customer who loads 1 000 CZK onto a wallet and buys a 50 CZK drink in cash is reported as a sale of 1 050 with 1 000 intended for drawing; a later 300 CZK paid from the wallet is reported as a sale of 300 drawn from it. A refund is the negative of the same.
+
+This module fills those items from the Point of Sale loyalty programs: a gift-card or e-wallet sale line becomes the top-up, a redemption line becomes the drawdown, and an order settled entirely from a wallet is registered although no money changes hands at the counter. A voucher for one specific product or service is not a limited-network instrument — its sale is an ordinary sale and its redemption is not a payment — so model such vouchers as ordinary products, not as gift cards.
+
+It installs itself when [module:l10n_cz_eet2_pos](module:l10n_cz_eet2_pos) and the Point of Sale loyalty module are both installed, and has no settings of its own.

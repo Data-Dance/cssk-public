@@ -20,6 +20,7 @@
 
     <!-- 1. BASIC -->
     <record id="cz_basic_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="BASIC"/>
         <field name="name">Basic Salary</field>
         <field name="sequence">1</field>
@@ -37,6 +38,7 @@ result = contract.wage * payslip.l10n_cz_worked_ratio()
     <!-- 80. MEAL ALLOWANCE (stravenkový paušál) - exempt up to statutory limit.
          Memo category MEALEE: kept OUT of taxable GROSS; added back at NET. -->
     <record id="cz_meal_allowance_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_meal_employee"/>
         <field name="name">Meal Allowance</field>
         <field name="sequence">80</field>
@@ -59,6 +61,7 @@ result = min(contract.l10n_cz_meal_allowance, payslip.rule_parameter('l10n_cz_me
          CZHOLIDAY leave-derived worked-day line.
          Source: §222 + §351-362 (average earnings); MPSV X.4.5. -->
     <record id="cz_holiday_nahrada_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_holiday_nahrada"/>
         <field name="name">Holiday Pay</field>
         <field name="sequence">85</field>
@@ -81,6 +84,7 @@ result_name = 'Holiday Pay'
          the CZOBSTACLE hours, so this replaces the wage for those hours. Hours
          driven from the CZOBSTACLE leave line. -->
     <record id="cz_obstacle_nahrada_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_obstacle_nahrada"/>
         <field name="name">Paid Obstacle</field>
         <field name="sequence">86</field>
@@ -110,6 +114,7 @@ result_name = 'Paid Obstacle Compensation'
          are cut here (l10n_cz_sick_compensated_hours). No waiting period
          (paid from day 1 since 2019). -->
     <record id="cz_sick_nahrada_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_sick_nahrada"/>
         <field name="name">Sickness Compensation</field>
         <field name="sequence">90</field>
@@ -140,6 +145,7 @@ result_name = inputs.SICK_HOURS.name if 'SICK_HOURS' in inputs.dict else 'Sickne
 
     <!-- 100. GROSS (base = gross; superhrubá abolished) -->
     <record id="cz_gross_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="GROSS"/>
         <field name="name">Gross Salary</field>
         <field name="sequence">100</field>
@@ -153,6 +159,7 @@ result = categories.BASIC + categories.ALW
 
     <!-- 110. SOCIAL INSURANCE (Employee) 7.1 % with 48x annual cap (YTD) -->
     <record id="cz_social_ee_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_employee"/>
         <field name="name">Social Insurance (Employee)</field>
         <field name="sequence">110</field>
@@ -194,6 +201,7 @@ result_rate = -payslip.rule_parameter('l10n_cz_social_rate_ee')
 
     <!-- 111. SOCIAL INSURANCE (Employer) 24.8 % with the same 48x annual cap -->
     <record id="cz_social_er_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_employer"/>
         <field name="name">Social Insurance (Employer)</field>
         <field name="sequence">111</field>
@@ -236,6 +244,7 @@ result_rate = payslip.rule_parameter('l10n_cz_social_rate_er')
          Negative line in its own SOCIAL_DISCOUNT category -> reduces EMPLOYERCOST
          but leaves the gross SOCIALER/SOCIALERTOT premium untouched (for PVPOJ). -->
     <record id="cz_social_discount_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_discount"/>
         <field name="name">Social Insurance Discount (Employer)</field>
         <field name="sequence">112</field>
@@ -262,6 +271,7 @@ result_rate = payslip.rule_parameter('l10n_cz_social_disc_rate')
          13.5 % of the shortfall (§ 3 odst. 10) - unless an employer-side
          obstacle caused it, when the employer does. -->
     <record id="cz_health_ee_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_health_employee"/>
         <field name="name">Health Insurance (Employee)</field>
         <field name="sequence">120</field>
@@ -291,6 +301,7 @@ result = -payslip.l10n_cz_health_premiums(categories.GROSS)[0]
     <!-- 121. HEALTH INSURANCE (Employer): the rounded 13.5 % premium less the
          employee's third (normally no min-base top-up; see rule 120). -->
     <record id="cz_health_er_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_health_employer"/>
         <field name="name">Health Insurance (Employer)</field>
         <field name="sequence">121</field>
@@ -320,6 +331,7 @@ result = payslip.l10n_cz_health_premiums(categories.GROSS)[1]
          is taxable income (§ 6 odst. 1 ZDP) although outside the insurance
          base. -->
     <record id="cz_tax_base_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_tax_base"/>
         <field name="name">Tax Base</field>
         <field name="sequence">130</field>
@@ -335,6 +347,7 @@ result = categories.GROSS + categories.SICKNAHRADA
     <!-- 170. INCOME TAX ADVANCE (15 % / 23 % two-band).
          Monthly base rounded UP to whole 100 Kč (§38h ZDP). -->
     <record id="cz_income_tax_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_income_tax"/>
         <field name="name">Income Tax Advance</field>
         <field name="sequence">170</field>
@@ -377,6 +390,7 @@ result = -tax
          https://www.finance.cz/clanky/553494-prace-na-dohody-dpp-dpc-v-roce-2026-jak-se-zmeni-limity-a-zdaneni-prace-na-dohodu/
          https://www.mesec.cz/clanky/dohoda-o-pracovni-cinnosti-dpc-2025-jak-na-dane-a-pojistne-odvody/ -->
     <record id="cz_wh_tax_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_wh_tax"/>
         <field name="name">Withholding Tax</field>
         <field name="sequence">175</field>
@@ -406,6 +420,7 @@ result = -int(base * rate / 100.0)
     <!-- 171. TAX CREDITS (slevy) - only if prohlášení poplatníka signed.
          Credit cannot exceed the tax advance. Positive line (offsets DED). -->
     <record id="cz_tax_credit_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_tax_credit"/>
         <field name="name">Tax Credits</field>
         <field name="sequence">171</field>
@@ -430,6 +445,7 @@ result = min(credits, tax)
     <!-- 172. CHILD TAX BENEFIT (daňové zvýhodnění) - the part that offsets the
          remaining tax after credits. Positive line (offsets DED). -->
     <record id="cz_child_benefit_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_child_benefit"/>
         <field name="name">Child Tax Benefit</field>
         <field name="sequence">172</field>
@@ -455,6 +471,7 @@ result = min(benefit, tax_after)
          benefit over the tax, paid to the employee if monthly income &gt;= 1/2 min wage.
          Monthly bonus cap abolished (2024). Positive line in ALW (take-home). -->
     <record id="cz_child_bonus_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="ALW"/>
         <field name="name">Child Tax Bonus</field>
         <field name="sequence">173</field>
@@ -481,6 +498,7 @@ else:
 
     <!-- 174. Garnishments (input-driven). Real nezabavitelná-částka logic is P3. -->
     <record id="cz_attachment_of_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Attachment of Salary</field>
         <field name="sequence">174</field>
@@ -495,6 +513,7 @@ result_name = inputs.ATTACH_SALARY.name
     </record>
 
     <record id="cz_assignment_of_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Assignment of Salary</field>
         <field name="sequence">174</field>
@@ -509,6 +528,7 @@ result_name = inputs.ASSIG_SALARY.name
     </record>
 
     <record id="cz_child_support_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Child Support</field>
         <field name="code">CHILD_SUPPORT</field>
@@ -542,6 +562,7 @@ result_name = inputs.CHILD_SUPPORT.name
          input-driven code below remains as the fallback for databases that
          have not adopted the register. -->
     <record id="cz_garnishment_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Wage Garnishment</field>
         <field name="sequence">180</field>
@@ -602,6 +623,7 @@ else:
 
     <!-- 198. DEDUCTION (input) -->
     <record id="cz_deduction_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Deduction</field>
         <field name="sequence">198</field>
@@ -617,6 +639,7 @@ result_name = inputs.DEDUCTION.name
 
     <!-- 199. REIMBURSEMENT (input) -->
     <record id="cz_reimbursement_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="ALW"/>
         <field name="name">Reimbursement</field>
         <field name="sequence">199</field>
@@ -636,6 +659,7 @@ result_name = inputs.REIMBURSEMENT.name
          March payslip) and increases net pay. Zero on standard monthly payslips
          (no input line). Positive line in ALW. -->
     <record id="cz_annual_tax_settlement_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="ALW"/>
         <field name="name">Annual Tax Settlement</field>
         <field name="sequence">196</field>
@@ -652,6 +676,7 @@ result_name = inputs.ANNUAL_TAX_SETTLEMENT.name or 'Annual Tax Reconciliation'
 
     <!-- 200. NET. MEAL is a memo category (exempt), added back on top of DED/ALW. -->
     <record id="cz_net_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="NET"/>
         <field name="name">Net Salary</field>
         <field name="sequence">200</field>
@@ -669,6 +694,7 @@ result = max(
 
     <!-- 500+. Reporting totals -->
     <record id="cz_social_ee_total_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_employee_total"/>
         <field name="name">Social Insurance Total (Employee)</field>
         <field name="code">SOCIALEETOT</field>
@@ -682,6 +708,7 @@ result = categories.SOCIALEE
     </record>
 
     <record id="cz_social_er_total_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_employer_total"/>
         <field name="name">Social Insurance Total (Employer)</field>
         <field name="code">SOCIALERTOT</field>
@@ -695,6 +722,7 @@ result = categories.SOCIALER
     </record>
 
     <record id="cz_health_ee_total_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_health_employee_total"/>
         <field name="name">Health Insurance Total (Employee)</field>
         <field name="code">HEALTHEETOT</field>
@@ -708,6 +736,7 @@ result = categories.HEALTHEE
     </record>
 
     <record id="cz_health_er_total_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_health_employer_total"/>
         <field name="name">Health Insurance Total (Employer)</field>
         <field name="code">HEALTHERTOT</field>
@@ -721,6 +750,7 @@ result = categories.HEALTHER
     </record>
 
     <record id="cz_income_tax_total_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_income_tax_total"/>
         <field name="name">Income Tax Total</field>
         <field name="code">INCOMETAXTOT</field>
@@ -735,6 +765,7 @@ result = -categories.INCOMETAX
 
     <!-- 520. TOTAL EMPLOYER COST -->
     <record id="cz_employer_cost_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="COMP"/>
         <field name="name">Total Employer Cost</field>
         <field name="code">EMPLOYERCOST</field>
@@ -766,6 +797,7 @@ result = GROSS + categories.SOCIALER + categories.HEALTHER + categories.SOCIAL_D
          rate, not automatically in full. Insurable + taxable, so into GROSS.
          Source: §§ 207-209 zákona č. 262/2006 Sb.; § 351 (průměrný výdělek). -->
     <record id="cz_employer_obstacle_nahrada_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_cz_hr_payroll_oca.hr_payroll_obstacle_nahrada"/>
         <field name="name">Employer Work Obstacle (§§ 207-209)</field>
         <field name="sequence">87</field>

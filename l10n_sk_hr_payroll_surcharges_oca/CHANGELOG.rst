@@ -5,6 +5,14 @@ Changelog
 Unreleased
 ----------
 
+- **The surcharge rules are shared by every company.** They took the
+  company of whoever installed the module, so no other company saw them
+  and its payslips paid no Slovak surcharges. Upgrading the module repairs an
+  existing database.
+
+- **Installs without accounting.** The install hook assumed the Accounting
+  app and failed the whole install on a payroll-only database.
+
 - **Renamed from ``l10n_sk_hr_payroll_priplatky_oca``.** The technical name
   is now English, like most of the repository. No migration is shipped,
   because the module was not yet installed in production. A development

@@ -2,6 +2,17 @@
 Changelog
 =========
 
+[19.0.1.13.2] — 2026-10-31
+==========================
+
+**Fixed**
+
+- **Salary rules and categories are shared by every company.** They took
+  the company of whoever installed the module, so the Czech payroll
+  structures showed no rules in any other company and could not compute a
+  payslip there. The structures were already company-less; the rules now
+  are too, and upgrading the module repairs an existing database.
+
 [19.0.1.13.1] — 2026-10-27
 ==========================
 

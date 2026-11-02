@@ -10,7 +10,12 @@ def post_init_hook(env):
     xmlid, when it configures a company; installed in the other order, the
     surcharges would arrive with no account, and every surcharge on a posted
     payslip would land in the journal's adjustment line instead of on 521.
+
+    Payroll does not need accounting: without it there is no chart to map
+    onto, and the install must not fail on a model that is not there.
     """
+    if "account.chart.template" not in env:
+        return
     Template = env["account.chart.template"]
     if hasattr(Template, "_l10n_sk_payroll_map_rules"):
         Template._l10n_sk_payroll_map_rules("l10n_sk_hr_payroll_surcharges_oca")

@@ -22,6 +22,7 @@
 
     <!-- ================================================================ BASIC -->
     <record id="l10n_sk_hr_payroll_structure_sk_employee_salary_basic_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="BASIC"/>
         <field name="name">Basic Salary</field>
         <field name="sequence">1</field>
@@ -84,6 +85,7 @@ else:
          <https://www.podnikajte.sk/pracovne-pravo-bozp/nahrada-mzdy-za-dovolenku-ako-sa-pocita>,
          §116 & §134 zákona č. 311/2001 Z. z. -->
     <record id="l10n_sk_holiday_allowance" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="ALW"/>
         <field name="name">Holiday Pay</field>
         <field name="code">DOVOLENKA_NAHRADA</field>
@@ -104,6 +106,7 @@ result = round(hours * payslip.l10n_sk_average_hourly_earnings(), 2)
          mechanism as holiday. Hours come from the OBSTACLE worked-day line.
          Source: §137/§141 zákona č. 311/2001 Z. z.; §134 (priemerný zárobok). -->
     <record id="l10n_sk_obstacle_allowance" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="ALW"/>
         <field name="name">Paid Work Obstacle Pay</field>
         <field name="code">OBSTACLE_NAHRADA</field>
@@ -122,6 +125,7 @@ result = round(hours * payslip.l10n_sk_average_hourly_earnings(), 2)
     <!-- Assessment base for tax and both contribution systems. Meal allowance is
          deliberately EXCLUDED (legal exemption), so it is not in categories.ALW. -->
     <record id="l10n_sk_hr_payroll_structure_sk_employee_salary_gross_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="GROSS"/>
         <field name="name">Taxable Salary</field>
         <field name="sequence">100</field>
@@ -139,6 +143,7 @@ result = categories.BASIC + categories.ALW
          behaviour is unchanged. Source: podnikajte.sk "Odvody z dohody od 2025"
          and socpoist "Poistné pri dohodároch". -->
     <record id="l10n_sk_sickness_insurance_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employee"/>
         <field name="name">Sickness Insurance</field>
         <field name="code">SICK</field>
@@ -158,6 +163,7 @@ result_rate = 100
     <!-- Old-age (starobné): the dohoda pension OOP for pensioners/students
          reduces this base by up to the OOP amount. -->
     <record id="l10n_sk_pension_contribution_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employee"/>
         <field name="name">Pension Contribution</field>
         <field name="code">PENSION</field>
@@ -178,6 +184,7 @@ result_rate = 100
 
     <!-- Disability (invalidné): also reduced by the dohoda pension OOP. -->
     <record id="l10n_sk_disability_insurance_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employee"/>
         <field name="name">Disability Insurance</field>
         <field name="code">DISABILITY</field>
@@ -198,6 +205,7 @@ result_rate = 100
     </record>
 
     <record id="l10n_sk_unemployment_insurance_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employee"/>
         <field name="name">Unemployment Insurance</field>
         <field name="code">UNEMPLOYMENT</field>
@@ -218,6 +226,7 @@ result_rate = 100
     <!-- Employer side mirrors the employee dohoda treatment: DoVP pays no
          sickness / unemployment / short-time-work financing. -->
     <record id="l10n_sk_sickness_insurance_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Sickness Insurance (Employer)</field>
         <field name="code">SICKEMPLOYER</field>
@@ -235,6 +244,7 @@ result_rate = 100
     </record>
 
     <record id="l10n_sk_pension_contribution_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Pension Contribution (Employer)</field>
         <field name="code">PENSIONEMPLOYER</field>
@@ -254,6 +264,7 @@ result_rate = 100
     </record>
 
     <record id="l10n_sk_disability_insurance_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Disability Insurance (Employer)</field>
         <field name="code">DISABILITYEMPLOYER</field>
@@ -274,6 +285,7 @@ result_rate = 100
     </record>
 
     <record id="l10n_sk_unemployment_insurance_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Unemployment Insurance (Employer)</field>
         <field name="code">UNEMPLOYMENTEMPLOYER</field>
@@ -296,6 +308,7 @@ result_rate = 100
     </record>
 
     <record id="l10n_sk_short_time_work_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Insurance to Finance Support during Short-Time Work (Employer)</field>
         <field name="code">SHORTTIMEEMPLOYER</field>
@@ -313,6 +326,7 @@ result_rate = 100
     </record>
 
     <record id="l10n_sk_guarantee_insurance_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Guarantee Insurance (Employer)</field>
         <field name="code">GUARANTEEEMPLOYER</field>
@@ -333,6 +347,7 @@ if contract.l10n_sk_guarantee_exempt:
 
     <!-- Accident insurance: charged on the FULL gross (no ceiling). -->
     <record id="l10n_sk_accident_insurance_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Accident Insurance (Employer)</field>
         <field name="code">ACCIDENT</field>
@@ -349,6 +364,7 @@ result_rate = 100
     </record>
 
     <record id="l10n_sk_reserve_fund_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Reserve Fund (Employer)</field>
         <field name="code">RESERVEFUNDEMPLOYER</field>
@@ -370,6 +386,7 @@ result_rate = 100
     <!-- ===================================================== HEALTH (uncapped) -->
     <!-- Employee rate: standard (4%/5%) or ZŤP halved (2%/2.5%). No max base. -->
     <record id="l10n_sk_health_insurance_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employee"/>
         <field name="name">Health Insurance</field>
         <field name="code">HEALTH</field>
@@ -404,6 +421,7 @@ if contract.l10n_sk_health_exempt:
     </record>
 
     <record id="l10n_sk_health_insurance_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer"/>
         <field name="name">Health Insurance (Employer)</field>
         <field name="code">HEALTHEMPLOYER</field>
@@ -430,6 +448,7 @@ if contract.l10n_sk_health_exempt:
          outside the contract (ods. 2). Placed in SOCIALEMPLOYEE so it feeds
          TAXBASE and NET like any employee health premium. -->
     <record id="l10n_sk_health_doplatok_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employee"/>
         <field name="name">Health Insurance Minimum Top-up</field>
         <field name="code">HEALTHDOPLATOK</field>
@@ -491,6 +510,7 @@ else:
          doplatok). categories.SOCIALEMPLOYEE is negative (all ee deductions),
          so adding it subtracts them. NČZD is applied inside the tax rule. -->
     <record id="l10n_sk_tax_base" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_taxbase"/>
         <field name="name">Income Tax Base</field>
         <field name="code">TAXBASE</field>
@@ -507,6 +527,7 @@ result = max(0.0, categories.GROSS + categories.SOCIALEMPLOYEE)
     <!-- Monthly advance: apply NČZD (if the Vyhlásenie is signed) with the
          high-income taper, then the progressive monthly bands. -->
     <record id="l10n_sk_income_tax_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_income_tax_employee"/>
         <field name="name">Income Tax (advance)</field>
         <field name="code">INCOMETAX</field>
@@ -547,6 +568,7 @@ result = -tax
          a credit added to NET (can exceed the tax => paid out). Gated on the
          signed Vyhlásenie (only one parent may claim). -->
     <record id="l10n_sk_child_bonus" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_child_bonus"/>
         <field name="name">Child Tax Bonus</field>
         <field name="code">CHILD_BONUS</field>
@@ -594,6 +616,7 @@ else:
          Employee may choose a voucher or a financial contribution. Backward
          compatible: if the manual per-day override fields are set (>0) they win. -->
     <record id="l10n_sk_meal_voucher_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_meal_employer_cost"/>
         <field name="name">Meal Allowance (Employer contribution)</field>
         <field name="code">MEALEMPLOYER</field>
@@ -633,6 +656,7 @@ else:
     </record>
 
     <record id="l10n_sk_meal_voucher_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_meal_vouchers_employee"/>
         <field name="name">Meal Voucher (Employee share)</field>
         <field name="code">MEALEMPLOYEE</field>
@@ -666,6 +690,7 @@ else:
 
     <!-- =================================================== STATUTORY DEDUCTIONS -->
     <record id="l10n_sk_hr_payroll_structure_sk_employee_salary_attachment_of_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Attachment of Salary</field>
         <field name="sequence">174</field>
@@ -680,6 +705,7 @@ result_name = inputs.ATTACH_SALARY.name
     </record>
 
     <record id="l10n_sk_hr_payroll_structure_sk_employee_salary_assignment_of_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Assignment of Salary</field>
         <field name="sequence">174</field>
@@ -694,6 +720,7 @@ result_name = inputs.ASSIG_SALARY.name
     </record>
 
     <record id="l10n_sk_hr_payroll_structure_sk_employee_salary_child_support" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Child Support</field>
         <field name="code">CHILD_SUPPORT</field>
@@ -708,6 +735,7 @@ result_name = inputs.CHILD_SUPPORT.name
     </record>
 
     <record id="l10n_sk_hr_payroll_structure_sk_employee_salary_deduction_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="DED"/>
         <field name="name">Deduction</field>
         <field name="sequence">198</field>
@@ -722,6 +750,7 @@ result_name = inputs.DEDUCTION.name
     </record>
 
     <record id="l10n_sk_hr_payroll_structure_sk_employee_salary_reimbursement_salary_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="ALW"/>
         <field name="name">Reimbursement</field>
         <field name="sequence">199</field>
@@ -760,6 +789,7 @@ result_name = inputs.REIMBURSEMENT.name
          ordering when several garnishments of different priority coexist, are
          not modelled — one claim per payslip is assumed. -->
     <record id="l10n_sk_wage_garnishment" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_garnishment"/>
         <field name="name">Wage Garnishment</field>
         <field name="code">GARNISHMENT</field>
@@ -839,6 +869,7 @@ else:
          MPSVR SR "Náhrada príjmu pri PN"; max DVZ 2026 = 100,2083 €
          (= 2 × 1524 × 12 / 365). -->
     <record id="l10n_sk_sickness_compensation" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_sickness_comp"/>
         <field name="name">Sickness Income Compensation</field>
         <field name="code">SICK_COMP</field>
@@ -876,6 +907,7 @@ result = round(dvz * (d1 * rate1 + d2 * rate2), 2)
          category (no parent), so it does NOT feed GROSS/DED/NET/any total — the
          real reduction happens inside the PENSION/DISABILITY/RESERVE rules. -->
     <record id="l10n_sk_dohoda_oop_stub" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_stub"/>
         <field name="name">Agreement OOP — pension base reduction (informational)</field>
         <field name="code">OOP_PENSION</field>
@@ -902,6 +934,7 @@ result = min(base, payslip.rule_parameter('l10n_sk_dohoda_oop'))
          ANNUALSETTLEMENT is under DED so NET picks it up. Zero (no line) on a
          standard monthly payslip without a reconciliation input. -->
     <record id="l10n_sk_annual_tax_settlement" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_annual_settlement"/>
         <field name="name">Annual Tax Settlement</field>
         <field name="code">ANNUAL_TAX_SETTLEMENT</field>
@@ -918,6 +951,7 @@ result_name = inputs.ANNUAL_TAX_SETTLEMENT.name
 
     <!-- =================================================================== NET -->
     <record id="l10n_sk_hr_payroll_structure_sk_employee_salary_net_salary" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="NET"/>
         <field name="name">Net Salary</field>
         <field name="sequence">200</field>
@@ -941,6 +975,7 @@ result = (
 
     <!-- ================================================================ TOTALS -->
     <record id="l10n_sk_social_security_total_employee" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employee_total"/>
         <field name="name">Social Security Total (Employee)</field>
         <field name="code">SOCIALEMPLOYEETOTAL</field>
@@ -954,6 +989,7 @@ result = categories.SOCIALEMPLOYEE
     </record>
 
     <record id="l10n_sk_social_security_total_employer" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_security_employer_total"/>
         <field name="name">Social Security Total (Employer)</field>
         <field name="code">SOCIALEMPLOYERTOTAL</field>
@@ -967,6 +1003,7 @@ result = categories.SOCIALEMPLOYER
     </record>
 
     <record id="l10n_sk_income_tax_total" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_income_tax_employee_total"/>
         <field name="name">Income Tax Total</field>
         <field name="code">INCOMETAXTOTAL</field>
@@ -997,6 +1034,7 @@ result = -categories.INCOMETAX
          + taxable), so it sits in ALW and rolls into GROSS.
          Source: § 142 zákona č. 311/2001 Z. z.; § 134 (priemerný zárobok). -->
     <record id="l10n_sk_employer_obstacle_allowance" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="ALW"/>
         <field name="name">Employer Work Obstacle Pay (§ 142)</field>
         <field name="code">PREKAZKA_NAHRADA</field>

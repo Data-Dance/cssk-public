@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.1.1] — 2026-10-30
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Depends on ``base_vat`` alone.** The ``l10n_cssk_core`` dependency was
+  never used — nothing in the module reads a core field, model, view or
+  group — so the module now installs without the CZ/SK core.
+
 [19.0.2.1.0] — 2026-10-27
 -------------------------
 

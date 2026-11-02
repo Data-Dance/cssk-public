@@ -8,6 +8,20 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carried over
+~~~~~~~~~~~~
+
+- **ř. 47 for periods already booked is derivable, and deliberately not
+  derived.** ``account_asset_management`` sets ``asset_id`` on a vendor
+  bill's own line at post time, so where that module is in use the asset
+  acquisitions are a recorded fact and ř. 47 could be computed for history.
+  The 1.14.0 migration's first note claimed otherwise and has been
+  corrected. Doing it needs a reviewable wizard rather than an unattended
+  upgrade — the asset module is optional, the link is absent for assets
+  entered by hand or imported from a legacy register, ``tax_tag_ids`` is
+  lock-date protected, and re-tagging a filed period adds reporting to a
+  return that was already filed.
+
 [19.0.1.14.0] — 2026-10-29
 --------------------------
 

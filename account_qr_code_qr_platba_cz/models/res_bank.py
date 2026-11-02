@@ -62,6 +62,11 @@ class ResPartnerBank(models.Model):
                 # "ALT-ACC" + ..[93] <Alternative Account Numbers of the Beneficiary> ALTACC:CZ5855000000001265098001+RZBCCZPP,CZ5855000000001265098001*
                 "AM:" + f"{amount:.2f}",  # ..[10] AM:<Amount of the Transfer>
                 "CC:" + currency.name,  # CC:<Currency>
+                # PT:IP asks the payer's bank to execute the order as an
+                # instant payment where it can (standard 1.2, 2022). Czech
+                # instant payments settle in seconds and banks that cannot run
+                # one fall back to an ordinary transfer, so the key is harmless.
+                "PT:IP",
                 "MSG:" + spd_value(free_communication, 60),  # ..[60] MSG:<message>
                 "RF:"
                 + (variable_symbol or re.sub("\\D", "", free_communication))[

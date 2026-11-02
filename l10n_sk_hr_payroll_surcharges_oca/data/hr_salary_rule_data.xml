@@ -21,6 +21,7 @@
 
     <!-- ============================================================= NIGHT -->
     <record id="l10n_sk_priplatok_noc" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Night Work Surcharge</field>
         <field name="code">PRIPLATOK_NOC</field>
@@ -37,6 +38,7 @@ result = payslip._l10n_sk_surcharge_amount('NOC')
 
     <!-- ========================================================== SATURDAY -->
     <record id="l10n_sk_priplatok_sobota" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Saturday Work Surcharge</field>
         <field name="code">PRIPLATOK_SOBOTA</field>
@@ -53,6 +55,7 @@ result = payslip._l10n_sk_surcharge_amount('SOBOTA')
 
     <!-- ============================================================ SUNDAY -->
     <record id="l10n_sk_priplatok_nedela" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Sunday Work Surcharge</field>
         <field name="code">PRIPLATOK_NEDELA</field>
@@ -72,6 +75,7 @@ result = payslip._l10n_sk_surcharge_amount('NEDELA')
          base pay for those hours is already in BASIC depends on how the site
          models public holidays in the resource calendar. -->
     <record id="l10n_sk_priplatok_sviatok" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Public Holiday Work Surcharge</field>
         <field name="code">PRIPLATOK_SVIATOK</field>
@@ -92,6 +96,7 @@ result = payslip._l10n_sk_surcharge_amount('SVIATOK')
          for, so the wage part is an explicit line rather than an assumed part
          of BASIC. -->
     <record id="l10n_sk_nadcas_mzda" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Overtime Pay</field>
         <field name="code">NADCAS_MZDA</field>
@@ -107,6 +112,7 @@ result = payslip._l10n_sk_overtime_base_amount()
     </record>
 
     <record id="l10n_sk_priplatok_nadcas" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Overtime Surcharge</field>
         <field name="code">PRIPLATOK_NADCAS</field>
@@ -122,6 +128,7 @@ result = payslip._l10n_sk_surcharge_amount('NADCAS')
 
     <!-- ============================================ DIFFICULT CONDITIONS -->
     <record id="l10n_sk_priplatok_stazeny" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Difficult Conditions Compensation</field>
         <field name="code">PRIPLATOK_STAZENY</field>
@@ -138,6 +145,7 @@ result = payslip._l10n_sk_surcharge_amount('STAZENY')
 
     <!-- =========================================================== STANDBY -->
     <record id="l10n_sk_priplatok_pohotovost" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Standby Compensation</field>
         <field name="code">PRIPLATOK_POHOTOVOST</field>
@@ -160,6 +168,7 @@ result = payslip._l10n_sk_surcharge_amount('POHOTOVOST')
          comparison, which is precisely what stops a night-shift surcharge from
          papering over a sub-minimum base wage. -->
     <record id="l10n_sk_min_wage_topup" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
         <field name="category_id" ref="l10n_sk_hr_payroll_oca.ALW"/>
         <field name="name">Minimum Wage Top-up</field>
         <field name="code">MIN_WAGE_TOPUP</field>
