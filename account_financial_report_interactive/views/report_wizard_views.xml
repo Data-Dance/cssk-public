@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="general_ledger_wizard_interactive" model="ir.ui.view">
+        <field name="name">general.ledger.report.wizard.interactive</field>
+        <field name="model">general.ledger.report.wizard</field>
+        <field name="inherit_id" ref="account_financial_report.general_ledger_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer/div[1]/button[@name='button_export_html']" position="after">
+                or
+                <button name="button_interactive" string="Interactive" type="object"
+                        help="Open the ledger interactively: unfold an account to load its items."/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="trial_balance_wizard_interactive" model="ir.ui.view">
+        <field name="name">trial.balance.report.wizard.interactive</field>
+        <field name="model">trial.balance.report.wizard</field>
+        <field name="inherit_id" ref="account_financial_report.trial_balance_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//footer/div[1]/button[@name='button_export_html']" position="after">
+                or
+                <button name="button_interactive" string="Interactive" type="object"
+                        help="Open the trial balance interactively: unfold an account to see its items."/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

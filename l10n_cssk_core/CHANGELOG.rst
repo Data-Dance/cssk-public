@@ -8,6 +8,25 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Slovak date format dd.mm.yyyy (19.0.1.19.0).** DISCHARGED 2026-11-02 —
+  do not port this: nothing to fix on 18.0, whose base already ships
+  ``sk_SK`` as ``%d.%m.%Y``. The ``%d/%m/%Y`` is a 19.0 regression in
+  ``base/data/res.lang.csv``.
+
+[19.0.1.19.0] — 2026-11-02
+--------------------------
+
+Fixed
+~~~~~
+
+- Slovak dates are written dd.mm.yyyy: Odoo ships the Slovak language with
+  ``%d/%m/%Y`` (Czech already has ``%d.%m.%Y``). Base reloads its language
+  data on upgrade, so the setting is re-applied whenever this module is
+  updated.
+
 [19.0.1.18.1] — 2026-10-27
 --------------------------
 

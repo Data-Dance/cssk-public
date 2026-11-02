@@ -1,0 +1,70 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-02 19:16+0000\n"
+"PO-Revision-Date: 2026-11-02 19:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mis_builder_column_breakdown
+#. odoo-python
+#: code:addons/mis_builder_column_breakdown/models/mis_report_instance.py:0
+msgid "%s (total)"
+msgstr "%s (celkem)"
+
+#. module: mis_builder_column_breakdown
+#: model_terms:ir.ui.view,arch_db:mis_builder_column_breakdown.mis_report_instance_period_view_form_breakdown
+msgid "Breakdown"
+msgstr "Rozpad"
+
+#. module: mis_builder_column_breakdown
+#: model:ir.model.fields,field_description:mis_builder_column_breakdown.field_mis_report_instance_annotation__breakdown_value
+msgid "Breakdown Value"
+msgstr "Hodnota rozpadu"
+
+#. module: mis_builder_column_breakdown
+#: model:ir.model.fields,field_description:mis_builder_column_breakdown.field_mis_report_instance_period__breakdown_field_id
+msgid "Columns by"
+msgstr "Sloupce podle"
+
+#. module: mis_builder_column_breakdown
+#: model:ir.model.fields,help:mis_builder_column_breakdown.field_mis_report_instance_period__breakdown_limit
+msgid ""
+"Largest number of breakdown columns; values beyond it are left to the total."
+msgstr "Největší počet sloupců rozpadu; další hodnoty jsou jen v součtu."
+
+#. module: mis_builder_column_breakdown
+#: model:ir.model.fields,field_description:mis_builder_column_breakdown.field_mis_report_instance_period__breakdown_limit
+msgid "Most columns"
+msgstr "Nejvíce sloupců"
+
+#. module: mis_builder_column_breakdown
+#: model:ir.model.fields,help:mis_builder_column_breakdown.field_mis_report_instance_period__breakdown_field_id
+msgid ""
+"Split this column into one column per value of the field found in its data, "
+"followed by the total."
+msgstr ""
+"Rozdělí sloupec na jeden sloupec za každou hodnotu pole, která se v jeho "
+"datech vyskytuje, a za nimi součet."
+
+#. module: mis_builder_column_breakdown
+#: model:ir.model.fields,help:mis_builder_column_breakdown.field_mis_report_instance_annotation__breakdown_value
+msgid ""
+"The value of the period's breakdown field the note belongs to; empty for a "
+"note on the period's own (total) column."
+msgstr ""
+"Hodnota pole rozpadu období, ke které poznámka patří; prázdná u poznámky k "
+"vlastnímu (součtovému) sloupci období."
+
+#. module: mis_builder_column_breakdown
+#. odoo-python
+#: code:addons/mis_builder_column_breakdown/models/mis_report_instance.py:0
+msgid "Undefined"
+msgstr "Nezadáno"

@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k DPH CZ/SK — spoločný základ
 summary: Obrazovky a postup, na ktorých stojí slovenské aj české daňové priznanie k DPH — výpočet riadkov z daňových značiek, kontrola voči účtovným zápisom, export úradného XML a uchovanie podanej verzie.
-verified: 19.0.1.11.1
+verified: 19.0.1.13.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -123,6 +123,10 @@ Súbor sa priloží k priznaniu (*XML príloha*) a priznanie prejde do stavu
 *Exportované*. Prepočítať a exportovať ho môžete opakovane, kým ho neoznačíte
 ako podané.
 
+**Upozornenia exportu.** Kontroly, ktoré export nezastavia (napríklad sadzba
+DPH, ktorá nezodpovedá žiadnej zákonnej), sa zobrazia v žltom pruhu navrchu
+formulára a v chatteri až do ďalšieho exportu.
+
 ## Podanie a podaná verzia {#submission}
 
 XML podajte na portáli finančnej správy alebo cez modul podacieho kanála. Potom:
@@ -137,6 +141,34 @@ XML podajte na portáli finančnej správy alebo cez modul podacieho kanála. Po
 - Podané priznanie je zamknuté: nedá sa prepočítať, znova exportovať ani
   zmazať. **Vrátiť do návrhu** (len administrátor) ho znova otvorí; podaná
   verzia a história zostanú zachované.
+
+## Uzávierka DPH {#vat-closing}
+
+Keď je priznanie *Exportované* alebo *Podané*, tlačidlo **Uzávierka DPH**
+pripraví doklad, ktorý zúčtuje účty DPH obdobia (analytické účty 343 podľa
+sadzby, na vstupe aj výstupe) na **účet zúčtovania DPH**; na ňom potom
+zostane vlastná daňová povinnosť alebo nadmerný odpočet obdobia. Doklad
+vznikne ako **návrh** k poslednému dňu obdobia; skontrolujete a zaúčtujete
+ho sami.
+
+- **Ktoré doklady** — presne tie z priznania: daň na výstupe podľa dňa
+  dodania, na vstupe podľa dátumu uplatnenia odpočtu. Doklad zaúčtovaný
+  v ďalšom mesiaci, ale s dodaním v tomto, sa uzavrie s týmto obdobím.
+- **Musí súhlasiť s priznaním.** Doklad prenáša vlastnú daňovú povinnosť
+  mínus nadmerný odpočet z priznania. Rozdiel do *tolerancie uzávierky DPH*
+  je zaokrúhlenie (priznanie sa zaokrúhľuje po riadkoch) a ide na účty
+  zaokrúhlenia; väčší rozdiel uzávierku zastaví a uvedie obe sumy — najprv
+  skontrolujte nezosúladené riadky.
+- **Každý daňový riadok sa uzavrie raz.** Opravné alebo dodatočné priznanie
+  toho istého obdobia uzavrie len to, čo predchádzajúca uzávierka nezahrnula,
+  a súhlasí s rozdielom voči predchádzajúcim priznaniam. Zmazaná alebo
+  zrušená uzávierka svoje riadky opäť uvoľní.
+- Prenesený nadmerný odpočet v doklade nie je: je to zostatok, ktorý na účte
+  zúčtovania nechala predchádzajúca uzávierka.
+
+Účty sa nastavujú v *Účtovníctvo › Konfigurácia › Nastavenia › Uzávierka
+DPH*; prázdne sa nahradia účtami 343000 (zúčtovanie), 548000 a 648000
+(zaokrúhlenie).
 
 ## Opravné a dodatočné priznanie {#amendments}
 
@@ -177,7 +209,9 @@ spoločnosť v *Nastavenia → Spoločnosti* a v ponuke *Akcia* spustí
 **Vytvoriť historické sadzby DPH**.
 
 Ak historická sadzba existuje, iné moduly lokalizácie podľa nej zdania doklad
-sadzbou platnou k jeho dátumu.
+sadzbou platnou k jeho dátumu. Historická sadzba je prepojená s daňami svojho
+obdobia (*Nahradzuje (dane)* / *Nahradené (daňami)*), takže fiškálna pozícia priradí nákupu
+z roku 2011 so sadzbou 20 % samovyrubenie 20 %, nie dnešnú sadzbu.
 
 ## Historické podania {#legacy}
 
@@ -188,17 +222,11 @@ ani podať. Jediná akcia, **Porovnať s vypočítaným**, prepočíta obdobie z
 Podané vs vypočítané*. Ak treba také obdobie opraviť, založte z neho dodatočné
 priznanie; to je už bežné priznanie.
 
-**Upozornenia exportu.** Kontroly, ktoré export nezastavia, sa zobrazia v
-žltom pruhu navrchu formulára a v chatteri až do ďalšieho exportu.
-
 ## Obmedzenia {#limitations}
 
 - Verziu za vás nikto nevyberie: zvoľte ju na každom priznaní. Nekontroluje sa,
   či dátumy tvoria celý mesiac alebo štvrťrok. *Typ obdobia* sa kontroluje len
   voči obdobiam, ktoré verzia pripúšťa (každá dodaná verzia pripúšťa obe).
-- Kontrola sadzby, ktorá iba varuje (odvodená sadzba nezodpovedá žiadnej
-  zákonnej), sa zapíše len do serverového logu a na obrazovke sa nezobrazí;
-  export zastavia iba chyby.
 - Stĺpec ✓ porovnáva absolútne sumy, chybu v znamienku teda neukáže.
 - Dodatočné priznanie preberie typ výkazu pôvodného; zmeniť ho musíte sami.
 - Výpočet ukáže to, čo hovoria značky. Daň so zlými značkami alebo doklad bez

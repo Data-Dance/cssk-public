@@ -1142,3 +1142,176 @@ msgid ""
 "filing, one per line. Refreshed on every export; empty when the last export "
 "raised none."
 msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "%s - rounding"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
+msgid "VAT settlement account"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
+msgid "VAT rounding loss account"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
+msgid "VAT rounding gain account"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
+msgid "VAT closing tolerance"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid "VAT closing entry"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_return_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_return_id
+msgid "VAT closing of"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_move_ids
+msgid "VAT closing entries"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid "VAT closing"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
+msgid "VAT Closing"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "VAT closing %s"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_count
+msgid "L10N Cssk Closing Count"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
+msgid "The VAT closing entry that cleared this tax line."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Every tax line of this return's period is already closed."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Export or submit the return before closing its VAT."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "No miscellaneous journal to post the VAT closing in."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Set the VAT rounding accounts in the accounting settings."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Set the VAT settlement account in the accounting settings."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid ""
+"Clear the period's VAT accounts into the settlement account (draft entry)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
+msgid ""
+"Account the VAT closing clears the 343 sub-accounts into (343000 when "
+"empty). It then holds the period's own tax liability or excess deduction."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
+msgid ""
+"Rounding of the return against the ledger, when the return pays more (548000"
+" when empty)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
+msgid ""
+"Rounding of the return against the ledger, when the return pays less (648000"
+" when empty)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
+msgid ""
+"Largest difference between the ledger and the return the VAT closing books "
+"as rounding. A larger one stops the closing."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
+msgid ""
+"Where the VAT closing of a filed return clears the VAT accounts, and where "
+"its rounding goes. Empty accounts fall back to 343000, 548000 and 648000."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid ""
+"The ledger and the return disagree by %(diff)s: the tax lines of the period "
+"net to %(ledger)s, the return to %(expected)s. Check the unreconciled rows "
+"of the return before closing."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid ""
+"The return version %(version)s does not name its own-tax and excess-"
+"deduction lines, so the VAT closing has nothing to agree with."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_amount
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_amount
+msgid "VAT closed"
+msgstr ""

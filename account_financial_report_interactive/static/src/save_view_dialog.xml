@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<templates xml:space="preserve">
+    <t t-name="account_financial_report_interactive.SaveViewDialog">
+        <Dialog title.translate="Save the view" size="'md'">
+            <div class="d-flex flex-column gap-3">
+                <div>
+                    <label class="form-label" for="o_afr_view_name">Name</label>
+                    <input id="o_afr_view_name" class="form-control" t-model="state.name"/>
+                </div>
+                <div>
+                    <label class="form-label" for="o_afr_view_period">Period</label>
+                    <select id="o_afr_view_period" class="form-select" t-model="state.period">
+                        <option value="fixed">These dates</option>
+                        <option value="this_month">This month</option>
+                        <option value="last_month">Last month</option>
+                        <option value="this_quarter">This quarter</option>
+                        <option value="last_quarter">Last quarter</option>
+                        <option value="this_year">This fiscal year</option>
+                        <option value="last_year">Last fiscal year</option>
+                    </select>
+                </div>
+                <div class="form-check">
+                    <input id="o_afr_view_shared" type="checkbox" class="form-check-input" t-model="state.shared"/>
+                    <label class="form-check-label" for="o_afr_view_shared">Share with everyone</label>
+                </div>
+                <div class="form-check">
+                    <input id="o_afr_view_default" type="checkbox" class="form-check-input" t-model="state.is_default"/>
+                    <label class="form-check-label" for="o_afr_view_default">My default (opened by the Interactive Ledger menu)</label>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="() => this.save()">Save</button>
+                <button class="btn btn-secondary" t-on-click="() => this.props.close()">Cancel</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

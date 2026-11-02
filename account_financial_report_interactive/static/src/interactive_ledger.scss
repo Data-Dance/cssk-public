@@ -1,0 +1,33 @@
+.o_afr_interactive {
+    overflow: auto;
+    .o_afr_interactive_table {
+        thead th {
+            background: $o-view-background-color;
+        }
+        .o_afr_toggle {
+            width: 1.5rem;
+        }
+        .o_afr_account {
+            cursor: pointer;
+        }
+        .o_afr_open {
+            background-color: rgba($o-action, 0.06);
+        }
+        .o_afr_date {
+            width: 6rem;
+            flex-shrink: 0;
+        }
+        .o_afr_move {
+            width: 10rem;
+            flex-shrink: 0;
+        }
+        .o_afr_journal {
+            width: 4rem;
+            flex-shrink: 0;
+        }
+        .o_afr_partner {
+            width: 12rem;
+            flex-shrink: 0;
+        }
+    }
+}

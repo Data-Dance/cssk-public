@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VAT Return — Shared Engine
 summary: The screens and the workflow behind the Slovak and Czech VAT returns — compute the rows from tax tags, check them against the journal items, export the official XML and keep the filed copy.
-verified: 19.0.1.11.1
+verified: 19.0.1.13.0
 ---
 
 ## What it is for {#purpose}
@@ -122,6 +122,10 @@ The file is attached to the return (*Xml Attachment*) and the return becomes
 *Exported*. You can recompute and export again as often as needed until it is
 marked submitted.
 
+**Export warnings.** Checks that do not stop the export (a VAT rate that
+matches no statutory rate, for example) are listed in a yellow banner at the
+top of the form, and in the chatter, until the next export.
+
 ## Filing and the filed copy {#submission}
 
 File the XML on the tax authority's portal, or through a channel module such
@@ -137,6 +141,32 @@ as [module:l10n_cz_epo](module:l10n_cz_epo). Then:
 - A submitted return is locked: it cannot be recomputed, exported again or
   deleted. **Reset to Draft** (administrators only) reopens it; the filed copy
   and the history are kept.
+
+## VAT closing entry {#vat-closing}
+
+Once a return is *Exported* or *Submitted*, **VAT closing entry** prepares the
+entry that clears the period's VAT accounts (the 343 sub-accounts per rate,
+input and output) into the **VAT settlement account**, which is then left
+with the period's own tax liability or excess deduction. The entry is created
+as a **draft**, dated the last day of the period; review and post it yourself.
+
+- **Which documents** — exactly those of the return: output tax by tax point,
+  input tax by deduction date. A document booked in the next month but
+  supplied in this one is closed with this period.
+- **It must agree with the return.** The entry moves the return's own tax
+  minus its excess deduction. A difference up to the *VAT closing tolerance*
+  is rounding (the return is rounded per row) and goes to the rounding
+  accounts; a larger one stops the closing and names both figures — check the
+  unreconciled rows first.
+- **Each tax line is closed once.** A corrective or supplementary return of
+  the same period closes only what the earlier closing did not, and agrees
+  with the difference against the earlier returns. Deleting or cancelling a
+  closing frees its lines again.
+- The excess deduction carried forward is not in the entry: it is what the
+  previous closing left on the settlement account.
+
+Accounts are set in *Accounting › Configuration › Settings › VAT Closing*;
+empty ones fall back to 343000 (settlement), 548000 and 648000 (rounding).
 
 ## Corrections and supplementary returns {#amendments}
 
@@ -175,7 +205,10 @@ manager opens the company under *Settings → Companies* and runs **Create
 historical VAT rates** from the *Action* menu.
 
 When a historical rate exists, other localisation modules use it to tax a
-document at the rate in force on its date.
+document at the rate in force on its date. A historical rate is linked to the
+taxes of its own vintage (*Replaces* / *Replaced by*), so a fiscal position
+maps a 2011 purchase at 20 % to the 20 % self-assessed tax, not to today's
+rate.
 
 ## Historical filings {#legacy}
 
@@ -186,18 +219,11 @@ from the books and records the differences under *Accounting → Reporting →
 Statutory Reports → Filed vs computed*. To correct such a period, create an
 amendment from it; the amendment is an ordinary return.
 
-**Export warnings.** Checks that do not stop the export are listed in a
-yellow banner at the top of the form, and in the chatter, until the next
-export.
-
 ## Limitations {#limitations}
 
 - The version is not chosen for you: pick it on each return. The dates are not
   checked to form a whole month or quarter. *Period Type* is checked only
   against the periods the version allows (every shipped version allows both).
-- A rate check that only warns (an implied rate that matches no statutory
-  rate) is written to the server log and is not shown on screen; only errors
-  stop the export.
 - The ✓ column compares absolute amounts, so a sign error does not show
   there.
 - An amendment copies the original's statement type; nothing changes it for

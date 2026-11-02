@@ -8,6 +8,40 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **VAT closing entry (19.0.1.13.0) is owed to 18.0.** Not ported: 18.0's
+  module is at 18.0.1.10.5, three releases behind, so this is a port of
+  ``models/vat_closing.py``, its views, settings and tests rather than a
+  cherry-pick. It relies on ``use_in_tax_closing`` repartition lines, which
+  18.0 has; check the settlement-account and rounding fields on 18.0's
+  ``res.company`` before porting. Nothing on 18.0 is broken without it -
+  18.0 users post the closing by hand as before.
+
+[19.0.1.13.0] — 2026-11-02
+--------------------------
+
+Added
+~~~~~
+
+- **VAT closing entry** on Community: from an exported or submitted return, a
+  draft entry dated the last day of the period clears the period's tax lines
+  (repartition lines used in the tax closing) into the VAT settlement account.
+  The documents are the return's own (tax point / deduction date). The net
+  must equal the return's own tax minus excess deduction; a difference within
+  the company tolerance goes to the rounding accounts, a larger one stops the
+  closing. Each tax line records its closing, so a corrective or
+  supplementary return closes only what is left. Settings: *VAT Closing* in
+  the accounting settings (defaults 343000 / 548000 / 648000).
+
+Fixed
+~~~~~
+
+- The Slovak and Czech catalogues are complete again: 25 Slovak and 32 Czech
+  strings (field help, historical-filing and rate texts, the § 79 carry
+  check) had no translation and showed in English.
+
 [19.0.1.12.0] — 2026-10-29
 --------------------------
 

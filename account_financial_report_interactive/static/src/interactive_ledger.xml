@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<templates xml:space="preserve">
+    <t t-name="account_financial_report_interactive.InteractiveLedger">
+        <div class="o_action o_afr_interactive">
+            <Layout display="display">
+                <div class="container-fluid py-2">
+                    <div class="d-flex align-items-center gap-2 mb-2 o_afr_comparison">
+                        <div class="btn-group me-3 o_afr_period">
+                            <button class="btn btn-sm btn-secondary" title="Previous period"
+                                    t-on-click="() => this.shiftPeriod(-1)"><i class="fa fa-chevron-left"/></button>
+                            <span class="btn btn-sm btn-light disabled text-body" t-esc="periodLabel"/>
+                            <button class="btn btn-sm btn-secondary" title="Next period"
+                                    t-on-click="() => this.shiftPeriod(1)"><i class="fa fa-chevron-right"/></button>
+                        </div>
+                        <div class="btn-group me-3 o_afr_views">
+                            <button class="btn btn-sm btn-secondary" title="Save this view"
+                                    t-on-click="() => this.saveView()"><i class="fa fa-bookmark"/></button>
+                            <select t-if="state.views.length" class="form-select form-select-sm w-auto"
+                                    t-on-change="openView" title="Open a saved view">
+                                <option value="">Saved views…</option>
+                                <option t-foreach="state.views" t-as="view" t-key="view.id" t-att-value="view.id">
+                                    <t t-esc="view.name"/><t t-if="view.shared"> (shared)</t><t t-if="view.is_default"> ★</t>
+                                </option>
+                            </select>
+                        </div>
+                        <div class="btn-group me-3 o_afr_filter">
+                            <button class="btn btn-sm" t-att-class="filtered ? 'btn-primary' : 'btn-secondary'"
+                                    t-on-click="() => this.editFilter()">
+                                <i class="fa fa-filter me-1"/>Filter
+                            </button>
+                            <button t-if="filtered" class="btn btn-sm btn-secondary" title="Clear the filter"
+                                    t-on-click="() => this.clearFilter()"><i class="fa fa-times"/></button>
+                        </div>
+                        <label class="mb-0" for="o_afr_comparison_mode">Compare with</label>
+                        <select id="o_afr_comparison_mode" class="form-select form-select-sm w-auto"
+                                t-on-change="onComparisonChange">
+                            <option value="none" t-att-selected="state.comparisonMode === 'none'">No comparison</option>
+                            <option value="previous" t-att-selected="state.comparisonMode === 'previous'">Previous periods</option>
+                            <option value="last_year" t-att-selected="state.comparisonMode === 'last_year'">Same period, earlier years</option>
+                        </select>
+                        <select t-if="state.comparisonMode !== 'none'" class="form-select form-select-sm w-auto"
+                                t-on-change="onComparisonCountChange">
+                            <t t-foreach="[1,2,3,4,5,6,7,8,9,10,11,12]" t-as="n" t-key="n">
+                                <option t-att-value="n" t-att-selected="state.comparisonCount === n" t-esc="n"/>
+                            </t>
+                        </select>
+                    </div>
+                    <table class="table table-sm table-hover o_afr_interactive_table">
+                        <thead class="sticky-top">
+                            <tr>
+                                <th class="o_afr_toggle"/>
+                                <th>Account</th>
+                                <th class="text-end">Opening</th>
+                                <th class="text-end">Debit</th>
+                                <th class="text-end">Credit</th>
+                                <th class="text-end">Closing</th>
+                                <t t-if="comparing">
+                                    <th class="text-end">Net</th>
+                                    <th t-foreach="state.comparisonLabels" t-as="label" t-key="label_index"
+                                        class="text-end small" t-esc="label"/>
+                                    <th class="text-end">Growth</th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="state.accounts" t-as="account" t-key="account.id">
+                                <!-- Account group subtotal (trial balance hierarchy) -->
+                                <tr t-if="account.type === 'group'" class="o_afr_group fw-bold table-light">
+                                    <td/>
+                                    <td t-attf-style="padding-left: {{ account.level }}rem">
+                                        <t t-esc="account.code"/> <t t-esc="account.name"/>
+                                    </td>
+                                    <td class="text-end" t-esc="format(account.opening)"/>
+                                    <td class="text-end" t-esc="format(account.debit)"/>
+                                    <td class="text-end" t-esc="format(account.credit)"/>
+                                    <td class="text-end" t-esc="format(account.closing)"/>
+                                    <t t-if="comparing">
+                                        <td class="text-end" t-esc="format(account.net)"/>
+                                        <td t-att-colspan="state.comparisonLabels.length + 1"/>
+                                    </t>
+                                </tr>
+                                <t t-else="">
+                                    <t t-set="key" t-value="accountKey(account)"/>
+                                    <tr class="o_afr_account" t-att-class="{'o_afr_open': isUnfolded(key)}"
+                                        t-on-click="() => this.toggle(account)">
+                                        <td class="o_afr_toggle">
+                                            <i t-att-class="isUnfolded(key) ? 'fa fa-caret-down' : 'fa fa-caret-right'"/>
+                                        </td>
+                                        <td t-attf-style="padding-left: {{ account.level || 0 }}rem">
+                                            <span class="fw-bold" t-esc="account.code"/> <t t-esc="account.name"/>
+                                            <i t-if="account.centralized" class="fa fa-compress ms-1 text-muted" title="Centralized: one line per month"/>
+                                            <a href="#" class="ms-2 text-muted o_afr_action" title="Open the account"
+                                               t-on-click.prevent.stop="() => this.openRecord('account.account', account.id)">
+                                                <i class="fa fa-external-link"/>
+                                            </a>
+                                        </td>
+                                        <td class="text-end" t-esc="format(account.opening)"/>
+                                        <td class="text-end">
+                                            <a href="#" t-on-click.prevent.stop="() => this.openAccountItems(account)"
+                                               t-esc="format(account.debit)"/>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="#" t-on-click.prevent.stop="() => this.openAccountItems(account)"
+                                               t-esc="format(account.credit)"/>
+                                        </td>
+                                        <td class="text-end fw-bold" t-esc="format(account.closing)"/>
+                                        <t t-if="comparing">
+                                            <td class="text-end" t-esc="format(account.net)"/>
+                                            <td t-foreach="account.compare" t-as="value" t-key="value_index"
+                                                class="text-end text-muted" t-esc="format(value)"/>
+                                            <td class="text-end" t-att-class="growthClass(account)" t-esc="formatGrowth(account)"/>
+                                        </t>
+                                    </tr>
+                                    <t t-if="isUnfolded(key)">
+                                        <t t-set="entry" t-value="state.unfolded[key]"/>
+                                        <!-- Grouped by partner: partner rows, each unfoldable -->
+                                        <t t-if="account.by_partner">
+                                            <t t-foreach="entry.partners" t-as="partner" t-key="partner.id">
+                                                <t t-set="pkey" t-value="partnerKey(account, partner)"/>
+                                                <tr class="o_afr_partner_row small" t-on-click="() => this.togglePartner(account, partner)">
+                                                    <td/>
+                                                    <td class="ps-4">
+                                                        <i t-att-class="isUnfolded(pkey) ? 'fa fa-caret-down me-1' : 'fa fa-caret-right me-1'"/>
+                                                        <t t-esc="partner.name"/>
+                                                    </td>
+                                                    <td class="text-end" t-esc="format(partner.opening)"/>
+                                                    <td class="text-end" t-esc="format(partner.debit)"/>
+                                                    <td class="text-end" t-esc="format(partner.credit)"/>
+                                                    <td class="text-end" t-esc="format(partner.closing)"/>
+                                                </tr>
+                                                <t t-if="isUnfolded(pkey)">
+                                                    <t t-call="account_financial_report_interactive.Lines">
+                                                        <t t-set="lineEntry" t-value="state.unfolded[pkey]"/>
+                                                        <t t-set="lineKey" t-value="pkey"/>
+                                                        <t t-set="partnerId" t-value="partner.id"/>
+                                                        <t t-set="opening" t-value="partner.opening"/>
+                                                    </t>
+                                                </t>
+                                            </t>
+                                            <tr t-if="entry.loading" class="small"><td/><td colspan="5" class="text-muted"><i class="fa fa-spinner fa-spin"/> Loading…</td></tr>
+                                        </t>
+                                        <t t-else="">
+                                            <t t-call="account_financial_report_interactive.Lines">
+                                                <t t-set="lineEntry" t-value="entry"/>
+                                                <t t-set="lineKey" t-value="key"/>
+                                                <t t-set="partnerId" t-value="null"/>
+                                                <t t-set="opening" t-value="account.opening"/>
+                                            </t>
+                                        </t>
+                                    </t>
+                                </t>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr class="fw-bold">
+                                <td/>
+                                <td>Total</td>
+                                <td class="text-end" t-esc="format(state.totals.opening)"/>
+                                <td class="text-end" t-esc="format(state.totals.debit)"/>
+                                <td class="text-end" t-esc="format(state.totals.credit)"/>
+                                <td class="text-end" t-esc="format(state.totals.closing)"/>
+                                <td t-if="comparing" t-att-colspan="state.comparisonLabels.length + 2"/>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <p t-if="!state.accounts.length" class="text-center text-muted">No journal items match the filters.</p>
+                </div>
+            </Layout>
+        </div>
+    </t>
+
+    <!-- Journal items of an account (or of one partner on it), paged. -->
+    <t t-name="account_financial_report_interactive.Lines">
+        <tr class="o_afr_line_header text-muted small">
+            <td/>
+            <td colspan="5">
+                <div class="d-flex gap-3">
+                    <span class="o_afr_date">Date</span>
+                    <span class="o_afr_move">Entry</span>
+                    <span class="o_afr_journal">Journal</span>
+                    <span class="o_afr_partner">Partner</span>
+                    <span class="flex-grow-1">Label</span>
+                </div>
+            </td>
+        </tr>
+        <tr t-foreach="lineEntry.lines" t-as="line" t-key="line.id" class="o_afr_line small">
+            <td/>
+            <td>
+                <div class="d-flex gap-3">
+                    <span class="o_afr_date" t-esc="line.date"/>
+                    <a t-if="line.move_id" href="#" class="o_afr_move" t-on-click.prevent="() => this.openMove(line)"
+                       t-esc="line.move_name"/>
+                    <span t-else="" class="o_afr_move fst-italic" t-esc="line.move_name"/>
+                    <span class="o_afr_journal" t-esc="line.journal"/>
+                    <a t-if="line.partner_id" href="#" class="o_afr_partner text-truncate"
+                       t-on-click.prevent="() => this.openRecord('res.partner', line.partner_id)"
+                       t-esc="line.partner"/>
+                    <span t-else="" class="o_afr_partner"/>
+                    <span class="flex-grow-1 text-truncate">
+                        <t t-esc="line.label"/>
+                        <span t-if="line.currency" class="text-muted ms-2"
+                              t-esc="`${line.amount_currency} ${line.currency}`"/>
+                    </span>
+                    <span t-if="line.move_id" class="o_afr_line_actions text-nowrap">
+                        <a t-if="state.statements and line.partner_id" href="#" class="text-muted me-2"
+                           title="Partner statement" t-on-click.prevent="() => this.sendStatement(line)">
+                            <i class="fa fa-envelope-o"/>
+                        </a>
+                        <a href="#" class="text-muted" title="Copy the line"
+                           t-on-click.prevent="() => this.copyLine(line)">
+                            <i class="fa fa-clipboard"/>
+                        </a>
+                    </span>
+                </div>
+            </td>
+            <td/>
+            <td class="text-end" t-esc="line.debit ? format(line.debit) : ''"/>
+            <td class="text-end" t-esc="line.credit ? format(line.credit) : ''"/>
+            <td class="text-end" t-esc="format(line.balance)"/>
+        </tr>
+        <tr t-if="lineEntry.loading" class="small">
+            <td/>
+            <td colspan="5" class="text-muted"><i class="fa fa-spinner fa-spin"/> Loading…</td>
+        </tr>
+        <tr t-elif="lineEntry.offset &lt; lineEntry.total" class="small">
+            <td/>
+            <td colspan="5">
+                <button class="btn btn-link btn-sm p-0"
+                        t-on-click="() => this.loadMore(lineKey, this.parentAccountId(lineKey), partnerId, this.lastBalance(lineKey, opening))">
+                    Load more (<t t-esc="lineEntry.offset"/> / <t t-esc="lineEntry.total"/>)
+                </button>
+            </td>
+        </tr>
+    </t>
+</templates>

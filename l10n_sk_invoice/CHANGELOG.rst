@@ -16,6 +16,25 @@ Carry-over to 18.0
   ``_l10n_sk_zero_rated_kinds`` and its tests; check 18.0's ``l10n_sk`` tax
   xmlids (``vy_eu_s`` / ``vy_eu_t``) before relying on them.
 
+- **IČO label (19.0.1.0.5).** DISCHARGED 2026-11-02 — do not port this
+  again: ported as 18.0.1.0.2. The six "ID:" nodes print
+  ``company_registry_label`` on 18.0 as well.
+
+[19.0.1.0.5] — 2026-11-02
+-------------------------
+
+Fixed
+~~~~~
+
+- Invoices print **IČO** before the company registry number of the supplier
+  and the customer. Core l10n_sk hardcodes "ID:" in six places (and its own
+  sk.po translates it as "ID:"); they now print the party's
+  ``company_registry_label`` - IČO for Slovak and Czech parties through
+  l10n_cssk_core, the core label for other countries.
+
+[19.0.1.0.4] — 2026-09-27
+-------------------------
+
 Fixed
 ~~~~~
 

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="cssk_vat_return_form_vat_closing" model="ir.ui.view">
+        <field name="name">cssk.vat.return.form.vat.closing</field>
+        <field name="model">cssk.vat.return</field>
+        <field name="inherit_id" ref="l10n_cssk_vat_return_base.cssk_vat_return_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header/button[@name='action_create_amendment']" position="after">
+                <button name="action_cssk_vat_closing" type="object"
+                        string="VAT closing entry"
+                        invisible="state not in ('exported', 'submitted')"
+                        help="Clear the period's VAT accounts into the settlement account (draft entry)."/>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_cssk_open_vat_closing" type="object"
+                        class="oe_stat_button" icon="fa-book"
+                        invisible="l10n_cssk_closing_count == 0">
+                    <field name="l10n_cssk_closing_count" widget="statinfo" string="VAT closing"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="res_config_settings_view_form_vat_closing" model="ir.ui.view">
+        <field name="name">res.config.settings.form.cssk.vat.closing</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='default_accounts']" position="after">
+                <block title="VAT Closing" id="cssk_vat_closing" invisible="not company_id">
+                    <setting string="Settlement"
+                             help="Where the VAT closing of a filed return clears the VAT accounts, and where its rounding goes. Empty accounts fall back to 343000, 548000 and 648000.">
+                        <div class="content-group">
+                            <div class="row mt16">
+                                <label for="l10n_cssk_vat_settlement_account_id" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_cssk_vat_settlement_account_id"/>
+                            </div>
+                            <div class="row">
+                                <label for="l10n_cssk_vat_rounding_loss_account_id" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_cssk_vat_rounding_loss_account_id"/>
+                            </div>
+                            <div class="row">
+                                <label for="l10n_cssk_vat_rounding_gain_account_id" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_cssk_vat_rounding_gain_account_id"/>
+                            </div>
+                            <div class="row">
+                                <label for="l10n_cssk_vat_closing_tolerance" class="col-lg-4 o_light_label"/>
+                                <field name="l10n_cssk_vat_closing_tolerance"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

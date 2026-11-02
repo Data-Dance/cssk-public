@@ -32,7 +32,7 @@ mapping for your tax setup; a manual note field is provided for edge cases.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk", "l10n_cssk_core", "l10n_sk_base", "l10n_cssk_payment_symbols"],
@@ -40,6 +40,7 @@ mapping for your tax setup; a manual note field is provided for edge cases.
         "views/account_tax_views.xml",
         "views/account_move_views.xml",
         "report/report_invoice.xml",
+        "report/report_registry_label.xml",
     ],
     "installable": True,
 }

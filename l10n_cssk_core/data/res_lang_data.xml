@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Odoo ships Slovak with %d/%m/%Y; Slovak documents write dates as
+         dd.mm.yyyy (Czech is already %d.%m.%Y in core). Base reloads its
+         language data on every upgrade, so this record is kept updatable:
+         it is re-applied whenever this module is updated, which in a full
+         upgrade runs after base. -->
+    <record id="base.lang_sk" model="res.lang">
+        <field name="date_format">%d.%m.%Y</field>
+    </record>
+</odoo>

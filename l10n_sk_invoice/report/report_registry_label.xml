@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- Core l10n_sk prints the company registry number as "ID:", and its own
+         sk.po translates that as "ID:", so a Slovak invoice never says IČO.
+         Print the party's company_registry_label instead (IČO for SK and CZ
+         through l10n_cssk_core, the core label for other countries). -->
+
+    <!-- Customer: three nodes of the same shape, one per address layout. A spec
+         matching several nodes changes only the first, so each is anchored on
+         its own neighbouring div. -->
+    <template id="report_invoice_document_registry_label" inherit_id="l10n_sk.report_invoice_document">
+        <xpath expr="//div[@id='partner_vat_address_not_same_as_shipping']/preceding-sibling::div[span[@t-field='o.partner_id.company_registry']][1]" position="replace">
+            <div t-if="o.partner_id.company_registry and o.company_id.country_code == 'SK'">
+                <t t-out="o.partner_id.company_registry_label"/>: <span t-field="o.partner_id.company_registry"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_address_same_as_shipping']/preceding-sibling::div[span[@t-field='o.partner_id.company_registry']][1]" position="replace">
+            <div t-if="o.partner_id.company_registry and o.company_id.country_code == 'SK'">
+                <t t-out="o.partner_id.company_registry_label"/>: <span t-field="o.partner_id.company_registry"/>
+            </div>
+        </xpath>
+        <xpath expr="//div[@id='partner_vat_no_shipping']/preceding-sibling::div[span[@t-field='o.partner_id.company_registry']][1]" position="replace">
+            <div t-if="o.partner_id.company_registry and o.company_id.country_code == 'SK'">
+                <t t-out="o.partner_id.company_registry_label"/>: <span t-field="o.partner_id.company_registry"/>
+            </div>
+        </xpath>
+    </template>
+
+    <!-- Supplier, in the document header and in the folded layout. -->
+    <template id="vat_registry_tax_id_external_layout_label" inherit_id="l10n_sk.vat_registry_tax_id_external_layout">
+        <xpath expr="//li[span[@t-field='company.company_registry']]" position="replace">
+            <li t-if="company.company_registry and company.account_fiscal_country_id.code == 'SK'">
+                <t t-out="company.partner_id.company_registry_label"/>: <span t-field="company.company_registry"/>
+            </li>
+        </xpath>
+    </template>
+    <template id="external_layout_folder_registry_label" inherit_id="l10n_sk.l10n_sk_external_layout_folder">
+        <xpath expr="//div[span[@t-field='company.company_registry']]" position="replace">
+            <div t-if="company.company_registry and company.account_fiscal_country_id.code == 'SK'">
+                <t t-out="company.partner_id.company_registry_label"/>: <span t-field="company.company_registry"/>
+            </div>
+        </xpath>
+    </template>
+</odoo>

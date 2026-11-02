@@ -1,7 +1,7 @@
 ---
 title: Přiznání k DPH CZ/SK — společný základ
 summary: Obrazovky a postup, na kterých stojí české i slovenské přiznání k DPH — výpočet řádků z daňových štítků, kontrola proti účetním záznamům, export úředního XML a uchování podané verze.
-verified: 19.0.1.11.1
+verified: 19.0.1.13.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -119,6 +119,10 @@ Soubor se připojí k přiznání (*XML příloha*) a přiznání přejde do sta
 *Exportováno*. Přepočítat a exportovat ho můžete opakovaně, dokud ho
 neoznačíte jako podané.
 
+**Upozornění exportu.** Kontroly, které export nezastaví (například sazba DPH,
+která neodpovídá žádné zákonné), se zobrazí ve žlutém pruhu nahoře na
+formuláři a v chatteru až do dalšího exportu.
+
 ## Podání a podaná verze {#submission}
 
 XML podejte na portálu finanční správy, nebo přes modul podacího kanálu, jako
@@ -134,6 +138,32 @@ je [module:l10n_cz_epo](module:l10n_cz_epo). Potom:
 - Podané přiznání je zamčené: nelze ho přepočítat, znovu exportovat ani
   smazat. **Vrátit do konceptu** (jen administrátor) ho znovu otevře; podaná
   verze i historie zůstanou zachovány.
+
+## Uzávěrka DPH {#vat-closing}
+
+Jakmile je přiznání *Exportované* nebo *Podané*, tlačítko **Uzávěrka DPH**
+připraví doklad, který zúčtuje účty DPH období (analytické účty 343 podle
+sazby, na vstupu i výstupu) na **účet zúčtování DPH**; na něm pak zůstane
+vlastní daňová povinnost nebo nadměrný odpočet období. Doklad vznikne jako
+**návrh** k poslednímu dni období; zkontrolujete a zaúčtujete ho sami.
+
+- **Které doklady** — přesně ty z přiznání: daň na výstupu podle DUZP, na
+  vstupu podle data uplatnění odpočtu. Doklad zaúčtovaný v dalším měsíci, ale
+  s plněním v tomto, se uzavře s tímto obdobím.
+- **Musí souhlasit s přiznáním.** Doklad převádí vlastní daňovou povinnost
+  minus nadměrný odpočet z přiznání. Rozdíl do *tolerance uzávěrky DPH* je
+  zaokrouhlení (přiznání se zaokrouhluje po řádcích, v CZ na celé koruny)
+  a jde na účty zaokrouhlení; větší rozdíl uzávěrku zastaví a uvede obě
+  částky — nejprve zkontrolujte neodsouhlasené řádky.
+- **Každý daňový řádek se uzavře jednou.** Opravné nebo dodatečné přiznání
+  téhož období uzavře jen to, co předchozí uzávěrka nezahrnula, a souhlasí
+  s rozdílem vůči předchozím přiznáním. Smazaná nebo zrušená uzávěrka své
+  řádky opět uvolní.
+- Převedený nadměrný odpočet v dokladu není: je to zůstatek, který na účtu
+  zúčtování nechala předchozí uzávěrka.
+
+Účty se nastavují v *Účetnictví › Konfigurace › Nastavení › Uzávěrka DPH*;
+prázdné se nahradí účty 343000 (zúčtování), 548000 a 648000 (zaokrouhlení).
 
 ## Opravné a dodatečné přiznání {#amendments}
 
@@ -172,7 +202,9 @@ bezpečné), otevře správce účetnictví společnost v *Nastavení → Spole�
 a v nabídce *Akce* spustí **Vytvořit historické sazby DPH**.
 
 Pokud historická sazba existuje, jiné moduly lokalizace podle ní zdaní doklad
-sazbou platnou k jeho datu.
+sazbou platnou k jeho datu. Historická sazba je propojena s daněmi svého
+období (*Nahrazuje* / *Nahrazeno*), takže daňová pozice přiřadí nákupu z roku
+2011 se sazbou 20 % samovyměření 20 %, ne dnešní sazbu.
 
 ## Historická podání {#legacy}
 
@@ -183,17 +215,11 @@ zaznamená rozdíly v *Účetnictví → Výkazy → Zákonné výkazy → Podan
 vypočtené*. Je-li třeba takové období opravit, založte z něj dodatečné
 přiznání; to už je běžné přiznání.
 
-**Upozornění exportu.** Kontroly, které export nezastaví, se zobrazí ve
-žlutém pruhu nahoře na formuláři a v chatteru až do dalšího exportu.
-
 ## Omezení {#limitations}
 
 - Verzi za vás nikdo nevybere: zvolte ji u každého přiznání. Nekontroluje se,
   zda data tvoří celý měsíc nebo čtvrtletí. *Typ období* se kontroluje jen
   proti obdobím, která verze připouští (každá dodaná verze připouští obě).
-- Kontrola sazby, která jen varuje (odvozená sazba neodpovídá žádné zákonné),
-  se zapíše pouze do serverového logu a na obrazovce se nezobrazí; export
-  zastaví jen chyby.
 - Sloupec ✓ porovnává absolutní částky, chybu ve znaménku tedy neukáže.
 - Dodatečné přiznání převezme typ výkazu původního; změnit ho musíte sami.
 - Výpočet ukáže to, co říkají štítky. Daň se špatnými štítky nebo doklad bez

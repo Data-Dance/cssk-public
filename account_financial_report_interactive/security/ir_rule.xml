@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="rule_afr_interactive_view_read" model="ir.rule">
+        <field name="name">Saved ledger views: own or shared</field>
+        <field name="model_id" ref="model_account_financial_report_interactive_view"/>
+        <field name="domain_force">['|', ('user_id', '=', user.id), ('shared', '=', True)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+    <record id="rule_afr_interactive_view_write" model="ir.rule">
+        <field name="name">Saved ledger views: edited by their owner</field>
+        <field name="model_id" ref="model_account_financial_report_interactive_view"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="False"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="rule_afr_interactive_view_company" model="ir.rule">
+        <field name="name">Saved ledger views: company</field>
+        <field name="model_id" ref="model_account_financial_report_interactive_view"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK Localization — Shared Core",
-    "version": "19.0.1.18.1",
+    "version": "19.0.1.19.0",
     "summary": "Country-neutral foundation for the Czech & Slovak statutory "
                "localization: tax-authority registry, person types, shared "
                "company/partner fields, settings and security.",
@@ -39,6 +39,7 @@ country layers.
     "depends": ["account", "mail"],
     "data": [
         "security/ir.model.access.csv",
+        "data/res_lang_data.xml",
         "security/cssk_tax_authority_rules.xml",
         "security/cssk_statement_account_map_rules.xml",
         "views/cssk_tax_authority_views.xml",

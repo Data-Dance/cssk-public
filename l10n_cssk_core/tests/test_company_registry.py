@@ -129,3 +129,10 @@ class TestCompanyRegistryConstraint(TransactionCase):
             parent.write({"company_registry": "12345"})
         self.assertIn("Bad Registry s.r.o.", str(caught.exception))
         self.assertNotIn(child.name, str(caught.exception))
+
+
+class TestSlovakDateFormat(TransactionCase):
+
+    def test_slovak_dates_are_dotted(self):
+        self.assertEqual(self.env.ref("base.lang_sk").date_format, "%d.%m.%Y")
+        self.assertEqual(self.env.ref("base.lang_cs_CZ").date_format, "%d.%m.%Y")

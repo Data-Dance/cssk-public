@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="mis_report_instance_period_view_form_breakdown" model="ir.ui.view">
+        <field name="name">mis.report.instance.period.form.breakdown</field>
+        <field name="model">mis.report.instance.period</field>
+        <field name="inherit_id" ref="mis_builder.mis_report_instance_period_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='analytic_domain']/.." position="after">
+                <group string="Breakdown" invisible="not source_aml_model_name">
+                    <field name="breakdown_field_id" options="{'no_create': True}"/>
+                    <field name="breakdown_limit" invisible="not breakdown_field_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

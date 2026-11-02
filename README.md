@@ -43,7 +43,7 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-178 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+182 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
 ### Czech Republic (38)
 
@@ -125,7 +125,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_vpp` | 19.0.1.1.1 | Slovak social-insurance statement for dohody / irregular income (VPP/VPP2026) filed to the Sociálna poisťovňa — aggregate summary + per-employee annex, XML… |
 | `l10n_sk_intrastat` | 19.0.1.1.1 | INTRASTAT-SK INSTAT XML on the OCA intrastat_product engine (CE-clean). EE variant: l10n_sk_intrastat_ee. |
 | `l10n_sk_inventory_verification` | 19.0.1.1.0 | Statutory Slovak inventory verification: inventúrne súpisy (§ 30 ods. 2) and the inventarizačný zápis (§ 30 ods. 3). |
-| `l10n_sk_invoice` | 19.0.1.0.4 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
+| `l10n_sk_invoice` | 19.0.1.0.5 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
 | `l10n_sk_jcd` | 19.0.1.2.0 | Slovak import customs declaration: duty into stock value, import VAT onto the right DPH rows, deduction gated on the confirmed customs document. |
 | `l10n_sk_kv_dph` | 19.0.2.5.0 | Slovak VAT control statement (Kontrolný výkaz DPH) — sections A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared l10n_cssk_kv_kh_base framework. |
 | `l10n_sk_kv_dph_pos` | 19.0.1.0.0 | Reports the sales of Point of Sale sessions in oddiel D.1 of the Slovak kontrolný výkaz DPH (eKasa turnover) instead of D.2. |
@@ -144,14 +144,14 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_vrp2_account` | 19.0.2.4.0 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_vrp2_base` | 19.0.2.4.0 | Connection layer for the Slovak Virtual Cash Register (VRP 2) |
 
-### Czech Republic and Slovakia (34)
+### Czech Republic and Slovakia (35)
 
 | Module | Version | What it does |
 |---|---|---|
 | `l10n_cssk_account_financial_report` | 19.0.1.0.1 | Trial balance, general ledger, open items and aged partner balance leave out the company's year-end closing and archive journals, as the statutory statements… |
 | `l10n_cssk_accrual` | 19.0.1.1.0 | Estimated unbilled items — book an estimate to the accrual account (CZ 388/389, SK 326 or a receivable analytic), then link the actual invoice to true it up. |
 | `l10n_cssk_cash_journal_base` | 19.0.1.6.3 | Country-neutral single-entry cash journal derived from ordinary double-entry books: payments become dated, categorised denník rows, with the year-end balances… |
-| `l10n_cssk_core` | 19.0.1.18.1 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
+| `l10n_cssk_core` | 19.0.1.19.0 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
 | `l10n_cssk_ec_summary_base` | 19.0.1.7.1 | Country-neutral framework for the Slovak Súhrnný výkaz and Czech Souhrnné hlášení (EC sales list): single-line aggregation per (country, VAT, transaction… |
 | `l10n_cssk_ec_summary_vies` | 19.0.1.0.4 | Validate EC sales list partners against VIES at export and snapshot the consultation number onto each line. |
 | `l10n_cssk_fs_base` | 19.0.1.10.3 | Country-neutral framework for the Slovak and Czech financial statements (balance sheet + P&L): line trees computed from account-code balances + aggregates… |
@@ -166,6 +166,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_intrastat_footprint` | 19.0.1.1.0 | A document says which Intrastat declaration reports it, alongside the VAT return, control statement and financial statements it feeds. |
 | `l10n_cssk_kv_kh_base` | 19.0.2.4.0 | Abstract framework for the Slovak KV DPH and Czech KH DPH VAT control statements: versioned templates, section/summary/reconciliation row mixins, move-line… |
 | `l10n_cssk_leave_expiry_reminder` | 19.0.1.1.0 | Proactively remind employees and HR about expiring carried-over leave |
+| `l10n_cssk_mis_executive_summary` | 19.0.1.0.0 | A one-page management summary for Czech and Slovak charts: cash, revenue and margins, debtor and creditor days, current ratio, ROA. |
 | `l10n_cssk_oss_base` | 19.0.1.1.1 | Country-neutral engine for the quarterly One-Stop-Shop VAT return (Union scheme): OSS-tagged sales aggregated by member state of consumption, rate and supply… |
 | `l10n_cssk_partner_balances` | 19.0.1.2.1 | Saldokonto / odsúhlasenie (potvrdenie) zostatkov pohľadávok a záväzkov — a stored, state-tracked confirmation of a partner's open AR/AP as of a date, with a… |
 | `l10n_cssk_payment_reliability` | 19.0.1.3.0 | Before you pay a vendor, check the supplier's tax reliability and whether the bank account is the one registered with the tax authority — and snapshot the… |
@@ -180,7 +181,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.0 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
 | `l10n_cssk_submission_base` | 19.0.1.1.1 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
-| `l10n_cssk_vat_return_base` | 19.0.1.12.0 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
+| `l10n_cssk_vat_return_base` | 19.0.1.13.0 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
 | `l10n_cssk_vies` | 19.0.2.1.1 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
 
 ### European Union (1)
@@ -252,7 +253,7 @@ this repository. Add them to the addons path as well:
 | `partner_autocomplete_orsf_sk_related_parties` | 19.0.2.1.0 | Pull one partner's ownership/officer graph from ORSF on demand, so related-party transactions needing transfer-pricing documentation (§ 18 ods. 1) are… |
 | `partner_nace` | 19.0.1.0.0 | The partner's main economic activity as its NACE code |
 
-### Accounting (20)
+### Accounting (23)
 
 | Module | Version | What it does |
 |---|---|---|
@@ -266,11 +267,14 @@ this repository. Add them to the addons path as well:
 | `account_edi_isdoc_purchase_advance` | 19.0.1.0.1 | Route imported ISDOC advance documents (DocumentType 4/5/6) into the received-advances flow. |
 | `account_edi_isdoc_sale` | 19.0.1.1.0 | Export a sale order as an ISDOC proforma (zálohová faktura, DocumentType 4) |
 | `account_edi_isdoc_sale_advance` | 19.0.1.0.0 | Map the Czech advance-payment documents to ISDOC DocumentType 4/5/6 |
+| `account_financial_report_interactive` | 19.0.1.5.0 | Open the OCA general ledger and trial balance interactively: unfold an account to load its journal items, a page at a time. |
 | `account_gpc_base` | 19.0.1.0.0 | Shared GPC (ABO electronic statement) parser. The CE (account_statement_import_file) and EE (account_bank_statement_import) import shims both build on this. |
 | `account_kb_best_base` | 19.0.1.0.0 | Komerční banka BEST client format: domestic and foreign/SEPA payment files out, electronic statements in. |
 | `account_move_report_signed` | 19.0.1.0.1 | Renders negative (signed) values in Account Move note PDF reports |
 | `account_mt940_base` | 19.0.1.0.0 | Shared SWIFT MT940 parser with the Czech ?NN layout of field :86: (MultiCash *.STA statements). |
 | `account_reconcile_oca_counter_account` | 19.0.1.0.0 | Put the counterparty bank account back on the OCA bank statement reconciliation screen. |
+| `mis_builder_column_breakdown` | 19.0.1.1.0 | Split a MIS Builder column into one column per journal, partner, company, product or any other field, with a total. |
+| `mis_builder_kpi_details` | 19.0.1.0.0 | Unfold a MIS Builder KPI by partner, product, journal, month or any other field of the journal items, not only by account. |
 | `purchase_order_advance_invoice` | 19.0.1.2.0 | Received advance invoices (vendor proformas) with tax documents on sent payments |
 | `purchase_order_advance_invoice_stock` | 19.0.1.0.0 | A received advance invoice never creates a receipt; the goods are received on the purchase order they belong to. |
 | `sale_order_advance_invoice` | 19.0.2.8.1 | Advance invoices (proforma) with tax documents on received payments |

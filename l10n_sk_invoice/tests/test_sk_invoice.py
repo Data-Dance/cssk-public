@@ -130,3 +130,31 @@ class TestSkInvoice(AccountTestInvoicingCommon):
             self.skipTest("the SK chart ships no triangular tax here")
         inv = self._invoice(self.eu_partner, triangular)
         self.assertNotIn("§43", inv.l10n_sk_legal_notes or "")
+
+
+@tagged("post_install", "-at_install")
+class TestSkInvoiceRegistryLabel(AccountTestInvoicingCommon):
+    """Core l10n_sk prints the registry number as "ID:" (and translates it as
+    "ID:"); a Slovak invoice must say IČO for the supplier and the customer."""
+
+    @classmethod
+    @AccountTestInvoicingCommon.setup_country("sk")
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.company_data["company"]
+        cls.company.country_id = cls.env.ref("base.sk")
+        cls.company.company_registry = "11111119"
+        cls.customer = cls.env["res.partner"].with_context(no_vat_validation=True).create({
+            "name": "Košice a.s.", "is_company": True,
+            "country_id": cls.env.ref("base.sk").id, "company_registry": "12345679"})
+
+    def _html(self, lang="en_US"):
+        inv = self.init_invoice("out_invoice", partner=self.customer, amounts=[100.0], post=True)
+        return self.env["ir.actions.report"].with_context(lang=lang)._render_qweb_html(
+            "account.account_invoices", inv.ids)[0].decode()
+
+    def test_supplier_and_customer_say_ico(self):
+        html = self._html()
+        for registry in ("11111119", "12345679"):
+            self.assertRegex(html, r"IČO:\s*<span[^>]*>\s*%s" % registry)
+        self.assertNotRegex(html, r"\bID:\s*<span")

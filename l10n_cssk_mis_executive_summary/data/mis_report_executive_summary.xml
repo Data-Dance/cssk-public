@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <record id="style_subtotal" model="mis.report.style">
+        <field name="name">CZ/SK summary - subtotal</field>
+        <field name="font_weight">bold</field>
+    </record>
+    <record id="style_result" model="mis.report.style">
+        <field name="name">CZ/SK summary - result</field>
+        <field name="font_weight">bold</field>
+        <field name="background_color_inherit" eval="False"/>
+        <field name="background_color">#dce6f1</field>
+    </record>
+    <!-- Helper rows: computed and referenced, never printed. -->
+    <record id="style_hidden" model="mis.report.style">
+        <field name="name">CZ/SK summary - helper (hidden)</field>
+        <field name="hide_always_inherit" eval="False"/>
+        <field name="hide_always" eval="True"/>
+    </record>
+    <record id="style_ratio" model="mis.report.style">
+        <field name="name">CZ/SK summary - ratio</field>
+        <field name="dp_inherit" eval="False"/>
+        <field name="dp">2</field>
+    </record>
+    <record id="mis_report_executive_summary" model="mis.report">
+        <field name="name">Executive Summary (CZ/SK)</field>
+    </record>
+    <record id="kpi_cash_open" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">cash_open</field>
+        <field name="description">Cash and bank at the start</field>
+        <field name="sequence">10</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">bali[21%,22%,261%]</field>
+    </record>
+    <record id="kpi_cash_in" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">cash_in</field>
+        <field name="description">Cash received</field>
+        <field name="sequence">20</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">debp[21%,22%,261%]</field>
+    </record>
+    <record id="kpi_cash_out" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">cash_out</field>
+        <field name="description">Cash spent</field>
+        <field name="sequence">30</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">crdp[21%,22%,261%]</field>
+    </record>
+    <record id="kpi_cash_close" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">cash_close</field>
+        <field name="description">Cash and bank at the end</field>
+        <field name="sequence">40</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">bale[21%,22%,261%]</field>
+        <field name="style_id" ref="style_subtotal"/>
+    </record>
+    <record id="kpi_revenue" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">revenue</field>
+        <field name="description">Revenue</field>
+        <field name="sequence">50</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">-balp[60%]</field>
+    </record>
+    <record id="kpi_cost_of_sales" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">cost_of_sales</field>
+        <field name="description">Cost of goods and material sold</field>
+        <field name="sequence">60</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">balp[501%,504%]</field>
+    </record>
+    <record id="kpi_gross_profit" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">gross_profit</field>
+        <field name="description">Gross profit</field>
+        <field name="sequence">70</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">revenue - cost_of_sales</field>
+        <field name="style_id" ref="style_subtotal"/>
+    </record>
+    <record id="kpi_income_total" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">income_total</field>
+        <field name="description">Total income</field>
+        <field name="sequence">80</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">-balp[6%]</field>
+    </record>
+    <record id="kpi_expense_total" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">expense_total</field>
+        <field name="description">Total expenses</field>
+        <field name="sequence">90</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">balp[5%]</field>
+    </record>
+    <record id="kpi_net_profit" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">net_profit</field>
+        <field name="description">Net profit</field>
+        <field name="sequence">100</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">income_total - expense_total</field>
+        <field name="style_id" ref="style_result"/>
+    </record>
+    <record id="kpi_gross_margin" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">gross_margin</field>
+        <field name="description">Gross margin</field>
+        <field name="sequence">110</field>
+        <field name="type">pct</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">gross_profit / revenue if revenue else AccountingNone</field>
+    </record>
+    <record id="kpi_net_margin" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">net_margin</field>
+        <field name="description">Net margin</field>
+        <field name="sequence">120</field>
+        <field name="type">pct</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">net_profit / revenue if revenue else AccountingNone</field>
+    </record>
+    <record id="kpi_receivables" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">receivables</field>
+        <field name="description">Trade receivables</field>
+        <field name="sequence">130</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">bale[311%]</field>
+    </record>
+    <record id="kpi_payables" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">payables</field>
+        <field name="description">Trade payables</field>
+        <field name="sequence">140</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">-bale[321%]</field>
+    </record>
+    <record id="kpi_period_days" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">period_days</field>
+        <field name="description">Days in the period</field>
+        <field name="sequence">150</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">(date_to - date_from).days + 1</field>
+        <field name="style_id" ref="style_hidden"/>
+    </record>
+    <record id="kpi_purchases" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">purchases</field>
+        <field name="description">Purchases (classes 50 and 51)</field>
+        <field name="sequence">160</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">sum</field>
+        <field name="expression">balp[50%,51%]</field>
+        <field name="style_id" ref="style_hidden"/>
+    </record>
+    <record id="kpi_dso" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">dso</field>
+        <field name="description">Debtor days</field>
+        <field name="sequence">170</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">receivables / revenue * period_days if revenue else AccountingNone</field>
+    </record>
+    <record id="kpi_dpo" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">dpo</field>
+        <field name="description">Creditor days</field>
+        <field name="sequence">180</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">payables / purchases * period_days if purchases else AccountingNone</field>
+    </record>
+    <record id="kpi_current_assets" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">current_assets</field>
+        <field name="description">Current assets</field>
+        <field name="sequence">190</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">bale[1%] + bale[21%,22%,261%] + pbale[31%,33%,34%,35%,37%,38%]</field>
+        <field name="style_id" ref="style_hidden"/>
+    </record>
+    <record id="kpi_current_liabilities" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">current_liabilities</field>
+        <field name="description">Current liabilities</field>
+        <field name="sequence">200</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">-nbale[23%,24%,32%,33%,34%,36%,37%,38%]</field>
+        <field name="style_id" ref="style_hidden"/>
+    </record>
+    <record id="kpi_current_ratio" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">current_ratio</field>
+        <field name="description">Current ratio</field>
+        <field name="sequence">210</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">current_assets / current_liabilities if current_liabilities else AccountingNone</field>
+        <field name="style_id" ref="style_ratio"/>
+    </record>
+    <record id="kpi_total_assets" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">total_assets</field>
+        <field name="description">Total assets</field>
+        <field name="sequence">220</field>
+        <field name="type">num</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">bale[0%,1%] + pbale[2%,3%]</field>
+        <field name="style_id" ref="style_hidden"/>
+    </record>
+    <record id="kpi_roa" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_executive_summary"/>
+        <field name="name">roa</field>
+        <field name="description">Return on assets</field>
+        <field name="sequence">230</field>
+        <field name="type">pct</field>
+        <field name="accumulation_method">none</field>
+        <field name="expression">net_profit / total_assets if total_assets else AccountingNone</field>
+    </record>
+</odoo>

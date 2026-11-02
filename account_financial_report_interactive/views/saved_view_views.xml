@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="afr_interactive_view_list" model="ir.ui.view">
+        <field name="name">account.financial.report.interactive.view.list</field>
+        <field name="model">account.financial.report.interactive.view</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" create="0">
+                <field name="name"/>
+                <field name="period"/>
+                <field name="shared"/>
+                <field name="is_default"/>
+                <field name="user_id" readonly="1" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                <button name="action_open" type="object" string="Open" icon="fa-external-link"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_afr_interactive_views" model="ir.actions.act_window">
+        <field name="name">Saved Ledger Views</field>
+        <field name="res_model">account.financial.report.interactive.view</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p>Save a view from the interactive general ledger or trial balance (the
+            bookmark icon next to the period) to find it here.</p>
+        </field>
+    </record>
+
+    <record id="action_afr_interactive_default" model="ir.actions.server">
+        <field name="name">Interactive Ledger</field>
+        <field name="model_id" ref="model_account_financial_report_interactive_view"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_default()</field>
+    </record>
+
+    <menuitem id="menu_afr_interactive_default" name="Interactive Ledger"
+              parent="account_financial_report.menu_oca_reports"
+              action="action_afr_interactive_default" sequence="5"/>
+    <menuitem id="menu_afr_interactive_views" name="Saved Ledger Views"
+              parent="account_financial_report.menu_oca_reports"
+              action="action_afr_interactive_views" sequence="6"/>
+</odoo>
