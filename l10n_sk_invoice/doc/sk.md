@@ -20,6 +20,10 @@ ktoré v nej chýbajú:
 4. označenie **IČO** pred identifikačným číslom oboch strán — základný modul
    `l10n_sk` tam tlačí „ID:“ (aj v slovenčine).
 
+Údaje vašej spoločnosti v hlavičke potom obsahujú IČ DPH, IČO a DIČ, každé
+raz: základný modul `l10n_sk` pridáva vlastný riadok s IČ DPH k tomu, ktorý
+už tlačí každé rozloženie Odoo, a modul druhý výskyt vypúšťa.
+
 Všetko sa tlačí len na dokladoch spoločnosti so sídlom na Slovensku, takže
 modul neprekáža v databáze, kde sú aj spoločnosti z iných krajín.
 
@@ -54,8 +58,10 @@ odberatelia na faktúre bežne očakávajú.
 
 ## Nastavenie {#setup}
 
-1. **Vyplňte DIČ odberateľa.** Na kontakte pole **DIČ** (pridáva ho modul
-   [module:l10n_sk_base](module:l10n_sk_base)). Z IČ DPH sa neodvodzuje.
+1. **Vyplňte DIČ — odberateľa aj vlastné.** Na kontakte pole **DIČ** (pridáva
+   ho modul [module:l10n_sk_base](module:l10n_sk_base)); pre vašu spoločnosť
+   to isté pole na formulári spoločnosti (*Nastavenia → Spoločnosti*). Z IČ DPH
+   sa neodvodzuje, takže pri prázdnom poli hlavička riadok DIČ nemá.
 2. **Platobné symboly** pochádzajú z modulu
    [module:l10n_cssk_payment_symbols](module:l10n_cssk_payment_symbols), ktorý
    sa nainštaluje spolu s týmto modulom. Jeho nastavenia určujú, ako sa tvorí

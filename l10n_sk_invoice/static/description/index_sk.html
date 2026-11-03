@@ -49,6 +49,9 @@ ktoré v nej chýbajú:</p>
 <li>označenie <strong>IČO</strong> pred identifikačným číslom oboch strán — základný modul
    <code>l10n_sk</code> tam tlačí „ID:“ (aj v slovenčine).</li>
 </ol>
+<p>Údaje vašej spoločnosti v hlavičke potom obsahujú IČ DPH, IČO a DIČ, každé
+raz: základný modul <code>l10n_sk</code> pridáva vlastný riadok s IČ DPH k tomu, ktorý
+už tlačí každé rozloženie Odoo, a modul druhý výskyt vypúšťa.</p>
 <p>Všetko sa tlačí len na dokladoch spoločnosti so sídlom na Slovensku, takže
 modul neprekáža v databáze, kde sú aj spoločnosti z iných krajín.</p>
 <h2 id="legal">Právny rámec</h2>
@@ -79,8 +82,10 @@ samo. DIČ medzi povinnými údajmi nie je; modul ho tlačí, pretože ho sloven
 odberatelia na faktúre bežne očakávajú.</p>
 <h2 id="setup">Nastavenie</h2>
 <ol>
-<li><strong>Vyplňte DIČ odberateľa.</strong> Na kontakte pole <strong>DIČ</strong> (pridáva ho modul
-   <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a>). Z IČ DPH sa neodvodzuje.</li>
+<li><strong>Vyplňte DIČ — odberateľa aj vlastné.</strong> Na kontakte pole <strong>DIČ</strong> (pridáva
+   ho modul <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a>); pre vašu spoločnosť
+   to isté pole na formulári spoločnosti (<em>Nastavenia → Spoločnosti</em>). Z IČ DPH
+   sa neodvodzuje, takže pri prázdnom poli hlavička riadok DIČ nemá.</li>
 <li><strong>Platobné symboly</strong> pochádzajú z modulu
    <a href="/l10n_cssk_payment_symbols/static/description/index_sk.html"><code>l10n_cssk_payment_symbols</code></a>, ktorý
    sa nainštaluje spolu s týmto modulom. Jeho nastavenia určujú, ako sa tvorí

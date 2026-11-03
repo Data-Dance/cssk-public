@@ -48,6 +48,9 @@ registry entry. This module adds the four things it is missing:</p>
 <li>the label <strong>IČO</strong> in front of both parties' registry number, where core
    <code>l10n_sk</code> prints "ID:" (even in Slovak).</li>
 </ol>
+<p>Your own company's block in the header then reads IČ DPH, IČO and DIČ, each
+once: core <code>l10n_sk</code> adds its own IČ DPH line next to the one every Odoo
+layout already prints, and the module drops the second copy.</p>
 <p>Everything it prints appears only on documents of a company whose country is
 Slovakia, so it does no harm in a multi-company database with other
 countries.</p>
@@ -82,9 +85,11 @@ the IČ DPH and which Odoo prints already. The DIČ is not on that list; the
 module prints it because Slovak customers routinely expect to see it.</p>
 <h2 id="setup">Setting it up</h2>
 <ol>
-<li><strong>Record the customer's DIČ.</strong> On the contact, the field <strong>DIČ</strong> (added by
-   <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a>). It is not derived from the VAT
-   number.</li>
+<li><strong>Record the DIČ — the customer's and your own.</strong> On the contact, the
+   field <strong>DIČ</strong> (added by <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a>); for
+   your company, the same field on the company form (<em>Settings → Companies</em>).
+   It is not derived from the VAT number, so with the field empty the header
+   simply has no DIČ line.</li>
 <li><strong>Payment symbols.</strong> They come from
    <a href="/l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a>, which
    is installed with this module. Its settings decide how the variable symbol

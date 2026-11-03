@@ -19,6 +19,10 @@ registry entry. This module adds the four things it is missing:
 4. the label **IČO** in front of both parties' registry number, where core
    `l10n_sk` prints "ID:" (even in Slovak).
 
+Your own company's block in the header then reads IČ DPH, IČO and DIČ, each
+once: core `l10n_sk` adds its own IČ DPH line next to the one every Odoo
+layout already prints, and the module drops the second copy.
+
 Everything it prints appears only on documents of a company whose country is
 Slovakia, so it does no harm in a multi-company database with other
 countries.
@@ -57,9 +61,11 @@ module prints it because Slovak customers routinely expect to see it.
 
 ## Setting it up {#setup}
 
-1. **Record the customer's DIČ.** On the contact, the field **DIČ** (added by
-   [module:l10n_sk_base](module:l10n_sk_base)). It is not derived from the VAT
-   number.
+1. **Record the DIČ — the customer's and your own.** On the contact, the
+   field **DIČ** (added by [module:l10n_sk_base](module:l10n_sk_base)); for
+   your company, the same field on the company form (*Settings → Companies*).
+   It is not derived from the VAT number, so with the field empty the header
+   simply has no DIČ line.
 2. **Payment symbols.** They come from
    [module:l10n_cssk_payment_symbols](module:l10n_cssk_payment_symbols), which
    is installed with this module. Its settings decide how the variable symbol
