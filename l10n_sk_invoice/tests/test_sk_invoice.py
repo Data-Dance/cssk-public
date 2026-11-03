@@ -158,3 +158,8 @@ class TestSkInvoiceRegistryLabel(AccountTestInvoicingCommon):
         for registry in ("11111119", "12345679"):
             self.assertRegex(html, r"IČO:\s*<span[^>]*>\s*%s" % registry)
         self.assertNotRegex(html, r"\bID:\s*<span")
+
+    def test_supplier_vat_is_printed_once(self):
+        """Core's layout prints the company VAT; l10n_sk printed it again."""
+        self.company.with_context(no_vat_validation=True).vat = "SK2022749619"
+        self.assertEqual(self._html().count("SK2022749619"), 1)

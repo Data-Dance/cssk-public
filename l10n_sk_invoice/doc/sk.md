@@ -1,7 +1,7 @@
 ---
 title: SK faktúra (zákonné PDF)
 summary: Doplní do tlačenej slovenskej faktúry DIČ odberateľa, platobné symboly a zákonné formulácie o oslobodení od dane a prenesení daňovej povinnosti.
-verified: 19.0.1.0.5
+verified: 19.0.1.0.6
 ---
 
 ## Na čo slúži {#purpose}

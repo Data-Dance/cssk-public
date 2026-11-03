@@ -35,6 +35,11 @@
                 <t t-out="company.partner_id.company_registry_label"/>: <span t-field="company.company_registry"/>
             </li>
         </xpath>
+        <!-- Every web.external_layout_* already prints the company VAT (and
+             the fiscal position's forced VAT) in the same address list, so
+             l10n_sk's own VAT line printed "IČ DPH" twice. The folded layout
+             has no core VAT line and keeps l10n_sk's. -->
+        <xpath expr="//li[span[@t-out='company.vat']]" position="replace"/>
     </template>
     <template id="external_layout_folder_registry_label" inherit_id="l10n_sk.l10n_sk_external_layout_folder">
         <xpath expr="//div[span[@t-field='company.company_registry']]" position="replace">

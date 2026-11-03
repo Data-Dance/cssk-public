@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<templates xml:space="preserve">
+    <!-- mis_builder puts a Bootstrap dropdown caret in every cell, opening a
+         menu whose only item is "Annotate"; a caret reads as "this line
+         unfolds", and cells that cannot be annotated show a greyed one. One
+         note icon instead: it opens the annotation directly, is filled when
+         the cell has a note, and is absent where annotating is impossible.
+         `annotate` reads the cell from event.target, so the icon is the
+         clicked element itself, with no child. -->
+    <t t-inherit="mis_builder.MisReportWidget" t-inherit-mode="extension">
+        <xpath expr="//div[@id='dropdown_menu']" position="replace">
+            <a t-if="state.can_edit_annotation and cell.can_be_annotated"
+               href="#"
+               role="button"
+               title="Annotate"
+               aria-label="Annotate"
+               t-attf-class="o_mis_annotate fa #{notes[cell.cell_id] ? 'fa-comment o_mis_annotated' : 'fa-comment-o'}"
+               t-att-data-cell-id="cell.cell_id"
+               t-on-click.prevent="annotate"/>
+        </xpath>
+    </t>
+</templates>

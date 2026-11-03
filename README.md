@@ -43,7 +43,7 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-182 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+183 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
 ### Czech Republic (38)
 
@@ -125,7 +125,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_vpp` | 19.0.1.1.1 | Slovak social-insurance statement for dohody / irregular income (VPP/VPP2026) filed to the Sociálna poisťovňa — aggregate summary + per-employee annex, XML… |
 | `l10n_sk_intrastat` | 19.0.1.1.1 | INTRASTAT-SK INSTAT XML on the OCA intrastat_product engine (CE-clean). EE variant: l10n_sk_intrastat_ee. |
 | `l10n_sk_inventory_verification` | 19.0.1.1.0 | Statutory Slovak inventory verification: inventúrne súpisy (§ 30 ods. 2) and the inventarizačný zápis (§ 30 ods. 3). |
-| `l10n_sk_invoice` | 19.0.1.0.5 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
+| `l10n_sk_invoice` | 19.0.1.0.6 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
 | `l10n_sk_jcd` | 19.0.1.2.0 | Slovak import customs declaration: duty into stock value, import VAT onto the right DPH rows, deduction gated on the confirmed customs document. |
 | `l10n_sk_kv_dph` | 19.0.2.5.0 | Slovak VAT control statement (Kontrolný výkaz DPH) — sections A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared l10n_cssk_kv_kh_base framework. |
 | `l10n_sk_kv_dph_pos` | 19.0.1.0.0 | Reports the sales of Point of Sale sessions in oddiel D.1 of the Slovak kontrolný výkaz DPH (eKasa turnover) instead of D.2. |
@@ -253,7 +253,7 @@ this repository. Add them to the addons path as well:
 | `partner_autocomplete_orsf_sk_related_parties` | 19.0.2.1.0 | Pull one partner's ownership/officer graph from ORSF on demand, so related-party transactions needing transfer-pricing documentation (§ 18 ods. 1) are… |
 | `partner_nace` | 19.0.1.0.0 | The partner's main economic activity as its NACE code |
 
-### Accounting (23)
+### Accounting (24)
 
 | Module | Version | What it does |
 |---|---|---|
@@ -273,6 +273,7 @@ this repository. Add them to the addons path as well:
 | `account_move_report_signed` | 19.0.1.0.1 | Renders negative (signed) values in Account Move note PDF reports |
 | `account_mt940_base` | 19.0.1.0.0 | Shared SWIFT MT940 parser with the Czech ?NN layout of field :86: (MultiCash *.STA statements). |
 | `account_reconcile_oca_counter_account` | 19.0.1.0.0 | Put the counterparty bank account back on the OCA bank statement reconciliation screen. |
+| `mis_builder_annotation_icon` | 19.0.1.0.0 | Annotate a MIS Builder cell from a note icon instead of a dropdown caret that looks like the line could be expanded. |
 | `mis_builder_column_breakdown` | 19.0.1.1.0 | Split a MIS Builder column into one column per journal, partner, company, product or any other field, with a total. |
 | `mis_builder_kpi_details` | 19.0.1.0.0 | Unfold a MIS Builder KPI by partner, product, journal, month or any other field of the journal items, not only by account. |
 | `purchase_order_advance_invoice` | 19.0.1.2.0 | Received advance invoices (vendor proformas) with tax documents on sent payments |

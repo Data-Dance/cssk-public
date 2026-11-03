@@ -1,0 +1,21 @@
+// Copyright 2026 Data Dance s.r.o.
+// License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+.o_mis_annotate {
+    margin-left: 0.3em;
+    color: $text-muted;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.1s;
+
+    &:hover {
+        color: $link-color;
+    }
+}
+
+// Visible on the row being looked at, on keyboard focus, and always when the
+// cell already carries a note.
+tr:hover .o_mis_annotate,
+.o_mis_annotate:focus,
+.o_mis_annotate.o_mis_annotated {
+    opacity: 1;
+}

@@ -16,9 +16,25 @@ Carry-over to 18.0
   ``_l10n_sk_zero_rated_kinds`` and its tests; check 18.0's ``l10n_sk`` tax
   xmlids (``vy_eu_s`` / ``vy_eu_t``) before relying on them.
 
+- **Duplicate IČ DPH in the header (19.0.1.0.6) is owed to 18.0.** 18.0's
+  l10n_sk header block has the same VAT line next to core's; port the extra
+  xpath in ``report/report_registry_label.xml`` and
+  ``test_supplier_vat_is_printed_once``.
+
 - **IČO label (19.0.1.0.5).** DISCHARGED 2026-11-02 — do not port this
   again: ported as 18.0.1.0.2. The six "ID:" nodes print
   ``company_registry_label`` on 18.0 as well.
+
+[19.0.1.0.6] — 2026-11-03
+-------------------------
+
+Fixed
+~~~~~
+
+- The supplier's IČ DPH was printed twice in the invoice header: every
+  Odoo layout already prints the company VAT, and core l10n_sk added its own
+  line. l10n_sk's line is dropped (the folded layout, which has no core VAT
+  line, keeps it).
 
 [19.0.1.0.5] — 2026-11-02
 -------------------------
