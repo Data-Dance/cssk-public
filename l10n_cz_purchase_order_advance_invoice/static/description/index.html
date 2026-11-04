@@ -30,11 +30,11 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_cz_purchase_order_advance_invoice/static/description/index_cs.html">Čeština</a></nav>
 <h1>Received Advance Invoices — Czech Accounts</h1>
 <p class="cssk-summary">Wires the received-advance settings to the Czech chart of accounts.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../purchase_order_advance_invoice/static/description/index.html"><code>purchase_order_advance_invoice</code></a>, <code>l10n_cz</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../purchase_order_advance_invoice/static/description/index.html"><code>purchase_order_advance_invoice</code></a>, <code>l10n_cz</code></td></tr></table>
 <div class="cssk-family">This module is part of a family documented in one place. The full guide: <a href="../../../purchase_order_advance_invoice/static/description/index.html#localization"><code>purchase_order_advance_invoice</code></a></div>
-<p>Fills in the received-advance settings for every company with the Czech chart of accounts: it creates the reconcilable payable clearing account 314001 <em>Poskytnuté zálohy – zúčtování (daňový doklad)</em>, uses 314000 <em>Poskytnuté provozní zálohy</em> for paid advances, and creates the purchase journal PDADV <em>Daňové doklady k odeslaným platbám</em>. No long-term account is set.</p>
+<p>Fills in the received-advance settings for every company with the Czech chart of accounts: it creates the reconcilable payable clearing account 314001 <em>Poskytnuté zálohy – zúčtování (daňový doklad)</em> (in English <em>Advances provided – clearing (tax document)</em>), uses 314000 <em>Poskytnuté provozní zálohy</em> for paid advances, and creates the purchase journal PDADV <em>Daňové doklady k odeslaným platbám</em>. No long-term account is set.</p>
 <p>It runs at installation for the companies that already have the Czech chart, and again whenever the chart is loaded later, for example for a new company. It fills only settings that are still empty.</p>
-<footer><p>Text checked against module version: 19.0.1.0.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.0.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
