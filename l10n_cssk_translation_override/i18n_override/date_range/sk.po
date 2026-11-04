@@ -1,0 +1,378 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/models/date_range.py:0
+msgid "%(name)s is not a valid range (%(date_start)s > %(date_end)s)"
+msgstr "%(name)s nie je platné obdobie (%(date_start)s > %(date_end)s)"
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/models/date_range.py:0
+msgid "%(thisname)s overlaps %(dtname)s"
+msgstr "%(thisname)s sa prekrýva s %(dtname)s"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.date_range_generator_view_form
+msgid ""
+",\n"
+"                                or generate"
+msgstr ""
+",\n"
+"                                alebo vygenerovať"
+
+#. module: date_range
+#: model:ir.model.constraint,message:date_range.constraint_date_range_date_range_uniq
+msgid "A date range must be unique per company !"
+msgstr "Časové obdobie musí byť v rámci spoločnosti jedinečné!"
+
+#. module: date_range
+#: model:ir.model.constraint,message:date_range.constraint_date_range_type_date_range_type_uniq
+msgid "A date range type must be unique per company !"
+msgstr "Typ časového obdobia musí byť v rámci spoločnosti jedinečný!"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__allow_overlap
+msgid "Allow Overlap"
+msgstr "Povoliť prekrývanie"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_form_view
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_search
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_search
+msgid "Archived"
+msgstr "Archivovaný"
+
+#. module: date_range
+#: model:ir.actions.server,name:date_range.ir_cron_autocreate_ir_actions_server
+msgid "Auto-generate date ranges"
+msgstr "Automaticky generovať časové obdobia"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_form_view
+msgid "Auto-generation settings"
+msgstr "Nastavenia automatického generovania"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__autogeneration_count
+msgid "Autogeneration Count"
+msgstr "Počet automaticky generovaných"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__autogeneration_date_start
+msgid "Autogeneration Start Date"
+msgstr "Dátum začiatku automatického generovania"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__autogeneration_unit
+msgid "Autogeneration Unit"
+msgstr "Jednotka automatického generovania"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range__company_id
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__company_id
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__company_id
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_search
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_form_view
+msgid "Configuration"
+msgstr "Konfigurácia"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_form_view
+msgid "Create"
+msgstr "Vytvoriť"
+
+#. module: date_range
+#: model:ir.model,name:date_range.model_date_range
+msgid "Date Range"
+msgstr "Časové obdobie"
+
+#. module: date_range
+#: model:ir.model,name:date_range.model_date_range_generator
+msgid "Date Range Generator"
+msgstr "Generátor časových období"
+
+#. module: date_range
+#: model:ir.model,name:date_range.model_date_range_type
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_form_view
+msgid "Date Range Type"
+msgstr "Typ časového obdobia"
+
+#. module: date_range
+#: model:ir.actions.act_window,name:date_range.date_range_type_action
+#: model:ir.ui.menu,name:date_range.menu_date_range_type_action
+msgid "Date Range Types"
+msgstr "Typy časových období"
+
+#. module: date_range
+#: model:ir.actions.act_window,name:date_range.date_range_action
+#: model:ir.ui.menu,name:date_range.menu_date_range_action
+msgid "Date Ranges"
+msgstr "Časové obdobia"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__date_ranges_exist
+msgid "Date Ranges Exist"
+msgstr "Časové obdobia existujú"
+
+#. module: date_range
+#: model:ir.ui.menu,name:date_range.menu_date_range
+msgid "Date ranges"
+msgstr "Časové obdobia"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_form_view
+msgid "Defaults for generating date ranges"
+msgstr "Predvolené hodnoty na generovanie časových období"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range__display_name
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__display_name
+#: model:ir.model.fields,field_description:date_range.field_date_range_search_mixin__display_name
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__duration_count
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__duration_count
+msgid "Duration"
+msgstr "Obdobie"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_search
+msgid "End Date"
+msgstr "Dátum konca"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range__date_end
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__date_end
+msgid "End date"
+msgstr "Dátum konca"
+
+#. module: date_range
+#: model:ir.model.fields,help:date_range.field_date_range_generator__name_expr
+#: model:ir.model.fields,help:date_range.field_date_range_type__name_expr
+msgid ""
+"Evaluated expression. E.g. \"'FY%s' % date_start.strftime('%Y%m%d')\"\n"
+"You can use the Date types 'date_end' and 'date_start', as well as the 'index' variable."
+msgstr ""
+"Vyhodnocovaný výraz. Napr. \"'FY%s' % date_start.strftime('%Y%m%d')\"\n"
+"Môžete použiť dátumové premenné 'date_end' a 'date_start', ako aj premennú 'index'."
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_search_mixin__date_range_search_id
+msgid "Filter by period (technical field)"
+msgstr "Filtrovať podľa obdobia (technické pole)"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.date_range_generator_view_form
+msgid "Generate"
+msgstr "Generovať"
+
+#. module: date_range
+#: model:ir.actions.act_window,name:date_range.date_range_generator_action
+#: model:ir.ui.menu,name:date_range.menu_date_range_generator_action
+#: model_terms:ir.ui.view,arch_db:date_range.date_range_generator_view_form
+msgid "Generate Date Ranges"
+msgstr "Generovať časové obdobia"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_form_view
+msgid "Generation"
+msgstr "Generovanie"
+
+#. module: date_range
+#: model:ir.model.fields,help:date_range.field_date_range_type__allow_overlap
+msgid "If set, date ranges of same type must not overlap."
+msgstr "Ak je nastavené, časové obdobia rovnakého typu sa nesmú prekrývať."
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/wizard/date_range_generator.py:0
+msgid "Invalid name expression: %s"
+msgstr "Neplatný výraz názvu: %s"
+
+#. module: date_range
+#: model:ir.model,name:date_range.model_date_range_search_mixin
+msgid "Mixin class to add a Many2one style period search field"
+msgstr "Mixin trieda na pridanie vyhľadávacieho poľa obdobia v štýle Many2one"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range__name
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/wizard/date_range_generator.py:0
+msgid "No ranges to generate with these settings"
+msgstr "S týmito nastaveniami nie je čo generovať"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__count
+msgid "Number of ranges to generate"
+msgstr "Počet období na vygenerovanie"
+
+#. module: date_range
+#: model:ir.model.fields,help:date_range.field_date_range_type__autogeneration_date_start
+msgid "Only applies when there are no date ranges of this type yet"
+msgstr "Uplatní sa, len ak ešte neexistujú žiadne časové obdobia tohto typu"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.date_range_generator_view_form
+msgid "Parameters"
+msgstr "Parametre"
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/models/date_range_search_mixin.py:0
+msgid "Period"
+msgstr "Obdobie"
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/wizard/date_range_generator.py:0
+msgid "Please enter an end date, or the number of ranges to generate."
+msgstr "Zadajte dátum ukončenia alebo počet období na vygenerovanie."
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/wizard/date_range_generator.py:0
+msgid "Please set a prefix or an expression to generate the range names."
+msgstr "Na vygenerovanie názvov období nastavte predponu alebo výraz."
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__range_name_preview
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__range_name_preview
+msgid "Range Name Preview"
+msgstr "Ukážka názvu obdobia"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__name_expr
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__name_expr
+msgid "Range name expression"
+msgstr "Výraz názvu obdobia"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__name_prefix
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__name_prefix
+msgid "Range name prefix"
+msgstr "Predpona názvu obdobia"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__date_range_ids
+msgid "Ranges"
+msgstr "Obdobia"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_search
+msgid "Start Date"
+msgstr "Dátum začiatku"
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range__date_start
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__date_start
+msgid "Start date"
+msgstr "Dátum začiatku"
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/wizard/date_range_generator.py:0
+msgid ""
+"The Company in the Date Range Generator and in Date Range Type must be the "
+"same."
+msgstr ""
+"Spoločnosť v generátore časových období a v type časového obdobia musí byť "
+"rovnaká."
+
+#. module: date_range
+#: model:ir.model.fields,help:date_range.field_date_range_type__active
+msgid ""
+"The active field allows you to hide the date range type without removing it."
+msgstr ""
+"Pole Aktívne umožňuje skryť typ časového obdobia bez jeho odstránenia."
+
+#. module: date_range
+#: model:ir.model.fields,help:date_range.field_date_range__active
+msgid ""
+"The active field allows you to hide the date range without removing it."
+msgstr "Pole Aktívne umožňuje skryť časové obdobie bez jeho odstránenia."
+
+#. module: date_range
+#: model:ir.model.fields,field_description:date_range.field_date_range_generator__unit_of_time
+#: model:ir.model.fields,field_description:date_range.field_date_range_type__unit_of_time
+msgid "Unit Of Time"
+msgstr "Časová jednotka"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.date_range_generator_view_form
+msgid "Until"
+msgstr "Do"
+
+#. module: date_range
+#. odoo-python
+#: code:addons/date_range/models/date_range_type.py:0
+msgid ""
+"You cannot change the company, as this Date Range Type is assigned to Date "
+"Range '%s'."
+msgstr ""
+"Spoločnosť nemôžete zmeniť, pretože tento typ časového obdobia je priradený "
+"k časovému obdobiu „%s“."
+
+#. module: date_range
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_generator__unit_of_time__3
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_type__autogeneration_unit__3
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_type__unit_of_time__3
+msgid "days"
+msgstr "dni"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.date_range_generator_view_form
+msgid "entries."
+msgstr "záznamov."
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_form_view
+msgid "in advance"
+msgstr "vopred"
+
+#. module: date_range
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_generator__unit_of_time__1
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_type__autogeneration_unit__1
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_type__unit_of_time__1
+msgid "months"
+msgstr "mesiace"
+
+#. module: date_range
+#: model_terms:ir.ui.view,arch_db:date_range.date_range_generator_view_form
+#: model_terms:ir.ui.view,arch_db:date_range.view_date_range_type_form_view
+msgid "or enter a complex expression below"
+msgstr "alebo nižšie zadajte zložitý výraz"
+
+#. module: date_range
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_generator__unit_of_time__2
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_type__autogeneration_unit__2
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_type__unit_of_time__2
+msgid "weeks"
+msgstr "týždne"
+
+#. module: date_range
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_generator__unit_of_time__0
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_type__autogeneration_unit__0
+#: model:ir.model.fields.selection,name:date_range.selection__date_range_type__unit_of_time__0
+msgid "years"
+msgstr "roky"

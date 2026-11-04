@@ -1,0 +1,840 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__account_id
+msgid "Account"
+msgstr "Účet"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__dest_account
+msgid ""
+"Account code pattern for the mapping destination account. Only the first "
+"match will be considered. If this field is not filled, the performed "
+"operation will be to remove any existing balance on the source accounts with"
+" an equivalent counterpart in the same account."
+msgstr ""
+"Vzor kódu účtu pre cieľový účet mapovania. Zohľadní sa iba prvá zhoda. Ak "
+"toto pole nie je vyplnené, vykonanou operáciou bude odstránenie existujúceho"
+" zostatku na zdrojových účtoch rovnakou protipoložkou na tom istom účte."
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__src_accounts
+msgid "Account code pattern for the mapping source accounts"
+msgstr "Vzor kódu účtu pre zdrojové účty mapovania"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_abstract
+msgid "Account fiscalyear closing abstract"
+msgstr "Abstraktná uzávierka účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_config_abstract
+msgid "Account fiscalyear closing config abstract"
+msgstr "Abstraktná konfigurácia uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_mapping_abstract
+msgid "Account fiscalyear closing mapping abstract"
+msgstr "Abstraktné mapovanie uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_type_abstract
+msgid "Account fiscalyear closing type abstract"
+msgstr "Abstraktný typ uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_unbalanced_move
+msgid "Account fiscalyear closing unbalanced move"
+msgstr "Nevyrovnaný záznam uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_unbalanced_move_line
+msgid "Account fiscalyear closing unbalanced move line"
+msgstr "Riadok nevyrovnaného záznamu uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__mapping_ids
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__mapping_ids
+msgid "Account mappings"
+msgstr "Mapovania účtov"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_template_form
+msgid "Accounts closing types"
+msgstr "Typy uzávierky účtov"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_template_form
+msgid "Accounts mapping"
+msgstr "Mapovanie účtov"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__chart_template
+msgid "Available for"
+msgstr "Dostupné pre"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config__closing_type_default__balance
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_abstract__closing_type_default__balance
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_template__closing_type_default__balance
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__closing_type__balance
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__closing_type__balance
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__closing_type__balance
+msgid "Balance"
+msgstr "Zostatok"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__asset_cash
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__asset_cash
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__asset_cash
+msgid "Bank and Cash"
+msgstr "Banka a hotovosť"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+msgid "Calculate"
+msgstr "Vypočítať"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__calculation_date
+msgid "Calculation date"
+msgstr "Dátum výpočtu"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing__state__cancelled
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_search
+msgid "Cancelled"
+msgstr "Zrušené"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__chart_template
+msgid "Chart Template"
+msgstr "Účtovná osnova"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__check_draft_moves
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_abstract__check_draft_moves
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__check_draft_moves
+msgid "Check draft moves"
+msgstr "Kontrolovať návrhy záznamov"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing__check_draft_moves
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing_abstract__check_draft_moves
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing_template__check_draft_moves
+msgid ""
+"Checks that there are no draft moves on the fiscal year that is being "
+"closed. Non-confirmed moves won't be taken in account on the closing "
+"operations."
+msgstr ""
+"Skontroluje, či v uzatváranom účtovnom období nie sú žiadne návrhy záznamov."
+" Nepotvrdené záznamy sa pri uzávierkových operáciách nezohľadnia."
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_unbalanced_move_form
+msgid "Close"
+msgstr "Zatvoriť"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config__move_type__closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_abstract__move_type__closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_template__move_type__closing
+msgid "Closing"
+msgstr "Uzávierka"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_bank_statement_line__closing_type
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_move__closing_type
+msgid "Closing Type"
+msgstr "Typ uzávierky"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__closing_template_id
+msgid "Closing template"
+msgstr "Šablóna uzávierky"
+
+#. module: account_fiscal_year_closing
+#: model:ir.actions.act_window,name:account_fiscal_year_closing.action_account_fiscalyear_closing_template
+#: model:ir.ui.menu,name:account_fiscal_year_closing.menu_account_fiscalyear_closing_template
+msgid "Closing templates"
+msgstr "Šablóny uzávierky"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_move_filter
+msgid "Closing type"
+msgstr "Typ uzávierky"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__closing_type_ids
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__closing_type_ids
+msgid "Closing types"
+msgstr "Typy uzávierky"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.constraint,message:account_fiscal_year_closing.constraint_account_fiscalyear_closing_config_code_uniq
+#: model:ir.model.constraint,message:account_fiscal_year_closing.constraint_account_fiscalyear_closing_config_template_code_uniq
+msgid "Code must be unique per fiscal year closing!"
+msgstr "Kód musí byť v rámci uzávierky účtovného obdobia jedinečný!"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__company_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_abstract__company_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__company_id
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_search
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing_config__inverse
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__inverse
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__inverse
+msgid "Configuration code to inverse its move"
+msgstr "Kód konfigurácie, ktorej záznam sa má stornovať"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+msgid "Confirm and post moves"
+msgstr "Potvrdiť a zaúčtovať záznamy"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__expense_direct_cost
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__expense_direct_cost
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__expense_direct_cost
+msgid "Cost of Revenue"
+msgstr "Náklady tržieb"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_template__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__create_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_template__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__create_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__create_date
+msgid "Created on"
+msgstr "Vytvorené"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__credit
+msgid "Credit"
+msgstr "Dal"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__liability_credit_card
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__liability_credit_card
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__liability_credit_card
+msgid "Credit Card"
+msgstr "Kreditná karta"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__asset_current
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__asset_current
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__asset_current
+msgid "Current Assets"
+msgstr "Obežný majetok"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__liability_current
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__liability_current
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__liability_current
+msgid "Current Liabilities"
+msgstr "Aktuálne záväzky"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__equity_unaffected
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__equity_unaffected
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__equity_unaffected
+msgid "Current Year Earnings"
+msgstr "Aktuálny ročný zisk"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__date
+msgid "Date"
+msgstr "Dátum"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__debit
+msgid "Debit"
+msgstr "Má dať"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__closing_type_default
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__closing_type_default
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__closing_type_default
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type__closing_type
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_abstract__closing_type
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_template__closing_type
+msgid "Default closing type"
+msgstr "Predvolený typ uzávierky"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__expense_depreciation
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__expense_depreciation
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__expense_depreciation
+msgid "Depreciation"
+msgstr "Odpis"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_abstract__name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_abstract__name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__name
+msgid "Description"
+msgstr "Popis"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__dest_account_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__dest_account
+msgid "Destination account"
+msgstr "Cieľový účet"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_abstract__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_abstract__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_abstract__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_template__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__display_name
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_move__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing__state__draft
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_search
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__enabled
+msgid "Enabled"
+msgstr "Povolený"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__equity
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__equity
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__equity
+msgid "Equity"
+msgstr "Vlastný imanie"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__expense
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__expense
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__expense
+msgid "Expenses"
+msgstr "Výdavky"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_template__move_date__first_opening
+msgid "First date of the opening period"
+msgstr "Prvý deň otváracieho obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__fyc_id
+#: model:ir.ui.menu,name:account_fiscal_year_closing.menu_account_fiscalyear_closing_configuration
+msgid "Fiscal Year Closing"
+msgstr "Uzávierka účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__template_id
+msgid "Fiscal Year Closing Template"
+msgstr "Šablóna uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+msgid "Fiscal closing"
+msgstr "Účtovná uzávierka"
+
+#. module: account_fiscal_year_closing
+#. odoo-python
+#: code:addons/account_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "Fiscal closing move lines"
+msgstr "Riadky uzávierkových záznamov"
+
+#. module: account_fiscal_year_closing
+#. odoo-python
+#: code:addons/account_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "Fiscal closing moves"
+msgstr "Uzávierkové záznamy"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_bank_statement_line__fyc_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_move__fyc_id
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_search
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_template_form
+msgid "Fiscal year closing"
+msgstr "Uzávierka účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__fyc_config_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type__fyc_config_id
+msgid "Fiscal year closing config"
+msgstr "Konfigurácia uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__template_config_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_template__template_config_id
+msgid "Fiscal year closing config template"
+msgstr "Šablóna konfigurácie uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_config
+msgid "Fiscal year closing configuration"
+msgstr "Nastavenie uzávierky účtovného roka"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_config_template
+msgid "Fiscal year closing configuration template"
+msgstr "Šablóna konfigurácie uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_mapping
+msgid "Fiscal year closing mapping"
+msgstr "Mapovanie uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_mapping_template
+msgid "Fiscal year closing mapping template"
+msgstr "Šablóna mapovania uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_template
+msgid "Fiscal year closing template"
+msgstr "Šablóna uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_type
+msgid "Fiscal year closing type"
+msgstr "Typ uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_fiscalyear_closing_type_template
+msgid "Fiscal year closing type template"
+msgstr "Šablóna typu uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.actions.act_window,name:account_fiscal_year_closing.action_account_fiscalyear_closing
+#: model:ir.ui.menu,name:account_fiscal_year_closing.menu_account_fiscalyear_closing
+msgid "Fiscal year closings"
+msgstr "Uzávierky účtovného obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__asset_fixed
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__asset_fixed
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__asset_fixed
+msgid "Fixed Assets"
+msgstr "Hmotný majetok"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__date_start
+msgid "From date"
+msgstr "Od dátumu"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_unbalanced_move_form
+msgid ""
+"Generating the closing moves, an unbalanced move has been detected.\n"
+"                        You need to check the closing configuration or your journal entries\n"
+"                        to find the problem, fix it and then press again on \"Calculate\"."
+msgstr ""
+"Pri generovaní uzávierkových záznamov bol zistený nevyrovnaný záznam.\n"
+"                        Skontrolujte konfiguráciu uzávierky alebo účtovné záznamy,\n"
+"                        nájdite problém, opravte ho a potom znova stlačte „Vypočítať“."
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_search
+msgid "In process"
+msgstr "V spracovaní"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__income
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__income
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__income
+msgid "Income"
+msgstr "Príjem"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,help:account_fiscal_year_closing.field_account_fiscalyear_closing__year
+msgid ""
+"Introduce here the year to close. If the fiscal year is between several "
+"natural years, you have to put here the last one."
+msgstr ""
+"Zadajte rok, ktorý sa má uzavrieť. Ak účtovné obdobie zasahuje do viacerých "
+"kalendárnych rokov, zadajte posledný z nich."
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__inverse
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__inverse
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__inverse
+msgid "Inverse config"
+msgstr "Stornovacia konfigurácia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__journal_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__journal_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__journal_id
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__journal_id
+msgid "Journal"
+msgstr "Denník"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model,name:account_fiscal_year_closing.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný záznam"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_template__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__write_uid
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravoval"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_template__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__write_date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravované"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_template__move_date__last_ending
+msgid "Last date of the ending period"
+msgstr "Posledný deň končiaceho obdobia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config__move_type__loss_profit
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_abstract__move_type__loss_profit
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_template__move_type__loss_profit
+msgid "Loss & Profit"
+msgstr "Zisk a strata"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__move_id
+msgid "Move"
+msgstr "Účtovný zápis"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__date
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__move_date
+msgid "Move date"
+msgstr "Dátum záznamu"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__move_type
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__move_type
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__move_type
+msgid "Move type"
+msgstr "Typ záznamu"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__move_ids
+msgid "Moves"
+msgstr "Účtovné zápisy"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__move_config_ids
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_template__move_config_ids
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_template_form
+msgid "Moves configuration"
+msgstr "Konfigurácia záznamov"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: account_fiscal_year_closing
+#. odoo-python
+#: code:addons/account_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "No destination account '%s' found."
+msgstr "Cieľový účet „%s“ sa nenašiel."
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__asset_non_current
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__asset_non_current
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__asset_non_current
+msgid "Non-current Assets"
+msgstr "Dlhodobý majetok"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__liability_non_current
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__liability_non_current
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__liability_non_current
+msgid "Non-current Liabilities"
+msgstr "Dlhodobé záväzky"
+
+#. module: account_fiscal_year_closing
+#. odoo-python
+#: code:addons/account_fiscal_year_closing/models/account_move.py:0
+msgid "None"
+msgstr "Žiadne"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__off_balance
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__off_balance
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__off_balance
+msgid "Off-Balance Sheet"
+msgstr "Podsúvaha"
+
+#. module: account_fiscal_year_closing
+#. odoo-python
+#: code:addons/account_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "One or more draft moves found: \n"
+msgstr "Našiel sa jeden alebo viac návrhov záznamov: \n"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config__move_type__opening
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_abstract__move_type__opening
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_template__move_type__opening
+msgid "Opening"
+msgstr "Počiatočný stav"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__date_opening
+msgid "Opening date"
+msgstr "Dátum otvorenia"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config__move_type__other
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_abstract__move_type__other
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_template__move_type__other
+msgid "Other"
+msgstr "Iné"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__income_other
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__income_other
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__income_other
+msgid "Other Income"
+msgstr "Iný príjem"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__liability_payable
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__liability_payable
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__liability_payable
+msgid "Payable"
+msgstr "Záväzok"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing__state__posted
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_search
+msgid "Posted"
+msgstr "Zaúčtované"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__asset_prepayments
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__asset_prepayments
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__asset_prepayments
+msgid "Prepayments"
+msgstr "Predplatby"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing__state__calculated
+msgid "Processed"
+msgstr "Spracované"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+msgid "Recalculate"
+msgstr "Prepočítať"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__account_type__asset_receivable
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__account_type__asset_receivable
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__account_type__asset_receivable
+msgid "Receivable"
+msgstr "Pohľadávka"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__ref
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: account_fiscal_year_closing
+#. odoo-python
+#: code:addons/account_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "Result"
+msgstr "Výsledok"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__sequence
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__sequence
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+msgid "Show move lines"
+msgstr "Zobraziť riadky záznamov"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+msgid "Show moves"
+msgstr "Zobraziť záznamy"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping__src_accounts
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_mapping_template__src_accounts
+msgid "Source accounts"
+msgstr "Zdrojové účty"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__state
+msgid "State"
+msgstr "Stav"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.constraint,message:account_fiscal_year_closing.constraint_account_fiscalyear_closing_year_company_uniq
+msgid ""
+"There should be only one fiscal year closing for that year and company!"
+msgstr ""
+"Pre daný rok a spoločnosť môže existovať iba jedna uzávierka účtovného "
+"obdobia!"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_unbalanced_move_form
+msgid ""
+"This screen will help you to identify the problem, showing you\n"
+"                        the unbalanced journal entry:"
+msgstr ""
+"Táto obrazovka vám pomôže identifikovať problém tým, že zobrazí\n"
+"                        nevyrovnaný účtovný záznam:"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_form
+msgid ""
+"This will remove all the closing moves. Are you sure you want to continue?"
+msgstr ""
+"Týmto sa odstránia všetky uzávierkové záznamy. Naozaj chcete pokračovať?"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__date_end
+msgid "To date"
+msgstr "Do dátumu"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_unbalanced_move_form
+msgid "Total credit"
+msgstr "Spolu Dal"
+
+#. module: account_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:account_fiscal_year_closing.view_account_fiscalyear_closing_unbalanced_move_form
+msgid "Total debit"
+msgstr "Spolu Má dať"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type__account_type
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_abstract__account_type
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_type_template__account_type
+msgid "Type"
+msgstr "Typ"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config__closing_type_default__unreconciled
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_abstract__closing_type_default__unreconciled
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_config_template__closing_type_default__unreconciled
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type__closing_type__unreconciled
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_abstract__closing_type__unreconciled
+#: model:ir.model.fields.selection,name:account_fiscal_year_closing.selection__account_fiscalyear_closing_type_template__closing_type__unreconciled
+msgid "Un-reconciled"
+msgstr "Nespárované"
+
+#. module: account_fiscal_year_closing
+#. odoo-python
+#: code:addons/account_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "Unbalanced journal entry found"
+msgstr "Našiel sa nevyrovnaný účtovný záznam"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move_line__move_id
+msgid "Unbalanced move"
+msgstr "Nevyrovnaný záznam"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_unbalanced_move__line_ids
+msgid "Unbalanced move lines"
+msgstr "Riadky nevyrovnaného záznamu"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config__code
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_abstract__code
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing_config_template__code
+msgid "Unique code"
+msgstr "Jedinečný kód"
+
+#. module: account_fiscal_year_closing
+#: model:ir.model.fields,field_description:account_fiscal_year_closing.field_account_fiscalyear_closing__year
+msgid "Year"
+msgstr "Rok"
+
+#. module: account_fiscal_year_closing
+#. odoo-python
+#: code:addons/account_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "You can't remove any closing that is not in draft or cancelled state."
+msgstr ""
+"Nie je možné odstrániť uzávierku, ktorá nie je v stave návrh alebo zrušené."

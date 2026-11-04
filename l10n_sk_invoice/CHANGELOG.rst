@@ -8,6 +8,18 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **The module no longer installs on an Odoo 19.0 newer than 2026-10-14.**
+  ``vat_registry_tax_id_external_layout_label`` removed ``l10n_sk``'s duplicate
+  supplier VAT line with ``<xpath expr="//li[span[@t-out='company.vat']]">``.
+  Odoo removed that line itself in 135758684, so the xpath matched nothing and
+  the install died with *Element ... cannot be located in parent view*. The
+  xpath is gone; upstream does the job now. On an Odoo 19.0 older than that
+  commit the supplier VAT prints twice again — update Odoo rather than
+  restoring the xpath, which breaks every current build.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

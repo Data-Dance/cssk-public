@@ -1,12 +1,12 @@
 ---
 title: Připomínka vypršující převedené dovolené (CZ/SK)
-summary: Denní připomínka zaměstnancům, že převedená dovolená, jejíž platnost akruální plán brzy ukončí, vyprší — jako aktivita a e-mail.
+summary: Denní připomínka zaměstnancům, že převedená dovolená, jejíž platnost plán nároků brzy ukončí, vyprší — jako aktivita a e-mail.
 verified: 19.0.1.1.0
 ---
 
 ## K čemu slouží {#purpose}
 
-Akruální plán v Odoo může převádět nevyčerpanou dovolenou do dalšího roku a
+Plán nároků v Odoo může převádět nevyčerpanou dovolenou do dalšího roku a
 převedené dny nechat k určitému datu vypršet. Slovenské plány dovolené
 mzdových modulů to dělají na konci následujícího roku; české plány dovolenou
 převádějí bez vypršení. Odoo to ukazuje jen pasivně, na přehledu aplikace
@@ -15,13 +15,13 @@ dovolenou, která brzy vyprší, a aktivitou a e-mailem sdělí zaměstnanci, o 
 dní jde a do kdy. Schvalující volno nebo nadřízený dostane vlastní aktivitu.
 
 Závisí jen na aplikaci Odoo *Volno* (`hr_holidays`), takže funguje s každým
-akruálním plánem, ve kterém převedené dny vyprší, s kterýmkoli mzdovým jádrem
+plánem nároků, ve kterém převedené dny vyprší, s kterýmkoli mzdovým jádrem
 i úplně bez mezd.
 
 ## Právní rámec {#legal}
 
 Ani v jedné zemi nevyčerpaná dovolená koncem následujícího roku nepropadá.
-Vyprší převedený zůstatek v Odoo podle nastavení akruálního plánu. Zákon
+Vyprší převedený zůstatek v Odoo podle nastavení plánu nároků. Zákon
 naopak ukládá zaměstnavateli, aby byla dovolená vyčerpána:
 
 - **Česká republika.** Nemůže-li být dovolená vyčerpána v roce, ve kterém na
@@ -46,7 +46,7 @@ naopak ukládá zaměstnavateli, aby byla dovolená vyčerpána:
 Připomínka je tedy výzvou naplánovat dovolenou před lhůtou, kterou musí
 dodržet zaměstnavatel. Žádá zaměstnance, aby se s vedoucím domluvil, kdy
 dovolenou vyčerpá, a uvádí, že podle zákoníku práce dovolená nepropadá; datum
-v ní je den, kdy akruální plán dny odebere ze zůstatku v Odoo.
+v ní je den, kdy plán nároků dny odebere ze zůstatku v Odoo.
 
 ## Nastavení {#setup}
 
@@ -72,7 +72,7 @@ nadřízeného s uživatelem.
 
 Plánovaná akce každý den vezme alokace ve stavu *Schváleno*, *Ke
 schválení* nebo *Druhé schválení*, jejichž převedené dny vyprší mezi dneškem a dneškem plus předstih
-(výchozí 60 dní). Alokace akruálního plánu, který převod nepovoluje, se
+(výchozí 60 dní). Přidělení podle plánu nároků, který převod nepovoluje, se
 vynechají: jde o roční limity typu „vyčerpej, nebo propadne“, například
 slovenské dny na lékařské vyšetření či doprovod, ve kterých se nic
 nepřevádí.
@@ -113,7 +113,7 @@ nedostanou.
 
 - **Jedna připomínka na jedno vypršení.** Jakmile byla připomínka doručena,
   druhá blíže k termínu nepřijde.
-- Připomínka je jen tak dobrá jako akruální plán: alokace bez akruálního plánu
+- Připomínka je jen tak dobrá jako plán nároků: přidělení bez plánu nároků
   nebo plán bez vypršení převedených dní ji nikdy nedostane.
 - Odesílatelem e-mailu je e-mail společnosti typu volna, a nemá-li typ volna
   společnost, uživatel plánované akce.

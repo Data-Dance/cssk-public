@@ -1,7 +1,7 @@
 ---
 title: Received Advance Invoices (Purchase)
 summary: Suppliers' advance (proforma) invoices as purchase documents, the payment to them, the supplier's tax document on that payment and the deduction on the final bill.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## What it is for {#purpose}

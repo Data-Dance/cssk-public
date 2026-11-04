@@ -1,0 +1,462 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "# of chars"
+msgstr "Počet znaků"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account_chars
+msgid "# of digits for customer bank account"
+msgstr "Počet číslic bankovního účtu zákazníka"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.report_invoice_payment_mode
+msgid "<strong>Bank Account:</strong>"
+msgstr "<strong>Bankovní účet:</strong>"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.report_invoice_payment_mode
+msgid "<strong>Payment Mode:</strong>"
+msgstr "<strong>Způsob platby:</strong>"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_line__bank_account_required
+#: model:ir.model.fields,help:account_payment_mode.field_account_move__bank_account_required
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__bank_account_required
+msgid ""
+"Activate this option if this payment method requires you to know the bank "
+"account number of your customer or supplier."
+msgstr ""
+"Aktivujte tuto možnost, pokud tato platební metoda vyžaduje znalost čísla "
+"bankovního účtu zákazníka nebo dodavatele."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__active
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__active
+msgid "Active"
+msgstr "Aktivní"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__variable_journal_ids
+msgid "Allowed Bank Journals"
+msgstr "Povolené bankovní deníky"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_form
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "Archived"
+msgstr "Archivováno"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__bank_account_required
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__bank_account_required
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__bank_account_required
+msgid "Bank Account Required"
+msgstr "Vyžadován bankovní účet"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account_from_journal
+msgid "Bank account from journals"
+msgstr "Bankovní účet z deníků"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__code
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_code
+msgid "Code (Do Not Modify)"
+msgstr "Kód (neměnit)"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_users__customer_payment_mode_id
+msgid "Customer Payment Mode"
+msgstr "Způsob platby zákazníka"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_journal__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__display_name
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__first
+msgid "First n chars"
+msgstr "Prvních n znaků"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__fixed
+msgid "Fixed"
+msgstr "Pevná"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__fixed_journal_id
+msgid "Fixed Bank Journal"
+msgstr "Pevný bankovní deník"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__bank_account_link
+msgid ""
+"For payment modes that are always attached to the same bank account of your "
+"company (such as wire transfer from customers or SEPA direct debit from "
+"suppliers), select 'Fixed'. For payment modes that are not always attached "
+"to the same bank account (such as SEPA Direct debit for customers, wire "
+"transfer to suppliers), you should select 'Variable', which means that you "
+"will select the bank account on the payment order. If your company only has "
+"one bank account, you should always select 'Fixed'."
+msgstr ""
+"U způsobů platby, které jsou vždy vázány na stejný bankovní účet vaší "
+"společnosti (např. převod od zákazníků nebo inkaso SEPA od dodavatelů), "
+"zvolte „Pevný“. U způsobů platby, které nejsou vždy vázány na stejný "
+"bankovní účet (např. inkaso SEPA od zákazníků nebo převod dodavatelům), "
+"zvolte „Proměnný“, což znamená, že bankovní účet vyberete na platebním "
+"příkazu. Pokud má vaše společnost pouze jeden bankovní účet, zvolte vždy "
+"„Pevný“."
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__full
+msgid "Full"
+msgstr "Úplný"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__has_reconciled_items
+msgid "Has Reconciled Items"
+msgstr "Má spárované položky"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+msgid "Inbound"
+msgstr "Příchozí"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_invoice_report
+msgid "Invoices Statistics"
+msgstr "Statistiky faktur"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_journal
+msgid "Journal"
+msgstr "Deník"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_move
+msgid "Journal Entry"
+msgstr "Účetní záznam"
+
+#. module: account_payment_mode
+#: model:ir.model,name:account_payment_mode.model_account_move_line
+msgid "Journal Item"
+msgstr "Účetní položka"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__last
+msgid "Last n chars"
+msgstr "Posledních n znaků"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__bank_account_link
+msgid "Link to Bank Account"
+msgstr "Vazba na bankovní účet"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__name
+msgid "Name"
+msgstr "Název"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+msgid "Name or Code"
+msgstr "Název nebo kód"
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__show_bank_account__no
+msgid "No"
+msgstr "Ne"
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/tests/test_account_payment_partner.py:0
+msgid "No Chart of Account Template has been defined !"
+msgstr "Nebyla definována žádná šablona účtového rozvrhu!"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__note
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "Note"
+msgstr "Poznámka"
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"On the payment mode %(name)s, the bank account link is 'Fixed' but the fixed"
+" bank journal is not set"
+msgstr ""
+"U způsobu platby %(name)s je vazba na bankovní účet „Pevný“, ale pevný "
+"bankovní deník není nastaven"
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s (it is "
+"in fact a debit method), but this debit method is not part of the debit "
+"methods of the fixed bank journal %(journal)s"
+msgstr ""
+"U způsobu platby %(paymode)s je platební metoda %(paymethod)s (ve "
+"skutečnosti jde o inkasní metodu), ale tato inkasní metoda nepatří mezi "
+"inkasní metody pevného bankovního deníku %(journal)s"
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"On the payment mode %(paymode)s, the payment method is %(paymethod)s, but "
+"this payment method is not part of the payment methods of the fixed bank "
+"journal %(journal)s"
+msgstr ""
+"U způsobu platby %(paymode)s je platební metoda %(paymethod)s, ale tato "
+"platební metoda nepatří mezi platební metody pevného bankovního deníku "
+"%(journal)s"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+msgid "Outbound"
+msgstr "Odchozí"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__partner_bank_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__partner_bank_filter_type_domain
+msgid "Partner Bank Filter Type Domain"
+msgstr "Doména filtru typu bankovního účtu partnera"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_method_id
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_search
+msgid "Payment Method"
+msgstr "Platební metoda"
+
+#. module: account_payment_mode
+#: model:ir.actions.act_window,name:account_payment_mode.account_payment_method_action
+#: model:ir.model,name:account_payment_mode.model_account_payment_method
+#: model:ir.ui.menu,name:account_payment_mode.account_payment_method_menu
+msgid "Payment Methods"
+msgstr "Platební metody"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move_line__payment_mode_id
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_account_invoice_filter
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_account_invoice_report_search
+msgid "Payment Mode"
+msgstr "Způsob platby"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_bank_statement_line__payment_mode_filter_type_domain
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_move__payment_mode_filter_type_domain
+msgid "Payment Mode Filter Type Domain"
+msgstr "Doména filtru typu způsobu platby"
+
+#. module: account_payment_mode
+#: model:ir.actions.act_window,name:account_payment_mode.account_payment_mode_action
+#: model:ir.model,name:account_payment_mode.model_account_payment_mode
+#: model:ir.ui.menu,name:account_payment_mode.account_payment_mode_menu
+msgid "Payment Modes"
+msgstr "Způsoby platby"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__payment_type
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_method_search
+msgid "Payment Type"
+msgstr "Typ platby"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_invoice_report__payment_mode_id
+msgid "Payment mode"
+msgstr "Způsob platby"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__refund_payment_mode_id
+msgid "Payment mode for refunds"
+msgstr "Způsob platby pro dobropisy"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_method__payment_mode_ids
+msgid "Payment modes"
+msgstr "Způsoby platby"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.view_move_line_form
+msgid "Payments"
+msgstr "Platby"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_partner__customer_payment_mode_id
+#: model:ir.model.fields,help:account_payment_mode.field_res_users__customer_payment_mode_id
+msgid "Select the default payment mode for this customer."
+msgstr "Vyberte výchozí způsob platby pro tohoto zákazníka."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,help:account_payment_mode.field_res_users__supplier_payment_mode_id
+msgid "Select the default payment mode for this supplier."
+msgstr "Vyberte výchozí způsob platby pro tohoto dodavatele."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__sequence
+msgid "Sequence"
+msgstr "Sekvence"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_account_payment_mode__show_bank_account
+msgid "Show Bank Account"
+msgstr "Zobrazit bankovní účet"
+
+#. module: account_payment_mode
+#: model_terms:ir.ui.view,arch_db:account_payment_mode.account_payment_mode_form
+msgid "Show bank account in invoice report"
+msgstr "Zobrazit bankovní účet na tisku faktury"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__show_bank_account
+msgid "Show in invoices partial or full bank account number"
+msgstr "Zobrazit na fakturách částečné nebo úplné číslo bankovního účtu"
+
+#. module: account_payment_mode
+#: model:res.groups,name:account_payment_mode.group_show_account_payment_method
+msgid "Show the default payment method line in contacts"
+msgstr "Zobrazit výchozí řádek platební metody v kontaktech"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_partner__supplier_payment_mode_id
+#: model:ir.model.fields,field_description:account_payment_mode.field_res_users__supplier_payment_mode_id
+msgid "Supplier Payment Mode"
+msgstr "Způsob platby dodavatele"
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_bank_statement_line__has_reconciled_items
+#: model:ir.model.fields,help:account_payment_mode.field_account_move__has_reconciled_items
+msgid "Technical field for supporting the editability of the payment mode"
+msgstr "Technické pole pro podporu editovatelnosti způsobu platby"
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_journal.py:0
+msgid ""
+"The company of the journal  %(journal)s does not match with the company of "
+"the payment mode  %(paymode)s where it is being used in the Allowed Bank "
+"Journals."
+msgstr ""
+"Společnost deníku  %(journal)s neodpovídá společnosti způsobu platby  "
+"%(paymode)s, u kterého je uveden v povolených bankovních denících."
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_journal.py:0
+msgid ""
+"The company of the journal %(journal)s does not match with the company of "
+"the payment mode %(paymode)s where it is being used as Fixed Bank Journal."
+msgstr ""
+"Společnost deníku %(journal)s neodpovídá společnosti způsobu platby "
+"%(paymode)s, u kterého je použit jako pevný bankovní deník."
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"The company of the payment mode %(paymode)s, does not match with one of the "
+"Allowed Bank Journals."
+msgstr ""
+"Společnost způsobu platby %(paymode)s neodpovídá žádnému z povolených "
+"bankovních deníků."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_method__code
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__payment_method_code
+msgid ""
+"This code is used in the code of the Odoo module that handles this payment "
+"method. Therefore, if you change it, the generation of the payment file may "
+"fail."
+msgstr ""
+"Tento kód se používá v kódu modulu Odoo, který obsluhuje tuto platební "
+"metodu. Pokud jej změníte, generování platebního souboru může selhat."
+
+#. module: account_payment_mode
+#: model:ir.model.fields,help:account_payment_mode.field_account_payment_mode__refund_payment_mode_id
+msgid ""
+"This payment mode will be used when doing refunds coming from the current "
+"payment mode."
+msgstr ""
+"Tento způsob platby se použije při vracení plateb (dobropisech) vzniklých z "
+"aktuálního způsobu platby."
+
+#. module: account_payment_mode
+#: model:ir.model.fields.selection,name:account_payment_mode.selection__account_payment_mode__bank_account_link__variable
+msgid "Variable"
+msgstr "Proměnný"
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"You cannot change the Company. There exists at least one Journal Entry with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
+"Společnost nelze změnit. Existuje alespoň jeden účetní záznam s tímto "
+"způsobem platby, který je již přiřazen jiné společnosti."
+
+#. module: account_payment_mode
+#. odoo-python
+#: code:addons/account_payment_mode/models/account_payment_mode.py:0
+msgid ""
+"You cannot change the Company. There exists at least one Journal Item with "
+"this Payment Mode, already assigned to another Company."
+msgstr ""
+"Společnost nelze změnit. Existuje alespoň jedna účetní položka s tímto "
+"způsobem platby, která je již přiřazena jiné společnosti."

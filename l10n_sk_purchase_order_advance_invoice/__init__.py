@@ -14,7 +14,10 @@ SK_SPEC = {
     "create_accounts": [
         {
             "code": "314001",
-            "name": "Poskytnuté preddavky – zúčtovanie (daňový doklad)",
+            "name": {
+                "en_US": "Advances granted – clearing (tax document)",
+                "sk_SK": "Poskytnuté preddavky – zúčtovanie (daňový doklad)",
+            },
             "account_type": "liability_payable",
             "reconcile": True,
         },

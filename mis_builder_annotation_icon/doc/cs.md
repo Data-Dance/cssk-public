@@ -2,6 +2,7 @@
 title: MIS Builder – ikona poznámky
 summary: Poznámka k buňce výkazu MIS Builder se přidává přes ikonu poznámky místo rozbalovací šipky, která vypadala, jako by šel řádek rozbalit.
 verified: 19.0.1.0.0
+family: guide:mis_reports#annotations
 ---
 
 ## K čemu slouží {#purpose}

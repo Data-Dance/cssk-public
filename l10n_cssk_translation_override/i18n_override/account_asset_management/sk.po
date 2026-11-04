@@ -1,0 +1,224 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid ""
+"\n"
+"Error while processing asset '%(ref)s': %(exception)s"
+msgstr ""
+"\n"
+"Chyba pri spracovaní majetku „%(ref)s“: %(exception)s"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_needaction
+msgid "Action Needed"
+msgstr "Potrebná akcia"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Označenie výnimky aktivity"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_account__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_compute__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_recompute_trigger__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_report_account_asset_management_asset_report_xls__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__display_name
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_asset_move_reverse__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__date_to
+msgid "End Date"
+msgstr "Dátum ukončenia"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__account_move_line_ids
+msgid "Entries"
+msgstr "Položky"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid ""
+"Error while processing asset '%(ref)s': \n"
+"\n"
+"%(tb)s"
+msgstr ""
+"Chyba pri spracovaní majetku „%(ref)s“: \n"
+"\n"
+"%(tb)s"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset_profile__salvage_type__fixed
+msgid "Fixed"
+msgstr "Pevná suma"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, napr. fa-tasks"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "General"
+msgstr "Všeobecné"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_wiz_asset_move_reverse__journal_id
+msgid "If empty, uses the journal of the journal entry to be reversed."
+msgstr ""
+"Ak je prázdne, použije sa denník účtovného záznamu, ktorý sa má stornovať."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid ""
+"Inconsistent reporting structure.\n"
+"Please correct Asset Group '%(group)s' (id %(id)s)"
+msgstr ""
+"Nekonzistentná štruktúra výkazu.\n"
+"Opravte skupinu majetku „%(group)s“ (id %(id)s)"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__journal_id
+msgid "Journal"
+msgstr "Účtovný denník"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Journal Entries"
+msgstr "Účtovné záznamy"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+#: model:ir.model,name:account_asset_management.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný záznam"
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_account_move_line
+msgid "Journal Item"
+msgstr "Položka účtovnej knihy"
+
+#. module: account_asset_management
+#: model:ir.actions.act_window,name:account_asset_management.act_entries_open
+msgid "Journal Items"
+msgstr "Položky účtovnej knihy"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__write_uid
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_compute__write_uid
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__write_uid
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__write_uid
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__write_uid
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_recompute_trigger__write_uid
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__write_uid
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__write_uid
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_asset_move_reverse__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravoval"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__write_date
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_compute__write_date
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__write_date
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__write_date
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__write_date
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_recompute_trigger__write_date
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__write_date
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__write_date
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_asset_move_reverse__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravované"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__name
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_summary
+msgid "Next Activity Summary"
+msgstr "Zhrnutie ďalšej aktivity"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.wiz_asset_move_reverse_view_form
+msgid "Reverse Journal Entry"
+msgstr "Stornovať účtovný záznam"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základe aktivít\n"
+"Po termíne: termín už uplynul\n"
+"Dnes: dátum aktivity je dnes\n"
+"Naplánované: budúce aktivity."
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_asset_move_reverse__journal_id
+msgid "Use Specific Journal"
+msgstr "Použiť konkrétny účtovný denník"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__website_message_ids
+msgid "Website Messages"
+msgstr "Správy z webstránky"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie na webstránke"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "degressive"
+msgstr "degresívne"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "number"
+msgstr "číslo"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "quarter"
+msgstr "štvrťrok"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "year"
+msgstr "rok"

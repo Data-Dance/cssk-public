@@ -2,6 +2,7 @@
 title: MIS Builder Annotation Icon
 summary: Annotate a MIS Builder report cell from a note icon instead of a dropdown caret that looked like the row could be expanded.
 verified: 19.0.1.0.0
+family: guide:mis_reports#annotations
 ---
 
 ## What it is for {#purpose}

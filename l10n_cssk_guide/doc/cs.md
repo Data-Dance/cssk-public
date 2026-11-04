@@ -1,7 +1,7 @@
 ---
 title: CZ/SK uživatelské návody
 summary: Jedna stránka na začátek — první kroky a potom návod ke každému modulu lokalizace na tomto serveru, podle témat.
-verified: 19.0.1.0.0
+verified: 19.0.1.1.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -18,6 +18,10 @@ všechny návody seřazené podle témat.
   přepínač nahoře jej změní.
 - Ukazuje moduly země vaší společnosti a společné moduly. *Zobrazit*
   přepíná mezi Českem, Slovenskem a vším.
+- Pod některými tématy jsou na začátku **návody k úlohám**: jak něco
+  udělat, například spustit manažerský výkaz, napříč obrazovkami Odoo,
+  moduly OCA a našimi, z pohledu slovenského nebo českého účetního, pro
+  Odoo Community.
 - Pod každým tématem jsou nejdřív nainstalované moduly. Modul, který na
   serveru je, ale není nainstalován, je uveden také, s označením
   *nenainstalován*: nainstalujte jej v *Aplikacích*, až jej budete

@@ -1,7 +1,7 @@
 ---
 title: SK Foreign-Currency Revaluation (kurzové rozdiely)
 summary: Revalues foreign-currency balances at the reference rate of the balance-sheet date and books the differences on 563 and 663 — with the OCA wizard on Community and Odoo's adjustment entry on Enterprise.
-verified: 19.0.1.0.1
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}
@@ -78,7 +78,7 @@ They are in *Accounting → Configuration → Settings*, section
 ### Running the revaluation {#usage}
 
 *Accounting → Accounting → Closing → Currency Revaluation* (in Slovak
-*Uzávierka → Precenenie meny*):
+*Závierka → Precenenie meny*):
 
 1. Enter the *Revaluation Date* (the balance-sheet date). **Clear *Start
    Revaluation Period*** or set it early enough: only journal items dated on

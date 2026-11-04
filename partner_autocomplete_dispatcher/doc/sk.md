@@ -137,4 +137,4 @@ Modul [module:partner_autocomplete_ares_cz](module:partner_autocomplete_ares_cz)
 
 - Prázdna odpoveď poskytovateľa vyzerá rovnako, či firma neexistuje, register
   nefunguje, alebo sa dosiahol limit požiadaviek. Rozlíši ich log servera.
-- Popisky tohto modulu nie sú preložené.
+- Popisy tohto modulu nie sú preložené.

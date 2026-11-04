@@ -1,0 +1,1160 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/js/rotting_mixin/rotting_widget.js:0
+msgid "%(numberOfDays)sd"
+msgstr "%(numberOfDays)s d"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/search_message_result.js:0
+msgid "1 message found"
+msgstr "Našla sa 1 správa"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/js/tours/discuss_channel_tour.js:0
+msgid ""
+"<p><b>Chat with coworkers</b> in real-time using direct "
+"messages.</p><p><i>You might need to invite users from the Settings app "
+"first.</i></p>"
+msgstr ""
+"<p><b>Chatujte s kolegami</b> v reálnom čase pomocou priamych "
+"správ.</p><p><i>Možno budete musieť najprv pozvať používateľov v aplikácii "
+"Nastavenia.</i></p>"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.view_server_action_form_template
+msgid ""
+"<span invisible=\"mail_post_method != 'email'\">\n"
+"                                        The message will be sent as an email to the recipients of the\n"
+"                                        template and will not appear in the messaging history.\n"
+"                                    </span>\n"
+"                                    <span invisible=\"mail_post_method != 'note'\">\n"
+"                                        The message will be posted as an internal note visible to internal\n"
+"                                        users in the messaging history.\n"
+"                                    </span>\n"
+"                                    <span invisible=\"mail_post_method != 'comment'\">\n"
+"                                        The message will be posted as a message on the record,\n"
+"                                        notifying all followers. It will appear in the messaging history.\n"
+"                                    </span>"
+msgstr ""
+"<span invisible=\"mail_post_method != 'email'\">\n"
+"                                        Správa bude odoslaná ako e-mail príjemcom\n"
+"                                        šablóny a nezobrazí sa v histórii správ.\n"
+"                                   </span>\n"
+"                                    <span invisible=\"mail_post_method != 'note'\"> \n"
+"                                        Správa bude zverejnená ako interná poznámka viditeľná pre interných\n"
+"                                        používateľov v histórii správ.\n"
+"                                   </span>\n"
+"                                    <span invisible=\"mail_post_method != 'comment'\"> \n"
+"                                        Správa bude zverejnená ako správa v zázname,\n"
+"                                        ktorá upozorní všetkých odberateľov. Zobrazí sa v histórii správ.\n"
+"                                   </span>"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid ""
+"<strong>Save</strong> this page and come back here to set up the feature."
+msgstr ""
+"<strong>Uložte</strong> túto stránku a vráťte sa sem, aby ste nastavili túto"
+" funkciu."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/discuss/discuss_channel.py:0
+msgid "A channel of type 'chat' cannot have more than two users."
+msgstr "Kanál typu „chat“ nemôže mať viac ako dvoch používateľov."
+
+#. module: mail
+#: model:ir.model.constraint,message:mail.constraint_mail_presence_partner_or_guest_exists
+msgid "A mail presence must have a user or a guest."
+msgstr "Prítomnosť musí mať používateľa alebo hosťa."
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_ir_actions_server__activity_exception_decoration
+#: model:ir.model.fields,field_description:mail.field_ir_cron__activity_exception_decoration
+#: model:ir.model.fields,field_description:mail.field_mail_activity_mixin__activity_exception_decoration
+#: model:ir.model.fields,field_description:mail.field_res_partner__activity_exception_decoration
+#: model:ir.model.fields,field_description:mail.field_res_users__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Označenie výnimky aktivity"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid ""
+"Add a Klipy GIF API key to enable GIFs support. If you were using a Tenor "
+"GIF API key (service shutdown on June 30, 2026), please replace it here with"
+" a Klipy GIF API key"
+msgstr ""
+"Ak chcete zapnúť podporu GIF, pridajte kľúč Klipy GIF API. Ak ste používali "
+"kľúč Tenor GIF API (služba bola ukončená 30. júna 2026), nahraďte ho tu "
+"kľúčom Klipy GIF API"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_config_settings__tenor_api_key
+msgid ""
+"Add a Klipy GIF API key to enable GIFs support. https://docs.klipy.com/getting-started\n"
+"If you were using a Tenor GIF API key (service shutdown on June 30, 2026), please replace it here with a Klipy GIF API key"
+msgstr ""
+"Ak chcete zapnúť podporu GIF, pridajte kľúč Klipy GIF API. https://docs.klipy.com/getting-started\n"
+"Ak ste používali kľúč Tenor GIF API (služba bola ukončená 30. júna 2026), nahraďte ho tu kľúčom Klipy GIF API"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.view_email_server_form
+msgid "Advanced Options"
+msgstr "Rozšírené možnosti"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_alias__alias_contact
+msgid "Alias Contact Security"
+msgstr "Zabezpečenie kontaktu aliasu"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.discuss_channel_view_form
+#: model_terms:ir.ui.view,arch_db:mail.discuss_channel_view_kanban
+#: model_terms:ir.ui.view,arch_db:mail.discuss_channel_view_search
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_plan_view_form
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_plan_view_search
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_type_view_form
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_type_view_search
+#: model_terms:ir.ui.view,arch_db:mail.mail_blacklist_view_form
+#: model_terms:ir.ui.view,arch_db:mail.mail_blacklist_view_search
+#: model_terms:ir.ui.view,arch_db:mail.view_email_server_form
+#: model_terms:ir.ui.view,arch_db:mail.view_email_server_search
+msgid "Archived"
+msgstr "Archivované"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_activity_schedule__plan_on_demand_user_id
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_search
+msgid "Assigned To"
+msgstr "Priradené"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_thread.py:0
+msgid "Auto: %(subject)s"
+msgstr "Automatická odpoveď: %(subject)s"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "Avatar of user"
+msgstr "Avatar používateľa"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.mail_blacklist_view_tree
+msgid "Blacklist Date"
+msgstr "Dátum zaradenia na čiernu listinu"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/wizard/mail_activity_schedule.py:0
+msgid "Can't schedule activities without either a record or a user."
+msgstr "Bez záznamu alebo používateľa nie je možné naplánovať aktivity."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/discuss/discuss_channel_member.py:0
+msgid "Channel members cannot include public users."
+msgstr "Členovia kanála nemôžu zahŕňať verejných používateľov."
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.view_server_action_form_template
+msgid "Choose a user..."
+msgstr "Vybrať používateľa..."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_discuss_channel_member__last_interest_dt
+msgid ""
+"Contains the date and time of the last interesting event that happened in "
+"this channel for this user. This includes: creating, joining, pinning"
+msgstr ""
+"Obsahuje dátum a čas poslednej zaujímavej udalosti, ktorá sa v tomto kanáli "
+"stala pre tohto používateľa. Patrí sem: vytvorenie, pripojenie, pripnutie"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_discuss_channel_member__unpin_dt
+msgid "Contains the date and time when the channel was unpinned by the user."
+msgstr "Obsahuje dátum a čas, kedy bol kanál odpojený používateľom."
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_compose_message__body
+#: model:ir.model.fields,field_description:mail.field_mail_composer_mixin__body
+#: model:ir.model.fields,field_description:mail.field_mail_mail__body
+#: model:ir.model.fields,field_description:mail.field_mail_message__body
+#: model:ir.model.fields,field_description:mail.field_mail_scheduled_message__body
+msgid "Contents"
+msgstr "Obsah"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/wizard/mail_compose_message.py:0
+msgid "Create a Mail Template"
+msgstr "Vytvoriť šablónu e-mailu"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_mail__starred
+#: model:ir.model.fields,help:mail.field_mail_message__starred
+msgid "Current user has a starred notification linked to this message"
+msgstr ""
+"Aktuálny používateľ má aktivovanú notifikáciu prepojenú na túto správu"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_message_subtype__default
+#: model:ir.model.fields.selection,name:mail.selection__res_users__outgoing_mail_server_type__default
+#: model_terms:ir.ui.view,arch_db:mail.mail_message_subtype_view_search
+msgid "Default"
+msgstr "Predvolené"
+
+#. module: mail
+#: model:ir.model.fields.selection,name:mail.selection__mail_activity_plan_template__responsible_type__other
+msgid "Default user"
+msgstr "Predvolený používateľ"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_canned_response__is_shared
+msgid "Determines if the canned_response is currently shared with other users"
+msgstr ""
+"Určuje, či je canned_response (prednastavená odpoveď) zdieľaná s ostatnými "
+"používateľmi"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/web/activity_list_popover.xml:0
+#: code:addons/mail/static/src/core/web/activity_markasdone_popover.xml:0
+#: model:ir.model.fields.selection,name:mail.selection__mail_activity__state__done
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_search
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_tree
+msgid "Done"
+msgstr "Hotovo"
+
+#. module: mail
+#: model:ir.model.fields.selection,name:mail.selection__ir_actions_server__activity_user_type__generic
+msgid "Dynamic User (based on record)"
+msgstr "Dynamický používateľ (na základe záznamu)"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_alias_mixin__alias_email
+#: model:ir.model.fields,field_description:mail.field_mail_alias_mixin_optional__alias_email
+msgid "Email Alias"
+msgstr "E-mailový alias"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.view_mail_search
+msgid "Failed"
+msgstr "Neúspešné"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid ""
+"Failed to render QWeb template for %(template_label)s\n"
+"Target Model: %(model_name)s\n"
+"Language context: %(lang_context)s\n"
+"Error: %(error_details)s\n"
+"\n"
+"Template Source Snippet:\n"
+"%(template_src)s"
+msgstr ""
+"Nepodarilo sa vykresliť šablónu QWeb pre %(template_label)s\n"
+"Cieľový model: %(model_name)s\n"
+"Jazykový kontext: %(lang_context)s\n"
+"Chyba: %(error_details)s\n"
+"\n"
+"Úryvok zdroja šablóny:\n"
+"%(template_src)s"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid ""
+"Failed to render inline_template template: %(template_txt)s\n"
+"Error details: %(error)s"
+msgstr ""
+"Nepodarilo sa vykresliť šablónu inline_template: %(template_txt)s\n"
+"Podrobnosti chyby: %(error)s"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_ir_actions_server__activity_type_icon
+#: model:ir.model.fields,help:mail.field_ir_cron__activity_type_icon
+#: model:ir.model.fields,help:mail.field_mail_activity__icon
+#: model:ir.model.fields,help:mail.field_mail_activity_mixin__activity_type_icon
+#: model:ir.model.fields,help:mail.field_mail_activity_plan_template__icon
+#: model:ir.model.fields,help:mail.field_mail_activity_type__icon
+#: model:ir.model.fields,help:mail.field_res_partner__activity_type_icon
+#: model:ir.model.fields,help:mail.field_res_users__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, napr. fa-tasks"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_ir_actions_server__value
+#: model:ir.model.fields,help:mail.field_ir_cron__value
+msgid ""
+"For Python expressions, this field may hold a Python expression that can use the same values as for the code field on the server action,e.g. `env.user.name` to set the current user's name as the value or `record.id` to set the ID of the record on which the action is run.\n"
+"\n"
+"For Static values, the value will be used directly without evaluation, e.g.`42` or `My custom name` or the selected record."
+msgstr ""
+"Pre výrazy v jazyku Python smie toto pole obsahovať výraz v jazyku Python, ktorý môže používať rovnaké hodnoty ako pole pre kód v akcii servera, napr. `env.user.name` na nastavenie mena aktuálneho používateľa ako hodnoty alebo `record.id` na nastavenie ID záznamu, na ktorom sa akcia vykonáva.\n"
+"\n"
+"V prípade statických hodnôt sa hodnota použije priamo bez vyhodnotenia, napr. `42` alebo `My custom name` alebo vybraný záznam."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_mail__is_internal
+#: model:ir.model.fields,help:mail.field_mail_message__is_internal
+msgid ""
+"Hide to public / portal users, independently from subtype configuration."
+msgstr ""
+"Skryť pred verejnými / portálovými používateľmi, nezávisle od konfigurácie "
+"podtypu."
+
+#. module: mail
+#: model:ir.model,name:mail.model_mail_ice_server
+msgid "ICE Server"
+msgstr "Server ICE"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_context_menu.xml:0
+msgid "ICE gathering:"
+msgstr "Zhromažďovanie ICE:"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_users__manual_im_status
+msgid "IM status manually set by the user"
+msgstr "Stav IM nastavený používateľom ručne"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_ir_actions_server__activity_exception_icon
+#: model:ir.model.fields,help:mail.field_ir_cron__activity_exception_icon
+#: model:ir.model.fields,help:mail.field_mail_activity_mixin__activity_exception_icon
+#: model:ir.model.fields,help:mail.field_res_partner__activity_exception_icon
+#: model:ir.model.fields,help:mail.field_res_users__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označujúca výnimočnú aktivitu."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_discuss_channel__message_needaction
+#: model:ir.model.fields,help:mail.field_ir_actions_server__message_needaction
+#: model:ir.model.fields,help:mail.field_ir_cron__message_needaction
+#: model:ir.model.fields,help:mail.field_mail_blacklist__message_needaction
+#: model:ir.model.fields,help:mail.field_mail_thread__message_needaction
+#: model:ir.model.fields,help:mail.field_mail_thread_blacklist__message_needaction
+#: model:ir.model.fields,help:mail.field_mail_thread_cc__message_needaction
+#: model:ir.model.fields,help:mail.field_mail_thread_main_attachment__message_needaction
+#: model:ir.model.fields,help:mail.field_mail_tracking_duration_mixin__message_needaction
+#: model:ir.model.fields,help:mail.field_res_partner__message_needaction
+#: model:ir.model.fields,help:mail.field_res_users__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_discuss_channel__message_has_error
+#: model:ir.model.fields,help:mail.field_ir_actions_server__message_has_error
+#: model:ir.model.fields,help:mail.field_ir_cron__message_has_error
+#: model:ir.model.fields,help:mail.field_mail_blacklist__message_has_error
+#: model:ir.model.fields,help:mail.field_mail_thread__message_has_error
+#: model:ir.model.fields,help:mail.field_mail_thread_blacklist__message_has_error
+#: model:ir.model.fields,help:mail.field_mail_thread_cc__message_has_error
+#: model:ir.model.fields,help:mail.field_mail_thread_main_attachment__message_has_error
+#: model:ir.model.fields,help:mail.field_mail_tracking_duration_mixin__message_has_error
+#: model:ir.model.fields,help:mail.field_res_partner__message_has_error
+#: model:ir.model.fields,help:mail.field_res_users__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_alias__alias_bounced_content
+msgid ""
+"If set, this content will automatically be sent out to unauthorized users "
+"instead of the default message."
+msgstr ""
+"Ak je nastavený, namiesto predvolenej správy sa neoprávneným používateľom "
+"automaticky odošle tento obsah."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid ""
+"If you were using a Tenor API key, please replace it with a Klipy API key in"
+" the General Settings."
+msgstr ""
+"Ak ste používali kľúč Tenor API, nahraďte ho vo všeobecných nastaveniach "
+"kľúčom Klipy API."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_activity__automated
+msgid ""
+"Indicates this activity has been created automatically and not by any user."
+msgstr ""
+"Udáva, že táto aktivita bola vytvorená automaticky a nie používateľom."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/web/messaging_menu_patch.xml:0
+msgid "Install"
+msgstr "Nainštalovať"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/core/common/channel_member_list.xml:0
+msgid "Invite a User"
+msgstr "Pozvať používateľa"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_mail__is_current_user_or_guest_author
+#: model:ir.model.fields,field_description:mail.field_mail_message__is_current_user_or_guest_author
+msgid "Is Current User Or Guest Author"
+msgstr "Je to aktuálny používateľ alebo hosťujúci autor"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_discuss_channel_member__is_self
+msgid "Is Self"
+msgstr "Je aktuálny člen"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_discuss_channel_rtc_session__is_camera_on
+msgid "Is sending user video"
+msgstr "Odosiela video používateľa"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_api_key
+msgid "Klipy API key"
+msgstr "Kľúč Klipy API"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid "Klipy GIF API key"
+msgstr "Kľúč Klipy GIF API"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_message_translation__target_lang
+msgid "Language code used as the target for the translation request."
+msgstr "Kód jazyka, do ktorého sa má text preložiť."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/core/common/channel_commands.js:0
+msgid "List users in the current channel"
+msgstr "Zoznam používateľov aktuálneho kanála"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_composer_mixin__template_id
+msgid "Mail Template"
+msgstr "Šablóna e-mailu"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Mail Template: '%(name)s' (ID: %(record_id)s)"
+msgstr "Šablóna e-mailu: „%(name)s“ (ID: %(record_id)s)"
+
+#. module: mail
+#: model:ir.model,name:mail.model_mail_tracking_value
+msgid "Mail Tracking Value"
+msgstr "Sledovaná hodnota správy"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Mass Mailing Template: '%(name)s' (ID: %(record_id)s)"
+msgstr "Šablóna hromadnej korešpondencie: „%(name)s“ (ID: %(record_id)s)"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_message_subtype__name
+msgid ""
+"Message subtype gives a more precise type on the message, especially for "
+"system notifications. For example, it can be a notification related to a new"
+" record (New), or to a stage change in a process (Stage change). Message "
+"subtypes allow to precisely tune the notifications the user want to receive "
+"on its wall."
+msgstr ""
+"Podtyp správy upresňuje typ správy, najmä v prípade systémových oznámení. "
+"Môže to byť napríklad oznámenie týkajúce sa nového záznamu (New) alebo zmeny"
+" fázy v procese (Stage change). Podtypy správ umožňujú presne nastaviť "
+"oznámenia, ktoré chce používateľ dostávať na svojej nástenke."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_followers__subtype_ids
+msgid ""
+"Message subtypes followed, meaning subtypes that will be pushed onto the "
+"user's Wall."
+msgstr ""
+"Odoberané podtypy správy, znamená podtypy zobrazené na používateľovej "
+"nástenke."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_compose_message__message_type
+msgid ""
+"Message type: email for email message, notification for system message, "
+"comment for other messages such as user replies"
+msgstr ""
+"Typ správy: email pre zaslanie emailu, notifikácia ako systémová správa, "
+"komentár pre ostatné správy ako napr. odpovede od používateľov"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "No language detected in context"
+msgstr "V kontexte nebol zistený žiadny jazyk"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/core/common/channel_invitation.xml:0
+msgid "No user found that is not already a member of this channel."
+msgstr ""
+"Nenašiel sa žiadny používateľ, ktorý by ešte nebol členom tohto kanála."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/core/common/channel_invitation.xml:0
+msgid "No user found."
+msgstr "Nenašiel sa žiadny používateľ."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/views/web/fields/assign_user_command_hook.js:0
+msgid "No users found"
+msgstr "Nenašli sa žiadni používatelia"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "Notify users with this role"
+msgstr "Upozorniť používateľov s touto rolou"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/composer.xml:0
+msgid "Notify users with this role who have permission to view this channel"
+msgstr ""
+"Upozorniť používateľov s touto rolou, ktorí majú oprávnenie na prezeranie "
+"tohto kanála"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/web/message_patch.xml:0
+msgid "On"
+msgstr "K"
+
+#. module: mail
+#: model:ir.model.constraint,message:mail.constraint_res_users_notification_type
+msgid "Only internal user can receive notifications in Odoo"
+msgstr "Iba interní používatelia môžu dostávať oznámenia v Odoo"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/res_users.py:0
+msgid "Only internal users can configure a personal mail server."
+msgstr "Osobný poštový server môžu konfigurovať len interní používatelia."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/res_users.py:0
+msgid "Only internal users can configure personal mail servers."
+msgstr "Osobné poštové servery môžu konfigurovať len interní používatelia."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_template.py:0
+msgid ""
+"Oops! We couldn't save your template due to an issue.\n"
+"\n"
+"Error: %(error_details)s\n"
+"\n"
+"Correct it and try again."
+msgstr ""
+"Ups! Šablónu sa pre problém nepodarilo uložiť.\n"
+"\n"
+"Chyba: %(error_details)s\n"
+"\n"
+"Opravte ju a skúste to znova."
+
+#. module: mail
+#: model:ir.model.fields.selection,name:mail.selection__mail_mail__state__outgoing
+#: model_terms:ir.ui.view,arch_db:mail.view_mail_search
+msgid "Outgoing"
+msgstr "Odchádzajúce"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_alias__alias_contact
+msgid ""
+"Policy to post a message on the document using the mailgateway.\n"
+"- everyone: everyone can post\n"
+"- partners: only authenticated partners\n"
+"- followers: only followers of the related document or members of following channels\n"
+msgstr ""
+"Pravidlo pre zverejnenie správy na dokumente pomocou poštovej brány.\n"
+"- všetci: všetci môžu zverejňovať\n"
+"- partneri: iba overení partneri\n"
+"- odberatelia: iba odberatelia súvisiaceho dokumentu alebo členovia sledujúcich kanálov\n"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/attachment_view.js:0
+msgid "Pop out is not supported on mobile."
+msgstr ""
+"Otvorenie v samostatnom okne nie je na mobilných zariadeniach podporované."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_thread.py:0
+msgid "Portal users can only filter threads by themselves as followers."
+msgstr "Používatelia portálu môžu filtrovať vlákna sami ako odberatelia."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_thread.py:0
+msgid ""
+"Posting a message should be done on a business document. Use message_notify "
+"to send a notification to an user."
+msgstr ""
+"Správy by ste mali pridávať ku konkrétnym business dokumentom. Použite "
+"message_notify na zaslanie oznámenia používateľovi."
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.mail_notification_layout
+#: model_terms:ir.ui.view,arch_db:mail.mail_notification_light
+msgid "Powered by"
+msgstr "Beží na"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_settings.xml:0
+msgid "Push to Talk"
+msgstr "Stlačiť a hovoriť"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_actions.js:0
+msgid "Reject"
+msgstr "Odmietnuť"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_activity__res_model
+#: model:ir.model.fields,field_description:mail.field_mail_compose_message__model
+#: model:ir.model.fields,field_description:mail.field_mail_followers_edit__res_model
+#: model:ir.model.fields,field_description:mail.field_mail_mail__model
+#: model:ir.model.fields,field_description:mail.field_mail_message__model
+#: model:ir.model.fields,field_description:mail.field_mail_scheduled_message__model
+#: model:ir.model.fields,field_description:mail.field_mail_template__model
+msgid "Related Document Model"
+msgstr "Model súvisiaceho dokumentu"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_template.py:0
+msgid "Report"
+msgstr "Zostava"
+
+#. module: mail
+#: model:ir.model,name:mail.model_res_role
+msgid ""
+"Represents a role in the system used to categorize users. Each role has a "
+"unique name and can be associated with multiple users. Roles can be "
+"mentioned in messages to notify all associated users."
+msgstr ""
+"Predstavuje rolu v systéme, ktorá sa používa na kategorizáciu používateľov. "
+"Každá rola má jedinečný názov a môže byť pridružená k viacerým používateľom."
+" Role môžu byť spomenuté v správach, aby boli informovaní všetci pridružení "
+"používatelia."
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_ir_cron__activity_user_id
+#: model:ir.model.fields,field_description:mail.field_mail_activity_mixin__activity_user_id
+#: model:ir.model.fields,field_description:mail.field_mail_activity_schedule_line__responsible_user_id
+#: model:ir.model.fields,field_description:mail.field_res_partner__activity_user_id
+#: model:ir.model.fields,field_description:mail.field_res_users__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný používateľ"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.ir_mail_server_view_form
+msgid "Restrict usage to a user"
+msgstr "Obmedziť používanie na používateľa"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_compose_message__scheduled_date
+#: model:ir.model.fields,field_description:mail.field_mail_scheduled_message__scheduled_date
+#: model:ir.model.fields,field_description:mail.field_mail_template__scheduled_date
+#: model:ir.model.fields,field_description:mail.field_mail_template_preview__scheduled_date
+msgid "Scheduled Date"
+msgstr "Plánovaný dátum"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_ir_cron__user_id
+msgid "Scheduler User"
+msgstr "Používateľ plánovača"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/wizard/mail_activity_schedule.py:0
+msgid "Scheduling personal activities requires an assigned user."
+msgstr "Plánovanie osobných aktivít vyžaduje prideleného používateľa."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid "Search Klipy"
+msgstr "Hľadať v Klipy"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/web/mention_list.js:0
+msgid "Search for a user..."
+msgstr "Vyhľadať používateľa..."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/views/web/fields/assign_user_command_hook.js:0
+msgid "Select a user..."
+msgstr "Vybrať používateľa..."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/wizard/mail_activity_schedule.py:0
+msgid "Selected user '%(user)s' cannot upload documents on model '%(model)s'"
+msgstr ""
+"Vybraný používateľ „%(user)s“ nemôže nahrať dokumenty do modelu „%(model)s“"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_discuss_channel__self_member_id
+msgid "Self Member"
+msgstr "Aktuálny člen"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_activity_plan_template__sequence
+#: model:ir.model.fields,field_description:mail.field_mail_activity_type__sequence
+#: model:ir.model.fields,field_description:mail.field_mail_alias_domain__sequence
+#: model:ir.model.fields,field_description:mail.field_mail_message_link_preview__sequence
+#: model:ir.model.fields,field_description:mail.field_mail_message_subtype__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_discuss_channel__sfu_channel_uuid
+msgid "Sfu Channel Uuid"
+msgstr "UUID kanála SFU"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_view_search
+#: model_terms:ir.ui.view,arch_db:mail.res_partner_view_search_inherit_mail
+msgid "Show all records whose next activity date is past"
+msgstr ""
+"Zobraziť všetky záznamy, ktorých dátum nasledujúcej aktivity je v minulosti"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/search_message_result.js:0
+msgid ""
+"Showing the first %(count)s messages found. Narrow your search or scroll to "
+"see more."
+msgstr ""
+"Zobrazuje sa prvých %(count)s nájdených správ. Spresnite vyhľadávanie alebo "
+"posuňte zobrazenie nižšie a uvidíte ďalšie."
+
+#. module: mail
+#: model:ir.model.fields.selection,name:mail.selection__ir_actions_server__activity_user_type__specific
+msgid "Specific User"
+msgstr "Špecifický používateľ"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_discuss_call_history__start_dt
+msgid "Start Dt"
+msgstr "Dátum a čas začiatku"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_ir_actions_server__activity_state
+#: model:ir.model.fields,help:mail.field_ir_cron__activity_state
+#: model:ir.model.fields,help:mail.field_mail_activity_mixin__activity_state
+#: model:ir.model.fields,help:mail.field_res_partner__activity_state
+#: model:ir.model.fields,help:mail.field_res_users__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základe aktivít\n"
+"Po termíne: termín už uplynul\n"
+"Dnes: dátum aktivity je dnes\n"
+"Naplánované: budúce aktivity."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Template name not identified"
+msgstr "Názov šablóny nebol identifikovaný"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.mail_bounce_catchall
+msgid "The"
+msgstr "Tím"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_template__can_write
+msgid "The current user can edit the template."
+msgstr "Aktuálny používateľ môže šablónu upravovať."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/ir_actions_server.py:0
+msgid "The field '%(field_chain_str)s' is not a user field."
+msgstr "Pole „%(field_chain_str)s“ nie je pole používateľa."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_partner__user_id
+#: model:ir.model.fields,help:mail.field_res_users__user_id
+msgid "The internal user in charge of this contact."
+msgstr ""
+"Interný používateľ, ktorý má na starosti komunikáciu s týmto kontaktom."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_activity.py:0
+#: code:addons/mail/models/mail_message.py:0
+msgid ""
+"The requested operation cannot be completed due to security restrictions. Please contact your system administrator.\n"
+"\n"
+"(Document type: %(type)s, Operation: %(operation)s)\n"
+"\n"
+"Records: %(records)s, User: %(user)s"
+msgstr ""
+"Požadovanú operáciu nie je možné dokončiť z dôvodu bezpečnostných obmedzení. Kontaktujte správcu systému.\n"
+"\n"
+"(Typ dokumentu: %(type)s, Operácia: %(operation)s)\n"
+"\n"
+"Záznamy: %(records)s, Používateľ: %(user)s"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/ir_mail_server.py:0
+msgid ""
+"The server \"%s\" cannot be forced as it belongs to a user and is archived."
+msgstr ""
+"Server „%s“ nie je možné vynútiť, pretože patrí používateľovi a je "
+"archivovaný."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/ir_mail_server.py:0
+msgid "The server \"%s\" cannot be forced as it belongs to a user."
+msgstr "Server „%s“ nie je možné vynútiť, pretože patrí používateľovi."
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_ir_actions_server__activity_summary
+#: model:ir.model.fields,field_description:mail.field_mail_link_preview__og_title
+msgid "Title"
+msgstr "Názov"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_context_menu.xml:0
+msgid "To peer:"
+msgstr "K protistrane:"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_activity_plan_template__delay_from
+#: model:ir.model.fields,field_description:mail.field_mail_activity_type__triggered_next_type_id
+msgid "Trigger"
+msgstr "Spúšťač"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/follower_model.js:0
+#: code:addons/mail/static/src/core/common/message_model.js:0
+#: code:addons/mail/static/src/core/web/recipients_input.js:0
+#: code:addons/mail/static/src/core/web/recipients_popover.js:0
+#: code:addons/mail/static/src/views/web/fields/many2many_tags_email/many2many_tags_email.js:0
+msgid "Unnamed"
+msgstr "Bez názvu"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Unnamed Mail Template"
+msgstr "Nepomenovaná šablóna e-mailu"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_render_mixin.py:0
+msgid "Unnamed Mailing"
+msgstr "Nepomenovaná hromadná korešpondencia"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_ir_actions_server__activity_user_type
+#: model:ir.model.fields,help:mail.field_ir_cron__activity_user_type
+msgid ""
+"Use 'Specific User' to always assign the same user on the next activity. Use"
+" 'Dynamic User' to specify the field name of the user to choose on the "
+"record."
+msgstr ""
+"Použite „Špecifický používateľ“ na priradenie rovnakého používateľa pri "
+"ďalšej aktivite. Použite „Dynamický používateľ“ na určenie názvu poľa "
+"záznamu, ktoré obsahuje používateľa."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_discuss_channel_member__custom_notifications
+msgid ""
+"Use default from user settings if not specified. This setting will only be "
+"applied to channels."
+msgstr ""
+"Ak nie je určené inak, použije sa predvolené nastavenie z používateľských "
+"nastavení. Toto nastavenie sa uplatní iba na kanály."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_thread.py:0
+msgid "Use message_notify to send a notification to an user."
+msgstr "Použite message_notify na odoslanie oznámenia používateľovi."
+
+#. module: mail
+#: model:ir.model,name:mail.model_res_users
+#: model_terms:ir.ui.view,arch_db:mail.view_mail_form
+#: model_terms:ir.ui.view,arch_db:mail.view_mail_tree
+msgid "User"
+msgstr "Používateľ"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_ir_actions_server__activity_user_field_name
+#: model:ir.model.fields,field_description:mail.field_ir_cron__activity_user_field_name
+msgid "User Field"
+msgstr "Pole používateľa"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_users__role_ids
+msgid "User Roles"
+msgstr "Roly používateľov"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_users_settings_volumes__user_setting_id
+msgid "User Setting"
+msgstr "Nastavenia používateľa"
+
+#. module: mail
+#: model:ir.actions.act_window,name:mail.res_users_settings_action
+#: model:ir.model,name:mail.model_res_users_settings
+#: model:ir.ui.menu,name:mail.res_users_settings_menu
+#: model_terms:ir.ui.view,arch_db:mail.res_users_settings_view_form
+#: model_terms:ir.ui.view,arch_db:mail.res_users_settings_view_tree
+msgid "User Settings"
+msgstr "Nastavenia používateľa"
+
+#. module: mail
+#: model:ir.model,name:mail.model_res_users_settings_volumes
+msgid "User Settings Volumes"
+msgstr "Nastavenia hlasitosti používateľa"
+
+#. module: mail
+#: model:ir.model.fields.selection,name:mail.selection__mail_message__message_type__user_notification
+msgid "User Specific Notification"
+msgstr "Oznámenie špecifické pre používateľa"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_ir_actions_server__activity_user_type
+#: model:ir.model.fields,field_description:mail.field_ir_cron__activity_user_type
+msgid "User Type"
+msgstr "Typ používateľa"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.ir_mail_server_view_form
+msgid "User email"
+msgstr "E-mail používateľa"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/im_status.xml:0
+msgid "User is a bot"
+msgstr "Používateľ je bot"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/im_status.xml:0
+msgid "User is busy"
+msgstr "Používateľ je zaneprázdnený"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/im_status.xml:0
+msgid "User is idle"
+msgstr "Používateľ je neaktívny"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/im_status.xml:0
+msgid "User is online"
+msgstr "Používateľ je online"
+
+#. module: mail
+#: model:ir.model.constraint,message:mail.constraint_discuss_gif_favorite_user_gif_favorite
+msgid "User should not have duplicated favorite GIF"
+msgstr "Používateľ by nemal mať duplicitné obľúbené GIF"
+
+#. module: mail
+#: model:ir.model,name:mail.model_mail_presence
+msgid "User/Guest Presence"
+msgstr "Prítomnosť používateľa/hosťa"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_presence__user_id
+#: model:ir.model.fields,field_description:mail.field_res_role__user_ids
+#: model_terms:ir.ui.view,arch_db:mail.res_role_view_search
+msgid "Users"
+msgstr "Používatelia"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_users__role_ids
+msgid ""
+"Users are notified whenever one of their roles is @-mentioned in a "
+"conversation."
+msgstr ""
+"Používatelia sú upozornení vždy, keď je jedna z ich rolí @-spomenutá v "
+"konverzácii."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/discuss/discuss_channel.py:0
+msgid "Users in this channel: %(members)s."
+msgstr "Používatelia v tomto kanáli: %(members)s."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_config_settings__restrict_template_rendering
+msgid ""
+"Users will still be able to render templates.\n"
+"However only Mail Template Editors will be able to create new dynamic templates or modify existing ones."
+msgstr ""
+"Používatelia budú naďalej môcť používať šablóny.\n"
+"Avšak iba editori e-mail šablón (Mail Template Editors) budú môcť vytvárať nové dynamické šablóny alebo upravovať existujúce."
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid ""
+"Using your own email server is required to send/receive emails in Community "
+"and Enterprise versions. Online users already benefit from a ready-to-use "
+"email server (@mycompany.odoo.com)."
+msgstr ""
+"Použitie vlastného emailového servera je nevyhnutné pre príjem/odosielanie "
+"mailov vo verzii Community a Enterprise. Používatelia Odoo online a .sh "
+"profitujú z pripraveného servera (@moja_spolocnost.odoo.com)."
+
+#. module: mail
+#. odoo-javascript
+#. odoo-python
+#: code:addons/mail/models/mail_thread.py:0
+#: code:addons/mail/static/src/views/web/calendar/calendar_common/activity_calendar_common_popover.xml:0
+#: model:ir.model,name:mail.model_ir_ui_view
+msgid "View"
+msgstr "Zobraziť"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_settings.xml:0
+#: model:ir.model.fields,field_description:mail.field_ir_attachment__voice_ids
+#: model_terms:ir.ui.view,arch_db:mail.res_users_settings_view_form
+msgid "Voice"
+msgstr "Hlas"
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_activity_plan_template.py:0
+msgid ""
+"When selecting \"Default user\" assignment, you must specify a responsible."
+msgstr "Pri zvolení „Predvolený používateľ“ musíte určiť zodpovednú osobu."
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.view_mail_form
+msgid "YYYY-MM-DD HH:MM:SS"
+msgstr "RRRR-MM-DD HH:MM:SS"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/store_service.js:0
+msgid "You can only chat with existing users."
+msgstr "Môžete chatovať len s existujúcimi používateľmi."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/store_service.js:0
+msgid "You can only chat with partners that have a dedicated user."
+msgstr "Môžete chatovať len s partnermi, ktorí majú vyhradeného používateľa."
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_partner__vat
+#: model:ir.model.fields,help:mail.field_res_users__vat
+msgid "You can use '/' to indicate that the customer has no Tax ID."
+msgstr ""
+"Znakom „/“ môžete označiť, že zákazník nemá daňové identifikačné číslo."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_alias_domain.py:0
+msgid "You cannot assign an empty domain name."
+msgstr "Nemôžete priradiť prázdny názov domény."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/discuss/discuss_channel.py:0
+msgid "You don't have access to invite users to this channel."
+msgstr "Nemáte prístup na pozývanie používateľov do tohto kanála."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_mail.py:0
+msgid "You may not create a message using another user's mail server."
+msgstr "Nesmiete vytvárať správy pomocou poštového servera iného používateľa."
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.account_security_alert
+msgid "day, month dd, yyyy - hh:mm:ss (GMT)"
+msgstr "deň, mesiac dd, rrrr - hh:mm:ss (GMT)"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_context_menu.xml:0
+msgid "down DTLS:"
+msgstr "prijímanie DTLS:"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_context_menu.xml:0
+msgid "down ICE:"
+msgstr "prijímanie ICE:"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid "list-item"
+msgstr "položka zoznamu"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_context_menu.xml:0
+msgid "up DTLS:"
+msgstr "odosielanie DTLS:"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/call/common/call_context_menu.xml:0
+msgid "up ICE:"
+msgstr "odosielanie ICE:"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/web/activity.js:0
+msgid "“%s”"
+msgstr "„%s“"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_activity_type__delay_label
+msgid "Delay Label"
+msgstr "Popis oneskorenia"

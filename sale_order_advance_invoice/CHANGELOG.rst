@@ -8,6 +8,26 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- the per-language ``name`` in ``create_accounts`` (``advance_account_names``
+  / ``write_advance_account_names`` / ``adopt_advance_account_names`` in
+  ``tools.py``, used by ``_ensure_advance_accounts``) — 19.0.2.8.2.
+
+[19.0.2.8.2] — 2026-11-04
+-------------------------
+
+Added
+~~~~~
+
+- **A clearing account a localization creates can carry a name per language.**
+  ``create_accounts`` takes ``name`` as a str, as before, or as a
+  ``{lang: name}`` dict. Every language is stored, also one not yet installed,
+  so a user who installs it later sees the right name. An existing account
+  still carrying the untranslated name an earlier version gave it is renamed
+  when the spec is re-applied; one the user renamed is left alone.
+
 [19.0.2.8.1] — 2026-10-27
 -------------------------
 

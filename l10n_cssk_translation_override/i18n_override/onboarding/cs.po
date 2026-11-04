@@ -1,0 +1,244 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding__progress_ids
+msgid "All Onboarding Progress Records (across companies)."
+msgstr "Všechny záznamy o průběhu tutoriálu (napříč společnostmi)."
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding_step__progress_ids
+msgid "All related Onboarding Progress Step Records (across companies)"
+msgstr ""
+"Všechny související záznamy o průběhu kroků tutoriálu (napříč společnostmi)"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__step_image_alt
+msgid "Alt Text for the Step Image"
+msgstr "Alternativní text obrázku kroku"
+
+#. module: onboarding
+#. odoo-python
+#: code:addons/onboarding/models/onboarding_onboarding_step.py:0
+msgid ""
+"An \"Opening Action\" is required for the following steps to be linked to an"
+" onboarding panel: %(step_titles)s"
+msgstr ""
+"Aby bylo možné následující kroky propojit s panelem tutoriálu, je nutné "
+"zadat „Úvodní akci“: %(step_titles)s"
+
+#. module: onboarding
+#: model_terms:ir.ui.view,arch_db:onboarding.onboarding_container
+msgid "Are you sure you want to hide these configuration steps?"
+msgstr "Opravdu chcete tyto kroky konfigurace skrýt?"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__button_text
+msgid "Button text"
+msgstr "Text tlačítka"
+
+#. module: onboarding
+#: model_terms:ir.ui.view,arch_db:onboarding.onboarding_container
+msgid "Close Panel"
+msgstr "Zavřít panel"
+
+#. module: onboarding
+#: model_terms:ir.ui.view,arch_db:onboarding.onboarding_container
+msgid "Close the onboarding panel"
+msgstr "Zavřít panel tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__panel_close_action_name
+msgid "Closing action"
+msgstr "Akce při zavření"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__current_onboarding_state
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__current_step_state
+msgid "Completion State"
+msgstr "Stav dokončení"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__done_icon
+msgid "Font Awesome Icon when completed"
+msgstr "Ikona Font Awesome po dokončení"
+
+#. module: onboarding
+#: model_terms:ir.ui.view,arch_db:onboarding.onboarding_container
+msgid "Get them out of my sight!"
+msgstr "Ať je už nevidím!"
+
+#. module: onboarding
+#: model_terms:ir.ui.view,arch_db:onboarding.onboarding_container
+msgid "Hide Onboarding Tips"
+msgstr "Skrýt tipy tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__is_per_company
+msgid "Is per company"
+msgstr "Pro každou společnost"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__text_completed
+msgid "Message at completion"
+msgstr "Zpráva po dokončení"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__name
+msgid "Name of the onboarding"
+msgstr "Název tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding__panel_close_action_name
+msgid "Name of the onboarding model action to execute when closing the panel."
+msgstr "Název akce modelu tutoriálu, která se provede při zavření panelu."
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding_step__panel_step_open_action_name
+msgid ""
+"Name of the onboarding step model action to execute when opening the step, "
+"e.g. action_open_onboarding_1_step_1"
+msgstr ""
+"Název akce modelu kroku tutoriálu, která se provede při otevření kroku, "
+"např. action_open_onboarding_1_step_1"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__current_progress_id
+msgid "Onboarding Progress"
+msgstr "Průběh tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__progress_ids
+msgid "Onboarding Progress Records"
+msgstr "Záznamy o průběhu tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__progress_ids
+msgid "Onboarding Progress Step Records"
+msgstr "Záznamy o průběhu kroků tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding_step__current_progress_step_id
+msgid "Onboarding Progress Step for the current context (company)."
+msgstr "Průběh kroku tutoriálu pro aktuální kontext (společnost)."
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding__current_progress_id
+msgid "Onboarding Progress for the current context (company)."
+msgstr "Průběh tutoriálu pro aktuální kontext (společnost)."
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_progress_step__step_state
+msgid "Onboarding Step Progress"
+msgstr "Průběh kroku tutoriálu"
+
+#. module: onboarding
+#: model:ir.actions.act_window,name:onboarding.action_view_onboarding_step
+#: model_terms:ir.ui.view,arch_db:onboarding.onboarding_onboarding_step_view_tree
+msgid "Onboarding Steps"
+msgstr "Kroky tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.constraint,message:onboarding.constraint_onboarding_onboarding_route_name_uniq
+msgid "Onboarding alias must be unique."
+msgstr "Alias tutoriálu musí být jedinečný."
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_progress__onboarding_state
+msgid "Onboarding progress"
+msgstr "Průběh tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__step_ids
+msgid "Onboarding steps"
+msgstr "Kroky tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__route_name
+msgid "One word name"
+msgstr "Jednoslovný název"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__panel_step_open_action_name
+msgid "Opening action"
+msgstr "Úvodní akce"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_progress__progress_step_ids
+msgid "Progress Steps Trackers"
+msgstr "Sledování průběhu kroků"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_progress_step__progress_ids
+msgid "Related Onboarding Progress Tracker"
+msgstr "Související sledování průběhu tutoriálu"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_progress__onboarding_id
+msgid "Related onboarding tracked"
+msgstr "Související sledovaný tutoriál"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__sequence
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__is_per_company
+msgid "Should be done per company?"
+msgstr "Provádět pro každou společnost zvlášť?"
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding_step__step_image_alt
+msgid "Show when impossible to load the image"
+msgstr "Zobrazí se, pokud nelze načíst obrázek"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__step_image
+msgid "Step Image"
+msgstr "Obrázek kroku"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__step_image_filename
+msgid "Step Image Filename"
+msgstr "Název souboru obrázku kroku"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__current_progress_step_id
+msgid "Step Progress"
+msgstr "Průběh kroku"
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding_step__button_text
+msgid "Text on the panel's button to start this step"
+msgstr "Text na tlačítku panelu, kterým se tento krok spouští"
+
+#. module: onboarding
+#: model:ir.model.fields,help:onboarding.field_onboarding_onboarding__text_completed
+msgid "Text shown on onboarding when completed"
+msgstr "Text zobrazený v tutoriálu po dokončení"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding_step__done_text
+msgid "Text to show when step is completed"
+msgstr "Text zobrazený po dokončení kroku"
+
+#. module: onboarding
+#: model_terms:ir.ui.view,arch_db:onboarding.onboarding_onboarding_view_form
+#: model_terms:ir.ui.view,arch_db:onboarding.onboarding_onboarding_view_tree
+msgid "Toggle visibility"
+msgstr "Přepnout viditelnost"
+
+#. module: onboarding
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_onboarding__is_onboarding_closed
+#: model:ir.model.fields,field_description:onboarding.field_onboarding_progress__is_onboarding_closed
+msgid "Was panel closed?"
+msgstr "Byl panel zavřen?"

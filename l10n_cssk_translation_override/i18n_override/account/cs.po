@@ -1,0 +1,760 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_journal_form
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+msgid "<span class=\"o_stat_text\">Journal Items</span>"
+msgstr "<span class=\"o_stat_text\">Položky deníku</span>"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
+msgid "<strong>Invoice Date</strong>"
+msgstr "<strong>Datum vystavení</strong>"
+
+#. module: account
+#: model:ir.model,name:account.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Šablona účtového rozvrhu"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_tax__account_move_line_ids
+msgid "Account Move Line"
+msgstr "Účetní položka"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_tax__account_reconcile_model_line_ids
+msgid "Account Reconcile Model Line"
+msgstr "Řádek párovacího modelu"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_account__group_id
+msgid "Account prefixes can determine account groups."
+msgstr "Předčíslí účtů mohou určovat skupiny účtů."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_accrued_orders_wizard__account_id
+msgid "Accrual Account"
+msgstr "Účet dohadných položek"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid "Accrual Moves"
+msgstr "Záznamy dohadných položek"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid ""
+"Accrual entry created on %(date)s: %(accrual_entry)s.                And its"
+" reverse entry: %(reverse_entry)s."
+msgstr ""
+"Záznam dohadných položek vytvořen dne %(date)s: %(accrual_entry)s."
+"                A jeho opravný záznam: %(reverse_entry)s."
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_automatic_entry_wizard_form
+msgid "Accrued Account"
+msgstr "Účet dohadných položek"
+
+#. module: account
+#: model:ir.model,name:account.model_account_accrued_orders_wizard
+msgid "Accrued Orders Wizard"
+msgstr "Průvodce dohadnými položkami k objednávkám"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/accrued_orders.py:0
+msgid "Accrued total"
+msgstr "Dohadné položky celkem"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_account__activity_exception_decoration
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__activity_exception_decoration
+#: model:ir.model.fields,field_description:account.field_account_journal__activity_exception_decoration
+#: model:ir.model.fields,field_description:account.field_account_move__activity_exception_decoration
+#: model:ir.model.fields,field_description:account.field_account_payment__activity_exception_decoration
+#: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__activity_exception_decoration
+#: model:ir.model.fields,field_description:account.field_res_partner_bank__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimečné aktivity"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid ""
+"An error occurred when computing the inalterability. All entries have to be "
+"reconciled."
+msgstr ""
+"Při výpočtu nezměnitelnosti došlo k chybě. Všechny položky musí být "
+"spárovány."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__analytic_distribution
+#: model:ir.model.fields,field_description:account.field_account_reconcile_model_line__analytic_distribution
+msgid "Analytic Distribution"
+msgstr "Analytické rozdělení"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_account__internal_group__asset
+msgid "Asset"
+msgstr "Aktiva"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/product_catalog/kanban_controller.js:0
+msgid "Back to Credit Note"
+msgstr "Zpět na dobropis"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/product_catalog/kanban_controller.js:0
+msgid "Back to Refund"
+msgstr "Zpět na dobropis"
+
+#. module: account
+#: model:ir.actions.act_window,name:account.action_bank_statement_tree
+msgid "Bank Statements"
+msgstr "Bankovní výpisy"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/receipt_selector/receipt_selector.js:0
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+#: model_terms:ir.ui.view,arch_db:account.view_account_bill_filter
+msgid "Bill"
+msgstr "Přijatá faktura"
+
+#. module: account
+#: model:ir.ui.menu,name:account.account_closing_menu
+msgid "Closing"
+msgstr "Uzávěrka"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__count_reconciled_lines
+msgid "Count Reconciled Lines"
+msgstr "Počet spárovaných řádků"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__count_reconciled_lines_excluding_exchange_diff
+msgid "Count Reconciled Lines Excluding Exchange Diff"
+msgstr "Počet spárovaných řádků bez kurzových rozdílů"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/bill_guide/bill_guide.xml:0
+msgid "Create a bill manually"
+msgstr "Vytvořit přijatou fakturu ručně"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/bill_guide/bill_guide.xml:0
+msgid "Create bill manually"
+msgstr "Vytvořit přijatou fakturu ručně"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+#: model:ir.model.fields.selection,name:account.selection__account_payment__reconciled_invoices_type__credit_note
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+#: model_terms:ir.ui.view,arch_db:account.report_invoice_document
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+msgid "Credit Note"
+msgstr "Dobropis"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_report__filter_date_range
+msgid "Date Range"
+msgstr "Rozsah dat"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_account__account_type__expense_depreciation
+msgid "Depreciation"
+msgstr "Odpis"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__distribution_analytic_account_ids
+#: model:ir.model.fields,field_description:account.field_account_reconcile_model_line__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr "Analytický účet rozdělení"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+msgid "Duplicated Documents"
+msgstr "Duplicitní dokumenty"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_res_company__price_difference_account_id
+msgid ""
+"During perpetual valuation, this account will hold the price difference "
+"between the standard price and the bill price."
+msgstr ""
+"Během průběžného oceňování bude tento účet obsahovat cenový rozdíl mezi "
+"standardní cenou a cenou na přijaté faktuře."
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
+msgid "Electronic Invoicing"
+msgstr "Elektronická fakturace"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_journal__incoming_einvoice_notification_email
+msgid ""
+"Email addresses that should receive invoices copy/return reminders. Separate"
+" entries with ';'."
+msgstr ""
+"E-mailové adresy, které mají dostávat kopie faktur a upomínky k vrácení. "
+"Jednotlivé adresy oddělte znakem ';'."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__first_reconciled_lines_id
+msgid "First Reconciled Lines"
+msgstr "První spárované řádky"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__first_reconciled_lines_excluding_exchange_diff_id
+msgid "First Reconciled Lines Excluding Exchange Diff"
+msgstr "První spárované řádky bez kurzových rozdílů"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_tax__company_country_code
+msgid "Fiscal Country Code of the Company"
+msgstr "Fiskální kód země společnosti"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_payment_term_line__value__fixed
+#: model:ir.model.fields.selection,name:account.selection__account_reconcile_model_line__amount_type__fixed
+#: model:ir.model.fields.selection,name:account.selection__account_tax__amount_type__fixed
+msgid "Fixed"
+msgstr "Pevná částka"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_account__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_account_journal__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_account_move__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_account_payment__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_account_reconcile_model__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_account_tax__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_res_company__message_follower_ids
+#: model:ir.model.fields,field_description:account.field_res_partner_bank__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_account__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_account_journal__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_account_move__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_account_payment__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_account_reconcile_model__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_account_tax__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_res_company__message_partner_ids
+#: model:ir.model.fields,field_description:account.field_res_partner_bank__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_account__activity_type_icon
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__activity_type_icon
+#: model:ir.model.fields,help:account.field_account_journal__activity_type_icon
+#: model:ir.model.fields,help:account.field_account_move__activity_type_icon
+#: model:ir.model.fields,help:account.field_account_payment__activity_type_icon
+#: model:ir.model.fields,help:account.field_account_setup_bank_manual_config__activity_type_icon
+#: model:ir.model.fields,help:account.field_res_partner_bank__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_partner_property_form
+msgid "General"
+msgstr "Obecné"
+
+#. module: account
+#: model:ir.model,name:account.model_ir_http
+msgid "HTTP Routing"
+msgstr "Směrování HTTP"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_account__activity_exception_icon
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__activity_exception_icon
+#: model:ir.model.fields,help:account.field_account_journal__activity_exception_icon
+#: model:ir.model.fields,help:account.field_account_move__activity_exception_icon
+#: model:ir.model.fields,help:account.field_account_payment__activity_exception_icon
+#: model:ir.model.fields,help:account.field_account_setup_bank_manual_config__activity_exception_icon
+#: model:ir.model.fields,help:account.field_res_partner_bank__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_account__message_needaction
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__message_needaction
+#: model:ir.model.fields,help:account.field_account_journal__message_needaction
+#: model:ir.model.fields,help:account.field_account_move__message_needaction
+#: model:ir.model.fields,help:account.field_account_payment__message_needaction
+#: model:ir.model.fields,help:account.field_account_reconcile_model__message_needaction
+#: model:ir.model.fields,help:account.field_account_setup_bank_manual_config__message_needaction
+#: model:ir.model.fields,help:account.field_account_tax__message_needaction
+#: model:ir.model.fields,help:account.field_res_company__message_needaction
+#: model:ir.model.fields,help:account.field_res_partner_bank__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_account__message_has_error
+#: model:ir.model.fields,help:account.field_account_account__message_has_sms_error
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__message_has_error
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__message_has_sms_error
+#: model:ir.model.fields,help:account.field_account_journal__message_has_error
+#: model:ir.model.fields,help:account.field_account_journal__message_has_sms_error
+#: model:ir.model.fields,help:account.field_account_move__message_has_error
+#: model:ir.model.fields,help:account.field_account_move__message_has_sms_error
+#: model:ir.model.fields,help:account.field_account_payment__message_has_error
+#: model:ir.model.fields,help:account.field_account_payment__message_has_sms_error
+#: model:ir.model.fields,help:account.field_account_reconcile_model__message_has_error
+#: model:ir.model.fields,help:account.field_account_reconcile_model__message_has_sms_error
+#: model:ir.model.fields,help:account.field_account_setup_bank_manual_config__message_has_error
+#: model:ir.model.fields,help:account.field_account_setup_bank_manual_config__message_has_sms_error
+#: model:ir.model.fields,help:account.field_account_tax__message_has_error
+#: model:ir.model.fields,help:account.field_account_tax__message_has_sms_error
+#: model:ir.model.fields,help:account.field_res_company__message_has_error
+#: model:ir.model.fields,help:account.field_res_company__message_has_sms_error
+#: model:ir.model.fields,help:account.field_res_partner_bank__message_has_error
+#: model:ir.model.fields,help:account.field_res_partner_bank__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_move_reversal__journal_id
+msgid "If empty, uses the journal of the journal entry to be reversed."
+msgstr "Pokud není vyplněno, použije se deník opravovaného účetního záznamu."
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/account_payment_field/account_payment.xml:0
+#: model:ir.model.fields,field_description:account.field_account_merge_wizard_line__info
+msgid "Info"
+msgstr "Informace"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+msgid "Invoice generated but not sent."
+msgstr "Faktura byla vygenerována, ale neodeslána."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_account__message_is_follower
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__message_is_follower
+#: model:ir.model.fields,field_description:account.field_account_journal__message_is_follower
+#: model:ir.model.fields,field_description:account.field_account_move__message_is_follower
+#: model:ir.model.fields,field_description:account.field_account_payment__message_is_follower
+#: model:ir.model.fields,field_description:account.field_account_reconcile_model__message_is_follower
+#: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__message_is_follower
+#: model:ir.model.fields,field_description:account.field_account_tax__message_is_follower
+#: model:ir.model.fields,field_description:account.field_res_company__message_is_follower
+#: model:ir.model.fields,field_description:account.field_res_partner_bank__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_move_line_filter
+msgid ""
+"Journal items where the account allows reconciliation no matter the residual"
+" amount"
+msgstr ""
+"Položky deníku, u nichž účet umožňuje párování bez ohledu na zbytkovou "
+"částku."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__sanitize_payment_reference
+#: model:ir.model.fields,field_description:account.field_account_move__sanitize_payment_reference
+msgid "Label sanitize"
+msgstr "Očištění popisu"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_report_line__horizontal_split_side__left
+msgid "Left"
+msgstr "Vlevo"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_accrued_orders_wizard
+msgid "Make Accrual Entries"
+msgstr "Vytvořit dohadné položky"
+
+#. module: account
+#: model:account.report.column,name:account.generic_tax_report_account_tax_column_net
+#: model:account.report.column,name:account.generic_tax_report_column_net
+#: model:account.report.column,name:account.generic_tax_report_tax_account_column_net
+msgid "Net"
+msgstr "Základ"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_account__activity_summary
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__activity_summary
+#: model:ir.model.fields,field_description:account.field_account_journal__activity_summary
+#: model:ir.model.fields,field_description:account.field_account_move__activity_summary
+#: model:ir.model.fields,field_description:account.field_account_payment__activity_summary
+#: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__activity_summary
+#: model:ir.model.fields,field_description:account.field_res_partner_bank__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_journal_form
+msgid "No payment journal entries"
+msgstr "Žádné platební účetní záznamy"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+msgid ""
+"No valid sending method could be applied, so this invoice was not sent "
+"automatically. Please configure a sending method and send it manually."
+msgstr ""
+"Nebylo možné použít žádný platný způsob odeslání, proto tato faktura nebyla "
+"odeslána automaticky. Nastavte způsob odeslání a odešlete ji ručně."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/partner.py:0
+msgid "Only Accounting managers can create foreign taxes."
+msgstr "Zahraniční daně mohou vytvářet pouze správci účetnictví."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+#: model:ir.model.fields.selection,name:account.selection__account_invoice_report__state__posted
+msgid "Open"
+msgstr "Otevřené"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
+msgid "Package"
+msgstr "Balíček"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_move__state__posted
+#: model:ir.model.fields.selection,name:account.selection__account_move__status_in_payment__posted
+#: model_terms:ir.ui.view,arch_db:account.view_account_invoice_filter
+#: model_terms:ir.ui.view,arch_db:account.view_account_move_filter
+#: model_terms:ir.ui.view,arch_db:account.view_account_move_line_filter
+#: model_terms:ir.ui.view,arch_db:account.view_account_move_line_payment_filter
+msgid "Posted"
+msgstr "Zaúčtováno"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_analytic_line__analytic_profitability
+msgid "Profitability"
+msgstr "Ziskovost"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
+msgid "QIF Import"
+msgstr "Import QIF"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_move__auto_post__quarterly
+msgid "Quarterly"
+msgstr "Čtvrtletně"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+msgid "Recompute all taxes and accounts based on this fiscal position"
+msgstr "Přepočítat všechny daně a účty na základě této fiskální pozice."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/account_merge_wizard.py:0
+msgid "Reconcilable"
+msgstr "Párovatelné"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__reconciled_lines_ids
+msgid "Reconciled Lines"
+msgstr "Spárované řádky"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__reconciled_lines_excluding_exchange_diff_ids
+msgid "Reconciled Lines Excluding Exchange Diff"
+msgstr "Spárované řádky kromě kurzových rozdílů"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__reconciled_payment_ids
+#: model:ir.model.fields,field_description:account.field_account_move__reconciled_payment_ids
+msgid "Reconciled Payments"
+msgstr "Spárované platby"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_tax_repartition_line__document_type__refund
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "Refund"
+msgstr "Dobropis"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__exchange_diff_partial_ids
+#: model:ir.model.fields,field_description:account.field_account_move__exchange_diff_partial_ids
+msgid "Related reconciliation"
+msgstr "Související párování"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_reversal__residual
+#: model_terms:ir.ui.view,arch_db:account.view_move_line_payment_tree
+#: model_terms:ir.ui.view,arch_db:account.view_move_line_tree
+msgid "Residual"
+msgstr "Zbývající částka"
+
+#. module: account
+#: model:ir.actions.act_window,name:account.action_view_account_move_reversal
+#: model_terms:ir.ui.view,arch_db:account.view_account_move_reversal
+msgid "Reverse"
+msgstr "Vytvořit opravný záznam"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_move_reversal
+msgid "Reverse Journal Entry"
+msgstr "Vytvořit opravný záznam"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__sequence
+#: model:ir.model.fields,field_description:account.field_account_fiscal_position__sequence
+#: model:ir.model.fields,field_description:account.field_account_journal__sequence
+#: model:ir.model.fields,field_description:account.field_account_journal_group__sequence
+#: model:ir.model.fields,field_description:account.field_account_merge_wizard_line__sequence
+#: model:ir.model.fields,field_description:account.field_account_move_line__sequence
+#: model:ir.model.fields,field_description:account.field_account_payment_method_line__sequence
+#: model:ir.model.fields,field_description:account.field_account_payment_term__sequence
+#: model:ir.model.fields,field_description:account.field_account_reconcile_model__sequence
+#: model:ir.model.fields,field_description:account.field_account_reconcile_model_line__sequence
+#: model:ir.model.fields,field_description:account.field_account_report__sequence
+#: model:ir.model.fields,field_description:account.field_account_report_column__sequence
+#: model:ir.model.fields,field_description:account.field_account_report_line__sequence
+#: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__sequence
+#: model:ir.model.fields,field_description:account.field_account_tax__sequence
+#: model:ir.model.fields,field_description:account.field_account_tax_group__sequence
+#: model:ir.model.fields,field_description:account.field_account_tax_repartition_line__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_account__activity_state
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__activity_state
+#: model:ir.model.fields,help:account.field_account_journal__activity_state
+#: model:ir.model.fields,help:account.field_account_move__activity_state
+#: model:ir.model.fields,help:account.field_account_payment__activity_state
+#: model:ir.model.fields,help:account.field_account_setup_bank_manual_config__activity_state
+#: model:ir.model.fields,help:account.field_res_partner_bank__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po termínu: Termín již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Naplánováno: Budoucí aktivity."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__country_code
+#: model:ir.model.fields,help:account.field_account_fiscal_position__fiscal_country_codes
+#: model:ir.model.fields,help:account.field_account_journal__country_code
+#: model:ir.model.fields,help:account.field_account_move__country_code
+#: model:ir.model.fields,help:account.field_account_move_reversal__country_code
+#: model:ir.model.fields,help:account.field_account_payment__country_code
+#: model:ir.model.fields,help:account.field_account_payment_register__country_code
+#: model:ir.model.fields,help:account.field_account_secure_entries_wizard__country_code
+#: model:ir.model.fields,help:account.field_account_setup_bank_manual_config__country_code
+#: model:ir.model.fields,help:account.field_account_tax__company_country_code
+#: model:ir.model.fields,help:account.field_account_tax__country_code
+#: model:ir.model.fields,help:account.field_account_tax_group__country_code
+#: model:ir.model.fields,help:account.field_res_config_settings__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+"Dvoupísmenný ISO kód země. \n"
+"Toto pole můžete použít pro rychlé vyhledávání."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_account.py:0
+msgid ""
+"The account code can only contain alphanumeric characters and dots. (account"
+" code: %s)"
+msgstr ""
+"Kód účtu smí obsahovat pouze alfanumerické znaky a tečky. (kód účtu: %s)"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_tax.py:0
+msgid "The cash basis transition account needs to allow reconciliation."
+msgstr "Přechodový účet na hotovostní bázi musí umožňovat párování."
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_default_terms_and_conditions
+msgid ""
+"The client explicitly waives its own standard terms and conditions, even if "
+"these were drawn up after these standard terms and conditions of sale. In "
+"order to be valid, any derogation must be expressly agreed to in advance in "
+"writing."
+msgstr ""
+"Klient se výslovně vzdává svých vlastních standardních obchodních podmínek, "
+"a to i v případě, že tyto byly sepsány až po těchto standardních obchodních "
+"podmínkách. Aby byla jakákoli odchylka platná, musí být předem výslovně "
+"písemně odsouhlasena."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid ""
+"The date is being set prior to: %(lock_date_info)s. The Journal Entry will "
+"be accounted on %(invoice_date)s upon posting."
+msgstr ""
+"Datum je nastaveno před: %(lock_date_info)s. Účetní záznam bude při "
+"zaúčtování zaúčtován k %(invoice_date)s."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "The entry is using taxes (%(tax_names)s) from a different company."
+msgstr "Záznam používá daně (%(tax_names)s) jiné společnosti."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_reconcile_model__match_label
+msgid ""
+"The reconciliation model will only be applied when either the statement line label, the transaction details or the note matches the following:\n"
+"        * Contains: The statement line must contains this string (case insensitive).\n"
+"        * Not Contains: Negation of \"Contains\".\n"
+"        * Match Regex: Define your own regular expression."
+msgstr ""
+"Model párování se použije pouze v případě, že název řádku výpisu, podrobnosti transakce nebo poznámka odpovídají následujícímu:\n"
+"        * Obsahuje: Řádek výpisu musí obsahovat tento řetězec (bez rozlišení velkých a malých písmen).\n"
+"        * Neobsahuje: Negace „Obsahuje“.\n"
+"        * Shoda s regulárním výrazem: Definujte vlastní regulární výraz."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid ""
+"To keep the restrictive audit trail, you can not delete journal entries once they have been posted.\n"
+"Instead, you can cancel the journal entry."
+msgstr ""
+"Aby byla zachována restriktivní auditní stopa, nelze účetní záznamy po jejich zaúčtování smazat.\n"
+"Místo toho je možné účetní záznam zrušit."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/account_move_reversal.py:0
+msgid "To reverse a journal entry, it has to be posted first."
+msgstr "Chcete-li stornovat účetní záznam, musí být nejprve zaúčtován."
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+#: model_terms:ir.ui.view,arch_db:account.view_move_line_tree
+msgid "Total Credit"
+msgstr "Celkem dal"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+#: model_terms:ir.ui.view,arch_db:account.view_move_line_tree
+msgid "Total Debit"
+msgstr "Celkem má dáti"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_analytic_line__analytic_profitability__uncategorized
+msgid "Uncategorized"
+msgstr "Nezařazené"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_fiscal_position__vat_required
+msgid "VAT required"
+msgstr "Vyžadováno DIČ"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/account_payment_field/account_payment.xml:0
+msgid "View"
+msgstr "Zobrazit"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_account__website_message_ids
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__website_message_ids
+#: model:ir.model.fields,help:account.field_account_journal__website_message_ids
+#: model:ir.model.fields,help:account.field_account_move__website_message_ids
+#: model:ir.model.fields,help:account.field_account_payment__website_message_ids
+#: model:ir.model.fields,help:account.field_account_reconcile_model__website_message_ids
+#: model:ir.model.fields,help:account.field_account_setup_bank_manual_config__website_message_ids
+#: model:ir.model.fields,help:account.field_account_tax__website_message_ids
+#: model:ir.model.fields,help:account.field_res_company__website_message_ids
+#: model:ir.model.fields,help:account.field_res_partner_bank__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace na webu"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_journal.py:0
+msgid ""
+"You can not archive a journal containing draft journal entries.\n"
+"\n"
+"To proceed:\n"
+"1/ go to Accounting > Accounting > Journal Entries\n"
+"2/ filter on this journal and on 'Unposted' entries\n"
+"3/ select them all and post or delete them through the action menu"
+msgstr ""
+"Nelze archivovat deník, který obsahuje účetní záznamy ve stavu návrh.\n"
+"\n"
+"Postup:\n"
+"1/ přejděte do Účetnictví > Účetnictví > Účetní záznamy\n"
+"2/ vyfiltrujte tento deník a záznamy 'Nezaúčtované'\n"
+"3/ vyberte je všechny a zaúčtujte je nebo je smažte pomocí nabídky akcí"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_line.py:0
+msgid "You can not reconcile cancelled entries."
+msgstr "Zrušené záznamy nelze párovat."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_base_document_layout__vat
+msgid "You can use '/' to indicate that the customer has no Tax ID."
+msgstr ""
+"Znakem „/“ můžete označit, že zákazník nemá daňové identifikační číslo."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid ""
+"You cannot modify the following readonly fields on the posted move %(move)s:"
+" %(fields)s"
+msgstr ""
+"U zaúčtovaného záznamu %(move)s nelze měnit následující pole jen pro čtení: "
+"%(fields)s"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+#: code:addons/account/wizard/account_payment_register.py:0
+msgid "You cannot register payments for blocked invoices."
+msgstr "U blokovaných faktur nelze evidovat platby."
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_default_terms_and_conditions
+msgid "You should update this document to reflect your T&amp;C."
+msgstr ""
+"Tento dokument byste měli aktualizovat tak, aby odrážel vaše všeobecné "
+"obchodní podmínky."
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_group_form
+msgid "to"
+msgstr "do"

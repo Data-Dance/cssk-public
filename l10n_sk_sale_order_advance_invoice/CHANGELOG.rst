@@ -8,6 +8,24 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- English name of 324001 (spec ``name`` as a dict) and the post-migrate that
+  renames it — 19.0.1.1.1. 18.0 has the same Slovak-only name. Needs the base
+  helper carried over first.
+
+[19.0.1.1.1] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **324001 had only its Slovak name**, stored as the English one, so an
+  English-speaking user saw Slovak. It is now *Advances received – clearing
+  (tax document)* in English and keeps *Prijaté preddavky – zúčtovanie (daňový
+  doklad)* in Slovak. The upgrade renames the account unless you renamed it.
+
 [19.0.1.1.0] — 2026-09-30
 -------------------------
 

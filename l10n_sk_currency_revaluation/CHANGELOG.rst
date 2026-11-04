@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-11-04
+-------------------------
+
+Changed
+~~~~~~~
+
+- One *Closing* menu under *Accounting → Accounting*: the currency
+  revaluation and its reversal move under Odoo's own *Closing* (next to
+  *Secure Entries*), and the second *Closing* menu that
+  ``account_multicurrency_revaluation`` adds is hidden.
+
 [19.0.1.0.1] — 2026-09-13
 -------------------------
 

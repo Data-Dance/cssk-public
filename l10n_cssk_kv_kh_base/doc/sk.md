@@ -79,7 +79,7 @@ spoločné je toto:
 - **Dobropisy.** Dobropis vytvorený z faktúry je s ňou prepojený a výkaz
   z tohto prepojenia uvedie číslo pôvodnej faktúry. Pri dobropise vytvorenom
   ručne zadajte číslo opravovaného dokladu do poľa *Original document number*
-  (karta *Ďalšie info*; popisok je v tejto verzii anglicky). Pole sa zobrazuje
+  (karta *Ďalšie info*; popis je v tejto verzii anglicky). Pole sa zobrazuje
   len na dobropisoch slovenskej alebo českej spoločnosti, ktoré nie sú
   prepojené s faktúrou.
 - **Interné doklady s DPH** môžu uviesť, čo ich typ povedať nevie: na karte

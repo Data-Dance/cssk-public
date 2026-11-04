@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- account_multicurrency_revaluation adds a second "Closing" menu next to
+         the one Odoo 19 already has under Accounting (Secure Entries). Put its
+         two entries under Odoo's and hide the duplicate. Upgrading the OCA
+         module upgrades this one too, so the move is applied again after it. -->
+    <record id="account_multicurrency_revaluation.menu_view_account_currency_revaluation_wizard" model="ir.ui.menu">
+        <field name="parent_id" ref="account.account_closing_menu"/>
+        <field name="sequence">30</field>
+    </record>
+    <record id="account_multicurrency_revaluation.menu_view_reverse_account_currency_revaluation_wizard" model="ir.ui.menu">
+        <field name="parent_id" ref="account.account_closing_menu"/>
+        <field name="sequence">31</field>
+    </record>
+    <record id="account_multicurrency_revaluation.menu_view_account_currency_revaluation_closing" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+</odoo>

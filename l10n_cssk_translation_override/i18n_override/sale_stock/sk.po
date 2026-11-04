@@ -1,0 +1,120 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_stock
+#: model:ir.model.fields,help:sale_stock.field_sale_order_line__is_storable
+msgid "A storable product is a product for which you manage stock."
+msgstr "Skladovateľný produkt je produkt, ktorého zásoby spravujete."
+
+#. module: sale_stock
+#: model:ir.model.fields,help:sale_stock.field_sale_order_line__qty_delivered_method
+msgid ""
+"According to product configuration, the delivered quantity can be automatically computed by mechanism:\n"
+"  - Manual: the quantity is set manually on the line\n"
+"  - Analytic From expenses: the quantity is the quantity sum from posted expenses\n"
+"  - Timesheet: the quantity is the sum of hours recorded on tasks linked to this sale line\n"
+"  - Stock Moves: the quantity comes from confirmed pickings\n"
+msgstr ""
+"V závislosti od konfigurácie produktu sa dodané množstvo môže automaticky vypočítať nasledujúcimi spôsobmi:\n"
+"  - Ručne: množstvo sa zadáva ručne v riadku\n"
+"  - Analyticky z výdavkov: množstvo je súčtom množstiev z zaúčtovaných výdavkov\n"
+"  - Pracovný výkaz: množstvo je súčtom hodín zaznamenaných v úlohách prepojených s týmto predajným riadkom\n"
+"  - Skladové pohyby: množstvo vychádza z potvrdených presunov\n"
+
+#. module: sale_stock
+#: model:ir.model,name:sale_stock.model_account_accrued_orders_wizard
+msgid "Accrued Orders Wizard"
+msgstr "Sprievodca dohadnými položkami k objednávkam"
+
+#. module: sale_stock
+#: model:ir.model.fields,field_description:sale_stock.field_sale_order__delivery_count
+msgid "Delivery Orders"
+msgstr "Dodacie listy"
+
+#. module: sale_stock
+#: model:ir.model.fields,help:sale_stock.field_sale_order__expected_date
+msgid ""
+"Delivery date you can promise to the customer, computed from the minimum "
+"lead time of the order lines in case of Service products. In case of "
+"shipping, the shipping policy of the order will be taken into account to "
+"either use the minimum or maximum lead time of the order lines."
+msgstr ""
+"Termín dodania, ktorý môžete zákazníkovi sľúbiť, sa v prípade produktov typu"
+" „Služba“ vypočíta na základe najkratšej dodacej lehoty z riadkov "
+"objednávky. V prípade expedície sa zohľadní politika expedície objednávky, "
+"pričom sa použije buď najkratšia, alebo najdlhšia dodacia lehota z riadkov "
+"objednávky."
+
+#. module: sale_stock
+#. odoo-javascript
+#: code:addons/sale_stock/static/src/widgets/qty_at_date_widget.js:0
+msgid "Forecasted Stock"
+msgstr "Predpokladané zásoby"
+
+#. module: sale_stock
+#: model:ir.model,name:sale_stock.model_stock_route
+msgid "Inventory Routes"
+msgstr "Skladové trasy"
+
+#. module: sale_stock
+#: model:ir.model.fields,field_description:sale_stock.field_sale_order__json_popover
+msgid "JSON data for the popover widget"
+msgstr "Údaje JSON pre vyskakovací widget"
+
+#. module: sale_stock
+#: model:ir.model,name:sale_stock.model_stock_move_line
+msgid "Product Moves (Stock Move Line)"
+msgstr "Pohyby produktu (riadok skladového pohybu)"
+
+#. module: sale_stock
+#: model:ir.model.fields,field_description:sale_stock.field_sale_order_line__qty_to_deliver
+msgid "Qty To Deliver"
+msgstr "Množstvo na dodanie"
+
+#. module: sale_stock
+#. odoo-python
+#: code:addons/sale_stock/models/sale_order_line.py:0
+msgid "Replenish on Order (MTO)"
+msgstr "Doplnenie na objednávku (MTO)"
+
+#. module: sale_stock
+#: model:ir.model,name:sale_stock.model_stock_return_picking
+msgid "Return Picking"
+msgstr "Vrátenie presunu"
+
+#. module: sale_stock
+#: model_terms:ir.ui.view,arch_db:sale_stock.sale_order_portal_content_inherit_sale_stock
+msgid "Returns"
+msgstr "Vrátenia"
+
+#. module: sale_stock
+#: model:ir.model.fields,field_description:sale_stock.field_stock_reference__sale_ids
+msgid "Sales"
+msgstr "Objednávky predaja"
+
+#. module: sale_stock
+#: model:ir.model,name:sale_stock.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Riadok objednávky predaja"
+
+#. module: sale_stock
+#: model_terms:ir.ui.view,arch_db:sale_stock.stock_location_route_view_form_inherit_sale_stock
+msgid "Sales Order Lines"
+msgstr "Riadky objednávky predaja"
+
+#. module: sale_stock
+#: model:ir.model,name:sale_stock.model_res_users
+msgid "User"
+msgstr "Používateľ"
+
+#. module: sale_stock
+#: model:ir.model.fields.selection,name:sale_stock.selection__sale_order__picking_policy__one
+msgid "When all products are ready"
+msgstr "Keď sú pripravené všetky produkty"

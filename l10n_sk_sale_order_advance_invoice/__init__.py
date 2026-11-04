@@ -11,7 +11,10 @@ SK_SPEC = {
     "create_accounts": [
         {
             "code": "324001",
-            "name": "Prijaté preddavky – zúčtovanie (daňový doklad)",
+            "name": {
+                "en_US": "Advances received – clearing (tax document)",
+                "sk_SK": "Prijaté preddavky – zúčtovanie (daňový doklad)",
+            },
             "account_type": "asset_receivable",
             "reconcile": True,
         },

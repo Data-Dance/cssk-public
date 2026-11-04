@@ -1,0 +1,30 @@
+# Test fixture: translation overrides, never shipped as real terms.
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_res_partner__comment
+msgid "Notes"
+msgstr "CSSK-TEST Poznámky"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__res_partner__type__invoice
+msgid "Invoice"
+msgstr "CSSK-TEST Fakturačná adresa"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_partner_form
+msgid "Potential duplicates:"
+msgstr "CSSK-TEST Možné duplicity:"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_partner.py:0
+msgid "A valid email is required for find_or_create to work properly."
+msgstr "CSSK-TEST Platný e-mail je povinný."

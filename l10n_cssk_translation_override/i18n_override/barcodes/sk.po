@@ -1,0 +1,131 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: barcodes
+#. odoo-python
+#: code:addons/barcodes/models/barcode_rule.py:0
+msgid " '*' is not a valid Regex Barcode Pattern. Did you mean '.*'?"
+msgstr ""
+" '*' nie je platný vzor čiarového kódu (regulárny výraz). Mali ste na mysli "
+"'.*'?"
+
+#. module: barcodes
+#. odoo-javascript
+#: code:addons/barcodes/static/src/components/manual_barcode.xml:0
+msgid "Apply"
+msgstr "Použiť"
+
+#. module: barcodes
+#: model:ir.actions.act_window,name:barcodes.action_barcode_nomenclature_form
+#: model_terms:ir.ui.view,arch_db:barcodes.view_barcode_nomenclature_tree
+msgid "Barcode Nomenclatures"
+msgstr "Názvoslovia čiarových kódov"
+
+#. module: barcodes
+#. odoo-javascript
+#: code:addons/barcodes/static/src/barcode_handlers.js:0
+msgid "Barcode: %(barcode)s"
+msgstr "Čiarový kód: %(barcode)s"
+
+#. module: barcodes
+#. odoo-javascript
+#: code:addons/barcodes/static/src/components/manual_barcode.js:0
+msgid "Enter a barcode..."
+msgstr "Zadajte čiarový kód..."
+
+#. module: barcodes
+#. odoo-python
+#: code:addons/barcodes/models/barcode_events_mixin.py:0
+msgid ""
+"In order to use barcodes.barcode_events_mixin, method on_barcode_scanned "
+"must be implemented"
+msgstr ""
+"Na používanie barcodes.barcode_events_mixin musí byť implementovaná metóda "
+"on_barcode_scanned"
+
+#. module: barcodes
+#: model_terms:ir.ui.view,arch_db:barcodes.view_barcode_nomenclature_form
+msgid ""
+"Patterns can also define how numerical values, such as weight or price, can be\n"
+"                                encoded into the barcode. They are indicated by <code>{NNN}</code> where the N's\n"
+"                                define where the number's digits are encoded. Floats are also supported with the\n"
+"                                decimals indicated with D's, such as <code>{NNNDD}</code>. In these cases,\n"
+"                                the barcode field on the associated records <i>must</i> show these digits as\n"
+"                                zeroes."
+msgstr ""
+"Vzory môžu tiež určovať, ako sa do čiarového kódu zakódujú číselné hodnoty, napríklad hmotnosť\n"
+"                                alebo cena. Označujú sa pomocou <code>{NNN}</code>, kde znaky N\n"
+"                                určujú, kde sú zakódované číslice čísla. Podporované sú aj desatinné čísla,\n"
+"                                desatinné miesta sa označujú znakmi D, napríklad <code>{NNNDD}</code>. V takých prípadoch\n"
+"                                pole čiarového kódu v súvisiacich záznamoch <i>musí</i> tieto číslice zobrazovať ako\n"
+"                                nuly."
+
+#. module: barcodes
+#. odoo-javascript
+#: code:addons/barcodes/static/src/components/barcode_scanner.js:0
+msgid "Please, Scan again!"
+msgstr "Naskenujte, prosím, znova!"
+
+#. module: barcodes
+#: model:ir.model.fields,field_description:barcodes.field_barcode_rule__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: barcodes
+#. odoo-python
+#: code:addons/barcodes/models/barcode_rule.py:0
+msgid ""
+"The barcode pattern %(pattern)s does not lead to a valid regular expression."
+msgstr ""
+"Vzor čiarového kódu %(pattern)s nevedie k platnému regulárnemu výrazu."
+
+#. module: barcodes
+#. odoo-python
+#: code:addons/barcodes/models/barcode_rule.py:0
+msgid ""
+"There is a syntax error in the barcode pattern %(pattern)s: a rule can only "
+"contain one pair of braces."
+msgstr ""
+"Vo vzore čiarového kódu %(pattern)s je syntaktická chyba: pravidlo môže "
+"obsahovať iba jeden pár zložených zátvoriek."
+
+#. module: barcodes
+#. odoo-python
+#: code:addons/barcodes/models/barcode_rule.py:0
+msgid ""
+"There is a syntax error in the barcode pattern %(pattern)s: braces can only "
+"contain N's followed by D's."
+msgstr ""
+"Vo vzore čiarového kódu %(pattern)s je syntaktická chyba: zložené zátvorky "
+"môžu obsahovať iba znaky N, za ktorými nasledujú znaky D."
+
+#. module: barcodes
+#. odoo-python
+#: code:addons/barcodes/models/barcode_rule.py:0
+msgid ""
+"There is a syntax error in the barcode pattern %(pattern)s: empty braces."
+msgstr ""
+"Vo vzore čiarového kódu %(pattern)s je syntaktická chyba: prázdne zložené "
+"zátvorky."
+
+#. module: barcodes
+#. odoo-javascript
+#: code:addons/barcodes/static/src/barcode_handlers.js:0
+msgid "Unknown barcode command"
+msgstr "Neznámy príkaz čiarového kódu"
+
+#. module: barcodes
+#. odoo-python
+#: code:addons/barcodes/models/barcode_nomenclature.py:0
+msgid ""
+"You cannot delete '%(name)s' because it's the default barcode nomenclature."
+msgstr ""
+"Nemôžete odstrániť '%(name)s', pretože je to predvolené názvoslovie "
+"čiarových kódov."

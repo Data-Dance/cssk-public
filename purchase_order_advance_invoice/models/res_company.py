@@ -1,5 +1,11 @@
 from odoo import fields, models
 
+from ..tools import (
+    adopt_advance_account_names,
+    advance_account_names,
+    write_advance_account_names,
+)
+
 
 class ResCompany(models.Model):
     _inherit = "res.company"
@@ -55,14 +61,18 @@ class ResCompany(models.Model):
         self.ensure_one()
         Account = self.env["account.account"]
         for acc in spec.get("create_accounts", []):
-            if self._resolve_purchase_advance_account(acc["code"]):
+            names = advance_account_names(acc["name"])
+            existing = self._resolve_purchase_advance_account(acc["code"])
+            if existing:
+                adopt_advance_account_names(existing, names)
                 continue
-            Account.with_company(self).create({
+            account = Account.with_company(self).create({
                 "code": acc["code"],
-                "name": acc["name"],
+                "name": names.get("en_US") or next(iter(names.values())),
                 "account_type": acc.get("account_type", "liability_payable"),
                 "reconcile": acc.get("reconcile", True),
             })
+            write_advance_account_names(account, names)
         role_fields = {
             "paid_clearing": "advance_paid_clearing_account_id",
             "paid_st": "advance_paid_account_id",

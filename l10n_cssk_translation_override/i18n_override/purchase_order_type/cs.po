@@ -1,0 +1,169 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: purchase_order_type
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.view_purchase_order_type_form
+msgid "Archived"
+msgstr "Archivováno"
+
+#. module: purchase_order_type
+#: model_terms:ir.actions.act_window,help:purchase_order_type.action_purchase_order_type_view
+msgid "Click to set a new type for purchase order."
+msgstr "Klikněte pro nastavení nového typu nákupní objednávky."
+
+#. module: purchase_order_type
+#: model:ir.model,name:purchase_order_type.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__company_id
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.view_purchase_order_type_search
+msgid "Company"
+msgstr "Společnost"
+
+#. module: purchase_order_type
+#: model:ir.model,name:purchase_order_type.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__is_default
+msgid "Default"
+msgstr "Výchozí"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__description
+msgid "Description"
+msgstr "Popis"
+
+#. module: purchase_order_type
+#. odoo-python
+#: code:addons/purchase_order_type/models/purchase_order.py:0
+msgid "Document's company and type's company mismatch"
+msgstr "Společnost dokladu neodpovídá společnosti typu"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__sequence_id
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.view_purchase_order_type_search
+msgid "Entry Sequence"
+msgstr "Číselná řada záznamů"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,help:purchase_order_type.field_purchase_order__order_type_required
+#: model:ir.model.fields,help:purchase_order_type.field_res_company__purchase_order_type_required
+#: model:ir.model.fields,help:purchase_order_type.field_res_config_settings__purchase_order_type_required
+msgid ""
+"If enabled, a purchase order can only be saved in the form once it has an "
+"order type."
+msgstr ""
+"Je-li zapnuto, lze nákupní objednávku ve formuláři uložit až poté, co má typ"
+" objednávky."
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: purchase_order_type
+#. odoo-python
+#: code:addons/purchase_order_type/models/purchase_order_type.py:0
+msgid "Only one default order type is allowed per company."
+msgstr "Na společnost je povolen pouze jeden výchozí typ objednávky."
+
+#. module: purchase_order_type
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.view_purchase_order_type_search
+msgid "Payment Term"
+msgstr "Platební podmínka"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__payment_term_id
+msgid "Payment Terms"
+msgstr "Platební podmínky"
+
+#. module: purchase_order_type
+#: model:ir.model,name:purchase_order_type.model_res_config_settings
+msgid "Procurement purchase grouping settings"
+msgstr "Nastavení seskupování nákupů při zásobování"
+
+#. module: purchase_order_type
+#: model:ir.model,name:purchase_order_type.model_purchase_order
+msgid "Purchase Order"
+msgstr "Nákupní objednávka"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_res_partner__purchase_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_res_users__purchase_type
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.res_partner_purchase_type_form_view
+msgid "Purchase Order Type"
+msgstr "Typ nákupní objednávky"
+
+#. module: purchase_order_type
+#: model:ir.actions.act_window,name:purchase_order_type.action_purchase_order_type_view
+#: model:ir.ui.menu,name:purchase_order_type.menu_purchase_order_type
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.view_purchase_order_type_search
+msgid "Purchase Order Types"
+msgstr "Typy nákupních objednávek"
+
+#. module: purchase_order_type
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.res_config_settings_view_form_purchase
+msgid "Purchase orders can only be saved once they have an order type"
+msgstr "Nákupní objednávky lze uložit až poté, co mají typ objednávky"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order__order_type_required
+#: model:ir.model.fields,field_description:purchase_order_type.field_res_company__purchase_order_type_required
+#: model:ir.model.fields,field_description:purchase_order_type.field_res_config_settings__purchase_order_type_required
+msgid "Require Purchase Order Type"
+msgstr "Vyžadovat typ nákupní objednávky"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order_type__sequence
+msgid "Sequence"
+msgstr "Sekvence"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,field_description:purchase_order_type.field_purchase_order__order_type
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.purchase_order_view_search
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.view_purchase_order_filter
+#: model_terms:ir.ui.view,arch_db:purchase_order_type.view_purchase_order_type_form
+msgid "Type"
+msgstr "Typ"
+
+#. module: purchase_order_type
+#: model:ir.model,name:purchase_order_type.model_purchase_order_type
+msgid "Type of purchase order"
+msgstr "Typ nákupní objednávky"
+
+#. module: purchase_order_type
+#: model:ir.model.fields,help:purchase_order_type.field_purchase_order_type__is_default
+msgid ""
+"Used as the fallback order type for a purchase order whose vendor does not "
+"provide one, and to correct a purchase order whose type no longer suits its "
+"company after the company changes."
+msgstr ""
+"Používá se jako záložní typ objednávky pro nákupní objednávku, jejíž "
+"dodavatel žádný typ neuvádí, a k opravě nákupní objednávky, jejíž typ po "
+"změně společnosti už této společnosti neodpovídá."

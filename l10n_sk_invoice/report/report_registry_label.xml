@@ -35,11 +35,16 @@
                 <t t-out="company.partner_id.company_registry_label"/>: <span t-field="company.company_registry"/>
             </li>
         </xpath>
-        <!-- Every web.external_layout_* already prints the company VAT (and
-             the fiscal position's forced VAT) in the same address list, so
-             l10n_sk's own VAT line printed "IČ DPH" twice. The folded layout
-             has no core VAT line and keeps l10n_sk's. -->
-        <xpath expr="//li[span[@t-out='company.vat']]" position="replace"/>
+        <!-- l10n_sk's own VAT line used to duplicate the one every
+             web.external_layout_* already prints, and this template removed
+             it. Odoo removed the line itself in 19.0 on 2026-10-14
+             (135758684, "[FIX] l10n_sk: remove duplicate VAT number on
+             invoice report"), so the xpath that removed it matched nothing
+             and a missing xpath is a hard error: the module stopped
+             installing. Nothing replaces it — upstream now does the job. On an
+             Odoo 19.0 older than that commit the supplier VAT prints twice
+             again; the cure is to update Odoo, not to put the xpath back,
+             which would break every current build. -->
     </template>
     <template id="external_layout_folder_registry_label" inherit_id="l10n_sk.l10n_sk_external_layout_folder">
         <xpath expr="//div[span[@t-field='company.company_registry']]" position="replace">

@@ -11,7 +11,10 @@ CZ_SPEC = {
     "create_accounts": [
         {
             "code": "324001",
-            "name": "Přijaté zálohy – zúčtování (daňový doklad)",
+            "name": {
+                "en_US": "Advances received – clearing (tax document)",
+                "cs_CZ": "Přijaté zálohy – zúčtování (daňový doklad)",
+            },
             "account_type": "asset_receivable",
             "reconcile": True,
         },

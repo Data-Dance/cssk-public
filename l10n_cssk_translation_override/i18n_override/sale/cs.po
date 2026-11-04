@@ -1,0 +1,360 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale
+#: model:mail.template,body_html:sale.email_template_proforma
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Hello,\n"
+"        <br/><br/>\n"
+"        <t t-if=\"object.state in ('draft', 'sent')\">\n"
+"            Your Pro forma invoice for quotation <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            Your Pro forma invoice for order <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"        </t>\n"
+"        <t t-if=\"object.origin\">\n"
+"            (with reference: <t t-out=\"object.origin or ''\"/> )\n"
+"        </t>\n"
+"        amounting in <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> is available.\n"
+"        <br/><br/>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Dobrý den,\n"
+"        <br/><br/>\n"
+"        <t t-if=\"object.state in ('draft', 'sent')\">\n"
+"            vaše proforma faktura k nabídce <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            vaše proforma faktura k objednávce <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"        </t>\n"
+"        <t t-if=\"object.origin\">\n"
+"            (s referencí <t t-out=\"object.origin or ''\"/> )\n"
+"        </t>\n"
+"        na částku <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> je k dispozici.\n"
+"        <br/><br/>\n"
+"        S případnými dotazy se na nás neváhejte obrátit.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+
+#. module: sale
+#: model:mail.template,body_html:sale.email_template_edi_sale
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Hello,\n"
+"        <br/><br/>\n"
+"        <t t-if=\"object.state in ('draft', 'sent')\">\n"
+"            Your quotation <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (with reference: <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            amounting in <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> is ready for review.\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            Your order <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (with reference: <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            amounting in <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> is ready for review.\n"
+"        </t>\n"
+"        <br/>\n"
+"        <t t-set=\"documents\" t-value=\"object._get_product_documents()\"/>\n"
+"        <t t-if=\"documents\">\n"
+"            <br/>\n"
+"            <t t-if=\"len(documents)&gt;1\">\n"
+"                Here are some additional documents that may interest you:\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Here is an additional document that may interest you:\n"
+"            </t>\n"
+"            <ul style=\"margin-bottom: 0;\">\n"
+"                <t t-foreach=\"documents\" t-as=\"document\">\n"
+"                    <li style=\"font-size: 13px;\">\n"
+"                        <a t-out=\"document.ir_attachment_id.name\" t-att-href=\"object.get_portal_url('/document/' + str(document.id))\" t-att-target=\"target\"/>\n"
+"                    </li>\n"
+"                </t>\n"
+"            </ul>\n"
+"        </t>\n"
+"        <br/>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Dobrý den,\n"
+"        <br/><br/>\n"
+"        <t t-if=\"object.state in ('draft', 'sent')\">\n"
+"            vaše nabídka <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (s referencí <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            na částku <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> je připravena ke kontrole.\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            vaše objednávka <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (s referencí <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            na částku <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> je připravena ke kontrole.\n"
+"        </t>\n"
+"        <br/>\n"
+"        <t t-set=\"documents\" t-value=\"object._get_product_documents()\"/>\n"
+"        <t t-if=\"documents\">\n"
+"            <br/>\n"
+"            <t t-if=\"len(documents)&gt;1\">\n"
+"                Zasíláme vám několik dalších dokumentů, které by vás mohly zajímat:\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Zasíláme vám další dokument, který by vás mohl zajímat:\n"
+"            </t>\n"
+"            <ul style=\"margin-bottom: 0;\">\n"
+"                <t t-foreach=\"documents\" t-as=\"document\">\n"
+"                    <li style=\"font-size: 13px;\">\n"
+"                        <a t-out=\"document.ir_attachment_id.name\" t-att-href=\"object.get_portal_url('/document/' + str(document.id))\" t-att-target=\"target\"/>\n"
+"                    </li>\n"
+"                </t>\n"
+"            </ul>\n"
+"        </t>\n"
+"        <br/>\n"
+"        S případnými dotazy se na nás neváhejte obrátit.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.utm_campaign_view_kanban
+msgid "<i class=\"fa fa-fw fa-money me-1\" aria-label=\"Quotations\" role=\"img\"/>"
+msgstr "<i class=\"fa fa-fw fa-money me-1\" aria-label=\"Nabídky\" role=\"img\"/>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid ""
+"<strong>\n"
+"                            Invoicing Address\n"
+"                        </strong>"
+msgstr ""
+"<strong>\n"
+"                            Fakturační adresa\n"
+"                        </strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid ""
+"<strong>\n"
+"                            Shipping Address\n"
+"                        </strong>"
+msgstr ""
+"<strong>\n"
+"                            Doručovací adresa\n"
+"                        </strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid ""
+"<strong>\n"
+"                        Invoicing and Shipping Address\n"
+"                    </strong>"
+msgstr ""
+"<strong>\n"
+"                        Fakturační a dodací adresa\n"
+"                    </strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "<strong>Fiscal Position Remark:</strong>"
+msgstr "<strong>Poznámka k fiskální pozici:</strong>"
+
+#. module: sale
+#: model:ir.model,name:sale.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Šablona účtového rozvrhu"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid "Activate"
+msgstr "Aktivovat"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimečné aktivity"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__module_sale_amazon
+msgid "Amazon Sync"
+msgstr "Synchronizace s Amazonem"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__analytic_distribution
+msgid "Analytic Distribution"
+msgstr "Analytické rozdělení"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/combo_configurator_dialog/combo_configurator_dialog.xml:0
+#: code:addons/sale/static/src/js/product_configurator_dialog/product_configurator_dialog.xml:0
+#: model:ir.actions.act_window,name:sale.action_mass_cancel_orders
+#: model_terms:ir.ui.view,arch_db:sale.mass_cancel_orders_view_form
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+#: model_terms:ir.ui.view,arch_db:sale.view_sale_advance_payment_inv
+msgid "Cancel"
+msgstr "Zrušit"
+
+#. module: sale
+#: model:ir.ui.menu,name:sale.menu_product_combos
+msgid "Combo Choices"
+msgstr "Kombinované nabídky"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr "Analytický účet rozdělení"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Duplicated Documents"
+msgstr "Duplicitní dokumenty"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__validity_date
+msgid "Expiration"
+msgstr "Expirace"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__message_has_error
+#: model:ir.model.fields,help:sale.field_sale_order__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.product_pricelist_item_form
+msgid "Min Qty"
+msgstr "Min. množství"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "Pay Now"
+msgstr "Zaplatit nyní"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po termínu: Termín již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Naplánováno: Budoucí aktivity."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+"Dvoupísmenný ISO kód země. \n"
+"Toto pole můžete použít pro rychlé vyhledávání."
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__amount_untaxed
+msgid "Untaxed Amount"
+msgstr "Částka bez DPH"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__validity_date
+msgid ""
+"Validity of the quotation. After this date, you will no longer be able to "
+"sign and pay it."
+msgstr ""
+"Platnost nabídky. Po tomto datu ji již nebude možné podepsat a zaplatit."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace na webu"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/product_product.py:0
+#: code:addons/sale/models/product_template.py:0
+msgid ""
+"You should not change the product type because this product is already used "
+"in sales orders. Changing it may affect how the related order lines are "
+"delivered."
+msgstr ""
+"Typ produktu byste neměli měnit, protože tento produkt je již použit v "
+"prodejních objednávkách. Změna může ovlivnit způsob dodání souvisejících "
+"řádků objednávek."

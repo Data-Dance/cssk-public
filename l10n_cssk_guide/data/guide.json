@@ -1,8 +1,74 @@
 {
+ "guides": {
+  "mis_reports": {
+   "country": "both",
+   "langs": [
+    "en",
+    "sk",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Jak sestavit, spustit, porovnat, rozkliknout a okomentovat manažerský výkaz — manažerskou výsledovku, přehled pro vedení nebo vlastní výkaz.",
+    "en": "Build, run, compare, drill into and annotate management reports — the management P&L, the executive summary, or one of your own.",
+    "sk": "Ako zostaviť, spustiť, porovnať, rozkliknúť a okomentovať manažérsky výkaz — manažérsku výsledovku, prehľad pre vedenie alebo vlastný výkaz."
+   },
+   "title": {
+    "cs": "Manažerské výkazy v MIS Builder",
+    "en": "Management reports with MIS Builder",
+    "sk": "Manažérske výkazy v MIS Builder"
+   }
+  },
+  "sk_account_setup": {
+   "country": "sk",
+   "langs": [
+    "en",
+    "sk"
+   ],
+   "summary": {
+    "en": "Where Odoo takes the account for every line of a document, and how to set up product categories, products, fiscal positions, taxes, partners and default accounts so that invoices are posted correctly without anyone touching them.",
+    "sk": "Odkiaľ Odoo berie účet pre každý riadok dokladu a ako nastaviť kategórie produktov, produkty, fiškálne pozície, dane, partnerov a predvolené účty, aby sa faktúry zaúčtovali správne bez ručného zásahu."
+   },
+   "title": {
+    "en": "Setting up account assignment",
+    "sk": "Nastavenie predkontácií"
+   }
+  },
+  "sk_documents": {
+   "country": "sk",
+   "langs": [
+    "en",
+    "sk"
+   ],
+   "summary": {
+    "en": "Issued and received invoices, credit notes, advance invoices, payments and internal documents — how each is made in Odoo, how it is posted, and what the Slovak localization adds to it.",
+    "sk": "Vystavené a prijaté faktúry, dobropisy, zálohové faktúry, platby a interné doklady — ako sa ktorý vytvorí v Odoo, ako sa zaúčtuje a čo k nemu pridáva slovenská lokalizácia."
+   },
+   "title": {
+    "en": "Daily bookkeeping",
+    "sk": "Denná agenda"
+   }
+  },
+  "sk_orientation": {
+   "country": "sk",
+   "langs": [
+    "en",
+    "sk"
+   ],
+   "summary": {
+    "en": "Where the things you know from Slovak bookkeeping live in Odoo — the menus, the roles, and a glossary from účtovný doklad to saldokonto.",
+    "sk": "Kde v Odoo nájdete to, čo poznáte zo slovenského účtovníctva — menu, roly používateľov a slovník od účtovného dokladu po saldokonto."
+   },
+   "title": {
+    "en": "Odoo for a Slovak accountant",
+    "sk": "Odoo pre slovenského účtovníka"
+   }
+  }
+ },
  "labels": {
   "cs": {
    "all": "Vše",
    "both": "CZ i SK",
+   "col_guides": "Návody k úlohám",
    "col_name": "Modul",
    "col_state": "Stav",
    "col_summary": "Co dělá",
@@ -21,6 +87,7 @@
   "en": {
    "all": "All",
    "both": "CZ and SK",
+   "col_guides": "Task guides",
    "col_name": "Module",
    "col_state": "State",
    "col_summary": "What it does",
@@ -39,6 +106,7 @@
   "sk": {
    "all": "Všetko",
    "both": "CZ aj SK",
+   "col_guides": "Návody k úlohám",
    "col_name": "Modul",
    "col_state": "Stav",
    "col_summary": "Čo robí",
@@ -81,10 +149,15 @@
  },
  "topics": [
   {
+   "guides": [
+    "sk_orientation",
+    "sk_account_setup",
+    "sk_documents"
+   ],
    "intro": {
     "cs": "Balíček pro zemi, údaje společnosti, faktury a doklady každého dne.",
-    "en": "The country package, company data, invoices and the documents of every day.",
-    "sk": "Balík pre krajinu, údaje spoločnosti, faktúry a doklady každého dňa."
+    "en": "The country package, company data, account assignment, invoices and daily bookkeeping.",
+    "sk": "Balík pre krajinu, údaje spoločnosti, nastavenie predkontácií, faktúry a denná agenda."
    },
    "key": "start",
    "title": {
@@ -94,6 +167,7 @@
    }
   },
   {
+   "guides": [],
    "intro": {
     "cs": "Přiznání k DPH, kontrolní hlášení, souhrnná hlášení, OSS, Intrastat a jejich podání finanční správě.",
     "en": "VAT returns, control statements, EC sales lists, OSS, Intrastat, and sending them to the tax authority.",
@@ -107,6 +181,9 @@
    }
   },
   {
+   "guides": [
+    "mis_reports"
+   ],
    "intro": {
     "cs": "Rozvaha a výkaz zisku a ztráty, přiznání k dani z příjmů, peněžní deník, časové rozlišení, kurzové rozdíly a uzavření roku.",
     "en": "Balance sheet and profit and loss, the income-tax return, the cash journal, accruals, revaluation and closing the year.",
@@ -120,6 +197,7 @@
    }
   },
   {
+   "guides": [],
    "intro": {
     "cs": "Firmy doplněné ze státních registrů, ověřená DIČ, označení nespolehliví plátci.",
     "en": "Companies filled in from the state registers, VAT numbers checked, unreliable payers flagged.",
@@ -133,6 +211,7 @@
    }
   },
   {
+   "guides": [],
    "intro": {
     "cs": "Platební soubory, bankovní výpisy, přímé napojení na banku, platební QR kódy a kurzy měn.",
     "en": "Payment files, bank statements, direct bank connections, payment QR codes and exchange rates.",
@@ -146,6 +225,7 @@
    }
   },
   {
+   "guides": [],
    "intro": {
     "cs": "Elektronické faktury a objednávky se zákazníky a dodavateli, přes Peppol nebo obchodní síť EDI.",
     "en": "Electronic invoices and orders with your customers and suppliers, over Peppol or a retail EDI network.",
@@ -159,6 +239,7 @@
    }
   },
   {
+   "guides": [],
    "intro": {
     "cs": "Účetní a daňové odpisy, protokoly o majetku, leasing a úvěry.",
     "en": "Accounting and tax depreciation, asset protocols, leasing and loans.",
@@ -172,6 +253,7 @@
    }
   },
   {
+   "guides": [],
    "intro": {
     "cs": "Slovenská virtuální registrační pokladna a doklady z eKasy; česká evidence tržeb (EET 2.0).",
     "en": "The Slovak virtual cash register and receipts from eKasa; the Czech registration of sales (EET 2.0).",
@@ -185,6 +267,7 @@
    }
   },
   {
+   "guides": [],
    "intro": {
     "cs": "Výplatní pásky, hlášení na ČSSZ a zdravotním pojišťovnám, daňová vyúčtování, exekuce a dovolená.",
     "en": "Payslips, social and health insurance filings, income-tax statements, garnishments and leave.",

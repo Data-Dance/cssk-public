@@ -1,0 +1,1613 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "(Replace [printer_ip] with the printer IP address)"
+msgstr "(Nahraďte [printer_ip] IP adresou tiskárny)"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ", you can skip the system parameter section."
+msgstr ", můžete sekci systémového parametru přeskočit."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "19.1 or above"
+msgstr "19.1 nebo vyšší"
+
+#. module: point_of_sale
+#: model:mail.template,body_html:point_of_sale.email_template_pos_receipt
+msgid ""
+"<div style=\"margin: 0; padding: 0; font-size: 14px;\">\n"
+"                    <t t-set=\"client_name\" t-value=\"object.partner_id.name\"/>\n"
+"                    <t t-set=\"store_name\" t-value=\"object.config_id.name\"/>\n"
+"                    <t t-set=\"tz\" t-value=\"object.company_id.partner_id.tz\"/>\n"
+"                    <t t-set=\"lg\" t-value=\"object.partner_id.lang or user.lang\"/>\n"
+"                    <div>\n"
+"                        <t t-if=\"client_name\">Hello <t t-out=\"client_name\">Client name</t>,</t>\n"
+"                        <t t-else=\"\">Hello,</t>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <div>Thank you for purchasing from <t t-out=\"store_name\">Store name</t>!</div>\n"
+"                    <div>Attached, you will find your receipt for the purchase of <span><t t-out=\"format_datetime(dt=object.date_order, tz=tz, dt_format=&quot;EEEE d MMMM&quot;,                          lang_code=lg) or ''\">date</t> <t t-out=\"format_time(time=object.date_order, tz=tz, time_format='short',                          lang_code=lg)\">time</t>.</span>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <div>With kind regards,</div>\n"
+"                    <br/>\n"
+"                    <t t-out=\"store_name\">Store name</t>\n"
+"                </div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0; padding: 0; font-size: 14px;\">\n"
+"                    <t t-set=\"client_name\" t-value=\"object.partner_id.name\"/>\n"
+"                    <t t-set=\"store_name\" t-value=\"object.config_id.name\"/>\n"
+"                    <t t-set=\"tz\" t-value=\"object.company_id.partner_id.tz\"/>\n"
+"                    <t t-set=\"lg\" t-value=\"object.partner_id.lang or user.lang\"/>\n"
+"                    <div>\n"
+"                        <t t-if=\"client_name\">Dobrý den, <t t-out=\"client_name\">Jméno zákazníka</t>,</t>\n"
+"                        <t t-else=\"\">Dobrý den,</t>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <div>Děkujeme za nákup v <t t-out=\"store_name\">Název obchodu</t>!</div>\n"
+"                    <div>V příloze naleznete účtenku za nákup ze dne <span><t t-out=\"format_datetime(dt=object.date_order, tz=tz, dt_format=&quot;EEEE d MMMM&quot;,                          lang_code=lg) or ''\">datum</t> <t t-out=\"format_time(time=object.date_order, tz=tz, time_format='short',                          lang_code=lg)\">čas</t>.</span>\n"
+"                    </div>\n"
+"                    <br/>\n"
+"                    <div>S pozdravem</div>\n"
+"                    <br/>\n"
+"                    <t t-out=\"store_name\">Název obchodu</t>\n"
+"                </div>\n"
+"            "
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/models/pos_order.js:0
+msgid ""
+"A QR code payment already covers the amount due. Send it or remove it first."
+msgstr ""
+"Dlužnou částku již pokrývá platba QR kódem. Nejprve ji odešlete nebo "
+"odeberte."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"Access printer configuration panel by putting this URL in your search bar:"
+msgstr ""
+"Do konfiguračního panelu tiskárny se dostanete zadáním této URL adresy do "
+"adresního řádku:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"Access the below URL but replace [printer_ip] with your current Printer IP "
+"address"
+msgstr ""
+"Otevřete níže uvedenou URL adresu, ale nahraďte [printer_ip] aktuální IP "
+"adresou své tiskárny"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
+msgid "Action cancelled (%(ACTION)s)"
+msgstr "Akce zrušena (%(ACTION)s)"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_session__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimečné aktivity"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Add system parameter"
+msgstr "Přidat systémový parametr"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "After 19.1:"
+msgstr "Od verze 19.1:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Allow"
+msgstr "Povolit"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Be aware that it works only on chromium based browser:"
+msgstr ""
+"Upozorňujeme, že to funguje pouze v prohlížečích založených na Chromiu:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/sync_popup/sync_popup.xml:0
+msgid "Be aware that reloading data will delete unsaved orders."
+msgstr ""
+"Upozorňujeme, že opětovným načtením dat se smažou neuložené objednávky."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Before 19.1:"
+msgstr "Před verzí 19.1:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Browser LNA Prompt"
+msgstr "Výzva LNA v prohlížeči"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_session_sales_details
+msgid "Cash Rounding:"
+msgstr "Zaokrouhlování hotovosti:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Check if"
+msgstr "Zkontrolujte, zda je"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_config_view_form
+msgid "Check list"
+msgstr "Kontrolní seznam"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Check printer reachability:"
+msgstr "Zkontrolujte dostupnost tiskárny:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+msgid "Checking Local Network Access permission..."
+msgstr "Kontrola oprávnění k přístupu do místní sítě…"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_config_kanban
+msgid "Configure"
+msgstr "Konfigurovat"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Connect printer to internet (Ethernet cable recommended)"
+msgstr "Připojte tiskárnu k internetu (doporučujeme ethernetový kabel)"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/sync_popup/sync_popup.js:0
+msgid "Dangerous: Too Many Products"
+msgstr "Nebezpečí: příliš mnoho produktů"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/models/utils/indexed_db.js:0
+msgid "Database Connection Lost"
+msgstr "Spojení s databází ztraceno"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Disable \"Redirect HTTP to HTTPS\""
+msgstr "Vypněte „Přesměrovat HTTP na HTTPS“"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/customer_display/customer_display_qr_code_popup.xml:0
+msgid "Display QR"
+msgstr "Zobrazit QR"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/debug/debug_widget.xml:0
+msgid "Download IDB Errors"
+msgstr "Stáhnout chyby IDB"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/debug/debug_widget.xml:0
+msgid "Download IndexedDB error logs from localStorage"
+msgstr "Stáhnout protokoly chyb IndexedDB z localStorage"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/debug/debug_widget.xml:0
+msgid "Download Logs"
+msgstr "Stáhnout protokoly"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/debug/debug_widget.xml:0
+msgid "Download logs"
+msgstr "Stáhnout záznamy"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Enable LNA on your database"
+msgstr "Povolte LNA ve své databázi"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"Enable the “Use Local Network Access” checkbox directly on the printer "
+"configuration."
+msgstr ""
+"Zaškrtněte políčko „Použít přístup do místní sítě“ přímo v konfiguraci "
+"tiskárny."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Environment check"
+msgstr "Kontrola prostředí"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_order__message_follower_ids
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_session__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_order__message_partner_ids
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_session__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_pos_session__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_lines/payment_lines.xml:0
+msgid "Force Cancel"
+msgstr "Vynutit zrušení"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_lines/payment_lines.xml:0
+msgid "Force cancel"
+msgstr "Vynutit zrušení"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Google chrome, Microsoft Edge, Brave, Opera, Arc and others"
+msgstr "Google Chrome, Microsoft Edge, Brave, Opera, Arc a další"
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_ir_http
+msgid "HTTP Routing"
+msgstr "Směrování HTTP"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_stock_picking_type__has_stock_reports_to_print
+msgid "Has Stock Reports To Print"
+msgstr "Má skladové přehledy k tisku"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/loader/critical_pos_error/critical_pos_error.xml:0
+msgid "Hide details"
+msgstr "Skrýt podrobnosti"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "How to configure my devices properly:"
+msgstr "Jak správně nastavit zařízení:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "How to configure my printers"
+msgstr "Jak nastavit tiskárny"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "I have access to my router configuration (To fix device IP addresses)"
+msgstr ""
+"Mám přístup ke konfiguraci routeru (pro pevné nastavení IP adres zařízení)"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"I use an Epson printer (Check supported printers in Odoo documentation)"
+msgstr ""
+"Používám tiskárnu Epson (podporované tiskárny najdete v dokumentaci Odoo)"
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_pos_session__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_pos_order__message_needaction
+#: model:ir.model.fields,help:point_of_sale.field_pos_session__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_pos_order__message_has_error
+#: model:ir.model.fields,help:point_of_sale.field_pos_order__message_has_sms_error
+#: model:ir.model.fields,help:point_of_sale.field_pos_session__message_has_error
+#: model:ir.model.fields,help:point_of_sale.field_pos_session__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"If everything is correct, the Local Network Access status icon will turn "
+"green:"
+msgstr "Pokud je vše v pořádku, ikona stavu přístupu do místní sítě zezelená:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"If the permission is denied, refreshing the PoS will show this notification:"
+msgstr ""
+"Pokud je oprávnění zamítnuto, po obnovení prodejního místa se zobrazí toto "
+"oznámení:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"If the system parameter is set, but the browser doesn't support LNA, the PoS"
+" will show this notification:"
+msgstr ""
+"Pokud je systémový parametr nastaven, ale prohlížeč LNA nepodporuje, "
+"prodejní místo zobrazí toto oznámení:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"If this endpoint does not return a 404 error and displays a blank page, "
+"everything is ready."
+msgstr ""
+"Pokud tento koncový bod nevrátí chybu 404 a zobrazí prázdnou stránku, je vše"
+" připraveno."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "If you have the secure printing setting, disable it"
+msgstr "Pokud máte zapnuté zabezpečené tisknutí, vypněte ho"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "If your database is version"
+msgstr "Pokud je vaše databáze ve verzi"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_order__message_is_follower
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_session__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"Keep TLS settings enabled, otherwise the printer will not work with HTTPS."
+msgstr ""
+"Nastavení TLS ponechte zapnuté, jinak tiskárna nebude s HTTPS fungovat."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "LNA Green Status"
+msgstr "Zelený stav LNA"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/navbar/navbar.js:0
+msgid "LNA Permission status"
+msgstr "Stav oprávnění LNA"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "LNA not supported message"
+msgstr "Zpráva o nepodporovaném LNA"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/sync_popup/sync_popup.js:0
+msgid "Large Product Count Detected"
+msgstr "Zjištěn velký počet produktů"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Link your printers to your POS (ePOS)"
+msgstr "Propojte tiskárny s prodejním místem (ePOS)"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid ""
+"Local Network Access (LNA) is a Chrome feature that allows your browser to communicate \n"
+"                directly with your local network. It means you can make your browser communicate with \n"
+"                your devices without the need for importing certificates."
+msgstr ""
+"Přístup do místní sítě (LNA) je funkce prohlížeče Chrome, která umožňuje prohlížeči komunikovat \n"
+"                přímo s vaší místní sítí. Prohlížeč tak může komunikovat s \n"
+"                vašimi zařízeními bez nutnosti importovat certifikáty."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/init_lna.js:0
+msgid ""
+"Local Network Access configuration is enabled, but your browser is not "
+"Chromium-based. Please use a Chromium-based browser to benefit from this "
+"feature. Please note that IOS devices do not support Local Network Access "
+"yet."
+msgstr ""
+"Konfigurace přístupu do místní sítě je zapnutá, ale váš prohlížeč není "
+"založený na Chromiu. Chcete-li tuto funkci využívat, použijte prohlížeč "
+"založený na Chromiu. Upozorňujeme, že zařízení s iOS přístup do místní sítě "
+"zatím nepodporují."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/init_lna.js:0
+msgid "Local Network Access is not configured for this POS."
+msgstr "Přístup do místní sítě není pro toto prodejní místo nastaven."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/init_lna.js:0
+msgid "Local Network Access permission granted."
+msgstr "Oprávnění k přístupu do místní sítě bylo uděleno."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/init_lna.js:0
+msgid ""
+"Local Network Access permission is not yet granted. Some hardware devices "
+"might not work properly. Please allow Local Network Access in your browser "
+"settings."
+msgstr ""
+"Oprávnění k přístupu do místní sítě zatím nebylo uděleno. Některá hardwarová"
+" zařízení nemusí správně fungovat. Povolte přístup do místní sítě v "
+"nastavení prohlížeče."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/controllers/main.py:0
+msgid ""
+"Message: %(messages)s\n"
+"Please update the %(invalid_fields)s"
+msgstr ""
+"Zpráva: %(messages)s\n"
+"Aktualizujte prosím %(invalid_fields)s"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "My browser is above version 142"
+msgstr "Můj prohlížeč má verzi vyšší než 142"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "My browser is chromium based (Chrome, Edge, Brave, etc.)"
+msgstr "Můj prohlížeč je založený na Chromiu (Chrome, Edge, Brave atd.)"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "My printer can be connected through ethernet cables (recommended)"
+msgstr "Moji tiskárnu lze připojit ethernetovým kabelem (doporučeno)"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/product_info_banner/product_info_banner.xml:0
+msgid "N/A"
+msgstr "Není k dispozici"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_session__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/wizard/pos_make_invoice.py:0
+msgid "No valid orders were selected. No new invoices could be generated"
+msgstr ""
+"Nebyly vybrány žádné platné objednávky. Nebylo možné vytvořit žádné nové "
+"faktury"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/printer/base_printer.js:0
+msgid "Not implemented"
+msgstr "Neimplementováno"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Now your printer is properly configured to work with LNA"
+msgstr "Tiskárna je nyní správně nastavena pro práci s LNA"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/navbar/proxy_status/proxy_status.js:0
+msgid "Offline"
+msgstr "Nepřipojeno"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_config.py:0
+msgid "Only Point of Sale managers can modify a Point of Sale configuration."
+msgstr ""
+"Konfiguraci prodejního místa mohou měnit pouze správci prodejních míst."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/loader/critical_pos_error/critical_pos_error.xml:0
+msgid "Oops!"
+msgstr "Jejda!"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Open your POS and try to print a ticket"
+msgstr "Otevřete prodejní místo a zkuste vytisknout účtenku"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
+msgid "Opening cash counted: %s \n"
+msgstr "Napočítaná počáteční hotovost: %s \n"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
+msgid "Opening cash difference: %s \n"
+msgstr "Rozdíl počáteční hotovosti: %s \n"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
+msgid "Opening cash expected: %s \n"
+msgstr "Očekávaná počáteční hotovost: %s \n"
+
+#. module: point_of_sale
+#: model:ir.model.fields.selection,name:point_of_sale.selection__pos_order_line__price_type__original
+msgid "Original"
+msgstr "Původní"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_pos_form
+msgid "Other Information"
+msgstr "Další informace"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "POS LNA denied message"
+msgstr "Zpráva o zamítnutí LNA v prodejním místě"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_make_payment__payment_name
+msgid "Payment Reference"
+msgstr "Reference platby"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "Payment method"
+msgstr "Platební metoda"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Point of sale configuration:"
+msgstr "Konfigurace prodejního místa:"
+
+#. module: point_of_sale
+#: model:ir.model.fields.selection,name:point_of_sale.selection__pos_order__state__done
+#: model:ir.model.fields.selection,name:point_of_sale.selection__report_pos_order__state__done
+#: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_order_filter
+msgid "Posted"
+msgstr "Zaúčtováno"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Printer Checkbox"
+msgstr "Zaškrtávací políčko tiskárny"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Printer Password Location"
+msgstr "Umístění hesla tiskárny"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Printer's local IP address is printed"
+msgstr "Vytiskne se místní IP adresa tiskárny"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/feedback_screen/feedback_screen.xml:0
+msgid "Processing..."
+msgstr "Zpracování..."
+
+#. module: point_of_sale
+#. odoo-javascript
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
+#: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_lines/payment_lines.xml:0
+#: code:addons/point_of_sale/static/src/app/screens/product_screen/control_buttons/control_buttons.xml:0
+#: code:addons/point_of_sale/static/src/app/screens/ticket_screen/ticket_screen.xml:0
+msgid "Refund"
+msgstr "Vrácení"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/models/utils/indexed_db.js:0
+msgid "Reload"
+msgstr "Obnovit"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/loader/critical_pos_error/critical_pos_error.xml:0
+msgid "Reload data"
+msgstr "Znovu načíst data"
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_product_removal
+msgid "Removal Strategy"
+msgstr "Vyskladňovací metoda"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_order__reversed_move_ids
+msgid "Reversal Account Moves"
+msgstr "Stornovací účetní záznamy"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_lines/payment_lines.xml:0
+msgid "Reverse"
+msgstr "Stornovat"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_account_bank_statement_line__reversed_pos_order_id
+#: model:ir.model.fields,field_description:point_of_sale.field_account_move__reversed_pos_order_id
+msgid "Reversed POS Order"
+msgstr "Vrácená objednávka prodejního místa"
+
+#. module: point_of_sale
+#: model:product.template,name:point_of_sale.product_rye_bread_product_template
+msgid "Rye Bread"
+msgstr "Žitný chléb"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_config__module_pos_sms
+#: model:ir.model.fields,field_description:point_of_sale.field_res_config_settings__pos_module_pos_sms
+msgid "SMS Enabled"
+msgstr "SMS povoleny"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "SSL Settings"
+msgstr "Nastavení SSL"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "SSL/TLS > Basic"
+msgstr "SSL/TLS > Základní"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_session_sales_details
+msgid "Sample Closing Note"
+msgstr "Ukázková závěrečná poznámka"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_session_sales_details
+msgid "Sample Config Name"
+msgstr "Ukázkový název konfigurace"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_session_sales_details
+msgid "Sample Opening Note"
+msgstr "Ukázková úvodní poznámka"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/scale_screen/scale_screen.js:0
+msgid "Scale error"
+msgstr "Chyba váhy"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/customer_display/customer_display_qr_code_popup.xml:0
+msgid "Scan QR"
+msgstr "Naskenovat QR"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_preset_form
+msgid "Schedule based on"
+msgstr "Plánovat podle"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/ticket_screen/search_bar/search_bar.xml:0
+msgid "Search Products"
+msgstr "Hledat produkty"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/navbar/navbar.xml:0
+msgid "Search products..."
+msgstr "Hledat produkty…"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Secure printing"
+msgstr "Zabezpečené tisknutí"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Secure printing enabled"
+msgstr "Zabezpečené tisknutí zapnuto"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/preset_slots_popup/preset_slots_popup.xml:0
+msgid "Select a preset"
+msgstr "Vyberte předvolbu"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+msgid "Select preset"
+msgstr "Vybrat předvolbu"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_screen.js:0
+msgid "Select the shipping date"
+msgstr "Vyberte datum odeslání"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_order_line__attribute_value_ids
+msgid "Selected Attributes"
+msgstr "Vybrané atributy"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_res_company__point_of_sale_use_ticket_qr_code
+#: model:ir.model.fields,field_description:point_of_sale.field_res_config_settings__point_of_sale_use_ticket_qr_code
+msgid "Self-service invoicing"
+msgstr "Samoobslužná fakturace"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_lines/payment_lines.xml:0
+msgid "Send Refund Request"
+msgstr "Odeslat žádost o vrácení peněz"
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_ir_sequence
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_category__sequence
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_note__sequence
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_payment_method__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+msgid "Server communication problem"
+msgstr "Problém s komunikací se serverem"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
+msgid "Session already closed"
+msgstr "Relace je již uzavřena"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "Share Open Orders"
+msgstr "Sdílet otevřené objednávky"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "Shortcut to skip payment screen"
+msgstr "Zkratka pro přeskočení platební obrazovky"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_config__show_category_images
+#: model:ir.model.fields,field_description:point_of_sale.field_res_config_settings__pos_show_category_images
+msgid "Show Category Images"
+msgstr "Zobrazit obrázky kategorií"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_config__show_product_images
+#: model:ir.model.fields,field_description:point_of_sale.field_res_config_settings__pos_show_product_images
+msgid "Show Product Images"
+msgstr "Zobrazit obrázky produktů"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "Show category images"
+msgstr "Zobrazit obrázky kategorií"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/loader/critical_pos_error/critical_pos_error.xml:0
+msgid "Show details"
+msgstr "Zobrazit detaily"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "Show margins & costs"
+msgstr "Zobrazit marže a náklady"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "Show product images"
+msgstr "Zobrazit obrázky produktů"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_order.py:0
+msgid "Some orders are already being invoiced. Please try again later."
+msgstr "Některé objednávky se již fakturují. Zkuste to prosím později."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/main.js:0
+#: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+msgid ""
+"Some paid orders have not been synced to the server yet. Closing or "
+"reloading now may cause data loss."
+msgstr ""
+"Některé zaplacené objednávky ještě nebyly synchronizovány se serverem. "
+"Zavřením nebo opětovným načtením nyní může dojít ke ztrátě dat."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/order_payment_validation.js:0
+msgid "Some required information is missing."
+msgstr "Chybí některé povinné údaje."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/loader/critical_pos_error/critical_pos_error.xml:0
+msgid ""
+"Something went wrong... If you really are stuck, share the report with your "
+"friendly support service"
+msgstr ""
+"Něco se pokazilo... Pokud se potýkáte s problémy, nahlaste to našemu "
+"přátelskému týmu podpory"
+
+#. module: point_of_sale
+#: model:product.template,name:point_of_sale.product_sourdough_loaf_product_template
+msgid "Sourdough Loaf"
+msgstr "Kváskový chléb"
+
+#. module: point_of_sale
+#: model:product.template,name:point_of_sale.sport_shoes_product_template
+msgid "Sport Shoes"
+msgstr "Sportovní obuv"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_details_wizard__start_date
+msgid "Start Date"
+msgstr "Datum od"
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_pos_session__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po termínu: Termín již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Naplánováno: Budoucí aktivity."
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_stock_rule
+msgid "Stock Rule"
+msgstr "Zásobovací pravidlo"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_order.py:0
+msgid "Stock variation for %s"
+msgstr "Změna zásob pro %s"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/navbar/navbar.xml:0
+msgid "Stop Barcode Scanner"
+msgstr "Zastavit čtečku čárových kódů"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/test_epos/test_epos.js:0
+msgid "Succesfully printed a test receipt"
+msgstr "Zkušební účtenka byla úspěšně vytištěna"
+
+#. module: point_of_sale
+#: model:product.template,name:point_of_sale.summer_hat_product_template
+msgid "Summer Hat"
+msgstr "Letní klobouk"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "System Parameter Setup"
+msgstr "Nastavení systémového parametru"
+
+#. module: point_of_sale
+#: model:product.template,name:point_of_sale.t_shirt_slim_product_template
+msgid "T shirt slim"
+msgstr "Tričko slim"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/scale_screen/scale_screen.xml:0
+msgid "Tare"
+msgstr "Tára"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/customer_display/customer_display.xml:0
+msgid "Tare Weight:"
+msgstr "Hmotnost táry:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/receipt_screen/receipt/order_receipt.js:0
+msgid "Tax ID: %(vatId)s"
+msgstr "DIČ: %(vatId)s"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_session_sales_details
+msgid "Technical Stuff"
+msgstr "Technické údaje"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.pos_session_sales_details
+msgid "Technical Stuffs"
+msgstr "Technické údaje"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_payment_method.py:0
+msgid "Terminal"
+msgstr "Terminál"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/controllers/main.py:0
+msgid "The %s must be filled in your details."
+msgstr "Ve svých údajích musíte vyplnit %s."
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_pos_order__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+"Dvoupísmenný ISO kód země. \n"
+"Toto pole můžete použít pro rychlé vyhledávání."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/controllers/main.py:0
+msgid "The Ticket Number should be at least 12 characters long."
+msgstr "Číslo účtenky musí mít alespoň 12 znaků."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/order_payment_validation.js:0
+msgid ""
+"The amount of your payment lines must be rounded to validate the transaction.\n"
+"The rounding precision is %(rounding)s so you should set %(expectedAmount)s as payment amount instead of %(paidAmount)s."
+msgstr ""
+"Pro potvrzení transakce musí být částka platebních řádků zaokrouhlena.\n"
+"Přesnost zaokrouhlení je %(rounding)s, proto jako částku platby nastavte %(expectedAmount)s místo %(paidAmount)s."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_config.py:0
+msgid "The company must have a fiscal country set."
+msgstr "Společnost musí mít nastavenou zemi pro daňové účely."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/models/utils/indexed_db.js:0
+msgid ""
+"The connection to the local database was lost. Reloading the page will "
+"restore it and prevent any loss of unsaved orders."
+msgstr ""
+"Spojení s místní databází bylo ztraceno. Opětovné načtení stránky ho obnoví "
+"a zabrání ztrátě neuložených objednávek."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/test_epos/test_epos.js:0
+msgid "The cutter has a foreign matter, please check the cutter mechanism"
+msgstr "V řezačce je cizí předmět, zkontrolujte mechanismus řezačky"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/test_epos/test_epos.js:0
+msgid ""
+"The device is not connected, please check the printer power / connection"
+msgstr "Zařízení není připojeno, zkontrolujte napájení / připojení tiskárny"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/printer/epson_printer.js:0
+msgid ""
+"The following error code was given by the printer: %s \n"
+"To find more details on the error reason, please search online for: Epson Server Direct Print %s "
+msgstr ""
+"Tiskárna vrátila tento chybový kód: %s \n"
+"Podrobnosti o příčině chyby najdete, když na internetu vyhledáte: Epson Server Direct Print %s "
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "The message will appear from the browser."
+msgstr "Zpráva se zobrazí v prohlížeči."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+msgid ""
+"The order has been modified on another device. If you have modified existing order lines, check that your changes have not been overwritten.\n"
+"\n"
+"The order will be sent to the server with the last changes made on this device."
+msgstr ""
+"Objednávka byla upravena na jiném zařízení. Pokud jste upravili existující řádky objednávky, zkontrolujte, zda vaše změny nebyly přepsány.\n"
+"\n"
+"Objednávka bude odeslána na server s posledními změnami provedenými na tomto zařízení."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/test_epos/test_epos.js:0
+msgid "The paper is empty, please load paper into the printer"
+msgstr "Došel papír, vložte do tiskárny papír"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "The password is located on the back of the printer (remove covers)."
+msgstr "Heslo najdete na zadní straně tiskárny (sejměte kryty)."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_payment_method.py:0
+msgid ""
+"The points of sale for the payment method %s must belong to its company."
+msgstr "Prodejní místa platební metody %s musí patřit k její společnosti."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/utils/printer/epson_printer.js:0
+msgid "The printer is not reachable."
+msgstr "Tiskárna není dostupná."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "The printers are properly configured and the LNA is activated."
+msgstr "Tiskárny jsou správně nastaveny a LNA je aktivováno."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/opening_control_popup/opening_control_popup.js:0
+msgid "The register cannot be opened while offline. Please try again."
+msgstr "Pokladnu nelze otevřít v režimu offline. Zkuste to prosím znovu."
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "The transactions are processed by Pine Labs on the terminal."
+msgstr "Transakce zpracovává Pine Labs na terminálu."
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_res_config_settings__module_pos_pine_labs
+msgid ""
+"The transactions are processed by Pine Labs. Set your Pine Labs credentials "
+"on the related payment method."
+msgstr ""
+"Transakce zpracovává Pine Labs. Přihlašovací údaje Pine Labs nastavte u "
+"příslušné platební metody."
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "The transactions are processed by QFPay on the terminal."
+msgstr "Transakce zpracovává QFPay na terminálu."
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_res_config_settings__module_pos_qfpay
+msgid ""
+"The transactions are processed by QFPay. Set your QFPay credentials on the "
+"related payment method."
+msgstr ""
+"Transakce zpracovává QFPay. Přihlašovací údaje QFPay nastavte u příslušné "
+"platební metody."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/sync_popup/sync_popup.js:0
+msgid ""
+"There are %(count)s products available for this PoS (configured limit: "
+"%(limit)s). Loading all products may slow down the Point of Sale. Do you "
+"want to continue with Full Synchronization?"
+msgstr ""
+"Pro toto prodejní místo je k dispozici %(count)s produktů (nastavený limit: "
+"%(limit)s). Načtení všech produktů může prodejní místo zpomalit. Chcete "
+"pokračovat s úplnou synchronizací?"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/sync_popup/sync_popup.js:0
+msgid ""
+"There are %(count)s products available for this PoS (configured limit: "
+"%(limit)s). Loading this many products will severely slow down the system "
+"and may cause it to crash or become unresponsive. It is strongly recommended"
+" to use Limited Synchronization instead. Do you still want to proceed?"
+msgstr ""
+"Pro toto prodejní místo je k dispozici %(count)s produktů (nastavený limit: "
+"%(limit)s). Načtení takového počtu produktů systém výrazně zpomalí a může "
+"způsobit jeho pád nebo zamrznutí. Důrazně doporučujeme použít omezenou "
+"synchronizaci. Chcete přesto pokračovat?"
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_pos_config__fast_payment_method_ids
+#: model:ir.model.fields,help:point_of_sale.field_res_config_settings__pos_fast_payment_method_ids
+msgid "These payment methods will be available for fast payment"
+msgstr "Tyto platební metody budou k dispozici pro rychlou platbu"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/error_dialog/error_dialog.js:0
+msgid ""
+"This action will delete all unsaved orders and other locally stored data"
+msgstr ""
+"Tato akce smaže všechny neuložené objednávky a další místně uložená data"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/customer_display/customer_display_qr_code_popup.xml:0
+msgid "This device"
+msgstr "Toto zařízení"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+msgid ""
+"This order is currently syncing, please wait a moment before loading it."
+msgstr ""
+"Tato objednávka se právě synchronizuje, před jejím načtením chvíli počkejte."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/product_screen/order_summary/order_summary.js:0
+msgid ""
+"This orderline has already been sent to the kitchen and cannot be edited."
+msgstr "Tento řádek objednávky již byl odeslán do kuchyně a nelze ho upravit."
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_order__ticket_code
+msgid "Ticket Code"
+msgstr "Kód účtenky"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.ticket_request_with_code
+msgid "Ticket Nr"
+msgstr "Č. účtenky"
+
+#. module: point_of_sale
+#: model:product.template,name:point_of_sale.product_tiger_white_loaf_product_template
+msgid "Tiger white loaf"
+msgstr "Tygří bílý chléb"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/test_epos/test_epos.js:0
+msgid "Timeout occured, please try again"
+msgstr "Vypršel časový limit, zkuste to prosím znovu"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/ticket_screen/ticket_screen.xml:0
+msgid "To Refund:"
+msgstr "K vrácení:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/payment_screen/payment_screen.js:0
+msgid ""
+"To enable invoice creation, please add a journal for it in the settings."
+msgstr ""
+"Chcete-li povolit vytváření faktur, přidejte pro ně v nastavení deník."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/product_info_popup/product_info_popup.xml:0
+msgid "Total Price excl. Tax:"
+msgstr "Celková cena bez daně:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/product_info_popup/product_info_popup.xml:0
+msgid "Total Price incl. Tax:"
+msgstr "Celková cena s daní:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/product_info_popup/product_info_popup.js:0
+msgid "Total VAT:"
+msgstr "DPH celkem:"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_config__order_edit_tracking
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_order__order_edit_tracking
+#: model:ir.model.fields,field_description:point_of_sale.field_res_config_settings__pos_order_edit_tracking
+msgid "Track orders edits"
+msgstr "Sledovat úpravy objednávek"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.res_config_settings_view_form
+msgid "Trusted POS"
+msgstr "Důvěryhodné prodejní místo"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/barcode_reader_service.js:0
+msgid "Unable to parse barcode"
+msgstr "Čárový kód nelze zpracovat"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.ticket_request_with_code
+msgid "Unique code"
+msgstr "Jedinečný kód"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_pos_form
+msgid "Unit price:"
+msgstr "Jednotková cena:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/scale_screen/scale_service.js:0
+msgid "Unnamed Product"
+msgstr "Nepojmenovaný produkt"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/barcode_reader_service.js:0
+msgid "Unsupported Barcode Format"
+msgstr "Nepodporovaný formát čárového kódu"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "Update the printer firmware"
+msgstr "Aktualizujte firmware tiskárny"
+
+#. module: point_of_sale
+#: model:pos.category,name:point_of_sale.pos_category_upper
+msgid "Upper body"
+msgstr "Horní část těla"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.product_template_form_view
+msgid "Upsell & Cross-Sell"
+msgstr "Doprodej a křížový prodej"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_pos_config__use_presets
+#: model:ir.model.fields,field_description:point_of_sale.field_res_config_settings__pos_use_presets
+msgid "Use Presets"
+msgstr "Používat předvolby"
+
+#. module: point_of_sale
+#: model:ir.model.fields.selection,name:point_of_sale.selection__pos_printer__printer_type__iot
+msgid "Use a printer connected to the IoT Box"
+msgstr "Použít tiskárnu připojenou k IoT Boxu"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/receipt_screen/receipt/receipt_header/receipt_header.xml:0
+msgid "VAT"
+msgstr "DIČ"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_payment_method.py:0
+msgid ""
+"Validation Error: You cannot assign the same Cash payment method to multiple"
+" POS Shops. Please create a separate Cash payment method for each shop."
+msgstr ""
+"Chyba ověření: Stejnou platební metodu Hotovost nelze přiřadit více obchodům"
+" prodejního místa. Pro každý obchod vytvořte samostatnou platební metodu "
+"Hotovost."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/services/pos_store.js:0
+msgid "Variant does not exist"
+msgstr "Varianta neexistuje"
+
+#. module: point_of_sale
+#: model:ir.model.fields,field_description:point_of_sale.field_res_config_settings__module_pos_viva_com
+msgid "Viva.com Payment Terminal"
+msgstr "Platební terminál Viva.com"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "We duly advise you to use Chrome or Brave browser."
+msgstr "Důrazně doporučujeme používat prohlížeč Chrome nebo Brave."
+
+#. module: point_of_sale
+#: model:ir.model.fields,help:point_of_sale.field_pos_order__website_message_ids
+#: model:ir.model.fields,help:point_of_sale.field_pos_session__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace na webu"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/customer_display/customer_display.xml:0
+msgid "Weighing Product:"
+msgstr "Vážený produkt:"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/customer_display/customer_display.xml:0
+msgid "Welcome."
+msgstr "Vítejte."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "What is it?"
+msgstr "Co to je?"
+
+#. module: point_of_sale
+#: model:product.template,name:point_of_sale.product_wholemeal_loaf_product_template
+msgid "Wholemeal loaf"
+msgstr "Celozrnný chléb"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/retry_print_popup/retry_print_popup.xml:0
+msgid "Would you like to continue without printing or retry?"
+msgstr "Chcete pokračovat bez tisku, nebo to zkusit znovu?"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/customer_display/customer_display_qr_code_popup.xml:0
+msgid ""
+"You can either use it on this device or scan the QR code to display it on "
+"another device"
+msgstr ""
+"Můžete ho použít na tomto zařízení, nebo naskenováním QR kódu zobrazit na "
+"jiném zařízení"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/account_journal.py:0
+msgid ""
+"You can not archive this journal because it is set on the following payment "
+"method : %s."
+msgstr ""
+"Tento deník nelze archivovat, protože je nastaven u této platební metody: "
+"%s."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/product_screen/product_screen.js:0
+msgid "You can not change the %s of the refund order."
+msgstr "U vratky nelze změnit %s."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/account_move.py:0
+msgid ""
+"You can't reset this invoice to draft because the POS session is still open."
+" Please close the ongoing session first, then try again."
+msgstr ""
+"Tuto fakturu nelze vrátit do stavu návrh, protože relace prodejního místa je"
+" stále otevřená. Nejprve probíhající relaci uzavřete a pak to zkuste znovu."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/product_template.py:0
+msgid ""
+"You cannot archive a product that is set as a special product in a Point of "
+"Sale configuration. Please change the configuration first."
+msgstr ""
+"Produkt nastavený jako speciální produkt v konfiguraci prodejního místa "
+"nelze archivovat. Nejprve změňte konfiguraci."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/res_partner.py:0
+msgid ""
+"You cannot delete a customer that has point of sales orders. You can archive"
+" it instead."
+msgstr ""
+"Zákazníka, který má objednávky z prodejního místa, nelze smazat. Místo toho "
+"ho můžete archivovat."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/ir_sequence.py:0
+msgid "You cannot delete a sequence used in an active POS config: %s"
+msgstr ""
+"Číselnou řadu použitou v aktivní konfiguraci prodejního místa nelze smazat: "
+"%s"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_order.py:0
+msgid "You cannot refund more than the outstanding quantity for this product."
+msgstr "Nelze vrátit více, než je zbývající množství tohoto produktu."
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_session.py:0
+msgid "You don't have the access rights to perform a cash in/out."
+msgstr "Nemáte oprávnění provádět příjem / výdej hotovosti."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/closing_popup/closing_popup.xml:0
+#: code:addons/point_of_sale/static/src/app/components/popups/opening_control_popup/opening_control_popup.xml:0
+msgid "You still have"
+msgstr "Stále máte"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "access"
+msgstr "přístup"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/orderline/orderline.xml:0
+msgid "discount off on"
+msgstr "sleva z ceny"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.product_template_view_form_normalized_pos
+msgid "e.g. 1234567890"
+msgstr "např. 1234567890"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_preset_form
+msgid "e.g. Dine in"
+msgstr "např. Na místě"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "ePOS print enabled"
+msgstr "Tisk ePOS zapnut"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "ePOS printers (Epson) configuration"
+msgstr "Konfigurace tiskáren ePOS (Epson)"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "ePoS Printer Service"
+msgstr "Služba tiskárny ePoS"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/receipt_screen/receipt_screen.xml:0
+msgid "failed. Please try again"
+msgstr "se nezdařilo. Zkuste to prosím znovu"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "iOS devices (iPad, iPhones) are not compatible yet."
+msgstr "Zařízení s iOS (iPad, iPhone) zatím nejsou kompatibilní."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/receipt_screen/receipt_screen.xml:0
+msgid "in progress"
+msgstr "probíhá"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "is enabled"
+msgstr "zapnuto"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/popups/closing_popup/closing_popup.xml:0
+msgid "open orders planned for later."
+msgstr "otevřených objednávek naplánovaných na později."
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_preset_form
+msgid "orders per"
+msgstr "objednávek za"
+
+#. module: point_of_sale
+#: model_terms:ir.ui.view,arch_db:point_of_sale.view_pos_config_kanban
+msgid "outstanding rescue session"
+msgstr "nevyřízených záchranných relací"
+
+#. module: point_of_sale
+#. odoo-python
+#: code:addons/point_of_sale/models/pos_payment_method.py:0
+msgid "terminal"
+msgstr "terminál"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/pos_kanban_view/pos_kanban_view.xml:0
+msgid "to activate the buttons."
+msgstr "pro aktivaci tlačítek."
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/backend/lna_checklist/lna_checklist.xml:0
+msgid "with a value of"
+msgstr "s hodnotou"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/components/navbar/sale_details_button/sales_detail_report.xml:0
+#: code:addons/point_of_sale/static/src/customer_display/customer_display.xml:0
+msgid "x"
+msgstr "×"

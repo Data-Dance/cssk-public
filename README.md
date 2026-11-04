@@ -43,7 +43,7 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-183 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+184 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
 ### Czech Republic (38)
 
@@ -53,7 +53,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_account_cutoff` | 19.0.1.0.2 | Pre-fills the OCA cut-off / deferral default accounts with the Czech 381/383/384/385 accounts so časové rozlišení works out of the box. |
 | `l10n_cz_base` | 19.0.2.0.4 | Czech IBAN <-> legacy account number conversion and variable/constant/specific symbols |
 | `l10n_cz_cash_journal` | 19.0.1.0.5 | Czech cash journal for daňová evidence (§ 7b ZDP): the členění vendors settled on, the peněžní deník, and the figures for Příloha č. 1 including oddíl D. |
-| `l10n_cz_currency_revaluation` | 19.0.1.1.1 | Pre-fills the OCA multicurrency-revaluation accounts with the Czech 563/663 (kurzové rozdiely) accounts. |
+| `l10n_cz_currency_revaluation` | 19.0.1.2.0 | Pre-fills the OCA multicurrency-revaluation accounts with the Czech 563/663 (kurzové rozdiely) accounts. |
 | `l10n_cz_datadance` | 19.0.1.1.1 | One-click Czech statutory localization: installs the core statutory reporting + invoice modules, with optional workflow pieces selectable in Settings. |
 | `l10n_cz_dppo` | 19.0.1.5.0 | Czech corporate income-tax return on the income-tax framework: ř.10 from the P&L, manual adjustments, the II. oddíl tax spine, and EPO Pisemnost/DPPDP9 XML… |
 | `l10n_cz_ec_sales` | 19.0.1.3.0 | Czech EC sales list / souhrnné hlášení (DPHSHV) on the shared EC-summary framework + the EPO Pisemnost/DPHSHV XML export. |
@@ -80,8 +80,8 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_kh` | 19.0.1.10.0 | Czech VAT control statement on the shared KV/KH framework: per-document A1–B3 sections with the 10 000 CZK split + the EPO Pisemnost/DPHKH1 XML export. |
 | `l10n_cz_oss` | 19.0.1.0.0 | Czech layer of the OSS return: the EPO Pisemnost/OSSEI1 XML (daňové přiznání k DPH ve zvláštním režimu jednoho správního místa — režim Evropské unie)… |
 | `l10n_cz_payment_reliability` | 19.0.1.2.0 | Czech provider for the CZ/SK supplier-reliability check: nespolehlivý plátce + zveřejněné účty from the MFČR ADIS web service (rozhraniCRPDPH). |
-| `l10n_cz_purchase_order_advance_invoice` | 19.0.1.0.1 | Czech chart wiring for purchase_order_advance_invoice. |
-| `l10n_cz_sale_order_advance_invoice` | 19.0.1.1.0 | Czech chart wiring for advance invoices (zálohové faktury) |
+| `l10n_cz_purchase_order_advance_invoice` | 19.0.1.0.2 | Czech chart wiring for purchase_order_advance_invoice. |
+| `l10n_cz_sale_order_advance_invoice` | 19.0.1.1.1 | Czech chart wiring for advance invoices (zálohové faktury) |
 | `l10n_cz_statutory` | 19.0.1.3.0 | Czech statutory reference registries: finanční úřady (seeded from the official l10n_cz.tax_office codelist) and person types. |
 | `l10n_cz_vat_return` | 19.0.1.14.0 | Czech VAT return (přiznání k DPH / DPHDP3) on the shared VAT-return framework: line set mapped to the l10n_cz tax tags + the EPO Pisemnost/DPHDP3 XML export. |
 | `l10n_cz_vat_status` | 19.0.1.1.0 | The Czech company's own VAT registration status over time, and what it does to invoices, bills, DPHDP3 and the kontrolní hlášení. |
@@ -102,7 +102,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_asset_protocol_oca` | 19.0.2.0.3 | Zaraďovací and vyraďovací protokol as printable documents on the OCA asset register. |
 | `l10n_sk_base` | 19.0.2.0.0 | The Slovak DIČ — the income-tax identifier, which is not the VAT number and not the company registry number. |
 | `l10n_sk_cash_journal` | 19.0.1.1.1 | Slovak cash journal: the statutory členenie of opatrenie MF/27076/2007-74, the peňažný denník in its official column layout, and the DPFO typ B tabuľka 1 / 1a… |
-| `l10n_sk_currency_revaluation` | 19.0.1.0.1 | Pre-fills the OCA multicurrency-revaluation accounts with the Slovak 563/663 (kurzové rozdiely) accounts. |
+| `l10n_sk_currency_revaluation` | 19.0.1.1.0 | Pre-fills the OCA multicurrency-revaluation accounts with the Slovak 563/663 (kurzové rozdiely) accounts. |
 | `l10n_sk_datadance` | 19.0.1.4.3 | One-click Slovak statutory localization: installs the core statutory reporting + invoice modules, with optional workflow pieces selectable in Settings. |
 | `l10n_sk_dppo` | 19.0.1.4.7 | Slovak DPPO return on the income-tax framework: full r-line set + header mapping + XSD-validated XML export against the official dppo2025 schema. |
 | `l10n_sk_dppo_fs` | 19.0.1.1.3 | Tie the DPPO r100 to the VZS r56 of the účtovná závierka (UZPODv14) and flag a disagreement before filing. |
@@ -125,15 +125,15 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_vpp` | 19.0.1.1.1 | Slovak social-insurance statement for dohody / irregular income (VPP/VPP2026) filed to the Sociálna poisťovňa — aggregate summary + per-employee annex, XML… |
 | `l10n_sk_intrastat` | 19.0.1.1.1 | INTRASTAT-SK INSTAT XML on the OCA intrastat_product engine (CE-clean). EE variant: l10n_sk_intrastat_ee. |
 | `l10n_sk_inventory_verification` | 19.0.1.1.0 | Statutory Slovak inventory verification: inventúrne súpisy (§ 30 ods. 2) and the inventarizačný zápis (§ 30 ods. 3). |
-| `l10n_sk_invoice` | 19.0.1.0.6 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
+| `l10n_sk_invoice` | 19.0.1.0.7 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
 | `l10n_sk_jcd` | 19.0.1.2.0 | Slovak import customs declaration: duty into stock value, import VAT onto the right DPH rows, deduction gated on the confirmed customs document. |
 | `l10n_sk_kv_dph` | 19.0.2.5.0 | Slovak VAT control statement (Kontrolný výkaz DPH) — sections A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared l10n_cssk_kv_kh_base framework. |
 | `l10n_sk_kv_dph_pos` | 19.0.1.0.0 | Reports the sales of Point of Sale sessions in oddiel D.1 of the Slovak kontrolný výkaz DPH (eKasa turnover) instead of D.2. |
 | `l10n_sk_mis_reports` | 19.0.1.1.0 | Management P&L on the Slovak chart, for Community — the counterpart to Enterprise's account_reports. |
 | `l10n_sk_oss` | 19.0.1.0.0 | Slovak layer of the OSS return: the Finančná správa eForm DPOSS_EUv01 XML (daňové priznanie k DPH — osobitná úprava pre Úniu), on the EU OSSVATReturnMSCON… |
 | `l10n_sk_payment_reliability` | 19.0.1.1.2 | Slovak provider for the CZ/SK supplier-reliability check: registered bank accounts (ds_dph_iban) and the tax-reliability index (ds_iz_ran) from the Financial… |
-| `l10n_sk_purchase_order_advance_invoice` | 19.0.1.0.1 | Slovak chart wiring for purchase_order_advance_invoice. |
-| `l10n_sk_sale_order_advance_invoice` | 19.0.1.1.0 | Slovak chart wiring for advance invoices (preddavkové faktúry) |
+| `l10n_sk_purchase_order_advance_invoice` | 19.0.1.0.2 | Slovak chart wiring for purchase_order_advance_invoice. |
+| `l10n_sk_sale_order_advance_invoice` | 19.0.1.1.1 | Slovak chart wiring for advance invoices (preddavkové faktúry) |
 | `l10n_sk_single_entry_closing` | 19.0.1.1.1 | The closing a SZČO keeping jednoduché účtovníctvo files: výkaz o príjmoch a výdavkoch from the peňažný denník, výkaz o majetku a záväzkoch from the ledger. |
 | `l10n_sk_statutory` | 19.0.1.0.0 | Slovak statutory reference registries: daňové úrady and person types. |
 | `l10n_sk_trade_registry` | 19.0.2.0.1 | Keep the register, court and oddiel/vložka as data and compose the § 3a Obchodného zákonníka sentence from them, instead of typing it once into the company… |
@@ -144,7 +144,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_vrp2_account` | 19.0.2.4.0 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_vrp2_base` | 19.0.2.4.0 | Connection layer for the Slovak Virtual Cash Register (VRP 2) |
 
-### Czech Republic and Slovakia (35)
+### Czech Republic and Slovakia (36)
 
 | Module | Version | What it does |
 |---|---|---|
@@ -156,7 +156,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_ec_summary_vies` | 19.0.1.0.4 | Validate EC sales list partners against VIES at export and snapshot the consultation number onto each line. |
 | `l10n_cssk_fs_base` | 19.0.1.10.3 | Country-neutral framework for the Slovak and Czech financial statements (balance sheet + P&L): line trees computed from account-code balances + aggregates… |
 | `l10n_cssk_fs_xlsx` | 19.0.1.0.0 | Export a financial statement to Excel: every row with its brutto / korekcia / netto and the analytic accounts behind it. |
-| `l10n_cssk_guide` | 19.0.1.0.0 | One page to start from: the first steps and the guide of every Czech and Slovak localization module on this server, by topic. |
+| `l10n_cssk_guide` | 19.0.1.1.0 | One page to start from: the first steps and the guide of every Czech and Slovak localization module on this server, by topic. |
 | `l10n_cssk_hr_payroll_garnishment_account` | 19.0.1.1.2 | Turn each wage-garnishment deduction into a payable to the bailiff, stamped with the case number as variable symbol, ready for the payment order and the bank… |
 | `l10n_cssk_hr_payroll_garnishment_base` | 19.0.1.3.0 | Engine-neutral register of Czech and Slovak wage-garnishment orders (exekuční / exekučný príkaz) with the statutory multi-claim waterfall and the employer's… |
 | `l10n_cssk_hr_payroll_garnishment_oca` | 19.0.1.0.2 | Apply the Czech/Slovak wage-garnishment waterfall on payslips computed by the OCA payroll engine. |
@@ -181,6 +181,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.0 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
 | `l10n_cssk_submission_base` | 19.0.1.1.1 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
+| `l10n_cssk_translation_override` | 19.0.1.0.1 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
 | `l10n_cssk_vat_return_base` | 19.0.1.13.0 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
 | `l10n_cssk_vies` | 19.0.2.1.1 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
 
@@ -276,9 +277,9 @@ this repository. Add them to the addons path as well:
 | `mis_builder_annotation_icon` | 19.0.1.0.0 | Annotate a MIS Builder cell from a note icon instead of a dropdown caret that looks like the line could be expanded. |
 | `mis_builder_column_breakdown` | 19.0.1.1.0 | Split a MIS Builder column into one column per journal, partner, company, product or any other field, with a total. |
 | `mis_builder_kpi_details` | 19.0.1.0.0 | Unfold a MIS Builder KPI by partner, product, journal, month or any other field of the journal items, not only by account. |
-| `purchase_order_advance_invoice` | 19.0.1.2.0 | Received advance invoices (vendor proformas) with tax documents on sent payments |
+| `purchase_order_advance_invoice` | 19.0.1.2.1 | Received advance invoices (vendor proformas) with tax documents on sent payments |
 | `purchase_order_advance_invoice_stock` | 19.0.1.0.0 | A received advance invoice never creates a receipt; the goods are received on the purchase order they belong to. |
-| `sale_order_advance_invoice` | 19.0.2.8.1 | Advance invoices (proforma) with tax documents on received payments |
+| `sale_order_advance_invoice` | 19.0.2.8.2 | Advance invoices (proforma) with tax documents on received payments |
 | `sale_order_advance_invoice_payment_match` | 19.0.1.1.0 | Match incoming bank statement lines to advance invoices by variable symbol and register the payment automatically. |
 | `sale_order_advance_invoice_payment_match_oca` | 19.0.1.0.1 | Runs the advance-invoice matching inside the OCA reconciliation widget's auto-reconcile. |
 

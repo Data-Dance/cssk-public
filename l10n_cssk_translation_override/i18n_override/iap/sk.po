@@ -1,0 +1,245 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                                    Buy Credit"
+msgstr ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                                    Kúpiť kredit"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "Account Information"
+msgstr "Informácie o účte"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__account_token
+msgid "Account Token"
+msgstr "Token účtu"
+
+#. module: iap
+#: model:ir.model.fields,help:iap.field_iap_account__account_token
+msgid ""
+"Account token is your authentication key for this service. Do not share it."
+msgstr ""
+"Token účtu je váš overovací kľúč k tejto službe. Nikomu ho neposkytujte."
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/tools/iap_tools.py:0
+msgid ""
+"An error occurred while reaching %s. Please contact Odoo support if this "
+"error persists."
+msgstr ""
+"Pri pripájaní k %s došlo k chybe. Ak chyba pretrváva, kontaktujte podporu "
+"Odoo."
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__balance
+msgid "Balance"
+msgstr "Zostatok"
+
+#. module: iap
+#: model:ir.model.fields.selection,name:iap.selection__iap_account__state__banned
+msgid "Banned"
+msgstr "Zablokovaný"
+
+#. module: iap
+#: model:iap.service,unit_name:iap.iap_service_reveal
+msgid "Credits"
+msgstr "Kredity"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__description
+#: model:ir.model.fields,field_description:iap.field_iap_service__description
+msgid "Description"
+msgstr "Popis"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__warning_user_ids
+msgid "Email Alert Recipients"
+msgstr "Príjemcovia e-mailových upozornení"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__warning_threshold
+msgid "Email Alert Threshold"
+msgstr "Prah e-mailového upozornenia"
+
+#. module: iap
+#: model:iap.service,description:iap.iap_service_reveal
+msgid ""
+"Get quality leads and opportunities: convert your website visitors into "
+"leads, generate leads based on a set of criteria and enrich the company data"
+" of your opportunities."
+msgstr ""
+"Získajte kvalitné potenciálne príležitosti a obchodné príležitosti: premeňte"
+" návštevníkov webstránky na potenciálne príležitosti, generujte ich podľa "
+"zadaných kritérií a doplňte údaje o spoločnostiach vo svojich "
+"príležitostiach."
+
+#. module: iap
+#: model:ir.actions.act_window,name:iap.iap_account_action
+#: model:ir.model,name:iap.model_iap_account
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_form
+msgid "IAP Account"
+msgstr "IAP účet"
+
+#. module: iap
+#: model:ir.model,name:iap.model_iap_service
+msgid "IAP Service"
+msgstr "IAP služba"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid "In-App Purchase Accounts"
+msgstr "Účty nákupov v aplikácii"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_service__integer_balance
+msgid "Integer Balance"
+msgstr "Celočíselný zostatok"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid "Manage"
+msgstr "Spravovať"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__name
+#: model:ir.model.fields,field_description:iap.field_iap_service__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid "No service exists with the provided technical name"
+msgstr "Služba so zadaným technickým názvom neexistuje"
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid ""
+"One of the email alert recipients doesn't have an email address set. Users: "
+"%s"
+msgstr ""
+"Jeden z príjemcov e-mailových upozornení nemá nastavenú e-mailovú adresu. "
+"Používatelia: %s"
+
+#. module: iap
+#: model:ir.model.constraint,message:iap.constraint_iap_service_unique_technical_name
+msgid "Only one service can exist with a specific technical_name"
+msgstr ""
+"Môže existovať len jedna služba s daným technickým názvom (technical_name)"
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid "Please set a positive email alert threshold."
+msgstr "Nastavte kladný prah e-mailového upozornenia."
+
+#. module: iap
+#: model:ir.model.fields.selection,name:iap.selection__iap_account__state__registered
+msgid "Registered"
+msgstr "Registrovaný"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid "Rotate"
+msgstr "Obnoviť"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__service_id
+msgid "Service"
+msgstr "Služba"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__service_locked
+msgid "Service Locked"
+msgstr "Služba uzamknutá"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__state
+msgid "State"
+msgstr "Stav"
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_account__service_name
+#: model:ir.model.fields,field_description:iap.field_iap_service__technical_name
+msgid "Technical Name"
+msgstr "Technický názov"
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid ""
+"The IAP server is unreachable and the information may not be up to date. "
+"Please try again later."
+msgstr ""
+"Server IAP je nedostupný a informácie nemusia byť aktuálne. Skúste to znova "
+"neskôr."
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid "The IAP token provided is invalid or empty."
+msgstr "Zadaný token IAP je neplatný alebo prázdny."
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/tools/iap_tools.py:0
+msgid ""
+"The request to the service timed out. Please contact the author of the app. "
+"The URL it tried to contact was %s"
+msgstr ""
+"Časový limit požiadavky na službu vypršal. Kontaktujte autora aplikácie. "
+"Volaná URL bola %s"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid ""
+"This is useful if you think it may have leaked. It will also deactivate "
+"auto-refill if set. Are you sure to rotate your IAP token?"
+msgstr ""
+"Hodí sa to, ak máte podozrenie, že token unikol. Zároveň sa tým vypne "
+"automatické dobíjanie, ak je nastavené. Naozaj chcete obnoviť svoj token "
+"IAP?"
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid "Unable to rotate token, another process is busy. Please try later."
+msgstr ""
+"Token nie je možné obnoviť, pracuje s ním iný proces. Skúste to neskôr."
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid "Unexpected while contacting IAP. Please contact the support."
+msgstr ""
+"Pri komunikácii s IAP došlo k neočakávanej chybe. Kontaktujte podporu."
+
+#. module: iap
+#: model:ir.model.fields,field_description:iap.field_iap_service__unit_name
+msgid "Unit Name"
+msgstr "Názov jednotky"
+
+#. module: iap
+#: model:ir.model.fields.selection,name:iap.selection__iap_account__state__unregistered
+msgid "Unregistered"
+msgstr "Neregistrovaný"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
+msgid "View your IAP Services and recharge your credits"
+msgstr "Zobraziť svoje služby IAP a dobiť kredity"

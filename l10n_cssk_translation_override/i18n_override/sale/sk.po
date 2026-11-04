@@ -1,0 +1,662 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_report__nbr
+msgid "# of Lines"
+msgstr "Počet riadkov"
+
+#. module: sale
+#: model:mail.template,body_html:sale.email_template_proforma
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Hello,\n"
+"        <br/><br/>\n"
+"        <t t-if=\"object.state in ('draft', 'sent')\">\n"
+"            Your Pro forma invoice for quotation <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            Your Pro forma invoice for order <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"        </t>\n"
+"        <t t-if=\"object.origin\">\n"
+"            (with reference: <t t-out=\"object.origin or ''\"/> )\n"
+"        </t>\n"
+"        amounting in <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> is available.\n"
+"        <br/><br/>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Dobrý deň,\n"
+"        <br/><br/>\n"
+"        <t t-if=\"object.state in ('draft', 'sent')\">\n"
+"            vaša proforma faktúra k ponuke <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            vaša proforma faktúra k objednávke <span style=\"font-weight: bold;\" t-out=\"object.name or ''\">S00052</span>\n"
+"        </t>\n"
+"        <t t-if=\"object.origin\">\n"
+"            (s referenciou: <t t-out=\"object.origin or ''\"/> )\n"
+"        </t>\n"
+"        v sume <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> je k dispozícii.\n"
+"        <br/><br/>\n"
+"        Ak máte akékoľvek otázky, neváhajte nás kontaktovať.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+
+#. module: sale
+#: model:mail.template,body_html:sale.email_template_edi_sale
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Hello,\n"
+"        <br/><br/>\n"
+"        <t t-if=\"object.state in ('draft', 'sent')\">\n"
+"            Your quotation <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (with reference: <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            amounting in <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> is ready for review.\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            Your order <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (with reference: <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            amounting in <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> is ready for review.\n"
+"        </t>\n"
+"        <br/>\n"
+"        <t t-set=\"documents\" t-value=\"object._get_product_documents()\"/>\n"
+"        <t t-if=\"documents\">\n"
+"            <br/>\n"
+"            <t t-if=\"len(documents)&gt;1\">\n"
+"                Here are some additional documents that may interest you:\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Here is an additional document that may interest you:\n"
+"            </t>\n"
+"            <ul style=\"margin-bottom: 0;\">\n"
+"                <t t-foreach=\"documents\" t-as=\"document\">\n"
+"                    <li style=\"font-size: 13px;\">\n"
+"                        <a t-out=\"document.ir_attachment_id.name\" t-att-href=\"object.get_portal_url('/document/' + str(document.id))\" t-att-target=\"target\"/>\n"
+"                    </li>\n"
+"                </t>\n"
+"            </ul>\n"
+"        </t>\n"
+"        <br/>\n"
+"        Do not hesitate to contact us if you have any questions.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"        Dobrý deň,\n"
+"        <br/><br/>\n"
+"        <t t-if=\"object.state in ('draft', 'sent')\">\n"
+"            vaša ponuka <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (s referenciou: <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            v sume <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> je pripravená na kontrolu.\n"
+"        </t>\n"
+"        <t t-else=\"\">\n"
+"            vaša objednávka <span style=\"font-weight: bold;\" t-out=\"object.name or ''\"/>\n"
+"            <t t-if=\"object.origin\">\n"
+"                (s referenciou: <t t-out=\"object.origin or ''\">S00052</t> )\n"
+"            </t>\n"
+"            v sume <span style=\"font-weight: bold;\" t-out=\"format_amount(object.amount_total, object.currency_id) or ''\">$ 10.00</span> je pripravená na kontrolu.\n"
+"        </t>\n"
+"        <br/>\n"
+"        <t t-set=\"documents\" t-value=\"object._get_product_documents()\"/>\n"
+"        <t t-if=\"documents\">\n"
+"            <br/>\n"
+"            <t t-if=\"len(documents)&gt;1\">\n"
+"                Tu je niekoľko ďalších dokumentov, ktoré by vás mohli zaujímať:\n"
+"            </t>\n"
+"            <t t-else=\"\">\n"
+"                Tu je ďalší dokument, ktorý by vás mohol zaujímať:\n"
+"            </t>\n"
+"            <ul style=\"margin-bottom: 0;\">\n"
+"                <t t-foreach=\"documents\" t-as=\"document\">\n"
+"                    <li style=\"font-size: 13px;\">\n"
+"                        <a t-out=\"document.ir_attachment_id.name\" t-att-href=\"object.get_portal_url('/document/' + str(document.id))\" t-att-target=\"target\"/>\n"
+"                    </li>\n"
+"                </t>\n"
+"            </ul>\n"
+"        </t>\n"
+"        <br/>\n"
+"        Ak máte akékoľvek otázky, neváhajte nás kontaktovať.\n"
+"        <t t-if=\"not is_html_empty(object.user_id.signature)\" data-o-mail-quote-container=\"1\">\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object.user_id.signature or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </p>\n"
+"</div>\n"
+"            "
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_content
+msgid "<span>Amount</span>"
+msgstr "<span>Suma</span>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid ""
+"<strong>\n"
+"                            Invoicing Address\n"
+"                        </strong>"
+msgstr ""
+"<strong>\n"
+"                            Fakturačná adresa\n"
+"                        </strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid ""
+"<strong>\n"
+"                            Shipping Address\n"
+"                        </strong>"
+msgstr ""
+"<strong>\n"
+"                            Dodacia adresa\n"
+"                        </strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid ""
+"<strong>\n"
+"                        Invoicing and Shipping Address\n"
+"                    </strong>"
+msgstr ""
+"<strong>\n"
+"                        Fakturačná a dodacia adresa\n"
+"                    </strong>"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order_line__qty_delivered_method
+msgid ""
+"According to product configuration, the delivered quantity can be automatically computed by mechanism:\n"
+"  - Manual: the quantity is set manually on the line\n"
+"  - Analytic From expenses: the quantity is the quantity sum from posted expenses\n"
+"  - Timesheet: the quantity is the sum of hours recorded on tasks linked to this sale line\n"
+"  - Stock Moves: the quantity comes from confirmed pickings\n"
+msgstr ""
+"V závislosti od konfigurácie produktu sa dodané množstvo môže automaticky vypočítať nasledujúcimi spôsobmi:\n"
+"  - Ručne: množstvo sa zadáva ručne v riadku\n"
+"  - Analyticky z výdavkov: množstvo je súčtom množstiev z zaúčtovaných výdavkov\n"
+"  - Pracovný výkaz: množstvo je súčtom hodín zaznamenaných v úlohách prepojených s týmto predajným riadkom\n"
+"  - Skladové pohyby: množstvo vychádza z potvrdených presunov\n"
+
+#. module: sale
+#: model:ir.model,name:sale.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Šablóna účtového rozvrhu"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Označenie výnimky aktivity"
+
+#. module: sale
+#: model:ir.ui.menu,name:sale.sale_menu_config_activity_plan
+msgid "Activity Plans"
+msgstr "Plány aktivít"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__allowed_uom_ids
+msgid "Allowed Uom"
+msgstr "Povolené MJ"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_discount__discount_amount
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__amount_to_invoice_at_date
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_line_view_form_readonly
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Amount"
+msgstr "Suma"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid ""
+"Are you sure you want to void the authorized transaction? This action can't "
+"be undone."
+msgstr "Naozaj chcete zrušiť autorizovanú transakciu? Táto akcia je nevratná."
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+msgid "Capture Transaction"
+msgstr "Zachytiť transakciu"
+
+#. module: sale
+#: model:ir.model,name:sale.model_base_document_layout
+msgid "Company Document Layout"
+msgstr "Rozloženie firemného dokumentu"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid ""
+"Compute shipping costs and ship with DHL<br/>\n"
+"                                    <strong>(please go to Home&gt;Apps to install)</strong>"
+msgstr ""
+"Vypočítajte náklady na dopravu a odošlite zásielku prostredníctvom DHL<br/>\n"
+"                                    <strong>(pre inštaláciu prejdite na Domov&gt;Aplikácie)</strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid ""
+"Compute shipping costs and ship with FedEx<br/>\n"
+"                                    <strong>(please go to Home&gt;Apps to install)</strong>"
+msgstr ""
+"Vypočítajte náklady na dopravu a odošlite zásielku prostredníctvom FedEx<br/>\n"
+"                                    <strong>(pre inštaláciu prejdite na Domov&gt;Aplikácie)</strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid ""
+"Compute shipping costs and ship with UPS<br/>\n"
+"                                    <strong>(please go to Home&gt;Apps to install)</strong>"
+msgstr ""
+"Vypočítajte náklady na dopravu a odošlite zásielku prostredníctvom UPS<br/>\n"
+"                                    <strong>(pre inštaláciu prejdite na Domov&gt;Aplikácie)</strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid "Configure"
+msgstr "Nakonfigurovať"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__date_order
+msgid ""
+"Creation date of draft/sent orders,\n"
+"Confirmation date of confirmed orders."
+msgstr ""
+"Dátum vytvorenia návrhov / odoslaných objednávok,\n"
+"Dátum potvrdenia potvrdených objednávok."
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__module_delivery_dhl
+msgid "DHL Express Connector"
+msgstr "Konektor DHL Express"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__company_price_include
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__company_price_include
+msgid "Default Sales Price Include"
+msgstr "Predvolené zahrnutie dane v predajnej cene"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/sale_order_line_field/sale_order_line_field.xml:0
+msgid "Delete"
+msgstr "Zmazať"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__partner_shipping_id
+msgid "Delivery Address"
+msgstr "Dodacia adresa"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__expected_date
+msgid ""
+"Delivery date you can promise to the customer, computed from the minimum "
+"lead time of the order lines in case of Service products. In case of "
+"shipping, the shipping policy of the order will be taken into account to "
+"either use the minimum or maximum lead time of the order lines."
+msgstr ""
+"Termín dodania, ktorý môžete zákazníkovi sľúbiť, sa v prípade produktov typu"
+" „Služba“ vypočíta na základe najkratšej dodacej lehoty z riadkov "
+"objednávky. V prípade expedície sa zohľadní politika expedície objednávky, "
+"pričom sa použije buď najkratšia, alebo najdlhšia dodacia lehota z riadkov "
+"objednávky."
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr "Analytický účet rozdelenia"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+#: code:addons/sale/models/sale_order_line.py:0
+msgid "Down Payments"
+msgstr "Zálohy"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid ""
+"Drag and drop the request for quotation PDF file into your list of "
+"quotations in Odoo. Enjoy the automation!"
+msgstr ""
+"Presuňte súbor PDF s dopytom do svojho zoznamu ponúk v Odoo. Vychutnajte si "
+"automatizáciu!"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__invoice_mail_template_id
+msgid "Email Template"
+msgstr "Šablóna e-mailu"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.product_template_form_view
+msgid "Expense"
+msgstr "Výdavok"
+
+#. module: sale
+#: model:ir.model.fields.selection,name:sale.selection__sale_order_discount__discount_type__amount
+msgid "Fixed Amount"
+msgstr "Pevná suma"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, napr. fa-tasks"
+
+#. module: sale
+#: model:ir.model,name:sale.model_payment_link_wizard
+msgid "Generate Sales Payment Link"
+msgstr "Vytvorenie platobného odkazu pre predaj"
+
+#. module: sale
+#: model:ir.actions.act_window,name:sale.action_sale_order_generate_link
+msgid "Generate a Payment Link"
+msgstr "Vygenerovať platobný odkaz"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "Generated Orders"
+msgstr "Vytvorené objednávky"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order_line__product_type
+msgid ""
+"Goods are tangible materials and merchandise you provide.\n"
+"A service is a non-material product you provide."
+msgstr ""
+"Tovary sú hmotné materiály a produkty, ktoré poskytujete.\n"
+"Služba je nehmotný produkt, ktorý poskytujete."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označujúca výnimočnú aktivitu."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__message_has_error
+#: model:ir.model.fields,help:sale.field_sale_order__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/product_template.py:0
+msgid "Import Template for Products"
+msgstr "Šablóna importu produktov"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__message_is_follower
+msgid "Is Follower"
+msgstr "Je odberateľ"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_sales_order_filter
+msgid "Late Activities"
+msgstr "Oneskorené aktivity"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.res_config_settings_view_form
+msgid "Let your customers log in to see their documents"
+msgstr "Umožnite svojim zákazníkom prihlásiť sa a zobraziť svoje dokumenty"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.product_pricelist_item_form
+msgid "Min Qty"
+msgstr "Min. množstvo"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/js/sale_order_line_field/sale_order_line_field.xml:0
+msgid "Move Up"
+msgstr "Posunúť nahor"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Udalosť kalendára pre ďalšiu aktivitu"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/sale_order.py:0
+msgid "No attachment was provided"
+msgstr "Nebola poskytnutá žiadna príloha"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order_line__customer_lead
+msgid ""
+"Number of days between the order confirmation and the shipping of the "
+"products to the customer"
+msgstr "Počet dní medzi potvrdením objednávky a odoslaním tovaru zákazníkovi"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__parent_id
+msgid "Parent Section Line"
+msgstr "Riadok nadradenej sekcie"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__partner_credit_warning
+msgid "Partner Credit Warning"
+msgstr "Upozornenie na kreditný limit partnera"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_company__prepayment_percent
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__prepayment_percent
+#: model:ir.model.fields,field_description:sale.field_sale_order__prepayment_percent
+msgid "Prepayment percentage"
+msgstr "Percento zálohy"
+
+#. module: sale
+#: model:ir.model,name:sale.model_product_product
+#: model:ir.model.fields,field_description:sale.field_sale_report__product_id
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+#: model_terms:ir.ui.view,arch_db:sale.view_order_product_search
+msgid "Product Variant"
+msgstr "Variant produktu"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_report__qty_to_deliver
+msgid "Qty To Deliver"
+msgstr "Množstvo na dodanie"
+
+#. module: sale
+#: model:ir.model,name:sale.model_ir_actions_report
+msgid "Report Action"
+msgstr "Akcia zostavy"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný používateľ"
+
+#. module: sale
+#: model:ir.model,name:sale.model_sale_report
+msgid "Sales Analysis Report"
+msgstr "Prehľad analýzy predaja"
+
+#. module: sale
+#: model:ir.model,name:sale.model_sale_order_line
+#: model:ir.model.fields,field_description:sale.field_product_attribute_custom_value__sale_order_line_id
+msgid "Sales Order Line"
+msgstr "Riadok objednávky predaja"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_account_move_line__sale_line_ids
+#: model_terms:ir.ui.view,arch_db:sale.view_order_form
+#: model_terms:ir.ui.view,arch_db:sale.view_order_line_tree
+msgid "Sales Order Lines"
+msgstr "Riadky objednávky predaja"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.view_sales_order_filter
+#: model_terms:ir.ui.view,arch_db:sale.view_sales_order_line_filter
+msgid "Search Sales Order"
+msgstr "Vyhľadávanie objednávok predaja"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základe aktivít\n"
+"Po termíne: termín už uplynul\n"
+"Dnes: dátum aktivity je dnes\n"
+"Naplánované: budúce aktivity."
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_report_view_tree
+msgid "Sum of Untaxed Total"
+msgstr "Súčet sumy bez dane"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__tax_country_id
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__tax_country_id
+msgid "Tax Country"
+msgstr "Krajina zdanenia"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__tax_calculation_rounding_method
+msgid "Tax calculation rounding method"
+msgstr "Metóda zaokrúhľovania výpočtu dane"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__technical_price_unit
+msgid "Technical Price Unit"
+msgstr "Technická jednotková cena"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__terms_type
+msgid "Terms & Conditions format"
+msgstr "Formát obchodných podmienok"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+"Dvojpísmenový ISO kód krajiny. \n"
+"Toto pole môžete použiť na rýchle vyhľadávanie."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_res_company__prepayment_percent
+#: model:ir.model.fields,help:sale.field_res_config_settings__prepayment_percent
+msgid "The percentage of the amount needed to be paid to confirm quotations."
+msgstr "Percento sumy, ktorú je potrebné uhradiť na potvrdenie ponúk."
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__amount_untaxed
+msgid "Untaxed Amount"
+msgstr "Suma bez dane"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid ""
+"Use the above REST URL to get structured data of the purchase order in UBL "
+"format."
+msgstr ""
+"Použite vyššie uvedenú adresu REST URL na získanie štruktúrovaných údajov "
+"nákupnej objednávky vo formáte UBL."
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__validity_date
+msgid ""
+"Validity of the quotation. After this date, you will no longer be able to "
+"sign and pay it."
+msgstr ""
+"Platnosť ponuky. Po tomto dátume ju už nebude možné podpísať ani zaplatiť."
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_sale_order__website_message_ids
+msgid "Website Messages"
+msgstr "Správy z webstránky"
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/product_product.py:0
+#: code:addons/sale/models/product_template.py:0
+msgid ""
+"You should not change the product type because this product is already used "
+"in sales orders. Changing it may affect how the related order lines are "
+"delivered."
+msgstr ""
+"Typ produktu by ste nemali meniť, pretože tento produkt sa už používa v "
+"objednávkach predaja. Zmena môže ovplyvniť spôsob dodania súvisiacich "
+"riadkov objednávok."
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+msgid "to learn all the ways to connect your software with"
+msgstr "a zistite všetky spôsoby, ako prepojiť svoj softvér s"
+
+#. module: sale
+#: model:mail.template,subject:sale.mail_template_sale_confirmation
+#: model:mail.template,subject:sale.mail_template_sale_payment_executed
+msgid ""
+"{{ object.company_id.name }} {{ (object.get_portal_last_transaction().state "
+"== 'pending') and 'Pending Order' or 'Order' }} (Ref {{ object.name or 'n/a'"
+" }})"
+msgstr ""
+"{{ object.company_id.name }} {{ (object.get_portal_last_transaction().state "
+"== 'pending') and 'Čakajúca objednávka' or 'Objednávka' }} (č. {{ "
+"object.name or 'n/a' }})"
+
+#. module: sale
+#: model:mail.template,subject:sale.email_template_proforma
+msgid ""
+"{{ object.company_id.name }} {{ object.state in ('draft', 'sent') and "
+"'Proforma' or 'Order'}} (Ref {{ object.name or 'n/a' }})"
+msgstr ""
+"{{ object.company_id.name }} {{ object.state in ('draft', 'sent') and "
+"'Proforma faktúra' or 'Objednávka'}} (č. {{ object.name or 'n/a' }})"
+
+#. module: sale
+#: model:mail.template,subject:sale.email_template_edi_sale
+msgid ""
+"{{ object.company_id.name }} {{ object.state in ('draft', 'sent') and "
+"'Quotation' or 'Order' }} (Ref {{ object.name or 'n/a' }})"
+msgstr ""
+"{{ object.company_id.name }} {{ object.state in ('draft', 'sent') and "
+"'Ponuka' or 'Objednávka' }} (č. {{ object.name or 'n/a' }})"

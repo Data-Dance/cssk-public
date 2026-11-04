@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK User Guides",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "summary": "One page to start from: the first steps and the guide of every "
                "Czech and Slovak localization module on this server, by topic.",
     "description": """

@@ -1,6 +1,6 @@
 {
     "name": "Advance Invoices - Slovak Localization",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "summary": "Slovak chart wiring for advance invoices (preddavkové faktúry)",
     "description": """
 Slovak localization of Advance Invoices

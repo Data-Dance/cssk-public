@@ -1,0 +1,1661 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_module.py:0
+msgid ""
+"\n"
+"It can be installed running: %s"
+msgstr ""
+"\n"
+"Lze jej nainstalovat spuštěním: %s"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid ""
+"\n"
+"User: %(user)s\n"
+"Groups: %(allowed_groups_msg)s"
+msgstr ""
+"\n"
+"Uživatel: %(user)s\n"
+"Skupiny: %(allowed_groups_msg)s"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__res_lang__time_format__%i:%m:%s_%p
+msgid " 1:00:00 PM"
+msgstr " 1:00:00 odp."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/properties_base_definition.py:0
+msgid "%s Properties"
+msgstr "Vlastnosti %s"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid ""
+"- Record is company “%(company)s” while “%(field)s” (%(fname)s: %(values)s) "
+"belongs to another company."
+msgstr ""
+"- Záznam patří společnosti „%(company)s“, zatímco „%(field)s“ (%(fname)s: "
+"%(values)s) patří jiné společnosti."
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid ""
+"- “%(record)s” belongs to company “%(company)s” while “%(field)s” "
+"(%(fname)s: %(values)s) belongs to another company."
+msgstr ""
+"- „%(record)s“ patří společnosti „%(company)s“, zatímco „%(field)s“ "
+"(%(fname)s: %(values)s) patří jiné společnosti."
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__base_enable_profiling_wizard__duration__days_1
+msgid "1 Day"
+msgstr "1 den"
+
+#. module: base
+#: model_terms:ir.actions.act_window,help:base.action_ir_mail_server_list
+msgid ""
+"<b class=\"o_view_nocontent_smiling_face\">\n"
+"                        No Outgoing Servers yet\n"
+"                    </b>"
+msgstr ""
+"<b class=\"o_view_nocontent_smiling_face\">\n"
+"                        Zatím nejsou žádné odchozí servery\n"
+"                    </b>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_res_company_kanban
+msgid ""
+"<i class=\"fa fa-building\" role=\"img\" aria-label=\"Enterprise\" "
+"title=\"Enterprise\"/>"
+msgstr ""
+"<i class=\"fa fa-building\" role=\"img\" aria-label=\"Společnost\" "
+"title=\"Společnost\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
+msgid "<i class=\"fa fa-circle\" role=\"img\" aria-label=\"Invalid\" title=\"Invalid\"/>"
+msgstr "<i class=\"fa fa-circle\" role=\"img\" aria-label=\"Neplatné\" title=\"Neplatné\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
+msgid "<i class=\"fa fa-circle\" role=\"img\" aria-label=\"Ok\" title=\"Ok\"/>"
+msgstr "<i class=\"fa fa-circle\" role=\"img\" aria-label=\"OK\" title=\"OK\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_res_users_kanban
+msgid "<i class=\"fa fa-envelope me-1\" role=\"img\" aria-label=\"Login\"/>"
+msgstr "<i class=\"fa fa-envelope me-1\" role=\"img\" aria-label=\"Přihlašovací jméno\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form
+msgid ""
+"<i class=\"fa fa-fw fa-envelope me-1 text-primary\" title=\"Email\" "
+"invisible=\"login == email\"/>"
+msgstr ""
+"<i class=\"fa fa-fw fa-envelope me-1 text-primary\" title=\"E-mail\" "
+"invisible=\"login == email\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form
+msgid ""
+"<i class=\"fa fa-fw fa-envelope me-1 text-primary\" title=\"Login / Email\" invisible=\"login != email\"/>\n"
+"                                        <i class=\"fa fa-fw fa-key me-1 text-primary\" title=\"Login\" invisible=\"login == email\"/>"
+msgstr ""
+"<i class=\"fa fa-fw fa-envelope me-1 text-primary\" title=\"Přihlašovací jméno / e-mail\" invisible=\"login != email\"/>\n"
+"                                        <i class=\"fa fa-fw fa-key me-1 text-primary\" title=\"Přihlašovací jméno\" invisible=\"login == email\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form_simple_modif
+msgid "<i class=\"fa fa-fw fa-envelope text-primary\" title=\"Email\"/>"
+msgstr "<i class=\"fa fa-fw fa-envelope text-primary\" title=\"E-mail\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form
+msgid "<i class=\"fa fa-fw fa-phone me-1 text-primary\" title=\"Phone\"/>"
+msgstr "<i class=\"fa fa-fw fa-phone me-1 text-primary\" title=\"Telefon\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form_simple_modif
+msgid "<i class=\"fa fa-fw fa-phone text-primary\" title=\"Phone\"/>"
+msgstr "<i class=\"fa fa-fw fa-phone text-primary\" title=\"Telefon\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.res_partner_kanban_view
+#: model_terms:ir.ui.view,arch_db:base.view_partner_form
+#: model_terms:ir.ui.view,arch_db:base.view_users_simple_form
+msgid "<i class=\"fa fa-fw me-1 fa-envelope text-primary\" title=\"Email\"/>"
+msgstr "<i class=\"fa fa-fw me-1 fa-envelope text-primary\" title=\"E-mail\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_rule_form
+msgid ""
+"<i class=\"fa fa-info fa-3x text-info float-start\" role=\"img\" aria-"
+"label=\"Info\" title=\"Info\"/>"
+msgstr ""
+"<i class=\"fa fa-info fa-3x text-info float-start\" role=\"img\" aria-"
+"label=\"Informace\" title=\"Informace\"/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form
+#: model_terms:ir.ui.view,arch_db:base.view_users_form_simple_modif
+msgid ""
+"<span class=\"o_form_label\">\n"
+"                                            Change Password\n"
+"                                        </span>\n"
+"                                        <span class=\"text-muted\">\n"
+"                                            Update if compromised.\n"
+"                                        </span>"
+msgstr ""
+"<span class=\"o_form_label\">\n"
+"                                            Změnit heslo\n"
+"                                        </span>\n"
+"                                        <span class=\"text-muted\">\n"
+"                                            Změňte jej, pokud bylo prozrazeno.\n"
+"                                        </span>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form
+#: model_terms:ir.ui.view,arch_db:base.view_users_form_simple_modif
+msgid ""
+"<span class=\"text-muted\">\n"
+"                                            Check if they are yours.\n"
+"                                        </span>"
+msgstr ""
+"<span class=\"text-muted\">\n"
+"                                            Ověřte, zda jsou vaše.\n"
+"                                        </span>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form
+#: model_terms:ir.ui.view,arch_db:base.view_users_form_simple_modif
+msgid ""
+"<span class=\"text-muted\">\n"
+"                                            Connect external services.\n"
+"                                        </span>"
+msgstr ""
+"<span class=\"text-muted\">\n"
+"                                            Připojte externí služby.\n"
+"                                        </span>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.sequence_view
+msgid ""
+"<span colspan=\"2\">ISO 8601 Week Year with Century: %(isoyear)s</span>\n"
+"                                <span colspan=\"2\">ISO 8601 Week Year without Century: %(isoy)s</span>\n"
+"                                <span colspan=\"2\">ISO 8601 Week Number: %(isoweek)s</span>"
+msgstr ""
+"<span colspan=\"2\">Rok podle týdnů ISO 8601 se stoletím: %(isoyear)s</span>\n"
+"                                <span colspan=\"2\">Rok podle týdnů ISO 8601 bez století: %(isoy)s</span>\n"
+"                                <span colspan=\"2\">Číslo týdne ISO 8601: %(isoweek)s</span>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_server_action_form
+msgid ""
+"<span invisible=\"evaluation_type != 'value' or update_field_type in ['one2many', 'many2many']\">to</span>\n"
+"                                <span invisible=\"evaluation_type != 'sequence'\">with</span>"
+msgstr ""
+"<span invisible=\"evaluation_type != 'value' or update_field_type in ['one2many', 'many2many']\">na</span>\n"
+"                                <span invisible=\"evaluation_type != 'sequence'\">s</span>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_server_action_form
+msgid ""
+"<span invisible=\"update_field_id != False or evaluation_type != 'value'\" class=\"o_actions_server_set_a_value text-muted\">Set a value...</span>\n"
+"                                <span invisible=\"evaluation_type != 'equation'\">\n"
+"                                    to this Python expression:\n"
+"                                </span>"
+msgstr ""
+"<span invisible=\"update_field_id != False or evaluation_type != 'value'\" class=\"o_actions_server_set_a_value text-muted\">Nastavte hodnotu...</span>\n"
+"                                <span invisible=\"evaluation_type != 'equation'\">\n"
+"                                    na tento výraz v Pythonu:\n"
+"                                </span>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.server_action_history_wizard_view
+msgid "<span>No diff available</span>"
+msgstr "<span>Rozdíly nejsou k dispozici</span>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.res_users_identitycheck_view_form
+msgid ""
+"<strong>Let's first confirm it's you. Enter your current password:</strong>"
+msgstr ""
+"<strong>Nejprve ověříme, že jste to vy. Zadejte své současné heslo:</strong>"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_payment_iyzico
+msgid "A payment provider covering Turkey."
+msgstr "Poskytovatel plateb pro Turecko."
+
+#. module: base
+#: model:ir.module.module,summary:base.module_payment_redsys
+msgid "A payment provider covering the Spanish market."
+msgstr "Poskytovatel plateb pro španělský trh."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_actions.py:0
+msgid "A sequence must only be used with character fields."
+msgstr "Číselnou řadu lze použít pouze s textovými poli."
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_api_doc
+msgid "API Documentation"
+msgstr "Dokumentace API"
+
+#. module: base
+#: model_terms:res.partner,website_description:base.res_partner_2
+#: model_terms:res.partner,website_description:base.res_partner_4
+msgid ""
+"Acme Corporation designs, develops, integrates and supports HR and Supply\n"
+"                Chain processes in order to make our customers more productive,\n"
+"                responsive and profitable."
+msgstr ""
+"Acme Corporation navrhuje, vyvíjí, integruje a podporuje procesy v oblasti\n"
+"                lidských zdrojů a dodavatelského řetězce, aby byli naši zákazníci produktivnější,\n"
+"                pružnější a ziskovější."
+
+#. module: base
+#: model:res.partner,website_short_description:base.res_partner_2
+#: model:res.partner,website_short_description:base.res_partner_4
+msgid ""
+"Acme Corporation designs, develops, integrates and supports HR and Supply "
+"Chain processes in order to make our customers more productive, responsive "
+"and profitable."
+msgstr ""
+"Acme Corporation navrhuje, vyvíjí, integruje a podporuje procesy v oblasti "
+"lidských zdrojů a dodavatelského řetězce, aby byli naši zákazníci "
+"produktivnější, pružnější a ziskovější."
+
+#. module: base
+#: model_terms:res.partner,website_description:base.res_partner_2
+#: model_terms:res.partner,website_description:base.res_partner_4
+msgid ""
+"Acme Corporation integrates ERP for Global Companies and supports PME\n"
+"                with Open Sources software to manage their businesses. Our\n"
+"                consultants are experts in the following areas:"
+msgstr ""
+"Acme Corporation integruje ERP pro globální společnosti a podporuje malé a střední podniky\n"
+"                při řízení jejich podnikání pomocí open source softwaru. Naši\n"
+"                konzultanti jsou odborníky v těchto oblastech:"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.module_form
+#: model_terms:ir.ui.view,arch_db:base.module_tree
+#: model_terms:ir.ui.view,arch_db:base.module_view_kanban
+#: model_terms:ir.ui.view,arch_db:base.res_lang_tree
+msgid "Activate"
+msgstr "Aktivovat"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_actions.py:0
+msgid "Actual Code"
+msgstr "Aktuální kód"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form
+#: model_terms:ir.ui.view,arch_db:base.view_users_form_simple_modif
+msgid "Add API Key"
+msgstr "Přidat klíč API"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_account_add_gln
+msgid "Add Partner GLN"
+msgstr "Přidat GLN partnera"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_es_edi_verifactu_pos
+msgid "Add Veri*Factu support to Point of Sale"
+msgstr "Přidává podporu Veri*Factu do prodejních míst"
+
+#. module: base
+#: model:res.partner,website_short_description:base.res_partner_address_31
+msgid "Addison Olson is a mighty sales representative at Acme Corporation."
+msgstr ""
+"Addison Olson je skvělá obchodní zástupkyně ve společnosti Acme Corporation."
+
+#. module: base
+#: model:ir.module.module,summary:base.module_pos_self_order_qfpay
+msgid "Addon for the Self Order App that allows customers to pay by QFPay."
+msgstr ""
+"Doplněk aplikace pro samoobslužné objednávky, který zákazníkům umožňuje "
+"platit přes QFPay."
+
+#. module: base
+#: model_terms:res.company,invoice_terms_html:base.demo_company_be
+msgid ""
+"All our contractual relations will be governed exclusively by Belgium law."
+msgstr "Veškeré naše smluvní vztahy se řídí výhradně belgickým právem."
+
+#. module: base
+#: model:ir.module.module,summary:base.module_payment_paymob
+msgid "An Egyptian payment provider for the Middle East."
+msgstr "Egyptský poskytovatel plateb pro Blízký východ."
+
+#. module: base
+#: model:ir.module.module,summary:base.module_pos_self_order_pine_labs
+msgid ""
+"An addon for the Self Order App (KIOSK) that allows customers to pay using "
+"the Pine Labs POS Terminal."
+msgstr ""
+"Doplněk aplikace pro samoobslužné objednávky (kiosek), který zákazníkům "
+"umožňuje platit pomocí platebního terminálu Pine Labs."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_model.py:0
+msgid ""
+"An error occurred while evaluating the domain:\n"
+"%(error)s"
+msgstr ""
+"Při vyhodnocování domény došlo k chybě:\n"
+"%(error)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid ""
+"Another model is using the record you are trying to delete.\n"
+"\n"
+"The troublemaker is: %(model_display)s\n"
+"Thanks to the following constraint: %(field_display)s\n"
+"How about archiving the record instead?"
+msgstr ""
+"Záznam, který se pokoušíte smazat, používá jiný model.\n"
+"\n"
+"Původcem je: %(model_display)s\n"
+"Na základě tohoto omezení: %(field_display)s\n"
+"Co kdybyste záznam místo toho archivovali?"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_ar_stock
+msgid "Argentinean - Stock"
+msgstr "Argentina - sklad"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_auth_timeout
+msgid "Ask for authentication after user inactivity"
+msgstr "Vyžadovat ověření po nečinnosti uživatele"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_auth_timeout
+msgid "Auth Timeout"
+msgstr "Časový limit přihlášení"
+
+#. module: base
+#: model_terms:res.company,invoice_terms_html:base.demo_company_be
+msgid ""
+"BE Company CoA undertakes to do its best to supply performant services in "
+"due time in accordance with the agreed timeframes. However, none of its "
+"obligations can be considered as being an obligation to achieve results. BE "
+"Company CoA cannot under any circumstances, be required by the client to "
+"appear as a third party in the context of any claim for damages filed "
+"against the client by an end consumer."
+msgstr ""
+"Společnost BE Company CoA se zavazuje vynaložit maximální úsilí k poskytnutí"
+" kvalitních služeb včas a v souladu s dohodnutými termíny. Žádný z jejích "
+"závazků však nelze považovat za závazek k dosažení výsledku. Společnost BE "
+"Company CoA nemůže být za žádných okolností klientem požádána, aby "
+"vystupovala jako třetí strana v souvislosti s jakýmkoli nárokem na náhradu "
+"škody, který proti klientovi uplatní konečný spotřebitel."
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_res_partner__barcode
+#: model:ir.module.category,name:base.module_category_human_resources_barcode
+#: model:ir.module.module,shortdesc:base.module_barcodes
+msgid "Barcode"
+msgstr "Čárový kód"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_profile__cpu_duration
+msgid "CPU Duration"
+msgstr "Doba CPU"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_profile__cpu_duration
+msgid "CPU clock (not including other processes or SQL)"
+msgstr "Čas procesoru (bez ostatních procesů a SQL)"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.wizard_lang_export
+msgid ""
+"CSV format: you may edit it directly with your favorite spreadsheet software,\n"
+"                                    the rightmost column (value) contains the translations"
+msgstr ""
+"Formát CSV: můžete jej upravovat přímo ve svém oblíbeném tabulkovém programu,\n"
+"                                    sloupec nejvíce vpravo (value) obsahuje překlady"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_kh
+msgid "Cambodia - Accounting"
+msgstr "Kambodža - účetnictví"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Cannot grab a lock on records"
+msgstr "Záznamy nelze uzamknout"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Cannot update a record without specifying its id or xml_id"
+msgstr "Záznam nelze aktualizovat bez uvedení jeho ID nebo xml_id"
+
+#. module: base
+#: model_terms:res.company,invoice_terms_html:base.demo_company_be
+msgid ""
+"Certain countries apply withholding at source on the amount of invoices, in "
+"accordance with their internal legislation. Any withholding at source will "
+"be paid by the client to the tax authorities. Under no circumstances can BE "
+"Company CoA become involved in costs related to a country's legislation. The"
+" amount of the invoice will therefore be due to BE Company CoA in its "
+"entirety and does not include any costs relating to the legislation of the "
+"country in which the client is located."
+msgstr ""
+"Některé země v souladu se svými vnitrostátními předpisy uplatňují srážkovou "
+"daň z částky faktur. Jakoukoli srážkovou daň odvede klient finančnímu úřadu."
+" Společnost BE Company CoA se za žádných okolností nepodílí na nákladech "
+"souvisejících s právními předpisy dané země. Částka faktury je proto "
+"společnosti BE Company CoA splatná v plné výši a nezahrnuje žádné náklady "
+"související s právními předpisy země, v níž klient sídlí."
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_cloud_storage_migration
+msgid "Cloud Storage Migration"
+msgstr "Migrace na cloudové úložiště"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_server_action_history_wizard__code_diff
+msgid "Code Diff"
+msgstr "Rozdíly v kódu"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_actions.py:0
+#: model_terms:ir.ui.view,arch_db:base.view_server_action_form
+msgid "Code History"
+msgstr "Historie kódu"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_website_sale_collect_wishlist
+msgid "Collect & Wishlist"
+msgstr "Osobní odběr a seznam přání"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_gr_edi
+msgid "Connect to myDATA API implementation for Greece"
+msgstr "Napojení na API myDATA pro Řecko"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_my_edi_pos
+msgid "Consolidated E-invoicing using MyInvois"
+msgstr "Souhrnná elektronická fakturace přes MyInvois"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_relational.py:0
+msgid ""
+"Couldn't generate a company-dependent domain for field %s. The model doesn't"
+" have a 'company_id' or 'company_ids' field, and isn't company-dependent "
+"either."
+msgstr ""
+"Pro pole %s nelze vygenerovat doménu závislou na společnosti. Model nemá "
+"pole „company_id“ ani „company_ids“ a není ani závislý na společnosti."
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_hr_edi
+msgid "Croatia - e-invoicing"
+msgstr "Chorvatsko - elektronická fakturace"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_din5008_expense
+msgid "DIN 5008 - Expenses"
+msgstr "DIN 5008 - výdaje"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_actions_act_window__cache
+msgid "Data Caching"
+msgstr "Ukládání dat do mezipaměti"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_services_databases
+msgid "Databases"
+msgstr "Databáze"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+msgid ""
+"Deleting the public user is not allowed. Deleting this profile will "
+"compromise critical functionalities."
+msgstr ""
+"Smazání veřejného uživatele není povoleno. Smazáním tohoto profilu by byly "
+"narušeny klíčové funkce."
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__res_partner__type__delivery
+#: model:ir.module.category,name:base.module_category_sales_delivery
+msgid "Delivery"
+msgstr "Doručení"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_module_module__demo
+msgid "Demo Data"
+msgstr "Ukázková data"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__res_company__layout_background__demo_logo
+msgid "Demo logo"
+msgstr "Ukázkové logo"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_dk_nemhandel
+msgid "Denmark EDI - Nemhandel"
+msgstr "Dánsko EDI - Nemhandel"
+
+#. module: base
+#: model:res.partner,website_short_description:base.res_partner_address_3
+msgid "Douglas Fletcher is a mighty functional consultant at Acme Corporation"
+msgstr ""
+"Douglas Fletcher je skvělý funkční konzultant ve společnosti Acme "
+"Corporation"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_actions.py:0
+msgid "Duplicate %(record)s"
+msgstr "Duplikovat %(record)s"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_tw_edi_ecpay
+msgid "E-invoicing using ECpay"
+msgstr "Elektronická fakturace přes ECpay"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_tw_edi_ecpay_website_sale
+msgid "ECpay E-invoice bridge module for Ecommerce"
+msgstr "Propojovací modul elektronické fakturace ECpay pro e-shop"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_eu_oss
+msgid "EU One Stop Shop (OSS)"
+msgstr "EU – jednotné správní místo (OSS)"
+
+#. module: base
+#: model:res.country,name:base.sv
+msgid "El Salvador"
+msgstr "Salvador"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_res_users__email_domain_placeholder
+msgid "Email Domain Placeholder"
+msgstr "Zástupný text domény e-mailu"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_hr_maintenance
+msgid "Equipment, Assets, Internal Hardware, Allocation Tracking"
+msgstr "Zařízení, majetek, interní hardware, sledování přidělení"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_human_resources_expenses
+#: model:ir.module.module,shortdesc:base.module_hr_expense
+msgid "Expenses"
+msgstr "Výdaje"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_res_users_apikeys__expiration_date
+#: model:ir.model.fields,field_description:base.field_res_users_apikeys_description__expiration_date
+msgid "Expiration Date"
+msgstr "Datum expirace"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.res_users_apikeys_view_kanban
+msgid "Expires on:"
+msgstr "Platnost do:"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_exports__export_fields
+msgid "Export ID"
+msgstr "ID exportu"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_qweb.py:0
+msgid "External ID can not be loaded: %s"
+msgstr "Externí ID nelze načíst: %s"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_relational.py:0
+msgid "Failed to read field %s"
+msgstr "Pole %s se nepodařilo načíst"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_relational.py:0
+msgid "Failed to write field %s"
+msgstr "Do pole %s se nepodařilo zapsat"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_fi
+msgid "Finland - Accounting"
+msgstr "Finsko - účetnictví"
+
+#. module: base
+#: model:res.partner,website_short_description:base.res_partner_address_4
+msgid "Floyd Steward is a mighty analyst at Acme Corporation."
+msgstr "Floyd Steward je skvělý analytik ve společnosti Acme Corporation."
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_fr_facturx_chorus_pro
+msgid "France - BIS3 integration for Chorus Pro"
+msgstr "Francie - integrace BIS3 pro Chorus Pro"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_res_partner_industry__full_name
+msgid "Full Name"
+msgstr "Úplný název"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_rule_form
+msgid "General"
+msgstr "Obecné"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_survey_crm
+msgid "Generate leads from surveys"
+msgstr "Generovat potenciální zákazníky z dotazníků"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_html_builder
+msgid "Generic html builder"
+msgstr "Obecný HTML editor"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_gr_edi
+msgid "Greece - myDATA"
+msgstr "Řecko - myDATA"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Grouping by HTML properties is not supported."
+msgstr "Seskupování podle vlastností typu HTML není podporováno."
+
+#. module: base
+#: model:res.country.group,name:base.gulf_cooperation_council
+msgid "Gulf Cooperation Council (GCC)"
+msgstr "Rada pro spolupráci arabských států Perského zálivu (GCC)"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_gcc_invoice
+msgid "Gulf Cooperation Council - Invoice"
+msgstr "Rada pro spolupráci arabských států v Zálivu - faktura"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_hr_org_chart
+msgid "HR Org Chart"
+msgstr "Organizační schéma HR"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_html_builder
+msgid "HTML Builder"
+msgstr "HTML editor"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_html_editor
+msgid "HTML Editor"
+msgstr "HTML editor"
+
+#. module: base
+#: model:ir.model,name:base.model_ir_http
+msgid "HTTP Routing"
+msgstr "Směrování HTTP"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_hr_holidays_homeworking
+msgid "Holidays with Remote Work"
+msgstr "Volno s prací na dálku"
+
+#. module: base
+#: model:res.country,name:base.hk
+msgid "Hong Kong"
+msgstr "Hongkong"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_hospitaility
+msgid "Hospitaility"
+msgstr "Pohostinství"
+
+#. module: base
+#: model_terms:res.company,invoice_terms_html:base.demo_company_be
+msgid ""
+"If a payment is still outstanding more than sixty (60) days after the due "
+"payment date, BE Company CoA reserves the right to call on the services of a"
+" debt recovery company. All legal expenses will be payable by the client."
+msgstr ""
+"Pokud platba zůstane neuhrazena déle než šedesát (60) dní po datu "
+"splatnosti, vyhrazuje si společnost BE Company CoA právo využít služeb "
+"inkasní agentury. Veškeré právní náklady nese klient."
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_actions_act_window__cache
+msgid ""
+"If enabled, this action will cache the related data used in list, Kanban and"
+" form views with the aim to increase the loading speed"
+msgstr ""
+"Je-li zapnuto, tato akce ukládá související data používaná v zobrazení "
+"seznamu, kanbanu a formuláře do mezipaměti za účelem rychlejšího načítání"
+
+#. module: base
+#: model:ir.ui.menu,name:base.menu_translation_export
+msgid "Import / Export"
+msgstr "Import / export"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_partner.py:0
+msgid "Import Template for Contacts"
+msgstr "Šablona importu kontaktů"
+
+#. module: base
+#: model_terms:res.company,invoice_terms_html:base.demo_company_be
+msgid ""
+"In order for it to be admissible, BE Company CoA must be notified of any "
+"claim by means of a letter sent by recorded delivery to its registered "
+"office within 8 days of the delivery of the goods or the provision of the "
+"services."
+msgstr ""
+"Aby byla reklamace přípustná, musí být společnosti BE Company CoA oznámena "
+"doporučeným dopisem zaslaným na adresu jejího sídla do 8 dnů od dodání zboží"
+" nebo poskytnutí služeb."
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__res_lang__grouping__[3,2,0]
+msgid "Indian Grouping"
+msgstr "Indické seskupení"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.module_form
+#: model_terms:ir.ui.view,arch_db:base.module_view_kanban
+msgid "Installing"
+msgstr "Instaluje se"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_pos_dpopay
+msgid "Integrate your POS with DPO payment terminal."
+msgstr "Propojení prodejního místa s platebním terminálem DPO."
+
+#. module: base
+#: model:ir.module.module,summary:base.module_pos_glory_cash
+msgid "Integrate your POS with a Glory automatic cash payment device"
+msgstr "Propojení prodejního místa s automatem na hotovostní platby Glory"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_pos_mollie
+msgid "Integrate your POS with a Mollie payment terminal"
+msgstr "Propojení prodejního místa s platebním terminálem Mollie"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_pos_qfpay
+msgid "Integrate your POS with the QFPay terminal in Hong Kong"
+msgstr "Propojení prodejního místa s terminálem QFPay v Hongkongu"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__res_lang__grouping__[3,0]
+msgid "International Grouping"
+msgstr "Mezinárodní seskupení"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_default.py:0
+msgid ""
+"Invalid value in Default Value field. Expected type '%(field_type)s' for "
+"'%(model_name)s.%(field_name)s'."
+msgstr ""
+"Neplatná hodnota v poli Výchozí hodnota. Pro „%(model_name)s.%(field_name)s“"
+" je očekáván typ „%(field_type)s“."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_ui_view.py:0
+msgid ""
+"Invalid view type: '%(view_type)s'.\n"
+"You might have used an invalid starting tag in the architecture.\n"
+"Allowed types are: %(valid_types)s"
+msgstr ""
+"Neplatný typ zobrazení: „%(view_type)s“.\n"
+"V architektuře jste možná použili neplatný počáteční tag.\n"
+"Povolené typy jsou: %(valid_types)s"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_jo_edi_pos
+msgid "Jordan Accounting EDI for POS"
+msgstr "Jordánsko - účetní EDI pro prodejní místa"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_website_sale_mrp
+msgid "Kit Availability"
+msgstr "Dostupnost sad"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_res_users__login_date
+msgid "Latest Login"
+msgstr "Poslední přihlášení"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_theme_lifestyle
+msgid "Lifestyle"
+msgstr "Životní styl"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+msgid "Limit of %s API keys is reached for programmatic creation"
+msgstr "Byl dosažen limit %s klíčů API pro programové vytváření"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_hr_skills_event
+msgid "Link training events to resume of your employees"
+msgstr "Propojení školicích akcí s životopisy vašich zaměstnanců"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_accounting_localization
+#: model:ir.module.category,name:base.module_category_accounting_localizations
+msgid "Localization"
+msgstr "Lokalizace"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_res_partner__main_user_id
+#: model:ir.model.fields,field_description:base.field_res_users__main_user_id
+msgid "Main User"
+msgstr "Hlavní uživatel"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_my_edi_pos
+msgid "Malaysia - E-invoicing (POS)"
+msgstr "Malajsie - elektronická fakturace (prodejní místa)"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_website_sale_mrp
+msgid "Manage Kit product inventory & availability"
+msgstr "Správa zásob a dostupnosti sad produktů"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_hr_holidays_homeworking
+msgid "Manage holidays with remote work"
+msgstr "Správa volna s prací na dálku"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_mr
+msgid "Mauritania - Accounting"
+msgstr "Mauritánie - účetnictví"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_account_peppol_advanced_fields
+msgid ""
+"Merged prematurly, not working correctly. Please don't use. Better solution "
+"coming soon."
+msgstr ""
+"Sloučeno předčasně, nefunguje správně. Nepoužívejte jej, brzy bude k "
+"dispozici lepší řešení."
+
+#. module: base
+#: model:ir.module.module,summary:base.module_cloud_storage_migration
+msgid "Migrate local attachments to cloud storage"
+msgstr "Migrace lokálních příloh na cloudové úložiště"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_attachment__mimetype
+msgid "Mime Type"
+msgstr "Typ MIME"
+
+#. module: base
+#. odoo-python
+#: code:addons/template_inheritance.py:0
+msgid "Missing 'expr' attribute in xpath specification"
+msgstr "Ve specifikaci xpath chybí atribut „expr“"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid ""
+"Missing required value for the field %(field_display)s.\n"
+"Model: %(model_display)s\n"
+"- create/update: a mandatory field is not set\n"
+"- delete: another model requires the record being deleted, you can archive it instead\n"
+msgstr ""
+"Chybí povinná hodnota pole %(field_display)s.\n"
+"Model: %(model_display)s\n"
+"- vytvoření/aktualizace: povinné pole není vyplněno\n"
+"- smazání: mazaný záznam vyžaduje jiný model, můžete jej místo toho archivovat\n"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_es_edi_verifactu
+msgid "Module for sending Spanish Veri*Factu XML to the AEAT"
+msgstr "Modul pro odesílání španělských XML Veri*Factu na AEAT"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.wizard_lang_export
+msgid "No file could be exported."
+msgstr "Nepodařilo se exportovat žádný soubor."
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_relational.py:0
+msgid "No inverse field \"%(inverse_field)s\" found for \"%(comodel)s\""
+msgstr "Pro „%(comodel)s“ nebylo nalezeno inverzní pole „%(inverse_field)s“"
+
+#. module: base
+#: model:res.country,name:base.xi
+msgid "Northern Ireland"
+msgstr "Severní Irsko"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_server_action_form
+msgid "ORM API Documentation"
+msgstr "Dokumentace ORM API"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_om
+msgid "Oman - Accounting"
+msgstr "Omán - účetnictví"
+
+#. module: base
+#: model:ir.model.constraint,message:base.constraint_properties_base_definition_unique_properties_field_id
+msgid "Only one definition per properties field"
+msgstr "Pro každé pole vlastností smí existovat jen jedna definice"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_profile__speedscope_url
+msgid "Open"
+msgstr "Otevřít"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_profile__config_url
+msgid "Open profiles config"
+msgstr "Konfigurace otevřených profilů"
+
+#. module: base
+#: model_terms:res.company,invoice_terms_html:base.demo_company_be
+msgid ""
+"Our invoices are payable within 21 working days, unless another payment "
+"timeframe is indicated on either the invoice or the order. In the event of "
+"non-payment by the due date, BE Company CoA reserves the right to request a "
+"fixed interest payment amounting to 10% of the sum remaining due. BE Company"
+" CoA will be authorized to suspend any provision of services without prior "
+"warning in the event of late payment."
+msgstr ""
+"Naše faktury jsou splatné do 21 pracovních dnů, pokud není na faktuře nebo "
+"objednávce uvedena jiná lhůta splatnosti. V případě neuhrazení do data "
+"splatnosti si společnost BE Company CoA vyhrazuje právo požadovat úrok ve "
+"výši 10 % z dlužné částky. V případě prodlení s platbou je společnost BE "
+"Company CoA oprávněna bez předchozího upozornění pozastavit poskytování "
+"jakýchkoli služeb."
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_pos_glory_cash
+msgid "POS Glory Cash Machines"
+msgstr "Prodejní místa - hotovostní automaty Glory"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_pos_mollie
+msgid "POS Mollie"
+msgstr "Prodejní místa - Mollie"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_pos_qfpay
+msgid "POS QFPay"
+msgstr "Prodejní místa - QFPay"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_pos_self_order_pine_labs
+msgid "POS Self Order Pine Labs"
+msgstr "Samoobslužné objednávky - Pine Labs"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_pos_self_order_qfpay
+msgid "POS Self Order QFPay"
+msgstr "Samoobslužné objednávky - QFPay"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_pos_imin
+msgid "POS iMin"
+msgstr "Prodejní místa - iMin"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_auth_passkey_portal
+msgid "Passkeys Portal"
+msgstr "Přístupové klíče na portálu"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_auth_passkey_portal
+msgid "Passkeys for portal users"
+msgstr "Přístupové klíče pro uživatele portálu"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_payment_iyzico
+msgid "Payment Provider: Iyzico"
+msgstr "Poskytovatel plateb: Iyzico"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_payment_paymob
+msgid "Payment Provider: Paymob"
+msgstr "Poskytovatel plateb: Paymob"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_payment_redsys
+msgid "Payment Provider: Redsys"
+msgstr "Poskytovatel plateb: Redsys"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_pos_dpopay
+msgid "PoS DPO Pay"
+msgstr "Prodejní místa - DPO Pay"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_pos_edi_ubl
+msgid "Point of Sale UBL"
+msgstr "Prodejní místa - UBL"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_pl_edi
+msgid "Polish E-Invoicing FA(3)"
+msgstr "Polsko - elektronická fakturace FA(3)"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+msgid "Programmatic API keys are not enabled"
+msgstr "Programové klíče API nejsou povoleny"
+
+#. module: base
+#: model:ir.model,name:base.model_properties_base_definition
+#: model:ir.model.fields,field_description:base.field_properties_base_definition_mixin__properties_base_definition_id
+#: model:ir.model.fields,field_description:base.field_res_partner__properties_base_definition_id
+#: model:ir.model.fields,field_description:base.field_res_users__properties_base_definition_id
+msgid "Properties Base Definition"
+msgstr "Základní definice vlastností"
+
+#. module: base
+#: model:ir.model,name:base.model_properties_base_definition_mixin
+msgid "Properties Base Definition Mixin"
+msgstr "Mixin základní definice vlastností"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_properties_base_definition__properties_definition
+msgid "Properties Definition"
+msgstr "Definice vlastností"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_properties_base_definition__properties_field_id
+msgid "Properties Field"
+msgstr "Pole vlastností"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_lk
+msgid "Provides accounting localizations for Sri Lanka."
+msgstr "Účetní lokalizace pro Srí Lanku."
+
+#. module: base
+#: model:ir.model,name:base.model_ir_qweb_field_one2many
+msgid "Qweb field one2many"
+msgstr "Pole QWeb one2many"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_profile__duration
+msgid "Real elapsed time"
+msgstr "Skutečně uplynulý čas"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.server_action_history_wizard_view
+msgid "Restore Revision"
+msgstr "Obnovit revizi"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_actions.py:0
+msgid "Revision Code"
+msgstr "Kód revize"
+
+#. module: base
+#: model:res.groups,name:base.group_user
+msgid "Role / User"
+msgstr "Role / uživatel"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_ro_cpv_code
+msgid "Romania - CPV Code"
+msgstr "Rumunsko - kód CPV"
+
+#. module: base
+#: model:res.currency,currency_unit_label:base.BYR
+msgid "Ruble BYR"
+msgstr "Rubl BYR"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_mass_mailing_sms
+msgid "SMS Marketing"
+msgstr "SMS marketing"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_mail_server__smtp_port
+msgid "SMTP Port"
+msgstr "Port SMTP"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_mail_server__smtp_host
+msgid "SMTP Server"
+msgstr "Server SMTP"
+
+#. module: base
+#: model_terms:res.company,invoice_terms_html:base.demo_company_be
+#: model_terms:res.company,invoice_terms_html:base.main_company
+msgid "STANDARD TERMS AND CONDITIONS OF SALE"
+msgstr "STANDARDNÍ VŠEOBECNÉ OBCHODNÍ PODMÍNKY"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_sale_stock_product_expiry
+msgid "Sale Stock Product Expiry"
+msgstr "Prodej, sklad a expirace produktů"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_sa_withholding_tax
+msgid "Saudi Arabia - Withholding Tax"
+msgstr "Saúdská Arábie - srážková daň"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.res_users_apikeys_view_kanban
+msgid "Scope:"
+msgstr "Rozsah:"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_server_action_form
+msgid "Select a sequence..."
+msgstr "Vyberte číselnou řadu..."
+
+#. module: base
+#: model:ir.module.module,summary:base.module_sms_twilio
+msgid "Send SMS messages using Twilio"
+msgstr "Odesílání SMS zpráv přes Twilio"
+
+#. module: base
+#: model:ir.model,name:base.model_ir_sequence
+#: model:ir.model.fields,field_description:base.field_ir_actions_act_window_view__sequence
+#: model:ir.model.fields,field_description:base.field_ir_actions_server__sequence
+#: model:ir.model.fields,field_description:base.field_ir_actions_todo__sequence
+#: model:ir.model.fields,field_description:base.field_ir_asset__sequence
+#: model:ir.model.fields,field_description:base.field_ir_cron__sequence
+#: model:ir.model.fields,field_description:base.field_ir_embedded_actions__sequence
+#: model:ir.model.fields,field_description:base.field_ir_model_fields_selection__sequence
+#: model:ir.model.fields,field_description:base.field_ir_module_category__sequence
+#: model:ir.model.fields,field_description:base.field_ir_module_module__sequence
+#: model:ir.model.fields,field_description:base.field_ir_ui_menu__sequence
+#: model:ir.model.fields,field_description:base.field_ir_ui_view__priority
+#: model:ir.model.fields,field_description:base.field_report_layout__sequence
+#: model:ir.model.fields,field_description:base.field_res_company__sequence
+#: model:ir.model.fields,field_description:base.field_res_groups__sequence
+#: model:ir.model.fields,field_description:base.field_res_groups_privilege__sequence
+#: model:ir.model.fields,field_description:base.field_res_partner_bank__sequence
+#: model:ir.model.fields.selection,name:base.selection__ir_actions_server__evaluation_type__sequence
+#: model_terms:ir.ui.view,arch_db:base.sequence_view
+#: model_terms:ir.ui.view,arch_db:base.view_sequence_search
+#: model_terms:ir.ui.view,arch_db:base.view_view_tree
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_actions_server__sequence_id
+#: model:ir.model.fields,field_description:base.field_ir_cron__sequence_id
+msgid "Sequence to use"
+msgstr "Použitá číselná řada"
+
+#. module: base
+#: model:ir.model,name:base.model_ir_actions_server_history
+msgid "Server Action History"
+msgstr "Historie serverové akce"
+
+#. module: base
+#: model:ir.model,name:base.model_server_action_history_wizard
+msgid "Server Action History Wizard"
+msgstr "Průvodce historií serverové akce"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_actions_server__show_code_history
+#: model:ir.model.fields,field_description:base.field_ir_cron__show_code_history
+msgid "Show Code History"
+msgstr "Zobrazit historii kódu"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_hr_skills_event
+msgid "Skills Events"
+msgstr "Dovednosti a akce"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_sk
+msgid "Slovak - Accounting"
+msgstr "Slovensko - účetnictví"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_attachment.py:0
+msgid ""
+"Sorry, you are not allowed to access this document. Please contact your system administrator.\n"
+"\n"
+"(Operation: %(operation)s)\n"
+"\n"
+"Records: %(records)s, User: %(user)s"
+msgstr ""
+"Je nám líto, k tomuto dokumentu nemáte přístup. Obraťte se prosím na správce systému.\n"
+"\n"
+"(Operace: %(operation)s)\n"
+"\n"
+"Záznamy: %(records)s, uživatel: %(user)s"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_es_edi_verifactu
+msgid "Spain - Veri*Factu"
+msgstr "Španělsko - Veri*Factu"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_es_edi_verifactu_pos
+msgid "Spain - Veri*Factu for Point of Sale"
+msgstr "Španělsko - Veri*Factu pro prodejní místa"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_lk
+msgid "Sri Lanka - Accounting"
+msgstr "Srí Lanka - účetnictví"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_pl_edi
+msgid "Support for FA(3) electronic invoices in Poland via KSeF"
+msgstr "Podpora elektronických faktur FA(3) v Polsku přes KSeF"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_survey_crm
+msgid "Survey CRM"
+msgstr "Dotazníky CRM"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_tw_edi_ecpay
+msgid "Taiwan - E-invoicing"
+msgstr "Tchaj-wan - elektronická fakturace"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_tw_edi_ecpay_website_sale
+msgid "Taiwan - E-invoicing Ecommerce"
+msgstr "Tchaj-wan - elektronická fakturace pro e-shop"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_ui_view.py:0
+msgid "Template does not exist or has been deleted: %s"
+msgstr "Šablona neexistuje nebo byla smazána: %s"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_ui_view.py:0
+msgid "Template not found: '%s'"
+msgstr "Šablona nebyla nalezena: „%s“"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_res_bank__country_code
+#: model:ir.model.fields,help:base.field_res_company__country_code
+#: model:ir.model.fields,help:base.field_res_country__code
+#: model:ir.model.fields,help:base.field_res_partner__country_code
+#: model:ir.model.fields,help:base.field_res_partner_bank__country_code
+#: model:ir.model.fields,help:base.field_res_users__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+"Dvoupísmenný ISO kód země. \n"
+"Toto pole můžete použít pro rychlé vyhledávání."
+
+#. module: base
+#: model:ir.model.fields,help:base.field_res_lang__grouping
+msgid ""
+"The International Grouping will represent 123456789 to be 123,456,789.00; "
+"The Indian Grouping will represent 123456789 to be 12,34,56,789.00"
+msgstr ""
+"Mezinárodní seskupení zobrazí 123456789 jako 123,456,789.00; indické "
+"seskupení zobrazí 123456789 jako 12,34,56,789.00"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/properties_base_definition.py:0
+msgid ""
+"The definition needs to be linked to a properties field. Those fields are "
+"not: %s."
+msgstr ""
+"Definice musí být propojena s polem vlastností. Následující pole jimi "
+"nejsou: %s."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+msgid ""
+"The provided API key is invalid or does not belong to the current user."
+msgstr "Zadaný klíč API je neplatný nebo nepatří aktuálnímu uživateli."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+msgid "The provided API key is invalid."
+msgstr "Zadaný klíč API je neplatný."
+
+#. module: base
+#: model:ir.model.fields,help:base.field_res_company__company_registry
+#: model:ir.model.fields,help:base.field_res_partner__company_registry
+#: model:ir.model.fields,help:base.field_res_users__company_registry
+msgid ""
+"The registry number of the company. Use it if it is different from the Tax "
+"ID. It must be unique across all partners of a same country"
+msgstr ""
+"Registrační číslo společnosti (IČO). Použijte jej, pokud se liší od DIČ. "
+"Musí být jedinečné v rámci všech partnerů ze stejné země"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid ""
+"The value for %(field_display)s already exists.\n"
+"\n"
+"Detail: %(detail)s\n"
+msgstr ""
+"Hodnota pole %(field_display)s již existuje.\n"
+"\n"
+"Podrobnosti: %(detail)s\n"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_res_partner__main_user_id
+#: model:ir.model.fields,help:base.field_res_users__main_user_id
+msgid ""
+"There can be several users related to the same partner. When a single user "
+"is needed, this field attempts to find the most appropriate one."
+msgstr ""
+"K témuž partnerovi může být přiřazeno více uživatelů. Pokud je potřeba jeden"
+" uživatel, toto pole se pokusí najít nejvhodnějšího."
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.wizard_lang_export
+msgid ""
+"This file was generated using the universal <strong>Unicode/UTF-8</strong> file encoding, please be sure to view and edit\n"
+"                               using the same encoding."
+msgstr ""
+"Tento soubor byl vytvořen v univerzálním kódování <strong>Unicode/UTF-8</strong>, zobrazujte a upravujte jej proto\n"
+"                               ve stejném kódování."
+
+#. module: base
+#: model:ir.module.module,summary:base.module_account_add_gln
+msgid ""
+"This module adds the Global Location Number to the partner. Used on delivery"
+" addresses, it is used to identify stock locations and is mandatory on the "
+"UBL/CII eInvoices (but not only). The module is intended be merged with "
+"account, later on, in master"
+msgstr ""
+"Tento modul přidává k partnerovi globální lokalizační číslo (GLN). Používá "
+"se u dodacích adres k identifikaci skladových lokací a je povinné mimo jiné "
+"v elektronických fakturách UBL/CII. Modul má být později v master sloučen s "
+"modulem account"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_l10n_dk_nemhandel
+msgid "This module is used to send/receive documents with Nemhandel"
+msgstr "Tento modul slouží k odesílání a přijímání dokumentů přes Nemhandel"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_sequence_date_range__date_to
+msgid "To"
+msgstr "Do"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "To avoid a mess, no company crossover is allowed!"
+msgstr "Aby nevznikl zmatek, propojení mezi společnostmi není povoleno."
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__ir_model_fields__translate__html_translate
+msgid "Translate HTML terms"
+msgstr "Překládat termíny HTML"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__ir_model_fields__translate__xml_translate
+msgid "Translate XML terms"
+msgstr "Překládat termíny XML"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__ir_model_fields__translate__standard
+msgid "Translate as a whole"
+msgstr "Překládat jako celek"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_tr_nilvera_einvoice_extended
+msgid "Türkiye - Nilvera E-Invoice Extended"
+msgstr "Turecko - Nilvera, rozšířená elektronická faktura"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_tr_nilvera_edispatch
+msgid "Türkiye - e-Irsaliye (e-Dispatch)"
+msgstr "Turecko - e-Irsaliye (elektronický dodací list)"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_pos_edi_ubl
+msgid "UBL in the Point of Sale "
+msgstr "UBL v prodejních místech "
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_attachment.py:0
+msgid "URL attachment (%s) shouldn't be migrated to local."
+msgstr "Přílohu typu URL (%s) nelze migrovat do lokálního úložiště."
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Uh-oh! You’ve got some company inconsistencies here:"
+msgstr "Pozor! Zjistili jsme nesoulad mezi společnostmi:"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_ui_view.py:0
+msgid ""
+"Unicode strings with encoding declaration are not supported in XML.\n"
+"Remove the encoding declaration."
+msgstr ""
+"Řetězce Unicode s deklarací kódování nejsou v XML podporovány.\n"
+"Odstraňte deklaraci kódování."
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_ae_pos
+msgid "United Arab Emirates - Point of Sale"
+msgstr "Spojené arabské emiráty - prodejní místa"
+
+#. module: base
+#. odoo-python
+#: code:addons/domains.py:0
+msgid "Unsupported operator on %(field_label)s %(model_label)s in %(domain)s"
+msgstr ""
+"Nepodporovaný operátor pro %(field_label)s %(model_label)s v %(domain)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_actions.py:0
+msgid "Update %(model_name)s"
+msgstr "Aktualizovat %(model_name)s"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_users_form_simple_modif
+msgid "Update Preferences"
+msgstr "Aktualizovat předvolby"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_properties.py:0
+msgid ""
+"Updating records with different property fields definitions is not "
+"supported. Update by separate definition instead."
+msgstr ""
+"Aktualizace záznamů s různými definicemi polí vlastností není podporována. "
+"Aktualizujte je pro každou definici zvlášť."
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.module_form
+#: model_terms:ir.ui.view,arch_db:base.module_view_kanban
+msgid "Upgrading"
+msgstr "Aktualizuje se"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_uy_pos
+msgid "Uruguayan - Point of Sale"
+msgstr "Uruguay - prodejní místa"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.view_server_action_form
+msgid "View code history and restore a previous version"
+msgstr "Zobrazit historii kódu a obnovit předchozí verzi"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_actions_server__webhook_url
+#: model:ir.model.fields,field_description:base.field_ir_cron__webhook_url
+msgid "Webhook URL"
+msgstr "URL webhooku"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_website_sale
+msgid "Website Sale"
+msgstr "Prodej na webu"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_account_withholding_tax
+msgid "Withholding Tax on Payment"
+msgstr "Srážková daň při platbě"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_account_withholding_tax_pos
+msgid "Withholding Tax on Payment - PoS"
+msgstr "Srážková daň při platbě - prodejní místa"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/properties_base_definition.py:0
+msgid "You can not change the field of a base definition"
+msgstr "Pole základní definice nelze změnit"
+
+#. module: base
+#: model:ir.model.constraint,message:base.constraint_ir_sequence_date_range_unique_range_per_sequence
+msgid ""
+"You cannot create two date ranges for the same sequence with the same date "
+"range."
+msgstr ""
+"Pro tutéž číselnou řadu nelze vytvořit dvě období se stejným rozsahem dat."
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid ""
+"You do not have enough rights to access the field \"%(field)s\" on %(document_kind)s (%(document_model)s). Please contact your system administrator.\n"
+"\n"
+"Operation: %(operation)s"
+msgstr ""
+"Nemáte dostatečná oprávnění k přístupu k poli „%(field)s“ v %(document_kind)s (%(document_model)s). Obraťte se prosím na správce systému.\n"
+"\n"
+"Operace: %(operation)s"
+
+#. module: base
+#: model_terms:res.company,invoice_terms_html:base.demo_company_be
+#: model_terms:res.company,invoice_terms_html:base.main_company
+msgid "You should update this document to reflect your T&amp;C."
+msgstr ""
+"Tento dokument byste měli aktualizovat tak, aby odrážel vaše všeobecné "
+"obchodní podmínky."
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_account_peppol_advanced_fields
+msgid "[DEPRECATED] Account Peppol Advanced Fields"
+msgstr "[ZASTARALÉ] Rozšířená pole Peppol pro účetnictví"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_l10n_es_pos
+msgid "[Deprecated] Spain - Point of Sale"
+msgstr "[Zastaralé] Španělsko - prodejní místa"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "custom field access rules"
+msgstr "vlastní pravidla přístupu k polím"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_fields.py:0
+msgid "database id"
+msgstr "ID databáze"
+
+#. module: base
+#: model:ir.model.fields.selection,name:base.selection__ir_model_fields__ttype__date
+msgid "date"
+msgstr "datum"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.wizard_lang_export
+msgid "do not contain translatable terms.<br/>"
+msgstr "neobsahují přeložitelné termíny.<br/>"
+
+#. module: base
+#: model_terms:ir.ui.view,arch_db:base.wizard_lang_export
+msgid "does not contain translatable terms.<br/>"
+msgstr "neobsahuje přeložitelné termíny.<br/>"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+msgid "e.g. %(placeholder)s"
+msgstr "např. %(placeholder)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_fields.py:0
+msgid "external id"
+msgstr "externí ID"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_lang.py:0
+msgid "format() must be given exactly one %char format specifier"
+msgstr "format() musí dostat přesně jeden specifikátor formátu %char"
+
+#. module: base
+#: model:ir.module.module,summary:base.module_pos_imin
+msgid "iMin ePOS Printers in PoS"
+msgstr "Tiskárny iMin ePOS v prodejních místech"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_fields.py:0
+msgid "no"
+msgstr "ne"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_profile__others
+msgid "others"
+msgstr "ostatní"

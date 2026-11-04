@@ -50,6 +50,23 @@ class TestGuidePage(HttpCase):
                     "edi", "assets", "pos", "payroll"):
             self.assertIn(f'id="{key}"', text)
 
+    def test_task_guides_listed_first_under_their_topic(self):
+        text = self.get(lang="en", country="all")
+        section = text.split('id="statements"', 1)[1].split("<h2", 1)[0]
+        url = "/l10n_cssk_guide/static/guides/mis_reports/index.html"
+        self.assertIn(url, section)
+        # before the module table of the topic
+        self.assertLess(section.index(url), section.index('class="cssk-guide"'))
+        # in the page's language, and shown for either country (it is "both")
+        self.assertIn("/l10n_cssk_guide/static/guides/mis_reports/index_sk.html",
+                      self.get(lang="sk", country="sk"))
+        self.assertIn("/l10n_cssk_guide/static/guides/mis_reports/index_cs.html",
+                      self.get(lang="cs", country="cz"))
+        # and the page itself is served
+        response = self.url_open(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Management reports with MIS Builder", response.text)
+
     def test_country_filter(self):
         if not (get_module_path("l10n_cz_base", display_warning=False)
                 and get_module_path("l10n_sk_base", display_warning=False)):
@@ -100,6 +117,22 @@ class TestGuidePage(HttpCase):
 
 
 class TestGuideScan(TransactionCase):
+
+    def test_task_guides_in_data(self):
+        from odoo.addons.l10n_cssk_guide.controllers.main import guide_data, task_guides
+        data = guide_data()
+        topic = next(t for t in data["topics"] if t["key"] == "statements")
+        guides = task_guides(data, topic, "sk", "all")
+        self.assertEqual([g["key"] for g in guides][:1], ["mis_reports"])
+        self.assertTrue(guides[0]["url"].endswith("/mis_reports/index_sk.html"))
+        # a guide for one country is hidden under the other
+        data["guides"]["mis_reports"]["country"] = "sk"
+        self.assertFalse(task_guides(data, topic, "en", "cz"))
+        self.assertTrue(task_guides(data, topic, "en", "sk"))
+        # a language the guide is not written in falls back to English
+        data["guides"]["mis_reports"]["langs"] = ["en", "sk"]
+        self.assertTrue(task_guides(data, topic, "cs", "sk")[0]["url"]
+                        .endswith("/index.html"))
 
     def test_read_page(self):
         with tempfile.TemporaryDirectory() as tmp:

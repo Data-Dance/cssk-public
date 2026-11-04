@@ -1,0 +1,130 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sales_team
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_kanban_dashboard
+msgid "<span>New</span>"
+msgstr "<span>Nové</span>"
+
+#. module: sales_team
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_member_view_form
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_member_view_kanban
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_member_view_search
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_search
+msgid "Archived"
+msgstr "Archivované"
+
+#. module: sales_team
+#: model:ir.model.fields,help:sales_team.field_crm_team__is_membership_multi
+#: model:ir.model.fields,help:sales_team.field_crm_team_member__is_membership_multi
+msgid ""
+"If True, users may belong to several sales teams. Otherwise membership is "
+"limited to a single sales team."
+msgstr ""
+"Ak je hodnota True, používatelia môžu patriť do viacerých predajných tímov. "
+"V opačnom prípade je členstvo obmedzené na jeden predajný tím."
+
+#. module: sales_team
+#: model:ir.model.fields,help:sales_team.field_crm_team__message_needaction
+#: model:ir.model.fields,help:sales_team.field_crm_team_member__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: sales_team
+#: model:ir.model.fields,help:sales_team.field_crm_team__message_has_error
+#: model:ir.model.fields,help:sales_team.field_crm_team_member__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: sales_team
+#: model:crm.tag,name:sales_team.categ_oppor4
+msgid "Information"
+msgstr "Informácie"
+
+#. module: sales_team
+#: model:ir.model.fields,field_description:sales_team.field_crm_team__message_is_follower
+#: model:ir.model.fields,field_description:sales_team.field_crm_team_member__message_is_follower
+msgid "Is Follower"
+msgstr "Je odberateľ"
+
+#. module: sales_team
+#: model:ir.model.fields,field_description:sales_team.field_crm_team__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: sales_team
+#: model:ir.model.fields,help:sales_team.field_crm_team_member__user_in_teams_ids
+msgid ""
+"UX: Give users not to add in the currently chosen team to avoid duplicates"
+msgstr ""
+"UX: Upozornite používateľov, aby nepridávali aktuálne vybraný tím, aby sa "
+"zabránilo duplicitám"
+
+#. module: sales_team
+#: model:ir.model,name:sales_team.model_res_users
+msgid "User"
+msgstr "Používateľ"
+
+#. module: sales_team
+#. odoo-python
+#: code:addons/sales_team/models/crm_team_member.py:0
+msgid ""
+"User '%(user)s' is not allowed in the company '%(company)s' of the Sales "
+"Team '%(team)s'."
+msgstr ""
+"Používateľ „%(user)s“ nie je povolený v spoločnosti „%(company)s“ v rámci "
+"obchodného tímu „%(team)s“."
+
+#. module: sales_team
+#: model:ir.model.fields,field_description:sales_team.field_crm_team_member__user_company_ids
+msgid "User Company"
+msgstr "Spoločnosť používateľa"
+
+#. module: sales_team
+#: model:ir.model.fields,field_description:sales_team.field_crm_team_member__user_in_teams_ids
+msgid "User In Teams"
+msgstr "Používateľ v tímoch"
+
+#. module: sales_team
+#: model:res.groups,name:sales_team.group_sale_salesman_all_leads
+msgid "User: All Documents"
+msgstr "Používateľ: všetky dokumenty"
+
+#. module: sales_team
+#: model:res.groups,name:sales_team.group_sale_salesman
+msgid "User: Own Documents Only"
+msgstr "Používateľ: len vlastné dokumenty"
+
+#. module: sales_team
+#: model:ir.model.fields,help:sales_team.field_crm_team__member_ids
+msgid "Users assigned to this team."
+msgstr "Používatelia priradení k tomuto tímu."
+
+#. module: sales_team
+#: model:res.groups,comment:sales_team.group_sale_salesman_all_leads
+msgid ""
+"the user will have access to all records of everyone in the sales "
+"application."
+msgstr "používateľ bude mať prístup ku všetkým záznamom v aplikácii predaja."
+
+#. module: sales_team
+#: model:res.groups,comment:sales_team.group_sale_salesman
+msgid "the user will have access to his own data in the sales application."
+msgstr "používateľ bude mať prístup ku svojim záznamom v aplikácii predaja."
+
+#. module: sales_team
+#: model:res.groups,comment:sales_team.group_sale_manager
+msgid ""
+"the user will have an access to the sales configuration as well as statistic"
+" reports."
+msgstr ""
+"používateľ bude mať prístup k nastaveniam predaja ako aj k štatistickým "
+"výkazom."

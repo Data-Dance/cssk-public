@@ -14,7 +14,10 @@ CZ_SPEC = {
     "create_accounts": [
         {
             "code": "314001",
-            "name": "Poskytnuté zálohy – zúčtování (daňový doklad)",
+            "name": {
+                "en_US": "Advances provided – clearing (tax document)",
+                "cs_CZ": "Poskytnuté zálohy – zúčtování (daňový doklad)",
+            },
             "account_type": "liability_payable",
             "reconcile": True,
         },

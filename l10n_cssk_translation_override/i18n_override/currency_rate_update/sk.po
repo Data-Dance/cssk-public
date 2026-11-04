@@ -1,0 +1,403 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: currency_rate_update
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.res_config_settings_view_form
+msgid ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Values set here are company-"
+"specific.\" role=\"img\" aria-label=\"Values set here are company-"
+"specific.\" groups=\"base.group_multi_company\"/>"
+msgstr ""
+"<span class=\"fa fa-lg fa-building-o\" title=\"Hodnoty nastavené tu platia "
+"pre konkrétnu spoločnosť.\" role=\"img\" aria-label=\"Hodnoty nastavené tu "
+"platia pre konkrétnu spoločnosť.\" groups=\"base.group_multi_company\"/>"
+
+#. module: currency_rate_update
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.res_currency_rate_provider_form_view
+msgid ""
+"<strong>!</strong>\n"
+"                                You are using European Central Bank exchange rate\n"
+"                                service with a base currency different from EUR.\n"
+"                                <br/>\n"
+"                                As long as the European Central Bank only provides\n"
+"                                exchange rates based on EUR, other foreign currency\n"
+"                                rates are recalculated and might differ from real rates."
+msgstr ""
+"<strong>!</strong>\n"
+"                                Používate službu výmenných kurzov Európskej centrálnej banky\n"
+"                                so základnou menou inou ako EUR.\n"
+"                                <br/>\n"
+"                                Keďže Európska centrálna banka poskytuje len\n"
+"                                výmenné kurzy voči EUR, kurzy ostatných cudzích mien\n"
+"                                sa prepočítavajú a môžu sa líšiť od skutočných kurzov."
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_needaction
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_needaction
+msgid "Action Needed"
+msgstr "Potrebná akcia"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__active
+msgid "Active"
+msgstr "Aktívne"
+
+#. module: currency_rate_update
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.res_currency_rate_provider_filter
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.res_currency_rate_provider_form_view
+msgid "Archived"
+msgstr "Archivovaný"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_attachment_count
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_company__currency_rates_autoupdate
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_config_settings__currency_rates_autoupdate
+msgid "Automatic Currency Rates (OCA)"
+msgstr "Automatické kurzy mien (OCA)"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__available_currency_ids
+msgid "Available Currencies"
+msgstr "Dostupné meny"
+
+#. module: currency_rate_update
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.res_currency_rate_update_wizard_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: currency_rate_update
+#: model:ir.model,name:currency_rate_update.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavenia konfigurácie"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__currency_ids
+msgid "Currencies"
+msgstr "Meny"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate_provider__currency_ids
+msgid "Currencies to be updated by this provider"
+msgstr "Meny, ktoré bude tento poskytovateľ aktualizovať"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate_provider__currency_name
+msgid "Currency Code (ISO 4217)"
+msgstr "Kód Meny (ISO 4217)"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__currency_name
+msgid "Currency Name"
+msgstr "Názov meny"
+
+#. module: currency_rate_update
+#: model:ir.model,name:currency_rate_update.model_res_currency_rate
+msgid "Currency Rate"
+msgstr "Kurz meny"
+
+#. module: currency_rate_update
+#. odoo-python
+#: code:addons/currency_rate_update/models/res_currency_rate_provider.py:0
+msgid ""
+"Currency Rate Provider \"%(name)s\" failed to obtain data since %(date_from)s until %(date_to)s:\n"
+"%(error)s"
+msgstr ""
+"Poskytovateľovi kurzov mien „%(name)s“ sa nepodarilo získať údaje od %(date_from)s do %(date_to)s:\n"
+"%(error)s"
+
+#. module: currency_rate_update
+#. odoo-python
+#: code:addons/currency_rate_update/models/res_currency_rate_provider.py:0
+msgid "Currency Rate Provider Failure"
+msgstr "Zlyhanie poskytovateľa kurzov mien"
+
+#. module: currency_rate_update
+#: model:ir.model,name:currency_rate_update.model_res_currency_rate_update_wizard
+msgid "Currency Rate Update Wizard"
+msgstr "Sprievodca aktualizáciou kurzov mien"
+
+#. module: currency_rate_update
+#: model:ir.model,name:currency_rate_update.model_res_currency_rate_provider
+msgid "Currency Rates Provider"
+msgstr "Poskytovateľ kurzov mien"
+
+#. module: currency_rate_update
+#: model:ir.actions.act_window,name:currency_rate_update.action_res_currency_rate_provider
+#: model:ir.ui.menu,name:currency_rate_update.menu_res_currency_rate_provider
+msgid "Currency Rates Providers"
+msgstr "Poskytovatelia kurzov mien"
+
+#. module: currency_rate_update
+#: model:ir.actions.server,name:currency_rate_update.ir_cron_currency_rates_update_every_day_ir_actions_server
+msgid "Currency Rates Update (OCA) daily"
+msgstr "Denná aktualizácia kurzov mien (OCA)"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__daily
+msgid "Daily"
+msgstr "Denne"
+
+#. module: currency_rate_update
+#: model:ir.model.fields.selection,name:currency_rate_update.selection__res_currency_rate_provider__interval_type__days
+msgid "Day(s)"
+msgstr "Deň (dni)"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_company__display_name
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__display_name
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__display_name
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_update_wizard__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_company__currency_rates_autoupdate
+#: model:ir.model.fields,help:currency_rate_update.field_res_config_settings__currency_rates_autoupdate
+msgid "Enable automatic currency rates updates in this company."
+msgstr "Povoliť automatickú aktualizáciu kurzov mien v tejto spoločnosti."
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_update_wizard__date_to
+msgid "End Date"
+msgstr "Dátum konca"
+
+#. module: currency_rate_update
+#: model:ir.model.fields.selection,name:currency_rate_update.selection__res_currency_rate_provider__service__ecb
+msgid "European Central Bank"
+msgstr "Európska centrálna banka"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_follower_ids
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_follower_ids
+msgid "Followers"
+msgstr "Odberatelia"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_partner_ids
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odberatelia (partneri)"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__has_message
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate__message_needaction
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate_provider__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak označené, potom nové správy vyžadujú vašu pozornosť."
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate__message_has_error
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate__message_has_sms_error
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate_provider__message_has_error
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate_provider__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: currency_rate_update
+#. odoo-python
+#: code:addons/currency_rate_update/models/res_currency_rate_provider.py:0
+msgid "Inactive"
+msgstr "Neaktívne"
+
+#. module: currency_rate_update
+#. odoo-python
+#: code:addons/currency_rate_update/models/res_currency_rate_provider.py:0
+msgid "Invalid rate from %(provider)s for %(currency)s: %(rate)s"
+msgstr "Neplatný kurz od %(provider)s pre %(currency)s: %(rate)s"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_is_follower
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_is_follower
+msgid "Is Follower"
+msgstr "Je odberateľ"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__last_successful_run
+msgid "Last Successful Update"
+msgstr "Posledná úspešná aktualizácia"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__write_uid
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_update_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravoval"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__write_date
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_update_wizard__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravované"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_has_error
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_ids
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: currency_rate_update
+#: model:ir.model.fields.selection,name:currency_rate_update.selection__res_currency_rate_provider__interval_type__months
+msgid "Month(s)"
+msgstr "Mesiac(e)"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__next_run
+msgid "Next Scheduled Update"
+msgstr "Ďalšia plánovaná aktualizácia"
+
+#. module: currency_rate_update
+#: model:ir.model.fields.selection,name:currency_rate_update.selection__res_currency_rate_provider__service__none
+msgid "None"
+msgstr "Žiadne"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_needaction_counter
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_has_error_counter
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate__message_needaction_counter
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate_provider__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate__message_has_error_counter
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate_provider__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__provider_id
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__service
+msgid "Provider"
+msgstr "Poskytovateľ"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_update_wizard__provider_ids
+msgid "Providers"
+msgstr "Poskytovatelia"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__message_has_sms_error
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__interval_number
+msgid "Scheduled Update Interval"
+msgstr "Interval plánovanej aktualizácie"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__interval_type
+msgid "Scheduled Update Interval Unit"
+msgstr "Jednotka intervalu plánovanej aktualizácie"
+
+#. module: currency_rate_update
+#: model:ir.model.constraint,message:currency_rate_update.constraint_res_currency_rate_provider_valid_interval_number
+msgid "Scheduled update interval must be strictly positive."
+msgstr "Interval plánovanej aktualizácie musí byť väčší ako nula."
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_update_wizard__date_from
+msgid "Start Date"
+msgstr "Dátum začiatku"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__rate
+msgid "Technical Rate"
+msgstr "Technický kurz"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate__rate
+msgid "The rate of the currency to the currency of rate 1"
+msgstr "Kurz meny ku kurzu meny 1"
+
+#. module: currency_rate_update
+#: model:ir.model.constraint,message:currency_rate_update.constraint_res_currency_rate_provider_service_company_id_uniq
+msgid "This provider has already been setup in this company."
+msgstr "Tento poskytovateľ už je v tejto spoločnosti nastavený."
+
+#. module: currency_rate_update
+#. odoo-python
+#: code:addons/currency_rate_update/models/res_currency_rate_provider.py:0
+msgid "Unknown currency from %(provider)s: %(rate)s"
+msgstr "Neznáma mena od %(provider)s: %(rate)s"
+
+#. module: currency_rate_update
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.res_currency_rate_update_wizard_form
+msgid "Update"
+msgstr "Aktualizácia"
+
+#. module: currency_rate_update
+#: model:ir.actions.act_window,name:currency_rate_update.res_currency_rate_update_wizard_action
+msgid "Update Currency Rates"
+msgstr "Aktualizovať kurzy mien"
+
+#. module: currency_rate_update
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.res_currency_rate_provider_form_view
+msgid "Update Rates Now"
+msgstr "Aktualizovať kurzy teraz"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__update_schedule
+msgid "Update Schedule"
+msgstr "Plán aktualizácie"
+
+#. module: currency_rate_update
+#: model_terms:ir.ui.view,arch_db:currency_rate_update.res_config_settings_view_form
+msgid "Update exchange rates automatically using OCA modules"
+msgstr "Automaticky aktualizovať výmenné kurzy pomocou modulov OCA"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate__website_message_ids
+#: model:ir.model.fields,field_description:currency_rate_update.field_res_currency_rate_provider__website_message_ids
+msgid "Website Messages"
+msgstr "Správy webstránok"
+
+#. module: currency_rate_update
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate__website_message_ids
+#: model:ir.model.fields,help:currency_rate_update.field_res_currency_rate_provider__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie webstránok"
+
+#. module: currency_rate_update
+#: model:ir.model.fields.selection,name:currency_rate_update.selection__res_currency_rate_provider__interval_type__weeks
+msgid "Week(s)"
+msgstr "Týždeň (týždne)"

@@ -1,7 +1,7 @@
 ---
 title: CZ přepočet cizích měn k rozvahovému dni (kurzové rozdíly)
 summary: Přepočte zůstatky v cizí měně kurzem ČNB k rozvahovému dni a kurzové rozdíly zaúčtuje na 563 a 663 — průvodcem OCA v edici Community a úpravou Odoo v edici Enterprise.
-verified: 19.0.1.1.1
+verified: 19.0.1.2.0
 ---
 
 ## K čemu slouží {#purpose}

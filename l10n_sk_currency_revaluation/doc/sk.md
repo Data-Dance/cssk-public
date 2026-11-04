@@ -1,7 +1,7 @@
 ---
 title: SK prepočet cudzích mien ku dňu závierky (kurzové rozdiely)
 summary: Prepočíta zostatky v cudzej mene referenčným kurzom ku dňu závierky a kurzové rozdiely zaúčtuje na 563 a 663 — sprievodcom OCA v edícii Community a korekčným záznamom Odoo v edícii Enterprise.
-verified: 19.0.1.0.1
+verified: 19.0.1.1.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -74,7 +74,7 @@ zápisy* (vypnutá: zápisy vzniknú ako návrh).
 
 ### Vykonanie prepočtu {#usage}
 
-*Účtovníctvo → Účtovníctvo → Uzávierka → Precenenie meny*:
+*Účtovníctvo → Účtovníctvo → Závierka → Precenenie meny*:
 
 1. Zadajte *Dátum precenenia* (deň, ku ktorému sa zostavuje závierka).
    **Pole *Začiatok obdobia precenenia* vymažte** alebo ho nastavte
@@ -89,7 +89,7 @@ zápisy* (vypnutá: zápisy vzniknú ako návrh).
    zápis za účet, menu a partnera, pri ostatných účtoch jeden za účet a
    menu. Straty idú na 563000, zisky na 663000.
 
-*Výkaz precenenia meny* v *Účtovníctvo → Výkazy → Uzávierkové zápisy*
+*Výkaz precenenia meny* v *Účtovníctvo → Prehľady → Uzávierkové zápisy*
 ukazuje nerealizované kurzové rozdiely. *Storno precenenia meny* v tej istej
 ponuke *Uzávierka* stornuje zápisy prepočtu zo zvoleného obdobia k dátumu,
 ktorý zadáte — či na začiatku ďalšieho obdobia stornovať, rozhoduje váš

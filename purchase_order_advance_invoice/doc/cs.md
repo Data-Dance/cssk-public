@@ -1,7 +1,7 @@
 ---
 title: Přijaté zálohové faktury (nákup)
 summary: Zálohová faktura od dodavatele jako nákupní doklad, její úhrada, daňový doklad dodavatele k přijaté platbě a odečtení zálohy na konečné faktuře.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## K čemu slouží {#purpose}

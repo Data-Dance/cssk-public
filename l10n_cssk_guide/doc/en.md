@@ -1,7 +1,7 @@
 ---
 title: CZ/SK User Guides
 summary: One page to start from — the first steps, then the guide of every localization module on this server, by topic.
-verified: 19.0.1.0.0
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}
@@ -18,6 +18,10 @@ company, then every guide sorted by topic.
   at the top changes it.
 - It shows the modules of your company's country and the shared ones. *Show*
   switches between the Czech Republic, Slovakia and all.
+- Under some topics, **task guides** come first: how to get a job done, such
+  as running a management report, across Odoo's own screens,
+  the OCA modules and ours, written from a Slovak or Czech accountant's
+  point of view, for Odoo Community.
 - Under each topic, the installed modules come first. A module that is on the
   server but not installed is listed too, marked *not installed*: install it
   from *Apps* when you need it.

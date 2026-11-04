@@ -1,0 +1,420 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pay
+msgid "<strong>Error:</strong> The currency is missing or invalid."
+msgstr "<strong>Chyba:</strong> Měna chybí nebo je neplatná."
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pay_confirmation
+msgid ""
+"<strong>Error:</strong> There was a problem during the payment process."
+msgstr "<strong>Chyba:</strong> Během platby došlo k problému."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/pos_config.py:0
+msgid "A POS config cannot have more than one online payment method."
+msgstr ""
+"Konfigurace prodejního místa nemůže mít více než jednu platební metodu "
+"online."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "A payment option must be specified."
+msgstr "Musí být zadána možnost platby."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid ""
+"A validation payment cannot be used for a Point of Sale online payment."
+msgstr "Ověřovací platbu nelze použít pro online platbu prodejního místa."
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pos_payment_method_view_form_inherit_pos_online_payment
+msgid "All available providers"
+msgstr "Všichni dostupní poskytovatelé"
+
+#. module: pos_online_payment
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_payment_method__online_payment_provider_ids
+msgid "Allowed Providers"
+msgstr "Povolení poskytovatelé"
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pay
+msgid "Cancel payment"
+msgstr "Zrušit platbu"
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/pos_payment.py:0
+msgid "Cannot create a POS online payment without an accounting payment."
+msgstr "Online platbu prodejního místa nelze vytvořit bez účetní platby."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/pos_payment.py:0
+msgid ""
+"Cannot create a POS payment with a not online payment method and an online "
+"accounting payment."
+msgstr ""
+"Platbu prodejního místa nelze vytvořit s jiným než online platebním způsobem"
+" a zároveň s online účetní platbou."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/pos_payment.py:0
+msgid "Cannot edit a POS online payment essential data."
+msgstr "Základní údaje online platby prodejního místa nelze upravovat."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/pos_payment_method.py:0
+msgid ""
+"Could not create an online payment method (company_id=%(company_id)d, "
+"pos_config_id=%(pos_config_id)d)"
+msgstr ""
+"Online platební metodu se nepodařilo vytvořit (company_id=%(company_id)d, "
+"pos_config_id=%(pos_config_id)d)"
+
+#. module: pos_online_payment
+#: model:ir.model.fields,field_description:pos_online_payment.field_account_payment__display_name
+#: model:ir.model.fields,field_description:pos_online_payment.field_payment_transaction__display_name
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_config__display_name
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_order__display_name
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_payment__display_name
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_payment_method__display_name
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_session__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: pos_online_payment
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_payment_method__has_an_online_payment_provider
+msgid "Has An Online Payment Provider"
+msgstr "Má poskytovatele online plateb"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Invalid online payment"
+msgstr "Neplatná online platba"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Invalid online payments"
+msgstr "Neplatné online platby"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Invoice could not be generated"
+msgstr "Fakturu se nepodařilo vygenerovat"
+
+#. module: pos_online_payment
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_order__next_online_payment_amount
+msgid "Next online payment amount to pay"
+msgstr "Částka další online platby k úhradě"
+
+#. module: pos_online_payment
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_order__online_payment_method_id
+msgid "Online Payment Method"
+msgstr "Online platební metoda"
+
+#. module: pos_online_payment
+#: model:ir.model.fields,field_description:pos_online_payment.field_pos_payment__online_account_payment_id
+msgid "Online accounting payment"
+msgstr "Online účetní platba"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Online payment unavailable"
+msgstr "Online platba není k dispozici"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Online payments cannot have a negative amount (%s: %s)."
+msgstr "Online platby nemohou mít zápornou částku (%s: %s)."
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pay_confirmation
+msgid "Order ID"
+msgstr "ID objednávky"
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pay
+msgid "Order ID:"
+msgstr "ID objednávky:"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/components/popups/online_payment_popup/online_payment_popup.xml:0
+msgid "Order reference:"
+msgstr "Reference objednávky:"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Order saving issue"
+msgstr "Problém s uložením objednávky"
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pay
+msgid "Payment"
+msgstr "Platba"
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pay_confirmation
+msgid "Payment Confirmation"
+msgstr "Potvrzení platby"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Payment provider requirement"
+msgstr "Požadavek na poskytovatele platby"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Please ensure you have a customer with an email address on this order."
+msgstr ""
+"Ujistěte se, že je k této objednávce přiřazen zákazník s e-mailovou adresou."
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/components/popups/online_payment_popup/online_payment_popup.xml:0
+msgid "QR Code to pay"
+msgstr "QR kód k úhradě"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/components/popups/online_payment_popup/online_payment_popup.xml:0
+msgid "Scan the QR code to pay"
+msgstr "Naskenujte QR kód a zaplaťte"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/components/popups/online_payment_popup/online_payment_popup.xml:0
+msgid "Scan to pay"
+msgstr "Naskenujte a zaplaťte"
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/pos_payment_method.py:0
+msgid "The %s already has one online payment."
+msgstr "%s již má jednu online platbu."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/payment_transaction.py:0
+msgid "The POS online payment (tx.id=%d) could not be saved correctly"
+msgstr ""
+"Online platbu prodejního místa (tx.id=%d) se nepodařilo správně uložit"
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/payment_transaction.py:0
+msgid ""
+"The POS online payment (tx.id=%d) could not be saved correctly because the "
+"online payment method could not be found"
+msgstr ""
+"Online platbu prodejního místa (tx.id=%d) se nepodařilo správně uložit, "
+"protože nebyla nalezena online platební metoda"
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "The POS session is not opened."
+msgstr "Relace prodejního místa není otevřena."
+
+#. module: pos_online_payment
+#: model:ir.model.fields,help:pos_online_payment.field_payment_transaction__pos_order_id
+msgid "The Point of Sale order linked to the payment transaction"
+msgstr "Objednávka prodejního místa propojená s platební transakcí"
+
+#. module: pos_online_payment
+#: model:ir.model.fields,help:pos_online_payment.field_account_payment__pos_order_id
+msgid "The Point of Sale order linked to this payment"
+msgstr "Objednávka prodejního místa propojená s touto platbou"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "The QR Code for paying could not be generated."
+msgstr "QR kód k úhradě se nepodařilo vygenerovat."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "The amount to pay has changed. Please refresh the page."
+msgstr "Částka k úhradě se změnila. Obnovte prosím stránku."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "The currency is invalid."
+msgstr "Měna je neplatná."
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "The invoice could not be generated."
+msgstr "Fakturu se nepodařilo vygenerovat."
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "The order has not been saved correctly on the server."
+msgstr "Objednávka nebyla na serveru správně uložena."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/pos_session.py:0
+msgid "The partner of the POS online payment (id=%d) could not be found"
+msgstr "Partnera online platby prodejního místa (id=%d) se nepodařilo najít"
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "The payment provider is invalid."
+msgstr "Poskytovatel platby je neplatný."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "The payment token is invalid."
+msgstr "Platební token je neplatný."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/payment_transaction.py:0
+msgid "The payment transaction (%d) has a negative amount."
+msgstr "Platební transakce (%d) má zápornou částku."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "The provided order or access token is invalid."
+msgstr "Zadaná objednávka nebo přístupový token jsou neplatné."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "The provided partner_id is different than expected."
+msgstr "Zadané partner_id se liší od očekávaného."
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "The saved order could not be retrieved."
+msgstr "Uloženou objednávku se nepodařilo načíst."
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid ""
+"The total amount of remaining online payments to execute (%s) doesn't "
+"correspond to the remaining unpaid amount of the order (%s)."
+msgstr ""
+"Celková částka zbývajících online plateb k provedení (%s) neodpovídá "
+"zbývající neuhrazené částce objednávky (%s)."
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "There are online payments that were missing in your view."
+msgstr "Ve vašem zobrazení chyběly některé online platby."
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid ""
+"There is a problem with the server. The order online payment status cannot "
+"be retrieved."
+msgstr ""
+"Na serveru došlo k problému. Stav online platby objednávky nelze načíst."
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid ""
+"There is a problem with the server. The order online payment status cannot "
+"be retrieved. Are you sure there is no online payment for this order ?"
+msgstr ""
+"Na serveru došlo k problému. Stav online platby objednávky nelze načíst. "
+"Opravdu k této objednávce neexistuje žádná online platba?"
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid ""
+"There is no online payment method configured for this Point of Sale order."
+msgstr ""
+"Pro tuto objednávku prodejního místa není nastavena žádná online platební "
+"metoda."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "There is nothing to pay for this order."
+msgstr "U této objednávky není co platit."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/models/pos_config.py:0
+msgid ""
+"To use an online payment method in a POS config, it must have at least one "
+"published payment provider supporting the currency of that POS config."
+msgstr ""
+"Aby bylo možné použít online platební metodu v konfiguraci prodejního místa,"
+" musí mít alespoň jednoho zveřejněného poskytovatele platby, který podporuje"
+" měnu této konfigurace."
+
+#. module: pos_online_payment
+#. odoo-python
+#: code:addons/pos_online_payment/controllers/payment_portal.py:0
+msgid "Tokenization is not available for logged out customers."
+msgstr "Tokenizace není dostupná pro nepřihlášené zákazníky."
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pay_confirmation
+msgid "Transaction Reference"
+msgstr "Reference transakce"
+
+#. module: pos_online_payment
+#. odoo-javascript
+#: code:addons/pos_online_payment/static/src/app/utils/order_payment_validation.js:0
+msgid "Updated online payments"
+msgstr "Online platby aktualizovány"
+
+#. module: pos_online_payment
+#: model:ir.model.fields,help:pos_online_payment.field_pos_payment_method__is_online_payment
+msgid ""
+"Use this payment method for online payments (payments made on a web page "
+"with online payment providers)"
+msgstr ""
+"Tuto platební metodu použijte pro online platby (platby provedené na webové "
+"stránce prostřednictvím poskytovatelů online plateb)"
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pos_payment_method_view_form_inherit_pos_online_payment
+msgid "You have not activated any"
+msgstr "Nemáte aktivovaného žádného"
+
+#. module: pos_online_payment
+#: model_terms:ir.ui.view,arch_db:pos_online_payment.pos_payment_method_view_form_inherit_pos_online_payment
+msgid "to allow online payments."
+msgstr "k povolení online plateb."

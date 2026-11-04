@@ -42,6 +42,17 @@
                     <t t-foreach="topics" t-as="topic">
                         <h2 t-att-id="topic['key']" t-out="topic['title']"/>
                         <p class="cssk-note" t-out="topic['intro']"/>
+                        <t t-if="topic['guides']">
+                            <p><b t-out="labels['col_guides']"/></p>
+                            <ul class="cssk-tasks">
+                                <li t-foreach="topic['guides']" t-as="guide" t-att-data-country="guide['country']">
+                                    <a t-att-href="guide['url']" target="_blank"><b t-out="guide['title']"/></a>
+                                    <span t-if="guide['country'] != 'both'" class="cssk-badge"
+                                          t-out="guide['country'].upper()"/>
+                                    <t t-out="' — ' + guide['summary']"/>
+                                </li>
+                            </ul>
+                        </t>
                         <div t-if="topic['rows']" class="cssk-scroll">
                             <table class="cssk-guide">
                                 <tr>
@@ -67,7 +78,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <p t-else="" class="cssk-note"><i t-out="labels['empty']"/></p>
+                        <p t-elif="not topic['guides']" class="cssk-note"><i t-out="labels['empty']"/></p>
                     </t>
                     <footer>
                         <p><a href="https://www.datadance.eu" t-out="'Data Dance s.r.o.'"/></p>

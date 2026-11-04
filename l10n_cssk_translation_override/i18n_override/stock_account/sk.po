@@ -1,0 +1,126 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_account
+#: model:ir.model,name:stock_account.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Šablóna účtového rozvrhu"
+
+#. module: stock_account
+#. odoo-javascript
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.js:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.xml:0
+msgid "Accrual"
+msgstr "Dohadné položky"
+
+#. module: stock_account
+#. odoo-javascript
+#: code:addons/stock_account/static/src/stock_valuation/filters/filter_date.xml:0
+msgid "As of"
+msgstr "K dátumu"
+
+#. module: stock_account
+#: model:ir.model.fields.selection,name:stock_account.selection__res_company__inventory_period__daily
+msgid "Daily"
+msgstr "Denne"
+
+#. module: stock_account
+#. odoo-javascript
+#: code:addons/stock_account/static/src/stock_valuation/line/line.xml:0
+msgid "Debit"
+msgstr "Má dať"
+
+#. module: stock_account
+#: model:ir.model.fields.selection,name:stock_account.selection__product_category__property_cost_method__fifo
+#: model:ir.model.fields.selection,name:stock_account.selection__product_template__cost_method__fifo
+#: model:ir.model.fields.selection,name:stock_account.selection__res_company__cost_method__fifo
+#: model:ir.model.fields.selection,name:stock_account.selection__stock_quant__cost_method__fifo
+msgid "First In First Out (FIFO)"
+msgstr "Prvý dnu, prvý von (FIFO)"
+
+#. module: stock_account
+#: model:ir.model,name:stock_account.model_stock_location
+msgid "Inventory Locations"
+msgstr "Skladové umiestnenia"
+
+#. module: stock_account
+#. odoo-javascript
+#. odoo-python
+#: code:addons/stock_account/report/stock_valuation_report.py:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.js:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.xml:0
+msgid "Inventory Loss"
+msgstr "Inventúrna strata"
+
+#. module: stock_account
+#. odoo-python
+#: code:addons/stock_account/models/account_chart_template.py:0
+#: model:ir.actions.client,name:stock_account.action_report_stock_valuation
+#: model:ir.model.fields,field_description:stock_account.field_product_category__property_valuation
+#: model_terms:ir.ui.view,arch_db:stock_account.view_category_property_form_stock
+msgid "Inventory Valuation"
+msgstr "Ocenenie zásob"
+
+#. module: stock_account
+#: model:ir.model.fields,field_description:stock_account.field_res_config_settings__module_stock_landed_costs
+msgid "Landed Costs"
+msgstr "Vedľajšie obstarávacie náklady"
+
+#. module: stock_account
+#: model:ir.model.fields,field_description:stock_account.field_product_value__move_id
+msgid "Move"
+msgstr "Skladový pohyb"
+
+#. module: stock_account
+#: model:ir.model,name:stock_account.model_stock_picking_type
+msgid "Picking Type"
+msgstr "Typ operácie"
+
+#. module: stock_account
+#: model:ir.model.fields,field_description:stock_account.field_stock_move__price_unit
+msgid "Price Unit"
+msgstr "Jednotková cena"
+
+#. module: stock_account
+#: model:ir.model,name:stock_account.model_stock_move
+#: model:ir.model.fields,field_description:stock_account.field_account_bank_statement_line__stock_move_ids
+#: model:ir.model.fields,field_description:stock_account.field_account_move__stock_move_ids
+#: model:ir.model.fields.selection,name:stock_account.selection__stock_avco_report__res_model_name__stock_move
+msgid "Stock Move"
+msgstr "Skladový pohyb"
+
+#. module: stock_account
+#: model:ir.model,name:stock_account.model_stock_forecasted_product_product
+msgid "Stock Replenishment Report"
+msgstr "Prehľad doplnenia zásob"
+
+#. module: stock_account
+#. odoo-javascript
+#. odoo-python
+#: code:addons/stock_account/report/stock_valuation_report.py:0
+#: code:addons/stock_account/static/src/stock_valuation/stock_valuation_report.xml:0
+#: model_terms:ir.ui.view,arch_db:stock_account.view_category_property_form
+msgid "Stock Variation"
+msgstr "Zmena stavu zásob"
+
+#. module: stock_account
+#: model:ir.model.fields,help:stock_account.field_stock_picking__country_code
+#: model:ir.model.fields,help:stock_account.field_stock_picking_type__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+"Dvojpísmenový ISO kód krajiny. \n"
+"Toto pole môžete použiť na rýchle vyhľadávanie."
+
+#. module: stock_account
+#: model:ir.model,name:stock_account.model_stock_picking
+msgid "Transfer"
+msgstr "Presun"

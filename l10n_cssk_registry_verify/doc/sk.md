@@ -70,4 +70,4 @@ Dĺžku uchovania menia systémové parametre
   zániku.
 - Polia overenia, ktoré modul pridáva ku kontaktom, sa nezobrazujú na žiadnej
   obrazovke.
-- Popisky na obrazovke nie sú preložené.
+- Popisy na obrazovke nie sú preložené.

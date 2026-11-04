@@ -1,5 +1,11 @@
 from odoo import api, Command, fields, models
 
+from ..tools import (
+    adopt_advance_account_names,
+    advance_account_names,
+    write_advance_account_names,
+)
+
 
 class ResCompany(models.Model):
     _inherit = "res.company"
@@ -91,26 +97,32 @@ class ResCompany(models.Model):
         """Create localization-specific accounts that the standard chart lacks.
 
         ``spec['create_accounts']`` is a list of dicts with at least ``code`` and
-        ``name``; ``account_type`` defaults to ``asset_receivable`` (the clearing
+        ``name`` (a str, or a ``{lang: name}`` dict stored as the account's
+        translations, all of them even for languages not yet installed); ``account_type`` defaults to ``asset_receivable`` (the clearing
         account is used as the receivable side of the tax document and reconciled
-        against the payment) and ``reconcile`` to ``True``. Skipped if the code
-        already exists for the company.
+        against the payment) and ``reconcile`` to ``True``. An account whose code
+        already exists is not created again; it only gets the spec's names if it
+        still carries the untranslated name an older version gave it.
         """
         self.ensure_one()
         Account = self.env["account.account"]
         created = {}
         for acc in spec.get("create_accounts", []):
+            names = advance_account_names(acc.get("name", acc["code"]))
             existing = self._resolve_advance_account(acc["code"])
             if existing:
+                adopt_advance_account_names(existing, names)
                 created[acc["code"]] = existing
                 continue
-            created[acc["code"]] = Account.with_company(self).create({
-                "name": acc.get("name", acc["code"]),
+            account = Account.with_company(self).create({
+                "name": names.get("en_US") or next(iter(names.values())),
                 "code": acc["code"],
                 "account_type": acc.get("account_type", "asset_receivable"),
                 "reconcile": acc.get("reconcile", True),
                 "company_ids": [Command.link(self.id)],
             })
+            write_advance_account_names(account, names)
+            created[acc["code"]] = account
         # Flush so subsequent company-dependent code searches see the new accounts.
         self.env.flush_all()
         return created

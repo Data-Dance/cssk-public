@@ -81,6 +81,27 @@ def guide_data():
         return json.load(fh)
 
 
+def task_guides(data, topic, lang, country):
+    """The task guides of one topic, for the page's language and country.
+    They are part of this module, so every one of them is on the server."""
+    guides = []
+    for key in topic.get("guides") or []:
+        guide = data.get("guides", {}).get(key)
+        if not guide:
+            continue
+        if country != "all" and guide["country"] not in (country, "both"):
+            continue
+        page_lang = lang if lang in guide["langs"] else "en"
+        guides.append({
+            "key": key,
+            "title": guide["title"][page_lang],
+            "summary": guide["summary"][page_lang],
+            "country": guide["country"],
+            "url": f"/l10n_cssk_guide/static/guides/{key}/{FILENAME[page_lang]}",
+        })
+    return guides
+
+
 class CsskGuide(http.Controller):
 
     @http.route("/cssk/guide", type="http", auth="user", readonly=True)
@@ -124,6 +145,7 @@ class CsskGuide(http.Controller):
                 "key": topic["key"],
                 "title": topic["title"][lang],
                 "intro": topic["intro"][lang],
+                "guides": task_guides(data, topic, lang, country),
                 "rows": rows,
             })
 

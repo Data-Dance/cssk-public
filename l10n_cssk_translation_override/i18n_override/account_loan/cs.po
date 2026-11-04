@@ -1,0 +1,1059 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid ""
+"<span class=\"o_stat_text\">Deduct</span>\n"
+"                                <span class=\"o_stat_text\">Debt</span>"
+msgstr ""
+"<span class=\"o_stat_text\">Snížit</span>\n"
+"                                <span class=\"o_stat_text\">dluh</span>"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid ""
+"<span class=\"o_stat_text\">Increase</span>\n"
+"                                <span class=\"o_stat_text\">Debt</span>"
+msgstr ""
+"<span class=\"o_stat_text\">Zvýšit</span>\n"
+"                                <span class=\"o_stat_text\">dluh</span>"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.res_partner_form_view
+msgid "<span class=\"o_stat_text\">Loans</span>"
+msgstr "<span class=\"o_stat_text\">Úvěry</span>"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__account_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_post__account_id
+msgid "Account"
+msgstr "Účet"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_generate_wizard__date
+msgid "Account Date"
+msgstr "Datum účtování"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__long_term_loan_account_id
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__long_term_loan_account_id
+msgid "Account that will contain the pending amount on Long term"
+msgstr "Účet, na kterém bude evidována dlouhodobá část nesplacené částky"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__short_term_loan_account_id
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__short_term_loan_account_id
+msgid "Account that will contain the pending amount on short term"
+msgstr "Účet, na kterém bude evidována krátkodobá část nesplacené částky"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__interest_expenses_account_id
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__interest_expenses_account_id
+msgid "Account where the interests will be assigned to"
+msgstr "Účet, na který budou účtovány úroky"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid "Accounts"
+msgstr "Účty"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akci"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimky aktivity"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/wizards/account_loan_pay_amount.py:0
+msgid "Amount cannot be bigger than debt"
+msgstr "Částka nemůže být vyšší než dluh"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/wizards/account_loan_increase_amount.py:0
+#: code:addons/account_loan/wizards/account_loan_pay_amount.py:0
+msgid "Amount cannot be less than zero"
+msgstr "Částka nemůže být menší než nula"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan_line.py:0
+msgid "Amount cannot be recomputed if moves or invoices exists already"
+msgstr ""
+"Částku nelze přepočítat, pokud již existují účetní záznamy nebo faktury"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__interests_amount
+msgid "Amount of the payment that will be assigned to interests"
+msgstr "Část splátky, která připadne na úroky"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__principal_amount
+msgid "Amount of the payment that will reduce the pending loan amount"
+msgstr "Část splátky, která sníží nesplacenou jistinu úvěru"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__long_term_principal_amount
+msgid "Amount that will reduce the pending loan amount on long term"
+msgstr "Částka, o kterou se sníží dlouhodobá část nesplacené jistiny úvěru"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__amount
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__amount
+msgid "Amount to reduce from Principal"
+msgstr "Částka ke snížení jistiny"
+
+#. module: account_loan
+#: model:ir.model,name:account_loan.model_account_loan_line
+msgid "Annuity"
+msgstr "Anuita"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__fees
+msgid "Bank fees"
+msgstr "Bankovní poplatky"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__cancel_loan
+msgid "Cancel Loan"
+msgstr "Zrušit úvěr"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__state__cancelled
+msgid "Cancelled"
+msgstr "Zrušeno"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_generate_wizard__date
+msgid ""
+"Choose the period for which you want to automatically post the depreciation "
+"lines of running assets"
+msgstr ""
+"Zvolte období, za které chcete automaticky zaúčtovat odpisové řádky "
+"používaného majetku"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__state__closed
+msgid "Closed"
+msgstr "Uzavřeno"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__partner_id
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__partner_id
+msgid "Company or individual that lends the money at an interest rate."
+msgstr "Společnost nebo fyzická osoba, která půjčuje peníze za úrok."
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid "Compute items"
+msgstr "Vypočítat splátky"
+
+#. module: account_loan
+#: model:ir.model,name:account_loan.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__create_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_generate_wizard__create_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__create_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__create_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__create_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_post__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__create_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_generate_wizard__create_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__create_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__create_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__create_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_post__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__currency_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__currency_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__currency_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__currency_id
+msgid "Currency"
+msgstr "Měna"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__rate
+msgid "Currently applied rate"
+msgstr "Aktuálně uplatňovaná sazba"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__date
+msgid "Date"
+msgstr "Datum"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__date
+msgid "Date when the payment will be accounted"
+msgstr "Datum, ke kterému bude splátka zaúčtována"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__rate_type__ear
+msgid "EAR"
+msgstr "RPSN"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_lines_view
+msgid "Edit"
+msgstr "Upravit"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__final_pending_principal_amount
+msgid "Final Pending Principal Amount"
+msgstr "Konečná nesplacená jistina"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__fixed_amount
+msgid "Fixed Amount"
+msgstr "Pevná částka"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__loan_type__fixed-annuity
+msgid "Fixed Annuity"
+msgstr "Pevná anuita"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__loan_type__fixed-annuity-begin
+msgid "Fixed Annuity Begin"
+msgstr "Pevná anuita na začátku období"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__fixed_loan_amount
+msgid "Fixed Loan Amount"
+msgstr "Pevná výše úvěru"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__fixed_periods
+msgid "Fixed Periods"
+msgstr "Pevný počet období"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__loan_type__fixed-principal
+msgid "Fixed Principal"
+msgstr "Pevná splátka jistiny"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_follower_ids
+msgid "Followers"
+msgstr "Odběratelé"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odběratelé (partneři)"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: account_loan
+#: model:ir.ui.menu,name:account_loan.account_loan_generate_wizard_menu
+msgid "Generate Loan Entries"
+msgstr "Generovat účetní záznamy úvěrů"
+
+#. module: account_loan
+#: model:ir.actions.act_window,name:account_loan.account_loan_generate_wizard_action
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_generate_wizard_form
+msgid "Generate moves"
+msgstr "Generovat účetní záznamy"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.view_account_loan_lines_search
+msgid "Group by..."
+msgstr "Seskupit podle..."
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__has_invoices
+msgid "Has Invoices"
+msgstr "Má faktury"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__has_moves
+msgid "Has Moves"
+msgstr "Má účetní záznamy"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_res_partner__lended_loan_count
+#: model:ir.model.fields,help:account_loan.field_res_users__lended_loan_count
+msgid "How many Loans this partner lended to us ?"
+msgstr "Kolik úvěrů nám tento partner poskytl?"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: account_loan
+#: model:ir.actions.act_window,name:account_loan.account_loan_increase_amount_act_window
+msgid "Increase Amount"
+msgstr "Navýšit částku"
+
+#. module: account_loan
+#: model:ir.model,name:account_loan.model_account_loan_increase_amount
+msgid "Increase the debt of a loan"
+msgstr "Navýšení dluhu z úvěru"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__interests_product_id
+msgid "Interest product"
+msgstr "Produkt pro úroky"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__interests_amount
+msgid "Interests Amount"
+msgstr "Částka úroků"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__interest_expenses_account_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__interest_expenses_account_id
+msgid "Interests account"
+msgstr "Účet úroků"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid "Invoices"
+msgstr "Faktury"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__post_invoice
+msgid "Invoices will be posted automatically"
+msgstr "Faktury budou zaúčtovány automaticky"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_is_follower
+msgid "Is Follower"
+msgstr "Je odběratel"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__is_leasing
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__is_leasing
+msgid "Is Leasing"
+msgstr "Je leasing"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan.py:0
+msgid ""
+"It is only possible to change to draft if the status is cancelled or posted "
+"and there are no account moves."
+msgstr ""
+"Vrátit do stavu návrh lze pouze tehdy, je-li stav zrušeno nebo zaúčtováno a "
+"neexistují žádné účetní záznamy."
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid "Items"
+msgstr "Položky"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__journal_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__journal_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__journal_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_post__journal_id
+msgid "Journal"
+msgstr "Účetní deník"
+
+#. module: account_loan
+#: model:ir.model,name:account_loan.model_account_move
+msgid "Journal Entry"
+msgstr "Účetní záznam"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__journal_type
+msgid "Journal Type"
+msgstr "Typ deníku"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__write_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_generate_wizard__write_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__write_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__write_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__write_uid
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_post__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__write_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_generate_wizard__write_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__write_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__write_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__write_date
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_post__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__leased_asset_account_id
+msgid "Leased Asset Account"
+msgstr "Účet najatého majetku"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan_generate_wizard__loan_type__leasing
+msgid "Leasings"
+msgstr "Leasingy"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_res_partner__lended_loan_ids
+#: model:ir.model.fields,field_description:account_loan.field_res_users__lended_loan_ids
+msgid "Lended Loan"
+msgstr "Úvěry od partnera"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_res_partner__lended_loan_count
+#: model:ir.model.fields,field_description:account_loan.field_res_users__lended_loan_count
+msgid "Lended Loan Count"
+msgstr "Počet úvěrů od partnera"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__partner_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__partner_id
+msgid "Lender"
+msgstr "Věřitel"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__line_ids
+msgid "Line"
+msgstr "Řádek"
+
+#. module: account_loan
+#: model:ir.model,name:account_loan.model_account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_bank_statement_line__loan_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_increase_amount__loan_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__loan_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_pay_amount__loan_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_post__loan_id
+#: model:ir.model.fields,field_description:account_loan.field_account_move__loan_id
+#: model_terms:ir.ui.view,arch_db:account_loan.view_account_loan_lines_search
+msgid "Loan"
+msgstr "Úvěr"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__loan_amount
+msgid "Loan Amount"
+msgstr "Výše úvěru"
+
+#. module: account_loan
+#: model:ir.actions.act_window,name:account_loan.account_loan_lines_action
+#: model:ir.ui.menu,name:account_loan.account_loan_lines_menu
+msgid "Loan Items"
+msgstr "Položky úvěru"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_bank_statement_line__loan_line_id
+#: model:ir.model.fields,field_description:account_loan.field_account_move__loan_line_id
+msgid "Loan Line"
+msgstr "Řádek úvěru"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__loan_type
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_generate_wizard__loan_type
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__loan_type
+msgid "Loan Type"
+msgstr "Typ úvěru"
+
+#. module: account_loan
+#: model:ir.model,name:account_loan.model_account_loan_generate_wizard
+msgid "Loan generate wizard"
+msgstr "Průvodce generováním úvěru"
+
+#. module: account_loan
+#: model:ir.model.constraint,message:account_loan.constraint_account_loan_name_uniq
+msgid "Loan name must be unique"
+msgstr "Název úvěru musí být jedinečný"
+
+#. module: account_loan
+#: model:ir.model,name:account_loan.model_account_loan_pay_amount
+msgid "Loan pay amount"
+msgstr "Splátka úvěru"
+
+#. module: account_loan
+#: model:ir.model,name:account_loan.model_account_loan_post
+msgid "Loan post"
+msgstr "Zaúčtování úvěru"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__product_id
+msgid "Loan product"
+msgstr "Produkt úvěru"
+
+#. module: account_loan
+#: model:ir.actions.act_window,name:account_loan.account_loan_action
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan_generate_wizard__loan_type__loan
+#: model:ir.ui.menu,name:account_loan.account_loan_menu
+#: model:ir.ui.menu,name:account_loan.loan_menu
+msgid "Loans"
+msgstr "Úvěry"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_pivot
+msgid "Loans pivot"
+msgstr "Kontingenční tabulka úvěrů"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__long_term_pending_principal_amount
+msgid "Long Term Pending Principal Amount"
+msgstr "Dlouhodobá nesplacená jistina"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__long_term_principal_amount
+msgid "Long Term Principal Amount"
+msgstr "Dlouhodobá jistina"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__long_term_loan_account_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__long_term_loan_account_id
+msgid "Long term account"
+msgstr "Dlouhodobý účet"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba při doručování zprávy"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_ids
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__rate_type
+msgid "Method of computation of the applied rate"
+msgstr "Způsob výpočtu uplatňované sazby"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__loan_type
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__loan_type
+msgid "Method of computation of the period annuity"
+msgstr "Způsob výpočtu anuity za období"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__move_ids
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__move_ids
+msgid "Move"
+msgstr "Záznam"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__move_count
+msgid "Move Count"
+msgstr "Počet účetních záznamů"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid "Moves"
+msgstr "Účetní zápisy"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__rate_type__napr
+msgid "Nominal APR"
+msgstr "Nominální roční sazba"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou při doručení"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__periods
+msgid "Number of periods that the loan will last"
+msgstr "Počet období, po která bude úvěr trvat"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__loan_type__interest
+msgid "Only interest"
+msgstr "Pouze úroky"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/wizards/account_loan_post.py:0
+msgid "Only loans in draft state can be posted"
+msgstr "Zaúčtovat lze pouze úvěry ve stavu návrh"
+
+#. module: account_loan
+#: model:ir.actions.act_window,name:account_loan.account_loan_pay_amount_action
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_pay_amount_form
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_post_form
+msgid "Pay amount"
+msgstr "Splatit částku"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__payment_amount
+msgid "Payment Amount"
+msgstr "Částka platby"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__payment_on_first_period
+msgid "Payment On First Period"
+msgstr "Splátka v prvním období"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__pending_principal_amount
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__pending_principal_amount
+msgid "Pending Principal Amount"
+msgstr "Nesplacená jistina"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__final_pending_principal_amount
+msgid "Pending amount of the loan after the payment"
+msgstr "Nesplacená částka úvěru po splátce"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__pending_principal_amount
+msgid "Pending amount of the loan before the payment"
+msgstr "Nesplacená částka úvěru před splátkou"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__long_term_pending_principal_amount
+msgid ""
+"Pending amount of the loan before the payment that will not be payed in, at "
+"least, 12 months"
+msgstr ""
+"Nesplacená částka úvěru před splátkou, která nebude splacena dříve než za 12"
+" měsíců"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__method_period
+msgid "Period Length"
+msgstr "Délka období"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__periods
+msgid "Periods"
+msgstr "Období"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid "Post"
+msgstr "Zaúčtovat"
+
+#. module: account_loan
+#: model:ir.actions.act_window,name:account_loan.account_loan_post_action
+msgid "Post loan"
+msgstr "Zaúčtovat úvěr"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__state__posted
+msgid "Posted"
+msgstr "Zaúčtováno"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__principal_amount
+msgid "Principal Amount"
+msgstr "Jistina"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_line_tree
+msgid "Process"
+msgstr "Zpracovat"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__interests_product_id
+msgid ""
+"Product where the amount of interests will be assigned when the invoice is "
+"created"
+msgstr "Produkt, na který bude při vytvoření faktury přiřazena částka úroků"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__product_id
+msgid ""
+"Product where the amount of the loan will be assigned when the invoice is "
+"created"
+msgstr "Produkt, na který bude při vytvoření faktury přiřazena částka úvěru"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__rate
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__rate
+msgid "Rate"
+msgstr "Sazba"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan.py:0
+msgid "Rate Change"
+msgstr "Změna sazby"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__rate_period
+msgid "Rate Period"
+msgstr "Období sazby"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__rate_type
+msgid "Rate Type"
+msgstr "Typ sazby"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__rate_type__real
+msgid "Real rate"
+msgstr "Skutečná sazba"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__rate_period
+msgid "Real rate that will be applied on each period"
+msgstr "Skutečná sazba, která bude uplatněna v každém období"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_form
+msgid "Reset to draft"
+msgstr "Vrátit do konceptu"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__residual_amount
+msgid "Residual Amount"
+msgstr "Zbytková částka"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__residual_amount
+msgid ""
+"Residual amount of the lease that must be payed on the end in order to "
+"acquire the asset"
+msgstr ""
+"Zůstatková hodnota leasingu, kterou je třeba na konci zaplatit, aby bylo "
+"možné majetek odkoupit"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__activity_user_id
+msgid "Responsible User"
+msgstr "Odpovědný uživatel"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__round_on_end
+msgid "Round On End"
+msgstr "Zaokrouhlit na konci"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_generate_wizard_form
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_increase_amount_form_view
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_pay_amount_form
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_post_form
+msgid "Run"
+msgstr "Spustit"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__sequence
+msgid "Sequence"
+msgstr "Sekvence"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__short_term_loan_account_id
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__short_term_loan_account_id
+msgid "Short term account"
+msgstr "Krátkodobý účet"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/wizards/account_loan_increase_amount.py:0
+#: code:addons/account_loan/wizards/account_loan_pay_amount.py:0
+msgid "Some future invoices already exists"
+msgstr "Některé budoucí faktury již existují"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/wizards/account_loan_increase_amount.py:0
+#: code:addons/account_loan/wizards/account_loan_pay_amount.py:0
+msgid "Some future moves already exists"
+msgstr "Některé budoucí účetní záznamy již existují"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/wizards/account_loan_increase_amount.py:0
+#: code:addons/account_loan/wizards/account_loan_pay_amount.py:0
+msgid "Some invoices are not created"
+msgstr "Některé faktury nejsou vytvořeny"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan_line.py:0
+msgid "Some invoices must be created first"
+msgstr "Nejprve je nutné vytvořit některé faktury"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/wizards/account_loan_increase_amount.py:0
+#: code:addons/account_loan/wizards/account_loan_pay_amount.py:0
+msgid "Some moves are not created"
+msgstr "Některé účetní záznamy nejsou vytvořeny"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan_line.py:0
+msgid "Some moves must be created first"
+msgstr "Nejprve je nutné vytvořit některé účetní záznamy"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__start_date
+msgid "Start Date"
+msgstr "Počáteční datum"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__start_date
+msgid "Start of the moves"
+msgstr "Začátek účetních záznamů"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__state
+#: model:ir.model.fields,field_description:account_loan.field_account_loan_line__loan_state
+msgid "State"
+msgstr "Stav"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__method_period
+msgid "State here the time between 2 depreciations, in months"
+msgstr "Zadejte dobu mezi dvěma odpisy v měsících"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po splatnosti: Datum již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Plánováno: Budoucí aktivity."
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/wizards/account_loan_post.py:0
+msgid "The total principal amount does not match the loan amount."
+msgstr "Celková jistina neodpovídá výši úvěru."
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_tree
+msgid "Total"
+msgstr "Celkem"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan_line__payment_amount
+msgid "Total amount that will be payed (Annuity)"
+msgstr "Celková částka, která bude zaplacena (anuita)"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_line_tree
+msgid "Total interests"
+msgstr "Úroky celkem"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__interests_amount
+msgid "Total interests payed"
+msgstr "Zaplacené úroky celkem"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__payment_amount
+msgid "Total payed amount"
+msgstr "Zaplacená částka celkem"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_line_tree
+msgid "Total payments"
+msgstr "Splátky celkem"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výjimečné aktivity na záznamu."
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_line_tree
+msgid "Values"
+msgstr "Hodnoty"
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__website_message_ids
+msgid "Website Messages"
+msgstr "Zprávy webu"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace webu"
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__round_on_end
+msgid ""
+"When checked, the differences will be applied on the last period, if it is "
+"unchecked, the annuity will be recalculated on each period."
+msgstr ""
+"Je-li zaškrtnuto, rozdíly se promítnou do posledního období; není-li "
+"zaškrtnuto, anuita se přepočítá v každém období."
+
+#. module: account_loan
+#: model:ir.model.fields,help:account_loan.field_account_loan__payment_on_first_period
+msgid "When checked, the first payment will be on start date"
+msgstr "Je-li zaškrtnuto, první splátka proběhne k datu zahájení"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan.py:0
+msgid ""
+"You have modified the interest rate. Click the Compute items button to "
+"update the lines. Please note that if you have manually edited these lines, "
+"those changes will be lost upon computation."
+msgstr ""
+"Změnili jste úrokovou sazbu. Kliknutím na tlačítko Vypočítat splátky "
+"aktualizujete řádky. Pokud jste tyto řádky ručně upravili, budou vaše změny "
+"při výpočtu ztraceny."
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_res_config_settings__auto_post_loan_moves_at_date
+msgid "Auto Post Loan Moves At Date"
+msgstr "Automaticky zaúčtovat účetní záznamy úvěrů k datu"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__loan_type__borrow
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_search
+msgid "Borrow"
+msgstr "Přijatý úvěr"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan.py:0
+msgid "Borrow type must have negative amount or change the type"
+msgstr "Přijatý úvěr musí mít zápornou částku, jinak změňte typ"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.res_config_settings_form_view
+msgid ""
+"If activated: annuity are generated in draft and auto posted at date. "
+"Otherwise: annuity are directly posted."
+msgstr ""
+"Je-li aktivováno: anuity se generují ve stavu návrh a zaúčtují se "
+"automaticky k datu. Jinak: anuity se zaúčtují ihned."
+
+#. module: account_loan
+#: model:ir.model.fields,field_description:account_loan.field_account_loan__loan_method
+msgid "Loan Method"
+msgstr "Metoda úvěru"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan.py:0
+msgid "Loan type must have postive amount or change the type"
+msgstr "Poskytnutý úvěr musí mít kladnou částku, jinak změňte typ"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.res_config_settings_form_view
+msgid "Loan/Borrow"
+msgstr "Poskytnutý/přijatý úvěr"
+
+#. module: account_loan
+#. odoo-python
+#: code:addons/account_loan/models/account_loan.py:0
+msgid ""
+"The current journal %(journal_name)s type: %(journal_type)s (company "
+"%(journal_company_name)s) is not allowed for this type %(loan_type)s"
+msgstr ""
+"Aktuální deník %(journal_name)s typu %(journal_type)s (společnost "
+"%(journal_company_name)s) není pro tento typ %(loan_type)s povolen"
+
+#. module: account_loan
+#: model_terms:ir.ui.view,arch_db:account_loan.account_loan_search
+msgid "Type"
+msgstr "Typ"
+
+#. module: account_loan
+#: model:ir.model.fields.selection,name:account_loan.selection__account_loan__loan_type__loan
+msgid "loan"
+msgstr "poskytnutý úvěr"

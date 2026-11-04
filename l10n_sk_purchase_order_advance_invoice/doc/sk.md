@@ -1,7 +1,7 @@
 ---
 title: Prijaté zálohové faktúry — slovenské účty
 summary: Napojí nastavenia prijatých zálohových faktúr na slovenskú účtovú osnovu.
-verified: 19.0.1.0.1
+verified: 19.0.1.0.2
 family: purchase_order_advance_invoice#localization
 ---
 

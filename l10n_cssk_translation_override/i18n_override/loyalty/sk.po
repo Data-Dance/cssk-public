@@ -1,0 +1,2246 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_program__trigger
+msgid ""
+"\n"
+"        Automatic: Customers will be eligible for a reward automatically in their cart.\n"
+"        Use a code: Customers will be eligible for a reward if they enter a code.\n"
+"        "
+msgstr ""
+"\n"
+"        Automaticky: zákazníci získajú nárok na odmenu automaticky v košíku.\n"
+"        S kódom: zákazníci získajú nárok na odmenu, ak zadajú kód.\n"
+"        "
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_program__portal_visible
+msgid ""
+"\n"
+"        Show in web portal, PoS customer ticket, eCommerce checkout, the number of points available\n"
+"         and used by reward.\n"
+"        "
+msgstr ""
+"\n"
+"        Zobrazovať na webovom portáli, na účtenke zákazníka v mieste predaja a pri dokončení objednávky v e-shope počet dostupných\n"
+"         a pri odmene použitých bodov.\n"
+"        "
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid " (Max %s)"
+msgstr " (max. %s)"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "%g%% on "
+msgstr "%g%% na "
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "%s on "
+msgstr "%s na "
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "%s per point"
+msgstr "%s za bod"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "%s per point on "
+msgstr "%s za bod na "
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "( Max"
+msgstr "( max."
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "(if at least"
+msgstr "(ak aspoň"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "(tax excluded)"
+msgstr "(bez dane)"
+
+#. module: loyalty
+#. odoo-javascript
+#: code:addons/loyalty/static/src/js/portal/loyalty_card_dialog/loyalty_card_dialog.xml:0
+msgid "-> View History"
+msgstr "-> Zobraziť históriu"
+
+#. module: loyalty
+#: model:loyalty.program,name:loyalty.10_percent_coupon
+msgid "10% Discount Coupons"
+msgstr "Kupóny na zľavu 10 %"
+
+#. module: loyalty
+#: model:loyalty.reward,description:loyalty.10_percent_coupon_reward
+#: model:loyalty.reward,description:loyalty.10_percent_with_code_reward
+msgid "10% on your order"
+msgstr "10 % z vašej objednávky"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "2+1 Free"
+msgstr "2+1 zadarmo"
+
+#. module: loyalty
+#: model:mail.template,body_html:loyalty.mail_template_gift_card
+msgid ""
+"<div style=\"background: #ffffff\">\n"
+"                <div style=\"margin:0px; font-size:24px; font-family:arial, 'helvetica neue', helvetica, sans-serif; line-height:36px; color:#333333; text-align: center\">\n"
+"                    Here is your gift card!\n"
+"                </div>\n"
+"                <div style=\"padding-top:20px; padding-bottom:20px\">\n"
+"                    <img src=\"/loyalty/static/img/gift_card.png\" style=\"display:block; border:0; outline:none; text-decoration:none; margin:auto;\" width=\"300\"/>\n"
+"                </div>\n"
+"                <div style=\"padding:0; margin:0px; padding-top:35px; padding-bottom:35px; text-align:center;\">\n"
+"                    <h3 style=\"margin:0px; line-height:48px; font-family:arial, 'helvetica neue', helvetica, sans-serif; font-size:40px; font-style:normal; font-weight:normal; color:#333333; text-align:center\">\n"
+"                        <strong t-out=\"format_amount(object.points, object.currency_id) or ''\">$ 150.00</strong></h3>\n"
+"                </div>\n"
+"                <div style=\"padding:0; margin:0px; padding-top:35px; padding-bottom:35px; background-color:#efefef; text-align:center;\">\n"
+"                    <p style=\"margin:0px; font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif; line-height:21px; color:#333333\">\n"
+"                        <strong>Gift Card Code</strong>\n"
+"                    </p>\n"
+"                    <p style=\"margin:0px; font-size:25px;font-family:arial, 'helvetica neue', helvetica, sans-serif; line-height:38px; color:#A9A9A9\" t-out=\"object.code or ''\">4f10-15d6-41b7-b04c-7b3e</p>\n"
+"                </div>\n"
+"                <div t-if=\"object.expiration_date\" style=\"padding:0; margin:0px; padding-top:10px; padding-bottom:10px; text-align:center;\">\n"
+"                    <h3 style=\"margin:0px; line-height:17px; font-family:arial, 'helvetica neue', helvetica, sans-serif; font-size:14px; font-style:normal; font-weight:normal; color:#A9A9A9; text-align:center\">Card expires <t t-out=\"format_date(object.expiration_date) or ''\">05/05/2021</t></h3>\n"
+"                </div>\n"
+"                <div style=\"padding:20px; margin:0px; text-align:center;\">\n"
+"                    <span style=\"background-color:#999999; display:inline-block; width:auto; border-radius:5px;\">\n"
+"                        <a t-attf-href=\"{{ object.get_base_url() }}/shop\" target=\"_blank\" t-attf-style=\"text-decoration:none; font-family:arial, 'helvetica neue', helvetica, sans-serif; font-size:22px; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-style:solid; border-width:20px 30px; display:inline-block; background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; border-radius:5px; font-weight:bold; font-style:normal; line-height:26px; width:auto; text-align:center\">Use it right now!</a>\n"
+"                    </span>\n"
+"                </div>\n"
+"            </div>\n"
+"        "
+msgstr ""
+"<div style=\"background: #ffffff\">\n"
+"                <div style=\"margin:0px; font-size:24px; font-family:arial, 'helvetica neue', helvetica, sans-serif; line-height:36px; color:#333333; text-align: center\">\n"
+"                    Tu je vaša darčeková karta!\n"
+"                </div>\n"
+"                <div style=\"padding-top:20px; padding-bottom:20px\">\n"
+"                    <img src=\"/loyalty/static/img/gift_card.png\" style=\"display:block; border:0; outline:none; text-decoration:none; margin:auto;\" width=\"300\"/>\n"
+"                </div>\n"
+"                <div style=\"padding:0; margin:0px; padding-top:35px; padding-bottom:35px; text-align:center;\">\n"
+"                    <h3 style=\"margin:0px; line-height:48px; font-family:arial, 'helvetica neue', helvetica, sans-serif; font-size:40px; font-style:normal; font-weight:normal; color:#333333; text-align:center\">\n"
+"                        <strong t-out=\"format_amount(object.points, object.currency_id) or ''\">$ 150.00</strong></h3>\n"
+"                </div>\n"
+"                <div style=\"padding:0; margin:0px; padding-top:35px; padding-bottom:35px; background-color:#efefef; text-align:center;\">\n"
+"                    <p style=\"margin:0px; font-size:14px;font-family:arial, 'helvetica neue', helvetica, sans-serif; line-height:21px; color:#333333\">\n"
+"                        <strong>Kód darčekovej karty</strong>\n"
+"                    </p>\n"
+"                    <p style=\"margin:0px; font-size:25px;font-family:arial, 'helvetica neue', helvetica, sans-serif; line-height:38px; color:#A9A9A9\" t-out=\"object.code or ''\">4f10-15d6-41b7-b04c-7b3e</p>\n"
+"                </div>\n"
+"                <div t-if=\"object.expiration_date\" style=\"padding:0; margin:0px; padding-top:10px; padding-bottom:10px; text-align:center;\">\n"
+"                    <h3 style=\"margin:0px; line-height:17px; font-family:arial, 'helvetica neue', helvetica, sans-serif; font-size:14px; font-style:normal; font-weight:normal; color:#A9A9A9; text-align:center\">Platnosť karty vyprší <t t-out=\"format_date(object.expiration_date) or ''\">05/05/2021</t></h3>\n"
+"                </div>\n"
+"                <div style=\"padding:20px; margin:0px; text-align:center;\">\n"
+"                    <span style=\"background-color:#999999; display:inline-block; width:auto; border-radius:5px;\">\n"
+"                        <a t-attf-href=\"{{ object.get_base_url() }}/shop\" target=\"_blank\" t-attf-style=\"text-decoration:none; font-family:arial, 'helvetica neue', helvetica, sans-serif; font-size:22px; color: {{object.company_id.email_primary_color or '#FFFFFF'}}; border-style:solid; border-width:20px 30px; display:inline-block; background-color: {{object.company_id.email_secondary_color or '#875A7B'}}; border-radius:5px; font-weight:bold; font-style:normal; line-height:26px; width:auto; text-align:center\">Použite ju hneď teraz!</a>\n"
+"                    </span>\n"
+"                </div>\n"
+"            </div>\n"
+"        "
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "<i class=\"fa fa-cube fa-fw\" title=\"Product Domain\"/>"
+msgstr "<i class=\"fa fa-cube fa-fw\" title=\"Doména produktov\"/>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "<i class=\"fa fa-cube fa-fw\" title=\"Products\"/>"
+msgstr "<i class=\"fa fa-cube fa-fw\" title=\"Produkty\"/>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "<i class=\"fa fa-cube fa-fw\" title=\"Products\"/><span>All Products</span>"
+msgstr ""
+"<i class=\"fa fa-cube fa-fw\" title=\"Produkty\"/><span>Všetky "
+"produkty</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "<i class=\"fa fa-cubes fa-fw\" title=\"Product Categories\"/>"
+msgstr "<i class=\"fa fa-cubes fa-fw\" title=\"Kategórie produktov\"/>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "<i class=\"fa fa-search fa-fw\" title=\"Product Domain\"/>"
+msgstr "<i class=\"fa fa-search fa-fw\" title=\"Doména produktov\"/>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "<i class=\"fa fa-tags fa-fw\" title=\"Product Tags\"/>"
+msgstr "<i class=\"fa fa-tags fa-fw\" title=\"Štítky produktov\"/>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"<span class=\"o_stat_text\" invisible=\"program_type not in ('coupons', 'next_order_coupons')\">Coupons</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type != 'loyalty'\">Loyalty Cards</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type not in ('promotion', 'buy_x_get_y')\">Promos</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type != 'promo_code'\">Discount</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type != 'gift_card'\">Gift Cards</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type != 'ewallet'\">eWallets</span>"
+msgstr ""
+"<span class=\"o_stat_text\" invisible=\"program_type not in ('coupons', 'next_order_coupons')\">Kupóny</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type != 'loyalty'\">Vernostné karty</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type not in ('promotion', 'buy_x_get_y')\">Akcie</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type != 'promo_code'\">Zľava</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type != 'gift_card'\">Darčekové karty</span>\n"
+"                                <span class=\"o_stat_text\" invisible=\"program_type != 'ewallet'\">E-peňaženky</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid ""
+"<span class=\"text-center\">OR</span>\n"
+"                                        <br/>"
+msgstr ""
+"<span class=\"text-center\">ALEBO</span>\n"
+"                                        <br/>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_form
+msgid ""
+"<span colspan=\"2\" invisible=\"program_type != 'coupons'\">Grant the amount"
+" of coupon points defined as the coupon value</span>"
+msgstr ""
+"<span colspan=\"2\" invisible=\"program_type != 'coupons'\">Prideliť toľko "
+"kupónových bodov, koľko je definovaná hodnota kupónu</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "<span invisible=\"not clear_wallet\"> (or more)</span>"
+msgstr "<span invisible=\"not clear_wallet\"> (alebo viac)</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid ""
+"<span invisible=\"not will_send_mail\">\n"
+"                            Generate and Send \n"
+"                        </span>\n"
+"                        <span invisible=\"will_send_mail\">\n"
+"                            Generate \n"
+"                        </span>"
+msgstr ""
+"<span invisible=\"not will_send_mail\">\n"
+"                            Vygenerovať a odoslať \n"
+"                        </span>\n"
+"                        <span invisible=\"will_send_mail\">\n"
+"                            Vygenerovať \n"
+"                        </span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.portal_loyalty_history_breadcrumbs
+msgid "<span>History</span>"
+msgstr "<span>História</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "<span>Minimum purchase of</span>"
+msgstr "<span>Minimálny nákup</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "<span>Valid for purchase above</span>"
+msgstr "<span>Platí pre nákup nad</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "<span>on</span>"
+msgstr "<span>z</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "<span>products</span>"
+msgstr "<span>produktov</span>"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.gift_card_report
+msgid "<strong>Gift Card Code</strong>"
+msgstr "<strong>Kód darčekovej karty</strong>"
+
+#. module: loyalty
+#: model:mail.template,body_html:loyalty.mail_template_loyalty_card
+msgid ""
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; margin:0px auto; background:#ffffff; color:#333333;\"><tbody>\n"
+"<tr>\n"
+"    <td valign=\"top\" style=\"text-align: center; font-size: 14px;\">\n"
+"        <t t-if=\"object._mail_get_customer().name\">\n"
+"            Congratulations <t t-out=\"object._mail_get_customer().name or ''\">Brandon Freeman</t>,<br/>\n"
+"        </t>\n"
+"\n"
+"        Here is your reward from <t t-out=\"object.program_id.company_id.name or ''\">YourCompany</t>.<br/>\n"
+"\n"
+"        <t t-foreach=\"object.program_id.reward_ids\" t-as=\"reward\">\n"
+"            <t t-if=\"reward.required_points &lt;= object.points\">\n"
+"                <span t-attf-style=\"font-size: 50px; color: {{object.program_id.company_id.email_secondary_color or '#875A7B'}}; font-weight: bold;\" t-esc=\"reward.description\">Reward Description</span>\n"
+"                <br/>\n"
+"            </t>\n"
+"        </t>\n"
+"    </td>\n"
+"</tr>\n"
+"<tr style=\"margin-top: 16px\">\n"
+"    <td valign=\"top\" style=\"text-align: center; font-size: 14px;\">\n"
+"        Use this promo code\n"
+"        <t t-if=\"object.expiration_date\">\n"
+"            before <t t-out=\"format_date(object.expiration_date) or ''\">2021-06-16</t>\n"
+"        </t>\n"
+"        <p style=\"margin-top: 16px;\">\n"
+"            <strong style=\"padding: 16px 8px 16px 8px; border-radius: 3px; background-color: #F1F1F1;\" t-out=\"object.code or ''\">15637502648479132902</strong>\n"
+"        </p>\n"
+"        <t t-foreach=\"object.program_id.rule_ids\" t-as=\"rule\">\n"
+"            <t t-if=\"rule.minimum_qty not in [0, 1]\">\n"
+"                <span style=\"font-size: 14px;\">\n"
+"                    Minimum purchase of <t t-out=\"rule.minimum_qty or ''\">10</t> products\n"
+"                </span><br/>\n"
+"            </t>\n"
+"            <t t-if=\"rule.minimum_amount != 0.00\">\n"
+"                <span style=\"font-size: 14px;\">\n"
+"                    Valid for purchase above <t t-out=\"rule.company_id.currency_id.symbol or ''\">$</t><t t-out=\"'%0.2f' % float(rule.minimum_amount) or ''\">10.00</t>\n"
+"                </span><br/>\n"
+"            </t>\n"
+"        </t>\n"
+"        <br/>\n"
+"        Thank you,\n"
+"        <t t-if=\"object._get_signature()\" data-o-mail-quote-container=\"1\">\n"
+"            <br/>\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object._get_signature() or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </td>\n"
+"</tr>\n"
+"</tbody></table>\n"
+"        "
+msgstr ""
+"<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width:100%; margin:0px auto; background:#ffffff; color:#333333;\"><tbody>\n"
+"<tr>\n"
+"    <td valign=\"top\" style=\"text-align: center; font-size: 14px;\">\n"
+"        <t t-if=\"object._mail_get_customer().name\">\n"
+"            Gratulujeme, <t t-out=\"object._mail_get_customer().name or ''\">Brandon Freeman</t>!<br/>\n"
+"        </t>\n"
+"\n"
+"        Toto je vaša odmena od spoločnosti <t t-out=\"object.program_id.company_id.name or ''\">YourCompany</t>.<br/>\n"
+"\n"
+"        <t t-foreach=\"object.program_id.reward_ids\" t-as=\"reward\">\n"
+"            <t t-if=\"reward.required_points &lt;= object.points\">\n"
+"                <span t-attf-style=\"font-size: 50px; color: {{object.program_id.company_id.email_secondary_color or '#875A7B'}}; font-weight: bold;\" t-esc=\"reward.description\">Popis odmeny</span>\n"
+"                <br/>\n"
+"            </t>\n"
+"        </t>\n"
+"    </td>\n"
+"</tr>\n"
+"<tr style=\"margin-top: 16px\">\n"
+"    <td valign=\"top\" style=\"text-align: center; font-size: 14px;\">\n"
+"        Použite tento promo kód\n"
+"        <t t-if=\"object.expiration_date\">\n"
+"            do <t t-out=\"format_date(object.expiration_date) or ''\">2021-06-16</t>\n"
+"        </t>\n"
+"        <p style=\"margin-top: 16px;\">\n"
+"            <strong style=\"padding: 16px 8px 16px 8px; border-radius: 3px; background-color: #F1F1F1;\" t-out=\"object.code or ''\">15637502648479132902</strong>\n"
+"        </p>\n"
+"        <t t-foreach=\"object.program_id.rule_ids\" t-as=\"rule\">\n"
+"            <t t-if=\"rule.minimum_qty not in [0, 1]\">\n"
+"                <span style=\"font-size: 14px;\">\n"
+"                    Minimálny nákup <t t-out=\"rule.minimum_qty or ''\">10</t> produktov\n"
+"                </span><br/>\n"
+"            </t>\n"
+"            <t t-if=\"rule.minimum_amount != 0.00\">\n"
+"                <span style=\"font-size: 14px;\">\n"
+"                    Platí pre nákup nad <t t-out=\"rule.company_id.currency_id.symbol or ''\">$</t><t t-out=\"'%0.2f' % float(rule.minimum_amount) or ''\">10.00</t>\n"
+"                </span><br/>\n"
+"            </t>\n"
+"        </t>\n"
+"        <br/>\n"
+"        Ďakujeme,\n"
+"        <t t-if=\"object._get_signature()\" data-o-mail-quote-container=\"1\">\n"
+"            <br/>\n"
+"            <div data-o-mail-quote=\"1\">--<br data-o-mail-quote=\"1\"/><t t-out=\"object._get_signature() or ''\" data-o-mail-quote=\"1\">Mitchell Admin</t></div>\n"
+"        </t>\n"
+"    </td>\n"
+"</tr>\n"
+"</tbody></table>\n"
+"        "
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_rule.py:0
+msgid "A coupon with the same code was found."
+msgstr "Našiel sa kupón s rovnakým kódom."
+
+#. module: loyalty
+#: model:ir.model.constraint,message:loyalty.constraint_loyalty_card_card_code_unique
+msgid "A coupon/loyalty card must have a unique code."
+msgstr "Kupón alebo vernostná karta musí mať jedinečný kód."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "A program must have at least one reward."
+msgstr "Program musí mať aspoň jednu odmenu."
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_buttons
+msgid "A reward is waiting for you"
+msgstr "Čaká na vás odmena"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "A reward product can't be of type \"combo\"."
+msgstr "Produkt odmeny nemôže byť typu „kombinácia“."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_card.py:0
+msgid "A trigger with the same code as one of your coupon already exists."
+msgstr "Spúšťač s rovnakým kódom, aký má jeden z vašich kupónov, už existuje."
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_needaction
+msgid "Action Needed"
+msgstr "Potrebná akcia"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__active
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__active
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__active
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__active
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__active
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_view_search
+msgid "Active"
+msgstr "Aktívne"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_res_partner__loyalty_card_count
+#: model:ir.model.fields,field_description:loyalty.field_res_users__loyalty_card_count
+msgid "Active loyalty cards"
+msgstr "Aktívne vernostné karty"
+
+#. module: loyalty
+#. odoo-javascript
+#: code:addons/loyalty/static/src/xml/loyalty_templates.xml:0
+msgid "Add"
+msgstr "Pridať"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Add a reward"
+msgstr "Pridať odmenu"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Add a rule"
+msgstr "Pridať pravidlo"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__all_discount_product_ids
+msgid "All Discount Product"
+msgstr "Všetky zľavové produkty"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_form
+msgid "Among"
+msgstr "Spomedzi"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "Among:"
+msgstr "Spomedzi:"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_generate_wizard__mode__anonymous
+msgid "Anonymous Customers"
+msgstr "Anonymní zákazníci"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__mode
+msgid "Application"
+msgstr "Aplikácia"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "Applied to:"
+msgstr "Uplatnené na:"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__applies_on
+msgid "Applies On"
+msgstr "Uplatňuje sa"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_search
+msgid "Archived"
+msgstr "Archivovaný"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_mail__trigger__create
+msgid "At Creation"
+msgstr "Pri vytvorení"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__trigger__auto
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_rule__mode__auto
+msgid "Automatic"
+msgstr "Automatické"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Automatic promo: 10% off on orders higher than $50"
+msgstr "Automatická akcia: zľava 10 % na objednávky nad 50 $"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__available_on
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Available On"
+msgstr "Dostupné v"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_view_form
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_view_tree
+msgid "Balance"
+msgstr "Zostatok"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.gift_card_report
+msgid "Barcode"
+msgstr "Čiarový kód"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Buy 10 products to get 10$ off on the 11th one"
+msgstr "Kúpte 10 produktov a na 11. získate zľavu 10 $"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Buy 2 products and get a third one for free"
+msgstr "Kúpte 2 produkty a tretí získate zadarmo"
+
+#. module: loyalty
+#: model:loyalty.program,name:loyalty.3_cabinets_plus_1_free
+msgid "Buy 3 large cabinets, get one for free"
+msgstr "Kúpte 3 veľké skrinky, jednu dostanete zadarmo"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__program_type__buy_x_get_y
+msgid "Buy X Get Y"
+msgstr "Kúp X, získaj Y"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/wizard/loyalty_generate_wizard.py:0
+msgid "Can not generate coupon, no program is set."
+msgstr "Kupón nie je možné vygenerovať, nie je nastavený žiadny program."
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_update_balance_form
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "Cancel"
+msgstr "Zrušiť"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__card_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__card_id
+msgid "Card"
+msgstr "Karta"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.gift_card_report
+msgid "Card expires"
+msgstr "Platnosť karty vyprší"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__product_category_id
+msgid "Categories"
+msgstr "Kategórie"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_reward__discount_applicability__cheapest
+msgid "Cheapest Product"
+msgstr "Najlacnejší produkt"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__clear_wallet
+msgid "Clear Wallet"
+msgstr "Vyprázdniť peňaženku"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "Clear all promo point(s)"
+msgstr "Vymazať všetky body z akcie"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__code
+msgid "Code"
+msgstr "Kód"
+
+#. module: loyalty
+#: model:loyalty.program,name:loyalty.10_percent_with_code
+msgid "Code for 10% on orders"
+msgstr "Kód na 10 % z objednávok"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__communication_plan_ids
+msgid "Communication Plan"
+msgstr "Komunikačný plán"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Communications"
+msgstr "Komunikácia"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__company_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__company_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__company_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__company_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_card.py:0
+msgid "Compose Email"
+msgstr "Vytvoriť email"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__rule_ids
+msgid "Conditional rules"
+msgstr "Podmienené pravidlá"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_form
+msgid "Conditions"
+msgstr "Podmienky"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_update_balance_form
+msgid "Confirm"
+msgstr "Potvrdiť"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__confirmation_message
+msgid "Confirmation Message"
+msgstr "Potvrdzovacia správa"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "Congratulations"
+msgstr "Gratulujeme"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: loyalty
+#. odoo-javascript
+#: code:addons/loyalty/static/src/xml/loyalty_templates.xml:0
+msgid "Control panel buttons"
+msgstr "Tlačidlá ovládacieho panela"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__coupon_ids
+msgid "Coupon"
+msgstr "Kupón"
+
+#. module: loyalty
+#: model:ir.actions.report,name:loyalty.report_loyalty_card
+msgid "Coupon Code"
+msgstr "Kód kupónu"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__coupon_count
+msgid "Coupon Count"
+msgstr "Počet kupónov"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Coupon point(s)"
+msgstr "Kupónové body"
+
+#. module: loyalty
+#: model:loyalty.program,portal_point_name:loyalty.10_percent_coupon
+msgid "Coupon points"
+msgstr "Kupónové body"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "Coupon value"
+msgstr "Hodnota kupónu"
+
+#. module: loyalty
+#: model:mail.template,name:loyalty.mail_template_loyalty_card
+msgid "Coupon: Coupon Information"
+msgstr "Kupón: informácie o kupóne"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:ir.actions.act_window,name:loyalty.loyalty_card_action
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__program_type__coupons
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_view_tree
+msgid "Coupons"
+msgstr "Kupóny"
+
+#. module: loyalty
+#: model:ir.model,website_form_label:loyalty.model_res_partner
+msgid "Create a Customer"
+msgstr "Vytvoriť zákazníka"
+
+#. module: loyalty
+#: model_terms:ir.actions.act_window,help:loyalty.loyalty_program_gift_ewallet_action
+msgid "Create a new one from scratch, or use one of the templates below."
+msgstr "Vytvorte nový od začiatku alebo použite niektorú zo šablón nižšie."
+
+#. module: loyalty
+#: model_terms:ir.actions.act_window,help:loyalty.loyalty_program_discount_loyalty_action
+msgid "Create one from scratch, or use a templates below:"
+msgstr "Vytvorte ho od začiatku alebo použite niektorú zo šablón nižšie:"
+
+#. module: loyalty
+#. odoo-javascript
+#: code:addons/loyalty/static/src/xml/loyalty_templates.xml:0
+msgid "Create record"
+msgstr "Vytvoriť záznam"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__create_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__create_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__create_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__create_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__create_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__create_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__create_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__create_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__create_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__create_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__create_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__create_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__create_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__create_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__create_date
+msgid "Created on"
+msgstr "Vytvorené"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:loyalty.program,portal_point_name:loyalty.3_cabinets_plus_1_free
+msgid "Credit(s)"
+msgstr "Kredit(y)"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__currency_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__currency_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__currency_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_program__currency_symbol
+msgid "Currency sign, to be used when printing amounts."
+msgstr "Znak meny, ktorý má byť použitý pri tlači súm."
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__applies_on__both
+msgid "Current & Future orders"
+msgstr "Aktuálne a budúce objednávky"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__applies_on__current
+msgid "Current order"
+msgstr "Aktuálna objednávka"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__customer_tag_ids
+msgid "Customer Tags"
+msgstr "Štítky zákazníkov"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__customer_ids
+msgid "Customers"
+msgstr "Zákazníci"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/controllers/portal.py:0
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_history_template
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_view_form
+msgid "Date"
+msgstr "Dátum"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"Define Discount codes on conditional rules then share it with your customers"
+" for rewards."
+msgstr ""
+"Definujte zľavové kódy s podmienenými pravidlami a zdieľajte ich so "
+"zákazníkmi, aby získali odmeny."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/controllers/portal.py:0
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__description
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__description
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__description
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__description
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_history_template
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "Description"
+msgstr "Popis"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "Description on order"
+msgstr "Popis na objednávke"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_reward__reward_type__discount
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "Discount"
+msgstr "Zľava"
+
+#. module: loyalty
+#: model:ir.actions.act_window,name:loyalty.loyalty_program_discount_loyalty_action
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Discount & Loyalty"
+msgstr "Zľavy a vernostné programy"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount_applicability
+msgid "Discount Applicability"
+msgstr "Uplatnenie zľavy"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__program_type__promo_code
+msgid "Discount Code"
+msgstr "Zľavový kód"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount_line_product_id
+msgid "Discount Line Product"
+msgstr "Produkt pre riadok zľavy"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount_mode
+msgid "Discount Mode"
+msgstr "Režim zľavy"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__payment_program_discount_product_id
+msgid "Discount Product"
+msgstr "Produkt zľavy"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount_product_domain
+msgid "Discount Product Domain"
+msgstr "Doména zľavnených produktov"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__code
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "Discount code"
+msgstr "Zľavový kód"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:loyalty.program,portal_point_name:loyalty.10_percent_with_code
+msgid "Discount point(s)"
+msgstr "Zľavové body"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "Discount product"
+msgstr "Zľavnený produkt"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount_product_category_id
+msgid "Discounted Prod. Categories"
+msgstr "Zľavnené kategórie produktov"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount_product_tag_id
+msgid "Discounted Prod. Tag"
+msgstr "Zľavnený štítok produktov"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount_product_ids
+msgid "Discounted Products"
+msgstr "Zľavnené produkty"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Discounts"
+msgstr "Zľavy"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_base_partner_merge_automatic_wizard__display_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__display_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__display_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__display_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__display_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__display_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__display_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__display_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__display_name
+#: model:ir.model.fields,field_description:loyalty.field_product_pricelist__display_name
+#: model:ir.model.fields,field_description:loyalty.field_product_product__display_name
+#: model:ir.model.fields,field_description:loyalty.field_product_template__display_name
+#: model:ir.model.fields,field_description:loyalty.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Displayed as"
+msgstr "Zobrazené ako"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"Drive repeat purchases by sending a unique, single-use coupon code for the "
+"next purchase when a customer buys something in your store."
+msgstr ""
+"Podporte opakované nákupy zaslaním jedinečného jednorazového kupónu na ďalší"
+" nákup vždy, keď zákazník niečo kúpi vo vašom obchode."
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"Each rule can grant points to the customer he will be able to exchange "
+"against rewards"
+msgstr ""
+"Každé pravidlo môže zákazníkovi prideliť body, ktoré si bude môcť vymeniť za"
+" odmeny"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__mail_template_id
+msgid "Email Template"
+msgstr "Šablóna emailu"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__mail_template_id
+msgid "Email template"
+msgstr "Šablóna e-mailu"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__date_to
+msgid "End date"
+msgstr "Dátum konca"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_update_balance_form
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "Example: Gift for customer"
+msgstr "Príklad: darček pre zákazníka"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__expiration_date
+msgid "Expiration Date"
+msgstr "Dátum spotreby"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_card.py:0
+msgid "Expiration date cannot be set on a loyalty card."
+msgstr "Vernostnej karte nemožno nastaviť dátum platnosti."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Fidelity Card"
+msgstr "Vernostná karta"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Fidelity Cards"
+msgstr "Vernostné karty"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Fill in your eWallet, to pay future orders"
+msgstr "Dobite si e-peňaženku a plaťte ňou budúce objednávky"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_follower_ids
+msgid "Followers"
+msgstr "Odberatelia"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odberatelia (partneri)"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__mode
+msgid "For"
+msgstr "Pre"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "For all customers"
+msgstr "Pre všetkých zákazníkov"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_reward__reward_type__product
+msgid "Free Product"
+msgstr "Produkt zdarma"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "Free Product - %s"
+msgstr "Produkt zdarma - %s"
+
+#. module: loyalty
+#: model:loyalty.reward,description:loyalty.3_cabinets_plus_1_free_reward
+msgid "Free Product - Large Cabinet"
+msgstr "Produkt zdarma - veľká skriňa"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "Free Product - [%(products)s, and %(count)s more]"
+msgstr "Produkt zdarma - [%(products)s a ďalšie (%(count)s)]"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "Free Product - [%s]"
+msgstr "Produkt zdarma - [%s]"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "Free product"
+msgstr "Produkt zdarma"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__applies_on__future
+msgid "Future orders"
+msgstr "Budúce objednávky"
+
+#. module: loyalty
+#. odoo-javascript
+#: code:addons/loyalty/static/src/xml/loyalty_templates.xml:0
+#: model:ir.actions.act_window,name:loyalty.loyalty_generate_wizard_action
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "Generate"
+msgstr "Generovať"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"Generate &amp; share coupon codes manually. It can be used in eCommerce, "
+"Point of Sale or regular orders to claim the Reward. You can define "
+"constraints on its usage through conditional rule."
+msgstr ""
+"Generujte a zdieľajte kupónové kódy ručne. Odmenu je možné uplatniť v "
+"e-shope, v mieste predaja alebo pri bežných objednávkach. Obmedzenia ich "
+"použitia môžete definovať podmieneným pravidlom."
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_loyalty_generate_wizard
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Generate Coupons"
+msgstr "Generovať kupóny"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Generate Gift Cards"
+msgstr "Generovať darčekové karty"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Generate and share unique coupons with your customers"
+msgstr "Generujte jedinečné kupóny a zdieľajte ich so zákazníkmi"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Generate eWallet"
+msgstr "Generovať e-peňaženku"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Get 10% off on some products, with a code"
+msgstr "Získajte 10% zľavu na vybrané produkty s kódom"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_gift_ewallet_view_form
+msgid "Gift &amp; Ewallet"
+msgstr "Darčekové karty a e-peňaženka"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: code:addons/loyalty/models/loyalty_reward.py:0
+#: model:ir.actions.report,name:loyalty.report_gift_card
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__program_type__gift_card
+#: model:loyalty.reward,description:loyalty.gift_card_program_reward
+#: model:product.template,name:loyalty.gift_card_product_50_product_template
+msgid "Gift Card"
+msgstr "Darčeková karta"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Gift Card Products"
+msgstr "Produkty darčekových kariet"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "Gift Card value"
+msgstr "Hodnota darčekovej karty"
+
+#. module: loyalty
+#: model:mail.template,name:loyalty.mail_template_gift_card
+msgid "Gift Card: Gift Card Information"
+msgstr "Darčeková karta: informácie o darčekovej karte"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:loyalty.program,name:loyalty.gift_card_program
+msgid "Gift Cards"
+msgstr "Darčekové karty"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"Gift Cards are created manually or automatically sent by email when the customer orders a gift card product.\n"
+"                                    <br/>\n"
+"                                    Then, Gift Cards can be used to pay orders."
+msgstr ""
+"Darčekové karty sa vytvárajú ručne alebo sa automaticky odosielajú e-mailom, keď si zákazník objedná produkt darčekovej karty.\n"
+"                                    <br/>\n"
+"                                    Darčekovými kartami potom možno platiť objednávky."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/wizard/loyalty_generate_wizard.py:0
+msgid "Gift For Customer"
+msgstr "Darček pre zákazníka"
+
+#. module: loyalty
+#: model:ir.actions.act_window,name:loyalty.loyalty_program_gift_ewallet_action
+msgid "Gift cards & eWallet"
+msgstr "Darčekové karty a e-peňaženka"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/wizard/loyalty_card_update_balance.py:0
+msgid "Gift for customer"
+msgstr "Darček pre zákazníka"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__points_granted
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_form
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "Grant"
+msgstr "Prideliť"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"Grant 1 credit for each item bought then reward the customer with Y items in"
+" exchange of X credits."
+msgstr ""
+"Za každú zakúpenú položku prideliť 1 kredit a zákazníka potom odmeniť Y "
+"položkami výmenou za X kreditov."
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.gift_card_report
+msgid "Here is your gift card!"
+msgstr "Tu je vaša darčeková karta!"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "Here is your reward from"
+msgstr "Tu je vaša odmena od"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__history_ids
+msgid "History"
+msgstr "História"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_view_form
+msgid "History Lines"
+msgstr "Riadky histórie"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_loyalty_history
+msgid "History for Loyalty cards and Ewallets"
+msgstr "História vernostných kariet a e-peňaženiek"
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_card__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak označené, potom nové správy vyžadujú vašu pozornosť."
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_card__message_has_error
+#: model:ir.model.fields,help:loyalty.field_loyalty_card__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "If minimum"
+msgstr "Ak minimálne"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "In exchange of"
+msgstr "Výmenou za"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_view_search
+msgid "Inactive"
+msgstr "Neaktívne"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/wizard/loyalty_generate_wizard.py:0
+msgid "Invalid quantity."
+msgstr "Neplatné množstvo."
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_is_follower
+msgid "Is Follower"
+msgstr "Je odberateľ"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__is_global_discount
+msgid "Is Global Discount"
+msgstr "Je globálna zľava"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__is_nominative
+msgid "Is Nominative"
+msgstr "Je na meno"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__is_payment_program
+msgid "Is Payment Program"
+msgstr "Je platobný program"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/controllers/portal.py:0
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__issued
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_history_template
+msgid "Issued"
+msgstr "Vydané"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__coupon_count_display
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_tree
+msgid "Items"
+msgstr "Položky"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "John Doe"
+msgstr "Janko Mrkvička"
+
+#. module: loyalty
+#. odoo-javascript
+#: code:addons/loyalty/static/src/js/portal/loyalty_card_dialog/loyalty_card_dialog.xml:0
+msgid "Last Transactions"
+msgstr "Posledné transakcie"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__write_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__write_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__write_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__write_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__write_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__write_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__write_uid
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravoval"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__write_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__write_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__write_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__write_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__write_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__write_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__write_date
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravované"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_mail_view_tree
+msgid "Limit"
+msgstr "Obmedzenie"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__limit_usage
+msgid "Limit Usage"
+msgstr "Obmedziť použitie"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Loyalty Card"
+msgstr "Vernostná karta"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__program_type__loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.res_partner_form
+msgid "Loyalty Cards"
+msgstr "Vernostné karty"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_loyalty_mail
+msgid "Loyalty Communication"
+msgstr "Vernostná komunikácia"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_loyalty_card
+msgid "Loyalty Coupon"
+msgstr "Vernostný kupón"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_loyalty_program
+msgid "Loyalty Program"
+msgstr "Vernostný program"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_loyalty_reward
+msgid "Loyalty Reward"
+msgstr "Vernostná odmena"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_loyalty_rule
+msgid "Loyalty Rule"
+msgstr "Vernostné pravidlo"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_history_template
+msgid "Loyalty Transaction"
+msgstr "Vernostná transakcia"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Loyalty point(s)"
+msgstr "Vernostné body"
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_program__available_on
+msgid "Manage where your program should be available for use."
+msgstr "Určite, kde má byť váš program dostupný na použitie."
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__discount_max_amount
+msgid "Max Discount"
+msgstr "Maximálna zľava"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__max_usage
+msgid "Max Usage"
+msgstr "Maximálny počet použití"
+
+#. module: loyalty
+#: model:ir.model.constraint,message:loyalty.constraint_loyalty_program_check_max_usage
+msgid "Max usage must be strictly positive if a limit is used."
+msgstr "Ak je použitý limit, maximálny počet použití musí byť väčší ako nula."
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_base_partner_merge_automatic_wizard
+msgid "Merge Partner Wizard"
+msgstr "Sprievodca zlúčením partnerov"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__minimum_amount_tax_mode
+msgid "Minimum Amount Tax Mode"
+msgstr "Daňový režim minimálnej sumy"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__minimum_amount
+msgid "Minimum Purchase"
+msgstr "Minimálny nákup"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__minimum_qty
+msgid "Minimum Quantity"
+msgstr "Minimálne množstvo"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__multi_product
+msgid "Multi Product"
+msgstr "Viac produktov"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__new_balance
+msgid "New Balance"
+msgstr "Nový zostatok"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/wizard/loyalty_card_update_balance.py:0
+msgid "New Balance should be positive and different then old balance."
+msgstr "Nový zostatok musí byť kladný a iný ako pôvodný zostatok."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Next Order Coupon"
+msgstr "Kupón na ďalšiu objednávku"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__program_type__next_order_coupons
+msgid "Next Order Coupons"
+msgstr "Kupóny na ďalšiu objednávku"
+
+#. module: loyalty
+#: model_terms:ir.actions.act_window,help:loyalty.loyalty_card_action
+msgid "No Coupons Found."
+msgstr "Nenašli sa žiadne kupóny."
+
+#. module: loyalty
+#: model_terms:ir.actions.act_window,help:loyalty.loyalty_program_gift_ewallet_action
+msgid "No loyalty program found."
+msgstr "Nenašiel sa žiadny vernostný program."
+
+#. module: loyalty
+#: model_terms:ir.actions.act_window,help:loyalty.loyalty_program_discount_loyalty_action
+msgid "No program found."
+msgstr "Nenašiel sa žiadny program."
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_card__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_card__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__order_id
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_reward__discount_applicability__order
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_history_template
+msgid "Order"
+msgstr "Objednávka"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__order_model
+msgid "Order Model"
+msgstr "Model objednávky"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_form
+msgid "Point(s)"
+msgstr "Body"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__points
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card_update_balance__old_balance
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__points
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "Points"
+msgstr "Body"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__points_display
+msgid "Points Display"
+msgstr "Zobrazenie bodov"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Points Unit"
+msgstr "Jednotka bodov"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__required_points
+msgid "Points needed"
+msgstr "Potrebné body"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__point_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__points_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__portal_point_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__point_name
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__reward_point_name
+msgid "Portal Point Name"
+msgstr "Názov bodov na portáli"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__portal_visible
+msgid "Portal Visible"
+msgstr "Viditeľné na portáli"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_product_pricelist
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__pricelist_ids
+msgid "Pricelist"
+msgstr "Cenník"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_product_template
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__reward_product_id
+msgid "Product"
+msgstr "Produkt"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__product_domain
+msgid "Product Domain"
+msgstr "Doména produktov"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__reward_product_tag_id
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__product_tag_id
+msgid "Product Tag"
+msgstr "Štítok produktu"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_product_product
+msgid "Product Variant"
+msgstr "Varianta produktu"
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_program__payment_program_discount_product_id
+msgid "Product used in the sales order to apply the discount."
+msgstr "Produkt použitý v objednávke predaja na uplatnenie zľavy."
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_reward__discount_line_product_id
+msgid ""
+"Product used in the sales order to apply the discount. Each reward has its "
+"own product for reporting purpose"
+msgstr ""
+"Produkt použitý v objednávke predaja na uplatnenie zľavy. Každá odmena má na"
+" účely výkazníctva vlastný produkt"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__trigger_product_ids
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__product_ids
+msgid "Products"
+msgstr "Produkty"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__name
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Program Name"
+msgstr "Názov programu"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__program_type
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__program_type
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__program_type
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__program_type
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__program_type
+msgid "Program Type"
+msgstr "Typ programu"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Program trigger"
+msgstr "Spúšťač programu"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Promo Code"
+msgstr "Promo kód"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Promo point(s)"
+msgstr "Promo body"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Promos"
+msgstr "Akcie"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Promotional Program"
+msgstr "Propagačný program"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__program_type__promotion
+msgid "Promotions"
+msgstr "Akcie"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__coupon_qty
+msgid "Quantity"
+msgstr "Množstvo"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "Quantity rewarded"
+msgstr "Odmenené množstvo"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "Quantity to generate"
+msgstr "Množstvo na vygenerovanie"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__rating_ids
+msgid "Ratings"
+msgstr "Hodnotenia"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__reward_point_amount
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_form
+msgid "Reward"
+msgstr "Odmena"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__reward_point_mode
+msgid "Reward Point Mode"
+msgstr "Režim bodov za odmenu"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__reward_product_domain
+msgid "Reward Product Domain"
+msgstr "Doména produktov odmeny"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__reward_product_qty
+msgid "Reward Product Qty"
+msgstr "Množstvo produktu odmeny"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__reward_product_uom_id
+msgid "Reward Product Uom"
+msgstr "Merná jednotka produktu odmeny"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__reward_product_ids
+msgid "Reward Products"
+msgstr "Produkty odmeny"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__reward_type
+msgid "Reward Type"
+msgstr "Typ odmeny"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__reward_ids
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Rewards"
+msgstr "Odmeny"
+
+#. module: loyalty
+#: model:ir.model.constraint,message:loyalty.constraint_loyalty_rule_reward_point_amount_positive
+msgid "Rule points reward must be strictly positive."
+msgstr "Body za pravidlo musia byť väčšie ako nula."
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Rules & Rewards"
+msgstr "Pravidlá a odmeny"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_generate_wizard__mode__selected
+msgid "Selected Customers"
+msgstr "Vybraní zákazníci"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Sell Gift Cards, that allows to purchase products"
+msgstr "Predávajte darčekové karty, za ktoré možno nakupovať produkty"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_view_tree
+msgid "Send"
+msgstr "Odoslať"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Send a coupon after an order, valid for next purchase"
+msgstr "Po objednávke pošlite kupón platný na ďalší nákup"
+
+#. module: loyalty
+#: model:mail.template,description:loyalty.mail_template_gift_card
+msgid "Sent to customer who purchased a gift card"
+msgstr "Odosiela sa zákazníkovi, ktorý kúpil darčekovú kartu"
+
+#. module: loyalty
+#: model:mail.template,description:loyalty.mail_template_loyalty_card
+msgid "Sent to customer with coupon information"
+msgstr "Odosiela sa zákazníkovi s informáciami o kupóne"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"Set up conditional rules on the order that will give access to rewards for "
+"customers"
+msgstr ""
+"Nastavte podmienené pravidlá pre objednávku, ktoré zákazníkom sprístupnia "
+"odmeny"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Show points Unit"
+msgstr "Zobraziť jednotku bodov"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_reward__discount_applicability__specific
+msgid "Specific Products"
+msgstr "Konkrétne produkty"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__reward_point_split
+msgid "Split per unit"
+msgstr "Rozdeliť na jednotky"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_rule.py:0
+msgid "Split per unit is not allowed for Loyalty and eWallet programs."
+msgstr ""
+"Rozdelenie na jednotky nie je povolené pre vernostné programy a programy "
+"e-peňaženky."
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__date_from
+msgid "Start Date"
+msgstr "Dátum začiatku"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "Thank you,"
+msgstr "Ďakujeme,"
+
+#. module: loyalty
+#: model:ir.model.constraint,message:loyalty.constraint_loyalty_reward_discount_positive
+msgid "The discount must be strictly positive."
+msgstr "Zľava musí byť väčšia ako nula."
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_program__date_to
+msgid "The end date is included in the validity period of this program"
+msgstr "Dátum ukončenia je zahrnutý v období platnosti tohto programu"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid ""
+"The loyalty program's currency must be the same as all it's pricelists ones."
+msgstr ""
+"Mena vernostného programu sa musí zhodovať s menou všetkých jeho cenníkov."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_rule.py:0
+msgid "The promo code must be unique."
+msgstr "Promo kód musí byť jedinečný."
+
+#. module: loyalty
+#: model:ir.model.constraint,message:loyalty.constraint_loyalty_reward_required_points_positive
+msgid "The required points for a reward must be strictly positive."
+msgstr "Body potrebné na odmenu musia byť väčšie ako nula."
+
+#. module: loyalty
+#: model:ir.model.constraint,message:loyalty.constraint_loyalty_reward_product_qty_positive
+msgid "The reward product quantity must be strictly positive."
+msgstr "Množstvo produktu odmeny musí byť väčšie ako nula."
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_program__date_from
+msgid "The start date is included in the validity period of this program"
+msgstr "Dátum začiatku je zahrnutý v období platnosti tohto programu"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid ""
+"The validity period's start date must be anterior or equal to its end date."
+msgstr ""
+"Dátum začiatku obdobia platnosti musí byť skorší alebo rovnaký ako dátum "
+"jeho ukončenia."
+
+#. module: loyalty
+#. odoo-javascript
+#: code:addons/loyalty/static/src/js/portal/loyalty_card_dialog/loyalty_card_dialog.xml:0
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_history_template
+msgid "There are currently no transaction lines for this card."
+msgstr "Pre túto kartu zatiaľ neexistujú žiadne riadky transakcií."
+
+#. module: loyalty
+#: model_terms:ir.actions.act_window,help:loyalty.loyalty_card_action
+msgid "There haven't been any coupons generated yet."
+msgstr "Zatiaľ neboli vygenerované žiadne kupóny."
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_reward__reward_product_ids
+msgid "These are the products that can be claimed with this rule."
+msgstr "Toto sú produkty, ktoré možno získať na základe tohto pravidla."
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_reward__discount_max_amount
+msgid ""
+"This is the max amount this reward may discount, leave to 0 for no limit."
+msgstr ""
+"Maximálna suma, o ktorú môže táto odmena znížiť cenu; 0 znamená bez "
+"obmedzenia."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/product_pricelist.py:0
+msgid ""
+"This pricelist may not be archived. It is being used for active promotion "
+"programs: %s"
+msgstr ""
+"Tento cenník nemožno archivovať. Používa sa v aktívnych propagačných "
+"programoch: %s"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/product_product.py:0
+msgid ""
+"This product may not be archived. It is being used for an active promotion "
+"program."
+msgstr ""
+"Tento produkt nemožno archivovať. Používa sa v aktívnom propagačnom "
+"programe."
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_program__pricelist_ids
+msgid "This program is specific to this pricelist set."
+msgstr "Tento program je určený len pre túto skupinu cenníkov."
+
+#. module: loyalty
+#: model:product.template,name:loyalty.ewallet_product_50_product_template
+msgid "Top-up eWallet"
+msgstr "Dobiť e-peňaženku"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__total_order_count
+msgid "Total Order Count"
+msgstr "Celkový počet objednávok"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_program__trigger
+msgid "Trigger"
+msgstr "Spúšťač"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_card.py:0
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_update_balance_form
+msgid "Update Balance"
+msgstr "Aktualizovať zostatok"
+
+#. module: loyalty
+#: model:ir.model,name:loyalty.model_loyalty_card_update_balance
+msgid "Update Loyalty Card Points"
+msgstr "Aktualizovať body vernostnej karty"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__use_count
+msgid "Use Count"
+msgstr "Počet použití"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__trigger__with_code
+msgid "Use a code"
+msgstr "Použiť kód"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Use points on"
+msgstr "Použiť body na"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "Use this promo code before"
+msgstr "Tento promo kód použite pred"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/controllers/portal.py:0
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_history__used
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_history_template
+msgid "Used"
+msgstr "Použité"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_reward__user_has_debug
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_rule__user_has_debug
+msgid "User Has Debug"
+msgstr "Používateľ má režim ladenia"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__valid_until
+msgid "Valid Until"
+msgstr "Platné do"
+
+#. module: loyalty
+#. odoo-javascript
+#: code:addons/loyalty/static/src/js/portal/loyalty_card_dialog/loyalty_card_dialog.xml:0
+msgid "Valid until"
+msgstr "Platné do"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "Visible to all"
+msgstr "Viditeľné pre všetkých"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_card__website_message_ids
+msgid "Website Messages"
+msgstr "Správy webstránok"
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_card__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie webstránok"
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_mail__trigger
+msgid "When"
+msgstr "Kedy"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_mail__trigger__points_reach
+msgid "When Reaching"
+msgstr "Pri dosiahnutí"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"When customers make an order, they accumulate points they can exchange for "
+"rewards on the current order or on a future one."
+msgstr ""
+"Pri každej objednávke zákazníci zbierajú body, ktoré môžu vymeniť za odmeny "
+"na aktuálnu alebo niektorú z budúcich objednávok."
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"When generating coupon, you can define a specific points value that can be "
+"exchanged for rewards."
+msgstr ""
+"Pri generovaní kupónu môžete určiť konkrétnu hodnotu bodov, ktoré možno "
+"vymeniť za odmeny."
+
+#. module: loyalty
+#: model:ir.model.fields,help:loyalty.field_loyalty_rule__reward_point_split
+msgid ""
+"Whether to separate reward coupons per matched unit, only applies to "
+"'future' programs and trigger mode per money spent or unit paid..."
+msgstr ""
+"Či sa majú kupóny s odmenou rozdeliť podľa jednotlivých zodpovedajúcich "
+"jednotiek; platí len pre programy na budúce objednávky s režimom spúšťania "
+"podľa minutej sumy alebo zaplatenej jednotky..."
+
+#. module: loyalty
+#: model:ir.model.fields,field_description:loyalty.field_loyalty_generate_wizard__will_send_mail
+msgid "Will Send Mail"
+msgstr "Odošle e-mail"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "Win points with each purchase, and claim gifts"
+msgstr "Získavajte body za každý nákup a vymieňajte ich za darčeky"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_rule__mode__with_code
+msgid "With a promotion code"
+msgstr "S promo kódom"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_card_update_balance_form
+msgid "You are about to change the balance of the card"
+msgstr "Chystáte sa zmeniť zostatok karty"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "You can not delete a program in an active state"
+msgstr "Program v aktívnom stave nemožno odstrániť"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/product_product.py:0
+#: code:addons/loyalty/models/product_template.py:0
+msgid ""
+"You cannot delete %(name)s as it is used in 'Coupons & Loyalty'. Please "
+"archive it instead."
+msgstr ""
+"%(name)s nemožno odstrániť, pretože sa používa v module „Kupóny a vernostné "
+"programy“. Namiesto toho ho archivujte."
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/wizard/loyalty_generate_wizard.py:0
+msgid ""
+"You're about to generate %(program_type)s with a value of %(value)s for "
+"%(customer_number)i customers"
+msgstr ""
+"Chystáte sa vygenerovať %(program_type)s v hodnote %(value)s pre "
+"%(customer_number)i zákazníkov"
+
+#. module: loyalty
+#: model:mail.template,subject:loyalty.mail_template_gift_card
+msgid "Your Gift Card at {{ object.company_id.name }}"
+msgstr "Vaša darčeková karta od {{ object.company_id.name }}"
+
+#. module: loyalty
+#: model:mail.template,subject:loyalty.mail_template_loyalty_card
+msgid "Your reward coupon from {{ object.program_id.company_id.name }} "
+msgstr "Váš kupón s odmenou od {{ object.program_id.company_id.name }} "
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "all"
+msgstr "všetko"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "discount"
+msgstr "zľava"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "e.g. 10% discount on laptops"
+msgstr "napr. 10 % zľava na notebooky"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+#: code:addons/loyalty/models/loyalty_reward.py:0
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_program__program_type__ewallet
+msgid "eWallet"
+msgstr "e-peňaženka"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "eWallet Products"
+msgstr "Produkty e-peňaženky"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_generate_wizard_view_form
+msgid "eWallet value"
+msgstr "Hodnota e-peňaženky"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_program.py:0
+msgid "eWallets"
+msgstr "E-peňaženky"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid ""
+"eWallets are created manually or automatically when the customer orders a eWallet product.\n"
+"                                    <br/>\n"
+"                                    Then, eWallets are proposed during the checkout, to pay orders."
+msgstr ""
+"E-peňaženky sa vytvárajú ručne alebo automaticky, keď si zákazník objedná produkt e-peňaženky.\n"
+"                                    <br/>\n"
+"                                    E-peňaženky sa potom ponúkajú pri pokladni na úhradu objednávok."
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "item(s) bought"
+msgstr "zakúpených položiek"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "loyalty Reward"
+msgstr "vernostná odmena"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_rule.py:0
+msgid "money"
+msgstr "peniaze"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "on the cheapest product"
+msgstr "na najlacnejší produkt"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_report
+msgid "on your next order"
+msgstr "na vašu ďalšiu objednávku"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_reward_view_kanban
+msgid "on your order"
+msgstr "na vašu objednávku"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_rule.py:0
+msgid "per %s spent"
+msgstr "za každých minutých %s"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_rule.py:0
+msgid "per order"
+msgstr "za objednávku"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_rule.py:0
+msgid "per unit paid"
+msgstr "za zaplatenú jednotku"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "specific products"
+msgstr "konkrétne produkty"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "spent"
+msgstr "minuté"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_rule__minimum_amount_tax_mode__excl
+msgid "tax excluded"
+msgstr "bez dane"
+
+#. module: loyalty
+#: model:ir.model.fields.selection,name:loyalty.selection__loyalty_rule__minimum_amount_tax_mode__incl
+msgid "tax included"
+msgstr "s daňou"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "the cheapest product"
+msgstr "najlacnejší produkt"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_rule_view_kanban
+msgid "the value of the coupon"
+msgstr "hodnota kupónu"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "to"
+msgstr "na"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "usages"
+msgstr "použití"
+
+#. module: loyalty
+#: model_terms:ir.ui.view,arch_db:loyalty.loyalty_program_view_form
+msgid "used)"
+msgstr "použitých)"
+
+#. module: loyalty
+#. odoo-python
+#: code:addons/loyalty/models/loyalty_reward.py:0
+msgid "your order"
+msgstr "vaša objednávka"

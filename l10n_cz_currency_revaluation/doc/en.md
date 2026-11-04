@@ -1,7 +1,7 @@
 ---
 title: CZ Foreign-Currency Revaluation (kurzové rozdíly)
 summary: Revalues foreign-currency balances at the ČNB rate of the balance-sheet date and books the differences on 563 and 663 — with the OCA wizard on Community and Odoo's adjustment entry on Enterprise.
-verified: 19.0.1.1.1
+verified: 19.0.1.2.0
 ---
 
 ## What it is for {#purpose}

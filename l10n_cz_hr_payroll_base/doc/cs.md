@@ -12,7 +12,7 @@ sem.
 
 | Modul | Co dělá |
 |---|---|
-| [module:l10n_cz_hr_payroll_base](module:l10n_cz_hr_payroll_base) (tento modul) | České údaje zaměstnance (druh pracovního vztahu, prohlášení poplatníka, děti, příznaky pojištění) a zákonné akruální plány dovolené. Nezávislý na mzdovém jádru, bez vlastních obrazovek. |
+| [module:l10n_cz_hr_payroll_base](module:l10n_cz_hr_payroll_base) (tento modul) | České údaje zaměstnance (druh pracovního vztahu, prohlášení poplatníka, děti, příznaky pojištění) a zákonné plány nároků na dovolenou. Nezávislý na mzdovém jádru, bez vlastních obrazovek. |
 | [module:l10n_cz_hr_payroll_oca](module:l10n_cz_hr_payroll_oca) | Česká výplatní páska v **aplikaci OCA payroll** (`payroll`) pro Odoo Community. |
 | [module:l10n_cz_hr_payroll_ee](module:l10n_cz_hr_payroll_ee) | Tatáž výplatní páska v **Odoo Enterprise Payroll** (`hr_payroll`). Odoo vlastní českou mzdovou lokalizaci nemá, jde tedy o úplnou lokalizaci, ne o nadstavbu. |
 | [module:l10n_cz_hr_payroll_account_oca](module:l10n_cz_hr_payroll_account_oca), [module:l10n_cz_hr_payroll_account_ee](module:l10n_cz_hr_payroll_account_ee) | Zaúčtování výplatních pásek podle české účtové osnovy, pro každé jádro zvlášť. |
@@ -21,7 +21,7 @@ sem.
 | Zákonná hlášení | Viz [Hlášení úřadům](#declarations). |
 
 Základní modul obsahuje to, co na mzdovém jádru nezávisí: české údaje ve
-smlouvě zaměstnance a akruální plány dovolené. Instaluje se automaticky jako
+smlouvě zaměstnance a plány nároků na dovolenou. Instaluje se automaticky jako
 závislost modulů mzdového jádra a setkáte se s ním jen jejich
 prostřednictvím. Každý modul mzdového jádra má vlastní mzdovou strukturu,
 pravidla, zákonné hodnoty, typy nepřítomnosti a obrazovky.
@@ -252,7 +252,7 @@ typů, které modul nepřekládá, se zobrazují anglicky:
 Typy ošetřování a doprovodu s limitem vyžadují alokaci; doprovod zdravotně
 postiženého dítěte do zařízení má vlastní plán, který přiděluje 6 dnů ročně.
 
-**Akruální plány dovolené** dodává základní modul, takže jsou v obou jádrech
+**Plány nároků na dovolenou** dodává základní modul, takže jsou v obou jádrech
 stejné. *Zákonná dovolená – 4 týdny (160 h/rok)* a
 *Dovolená – 5 týdnů (200 h/rok)* přidělují dovolenou v hodinách za každý
 odpracovaný týden ve výši 1/52 ročního nároku, za část roku tedy vznikne

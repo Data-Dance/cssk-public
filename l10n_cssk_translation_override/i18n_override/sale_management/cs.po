@@ -1,0 +1,158 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_management
+#: model:ir.model.fields,field_description:sale_management.field_digest_digest__kpi_all_sale_total
+msgid "All Sales"
+msgstr "Všechny prodeje"
+
+#. module: sale_management
+#: model:ir.model.fields,field_description:sale_management.field_res_company__sale_order_template_id
+msgid "Default Sale Template"
+msgstr "Výchozí šablona prodeje"
+
+#. module: sale_management
+#: model:ir.model.constraint,message:sale_management.constraint_sale_order_template_line_non_accountable_fields_null
+msgid "Forbidden product, quantity and UoM on non-accountable sale quote line"
+msgstr ""
+"U neúčetního řádku nabídky jsou produkt, množství a měrná jednotka zakázány"
+
+#. module: sale_management
+#: model:ir.model.fields,help:sale_management.field_sale_order_template_line__sequence
+msgid "Gives the sequence order when displaying a list of sale quote lines."
+msgstr "Určuje pořadí při zobrazení seznamu řádků nabídky."
+
+#. module: sale_management
+#: model:ir.model.fields,help:sale_management.field_sale_order_template__journal_id
+msgid ""
+"If set, SO with this template will invoice in this journal; otherwise the "
+"sales journal with the lowest sequence is used."
+msgstr ""
+"Je-li nastaveno, prodejní objednávky s touto šablonou se fakturují v tomto "
+"deníku; jinak se použije prodejní deník s nejnižším pořadím."
+
+#. module: sale_management
+#: model:ir.model.fields,help:sale_management.field_sale_order_template__active
+msgid ""
+"If unchecked, it will allow you to hide the quotation template without "
+"removing it."
+msgstr ""
+"Pokud není zaškrtnuto, můžete šablonu nabídky skrýt, aniž byste ji "
+"odstranili."
+
+#. module: sale_management
+#: model:ir.model.fields,field_description:sale_management.field_digest_digest__kpi_all_sale_total_value
+msgid "Kpi All Sale Total Value"
+msgstr "KPI celková hodnota všech prodejů"
+
+#. module: sale_management
+#: model:ir.model.fields,help:sale_management.field_sale_order_template__number_of_days
+msgid "Number of days for the validity date computation of the quotation"
+msgstr "Počet dní pro výpočet data platnosti nabídky"
+
+#. module: sale_management
+#: model:ir.model.fields,field_description:sale_management.field_sale_order_line__is_optional
+#: model:ir.model.fields,field_description:sale_management.field_sale_order_template_line__is_optional
+msgid "Optional Line"
+msgstr "Volitelný řádek"
+
+#. module: sale_management
+#. odoo-python
+#: code:addons/sale_management/models/sale_order_template.py:0
+msgid "Optional Products Section"
+msgstr "Sekce volitelných produktů"
+
+#. module: sale_management
+#: model:ir.model.fields,field_description:sale_management.field_sale_order_template_line__parent_id
+msgid "Parent Section Line"
+msgstr "Řádek nadřazené sekce"
+
+#. module: sale_management
+#: model:ir.model.fields,field_description:sale_management.field_sale_order_template__sequence
+#: model:ir.model.fields,field_description:sale_management.field_sale_order_template_line__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: sale_management
+#. odoo-javascript
+#: code:addons/sale_management/static/src/fields/sale_order_line_field/sale_order_line_field.xml:0
+#: code:addons/sale_management/static/src/fields/sale_order_template_line_field/sale_order_template_line_field.xml:0
+msgid "Set Optional"
+msgstr "Nastavit jako volitelné"
+
+#. module: sale_management
+#: model:ir.model.fields.selection,name:sale_management.selection__sale_order_template_line__display_type__line_subsection
+msgid "Subsection"
+msgstr "Subsekce"
+
+#. module: sale_management
+#. odoo-javascript
+#: code:addons/sale_management/static/src/fields/sale_order_line_field/sale_order_line_field.xml:0
+#: code:addons/sale_management/static/src/fields/sale_order_template_line_field/sale_order_template_line_field.xml:0
+msgid "Unset Optional"
+msgstr "Zrušit volitelnost"
+
+#. module: sale_management
+#: model_terms:ir.actions.act_window,help:sale_management.sale_order_template_action
+msgid ""
+"Use templates to create polished, professional quotes in minutes.\n"
+"                Send these quotes by email and let your customers sign online.\n"
+"                Use cross-selling and discounts to push and boost your sales."
+msgstr ""
+"Pomocí šablon vytvoříte vyladěné, profesionální nabídky během několika minut.\n"
+"                Nabídky zasílejte e-mailem a nechte zákazníky podepsat online.\n"
+"                Křížovým prodejem a slevami podpořte a zvyšte své prodeje."
+
+#. module: sale_management
+#. odoo-python
+#: code:addons/sale_management/models/sale_order_template_line.py:0
+msgid ""
+"You cannot change the type of a sale quote line. Instead you should delete "
+"the current line and create a new line of the proper type."
+msgstr ""
+"Typ řádku nabídky nelze změnit. Místo toho smažte aktuální řádek a vytvořte "
+"nový řádek správného typu."
+
+#. module: sale_management
+#. odoo-python
+#: code:addons/sale_management/models/sale_order_template.py:0
+msgid ""
+"Your template belongs to company %(template_company)s but contains products from company (%(product_company)s) that are not accessible to %(template_company)s.\n"
+"Please change the company of your template or remove the products from other companies."
+msgstr ""
+"Vaše šablona patří společnosti %(template_company)s, ale obsahuje produkty společnosti (%(product_company)s), které nejsou pro %(template_company)s přístupné.\n"
+"Změňte společnost šablony nebo odeberte produkty jiných společností."
+
+#. module: sale_management
+#. odoo-python
+#: code:addons/sale_management/models/sale_order_template.py:0
+msgid ""
+"Your template belongs to company %(template_company)s but contains products from other companies (%(product_company)s) that are not accessible to %(template_company)s.\n"
+"Please change the company of your template or remove the products from other companies."
+msgstr ""
+"Vaše šablona patří společnosti %(template_company)s, ale obsahuje produkty jiných společností (%(product_company)s), které nejsou pro %(template_company)s přístupné.\n"
+"Změňte společnost šablony nebo odeberte produkty jiných společností."
+
+#. module: sale_management
+#. odoo-python
+#: code:addons/sale_management/models/sale_order_template.py:0
+msgid ""
+"Your template cannot contain products from specific companies if it's shared"
+" between companies. Please restrict the template access, or remove those "
+"products."
+msgstr ""
+"Pokud je šablona sdílena mezi společnostmi, nemůže obsahovat produkty "
+"konkrétních společností. Omezte přístup k šabloně nebo tyto produkty "
+"odeberte."
+
+#. module: sale_management
+#: model_terms:ir.ui.view,arch_db:sale_management.sale_order_template_view_form
+msgid "e.g. Standard Consultancy Package"
+msgstr "např. Standardní konzultační balíček"

@@ -1,7 +1,7 @@
 ---
 title: Prijaté zálohové faktúry (nákup)
 summary: Zálohová faktúra od dodávateľa ako nákupný doklad, jej úhrada, faktúra dodávateľa k prijatej platbe a odpočet preddavku na konečnej faktúre.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## Na čo slúži {#purpose}

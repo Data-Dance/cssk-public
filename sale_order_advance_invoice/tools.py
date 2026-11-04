@@ -23,6 +23,7 @@ Spec shape::
 """
 
 import calendar
+import json
 from datetime import date, timedelta
 
 
@@ -61,3 +62,51 @@ def advance_tax_doc_deadline(company, paid_date):
         )
         return max(fifteen_days, end_of_month)
     return fifteen_days
+
+
+def advance_account_names(name):
+    """``{lang: name}`` for a spec account name given as a str or a dict.
+
+    A plain str is the old spec shape: one name, stored as the English source.
+    """
+    if isinstance(name, dict):
+        return dict(name)
+    return {"en_US": name}
+
+
+def write_advance_account_names(account, names):
+    """Store every language of ``names`` on ``account``, installed or not.
+
+    The ORM's ``update_field_translations`` refuses languages that are not
+    active, so a Slovak name written while only English is installed would be
+    lost and a Slovak user installing the language later would see the English
+    one. The jsonb is merged directly instead: a key for an inactive language
+    is harmless and is simply there once the language is activated.
+    """
+    if not names:
+        return
+    account.flush_recordset(["name"])
+    account.env.cr.execute(
+        "UPDATE account_account SET name = COALESCE(name, '{}'::jsonb) || %s::jsonb"
+        " WHERE id = %s",
+        [json.dumps(names), account.id],
+    )
+    account.invalidate_recordset(["name"])
+
+
+def adopt_advance_account_names(account, names):
+    """Give an existing account the names of the spec, if it still has ours.
+
+    Older versions created the account with only the national-language name,
+    stored as its English source. An account whose English name is still one
+    of the spec's non-English names was made that way and is renamed; one the
+    user renamed is left alone.
+    """
+    account.env.cr.execute(
+        "SELECT name->>'en_US' FROM account_account WHERE id = %s", [account.id]
+    )
+    row = account.env.cr.fetchone()
+    current = row and row[0]
+    ours = {value for lang, value in names.items() if lang != "en_US"}
+    if current in ours and current != names.get("en_US"):
+        write_advance_account_names(account, names)

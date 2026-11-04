@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- English name of 314001 (spec ``name`` as a dict) and the post-migrate that
+  renames it — 19.0.1.0.2. 18.0 has the same Slovak-only name. Needs the base
+  helper carried over first.
+
 Changed
 ~~~~~~~
 
@@ -15,6 +22,18 @@ Changed
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+[19.0.1.0.2] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **314001 had only its Slovak name**, stored as the English one, so an
+  English-speaking user saw Slovak. It is now *Advances granted – clearing
+  (tax document)* in English and keeps *Poskytnuté preddavky – zúčtovanie
+  (daňový doklad)* in Slovak. The upgrade renames the account unless you
+  renamed it.
 
 [19.0.1.0.1] — 2026-10-27
 -------------------------
