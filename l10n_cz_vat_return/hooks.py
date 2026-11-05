@@ -34,6 +34,9 @@ def post_init_hook(env):
         # goods tax, so one line self-assessed three times while a service
         # bought outside the EU self-assessed not at all. See the method.
         companies._cz_map_extra_community_service_taxes()
+        # ...and wires 0% EU S to the domestic GOODS sale taxes, so a goods
+        # sale to an EU VAT payer got both EU taxes and a service kept 21 %.
+        companies._cz_map_intra_community_sale_service_taxes()
         # ř47: l10n_cz declares VAT 47 Base/Total and no tax carries either, so
         # the value of acquired assets filed 0.00 whatever was bought. The
         # twins are copies — see the method for why they come last, and why the

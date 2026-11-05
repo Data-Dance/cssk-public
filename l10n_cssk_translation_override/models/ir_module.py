@@ -185,7 +185,13 @@ class IrModuleModule(models.Model):
         pending = getattr(self.env.registry, "_cssk_pending_code_named_langs", None)
         if pending:
             del self.env.registry._cssk_pending_code_named_langs
-            self._cssk_translate_code_named_records(sorted(pending))
+            # Not now: account's own _register_hook runs after this one (its
+            # class comes later in the MRO) and only then loads the chart of
+            # a new database, creating the journals whose payment methods we
+            # name. Just before the commit, every hook has run.
+            langs = sorted(pending)
+            self.env.cr.precommit.add(
+                lambda: self.env["ir.module.module"]._cssk_translate_code_named_records(langs))
 
     @api.model
     def _cssk_apply_translation_overrides(self, langs, only=None):

@@ -5,6 +5,45 @@ Changelog
 All notable changes to **l10n_cssk_translation_override** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.2.0] — 2026-11-05
+-------------------------
+
+Added
+~~~~~
+
+- Slovak and Czech catalogues for OCA ``stock_picking_invoice_link``,
+  ``sale_stock_picking_invoice_link``, ``purchase_product_template_tags`` and
+  ``account_sale_stock_report_non_billed`` (built against its 19.0 migration,
+  OCA/account-financial-reporting#1558, not merged yet), which had none.
+
+Fixed
+~~~~~
+
+- Slovak *Purchase Orders* is *Nákupné objednávky*: Odoo's ``purchase``,
+  ``purchase_stock`` and ``purchase_requisition`` had *Nakupné*.
+- A chart's tax groups named "VAT 21%" get *DPH 21%* in Slovak and Czech where
+  they have no name in that language. A chart translates them from its own
+  columns only, so a Czech company's groups had Czech and no Slovak, and a
+  Slovak user saw English in every order and invoice total.
+
+[19.0.1.1.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- A journal's payment methods are named in the company's language. Odoo
+  copies the method's name into each journal in the language of whoever
+  created it, usually English, and builds every payment's label from that
+  copy, so a Slovak company's bank lines read "Manual Payment: …" however
+  complete the catalogues are. A name still equal to the English one is
+  replaced when the override is installed or upgraded, when a language is
+  loaded, and daily for journals created since; a name someone chose is
+  kept. Payments already posted keep their label.
+- On a new database the pass ran before account loaded the chart (account's
+  ``_register_hook`` comes after ours), so the journals did not exist yet; it
+  now runs just before the commit.
+
 [19.0.1.1.0] — 2026-11-05
 -------------------------
 

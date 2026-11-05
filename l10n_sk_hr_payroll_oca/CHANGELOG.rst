@@ -2,8 +2,30 @@
 Changelog
 =========
 
+Unreleased
+==========
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.19.4 (2026-11-05), not yet on 18.0:** the EUR 300 agreement OOP
+  from 1. 1. 2027 (``rule_parameter_dohoda_oop_2027``). Data only; the 18.0
+  rules read the same parameter.
+
+[19.0.1.19.4] — 2026-11-05
+==========================
+
+**Fixed**
+
+- **Agreement OOP from January 2027.** § 138a z. 461/2003, as amended by
+  158/2026 Z. z., raises the odvodová odpočítateľná položka for pensioners
+  and students on agreements from EUR 200 to EUR 300 a month. Payslips from
+  January 2027 used EUR 200, leaving up to EUR 100 a month assessed for
+  pension insurance and the reserve fund. Earlier periods keep EUR 200.
+  Contributed by votrelec (cssk-public#13).
+
 [19.0.1.19.3] — 2026-11-05
---------------------------
+==========================
 
 Fixed
 ~~~~~

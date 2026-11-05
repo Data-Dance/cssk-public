@@ -18,6 +18,7 @@ Modelled events: ``PA`` (prihláška / registration) and ``OD`` (odhláška /
 de-registration). ``ZM`` (zmena), ``PE`` (prerušenie) and ``ZP`` (zrušenie
 prihlásenia) are not modelled yet.
 """
+from lxml import etree
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -125,6 +126,11 @@ class L10nSkRlfo(models.Model):
         if self.state != "draft":
             raise UserError(_(
                 "Reset the declaration to draft before regenerating it."))
+        # RLFO bypasses the base action_generate. Resolve the requested period
+        # here as well: today's API default may still point to an older form
+        # with no end date even though a newer vintage exists.
+        self.version_id = self._find_version(
+            self._version_reference_date(), self.company_id.country_id)
         if not self.version_id:
             raise UserError(_(
                 "No RLFO version is configured for this period. Check the "
@@ -142,6 +148,27 @@ class L10nSkRlfo(models.Model):
         self.message_post(body=_("RLFO generated and XSD-validated."))
         return True
 
+    def _render_xml(self, data):
+        xml_bytes = super()._render_xml(data)
+        if self.version_id != self.env.ref(
+                "l10n_sk_hr_payroll_rlfo.rlfo_version_2027"):
+            return xml_bytes
+        old = "http://socpoist.sk/xsd/rlzec2026"
+        new = "http://socpoist.sk/xsd/rlzec2027"
+        root = etree.fromstring(xml_bytes)
+        if etree.QName(root).namespace != old:
+            raise UserError(_("Unexpected source namespace for RLZEC 2027."))
+        # Existing PA/OD fields retain their element model in the new vintage.
+        # Remap before action_generate's mandatory official-XSD validation.
+        for node in root.iter():
+            if isinstance(node.tag, str) and etree.QName(node).namespace == old:
+                node.tag = etree.QName(new, etree.QName(node).localname)
+        output = etree.Element(root.tag, nsmap={None: new}, attrib=dict(root.attrib))
+        output.text = root.text
+        output.extend(list(root))
+        etree.cleanup_namespaces(output)
+        return etree.tostring(output, encoding="UTF-8", xml_declaration=True)
+
     def _declaration_render_context(self, data):
         self.ensure_one()
         events = []
@@ -154,6 +181,16 @@ class L10nSkRlfo(models.Model):
                     "in the Identification No. field for the "
                     "RLFO.", name=employee.display_name))
             code = ev.typ_zec or "ZEC"
+            if ev.typ_rl == "PA":
+                if ev.owner50_status == "unknown":
+                    raise UserError(_(
+                        "Review statutory membership and at least 50%% ownership "
+                        "for '%(name)s' before registering them.",
+                        name=employee.display_name))
+                if not (ev.ownership_evidence or "").strip():
+                    raise UserError(_(
+                        "Record the source of the reviewed ownership status "
+                        "for '%(name)s'.", name=employee.display_name))
             if ev.typ_rl == "PA" and not ev.date_start:
                 raise UserError(_(
                     "Registration for '%(name)s' needs an "
@@ -169,6 +206,7 @@ class L10nSkRlfo(models.Model):
             meno, priezvisko = (meno or "-")[:24], (priezvisko or "-")[:36]
             events.append({
                 "typ_rl": ev.typ_rl,
+                "zam_s_ucastou": "true" if ev.owner50_status == "yes" else "false",
                 "typ_zec": code,
                 "is_dohoda": code in DOHODA_CODES,
                 "is_zecn": code == "ZECN",
@@ -223,6 +261,26 @@ class L10nSkRlfoEvent(models.Model):
     date_end = fields.Date(
         string="Insurance end (datZaniku)",
         help="Date the social-insurance relationship ends (de-registration).")
+    owner50_status = fields.Selection(
+        [("unknown", "Not reviewed"),
+         ("no", "Not a statutory member with at least 50% ownership"),
+         ("yes", "Statutory member with at least 50% ownership")],
+        string="Statutory owner 50%+", required=True, default="unknown",
+        copy=False,
+        help="Historical fact for this registration (§ 231(1)(o), z. 461/2003). "
+             "A generic guarantee-insurance exemption does not prove it.")
+    ownership_evidence = fields.Char(
+        string="Ownership evidence", copy=False,
+        help="Reference to the reviewed statutory membership/ownership "
+             "evidence and its effective date.")
+
+    def write(self, vals):
+        if {"owner50_status", "ownership_evidence"} & vals.keys():
+            if any(event.rlfo_id.state != "draft" for event in self):
+                raise UserError(_(
+                    "Reset the registration batch to draft before changing "
+                    "its ownership evidence."))
+        return super().write(vals)
 
     @api.depends("employee_id")
     def _compute_typ_zec(self):

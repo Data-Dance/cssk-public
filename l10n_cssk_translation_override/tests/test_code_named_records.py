@@ -91,3 +91,50 @@ class TestCodeNamedRecords(TransactionCase):
         self.assertEqual(record.with_context(lang=LANG).name, OURS)
         self.assertEqual(record.with_context(lang="cs_CZ").name, cs)
         self.assertEqual(record.with_context(lang="en_US").name, EMAIL_SRC)
+
+    def test_payment_method_line_follows_company_language(self):
+        """A journal's payment methods: a plain Char copied in English, from
+        which every payment's label is built ("Manual Payment: INV/...")."""
+        if "account.payment.method.line" not in self.env:
+            raise SkipTest("account is not installed")
+        company = self.env.company
+        journal = self.env["account.journal"].search(
+            [("company_id", "=", company.id), ("type", "=", "bank")], limit=1)
+        if not journal:
+            raise SkipTest("no bank journal (no chart installed)")
+        lines = journal.inbound_payment_method_line_ids.filtered(lambda l: l.code == "manual")
+        line = lines[:1]
+        if not line:
+            raise SkipTest("the bank journal has no manual payment method")
+        method = line.payment_method_id
+        english = method.with_context(lang="en_US").name
+        local = method.with_context(lang=LANG).name
+        if local == english:
+            raise SkipTest(f"no {LANG} translation of {english!r} to check against")
+        line.name = english
+        mine = journal.outbound_payment_method_line_ids[:1]
+        if mine:
+            mine.name = "Prevod z účtu"
+        # Negative control: an English company keeps the English name.
+        company.partner_id.lang = "en_US"
+        self.Module._cssk_translate_code_named_records([LANG], FIELDS)
+        self.assertEqual(line.name, english)
+        company.partner_id.lang = LANG
+        self.Module._cssk_translate_code_named_records([LANG], FIELDS)
+        self.assertEqual(line.name, local)
+        if mine:
+            self.assertEqual(mine.name, "Prevod z účtu")
+
+    def test_chart_tax_group_names(self):
+        """A Czech chart's tax groups carry Czech only; a Slovak user saw English."""
+        if "account.tax.group" not in self.env:
+            raise SkipTest("account is not installed")
+        Group = self.env["account.tax.group"].with_context(lang="en_US")
+        group = Group.create({"name": "VAT 12%", "company_id": self.env.company.id})
+        kept = Group.create({"name": "VAT reverse charge", "company_id": self.env.company.id})
+        self.assertEqual(self._sk(group), "VAT 12%")  # negative control
+        self.Module._cssk_translate_code_named_records([LANG], [("account.tax.group", "name")])
+        self.assertEqual(self._sk(group), "DPH 12%")
+        self.assertEqual(self._sk(kept), "VAT reverse charge")
+        group.invalidate_recordset()
+        self.assertEqual(group.with_context(lang="en_US").name, "VAT 12%")

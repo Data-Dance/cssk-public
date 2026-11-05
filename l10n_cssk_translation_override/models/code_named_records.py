@@ -32,6 +32,19 @@ CODE_NAMED_FIELDS = [
     ("stock.rule", "name"),
     ("account.journal", "name"),
     ("pos.payment.method", "name"),
+    ("account.tax.group", "name"),
+]
+#: Names no catalogue carries, as (pattern, {lang: replacement}). A chart's
+#: tax groups are translated from its own ``name@<lang>`` columns only, so a
+#: Czech company's "VAT 21%" has Czech and no Slovak: a Slovak user of a
+#: Czech company sees English in every order and invoice total.
+NAME_PATTERNS = [
+    (re.compile(r"^VAT (\d+(?:[.,]\d+)?) ?%$"), {"sk_SK": r"DPH \1%", "cs_CZ": r"DPH \1%"}),
+]
+#: (model, field, source) where Odoo copies the source record's translatable
+#: field into a plain Char of the same name.
+COPIED_NAMES = [
+    ("account.payment.method.line", "name", "payment_method_id"),
 ]
 #: "<warehouse or code>: <message>", the shape of warehouse route names.
 PREFIXED = re.compile(r"^(?P<prefix>[^:]{1,40}): (?P<term>.+)$")
@@ -103,6 +116,11 @@ class IrModuleModule(models.Model):
                         continue
                     value = terms[lang].get(source)
                     if value is None:
+                        for pattern, replacements in NAME_PATTERNS:
+                            if lang in replacements and pattern.match(source):
+                                value = pattern.sub(replacements[lang], source)
+                                break
+                    if value is None:
                         match = PREFIXED.match(source)
                         if match and match["term"] in terms[lang]:
                             value = f"{match['prefix']}: {terms[lang][match['term']]}"
@@ -118,8 +136,38 @@ class IrModuleModule(models.Model):
                 done += len(new)
             if updates:
                 Model.invalidate_model([field_name])
+        done += self._cssk_localize_copied_names(langs)
         if done:
             _logger.info("translated %d code-named record name(s)", done)
+        return done
+
+    @api.model
+    def _cssk_localize_copied_names(self, langs):
+        """Rename untranslatable copies of a translatable name; return the count.
+
+        A journal's payment method line stores ``payment_method_id.name`` in a
+        plain Char, copied in the language of whoever created the journal,
+        usually English. Every payment's label is built from it ("Manual
+        Payment: INV/2026/00001"), so a Slovak company's bank lines read
+        English however complete the catalogues are. One value serves the whole
+        company, so it follows the company's language. Only a name still equal
+        to the source's English is replaced: a name someone chose is kept.
+        """
+        done = 0
+        for model_name, field_name, source_field in COPIED_NAMES:
+            if model_name not in self.env:
+                continue
+            records = self.env[model_name].sudo().with_context(active_test=False).search([])
+            for record in records:
+                lang = record.company_id.partner_id.lang
+                source = record[source_field]
+                if not source or lang not in langs:
+                    continue
+                english = source.with_context(lang="en_US")[field_name]
+                local = source.with_context(lang=lang)[field_name]
+                if record[field_name] == english and local and local != english:
+                    record[field_name] = local
+                    done += 1
         return done
 
     @api.model

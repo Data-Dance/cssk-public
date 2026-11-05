@@ -1,0 +1,114 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model,name:stock_picking_invoice_link.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr "Storno účtového záznamu"
+
+#. module: stock_picking_invoice_link
+#: model_terms:ir.ui.view,arch_db:stock_picking_invoice_link.invoice_form
+msgid "Delivery"
+msgstr "Dodávka"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_account_move__display_name
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_account_move_reversal__display_name
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_stock_move__display_name
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_stock_picking__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: stock_picking_invoice_link
+#: model_terms:ir.ui.view,arch_db:stock_picking_invoice_link.view_picking_form
+msgid "Invoice"
+msgstr "Faktúra"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_stock_move__invoice_line_ids
+msgid "Invoice Line"
+msgstr "Riadok faktúry"
+
+#. module: stock_picking_invoice_link
+#: model_terms:ir.ui.view,arch_db:stock_picking_invoice_link.view_move_form
+msgid "Invoice Lines"
+msgstr "Riadky faktúry"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_stock_picking__invoice_ids
+msgid "Invoices"
+msgstr "Faktúry"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model,name:stock_picking_invoice_link.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný záznam"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model,name:stock_picking_invoice_link.model_account_move_line
+msgid "Journal Item"
+msgstr "Položka denníka"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_stock_picking__invoice_count
+msgid "Number of Invoices"
+msgstr "Počet faktúr"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_account_bank_statement_line__picking_count
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_account_move__picking_count
+msgid "Pickings count"
+msgstr "Počet presunov"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_account_bank_statement_line__picking_ids
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_account_move__picking_ids
+msgid "Related Pickings"
+msgstr "Súvisiace presuny"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,field_description:stock_picking_invoice_link.field_account_move_line__move_line_ids
+msgid "Related Stock Moves"
+msgstr "Súvisiace skladové pohyby"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,help:stock_picking_invoice_link.field_account_bank_statement_line__picking_ids
+#: model:ir.model.fields,help:stock_picking_invoice_link.field_account_move__picking_ids
+msgid ""
+"Related pickings (only when the invoice has been generated from a sale "
+"order)."
+msgstr ""
+"Súvisiace presuny (len ak bola faktúra vytvorená z predajnej objednávky)."
+
+#. module: stock_picking_invoice_link
+#: model:ir.model.fields,help:stock_picking_invoice_link.field_account_move_line__move_line_ids
+msgid ""
+"Related stock moves (only when the invoice has been generated from a sale "
+"order)."
+msgstr ""
+"Súvisiace skladové pohyby (len ak bola faktúra vytvorená z predajnej "
+"objednávky)."
+
+#. module: stock_picking_invoice_link
+#: model:ir.model,name:stock_picking_invoice_link.model_stock_move
+msgid "Stock Move"
+msgstr "Skladový pohyb"
+
+#. module: stock_picking_invoice_link
+#: model:ir.model,name:stock_picking_invoice_link.model_stock_picking
+msgid "Transfer"
+msgstr "Presun"
+
+#. module: stock_picking_invoice_link
+#. odoo-python
+#: code:addons/stock_picking_invoice_link/models/stock_move.py:0
+msgid "You can not modify an invoiced stock move"
+msgstr "Vyfakturovaný skladový pohyb nemožno upraviť"

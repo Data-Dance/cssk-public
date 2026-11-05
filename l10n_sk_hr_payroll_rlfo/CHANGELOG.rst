@@ -10,6 +10,52 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.2.3 and 19.0.1.3.0 (2026-11-05), not yet on 18.0:** the reviewed
+  ownership status and evidence on registration events (``zamSUcastou``), and
+  the RLZEC 2027 vintage with its XSD, version record and namespace remap.
+  The XSD must be copied byte for byte (CRLF, ``data/.gitattributes``); a
+  patch transport normalises the line endings and breaks the pinned md5.
+
+[19.0.1.3.1] — 2026-11-05
+=========================
+
+- **Slovak and Czech catalogues** for the ownership status, its evidence and
+  their messages, and the RLZEC 2027 namespace error. The Czech catalogue also
+  gains the strings it still lacked: the Sociálna poisťovňa number and its
+  messages, and the DoPČ / DoBPŠ relationship codes.
+
+[19.0.1.3.0] — 2026-11-05
+=========================
+
+**Added**
+
+- **RLZEC 2027.** The Sociálna poisťovňa's ``RLZEC-v2027.xsd`` (published
+  2026-11-05, production deployment planned for 2026-11-24) is shipped and
+  pinned in ``SCHEMA_VERSION``. Periods from January 2027 are generated in
+  the 2027 namespace and validated against it; earlier periods keep the 2026
+  vintage. Generating now always selects the version that covers the period,
+  so a batch created before the period was changed no longer keeps the
+  previous year's form. The schema's new optional OOP elements for parents on
+  maternity or parental leave are not produced yet. Contributed by votrelec
+  (cssk-public#16).
+
+[19.0.1.2.3] — 2026-11-05
+=========================
+
+**Fixed**
+
+- **Statutory owners were registered as ordinary employees.** Every
+  registration declared ``zamSUcastou`` false, so a statutory body or member
+  with at least 50 % of the employer's property (§ 231 ods. 1 písm. o)
+  z. 461/2003) was reported wrongly, and the XML still validated. Each
+  registration event now records a reviewed status and the evidence for it;
+  an unreviewed status or missing evidence stops generation, and both fields
+  are locked once the batch is generated. Existing events start as *Not
+  reviewed*. Contributed by votrelec (cssk-public#14).
+
 [19.0.1.2.2] — 2026-11-05
 =========================
 

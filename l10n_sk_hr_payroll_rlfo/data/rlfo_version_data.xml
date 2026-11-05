@@ -14,4 +14,16 @@
                file="l10n_sk_hr_payroll_rlfo/data/RLZEC-v2026.xsd"/>
     </record>
 
+    <record id="rlfo_version_2027" model="cssk.payroll.declaration.version">
+        <field name="name">RLZEC 2027</field>
+        <field name="code">sk_rlfo</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2027-01-01</field>
+        <field name="xml_template_ref_id" ref="l10n_sk_hr_payroll_rlfo.rlfo_xml"/>
+        <field name="xml_root_element">spRegListZec</field>
+        <field name="xml_schema_module">l10n_sk_hr_payroll_rlfo</field>
+        <field name="xml_schema_filename">data/RLZEC-v2027.xsd</field>
+        <field name="xml_schema_data" type="base64"
+               file="l10n_sk_hr_payroll_rlfo/data/RLZEC-v2027.xsd"/>
+    </record>
 </odoo>

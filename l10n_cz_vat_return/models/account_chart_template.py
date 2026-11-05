@@ -23,6 +23,7 @@ class AccountChartTemplate(models.AbstractModel):
             companies._cz_fix_refund_repartition_accounts()
             companies._cz_map_intra_community_purchase_taxes()
             companies._cz_map_extra_community_service_taxes()
+            companies._cz_map_intra_community_sale_service_taxes()
             # ⚠️ ORDER. The ř47 twins are copies, so they must be made after
             # the three repairs above or they would copy the defects — an
             # untagged ř43/44 deduction, a refund leg with no account, an

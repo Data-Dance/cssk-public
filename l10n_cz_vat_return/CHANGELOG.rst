@@ -38,6 +38,24 @@ Carried over
   lock-date protected, and re-tagging a filed period adds reporting to a
   return that was already filed.
 
+[19.0.1.16.0] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- **An intra-Community sale got two taxes, and a service kept Czech VAT.**
+  ``l10n_cz`` names the domestic *goods* sale taxes (``21% G``, ``12% G``) as
+  the originals of ``0% EU S`` as well as of ``0% EU G``, so under the
+  Intra-Community position a goods line got both ``0% EU G`` and ``0% EU S``,
+  and the base was declared twice, on ř. 20 and ř. 21, in the kontrolní
+  hlášení and in the souhrnné hlášení. The amounts stayed right, so the
+  document looked fine. A service with ``21% S`` was not mapped at all and
+  was invoiced with Czech 21 %. ``0% EU S`` now replaces ``21% S`` and
+  ``12% S`` and no longer the goods taxes, on install, on loading the Czech
+  chart and on upgrade. Posted documents keep the taxes they were posted
+  with. The same defect is in Odoo's ``l10n_cz`` on 19.0 and master.
+
 [19.0.1.15.0] — 2026-11-05
 -------------------------
 

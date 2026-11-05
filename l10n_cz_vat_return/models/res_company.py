@@ -94,6 +94,33 @@ CZ_EXTRA_COMMUNITY_SERVICE_MAP = {
 }
 
 
+#: ``l10n_cz`` intra-Community SERVICE sale tax -> (the domestic service sale
+#: taxes it must replace, the domestic GOODS sale taxes the chart wires to it
+#: instead). ``0% EU S`` names ``21% G`` and ``12% G`` as its originals, like
+#: ``0% EU G`` does, so under the Intra-Community position:
+#:
+#:     21% G  ->  0% EU G, 0% EU S     (two taxes on one goods line)
+#:     21% S  ->  21% S                (a service keeps Czech VAT)
+#:
+#: Found on an inter-company sale order from a Czech company to a Slovak VAT
+#: payer. The amounts stay right (both are 0 %), so the document looks fine;
+#: the base is declared twice, as a supply of goods and of services, on the
+#: return (ř. 20 and ř. 21), the kontrolní hlášení and the souhrnné hlášení.
+#: The service side is the mirror image: a service sold to an EU VAT payer is
+#: invoiced with 21 % and never reaches ř. 21 or the souhrnné hlášení.
+#:
+#: As in ``CZ_EXTRA_COMMUNITY_SERVICE_MAP``, the wrong links must be REMOVED,
+#: because ``map_tax`` returns every destination naming a tax. Only the two
+#: goods taxes the chart wired are taken off; any other original (the chart's
+#: own ``l10n_cz_other_transaction_deduction``, or one a user added) stays.
+CZ_INTRA_COMMUNITY_SALE_SERVICE_MAP = {
+    "l10n_cz_supply_service_eu": (
+        ("l10n_cz_21_domestic_services", "l10n_cz_12_domestic_service"),
+        ("l10n_cz_21_domestic_supplies", "l10n_cz_12_domestic_supplies"),
+    ),
+}
+
+
 class ResCompany(models.Model):
     _inherit = "res.company"
 
@@ -786,4 +813,76 @@ class ResCompanyCzAssetAcquisition(models.Model):
         return self.env["account.tax"].with_context(active_test=False).search([
             ("company_id", "in", self.ids),
             ("cz_asset_source_tax_id", "!=", False),
+        ])
+
+    def _cz_map_intra_community_sale_service_taxes(self):
+        """Let the Intra-Community position tell goods from services on sales.
+
+        See ``CZ_INTRA_COMMUNITY_SALE_SERVICE_MAP``. Idempotent; returns the
+        number of links added or removed. Posted documents keep the taxes they
+        were posted with.
+        """
+        ChartTemplate = self.env["account.chart.template"]
+        total = 0
+        for company in self:
+            if company.chart_template != "cz":
+                continue
+            touched = 0
+            ref = ChartTemplate.with_company(company).ref
+            for dest_xmlid, (rights, wrongs) in \
+                    CZ_INTRA_COMMUNITY_SALE_SERVICE_MAP.items():
+                dest = ref(dest_xmlid, raise_if_not_found=False)
+                if not dest:
+                    _logger.warning(
+                        "l10n_cz_vat_return: %s has no %s, intra-Community "
+                        "service sale mapping not set", company.display_name,
+                        dest_xmlid,
+                    )
+                    continue
+                found = [ref(x, raise_if_not_found=False) for x in rights]
+                if not all(found):
+                    # Still take the goods taxes off: a missing service tax
+                    # is no reason to keep declaring goods twice.
+                    _logger.warning(
+                        "l10n_cz_vat_return: %s has no %s, those services "
+                        "stay unmapped", company.display_name,
+                        ", ".join(x for x, r in zip(rights, found) if not r),
+                    )
+                # Archived originals are invisible to a plain read of the
+                # many2many, and the historical rates are archived.
+                dest = dest.with_context(active_test=False)
+                right = self.env["account.tax"].browse(
+                    [t.id for t in found if t])
+                wrong = self.env["account.tax"].browse()
+                for xmlid in wrongs:
+                    wrong |= ref(xmlid, raise_if_not_found=False) or wrong
+                # The archived historical rates (20 % G, 15 % S, ...) are
+                # copies of these taxes and carry the same wiring; a history
+                # import mapped through the position must not double either.
+                right = self._cz_with_historic_clones(company, right)
+                wrong = self._cz_with_historic_clones(company, wrong)
+                for tax in right:
+                    if tax not in dest.original_tax_ids:
+                        dest.original_tax_ids = [(4, tax.id)]
+                        touched += 1
+                for tax in wrong:
+                    if tax in dest.original_tax_ids:
+                        dest.original_tax_ids = [(3, tax.id)]
+                        touched += 1
+            total += touched
+            if touched:
+                _logger.info(
+                    "l10n_cz_vat_return: %s intra-Community service sale tax "
+                    "mapping(s) corrected on %s", touched, company.display_name,
+                )
+        return total
+
+    def _cz_with_historic_clones(self, company, taxes):
+        """``taxes`` plus their archived historical-rate copies in ``company``."""
+        Tax = self.env["account.tax"].with_context(active_test=False)
+        if not taxes or "cssk_historic_source_tax_id" not in Tax._fields:
+            return taxes
+        return taxes | Tax.search([
+            ("company_id", "=", company.id),
+            ("cssk_historic_source_tax_id", "in", taxes.ids),
         ])
