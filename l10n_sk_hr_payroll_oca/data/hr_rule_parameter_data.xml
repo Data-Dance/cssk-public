@@ -616,6 +616,15 @@
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
 
+    <!-- z.461/2003 §138a, effective 2027-01-01. Keep the older dated
+         values intact so historical payslips retain their original OOP.
+         https://static.slov-lex.sk/static/SK/ZZ/2003/461/20270101.html -->
+    <record id="rule_parameter_dohoda_oop_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">300</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dohoda_oop"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
+
     <record id="rule_parameter_dohoda_oop_seasonal" model="hr.rule.parameter">
         <field name="name">Slovakia: Seasonal DoPČ OOP, monthly</field>
         <field name="code">l10n_sk_dohoda_oop_seasonal</field>

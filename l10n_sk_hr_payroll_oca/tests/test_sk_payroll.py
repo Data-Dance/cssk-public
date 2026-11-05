@@ -1405,6 +1405,27 @@ class TestSkPayroll(TransactionCase):
     # ------------------------------------------------------------------
     # Pension status (zákon 461/2003 § 4 ods. 1 písm. b), § 19, § 128)
     # ------------------------------------------------------------------
+    def test_oop_2027_uses_300_and_preserves_2026(self):
+        """z.461/2003 §138a: OOP300 from2027; historical2026 remains200."""
+        contract, employee = self._make_dohodar(
+            l10n_sk_agreement_type="dopc", l10n_sk_income_regular=True,
+            l10n_sk_pension_type="old_age", l10n_sk_agreement_oop=True,
+            l10n_sk_health_exempt=True,
+        )
+        contract.wage = 250.0
+        future = self._make_payslip(
+            contract, employee, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(future.rule_parameter("l10n_sk_dohoda_oop"), 300)
+        for code in ("PENSION", "PENSIONEMPLOYER", "RESERVEFUNDEMPLOYER"):
+            self.assertAlmostEqual(future.get_salary_line_total(code), 0.0, places=2)
+
+        historical = self._make_payslip(
+            contract, employee, date(2026, 12, 1), date(2026, 12, 31))
+        self.assertEqual(historical.rule_parameter("l10n_sk_dohoda_oop"), 200)
+        for code, expected in (("PENSION", -2), ("PENSIONEMPLOYER", 7),
+                               ("RESERVEFUNDEMPLOYER", 2.37)):
+            self.assertAlmostEqual(historical.get_salary_line_total(code), expected, places=2)
+
     def test_old_age_pensioner_on_dopc_is_pension_insured_only(self):
         """§ 4 ods. 1 písm. b): no sickness, no unemployment, regular income
         or not; § 128 ods. 3: no disability premium either side."""
