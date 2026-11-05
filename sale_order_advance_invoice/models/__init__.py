@@ -5,3 +5,4 @@ from . import sale_order
 from . import sale_order_line
 from . import account_chart_template
 from . import payment_transaction
+from . import product_template

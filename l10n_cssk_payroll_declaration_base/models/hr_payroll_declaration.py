@@ -536,6 +536,26 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
             self.company_id, self.date_from, self.date_to))
 
     @api.model
+    def _payslip_version(self, payslip):
+        """The contract version *payslip* was computed on.
+
+        Enterprise links it as ``version_id``, OCA payroll as ``contract_id``
+        (an ``hr.version`` on 19.0). A payslip carrying neither falls back to
+        the version in force on its end date, never to the employee's CURRENT
+        version: classifying a past period by today's contract lets a later
+        edit of the employee card move an already-filed payslip from one
+        declaration to another.
+        """
+        payslip = payslip.sudo()
+        for fname in ("version_id", "contract_id"):
+            if fname in payslip._fields and payslip[fname]:
+                return payslip[fname]
+        employee = payslip.employee_id
+        if not employee:
+            return self.env["hr.version"]
+        return employee._get_version(payslip.date_to or fields.Date.today())
+
+    @api.model
     def _employee_contract_intervals(self, employee, date_from, date_to):
         """Employment periods of *employee* inside [date_from, date_to].
 

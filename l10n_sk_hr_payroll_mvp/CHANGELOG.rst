@@ -5,6 +5,17 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* **Fixed: irregular-income dohody are no longer reported on the MVP too.**
+  The MVP took every payslip, so an irregular DoVP or DoPČ was filed here and
+  on the VPP. It now excludes exactly what the VPP takes (cssk-public#12),
+  judged on the payslip's own contract version. A regular-income dohoda
+  carries its relationship code (``ZECD1`` / ``ZECD2`` / ``ZECD3``) in the
+  annex rather than ``ZEC``, the code for a pracovný pomer.
+
+  *18.0 carry-over:* ``l10n_cssk-18.0`` has the same agreement-kind predicate.
+  There the payslip's contract is ``hr.contract`` (``contract_id``), not
+  ``hr.version``, so ``_payslip_version`` needs an 18.0 form.
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules

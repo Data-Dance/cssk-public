@@ -94,8 +94,10 @@ Typ plátce (*typ_platce*) je vždy **P** (plátce), pokud modul
 
 Typy výkazu jsou **Řádné** (B), **Opravné** (O), **Dodatečné** (D) a
 **Dodatečné/opravné** (E). Kód řádku je název atributu v XML (`obrat23`,
-`dan23`, `odp_tuz23_nar` …) a název řádku uvádí číslo řádku formuláře, např.
-*R1 tax_base*.
+`dan23`, `odp_tuz23_nar` …) a název řádku je jeho popis z formuláře podle
+přílohy č. 1 vyhlášky č. 387/2025 Sb., od nejkonkrétnější části (sloupec —
+sazba — řádek), např. *Základ daně — základní sazba — Dodání zboží nebo
+poskytnutí služby s místem plnění v tuzemsku*.
 
 **Počítají se ze štítků**: řádky 1–13 (základ i daň), 20–26, 30, 32, 33, 34,
 základ a odpočet v plné výši na řádcích 40–44 a 47, řádek 50, 51 a 61.

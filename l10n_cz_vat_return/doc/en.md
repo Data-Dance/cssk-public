@@ -97,8 +97,10 @@ The payer type (*typ_platce*) is always **P** (payer) unless
 
 The statement types are **Řádné** (B), **Opravné** (O), **Dodatečné** (D) and
 **Dodatečné/opravné** (E). Each row's code is the attribute name in the XML
-(`obrat23`, `dan23`, `odp_tuz23_nar` …) and its name gives the form's row
-number, e.g. *R1 tax_base*.
+(`obrat23`, `dan23`, `odp_tuz23_nar` …) and its name is the form's own
+caption, in Czech, as annex 1 of vyhláška č. 387/2025 Sb. states it, most
+specific part first (column — rate — row), e.g. *Základ daně — základní sazba
+— Dodání zboží nebo poskytnutí služby s místem plnění v tuzemsku*.
 
 **Computed from tags**: rows 1–13 (base and tax), 20–26, 30, 32, 33, 34, the
 base and the full deduction of rows 40–44 and 47, row 50, 51 and 61.

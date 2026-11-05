@@ -39,6 +39,20 @@ FUND_MAP = [
     ("rfs", "RESERVEFUNDEMPLOYER", None),
 ]
 
+# Dohoda agreement types. Their payslips belong here only with REGULAR income;
+# irregular-income dohody are reported on the VPP. l10n_sk_hr_payroll_vpp holds
+# the mirror of this predicate, and the two must stay complements: a payslip on
+# both forms is reported twice.
+AGREEMENTS = ("dovp", "dopc", "dobps")
+
+# employment form -> MVP typZec relationship code (pravidelný príjem).
+TYP_ZEC = {
+    "none": "ZEC",     # zamestnanec v pracovnom pomere
+    "dovp": "ZECD1",   # DoVP - pravidelný príjem
+    "dopc": "ZECD2",   # DoPČ - pravidelný príjem
+    "dobps": "ZECD3",  # DoBPŠ - pravidelný príjem
+}
+
 
 class L10nSkMvp(models.Model):
     _name = "l10n.sk.mvp"
@@ -62,6 +76,33 @@ class L10nSkMvp(models.Model):
         "poisťovňa filing (MVP, VPP, ELDP, RLFO).")
 
     # ------------------------------------------------------------------
+    # Scope: everything except dohody with irregular income (those are VPP).
+    # ------------------------------------------------------------------
+    def _l10n_sk_relationship(self, payslip):
+        """``(agreement type, regular income)`` of the contract *payslip* was
+        computed on — its own version, not the employee's current one, so a
+        later edit of the employee card does not reclassify a past period."""
+        version = self._payslip_version(payslip)
+        if not version or "l10n_sk_agreement_type" not in version._fields:
+            return "none", True
+        version = version.sudo()
+        agreement = version.l10n_sk_agreement_type or "none"
+        if agreement not in AGREEMENTS:
+            return "none", True
+        if "l10n_sk_income_regular" not in version._fields:
+            return agreement, True
+        return agreement, bool(version.l10n_sk_income_regular)
+
+    def _l10n_sk_reports_on_mvp(self, payslip):
+        agreement, regular = self._l10n_sk_relationship(payslip)
+        return agreement not in AGREEMENTS or regular
+
+    def _get_period_payslips(self):
+        slips = super()._get_period_payslips()
+        if not slips:
+            return slips
+        return slips.filtered(self._l10n_sk_reports_on_mvp)
+
     def _preflight(self):
         super()._preflight()
         for rec in self:
@@ -155,6 +196,10 @@ class L10nSkMvp(models.Model):
     def _build_annex(self):
         """Per-employee annex rows (pre-formatted for the QWeb template)."""
         self.ensure_one()
+        agreement_by_employee = {
+            slip.employee_id.id: self._l10n_sk_relationship(slip)[0]
+            for slip in self._get_period_payslips() or []
+        }
         rows = []
         pc = 0
         for line in self._sheet_lines().sorted("sequence"):
@@ -176,7 +221,8 @@ class L10nSkMvp(models.Model):
                 "pc": pc,
                 "rc": rc,
                 "poc_dni": line.insured_days,
-                "typ_zec": "ZEC",
+                "typ_zec": TYP_ZEC.get(
+                    agreement_by_employee.get(employee.id), "ZEC"),
                 "vynimka_vz": "0",
                 "vz": vz,
                 "poc_hodin": "%.2f" % abs(round(line.worked_hours, 2)),

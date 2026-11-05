@@ -55,12 +55,13 @@ class TestVpp(TransactionCase):
             return "oca"
         return "ee"
 
-    def _dohodar_payslip(self, agreement="dovp", wage=1000.0):
+    def _dohodar_payslip(self, agreement="dovp", wage=1000.0, regular=None,
+                         identification="8501011234"):
         emp_vals = {
             "name": "Dohodar Peter",
             "company_id": self.company.id,
             "resource_calendar_id": self.calendar.id,
-            "identification_id": "8501011234",  # rodné číslo (10 digits)
+            "identification_id": identification,  # rodné číslo
             "date_version": date(2026, 1, 1),
             "contract_date_start": date(2026, 1, 1),
             "wage": wage,
@@ -86,6 +87,8 @@ class TestVpp(TransactionCase):
         employee = self.env["hr.employee"].with_company(
             self.company).create(emp_vals)
         self.assertEqual(employee.version_id.l10n_sk_agreement_type, agreement)
+        if regular is not None:
+            employee.version_id.l10n_sk_income_regular = regular
 
         slip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip",
@@ -161,6 +164,56 @@ class TestVpp(TransactionCase):
         # No dohoda payslip in the period -> generation refuses (nothing to file)
         with self.assertRaises(UserError):
             decl.action_generate()
+
+    def _vpp(self, month="3"):
+        return self.env["l10n.sk.vpp"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": month})
+
+    def test_regular_income_dohoda_excluded(self):
+        """A dohoda with REGULAR income is reported on the MVP, not here.
+
+        The selection used to key on the agreement kind alone, so a monthly
+        DoPČ landed on the VPP (as ZECD2N, irregular) and on the MVP too
+        (cssk-public#12).
+        """
+        _employee, slip = self._dohodar_payslip(agreement="dopc", regular=True)
+        decl = self._vpp()
+        self.assertNotIn(slip, decl._get_period_payslips())
+
+    def test_irregular_income_dohoda_included(self):
+        """Irregular income is what the VPP is for, whatever the agreement
+        kind — DoBPŠ included, which the old kind list left out."""
+        _e1, dopc = self._dohodar_payslip(agreement="dopc", regular=False)
+        _e2, dobps = self._dohodar_payslip(
+            agreement="dobps", regular=False, identification="9001011236")
+        decl = self._vpp()
+        self.assertEqual(decl._get_period_payslips(), dopc | dobps)
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        etree.XMLSchema(etree.parse(file_path(
+            "l10n_sk_hr_payroll_vpp/data/VPP-v2026.xsd"))).assertValid(root)
+        codes = {row.get("rc"): row.get("typZec")
+                 for row in root.findall(".//v:poistneZamestnanca", NS)}
+        self.assertEqual(
+            codes, {"8501011234": "ZECD2N", "9001011236": "ZECD3N"})
+
+    def test_later_contract_change_keeps_the_past_period(self):
+        """The payslip's own contract version decides, not today's.
+
+        A regular DoPČ paid in March, then re-agreed as irregular from
+        April: the March payslip stays off the VPP. Read from the employee's
+        current version, it would move onto it.
+        """
+        employee, slip = self._dohodar_payslip(agreement="dopc", regular=True)
+        march = employee.version_id
+        employee.create_version({
+            "date_version": date(2026, 4, 1),
+            "l10n_sk_income_regular": False,
+        })
+        self.assertNotEqual(employee.version_id, march)
+        self.assertFalse(employee.version_id.l10n_sk_income_regular)
+        self.assertTrue(march.l10n_sk_income_regular)
+        self.assertNotIn(slip, self._vpp()._get_period_payslips())
 
     def test_sp_vs_is_editable_on_the_form(self):
         """The variable symbol is required by the preflight but was on no

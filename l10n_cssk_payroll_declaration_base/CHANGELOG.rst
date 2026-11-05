@@ -5,6 +5,15 @@ Changelog
 Unreleased
 ==========
 
+Added
+~~~~~
+
+- ``_payslip_version(payslip)``: the contract version a payslip was computed
+  on, engine-neutral (Enterprise ``version_id``, OCA ``contract_id``), falling
+  back to the version in force on its end date. Declarations that classify a
+  payslip by its contract use it instead of the employee's current version,
+  which a later edit of the employee card would change (cssk-public#12).
+
 Fixed
 ~~~~~
 

@@ -15,7 +15,9 @@
                 <field name="cz_kh_notice_answer" invisible="cz_country_code != 'CZ'"/>
             </field>
             <page name="sections" position="inside">
-                <notebook>
+                <!-- Only for a Czech statement: in a database with a Slovak
+                     company too, both countries' notebooks would show. -->
+                <notebook invisible="cz_country_code != 'CZ'">
                     <page string="A.1" name="cz_a1">
                         <field name="cz_a1_ids">
                             <list create="false" delete="false" editable="bottom"

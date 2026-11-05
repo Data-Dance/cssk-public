@@ -5,6 +5,20 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* **Fixed: a dohoda with regular income is no longer reported on the VPP.**
+  The VPP took every DoVP and DoPČ payslip by agreement kind alone, so a
+  monthly-paid DoPČ appeared both here (as ``ZECD2N``, irregular) and on the
+  MVP (cssk-public#12). A payslip now reaches the VPP when its own contract
+  version is a dohoda with *Regular monthly income* unset, which also brings
+  in an irregular DoBPŠ (``ZECD3N``), left out before. The classification
+  reads the version the payslip was computed on, so a later contract change
+  does not move a past period. Still not covered: regular income paid after
+  the insurance relationship ended (``ZECN``).
+
+  *18.0 carry-over:* ``l10n_cssk-18.0`` has the same agreement-kind predicate.
+  There the payslip's contract is ``hr.contract`` (``contract_id``), not
+  ``hr.version``, so ``_payslip_version`` needs an 18.0 form.
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules

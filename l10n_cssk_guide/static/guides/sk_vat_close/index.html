@@ -107,9 +107,11 @@ posted, and every vendor bill whose deduction you want to claim.</p>
 <li>Click <strong>Compute</strong>.</li>
 </ol>
 <p>The return moves to <em>Preview</em> and the <strong>Lines</strong> tab lists every row of the
-form with its computed value. Rows are named by the form's row numbers
-(<code>r03</code> is the base at 23 %, <code>r04</code> the VAT on it, <code>r21</code> the deduction at the
-standard rate, <code>r32</code> the VAT payable).</p>
+form with its computed value: <em>Code</em> is the form's row number and <em>Name</em> its
+caption on the form, in Slovak, most specific part first (for example <code>r03</code>
+<em>Základ dane — základná sadzba dane — Dodanie tovaru a služby…</em>, the base at
+the standard rate). Rows named <em>(internal)</em> are Odoo subtotals that are not
+on the form.</p>
 <p><img alt="A computed VAT return with the rows of the form" src="img/return.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <p>On each row:</p>
 <ul>

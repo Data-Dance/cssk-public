@@ -11,11 +11,50 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.14.2 and 19.0.1.15.0 (2026-11-05), not yet on 18.0:** the row
+  captions of every vzor and the two migrations that write them. 18.0's data
+  files still name the rows by their code.
+
 - **19.0.1.12.0 (2026-09-21), not yet on 18.0.** EU-service purchase taxes
   and their *Eu intra* mapping (commit d380b99). Verify the 18.0 ``l10n_sk``
   chart's tax xmlids, tags and fiscal-position mapping mechanism first: the
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
+
+[19.0.1.15.0] — 2026-11-05
+--------------------------
+
+Changed
+~~~~~~~
+
+- **Row names lead with what tells rows apart.** 1.14.2 named a row "code —
+  section, rate — column", and the Lines list cuts a long name at its end:
+  r01, r02, r01a, r02a, r03 and r04 all read "Dodanie tovaru a služby podľa
+  § 8 a 9 zákona a daň…", base and tax, every rate. The names are now column —
+  rate — section, verbatim from the Financial Administration's eForm of each
+  vzor (DPHv12, v18, v20, v21, v25), and the row number is left to the Code
+  column: "Základ dane — základná sadzba dane — Dodanie tovaru a služby podľa
+  § 8 a 9 zákona a daň podľa § 81 zákona".
+- The upgrade renames definitions and return lines that still hold a name this
+  module shipped (1.14.2's, frozen next to the migration, or an older one);
+  a name someone typed stays. ``row_names.py`` reads the captions from the
+  data files for the migration and the tests.
+
+[19.0.1.14.2] — 2026-11-05
+--------------------------
+
+Fixed
+~~~~~
+
+- **Every row of the return says what it is.** The rows of all five vzory were
+  named by their number alone (``r01``, ``r02``, …), so nobody could tell them
+  apart without the paper form. Each row now carries the text of its tlačivo,
+  with the rate and whether it is the základ dane or the daň:
+  "r09b — Tovar a služba, pri ktorých príjemca platí daň podľa § 69 ods. 2, 3
+  a 9 až 12 zákona, základná sadzba dane — základ dane". Sources: the vzory
+  MF/007833/2025-731, MF/017342/2020-731, MF/014640/2019-731,
+  MF/016923/2017-731 and the one in 439/2011 Z. z. Existing returns are
+  renamed by the upgrade too; a row someone renamed by hand keeps its name.
 
 [19.0.1.14.1] — 2026-11-05
 --------------------------

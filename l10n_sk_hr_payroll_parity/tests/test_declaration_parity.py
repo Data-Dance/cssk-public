@@ -352,6 +352,16 @@ class TestDeclarationParity(TransactionCase):
             1,
             "the regular-income employee must not be on the VPP",
         )
+        # And the other half: the dohodár must not ALSO be on the MVP. Only
+        # the VPP side was asserted, and the MVP took every payslip.
+        mvp = self._generate_xml("l10n.sk.mvp", {"year": "2026", "month": "3"})
+        mvp_rcs = [
+            node.get("rc")
+            for node in mvp.iter()
+            if etree.QName(node).localname == "poistneZamestnanca"
+        ]
+        self.assertNotIn("9002022345", mvp_rcs,
+                         "the irregular-income dohodár must not be on the MVP")
 
     # ------------------------------------------------------------------
     # Annual forms — twelve payslips, in their own fixture

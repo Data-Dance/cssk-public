@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.15.0 (2026-11-05), not yet on 18.0:** DPHDP3 row captions,
+  ``row_names.py`` and the 1.15.0 migration. 18.0's data file carries the same
+  placeholders.
+
+Open
+~~~~
+
+- **Rows 14 and 48 of the form have no line definition.** The pinned schema
+  (current, byte-identical to EPO's) has ``opr_dane_zd`` / ``opr_dane_dan``
+  (ř. 14, oprava základu daně osobou povinnou k dani) and ``kor_odp_zd`` /
+  ``kor_odp_plne`` / ``kor_odp_krac`` (ř. 48, korekce odpočtů podle § 74a),
+  but no row of the version computes them or writes them to the XML.
+
 Carried over
 ~~~~~~~~~~~~
 
@@ -21,6 +37,22 @@ Carried over
   entered by hand or imported from a legacy register, ``tax_tag_ids`` is
   lock-date protected, and re-tagging a filed period adds reporting to a
   return that was already filed.
+
+[19.0.1.15.0] — 2026-11-05
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Every DPHDP3 row carries the caption of the form.** The 74 rows were
+  named "R1 tax_base", "R40 in_full_amount" and so on. They now carry the
+  wording of vyhláška č. 387/2025 Sb., příloha č. 1, for their row and
+  column, joined to the EPO attribute through EPO's structure description —
+  column, rate and row, most specific first, e.g. *Základ daně — základní
+  sazba — Dodání zboží nebo poskytnutí služby s místem plnění v tuzemsku*.
+- The upgrade renames rows, and lines of existing returns, still carrying a
+  placeholder an earlier release shipped, and keeps any name a user typed —
+  the same rules as ``l10n_sk_vat_return``.
 
 [19.0.1.14.1] — 2026-11-05
 --------------------------

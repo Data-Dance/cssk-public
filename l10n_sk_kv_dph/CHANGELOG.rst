@@ -8,6 +8,15 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.5.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- **The KV DPH form showed two sets of section tabs** in a database with a Czech
+  company too: the Slovak sections now show only on a Slovak statement.
+
 [19.0.2.5.1] — 2026-11-05
 -------------------------
 

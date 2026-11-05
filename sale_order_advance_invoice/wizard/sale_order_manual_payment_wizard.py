@@ -47,6 +47,10 @@ class SaleOrderManualPaymentWizard(models.TransientModel):
         "account.journal",
         string="Journal",
         required=True,
+        compute="_compute_journal_id",
+        store=True,
+        readonly=False,
+        precompute=True,
         domain="[('id', 'in', available_journal_ids)]",
     )
     available_journal_ids = fields.Many2many(
@@ -57,6 +61,10 @@ class SaleOrderManualPaymentWizard(models.TransientModel):
         "account.payment.method.line",
         string="Payment Method",
         required=True,
+        compute="_compute_payment_method_line_id",
+        store=True,
+        readonly=False,
+        precompute=True,
         domain="[('id', 'in', available_payment_method_line_ids)]",
     )
     available_payment_method_line_ids = fields.Many2many(
@@ -111,14 +119,20 @@ class SaleOrderManualPaymentWizard(models.TransientModel):
                 else PaymentMethodLine
             )
 
-    @api.onchange("available_journal_ids")
-    def _onchange_available_journal_ids(self):
+    # Computes, not onchanges. On a new record each onchange runs once, the
+    # view's fields first and the rest after them. available_journal_ids is not
+    # in this view, so its onchange, which picks the journal, ran AFTER the
+    # journal's onchange had already looked for a payment method on an empty
+    # journal: the wizard opened with a journal and no payment method. (The
+    # purchase wizard lists available_journal_ids first and was not affected.)
+    @api.depends("available_journal_ids")
+    def _compute_journal_id(self):
         for wizard in self:
             if wizard.journal_id not in wizard.available_journal_ids:
                 wizard.journal_id = wizard.available_journal_ids[:1]
 
-    @api.onchange("journal_id")
-    def _onchange_journal_id(self):
+    @api.depends("available_payment_method_line_ids")
+    def _compute_payment_method_line_id(self):
         for wizard in self:
             if wizard.payment_method_line_id not in wizard.available_payment_method_line_ids:
                 wizard.payment_method_line_id = wizard.available_payment_method_line_ids[:1]

@@ -18,6 +18,21 @@ Carry-over to 18.0
   / ``write_advance_account_names`` / ``adopt_advance_account_names`` in
   ``tools.py``, used by ``_ensure_advance_accounts``) — 19.0.2.8.2.
 
+[19.0.2.8.5] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- **The advance product is named in the user's language.** It is created on
+  first use, after the install, so its catalogue name was never applied and a
+  Slovak company printed "Advance" on its documents. It now takes its names from
+  the catalogues when created; a migration renames the existing one in every
+  language that still has the English name.
+- **Register Payment on an advance prefills the payment method.** The wizard
+  picked the journal after the payment method had already been looked for, so
+  the method stayed empty.
+
 [19.0.2.8.4] — 2026-11-04
 -------------------------
 

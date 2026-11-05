@@ -3140,3 +3140,22 @@ msgstr "podáno"
 #: code:addons/l10n_cssk_core/models/res_partner.py:0
 msgid "this contact"
 msgstr "tento kontakt"
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__l10n_cssk_registry_by_country_view
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_partner__l10n_cssk_registry_by_country_view
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_users__l10n_cssk_registry_by_country_view
+msgid "IČO Shown by the Country Module"
+msgstr "IČO zobrazené modulem země"
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_cssk_tax_authority__l10n_cssk_registry_by_country_view
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_partner__l10n_cssk_registry_by_country_view
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_users__l10n_cssk_registry_by_country_view
+msgid ""
+"Technical: the country module of this partner's country (l10n_cz, l10n_sk) "
+"is installed and already shows the IČO next to the VAT number, so the copy "
+"in the Misc group stays hidden."
+msgstr ""
+"Technické: modul země partnera (l10n_cz, l10n_sk) je nainstalován a IČO už "
+"zobrazuje vedle DIČ, proto kopie ve skupině Různé zůstává skrytá."

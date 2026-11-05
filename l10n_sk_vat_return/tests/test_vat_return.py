@@ -21,6 +21,63 @@ class TestSkVatReturn(TransactionCase):
         self.assertIn("r03", codes)
         self.assertIn("r17", codes)
 
+    def test_every_row_says_what_it_is(self):
+        """A row named only by its number cannot be told apart from the next
+        one without the paper form, which is how every vzor shipped until
+        19.0.1.14.2. Each form row carries the tlačivo's text, most specific
+        part first and without the code (the Code column shows it, and the
+        list cuts a long name at its end); the internal helper rows say they
+        are internal."""
+        versions = self.env["cssk.vat.return.version"].search(
+            [("country_id.code", "=", "SK")])
+        self.assertEqual(len(versions), 5)
+        for version in versions:
+            for ldef in version.line_def_ids:
+                self.assertNotEqual(
+                    ldef.name, ldef.code,
+                    "%s %s has no description" % (version.name, ldef.code))
+                if ldef.code.startswith("r") and ldef.code[1:3].isdigit() \
+                        and "_" not in ldef.code:
+                    self.assertFalse(
+                        ldef.name.startswith(ldef.code),
+                        "%s %s: %r" % (version.name, ldef.code, ldef.name))
+
+    def test_the_rows_name_the_tlacivo(self):
+        """Spot checks against the forms themselves."""
+        v25 = self.env.ref("l10n_sk_vat_return.dph_version_2025")
+        rows = {d.code: d.name for d in v25.line_def_ids}
+        self.assertEqual(
+            rows["r09b"],
+            "Základ dane — základná sadzba dane — Tovar a služba, pri ktorých "
+            "príjemca platí daň podľa § 69 ods. 2, 3 a 9 až 12 zákona")
+        self.assertEqual(
+            rows["r12d"],
+            "Daň — znížená sadzba dane podľa § 27 ods. 3 zákona — Dovoz tovaru "
+            "do tuzemska, pri ktorom sa uhrádza daň podľa § 84a ods. 3 zákona")
+        v18 = self.env.ref("l10n_sk_vat_return.dph_version_2018")
+        rows = {d.code: d.name for d in v18.line_def_ids}
+        self.assertEqual(
+            rows["r18"],
+            "Daňová povinnosť pri zrušení registrácie podľa § 81 zákona")
+        self.assertEqual(
+            rows["r11"],
+            "Základ dane — Služby, pri ktorých príjemca platí daň podľa § 69 "
+            "ods. 3 zákona")
+        # The same code, another vzor, another row: r18 became the § 48ca–48e
+        # tax in 2020, which two structurally identical XSDs cannot show.
+        v20 = self.env.ref("l10n_sk_vat_return.dph_version_2020")
+        self.assertIn("§ 48ca", v20.line_def_ids.filtered(
+            lambda d: d.code == "r18").name)
+
+    def test_rows_differ_where_the_list_cuts_them(self):
+        """The Lines list cuts a long name at its end. Section first, r01 to
+        r04 all read the same there; the column and rate lead instead."""
+        v25 = self.env.ref("l10n_sk_vat_return.dph_version_2025")
+        rows = {d.code: d.name for d in v25.line_def_ids}
+        # About what the column shows at its default width.
+        heads = {rows[c][:60] for c in ("r01", "r02", "r01a", "r02a", "r03", "r04")}
+        self.assertEqual(len(heads), 6, heads)
+
 
 class TestSkVatReturnVintages(TransactionCase):
     """The two form vintages, and the boundary between them.

@@ -38,6 +38,15 @@ Carry-over to 18.0
   cash-basis entry through ``_cssk_vat_document`` (commit 02eda35); ports with
   the ``l10n_cssk_kv_kh_base`` change it depends on.
 
+[19.0.1.10.2] — 2026-11-05
+--------------------------
+
+Fixed
+~~~~~
+
+- **The KH form showed two sets of section tabs** in a database with a Slovak
+  company too: the Czech sections now show only on a Czech statement.
+
 [19.0.1.10.1] — 2026-11-05
 --------------------------
 

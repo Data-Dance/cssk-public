@@ -8,7 +8,10 @@
                ref="l10n_cssk_kv_kh_base.cssk_control_statement_view_form"/>
         <field name="arch" type="xml">
             <page name="sections" position="inside">
-                <notebook>
+                <field name="country_code" invisible="1"/>
+                <!-- Only for a Slovak statement: in a database with a Czech
+                     company too, both countries' notebooks would show. -->
+                <notebook invisible="country_code != 'SK'">
                     <page string="A.1" name="sk_a1">
                         <field name="sk_section_a1_ids">
                             <list create="false" delete="false" editable="bottom"

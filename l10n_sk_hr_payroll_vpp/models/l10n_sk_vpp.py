@@ -10,8 +10,10 @@ insurance relationship ended / after an invalid termination.
 
 Same shape as MVP (an aggregate ``poistne`` summary + a full per-employee
 annex), so it reuses the exact fund → rule-code mapping. It differs from MVP in
-that it is **scoped to dohoda contracts** (``l10n_sk_agreement_type`` in
-``dovp``/``dopc``), its header carries ``cisloVykazu`` (MM99RRRR) and
+that it is **scoped to dohody with irregular income** (an
+``l10n_sk_agreement_type`` of ``dovp``/``dopc``/``dobps`` on the payslip's own
+contract version, with ``l10n_sk_income_regular`` unset), its header carries
+``cisloVykazu`` (MM99RRRR) and
 ``obdobieVyplPrijmov`` (MMRRRR) instead of ``denVyplaty``, and the annex row
 carries an ``obdobie`` attribute and the employee-side ``vzZec*`` bases.
 
@@ -47,11 +49,17 @@ FUND_MAP = [
     ("rfs", "RESERVEFUNDEMPLOYER", None),
 ]
 
-# dohoda agreement type -> VPP typZec relationship code. VPP reports irregular
-# income, so the "nepravidelný príjem" (…N) variants are used by default.
+# Dohoda agreement types. A dohoda reaches the VPP only with IRREGULAR income;
+# a dohoda paid a regular monthly income is reported on the MVP, like an
+# employee. l10n_sk_hr_payroll_mvp holds the mirror of this predicate, and the
+# two must stay complements: a payslip on both forms is reported twice.
+AGREEMENTS = ("dovp", "dopc", "dobps")
+
+# dohoda agreement type -> VPP typZec relationship code (nepravidelný príjem).
 AGREEMENT_TYP_ZEC = {
-    "dovp": "ZECD1N",  # DoVP (dohoda o vykonaní práce) - nepravidelný príjem
-    "dopc": "ZECD2N",  # DoPČ (dohoda o pracovnej činnosti) - nepravidelný príjem
+    "dovp": "ZECD1N",   # DoVP (dohoda o vykonaní práce)
+    "dopc": "ZECD2N",   # DoPČ (dohoda o pracovnej činnosti)
+    "dobps": "ZECD3N",  # DoBPŠ (dohoda o brigádnickej práci študentov)
 }
 
 
@@ -77,18 +85,39 @@ class L10nSkVpp(models.Model):
         "poisťovňa filing (MVP, VPP, ELDP, RLFO).")
 
     # ------------------------------------------------------------------
-    # Scope: only dohoda payslips (irregular income) feed the VPP.
+    # Scope: only dohoda payslips with irregular income feed the VPP.
     # ------------------------------------------------------------------
+    def _l10n_sk_relationship(self, payslip):
+        """``(agreement type, regular income)`` of the contract *payslip* was
+        computed on — its own version, not the employee's current one, so a
+        later edit of the employee card does not reclassify a past period."""
+        version = self._payslip_version(payslip)
+        if not version or "l10n_sk_agreement_type" not in version._fields:
+            return "none", True
+        version = version.sudo()
+        agreement = version.l10n_sk_agreement_type or "none"
+        if agreement not in AGREEMENTS:
+            return "none", True
+        if "l10n_sk_income_regular" not in version._fields:
+            return agreement, True
+        return agreement, bool(version.l10n_sk_income_regular)
+
+    def _l10n_sk_reports_on_vpp(self, payslip):
+        agreement, regular = self._l10n_sk_relationship(payslip)
+        return agreement in AGREEMENTS and not regular
+
     def _get_period_payslips(self):
+        # Selected by income regularity, not by agreement kind: the
+        # Sociálna poisťovňa takes a regular-income dohoda on the MVP. Keying
+        # on the kind alone put a monthly DoPČ on both forms.
+        #
+        # Not covered: regular income paid after the insurance relationship
+        # ended (ZECN), which also belongs here. It needs the payment date
+        # against the de-registration date, which no payslip records.
         slips = super()._get_period_payslips()
         if not slips:
             return slips
-        Employee = self.env["hr.employee"]
-        if "l10n_sk_agreement_type" not in Employee._fields:
-            # No SK payroll engine field -> nothing qualifies as a dohoda.
-            return slips.browse()
-        return slips.filtered(
-            lambda s: s.employee_id.l10n_sk_agreement_type in ("dovp", "dopc"))
+        return slips.filtered(self._l10n_sk_reports_on_vpp)
 
     def _preflight(self):
         super()._preflight()
@@ -178,6 +207,10 @@ class L10nSkVpp(models.Model):
         """Per-employee annex rows (pre-formatted for the QWeb template)."""
         self.ensure_one()
         obdobie = "%02d%04d" % (int(self.month), int(self.year))
+        agreement_by_employee = {
+            slip.employee_id.id: self._l10n_sk_relationship(slip)[0]
+            for slip in self._get_period_payslips() or []
+        }
         rows = []
         pc = 0
         for line in self._sheet_lines().sorted("sequence"):
@@ -190,7 +223,7 @@ class L10nSkVpp(models.Model):
                     "in the Identification No. field for the VPP "
                     "per-employee annex.", name=employee.display_name))
             typ_zec = AGREEMENT_TYP_ZEC.get(
-                employee.l10n_sk_agreement_type or "", "ZECN")
+                agreement_by_employee.get(employee.id), "ZECN")
             totals = line.values_json or {}
 
             def t(code):

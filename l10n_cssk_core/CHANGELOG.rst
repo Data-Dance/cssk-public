@@ -16,6 +16,18 @@ Carry-over to 18.0
   ``sk_SK`` as ``%d.%m.%Y``. The ``%d/%m/%Y`` is a 19.0 regression in
   ``base/data/res.lang.csv``.
 
+[19.0.1.19.2] — 2026-11-05
+--------------------------
+
+Fixed
+~~~~~
+
+- **The IČO showed twice on Czech and Slovak partners.** ``l10n_cz`` / ``l10n_sk``
+  already show it next to the VAT number, and the Misc copy this module unhides
+  appeared as well. The Misc copy now stays hidden while the country module of
+  the partner's country is installed. The view spec also names the Misc group:
+  the unqualified one had been rewriting the country module's field instead.
+
 [19.0.1.19.1] — 2026-11-04
 --------------------------
 

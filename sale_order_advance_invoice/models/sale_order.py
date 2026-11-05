@@ -469,6 +469,9 @@ class SaleOrder(models.Model):
                 if 'base_unit_count' in ProductTemplate._fields:
                     vals['base_unit_count'] = 0
                 product_tmpl = ProductTemplate.create(vals)
+                created = True
+            else:
+                created = False
 
             self.env['ir.model.data'].sudo().search([
                 ('module', '=', 'sale_order_advance_invoice'),
@@ -480,6 +483,8 @@ class SaleOrder(models.Model):
                 'res_id': product_tmpl.id,
                 'noupdate': True,
             })
+            if created:
+                product_tmpl._advance_load_name_translations()
 
         return product_tmpl.product_variant_id
 

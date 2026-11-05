@@ -55,27 +55,43 @@ class TestMvp(TransactionCase):
             return "oca"
         return "ee"
 
-    def _employee_payslip(self, wage=2000.0):
+    def _employee_payslip(self, wage=2000.0, agreement="none", regular=None,
+                          identification="8501011234"):
         emp_vals = {
             "name": "Jozko Mrkvicka",
             "company_id": self.company.id,
             "resource_calendar_id": self.calendar.id,
-            "identification_id": "8501011234",  # rodné číslo (10 digits)
+            "identification_id": identification,  # rodné číslo
             "date_version": date(2026, 1, 1),
             "contract_date_start": date(2026, 1, 1),
             "wage": wage,
         }
+        # A dohoda sits on its own structure (OCA) or structure type
+        # (Enterprise): the structure decides the employment form.
+        structure = self.structure
         if self.engine == "oca":
-            emp_vals["struct_id"] = self.structure.id
+            if agreement != "none":
+                structure = self.env.ref(
+                    "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_%s"
+                    % agreement)
+            emp_vals["struct_id"] = structure.id
         else:
-            emp_vals["structure_type_id"] = self.structure.type_id.id
+            structure_type = self.structure.type_id
+            if agreement != "none":
+                structure_type = self.env.ref(
+                    "l10n_sk_hr_payroll_ee.structure_type_%s_sk" % agreement)
+                structure = structure_type.default_struct_id
+            emp_vals["structure_type_id"] = structure_type.id
         employee = self.env["hr.employee"].with_company(
             self.company).create(emp_vals)
+        self.assertEqual(employee.version_id.l10n_sk_agreement_type, agreement)
+        if regular is not None:
+            employee.version_id.l10n_sk_income_regular = regular
 
         slip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip",
             "employee_id": employee.id,
-            "struct_id": self.structure.id,
+            "struct_id": structure.id,
             "company_id": self.company.id,
             "date_from": date(2026, 3, 1),
             "date_to": date(2026, 3, 31),
@@ -150,6 +166,45 @@ class TestMvp(TransactionCase):
             "company_id": self.company.id, "year": "2026", "month": "3"})
         with self.assertRaises(UserError):
             decl.action_generate()
+
+    def _mvp(self):
+        return self.env["l10n.sk.mvp"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3"})
+
+    def test_dohody_follow_income_regularity(self):
+        """A dohoda with regular income is reported here, under its own
+        relationship code; one with irregular income goes to the VPP and
+        must not be reported here as well (cssk-public#12)."""
+        _e1, regular = self._employee_payslip(
+            wage=1000.0, agreement="dopc", regular=True)
+        _e2, irregular = self._employee_payslip(
+            wage=1000.0, agreement="dovp", regular=False,
+            identification="9001011236")
+        decl = self._mvp()
+        self.assertEqual(decl._get_period_payslips(), regular)
+        self.assertNotIn(irregular, decl._get_period_payslips())
+        decl.action_generate()
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        etree.XMLSchema(etree.parse(file_path(
+            "l10n_sk_hr_payroll_mvp/data/MVPP-v2026.xsd"))).assertValid(root)
+        codes = {row.get("rc"): row.get("typZec")
+                 for row in root.findall(".//m:poistneZamestnanca", NS)}
+        self.assertEqual(codes, {"8501011234": "ZECD2"})
+
+    def test_later_contract_change_keeps_the_past_period(self):
+        """The payslip's own contract version decides, not today's: a DoPČ
+        irregular in March and re-agreed as regular from April stays off the
+        March MVP."""
+        employee, slip = self._employee_payslip(
+            wage=1000.0, agreement="dopc", regular=False)
+        march = employee.version_id
+        employee.create_version({
+            "date_version": date(2026, 4, 1),
+            "l10n_sk_income_regular": True,
+        })
+        self.assertNotEqual(employee.version_id, march)
+        self.assertTrue(employee.version_id.l10n_sk_income_regular)
+        self.assertNotIn(slip, self._mvp()._get_period_payslips())
 
     def test_sp_vs_is_editable_on_the_form(self):
         """The variable symbol is required by the preflight but was on no

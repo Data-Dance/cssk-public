@@ -1,7 +1,7 @@
 ---
 title: SK Daňové priznanie k DPH
 summary: Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.
-verified: 19.0.1.14.1
+verified: 19.0.1.15.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -13,7 +13,10 @@ Dodáva:
   finančná správa od roku 2012 zverejnila XSD, s jeho riadkami, XML šablónou a
   úradnou schémou;
 - definície riadkov napojené na daňové značky slovenskej účtovej osnovy Odoo
-  (`l10n_sk`) a slovenské kontrolné pravidlá;
+  (`l10n_sk`) a slovenské kontrolné pravidlá; každý riadok nesie doslovný
+  popis z tlačiva svojho vzoru (stĺpec — sadzba — oddiel, od
+  najkonkrétnejšieho), takže ten istý kód riadku má v rôznych vzoroch svoj
+  vlastný význam;
 - riadok rozdielu dodatočného daňového priznania doplnený z pôvodného
   priznania;
 - nákupné dane pre **služby prijaté z EÚ**, ktoré štandardná osnova nemá;

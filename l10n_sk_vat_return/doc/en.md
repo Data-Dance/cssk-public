@@ -1,7 +1,7 @@
 ---
 title: SK VAT Return (Daňové priznanie k DPH)
 summary: The Slovak VAT return computed from the tax tags of Odoo's Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.
-verified: 19.0.1.14.1
+verified: 19.0.1.15.0
 ---
 
 ## What it is for {#purpose}
@@ -13,7 +13,9 @@ It supplies:
   hodnoty* published as an XSD since 2012, each with its rows, XML template and
   the official schema;
 - the row definitions, wired to the tax tags of Odoo's Slovak chart
-  (`l10n_sk`), and the Slovak content checks;
+  (`l10n_sk`), and the Slovak content checks; every row carries its vzor's
+  caption verbatim, in Slovak (column — rate — section, most specific first),
+  so the same row code reads as what it means in that vintage;
 - the difference row of a *dodatočné daňové priznanie* filled from the
   original return;
 - purchase taxes for **services received from the EU**, which the stock chart
