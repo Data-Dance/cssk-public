@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_hr_payroll_rlfo/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK RLFO — prihlásenie a odhlásenie zamestnancov</h1>
 <p class="cssk-summary">Prihlášky a odhlášky zamestnancov do Sociálnej poisťovne zadané ako dávka udalostí a vyexportované do XML overeného voči oficiálnej schéme.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.3.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Zamestnávateľ zamestnanca pred začatím práce prihlási do <strong>Sociálnej
@@ -62,6 +62,12 @@ niektorý zo slovenských mzdových modulov (pozri
 <li><strong>Prerušenie.</strong> Prerušenie poistenia sa oznamuje do ôsmich dní —
   <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-1.pismeno-d">§ 231 ods. 1 písm. d)</a>.
   Túto udalosť modul nevytvára.</li>
+<li><strong>Štatutári s účasťou.</strong> Pri prihlásení zamestnávateľ oznamuje, či je
+  zamestnanec štatutárnym orgánom alebo členom štatutárneho orgánu
+  s <strong>najmenej 50 % účasťou na majetku zamestnávateľa</strong>, a každú zmenu tejto
+  skutočnosti do ôsmich dní —
+  <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-1.pismeno-o">§ 231 ods. 1 písm. o)</a>.
+  V prihláške je to prvok <code>zamSUcastou</code>.</li>
 <li>Tlačivo a spôsob zasielania určuje Sociálna poisťovňa —
   <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-2">§ 231 ods. 2</a>.</li>
 </ul>
@@ -81,7 +87,8 @@ niektorý zo slovenských mzdových modulov (pozri
 </ul>
 <h2 id="usage">Zostavenie dávky</h2>
 <p><em>Mzdové hlásenia → SK RLFO (registrácie)</em>, potom <em>Nové</em>. <em>Rok</em> a <em>Mesiac</em>
-dávku len pomenúvajú, udalosti neobmedzujú.</p>
+udalosti neobmedzujú, ale určujú vzor: dávka za január 2027 a neskôr sa
+vygeneruje v schéme RLZEC 2027, skoršia v RLZEC 2026.</p>
 <p>V časti <em>Registračné udalosti</em> pridajte riadok za každú udalosť:</p>
 <table>
 <thead>
@@ -110,6 +117,14 @@ dávku len pomenúvajú, udalosti neobmedzujú.</p>
 <tr>
 <td><em>Zánik poistenia (datZaniku)</em></td>
 <td>povinný pri odhláške</td>
+</tr>
+<tr>
+<td><em>Štatutár s účasťou 50 % a viac</em></td>
+<td>pri prihláške: <em>Neoverené</em> (predvolené), <em>Nie je štatutárnym orgánom ani jeho členom s najmenej 50 % účasťou</em> alebo <em>Štatutárny orgán alebo jeho člen s najmenej 50 % účasťou</em></td>
+</tr>
+<tr>
+<td><em>Doklad o účasti</em></td>
+<td>pri prihláške: odkiaľ odpoveď pochádza a k akému dátumu — výpis z obchodného registra, rozhodnutie spoločníkov alebo „bežný zamestnanec, bez štatutárnej funkcie“</td>
 </tr>
 </tbody>
 </table>
@@ -148,12 +163,18 @@ príjem</em>:</p>
 </table>
 <p><em>ZECN</em> (zamestnanec s nepravidelným príjmom) možno zvoliť ručne. Všetky kódy
 dohôd vrátane DoBPŠ sa odhlasujú vetvou schémy pre dohody.</p>
-<p>Potom <strong>Generovať</strong>. XML sa overí voči <code>RLZEC-v2026.xsd</code> a priloží; nahrajte
+<p>Stav účasti je skutočnosť ku dňu prihlásenia a zadáva sa pri každej udalosti.
+Neberie sa z políčka zamestnanca <em>Oslobodený od garančného poistenia</em>, ktoré
+sa neskôr môže zmeniť. Po vygenerovaní dávky sú obe polia zamknuté; na opravu
+vráťte dávku do konceptu.</p>
+<p>Potom <strong>Generovať</strong>. XML sa overí voči schéme vzoru (<code>RLZEC-v2026.xsd</code> alebo
+<code>RLZEC-v2027.xsd</code>) a priloží; nahrajte
 ho na portál Sociálnej poisťovne a kliknite na <strong>Označiť ako odoslané</strong>.
 Odhláška sa zapíše do vetvy podľa typu vzťahu (dohoda, nepravidelný príjem
 alebo pracovný pomer s pravidelným príjmom).</p>
 <p>Generovanie sa zastaví, ak dávka nemá žiadnu udalosť, ak zamestnanec nemá
-platné rodné číslo alebo ak chýba dátum, ktorý udalosť vyžaduje.</p>
+platné rodné číslo, ak chýba dátum, ktorý udalosť vyžaduje, alebo ak má
+prihláška stav účasti <em>Neoverené</em> či žiadny doklad.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
 <li><strong>Len dva typy udalostí:</strong> prihláška a odhláška. Zmenu, prerušenie
@@ -168,10 +189,13 @@ platné rodné číslo alebo ak chýba dátum, ktorý udalosť vyžaduje.</p>
   dvojslovné priezvisko ako <em>Anna Mária Nová Kováčová</em> skontrolujte v XML.</li>
 <li>Kontaktné údaje v súbore sú telefón a e-mail spoločnosti a meno užívateľa,
   ktorý dávku generuje.</li>
-<li>Dodáva sa len vzor RLZEC 2026. Overenie voči schéme kontroluje tvar súboru,
-  nie údaje.</li>
+<li>Zmena stavu účasti po prihlásení je <em>zmena</em>, ktorú modul nevytvára.</li>
+<li>Dodávajú sa vzory RLZEC 2026 a 2027. Nové prvky schémy 2027 pre odvodovú
+  odpočítateľnú položku rodiča na materskej, otcovskej alebo rodičovskej
+  dovolenke sa nevytvárajú. Overenie voči schéme kontroluje tvar súboru, nie
+  údaje.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.2.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.3.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
