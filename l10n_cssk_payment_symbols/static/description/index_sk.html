@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_cssk_payment_symbols/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="../../../l10n_cssk_payment_symbols/static/description/index_cs.html">Čeština</a></nav>
 <h1>Platobné symboly CZ/SK (VS/KS/SS)</h1>
 <p class="cssk-summary">Variabilný, konštantný a špecifický symbol na faktúrach, platbách a bankových výpisoch a párovanie prijatých platieb podľa nich.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.4.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code></td></tr><tr><th>Rozširujú ho</th><td><code>account_abo_batch</code>, <code>account_multicash_batch</code>, <code>account_payment_fio_batch</code>, <code>account_payment_tatrabanka</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <code>account_payment_tatrabanka_batch</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <code>l10n_cssk_hr_payroll_garnishment_account</code>, <code>l10n_cssk_payment_symbols_ee</code>, <code>l10n_cssk_payment_symbols_iso20022</code>, <code>l10n_cssk_payment_symbols_oca</code>, <code>l10n_cssk_payment_symbols_payment_order</code>, <code>l10n_cz_base</code>, <code>l10n_cz_invoice</code>, <code>l10n_sk_invoice</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.5.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code></td></tr><tr><th>Rozširujú ho</th><td><code>account_abo_batch</code>, <code>account_multicash_batch</code>, <code>account_payment_fio_batch</code>, <code>account_payment_tatrabanka</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <code>account_payment_tatrabanka_batch</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <code>l10n_cssk_hr_payroll_garnishment_account</code>, <code>l10n_cssk_payment_symbols_ee</code>, <code>l10n_cssk_payment_symbols_iso20022</code>, <code>l10n_cssk_payment_symbols_oca</code>, <code>l10n_cssk_payment_symbols_payment_order</code>, <code>l10n_cz_base</code>, <code>l10n_cz_invoice</code>, <code>l10n_sk_invoice</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Platiteľ v Česku a na Slovensku neoznačuje platbu voľným textom, ale číselnými
@@ -248,9 +248,18 @@ vzniknú. Exportéry tuzemských bankových súborov —
 <code>account_multicash</code> — ich zapíšu do súboru
 ako štruktúrované symboly. Vlastnú obrazovku nemá.</p>
 <h2 id="iso20022">SEPA úhrady / ISO 20022</h2>
-<p>Pri exporte ISO 20022 v Odoo Enterprise pridá modul
-<code>l10n_cssk_payment_symbols_iso20022</code>
-ku každému bankovému denníku voľbu <strong>CZ/SK Symbols in pain.001</strong>:</p>
+<p>Symboly do súboru SEPA úhrad (pain.001) zapisujú dva moduly, pre každý zo
+spôsobov, ktorými ho Odoo vytvára:</p>
+<ul>
+<li><code>l10n_cssk_payment_symbols_iso20022</code>
+  — export ISO 20022 v Odoo Enterprise (dávkové platby); voľba <strong>CZ/SK
+  Symbols in pain.001</strong> na bankovom denníku;</li>
+<li><code>l10n_cssk_payment_symbols_sepa_oca</code>
+  — platobný príkaz OCA (<code>account_banking_sepa_credit_transfer</code>), ktorý
+  používa Odoo Community; voľba <strong>Platobné symboly CZ/SK v SEPA úhradách</strong> na
+  bankovom denníku.</li>
+</ul>
+<p>Oba ponúkajú tie isté voľby a zapisujú ten istý text:</p>
 <table>
 <thead>
 <tr>
@@ -260,24 +269,26 @@ ku každému bankovému denníku voľbu <strong>CZ/SK Symbols in pain.001</stron
 </thead>
 <tbody>
 <tr>
-<td><em>Remittance info</em> (predvolené)</td>
-<td><code>/VS/…/KS/…/SS/…</code> pripojené k neštruktúrovanej informácii pre príjemcu; <code>PLATBA/VS/…</code>, ak žiadna nebola. Štruktúrovaná referencia veriteľa (RF) ostane nezmenená.</td>
+<td><em>EndToEndId (/VS…/SS…/KS…)</em></td>
+<td>identifikátor end-to-end <code>/VS2026114455/SS77/KS0308</code>, štruktúra, ktorú čítajú slovenské banky (napríklad formát SEPA pre klientov VÚB). Predvolené pre slovenské spoločnosti v module OCA.</td>
 </tr>
 <tr>
-<td><em>EndToEndId = variable symbol</em></td>
-<td>samotný variabilný symbol ako identifikátor end-to-end</td>
+<td><em>Správa pre príjemcu (/VS/…/KS/…/SS/…)</em></td>
+<td><code>/VS/…/KS/…/SS/…</code> pripojené k správe pre príjemcu; <code>PLATBA/VS/…</code>, ak žiadna nebola. Štruktúrovaná referencia veriteľa (RF) ostane nezmenená. Predvolené pre české spoločnosti v module OCA a v Enterprise.</td>
 </tr>
 <tr>
-<td><em>Do not export symbols</em></td>
-<td>štandardný súbor Odoo</td>
+<td><em>Symboly neexportovať</em></td>
+<td>súbor tak, ako ho zapíše Odoo alebo OCA. Predvolené pre ostatné spoločnosti.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Pred použitím ktorejkoľvek voľby si to overte vo svojej banke.</strong> Banky sa
-líšia v tom, čo spätne rozpoznajú ako symboly, a slovenská konvencia opísaná
-<a href="#legal">vyššie</a> zapisuje <code>?/VS…/SS…/KS…</code> — písmená a číslice bez lomky medzi
-nimi, v poradí VS–SS–KS — čo nevytvára ani jedna z volieb. Pošlite jednu
-skúšobnú platbu a pozrite sa, ako sa zobrazí na výpise príjemcu.</p>
+<p>Pri exporte symbolov uhradí modul OCA faktúry s rôznymi symbolmi samostatnými
+prevodmi: jeden prevod nesie jednu sadu symbolov a na spojenom prevode by
+dodávateľ nespároval ani jednu faktúru. Dva prevody s rovnakými symbolmi majú
+rovnaký identifikátor end-to-end, ako to vyplýva z formátu bánk.</p>
+<p><strong>Pred spoľahnutím sa pošlite jednu skúšobnú platbu.</strong> Banky sa líšia v tom,
+čo spätne rozpoznajú ako symboly; pozrite sa, ako sa platba zobrazí na výpise
+príjemcu.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
 <li>Variabilný symbol sa odvodzuje z čísla dokladu. Číselný rad s predponou roka
@@ -288,7 +299,7 @@ skúšobnú platbu a pozrite sa, ako sa zobrazí na výpise príjemcu.</p>
   spoločnosťami.</li>
 <li>Symboly sa z riadkov výpisu čítajú pri ich vzniku, nie neskôr.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2011/169">Vyhláška č. 169/2011 Sb., o stanovení pravidel pro tvorbu čísla účtu v platebním styku</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.4.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2011/169">Vyhláška č. 169/2011 Sb., o stanovení pravidel pro tvorbu čísla účtu v platebním styku</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.5.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

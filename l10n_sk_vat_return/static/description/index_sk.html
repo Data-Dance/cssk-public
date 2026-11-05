@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_vat_return/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK Daňové priznanie k DPH</h1>
 <p class="cssk-summary">Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.13.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_vat_return_base/static/description/index_sk.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_sk</code>, <a href="../../../l10n_sk_statutory/static/description/index_sk.html"><code>l10n_sk_statutory</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.14.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_vat_return_base/static/description/index_sk.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_sk</code>, <a href="../../../l10n_sk_statutory/static/description/index_sk.html"><code>l10n_sk_statutory</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Slovenská vrstva <a href="../../../l10n_cssk_vat_return_base/static/description/index_sk.html">spoločného základu daňového priznania</a>.
@@ -280,6 +280,34 @@ skončí v zlom riadku. Modul pridáva:</p>
 dodávateľa z EÚ ju fiškálna pozícia nahradí daňou <em>EÚ S</em>; tovar si ponechá
 svoju daň a ide ďalej do riadkov 07/08. Dane sa doplnia každej slovenskej
 spoločnosti pri inštalácii a aktualizácii modulu, len ak chýbajú.</p>
+<h2 id="exempt-rows">Oslobodené plnenia: riadky 13, 14 a 15</h2>
+<ul>
+<li><strong>Riadok 14</strong> je základ dane za <strong>tovar</strong> dodaný do iného členského štátu
+  oslobodený podľa § 43 ods. 1 a 4, a nič iné. Štandardné Odoo doň dávalo aj
+  služby pre zdaniteľné osoby v EÚ (<em>0% EÚ S</em>) a trojstranný obchod prvého
+  odberateľa (<em>0% EÚ TRI</em>). Ani jedno tam nepatrí: služba s miestom dodania
+  v zahraničí (§ 15) sa v priznaní neuvádza v žiadnom riadku, len v súhrnnom
+  výkaze, a poučenie prvého odberateľa pri trojstrannom obchode z riadkov 13
+  a 14 výslovne vylučuje. Modul obom daniam značku riadku 14 odoberie, a to aj
+  na už zaúčtovaných riadkoch faktúr.</li>
+<li><strong>Riadok 13</strong> je súčet <strong>všetkých</strong> oslobodených plnení (§ 28 až § 43,
+  § 46, § 47, § 48 ods. 8), teda zahŕňa aj to, čo rozpisujú riadky 14 a 15:
+  tuzemské oslobodené plnenia, tovar do EÚ a vývoz. Vzory do roku 2020 tie
+  isté riadky číslujú 15, 16 a 17.</li>
+</ul>
+<p>Priznanie za obdobie so službami do EÚ, vypočítané pred touto zmenou, sa po
+prepočítaní zníži v riadku 14. Ak už bolo podané, uvedená suma bola vyššia,
+ako mala byť, a opraví ju dodatočné priznanie.</p>
+<h2 id="debit-notes">Prijatý ťarchopis</h2>
+<p>Ťarchopis od dodávateľa opravuje už uplatnený odpočet, preto patrí do
+<strong>riadku 28</strong> so znamienkom mínus, nie do riadkov 19 až 21 ako nový odpočet
+(§ 53, poučenie bod 43). Ak ste daň samozdanili, opraví sa súčasne základ
+a daň v riadkoch 24 a 25. Priznanie považuje prijatú faktúru za ťarchopis,
+ak bola vytvorená tlačidlom <em>Ťarchopis</em> (odkazuje na faktúru, ktorú opravuje),
+alebo ak má pole <em>Oprava DPH</em> nastavené na <em>Áno</em>. Na importovanom ťarchopise,
+ktorého pôvodná faktúra v Odoo nie je, ho nastavte ručne; na prepojenej
+faktúre, ktorá opravou nie je, ho nastavte na <em>Nie</em>. Prijaté dobropisy sa do
+riadku 28 dostávajú cez svoje dane už teraz a nemenia sa.</p>
 <h2 id="par53b">Oprava odpočítanej dane podľa § 53b</h2>
 <p><em>Účtovníctvo → Účtovníctvo → Oprava odpočítanej dane (§ 53b)</em> otvorí
 sprievodcu:</p>
@@ -363,7 +391,7 @@ znížená sadzba a druhá rodina s rovnakým názvom by s nimi kolidovala.</p>
 <li>Odtiaľto sa nič nepodáva: XML exportujte, podajte na portáli finančnej správy
   a priznanie potom označte ako podané.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.13.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.14.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

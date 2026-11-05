@@ -85,6 +85,7 @@ hostingu, a uvádza názvy tak, ako ich vidí používateľ so slovenským jazyk
 </tr>
 </tbody>
 </table>
+<p><img alt="Menu Účtovníctvo → Účtovníctvo: účtovné záznamy, časové rozlíšenia, dátumy uzamknutia, banka a pokladňa, párovanie" src="img/menus.sk.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <h2 id="roles">Kto smie čo robiť</h2>
 <p>Čo používateľ vidí, určuje jeho rola v <em>Účtovníctve</em> (<em>Nastavenia →
 Používatelia &amp; spoločnosti → Používatelia</em>, karta <em>Prístupové oprávnenia</em>):</p>
@@ -114,6 +115,7 @@ Používatelia &amp; spoločnosti → Používatelia</em>, karta <em>Prístupov�
 </tr>
 </tbody>
 </table>
+<p><img alt="Rola v Účtovníctve na karte Prístupové oprávnenia používateľa" src="img/roles.sk.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <p>Lokalizácia pridáva dve roly pre zákonné podania — <em>Štatutárne podania:
 pripravovať</em> a <em>Štatutárne podania: podávať</em> — aby podanie mohlo zostať
 u účtovníka, aj keď priznania pripravuje niekto iný.</p>
@@ -204,7 +206,7 @@ u účtovníka, aj keď priznania pripravuje niekto iný.</p>
 </tr>
 <tr>
 <td>storno</td>
-<td><em>Dobropis</em> pri faktúre; <em>Záznam storna</em> pri inom zaúčtovanom zázname</td>
+<td><em>Dobropis</em> pri faktúre; <em>Stornovať</em> pri inom zaúčtovanom zázname</td>
 <td>tlačidlo na doklade</td>
 </tr>
 <tr>
@@ -290,12 +292,13 @@ stornujete.</p>
 <p><em>Účtovníctvo → Účtovníctvo → Závierka → Zabezpečiť záznamy</em> zapečatí
 zaúčtované záznamy neprerušeným reťazcom hashov, takže každá neskoršia zmena
 sa dá zistiť. Obdobie tým neuzavriete — dokazuje to len, že účtovníctvo
-nikto nezmenil.</p>
+nikto nezmenil. Kým záznamy prvýkrát nezabezpečíte, je táto položka menu
+viditeľná len v režime vývojára.</p>
 <h2 id="lock">Uzavretie obdobia</h2>
 <p>Uzavreté obdobie Odoo chráni <strong>dátumami uzamknutia</strong>: nič s dátumom do
 dátumu uzamknutia vrátane sa nedá zaúčtovať ani zmeniť. Nastavíte ich
-v <em>Účtovníctvo → Účtovníctvo → Lock Dates</em> — smie to len rola <em>Hlavný
-účtovník</em> — a potvrdíte tlačidlom <strong>Update</strong>:</p>
+v <em>Účtovníctvo → Účtovníctvo → Dátumy uzamknutia</em> — smie to len rola
+<em>Hlavný účtovník</em> — a potvrdíte tlačidlom <strong>Aktualizovať</strong>:</p>
 <table>
 <thead>
 <tr>
@@ -305,27 +308,28 @@ v <em>Účtovníctvo → Účtovníctvo → Lock Dates</em> — smie to len rola
 </thead>
 <tbody>
 <tr>
-<td><em>Sale Lock Date</em></td>
+<td><em>Dátum uzamknutia predaja</em></td>
 <td>vystavené faktúry a ostatné záznamy predajných denníkov</td>
 </tr>
 <tr>
-<td><em>Purchase Lock Date</em></td>
+<td><em>Dátum uzamknutia nákupu</em></td>
 <td>prijaté faktúry a ostatné záznamy nákupných denníkov</td>
 </tr>
 <tr>
-<td><em>Tax Return Lock Date</em></td>
+<td><em>Dátum uzamknutia DPH</em></td>
 <td>všetko, čo by zmenilo DPH obdobia — nastavte ho po podaní DP DPH a KV DPH</td>
 </tr>
 <tr>
-<td><em>Global Lock Date</em></td>
+<td><em>Globálny dátum uzamknutia</em></td>
 <td>všetky záznamy</td>
 </tr>
 <tr>
-<td><em>Hard Lock Date</em></td>
+<td><em>Dátum trvalého uzamknutia</em></td>
 <td>všetky záznamy, a už sa nikdy nedá posunúť späť</td>
 </tr>
 </tbody>
 </table>
+<p><img alt="Dátumy uzamknutia: vratné dátumy pre predaj, nákup, DPH a globálny, nevratný dátum trvalého uzamknutia" src="img/lock.sk.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <p>Dátum uzamknutia nemôže byť v budúcnosti. Prvé štyri sa dajú posunúť späť,
 ak sa ukáže potrebná oprava; trvalé uzamknutie si nechajte na rok, ktorého
 účtovná závierka je podaná. Podanie daňového priznania obdobie samo

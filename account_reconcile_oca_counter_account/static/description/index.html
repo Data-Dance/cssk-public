@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../account_reconcile_oca_counter_account/static/description/index_sk.html">Slovenčina</a> · <a href="../../../account_reconcile_oca_counter_account/static/description/index_cs.html">Čeština</a></nav>
 <h1>OCA Reconciliation — Counterparty Account</h1>
 <p class="cssk-summary">Shows the counterparty&#x27;s bank account on the OCA bank reconciliation screen, so a payer who quoted no variable symbol can still be identified.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>account_reconcile_oca</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>account_reconcile_oca</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The OCA bank reconciliation screen (<code>account_reconcile_oca</code>) shows a fixed set
@@ -75,7 +75,8 @@ no new fields, no new logic, and the ordinary statement line form is untouched.<
 <li>It does not match anything by account number by itself; partner matching by
   bank account is done by the statement import when the line is created.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<p>It also words the dashboard button as <strong>N to reconcile</strong> instead of OCA's <em>Reconcile N Items</em>, which cannot be translated into a language where the noun has to agree with the number (Slovak <em>10 na párovanie</em>, Czech <em>10 ke spárování</em>).</p>
+<footer><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

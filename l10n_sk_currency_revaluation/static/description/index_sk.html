@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_currency_revaluation/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK prepočet cudzích mien ku dňu závierky (kurzové rozdiely)</h1>
 <p class="cssk-summary">Prepočíta zostatky v cudzej mene referenčným kurzom ku dňu závierky a kurzové rozdiely zaúčtuje na 563 a 663 — sprievodcom OCA v edícii Community a korekčným záznamom Odoo v edícii Enterprise.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><code>l10n_sk</code>, <code>account_multicurrency_revaluation</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.3.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><code>l10n_sk</code>, <code>account_multicurrency_revaluation</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Ku dňu, ku ktorému sa zostavuje účtovná závierka, sa otvorené pohľadávky a
@@ -106,7 +106,7 @@ pri inštalácii, ak ju spoločnosť už má:</p>
 </tr>
 <tr>
 <td>Predvolený denník kurzových ziskov a strát</td>
-<td>denník <strong>KURZ</strong> <em>Kurzové rozdiely</em> typu <em>Rôzne</em>, ktorý sa založí, ak spoločnosť denník s týmto kódom nemá</td>
+<td>denník kurzových rozdielov spoločnosti, do ktorého Odoo účtuje realizované kurzové rozdiely; denník <strong>KURZ</strong> <em>Kurzové rozdiely</em> sa založí, len ak spoločnosť žiadny nemá</td>
 </tr>
 </tbody>
 </table>
@@ -115,10 +115,10 @@ vo viacerých menách</em>, spolu s voľbou <em>Automaticky zaúčtovať vytvore
 zápisy</em> (vypnutá: zápisy vzniknú ako návrh).</p>
 <h3 id="before">Pred prvým prepočtom</h3>
 <ol>
-<li><strong>Prideľte si prístup.</strong> Ponuky OCA vidia len členovia skupiny
-   <em>Zaúčtovanie dodatočných rezervných zápisov</em>, ktorú predvolene nemá
-   nikto. Pridajte ju používateľovi v <em>Nastavenia → Používatelia</em>, oddiel
-   <em>Extra Rights</em>, ktorý sa zobrazí v režime vývojára.</li>
+<li><strong>Prístup.</strong> Ponuky OCA vidia len členovia skupiny <em>Zaúčtovanie
+   dodatočných rezervných zápisov</em>; modul ju pridáva role <em>Hlavný
+   účtovník</em>. Inému používateľovi ju pridáte v <em>Nastavenia → Používatelia</em>,
+   oddiel <em>Ďalšie práva</em>, ktorý sa zobrazí v režime vývojára.</li>
 <li><strong>Vyberte účty na prepočet.</strong> Zaškrtnite <em>Povoliť precenenie meny</em> pri
    každom účte, ktorého zostatok v cudzej mene sa má prepočítať: devízové
    bankové účty a valutové pokladnice (22x, 21x), pohľadávky (311), záväzky
@@ -170,7 +170,7 @@ spoločnosti nastaví:</p>
 </tr>
 <tr>
 <td>Denník</td>
-<td>KURZ <em>Kurzové rozdiely</em>, založený, ak chýba, keď spoločnosť ešte nemá denník na precenenie</td>
+<td>denník kurzových rozdielov spoločnosti (KURZ sa založí, len ak žiadny nemá), keď spoločnosť ešte nemá denník na precenenie</td>
 </tr>
 </tbody>
 </table>
@@ -196,10 +196,10 @@ vždy zaúčtuje storno korekcie, zvyčajne k prvému dňu ďalšieho obdobia.</
   <em>Vylúčené účty</em>; Odoo si voľbu pamätá pre každý účet a menu) ešte pred
   vytvorením záznamu.</li>
 <li>Enterprise korekciu k dátumu storna vždy stornuje; ponechať ju nemožno.</li>
-<li>Inštalácia založí denník KURZ v každej slovenskej spoločnosti, ktorá nemá
-  nastavený denník na precenenie, bez ohľadu na to, či cudzie meny používa.</li>
+<li>Inštalácia nastaví denník na precenenie v každej slovenskej spoločnosti,
+  ktorá ho nemá, bez ohľadu na to, či cudzie meny používa.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/740/">Oznámenie Ministerstva financií Slovenskej republiky č. 740/2002 Z. z. o vydaní opatrenia, ktorým sa ustanovujú podrobnosti o postupoch účtovania a rámcovej účtovej osnove pre podnikateľov účtujúcich v sústave podvojného účtovníctva</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/740/">Oznámenie Ministerstva financií Slovenskej republiky č. 740/2002 Z. z. o vydaní opatrenia, ktorým sa ustanovujú podrobnosti o postupoch účtovania a rámcovej účtovej osnove pre podnikateľov účtujúcich v sústave podvojného účtovníctva</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

@@ -32,8 +32,8 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <p class="cssk-note"><a href="../../../index.html">← User guide</a></p>
 <nav class="cssk-lang"><b>English</b> · <a href="../../../account_asset_tax/static/description/index_sk.html">Slovenčina</a> · <a href="../../../account_asset_tax/static/description/index_cs.html">Čeština</a></nav>
 <h1>Tax Depreciation (CZ/SK)</h1>
-<p class="cssk-summary">A second, never-posted depreciation board per asset for Czech and Slovak tax depreciation, next to the accounting depreciation, with the year-end book-versus-tax reconciliation, deferred tax and a tax depreciation register.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.11.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code></td></tr><tr><th>Extended by</th><td><code>account_asset_tax_ee</code>, <code>account_asset_tax_oca</code>, <code>l10n_cz_account_asset_tax</code>, <code>l10n_sk_account_asset_tax</code></td></tr></table>
+<p class="cssk-summary">A second, never-posted depreciation board per asset for Czech and Slovak tax depreciation, next to the accounting depreciation, with the year-end book-versus-tax comparison, deferred tax and a tax depreciation register.</p>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.11.3</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code></td></tr><tr><th>Extended by</th><td><code>account_asset_tax_ee</code>, <code>account_asset_tax_oca</code>, <code>l10n_cz_account_asset_tax</code>, <code>l10n_sk_account_asset_tax</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Czech and Slovak companies depreciate every fixed asset <strong>twice</strong>:</p>
@@ -175,11 +175,11 @@ depreciation board, which this module leaves untouched.</p>
 </tr>
 <tr>
 <td>Deferred Tax Journal</td>
-<td>The miscellaneous journal for the deferred-tax entry from the <a href="#reconciliation">reconciliation</a>.</td>
+<td>The miscellaneous journal for the deferred-tax entry from the <a href="#reconciliation">comparison</a>.</td>
 </tr>
 <tr>
 <td>Deferred Tax Account (481)</td>
-<td>The balance-sheet deferred-tax account. Use one that holds only the deferred tax on depreciation (for example an analytical 481 sub-account): the reconciliation trues its whole balance up.</td>
+<td>The balance-sheet deferred-tax account. Use one that holds only the deferred tax on depreciation (for example an analytical 481 sub-account): the comparison trues its whole balance up.</td>
 </tr>
 <tr>
 <td>Deferred Tax P&amp;L Account (592)</td>
@@ -250,7 +250,7 @@ it is the accountant's decision.</p>
 </tr>
 <tr>
 <td>Apply Vehicle Depreciation Cap</td>
-<td>A passenger vehicle under the company's <em>Tax Vehicle Depreciation Cap</em>. <strong>CZ</strong> (§ 30e): the board is computed on the limit, which is the deductible share of each depreciation. <strong>SK</strong> (§ 17 ods. 34): the board keeps the full depreciation and its hidden <em>Vehicle Add-back (SK §17(34))</em> column shows, per year, the excess over straight-line depreciation of 48 000 € — see <a href="#reconciliation">Year-end reconciliation</a>.</td>
+<td>A passenger vehicle under the company's <em>Tax Vehicle Depreciation Cap</em>. <strong>CZ</strong> (§ 30e): the board is computed on the limit, which is the deductible share of each depreciation. <strong>SK</strong> (§ 17 ods. 34): the board keeps the full depreciation and its hidden <em>Vehicle Add-back (SK §17(34))</em> column shows, per year, the excess over straight-line depreciation of 48 000 € — see <a href="#reconciliation">Year-end comparison</a>.</td>
 </tr>
 <tr>
 <td>Depreciate Whole Months in Disposal Year</td>
@@ -388,8 +388,8 @@ the company, all board lines up to and including that year are marked
 <li>filed lines cannot be edited.</li>
 </ul>
 <p>The <em>Backfill (migration)</em> wizard is the only way to reopen filed years.</p>
-<h2 id="reconciliation">Year-end reconciliation and deferred tax</h2>
-<p><em>Accounting → Reporting → Tax Depreciation Reconciliation</em>. Choose the period
+<h2 id="reconciliation">Year-end comparison and deferred tax</h2>
+<p><em>Accounting → Reporting → Accounting vs Tax Depreciation</em>. Choose the period
 (default: the current calendar year), check the <strong>Income Tax Rate (%)</strong>
 (default 21) and click <strong>Compute</strong>. One line per tax-tracked asset:</p>
 <table>
@@ -468,7 +468,7 @@ other. The Czech return module does not read these figures.</p>
   difference, with group subtotals and a total. An asset on a monthly
   (§ 30a) board appears once, with the year's months added up. Its headings
   are in Slovak and English.</li>
-<li><strong>Book vs Tax Depreciation</strong> (<em>Accounting → Reporting</em>): pivot, graph and
+<li><strong>Depreciation Analysis</strong> (<em>Accounting → Reporting</em>): pivot, graph and
   list of accounting against tax depreciation per asset and year, by group.
   <em>Book Depreciation</em> counts every accounting depreciation line of the year,
   <em>Book Depreciation (Posted)</em> only those already posted; <em>Filed</em> filters the
@@ -545,7 +545,7 @@ can be.</p>
   interruptions (the module does not know when an asset was unused), and the
   depreciation thresholds (1 700 € / 80 000 Kč) — whether an asset is
   depreciated for tax at all is your decision.</li>
-<li>The reconciliation compares depreciation only. The difference between the
+<li>The comparison covers depreciation only. The difference between the
   accounting and tax residual value of a disposed asset is not computed.</li>
 <li>The deferred-tax entry trues up the <strong>whole posted balance</strong> of the 481
   account at the period end against the depreciation difference alone. Use
@@ -554,7 +554,7 @@ can be.</p>
   calendar year gets calendar-year boards.</li>
 <li>The register's headings are Slovak/English also for Czech companies.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.11.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.11.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
