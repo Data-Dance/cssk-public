@@ -18,6 +18,7 @@ Modelled events: ``PA`` (prihláška / registration) and ``OD`` (odhláška /
 de-registration). ``ZM`` (zmena), ``PE`` (prerušenie) and ``ZP`` (zrušenie
 prihlásenia) are not modelled yet.
 """
+from lxml import etree
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
@@ -125,6 +126,11 @@ class L10nSkRlfo(models.Model):
         if self.state != "draft":
             raise UserError(_(
                 "Reset the declaration to draft before regenerating it."))
+        # RLFO bypasses the base action_generate. Resolve the requested period
+        # here as well: today's API default may still point to an older form
+        # with no end date even though a newer vintage exists.
+        self.version_id = self._find_version(
+            self._version_reference_date(), self.company_id.country_id)
         if not self.version_id:
             raise UserError(_(
                 "No RLFO version is configured for this period. Check the "
@@ -141,6 +147,27 @@ class L10nSkRlfo(models.Model):
         self.state = "generated"
         self.message_post(body=_("RLFO generated and XSD-validated."))
         return True
+
+    def _render_xml(self, data):
+        xml_bytes = super()._render_xml(data)
+        if self.version_id != self.env.ref(
+                "l10n_sk_hr_payroll_rlfo.rlfo_version_2027"):
+            return xml_bytes
+        old = "http://socpoist.sk/xsd/rlzec2026"
+        new = "http://socpoist.sk/xsd/rlzec2027"
+        root = etree.fromstring(xml_bytes)
+        if etree.QName(root).namespace != old:
+            raise UserError(_("Unexpected source namespace for RLZEC 2027."))
+        # Existing PA/OD fields retain their element model in the new vintage.
+        # Remap before action_generate's mandatory official-XSD validation.
+        for node in root.iter():
+            if isinstance(node.tag, str) and etree.QName(node).namespace == old:
+                node.tag = etree.QName(new, etree.QName(node).localname)
+        output = etree.Element(root.tag, nsmap={None: new}, attrib=dict(root.attrib))
+        output.text = root.text
+        output.extend(list(root))
+        etree.cleanup_namespaces(output)
+        return etree.tostring(output, encoding="UTF-8", xml_declaration=True)
 
     def _declaration_render_context(self, data):
         self.ensure_one()

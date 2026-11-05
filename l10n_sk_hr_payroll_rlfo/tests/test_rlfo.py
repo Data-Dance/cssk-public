@@ -96,6 +96,31 @@ class TestRlfo(TransactionCase):
         with self.assertRaises(UserError):
             rlfo.action_generate()
 
+    def test_2027_api_period_selects_new_schema(self):
+        rlfo = self._make_batch()
+        rlfo.write({"year": "2027", "month": "1"})
+        # Deliberately leave the older API default / explicit old vintage.
+        rlfo.version_id = self.env.ref("l10n_sk_hr_payroll_rlfo.rlfo_version_2026")
+        rlfo.action_generate()
+        self.assertEqual(rlfo.version_id, self.env.ref(
+            "l10n_sk_hr_payroll_rlfo.rlfo_version_2027"))
+        root = etree.fromstring(base64.b64decode(rlfo.xml_attachment_id.datas))
+        self.assertEqual(etree.QName(root).namespace,
+                         "http://socpoist.sk/xsd/rlzec2027")
+        schema = etree.XMLSchema(etree.parse(file_path(
+            "l10n_sk_hr_payroll_rlfo/data/RLZEC-v2027.xsd")))
+        schema.assertValid(root)
+
+    def test_2026_api_period_keeps_old_schema(self):
+        rlfo = self._make_batch()
+        rlfo.version_id = self.env.ref("l10n_sk_hr_payroll_rlfo.rlfo_version_2027")
+        rlfo.action_generate()
+        self.assertEqual(rlfo.version_id, self.env.ref(
+            "l10n_sk_hr_payroll_rlfo.rlfo_version_2026"))
+        root = etree.fromstring(base64.b64decode(rlfo.xml_attachment_id.datas))
+        self.assertEqual(etree.QName(root).namespace,
+                         "http://socpoist.sk/xsd/rlzec2026")
+
     # ------------------------------------------------------------------
     # typZec — the relationship code the Sociálna poisťovňa registers
     # ------------------------------------------------------------------
