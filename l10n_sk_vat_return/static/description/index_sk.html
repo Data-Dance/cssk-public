@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_vat_return/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK Daňové priznanie k DPH</h1>
 <p class="cssk-summary">Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.14.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_vat_return_base/static/description/index_sk.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_sk</code>, <a href="../../../l10n_sk_statutory/static/description/index_sk.html"><code>l10n_sk_statutory</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.15.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_vat_return_base/static/description/index_sk.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_sk</code>, <a href="../../../l10n_sk_statutory/static/description/index_sk.html"><code>l10n_sk_statutory</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Slovenská vrstva <a href="../../../l10n_cssk_vat_return_base/static/description/index_sk.html">spoločného základu daňového priznania</a>.
@@ -43,7 +43,10 @@ Dodáva:</p>
   finančná správa od roku 2012 zverejnila XSD, s jeho riadkami, XML šablónou a
   úradnou schémou;</li>
 <li>definície riadkov napojené na daňové značky slovenskej účtovej osnovy Odoo
-  (<code>l10n_sk</code>) a slovenské kontrolné pravidlá;</li>
+  (<code>l10n_sk</code>) a slovenské kontrolné pravidlá; každý riadok nesie doslovný
+  popis z tlačiva svojho vzoru (stĺpec — sadzba — oddiel, od
+  najkonkrétnejšieho), takže ten istý kód riadku má v rôznych vzoroch svoj
+  vlastný význam;</li>
 <li>riadok rozdielu dodatočného daňového priznania doplnený z pôvodného
   priznania;</li>
 <li>nákupné dane pre <strong>služby prijaté z EÚ</strong>, ktoré štandardná osnova nemá;</li>
@@ -391,7 +394,7 @@ znížená sadzba a druhá rodina s rovnakým názvom by s nimi kolidovala.</p>
 <li>Odtiaľto sa nič nepodáva: XML exportujte, podajte na portáli finančnej správy
   a priznanie potom označte ako podané.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.14.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.15.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
