@@ -1,0 +1,28 @@
+RLZEC-v2026.xsd  6f05c0f752a9df8119e3ead631186cde  54484
+RLZEC-v2027.xsd  9cadc699a2aed7f060318cfa65d84be5  55228
+
+2027 downloaded from the official source on 2026-11-05:
+https://www.socpoist.sk/sites/default/files/2026-11/RLZEC-v2027.xsd
+SHA256 19539fd6f42548d721e60b1939ecafb96d3a7519e384e2e98bd58bb815e130b0
+Announcement: https://www.socpoist.sk/node/7084
+Provisional authority deployment: 2026-11-24. The version record here selects
+this vintage for periods from January2027. New MD/OD/RD-specific fields are
+optional in the schema and are not implemented by this PA/OD export update.
+
+2026 NOT compared with a published copy. The Sociálna poisťovňa
+publishes its XSDs through a portal that is a JavaScript application, and no
+direct download URL for this file was found on 2026-10-27 (plain requests to
+the obvious paths return the portal's HTML shell). The digest above pins the
+bytes that are bundled and have been validated against by this module's
+tests, nothing more: it catches a silent local edit, not a revision by the
+authority.
+
+REFRESH PROCEDURE
+  1. Download the current schema from the authority's portal by hand.
+  2. Compare md5 and size with the line here. Never judge a download by its
+     size alone — a portal error page is a plausible size too.
+  3. If it differs, the authority revised the schema: review the diff, update
+     the bundled file and this line, and re-run the module's tests. A new
+     vintage is a new cssk.payroll.declaration.version record with its own
+     template.
+  4. Record the URL you used here, so the next refresh can be done by curl.

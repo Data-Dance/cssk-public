@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:40+0000\n"
-"PO-Revision-Date: 2026-07-06 21:40+0000\n"
+"POT-Creation-Date: 2026-11-05 21:20+0000\n"
+"PO-Revision-Date: 2026-11-05 21:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_res_company__l10n_sk_sp_vs
 msgid ""
 "10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
+"poisťovňa — the employer identifier (<variabilnySymbol>) of the RLFO / RLZEC"
+" registration batch."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -86,6 +87,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid "Correction Reference"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid "Correction Type"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__country_id
 msgid "Country"
 msgstr ""
@@ -144,7 +155,6 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__display_name
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_res_company__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -217,9 +227,15 @@ msgid "Has Message"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__owner50_status
+msgid ""
+"Historical fact for this registration (§ 231(1)(o), z. 461/2003). A generic "
+"guarantee-insurance exemption does not prove it."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__id
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_res_company__id
 msgid "ID"
 msgstr ""
 
@@ -252,6 +268,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_start
 msgid "Insurance start (datVznikPoist)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Is Correction"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -302,6 +323,11 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -325,6 +351,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__owner50_status__no
+msgid "Not a statutory member with at least 50% ownership"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__owner50_status__unknown
+msgid "Not reviewed"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
@@ -342,6 +378,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_has_error_counter
 msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__ownership_evidence
+msgid "Ownership evidence"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -365,6 +406,19 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
 msgid "RLFO generated and XSD-validated."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "Record the source of the reviewed ownership status for '%(name)s'."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__ownership_evidence
+msgid ""
+"Reference to the reviewed statutory membership/ownership evidence and its "
+"effective date."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -395,6 +449,14 @@ msgid "Reset the declaration to draft before regenerating it."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"Reset the registration batch to draft before changing its ownership "
+"evidence."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.view_l10n_sk_rlfo_form
 msgid "Reset to Draft"
 msgstr ""
@@ -402,6 +464,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"Review statutory membership and at least 50%% ownership for '%(name)s' "
+"before registering them."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -454,6 +524,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__owner50_status__yes
+msgid "Statutory member with at least 50% ownership"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__owner50_status
+msgid "Statutory owner 50%+"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_reference
 msgid "Submission Reference"
 msgstr ""
@@ -464,8 +544,26 @@ msgid "Submitted Date"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_exception_decoration
 msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "Unexpected source namespace for RLZEC 2027."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -481,6 +579,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo

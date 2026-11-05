@@ -306,6 +306,31 @@ class TestSkPayroll(TransactionCase):
         # informational OOP line shows the €200 applied
         self.assertAlmostEqual(line("OOP_PENSION"), 200.0, places=2)
 
+    def test_oop_2027_uses_300_and_preserves_2026(self):
+        """z.461/2003 §138a: OOP 300 from 2027; a 2026 payslip keeps 200."""
+        contract, employee = self._make_dohodar(
+            l10n_sk_agreement_type="dovp", l10n_sk_agreement_oop=True
+        )
+        future = self._make_payslip(
+            contract, employee, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(future.rule_parameter("l10n_sk_dohoda_oop"), 300)
+        # base = 1000 - 300 = 700 -> pension 4%, disability 3%, reserve 4.75%
+        for code, expected in (("PENSION", -28.0), ("DISABILITY", -21.0),
+                               ("RESERVEFUNDEMPLOYER", 33.25),
+                               ("OOP_PENSION", 300.0)):
+            self.assertAlmostEqual(
+                future.get_salary_line_total(code), expected, places=2,
+                msg=code)
+
+        historical = self._make_payslip(
+            contract, employee, date(2026, 12, 1), date(2026, 12, 31))
+        self.assertEqual(historical.rule_parameter("l10n_sk_dohoda_oop"), 200)
+        for code, expected in (("PENSION", -32.0), ("DISABILITY", -24.0),
+                               ("RESERVEFUNDEMPLOYER", 38.0)):
+            self.assertAlmostEqual(
+                historical.get_salary_line_total(code), expected, places=2,
+                msg=code)
+
     def test_dopc_matches_standard_social(self):
         """DoPČ (regular income): full social set, unchanged from employment."""
         contract, employee = self._make_dohodar(l10n_sk_agreement_type="dopc")

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:45+0000\n"
+"POT-Creation-Date: 2026-11-05 21:20+0000\n"
 "PO-Revision-Date: 2026-07-06 21:45+0000\n"
 "Last-Translator: \n"
 "Language-Team: Slovak (https://www.transifex.com/)\n"
@@ -20,10 +20,12 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_res_company__l10n_sk_sp_vs
 msgid ""
 "10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
+"poisťovňa — the employer identifier (<variabilnySymbol>) of the RLFO / RLZEC "
+"registration batch."
 msgstr ""
 "10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
-"poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."
+"poisťovňou — identifikátor zamestnávateľa (<variabilnySymbol>) v dávke "
+"registračných listov RLFO / RLZEC."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_needaction
@@ -94,6 +96,16 @@ msgstr ""
 "pre element <identifikator> výkazu RLFO."
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid "Correction Reference"
+msgstr "Referencia opravy"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__country_id
 msgid "Country"
 msgstr "Krajina"
@@ -154,7 +166,6 @@ msgstr "Odhláška pre '%(name)s' vyžaduje dátum vzniku aj zániku poistenia."
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__display_name
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_res_company__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
 
@@ -229,9 +240,17 @@ msgid "Has Message"
 msgstr "Má správu"
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__owner50_status
+msgid ""
+"Historical fact for this registration (§ 231(1)(o), z. 461/2003). A generic "
+"guarantee-insurance exemption does not prove it."
+msgstr ""
+"Skutočnosť ku dňu tejto registrácie (§ 231 ods. 1 písm. o) z. 461/2003). "
+"Samotné oslobodenie od garančného poistenia ju nepreukazuje."
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__id
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_res_company__id
 msgid "ID"
 msgstr "ID"
 
@@ -265,6 +284,11 @@ msgstr "Zánik poistenia (datZaniku)"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_start
 msgid "Insurance start (datVznikPoist)"
 msgstr "Vznik poistenia (datVznikPoist)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_is_follower
@@ -314,6 +338,11 @@ msgid "Name"
 msgstr "Názov"
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Udalosť kalendára nasledujúcej aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Termín ďalšej aktivity"
@@ -339,6 +368,16 @@ msgstr ""
 "dodané dáta verzií."
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__owner50_status__no
+msgid "Not a statutory member with at least 50% ownership"
+msgstr "Nie je štatutárnym orgánom ani jeho členom s najmenej 50 % účasťou"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__owner50_status__unknown
+msgid "Not reviewed"
+msgstr "Neoverené"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Počet akcií"
@@ -359,13 +398,16 @@ msgid "Number of messages with delivery error"
 msgstr "Počet správ s chybou doručenia"
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__ownership_evidence
+msgid "Ownership evidence"
+msgstr "Doklad o účasti"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__payment_date
 msgid ""
-"Payday reported to the authority (SK denVyplaty). Defaults to the period "
-"end."
+"Payday reported to the authority (SK denVyplaty). Defaults to the period end."
 msgstr ""
-"Dátum výplaty hlásený úradu (SK denVyplaty). Predvolene je to koniec "
-"obdobia."
+"Dátum výplaty hlásený úradu (SK denVyplaty). Predvolene je to koniec obdobia."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__payment_date
@@ -382,6 +424,21 @@ msgstr "RLFO (registrácie)"
 #: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
 msgid "RLFO generated and XSD-validated."
 msgstr "RLFO vygenerované a overené voči XSD."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "Record the source of the reviewed ownership status for '%(name)s'."
+msgstr "Uveďte zdroj overeného stavu účasti pre '%(name)s'."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__ownership_evidence
+msgid ""
+"Reference to the reviewed statutory membership/ownership evidence and its "
+"effective date."
+msgstr ""
+"Odkaz na overený doklad o členstve v štatutárnom orgáne a o účasti na "
+"majetku zamestnávateľa a dátum jeho účinnosti."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_rl__pa
@@ -411,6 +468,13 @@ msgid "Reset the declaration to draft before regenerating it."
 msgstr "Pred opätovným vygenerovaním vráťte hlásenie do konceptu."
 
 #. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"Reset the registration batch to draft before changing its ownership evidence."
+msgstr "Pred zmenou údajov o účasti vráťte dávku registrácií do konceptu."
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.view_l10n_sk_rlfo_form
 msgid "Reset to Draft"
 msgstr "Vrátiť do konceptu"
@@ -419,6 +483,16 @@ msgstr "Vrátiť do konceptu"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_user_id
 msgid "Responsible User"
 msgstr "Zodpovedný užívateľ"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"Review statutory membership and at least 50%% ownership for '%(name)s' "
+"before registering them."
+msgstr ""
+"Pred prihlásením overte, či je '%(name)s' štatutárnym orgánom alebo jeho "
+"členom s najmenej 50%% účasťou na majetku zamestnávateľa."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__rlfo_id
@@ -474,6 +548,16 @@ msgstr ""
 "Budúce: budúce aktivity."
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__owner50_status__yes
+msgid "Statutory member with at least 50% ownership"
+msgstr "Štatutárny orgán alebo jeho člen s najmenej 50 % účasťou"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__owner50_status
+msgid "Statutory owner 50%+"
+msgstr "Štatutár s účasťou 50 % a viac"
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_reference
 msgid "Submission Reference"
 msgstr "Referencia podania"
@@ -484,9 +568,29 @@ msgid "Submitted Date"
 msgstr "Dátum odoslania"
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pre všetko, čo opravuje skoršie podanie."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Referencia úradu na opravované podanie, ak ju prijímajúci systém potrebuje "
+"na spárovanie oboch."
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Typ výnimočnej aktivity v zázname."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "Unexpected source namespace for RLZEC 2027."
+msgstr "Neočakávaný zdrojový menný priestor pre RLZEC 2027."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__version_id
@@ -502,6 +606,16 @@ msgstr "Správy webstránok"
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__website_message_ids
 msgid "Website communication history"
 msgstr "História komunikácie webstránok"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Či ide o riadne podanie za obdobie alebo o opravu už odoslaného. Voľby sú "
+"obmedzené na to, čo tento konkrétny úrad prijíma."
 
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__xml_attachment_id
@@ -547,3 +661,11 @@ msgstr "ZECN — zamestnanec, nepravidelný príjem"
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.rlfo_xml
 msgid "false"
 msgstr "false"
+
+#~ msgid ""
+#~ "10-digit identification number assigned to the employer by the Sociálna "
+#~ "poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / "
+#~ "VPP)."
+#~ msgstr ""
+#~ "10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
+#~ "poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."

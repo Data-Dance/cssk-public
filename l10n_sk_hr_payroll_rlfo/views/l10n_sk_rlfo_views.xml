@@ -52,6 +52,8 @@
                             <field name="typ_zec"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
+                            <field name="owner50_status" readonly="parent.state != 'draft'"/>
+                            <field name="ownership_evidence" readonly="parent.state != 'draft'"/>
                         </list>
                     </field>
                 </sheet>

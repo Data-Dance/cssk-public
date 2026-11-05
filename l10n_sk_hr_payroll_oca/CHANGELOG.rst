@@ -2,6 +2,15 @@
 Changelog
 =========
 
+18.0.2.7.1 (2026-11-05)
+=======================
+
+* **Fixed: the agreement OOP from January 2027.** § 138a z. 461/2003, as
+  amended by 158/2026 Z. z., raises the odvodová odpočítateľná položka for
+  pensioners and students on agreements from EUR 200 to EUR 300 a month.
+  Payslips from January 2027 used EUR 200. Earlier periods keep EUR 200.
+  Contributed by votrelec (cssk-public#13); port of 19.0.1.19.4.
+
 18.0.2.7.0 (2026-08-08)
 =======================
 

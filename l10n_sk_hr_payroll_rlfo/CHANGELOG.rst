@@ -2,6 +2,31 @@
 Changelog
 =========
 
+18.0.1.2.0 (2026-11-05)
+=======================
+
+* **Added: RLZEC 2027.** The Sociálna poisťovňa's ``RLZEC-v2027.xsd``
+  (published 2026-11-05) is shipped and pinned in ``SCHEMA_VERSION``, which
+  this branch gains. A batch for January 2027 or later is generated in the 2027
+  namespace and validated against it; earlier periods keep RLZEC 2026. 18.0's
+  declaration base picks a version from today's date only, so the model
+  resolves the period's version itself. Contributed by votrelec
+  (cssk-public#16); port of 19.0.1.3.0.
+* **Slovak catalogue** for the new fields and messages, and for the correction
+  fields every declaration shares, which were still English.
+
+18.0.1.1.1 (2026-11-05)
+=======================
+
+* **Fixed: statutory owners were registered as ordinary employees.** Every
+  registration declared ``zamSUcastou`` false, so a statutory body or member
+  with at least 50 % of the employer's property (§ 231 ods. 1 písm. o)
+  z. 461/2003) was reported wrongly, and the XML still validated. Each
+  registration event now records a reviewed status and its evidence; an
+  unreviewed status or missing evidence stops generation, and both are locked
+  once the batch is generated. Existing events start as *Not reviewed*.
+  Contributed by votrelec (cssk-public#14); port of 19.0.1.2.3.
+
 18.0.1.1.0 (2026-08-08)
 =======================
 
