@@ -33,7 +33,7 @@
                             <typRegListuFO>
                                 <prihlaska t-if="ev['typ_rl'] == 'PA'">
                                     <identFODopl>
-                                        <zamSUcastou>false</zamSUcastou>
+                                        <zamSUcastou t-out="ev['zam_s_ucastou']"/>
                                         <par7ods2>false</par7ods2>
                                     </identFODopl>
                                     <typPoistPrihl>

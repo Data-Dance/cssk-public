@@ -154,6 +154,16 @@ class L10nSkRlfo(models.Model):
                     "in the Identification No. field for the "
                     "RLFO.", name=employee.display_name))
             code = ev.typ_zec or "ZEC"
+            if ev.typ_rl == "PA":
+                if ev.owner50_status == "unknown":
+                    raise UserError(_(
+                        "Review statutory membership and at least 50%% ownership "
+                        "for '%(name)s' before registering them.",
+                        name=employee.display_name))
+                if not (ev.ownership_evidence or "").strip():
+                    raise UserError(_(
+                        "Record the source of the reviewed ownership status "
+                        "for '%(name)s'.", name=employee.display_name))
             if ev.typ_rl == "PA" and not ev.date_start:
                 raise UserError(_(
                     "Registration for '%(name)s' needs an "
@@ -169,6 +179,7 @@ class L10nSkRlfo(models.Model):
             meno, priezvisko = (meno or "-")[:24], (priezvisko or "-")[:36]
             events.append({
                 "typ_rl": ev.typ_rl,
+                "zam_s_ucastou": "true" if ev.owner50_status == "yes" else "false",
                 "typ_zec": code,
                 "is_dohoda": code in DOHODA_CODES,
                 "is_zecn": code == "ZECN",
@@ -223,6 +234,26 @@ class L10nSkRlfoEvent(models.Model):
     date_end = fields.Date(
         string="Insurance end (datZaniku)",
         help="Date the social-insurance relationship ends (de-registration).")
+    owner50_status = fields.Selection(
+        [("unknown", "Not reviewed"),
+         ("no", "Not a statutory member with at least 50% ownership"),
+         ("yes", "Statutory member with at least 50% ownership")],
+        string="Statutory owner 50%+", required=True, default="unknown",
+        copy=False,
+        help="Historical fact for this registration (§ 231(1)(o), z. 461/2003). "
+             "A generic guarantee-insurance exemption does not prove it.")
+    ownership_evidence = fields.Char(
+        string="Ownership evidence", copy=False,
+        help="Reference to the reviewed statutory membership/ownership "
+             "evidence and its effective date.")
+
+    def write(self, vals):
+        if {"owner50_status", "ownership_evidence"} & vals.keys():
+            if any(event.rlfo_id.state != "draft" for event in self):
+                raise UserError(_(
+                    "Reset the registration batch to draft before changing "
+                    "its ownership evidence."))
+        return super().write(vals)
 
     @api.depends("employee_id")
     def _compute_typ_zec(self):

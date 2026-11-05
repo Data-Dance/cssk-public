@@ -6,8 +6,10 @@ lifecycle-driven (no payslip), so it runs on a single engine: it only needs an
 validated against the shipped ``RLZEC-v2026.xsd``."""
 import base64
 from datetime import date
+from unittest.mock import patch
 
 from lxml import etree
+from odoo.exceptions import UserError
 
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
@@ -48,6 +50,8 @@ class TestRlfo(TransactionCase):
             "typ_rl": "PA",
             "typ_zec": "ZEC",
             "date_start": date(2026, 3, 1),
+            "owner50_status": "no",
+            "ownership_evidence": "Synthetic ordinary employee, no statutory membership",
         })
         self.env["l10n.sk.rlfo.event"].create({
             "rlfo_id": rlfo.id,
@@ -88,6 +92,67 @@ class TestRlfo(TransactionCase):
         zanik = regs[1].find(".//r:zecPPOdhl/r:zanik", NS)
         self.assertEqual(zanik.get("datVzniku"), "01.03.2026")
         self.assertEqual(zanik.get("datZaniku"), "31.03.2026")
+
+    def test_owner_render_context_is_respected(self):
+        """A reviewed statutory owner must not become false in the XML."""
+        rlfo = self._make_batch()
+        original = type(rlfo)._declaration_render_context
+
+        def reviewed_context(record, data):
+            context = original(record, data)
+            context["events"][0]["zam_s_ucastou"] = "true"
+            return context
+
+        with patch.object(type(rlfo), "_declaration_render_context",
+                          reviewed_context):
+            rlfo.action_generate()
+        root = etree.fromstring(base64.b64decode(rlfo.xml_attachment_id.datas))
+        self.assertEqual(root.find(".//r:zamSUcastou", NS).text, "true")
+
+    def test_statutory_owner_registration(self):
+        rlfo = self._make_batch()
+        event = rlfo.event_ids.filtered(lambda ev: ev.typ_rl == "PA")
+        event.write({"owner50_status": "yes",
+                     "ownership_evidence": "Synthetic dated sole-owner decision"})
+        rlfo.action_generate()
+        root = etree.fromstring(base64.b64decode(rlfo.xml_attachment_id.datas))
+        self.assertEqual(root.find(".//r:zamSUcastou", NS).text, "true")
+
+    def test_ordinary_worker_registration(self):
+        rlfo = self._make_batch()
+        rlfo.action_generate()
+        root = etree.fromstring(base64.b64decode(rlfo.xml_attachment_id.datas))
+        self.assertEqual(root.find(".//r:zamSUcastou", NS).text, "false")
+
+    def test_unknown_ownership_cannot_become_false(self):
+        rlfo = self._make_batch()
+        rlfo.event_ids.filtered(lambda ev: ev.typ_rl == "PA").owner50_status = "unknown"
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+        self.assertEqual(rlfo.state, "draft")
+        self.assertFalse(rlfo.xml_attachment_id)
+
+    def test_missing_ownership_evidence_is_rejected(self):
+        rlfo = self._make_batch()
+        rlfo.event_ids.filtered(lambda ev: ev.typ_rl == "PA").ownership_evidence = " "
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+
+    def test_generated_ownership_cannot_be_edited(self):
+        rlfo = self._make_batch()
+        rlfo.action_generate()
+        with self.assertRaises(UserError):
+            rlfo.event_ids.filtered(lambda ev: ev.typ_rl == "PA").owner50_status = "yes"
+
+    def test_ownership_is_a_registration_fact(self):
+        rlfo = self._make_batch()
+        event = rlfo.event_ids.filtered(lambda ev: ev.typ_rl == "PA")
+        event.owner50_status = "yes"
+        if "l10n_sk_guarantee_exempt" in self.employee.version_id._fields:
+            self.employee.version_id.l10n_sk_guarantee_exempt = False
+        rlfo.action_generate()
+        root = etree.fromstring(base64.b64decode(rlfo.xml_attachment_id.datas))
+        self.assertEqual(root.find(".//r:zamSUcastou", NS).text, "true")
 
     def test_no_events_raises(self):
         from odoo.exceptions import UserError
