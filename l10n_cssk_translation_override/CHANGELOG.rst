@@ -5,6 +5,39 @@ Changelog
 All notable changes to **l10n_cssk_translation_override** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.1.0] — 2026-11-05
+-------------------------
+
+Added
+~~~~~
+
+- Catalogues for 61 more Community and OCA modules that a Czech or Slovak
+  company commonly installs, though none of our modules depends on them:
+  attendance (with the kiosk), skills and résumé, timesheets and OCA timesheet
+  sheets, home working, public holidays, project and to-dos, credit control,
+  Peppol responses, document management (OCA ``dms``), wiki
+  (``document_page``), SMS and letters by post, two-factor login, passkeys,
+  the inactivity lock, the dashboards, ratings, privacy lookup and the OCA
+  web add-ons. 2,825 Slovak and 2,484 Czech terms that had no translation.
+  OCA ``hr_timesheet_sheet`` is built against its 19.0 migration
+  (OCA/timesheet#941), which is not merged yet.
+
+Fixed
+~~~~~
+
+- ``hr_attendance``: Czech *Check in / Check out* is *Příchod / Odchod*, not
+  *Přihlásit se / Odhlásit se* (log in / log out), on the kiosk, in the PIN
+  prompt and in the messages.
+- ``hr_skills``: *Resume* (the CV) is *Životopis* in both languages, not
+  *Shrnutí* (summary) or *Pokračovať* (continue); Czech *Certifikace* was
+  misspelt.
+- ``account_statement_import_file``: the journal dashboard's *Import (OCA)*
+  is *Import výpisu* in both languages. l10n_cssk's own copy of the module
+  already said so; OCA's copy, when it is the one loaded, left it English.
+- ``hr_attendance``: Slovak *Management* is *Správa* (as the Czech), not
+  *Manažment*; ``account_credit_control``: *Policies* on a run is *Pravidlá* /
+  *Politiky*, as the policy itself is named.
+
 [19.0.1.0.5] — 2026-11-05
 -------------------------
 

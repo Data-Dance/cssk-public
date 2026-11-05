@@ -1,0 +1,634 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/sms_sms.py:0
+msgid ""
+"%(count)s out of the %(total)s selected SMS Text Messages have successfully "
+"been resent."
+msgstr ""
+"%(count)s z %(total)s vybraných SMS zpráv bylo úspěšně znovu odesláno."
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.iap_account_view_form
+msgid ""
+"<i class=\"fa fa-warning\"/> An error occurred with your account. Please "
+"contact the support for more information..."
+msgstr ""
+"<i class=\"fa fa-warning\"/> U vašeho účtu došlo k chybě. Pro více informací"
+" kontaktujte podporu..."
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.iap_account_view_form
+msgid ""
+"<i class=\"fa fa-warning\"/> You cannot send SMS while your account is not "
+"registered."
+msgstr ""
+"<i class=\"fa fa-warning\"/> Dokud váš účet není zaregistrován, nemůžete "
+"odesílat SMS."
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.iap_account_view_form
+msgid ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                            Register"
+msgstr ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                            Registrovat"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.iap_account_view_form
+msgid ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                            Set Sender Name"
+msgstr ""
+"<i class=\"oi oi-arrow-right\"/>\n"
+"                            Nastavit jméno odesílatele"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_template_view_form
+msgid ""
+"<span class=\"o_stat_text\">Add</span>\n"
+"                                <span class=\"o_stat_text\">Context Action</span>"
+msgstr ""
+"<span class=\"o_stat_text\">Přidat</span>\n"
+"                                <span class=\"o_stat_text\">kontextovou akci</span>"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_template_view_form
+msgid ""
+"<span class=\"o_stat_text\">Remove</span>\n"
+"                                <span class=\"o_stat_text\">Context Action</span>"
+msgstr ""
+"<span class=\"o_stat_text\">Odebrat</span>\n"
+"                                <span class=\"o_stat_text\">kontextovou akci</span>"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_template_preview_form
+msgid "<span class=\"text-warning\" invisible=\"not no_record\">No records</span>"
+msgstr "<span class=\"text-warning\" invisible=\"not no_record\">Žádné záznamy</span>"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.ir_actions_server_view_form
+msgid ""
+"<span invisible=\"sms_method != 'sms'\">\n"
+"                                    The message will be sent as an SMS to the recipients of the template\n"
+"                                    and will not appear in the messaging history.\n"
+"                                </span>\n"
+"                                <span invisible=\"sms_method != 'note'\">\n"
+"                                    The SMS will not be sent, it will only be posted as an\n"
+"                                    internal note in the messaging history.\n"
+"                                </span>\n"
+"                                <span invisible=\"sms_method != 'comment'\">\n"
+"                                    The SMS will be sent as an SMS to the recipients of the\n"
+"                                    template and it will also be posted as an internal note\n"
+"                                    in the messaging history.\n"
+"                                </span>"
+msgstr ""
+"<span invisible=\"sms_method != 'sms'\">\n"
+"                                    Zpráva bude odeslána jako SMS příjemcům šablony\n"
+"                                    a v historii zpráv se nezobrazí.\n"
+"                                </span>\n"
+"                                <span invisible=\"sms_method != 'note'\">\n"
+"                                    SMS nebude odeslána, bude pouze zaznamenána jako\n"
+"                                    interní poznámka v historii zpráv.\n"
+"                                </span>\n"
+"                                <span invisible=\"sms_method != 'comment'\">\n"
+"                                    SMS bude odeslána jako SMS příjemcům\n"
+"                                    šablony a zároveň bude zaznamenána jako interní poznámka\n"
+"                                    v historii zpráv.\n"
+"                                </span>"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_composer_view_form
+msgid "<span> or to specify the country code.</span>"
+msgstr "<span> nebo zadejte předvolbu země.</span>"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_composer_view_form
+msgid ""
+"<strong>Invalid number:</strong>\n"
+"                        <span> make sure to set a country on the </span>"
+msgstr ""
+"<strong>Neplatné číslo:</strong>\n"
+"                        <span> nezapomeňte nastavit zemi v </span>"
+
+#. module: sms
+#: model:ir.model.constraint,message:sms.constraint_sms_tracker_sms_uuid_unique
+msgid "A record for this UUID already exists"
+msgstr "Záznam s tímto UUID již existuje"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_template_view_form
+msgid ""
+"Add a contextual action on the related model to open a sms composer with "
+"this template"
+msgstr ""
+"Přidat do souvisejícího modelu kontextovou akci, která otevře editor SMS s "
+"touto šablonou"
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/core/failure_model_patch.js:0
+msgid "An error occurred when sending an SMS on “%(record_name)s”"
+msgstr "Při odesílání SMS u „%(record_name)s“ došlo k chybě"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"An unknown error occurred. Please contact Odoo support if this error "
+"persists."
+msgstr ""
+"Došlo k neznámé chybě. Pokud chyba přetrvává, kontaktujte podporu Odoo."
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_template_reset_view_form
+msgid ""
+"Are you sure you want to reset these sms templates to their original "
+"configuration? Changes and translations will be lost."
+msgstr ""
+"Opravdu chcete obnovit tyto šablony SMS na původní nastavení? Změny a "
+"překlady budou ztraceny."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/controllers/main.py:0
+msgid "Bad parameters"
+msgstr "Chybné parametry"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/iap_account.py:0
+#: code:addons/sms/wizard/sms_account_code.py:0
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid "Choose your sender name"
+msgstr "Zvolte jméno odesílatele"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__composition_mode
+msgid "Composition Mode"
+msgstr "Režim vytváření"
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/core/notification_model_patch.js:0
+#: model:ir.model.fields.selection,name:sms.selection__mail_notification__failure_type__sms_country_not_supported
+#: model:ir.model.fields.selection,name:sms.selection__sms_sms__failure_type__sms_country_not_supported
+msgid "Country Not Supported"
+msgstr "Země není podporována"
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/core/notification_model_patch.js:0
+#: model:ir.model.fields.selection,name:sms.selection__mail_notification__failure_type__sms_registration_needed
+#: model:ir.model.fields.selection,name:sms.selection__sms_sms__failure_type__sms_registration_needed
+msgid "Country-specific Registration Required"
+msgstr "Je vyžadována registrace pro danou zemi"
+
+#. module: sms
+#: model:sms.template,name:sms.sms_template_demo_0
+msgid "Customer: automated SMS"
+msgstr "Zákazník: automatická SMS"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__res_model_description
+msgid "Document Model Description"
+msgstr "Popis modelu dokumentu"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_phone_view_form
+msgid "Enter a phone number to get an SMS with a verification code."
+msgstr "Zadejte telefonní číslo, na které vám přijde SMS s ověřovacím kódem."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/wizard/sms_composer.py:0
+msgid "Following numbers are not correctly encoded: %s"
+msgstr "Následující čísla nejsou správně zapsána: %s"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_mail_mail__has_sms_error
+#: model:ir.model.fields,field_description:sms.field_mail_message__has_sms_error
+msgid "Has SMS error"
+msgstr "Má chybu SMS"
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/core/notification_model_patch.js:0
+#: model:ir.model.fields.selection,name:sms.selection__mail_notification__failure_type__sms_invalid_destination
+msgid "Invalid Destination"
+msgstr "Neplatný cíl"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"Invalid phone number. Please make sure to follow the international format, "
+"i.e. a plus sign (+), then country code, city code, and local phone number. "
+"For example: +1 555-555-555"
+msgstr ""
+"Neplatné telefonní číslo. Dodržujte mezinárodní formát, tj. znaménko plus "
+"(+), dále kód země, předvolbu města a místní telefonní číslo. Například: +1 "
+"555-555-555"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/wizard/sms_composer.py:0
+msgid "Invalid recipient number. Please update it."
+msgstr "Neplatné číslo příjemce. Aktualizujte jej prosím."
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__recipient_single_valid
+msgid "Is valid"
+msgstr "Je platné"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__mass_keep_log
+msgid "Keep a note on document"
+msgstr "Ponechat poznámku v dokumentu"
+
+#. module: sms
+#: model:ir.model,name:sms.model_sms_tracker
+msgid "Link SMS to mailing/sms tracking models"
+msgstr "Propojení SMS s modely sledování mailingů/SMS"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_tracker__mail_notification_id
+msgid "Mail Notification"
+msgstr "Oznámení o zprávě"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_ir_model__is_mail_thread_sms
+msgid "Mail Thread SMS"
+msgstr "SMS ve vlákně zpráv"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_sms__to_delete
+msgid "Marked for deletion"
+msgstr "Označeno ke smazání"
+
+#. module: sms
+#: model:ir.model.fields.selection,name:sms.selection__ir_actions_server__sms_method__note
+msgid "Note only"
+msgstr "Pouze poznámka"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid ""
+"Note that this is not required, if you don't set a sender name, your SMS "
+"will be sent from a short code."
+msgstr ""
+"Není to povinné. Pokud jméno odesílatele nenastavíte, vaše SMS budou "
+"odesílány z krátkého čísla."
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__number_field_name
+msgid "Number Field"
+msgstr "Pole s číslem"
+
+#. module: sms
+#: model:ir.model.fields,help:sms.field_sms_composer__recipient_single_number_itf
+msgid ""
+"Phone number of the recipient. If changed, it will be recorded on "
+"recipient's profile."
+msgstr ""
+"Telefonní číslo příjemce. Pokud se změní, uloží se do profilu příjemce."
+
+#. module: sms
+#: model:ir.model.fields,help:sms.field_sms_composer__use_exclusion_list
+msgid ""
+"Prevent sending messages to blacklisted contacts. Disable only when "
+"absolutely necessary."
+msgstr ""
+"Zabraňte odesílání zpráv kontaktům na černé listině. Deaktivujte pouze v "
+"případě, že je to nezbytně nutné."
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_composer_view_form
+msgid "Put in queue"
+msgstr "Zařadit do fronty"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__recipient_single_number_itf
+msgid "Recipient Number"
+msgstr "Číslo příjemce"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__numbers
+msgid "Recipients (Numbers)"
+msgstr "Příjemci (čísla)"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__recipient_single_description
+msgid "Recipients (Partners)"
+msgstr "Příjemci (partneři)"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_template_preview__resource_ref
+msgid "Record reference"
+msgstr "Odkaz na záznam"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/iap_account.py:0
+#: code:addons/sms/wizard/sms_account_phone.py:0
+msgid "Register Account"
+msgstr "Registrovat účet"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_code_view_form
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_phone_view_form
+msgid "Register your SMS account"
+msgstr "Registrace účtu SMS"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_template_view_form
+msgid "Remove the contextual action of the related model"
+msgstr "Odebrat kontextovou akci souvisejícího modelu"
+
+#. module: sms
+#: model:ir.model.fields.selection,name:sms.selection__ir_actions_server__sms_method__comment
+msgid "SMS (with note)"
+msgstr "SMS (s poznámkou)"
+
+#. module: sms
+#: model:ir.model.fields.selection,name:sms.selection__ir_actions_server__sms_method__sms
+msgid "SMS (without note)"
+msgstr "SMS (bez poznámky)"
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/thread/message_patch.js:0
+msgid "SMS Account"
+msgstr "Účet SMS"
+
+#. module: sms
+#: model:ir.model,name:sms.model_sms_account_phone
+msgid "SMS Account Registration Phone Number Wizard"
+msgstr "Průvodce telefonním číslem pro registraci účtu SMS"
+
+#. module: sms
+#: model:ir.model,name:sms.model_sms_account_sender
+msgid "SMS Account Sender Name Wizard"
+msgstr "Průvodce jménem odesílatele účtu SMS"
+
+#. module: sms
+#: model:ir.model,name:sms.model_sms_account_code
+msgid "SMS Account Verification Code Wizard"
+msgstr "Průvodce ověřovacím kódem účtu SMS"
+
+#. module: sms
+#. odoo-javascript
+#: code:addons/sms/static/src/messaging_menu/messaging_menu_patch.js:0
+msgid "SMS Failure: %(modelName)s"
+msgstr "Selhání SMS: %(modelName)s"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_mail_notification__sms_id_int
+msgid "SMS ID"
+msgstr "ID SMS"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_mail_notification__sms_number
+msgid "SMS Number"
+msgstr "Číslo SMS"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_sms__state
+msgid "SMS Status"
+msgstr "Stav SMS"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_mail_notification__sms_tracker_ids
+msgid "SMS Trackers"
+msgstr "Sledování SMS"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_template_preview_form
+msgid "SMS content"
+msgstr "Obsah SMS"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/ir_actions_server.py:0
+msgid "SMS template model of %(action_name)s does not match action model."
+msgstr "Model šablony SMS akce %(action_name)s neodpovídá modelu akce."
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_sms__sms_tracker_id
+msgid "SMS trackers"
+msgstr "Sledování SMS"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_tracker__sms_uuid
+msgid "SMS uuid"
+msgstr "UUID SMS"
+
+#. module: sms
+#: model:ir.actions.server,name:sms.ir_cron_sms_scheduler_action_ir_actions_server
+msgid "SMS: SMS Queue Manager"
+msgstr "SMS: správce fronty SMS"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/ir_actions_server.py:0
+msgid "Send %(template_name)s"
+msgstr "Odeslat %(template_name)s"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_ir_actions_server__sms_method
+#: model:ir.model.fields,field_description:sms.field_ir_cron__sms_method
+msgid "Send SMS As"
+msgstr "Odeslat SMS jako"
+
+#. module: sms
+#: model:iap.service,description:sms.iap_service_sms
+msgid "Send SMS to your contacts directly from your database."
+msgstr "Odesílání SMS kontaktům přímo z vaší databáze."
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__mass_force_send
+msgid "Send directly"
+msgstr "Odeslat přímo"
+
+#. module: sms
+#: model:ir.model.fields.selection,name:sms.selection__sms_composer__composition_mode__numbers
+msgid "Send to numbers"
+msgstr "Odeslat na čísla"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_phone_view_form
+msgid "Send verification code"
+msgstr "Odeslat ověřovací kód"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_iap_account__sender_name
+#: model:ir.model.fields,field_description:sms.field_sms_account_sender__sender_name
+msgid "Sender Name"
+msgstr "Jméno odesílatele"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/ir_actions_server.py:0
+msgid "Sending SMS can only be done on a not transient mail.thread model"
+msgstr "SMS lze odesílat pouze u netranzientního modelu mail.thread"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid "Set sender name"
+msgstr "Nastavit jméno odesílatele"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__comment_single_recipient
+msgid "Single Mode"
+msgstr "Režim jednoho záznamu"
+
+#. module: sms
+#: model_terms:ir.ui.view,arch_db:sms.sms_account_sender_view_form
+msgid "Skip for now"
+msgstr "Prozatím přeskočit"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__recipient_single_number
+msgid "Stored Recipient Number"
+msgstr "Uložené číslo příjemce"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_template__template_fs
+msgid "Template Filename"
+msgstr "Název souboru šablony"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"The SMS Service is currently unavailable for new users and new accounts "
+"registrations are suspended."
+msgstr ""
+"Služba SMS je momentálně pro nové uživatele nedostupná a registrace nových "
+"účtů je pozastavena."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/sms_sms.py:0
+msgid "The SMS Text Messages could not be resent."
+msgstr "SMS zprávy se nepodařilo znovu odeslat."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "The content of the message violates rules applied by our providers."
+msgstr "Obsah zprávy porušuje pravidla našich poskytovatelů."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "The destination country is not supported."
+msgstr "Cílová země není podporována."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "The number you're trying to reach is not correctly formatted."
+msgstr "Číslo, na které se pokoušíte dovolat, nemá správný formát."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "The verification code is incorrect."
+msgstr "Ověřovací kód je nesprávný."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/models/sms_sms.py:0
+msgid "There are no SMS Text Messages to resend."
+msgstr "Nejsou žádné SMS zprávy k opětovnému odeslání."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "This SMS has been removed as the number was already used."
+msgstr "Tato SMS byla odstraněna, protože číslo již bylo použito."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"This account already has an existing sender name and it cannot be changed."
+msgstr "Tento účet již má jméno odesílatele a to nelze změnit."
+
+#. module: sms
+#: model:ir.model.fields,help:sms.field_iap_account__sender_name
+msgid "This is the name that will be displayed as the sender of the SMS."
+msgstr "Toto jméno se zobrazí jako odesílatel SMS."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "This phone number/account has been banned from our service."
+msgstr "Toto telefonní číslo/účet bylo v naší službě zablokováno."
+
+#. module: sms
+#: model:ir.model.constraint,message:sms.constraint_sms_sms_uuid_unique
+msgid "UUID must be unique"
+msgstr "UUID musí být jedinečné"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__use_exclusion_list
+msgid "Use Exclusion List"
+msgstr "Použít seznam vyloučených"
+
+#. module: sms
+#: model:ir.model.fields,field_description:sms.field_sms_composer__res_ids_count
+msgid "Visible records count"
+msgstr "Počet viditelných záznamů"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "We were not able to find your account in our database."
+msgstr "Váš účet se nám nepodařilo najít v naší databázi."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid ""
+"We were not able to reach you via your phone number. If you have requested "
+"multiple codes recently, please retry later."
+msgstr ""
+"Nepodařilo se nám vás zastihnout na vašem telefonním čísle. Pokud jste "
+"nedávno požádali o více kódů, zkuste to prosím později."
+
+#. module: sms
+#: model:ir.model.fields,help:sms.field_ir_model__is_mail_thread_sms
+msgid "Whether this model supports messages and notifications through SMS"
+msgstr "Zda tento model podporuje zprávy a oznámení prostřednictvím SMS"
+
+#. module: sms
+#: model:ir.model.fields,help:sms.field_sms_sms__to_delete
+msgid ""
+"Will automatically be deleted, while notifications will not be deleted in "
+"any case."
+msgstr "Bude automaticky smazáno; oznámení se však nesmažou v žádném případě."
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "Your country is not supported due to sender registration legislation"
+msgstr ""
+"Vaše země není podporována z důvodu legislativy o registraci odesílatelů"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "Your database is not activated"
+msgstr "Vaše databáze není aktivována"

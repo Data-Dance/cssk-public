@@ -1,0 +1,307 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_template_form
+msgid "<i class=\"fa fa-arrow-right\"/> Link to the demo video"
+msgstr "<i class=\"fa fa-arrow-right\"/> Odkaz na ukázkové video"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_kanban
+msgid "<span class=\"pe-2\">Templates:</span>"
+msgstr "<span class=\"pe-2\">Šablony:</span>"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_kanban
+msgid "<span>Document type:</span>"
+msgstr "<span>Typ dokumentu:</span>"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid ""
+"A form field set as used in product documents can't be linked to a quotation"
+" document."
+msgstr ""
+"Pole formuláře nastavené jako používané v dokumentech produktu nelze "
+"propojit s dokumentem nabídky."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid ""
+"A form field set as used in quotation documents can't be linked to a product"
+" document."
+msgstr ""
+"Pole formuláře nastavené jako používané v dokumentech nabídky nelze propojit"
+" s dokumentem produktu."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_quotation_document__add_by_default
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_search_view
+msgid "Add By Default"
+msgstr "Přidávat automaticky"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order_line__available_product_document_ids
+msgid "Available Product Documents"
+msgstr "Dostupné dokumenty produktu"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order__available_quotation_document_ids
+msgid "Available Quotation Documents"
+msgstr "Dostupné dokumenty nabídky"
+
+#. module: sale_pdf_quote_builder
+#. odoo-javascript
+#: code:addons/sale_pdf_quote_builder/static/src/js/custom_content_kanban_like_widget/custom_field_card/custom_field_card.js:0
+msgid "Click to write content for the PDF quote..."
+msgstr "Kliknutím napíšete obsah PDF nabídky..."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.product_document_form
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_form
+msgid "Configure dynamic fields"
+msgstr "Nastavit dynamická pole"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.product_document_form
+msgid "Configure the path to fill the form fields."
+msgstr "Nastavte cestu pro vyplnění polí formuláře."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order__customizable_pdf_form_fields
+msgid "Customizable PDF Form Fields"
+msgstr "Přizpůsobitelná pole formuláře PDF"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_template_form
+msgid "Download examples"
+msgstr "Stáhnout příklady"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_pdf_form_field__name
+msgid "Form Field Name"
+msgstr "Název pole formuláře"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/product_document.py:0
+#: code:addons/sale_pdf_quote_builder/models/quotation_document.py:0
+msgid "Form Fields"
+msgstr "Pole formuláře"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_product_document__form_field_ids
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_quotation_document__form_field_ids
+msgid "Form Fields Included"
+msgstr "Zahrnutá pole formuláře"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.constraint,message:sale_pdf_quote_builder.constraint_sale_pdf_form_field_unique_name_per_doc_type
+msgid "Form field name must be unique for a given document type."
+msgstr "Název pole formuláře musí být pro daný typ dokumentu jedinečný."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model,name:sale_pdf_quote_builder.model_sale_pdf_form_field
+msgid "Form fields of inside quotation documents."
+msgstr "Pole formuláře v dokumentech nabídky."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_quotation_document__has_thumbnail
+msgid "Has Thumbnail"
+msgstr "Má miniaturu"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_quotation_document__add_by_default
+msgid ""
+"If checked, this header or footer will be added by default on new quotes."
+msgstr ""
+"Je-li zaškrtnuto, bude tato hlavička nebo zápatí automaticky přidáno do "
+"nových nabídek."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_quotation_document__active
+msgid ""
+"If unchecked, it will allow you to hide the header or footer without "
+"removing it."
+msgstr ""
+"Je-li odškrtnuto, můžete hlavičku nebo zápatí skrýt, aniž byste je "
+"odstranili."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid ""
+"Invalid form field name %(field_name)s. A form field name in a header or a "
+"footer can not start with \"sol_id_\"."
+msgstr ""
+"Neplatný název pole formuláře %(field_name)s. Název pole formuláře v "
+"hlavičce nebo zápatí nesmí začínat na „sol_id_“."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid ""
+"Invalid form field name %(field_name)s. It should only contain "
+"alphanumerics, hyphens or underscores."
+msgstr ""
+"Neplatný název pole formuláře %(field_name)s. Smí obsahovat pouze "
+"alfanumerické znaky, pomlčky nebo podtržítka."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid ""
+"Invalid path %(path)s. It should only contain alphanumerics, hyphens, "
+"underscores or points."
+msgstr ""
+"Neplatná cesta %(path)s. Smí obsahovat pouze alfanumerické znaky, pomlčky, "
+"podtržítka nebo tečky."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order__is_pdf_quote_builder_available
+msgid "Is Pdf Quote Builder Available"
+msgstr "Je k dispozici tvůrce PDF nabídek"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/utils.py:0
+msgid ""
+"It seems that we're not able to process this pdf inside a quotation. It is "
+"either encrypted, or encoded in a format we do not support."
+msgstr ""
+"Tento PDF soubor bohužel nelze v rámci nabídky zpracovat. Je buď "
+"zašifrovaný, nebo kódovaný ve formátu, který nepodporujeme."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_form
+msgid "Mark fields as safe to fill in the quote."
+msgstr "Označte pole, která lze v nabídce bezpečně vyplnit."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/product_document.py:0
+msgid "Only PDF documents can be attached inside a quote."
+msgstr "Do nabídky lze přiložit pouze dokumenty PDF."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/quotation_document.py:0
+msgid "Only PDF documents can be used as header or footer."
+msgstr "Jako hlavičku nebo zápatí lze použít pouze dokumenty PDF."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.actions.act_window,help:sale_pdf_quote_builder.quotation_document_action
+msgid ""
+"Personalize your quotes with catchy header and footer pages\n"
+"                <br>\n"
+"                to boost your sales."
+msgstr ""
+"Přizpůsobte své nabídky poutavými úvodními a závěrečnými stránkami\n"
+"                <br>\n"
+"                a zvyšte své prodeje."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid "Please use only relational fields until the last value of your path."
+msgstr "Až do poslední hodnoty cesty používejte pouze relační pole."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order_line__product_document_ids
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_pdf_form_field__product_document_ids
+msgid "Product Documents"
+msgstr "Dokumenty produktu"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_template_form
+msgid ""
+"Provide header pages and footer pages to compose an attractive quotation with more information\n"
+"                        about your company, your products and you services. <br/>\n"
+"                        The pdf of your quotes will be built by putting together header pages, product descriptions,\n"
+"                        details of the quote and then the footer pages. <br/>\n"
+"                        If empty, it will use those define in the company settings. <br/>"
+msgstr ""
+"Doplňte úvodní a závěrečné stránky a sestavte atraktivní nabídku s dalšími informacemi\n"
+"                        o vaší společnosti, vašich produktech a službách. <br/>\n"
+"                        PDF nabídky se sestaví spojením úvodních stránek, popisů produktů,\n"
+"                        podrobností nabídky a nakonec závěrečných stránek. <br/>\n"
+"                        Pokud zůstane prázdné, použijí se stránky definované v nastavení společnosti. <br/>"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_search_view
+msgid "Quotation Document"
+msgstr "Dokument nabídky"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_pdf_form_field__quotation_document_ids
+msgid "Quotation Documents"
+msgstr "Dokumenty nabídky"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_template_form
+msgid "Quote Builder Demo Video"
+msgstr "Ukázkové video tvůrce nabídek"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.actions.server,name:sale_pdf_quote_builder.cron_post_upgrade_assign_missing_form_fields_ir_actions_server
+msgid "Sale Pdf Quote Builder: assign form fields to documents post upgrade"
+msgstr "Tvůrce PDF nabídek: přiřazení polí formuláře k dokumentům po upgradu"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid "The field %(field_name)s doesn't exist on model %(model_name)s"
+msgstr "Pole %(field_name)s na modelu %(model_name)s neexistuje"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_sale_pdf_form_field__name
+msgid "The form field name as written in the PDF."
+msgstr "Název pole formuláře tak, jak je zapsán v PDF."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_sale_pdf_form_field__path
+msgid ""
+"The path to follow to dynamically fill the form field. \n"
+"Leave empty to be able to customized it in the quotation form."
+msgstr ""
+"Cesta, podle které se pole formuláře dynamicky vyplní. \n"
+"Ponechte prázdné, chcete-li hodnotu upravovat ve formuláři nabídky."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_sale_order_line__product_document_ids
+msgid ""
+"The product documents for this order line that will be merged in the PDF "
+"quote."
+msgstr ""
+"Dokumenty produktu pro tento řádek objednávky, které budou sloučeny do PDF "
+"nabídky."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_search
+msgid "This document"
+msgstr "Tento dokument"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_quotation_document__thumbnail
+msgid "Thumbnail"
+msgstr "Náhled"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_form
+msgid "Visible to all"
+msgstr "Viditelné pro všechny"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/product_document.py:0
+msgid "When attached inside a quote, the document must be a file, not a URL."
+msgstr "Dokument přiložený do nabídky musí být soubor, nikoli URL."

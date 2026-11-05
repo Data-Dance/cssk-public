@@ -1,0 +1,419 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_peppol_response
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.account_peppol_rejection_wizard_view_form
+msgid "<span>This information will be sent with your response.</span>"
+msgstr "<span>Tyto informace budou odeslány spolu s vaší odpovědí.</span>"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid ""
+"A Peppol response declaring you %(status)s this document could not be sent "
+"to the Peppol Access Point."
+msgstr ""
+"Odpověď Peppol, že jste tento dokument %(status)s, nebylo možné odeslat do "
+"přístupového bodu Peppol."
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid ""
+"A Peppol response was sent to the Peppol Access Point declaring you "
+"%(status)s this document."
+msgstr ""
+"Do přístupového bodu Peppol byla odeslána odpověď Peppol, že jste tento "
+"dokument %(status)s."
+
+#. module: account_peppol_response
+#: model:ir.model,name:account_peppol_response.model_account_edi_proxy_client_user
+msgid "Account EDI proxy user"
+msgstr "Proxy uživatel EDI účtu"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__response_code__ab
+msgid "Acknowledgement"
+msgstr "Potvrzení přijetí"
+
+#. module: account_peppol_response
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.account_peppol_rejection_wizard_view_form
+msgid "Actions to suggest"
+msgstr "Doporučené kroky"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid ""
+"An error occurred while responding to this invoice's expeditor.%(br)sStatus:"
+" %(status)s - %(error)s"
+msgstr ""
+"Při odpovídání odesílateli této faktury došlo k chybě.%(br)sStav: %(status)s"
+" – %(error)s"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__response_code__ap
+msgid "Approval"
+msgstr "Schválení"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_move__peppol_move_state__ap
+msgid "Approved"
+msgstr "Schváleno"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+#: code:addons/account_peppol_response/wizard/peppol_rejection_wizard.py:0
+msgid "At least one reason must be given when rejecting a Peppol invoice."
+msgstr "Při odmítnutí faktury Peppol je nutné uvést alespoň jeden důvod."
+
+#. module: account_peppol_response
+#: model:ir.model,name:account_peppol_response.model_account_peppol_response
+msgid "Business Level Responses for Peppol"
+msgstr "Obchodní odpovědi Peppol"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__code
+msgid "Code"
+msgstr "Kód"
+
+#. module: account_peppol_response
+#: model:ir.model,name:account_peppol_response.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__response_code__ca
+msgid "Conditionally accepted"
+msgstr "Podmíněně přijato"
+
+#. module: account_peppol_response
+#: model:ir.model,name:account_peppol_response.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: account_peppol_response
+#: model:ir.model,website_form_label:account_peppol_response.model_res_partner
+msgid "Create a Customer"
+msgstr "Vytvořit zákazníka"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__create_uid
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_rejection_wizard__create_uid
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__create_date
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_rejection_wizard__create_date
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__description
+msgid "Description"
+msgstr "Popis"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_edi_proxy_client_user__display_name
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_move__display_name
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__display_name
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_rejection_wizard__display_name
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__display_name
+#: model:ir.model.fields,field_description:account_peppol_response.field_res_company__display_name
+#: model:ir.model.fields,field_description:account_peppol_response.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: account_peppol_response
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.res_partner_form_account_peppol_response
+msgid "Does not support Invoice Responses"
+msgstr "Nepodporuje odpovědi na faktury"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__peppol_state__done
+msgid "Done"
+msgstr "Hotovo"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__peppol_state__error
+msgid "Error"
+msgstr "Chyba"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__response_code__ip
+msgid "In Process"
+msgstr "V procesu"
+
+#. module: account_peppol_response
+#: model:ir.model,name:account_peppol_response.model_account_move
+msgid "Journal Entry"
+msgstr "Účetní záznam"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__write_uid
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_rejection_wizard__write_uid
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__write_date
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_rejection_wizard__write_date
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__list_identifier
+msgid "List identifier"
+msgstr "Identifikátor seznamu"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "Miscellaneous:"
+msgstr "Ostatní:"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_rejection_wizard__move_ids
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__move_id
+msgid "Move"
+msgstr "Doklady"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_clarification__name
+msgid "Name"
+msgstr "Název"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__peppol_state__not_serviced
+msgid "Not Serviced"
+msgstr "Neobslouženo"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_bank_statement_line__peppol_move_state
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_move__peppol_move_state
+msgid "PEPPOL status"
+msgstr "PEPPOL stav"
+
+#. module: account_peppol_response
+#: model:ir.actions.server,name:account_peppol_response.ir_cron_peppol_auto_register_services_ir_actions_server
+msgid "PEPPOL: auto register services"
+msgstr "PEPPOL: automatická registrace služeb"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__response_code__pd
+msgid "Paid"
+msgstr "Zaplaceno"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__peppol_state__processing
+msgid "Pending Reception"
+msgstr "Čekající příchozí zprávy"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_bank_statement_line__peppol_can_send_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_move__peppol_can_send_response
+msgid "Peppol Can Send Response"
+msgstr "Lze odeslat odpověď Peppol"
+
+#. module: account_peppol_response
+#: model:ir.model,name:account_peppol_response.model_account_peppol_rejection_wizard
+msgid "Peppol Rejection wizard"
+msgstr "Průvodce odmítnutím Peppol"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_bank_statement_line__peppol_response_ids
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_move__peppol_response_ids
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.account_peppol_response_view_form
+msgid "Peppol Response"
+msgstr "Odpověď Peppol"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_res_partner__peppol_response_support
+#: model:ir.model.fields,field_description:account_peppol_response.field_res_users__peppol_response_support
+msgid "Peppol Response Service"
+msgstr "Služba odpovědí Peppol"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_move.py:0
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.account_peppol_response_view_list
+msgid "Peppol Responses"
+msgstr "Odpovědi Peppol"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__peppol_message_uuid
+msgid "Peppol UUID"
+msgstr "UUID Peppol"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "Peppol business response error: %s"
+msgstr "Chyba obchodní odpovědi Peppol: %s"
+
+#. module: account_peppol_response
+#: model:ir.model,name:account_peppol_response.model_account_peppol_clarification
+msgid "Peppol clarifications used for rejection"
+msgstr "Upřesnění Peppol použitá při odmítnutí"
+
+#. module: account_peppol_response
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.account_peppol_response_view_move_form
+msgid "Peppol info"
+msgstr "Informace Peppol"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__peppol_state
+msgid "Peppol status"
+msgstr "Stav Peppol"
+
+#. module: account_peppol_response
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.account_peppol_rejection_wizard_view_form
+msgid "Reasons"
+msgstr "Důvody"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "Reasons:"
+msgstr "Důvody:"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_move__peppol_move_state__ab
+msgid "Received"
+msgstr "Přijato"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_move.py:0
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.account_peppol_rejection_wizard_view_form
+msgid "Reject Peppol Document"
+msgstr "Odmítnout dokument Peppol"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_move__peppol_move_state__re
+msgid "Rejected"
+msgstr "Odmítnuto"
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__response_code__re
+msgid "Rejection"
+msgstr "Odmítnutí"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_rejection_wizard__action_ids
+msgid "Rejection actions"
+msgstr "Doporučené kroky při odmítnutí"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_rejection_wizard__reason_ids
+msgid "Rejection reasons"
+msgstr "Důvody odmítnutí"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_account_peppol_response__response_code
+msgid "Response Code"
+msgstr "Kód odpovědi"
+
+#. module: account_peppol_response
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.account_peppol_rejection_wizard_view_form
+msgid "Send Rejection"
+msgstr "Odeslat odmítnutí"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "Suggested actions:"
+msgstr "Doporučené kroky:"
+
+#. module: account_peppol_response
+#: model:ir.model.fields,field_description:account_peppol_response.field_res_partner__peppol_supported_documents
+#: model:ir.model.fields,field_description:account_peppol_response.field_res_users__peppol_supported_documents
+msgid "Supported Peppol Documents"
+msgstr "Podporované dokumenty Peppol"
+
+#. module: account_peppol_response
+#: model_terms:ir.ui.view,arch_db:account_peppol_response.res_partner_form_account_peppol_response
+msgid "Supports Invoice Responses"
+msgstr "Podporuje odpovědi na faktury"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid ""
+"The Peppol receiver of this document has rejected it with the following "
+"information:%(br)s%(rejection_message)s"
+msgstr ""
+"Příjemce tohoto dokumentu v síti Peppol jej odmítl s následujícím "
+"odůvodněním:%(br)s%(rejection_message)s"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "The Peppol receiver of this document replied that he has accepted it."
+msgstr "Příjemce tohoto dokumentu v síti Peppol odpověděl, že jej přijal."
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "The Peppol receiver of this document replied that he has received it."
+msgstr "Příjemce tohoto dokumentu v síti Peppol odpověděl, že jej obdržel."
+
+#. module: account_peppol_response
+#: model:ir.model.fields,help:account_peppol_response.field_account_peppol_rejection_wizard__action_ids
+msgid ""
+"The actions to be suggested to the document's sender in order for the "
+"document to be accepted when sent again (eventually). These will be sent to "
+"the document's sender. Not mandatory."
+msgstr ""
+"Kroky doporučené odesílateli dokumentu, aby byl dokument při případném "
+"opětovném odeslání přijat. Budou odeslány odesílateli dokumentu. Nepovinné."
+
+#. module: account_peppol_response
+#: model:ir.model.fields,help:account_peppol_response.field_account_peppol_rejection_wizard__reason_ids
+msgid ""
+"The reasons to reject the received PEPPOL document. These will be sent to "
+"the document's sender."
+msgstr ""
+"Důvody odmítnutí přijatého dokumentu PEPPOL. Budou odeslány odesílateli "
+"dokumentu."
+
+#. module: account_peppol_response
+#: model:ir.model.fields.selection,name:account_peppol_response.selection__account_peppol_response__response_code__uq
+msgid "Under query"
+msgstr "Dotaz"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "accepted"
+msgstr "přijali"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "received"
+msgstr "obdrželi"
+
+#. module: account_peppol_response
+#. odoo-python
+#: code:addons/account_peppol_response/models/account_edi_proxy_user.py:0
+msgid "rejected"
+msgstr "odmítli"

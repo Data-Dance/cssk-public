@@ -182,7 +182,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.1 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
 | `l10n_cssk_submission_base` | 19.0.1.1.2 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
-| `l10n_cssk_translation_override` | 19.0.1.0.5 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
+| `l10n_cssk_translation_override` | 19.0.1.1.0 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
 | `l10n_cssk_vat_return_base` | 19.0.1.13.1 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
 | `l10n_cssk_vies` | 19.0.2.1.1 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
 

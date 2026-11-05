@@ -1,0 +1,255 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: auth_timeout
+#: model:ir.model,name:auth_timeout.model_auth_totp_device
+msgid "Authentication Device"
+msgstr "Overovacie zariadenie"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Authentication code"
+msgstr "Overovací kód"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Authentication code via email"
+msgstr "Overovací kód e-mailom"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+#: model_terms:ir.ui.view,arch_db:auth_timeout.check_identity
+msgid "Confirm access"
+msgstr "Potvrdiť prístup"
+
+#. module: auth_timeout
+#: model:ir.model.fields,help:auth_timeout.field_res_groups__lock_timeout_inactivity_mfa
+msgid ""
+"Enable two-factor authentication when the inactivity timeout is reached."
+msgstr ""
+"Pri dosiahnutí časového limitu nečinnosti vyžadovať dvojfaktorovú "
+"autentifikáciu."
+
+#. module: auth_timeout
+#: model:ir.model.fields,help:auth_timeout.field_res_groups__lock_timeout_mfa
+msgid "Enable two-factor authentication when the session timeout is reached."
+msgstr ""
+"Pri dosiahnutí časového limitu relácie vyžadovať dvojfaktorovú "
+"autentifikáciu."
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Enter below the six-digit authentication code just sent to your email"
+msgstr ""
+"Nižšie zadajte šesťmiestny overovací kód, ktorý sme vám práve poslali "
+"e-mailom"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__has_lock_timeout
+msgid "Has Lock Timeout"
+msgstr "Má časový limit uzamknutia"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__has_lock_timeout_inactivity
+msgid "Has Lock Timeout Inactivity"
+msgstr "Má časový limit uzamknutia pri nečinnosti"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Having problems ?"
+msgstr "Máte problémy?"
+
+#. module: auth_timeout
+#: model_terms:ir.ui.view,arch_db:auth_timeout.auth_passkey_groups_form
+msgid "Inactivity"
+msgstr "Nečinnosť"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_inactivity
+msgid "Inactivity timeout"
+msgstr "Časový limit nečinnosti"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_2fa_selection
+msgid "Lock Timeout 2Fa Selection"
+msgstr "Výber 2FA pri časovom limite uzamknutia"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_delay_in_unit
+msgid "Lock Timeout Delay In Unit"
+msgstr "Oneskorenie uzamknutia v jednotkách"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_delay_unit
+msgid "Lock Timeout Delay Unit"
+msgstr "Jednotka oneskorenia uzamknutia"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_inactivity_2fa_selection
+msgid "Lock Timeout Inactivity 2Fa Selection"
+msgstr "Výber 2FA pri časovom limite nečinnosti"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_inactivity_delay_in_unit
+msgid "Lock Timeout Inactivity Delay In Unit"
+msgstr "Oneskorenie uzamknutia pri nečinnosti v jednotkách"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_inactivity_delay_unit
+msgid "Lock Timeout Inactivity Delay Unit"
+msgstr "Jednotka oneskorenia uzamknutia pri nečinnosti"
+
+#. module: auth_timeout
+#: model:ir.model.fields.selection,name:auth_timeout.selection__res_groups__lock_timeout_2fa_selection__with_2fa
+msgid "Logout with two-factor authentication"
+msgstr "Odhlásenie s dvojfaktorovou autentifikáciou"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid ""
+"Open your two-factor authenticator (TOTP) app or browser extension to view "
+"your authentication code."
+msgstr ""
+"Otvorte aplikáciu na dvojfaktorovú autentifikáciu (TOTP) alebo rozšírenie "
+"prehliadača a zobrazte si overovací kód."
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Passkey"
+msgstr "Prístupový kľúč"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_inactivity_mfa
+msgid "Require MFA on inactivity timeout"
+msgstr "Vyžadovať MFA po časovom limite nečinnosti"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout_mfa
+msgid "Require MFA on session timeout"
+msgstr "Vyžadovať MFA po časovom limite relácie"
+
+#. module: auth_timeout
+#: model:ir.model.fields,help:auth_timeout.field_res_groups__has_lock_timeout_inactivity
+msgid "Requires re-authentication after a period of user inactivity"
+msgstr "Vyžaduje opätovné overenie po určitom čase nečinnosti používateľa"
+
+#. module: auth_timeout
+#: model:ir.model.fields,help:auth_timeout.field_res_groups__has_lock_timeout
+msgid "Requires re-authentication after the user's last connection"
+msgstr ""
+"Vyžaduje opätovné overenie po určitom čase od posledného prihlásenia "
+"používateľa"
+
+#. module: auth_timeout
+#: model:ir.model.fields.selection,name:auth_timeout.selection__res_groups__lock_timeout_inactivity_2fa_selection__without_2fa
+msgid "Screen lock"
+msgstr "Uzamknutie obrazovky"
+
+#. module: auth_timeout
+#: model:ir.model.fields.selection,name:auth_timeout.selection__res_groups__lock_timeout_inactivity_2fa_selection__with_2fa
+msgid "Screen lock with two-factor authentication"
+msgstr "Uzamknutie obrazovky s dvojfaktorovou autentifikáciou"
+
+#. module: auth_timeout
+#: model:ir.model.fields,field_description:auth_timeout.field_res_groups__lock_timeout
+msgid "Session timeout"
+msgstr "Časový limit relácie"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Signed in as"
+msgstr "Prihlásený(á) ako"
+
+#. module: auth_timeout
+#: model:ir.model.fields,help:auth_timeout.field_res_groups__lock_timeout_inactivity
+msgid ""
+"Time (in minutes) of user inactivity after which re-authentication is "
+"required."
+msgstr ""
+"Čas nečinnosti používateľa (v minútach), po ktorom sa vyžaduje opätovné "
+"overenie."
+
+#. module: auth_timeout
+#: model:ir.model.fields,help:auth_timeout.field_res_groups__lock_timeout
+msgid ""
+"Time interval (in minutes) after which re-authentication is required, "
+"regardless of inactivity."
+msgstr ""
+"Časový interval (v minútach), po ktorom sa vyžaduje opätovné overenie bez "
+"ohľadu na nečinnosť."
+
+#. module: auth_timeout
+#: model_terms:ir.ui.view,arch_db:auth_timeout.auth_passkey_groups_form
+msgid "Timeouts"
+msgstr "Časové limity"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Use an authentication code sent by email"
+msgstr "Použiť overovací kód zaslaný e-mailom"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Use passkey"
+msgstr "Použiť prístupový kľúč"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Use your authenticator app"
+msgstr "Použiť overovaciu aplikáciu"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Use your passkey"
+msgstr "Použiť prístupový kľúč"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "Use your password"
+msgstr "Použiť heslo"
+
+#. module: auth_timeout
+#. odoo-javascript
+#: code:addons/auth_timeout/static/src/services/check_identity/check_identity.xml:0
+msgid "When you are ready, authenticate using the button below."
+msgstr "Keď budete pripravený(á), overte sa tlačidlom nižšie."
+
+#. module: auth_timeout
+#: model_terms:ir.ui.view,arch_db:auth_timeout.auth_passkey_groups_form
+msgid "after"
+msgstr "po"
+
+#. module: auth_timeout
+#: model_terms:ir.ui.view,arch_db:auth_timeout.auth_passkey_groups_form
+msgid "every"
+msgstr "každých"
+
+#. module: auth_timeout
+#: model_terms:ir.ui.view,arch_db:auth_timeout.auth_passkey_groups_form
+msgid "of inactivity"
+msgstr "nečinnosti"
+
+#. module: auth_timeout
+#: model:ir.model,name:auth_timeout.model_ir_websocket
+msgid "websocket message handling"
+msgstr "spracovanie správ websocket"

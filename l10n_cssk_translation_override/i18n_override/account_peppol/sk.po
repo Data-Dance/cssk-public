@@ -1,0 +1,410 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/wizard/account_move_send_wizard.py:0
+msgid " (Customer not on %(network_name)s)"
+msgstr " (Zákazník nie je v sieti %(network_name)s)"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/wizard/account_move_send_wizard.py:0
+msgid " (Previously sent)"
+msgstr " (Už odoslané)"
+
+#. module: account_peppol
+#: model_terms:ir.ui.view,arch_db:account_peppol.peppol_registration_form
+msgid "<b>Authenticate</b>"
+msgstr "<b>Overiť</b>"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"A 0% tax cannot use Tax Category 'S' (Standard). Please update the Tax "
+"Category in the Advanced Options of the tax configuration."
+msgstr ""
+"Daň 0 % nemôže používať daňovú kategóriu „S“ (štandardná). Upravte, prosím, "
+"daňovú kategóriu v rozšírených možnostiach nastavenia dane."
+
+#. module: account_peppol
+#. odoo-javascript
+#: code:addons/account_peppol/static/src/components/peppol_auth/peppol_auth_service.js:0
+msgid "Authentication canceled"
+msgstr "Overenie zrušené"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/account_move.py:0
+msgid "Cannot cancel an entry that has already been sent via %(network_name)s"
+msgstr ""
+"Záznam, ktorý už bol odoslaný cez %(network_name)s, nie je možné zrušiť"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"Cannot initiate KYC for the selected scheme (unsupported, deprecated, or "
+"removed). Please select a different scheme."
+msgstr ""
+"Pre vybranú schému nie je možné spustiť KYC (nepodporovaná, zastaraná alebo "
+"odstránená). Vyberte, prosím, inú schému."
+
+#. module: account_peppol
+#. odoo-javascript
+#: code:addons/account_peppol/static/src/components/peppol_info/peppol_info.xml:0
+msgid "Create, send, and receive e-invoices for free."
+msgstr "Vytvárajte, odosielajte a prijímajte e-faktúry zadarmo."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/account_edi_proxy_user.py:0
+msgid "Error importing %(proxy_type)s document (UUID: %(uuid)s):"
+msgstr "Chyba pri importe dokladu %(proxy_type)s (UUID: %(uuid)s):"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"For tax(es) %(taxes)s: Tax Category 'O' must be used when the exemption "
+"reason code is 'VATEX-EU-O'. You can change this in the Advanced Options of "
+"the tax configuration."
+msgstr ""
+"Pre daň(e) %(taxes)s: ak je kód dôvodu oslobodenia „VATEX-EU-O“, musí sa "
+"použiť daňová kategória „O“. Môžete to zmeniť v rozšírených možnostiach "
+"nastavenia dane."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/res_config_settings.py:0
+msgid "France - E-Invoicing (Approved Platform)"
+msgstr "Francúzsko – elektronická fakturácia (schválená platforma)"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/res_config_settings.py:0
+msgid "Go to module"
+msgstr "Prejsť na modul"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"If you are not subject to VAT, you should not have a VAT number on your "
+"company/contacts and your clients should not have one either."
+msgstr ""
+"Ak nie ste platiteľom DPH, nemali by ste mať IČ DPH vo svojej spoločnosti "
+"ani kontaktoch a nemali by ho mať ani vaši zákazníci."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/controllers/portal.py:0
+msgid ""
+"If you want to be invoiced via %(network_name)s, your configuration must be "
+"valid."
+msgstr ""
+"Ak chcete dostávať faktúry cez %(network_name)s, vaše nastavenie musí byť "
+"platné."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/account_move_send.py:0
+msgid ""
+"Invoice %(invoice_name)s exceeds the size limit of 64 MB to be sent via "
+"%(network_name)s."
+msgstr ""
+"Faktúra %(invoice_name)s presahuje limit veľkosti 64 MB pre odoslanie cez "
+"%(network_name)s."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"Invoice lines using Tax Category 'O' cannot use a percentage-based tax. "
+"Please update the tax type in Advanced Options."
+msgstr ""
+"Riadky faktúry s daňovou kategóriou „O“ nemôžu používať percentuálnu daň. "
+"Upravte, prosím, typ dane v rozšírených možnostiach."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"Invoice lines with Tax Category 'Exempt from VAT' must have a tax rate of 0."
+" You can change this in the Advanced Options of the tax configuration."
+msgstr ""
+"Riadky faktúry s daňovou kategóriou „Oslobodené od DPH“ musia mať sadzbu "
+"dane 0. Môžete to zmeniť v rozšírených možnostiach nastavenia dane."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"Invoice lines with Tax Category 'Reverse charge' must have a tax rate of 0. "
+"You can change this in the Advanced Options of the tax configuration."
+msgstr ""
+"Riadky faktúry s daňovou kategóriou „Prenesenie daňovej povinnosti“ musia "
+"mať sadzbu dane 0. Môžete to zmeniť v rozšírených možnostiach nastavenia "
+"dane."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"Missing Buyer Country. Please add the Country Code to the client's contact "
+"information."
+msgstr ""
+"Chýba krajina odberateľa. Doplňte, prosím, kód krajiny do kontaktných údajov"
+" zákazníka."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"Missing Invoiced Item VAT category code. Action Required: Install the module"
+" account_edi_ubl_cii_tax_extension."
+msgstr ""
+"Chýba kód kategórie DPH fakturovanej položky. Potrebná akcia: nainštalujte "
+"modul account_edi_ubl_cii_tax_extension."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"Missing Reverse Charge details. Please set the Exemption Reason to 'Reverse "
+"charge' in the Advanced Options of the tax configuration."
+msgstr ""
+"Chýbajú údaje o prenesení daňovej povinnosti. Nastavte, prosím, dôvod "
+"oslobodenia na „Prenesenie daňovej povinnosti“ v rozšírených možnostiach "
+"nastavenia dane."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"Missing VAT category code. Action Required: Install the module "
+"account_edi_ubl_cii_tax_extension."
+msgstr ""
+"Chýba kód kategórie DPH. Potrebná akcia: nainštalujte modul "
+"account_edi_ubl_cii_tax_extension."
+
+#. module: account_peppol
+#. odoo-javascript
+#: code:addons/account_peppol/static/src/components/peppol_info/peppol_info.xml:0
+msgid "Odoo keeps you up to date with new regulations."
+msgstr "Odoo vás udržiava v súlade s novými predpismi."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/wizard/account_move_send_wizard.py:0
+msgid "Partner doesn't have a valid configuration for %(network_name)s."
+msgstr "Partner nemá platné nastavenie pre %(network_name)s."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/res_company.py:0
+msgid "Peppol EAS and/or Endpoint identifier"
+msgstr "Peppol EAS a/alebo identifikátor koncového bodu"
+
+#. module: account_peppol
+#: model:ir.model.fields,field_description:account_peppol.field_peppol_registration__peppol_eas
+msgid "Peppol Eas"
+msgstr "Peppol EAS"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/exceptions.py:0
+msgid "Peppol Error"
+msgstr "Chyba Peppol"
+
+#. module: account_peppol
+#: model:ir.model.fields,field_description:account_peppol.field_res_config_settings__peppol_purchase_journal_required
+msgid "Peppol Purchase Journal Required"
+msgstr "Vyžaduje sa nákupný denník pre Peppol"
+
+#. module: account_peppol
+#. odoo-javascript
+#: code:addons/account_peppol/static/src/components/peppol_info/peppol_info.xml:0
+msgid ""
+"Peppol allows for complete automation of sending and receiving e-invoices."
+msgstr ""
+"Peppol umožňuje úplnú automatizáciu odosielania a prijímania e-faktúr."
+
+#. module: account_peppol
+#. odoo-javascript
+#: code:addons/account_peppol/static/src/components/peppol_info/peppol_info.xml:0
+msgid ""
+"Peppol is the secure standard for e-invoices used in EU and across the "
+"world."
+msgstr ""
+"Peppol je bezpečný štandard pre e-faktúry používaný v EÚ a na celom svete."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/wizard/peppol_registration.py:0
+msgid "Please make sure the Contact email is a valid email address."
+msgstr "Uistite sa, prosím, že kontaktný e-mail je platná e-mailová adresa."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/controllers/portal.py:0
+msgid "That country is not available with %(network_name)s."
+msgstr "Táto krajina nie je v sieti %(network_name)s dostupná."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"The Peppol endpoint is missing in the XML file. Action Required: Update the "
+"account and account_edi_ubl_cii modules to resolve this."
+msgstr ""
+"V súbore XML chýba koncový bod Peppol. Potrebná akcia: aktualizujte moduly "
+"account a account_edi_ubl_cii."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"The Tax Category must be 'AE' when using Exemption Reason code 'VATEX-EU-"
+"AE'. You can change this in the Advanced Options of the tax configuration."
+msgstr ""
+"Pri kóde dôvodu oslobodenia „VATEX-EU-AE“ musí byť daňová kategória „AE“. "
+"Môžete to zmeniť v rozšírených možnostiach nastavenia dane."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/tools/peppol_errors.py:0
+msgid ""
+"The exemption reason code is invalid. Action Required: Install the module "
+"account_edi_ubl_cii_tax_extension."
+msgstr ""
+"Kód dôvodu oslobodenia je neplatný. Potrebná akcia: nainštalujte modul "
+"account_edi_ubl_cii_tax_extension."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/res_config_settings.py:0
+msgid ""
+"To use the Approved Platform for French E-Invoicing install the module '%s'."
+msgstr ""
+"Ak chcete používať schválenú platformu pre francúzsku elektronickú "
+"fakturáciu, nainštalujte modul „%s“."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/res_config_settings.py:0
+msgid ""
+"To use the Approved Platform for French E-Invoicing install the module '%s'.\n"
+"The module was not found. Please update the app list first."
+msgstr ""
+"Ak chcete používať schválenú platformu pre francúzsku elektronickú fakturáciu, nainštalujte modul „%s“.\n"
+"Modul sa nenašiel. Najprv, prosím, aktualizujte zoznam aplikácií."
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/account_move_send.py:0
+msgid ""
+"To use the Approved Platform for French E-Invoicing, install the module"
+msgstr ""
+"Ak chcete používať schválenú platformu pre francúzsku elektronickú "
+"fakturáciu, nainštalujte modul"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/res_config_settings.py:0
+msgid "Update App List"
+msgstr "Aktualizovať zoznam aplikácií"
+
+#. module: account_peppol
+#. odoo-javascript
+#: code:addons/account_peppol/static/src/components/peppol_auth/peppol_auth_service.js:0
+msgid "Verification pending"
+msgstr "Čaká sa na overenie"
+
+#. module: account_peppol
+#. odoo-javascript
+#: code:addons/account_peppol/static/src/components/peppol_info/peppol_info.xml:0
+msgid "What is Peppol and why is it great?"
+msgstr "Čo je Peppol a prečo je skvelý?"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/account_move_send.py:0
+msgid "Why should I use French E-Invoicing ?"
+msgstr "Prečo by som mal(a) používať francúzsku elektronickú fakturáciu?"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/account_move_send.py:0
+msgid "Why should I use Peppol?"
+msgstr "Prečo by som mal(a) používať Peppol?"
+
+#. module: account_peppol
+#. odoo-python
+#: code:addons/account_peppol/models/account_move_send.py:0
+msgid "Why should you use it?"
+msgstr "Prečo ju používať?"
+
+#. module: account_peppol
+#: model_terms:ir.ui.view,arch_db:account_peppol.peppol_registration_form
+msgid ""
+"You accept that any fraudulent activity or spam will result in immediate and"
+" permanent exclusion from the Peppol network."
+msgstr ""
+"Beriete na vedomie, že akákoľvek podvodná činnosť alebo spam budú mať za "
+"následok okamžité a trvalé vylúčenie zo siete Peppol."
+
+#. module: account_peppol
+#: model_terms:ir.ui.view,arch_db:account_peppol.peppol_registration_form
+msgid ""
+"You authorize Odoo to act as your Peppol Service Provider to send and "
+"receive e-invoices on your behalf."
+msgstr ""
+"Splnomocňujete Odoo, aby ako váš poskytovateľ služieb Peppol vo vašom mene "
+"odosielal a prijímal e-faktúry."
+
+#. module: account_peppol
+#: model_terms:ir.ui.view,arch_db:account_peppol.peppol_registration_form
+msgid ""
+"You confirm that you are authorized to register this company on the Peppol "
+"network as a legal representative."
+msgstr ""
+"Potvrdzujete, že ste ako štatutárny zástupca oprávnený(á) zaregistrovať túto"
+" spoločnosť v sieti Peppol."
+
+#. module: account_peppol
+#: model_terms:ir.ui.view,arch_db:account_peppol.peppol_registration_form
+msgid ""
+"You remain fully responsible for the content, accuracy, and legal compliance"
+" of your invoices."
+msgstr ""
+"Za obsah, správnosť a súlad vašich faktúr s právnymi predpismi naďalej "
+"nesiete plnú zodpovednosť."
+
+#. module: account_peppol
+#. odoo-javascript
+#: code:addons/account_peppol/static/src/components/peppol_auth/peppol_auth_service.js:0
+msgid ""
+"Your details are being verified. There is nothing else to do on your end: "
+"your Peppol registration will be finalized automatically."
+msgstr ""
+"Vaše údaje sa overujú. Z vašej strany už netreba nič robiť: registrácia do "
+"siete Peppol sa dokončí automaticky."
+
+#. module: account_peppol
+#: model_terms:ir.ui.view,arch_db:account_peppol.mail_notification_layout_with_responsible_signature_and_peppol
+msgid "could not be sent via"
+msgstr "nebolo možné odoslať cez"
+
+#. module: account_peppol
+#: model_terms:ir.ui.view,arch_db:account_peppol.mail_notification_layout_with_responsible_signature_and_peppol
+msgid "sent via"
+msgstr "odoslané cez"

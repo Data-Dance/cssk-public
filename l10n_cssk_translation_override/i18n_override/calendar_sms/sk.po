@@ -1,0 +1,36 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: calendar_sms
+#: model:ir.model.fields,field_description:calendar_sms.field_calendar_alarm__display_name
+#: model:ir.model.fields,field_description:calendar_sms.field_calendar_alarm_manager__display_name
+#: model:ir.model.fields,field_description:calendar_sms.field_calendar_event__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: calendar_sms
+#: model:sms.template,body:calendar_sms.sms_template_data_calendar_reminder
+msgid ""
+"Event reminder: {{ object.name }}, {{ "
+"object.get_display_time_tz(object.partner_id.tz) }}"
+msgstr ""
+"Pripomienka udalosti: {{ object.name }}, {{ "
+"object.get_display_time_tz(object.partner_id.tz) }}"
+
+#. module: calendar_sms
+#: model:ir.model.fields,help:calendar_sms.field_calendar_alarm__sms_template_id
+msgid "Template used to render SMS reminder content."
+msgstr "Šablóna použitá na vytvorenie obsahu SMS pripomienky."
+
+#. module: calendar_sms
+#. odoo-python
+#: code:addons/calendar_sms/models/calendar_event.py:0
+msgid "There are no attendees on these events"
+msgstr "Tieto udalosti nemajú žiadnych účastníkov"

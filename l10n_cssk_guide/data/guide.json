@@ -48,6 +48,36 @@
     "sk": "Banka"
    }
   },
+  "sk_bank_sync": {
+   "country": "sk",
+   "langs": [
+    "en",
+    "sk"
+   ],
+   "summary": {
+    "en": "Bank movements arrive in Odoo by themselves — Fio banka through your own token, Tatra banka through its Premium API — with no files to download or import, with payment symbols and the counterparty's account.",
+    "sk": "Pohyby z banky prichádzajú do Odoo samy — Fio banka cez vlastný token, Tatra banka cez Premium API — bez sťahovania a importu súborov, so symbolmi a účtom protistrany."
+   },
+   "title": {
+    "en": "Bank account synchronisation",
+    "sk": "Synchronizácia bankových účtov"
+   }
+  },
+  "sk_document_capture": {
+   "country": "sk",
+   "langs": [
+    "en",
+    "sk"
+   ],
+   "summary": {
+    "en": "Vendor bills filled in from their PDF by AI, and till receipts read from their QR code through eKasa or from a photo — what fills in by itself, what to check and how it becomes an accounting document.",
+    "sk": "Dodávateľské faktúry vyplnené z PDF umelou inteligenciou a pokladničné bločky prečítané z QR kódu cez eKasu alebo z fotografie — čo sa vyplní samo, čo treba skontrolovať a ako z toho vznikne doklad v účtovníctve."
+   },
+   "title": {
+    "en": "Document capture",
+    "sk": "Vyťažovanie dokladov"
+   }
+  },
   "sk_documents": {
    "country": "sk",
    "langs": [
@@ -76,6 +106,21 @@
    "title": {
     "en": "Odoo for a Slovak accountant",
     "sk": "Odoo pre slovenského účtovníka"
+   }
+  },
+  "sk_peppol": {
+   "country": "sk",
+   "langs": [
+    "en",
+    "sk"
+   ],
+   "summary": {
+    "en": "Sending and receiving e-invoices over the Peppol network through the ePošťák access point — the connection, Peppol addresses, which invoices go electronically, delivery states and received invoices as drafts.",
+    "sk": "Odosielanie a prijímanie elektronických faktúr cez sieť Peppol a prístupový bod ePošťák — pripojenie, Peppol adresy, ktoré faktúry odídu elektronicky, stavy doručenia a prijaté faktúry ako koncepty."
+   },
+   "title": {
+    "en": "E-invoices via Peppol",
+    "sk": "Elektronické faktúry cez Peppol"
    }
   },
   "sk_vat_close": {
@@ -182,7 +227,8 @@
    "guides": [
     "sk_orientation",
     "sk_account_setup",
-    "sk_documents"
+    "sk_documents",
+    "sk_document_capture"
    ],
    "intro": {
     "cs": "Balíček pro zemi, údaje společnosti, faktury a doklady každého dne.",
@@ -244,7 +290,8 @@
   },
   {
    "guides": [
-    "sk_bank"
+    "sk_bank",
+    "sk_bank_sync"
    ],
    "intro": {
     "cs": "Platební soubory, bankovní výpisy, přímé napojení na banku, platební QR kódy a kurzy měn.",
@@ -259,7 +306,9 @@
    }
   },
   {
-   "guides": [],
+   "guides": [
+    "sk_peppol"
+   ],
    "intro": {
     "cs": "Elektronické faktury a objednávky se zákazníky a dodavateli, přes Peppol nebo obchodní síť EDI.",
     "en": "Electronic invoices and orders with your customers and suppliers, over Peppol or a retail EDI network.",

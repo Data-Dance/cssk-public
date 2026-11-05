@@ -1,0 +1,873 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_kanban
+msgid "<span class=\"text-muted text-nowrap\">Period</span>"
+msgstr "<span class=\"text-muted text-nowrap\">Období</span>"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_kanban
+msgid "<span class=\"text-muted text-nowrap\">Total time</span>"
+msgstr "<span class=\"text-muted text-nowrap\">Celkový čas</span>"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model,name:hr_timesheet_sheet.model_hr_timesheet_sheet_line_abstract
+msgid "Abstract Timesheet Sheet Line"
+msgstr "Abstraktní řádek archu časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__access_warning
+msgid "Access warning"
+msgstr "Varování přístupových práv"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_needaction
+msgid "Action Needed"
+msgstr "Vyžadována akce"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Typ výjimečné aktivity"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+msgid "Add new line"
+msgstr "Přidat nový řádek"
+
+#. module: hr_timesheet_sheet
+#: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_timesheet_sheet_all_timesheets
+#: model:ir.ui.menu,name:hr_timesheet_sheet.menu_act_hr_timesheet_sheet_all_timesheets
+msgid "All Timesheet Sheets"
+msgstr "Všechny archy časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model,name:hr_timesheet_sheet.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "Analytický účet"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__available_task_ids
+msgid "Available Tasks"
+msgstr "Dostupné úkoly"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_sheet_review_policy__hr_manager
+msgid "By HR Managers"
+msgstr "Personalisté – manažeři"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_sheet_review_policy__hr
+msgid "By HR Officers"
+msgstr "Personalisté – referenti"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_sheet_review_policy__timesheet_manager
+msgid "By Timesheets Managers"
+msgstr "Manažeři časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__can_review
+msgid "Can Review"
+msgstr "Může recenzovat"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Cannot approve a non-submitted sheet."
+msgstr "Neodeslaný arch nelze schválit."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Cannot reject a non-submitted sheet."
+msgstr "Neodeslaný arch nelze zamítnout."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Cannot revert to draft a non-approved sheet."
+msgstr "Neschválený arch nelze vrátit do stavu návrh."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.res_config_settings_view_form
+msgid "Choose the week start day."
+msgstr "Vyberte první den týdne."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.res_config_settings_view_form
+msgid "Choose timesheet sheets review policy."
+msgstr "Vyberte pravidla kontroly archů časových výkazů."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.res_config_settings_view_form
+msgid "Choose which timesheet sheet ranges should be used by default"
+msgstr ""
+"Vyberte, jaká období archů časových výkazů se mají používat ve výchozím "
+"nastavení"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__complete_name
+msgid "Complete Name"
+msgstr "Kompletní jméno"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model,name:hr_timesheet_sheet.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigurační nastavení"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__access_url
+msgid "Customer Portal URL"
+msgstr "URL zákaznického portálu"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line__date
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line_abstract__date
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_new_analytic_line__date
+msgid "Date"
+msgstr "Datum"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line__value_x
+msgid "Date Name"
+msgstr "Název období"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__sheet_range__daily
+msgid "Day"
+msgstr "Den"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_kanban
+msgid "Delete"
+msgstr "Smazat"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+msgid "Draft Timesheet Sheets"
+msgstr "Archy časových výkazů v návrhu"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_kanban
+msgid "Edit"
+msgstr "Upravit"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+msgid "Employee's Name"
+msgstr "Jméno zaměstnance"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_line_to_submit
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_to_review
+msgid ""
+"Employees must record timesheets every day and confirm at the end\n"
+"            of the reporting period. Once the timesheet sheet is confirmed, it should be\n"
+"            validated by a reviewer."
+msgstr ""
+"Zaměstnanci musí zapisovat časové výkazy každý den a na konci\n"
+"            vykazovaného období je potvrdit. Po potvrzení archu časových výkazů by jej měl\n"
+"            schválit kontrolor."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_all_timesheets
+msgid ""
+"Employees must record timesheets in the sheet every day and confirm at the end\n"
+"             of the reporting period. Once the timesheet sheet is confirmed, it should be\n"
+"             validated by a reviewer."
+msgstr ""
+"Zaměstnanci musí zapisovat časové výkazy do archu každý den a na konci\n"
+"             vykazovaného období je potvrdit. Po potvrzení archu časových výkazů by jej měl\n"
+"             schválit kontrolor."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_follower_ids
+msgid "Followers"
+msgstr "Odběratelé"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odběratelé (partneři)"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_week_start__4
+msgid "Friday"
+msgstr "Pátek"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_res_company__timesheet_sheet_review_policy
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_res_config_settings__timesheet_sheet_review_policy
+msgid "How Timesheet Sheets review is performed."
+msgstr "Jak probíhá kontrola archů časových výkazů."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__add_line_project_id
+msgid ""
+"If selected, the associated project is added to the timesheet sheet when "
+"clicked the button."
+msgstr ""
+"Pokud je vybráno, přidá se po kliknutí na tlačítko související projekt do "
+"archu časových výkazů."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__add_line_task_id
+msgid ""
+"If selected, the associated task is added to the timesheet sheet when "
+"clicked the button."
+msgstr ""
+"Pokud je vybráno, přidá se po kliknutí na tlačítko související úkol do archu"
+" časových výkazů."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid ""
+"In order to create a sheet for this employee, you must link him/her to an "
+"user: %s"
+msgstr ""
+"Chcete-li pro tohoto zaměstnance vytvořit arch, musíte ho propojit s "
+"uživatelem: %s"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid ""
+"In order to review a timesheet sheet, your user needs to be linked to an "
+"employee."
+msgstr ""
+"Abyste mohli kontrolovat arch časových výkazů, musí být váš uživatel "
+"propojen se zaměstnancem."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_is_follower
+msgid "Is Follower"
+msgstr "Je odběratel"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba při doručování zprávy"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_ids
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_week_start__0
+msgid "Monday"
+msgstr "Pondělí"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: hr_timesheet_sheet
+#: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_timesheet_sheet_my_timesheets
+#: model:ir.ui.menu,name:hr_timesheet_sheet.menu_act_hr_timesheet_sheet_my_timesheets
+msgid "My Timesheet Sheets"
+msgstr "Moje archy časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.ui.menu,name:hr_timesheet_sheet.menu_hr_my_timesheets
+msgid "My Timesheets"
+msgstr "Mé časové výkazy"
+
+#. module: hr_timesheet_sheet
+#: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_timesheet_line_to_submit_my
+#: model:ir.ui.menu,name:hr_timesheet_sheet.menu_act_hr_timesheet_line_to_submit_my
+msgid "My Timesheets to Submit"
+msgstr "Moje časové výkazy k odeslání"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_line_to_submit_my
+msgid "My timesheets to submit."
+msgstr "Moje časové výkazy k odeslání."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__name
+msgid "Name"
+msgstr "Název"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line__new_line_id
+msgid "New Line"
+msgstr "Nový řádek"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_my_timesheets
+msgid "New timesheet sheet."
+msgstr "Nový arch časových výkazů."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Další aktivita z kalendáře"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_line_search
+msgid "Not Submitted"
+msgstr "Neodesláno"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou při doručení"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Only a HR Officer or Manager can review the sheet."
+msgstr "Arch může kontrolovat pouze personalista (referent nebo manažer)."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_tree
+msgid "Period"
+msgstr "Období"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Please enter start and end date"
+msgstr "Zadejte prosím datum začátku a konce"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__access_url
+msgid "Portal Access URL"
+msgstr "URL portálového přístupu"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line__project_id
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line_abstract__project_id
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_new_analytic_line__project_id
+msgid "Project"
+msgstr "Projekt"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line__value_y
+msgid "Project Name"
+msgstr "Název projektu"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line__unit_amount
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line_abstract__unit_amount
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_new_analytic_line__unit_amount
+msgid "Quantity"
+msgstr "Množství"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__rating_ids
+msgid "Ratings"
+msgstr "Hodnocení"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovědný uživatel"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__review_policy
+msgid "Review Policy"
+msgstr "Pravidla kontroly"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__reviewer_id
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+msgid "Reviewer"
+msgstr "Kontrolor"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_week_start__5
+msgid "Saturday"
+msgstr "Sobota"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Save the Timesheet Sheet first."
+msgstr "Nejprve uložte arch časových výkazů."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__access_token
+msgid "Security Token"
+msgstr "Bezpečnostní token"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__add_line_project_id
+msgid "Select Project"
+msgstr "Vybrat projekt"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__add_line_task_id
+msgid "Select Task"
+msgstr "Vybrat úkol"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_account_analytic_line__sheet_state
+msgid "Sheet State"
+msgstr "Stav archu"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_res_config_settings__timesheet_week_start
+msgid "Starting day for Timesheet Sheets."
+msgstr "První den archů časových výkazů."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po splatnosti: Datum již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Plánováno: Budoucí aktivity."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_kanban
+msgid "Submit to Reviewer"
+msgstr "Odeslat ke kontrole"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+msgid "Submitted"
+msgstr "Podáno"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+msgid "Submitted Timesheet Sheets"
+msgstr "Odeslané archy časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_week_start__6
+msgid "Sunday"
+msgstr "Neděle"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line__task_id
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_line_abstract__task_id
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet_new_analytic_line__task_id
+msgid "Task"
+msgstr "Úkol"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__new_line_ids
+msgid "Temporary Timesheets"
+msgstr "Dočasné časové výkazy"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid ""
+"The Company in the Timesheet Sheet and in the Department must be the same."
+msgstr "Společnost v archu časových výkazů a v oddělení musí být stejná."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid ""
+"The Company in the Timesheet Sheet and in the Employee must be the same."
+msgstr "Společnost v archu časových výkazů a u zaměstnance musí být stejná."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid ""
+"The Company in the Timesheet Sheet and in the Project must be the same."
+msgstr "Společnost v archu časových výkazů a v projektu musí být stejná."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "The Company in the Timesheet Sheet and in the Task must be the same."
+msgstr "Společnost v archu časových výkazů a v úkolu musí být stejná."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_res_company__sheet_range
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_res_config_settings__sheet_range
+msgid "The range of your Timesheet Sheet."
+msgstr "Období vašeho archu časových výkazů."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "The start date cannot be later than the end date."
+msgstr "Datum začátku nemůže být pozdější než datum konce."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_week_start__3
+msgid "Thursday"
+msgstr "Čtvrtek"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+msgid "Timesheet Activities"
+msgstr "Pracovní výkaz aktivit"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.res_config_settings_view_form
+msgid "Timesheet Options"
+msgstr "Možnosti časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model,name:hr_timesheet_sheet.model_hr_timesheet_sheet
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.hr_timesheet_sheet_form
+msgid "Timesheet Sheet"
+msgstr "Arch časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model,name:hr_timesheet_sheet.model_hr_timesheet_sheet_line
+msgid "Timesheet Sheet Line"
+msgstr "Řádek archu časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__line_ids
+msgid "Timesheet Sheet Lines"
+msgstr "Řádky archu časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model,name:hr_timesheet_sheet.model_hr_timesheet_sheet_new_analytic_line
+msgid "Timesheet Sheet New Analytic Line"
+msgstr "Nový analytický řádek archu časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_res_company__sheet_range
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_res_config_settings__sheet_range
+msgid "Timesheet Sheet Range"
+msgstr "Období archu časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_res_company__timesheet_sheet_review_policy
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_res_config_settings__timesheet_sheet_review_policy
+msgid "Timesheet Sheet Review Policy"
+msgstr "Pravidla kontroly archu časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_employee_2_hr_timesheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_employee__timesheet_sheet_ids
+msgid "Timesheet Sheets"
+msgstr "Archy časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_employee__timesheet_sheet_count
+msgid "Timesheet Sheets Count"
+msgstr "Počet archů časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_department__timesheet_sheet_to_approve_count
+msgid "Timesheet Sheets to Approve"
+msgstr "Archy časových výkazů ke schválení"
+
+#. module: hr_timesheet_sheet
+#: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_timesheet_sheet_to_review
+#: model:ir.ui.menu,name:hr_timesheet_sheet.menu_act_hr_timesheet_sheet_to_review
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+msgid "Timesheet Sheets to Review"
+msgstr "Archy časových výkazů ke kontrole"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_all_timesheets
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_my_timesheets
+msgid ""
+"Timesheet sheets can also be invoiced to customers, depending on\n"
+"             the configuration of each project's related contract."
+msgstr ""
+"Archy časových výkazů lze také fakturovat zákazníkům, v závislosti na\n"
+"             nastavení smlouvy přiřazené k jednotlivým projektům."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_all_timesheets
+msgid "Timesheet sheets."
+msgstr "Archy časových výkazů."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model,name:hr_timesheet_sheet.model_timesheets_analysis_report
+msgid "Timesheets Analysis Report"
+msgstr "Analýza časových výkazů"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_line_to_submit
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_to_review
+msgid ""
+"Timesheets can also be invoiced to customers, depending on the\n"
+"            configuration of each project's related contract."
+msgstr ""
+"Časové výkazy lze také fakturovat zákazníkům, v závislosti na\n"
+"            nastavení smlouvy přiřazené k jednotlivým projektům."
+
+#. module: hr_timesheet_sheet
+#: model:ir.actions.act_window,name:hr_timesheet_sheet.hr_timesheet_action_from_department
+msgid "Timesheets to Review"
+msgstr "Časové výkazy ke kontrole"
+
+#. module: hr_timesheet_sheet
+#: model:ir.actions.act_window,name:hr_timesheet_sheet.act_hr_timesheet_line_to_submit
+#: model:ir.ui.menu,name:hr_timesheet_sheet.menu_act_hr_timesheet_line_to_submit
+msgid "Timesheets to Submit"
+msgstr "Časové výkazy k odeslání"
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_to_review
+msgid "Timesheets to review."
+msgstr "Časové výkazy ke kontrole."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_line_to_submit
+msgid "Timesheets to submit."
+msgstr "Časové výkazy k odeslání."
+
+#. module: hr_timesheet_sheet
+#: model:ir.ui.menu,name:hr_timesheet_sheet.menu_hr_to_review
+#: model_terms:ir.ui.view,arch_db:hr_timesheet_sheet.view_hr_timesheet_sheet_filter
+msgid "To Review"
+msgstr "Ke kontrole"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_week_start__1
+msgid "Tuesday"
+msgstr "Úterý"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výjimečné aktivity na záznamu."
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__hr_timesheet_sheet__state__confirm
+#: model:mail.message.subtype,name:hr_timesheet_sheet.mt_timesheet_confirmed
+msgid "Waiting Review"
+msgstr "Čeká na kontrolu"
+
+#. module: hr_timesheet_sheet
+#: model:mail.message.subtype,description:hr_timesheet_sheet.mt_timesheet_confirmed
+msgid "Waiting review"
+msgstr "Čeká na kontrolu"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Warning"
+msgstr "Varování"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_hr_timesheet_sheet__website_message_ids
+msgid "Website Messages"
+msgstr "Webové zprávy"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,help:hr_timesheet_sheet.field_hr_timesheet_sheet__website_message_ids
+msgid "Website communication history"
+msgstr "Webová historie komunikace"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields.selection,name:hr_timesheet_sheet.selection__res_company__timesheet_week_start__2
+msgid "Wednesday"
+msgstr "Středa"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Week %(end)s"
+msgstr "Týden %(end)s"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_res_config_settings__timesheet_week_start
+msgid "Week Start Day"
+msgstr "První den týdne"
+
+#. module: hr_timesheet_sheet
+#: model:ir.model.fields,field_description:hr_timesheet_sheet.field_res_company__timesheet_week_start
+msgid "Week start day"
+msgstr "První den týdne"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "Weeks %(start)s - %(end)s"
+msgstr "Týdny %(start)s – %(end)s"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/account_analytic_account.py:0
+#: code:addons/hr_timesheet_sheet/models/hr_department.py:0
+#: code:addons/hr_timesheet_sheet/models/hr_employee.py:0
+msgid ""
+"You cannot change the company, as this %(rec_name)s (%(rec_display_name)s) "
+"is assigned to %(current_name)s (%(current_display_name)s)."
+msgstr ""
+"Společnost nelze změnit, protože tento záznam %(rec_name)s "
+"(%(rec_display_name)s) je přiřazen k %(current_name)s "
+"(%(current_display_name)s)."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/account_analytic_line.py:0
+msgid ""
+"You cannot create a timesheet of a different company than the one of the timesheet sheet:\n"
+" - %(sheet_name)s of %(sheet_company)s\n"
+" - %(name)s of %(company)s"
+msgstr ""
+"Nelze vytvořit časový výkaz jiné společnosti, než je společnost archu časových výkazů:\n"
+" - %(sheet_name)s společnosti %(sheet_company)s\n"
+" - %(name)s společnosti %(company)s"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid ""
+"You cannot delete a timesheet sheet which is already submitted or confirmed:"
+" %s"
+msgstr ""
+"Arch časových výkazů, který je již odeslán nebo potvrzen, nelze smazat: %s"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid "You cannot duplicate a sheet."
+msgstr "Arch nelze duplikovat."
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/hr_timesheet_sheet.py:0
+msgid ""
+"You cannot have 2 or more sheets that overlap!\n"
+"Please use the menu \"Timesheet Sheet\" to avoid this problem.\n"
+"Conflicting sheets:\n"
+" - %(names)s"
+msgstr ""
+"Nemůžete mít 2 nebo více archů, které se překrývají!\n"
+"Abyste se tomuto problému vyhnuli, použijte nabídku „Arch časových výkazů“.\n"
+"Konfliktní archy:\n"
+" - %(names)s"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/account_analytic_line.py:0
+msgid "You cannot modify an entry in a confirmed timesheet sheet: %(names)s"
+msgstr "Záznam v potvrzeném archu časových výkazů nelze upravit: %(names)s"
+
+#. module: hr_timesheet_sheet
+#. odoo-python
+#: code:addons/hr_timesheet_sheet/models/account_analytic_line.py:0
+msgid ""
+"You cannot modify timesheets that are linked to     time off requests.\n"
+"    Please use the Time Off application to modify your time off requests instead."
+msgstr ""
+"Časové výkazy propojené se žádostmi o volno nelze upravovat.\n"
+"    Pro úpravu žádostí o volno prosím použijte aplikaci Volno."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_line_to_submit_my
+msgid ""
+"You must record timesheets every day and confirm at the end\n"
+"            of the reporting period. Once the timesheet sheet is confirmed, it should be\n"
+"            validated by a reviewer."
+msgstr ""
+"Časové výkazy musíte zapisovat každý den a na konci\n"
+"            vykazovaného období je potvrdit. Po potvrzení archu časových výkazů by jej měl\n"
+"            schválit kontrolor."
+
+#. module: hr_timesheet_sheet
+#: model_terms:ir.actions.act_window,help:hr_timesheet_sheet.act_hr_timesheet_sheet_my_timesheets
+msgid ""
+"You must record timesheets in the sheet every day and confirm at the end\n"
+"             of the reporting period. Once the timesheet sheet is confirmed, it should be\n"
+"             validated by a reviewer."
+msgstr ""
+"Časové výkazy musíte zapisovat do archu každý den a na konci\n"
+"             vykazovaného období je potvrdit. Po potvrzení archu časových výkazů by jej měl\n"
+"             schválit kontrolor."

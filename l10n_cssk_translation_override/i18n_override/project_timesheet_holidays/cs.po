@@ -1,0 +1,118 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_timesheet_holidays
+#: model:ir.model,website_form_label:project_timesheet_holidays.model_project_task
+msgid "Create a Task"
+msgstr "Vytvořit úkol"
+
+#. module: project_timesheet_holidays
+#: model:ir.model.fields,help:project_timesheet_holidays.field_res_config_settings__internal_project_id
+msgid ""
+"The default project used when automatically generating timesheets via time "
+"off requests. You can specify another project on each time off type "
+"individually."
+msgstr ""
+"Výchozí projekt používaný při automatickém generování časových výkazů z "
+"žádostí o volno. U každého typu volna můžete zadat jiný projekt."
+
+#. module: project_timesheet_holidays
+#: model:ir.model.fields,help:project_timesheet_holidays.field_res_config_settings__leave_timesheet_task_id
+msgid ""
+"The default task used when automatically generating timesheets via time off "
+"requests. You can specify another task on each time off type individually."
+msgstr ""
+"Výchozí úkol používaný při automatickém generování časových výkazů z žádostí"
+" o volno. U každého typu volna můžete zadat jiný úkol."
+
+#. module: project_timesheet_holidays
+#. odoo-python
+#: code:addons/project_timesheet_holidays/models/hr_leave.py:0
+#: code:addons/project_timesheet_holidays/models/resource_calendar_leaves.py:0
+msgid "Time Off (%(index)s/%(total)s)"
+msgstr "Volno (%(index)s/%(total)s)"
+
+#. module: project_timesheet_holidays
+#: model:ir.model.fields,field_description:project_timesheet_holidays.field_project_task__leave_types_count
+msgid "Time Off Types Count"
+msgstr "Počet typů volna"
+
+#. module: project_timesheet_holidays
+#. odoo-python
+#: code:addons/project_timesheet_holidays/models/account_analytic.py:0
+msgid "Timesheets linked to public holidays cannot be modified."
+msgstr "Časové výkazy propojené se státními svátky nelze upravovat."
+
+#. module: project_timesheet_holidays
+#: model:ir.model.fields,help:project_timesheet_holidays.field_project_task__display_name
+msgid ""
+"Use these keywords in the title to set new tasks:\n"
+"\n"
+"        30h Allocate 30 hours to the task\n"
+"        #tags Set tags on the task\n"
+"        @user Assign the task to a user\n"
+"        ! Set the task a medium priority\n"
+"        !! Set the task a high priority\n"
+"        !!! Set the task a urgent priority\n"
+"\n"
+"        Make sure to use the right format and order e.g. Improve the configuration screen 5h #feature #v16 @Mitchell !"
+msgstr ""
+"Pomocí těchto klíčových slov v názvu můžete nastavit nové úkoly:\n"
+"\n"
+"        30h Přidělit úkolu 30 hodin\n"
+"        #štítky Nastavit úkolu štítky\n"
+"        @uživatel Přiřadit úkol uživateli\n"
+"        ! Nastavit úkolu střední prioritu\n"
+"        !! Nastavit úkolu vysokou prioritu\n"
+"        !!! Nastavit úkolu urgentní prioritu\n"
+"\n"
+"        Dodržte správný formát a pořadí, např. Vylepšit konfigurační obrazovku 5h #funkce #v16 @Mitchell !"
+
+#. module: project_timesheet_holidays
+#. odoo-python
+#: code:addons/project_timesheet_holidays/models/account_analytic.py:0
+msgid "View Time Off"
+msgstr "Zobrazit volno"
+
+#. module: project_timesheet_holidays
+#. odoo-python
+#: code:addons/project_timesheet_holidays/models/account_analytic.py:0
+msgid ""
+"You cannot create timesheets for a task that is linked to a time off type. "
+"Please use the Time Off application to request new time off instead."
+msgstr ""
+"Nelze vytvářet časové výkazy pro úkol, který je propojen s typem volna. O "
+"nové volno požádejte v aplikaci Volno."
+
+#. module: project_timesheet_holidays
+#. odoo-python
+#: code:addons/project_timesheet_holidays/models/account_analytic.py:0
+msgid "You cannot delete timesheets that are linked to global time off."
+msgstr "Nelze smazat časové výkazy propojené s celofiremním volnem."
+
+#. module: project_timesheet_holidays
+#. odoo-python
+#: code:addons/project_timesheet_holidays/models/account_analytic.py:0
+msgid ""
+"You cannot delete timesheets that are linked to time off requests. Please "
+"cancel your time off request from the Time Off application instead."
+msgstr ""
+"Nelze smazat časové výkazy propojené s žádostmi o volno. Místo toho zrušte "
+"žádost o volno v aplikaci Volno."
+
+#. module: project_timesheet_holidays
+#. odoo-python
+#: code:addons/project_timesheet_holidays/models/account_analytic.py:0
+msgid ""
+"You cannot modify timesheets that are linked to time off requests. Please "
+"use the Time Off application to modify your time off requests instead."
+msgstr ""
+"Nelze upravovat časové výkazy propojené s žádostmi o volno. Žádosti o volno "
+"místo toho upravte v aplikaci Volno."

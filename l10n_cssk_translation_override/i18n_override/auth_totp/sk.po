@@ -1,0 +1,273 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/controllers/home.py:0
+msgid "%(browser)s on %(platform)s"
+msgstr "%(browser)s na %(platform)s"
+
+#. module: auth_totp
+#: model:ir.model,name:auth_totp.model_auth_totp_wizard
+msgid "2-Factor Setup Wizard"
+msgstr "Sprievodca nastavením dvojfaktorovej autentifikácie"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/wizard/auth_totp_wizard.py:0
+msgid "2-Factor authentication is now enabled."
+msgstr "Dvojfaktorová autentifikácia je teraz zapnutá."
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_field
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_form
+msgid ""
+"<i class=\"fa fa-check text-success\"/>\n"
+"                        <span class=\"fw-bold ms-1 me-2\">\n"
+"                            Enabled\n"
+"                        </span>"
+msgstr ""
+"<i class=\"fa fa-check text-success\"/>\n"
+"                        <span class=\"fw-bold ms-1 me-2\">\n"
+"                            Zapnuté\n"
+"                        </span>"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_form
+msgid ""
+"<i class=\"fa fa-remove text-danger\"/>\n"
+"                        <span class=\"fw-bold ms-1\">\n"
+"                            Disabled\n"
+"                        </span>"
+msgstr ""
+"<i class=\"fa fa-remove text-danger\"/>\n"
+"                        <span class=\"fw-bold ms-1\">\n"
+"                            Vypnuté\n"
+"                        </span>"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_field
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_form
+msgid ""
+"<span class=\"text-muted\">\n"
+"                            Recommended for extra security.\n"
+"                        </span>"
+msgstr ""
+"<span class=\"text-muted\">\n"
+"                            Odporúčané pre vyššiu bezpečnosť.\n"
+"                        </span>"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_wizard
+msgid "Add this key in your Authenticator app"
+msgstr "Pridajte tento kľúč do svojej overovacej aplikácie"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.auth_totp_form
+msgid "Authentication Code"
+msgstr "Overovací kód"
+
+#. module: auth_totp
+#: model:ir.model,name:auth_totp.model_auth_totp_device
+msgid "Authentication Device"
+msgstr "Overovacie zariadenie"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_wizard
+msgid "Cannot scan it?"
+msgstr "Nedá sa naskenovať?"
+
+#. module: auth_totp
+#: model:ir.model.fields.selection,name:auth_totp.selection__auth_totp_rate_limit_log__limit_type__code_check
+msgid "Code Checking"
+msgstr "Kontrola kódu"
+
+#. module: auth_totp
+#: model:ir.actions.server,name:auth_totp.action_disable_totp
+msgid "Disable two-factor authentication"
+msgstr "Vypnúť dvojfaktorovú autentifikáciu"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.auth_totp_form
+msgid "Don't ask again on this device"
+msgstr "Na tomto zariadení sa už nepýtať"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_field
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_form
+msgid "Enable 2FA"
+msgstr "Zapnúť 2FA"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_wizard
+msgid "Enable Two-Factor Authentication"
+msgstr "Zapnúť dvojfaktorovú autentifikáciu"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_auth_totp_device__expiration_date
+msgid "Expiration Date"
+msgstr "Dátum vypršania platnosti"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/controllers/home.py:0
+msgid "Invalid authentication code format."
+msgstr "Neplatný formát overovacieho kódu."
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_auth_totp_rate_limit_log__ip
+msgid "Ip"
+msgstr "IP"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_auth_totp_rate_limit_log__limit_type
+msgid "Limit Type"
+msgstr "Typ limitu"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_auth_totp_wizard__qrcode
+msgid "Qrcode"
+msgstr "QR kód"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_wizard
+msgid "Scan this barcode in your Authenticator app"
+msgstr "Naskenujte tento kód vo svojej overovacej aplikácii"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_auth_totp_wizard__secret
+msgid "Secret"
+msgstr "Tajomstvo"
+
+#. module: auth_totp
+#: model:ir.model,name:auth_totp.model_auth_totp_rate_limit_log
+msgid "TOTP rate limit logs"
+msgstr "Záznamy limitov počtu pokusov TOTP"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/wizard/auth_totp_wizard.py:0
+msgid "The verification code should only contain numbers"
+msgstr "Overovací kód smie obsahovať iba číslice"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.auth_totp_form
+msgid ""
+"To login, enter below the six-digit authentication code provided by your Authenticator app.\n"
+"                        <br/>"
+msgstr ""
+"Ak sa chcete prihlásiť, zadajte nižšie šesťmiestny overovací kód z vašej overovacej aplikácie.\n"
+"                        <br/>"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_res_users__totp_last_counter
+msgid "Totp Last Counter"
+msgstr "Posledné počítadlo TOTP"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_res_users__totp_secret
+msgid "Totp Secret"
+msgstr "Tajný kľúč TOTP"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_res_users__totp_trusted_device_ids
+msgid "Trusted Devices"
+msgstr "Dôveryhodné zariadenia"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/models/res_users.py:0
+msgid "Two-Factor Authentication Activation"
+msgstr "Aktivácia dvojfaktorovej autentifikácie"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_res_users__totp_enabled
+msgid "Two-factor authentication"
+msgstr "Dvojfaktorová autentifikácia"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.res_users_view_search
+msgid "Two-factor authentication Disabled"
+msgstr "Dvojfaktorová autentifikácia vypnutá"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.res_users_view_search
+msgid "Two-factor authentication Enabled"
+msgstr "Dvojfaktorová autentifikácia zapnutá"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/models/res_users.py:0
+msgid "Two-factor authentication already enabled"
+msgstr "Dvojfaktorová autentifikácia je už zapnutá"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/models/res_users.py:0
+msgid "Two-factor authentication can only be enabled for yourself"
+msgstr "Dvojfaktorovú autentifikáciu si môžete zapnúť iba pre seba"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/models/res_users.py:0
+msgid "Two-factor authentication disabled for the following user(s): %s"
+msgstr "Dvojfaktorová autentifikácia bola vypnutá pre týchto používateľov: %s"
+
+#. module: auth_totp
+#: model:ir.model.fields,field_description:auth_totp.field_auth_totp_wizard__code
+msgid "Verification Code"
+msgstr "Overovací kód"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_wizard
+msgid "Verification code"
+msgstr "Overovací kód"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/models/res_users.py:0
+#: code:addons/auth_totp/wizard/auth_totp_wizard.py:0
+msgid "Verification failed, please double-check the 6-digit code"
+msgstr "Overenie zlyhalo, skontrolujte, prosím, šesťmiestny kód"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/models/res_users.py:0
+msgid "Verification failed, please use the latest 6-digit code"
+msgstr "Overenie zlyhalo, použite, prosím, najnovší šesťmiestny kód"
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.view_totp_wizard
+msgid "Write the code given by your app"
+msgstr "Zadajte kód z vašej aplikácie"
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/models/res_users.py:0
+msgid ""
+"You reached the limit of authentication mails sent for your account, please "
+"try again later."
+msgstr ""
+"Dosiahli ste limit overovacích e-mailov odoslaných pre váš účet, skúste to, "
+"prosím, neskôr."
+
+#. module: auth_totp
+#. odoo-python
+#: code:addons/auth_totp/models/res_users.py:0
+msgid ""
+"You reached the limit of code verifications for your account, please try "
+"again later."
+msgstr ""
+"Dosiahli ste limit overení kódu pre váš účet, skúste to, prosím, neskôr."
+
+#. module: auth_totp
+#: model_terms:ir.ui.view,arch_db:auth_totp.auth_totp_form
+msgid "e.g. 123456"
+msgstr "napr. 123456"

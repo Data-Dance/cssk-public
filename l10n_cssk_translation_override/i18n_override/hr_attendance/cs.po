@@ -1,0 +1,1191 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance.py:0
+msgid "\"Check Out\" time cannot be earlier than \"Check In\" time."
+msgstr "Čas „Odchod“ nesmí být dříve než čas „Příchod“."
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "'Buy an RFID Device'"
+msgstr "'Koupit zařízení RFID'"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "'Read the Documentation'"
+msgstr "'Přečíst dokumentaci'"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid ""
+"<span class=\"fw-bold\" invisible=\"base_off != 'timing' or timing_type not "
+"in ['work_days', 'non_work_days']\">Between</span>"
+msgstr ""
+"<span class=\"fw-bold\" invisible=\"base_off != 'timing' or timing_type not "
+"in ['work_days', 'non_work_days']\">Mezi</span>"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "<span class=\"me-2\">Time Period </span>"
+msgstr "<span class=\"me-2\">Časové období </span>"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "<span class=\"me-2\">Time Period</span>"
+msgstr "<span class=\"me-2\">Časové období</span>"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid ""
+"<span colspan=\"2\" class=\"mb-3 fw-bold\">The hours will be considered "
+"extra and submitted to approval.</span>"
+msgstr ""
+"<span colspan=\"2\" class=\"mb-3 fw-bold\">Hodiny se budou považovat za "
+"přesčas a budou předloženy ke schválení.</span>"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_res_company__absence_management
+#: model:ir.model.fields,field_description:hr_attendance.field_res_config_settings__absence_management
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Absence Management"
+msgstr "Správa absencí"
+
+#. module: hr_attendance
+#: model_terms:ir.actions.act_window,help:hr_attendance.hr_employee_attendance_action_kanban
+msgid ""
+"Add a few employees to be able to select an employee here and perform his check in / check out.\n"
+"                To create employees go to the Employees menu."
+msgstr ""
+"Přidejte několik zaměstnanců, abyste zde mohli vybrat zaměstnance a zaznamenat jeho příchod / odchod.\n"
+"                Chcete-li vytvořit zaměstnance, přejděte do nabídky Zaměstnanci."
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid ""
+"Allow the collection of GPS location, IP address, and browser/device details"
+" used to track employee access and attendance"
+msgstr ""
+"Povolit shromažďování polohy GPS, IP adresy a údajů o prohlížeči/zařízení, "
+"které slouží ke sledování přístupu a docházky zaměstnanců"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_line__rule_ids
+msgid "Applied Rules"
+msgstr "Použitá pravidla"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_form
+msgid "Approve all overtimes for the same employee and date"
+msgstr "Schválit všechny přesčasy stejného zaměstnance a data"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_filter
+msgid "At least one rule"
+msgstr "Alespoň jedno pravidlo"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__attendance_manager_id
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee_public__attendance_manager_id
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_employee_search_view
+msgid "Attendance Approver"
+msgstr "Schvalovatel docházky"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/attendance_menu/attendance_menu.js:0
+msgid "Attendance Error"
+msgstr "Chyba docházky"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_res_company__attendance_kiosk_key
+msgid "Attendance Kiosk Key"
+msgstr "Klíč kiosku docházky"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_res_company__attendance_kiosk_url
+#: model:ir.model.fields,field_description:hr_attendance.field_res_config_settings__attendance_kiosk_url
+msgid "Attendance Kiosk Url"
+msgstr "URL kiosku docházky"
+
+#. module: hr_attendance
+#: model:ir.model,name:hr_attendance.model_hr_attendance_overtime_line
+msgid "Attendance Overtime Line"
+msgstr "Řádek přesčasu docházky"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "Attendance with barcode"
+msgstr "Docházka s čárovým kódem"
+
+#. module: hr_attendance
+#: model:ir.actions.server,name:hr_attendance.hr_attendance_check_out_cron_ir_actions_server
+msgid "Attendance: Automatically check-out employees"
+msgstr "Docházka: Automaticky zaznamenat odchod zaměstnanců"
+
+#. module: hr_attendance
+#: model:ir.actions.server,name:hr_attendance.hr_attendance_absence_cron_ir_actions_server
+msgid "Attendance: Detect Absences for employees"
+msgstr "Docházka: Zjistit absence zaměstnanců"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Attendances from Backend"
+msgstr "Docházka z backendu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_res_config_settings__auto_check_out_tolerance
+msgid "Auto Check Out Tolerance"
+msgstr "Tolerance automatického odchodu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_res_company__auto_check_out
+#: model:ir.model.fields,field_description:hr_attendance.field_res_config_settings__auto_check_out
+msgid "Automatic Check Out"
+msgstr "Automatický odchod"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance__out_mode__auto_check_out
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Automatic Check-Out"
+msgstr "Automatický odchod"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__res_company__attendance_overtime_validation__no_validation
+msgid "Automatically Approved"
+msgstr "Automaticky schváleno"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid ""
+"Automatically Check-Out Employees based on their working schedule with an "
+"additional tolerance. Does not apply to employees with a flexible working "
+"schedule."
+msgstr ""
+"Automaticky zaznamenat odchod zaměstnanců podle jejich pracovní doby s "
+"dodatečnou tolerancí. Netýká se zaměstnanců s pružnou pracovní dobou."
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_filter
+msgid "Automatically Checked-Out"
+msgstr "Odchod zaznamenán automaticky"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Badge assigned successfully!"
+msgstr "Odznak byl úspěšně přiřazen!"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/badge_scanner/badge_scanner.js:0
+msgid "Badge updated: "
+msgstr "Odznak aktualizován: "
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "Badge with Barcode"
+msgstr "Odznak s čárovým kódem"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "Badge with Barcode on Tablet"
+msgstr "Odznak s čárovým kódem na tabletu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,help:hr_attendance.field_hr_attendance_overtime_rule__base_off
+msgid ""
+"Base for overtime calculation.\n"
+"Use 'Quantity' when overtime hours are those in excess of a certain amount per day/week.\n"
+"Use 'Timing' when overtime hours happen on specific days or at specific times"
+msgstr ""
+"Základ pro výpočet přesčasů.\n"
+"Zvolte 'Množství', pokud jsou přesčasem hodiny nad určitý počet za den/týden.\n"
+"Zvolte 'Načasování', pokud přesčas připadá na určité dny nebo časy"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__base_off
+msgid "Based Off"
+msgstr "Vychází z"
+
+#. module: hr_attendance
+#: model:ir.model.fields,help:hr_attendance.field_hr_attendance__in_location
+#: model:ir.model.fields,help:hr_attendance.field_hr_attendance__out_location
+msgid "Based on GPS-Coordinates if available or on IP Address"
+msgstr "Na základě souřadnic GPS, jsou-li k dispozici, jinak podle IP adresy"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Can be converted as Time Off (cfr Time Off configuration)."
+msgstr "Lze převést na volno (viz nastavení Volna)."
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_employee.py:0
+msgid ""
+"Cannot perform check out on %(empl_name)s, could not find corresponding "
+"check in. Your attendances have probably been modified manually by human "
+"resources."
+msgstr ""
+"Nelze zaznamenat odchod pro %(empl_name)s, nebyl nalezen odpovídající "
+"příchod. Vaše docházka byla pravděpodobně ručně upravena personálním "
+"oddělením."
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/check_in_out/check_in_out.xml:0
+msgid "Check IN"
+msgstr "Příchod"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__check_in
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__last_check_in
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee_public__last_check_in
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_form
+msgid "Check In"
+msgstr "Příchod"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/check_in_out/check_in_out.xml:0
+msgid "Check OUT"
+msgstr "Odchod"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__check_out
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__last_check_out
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee_public__last_check_out
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_form
+msgid "Check Out"
+msgstr "Odchod"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/attendance_menu/attendance_menu.xml:0
+msgid "Check in"
+msgstr "Příchod"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/attendance_menu/attendance_menu.xml:0
+msgid "Check out"
+msgstr "Odchod"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "Choose how to record attendances"
+msgstr "Zvolte, jak zaznamenávat docházku"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "Connect an RFID reader, and scan a token."
+msgstr "Připojte čtečku RFID a načtěte token."
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/attendance_menu/attendance_menu.js:0
+msgid "Connection lost. Check in/out could not be recorded."
+msgstr "Připojení ztraceno. Příchod/odchod se nepodařilo zaznamenat."
+
+#. module: hr_attendance
+#: model:ir.model.fields,help:hr_attendance.field_hr_attendance_overtime_ruleset__rate_combination_mode
+msgid ""
+"Controls how the rates from the different rules that apply are combined.\n"
+"  Max: use the highest rate. (e.g.: combined for 150% and 120 = 150%)\n"
+"  Sum: sum the *extra* pay (i.e. above 100%).\n"
+"    e.g.: combined rate for 150% & 120% = 100% (baseline) + (150-100)% + (120-100)% = 170%\n"
+msgstr ""
+"Určuje, jak se kombinují sazby z různých použitých pravidel.\n"
+"  Max: použije se nejvyšší sazba. (např. kombinace 150 % a 120 = 150 %)\n"
+"  Součet: sečte se *příplatek* (tj. část nad 100 %).\n"
+"    např. kombinovaná sazba pro 150 % a 120 % = 100 % (základ) + (150-100) % + (120-100) % = 170 %\n"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.xml:0
+msgid "Create the name of the new employee below"
+msgstr "Níže zadejte jméno nového zaměstnance"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_form
+msgid "Currently Working"
+msgstr "Právě pracuje"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__device_tracking_enabled
+#: model:ir.model.fields,field_description:hr_attendance.field_res_company__attendance_device_tracking
+#: model:ir.model.fields,field_description:hr_attendance.field_res_config_settings__attendance_device_tracking
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Device & Location Tracking"
+msgstr "Sledování zařízení a polohy"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__display_attendances
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee_public__display_attendances
+msgid "Display Attendances"
+msgstr "Zobrazit docházku"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__display_extra_hours
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee_public__display_extra_hours
+#: model:ir.model.fields,field_description:hr_attendance.field_res_company__hr_attendance_display_overtime
+#: model:ir.model.fields,field_description:hr_attendance.field_res_config_settings__hr_attendance_display_overtime
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Display Extra Hours"
+msgstr "Zobrazit přesčasy"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Display Extra Hours in Kiosk mode and on User profile."
+msgstr "Zobrazit přesčasy v režimu kiosku a v profilu uživatele."
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Display Extra Hours."
+msgstr "Zobrazit přesčasy."
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance.py:0
+msgid ""
+"Do not have access, user cannot edit the attendances that are not their own "
+"or if they are not the attendance manager of the employee."
+msgstr ""
+"Nemáte přístup: uživatel nemůže upravovat docházku, která není jeho vlastní,"
+" pokud není správcem docházky daného zaměstnance."
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "Duration to exceed:"
+msgstr "Doba k překročení:"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/manual_selection/manual_selection.xml:0
+msgid "Employee Avatar"
+msgstr "Avatar zaměstnance"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_res_company__attendance_kiosk_use_pin
+#: model:ir.model.fields,field_description:hr_attendance.field_res_config_settings__attendance_kiosk_use_pin
+msgid "Employee PIN Identification"
+msgstr "Identifikace zaměstnance pomocí PIN"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__employee_tolerance
+msgid "Employee Tolerance"
+msgstr "Tolerance zaměstnance"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Employee created successfully!"
+msgstr "Zaměstnanec byl úspěšně vytvořen!"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Employee name is required."
+msgstr "Jméno zaměstnance je povinné."
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__employer_tolerance
+msgid "Employer Tolerance"
+msgstr "Tolerance zaměstnavatele"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.xml:0
+msgid "Enter Badge Number"
+msgstr "Zadejte číslo odznaku"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Error creating employee: "
+msgstr "Chyba při vytváření zaměstnance: "
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Error: "
+msgstr "Chyba: "
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_line__manual_duration
+msgid "Extra Hours (encoded)"
+msgstr "Přesčasy (zadané)"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_form
+msgid "Extra Hours Rules"
+msgstr "Pravidla přesčasů"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_res_company__attendance_overtime_validation
+#: model:ir.model.fields,field_description:hr_attendance.field_res_config_settings__attendance_overtime_validation
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Extra Hours Validation"
+msgstr "Schvalování přesčasů"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/greetings/greetings.xml:0
+msgid "Extra hours"
+msgstr "Přesčasy"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Failed to create employee."
+msgstr "Zaměstnance se nepodařilo vytvořit."
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/badge_scanner/badge_scanner.js:0
+msgid "Failed to update badge: "
+msgstr "Odznak se nepodařilo aktualizovat: "
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance_overtime_rule.py:0
+msgid "From Employee"
+msgstr "Od zaměstnance"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_form
+msgid "GPS Coordinates"
+msgstr "Souřadnice GPS"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Generate new URL"
+msgstr "Vygenerovat novou URL"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_list
+msgid "Get working hours from contract"
+msgstr "Převzít pracovní hodiny ze smlouvy"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__hours_last_month_overtime
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee_public__hours_last_month_overtime
+msgid "Hours Last Month Overtime"
+msgstr "Přesčasové hodiny za minulý měsíc"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__hours_previously_today
+msgid "Hours Previously Today"
+msgstr "Dnes již odpracované hodiny"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/greetings/greetings.xml:0
+msgid "Hours Previously Today:"
+msgstr "Dnes již odpracováno:"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/greetings/greetings.xml:0
+msgid "Hours Today:"
+msgstr "Hodiny dnes:"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__expected_hours_from_contract
+msgid "Hours from employee schedule"
+msgstr "Hodiny podle rozvrhu zaměstnance"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid ""
+"If checked, days not covered by an attendance will be visible in the Report."
+" Does not apply to employees with a flexible working schedule."
+msgstr ""
+"Je-li zaškrtnuto, zobrazí se v přehledu i dny, které nepokrývá žádný záznam "
+"docházky. Netýká se zaměstnanců s pružnou pracovní dobou."
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "If the employee works"
+msgstr "Pokud zaměstnanec pracuje"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "If the worked hours on a"
+msgstr "Pokud se odpracované hodiny za"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__in_location
+msgid "In Location"
+msgstr "Poloha příchodu"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Input Mode (In)"
+msgstr "Způsob zadání (příchod)"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Input Mode (Out)"
+msgstr "Způsob zadání (odchod)"
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/controllers/main.py:0
+msgid ""
+"Invalid domain, use 'name' and/or 'department_id' fields with '=' and/or "
+"'ilike' operators."
+msgstr ""
+"Neplatná doména, použijte pole 'name' a/nebo 'department_id' s operátory '='"
+" a/nebo 'ilike'."
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Kiosk Mode Adress"
+msgstr "Adresa režimu kiosku"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Kiosk Settings"
+msgstr "Nastavení kiosku"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__last_attendance_worked_hours
+msgid "Last Attendance Worked Hours"
+msgstr "Odpracované hodiny poslední docházky"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Latitude (In)"
+msgstr "Zeměpisná šířka (příchod)"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Latitude (Out)"
+msgstr "Zeměpisná šířka (odchod)"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__linked_overtime_ids
+msgid "Linked Overtime"
+msgstr "Propojený přesčas"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Location (In)"
+msgstr "Poloha (příchod)"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Location (Out)"
+msgstr "Poloha (odchod)"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Longitude (In)"
+msgstr "Zeměpisná délka (příchod)"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Longitude (Out)"
+msgstr "Zeměpisná délka (odchod)"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "Manual Attendance or with barcode"
+msgstr "Ruční docházka nebo s čárovým kódem"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "Manually (optional PIN)"
+msgstr "Ručně (volitelně s PIN)"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance_overtime_ruleset__rate_combination_mode__max
+msgid "Maximum Rate"
+msgstr "Nejvyšší sazba"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Missing Data"
+msgstr "Chybějící údaje"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/badge_scanner/badge_scanner.js:0
+msgid "Missing Employee ID"
+msgstr "Chybí ID zaměstnance"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Modes"
+msgstr "Režimy"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "New Set-up (Employee/Badge)"
+msgstr "Nové nastavení (zaměstnanec/odznak)"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/badge_scanner/badge_scanner.js:0
+msgid "No barcode received"
+msgstr "Nebyl přijat žádný čárový kód"
+
+#. module: hr_attendance
+#: model:res.groups,name:hr_attendance.group_hr_attendance_user
+msgid "Officer: Manage all attendances"
+msgstr "Referent: Spravovat veškerou docházku"
+
+#. module: hr_attendance
+#: model:res.groups,name:hr_attendance.group_hr_attendance_officer
+msgid "Officer: Manage attendances"
+msgstr "Referent: Spravovat docházku"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance_overtime_rule__timing_type__non_work_days
+msgid "On any non-working day"
+msgstr "V jakýkoli nepracovní den"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance_overtime_rule__timing_type__work_days
+msgid "On any working day"
+msgstr "V jakýkoli pracovní den"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/manual_selection/manual_selection.xml:0
+msgid "On site"
+msgstr "Na pracovišti"
+
+#. module: hr_attendance
+#: model:ir.actions.server,name:hr_attendance.open_kiosk_url
+msgid "Open Kiosk Url"
+msgstr "Otevřít URL kiosku"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__out_browser
+msgid "Out Browser"
+msgstr "Prohlížeč při odchodu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__out_ip_address
+msgid "Out Ip Address"
+msgstr "IP adresa při odchodu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__out_latitude
+msgid "Out Latitude"
+msgstr "Zeměpisná šířka při odchodu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__out_location
+msgid "Out Location"
+msgstr "Poloha při odchodu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__out_longitude
+msgid "Out Longitude"
+msgstr "Zeměpisná délka při odchodu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__out_mode
+msgid "Out Mode"
+msgstr "Způsob odchodu"
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance_overtime_rule.py:0
+msgid "Outside Schedule: %(schedule_name)s"
+msgstr "Mimo rozvrh: %(schedule_name)s"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance_overtime_rule__timing_type__schedule
+msgid "Outside of a specific schedule"
+msgstr "Mimo určitý rozvrh"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_form
+msgid "Overtime Details"
+msgstr "Podrobnosti přesčasu"
+
+#. module: hr_attendance
+#: model:ir.model,name:hr_attendance.model_hr_attendance_overtime_rule
+msgid "Overtime Rule"
+msgstr "Pravidlo přesčasů"
+
+#. module: hr_attendance
+#: model:ir.actions.act_window,name:hr_attendance.hr_attendance_overtime_rule_action
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_form
+msgid "Overtime Rules"
+msgstr "Pravidla přesčasů"
+
+#. module: hr_attendance
+#: model:ir.model,name:hr_attendance.model_hr_attendance_overtime_ruleset
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_employee_form_inherit_hr_attendance
+msgid "Overtime Ruleset"
+msgstr "Sada pravidel přesčasů"
+
+#. module: hr_attendance
+#: model:ir.ui.menu,name:hr_attendance.menu_hr_attendance_overtime_rulesets
+msgid "Overtime Rulesets"
+msgstr "Sady pravidel přesčasů"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__overtime_status
+msgid "Overtime Status"
+msgstr "Stav přesčasu"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_line__amount_rate
+msgid "Overtime pay rate"
+msgstr "Sazba za přesčas"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__paid
+msgid "Pay Extra Hours"
+msgstr "Proplácet přesčasy"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "Pay extra hours"
+msgstr "Proplácet přesčasy"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/pin_code/pin_code.xml:0
+msgid "Please enter your PIN to"
+msgstr "Zadejte svůj PIN a zaznamenejte"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Please select an employee and enter a badge number."
+msgstr "Vyberte zaměstnance a zadejte číslo odznaku."
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/attendance_menu/attendance_menu.js:0
+msgid "Proceed Anyway"
+msgstr "Přesto pokračovat"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_form
+msgid "Provide a description or sources for this ruleset."
+msgstr "Uveďte popis nebo zdroje této sady pravidel."
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__quantity_period
+msgid "Quantity Period"
+msgstr "Období pro množství"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "RFID Token with reader"
+msgstr "Token RFID se čtečkou"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "RFID Token with reader on tablet"
+msgstr "Token RFID se čtečkou na tabletu"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_employee_form_inherit_hr_attendance
+msgid "RFID/Badge Number"
+msgstr "Číslo RFID/odznaku"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_ruleset__rate_combination_mode
+msgid "Rate Combination Mode"
+msgstr "Způsob kombinace sazeb"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_filter
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_list
+msgid "Rate Mode"
+msgstr "Režim sazby"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_employee_form_inherit_hr_attendance
+msgid "Read a badge"
+msgstr "Načíst odznak"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/attendance_helper_view.xml:0
+msgid "Ready to track attendances ?"
+msgstr "Připraveni sledovat docházku?"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_attendance_tree
+msgid "Refuse Extra Hours"
+msgstr "Zamítnout přesčasy"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_form
+msgid "Refuse all overtimes for the same employee and date"
+msgstr "Zamítnout všechny přesčasy stejného zaměstnance a data"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_form
+msgid "Regenerate overtimes"
+msgstr "Znovu vygenerovat přesčasy"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_form
+msgid "Regenerate overtimes for this ruleset"
+msgstr "Znovu vygenerovat přesčasy pro tuto sadu pravidel"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__expected_hours
+msgid "Regular Hours"
+msgstr "Běžné hodiny"
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance_overtime_rule.py:0
+msgid "Rule '%(name)s' is based off quantity, but the period is not specified"
+msgstr "Pravidlo '%(name)s' vychází z množství, ale není zadáno období"
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance_overtime_rule.py:0
+msgid ""
+"Rule '%(name)s' is based off quantity, but the usual amount of work hours is"
+" not specified"
+msgstr ""
+"Pravidlo '%(name)s' vychází z množství, ale není zadán obvyklý počet "
+"pracovních hodin"
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance_overtime_rule.py:0
+msgid ""
+"Rule '%(name)s' is based off timing, but the work schedule is not specified"
+msgstr ""
+"Pravidlo '%(name)s' vychází z načasování, ale není zadán pracovní rozvrh"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_ruleset__rules_count
+msgid "Rules Count"
+msgstr "Počet pravidel"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__ruleset_id
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_employee__ruleset_id
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_version__ruleset_id
+msgid "Ruleset"
+msgstr "Sada pravidel"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_form
+msgid "Ruleset Name"
+msgstr "Název sady pravidel"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_filter
+msgid "Ruleset Search"
+msgstr "Vyhledávání sad pravidel"
+
+#. module: hr_attendance
+#: model:ir.actions.act_window,name:hr_attendance.hr_attendance_overtime_ruleset_action
+msgid "Rulesets"
+msgstr "Sady pravidel"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/badge_scanner/badge_scanner.xml:0
+msgid "Scan Badge"
+msgstr "Naskenovat odznak"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.xml:0
+msgid "Select Employee Without Badge"
+msgstr "Vybrat zaměstnance bez odznaku"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.view_employee_form_inherit_hr_attendance
+msgid "Select a ruleset to manage overtime."
+msgstr "Vyberte sadu pravidel pro správu přesčasů."
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "Select on Tablet"
+msgstr "Vybrat na tabletu"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.xml:0
+msgid "Set the Badge"
+msgstr "Nastavit odznak"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/new_employee_dialog/new_employee_dialog.js:0
+msgid "Set-up"
+msgstr "Nastavení"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance_overtime_ruleset__rate_combination_mode__sum
+msgid "Sum of all rates"
+msgstr "Součet všech sazeb"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance__in_mode__systray
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance__out_mode__systray
+msgid "Systray"
+msgstr "Systémová lišta"
+
+#. module: hr_attendance
+#: model:ir.model.fields,help:hr_attendance.field_hr_attendance_overtime_rule__expected_hours_from_contract
+msgid ""
+"The attendance can go into negative extra hours to represent the missing "
+"hours compared to what is expected if the Absence Management setting is "
+"enabled."
+msgstr ""
+"Je-li zapnuto nastavení Správa absencí, může docházka vykázat záporné "
+"přesčasy, které představují chybějící hodiny oproti očekávanému počtu."
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "The rule is based on"
+msgstr "Pravidlo vychází z"
+
+#. module: hr_attendance
+#: model:ir.model.fields,help:hr_attendance.field_hr_attendance__attendance_manager_id
+#: model:ir.model.fields,help:hr_attendance.field_hr_employee__attendance_manager_id
+#: model:ir.model.fields,help:hr_attendance.field_hr_employee_public__attendance_manager_id
+msgid ""
+"The user set in Attendance will access the attendance of the employee "
+"through the dedicated app and will be able to edit them."
+msgstr ""
+"Uživatel nastavený v Docházce bude mít přístup k docházce zaměstnance "
+"prostřednictvím příslušné aplikace a bude ji moci upravovat."
+
+#. module: hr_attendance
+#: model:res.groups,comment:hr_attendance.group_hr_attendance_user
+msgid ""
+"The user will have access to all attendance records and reports for all "
+"employees."
+msgstr ""
+"Uživatel bude mít přístup ke všem záznamům docházky a přehledům všech "
+"zaměstnanců."
+
+#. module: hr_attendance
+#: model:res.groups,comment:hr_attendance.group_hr_attendance_own_reader
+msgid ""
+"The user will have access to his own attendances on his user / employee "
+"profile"
+msgstr ""
+"Uživatel bude mít přístup ke své vlastní docházce ve svém uživatelském / "
+"zaměstnaneckém profilu"
+
+#. module: hr_attendance
+#: model:res.groups,comment:hr_attendance.group_hr_attendance_officer
+msgid ""
+"The user will have access to the attendance records and reporting of "
+"employees where he's set as an attendance manager"
+msgstr ""
+"Uživatel bude mít přístup k záznamům docházky a přehledům zaměstnanců, u "
+"kterých je nastaven jako správce docházky"
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance.py:0
+msgid ""
+"This attendance was automatically checked out because the employee exceeded "
+"the allowed time for their scheduled work hours."
+msgstr ""
+"U této docházky byl odchod zaznamenán automaticky, protože zaměstnanec "
+"překročil povolenou dobu svých plánovaných pracovních hodin."
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance.py:0
+msgid ""
+"This attendance was automatically created to cover an unjustified absence on"
+" that day."
+msgstr ""
+"Tato docházka byla vytvořena automaticky, aby pokryla neomluvenou absenci v "
+"daný den."
+
+#. module: hr_attendance
+#: model:ir.model.constraint,message:hr_attendance.constraint_hr_attendance_overtime_rule_timing_start_is_hour
+msgid "Timing Start is an hour of the day"
+msgstr "Začátek načasování je hodina dne"
+
+#. module: hr_attendance
+#: model:ir.model.constraint,message:hr_attendance.constraint_hr_attendance_overtime_rule_timing_stop_is_hour
+msgid "Timing Stop is an hour of the day"
+msgstr "Konec načasování je hodina dne"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__timing_type
+msgid "Timing Type"
+msgstr "Typ načasování"
+
+#. module: hr_attendance
+#: model:ir.actions.server,name:hr_attendance.action_try_kiosk
+msgid "Try kiosk"
+msgstr "Vyzkoušet kiosk"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/attendance_helper_view.xml:0
+msgid "Try the kiosk"
+msgstr "Vyzkoušejte kiosk"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/attendance_helper_view.xml:0
+msgid "Try the top"
+msgstr "Vyzkoušejte horní lištu"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/attendance_menu/attendance_menu.js:0
+msgid ""
+"Unable to get a valid location. Do you want to proceed with your check-"
+"in/out anyway?"
+msgstr ""
+"Nepodařilo se získat platnou polohu. Chcete přesto zaznamenat "
+"příchod/odchod?"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Use PIN codes (defined on the Employee's profile) to check-in."
+msgstr ""
+"K zaznamenání příchodu použijte PIN kódy (definované v profilu zaměstnance)."
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.res_config_settings_view_form
+msgid "Use this url to access your kiosk mode from any device."
+msgstr "Pomocí této URL se dostanete do režimu kiosku z jakéhokoli zařízení."
+
+#. module: hr_attendance
+#: model:res.groups,name:hr_attendance.group_hr_attendance_own_reader
+msgid "User: Read his own attendances"
+msgstr "Uživatel: Číst vlastní docházku"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance_overtime_rule__expected_hours
+msgid "Usual work hours"
+msgstr "Obvyklé pracovní hodiny"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__validated_overtime_hours
+msgid "Validated Extra Hours"
+msgstr "Schválené přesčasy"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_view_form
+msgid "View on Maps"
+msgstr "Zobrazit na mapě"
+
+#. module: hr_attendance
+#: model:ir.model.fields.selection,name:hr_attendance.selection__hr_attendance_overtime_rule__timing_type__leave
+msgid "When employee is off"
+msgstr "Když má zaměstnanec volno"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "With a tolerance in favor of the employee of"
+msgstr "S tolerancí ve prospěch zaměstnance ve výši"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "With a tolerance in favor of the employer of"
+msgstr "S tolerancí ve prospěch zaměstnavatele ve výši"
+
+#. module: hr_attendance
+#: model:ir.model.fields,field_description:hr_attendance.field_hr_attendance__overtime_hours
+msgid "Worked Extra Hours"
+msgstr "Odpracované přesčasy"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.js:0
+msgid "Wrong Pin"
+msgstr "Nesprávný PIN"
+
+#. module: hr_attendance
+#. odoo-python
+#: code:addons/hr_attendance/models/hr_attendance.py:0
+msgid "You don't have the rights to execute that action."
+msgstr "K provedení této akce nemáte oprávnění."
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/pin_code/pin_code.xml:0
+msgid "check in"
+msgstr "příchod"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/components/pin_code/pin_code.xml:0
+msgid "check out"
+msgstr "odchod"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "differs"
+msgstr "liší"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_ruleset_view_form
+msgid "e.g. Legal Rules"
+msgstr "např. Zákonná pravidla"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "e.g. Over 8 hours daily"
+msgstr "např. Nad 8 hodin denně"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "from a specific duration"
+msgstr "od určité doby"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "from the amount defined on the contract"
+msgstr "od počtu stanoveného ve smlouvě"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/views/attendance_helper_view.xml:0
+msgid "icon (e.g for work from home)"
+msgstr "ikona (např. pro práci z domova)"
+
+#. module: hr_attendance
+#: model_terms:ir.ui.view,arch_db:hr_attendance.hr_attendance_overtime_rule_view_form
+msgid "with a rate of"
+msgstr "se sazbou"
+
+#. module: hr_attendance
+#. odoo-javascript
+#: code:addons/hr_attendance/static/src/public_kiosk/public_kiosk_app.xml:0
+msgid "with optional PIN code"
+msgstr "s volitelným PIN kódem"
