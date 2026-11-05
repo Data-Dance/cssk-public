@@ -76,8 +76,11 @@ connection in <em>Settings → EDI</em>, section <strong>ePošťák</strong>, in
 yellow bar says so — sandbox invoices never reach the real Peppol network, so
 you can try things safely there.</p>
 <p>The <em>Electronic Invoicing → Enable PEPPOL</em> setting in <em>Settings →
-Accounting</em> belongs to a different, paid Odoo service; invoices through
-ePošťák do not need it.</p>
+Accounting</em> is another route into the same network: it installs Odoo's
+<code>account_peppol</code> module, which registers your company on Peppol with Odoo
+S.A. as the access point. A Peppol address can be registered with only one
+access point, so if you invoice through ePošťák, leave this setting off. On
+the Data Dance hosted service only our team can switch it on.</p>
 <h2 id="setup">Setup</h2>
 <ol>
 <li><strong>Permission.</strong> <em>Settings → EDI</em>, block <strong>Peppol BIS3 (this company)</strong>:

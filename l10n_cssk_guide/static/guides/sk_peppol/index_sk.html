@@ -75,8 +75,12 @@ EDI</em>, časť <strong>ePošťák</strong> — jedným z dvoch spôsobov:</p>
 <em>Sandbox</em>, upozorňuje na to žltý pruh — faktúry zo sandboxu sa do skutočnej
 siete Peppol nikdy nedostanú, takže v ňom môžete bezpečne skúšať.</p>
 <p>Nastavenie <em>Elektronická fakturácia → Aktivovať PEPPOL</em> v <em>Nastavenia →
-Účtovníctvo</em> patrí inej, platenej službe Odoo; na faktúry cez ePošťák ho
-nepotrebujete.</p>
+Účtovníctvo</em> je iná cesta do tej istej siete: nainštaluje modul Odoo
+<code>account_peppol</code>, ktorý vašu spoločnosť zaregistruje v sieti Peppol s
+prístupovým bodom spoločnosti Odoo S.A. Peppol adresa môže byť v sieti
+zaregistrovaná len u jedného prístupového bodu, preto ak faktúrujete cez
+ePošťák, toto nastavenie nezapínajte. V hostovanej službe Data Dance ho
+zapína len náš tím.</p>
 <h2 id="setup">Nastavenie</h2>
 <ol>
 <li><strong>Povolenie.</strong> <em>Nastavenia → EDI</em>, blok <strong>Peppol BIS3 (táto
