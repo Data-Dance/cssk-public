@@ -10,7 +10,8 @@ Carry-over to 18.0
 
 - **19.0.1.19.4 (2026-11-05), not yet on 18.0:** the EUR 300 agreement OOP
   from 1. 1. 2027 (``rule_parameter_dohoda_oop_2027``). Data only; the 18.0
-  rules read the same parameter.
+  rules read the same parameter. **DISCHARGED 2026-11-05 — do not port this
+  again**: on 18.0 as 18.0.2.7.1 (merge 3d2a6d07).
 
 [19.0.1.19.4] — 2026-11-05
 ==========================

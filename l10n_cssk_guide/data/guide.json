@@ -55,37 +55,31 @@
    }
   },
   "peppol_epostak": {
-   "country": "both",
+   "country": "sk",
    "langs": [
     "en",
-    "sk",
-    "cs"
+    "sk"
    ],
    "summary": {
-    "cs": "Pro společnosti s vlastní smlouvou s ePošťákem — připojení klíči z účtu v ePošťáku, Peppol adresy, které faktury odejdou elektronicky, stavy doručení a přijaté faktury jako koncepty.",
     "en": "For companies with their own ePošťák contract — connecting with the keys from your ePošťák account, Peppol addresses, which invoices go electronically, delivery states and received invoices as drafts.",
     "sk": "Pre spoločnosti, ktoré majú vlastnú zmluvu s ePošťákom — pripojenie kľúčmi z účtu v ePošťáku, Peppol adresy, ktoré faktúry odídu elektronicky, stavy doručenia a prijaté faktúry ako koncepty."
    },
    "title": {
-    "cs": "Elektronické faktury přes Peppol — vlastní smlouva s ePošťákem",
     "en": "E-invoices via Peppol — your own ePošťák contract",
     "sk": "Elektronické faktúry cez Peppol — vlastná zmluva s ePošťákom"
    }
   },
   "peppol_hosted": {
-   "country": "both",
+   "country": "sk",
    "langs": [
     "en",
-    "sk",
-    "cs"
+    "sk"
    ],
    "summary": {
-    "cs": "Pro předplatitele hostované služby Data Dance — připojení do sítě Peppol zařídíme my, bez vlastní smlouvy a bez klíčů; Peppol adresy, které faktury odejdou elektronicky, stavy doručení a přijaté faktury jako koncepty.",
     "en": "For subscribers of the Data Dance hosting service — we connect you to Peppol, with no contract and no keys of your own; Peppol addresses, which invoices go electronically, delivery states and received invoices as drafts.",
     "sk": "Pre predplatiteľov hostovanej služby Data Dance — pripojenie do siete Peppol zariadime my, bez vlastnej zmluvy a bez kľúčov; Peppol adresy, ktoré faktúry odídu elektronicky, stavy doručenia a prijaté faktúry ako koncepty."
    },
    "title": {
-    "cs": "Elektronické faktury přes Peppol — předplatitelé Data Dance",
     "en": "E-invoices via Peppol — Data Dance subscribers",
     "sk": "Elektronické faktúry cez Peppol — predplatitelia Data Dance"
    }
@@ -150,21 +144,6 @@
     "sk": "Odoo pre slovenského účtovníka"
    }
   },
-  "sk_tatrabanka": {
-   "country": "sk",
-   "langs": [
-    "en",
-    "sk"
-   ],
-   "summary": {
-    "en": "Movements on bank accounts released through Tatra banka's Premium API arrive in Odoo by themselves every hour. Only on the paid Data Dance hosting service.",
-    "sk": "Pohyby z bankových účtov sprístupnených cez Premium API Tatra banky prichádzajú do Odoo samy každú hodinu. Len v platenej hostovanej službe Data Dance."
-   },
-   "title": {
-    "en": "Tatra banka — automatic statements",
-    "sk": "Tatra banka — automatické výpisy"
-   }
-  },
   "sk_vat_close": {
    "country": "sk",
    "langs": [
@@ -178,6 +157,24 @@
    "title": {
     "en": "Month-end VAT close",
     "sk": "Mesačná uzávierka DPH"
+   }
+  },
+  "tatrabanka": {
+   "country": "both",
+   "langs": [
+    "en",
+    "sk",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Pohyby z bankovních účtů zpřístupněných přes Premium API Tatra banky přicházejí do Odoo samy každou hodinu — i z účtů u jiných slovenských a českých bank. Jen v placené hostované službě Data Dance.",
+    "en": "Movements on bank accounts released through Tatra banka's Premium API arrive in Odoo by themselves every hour. Only on the paid Data Dance hosting service.",
+    "sk": "Pohyby z bankových účtov sprístupnených cez Premium API Tatra banky prichádzajú do Odoo samy každú hodinu. Len v platenej hostovanej službe Data Dance."
+   },
+   "title": {
+    "cs": "Tatra banka — automatické výpisy",
+    "en": "Tatra banka — automatic statements",
+    "sk": "Tatra banka — automatické výpisy"
    }
   }
  },
@@ -334,7 +331,7 @@
    "guides": [
     "sk_bank",
     "fio_bank",
-    "sk_tatrabanka"
+    "tatrabanka"
    ],
    "intro": {
     "cs": "Platební soubory, bankovní výpisy, přímé napojení na banku, platební QR kódy a kurzy měn.",

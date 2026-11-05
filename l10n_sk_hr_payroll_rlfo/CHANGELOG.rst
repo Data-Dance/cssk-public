@@ -18,6 +18,10 @@ Carry-over to 18.0
   the RLZEC 2027 vintage with its XSD, version record and namespace remap.
   The XSD must be copied byte for byte (CRLF, ``data/.gitattributes``); a
   patch transport normalises the line endings and breaks the pinned md5.
+  **DISCHARGED 2026-11-05 — do not port this again**: on 18.0 as 18.0.1.1.1
+  and 18.0.1.2.0 (merge 3d2a6d07), with the Slovak catalogue; 18.0 resolves
+  the period's version in the RLFO model, its declaration base having no
+  period vintages.
 
 [19.0.1.3.1] — 2026-11-05
 =========================
