@@ -1,7 +1,7 @@
 ---
 title: Zákonná podání CZ/SK — doručení
 summary: Záznam o tom, jak se každé zákonné podání dostalo k úřadu — kanál, pokusy, doručení, přijetí — a místo pro potvrzení, která to dokládají.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## K čemu slouží {#purpose}
@@ -41,6 +41,7 @@ výslovně uvede: doručení kanálu ještě není přijetí úřadem.
 Dvě skupiny v části *Účetnictví* v nastavení uživatele:
 
 - **Zákonná podání: připravovat** — vidí doručení a jejich potvrzení.
+  Má ho i každý *Hlavní účetní*.
 - **Zákonná podání: podávat** — navíc je zařazuje do fronty, odesílá,
   potvrzuje a ruší. Zahrnuje práva správce účetnictví.
 

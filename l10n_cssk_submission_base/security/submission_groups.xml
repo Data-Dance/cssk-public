@@ -15,4 +15,12 @@
         <field name="implied_ids" eval="[(4, ref('group_cssk_submission_user')),
                                          (4, ref('account.group_account_manager'))]"/>
     </record>
+    <!-- An Accountant prepares filings. Without this the role selector lists
+         "Accountant" ABOVE "prepare" (it ranks by the chain Bookkeeper <
+         prepare < Accountant < file) while the Accountant group does not
+         contain "prepare", so promoting a preparer to Accountant silently took
+         away the right to open a submission. -->
+    <record id="account.group_account_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('group_cssk_submission_user'))]"/>
+    </record>
 </odoo>

@@ -28,6 +28,21 @@ class TestSubmissionBase(TransactionCase):
         channels = dict(self.env["cssk.submission"]._get_channels())
         self.assertIn("pfs_manual", channels)
 
+    def test_accountant_can_prepare(self):
+        # The role selector ranks Accountant above "prepare"; it must
+        # contain it, or promoting a preparer removes the right to file.
+        manager = self.env.ref("account.group_account_manager")
+        self.assertIn(
+            self.env.ref("l10n_cssk_submission_base.group_cssk_submission_user"),
+            manager.all_implied_ids)
+        user = self.env["res.users"].create({
+            "name": "Accountant", "login": "cssk_sub_accountant",
+            "group_ids": [(6, 0, [manager.id])]})
+        self.assertTrue(user.has_group(
+            "l10n_cssk_submission_base.group_cssk_submission_user"))
+        self.assertTrue(self.env["cssk.submission"].with_user(user)
+                        .has_access("create"))
+
 
 @tagged("post_install", "-at_install")
 class TestSubmissionLifecycle(TransactionCase):

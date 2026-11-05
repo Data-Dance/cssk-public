@@ -1,7 +1,7 @@
 ---
 title: Štatutárne podania CZ/SK — doručenie
 summary: Záznam o tom, ako sa každé štatutárne podanie dostalo k úradu — kanál, pokusy, doručenie, prijatie — a miesto na potvrdenky, ktoré to dokazujú.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## Na čo slúži {#purpose}
@@ -39,6 +39,7 @@ výslovne uvedie: doručenie kanálu ešte nie je prijatie úradom.
 Dve skupiny v časti *Účtovníctvo* v nastaveniach používateľa:
 
 - **Štatutárne podania: pripravovať** — vidí doručenia a ich potvrdenky.
+  Má ho aj každý *Hlavný účtovník*.
 - **Štatutárne podania: podávať** — navyše ich zaraďuje do fronty, odosiela,
   potvrdzuje a ruší. Zahŕňa práva správcu účtovníctva.
 

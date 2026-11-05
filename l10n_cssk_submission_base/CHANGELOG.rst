@@ -8,6 +8,26 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.1.2 (2026-11-05), not yet on 18.0:** *Accountant* implies
+  *Statutory submissions: prepare*. 18.0 has the same gap; there the groups
+  hang on ``ir.module.category`` instead of a privilege.
+
+[19.0.1.1.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- **An Accountant can open a submission.** The role selector lists
+  *Accountant* above *Statutory submissions: prepare*, but the group did not
+  contain it, so *File it* on a VAT return or control statement raised an
+  access error for an accountant, and promoting a preparer to Accountant took
+  the right away. Attesting, sending and cancelling still need
+  *Statutory submissions: file*.
+
 [19.0.1.1.1] — 2026-10-27
 -------------------------
 

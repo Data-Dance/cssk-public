@@ -164,7 +164,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_internal_document` | 19.0.1.0.1 | Print a journal entry as the interní / interný doklad the law requires |
 | `l10n_cssk_intrastat_base` | 19.0.1.1.1 | Edition-neutral INTRASTAT-SK INSTAT (instat62) XML renderer shared by the CE (OCA) and EE (account_intrastat) adapters. |
 | `l10n_cssk_intrastat_footprint` | 19.0.1.1.0 | A document says which Intrastat declaration reports it, alongside the VAT return, control statement and financial statements it feeds. |
-| `l10n_cssk_kv_kh_base` | 19.0.2.4.1 | Abstract framework for the Slovak KV DPH and Czech KH DPH VAT control statements: versioned templates, section/summary/reconciliation row mixins, move-line… |
+| `l10n_cssk_kv_kh_base` | 19.0.2.4.2 | Abstract framework for the Slovak KV DPH and Czech KH DPH VAT control statements: versioned templates, section/summary/reconciliation row mixins, move-line… |
 | `l10n_cssk_leave_expiry_reminder` | 19.0.1.1.0 | Proactively remind employees and HR about expiring carried-over leave |
 | `l10n_cssk_mis_executive_summary` | 19.0.1.0.0 | A one-page management summary for Czech and Slovak charts: cash, revenue and margins, debtor and creditor days, current ratio, ROA. |
 | `l10n_cssk_oss_base` | 19.0.1.1.2 | Country-neutral engine for the quarterly One-Stop-Shop VAT return (Union scheme): OSS-tagged sales aggregated by member state of consumption, rate and supply… |
@@ -181,7 +181,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_recycling_fee` | 19.0.1.0.1 | Dated CZ/SK recycling-fee rates on OCA ecotax classifications, the statutory per-line 'z toho recyklační příspěvek' on the invoice, and a per-category period… |
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.1 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
-| `l10n_cssk_submission_base` | 19.0.1.1.1 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
+| `l10n_cssk_submission_base` | 19.0.1.1.2 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
 | `l10n_cssk_translation_override` | 19.0.1.0.5 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
 | `l10n_cssk_vat_return_base` | 19.0.1.13.1 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
 | `l10n_cssk_vies` | 19.0.2.1.1 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |

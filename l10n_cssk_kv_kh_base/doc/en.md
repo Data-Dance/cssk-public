@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VAT Control Statement
 summary: The screens and the engine shared by the Slovak kontrolný výkaz DPH and the Czech kontrolní hlášení — sections computed from posted documents, checks before export, an XSD-validated XML file and a record of what was filed.
-verified: 19.0.2.4.1
+verified: 19.0.2.4.2
 ---
 
 ## What it is for {#purpose}

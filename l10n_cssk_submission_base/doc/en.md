@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Statutory Submissions
 summary: A record of how each statutory filing reached the authority — channel, attempts, delivery, acceptance — and a place to keep the receipts that prove it.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}
@@ -42,6 +42,7 @@ authority is a separate step and has not been recorded yet."*
 Two groups under *Accounting* in the user settings:
 
 - **Statutory submissions: prepare** — sees submissions and their receipts.
+  Every *Accountant* has it as well.
 - **Statutory submissions: file** — also queues, sends, attests and cancels
   them. Includes the accounting administrator rights.
 

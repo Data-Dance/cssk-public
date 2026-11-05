@@ -77,6 +77,21 @@
     "en": "Odoo for a Slovak accountant",
     "sk": "Odoo pre slovenského účtovníka"
    }
+  },
+  "sk_vat_close": {
+   "country": "sk",
+   "langs": [
+    "en",
+    "sk"
+   ],
+   "summary": {
+    "en": "The monthly VAT return, control statement and EC sales list — computing them, checking them against the books, exporting the XML, filing, the VAT closing entry and locking the period.",
+    "sk": "Daňové priznanie k DPH, kontrolný výkaz a súhrnný výkaz za mesiac — výpočet, kontrola voči účtovníctvu, export XML, podanie, účtovný zápis uzávierky DPH a uzamknutie obdobia."
+   },
+   "title": {
+    "en": "Month-end VAT close",
+    "sk": "Mesačná uzávierka DPH"
+   }
   }
  },
  "labels": {
@@ -182,7 +197,9 @@
    }
   },
   {
-   "guides": [],
+   "guides": [
+    "sk_vat_close"
+   ],
    "intro": {
     "cs": "Přiznání k DPH, kontrolní hlášení, souhrnná hlášení, OSS, Intrastat a jejich podání finanční správě.",
     "en": "VAT returns, control statements, EC sales lists, OSS, Intrastat, and sending them to the tax authority.",

@@ -1,7 +1,7 @@
 ---
 title: Kontrolný výkaz DPH / kontrolní hlášení CZ/SK
 summary: Obrazovky a výpočet spoločné pre slovenský kontrolný výkaz DPH a české kontrolní hlášení — oddiely z zaúčtovaných dokladov, kontroly pred exportom, XML overené voči XSD a záznam o podaní.
-verified: 19.0.2.4.1
+verified: 19.0.2.4.2
 ---
 
 ## Na čo slúži {#purpose}

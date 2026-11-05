@@ -8,6 +8,21 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.2.4.2 (2026-11-05), not yet on 18.0:** drop the "Country modules
+  inject per-section tabs here." note from the *Sections* tab.
+
+[19.0.2.4.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- The *Sections* tab no longer shows the developer note "Country modules
+  inject per-section tabs here." above the section tabs.
+
 [19.0.2.4.1] — 2026-11-04
 -------------------------
 
