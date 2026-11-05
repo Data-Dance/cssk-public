@@ -1121,4 +1121,60 @@
         <field name="rule_parameter_id" ref="rule_parameter_prekazka_vazne_pct"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
+
+    <record id="rule_parameter_2027_monthly_taxable_max" model="hr.rule.parameter.value">
+        <field name="parameter_value">17820</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_monthly_taxable_max"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_health_min_base" model="hr.rule.parameter.value">
+        <field name="parameter_value">295.22</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_health_min_base"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_monthly" model="hr.rule.parameter.value">
+        <field name="parameter_value">516.64</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_monthly"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_annual" model="hr.rule.parameter.value">
+        <field name="parameter_value">6199.62</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_annual"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_taper_threshold" model="hr.rule.parameter.value">
+        <field name="parameter_value">27101.20</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_threshold"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_taper_const" model="hr.rule.parameter.value">
+        <field name="parameter_value">15233.35</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_const"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_income_tax_bands" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 3808.34], [0.25, 5225.39], [0.30, 6494.84], [0.35, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_income_tax_bands"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_income_tax_bands_annual" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 45700.06], [0.25, 62704.73], [0.30, 77938.08], [0.35, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_income_tax_bands_annual"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_child_bonus_taper_threshold" model="hr.rule.parameter.value">
+        <field name="parameter_value">29160</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_child_bonus_taper_threshold"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_min_hourly_wage" model="hr.rule.parameter.value">
+        <field name="parameter_value">5.586</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_min_hourly_wage"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_pn_max_dvz" model="hr.rule.parameter.value">
+        <field name="parameter_value">106.5206</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_pn_max_dvz"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
 </odoo>
