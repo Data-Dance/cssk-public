@@ -1,5 +1,41 @@
 {
  "guides": {
+  "document_capture": {
+   "country": "both",
+   "langs": [
+    "en",
+    "sk",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Přijaté faktury vyplněné z PDF umělou inteligencí a účtenky přečtené z fotografie, slovenské i z QR kódu přes eKasu — co se vyplní samo, co je třeba zkontrolovat a jak z toho vznikne účetní doklad.",
+    "en": "Vendor bills filled in from their PDF by AI, and till receipts read from their QR code through eKasa or from a photo — what fills in by itself, what to check and how it becomes an accounting document.",
+    "sk": "Dodávateľské faktúry vyplnené z PDF umelou inteligenciou a pokladničné bločky prečítané z QR kódu cez eKasu alebo z fotografie — čo sa vyplní samo, čo treba skontrolovať a ako z toho vznikne doklad v účtovníctve."
+   },
+   "title": {
+    "cs": "Vytěžování dokladů",
+    "en": "Document capture",
+    "sk": "Vyťažovanie dokladov"
+   }
+  },
+  "fio_bank": {
+   "country": "both",
+   "langs": [
+    "en",
+    "sk",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Pohyby z účtu u Fio banky přicházejí do Odoo samy každou hodinu, se symboly a účtem protistrany — stačí token z internetového bankovnictví na bankovním deníku.",
+    "en": "Movements on a Fio banka account arrive in Odoo by themselves every hour, with payment symbols and the counterparty's account — all it takes is an internet-banking token on the bank journal.",
+    "sk": "Pohyby z účtu vo Fio banke prichádzajú do Odoo samy každú hodinu, so symbolmi a účtom protistrany — stačí token z internetbankingu na bankovom denníku."
+   },
+   "title": {
+    "cs": "Fio banka — automatické výpisy",
+    "en": "Fio banka — automatic statements",
+    "sk": "Fio banka — automatické výpisy"
+   }
+  },
   "mis_reports": {
    "country": "both",
    "langs": [
@@ -16,6 +52,42 @@
     "cs": "Manažerské výkazy v MIS Builder",
     "en": "Management reports with MIS Builder",
     "sk": "Manažérske výkazy v MIS Builder"
+   }
+  },
+  "peppol_epostak": {
+   "country": "both",
+   "langs": [
+    "en",
+    "sk",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Pro společnosti s vlastní smlouvou s ePošťákem — připojení klíči z účtu v ePošťáku, Peppol adresy, které faktury odejdou elektronicky, stavy doručení a přijaté faktury jako koncepty.",
+    "en": "For companies with their own ePošťák contract — connecting with the keys from your ePošťák account, Peppol addresses, which invoices go electronically, delivery states and received invoices as drafts.",
+    "sk": "Pre spoločnosti, ktoré majú vlastnú zmluvu s ePošťákom — pripojenie kľúčmi z účtu v ePošťáku, Peppol adresy, ktoré faktúry odídu elektronicky, stavy doručenia a prijaté faktúry ako koncepty."
+   },
+   "title": {
+    "cs": "Elektronické faktury přes Peppol — vlastní smlouva s ePošťákem",
+    "en": "E-invoices via Peppol — your own ePošťák contract",
+    "sk": "Elektronické faktúry cez Peppol — vlastná zmluva s ePošťákom"
+   }
+  },
+  "peppol_hosted": {
+   "country": "both",
+   "langs": [
+    "en",
+    "sk",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Pro předplatitele hostované služby Data Dance — připojení do sítě Peppol zařídíme my, bez vlastní smlouvy a bez klíčů; Peppol adresy, které faktury odejdou elektronicky, stavy doručení a přijaté faktury jako koncepty.",
+    "en": "For subscribers of the Data Dance hosting service — we connect you to Peppol, with no contract and no keys of your own; Peppol addresses, which invoices go electronically, delivery states and received invoices as drafts.",
+    "sk": "Pre predplatiteľov hostovanej služby Data Dance — pripojenie do siete Peppol zariadime my, bez vlastnej zmluvy a bez kľúčov; Peppol adresy, ktoré faktúry odídu elektronicky, stavy doručenia a prijaté faktúry ako koncepty."
+   },
+   "title": {
+    "cs": "Elektronické faktury přes Peppol — předplatitelé Data Dance",
+    "en": "E-invoices via Peppol — Data Dance subscribers",
+    "sk": "Elektronické faktúry cez Peppol — predplatitelia Data Dance"
    }
   },
   "sk_account_setup": {
@@ -48,36 +120,6 @@
     "sk": "Banka"
    }
   },
-  "sk_bank_sync": {
-   "country": "sk",
-   "langs": [
-    "en",
-    "sk"
-   ],
-   "summary": {
-    "en": "Bank movements arrive in Odoo by themselves — Fio banka through your own token, Tatra banka through its Premium API — with no files to download or import, with payment symbols and the counterparty's account.",
-    "sk": "Pohyby z banky prichádzajú do Odoo samy — Fio banka cez vlastný token, Tatra banka cez Premium API — bez sťahovania a importu súborov, so symbolmi a účtom protistrany."
-   },
-   "title": {
-    "en": "Bank account synchronisation",
-    "sk": "Synchronizácia bankových účtov"
-   }
-  },
-  "sk_document_capture": {
-   "country": "sk",
-   "langs": [
-    "en",
-    "sk"
-   ],
-   "summary": {
-    "en": "Vendor bills filled in from their PDF by AI, and till receipts read from their QR code through eKasa or from a photo — what fills in by itself, what to check and how it becomes an accounting document.",
-    "sk": "Dodávateľské faktúry vyplnené z PDF umelou inteligenciou a pokladničné bločky prečítané z QR kódu cez eKasu alebo z fotografie — čo sa vyplní samo, čo treba skontrolovať a ako z toho vznikne doklad v účtovníctve."
-   },
-   "title": {
-    "en": "Document capture",
-    "sk": "Vyťažovanie dokladov"
-   }
-  },
   "sk_documents": {
    "country": "sk",
    "langs": [
@@ -108,19 +150,19 @@
     "sk": "Odoo pre slovenského účtovníka"
    }
   },
-  "sk_peppol": {
+  "sk_tatrabanka": {
    "country": "sk",
    "langs": [
     "en",
     "sk"
    ],
    "summary": {
-    "en": "Sending and receiving e-invoices over the Peppol network through the ePošťák access point — the connection, Peppol addresses, which invoices go electronically, delivery states and received invoices as drafts.",
-    "sk": "Odosielanie a prijímanie elektronických faktúr cez sieť Peppol a prístupový bod ePošťák — pripojenie, Peppol adresy, ktoré faktúry odídu elektronicky, stavy doručenia a prijaté faktúry ako koncepty."
+    "en": "Movements on bank accounts released through Tatra banka's Premium API arrive in Odoo by themselves every hour. Only on the paid Data Dance hosting service.",
+    "sk": "Pohyby z bankových účtov sprístupnených cez Premium API Tatra banky prichádzajú do Odoo samy každú hodinu. Len v platenej hostovanej službe Data Dance."
    },
    "title": {
-    "en": "E-invoices via Peppol",
-    "sk": "Elektronické faktúry cez Peppol"
+    "en": "Tatra banka — automatic statements",
+    "sk": "Tatra banka — automatické výpisy"
    }
   },
   "sk_vat_close": {
@@ -228,7 +270,7 @@
     "sk_orientation",
     "sk_account_setup",
     "sk_documents",
-    "sk_document_capture"
+    "document_capture"
    ],
    "intro": {
     "cs": "Balíček pro zemi, údaje společnosti, faktury a doklady každého dne.",
@@ -291,7 +333,8 @@
   {
    "guides": [
     "sk_bank",
-    "sk_bank_sync"
+    "fio_bank",
+    "sk_tatrabanka"
    ],
    "intro": {
     "cs": "Platební soubory, bankovní výpisy, přímé napojení na banku, platební QR kódy a kurzy měn.",
@@ -307,7 +350,8 @@
   },
   {
    "guides": [
-    "sk_peppol"
+    "peppol_hosted",
+    "peppol_epostak"
    ],
    "intro": {
     "cs": "Elektronické faktury a objednávky se zákazníky a dodavateli, přes Peppol nebo obchodní síť EDI.",
