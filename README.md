@@ -176,8 +176,8 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_payment_symbols_sepa_oca` | 19.0.1.0.0 | Writes VS, KS and SS into the SEPA credit transfer file of OCA payment orders, in the form Slovak and Czech banks read. |
 | `l10n_cssk_payroll_declaration_base` | 19.0.1.5.0 | Engine-neutral base for Czech/Slovak payroll authority e-submissions: XSD-validated XML export, a submission state machine and an hr.payslip adapter that works… |
 | `l10n_cssk_public_holidays` | 19.0.1.0.0 | Generates the Slovak and Czech days of rest into the OCA public holiday calendar, year by year, with the statutory exceptions. |
-| `l10n_cssk_receipt_capture` | 19.0.1.1.0 | Country-neutral framework for capturing cash-register receipts (bločky / účtenky) into Odoo: a provider registry, the captured receipt with its lines and… |
-| `l10n_cssk_receipt_capture_expense` | 19.0.1.1.0 | Turn a captured fiscal receipt into employee expenses, and capture receipts from the expense attachment upload. |
+| `l10n_cssk_receipt_capture` | 19.0.1.1.1 | Country-neutral framework for capturing cash-register receipts (bločky / účtenky) into Odoo: a provider registry, the captured receipt with its lines and… |
+| `l10n_cssk_receipt_capture_expense` | 19.0.1.1.1 | Turn a captured fiscal receipt into employee expenses, and capture receipts from the expense attachment upload. |
 | `l10n_cssk_recycling_fee` | 19.0.1.0.1 | Dated CZ/SK recycling-fee rates on OCA ecotax classifications, the statutory per-line 'z toho recyklační příspěvek' on the invoice, and a per-category period… |
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.1 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |

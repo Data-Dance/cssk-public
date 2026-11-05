@@ -158,5 +158,3 @@ can read it; only accounting managers can edit or delete rows.
   changes it, lookups fail until the module is updated.
 - Only Slovak eKasa receipts. Czech and foreign receipts, and Slovak receipts
   whose code cannot be read at all, need another provider.
-- The screens of this module are in English; there is no Slovak translation
-  yet.

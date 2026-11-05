@@ -99,9 +99,8 @@ uverejnené neboli; kým nebudú, oznámenie znamená obrátiť sa na finančné
 riaditeľstvo priamo.</p>
 <h2 id="setup">Nastavenie</h2>
 <p><em>Účtovníctvo → Konfigurácia → Nastavenia</em> (v edícii Community bez plného
-účtovníctva <em>Fakturácia → Konfigurácia → Nastavenia</em>), blok <strong>Slovak eKasa
-Receipt Lookup</strong> pod blokom <em>Fiscal Receipt Capture</em>. Modul zatiaľ nemá
-slovenský preklad, popisy sú po anglicky:</p>
+účtovníctva <em>Fakturácia → Konfigurácia → Nastavenia</em>), blok <strong>Overenie slovenského
+dokladu v eKase</strong> pod blokom <em>Zachytávanie pokladničných dokladov</em>:</p>
 <table>
 <thead>
 <tr>
@@ -111,23 +110,23 @@ slovenský preklad, popisy sú po anglicky:</p>
 </thead>
 <tbody>
 <tr>
-<td>Zapnúť vyhľadávanie (<em>Enable eKasa Lookup</em>)</td>
+<td>Zapnúť overenie v eKase</td>
 <td>Zapne vyhľadávanie pre aktuálnu spoločnosť. Predvolene vypnuté.</td>
 </tr>
 <tr>
-<td>IP adresa oznámená (<em>IP Address Notified (§ 18/11)</em>)</td>
+<td>IP adresa oznámená (§ 18 ods. 11)</td>
 <td>Zaškrtnite až vtedy, keď finančnému riaditeľstvu bola oznámená verejná IP adresa, z ktorej sa váš server Odoo pripája. Kým nie je zaškrtnuté, každé vyhľadanie sa s vysvetlením odmietne.</td>
 </tr>
 <tr>
-<td>Oznámená IP adresa, dátum oznámenia (<em>Notified IP Address</em>, <em>Notified On</em>)</td>
+<td>Oznámená IP adresa, Oznámené dňa</td>
 <td>Adresa, ktorú ste oznámili, a dátum. Slúži ako záznam; modul ju neporovnáva so skutočne používanou adresou.</td>
 </tr>
 <tr>
-<td>Hodinový limit (<em>Hourly Lookup Budget</em>)</td>
+<td>Hodinový limit overení</td>
 <td>Najviac vyhľadaní za hodinu, predvolene 60. Nula znamená žiadne vyhľadávanie.</td>
 </tr>
 <tr>
-<td>Časový limit (<em>Lookup Timeout (s)</em>)</td>
+<td>Časový limit overenia (s)</td>
 <td>Ako dlho čakať na odpoveď služby, predvolene 30 sekúnd.</td>
 </tr>
 </tbody>
@@ -143,7 +142,7 @@ Slovensko — vytvorí modul a nájdete ho medzi ostatnými poskytovateľmi úda
 rámca.</p>
 <h2 id="usage">Zachytenie bločku</h2>
 <p>Bloček zachyťte ako zvyčajne v rámci zachytávania bločkov (<em>Účtovníctvo →
-Dodávatelia → Fiscal Receipts</em>): naskenujte QR kód kamerou, prepíšte ho alebo
+Dodávatelia → Pokladničné doklady</em>): naskenujte QR kód kamerou, prepíšte ho alebo
 nahrajte fotografiu.</p>
 <ul>
 <li><strong>Z fotografie</strong> sa QR kód dekóduje na serveri. Ak je na bločku viac kódov
@@ -230,7 +229,6 @@ používatelia s právom fakturácie, upravovať a mazať len správcovia
   vyhľadávanie nebude fungovať, kým sa modul neupraví.</li>
 <li>Len slovenské doklady z eKasy. České a zahraničné bločky a slovenské bločky,
   ktorých kód sa nedá prečítať vôbec, potrebujú iného poskytovateľa.</li>
-<li>Obrazovky modulu sú po anglicky; slovenský preklad zatiaľ chýba.</li>
 </ul>
 <footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/384/">Zákon č. 384/2025 Z. z. o evidencii tržieb a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>

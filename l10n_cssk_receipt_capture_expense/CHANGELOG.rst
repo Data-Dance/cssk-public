@@ -8,6 +8,28 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **Visibility, scan and the split (2026-10-19).** 18.0's expense bridge
+  creates the receipt with the employee's rights (an AccessError for anyone
+  without accounting rights), shows no outcome on the expense, and splits a
+  multi-rate receipt by ``copy()``, which overrode the amounts. Port with the
+  base module's rework.
+
+- **No tax-included requirement (2026-10-19).** 18.0's ``hr.expense`` also
+  computes with ``special_mode='total_included'`` (hr_expense.py:549), so the
+  same refusal is wrong there. Drop it with the port.
+
+[19.0.1.1.1] — 2026-11-05
+-------------------------
+
+Added
+~~~~~
+
+- Slovak and Czech catalogues (``sk.po``, ``cs.po``) and the ``.pot``
+  template: menus, settings, fields, states, buttons and messages.
+
 Fixed
 ~~~~~
 
@@ -27,19 +49,6 @@ Changed
   expenses looks; they were only under Invoicing ▸ Fiscal Receipt Capture.
 - The *Receipt Expense Category* picker listed every product, not only those
   that can be expensed: Odoo drops a string domain on a related field.
-
-Carry-over to 18.0
-~~~~~~~~~~~~~~~~~~
-
-- **Visibility, scan and the split (2026-10-19).** 18.0's expense bridge
-  creates the receipt with the employee's rights (an AccessError for anyone
-  without accounting rights), shows no outcome on the expense, and splits a
-  multi-rate receipt by ``copy()``, which overrode the amounts. Port with the
-  base module's rework.
-
-- **No tax-included requirement (2026-10-19).** 18.0's ``hr.expense`` also
-  computes with ``special_mode='total_included'`` (hr_expense.py:549), so the
-  same refusal is wrong there. Drop it with the port.
 
 [19.0.1.1.0] — 2026-10-19
 -------------------------

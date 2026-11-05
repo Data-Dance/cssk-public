@@ -1,0 +1,1438 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_receipt_capture
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 17:33+0000\n"
+"PO-Revision-Date: 2026-11-05 17:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: sk_SK\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"%(count)s item(s) are marked as returns or corrections. Receipts carrying "
+"them are not posted automatically — check the signs against the paper before"
+" accepting."
+msgstr "Položky označené ako vrátenie alebo oprava: %(count)s. Doklady s nimi sa nezaúčtujú automaticky — pred prijatím skontrolujte znamienka podľa papierového dokladu."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"%(count)s item(s) carry a VAT rate the recap does not mention (%(rates)s)."
+msgstr "Položky so sadzbou DPH, ktorú rekapitulácia neuvádza: %(count)s (%(rates)s)."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/account_move.py:0
+msgid ""
+"%(move)s carries %(tax).2f of VAT, but it comes from a receipt whose VAT is "
+"not deductible (%(receipt)s). Remove the VAT, or tick “Full invoice held” on"
+" the receipt if you have one."
+msgstr "%(move)s obsahuje DPH %(tax).2f, ale pochádza z dokladu, ktorého DPH nemožno odpočítať (%(receipt)s). Odstráňte DPH, alebo na doklade zaškrtnite „Máme riadnu faktúru“, ak ju máte."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"%(tax)s is mapped to %(rate)g%% but is a %(actual)g%% tax. Fix the company's"
+" VAT-rate mapping — posting it would report the wrong base at both rates."
+msgstr "%(tax)s je priradená k sadzbe %(rate)g%%, ale je to daň %(actual)g%%. Opravte mapovanie sadzieb DPH spoločnosti — zaúčtovanie by vykázalo nesprávny základ pri oboch sadzbách."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "%s (VAT not deductible)"
+msgstr "%s (DPH nemožno odpočítať)"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "%s already has the vendor bill %s."
+msgstr "%s už má prijatú faktúru %s."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"A QR code is on the photograph but could not be read — printed too densely, "
+"or damaged. Scan it with the camera instead."
+msgstr "Na fotografii je QR kód, ale nedal sa prečítať — je vytlačený príliš husto alebo poškodený. Naskenujte ho radšej kamerou."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.constraint,message:l10n_cssk_receipt_capture.constraint_cssk_receipt_provider_code_uniq
+msgid "A capture provider with this code already exists."
+msgstr "Poskytovateľ s týmto kódom už existuje."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_line__is_negative
+msgid "A return / correction item (eKasa itemType 'Z')."
+msgstr "Položka vrátenia alebo opravy (eKasa itemType „Z“)."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Accept Anyway"
+msgstr "Napriek tomu prijať"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_needaction
+msgid "Action Needed"
+msgstr "Potrebná akcia"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__active
+msgid "Active"
+msgstr "Aktívne"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__amount_tax
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__amount_tax
+msgid "Amount Tax"
+msgstr "Suma dane"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__amount_total
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__amount_total
+msgid "Amount Total"
+msgstr "Suma celkom"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__amount_untaxed
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__amount_untaxed
+msgid "Amount Untaxed"
+msgstr "Suma bez dane"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_provider_form
+msgid "Archived"
+msgstr "Archivované"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"At %(rate)s%%, the items total %(gross).2f but the receipt's VAT recap says "
+"%(recap).2f."
+msgstr "Pri sadzbe %(rate)s%% je súčet položiek %(gross).2f, ale rekapitulácia DPH dokladu uvádza %(recap).2f."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__attempt_count
+msgid "Attempt Count"
+msgstr "Počet pokusov"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__attempt_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Attempts"
+msgstr "Pokusy"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_auto_create_partner
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_auto_create_partner
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Auto-create Seller"
+msgstr "Automaticky vytvoriť predávajúceho"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid "Back"
+msgstr "Späť"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+msgid "Base"
+msgstr "Základ"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"Base plus VAT (%(sum).2f) does not equal the receipt total (%(total).2f)."
+msgstr "Základ a DPH (%(sum).2f) sa nerovnajú sume dokladu (%(total).2f)."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Capture"
+msgstr "Zachytiť"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_provider_form
+msgid "Capture Provider"
+msgstr "Poskytovateľ údajov"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.act_window,name:l10n_cssk_receipt_capture.action_cssk_receipt_provider
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt_provider
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_provider_list
+msgid "Capture Providers"
+msgstr "Poskytovatelia údajov"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Capture attempts"
+msgstr "Pokusy o zachytenie"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Capture failed."
+msgstr "Zachytenie zlyhalo."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__provider_id
+msgid "Capture provider"
+msgstr "Poskytovateľ údajov"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt_provider.py:0
+msgid ""
+"Capture provider %(name)s declares the implementation %(model)s, which is "
+"not installed."
+msgstr "Poskytovateľ %(name)s uvádza implementáciu %(model)s, ktorá nie je nainštalovaná."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.actions.act_window,help:l10n_cssk_receipt_capture.action_cssk_receipt
+msgid "Capture your first receipt"
+msgstr "Zachyťte prvý doklad"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__captured
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt_attempt__outcome__captured
+msgid "Captured"
+msgstr "Zachytené"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt
+msgid "Captured Fiscal Receipt"
+msgstr "Zachytený pokladničný doklad"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__captured_on
+msgid "Captured On"
+msgstr "Zachytené dňa"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Captured Receipt"
+msgstr "Zachytený doklad"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.act_window,name:l10n_cssk_receipt_capture.action_cssk_receipt
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Captured Receipts"
+msgstr "Zachytené doklady"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Captured and reconciled."
+msgstr "Zachytené a skontrolované."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Captured but parked for review:"
+msgstr "Zachytené, ale odložené na kontrolu:"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__code
+msgid "Code"
+msgstr "Kód"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__qr_detected
+msgid "Codes on the photograph"
+msgstr "Kódy na fotografii"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_reg_id
+msgid "Company ID"
+msgstr "IČO"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__confidence
+msgid "Confidence"
+msgstr "Istota"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavenia konfigurácie"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"Confirmed by %s from the identifiers printed on the receipt; its figures "
+"replace the photograph reading."
+msgstr "Potvrdené cez %s podľa identifikátorov vytlačených na doklade; jeho údaje nahrádzajú prečítanie fotografie."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__cost
+msgid "Cost"
+msgstr "Cena"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__country_ids
+msgid "Countries"
+msgstr "Krajiny"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Create Seller"
+msgstr "Vytvoriť predávajúceho"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Create Vendor Receipt"
+msgstr "Vytvoriť nákupnú účtenku"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid ""
+"Create the seller from the receipt's own identifiers when no partner matches"
+msgstr "Vytvoriť predávajúceho z identifikátorov na doklade, ak sa nenájde žiadny partner"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_auto_create_partner
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_auto_create_partner
+msgid ""
+"Create the seller from the receipt's own identifiers when no partner "
+"matches, instead of parking the receipt."
+msgstr "Vytvoriť predávajúceho z identifikátorov na doklade, ak sa nenájde žiadny partner, namiesto odloženia dokladu."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__create_date
+msgid "Created on"
+msgstr "Vytvorené"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__seller_tax_id
+msgid "DIČ / daňové identifikační číslo."
+msgstr "DIČ / daňové identifikačné číslo."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Default Expense Account"
+msgstr "Predvolený nákladový účet"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_expense_account_id
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_expense_account_id
+msgid ""
+"Default expense account for captured receipt lines. Fuel, meals and the rest"
+" are usually re-coded afterwards; this is the landing account."
+msgstr "Predvolený nákladový účet riadkov zachytených dokladov. Pohonné hmoty, stravu a ďalšie zvyčajne preúčtujete neskôr; toto je účet, na ktorý riadky prídu."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__name
+msgid "Description"
+msgstr "Popis"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Document Detail"
+msgstr "Podrobnosť dokladu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__duration_ms
+msgid "Duration (ms)"
+msgstr "Trvanie (ms)"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__qr_source__manual
+msgid "Entered by hand"
+msgstr "Zadané ručne"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__error
+msgid "Error"
+msgstr "Chyba"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__qr_detected
+msgid ""
+"Every QR code found on the photograph, and which one was used. A receipt can"
+" carry several — a loyalty link above the fiscal code."
+msgstr "Všetky QR kódy nájdené na fotografii a ktorý z nich sa použil. Doklad ich môže mať viac — napríklad odkaz vernostného programu nad fiškálnym kódom."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt_attempt__outcome__error
+msgid "Failed"
+msgstr "Zlyhalo"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Fiscal Receipt Capture"
+msgstr "Zachytávanie pokladničných dokladov"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_attempt
+msgid "Fiscal Receipt Capture Attempt"
+msgstr "Pokus o zachytenie pokladničného dokladu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_provider
+msgid "Fiscal Receipt Capture Provider"
+msgstr "Poskytovateľ údajov pokladničných dokladov"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_provider_mixin
+msgid "Fiscal Receipt Capture Provider Mixin"
+msgstr "Mixin poskytovateľa údajov pokladničných dokladov"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_line
+msgid "Fiscal Receipt Line"
+msgstr "Riadok pokladničného dokladu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_tax
+msgid "Fiscal Receipt VAT Recap Row"
+msgstr "Riadok rekapitulácie DPH pokladničného dokladu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt_root
+msgid "Fiscal Receipts"
+msgstr "Pokladničné doklady"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__printed_identifiers
+msgid ""
+"Fiscal identifiers an AI reading found printed on the receipt (JSON). Used "
+"to look the receipt up when its QR will not decode."
+msgstr "Fiškálne identifikátory, ktoré čítanie pomocou AI našlo vytlačené na doklade (JSON). Použijú sa na vyhľadanie dokladu, keď sa QR kód nedá dekódovať."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.server,name:l10n_cssk_receipt_capture.ir_cron_cssk_receipt_retry_ir_actions_server
+msgid "Fiscal receipts: retry transient capture failures"
+msgstr "Pokladničné doklady: zopakovať dočasne neúspešné zachytenia"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_follower_ids
+msgid "Followers"
+msgstr "Odberatelia"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odberatelia (partneri)"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__vat_full_invoice
+msgid "Full invoice held"
+msgstr "Máme riadnu faktúru"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider_mixin__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Ignored, a further verification code: %s"
+msgstr "Vynechané, ďalší overovací kód: %s"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Ignored, not a receipt verification code: %s"
+msgstr "Vynechané, nie je to overovací kód dokladu: %s"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__input_tokens
+msgid "Input Tokens"
+msgstr "Vstupné tokeny"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.actions.act_window,help:l10n_cssk_receipt_capture.action_cssk_receipt_provider
+msgid ""
+"Install a provider to read receipts: the Slovak eKasa reader\n"
+"               fetches the registered receipt from the QR code, the AI reader\n"
+"               reads the photograph."
+msgstr "Na čítanie dokladov nainštalujte poskytovateľa: overenie v eKase načíta zaevidovaný doklad podľa QR kódu, čítanie pomocou AI prečíta fotografiu."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_is_follower
+msgid "Is Follower"
+msgstr "Je odberateľ"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__is_negative
+msgid "Is Negative"
+msgstr "Je záporná"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__issue_date
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Issue Date"
+msgstr "Dátum vystavenia"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__issue_tz
+msgid "Issue Tz"
+msgstr "Časové pásmo vystavenia"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "It will be retried automatically."
+msgstr "Automaticky sa zopakuje."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Items"
+msgstr "Položky"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__seller_reg_id
+msgid "IČO."
+msgstr "IČO."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný záznam"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_journal_id
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_journal_id
+msgid ""
+"Journal for vendor receipts created from captured fiscal receipts. Defaults "
+"to the company's first purchase journal."
+msgstr "Denník pre nákupné účtenky vytvorené zo zachytených pokladničných dokladov. Predvolene prvý nákupný denník spoločnosti."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravoval"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravované"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__line_ids
+msgid "Line"
+msgstr "Riadok"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__amount_total
+msgid "Line total"
+msgstr "Suma riadku"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__message
+msgid "Message"
+msgstr "Správa"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__model_label
+msgid "Model"
+msgstr "Model"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Month"
+msgstr "Mesiac"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__review
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Needs Review"
+msgstr "Na kontrolu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt_attempt__outcome__review
+msgid "Needs review"
+msgstr "Na kontrolu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__new
+msgid "New"
+msgstr "Nové"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__next_attempt_at
+msgid "Next Attempt At"
+msgstr "Ďalší pokus o"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "No QR code found on the photograph."
+msgstr "Na fotografii sa nenašiel žiadny QR kód."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "No capture provider can read this receipt."
+msgstr "Tento doklad nevie prečítať žiadny poskytovateľ."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.actions.act_window,help:l10n_cssk_receipt_capture.action_cssk_receipt_provider
+msgid "No capture provider installed"
+msgstr "Nie je nainštalovaný žiadny poskytovateľ"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "No purchase journal is configured for %s."
+msgstr "Pre %s nie je nastavený žiadny nákupný denník."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"No purchase tax is mapped for %(rates)s. Add it to the company's VAT-rate "
+"mapping — without it the receipt would post without VAT and the deduction "
+"would be lost."
+msgstr "Pre %(rates)s nie je priradená žiadna nákupná daň. Doplňte ju do mapovania sadzieb DPH spoločnosti — bez nej by sa doklad zaúčtoval bez DPH a odpočet by sa stratil."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"No reader for photographs is available. Configure the AI reader, or scan the"
+" receipt's QR code with the camera."
+msgstr "Nie je k dispozícii žiadne čítanie fotografií. Nastavte čítanie pomocou AI, alebo naskenujte QR kód dokladu kamerou."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt_attempt__outcome__unavailable
+msgid "Not available"
+msgstr "Nie je k dispozícii"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Not used — %(reader)s reads this code but is archived: %(code)s"
+msgstr "Nepoužité — %(reader)s tento kód číta, ale je archivovaný: %(code)s"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__res_company__cssk_receipt_bill_detail__summary
+msgid "One line per VAT rate"
+msgstr "Riadok za každú sadzbu DPH"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__res_company__cssk_receipt_bill_detail__lines
+msgid "One line per receipt item"
+msgstr "Riadok za každú položku dokladu"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Only a captured, reconciled receipt can be posted. %s is %s."
+msgstr "Zaúčtovať možno len zachytený a skontrolovaný doklad. %s je v stave %s."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__outcome
+msgid "Outcome"
+msgstr "Výsledok"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__output_tokens
+msgid "Output Tokens"
+msgstr "Výstupné tokeny"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.actions.act_window,help:l10n_cssk_receipt_capture.action_cssk_receipt
+msgid ""
+"Paste the QR payload from a fiscal receipt, or attach the\n"
+"               photograph, and press <b>Capture</b>."
+msgstr "Vložte text QR kódu z pokladničného dokladu alebo priložte fotografiu a stlačte <b>Zachytiť</b>."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_bill_detail
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_bill_detail
+msgid ""
+"Per VAT rate posts exactly the base the seller reported and cannot drift. "
+"Per item is easier to read; the posted tax is still checked against the "
+"receipt's own recap, and the document is refused if they disagree."
+msgstr "Riadok za sadzbu zaúčtuje presne základ, ktorý vykázal predávajúci, a nemôže sa odchýliť. Riadok za položku sa ľahšie číta; zaúčtovaná daň sa aj tak porovná s rekapituláciou dokladu a ak nesedí, doklad sa odmietne."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid ""
+"Per VAT rate posts exactly the base the seller reported. Per item is easier "
+"to read; either way the posted VAT is checked against the receipt."
+msgstr "Riadok za sadzbu zaúčtuje presne základ, ktorý vykázal predávajúci. Riadok za položku sa ľahšie číta; v oboch prípadoch sa zaúčtovaná DPH porovná s dokladom."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid ""
+"Point the camera at the QR code printed on the receipt.\n"
+"                        Its registered figures are fetched and the receipt is\n"
+"                        captured from them."
+msgstr "Namierte kameru na QR kód vytlačený na doklade. Načítajú sa jeho zaevidované údaje a doklad sa z nich zachytí."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__done
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Posted"
+msgstr "Zaúčtované"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__premises_note
+msgid "Premises"
+msgstr "Prevádzka"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__printed_identifiers
+msgid "Printed Identifiers"
+msgstr "Vytlačené identifikátory"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__provider_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Provider"
+msgstr "Poskytovateľ"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Provider Payload"
+msgstr "Odpoveď poskytovateľa"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__payload_raw
+msgid "Provider payload"
+msgstr "Odpoveď poskytovateľa"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__qr_source
+msgid "QR origin"
+msgstr "Pôvod QR kódu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__qr_raw
+msgid "QR payload"
+msgstr "Text QR kódu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__quantity
+msgid "Quantity"
+msgstr "Množstvo"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__qr_source__decoded
+msgid "Read from the photograph"
+msgstr "Prečítané z fotografie"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid "Reading…"
+msgstr "Číta sa…"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Ready to Post"
+msgstr "Pripravené na zaúčtovanie"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__qr_source__printed
+msgid "Rebuilt from identifiers printed on the receipt"
+msgstr "Zostavené z identifikátorov vytlačených na doklade"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__receipt_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__receipt_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__receipt_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Receipt"
+msgstr "Doklad"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Receipt (uncaptured)"
+msgstr "Doklad (nezachytený)"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_bill_detail
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_bill_detail
+msgid "Receipt Bill Detail"
+msgstr "Podrobnosť dokladu z bločku"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_expense_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_expense_account_id
+msgid "Receipt Expense Account"
+msgstr "Nákladový účet bločkov"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_journal_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_journal_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Receipt Journal"
+msgstr "Denník bločkov"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__receipt_uid
+msgid "Receipt identifier"
+msgstr "Identifikátor dokladu"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Receipt items at %g%% VAT"
+msgstr "Položky dokladu s DPH %g%%"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.act_window,name:l10n_cssk_receipt_capture.action_cssk_receipt_review
+msgid "Receipts to Review"
+msgstr "Doklady na kontrolu"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_provider__country_ids
+msgid ""
+"Restrict this provider to receipts issued in these countries. Empty means no"
+" restriction."
+msgstr "Obmedziť poskytovateľa na doklady vystavené v týchto krajinách. Prázdne znamená bez obmedzenia."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__review_reason
+msgid "Review Reason"
+msgstr "Dôvod kontroly"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Review overridden by %s. Reported discrepancy:"
+msgstr "Kontrolu prepísal %s. Nahlásený rozdiel:"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+msgid "Scan QR"
+msgstr "Naskenovať QR"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.client,name:l10n_cssk_receipt_capture.action_cssk_receipt_scan_qr
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt_scan
+msgid "Scan Receipt"
+msgstr "Naskenovať bloček"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid "Scan a receipt"
+msgstr "Naskenovať bloček"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid "Scan again"
+msgstr "Naskenovať znova"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__qr_source__scanned
+msgid "Scanned with the camera"
+msgstr "Naskenované kamerou"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Seller"
+msgstr "Predávajúci"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_name
+msgid "Seller Name"
+msgstr "Názov predávajúceho"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_vat_payer
+msgid "Seller is VAT-registered"
+msgstr "Predávajúci je platiteľ DPH"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__sequence
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"Set the default receipt expense account in Settings ▸ Accounting ▸ Fiscal "
+"Receipt Capture before posting receipts."
+msgstr "Pred zaúčtovaním dokladov nastavte predvolený nákladový účet v Nastavenia ▸ Účtovníctvo ▸ Zachytávanie pokladničných dokladov."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Set the seller on %s before posting it."
+msgstr "Pred zaúčtovaním nastavte na %s predávajúceho."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__attachment_id
+msgid "Source image"
+msgstr "Zdrojový obrázok"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__started_at
+msgid "Started At"
+msgstr "Začaté o"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Status"
+msgstr "Stav"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__tax_summary_ids
+msgid "Tax Summary"
+msgstr "Rekapitulácia DPH"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_tax_id
+msgid "Tax number"
+msgstr "DIČ"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__amount_untaxed
+msgid "Taxable base"
+msgstr "Základ dane"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_provider__code
+msgid ""
+"Technical code. The implementation is the AbstractModel named "
+"'cssk.receipt.provider.<code>'."
+msgstr "Technický kód. Implementáciou je AbstractModel s názvom „cssk.receipt.provider.<code>“."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "That is not a receipt verification code (it reads “%s”)."
+msgstr "To nie je overovací kód dokladu (obsahuje „%s“)."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The %(rate)g%% bucket states %(base).2f + %(tax).2f, but %(gross).2f at "
+"%(rate)g%% is %(want_base).2f + %(want_tax).2f."
+msgstr "Skupina %(rate)g%% uvádza %(base).2f + %(tax).2f, ale %(gross).2f pri %(rate)g%% je %(want_base).2f + %(want_tax).2f."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The QR code on the photograph was not read: no QR decoder is installed on "
+"this server (the Python package zxing-cpp)."
+msgstr "QR kód na fotografii sa neprečítal: na tomto serveri nie je nainštalovaný dekodér QR kódov (balík Pythonu zxing-cpp)."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__seller_vat
+msgid ""
+"The VAT identification number as printed (IČ DPH / DIČ). Not derivable from "
+"the tax number: a member of a VAT group files under the group's number, "
+"which is unrelated to its own."
+msgstr "Identifikačné číslo pre DPH tak, ako je vytlačené (IČ DPH / DIČ). Nedá sa odvodiť z DIČ: člen skupiny DPH podáva pod číslom skupiny, ktoré s jeho vlastným nesúvisí."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The VAT on this receipt is not deductible, yet the document carries %.2f of "
+"VAT. Nothing was posted."
+msgstr "DPH z tohto dokladu nemožno odpočítať, a predsa doklad obsahuje DPH %.2f. Nič sa nezaúčtovalo."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.js:0
+msgid "The camera could not be opened. Check the browser's permission for it."
+msgstr "Kameru sa nepodarilo otvoriť. Skontrolujte povolenie kamery v prehliadači."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The document posts %(got).2f of VAT at %(rate)g%% but the receipt reports "
+"%(want).2f. Nothing was posted."
+msgstr "Doklad účtuje DPH %(got).2f pri sadzbe %(rate)g%%, ale bloček uvádza %(want).2f. Nič sa nezaúčtovalo."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The document totals %(move).2f but the receipt totals %(receipt).2f. Nothing"
+" was posted."
+msgstr "Doklad je na %(move).2f, ale bloček na %(receipt).2f. Nič sa nezaúčtovalo."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The document's VAT is %(move).2f but the receipt reports %(receipt).2f. "
+"Nothing was posted."
+msgstr "DPH dokladu je %(move).2f, ale bloček uvádza %(receipt).2f. Nič sa nezaúčtovalo."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__transient
+msgid ""
+"The failure is worth retrying unchanged later — a busy model or a network "
+"error. A refusal is not, and is never retried on a timer."
+msgstr "Zlyhanie má zmysel neskôr zopakovať bez zmeny — preťažený model alebo chyba siete. Odmietnutie nie, a podľa plánu sa nikdy neopakuje."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid ""
+"The figures on this receipt do not add up. Accept it on your own "
+"responsibility?"
+msgstr "Údaje tohto dokladu nesedia. Prijať ho na vlastnú zodpovednosť?"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The identifiers printed on the receipt could not be checked with %(reader)s:"
+" %(why)s"
+msgstr "Identifikátory vytlačené na doklade sa nepodarilo overiť cez %(reader)s: %(why)s"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The identifiers printed on this receipt did not match a registered receipt "
+"at %(reader)s (tried %(n)s), so the figures are a reading of the photograph "
+"only."
+msgstr "Identifikátorom vytlačeným na doklade nezodpovedá žiadny doklad zaevidovaný v %(reader)s (skúšaných: %(n)s), preto sú údaje len prečítaním fotografie."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "The lines sum to %(lines).2f but the receipt total is %(total).2f."
+msgstr "Súčet riadkov je %(lines).2f, ale suma dokladu je %(total).2f."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__qr_raw
+msgid "The literal string decoded from the receipt's QR code."
+msgstr "Presný text dekódovaný z QR kódu dokladu."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__model_label
+msgid "The model that served an AI reading, if any."
+msgstr "Model, ktorý doklad prečítal pomocou AI, ak nejaký."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The purchase tax %(tax)s is tax-included, but a vendor-bill line carries the"
+" net amount, so the document would come out lower than the receipt. Map a "
+"tax-excluded purchase tax for this rate, or create the receipt as employee "
+"expenses, which need the tax-included kind."
+msgstr "Nákupná daň %(tax)s je zahrnutá v cene, ale riadok prijatej faktúry nesie sumu bez dane, takže doklad by vyšiel nižší ako bloček. Priraďte tejto sadzbe nákupnú daň nezahrnutú v cene, alebo z bločku vytvorte výdavky zamestnanca, ktoré potrebujú daň zahrnutú v cene."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "The receipt total is missing."
+msgstr "Chýba suma dokladu."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The registered receipt for these identifiers totals %(theirs).2f, not "
+"%(ours).2f as on the photograph."
+msgstr "Zaevidovaný doklad k týmto identifikátorom je na %(theirs).2f, nie na %(ours).2f ako na fotografii."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.constraint,message:l10n_cssk_receipt_capture.constraint_cssk_receipt_tax_rate_receipt_uniq
+msgid "The same VAT rate appears twice in this receipt's recap."
+msgstr "Rovnaká sadzba DPH je v rekapitulácii dokladu dvakrát."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid ""
+"The seller's own per-rate recap. This is what the\n"
+"                                document posts; the items above are detail."
+msgstr "Rekapitulácia predávajúceho podľa sadzieb. Práve tá sa zaúčtuje; položky vyššie sú podrobnosti."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__issue_tz
+msgid ""
+"The time zone the receipt's printed time was in. The issue date is stored in"
+" UTC like every Odoo datetime; this is what turns it back into the date on "
+"the paper."
+msgstr "Časové pásmo času vytlačeného na doklade. Dátum vystavenia je uložený v UTC ako každý čas v Odoo; podľa tohto pásma sa z neho znova stane dátum na papieri."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_line__uom_label
+msgid ""
+"The unit as the receipt words it. Informative: the posted document carries "
+"the line total, not a unit price."
+msgstr "Jednotka tak, ako ju uvádza doklad. Len informatívne: zaúčtovaný doklad nesie sumu riadku, nie jednotkovú cenu."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "There is neither a photograph nor a QR code to read."
+msgstr "Nie je čo čítať — chýba fotografia aj QR kód."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid ""
+"This browser cannot use the camera here. It needs a\n"
+"                        secure (HTTPS) connection and permission to use the\n"
+"                        camera."
+msgstr "Tento prehliadač tu nemôže použiť kameru. Potrebuje zabezpečené pripojenie (HTTPS) a povolenie používať kameru."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid ""
+"This failure looked temporary, so it will be retried\n"
+"                        automatically at"
+msgstr "Toto zlyhanie vyzeralo ako dočasné, preto sa automaticky zopakuje o"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"This receipt has already been captured as %(name)s (identifier "
+"%(identifier)s)."
+msgstr "Tento doklad už bol zachytený ako %(name)s (identifikátor %(identifier)s)."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.constraint,message:l10n_cssk_receipt_capture.constraint_cssk_receipt_uid_company_uniq
+msgid "This receipt has already been captured for this company."
+msgstr "Tento doklad už bol pre túto spoločnosť zachytený."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"This receipt has neither a VAT recap nor any items, so there is nothing to "
+"post."
+msgstr "Tento doklad nemá rekapituláciu DPH ani položky, nie je čo zaúčtovať."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"This receipt totals %(amount)s %(cur)s including VAT, above the %(limit)s "
+"%(cur)s up to which a till receipt counts as a simplified invoice (%(ref)s)."
+" The purchase is booked in full, but its VAT is not deductible from the "
+"receipt and is part of the cost. Tick “Full invoice held” if you have one "
+"for it."
+msgstr "Tento doklad je na %(amount)s %(cur)s vrátane DPH, čo je viac ako %(limit)s %(cur)s, do ktorých sa pokladničný doklad považuje za zjednodušenú faktúru (%(ref)s). Nákup sa zaúčtuje v plnej výške, ale jeho DPH z dokladu nemožno odpočítať a je súčasťou nákladu. Ak naň máte riadnu faktúru, zaškrtnite „Máme riadnu faktúru“."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__vat_full_invoice
+msgid ""
+"Tick when a full invoice for this purchase is in hand: its VAT is then "
+"deductible whatever the receipt's amount. A separate field rather than an "
+"editable computed one, because a recompute would silently undo an edit to "
+"that."
+msgstr "Zaškrtnite, ak máte na tento nákup riadnu faktúru: jej DPH je potom odpočítateľná bez ohľadu na sumu dokladu. Samostatné pole namiesto upraviteľného počítaného, pretože prepočet by úpravu potichu zrušil."
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "To Capture"
+msgstr "Na zachytenie"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt_review
+msgid "To Review"
+msgstr "Na kontrolu"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+msgid "Total"
+msgstr "Celkom"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__total_cost
+msgid "Total Cost"
+msgstr "Celková cena"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__transient
+msgid "Transient"
+msgstr "Prechodný"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Unidentified Seller"
+msgstr "Neidentifikovaný predávajúci"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__uom_label
+msgid "Unit"
+msgstr "Jednotka"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Unknown seller"
+msgstr "Neznámy predávajúci"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Used (%(reader)s): %(code)s"
+msgstr "Použité (%(reader)s): %(code)s"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+msgid "VAT"
+msgstr "DPH"
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "VAT Recap"
+msgstr "Rekapitulácia DPH"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__amount_tax
+msgid "VAT amount"
+msgstr "Suma DPH"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__vat_deductible
+msgid "VAT deductible"
+msgstr "DPH odpočítateľná"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_vat
+msgid "VAT number"
+msgstr "IČ DPH"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__vat_rate
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__vat_rate
+msgid "VAT rate (%)"
+msgstr "Sadzba DPH (%)"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_line__amount_total
+msgid "VAT-inclusive, exactly as the receipt states it."
+msgstr "Vrátane DPH, presne ako ju uvádza doklad."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__vat_deductible_note
+msgid "Vat Deductible Note"
+msgstr "Poznámka k odpočtu DPH"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__move_id
+msgid "Vendor bill"
+msgstr "Prijatá faktúra"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Vendor receipt %s created (draft)."
+msgstr "Nákupná účtenka %s vytvorená (návrh)."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__payload_raw
+msgid "Verbatim response from the capture source, kept for audit."
+msgstr "Doslovná odpoveď zdroja údajov, uchovaná pre audit."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__website_message_ids
+msgid "Website Messages"
+msgstr "Správy webstránok"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie webstránok"
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__total_cost
+msgid "What every attempt on this receipt cost, failed ones included."
+msgstr "Koľko stáli všetky pokusy o tento doklad, vrátane neúspešných."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__cost
+msgid "What the call cost, including a call that produced nothing usable."
+msgstr "Koľko stálo volanie, aj také, z ktorého nebolo nič použiteľné."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__next_attempt_at
+msgid "When a transient failure will be retried automatically."
+msgstr "Kedy sa dočasné zlyhanie automaticky zopakuje."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__premises_note
+msgid ""
+"Where the receipt was issued, which is usually not the seller's registered "
+"address — a motorway service station, a branch. Kept as a note so it never "
+"lands on the partner."
+msgstr "Kde bol doklad vystavený, čo zvyčajne nie je sídlo predávajúceho — čerpacia stanica pri diaľnici, pobočka. Uchováva sa ako poznámka, aby sa nikdy nedostala k partnerovi."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__vat_deductible
+msgid ""
+"Whether the VAT on this receipt is deducted. Off when the receipt is above "
+"the amount up to which a till receipt is a simplified invoice and no full "
+"invoice is held: the purchase is then booked at its gross amount with the "
+"VAT as part of the cost."
+msgstr "Či sa DPH z tohto dokladu odpočítava. Vypnuté, ak je doklad nad sumou, do ktorej je pokladničný doklad zjednodušenou faktúrou, a nemáte riadnu faktúru: nákup sa potom zaúčtuje v hrubej sume a DPH je súčasťou nákladu."
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__message
+msgid "Why it failed, or what the reconciliation gates found."
+msgstr "Prečo zlyhalo, alebo čo zistili kontroly."
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "receipt_id"
+msgstr "receipt_id"

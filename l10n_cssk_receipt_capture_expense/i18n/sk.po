@@ -1,0 +1,346 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_receipt_capture_expense
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 17:33+0000\n"
+"PO-Revision-Date: 2026-11-05 17:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: sk_SK\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid ""
+"%(expense)s no longer matches its receipt (%(total).2f with VAT at "
+"%(rates)s). Its VAT is posted rate by rate from the receipt, so the amount "
+"and the taxes cannot be edited; reset them, or detach the receipt and enter "
+"the expense by hand."
+msgstr "%(expense)s už nezodpovedá svojmu dokladu (%(total).2f s DPH v sadzbách %(rates)s). Jeho DPH sa účtuje po sadzbách z dokladu, preto sumu a dane nemožno upravovať; vráťte ich, alebo doklad odpojte a výdavok zadajte ručne."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid "%(name)s already has %(count)s expense(s)."
+msgstr "Počet výdavkov, ktoré už %(name)s má: %(count)s."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid ""
+"%(name)s is already claimed as %(count)s expense(s). A vendor receipt would "
+"book the same purchase twice."
+msgstr "%(name)s je už uplatnený ako výdavky (%(count)s). Nákupná účtenka by ten istý nákup zaúčtovala dvakrát."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid "%s (VAT not deductible)"
+msgstr "%s (DPH nemožno odpočítať)"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "%s could not be read"
+msgstr "Neprečítané: %s"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid ""
+"%s has no VAT recap, so there is no way to split it into expenses. Post it "
+"as a vendor bill instead."
+msgstr "%s nemá rekapituláciu DPH, preto sa nedá rozdeliť na výdavky. Zaúčtujte ho radšej ako prijatú faktúru."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid ""
+"%s has no employee record, so an expense cannot be created for them. Create "
+"the employee, or post the receipt as a vendor bill instead."
+msgstr "%s nemá záznam zamestnanca, preto preň nemožno vytvoriť výdavok. Vytvorte zamestnanca, alebo doklad zaúčtujte ako prijatú faktúru."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "%s need checking"
+msgstr "Na kontrolu: %s"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "%s read"
+msgstr "Prečítané: %s"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.view_hr_expense_form_receipt
+msgid "<span class=\"o_stat_text\">Receipt</span>"
+msgstr "<span class=\"o_stat_text\">Doklad</span>"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.view_hr_expense_form_receipt
+msgid "<strong>The receipt could not be read.</strong>"
+msgstr "<strong>Doklad sa nepodarilo prečítať.</strong>"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.view_hr_expense_form_receipt
+msgid "<strong>The receipt was read, but its figures need checking.</strong>"
+msgstr "<strong>Doklad sa prečítal, ale jeho údaje treba skontrolovať.</strong>"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_res_company__cssk_receipt_capture_on_expense_upload
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_res_config_settings__cssk_receipt_capture_on_expense_upload
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.res_config_settings_view_form_receipt_expense
+msgid "Capture on Expense Upload"
+msgstr "Zachytiť pri nahratí výdavku"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model,name:l10n_cssk_receipt_capture_expense.model_cssk_receipt
+msgid "Captured Fiscal Receipt"
+msgstr "Zachytený pokladničný doklad"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_hr_expense__cssk_receipt_id
+msgid "Captured receipt"
+msgstr "Zachytený doklad"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model,name:l10n_cssk_receipt_capture_expense.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model,name:l10n_cssk_receipt_capture_expense.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavenia konfigurácie"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.view_cssk_receipt_form_expense
+msgid "Create Expenses"
+msgstr "Vytvoriť výdavky"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_cssk_receipt__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_hr_expense__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model,name:l10n_cssk_receipt_capture_expense.model_hr_expense
+msgid "Expense"
+msgstr "Výdavok"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_cssk_receipt__expense_count
+msgid "Expense Count"
+msgstr "Počet výdavkov"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture_expense.field_res_company__cssk_receipt_expense_product_id
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture_expense.field_res_config_settings__cssk_receipt_expense_product_id
+msgid ""
+"Expense category used for expenses created from a captured receipt. Defaults"
+" to Odoo's general expense category."
+msgstr "Kategória výdavkov vytvorených zo zachyteného dokladu. Predvolene všeobecná kategória výdavkov Odoo."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid "Expense created from this receipt."
+msgstr "Výdavok vytvorený z tohto dokladu."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_cssk_receipt__expense_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.view_cssk_receipt_form_expense
+msgid "Expenses"
+msgstr "Výdavky"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "Expenses from the receipt"
+msgstr "Výdavky z dokladu"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_cssk_receipt__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_hr_expense__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_res_config_settings__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture_expense.menu_hr_expense_my_receipts
+msgid "My Receipts"
+msgstr "Moje bločky"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid ""
+"No expense category exists. Create one (a product with 'Can be Expensed' "
+"set) or name it in Settings ▸ Accounting ▸ Fiscal Receipt Capture."
+msgstr "Neexistuje žiadna kategória výdavkov. Vytvorte ju (produkt so zaškrtnutým poľom „Výdavky“) alebo ju zvoľte v Nastavenia ▸ Účtovníctvo ▸ Zachytávanie pokladničných dokladov."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid ""
+"No purchase tax is mapped for %g%%. Without it the expense would carry no "
+"VAT and the deduction would be lost."
+msgstr "Pre %g%% nie je priradená žiadna nákupná daň. Bez nej by výdavok nemal DPH a odpočet by sa stratil."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid ""
+"Only a captured, reconciled receipt can become expenses. %(name)s is "
+"%(state)s."
+msgstr "Výdavky možno vytvoriť len zo zachyteného a skontrolovaného dokladu. %(name)s je v stave %(state)s."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "Open an expense to see why."
+msgstr "Dôvod uvidíte po otvorení výdavku."
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.res_config_settings_view_form_receipt_expense
+msgid "Receipt Capture"
+msgstr "Zachytávanie dokladov"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_res_company__cssk_receipt_expense_product_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_res_config_settings__cssk_receipt_expense_product_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.res_config_settings_view_form_receipt_expense
+msgid "Receipt Expense Category"
+msgstr "Kategória výdavkov z bločkov"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "Receipt read: %(seller)s, %(total)s."
+msgstr "Doklad prečítaný: %(seller)s, %(total)s."
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_hr_expense__cssk_receipt_state
+msgid "Receipt reading"
+msgstr "Čítanie dokladu"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "Receipts uploaded"
+msgstr "Bločky nahraté"
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.actions.client,name:l10n_cssk_receipt_capture_expense.action_hr_expense_scan_receipt
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture_expense.menu_hr_expense_scan_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.view_hr_expense_list_scan
+msgid "Scan Receipt"
+msgstr "Naskenovať bloček"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "That is not a receipt verification code (it reads “%s”)."
+msgstr "To nie je overovací kód dokladu (obsahuje „%s“)."
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.res_config_settings_view_form_receipt_expense
+msgid ""
+"The expense category of expenses filled from a receipt. Empty: Odoo's "
+"general expense category."
+msgstr "Kategória výdavkov vyplnených z dokladu. Prázdne: všeobecná kategória výdavkov Odoo."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid ""
+"The expenses carry %(got).2f of VAT but %(want).2f was expected. Nothing was"
+" kept."
+msgstr "Výdavky obsahujú DPH %(got).2f, ale očakávalo sa %(want).2f. Nič sa neuložilo."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid ""
+"The expenses total %(got).2f but the receipt totals %(want).2f. Nothing was "
+"kept."
+msgstr "Výdavky sú spolu na %(got).2f, ale doklad na %(want).2f. Nič sa neuložilo."
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "The receipt could not be read:"
+msgstr "Doklad sa nepodarilo prečítať:"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "The receipt was not read:"
+msgstr "Doklad sa neprečítal:"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "The receipt was read but not filled in: %s"
+msgstr "Doklad sa prečítal, ale nevyplnil: %s"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "The receipt was read, but its figures need checking:"
+msgstr "Doklad sa prečítal, ale jeho údaje treba skontrolovať:"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "This receipt has already been claimed by %s."
+msgstr "Tento doklad už uplatnil %s."
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture_expense.field_res_company__cssk_receipt_capture_on_expense_upload
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture_expense.field_res_config_settings__cssk_receipt_capture_on_expense_upload
+msgid ""
+"When receipt images are uploaded in the Expenses app, create a captured "
+"receipt for each and try the capture providers."
+msgstr "Keď sa v aplikácii Výdavky nahrajú obrázky bločkov, vytvoriť z každého zachytený doklad a skúsiť poskytovateľov údajov."
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture_expense.res_config_settings_view_form_receipt_expense
+msgid ""
+"When receipt images are uploaded in the Expenses app, read each one — the QR"
+" code through eKasa, or the photograph with the AI reader — and fill the "
+"expense from it. The readers are configured under Invoicing ▸ Settings ▸ "
+"Fiscal Receipt Capture."
+msgstr "Keď sa v aplikácii Výdavky nahrajú obrázky bločkov, prečítať každý — QR kód cez eKasu alebo fotografiu pomocou AI — a vyplniť z neho výdavok. Čítanie sa nastavuje v Fakturácia ▸ Nastavenia ▸ Zachytávanie pokladničných dokladov."
+
+#. module: l10n_cssk_receipt_capture_expense
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture_expense.field_hr_expense__cssk_receipt_reason
+msgid "Why"
+msgstr "Dôvod"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/cssk_receipt.py:0
+msgid "cssk_receipt_id"
+msgstr "cssk_receipt_id"
+
+#. module: l10n_cssk_receipt_capture_expense
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture_expense/models/hr_expense.py:0
+msgid "id"
+msgstr "id"

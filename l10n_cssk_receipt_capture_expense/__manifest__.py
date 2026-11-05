@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Fiscal Receipt Capture — Employee Expenses",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "summary": "Turn a captured fiscal receipt into employee expenses, and "
                "capture receipts from the expense attachment upload.",
     "description": """

@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cssk_receipt_capture/static/description/index_sk.html">Slovenčina</a> · <a href="/l10n_cssk_receipt_capture/static/description/index_cs.html">Čeština</a></nav>
 <h1>Fiscal Receipt Capture (bločky / účtenky)</h1>
 <p class="cssk-summary">Captures cash-register receipts from a QR code, a photograph or an expense upload, checks that their figures add up, and turns them into a draft vendor receipt or an employee expense with the VAT split by rate.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a></td></tr><tr><th>Extended by</th><td><code>l10n_cssk_receipt_capture_ai</code> <span class="cssk-note">(delivered separately)</span>, <a href="/l10n_cssk_receipt_capture_expense/static/description/index.html"><code>l10n_cssk_receipt_capture_expense</code></a>, <a href="/l10n_sk_ekasa_receipt/static/description/index.html"><code>l10n_sk_ekasa_receipt</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a></td></tr><tr><th>Extended by</th><td><code>l10n_cssk_receipt_capture_ai</code> <span class="cssk-note">(delivered separately)</span>, <a href="/l10n_cssk_receipt_capture_expense/static/description/index.html"><code>l10n_cssk_receipt_capture_expense</code></a>, <a href="/l10n_sk_ekasa_receipt/static/description/index.html"><code>l10n_sk_ekasa_receipt</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Fuel, meals, small purchases: a business collects many till receipts
@@ -142,8 +142,7 @@ model. Every attempt is logged on the
 receipt (<strong>Attempts</strong>) with its outcome, duration and, for the AI reader,
 tokens and cost.</p>
 <h2 id="setup">Setting it up</h2>
-<p><em>Accounting → Configuration → Settings</em>, block <strong>Fiscal Receipt Capture</strong>
-(labels in English; the module has no Czech or Slovak catalogue yet):</p>
+<p><em>Accounting → Configuration → Settings</em>, block <strong>Fiscal Receipt Capture</strong>:</p>
 <table>
 <thead>
 <tr>
@@ -299,7 +298,7 @@ connects receipts with Odoo's Expenses app (Community):</p>
 <li>The AI reader's figures are a reading of paper: the checks catch figures
   that do not add up, not a total misread consistently everywhere.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/384/">Zákon č. 384/2025 Z. z. o evidencii tržieb a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/384/">Zákon č. 384/2025 Z. z. o evidencii tržieb a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

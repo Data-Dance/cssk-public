@@ -1,7 +1,7 @@
 ---
 title: Zpracování účtenek — výdaje zaměstnanců
 summary: Ze zachycené účtenky vytvoří jeden výdaj zaměstnance s DPH zaúčtovanou podle sazeb a přečte účtenky nahrané nebo naskenované v aplikaci Výdaje.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 family: l10n_cssk_receipt_capture#expenses
 ---
 

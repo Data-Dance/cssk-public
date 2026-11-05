@@ -1,7 +1,7 @@
 ---
 title: Fiscal Receipt Capture — Employee Expenses
 summary: Turns a captured receipt into one employee expense with its VAT posted rate by rate, and reads receipts uploaded or scanned in the Expenses app.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 family: l10n_cssk_receipt_capture#expenses
 ---
 

@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Fiscal Receipt Capture — Shared Framework",
-    "version": "19.0.1.1.0",
+    "version": "19.0.1.1.1",
     "summary": "Country-neutral framework for capturing cash-register receipts "
                "(bločky / účtenky) into Odoo: a provider registry, the captured "
                "receipt with its lines and authoritative VAT recap, "

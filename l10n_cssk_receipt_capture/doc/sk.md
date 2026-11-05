@@ -1,7 +1,7 @@
 ---
 title: Spracovanie pokladničných dokladov (bločky / účtenky)
 summary: Načíta pokladničné doklady z QR kódu, fotografie alebo nahraných výdavkov, overí, či ich sumy sedia, a vytvorí z nich koncept nákupnej účtenky alebo výdavok zamestnanca s DPH rozdelenou podľa sadzieb.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -68,12 +68,12 @@ zaokrúhlená na centy by nesedela (31,17 l nafty za 57,85 € nie je
 
 Čítanie sa spustí, keď:
 
-- používateľ s právom *Fakturácia* stlačí na doklade **Capture** (spracovať;
-  doklad v stave *New*, *Error* alebo *Needs Review*);
-- **ktorýkoľvek zamestnanec** naskenuje QR kód cez **Scan Receipt** (kamera
+- používateľ s právom *Fakturácia* stlačí na doklade **Zachytiť** (spracovať;
+  doklad v stave *Nové*, *Chyba* alebo *Na kontrolu*);
+- **ktorýkoľvek zamestnanec** naskenuje QR kód cez **Naskenovať bloček** (kamera
   sa číta v prehliadači; na server príde len dekódovaný text);
 - **ktorýkoľvek zamestnanec** nahrá obrázky bločkov v aplikácii Výdavky,
-  keď je zapnuté *Capture on Expense Upload* (predvolené) — jedno čítanie na
+  keď je zapnuté *Zachytiť pri nahratí výdavku* (predvolené) — jedno čítanie na
   obrázok, s právami superpoužívateľa, aby zamestnanci nepotrebovali prístup
   k účtovníctvu;
 - čítanie zlyhalo z **dočasného** dôvodu (služba je preťažená alebo
@@ -83,21 +83,20 @@ zaokrúhlená na centy by nesedela (31,17 l nafty za 57,85 € nie je
 
 Poskytovatelia sa skúšajú v poradí, najprv tí, čo čítajú kód: pri zapnutom
 overení v eKase sa slovenský bloček s čitateľným QR kódom k modelu nikdy
-nedostane. Každý pokus sa zaznamená pri doklade (**Attempts**) s výsledkom,
+nedostane. Každý pokus sa zaznamená pri doklade (**Pokusy**) s výsledkom,
 trvaním a pri čítaní pomocou AI aj s tokenmi a cenou.
 
 ## Nastavenie {#setup}
 
-*Účtovníctvo → Konfigurácia → Nastavenia*, blok **Fiscal Receipt Capture**
-(popisy sú v angličtine; modul ešte nemá slovenský preklad):
+*Účtovníctvo → Konfigurácia → Nastavenia*, blok **Zachytávanie pokladničných dokladov**:
 
 | Nastavenie | Účel |
 |---|---|
-| Receipt Journal (denník) | nákupný denník pre nákupné účtenky; ak je prázdny, použije sa prvý |
-| Default Expense Account (nákladový účet) | účet všetkých riadkov; **povinný**, inak sa nákupná účtenka nevytvorí |
-| Document Detail (podrobnosť) | *One line per VAT rate* (riadok za sadzbu, predvolené — zaúčtuje presne základ, ktorý vykázal predávajúci) alebo *One line per receipt item* (riadok za položku) |
-| Auto-create Seller | zatiaľ nemá žiadny účinok: predávajúci sa vytvára tlačidlom **Create Seller** |
-| Receipts: AI Model Chain | s čítaním pomocou AI, pozri [nižšie](#ai-reader) |
+| Denník bločkov | nákupný denník pre nákupné účtenky; ak je prázdny, použije sa prvý |
+| Predvolený nákladový účet | účet všetkých riadkov; **povinný**, inak sa nákupná účtenka nevytvorí |
+| Podrobnosť dokladu | *Riadok za každú sadzbu DPH* (riadok za sadzbu, predvolené — zaúčtuje presne základ, ktorý vykázal predávajúci) alebo *Riadok za každú položku dokladu* (riadok za položku) |
+| Automaticky vytvoriť predávajúceho | zatiaľ nemá žiadny účinok: predávajúci sa vytvára tlačidlom **Vytvoriť predávajúceho** |
+| Bločky: reťazec modelov AI | s čítaním pomocou AI, pozri [nižšie](#ai-reader) |
 
 Nákupná daň pre každú sadzbu DPH sa berie z mapovania sadzieb modulu
 [module:account_invoice_ai_extract](module:account_invoice_ai_extract), ak
@@ -105,28 +104,28 @@ je nainštalovaný, inak z predvolenej nákupnej dane spoločnosti alebo z
 tuzemskej nákupnej dane s touto sadzbou. Mapovanie, ktoré priraďuje sadzbe
 daň s inou sadzbou, sa odmietne.
 
-*Účtovníctvo → Konfigurácia → Účtovníctvo → Capture Providers* (správcovia
+*Účtovníctvo → Konfigurácia → Účtovníctvo → Poskytovatelia údajov* (správcovia
 účtovníctva) uvádza poskytovateľov s poradím, krajinami a prepínačom
-*Active*.
+*Aktívne*.
 
 Na čítanie QR kódov z fotografií potrebuje server balík Pythonu
 `zxing-cpp`; bez neho to doklad uvedie a skenovanie kamerou funguje ďalej.
 
 ## Práca s dokladmi {#usage}
 
-*Účtovníctvo → Dodávatelia → Fiscal Receipts*:
+*Účtovníctvo → Dodávatelia → Pokladničné doklady*:
 
-- **Scan Receipt** — otvorí kameru; naskenujte daňový QR kód. Vernostný
+- **Naskenovať bloček** — otvorí kameru; naskenujte daňový QR kód. Vernostný
   alebo webový odkaz vytlačený vedľa neho sa odmietne a skener zostane
   otvorený.
-- **Captured Receipts** — všetky doklady. *Nový*, priložte fotografiu
-  (*Source image*) alebo vložte text QR kódu (*QR payload*) a stlačte
-  **Capture**.
-- **To Review** — nové, neúspešné a odložené doklady.
+- **Zachytené doklady** — všetky doklady. *Nový*, priložte fotografiu
+  (*Zdrojový obrázok*) alebo vložte text QR kódu (*Text QR kódu*) a stlačte
+  **Zachytiť**.
+- **Na kontrolu** — nové, neúspešné a odložené doklady.
 
-Stavy: *New* (nový) → *Captured* (všetko sedí), *Needs Review* (niektorá
-kontrola zlyhala; dôvod je uvedený), *Error* (zdroj odmietol alebo doklad
-nemal kto prečítať; dôvod je uvedený) → *Posted*, keď z neho vznikol doklad.
+Stavy: *Nové* (nový) → *Zachytené* (všetko sedí), *Na kontrolu* (niektorá
+kontrola zlyhala; dôvod je uvedený), *Chyba* (zdroj odmietol alebo doklad
+nemal kto prečítať; dôvod je uvedený) → *Zaúčtované*, keď z neho vznikol doklad.
 
 **Kontroly, kým sa doklad považuje za zachytený:**
 
@@ -141,11 +140,11 @@ nemal kto prečítať; dôvod je uvedený) → *Posted*, keď z neho vznikol dok
   spoločnosti.
 
 Doklad s identifikátorom, ktorý už bol zachytený, sa odmietne ako duplicita.
-**Accept Anyway** presunie odložený doklad do stavu *Captured* na vašu
+**Napriek tomu prijať** presunie odložený doklad do stavu *Zachytené* na vašu
 zodpovednosť; nahlásený rozdiel zostane v chatteri.
 
 **Predávajúci** sa hľadá podľa IČ DPH, potom IČO, potom DIČ — nikdy podľa
-názvu. **Create Seller** vytvorí partnera z názvu, IČ DPH a IČO na doklade.
+názvu. **Vytvoriť predávajúceho** vytvorí partnera z názvu, IČ DPH a IČO na doklade.
 Prevádzka, kde bol doklad vyhotovený, sa uchová ako poznámka a k partnerovi
 sa nedostane.
 
@@ -153,10 +152,10 @@ sa nedostane.
 vyššie (400 eur pri predávajúcom so slovenským IČ DPH, 10 000 Kč pri
 českom; podľa krajiny spoločnosti, ak doklad IČ DPH neuvádza), doklad to
 uvedie a jeho DPH sa zaúčtuje ako súčasť nákladu. Ak máte na nákup riadnu
-faktúru, zaškrtnite **Full invoice held**. Nákupnú účtenku z takého dokladu
+faktúru, zaškrtnite **Máme riadnu faktúru**. Nákupnú účtenku z takého dokladu
 nemožno zaúčtovať s DPH.
 
-**Create Vendor Receipt** vytvorí **koncept** *Nákupnej účtenky* s dátumom
+**Vytvoriť nákupnú účtenku** vytvorí **koncept** *Nákupnej účtenky* s dátumom
 dokladu a jeho identifikátorom ako referenciou, s jedným riadkom za sadzbu
 DPH alebo za položku (množstvo 1, suma bez DPH, predvolený nákladový účet) a
 s kópiou fotografie. Odmietne sa, ak niektorá sadzba nemá nákupnú daň, ak je
@@ -185,12 +184,12 @@ modelom, cez to isté pripojenie ako
   IČ DPH z registra zhoduje s prečítaným — alebo, ak IČ DPH na porovnanie
   chýba, ak si názvy neodporujú. Inak zostane prečítaný údaj a chatter
   uvedie prečo.
-- **Reťazec modelov:** *Receipts: AI Model Chain* v nastaveniach dokladov —
+- **Reťazec modelov:** *Bločky: reťazec modelov AI* v nastaveniach dokladov —
   ten istý mechanizmus ako pri faktúrach, zvyčajne so silnejším modelom,
   lebo termopapier sa číta horšie ako PDF. Ak je prázdny, použije sa
   predvolený poskytovateľ a model vyťažovania faktúr, ktorého **prah istoty**
   platí aj tu.
-- Záložka **AI Reading** ukazuje istotu, poznámky modelu, tokeny a cenu
+- Záložka **Čítanie pomocou AI** ukazuje istotu, poznámky modelu, tokeny a cenu
   (cez sprostredkovateľa bez ceny).
 
 Každé čítanie je platené volanie; kto ho môže spustiť, pozri v časti
@@ -201,19 +200,19 @@ Každé čítanie je platené volanie; kto ho môže spustiť, pozri v časti
 [module:l10n_cssk_receipt_capture_expense](module:l10n_cssk_receipt_capture_expense)
 prepojí doklady s aplikáciou Výdavky v Odoo (Community):
 
-- **Create Expenses** na zachytenom doklade (používatelia s právom
+- **Vytvoriť výdavky** na zachytenom doklade (používatelia s právom
   *Fakturácia*) vytvorí **jeden** výdavok za celý doklad bez ohľadu na počet
   sadzieb DPH, pre zamestnanca aktuálneho používateľa, v kategórii
-  nastavenej v *Výdavky → Konfigurácia → Nastavenia → Receipt Capture*
-  (*Receipt Expense Category*; ak je prázdna, všeobecná kategória výdavkov
+  nastavenej v *Výdavky → Konfigurácia → Nastavenia → Zachytávanie dokladov*
+  (*Kategória výdavkov z bločkov*; ak je prázdna, všeobecná kategória výdavkov
   Odoo). Jeho suma a DPH sa porovnajú s dokladom.
 - **Nahratie bločkov vo Výdavkoch** (*Výdavky → Moje výdaje*, tlačidlo
   *Nahrať*; Odoo tu v slovenčine používa české slovo „výdaje“) — pri
-  zapnutom *Capture on Expense Upload* sa z každého obrázka stane doklad a
+  zapnutom *Zachytiť pri nahratí výdavku* sa z každého obrázka stane doklad a
   prečíta sa; čisté prečítanie vyplní výdavok (sumu, dane, dodávateľa),
   inak výdavok ukáže dôvod. Upozornenie zhrnie, koľko sa prečítalo, koľko
   treba skontrolovať a koľko zlyhalo.
-- **Scan Receipt** a **My Receipts** sú v ponuke *Výdavky → Moje výdaje*;
+- **Naskenovať bloček** a **Moje bločky** sú v ponuke *Výdavky → Moje výdaje*;
   zamestnanec vidí doklady, ktoré zachytil, a tie, ktoré patria k jeho
   vlastným výdavkom.
 - **Viac sadzieb DPH na jednom výdavku.** Odoo uplatní všetky dane výdavku
@@ -232,12 +231,12 @@ prepojí doklady s aplikáciou Výdavky v Odoo (Community):
   všeobecné pravidlo 100 eur podľa § 74 ods. 3 písm. a) sa neuplatňuje. Pri
   českých účtenkách modul predpokladá, že účtenka do 10 000 Kč je platným
   zjednodušeným daňovým dokladom; jej obsah nekontroluje.
-- **Auto-create Seller** v nastaveniach nemá žiadny účinok.
+- **Automaticky vytvoriť predávajúceho** v nastaveniach nemá žiadny účinok.
 - Vrátenia a opravy na bločku sa automaticky nezaúčtujú.
 - Množstvá položiek sú len informatívne; každý riadok má množstvo 1.
 - Všetky riadky idú na predvolený nákladový účet; pohonné hmoty,
   stravovanie a ostatné preúčtujte dodatočne.
 - Nahrávanie bločkov zamestnancami spúšťa platené čítania pomocou AI bez
-  účasti účtovníka; ak to nechcete, vypnite *Capture on Expense Upload*.
+  účasti účtovníka; ak to nechcete, vypnite *Zachytiť pri nahratí výdavku*.
 - Údaje z čítania pomocou AI sú prečítaním papiera: kontroly zachytia sumy,
   ktoré nesedia, nie sumu prečítanú všade rovnako nesprávne.

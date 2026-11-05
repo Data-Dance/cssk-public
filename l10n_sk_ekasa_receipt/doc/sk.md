@@ -64,17 +64,16 @@ riaditeľstvo priamo.
 ## Nastavenie {#setup}
 
 *Účtovníctvo → Konfigurácia → Nastavenia* (v edícii Community bez plného
-účtovníctva *Fakturácia → Konfigurácia → Nastavenia*), blok **Slovak eKasa
-Receipt Lookup** pod blokom *Fiscal Receipt Capture*. Modul zatiaľ nemá
-slovenský preklad, popisy sú po anglicky:
+účtovníctva *Fakturácia → Konfigurácia → Nastavenia*), blok **Overenie slovenského
+dokladu v eKase** pod blokom *Zachytávanie pokladničných dokladov*:
 
 | Nastavenie | Čo robí |
 |---|---|
-| Zapnúť vyhľadávanie (*Enable eKasa Lookup*) | Zapne vyhľadávanie pre aktuálnu spoločnosť. Predvolene vypnuté. |
-| IP adresa oznámená (*IP Address Notified (§ 18/11)*) | Zaškrtnite až vtedy, keď finančnému riaditeľstvu bola oznámená verejná IP adresa, z ktorej sa váš server Odoo pripája. Kým nie je zaškrtnuté, každé vyhľadanie sa s vysvetlením odmietne. |
-| Oznámená IP adresa, dátum oznámenia (*Notified IP Address*, *Notified On*) | Adresa, ktorú ste oznámili, a dátum. Slúži ako záznam; modul ju neporovnáva so skutočne používanou adresou. |
-| Hodinový limit (*Hourly Lookup Budget*) | Najviac vyhľadaní za hodinu, predvolene 60. Nula znamená žiadne vyhľadávanie. |
-| Časový limit (*Lookup Timeout (s)*) | Ako dlho čakať na odpoveď služby, predvolene 30 sekúnd. |
+| Zapnúť overenie v eKase | Zapne vyhľadávanie pre aktuálnu spoločnosť. Predvolene vypnuté. |
+| IP adresa oznámená (§ 18 ods. 11) | Zaškrtnite až vtedy, keď finančnému riaditeľstvu bola oznámená verejná IP adresa, z ktorej sa váš server Odoo pripája. Kým nie je zaškrtnuté, každé vyhľadanie sa s vysvetlením odmietne. |
+| Oznámená IP adresa, Oznámené dňa | Adresa, ktorú ste oznámili, a dátum. Slúži ako záznam; modul ju neporovnáva so skutočne používanou adresou. |
+| Hodinový limit overení | Najviac vyhľadaní za hodinu, predvolene 60. Nula znamená žiadne vyhľadávanie. |
+| Časový limit overenia (s) | Ako dlho čakať na odpoveď služby, predvolene 30 sekúnd. |
 
 Prečo limit: služba povoľuje približne 60 vyhľadaní za celú hodinu (hh:00 až
 hh:59) z jednej IP adresy a adresu, ktorá limit prekročí, zablokuje. Modul
@@ -91,7 +90,7 @@ rámca.
 ## Zachytenie bločku {#usage}
 
 Bloček zachyťte ako zvyčajne v rámci zachytávania bločkov (*Účtovníctvo →
-Dodávatelia → Fiscal Receipts*): naskenujte QR kód kamerou, prepíšte ho alebo
+Dodávatelia → Pokladničné doklady*): naskenujte QR kód kamerou, prepíšte ho alebo
 nahrajte fotografiu.
 
 - **Z fotografie** sa QR kód dekóduje na serveri. Ak je na bločku viac kódov
@@ -163,4 +162,3 @@ používatelia s právom fakturácie, upravovať a mazať len správcovia
   vyhľadávanie nebude fungovať, kým sa modul neupraví.
 - Len slovenské doklady z eKasy. České a zahraničné bločky a slovenské bločky,
   ktorých kód sa nedá prečítať vôbec, potrebujú iného poskytovateľa.
-- Obrazovky modulu sú po anglicky; slovenský preklad zatiaľ chýba.

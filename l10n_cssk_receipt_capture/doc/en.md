@@ -1,7 +1,7 @@
 ---
 title: Fiscal Receipt Capture (bločky / účtenky)
 summary: Captures cash-register receipts from a QR code, a photograph or an expense upload, checks that their figures add up, and turns them into a draft vendor receipt or an employee expense with the VAT split by rate.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}
@@ -83,8 +83,7 @@ tokens and cost.
 
 ## Setting it up {#setup}
 
-*Accounting → Configuration → Settings*, block **Fiscal Receipt Capture**
-(labels in English; the module has no Czech or Slovak catalogue yet):
+*Accounting → Configuration → Settings*, block **Fiscal Receipt Capture**:
 
 | Setting | Purpose |
 |---|---|

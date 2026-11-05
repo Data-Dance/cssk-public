@@ -1,7 +1,7 @@
 ---
 title: Spracovanie pokladničných dokladov — výdavky zamestnancov
 summary: Zo zachyteného dokladu vytvorí jeden výdavok zamestnanca s DPH zaúčtovanou podľa sadzieb a prečíta doklady nahraté alebo naskenované v aplikácii Výdavky.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 family: l10n_cssk_receipt_capture#expenses
 ---
 

@@ -8,12 +8,6 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
-Fixed
-~~~~~
-
-- The *Receipt Journal* picker in Settings listed every journal: Odoo drops a
-  string domain when it copies a field into a related one.
-
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
@@ -23,6 +17,21 @@ Carry-over to 18.0
   local-as-UTC, escaped chatter markup, a ``uid``-named local beside ``_()``, no
   simplified-invoice limit, and a bill with no date for a receipt without one.
   Port with its migration.
+
+[19.0.1.1.1] — 2026-11-05
+-------------------------
+
+Added
+~~~~~
+
+- Slovak and Czech catalogues (``sk.po``, ``cs.po``) and the ``.pot``
+  template: menus, settings, fields, states, buttons and messages.
+
+Fixed
+~~~~~
+
+- The *Receipt Journal* picker in Settings listed every journal: Odoo drops a
+  string domain when it copies a field into a related one.
 
 [19.0.1.1.0] — 2026-10-19
 -------------------------

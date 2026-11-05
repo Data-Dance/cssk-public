@@ -170,53 +170,56 @@ dodávateľa a DPH za každú sadzbu presne podľa rekapitulácie na faktúre.</
 <h3 id="receipts-setup">Nastavenie</h3>
 <ol>
 <li>Z <em>Aplikácií</em> nainštalujte <strong>Slovak eKasa Receipt Capture</strong> (s ním sa
-   nainštaluje aj spoločný rámec <em>Fiscal Receipt Capture</em>). Ak bločky
-   odovzdávajú zamestnanci ako výdavky, aj <strong>Fiscal Receipt Capture —
-   Employee Expenses</strong>. Tieto obrazovky sú zatiaľ po anglicky.</li>
-<li><em>Účtovníctvo → Konfigurácia → Nastavenia</em>, blok <strong>Fiscal Receipt
-   Capture</strong>: <strong>Receipt Journal</strong> (nákupný denník bločkov) a <strong>Default Expense
-   Account</strong> (nákladový účet — bez neho sa doklad z bločku nevytvorí).</li>
-<li>Blok <strong>Slovak eKasa Receipt Lookup</strong>: zapnite <strong>Enable eKasa Lookup</strong>.
+   nainštaluje aj spoločný rámec <em>Fiscal Receipt Capture — Shared
+   Framework</em>). Ak bločky odovzdávajú zamestnanci ako výdavky, aj <strong>Fiscal
+   Receipt Capture — Employee Expenses</strong>. V zozname aplikácií majú moduly
+   anglické názvy, po inštalácii sú ich obrazovky po slovensky.</li>
+<li><em>Účtovníctvo → Konfigurácia → Nastavenia</em>, blok <strong>Zachytávanie
+   pokladničných dokladov</strong>: <strong>Denník bločkov</strong> (nákupný denník bločkov) a
+   <strong>Predvolený nákladový účet</strong> (nákladový účet — bez neho sa doklad z bločku nevytvorí).</li>
+<li>Blok <strong>Overenie slovenského dokladu v eKase</strong>: zapnite <strong>Zapnúť overenie
+   v eKase</strong>.
    Systém eKasa smie odpovedať len z IP adresy, ktorá bola oznámená
    finančnému riaditeľstvu
    (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/384/#paragraf-18.odsek-11">§ 18 ods. 11 zákona o evidencii tržieb</a>):
-   po oznámení zaškrtnite <strong>IP Address Notified</strong> a zapíšte adresu a dátum.
+   po oznámení zaškrtnite <strong>IP adresa oznámená (§ 18 ods. 11)</strong> a zapíšte
+   adresu a dátum.
    V hostovanej službe Data Dance je to adresa nášho servera — oznámenie
    s vami vybaví náš tím. Služba povoľuje približne 60 overení za hodinu z
-   jednej adresy (<strong>Hourly Lookup Budget</strong>).</li>
+   jednej adresy (<strong>Hodinový limit overení</strong>).</li>
 </ol>
 <h3 id="receipts-capture">Zachytenie bločku</h3>
-<p><em>Účtovníctvo → Dodávatelia → Fiscal Receipts</em>:</p>
+<p><em>Účtovníctvo → Dodávatelia → Pokladničné doklady</em>:</p>
 <ul>
-<li><strong>Scan Receipt</strong> otvorí kameru — naskenujte QR kód priamo nad textom
+<li><strong>Naskenovať bloček</strong> otvorí kameru — naskenujte QR kód priamo nad textom
   <em>OVERTE DOKLAD POMOCOU QR KÓDU</em> (nie kód vernostnej aplikácie);</li>
-<li>alebo v <strong>Captured Receipts → Nový</strong> priložte fotografiu (<em>Source image</em>)
-  a kliknite na <strong>Capture</strong>.</li>
+<li>alebo v <strong>Zachytené doklady → Nový</strong> priložte fotografiu (<em>Zdrojový
+  obrázok</em>) a kliknite na <strong>Zachytiť</strong>.</li>
 </ul>
 <p>eKasa vráti doklad tak, ako ho zaevidovala pokladnica: predávajúceho s DIČ,
 IČ DPH a IČO, dátum, sumu, všetky položky a rekapituláciu DPH. Bloček je
-potom <strong>Captured</strong>; ak niektorá kontrola nesedí (súčty, sadzby, duplicita),
-je <strong>Needs Review</strong> s dôvodom a nájdete ho v <strong>To Review</strong>.</p>
+potom <strong>Zachytené</strong>; ak niektorá kontrola nesedí (súčty, sadzby, duplicita),
+je <strong>Na kontrolu</strong> s dôvodom; všetky také doklady sú v ponuke <em>Na kontrolu</em>.</p>
 <p>Predávajúci sa hľadá podľa IČ DPH, IČO a DIČ, nikdy podľa názvu; nového
-vytvoríte tlačidlom <strong>Create Seller</strong>.</p>
+vytvoríte tlačidlom <strong>Vytvoriť predávajúceho</strong>.</p>
 <h3 id="receipts-post">Doklad v účtovníctve</h3>
-<p><strong>Create Vendor Receipt</strong> vytvorí koncept <strong>nákupnej účtenky</strong> s jedným
+<p><strong>Vytvoriť nákupnú účtenku</strong> vytvorí koncept <strong>nákupnej účtenky</strong> s jedným
 riadkom za každú sadzbu DPH na predvolený nákladový účet a s fotografiou.
 Skontrolujte ho a zaúčtujte.</p>
 <p>Zjednodušená faktúra stačí na odpočet DPH len do <strong>400 €</strong> vrátane DPH
 (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/#paragraf-74.odsek-3.pismeno-b">§ 74 ods. 3 písm. b) zákona o DPH</a>). Pri
 vyššej sume bloček upozorní a DPH sa zaúčtuje do nákladu; ak máte na nákup
-riadnu faktúru, zaškrtnite <strong>Full invoice held</strong>.</p>
+riadnu faktúru, zaškrtnite <strong>Máme riadnu faktúru</strong>.</p>
 <p>Bloček, ktorý zamestnanec platil vlastnými peniazmi, patrí do výdavkov:
-<strong>Create Expenses</strong> vytvorí výdavok pre zamestnanca, alebo zamestnanec
-bločky nahrá sám vo <em>Výdavky → Moje výdaje</em> (<strong>Scan Receipt</strong>, <strong>My
-Receipts</strong>).</p>
+<strong>Vytvoriť výdavky</strong> vytvorí výdavok pre zamestnanca, alebo zamestnanec
+bločky nahrá sám vo <em>Výdavky → Moje výdaje</em> (<strong>Naskenovať bloček</strong>, <strong>Moje
+bločky</strong>).</p>
 <h3 id="receipts-ai">Bloček bez QR kódu</h3>
 <p>Ak sa QR kód z fotografie nedá prečítať, alebo ide o český bloček (ten kód na
 overenie nemá), prečíta fotografiu jazykový model — keď ho náš tím zapne.
 Pri slovenskom bločku model prečíta aj identifikátory vytlačené pri kóde a
 Odoo ich overí v eKase; ak eKasa doklad nájde a suma sedí, nahradia jej údaje
-prečítané. Zachytený bloček má kartu <strong>AI Reading</strong> s istotou a poznámkami
+prečítané. Zachytený bloček má kartu <strong>Čítanie pomocou AI</strong> s istotou a poznámkami
 modelu.</p>
 <footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/384/">Zákon č. 384/2025 Z. z. o evidencii tržieb a o zmene a doplnení niektorých zákonov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Overené krok za krokom na Odoo 19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>

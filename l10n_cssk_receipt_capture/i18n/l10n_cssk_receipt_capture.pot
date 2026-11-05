@@ -1,0 +1,1437 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_receipt_capture
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-05 17:33+0000\n"
+"PO-Revision-Date: 2026-11-05 17:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"%(count)s item(s) are marked as returns or corrections. Receipts carrying "
+"them are not posted automatically — check the signs against the paper before"
+" accepting."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"%(count)s item(s) carry a VAT rate the recap does not mention (%(rates)s)."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/account_move.py:0
+msgid ""
+"%(move)s carries %(tax).2f of VAT, but it comes from a receipt whose VAT is "
+"not deductible (%(receipt)s). Remove the VAT, or tick “Full invoice held” on"
+" the receipt if you have one."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"%(tax)s is mapped to %(rate)g%% but is a %(actual)g%% tax. Fix the company's"
+" VAT-rate mapping — posting it would report the wrong base at both rates."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "%s (VAT not deductible)"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "%s already has the vendor bill %s."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"A QR code is on the photograph but could not be read — printed too densely, "
+"or damaged. Scan it with the camera instead."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.constraint,message:l10n_cssk_receipt_capture.constraint_cssk_receipt_provider_code_uniq
+msgid "A capture provider with this code already exists."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_line__is_negative
+msgid "A return / correction item (eKasa itemType 'Z')."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Accept Anyway"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__amount_tax
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__amount_tax
+msgid "Amount Tax"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__amount_total
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__amount_total
+msgid "Amount Total"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__amount_untaxed
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__amount_untaxed
+msgid "Amount Untaxed"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_provider_form
+msgid "Archived"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"At %(rate)s%%, the items total %(gross).2f but the receipt's VAT recap says "
+"%(recap).2f."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__attempt_count
+msgid "Attempt Count"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__attempt_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Attempts"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_auto_create_partner
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_auto_create_partner
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Auto-create Seller"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid "Back"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+msgid "Base"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"Base plus VAT (%(sum).2f) does not equal the receipt total (%(total).2f)."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Capture"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_provider_form
+msgid "Capture Provider"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.act_window,name:l10n_cssk_receipt_capture.action_cssk_receipt_provider
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt_provider
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_provider_list
+msgid "Capture Providers"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Capture attempts"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Capture failed."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__provider_id
+msgid "Capture provider"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt_provider.py:0
+msgid ""
+"Capture provider %(name)s declares the implementation %(model)s, which is "
+"not installed."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.actions.act_window,help:l10n_cssk_receipt_capture.action_cssk_receipt
+msgid "Capture your first receipt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__captured
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt_attempt__outcome__captured
+msgid "Captured"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt
+msgid "Captured Fiscal Receipt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__captured_on
+msgid "Captured On"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Captured Receipt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.act_window,name:l10n_cssk_receipt_capture.action_cssk_receipt
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Captured Receipts"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Captured and reconciled."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Captured but parked for review:"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__code
+msgid "Code"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__qr_detected
+msgid "Codes on the photograph"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__company_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_reg_id
+msgid "Company ID"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__confidence
+msgid "Confidence"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"Confirmed by %s from the identifiers printed on the receipt; its figures "
+"replace the photograph reading."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__cost
+msgid "Cost"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__country_ids
+msgid "Countries"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Create Seller"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Create Vendor Receipt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid ""
+"Create the seller from the receipt's own identifiers when no partner matches"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_auto_create_partner
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_auto_create_partner
+msgid ""
+"Create the seller from the receipt's own identifiers when no partner "
+"matches, instead of parking the receipt."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__create_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__create_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__currency_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__seller_tax_id
+msgid "DIČ / daňové identifikační číslo."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Default Expense Account"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_expense_account_id
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_expense_account_id
+msgid ""
+"Default expense account for captured receipt lines. Fuel, meals and the rest"
+" are usually re-coded afterwards; this is the landing account."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__name
+msgid "Description"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Document Detail"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__duration_ms
+msgid "Duration (ms)"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__qr_source__manual
+msgid "Entered by hand"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__error
+msgid "Error"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__qr_detected
+msgid ""
+"Every QR code found on the photograph, and which one was used. A receipt can"
+" carry several — a loyalty link above the fiscal code."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt_attempt__outcome__error
+msgid "Failed"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Fiscal Receipt Capture"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_attempt
+msgid "Fiscal Receipt Capture Attempt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_provider
+msgid "Fiscal Receipt Capture Provider"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_provider_mixin
+msgid "Fiscal Receipt Capture Provider Mixin"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_line
+msgid "Fiscal Receipt Line"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_cssk_receipt_tax
+msgid "Fiscal Receipt VAT Recap Row"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt_root
+msgid "Fiscal Receipts"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__printed_identifiers
+msgid ""
+"Fiscal identifiers an AI reading found printed on the receipt (JSON). Used "
+"to look the receipt up when its QR will not decode."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.server,name:l10n_cssk_receipt_capture.ir_cron_cssk_receipt_retry_ir_actions_server
+msgid "Fiscal receipts: retry transient capture failures"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__vat_full_invoice
+msgid "Full invoice held"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider_mixin__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_error
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Ignored, a further verification code: %s"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Ignored, not a receipt verification code: %s"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__input_tokens
+msgid "Input Tokens"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.actions.act_window,help:l10n_cssk_receipt_capture.action_cssk_receipt_provider
+msgid ""
+"Install a provider to read receipts: the Slovak eKasa reader\n"
+"               fetches the registered receipt from the QR code, the AI reader\n"
+"               reads the photograph."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__is_negative
+msgid "Is Negative"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__issue_date
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Issue Date"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__issue_tz
+msgid "Issue Tz"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "It will be retried automatically."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Items"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__seller_reg_id
+msgid "IČO."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model,name:l10n_cssk_receipt_capture.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_journal_id
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_journal_id
+msgid ""
+"Journal for vendor receipts created from captured fiscal receipts. Defaults "
+"to the company's first purchase journal."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__write_uid
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__write_date
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__line_ids
+msgid "Line"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__amount_total
+msgid "Line total"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__message
+msgid "Message"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__model_label
+msgid "Model"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Month"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__name
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__review
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Needs Review"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt_attempt__outcome__review
+msgid "Needs review"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__new
+msgid "New"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__next_attempt_at
+msgid "Next Attempt At"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "No QR code found on the photograph."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "No capture provider can read this receipt."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.actions.act_window,help:l10n_cssk_receipt_capture.action_cssk_receipt_provider
+msgid "No capture provider installed"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "No purchase journal is configured for %s."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"No purchase tax is mapped for %(rates)s. Add it to the company's VAT-rate "
+"mapping — without it the receipt would post without VAT and the deduction "
+"would be lost."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"No reader for photographs is available. Configure the AI reader, or scan the"
+" receipt's QR code with the camera."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt_attempt__outcome__unavailable
+msgid "Not available"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Not used — %(reader)s reads this code but is archived: %(code)s"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__res_company__cssk_receipt_bill_detail__summary
+msgid "One line per VAT rate"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__res_company__cssk_receipt_bill_detail__lines
+msgid "One line per receipt item"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Only a captured, reconciled receipt can be posted. %s is %s."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__outcome
+msgid "Outcome"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__output_tokens
+msgid "Output Tokens"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.actions.act_window,help:l10n_cssk_receipt_capture.action_cssk_receipt
+msgid ""
+"Paste the QR payload from a fiscal receipt, or attach the\n"
+"               photograph, and press <b>Capture</b>."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_bill_detail
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_bill_detail
+msgid ""
+"Per VAT rate posts exactly the base the seller reported and cannot drift. "
+"Per item is easier to read; the posted tax is still checked against the "
+"receipt's own recap, and the document is refused if they disagree."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid ""
+"Per VAT rate posts exactly the base the seller reported. Per item is easier "
+"to read; either way the posted VAT is checked against the receipt."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid ""
+"Point the camera at the QR code printed on the receipt.\n"
+"                        Its registered figures are fetched and the receipt is\n"
+"                        captured from them."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__state__done
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Posted"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__premises_note
+msgid "Premises"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__printed_identifiers
+msgid "Printed Identifiers"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__provider_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Provider"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Provider Payload"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__payload_raw
+msgid "Provider payload"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__qr_source
+msgid "QR origin"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__qr_raw
+msgid "QR payload"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__qr_source__decoded
+msgid "Read from the photograph"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid "Reading…"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Ready to Post"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__qr_source__printed
+msgid "Rebuilt from identifiers printed on the receipt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__receipt_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__receipt_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__receipt_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "Receipt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Receipt (uncaptured)"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_bill_detail
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_bill_detail
+msgid "Receipt Bill Detail"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_expense_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_expense_account_id
+msgid "Receipt Expense Account"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_company__cssk_receipt_journal_id
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_res_config_settings__cssk_receipt_journal_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.res_config_settings_view_form_receipt_capture
+msgid "Receipt Journal"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__receipt_uid
+msgid "Receipt identifier"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Receipt items at %g%% VAT"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.act_window,name:l10n_cssk_receipt_capture.action_cssk_receipt_review
+msgid "Receipts to Review"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_provider__country_ids
+msgid ""
+"Restrict this provider to receipts issued in these countries. Empty means no"
+" restriction."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__review_reason
+msgid "Review Reason"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Review overridden by %s. Reported discrepancy:"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+msgid "Scan QR"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.actions.client,name:l10n_cssk_receipt_capture.action_cssk_receipt_scan_qr
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt_scan
+msgid "Scan Receipt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid "Scan a receipt"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid "Scan again"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields.selection,name:l10n_cssk_receipt_capture.selection__cssk_receipt__qr_source__scanned
+msgid "Scanned with the camera"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__partner_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Seller"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_name
+msgid "Seller Name"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_vat_payer
+msgid "Seller is VAT-registered"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__sequence
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_provider__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"Set the default receipt expense account in Settings ▸ Accounting ▸ Fiscal "
+"Receipt Capture before posting receipts."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Set the seller on %s before posting it."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__attachment_id
+msgid "Source image"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__started_at
+msgid "Started At"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__state
+msgid "State"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Status"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__tax_summary_ids
+msgid "Tax Summary"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_tax_id
+msgid "Tax number"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__amount_untaxed
+msgid "Taxable base"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_provider__code
+msgid ""
+"Technical code. The implementation is the AbstractModel named "
+"'cssk.receipt.provider.<code>'."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "That is not a receipt verification code (it reads “%s”)."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The %(rate)g%% bucket states %(base).2f + %(tax).2f, but %(gross).2f at "
+"%(rate)g%% is %(want_base).2f + %(want_tax).2f."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The QR code on the photograph was not read: no QR decoder is installed on "
+"this server (the Python package zxing-cpp)."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__seller_vat
+msgid ""
+"The VAT identification number as printed (IČ DPH / DIČ). Not derivable from "
+"the tax number: a member of a VAT group files under the group's number, "
+"which is unrelated to its own."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The VAT on this receipt is not deductible, yet the document carries %.2f of "
+"VAT. Nothing was posted."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.js:0
+msgid "The camera could not be opened. Check the browser's permission for it."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The document posts %(got).2f of VAT at %(rate)g%% but the receipt reports "
+"%(want).2f. Nothing was posted."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The document totals %(move).2f but the receipt totals %(receipt).2f. Nothing"
+" was posted."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The document's VAT is %(move).2f but the receipt reports %(receipt).2f. "
+"Nothing was posted."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__transient
+msgid ""
+"The failure is worth retrying unchanged later — a busy model or a network "
+"error. A refusal is not, and is never retried on a timer."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid ""
+"The figures on this receipt do not add up. Accept it on your own "
+"responsibility?"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The identifiers printed on the receipt could not be checked with %(reader)s:"
+" %(why)s"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The identifiers printed on this receipt did not match a registered receipt "
+"at %(reader)s (tried %(n)s), so the figures are a reading of the photograph "
+"only."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "The lines sum to %(lines).2f but the receipt total is %(total).2f."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__qr_raw
+msgid "The literal string decoded from the receipt's QR code."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__model_label
+msgid "The model that served an AI reading, if any."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The purchase tax %(tax)s is tax-included, but a vendor-bill line carries the"
+" net amount, so the document would come out lower than the receipt. Map a "
+"tax-excluded purchase tax for this rate, or create the receipt as employee "
+"expenses, which need the tax-included kind."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "The receipt total is missing."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"The registered receipt for these identifiers totals %(theirs).2f, not "
+"%(ours).2f as on the photograph."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.constraint,message:l10n_cssk_receipt_capture.constraint_cssk_receipt_tax_rate_receipt_uniq
+msgid "The same VAT rate appears twice in this receipt's recap."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid ""
+"The seller's own per-rate recap. This is what the\n"
+"                                document posts; the items above are detail."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__issue_tz
+msgid ""
+"The time zone the receipt's printed time was in. The issue date is stored in"
+" UTC like every Odoo datetime; this is what turns it back into the date on "
+"the paper."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_line__uom_label
+msgid ""
+"The unit as the receipt words it. Informative: the posted document carries "
+"the line total, not a unit price."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "There is neither a photograph nor a QR code to read."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-javascript
+#: code:addons/l10n_cssk_receipt_capture/static/src/receipt_qr_scan/receipt_qr_scan.xml:0
+msgid ""
+"This browser cannot use the camera here. It needs a\n"
+"                        secure (HTTPS) connection and permission to use the\n"
+"                        camera."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid ""
+"This failure looked temporary, so it will be retried\n"
+"                        automatically at"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"This receipt has already been captured as %(name)s (identifier "
+"%(identifier)s)."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.constraint,message:l10n_cssk_receipt_capture.constraint_cssk_receipt_uid_company_uniq
+msgid "This receipt has already been captured for this company."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"This receipt has neither a VAT recap nor any items, so there is nothing to "
+"post."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid ""
+"This receipt totals %(amount)s %(cur)s including VAT, above the %(limit)s "
+"%(cur)s up to which a till receipt counts as a simplified invoice (%(ref)s)."
+" The purchase is booked in full, but its VAT is not deductible from the "
+"receipt and is part of the cost. Tick “Full invoice held” if you have one "
+"for it."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__vat_full_invoice
+msgid ""
+"Tick when a full invoice for this purchase is in hand: its VAT is then "
+"deductible whatever the receipt's amount. A separate field rather than an "
+"editable computed one, because a recompute would silently undo an edit to "
+"that."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "To Capture"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.ui.menu,name:l10n_cssk_receipt_capture.menu_cssk_receipt_review
+msgid "To Review"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+msgid "Total"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__total_cost
+msgid "Total Cost"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__transient
+msgid "Transient"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_search
+msgid "Unidentified Seller"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__uom_label
+msgid "Unit"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Unknown seller"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Used (%(reader)s): %(code)s"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_list
+msgid "VAT"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_receipt_capture.view_cssk_receipt_form
+msgid "VAT Recap"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__amount_tax
+msgid "VAT amount"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__vat_deductible
+msgid "VAT deductible"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__seller_vat
+msgid "VAT number"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_line__vat_rate
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt_tax__vat_rate
+msgid "VAT rate (%)"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_line__amount_total
+msgid "VAT-inclusive, exactly as the receipt states it."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__vat_deductible_note
+msgid "Vat Deductible Note"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__move_id
+msgid "Vendor bill"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "Vendor receipt %s created (draft)."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__payload_raw
+msgid "Verbatim response from the capture source, kept for audit."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,field_description:l10n_cssk_receipt_capture.field_cssk_receipt__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__total_cost
+msgid "What every attempt on this receipt cost, failed ones included."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__cost
+msgid "What the call cost, including a call that produced nothing usable."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__next_attempt_at
+msgid "When a transient failure will be retried automatically."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__premises_note
+msgid ""
+"Where the receipt was issued, which is usually not the seller's registered "
+"address — a motorway service station, a branch. Kept as a note so it never "
+"lands on the partner."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt__vat_deductible
+msgid ""
+"Whether the VAT on this receipt is deducted. Off when the receipt is above "
+"the amount up to which a till receipt is a simplified invoice and no full "
+"invoice is held: the purchase is then booked at its gross amount with the "
+"VAT as part of the cost."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#: model:ir.model.fields,help:l10n_cssk_receipt_capture.field_cssk_receipt_attempt__message
+msgid "Why it failed, or what the reconciliation gates found."
+msgstr ""
+
+#. module: l10n_cssk_receipt_capture
+#. odoo-python
+#: code:addons/l10n_cssk_receipt_capture/models/cssk_receipt.py:0
+msgid "receipt_id"
+msgstr ""
