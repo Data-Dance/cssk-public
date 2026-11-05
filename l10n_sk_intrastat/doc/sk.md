@@ -1,7 +1,7 @@
 ---
 title: INTRASTAT-SK — štatistické hlásenie o obchode s tovarom v rámci EÚ
 summary: Mesačné hlásenie INTRASTAT-SK o tovare dovezenom z iných členských štátov a vyvezenom do nich, zostavené z faktúr ako súbor INSTAT XML na import do portálu finančnej správy — v edícii Community na module OCA, v Enterprise na vlastnom výkaze Intrastat od Odoo.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## Na čo slúži {#purpose}

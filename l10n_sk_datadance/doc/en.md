@@ -1,7 +1,7 @@
 ---
 title: Slovak Accounting Localization — full suite
 summary: Installs the Slovak statutory localization in one step, offers the optional pieces as switches in the settings, and cross-checks the VAT filings with each other and with the ledger.
-verified: 19.0.1.4.3
+verified: 19.0.1.4.4
 ---
 
 ## What it is for {#purpose}

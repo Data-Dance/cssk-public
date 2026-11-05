@@ -1,7 +1,7 @@
 ---
 title: Kontrolní hlášení DPH (DPHKH1)
 summary: České kontrolní hlášení (DPHKH1) — oddíly A.1 až B.3 vypočtené z účetnictví s hranicí 10 000 Kč, zkontrolované podle požadavků formuláře a exportované jako XML pro EPO v aktuální struktuře pro jakékoli období.
-verified: 19.0.1.10.0
+verified: 19.0.1.10.1
 ---
 
 ## K čemu slouží {#purpose}

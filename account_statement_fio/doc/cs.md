@@ -1,7 +1,7 @@
 ---
 title: Fio banka — bankovní výpisy
 summary: Každou hodinu stahuje pohyby a oficiální číslované výpisy z API Fio banky do bankovního deníku, se symboly VS/KS/SS a účty protistrany.
-verified: 19.0.2.4.1
+verified: 19.0.2.4.2
 ---
 
 ## K čemu slouží {#purpose}

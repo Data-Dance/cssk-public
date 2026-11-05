@@ -1,7 +1,7 @@
 ---
 title: CZ OSS VAT Return (OSSEI1, Union scheme)
 summary: The Czech One-Stop-Shop return for the Union scheme as the EPO form OSSEI1, validated against the official schema.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## What it is for {#purpose}

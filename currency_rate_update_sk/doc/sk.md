@@ -1,7 +1,7 @@
 ---
 title: Kurzy mien pre Slovensko (ECB/NBS, VÚB, Tatra banka)
 summary: Sťahuje referenčný výmenný kurz ECB, ktorým slovenská účtovná jednotka prepočítava cudziu menu, sám založí poskytovateľa, doplní kurzy na víkendy a sviatky a pridá kurzové lístky VÚB a Tatra banky.
-verified: 19.0.1.1.2
+verified: 19.0.1.1.3
 ---
 
 ## Na čo slúži {#purpose}

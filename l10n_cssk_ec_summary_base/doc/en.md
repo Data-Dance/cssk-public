@@ -1,7 +1,7 @@
 ---
 title: CZ/SK EC Sales List
 summary: The shared screens and workflow behind the Slovak súhrnný výkaz and the Czech souhrnné hlášení — one line per customer, VAT number and transaction code, checked and exported as XML.
-verified: 19.0.1.7.1
+verified: 19.0.1.7.2
 ---
 
 ## What it is for {#purpose}

@@ -43,7 +43,7 @@ for reconciling actual bank conversions; for statutory valuation use **ECB**.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.1.3",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["currency_rate_update", "currency_rate_sk_base"],

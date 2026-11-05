@@ -16,6 +16,14 @@ Carry-over to 18.0
   KURZ named in sk/cs/en — 19.0.1.2.0. Check 18.0 has the same OCA group
   first.
 
+[19.0.1.3.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.3.0] — 2026-11-04
 -------------------------
 

@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy — účtovníctvo (OCA)
 summary: Zaúčtuje slovenské výplatné pásky z aplikácie OCA payroll do slovenskej účtovej osnovy.
-verified: 19.0.1.0.3
+verified: 19.0.1.0.4
 family: l10n_sk_hr_payroll_base#accounting
 ---
 

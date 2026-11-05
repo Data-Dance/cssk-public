@@ -1,7 +1,7 @@
 ---
 title: Opravné daňové doklady zvyšující základ — úpravy Data Dance
 summary: Pojmenuje tištěný opravný daňový doklad zvyšující základ, skryje tlačítko pro dobropis a zobrazí tyto doklady odběratelům mezi dobropisy. Účtování nechává na Odoo.
-verified: 19.0.1.0.1
+verified: 19.0.1.0.2
 ---
 
 ## K čemu slouží {#purpose}

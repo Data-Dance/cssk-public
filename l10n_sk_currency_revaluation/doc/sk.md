@@ -1,7 +1,7 @@
 ---
 title: SK prepočet cudzích mien ku dňu závierky (kurzové rozdiely)
 summary: Prepočíta zostatky v cudzej mene referenčným kurzom ku dňu závierky a kurzové rozdiely zaúčtuje na 563 a 663 — sprievodcom OCA v edícii Community a korekčným záznamom Odoo v edícii Enterprise.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.1
 ---
 
 ## Na čo slúži {#purpose}

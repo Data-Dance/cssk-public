@@ -1,7 +1,7 @@
 ---
 title: Väzby v slovenských registroch (ORSF)
 summary: Načíta z ORSF štatutárov a spoločníkov jedného partnera vrátane spoločníkov, ktorí sú firmami, a ďalšie firmy, s ktorými sú spojení — ako podklad na určenie závislých osôb podľa zákona o dani z príjmov.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## Na čo slúži {#purpose}

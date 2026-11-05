@@ -1,7 +1,7 @@
 ---
 title: Recyklačný poplatok CZ/SK (recyklačný poplatok / recyklační příspěvek)
 summary: Poplatok za spätný zber elektrozariadení a batérií podľa platného cenníka organizácie zodpovednosti výrobcov, uvedený pri každom riadku faktúry, ako to vyžaduje zákon, a sčítaný po kategóriách na hlásenie organizácii.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## Na čo slúži {#purpose}

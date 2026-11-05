@@ -1,7 +1,7 @@
 ---
 title: Fio banka — pripojenie
 summary: Tokeny API Fio banky na bankovom denníku, test pripojenia, limit jedného volania za 30 sekúnd a upozornenia pred koncom platnosti tokenu.
-verified: 19.0.2.2.4
+verified: 19.0.2.2.5
 ---
 
 ## Na čo slúži {#purpose}

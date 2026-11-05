@@ -1,7 +1,7 @@
 ---
 title: Slovakia — Peňažný denník (cash journal)
 summary: The Slovak cash journal — the categories of opatrenie MF/27076/2007-74, the Slovak chart mapped onto them, the peňažný denník in its statutory layout, and the figures for DPFO typ B.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}

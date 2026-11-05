@@ -1,7 +1,7 @@
 ---
 title: Interaktívna hlavná kniha a obratová súvaha
 summary: Hlavná kniha a obratová súvaha OCA otvorené v prehliadači - rozbaľte účet a načítajú sa jeho položky, porovnávajte obdobia, prechádzajte nimi a pracujte s každým riadkom.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## Na čo slúži {#purpose}

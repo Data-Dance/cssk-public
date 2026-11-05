@@ -1,7 +1,7 @@
 ---
 title: Slovak eKasa Receipt Lookup
 summary: Reads the QR code on a Slovak cash-register receipt (bloček) and fetches the receipt the seller registered in eKasa — items, VAT rates and the per-rate VAT recap — from Finančná správa's document-verification service.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}

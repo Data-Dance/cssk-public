@@ -1,7 +1,7 @@
 ---
 title: Česká mzdová agenda
 summary: Česká mzdová agenda na jednom místě — měsíční výplatní páska pro pracovní poměr, DPP a DPČ v aplikaci OCA payroll nebo v Odoo Enterprise Payroll, s datovanými zákonnými sazbami, nepřítomnostmi, ročním zúčtováním daně a zaúčtováním do hlavní knihy.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na co slouží {#purpose}

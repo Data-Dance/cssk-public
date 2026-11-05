@@ -1,7 +1,7 @@
 ---
 title: CZ časové rozlišení (381, 383, 384, 385)
 summary: Nasměruje nástroje Odoo na časové rozlišení na české účty 381, 383, 384 a 385 — časová rozlišení OCA v edici Community, vlastní časové rozlišení Odoo v edici Enterprise.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 ---
 
 ## K čemu slouží {#purpose}

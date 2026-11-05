@@ -15,6 +15,14 @@ Carry-over to 18.0
   drawing up, seat and IČO on both protocols; two new date fields. Port
   together with the bridges.
 
+[19.0.1.1.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.0.4] — 2026-09-13
 -------------------------
 

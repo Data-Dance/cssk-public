@@ -1,7 +1,7 @@
 ---
 title: SK virtuálna registračná pokladnica (VRP2) — pripojenie
 summary: Pripojenie k virtuálnej registračnej pokladnici finančnej správy (VRP 2), spoločné pre evidenciu úhrad faktúr a modul Miesto predaja.
-verified: 19.0.2.4.0
+verified: 19.0.2.4.1
 family: l10n_sk_vrp2_account#connection
 ---
 

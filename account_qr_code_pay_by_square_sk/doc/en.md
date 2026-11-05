@@ -1,7 +1,7 @@
 ---
 title: PAY by square (Slovakia)
 summary: Prints the Slovak PAY by square payment QR code on customer invoices, with the variable, constant and specific symbols as separate values.
-verified: 19.0.1.2.2
+verified: 19.0.1.2.3
 ---
 
 ## What it is for {#purpose}

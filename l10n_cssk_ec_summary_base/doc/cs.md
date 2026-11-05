@@ -1,7 +1,7 @@
 ---
 title: Souhrnné hlášení CZ/SK
 summary: Společné obrazovky a postup českého souhrnného hlášení a slovenského súhrnného výkazu — jeden řádek na odběratele, DIČ a kód plnění, zkontrolovaný a exportovaný do XML.
-verified: 19.0.1.7.1
+verified: 19.0.1.7.2
 ---
 
 ## K čemu slouží {#purpose}

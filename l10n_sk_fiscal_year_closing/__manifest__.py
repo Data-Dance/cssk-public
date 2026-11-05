@@ -43,7 +43,7 @@ result-to-431 convention is where implementations differ, so this mapping wants
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk", "account_fiscal_year_closing"],

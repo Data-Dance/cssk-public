@@ -1,7 +1,7 @@
 ---
 title: Fio banka — Payment Orders
 summary: Builds Fio XML payment orders from an OCA payment order or an Enterprise batch payment and sends them to Fio banka over the API, for authorisation in internet banking.
-verified: 19.0.1.4.0
+verified: 19.0.1.4.1
 ---
 
 ## What it is for {#purpose}

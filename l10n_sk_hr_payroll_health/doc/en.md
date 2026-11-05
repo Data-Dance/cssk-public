@@ -1,7 +1,7 @@
 ---
 title: SK Monthly Health Insurance Statement (dávka 514)
 summary: The monthly výkaz preddavkov na poistné for a Slovak health insurer (VšZP, Dôvera, Union) in the common dávka 514 format, built from the month's payslips and exported as XML.
-verified: 19.0.1.2.1
+verified: 19.0.1.2.2
 ---
 
 ## What it is for {#purpose}

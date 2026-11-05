@@ -1,7 +1,7 @@
 ---
 title: Related Parties from the Slovak Registers (ORSF)
 summary: Fetches one partner's officers and corporate shareholders, and the other companies they are linked to, from ORSF — a shortlist for identifying závislé osoby (related parties) under the Slovak Income Tax Act.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## What it is for {#purpose}

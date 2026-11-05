@@ -1,7 +1,7 @@
 ---
 title: Fio banka — Bank Statements
 summary: Pulls transactions and official numbered statements from the Fio banka API into the bank journal every hour, with VS/KS/SS and counterparty accounts.
-verified: 19.0.2.4.1
+verified: 19.0.2.4.2
 ---
 
 ## What it is for {#purpose}

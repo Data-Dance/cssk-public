@@ -21,6 +21,14 @@ Changed
   ``account_qr_code_frame_provider`` 19.0.1.1.0): a foreign EUR invoice now
   gets SEPA QR rather than PAY by square.
 
+[19.0.1.2.3] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.2.2] — 2026-10-27
 -------------------------
 

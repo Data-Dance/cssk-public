@@ -1,7 +1,7 @@
 ---
 title: Czech Payroll
 summary: The Czech payroll family in one place — the monthly payslip for a pracovní poměr, DPP and DPČ on either the OCA payroll app or Odoo Enterprise Payroll, with dated statutory rates, time off, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Místo prodeje — česká EET 2.0
 summary: Eviduje každou zaplacenou objednávku Místa prodeje v českém systému EET 2.0 v okamžiku platby — jen kontaktní část platby —, tiskne potvrzovací kód na účtenku a sděluje zákazníkovi, kdy bude tržba oznámena dodatečně.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.1
 ---
 
 ## K čemu slouží {#purpose}

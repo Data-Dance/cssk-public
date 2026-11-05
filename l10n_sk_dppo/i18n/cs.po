@@ -1,0 +1,72 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_sk_dppo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: cs_CZ\n"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_cssk_income_tax_return
+msgid "Income Tax Return"
+msgstr "Přiznání k dani z příjmů"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"DPPO version '%(version)s' carries no usable %(label)s (field '%(field)s'): "
+"expected an ordered list of [upper_bound, value] pairs whose last band has a"
+" null upper bound. Fill the bands on the version record (they are noupdate "
+"data — on an existing database reload the l10n_sk_dppo version data). "
+"Refusing to guess a statutory rate."
+msgstr ""
+"DPPO verze '%(version)s' neobsahuje použitelné %(label)s (pole '%(field)s'):"
+" očekává se seřazený seznam dvojic [horní_hranice, hodnota], jehož poslední "
+"pásmo má horní hranici null. Doplňte pásma na záznamu verze (jsou to data "
+"noupdate – na existující databázi znovu načtěte data verzí l10n_sk_dppo). "
+"Zákonnou sazbu nebudu odhadovat."
+
+#. module: l10n_sk_dppo
+#: model:ir.module.module,shortdesc:base.module_l10n_sk_dppo
+msgid "SK Corporate Income Tax Return (DPPO)"
+msgstr "SK přiznání k dani z příjmů právnických osob (DPPO)"
+
+#. module: l10n_sk_dppo
+#: model:ir.module.module,summary:base.module_l10n_sk_dppo
+msgid ""
+"Slovak DPPO return on the income-tax framework: full r-line set + header "
+"mapping + XSD-validated XML export against the official dppo2025 schema."
+msgstr ""
+"Slovenské přiznání DPPO nad rámcem daně z příjmů: kompletní sada řádků, "
+"mapování záhlaví a export XML ověřený proti oficiálnímu schématu dppo2025."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid "§ 15 rate bands"
+msgstr "Pásma sazeb podle § 15"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid "§ 46b minimum-tax bands"
+msgstr "Pásma minimální daně podle § 46b"

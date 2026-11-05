@@ -16,6 +16,14 @@ Carry-over to 18.0
   32 odst. 2 písm. a) first-year increase (engine, mixin constraint and
   help). Port the engine and wizard changes and their tests.
 
+[19.0.1.11.4] — 2026-11-05
+--------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues: translated the strings that were still English.
+
 [19.0.1.11.3] — 2026-11-04
 --------------------------
 

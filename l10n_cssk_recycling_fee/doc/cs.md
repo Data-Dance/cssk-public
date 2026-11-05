@@ -1,7 +1,7 @@
 ---
 title: Recyklační příspěvek CZ/SK (recyklační příspěvek / recyklačný poplatok)
 summary: Příspěvek na zpětný odběr elektrozařízení a baterií podle platného ceníku kolektivního systému, uvedený u každého řádku faktury, jak vyžaduje zákon, a sečtený po kategoriích pro výkaz kolektivnímu systému.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## K čemu slouží {#purpose}

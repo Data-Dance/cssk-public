@@ -22,6 +22,14 @@ Carried over
   lock-date protected, and re-tagging a filed period adds reporting to a
   return that was already filed.
 
+[19.0.1.14.1] — 2026-11-05
+--------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues: translated the strings that were still English.
+
 [19.0.1.14.0] — 2026-10-29
 --------------------------
 

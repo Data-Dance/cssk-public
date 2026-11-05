@@ -1,7 +1,7 @@
 ---
 title: CZ Statutory Reference Data
 summary: The Czech tax offices, taxpayer types and filer details that every Czech electronic filing (EPO) needs, and the bad-debt correction flag on invoices.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.1
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Slovensko — peňažný denník
 summary: Slovenský peňažný denník — členenie podľa opatrenia MF/27076/2007-74, priradenie slovenskej účtovej osnovy, peňažný denník v zákonnom usporiadaní a údaje pre DPFO typ B.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## Na čo slúži {#purpose}

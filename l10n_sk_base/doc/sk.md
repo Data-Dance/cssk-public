@@ -1,7 +1,7 @@
 ---
 title: Slovenská základná lokalizácia (DIČ)
 summary: Dáva slovenskému DIČ — daňovému identifikačnému číslu — vlastné pole na kontaktoch a spoločnostiach, oddelené od IČ DPH aj od IČO.
-verified: 19.0.2.0.0
+verified: 19.0.2.0.1
 ---
 
 ## Na čo slúži {#purpose}

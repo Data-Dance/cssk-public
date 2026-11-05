@@ -1,7 +1,7 @@
 ---
 title: SK vozidlá a PHL — paušály pre DPH a daň z príjmov
 summary: 50 % odpočet DPH pri osobných vozidlách používaných aj na súkromné účely (§ 85n) cez sadzby dane a 80 % paušál na PHL pre daň z príjmov cez rozúčtovanie prijatej faktúry — dva nezávislé režimy.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## Na čo slúži {#purpose}

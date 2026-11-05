@@ -44,7 +44,7 @@ single standalone EPO XSD for the full závěrka.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_fs_base", "l10n_cz"],

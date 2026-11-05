@@ -15,6 +15,14 @@ Carry-over to 18.0
   cash rounding with its ``vrp2_cash_rounding_id`` setting, and the 1–2 cent
   rule. The module exists on ``origin/18.0``.
 
+[19.0.2.4.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.2.4.0] — 2026-10-27
 -------------------------
 

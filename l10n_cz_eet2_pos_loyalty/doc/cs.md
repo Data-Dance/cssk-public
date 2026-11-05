@@ -1,7 +1,7 @@
 ---
 title: Místo prodeje — česká EET 2.0 pro dárkové karty a elektronické peněženky
 summary: Oznamuje nabití a čerpání dárkových karet a elektronických peněženek u pokladny ve dvou zvláštních položkách EET 2.0, takže každé nabití i každé čerpání je evidovanou tržbou.
-verified: 19.0.1.0.1
+verified: 19.0.1.0.2
 family: l10n_cz_eet2_pos#scope
 ---
 

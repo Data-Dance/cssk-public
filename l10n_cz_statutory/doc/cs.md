@@ -1,7 +1,7 @@
 ---
 title: CZ statutární číselníky a údaje podávajícího
 summary: Finanční úřady, typy daňových subjektů a údaje o podávajícím, které potřebuje každé české elektronické podání (EPO), a příznak opravy u nedobytné pohledávky na fakturách.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.1
 ---
 
 ## K čemu slouží {#purpose}

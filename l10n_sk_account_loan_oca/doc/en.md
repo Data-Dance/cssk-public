@@ -1,7 +1,7 @@
 ---
 title: SK Leasing — Community engine (OCA)
 summary: Opens every new OCA loan or lease with the Slovak accounts and, for a lease that is a supply of goods, leaves VAT off its instalment bills.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 family: l10n_sk_account_loan_base#community
 ---
 

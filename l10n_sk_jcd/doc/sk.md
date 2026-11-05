@@ -1,7 +1,7 @@
 ---
 title: SK JCD — dovoz tovaru (colné vyhlásenie)
 summary: Colné vyhlásenie pri dovoze tovaru ako účtovný doklad — daň pri dovoze do správnych riadkov priznania, clo do obstarávacej ceny zásob a odpočet až s dovozným dokladom potvrdeným colným orgánom.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## Na čo slúži {#purpose}

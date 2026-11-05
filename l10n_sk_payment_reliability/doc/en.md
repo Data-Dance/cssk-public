@@ -1,7 +1,7 @@
 ---
 title: SK Supplier Reliability — FS open data
 summary: The Slovak registers behind the supplier reliability check — published bank accounts, the index daňovej spoľahlivosti and the deregistration list, from the Financial Administration open data.
-verified: 19.0.1.1.2
+verified: 19.0.1.1.3
 family: l10n_cssk_payment_reliability#sk-provider
 ---
 

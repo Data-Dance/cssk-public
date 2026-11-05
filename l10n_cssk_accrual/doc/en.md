@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Estimated Accruals
 summary: Book an estimate for a cost or revenue whose invoice has not arrived by the period end, then settle it against the real invoice so only the difference stays in the new period.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

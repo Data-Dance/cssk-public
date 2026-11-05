@@ -21,3 +21,11 @@ Added
   ``VetaR`` / ``VetaO``, validated against ``ossei1_epo2.xsd`` (structure
   01.01.04), pinned in ``data/SCHEMA_VERSION``.
 - Export preflight: the filer must have a Czech DIČ (CZ + 8–10 digits).
+
+[19.0.1.0.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues: translated the strings that were still English.

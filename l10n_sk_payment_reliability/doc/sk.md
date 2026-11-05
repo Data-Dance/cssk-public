@@ -1,7 +1,7 @@
 ---
 title: SK spoľahlivosť dodávateľa — otvorené dáta FS SR
 summary: Slovenské registre pre kontrolu spoľahlivosti dodávateľa — zverejnené bankové účty, index daňovej spoľahlivosti a zoznam na zrušenie registrácie z otvorených dát Finančnej správy.
-verified: 19.0.1.1.2
+verified: 19.0.1.1.3
 family: l10n_cssk_payment_reliability#sk-provider
 ---
 

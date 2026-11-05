@@ -1,7 +1,7 @@
 ---
 title: CZ EC Sales List (Souhrnné hlášení)
 summary: The Czech EC sales list — souhrnné hlášení, EPO form DPHSHV — computed from the intra-EU supply taxes of Odoo's Czech chart and exported as EPO XML.
-verified: 19.0.1.4.0
+verified: 19.0.1.4.1
 ---
 
 ## What it is for {#purpose}

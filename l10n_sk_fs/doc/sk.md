@@ -1,7 +1,7 @@
 ---
 title: SK účtovná závierka (Úč POD)
 summary: Účtovná závierka podnikateľa v podvojnom účtovníctve — súvaha a výkaz ziskov a strát zostavené z účtovníctva a exportované ako oficiálny súbor UZPODv14, k tomu prehľad peňažných tokov, prehľad zmien vlastného imania a poznámky.
-verified: 19.0.1.7.4
+verified: 19.0.1.7.5
 ---
 
 ## Na čo slúži {#purpose}

@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Interactive General Ledger and Trial Balance",
-    "version": "19.0.1.5.0",
+    "version": "19.0.1.5.1",
     "summary": "Open the OCA general ledger and trial balance interactively: "
                "unfold an account to load its journal items, a page at a time.",
     "author": "Data Dance s.r.o.",

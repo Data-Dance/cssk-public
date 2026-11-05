@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia - Payroll",
-    "version": "19.0.1.19.2",
+    "version": "19.0.1.19.3",
     "category": "Human Resources/Payroll",
     "summary": "Slovak payroll rules for the payroll engine",
     "countries": ["sk"],

@@ -1,7 +1,7 @@
 ---
 title: Point of Sale — Czech EET 2.0 for gift cards and e-wallets
 summary: Reports gift-card and e-wallet top-ups and redemptions made at the till in the two dedicated EET 2.0 items, so each top-up and each redemption is a registered sale.
-verified: 19.0.1.0.1
+verified: 19.0.1.0.2
 family: l10n_cz_eet2_pos#scope
 ---
 

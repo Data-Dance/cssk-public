@@ -1,7 +1,7 @@
 ---
 title: SK lízing — nástroj Community (OCA)
 summary: Každý nový úver alebo lízing OCA otvorí so slovenskými účtami a pri lízingu, ktorý je dodaním tovaru, nechá faktúry za splátky bez DPH.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 family: l10n_sk_account_loan_base#community
 ---
 

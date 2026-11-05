@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll — Accounting (OCA)
 summary: Posts Slovak payslips of the OCA payroll app to the Slovak chart of accounts.
-verified: 19.0.1.0.3
+verified: 19.0.1.0.4
 family: l10n_sk_hr_payroll_base#accounting
 ---
 

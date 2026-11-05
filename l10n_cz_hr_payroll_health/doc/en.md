@@ -1,7 +1,7 @@
 ---
 title: CZ Health Insurance Filings (PPPZ, HOZ)
 summary: The two employer filings to Czech health insurers — the monthly přehled o platbě pojistného (PPPZ) summed from the payslips, and the hromadné oznámení zaměstnavatele (HOZ) of employees joining and leaving — as XML per insurer.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}

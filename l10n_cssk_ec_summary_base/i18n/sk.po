@@ -688,6 +688,7 @@ msgstr ""
 msgid ""
 "Effective reported value: the computed aggregate, or the manual override."
 msgstr ""
+"Skutočne vykázaná hodnota: vypočítaný súhrn alebo ručne zadaná hodnota."
 
 #. module: l10n_cssk_ec_summary_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form
@@ -708,7 +709,7 @@ msgstr "Manuálna hodnota"
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_line__manual_value
 msgid "Manual value applied when 'Override' is ticked."
-msgstr ""
+msgstr "Ručná hodnota použitá pri zaškrtnutí 'Override'."
 
 #. module: l10n_cssk_ec_summary_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form
@@ -744,6 +745,10 @@ msgid ""
 " across recompute and re-applied to the row with the same country / VAT / "
 "transaction code."
 msgstr ""
+"Označte, ak chcete pre tento riadok zadať hodnotu ručne — slúži na opravu "
+"vykázanej hodnoty (napr. externá oprava, ktorá ešte nie je zaúčtovaná). "
+"Hodnota sa pri prepočte zachová a znovu sa použije pre riadok s rovnakou "
+"krajinou / IČ DPH / kódom transakcie."
 
 #. module: l10n_cssk_ec_summary_base
 #. odoo-python
@@ -763,6 +768,9 @@ msgid ""
 " latest one; after a reset → recompute → resubmit cycle the previously-filed"
 " copies stay reachable here."
 msgstr ""
+"Všetky XML, ktoré boli kedy pre toto podanie označené ako podané. „Podané "
+"XML“ je posledné z nich; po cykle obnovenie → prepočet → opätovné podanie tu"
+" zostávajú dostupné aj predtým podané kópie."
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__legacy
@@ -783,6 +791,8 @@ msgid ""
 "Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
 " it was captured if by hand."
 msgstr ""
+"Odkiaľ podanie pochádza, napr. „PREMIER“, „Money S4“, „i6“, „MRP“ – alebo "
+"ako bolo zachytené, ak ručne."
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__legacy_reference
@@ -795,6 +805,8 @@ msgid ""
 "Identifier of the import batch or source document this filing was "
 "materialised from, so a figure can be traced back to what produced it."
 msgstr ""
+"Identifikátor importnej dávky alebo zdrojového dokladu, z ktorého bolo toto "
+"podanie vytvorené, aby sa údaj dal dohľadať k jeho pôvodu."
 
 #. module: l10n_cssk_ec_summary_base
 #. odoo-python

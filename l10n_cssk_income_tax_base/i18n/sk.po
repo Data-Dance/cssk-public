@@ -1009,6 +1009,10 @@ msgid ""
 "override UI and XSD-validated XML export. Country layers supply the line set"
 " + schema."
 msgstr ""
+"Krajinovo neutrálny rámec pre daňové priznanie k dani z príjmov právnickej "
+"osoby (DPPO): verzované definície riadkov, vyhodnocovanie výsledku "
+"hospodárenia a súhrnov, rozhranie na ručné úpravy a export XML overený voči "
+"XSD. Krajinové moduly dodávajú sadu riadkov a schému."
 
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
@@ -1034,6 +1038,8 @@ msgid ""
 " filed                                   it on the portal and holds the "
 "receipts."
 msgstr ""
+"Otvorí doručenie tohto podania. Ak je nainštalovaný len manuálny kanál, "
+"zaznamená, kto podanie podal na portáli, a uchová potvrdenia."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__rate_bands
@@ -1048,6 +1054,10 @@ msgid ""
 "null = top band (must be last). Example (SK 2025): [[100000.0, 10.0], "
 "[5000000.0, 21.0], [null, 24.0]]."
 msgstr ""
+"Zákonná sadzba dane z príjmov podľa riadku výnosov (SK: § 15 podľa r560): "
+"usporiadané dvojice [upper_bound, rate_percent], upper_bound vrátane, null ="
+" najvyššie pásmo (musí byť posledné). Príklad (SK 2025): [[100000.0, 10.0], "
+"[5000000.0, 21.0], [null, 24.0]]."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__min_tax_bands
@@ -1078,10 +1088,13 @@ msgstr "História podaní"
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__filed_history_ids
 msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed "
-"XML' is the latest one; after a reset → recompute → resubmit cycle "
-"the previously-filed copies stay reachable here."
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
 msgstr ""
+"Všetky XML, ktoré boli kedy pre toto podanie označené ako podané. „Podané "
+"XML“ je posledné z nich; po cykle obnovenie → prepočet → opätovné podanie tu"
+" zostávajú dostupné aj predtým podané kópie."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy
@@ -1105,9 +1118,11 @@ msgstr "Zdrojový systém"
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_source
 msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' "
-"— or how it was captured if by hand."
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
 msgstr ""
+"Odkiaľ podanie pochádza, napr. „PREMIER“, „Money S4“, „i6“, „MRP“ – alebo "
+"ako bolo zachytené, ak ručne."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_reference
@@ -1118,9 +1133,10 @@ msgstr "Zdrojová referencia"
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_reference
 msgid ""
 "Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced "
-"it."
+"materialised from, so a figure can be traced back to what produced it."
 msgstr ""
+"Identifikátor importnej dávky alebo zdrojového dokladu, z ktorého bolo toto "
+"podanie vytvorené, aby sa údaj dal dohľadať k jeho pôvodu."
 
 #. module: l10n_cssk_income_tax_base
 #. odoo-python

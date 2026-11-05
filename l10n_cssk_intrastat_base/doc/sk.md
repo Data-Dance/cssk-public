@@ -1,7 +1,7 @@
 ---
 title: Intrastat CZ/SK — generátor súborov (základ)
 summary: Spoločný kód, ktorý pre moduly Intrastat oboch edícií vyhotoví slovenský súbor INSTAT XML a český súbor InstatOnline CSV.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 family: l10n_sk_intrastat#engine
 ---
 

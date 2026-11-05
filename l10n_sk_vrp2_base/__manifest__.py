@@ -1,6 +1,6 @@
 {
     "name": "Slovak VRP2 - Base / Connection",
-    "version": "19.0.2.4.0",
+    "version": "19.0.2.4.1",
     "author": "Data Dance s.r.o.",
     "category": "Accounting/Localizations",
     "summary": "Connection layer for the Slovak Virtual Cash Register (VRP 2)",

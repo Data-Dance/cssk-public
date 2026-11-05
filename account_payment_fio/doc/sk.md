@@ -1,7 +1,7 @@
 ---
 title: Fio banka — platobné príkazy
 summary: Zostaví platobné príkazy Fio XML z platobného príkazu OCA alebo z hromadnej platby Enterprise a odošle ich cez API do Fio banky na autorizáciu v internetbankingu.
-verified: 19.0.1.4.0
+verified: 19.0.1.4.1
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Rozpad stĺpcov MIS Builder
 summary: Rozdelí stĺpec MIS Builder na jeden stĺpec za každý denník, partnera, spoločnosť, produkt alebo iné pole, a za nimi súčet.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}

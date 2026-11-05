@@ -1,7 +1,7 @@
 ---
 title: SK VAT Registration Category (§ 4 / § 7 / § 7a)
 summary: Records under which paragraph of the Slovak VAT Act a partner's IČ DPH was issued, and warns when a domestic reverse charge is aimed at a § 7 or § 7a registrant, who is not a platiteľ.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

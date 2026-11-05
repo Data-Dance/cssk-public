@@ -25,6 +25,14 @@ Added
   scoped overlay of core's map lookup (no core edit); domestic taxes sharing a
   foreign rate are all linked, as in 18.0.
 
+[19.0.1.1.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues: translated the strings that were still English.
+
 [19.0.1.1.1] — 2026-10-27
 -------------------------
 

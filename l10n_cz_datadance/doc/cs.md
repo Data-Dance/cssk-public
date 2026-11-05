@@ -1,7 +1,7 @@
 ---
 title: Česká účetní lokalizace — kompletní sada
 summary: Nainstaluje českou zákonnou lokalizaci jedním krokem a volitelné části nabídne jako přepínače v nastavení.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## K čemu slouží {#purpose}

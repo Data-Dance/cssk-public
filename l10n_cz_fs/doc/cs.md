@@ -1,7 +1,7 @@
 ---
 title: CZ účetní výkazy (rozvaha / VZZ)
 summary: Česká rozvaha, výkaz zisku a ztráty, přehled o peněžních tocích a přehled o změnách vlastního kapitálu sestavené z účetnictví a připravené k podání s přiznáním k dani z příjmů právnických osob.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## K čemu slouží {#purpose}

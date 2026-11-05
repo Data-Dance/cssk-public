@@ -1,7 +1,7 @@
 ---
 title: SK druh registrácie DPH (§ 4 / § 7 / § 7a)
 summary: Eviduje, podľa ktorého paragrafu zákona o DPH bolo partnerovi pridelené IČ DPH, a upozorní, keď sa prenesenie daňovej povinnosti uplatní voči osobe registrovanej podľa § 7 alebo § 7a, ktorá nie je platiteľom.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: QR Platba (Czech Republic)
 summary: Prints the Czech QR Platba payment code on customer invoices, with the variable, constant and specific symbols as separate values.
-verified: 19.0.1.1.4
+verified: 19.0.1.1.5
 ---
 
 ## What it is for {#purpose}

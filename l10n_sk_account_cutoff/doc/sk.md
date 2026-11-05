@@ -1,7 +1,7 @@
 ---
 title: SK časové rozlíšenie (381, 383, 384, 385)
 summary: Nasmeruje nástroje Odoo na časové rozlíšenie na slovenské účty 381, 383, 384 a 385 — časové rozlíšenia OCA v edícii Community, vlastné časové rozlíšenie Odoo v edícii Enterprise.
-verified: 19.0.1.0.3
+verified: 19.0.1.0.4
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Recyklační příspěvek CZ/SK na prodejních objednávkách
 summary: Spočítá recyklační příspěvek na řádcích prodejní objednávky, přenese jej na fakturu a v režimu „navíc“ jej fakturuje samostatným řádkem.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 family: l10n_cssk_recycling_fee#sales-orders
 ---
 

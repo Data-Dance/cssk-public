@@ -17,6 +17,14 @@ Carry-over to 18.0
   ``stock.landed.cost.button_validate`` has the same contract before porting
   the third.
 
+[19.0.1.2.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.2.0] — 2026-10-27
 -------------------------
 

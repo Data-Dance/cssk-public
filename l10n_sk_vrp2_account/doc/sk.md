@@ -1,7 +1,7 @@
 ---
 title: SK virtuálna registračná pokladnica (VRP2) — úhrady faktúr
 summary: Zaeviduje úhradu odberateľskej faktúry v hotovosti alebo kartou vo virtuálnej registračnej pokladnici finančnej správy (VRP 2) ako pokladničný doklad o úhrade faktúry, uchová oficiálny doklad v Odoo a v prípade potreby ho stornuje.
-verified: 19.0.2.4.0
+verified: 19.0.2.4.1
 ---
 
 ## Na čo slúži {#purpose}

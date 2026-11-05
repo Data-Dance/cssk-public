@@ -2,6 +2,14 @@
 Changelog
 =========
 
+[19.0.1.1.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak catalogue: translated the strings that were still English.
+
 [19.0.1.1.0] — 2026-10-27
 =========================
 

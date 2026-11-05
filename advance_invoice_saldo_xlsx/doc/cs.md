@@ -1,7 +1,7 @@
 ---
 title: Saldo otevřených záloh (XLSX)
 summary: Tabulka vystavených a přijatých zálohových faktur s tím, co bylo zaplaceno, pokryto daňovými doklady, odečteno a co ještě zůstává otevřené.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 ---
 
 ## K čemu slouží {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK Financial Statements (Úč POD)
 summary: The Slovak účtovná závierka of an entrepreneur in double-entry bookkeeping — the súvaha and the výkaz ziskov a strát computed from the ledger and exported as the official UZPODv14 file, plus the cash flow and equity statements and the notes.
-verified: 19.0.1.7.4
+verified: 19.0.1.7.5
 ---
 
 ## What it is for {#purpose}

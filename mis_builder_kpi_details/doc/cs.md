@@ -1,7 +1,7 @@
 ---
 title: Detaily ukazatelů MIS Builder
 summary: Rozbalí ukazatel MIS Builder podle partnera, produktu, deníku, měsíce nebo jiného pole účetních položek, nejen podle účtů.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## K čemu slouží {#purpose}

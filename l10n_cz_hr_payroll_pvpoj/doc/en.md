@@ -1,7 +1,7 @@
 ---
 title: CZ Social Insurance Overview (PVPOJ)
 summary: The monthly přehled o výši pojistného for the ČSSZ — the employer's total social insurance premium for a month, summed from the payslips and exported as XML in the PVPOJ 2025 structure.
-verified: 19.0.1.1.4
+verified: 19.0.1.1.5
 ---
 
 ## What it is for {#purpose}

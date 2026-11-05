@@ -1,7 +1,7 @@
 ---
 title: CZ faktura (zákonné PDF)
 summary: Doplní do tištěné české faktury platební symboly a zákonné formulace o osvobození od daně a „daň odvede zákazník“.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## K čemu slouží {#purpose}

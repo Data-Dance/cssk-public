@@ -1,7 +1,7 @@
 ---
 title: CZ Annual Statement of Employment Income Tax (DPZVD)
 summary: The employer's annual vyúčtování daně z příjmů ze závislé činnosti for the Finanční správa — the year's tax advances by month, the monthly employee counts and Příloha č. 1 (employees per municipality), as EPO XML in the DPZVD6 structure.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

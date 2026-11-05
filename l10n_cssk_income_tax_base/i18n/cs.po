@@ -199,7 +199,7 @@ msgstr "Země"
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Vytvořeno uživatelem"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__create_date
@@ -208,13 +208,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Vytvořeno dne"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__currency_id
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return_line__company_currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Měna"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__provision_amount
@@ -258,7 +258,7 @@ msgstr "Popis"
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný název"
 
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.view_move_line_dppo_audit
@@ -458,7 +458,7 @@ msgstr "Druh"
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Naposledy upraveno uživatelem"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_line_def__write_date
@@ -467,7 +467,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_type__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Naposledy upraveno dne"
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__line_ids
@@ -1009,6 +1009,10 @@ msgid ""
 "override UI and XSD-validated XML export. Country layers supply the line set"
 " + schema."
 msgstr ""
+"Na zemi nezávislý rámec pro přiznání k dani z příjmů právnických osob "
+"(DPPO): verzované definice řádků, vyhodnocení výsledku hospodaření a "
+"souhrnů, rozhraní pro ruční přepsání a export XML ověřený proti XSD. Řádky a"
+" schéma dodávají moduly jednotlivých zemí."
 
 #. module: l10n_cssk_income_tax_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_income_tax_base.cssk_income_tax_return_view_form
@@ -1034,6 +1038,8 @@ msgid ""
 " filed                                   it on the portal and holds the "
 "receipts."
 msgstr ""
+"Otevře doručení tohoto podání. Je-li nainstalován jen ruční kanál, "
+"zaznamená, kdo podání podal na portálu, a uchová potvrzení."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_version__rate_bands
@@ -1048,6 +1054,10 @@ msgid ""
 "null = top band (must be last). Example (SK 2025): [[100000.0, 10.0], "
 "[5000000.0, 21.0], [null, 24.0]]."
 msgstr ""
+"Zákonná stupnice sazeb daně z příjmů navázaná na řádek výnosů (SK: § 15 "
+"podle r560): seřazené dvojice [horní_hranice, sazba_v_procentech], horní "
+"hranice včetně, null = nejvyšší pásmo (musí být poslední). Příklad (SK "
+"2025): [[100000.0, 10.0], [5000000.0, 21.0], [null, 24.0]]."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_version__min_tax_bands
@@ -1078,10 +1088,13 @@ msgstr "Historie podání"
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__filed_history_ids
 msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed "
-"XML' is the latest one; after a reset → recompute → resubmit cycle "
-"the previously-filed copies stay reachable here."
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
 msgstr ""
+"Všechna XML, která byla kdy pro toto podání označena jako podaná. „Podané "
+"XML“ je poslední z nich; po cyklu obnovení → přepočet → opětovné podání zde "
+"zůstávají dostupné i dříve podané kopie."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy
@@ -1105,9 +1118,11 @@ msgstr "Zdrojový systém"
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_source
 msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' "
-"— or how it was captured if by hand."
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
 msgstr ""
+"Odkud podání pochází, např. „PREMIER“, „Money S4“, „i6“, „MRP“ – nebo jak "
+"bylo zachyceno, pokud ručně."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_reference
@@ -1118,9 +1133,10 @@ msgstr "Zdrojová reference"
 #: model:ir.model.fields,help:l10n_cssk_income_tax_base.field_cssk_income_tax_return__legacy_reference
 msgid ""
 "Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced "
-"it."
+"materialised from, so a figure can be traced back to what produced it."
 msgstr ""
+"Identifikátor importní dávky nebo zdrojového dokladu, ze kterého bylo toto "
+"podání vytvořeno, aby se údaj dal dohledat k jeho původu."
 
 #. module: l10n_cssk_income_tax_base
 #. odoo-python

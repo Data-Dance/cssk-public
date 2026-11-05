@@ -1,7 +1,7 @@
 ---
 title: SK účtovná závierka — závierkové účty 701 / 702 / 710
 summary: Uzavretie účtovných kníh na konci roka cez závierkové účty 710, 702 a 701 — a predovšetkým to, aby sa na tieto účty vôbec dalo účtovať.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 ---
 
 ## Na čo slúži {#purpose}

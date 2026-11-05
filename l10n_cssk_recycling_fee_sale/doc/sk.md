@@ -1,7 +1,7 @@
 ---
 title: Recyklačný poplatok CZ/SK na predajných objednávkach
 summary: Vypočíta recyklačný poplatok na riadkoch predajnej objednávky, prenesie ho na faktúru a v režime „navyše“ ho fakturuje samostatným riadkom.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 family: l10n_cssk_recycling_fee#sales-orders
 ---
 

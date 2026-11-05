@@ -1,7 +1,7 @@
 ---
 title: Interaktivní hlavní kniha a obratová předvaha
 summary: Hlavní kniha a obratová předvaha OCA otevřené v prohlížeči - rozbalte účet a načtou se jeho položky, porovnávejte období, procházejte jimi a pracujte s každým řádkem.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## K čemu slouží {#purpose}

@@ -25,7 +25,7 @@ Licensed **AGPL-3** because it depends on the AGPL OCA engine.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk_account_loan_base", "account_leasing"],

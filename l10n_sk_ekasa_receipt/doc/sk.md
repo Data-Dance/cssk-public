@@ -1,7 +1,7 @@
 ---
 title: Bločky z eKasy cez QR kód
 summary: Prečíta QR kód na pokladničnom doklade (bločku) a zo služby na overovanie dokladov finančnej správy načíta doklad tak, ako ho predávajúci zaevidoval v eKase — položky, sadzby DPH aj rekapituláciu DPH podľa sadzieb.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## Na čo slúži {#purpose}

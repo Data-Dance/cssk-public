@@ -1,7 +1,7 @@
 ---
 title: SK DPPO — porovnanie s účtovnou závierkou
 summary: Porovná r. 100 slovenského daňového priznania k dani z príjmov PO s výsledkom hospodárenia pred zdanením v účtovnej závierke za to isté obdobie.
-verified: 19.0.1.1.3
+verified: 19.0.1.1.4
 family: l10n_sk_dppo#zavierka
 ---
 

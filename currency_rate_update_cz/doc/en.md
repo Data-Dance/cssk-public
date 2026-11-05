@@ -1,7 +1,7 @@
 ---
 title: Exchange Rates for the Czech Republic (ČNB)
 summary: Downloads the Czech National Bank's daily exchange rate, sets the provider up for you, and supports a fixed monthly rate with the actual daily rates kept for the year-end revaluation.
-verified: 19.0.1.3.2
+verified: 19.0.1.3.3
 ---
 
 ## What it is for {#purpose}

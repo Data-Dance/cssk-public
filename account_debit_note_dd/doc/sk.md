@@ -1,7 +1,7 @@
 ---
 title: Ťarchopisy — úpravy Data Dance
 summary: Pomenuje tlačený ťarchopis odberateľovi, skryje tlačidlo Dobropis a zobrazí ťarchopisy odberateľom medzi dobropismi. Účtovanie necháva na Odoo.
-verified: 19.0.1.0.1
+verified: 19.0.1.0.2
 ---
 
 ## Na čo slúži {#purpose}

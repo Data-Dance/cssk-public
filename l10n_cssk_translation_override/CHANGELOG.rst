@@ -5,6 +5,27 @@ Changelog
 All notable changes to **l10n_cssk_translation_override** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.0.5] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech override catalogues: filled terms that were still English
+  in Odoo's and OCA's own catalogues (chiefly the Czech website builder and CRM).
+- New catalogues for ``hr_work_entry`` and ``hr_work_entry_holidays``, which the
+  payroll modules depend on: Odoo ships no Slovak for them and only part of the
+  Czech, so work entry types and their forms were English.
+
+[19.0.1.0.4] — 2026-11-05
+-------------------------
+
+Changed
+~~~~~~~
+
+- ``account``: the Slovak *To Validate* counter on the journal dashboard is
+  *na schválenie* (as the Czech *ke schválení*), not *na zaúčtovanie*.
+
 [19.0.1.0.3] — 2026-11-05
 -------------------------
 

@@ -1,7 +1,7 @@
 ---
 title: SK Protokoly k majetku — Community (evidencia majetku OCA)
 summary: Tlačí slovenské protokoly k majetku z evidencie majetku OCA používanej na Odoo Community.
-verified: 19.0.2.0.3
+verified: 19.0.2.0.4
 family: l10n_sk_asset_protocol_base#community
 ---
 

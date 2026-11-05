@@ -1,7 +1,7 @@
 ---
 title: Česko — peněžní deník (daňová evidence)
 summary: Peněžní deník pro daňovou evidenci — členění podle zavedené praxe, přiřazení české účtové osnovy, peněžní deník v PDF, údaje pro Přílohu č. 1 včetně oddílu D a zápis podle § 7b odst. 4.
-verified: 19.0.1.0.5
+verified: 19.0.1.0.6
 ---
 
 ## K čemu slouží {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Intrastat — File Renderer (Base)
 summary: The shared code that renders the Slovak INSTAT XML and the Czech InstatOnline CSV for the Intrastat modules of both editions.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 family: l10n_sk_intrastat#engine
 ---
 

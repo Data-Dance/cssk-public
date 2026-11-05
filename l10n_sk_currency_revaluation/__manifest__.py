@@ -4,7 +4,7 @@
                "Slovak 563/663 (kurzové rozdiely) accounts.",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.3.0",
+    "version": "19.0.1.3.1",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk", "account_multicurrency_revaluation"],

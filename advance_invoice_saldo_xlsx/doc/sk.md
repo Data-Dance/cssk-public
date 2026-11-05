@@ -1,7 +1,7 @@
 ---
 title: Saldo otvorených preddavkov (XLSX)
 summary: Tabuľka vystavených a prijatých zálohových faktúr s tým, čo bolo uhradené, pokryté faktúrami k platbe, odpočítané a čo ešte ostáva otvorené.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 ---
 
 ## Na čo slúži {#purpose}

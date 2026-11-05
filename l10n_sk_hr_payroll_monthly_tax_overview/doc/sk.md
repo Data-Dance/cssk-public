@@ -1,7 +1,7 @@
 ---
 title: SK Prehľad o zrazených a odvedených preddavkoch na daň
 summary: Mesačný prehľad o preddavkoch na daň zrazených zamestnancom a o vyplatenom daňovom bonuse, zostavený z výplatných pások mesiaca ako XML pre finančnú správu.
-verified: 19.0.2.1.1
+verified: 19.0.2.1.2
 ---
 
 ## Na čo slúži {#purpose}

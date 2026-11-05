@@ -1,7 +1,7 @@
 ---
 title: Partner Autocomplete from the Slovak Registers (ORSF)
 summary: Fills Slovak contacts from the state registers through ORSF — identity, address, IČ DPH, DIČ, register entry, status and activities — and refreshes many contacts at once.
-verified: 19.0.1.4.1
+verified: 19.0.1.4.2
 ---
 
 ## What it is for {#purpose}

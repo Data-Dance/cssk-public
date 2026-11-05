@@ -1,7 +1,7 @@
 ---
 title: Daňové odpisy (CZ/SK)
 summary: Druhý, nikdy neúčtovaný odpisový plán ke každému majetku pro české a slovenské daňové odpisy vedle účetních, s ročním porovnáním účetních a daňových odpisů, odloženou daní a registrem daňových odpisů.
-verified: 19.0.1.11.3
+verified: 19.0.1.11.4
 ---
 
 ## K čemu slouží {#purpose}

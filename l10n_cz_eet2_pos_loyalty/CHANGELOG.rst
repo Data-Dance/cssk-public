@@ -25,6 +25,14 @@ Carry-over to 18.0
   ``trigger_product_ids``); port together with ``l10n_cz_eet2`` 19.0.1.1.0.
   DISCHARGED 2026-10-31 by ea53193a on branch 18.0 (origin/18.0 ea53193a) — do not port this again.
 
+[19.0.1.0.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak catalogue: translated the strings that were still English.
+
 [19.0.1.0.0] — 2026-10-29
 -------------------------
 

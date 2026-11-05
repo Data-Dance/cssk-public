@@ -1,7 +1,7 @@
 ---
 title: SK výpis z registra (§ 3a, stav, predmety podnikania, závierky)
 summary: Uchováva zápis slovenského subjektu v registri ako údaje, skladá z nich vetu podľa § 3a Obchodného zákonníka pre vaše doklady a upozorní na partnerov, ktorých register vedie ako zrušených.
-verified: 19.0.2.0.1
+verified: 19.0.2.0.2
 ---
 
 ## Na čo slúži {#purpose}

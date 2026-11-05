@@ -1,7 +1,7 @@
 ---
 title: Přiznání k DPH OSS — režim Unie (OSSEI1)
 summary: České přiznání ve zvláštním režimu jednoho správního místa, režim Evropské unie, jako formulář EPO OSSEI1 ověřený proti úřednímu schématu.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## K čemu slouží {#purpose}

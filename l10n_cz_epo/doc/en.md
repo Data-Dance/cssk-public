@@ -1,7 +1,7 @@
 ---
 title: CZ EPO — Check and File with Finanční správa
 summary: Signs Czech statutory filings with the company's qualified certificate and sends them to EPO — in test mode to check them, or for real to file them — and follows each filing to acceptance or rejection.
-verified: 19.0.1.0.1
+verified: 19.0.1.0.2
 ---
 
 ## What it is for {#purpose}

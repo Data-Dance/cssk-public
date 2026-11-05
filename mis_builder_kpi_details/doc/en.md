@@ -1,7 +1,7 @@
 ---
 title: MIS Builder KPI Details
 summary: Unfold a MIS Builder KPI by partner, product, journal, month or any other field of the journal items, not only by account.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## What it is for {#purpose}

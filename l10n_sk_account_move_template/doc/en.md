@@ -1,7 +1,7 @@
 ---
 title: SK Posting Templates for Internal Documents (predkontácie)
 summary: Ready-made Slovak debit/credit patterns for internal documents — money in transit via 261 and the transfer of the approved result — that turn one typed amount into a balanced draft entry.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

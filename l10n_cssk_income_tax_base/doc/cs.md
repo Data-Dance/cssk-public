@@ -1,7 +1,7 @@
 ---
 title: Přiznání k dani z příjmů PO (CZ/SK)
 summary: Obrazovka, na které se připravuje přiznání k dani z příjmů právnických osob — výsledek hospodaření z účetnictví, úpravy účetní, výpočet daně, XML ověřené proti schématu a zaúčtování splatné daně.
-verified: 19.0.1.5.8
+verified: 19.0.1.5.9
 ---
 
 ## K čemu slouží {#purpose}

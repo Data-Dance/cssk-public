@@ -37,6 +37,14 @@ Carry-over to 18.0
   again: ported as 18.0.1.0.2. The six "ID:" nodes print
   ``company_registry_label`` on 18.0 as well.
 
+[19.0.1.0.8] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.0.6] — 2026-11-03
 -------------------------
 

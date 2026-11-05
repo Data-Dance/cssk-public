@@ -16,6 +16,14 @@ Changed
   toggle is now ``module_l10n_sk_fiscal_year_closing``), and
   ``l10n_sk_inventarizacia`` is now ``l10n_sk_inventory_verification``.
 
+[19.0.1.4.4] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.4.3] — 2026-09-17
 -------------------------
 

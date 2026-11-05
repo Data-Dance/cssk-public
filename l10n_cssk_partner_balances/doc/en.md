@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Partner Balance Confirmation and Set-off (Saldokonto, Zápočet)
 summary: Balance confirmations of a partner's open receivables and payables as of a date, with a PDF to countersign, and set-off agreements that clear mutual receivables and payables in the books.
-verified: 19.0.1.2.1
+verified: 19.0.1.2.2
 ---
 
 ## What it is for {#purpose}

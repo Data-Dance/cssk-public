@@ -1,7 +1,7 @@
 ---
 title: Dohadné položky CZ/SK
 summary: Zaúčtování odhadu nákladu nebo výnosu, ke kterému do konce období nepřišla faktura, a jeho vyrovnání se skutečnou fakturou tak, aby v novém období zůstal jen rozdíl.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## K čemu slouží {#purpose}

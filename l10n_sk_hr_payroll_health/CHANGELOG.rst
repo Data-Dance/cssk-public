@@ -10,6 +10,14 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.2.1] — 2026-10-27
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 

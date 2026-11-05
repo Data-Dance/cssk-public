@@ -1,7 +1,7 @@
 ---
 title: CZ Corporate Income Tax Return (DPPDP9)
 summary: The Czech corporate income tax return — row 10 from the books, the accountant's adjustments, the tax computation of Part II, and an EPO file checked against the Financial Administration's schema, with the balance sheet and profit and loss statement filed inside it.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## What it is for {#purpose}

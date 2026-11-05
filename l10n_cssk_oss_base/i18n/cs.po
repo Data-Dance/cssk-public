@@ -131,6 +131,11 @@ msgid ""
 "                                from the company's rate table must be checked\n"
 "                                and confirmed before export."
 msgstr ""
+"Částky nefakturované v EUR se přepočítávají referenčním\n"
+"                                kurzem ECB k poslednímu dni čtvrtletí\n"
+"                                (nebo následujícího dne vyhlášení). Kurzy navržené\n"
+"                                z kurzovní tabulky společnosti je nutné před exportem\n"
+"                                zkontrolovat a potvrdit."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_attachment_count
@@ -234,7 +239,7 @@ msgstr "Země"
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Vytvořeno uživatelem"
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__create_date
@@ -243,7 +248,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Vytvořeno dne"
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__currency_id
@@ -254,7 +259,7 @@ msgstr "Měna"
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__active_submission_id
 msgid "Current submission"
-msgstr ""
+msgstr "Aktuální doručení"
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__date_from
@@ -272,6 +277,8 @@ msgid ""
 "Day of the ECB fixing used: the reference date, or the next day of "
 "publication when none was published for it."
 msgstr ""
+"Den použitého fixingu ECB: referenční datum, nebo následující den vyhlášení,"
+" pokud k němu kurz vyhlášen nebyl."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__submission_state
@@ -286,7 +293,7 @@ msgstr "Doručení"
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_res_company__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný název"
 
 #. module: l10n_cssk_oss_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_oss_base.cssk_oss_return_view_form
@@ -335,6 +342,9 @@ msgid ""
 " latest one; after a reset → recompute → resubmit cycle the previously-filed"
 " copies stay reachable here."
 msgstr ""
+"Všechna XML, která byla kdy pro toto podání označena jako podaná. „Podané "
+"XML“ je poslední z nich; po cyklu obnovení → přepočet → opětovné podání zde "
+"zůstávají dostupné i dříve podané kopie."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__rate_ids
@@ -440,6 +450,8 @@ msgid ""
 "Identifier of the import batch or source document this filing was "
 "materialised from, so a figure can be traced back to what produced it."
 msgstr ""
+"Identifikátor importní dávky nebo zdrojového dokladu, ze kterého bylo toto "
+"podání vytvořeno, aby se údaj dal dohledat k jeho původu."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__message_needaction
@@ -475,7 +487,7 @@ msgstr "Účetní položky"
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Naposledy upraveno uživatelem"
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__write_date
@@ -484,7 +496,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_rate__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Naposledy upraveno dne"
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_rate__reference_date
@@ -492,6 +504,8 @@ msgid ""
 "Last day of the quarter the converted amounts belong to — this return's, or "
 "the corrected quarter's."
 msgstr ""
+"Poslední den čtvrtletí, ke kterému přepočtené částky patří – tohoto "
+"přiznání, nebo opravovaného čtvrtletí."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_correction__is_manual
@@ -520,6 +534,7 @@ msgstr "Stát identifikace"
 msgid ""
 "Member state of identification whose tax administration receives this form."
 msgstr ""
+"Členský stát identifikace, jehož správci daně se tento formulář podává."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return_line__origin_country_id
@@ -527,6 +542,8 @@ msgid ""
 "Member state of identification, or the member state of a fixed establishment"
 " / from which the goods were dispatched."
 msgstr ""
+"Členský stát identifikace, nebo členský stát stálé provozovny / ze kterého "
+"bylo zboží odesláno."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_has_error
@@ -675,6 +692,9 @@ msgid ""
 "identification changed): the first day the return covers. Emitted as the "
 "form's period start date."
 msgstr ""
+"Pouze pokud registrace začala během čtvrtletí (nebo se změnil členský stát "
+"identifikace): první den, za který se přiznání podává. Uvádí se jako datum "
+"začátku období formuláře."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,help:l10n_cssk_oss_base.field_cssk_oss_return__partial_date_to
@@ -682,6 +702,8 @@ msgid ""
 "Only when the registration ended during the quarter: the last day the return"
 " covers."
 msgstr ""
+"Pouze pokud registrace skončila během čtvrtletí: poslední den, za který se "
+"přiznání podává."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields.selection,name:l10n_cssk_oss_base.selection__cssk_oss_return__state__preview
@@ -774,7 +796,7 @@ msgstr "Přiznání"
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__legacy_stated_codes
 msgid "Rows the source states"
-msgstr ""
+msgstr "Řádky, které zdroj uvádí"
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__message_has_sms_error
@@ -842,6 +864,9 @@ msgid ""
 "verzePis). Pinned by hand in the country module's data/SCHEMA_VERSION: "
 "nothing in the XSD can say it is stale."
 msgstr ""
+"Verze struktury, kterou XML deklaruje, pokud ji formulář obsahuje (EPO "
+"verzePis). Nastavuje se ručně v souboru data/SCHEMA_VERSION modulu dané "
+"země: nic v XSD nedokáže říct, že je zastaralá."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return__submission_reference
@@ -911,6 +936,8 @@ msgid ""
 "The OSS VAT actually posted on the documents in scope, converted the same "
 "way. Checked against the computed VAT by a kontrola."
 msgstr ""
+"DPH v režimu OSS skutečně zaúčtovaná na dokladech v rozsahu, přepočtená "
+"stejným způsobem. Porovnává se s vypočtenou DPH v kontrole."
 
 #. module: l10n_cssk_oss_base
 #. odoo-python
@@ -946,6 +973,9 @@ msgid ""
 "\n"
 "A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
 msgstr ""
+"Kódy řádků, které mohlo obsahovat vlastní podání zdrojového systému, oddělené čárkou; zapisuje je migrace, která tento záznam vytvořila.\n"
+"\n"
+"Zdroj tiskopis uchovává jen zřídka: PREMIER drží deset souhrnných údajů tam, kde slovenské přiznání má třicet sedm řádků. Každý řádek, který zdroj uvést neumí, zde chybí ze strukturálního důvodu, ne proto, že by ho podání vynechalo – srovnání proto takové řádky uvádí jako informativní, ne jako rozdíly. Je-li pole prázdné, každý řádek se považuje za takový, který zdroj uvést mohl, což je správné čtení podání zachyceného ručně."
 
 #. module: l10n_cssk_oss_base
 #. odoo-python
@@ -1027,6 +1057,8 @@ msgid ""
 "VAT or tax reference number assigned by the 'supplied from' state, when that"
 " is not the member state of identification."
 msgstr ""
+"DIČ nebo daňové identifikační číslo přidělené státem, ze kterého se dodává, "
+"pokud to není členský stát identifikace."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__valid_from
@@ -1064,6 +1096,8 @@ msgid ""
 "Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
 " it was captured if by hand."
 msgstr ""
+"Odkud podání pochází, např. „PREMIER“, „Money S4“, „i6“, „MRP“ – nebo jak "
+"bylo zachyceno, pokud ručně."
 
 #. module: l10n_cssk_oss_base
 #: model:ir.model.fields,field_description:l10n_cssk_oss_base.field_cssk_oss_return_version__xml_template_ref_id

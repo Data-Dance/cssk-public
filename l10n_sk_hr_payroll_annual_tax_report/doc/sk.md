@@ -1,7 +1,7 @@
 ---
 title: SK Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti
 summary: Ročné hlásenie zamestnávateľa o príjmoch zo závislej činnosti, zrazených preddavkoch na daň a daňovom bonuse, s údajmi o každom zamestnancovi, zostavené z výplatných pások roka ako XML pre finančnú správu.
-verified: 19.0.2.0.3
+verified: 19.0.2.0.4
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Czech Accounting Localization — full suite
 summary: Installs the Czech statutory localization in one step and offers the optional pieces as switches in the settings.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}

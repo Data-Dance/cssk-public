@@ -1,0 +1,148 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* currency_rate_update_sk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: cs_CZ\n"
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields,help:currency_rate_update_sk.field_res_currency_rate_provider__fill_missing_days
+msgid ""
+"After each update, carry the last published rate forward to weekends and "
+"holidays so every calendar day in the synced range has a rate. Idempotent — "
+"never overwrites a published rate."
+msgstr ""
+"Po každé aktualizaci přenést poslední vyhlášený kurz na víkendy a svátky, "
+"aby měl každý kalendářní den v synchronizovaném rozsahu kurz. Opakované "
+"spuštění nic nemění – vyhlášený kurz se nikdy nepřepíše."
+
+#. module: currency_rate_update_sk
+#: model:ir.model,name:currency_rate_update_sk.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Položka bankovního výpisu"
+
+#. module: currency_rate_update_sk
+#: model:ir.model,name:currency_rate_update_sk.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: currency_rate_update_sk
+#: model:ir.actions.server,name:currency_rate_update_sk.action_sk_default_provider
+#: model_terms:ir.ui.view,arch_db:currency_rate_update_sk.res_currency_rate_provider_list_sk_default
+msgid "Create the Slovak default provider"
+msgstr "Vytvořit výchozího slovenského poskytovatele"
+
+#. module: currency_rate_update_sk
+#. odoo-python
+#: code:addons/currency_rate_update_sk/models/res_currency_rate_provider_default.py:0
+msgid "Created %s provider(s)."
+msgstr "Vytvořeno poskytovatelů: %s."
+
+#. module: currency_rate_update_sk
+#. odoo-python
+#: code:addons/currency_rate_update_sk/models/res_currency_rate_provider_default.py:0
+msgid ""
+"Creating a rate provider needs Settings access. Ask an administrator to run "
+"this."
+msgstr ""
+"Vytvoření poskytovatele kurzů vyžaduje přístup do Nastavení. Požádejte o "
+"spuštění administrátora."
+
+#. module: currency_rate_update_sk
+#: model:ir.model,name:currency_rate_update_sk.model_res_currency
+msgid "Currency"
+msgstr "Měna"
+
+#. module: currency_rate_update_sk
+#: model:ir.model,name:currency_rate_update_sk.model_res_currency_rate_provider
+msgid "Currency Rates Provider"
+msgstr "Poskytovatel kurzů měn"
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_account_move__display_name
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_account_payment__display_name
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_company__display_name
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_currency__display_name
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_currency_rate_provider__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_currency_rate_provider__fill_missing_days
+msgid "Fill non-publishing days"
+msgstr "Doplnit dny bez vyhlášení kurzu"
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_account_move__id
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_account_move_line__id
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_account_payment__id
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_company__id
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_currency__id
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_currency_rate_provider__id
+msgid "ID"
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.model,name:currency_rate_update_sk.model_account_move
+msgid "Journal Entry"
+msgstr "Účetní záznam"
+
+#. module: currency_rate_update_sk
+#: model:ir.model,name:currency_rate_update_sk.model_account_move_line
+msgid "Journal Item"
+msgstr "Účetní položka"
+
+#. module: currency_rate_update_sk
+#. odoo-python
+#: code:addons/currency_rate_update_sk/models/res_currency_rate_provider_default.py:0
+msgid ""
+"Nothing to create: every Slovak company already has an ECB provider, or has "
+"no active foreign currency to fetch."
+msgstr ""
+"Není co vytvořit: každá slovenská společnost již má poskytovatele ECB, nebo "
+"nemá žádnou aktivní cizí měnu ke stažení."
+
+#. module: currency_rate_update_sk
+#: model:ir.model,name:currency_rate_update_sk.model_account_payment
+msgid "Payments"
+msgstr "Platby"
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields,field_description:currency_rate_update_sk.field_res_currency_rate_provider__service
+msgid "Provider"
+msgstr "Poskytovatel"
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields.selection,name:currency_rate_update_sk.selection__res_currency_rate_provider__service__tb
+msgid "Tatra banka"
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.model.fields.selection,name:currency_rate_update_sk.selection__res_currency_rate_provider__service__vub
+msgid "VÚB banka"
+msgstr ""
+
+#. module: currency_rate_update_sk
+#: model:ir.module.module,shortdesc:base.module_currency_rate_update_sk
+msgid "Currency Rate Update SK (NBS/ECB + Slovak banks)"
+msgstr "Aktualizace směnných kurzů SK (NBS/ECB + slovenské banky)"
+
+#. module: currency_rate_update_sk
+#: model:ir.module.module,summary:base.module_currency_rate_update_sk
+msgid ""
+"Slovak FX-rate providers for OCA currency_rate_update: ECB reference rate "
+"(NBS statutory) with previous-day fill, plus VÚB and Tatra banka commercial "
+"rate lists."
+msgstr ""

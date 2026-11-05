@@ -1,7 +1,7 @@
 ---
 title: SK OSS VAT Return (DPOSS_EU, Union scheme)
 summary: The Slovak One-Stop-Shop return for the Union scheme as the Finančná správa eForm DPOSS_EUv01, on the EU-wide return structure, validated against the official schema.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## What it is for {#purpose}

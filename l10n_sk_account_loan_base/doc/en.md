@@ -1,7 +1,7 @@
 ---
 title: SK Leasing and Loans (finančný prenájom)
 summary: Slovak account defaults for finance leases and loans — 474, 474100, 562 and 022 — applied to whichever loan engine your edition runs.
-verified: 19.0.1.0.4
+verified: 19.0.1.0.5
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK OSS VAT Return (Union scheme)
 summary: The quarterly One-Stop-Shop VAT return for distance sales and services to consumers in other EU states — computed from Odoo's OSS taxes, converted to euro at the ECB rate, with corrections of earlier quarters.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}

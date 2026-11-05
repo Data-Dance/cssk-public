@@ -1,7 +1,7 @@
 ---
 title: CZ spolehlivost dodavatele — ADIS
 summary: Český registr pro kontrolu spolehlivosti dodavatele — nespolehlivý plátce a zveřejněné bankovní účty ze služby ADIS Ministerstva financí.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 family: l10n_cssk_payment_reliability#cz-provider
 ---
 

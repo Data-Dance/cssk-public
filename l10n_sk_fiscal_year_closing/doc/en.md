@@ -1,7 +1,7 @@
 ---
 title: SK Year-End Closing (accounts 701 / 702 / 710)
 summary: Closes the Slovak books at year end through the closing accounts 710, 702 and 701, and makes those accounts postable in the first place.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 ---
 
 ## What it is for {#purpose}

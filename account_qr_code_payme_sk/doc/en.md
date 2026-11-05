@@ -1,7 +1,7 @@
 ---
 title: payme (Slovakia)
 summary: Prints a Slovak payme payment link as a QR code on customer invoices; scanning it opens the customer's banking app with the payment filled in.
-verified: 19.0.1.2.1
+verified: 19.0.1.2.2
 ---
 
 ## What it is for {#purpose}

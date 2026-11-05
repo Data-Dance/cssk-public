@@ -1,7 +1,7 @@
 ---
 title: MIS Builder Column Breakdown
 summary: Split a MIS Builder column into one column per journal, partner, company, product or any other field, followed by the total.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

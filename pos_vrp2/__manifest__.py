@@ -1,6 +1,6 @@
 {
     "name": "POS VRP2 Integration",
-    "version": "19.0.5.1.1",
+    "version": "19.0.5.1.2",
     "author": "Data Dance s.r.o.",
     "category": "Point of Sale",
     "summary": "Integrate Odoo POS with Slovak Virtual Cash Register (VRP 2)",

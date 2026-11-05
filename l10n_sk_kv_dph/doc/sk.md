@@ -1,7 +1,7 @@
 ---
 title: Kontrolný výkaz DPH (KV DPH)
 summary: Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.
-verified: 19.0.2.5.0
+verified: 19.0.2.5.1
 ---
 
 ## Na čo slúži {#purpose}

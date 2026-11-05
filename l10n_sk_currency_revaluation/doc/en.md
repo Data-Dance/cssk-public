@@ -1,7 +1,7 @@
 ---
 title: SK Foreign-Currency Revaluation (kurzové rozdiely)
 summary: Revalues foreign-currency balances at the reference rate of the balance-sheet date and books the differences on 563 and 663 — with the OCA wizard on Community and Odoo's adjustment entry on Enterprise.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.1
 ---
 
 ## What it is for {#purpose}

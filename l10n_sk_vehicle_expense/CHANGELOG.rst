@@ -15,6 +15,14 @@ Fixed
   accounts: Odoo drops a string domain when it copies a field into a related
   one.
 
+[19.0.1.1.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.1.1] — 2026-11-04
 -------------------------
 

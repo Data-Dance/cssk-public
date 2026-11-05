@@ -1,7 +1,7 @@
 ---
 title: QR Platba (Česká republika)
 summary: Tiskne na faktury odběratelům český platební kód QR Platba s variabilním, konstantním a specifickým symbolem jako samostatnými údaji.
-verified: 19.0.1.1.4
+verified: 19.0.1.1.5
 ---
 
 ## K čemu slouží {#purpose}

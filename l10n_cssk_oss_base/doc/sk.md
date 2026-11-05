@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k DPH OSS CZ/SK (úprava pre Úniu)
 summary: Štvrťročné daňové priznanie v osobitnej úprave pre predaj tovaru na diaľku a služby spotrebiteľom v iných štátoch EÚ — z daní OSS v Odoo, prepočítané na eurá kurzom ECB, s opravami predchádzajúcich štvrťrokov.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## Na čo slúži {#purpose}

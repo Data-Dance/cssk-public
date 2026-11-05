@@ -16,6 +16,14 @@ Carry-over to 18.0
   wrong-currency movement as delivered. Port ``_fio_check_currency`` /
   ``_fio_foreign_amount_vals`` and the four tests.
 
+[19.0.2.4.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues: translated the strings that were still English.
+
 [19.0.2.4.1] — 2026-10-27
 -------------------------
 

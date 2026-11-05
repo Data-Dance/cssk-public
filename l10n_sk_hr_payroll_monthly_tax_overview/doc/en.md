@@ -1,7 +1,7 @@
 ---
 title: SK Monthly Tax Overview (Prehľad)
 summary: The monthly overview of income-tax advances withheld from employees and the child tax bonus paid, generated from the month's payslips as XML for the Slovak financial administration.
-verified: 19.0.2.1.1
+verified: 19.0.2.1.2
 ---
 
 ## What it is for {#purpose}

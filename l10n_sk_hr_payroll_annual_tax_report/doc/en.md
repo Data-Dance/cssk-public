@@ -1,7 +1,7 @@
 ---
 title: SK Annual Tax Report (Hlásenie)
 summary: The employer's annual report on employment income, withheld tax advances and the child tax bonus, with one annex column per employee, generated from the year's payslips as XML for the Slovak financial administration.
-verified: 19.0.2.0.3
+verified: 19.0.2.0.4
 ---
 
 ## What it is for {#purpose}

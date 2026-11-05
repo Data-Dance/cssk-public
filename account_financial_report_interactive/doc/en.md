@@ -1,7 +1,7 @@
 ---
 title: Interactive General Ledger and Trial Balance
 summary: Open the OCA general ledger and trial balance in the browser - unfold an account to load its journal items, compare periods, step through periods, and act on any line.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## What it is for {#purpose}

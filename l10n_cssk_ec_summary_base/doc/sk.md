@@ -1,7 +1,7 @@
 ---
 title: Súhrnný výkaz CZ/SK
 summary: Spoločné obrazovky a postup slovenského súhrnného výkazu a českého souhrnného hlášení — jeden riadok na odberateľa, IČ DPH a kód plnenia, skontrolovaný a exportovaný do XML.
-verified: 19.0.1.7.1
+verified: 19.0.1.7.2
 ---
 
 ## Na čo slúži {#purpose}

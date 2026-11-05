@@ -1,7 +1,7 @@
 ---
 title: Automatické dopĺňanie partnerov zo slovenských registrov (ORSF)
 summary: Dopĺňa slovenské kontakty zo štátnych registrov cez ORSF — identifikáciu, adresu, IČ DPH, DIČ, zápis v registri, stav a predmety podnikania — a aktualizuje veľa kontaktov naraz.
-verified: 19.0.1.4.1
+verified: 19.0.1.4.2
 ---
 
 ## Na čo slúži {#purpose}

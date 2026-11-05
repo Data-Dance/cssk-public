@@ -1,7 +1,7 @@
 ---
 title: Open Advances Saldo (XLSX)
 summary: A spreadsheet of issued and received advance invoices with what was paid, covered by tax documents, deducted and is still open.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: CZ status k DPH (plátce / identifikovaná osoba / neplátce)
 summary: Eviduje, kdy byla česká společnost plátcem, identifikovanou osobou nebo neplátcem, a každou fakturu, přiznání k DPH i kontrolní hlášení zdaní podle statusu ke dni daného dokladu.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## K čemu slouží {#purpose}

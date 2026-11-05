@@ -1,7 +1,7 @@
 ---
 title: CZ Hlášení zdravotním pojišťovnám (PPPZ, HOZ)
 summary: Dvě hlášení zaměstnavatele zdravotním pojišťovnám — měsíční přehled o platbě pojistného (PPPZ) sečtený z výplatních pásek a hromadné oznámení zaměstnavatele (HOZ) o nástupech a odchodech zaměstnanců — jako XML za každou pojišťovnu.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## K čemu slouží {#purpose}

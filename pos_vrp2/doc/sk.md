@@ -1,7 +1,7 @@
 ---
 title: Miesto predaja — SK virtuálna registračná pokladnica (VRP2)
 summary: Zaeviduje každú zaplatenú objednávku z Miesta predaja vo virtuálnej registračnej pokladnici finančnej správy (VRP 2) — predaj s položkami a sadzbami DPH, vrátenie tovaru k pôvodnému dokladu, fakturované objednávky ako úhradu faktúry — a vytlačí fiškálne údaje na doklad z pokladne.
-verified: 19.0.5.1.1
+verified: 19.0.5.1.2
 ---
 
 ## Na čo slúži {#purpose}

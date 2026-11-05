@@ -1,7 +1,7 @@
 ---
 title: SK Daňové priznanie k DPH
 summary: Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.
-verified: 19.0.1.14.0
+verified: 19.0.1.14.1
 ---
 
 ## Na čo slúži {#purpose}

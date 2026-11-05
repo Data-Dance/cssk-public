@@ -1,7 +1,7 @@
 ---
 title: SK DPPO — Comparison with the Financial Statements
 summary: Compares row r100 of the Slovak income tax return with the profit before tax in the financial statements of the same period.
-verified: 19.0.1.1.3
+verified: 19.0.1.1.4
 family: l10n_sk_dppo#zavierka
 ---
 

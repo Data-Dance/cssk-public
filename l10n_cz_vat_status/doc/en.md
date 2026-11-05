@@ -1,7 +1,7 @@
 ---
 title: CZ VAT Status (plátce / identifikovaná osoba / neplátce)
 summary: Records when the Czech company was a VAT payer, an identified person or a non-payer, and taxes every invoice, bill, DPHDP3 and kontrolní hlášení by the status on the document's own date.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

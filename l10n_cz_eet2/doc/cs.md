@@ -1,7 +1,7 @@
 ---
 title: Česká EET 2.0 (elektronická evidence tržeb)
 summary: Eviduje kontaktní platby přijaté mimo pokladnu — hotovost, kartu nebo QR kód zaplacený u pultu — v českém systému EET 2.0, uchovává každou datovou zprávu s potvrzovacím kódem, opakuje odeslání, dokud ji správce daně nepřijme, a sám obnovuje pokladní certifikát.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.1
 ---
 
 ## K čemu slouží {#purpose}

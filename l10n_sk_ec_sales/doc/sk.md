@@ -1,7 +1,7 @@
 ---
 title: SK Súhrnný výkaz
 summary: Slovenský súhrnný výkaz vypočítaný z daní pre dodania do EÚ v slovenskej účtovej osnove Odoo a exportovaný do XML finančnej správy podľa vzoru platného pre dané obdobie.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## Na čo slúži {#purpose}

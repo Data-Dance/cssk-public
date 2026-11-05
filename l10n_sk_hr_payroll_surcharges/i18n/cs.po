@@ -1,0 +1,630 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_sk_hr_payroll_surcharges
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: cs_CZ\n"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_job__l10n_sk_wage_level__1
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_version__l10n_sk_wage_level__1
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__l10n_sk_minimum_wage__level__1
+msgid "1 — pomocné práce"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_job__l10n_sk_wage_level__2
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_version__l10n_sk_wage_level__2
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__l10n_sk_minimum_wage__level__2
+msgid "2 — jednoduché odborné práce"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_job__l10n_sk_wage_level__3
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_version__l10n_sk_wage_level__3
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__l10n_sk_minimum_wage__level__3
+msgid "3 — odborné práce"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_job__l10n_sk_wage_level__4
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_version__l10n_sk_wage_level__4
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__l10n_sk_minimum_wage__level__4
+msgid "4 — zložité odborné práce"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_job__l10n_sk_wage_level__5
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_version__l10n_sk_wage_level__5
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__l10n_sk_minimum_wage__level__5
+msgid "5 — veľmi zložité odborné práce"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_job__l10n_sk_wage_level__6
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__hr_version__l10n_sk_wage_level__6
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_surcharges.selection__l10n_sk_minimum_wage__level__6
+msgid "6 — vysoko špecializované práce"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.actions.act_window,help:l10n_sk_hr_payroll_surcharges.l10n_sk_minimum_wage_action
+msgid "Add a minimum wage claim"
+msgstr "Přidat minimální mzdový nárok"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.actions.act_window,help:l10n_sk_hr_payroll_surcharges.l10n_sk_wage_surcharge_rate_action
+msgid "Add a wage surcharge rate"
+msgstr "Přidat sazbu mzdového příplatku"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__create_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__date_from
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__date_from
+msgid "Date From"
+msgstr "Datum od"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__stazeny_pct
+msgid "Difficult conditions %"
+msgstr "Ztížené pracovní prostředí %"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_wage_level
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_wage_level
+msgid ""
+"Difficulty level of the job (§ 120 ods. 3 Zákonníka práce). Sets the minimum"
+" wage claim the achieved wage is topped up to. Left empty it is treated as "
+"level 1, the plain minimum wage."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__level
+msgid ""
+"Difficulty level of the job per § 120 ods. 3 and the Annex 1 to the Zákonník"
+" práce."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_job__l10n_sk_wage_level
+msgid ""
+"Difficulty level of this post (§ 120 ods. 3 and Annex 1 to the Zákonník "
+"práce). New contracts on this job start from it. Left empty, contracts fall "
+"back to level 1 — the plain minimum wage."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_job__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_sk_surcharge_payslip_mixin__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_minimum_wage_view_search
+msgid "Effective From"
+msgstr "Platné od"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model,name:l10n_sk_hr_payroll_surcharges.model_hr_version
+msgid "Employee Contract"
+msgstr "Smlouva zaměstnance"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__date_from
+msgid "First day on which these percentages apply."
+msgstr "První den, od kterého se tato procenta použijí."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__date_from
+msgid ""
+"First day on which this claim applies. The Slovak minimum wage changes on 1 "
+"January."
+msgstr ""
+"První den, od kterého tento nárok platí. Slovenská minimální mzda se mění 1."
+" ledna."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__amount_hourly
+msgid "Hourly claim"
+msgstr "Hodinový nárok"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_job__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_sk_surcharge_payslip_mixin__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model,name:l10n_sk_hr_payroll_surcharges.model_hr_job
+msgid "Job Position"
+msgstr "Pracovní pozice"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__write_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_surcharges/models/l10n_sk_minimum_wage.py:0
+msgid "Level %(level)s from %(date)s"
+msgstr "Stupeň %(level)s od %(date)s"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_minimum_wage_view_form
+msgid "Minimum Wage Claim"
+msgstr "Minimální mzdový nárok"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.actions.act_window,name:l10n_sk_hr_payroll_surcharges.l10n_sk_minimum_wage_action
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_surcharges.menu_l10n_sk_minimum_wage
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_minimum_wage_view_list
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_minimum_wage_view_search
+msgid "Minimum Wage Claims"
+msgstr "Minimální mzdové nároky"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_min_wage_warning
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_min_wage_warning
+msgid "Minimum Wage Warning"
+msgstr "Upozornění na minimální mzdu"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.actions.act_window,help:l10n_sk_hr_payroll_surcharges.l10n_sk_minimum_wage_action
+msgid ""
+"Minimálne mzdové nároky for the six stupne náročnosti práce\n"
+"                (§ 120 Zákonníka práce). The level-1 hourly figure is also the\n"
+"                base of the night, weekend and difficult-work surcharges."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__amount_monthly
+msgid "Minimálny mzdový nárok for a monthly-paid employee (EUR)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__amount_hourly
+msgid ""
+"Minimálny mzdový nárok per hour at a 40-hour week (EUR). A shorter "
+"established weekly working time raises it proportionally (§ 120 ods. 5)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__amount_monthly
+msgid "Monthly claim"
+msgstr "Měsíční nárok"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__name
+msgid "Name"
+msgstr "Název"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_pct
+msgid "Night work %"
+msgstr "Noční práce %"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_reduced_pct
+msgid "Night work % (reduced)"
+msgstr "Noční práce % (snížená)"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_risk_pct
+msgid "Night work % (risk)"
+msgstr "Noční práce % (riziková)"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_surcharges/models/l10n_sk_minimum_wage.py:0
+msgid ""
+"No Slovak minimum-wage claim is configured for level %(level)s as of "
+"%(date)s. Add a Minimum Wage record before computing payslips."
+msgstr ""
+"Pro stupeň %(level)s není k %(date)s nastaven žádný slovenský minimální "
+"mzdový nárok. Před výpočtem výplatních pásek přidejte záznam minimální mzdy."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_surcharges/models/l10n_sk_wage_surcharge_rate.py:0
+msgid ""
+"No Slovak wage-surcharge rates are configured as of %(date)s. Add a Wage "
+"Surcharge Rate record before computing surcharges."
+msgstr ""
+"K %(date)s nejsou nastaveny žádné sazby slovenských mzdových příplatků. Před"
+" výpočtem příplatků přidejte záznam sazby mzdového příplatku."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_surcharges.constraint_l10n_sk_minimum_wage_date_level_uniq
+msgid "Only one minimum-wage claim per start date and difficulty level."
+msgstr ""
+"Pro jedno datum začátku a stupeň náročnosti smí existovat jen jeden "
+"minimální mzdový nárok."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_surcharges.constraint_l10n_sk_wage_surcharge_rate_date_uniq
+msgid "Only one wage-surcharge rate record per start date."
+msgstr ""
+"Pro jedno datum účinnosti smí existovat jen jeden záznam sazeb příplatků."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nadcas_pct
+msgid "Overtime %"
+msgstr "Práce přesčas %"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nadcas_risk_pct
+msgid "Overtime % (risk)"
+msgstr "Přesčas % (riziková práce)"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_wage_surcharge_rate_view_form
+msgid "Percentage of average earnings (§ 134)"
+msgstr "Procento průměrného výdělku (§ 134)"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_wage_surcharge_rate_view_form
+msgid "Percentage of the minimum hourly wage"
+msgstr "Procento minimální hodinové mzdy"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__sviatok_pct
+msgid "Public holiday %"
+msgstr "Svátek %"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_saturday_reduced
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_saturday_reduced
+msgid "Reduced Saturday rate agreed"
+msgstr "Sjednána snížená sazba za sobotu"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_sunday_reduced
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_sunday_reduced
+msgid "Reduced Sunday rate agreed"
+msgstr "Sjednána snížená sazba za neděli"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_night_reduced
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_night_reduced
+msgid "Reduced night rate agreed"
+msgstr "Sjednána snížená sazba za noční práci"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_risk_work
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_risk_work
+msgid "Riziková práca"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__sobota_pct
+msgid "Saturday %"
+msgstr "Sobota %"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__sobota_reduced_pct
+msgid "Saturday % (reduced)"
+msgstr "Sobota % (snížená)"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_min_wage_warning
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_min_wage_warning
+msgid ""
+"Set when the agreed wage falls below the § 120 minimum wage claim for this "
+"contract's difficulty level."
+msgstr ""
+"Nastaví se, pokud sjednaná mzda klesne pod minimální mzdový nárok podle § "
+"120 pro stupeň náročnosti této smlouvy."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model,name:l10n_sk_hr_payroll_surcharges.model_l10n_sk_minimum_wage
+msgid "Slovak Minimum Wage Claim (stupeň náročnosti)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model,name:l10n_sk_hr_payroll_surcharges.model_sk_surcharge_payslip_mixin
+msgid "Slovak Wage Surcharge Payslip Mixin"
+msgstr "Slovenské mzdové příplatky – mixin výplatní pásky"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model,name:l10n_sk_hr_payroll_surcharges.model_l10n_sk_wage_surcharge_rate
+msgid "Slovak Wage Surcharge Rate"
+msgstr "Slovenská sazba mzdového příplatku"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_surcharges.menu_l10n_sk_priplatky_root
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.hr_version_view_form_l10n_sk_priplatky
+msgid "Slovak Wage Surcharges"
+msgstr "Slovenské mzdové příplatky"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__standard_weekly_hours
+msgid "Standard weekly hours"
+msgstr "Stanovená týdenní pracovní doba"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__pohotovost_pct
+msgid "Standby %"
+msgstr "Pohotovost %"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.actions.act_window,help:l10n_sk_hr_payroll_surcharges.l10n_sk_wage_surcharge_rate_action
+msgid ""
+"Statutory minimum surcharges for night, weekend, public-holiday\n"
+"                and overtime work (§§ 121–124 Zákonníka práce). Create a new\n"
+"                dated record to raise them above the statutory floor."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_wage_level
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_job__l10n_sk_wage_level
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_wage_level
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_minimum_wage__level
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_minimum_wage_view_search
+msgid "Stupeň náročnosti"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_sk_surcharge_payslip_mixin__l10n_sk_surcharge_total
+msgid ""
+"Sum of every statutory wage surcharge on this payslip. Shown for reference; "
+"the individual amounts are separate payslip lines."
+msgstr ""
+"Součet všech zákonných příplatků ke mzdě na této výplatní pásce. Jen pro "
+"informaci; jednotlivé částky jsou samostatné řádky výplatní pásky."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nedela_pct
+msgid "Sunday %"
+msgstr "Neděle %"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nedela_reduced_pct
+msgid "Sunday % (reduced)"
+msgstr "Neděle % (snížená)"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_surcharges.menu_l10n_sk_wage_surcharge_rate
+msgid "Surcharge Rates"
+msgstr "Sazby příplatků"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_surcharges/models/hr_version.py:0
+msgid ""
+"The agreed wage of %(wage).2f is below the minimum wage claim of %(due).2f "
+"for stupeň náročnosti %(level)s (§ 120 Zákonníka práce). The payslip will "
+"top it up, but the contract itself does not meet the statutory minimum."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_surcharges/models/sk_surcharge_payslip_mixin.py:0
+msgid ""
+"The average-earnings helper is missing. Install one of the Slovak payroll "
+"modules (l10n_sk_hr_payroll_oca or l10n_sk_hr_payroll_ee) — the holiday and "
+"overtime surcharges are percentages of average earnings and cannot be "
+"computed without it."
+msgstr ""
+"Chybí pomocník pro výpočet průměrného výdělku. Nainstalujte jeden ze "
+"slovenských mzdových modulů (l10n_sk_hr_payroll_oca nebo "
+"l10n_sk_hr_payroll_ee) — příplatky za svátek a přesčas jsou procentem "
+"průměrného výdělku a bez něj je nelze vypočítat."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_risk_work
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_risk_work
+msgid ""
+"The work is classified in category 3 or 4 (riziková práca), raising the "
+"night surcharge to 50 % and the overtime surcharge to 35 %. It also rules "
+"out the reduced night rate."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__standard_weekly_hours
+msgid ""
+"Ustanovený týždenný pracovný čas per § 85 ods. 5 ZP — the reference week the"
+" hourly minimum-wage claims are stated against. § 120 ods. 5 raises those "
+"claims in proportion where the employer's established week is shorter. Dated"
+" here rather than hardcoded so an amendment is a data change."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_wage_surcharge_rate_view_form
+msgid "Wage Surcharge Rate"
+msgstr "Sazba mzdového příplatku"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.actions.act_window,name:l10n_sk_hr_payroll_surcharges.l10n_sk_wage_surcharge_rate_action
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_surcharges.l10n_sk_wage_surcharge_rate_view_list
+msgid "Wage Surcharge Rates"
+msgstr "Sazby mzdových příplatků"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_surcharges.field_sk_surcharge_payslip_mixin__l10n_sk_surcharge_total
+msgid "Wage Surcharges"
+msgstr "Příplatky ke mzdě"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_surcharges/models/l10n_sk_wage_surcharge_rate.py:0
+msgid "Wage surcharges from %(date)s"
+msgstr "Mzdové příplatky od %(date)s"
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nadcas_pct
+msgid ""
+"§ 121 ods. 1 — at least 25 % of average earnings on top of the wage for the "
+"overtime hour itself."
+msgstr ""
+"§ 121 odst. 1 — nejméně 25 % průměrného výdělku navíc ke mzdě za samotnou "
+"hodinu práce přesčas."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nadcas_risk_pct
+msgid ""
+"§ 121 ods. 1 — at least 35 % where the work is classified as risky (riziková"
+" práca)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__sviatok_pct
+msgid ""
+"§ 122 ods. 1 — at least 100 % of average earnings for work performed on a "
+"public holiday."
+msgstr "§ 122 odst. 1 — nejméně 100 % průměrného výdělku za práci ve svátek."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__sobota_pct
+msgid "§ 122a ods. 1 — at least 50 % of the minimum hourly wage."
+msgstr "§ 122a odst. 1 — nejméně 50 % minimální hodinové mzdy."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_saturday_reduced
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_saturday_reduced
+msgid ""
+"§ 122a ods. 2 — a collective agreement (or, at an employer with no trade "
+"union and fewer than 20 employees on 31 December of the previous year, the "
+"employment contract) sets the Saturday surcharge at the lower statutory "
+"floor because the nature of the work requires regular work on Saturdays."
+msgstr ""
+"§ 122a odst. 2 — kolektivní smlouva (nebo u zaměstnavatele bez odborové "
+"organizace s méně než 20 zaměstnanci k 31. prosinci předchozího roku "
+"pracovní smlouva) stanoví příplatek za sobotu na nižší zákonné hranici, "
+"protože povaha práce vyžaduje pravidelnou práci v sobotu."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__sobota_reduced_pct
+msgid ""
+"§ 122a ods. 2 — at least 45 %, agreed in a collective agreement (or in the "
+"employment contract at an employer with no trade union and fewer than 20 "
+"employees on 31 December of the previous year) where the nature of the work "
+"requires regular work on Saturdays."
+msgstr ""
+"§ 122a odst. 2 — nejméně 45 %, sjednáno v kolektivní smlouvě (nebo v "
+"pracovní smlouvě u zaměstnavatele bez odborové organizace s méně než 20 "
+"zaměstnanci k 31. prosinci předchozího roku), pokud povaha práce vyžaduje "
+"pravidelnou práci v sobotu."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nedela_pct
+msgid "§ 122b ods. 1 — at least 100 % of the minimum hourly wage."
+msgstr "§ 122b odst. 1 — nejméně 100 % minimální hodinové mzdy."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_sunday_reduced
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_sunday_reduced
+msgid ""
+"§ 122b ods. 2 — a collective agreement (or, at an employer with no trade "
+"union and fewer than 20 employees on 31 December of the previous year, the "
+"employment contract) sets the Sunday surcharge at the lower statutory floor "
+"because the nature of the work requires regular work on Sundays."
+msgstr ""
+"§ 122b odst. 2 — kolektivní smlouva (nebo u zaměstnavatele bez odborové "
+"organizace s méně než 20 zaměstnanci k 31. prosinci předchozího roku "
+"pracovní smlouva) stanoví příplatek za neděli na nižší zákonné hranici, "
+"protože povaha práce vyžaduje pravidelnou práci v neděli."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__nedela_reduced_pct
+msgid ""
+"§ 122b ods. 2 — at least 90 %, agreed in a collective agreement (or in the "
+"employment contract at an employer with no trade union and fewer than 20 "
+"employees on 31 December of the previous year) where the nature of the work "
+"requires regular work on Sundays."
+msgstr ""
+"§ 122b odst. 2 — nejméně 90 %, sjednáno v kolektivní smlouvě (nebo v "
+"pracovní smlouvě u zaměstnavatele bez odborové organizace s méně než 20 "
+"zaměstnanci k 31. prosinci předchozího roku), pokud povaha práce vyžaduje "
+"pravidelnou práci v neděli."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_pct
+msgid "§ 123 ods. 1 — at least 40 % of the minimum hourly wage."
+msgstr "§ 123 odst. 1 — nejméně 40 % minimální hodinové mzdy."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_risk_pct
+msgid ""
+"§ 123 ods. 1 — at least 50 % where the work is classified as risky (riziková"
+" práca)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_employee__l10n_sk_night_reduced
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_hr_version__l10n_sk_night_reduced
+msgid ""
+"§ 123 ods. 2 — a collective agreement (or, at an employer with no trade "
+"union and fewer than 20 employees on 31 December of the previous year, the "
+"employment contract) sets the night surcharge at the lower statutory floor "
+"because the predominant part of the work is performed at night. Ignored for "
+"risky work."
+msgstr ""
+"§ 123 odst. 2 — kolektivní smlouva (nebo u zaměstnavatele bez odborové "
+"organizace s méně než 20 zaměstnanci k 31. prosinci předchozího roku "
+"pracovní smlouva) stanoví příplatek za noční práci na nižší zákonné hranici,"
+" protože převážná část práce se vykonává v noci. U rizikové práce se "
+"nepoužije."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__noc_reduced_pct
+msgid ""
+"§ 123 ods. 2 — at least 35 %, agreed in a collective agreement (or in the "
+"employment contract at an employer with no trade union and fewer than 20 "
+"employees on 31 December of the previous year) where the predominant part of"
+" the work is performed at night; never for risky work."
+msgstr ""
+"§ 123 odst. 2 — nejméně 35 %, sjednáno v kolektivní smlouvě (nebo v pracovní"
+" smlouvě u zaměstnavatele bez odborové organizace s méně než 20 zaměstnanci "
+"k 31. prosinci předchozího roku), pokud se převážná část práce vykonává v "
+"noci; nikdy u rizikové práce."
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__stazeny_pct
+msgid ""
+"§ 124 ods. 3 — mzdová kompenzácia za sťažený výkon práce, at least 20 % of "
+"the minimum hourly wage."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_surcharges.field_l10n_sk_wage_surcharge_rate__pohotovost_pct
+msgid ""
+"§ 96 ods. 5 — at least 20 % of the minimum hourly wage for each hour of "
+"inactive standby away from the workplace."
+msgstr ""
+"§ 96 odst. 5 — nejméně 20 % minimální hodinové mzdy za každou hodinu "
+"neaktivní pracovní pohotovosti mimo pracoviště."

@@ -1,7 +1,7 @@
 ---
 title: CZ Financial Statements (Rozvaha / VZZ)
 summary: The Czech rozvaha, výkaz zisku a ztráty, přehled o peněžních tocích and přehled o změnách vlastního kapitálu computed from the ledger, ready to be filed with the corporate income tax return.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## What it is for {#purpose}

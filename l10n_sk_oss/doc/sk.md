@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k DPH OSS — úprava pre Úniu (DPOSS_EU)
 summary: Slovenské daňové priznanie v osobitnej úprave pre Úniu ako eFormulár Finančnej správy DPOSS_EUv01 v celoeurópskej štruktúre, overené voči úradnej schéme.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## Na čo slúži {#purpose}

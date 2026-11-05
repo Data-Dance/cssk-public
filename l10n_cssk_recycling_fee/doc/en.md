@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Recycling Fee (recyklační příspěvek / recyklačný poplatok)
 summary: The take-back fee for electrical equipment and batteries priced from your collective scheme's dated tariff, stated on every invoice line as the statutes require, and summed per category for your declaration to the scheme.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 ## What it is for {#purpose}

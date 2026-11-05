@@ -1,7 +1,7 @@
 ---
 title: SK lízing a úvery (finančný prenájom)
 summary: Slovenské predvolené účty pre finančný prenájom a úvery — 474, 474100, 562 a 022 — pre ten nástroj na úvery, ktorý beží vo vašej edícii.
-verified: 19.0.1.0.4
+verified: 19.0.1.0.5
 ---
 
 ## Na čo slúži {#purpose}

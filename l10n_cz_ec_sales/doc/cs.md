@@ -1,7 +1,7 @@
 ---
 title: Souhrnné hlášení CZ
 summary: České souhrnné hlášení — tiskopis EPO DPHSHV — vypočtené z daní pro plnění do EU v české účtové osnově Odoo a exportované jako XML pro EPO.
-verified: 19.0.1.4.0
+verified: 19.0.1.4.1
 ---
 
 ## K čemu slouží {#purpose}

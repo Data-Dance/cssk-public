@@ -1,7 +1,7 @@
 ---
 title: Kurzy měn pro Českou republiku (ČNB)
 summary: Stahuje denní kurz devizového trhu ČNB, sám založí poskytovatele a podporuje pevný měsíční kurz, přičemž skutečné denní kurzy uchovává pro přecenění k rozvahovému dni.
-verified: 19.0.1.3.2
+verified: 19.0.1.3.3
 ---
 
 ## K čemu slouží {#purpose}

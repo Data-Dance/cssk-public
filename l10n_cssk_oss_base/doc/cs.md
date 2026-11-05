@@ -1,7 +1,7 @@
 ---
 title: Přiznání k DPH OSS CZ/SK (režim Unie)
 summary: Čtvrtletní přiznání ve zvláštním režimu jednoho správního místa pro prodej zboží na dálku a služby spotřebitelům v jiných státech EU — z daní OSS v Odoo, přepočtené na eura kurzem ECB, s opravami předchozích čtvrtletí.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## K čemu slouží {#purpose}

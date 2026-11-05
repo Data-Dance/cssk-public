@@ -1,7 +1,7 @@
 ---
 title: Debit Notes — Data Dance refinements
 summary: Titles a printed customer debit note as a corrective tax document, hides the Credit Note button and lists customer debit notes with credit notes. Posting is left to Odoo.
-verified: 19.0.1.0.1
+verified: 19.0.1.0.2
 ---
 
 ## What it is for {#purpose}

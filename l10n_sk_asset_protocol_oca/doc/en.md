@@ -1,7 +1,7 @@
 ---
 title: SK Asset Protocols — Community (OCA asset register)
 summary: Prints the Slovak asset protocols from the OCA asset register used on Odoo Community.
-verified: 19.0.2.0.3
+verified: 19.0.2.0.4
 family: l10n_sk_asset_protocol_base#community
 ---
 

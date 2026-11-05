@@ -1,7 +1,7 @@
 ---
 title: PAY by square (Slovensko)
 summary: Tlačí na faktúry odberateľom slovenský platobný QR kód PAY by square s variabilným, konštantným a špecifickým symbolom ako samostatnými údajmi.
-verified: 19.0.1.2.2
+verified: 19.0.1.2.3
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK Virtual Cash Register (VRP2) — Connection
 summary: The connection to Finančná správa's virtual cash register (VRP 2) shared by the invoice-payment and Point of Sale modules.
-verified: 19.0.2.4.0
+verified: 19.0.2.4.1
 family: l10n_sk_vrp2_account#connection
 ---
 

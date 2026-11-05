@@ -1,7 +1,7 @@
 ---
 title: CZ Deferrals and Accruals (časové rozlišení)
 summary: Points Odoo's deferral tools at the Czech accounts 381, 383, 384 and 385 — the OCA cut-offs on Community, Odoo's own deferrals on Enterprise.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 ---
 
 ## What it is for {#purpose}

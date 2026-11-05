@@ -1,7 +1,7 @@
 ---
 title: Slovak Base Localization (DIČ)
 summary: Gives the Slovak DIČ — the income-tax identifier — its own field on contacts and companies, separate from the VAT number and the company registry number.
-verified: 19.0.2.0.0
+verified: 19.0.2.0.1
 ---
 
 ## What it is for {#purpose}

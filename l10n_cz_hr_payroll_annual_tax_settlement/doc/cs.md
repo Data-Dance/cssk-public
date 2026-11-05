@@ -1,7 +1,7 @@
 ---
 title: CZ Vyúčtování daně z příjmů ze závislé činnosti (DPZVD)
 summary: Roční vyúčtování daně z příjmů ze závislé činnosti zaměstnavatele pro Finanční správu — zálohy na daň za jednotlivé měsíce, měsíční počty zaměstnanců a příloha č. 1 (zaměstnanci podle obcí) jako XML pro EPO ve struktuře DPZVD6.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## K čemu slouží {#purpose}

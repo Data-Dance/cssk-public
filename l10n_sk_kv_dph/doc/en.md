@@ -1,7 +1,7 @@
 ---
 title: SK VAT Control Statement (KV DPH)
 summary: The Slovak kontrolný výkaz DPH — sections A.1 to D.2 computed from the books, checked against the form's requirements and exported as the Finančná správa XML in the form version in force for the period.
-verified: 19.0.2.5.0
+verified: 19.0.2.5.1
 ---
 
 ## What it is for {#purpose}

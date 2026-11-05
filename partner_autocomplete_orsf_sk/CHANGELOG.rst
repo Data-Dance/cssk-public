@@ -18,6 +18,14 @@ Fixed
   session and the gated endpoints stayed anonymous. The sign-in now sends the
   auth site's own origin, scheme and host only, which is the one ORSF trusts.
 
+[19.0.1.4.2] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.4.1] — 2026-10-27
 -------------------------
 

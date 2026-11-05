@@ -1,7 +1,7 @@
 ---
 title: Slovenská účtovná lokalizácia — kompletná sada
 summary: Nainštaluje slovenskú štatutárnu lokalizáciu jedným krokom, voliteľné časti ponúkne ako prepínače v nastaveniach a porovná výkazy DPH navzájom aj s účtovníctvom.
-verified: 19.0.1.4.3
+verified: 19.0.1.4.4
 ---
 
 ## Na čo slúži {#purpose}

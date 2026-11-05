@@ -1,7 +1,7 @@
 ---
 title: Point of Sale — Czech EET 2.0
 summary: Registers every paid Point of Sale order with the Czech EET 2.0 system at the moment of payment — the contact part of the payment only — prints the confirmation code on the receipt, and tells the customer when a sale will be reported later.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.1
 ---
 
 ## What it is for {#purpose}

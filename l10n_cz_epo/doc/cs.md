@@ -1,7 +1,7 @@
 ---
 title: EPO — kontrola a podání na Finanční správu
 summary: Podepíše česká podání kvalifikovaným certifikátem společnosti a odešle je do EPO — v testovacím režimu ke kontrole, nebo naostro k podání — a sleduje každé podání až do přijetí nebo odmítnutí.
-verified: 19.0.1.0.1
+verified: 19.0.1.0.2
 ---
 
 ## K čemu slouží {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK Asset Protocols (zaradenie and vyradenie)
 summary: The protocol on putting a fixed asset into use and the protocol on its disposal, printed from the asset register of either Odoo edition.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

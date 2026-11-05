@@ -1,7 +1,7 @@
 ---
 title: SK Virtual Cash Register (VRP2) — Invoice Payments
 summary: Registers the cash or card payment of a customer invoice in Finančná správa's virtual cash register (VRP 2) as a receipt for invoice payment, keeps the official receipt in Odoo, and cancels it by storno when needed.
-verified: 19.0.2.4.0
+verified: 19.0.2.4.1
 ---
 
 ## What it is for {#purpose}

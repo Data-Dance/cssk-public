@@ -1,7 +1,7 @@
 ---
 title: Slovak Intrastat (INTRASTAT-SK)
 summary: The monthly INTRASTAT-SK declaration of goods moved to and from other EU countries, generated from your invoices as the INSTAT XML file the Finančná správa portal imports — in Community on the OCA engine, in Enterprise on Odoo's own Intrastat report.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}

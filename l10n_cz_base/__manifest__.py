@@ -19,7 +19,7 @@ Provides the Czech-specific building blocks shared by other modules
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Localizations",
-    "version": "19.0.2.0.4",
+    "version": "19.0.2.0.5",
     "depends": ["account", "l10n_cssk_payment_symbols"],
     "data": [
         "views/res_partner_bank_views.xml",

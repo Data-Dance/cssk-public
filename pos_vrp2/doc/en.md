@@ -1,7 +1,7 @@
 ---
 title: Point of Sale — SK Virtual Cash Register (VRP2)
 summary: Registers every paid Point of Sale order in Finančná správa's virtual cash register (VRP 2) — sales itemized with their VAT rates, returns against the original receipt, invoiced orders as invoice payments — and prints the fiscal data on the till's ticket.
-verified: 19.0.5.1.1
+verified: 19.0.5.1.2
 ---
 
 ## What it is for {#purpose}

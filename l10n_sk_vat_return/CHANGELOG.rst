@@ -17,6 +17,14 @@ Carry-over to 18.0
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
 
+[19.0.1.14.1] — 2026-11-05
+--------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.
+
 [19.0.1.14.0] — 2026-11-04
 --------------------------
 

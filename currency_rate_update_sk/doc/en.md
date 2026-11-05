@@ -1,7 +1,7 @@
 ---
 title: Exchange Rates for Slovakia (ECB/NBS, VÚB, Tatra banka)
 summary: Downloads the ECB reference rate a Slovak company values foreign currency at, sets the provider up for you, fills weekends and holidays, and adds the VÚB and Tatra banka rate lists.
-verified: 19.0.1.1.2
+verified: 19.0.1.1.3
 ---
 
 ## What it is for {#purpose}

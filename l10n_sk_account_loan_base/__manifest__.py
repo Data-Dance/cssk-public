@@ -47,7 +47,7 @@ it is a period expense, handled by časové rozlíšenie
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.4",
+    "version": "19.0.1.0.5",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_sk"],

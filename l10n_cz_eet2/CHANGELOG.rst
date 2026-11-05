@@ -85,6 +85,14 @@ Carry-over to 18.0
   with ``l10n_cz_eet2_pos`` 19.0.1.1.0 and the new ``l10n_cz_eet2_pos_loyalty``.
   DISCHARGED 2026-10-31 by 7f51d0d1 on branch 18.0 (origin/18.0 ea53193a) — do not port this again.
 
+[19.0.1.3.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak catalogue: translated the strings that were still English.
+
 [19.0.1.1.0] — 2026-10-29
 -------------------------
 

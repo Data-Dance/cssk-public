@@ -1,0 +1,477 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_sk_hr_payroll_eldp
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: cs_CZ\n"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
+msgid ""
+"10-digit identification number assigned to the employer by the Sociálna "
+"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__sp_vs
+msgid ""
+"10-digit number the Sociálna poisťovňa assigned to the company. It is stored"
+" on the company and shared by every Sociálna poisťovňa filing (MVP, VPP, "
+"ELDP, RLFO)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akci"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimečné aktivity"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model,name:l10n_sk_hr_payroll_eldp.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: l10n_sk_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_eldp/models/l10n_sk_eldp.py:0
+msgid ""
+"Company '%(company)s' needs a 10-digit Sociálna poisťovňa identification "
+"number for the ELDP <icz> element. Fill in 'Sociálna poisťovňa variable "
+"symbol' on this form."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_eldp/models/l10n_sk_eldp.py:0
+msgid ""
+"Company '%(company)s' needs a city and a 5-digit ZIP for the ELDP employer "
+"address (korAdresa)."
+msgstr ""
+"Společnost „%(company)s“ potřebuje pro adresu zaměstnavatele v ELDP "
+"(korAdresa) město a pětimístné PSČ."
+
+#. module: l10n_sk_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_eldp/models/l10n_sk_eldp.py:0
+msgid ""
+"Company '%(company)s' needs an 8-digit IČO (Company Registry) for the ELDP "
+"<ico> element."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_reference
+msgid "Correction Reference"
+msgstr "Reference opravy"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__country_id
+msgid "Country"
+msgstr "Země"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__currency_id
+msgid "Currency"
+msgstr "Měna"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__active_submission_id
+msgid "Current submission"
+msgstr "Aktuální doručení"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__date_from
+msgid "Date From"
+msgstr "Datum od"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__date_to
+msgid "Date To"
+msgstr "Datum do"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submission_state
+msgid "Delivery"
+msgstr "Doručení"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_res_company__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.actions.act_window,name:l10n_sk_hr_payroll_eldp.action_l10n_sk_eldp
+msgid "ELDP (pension, annual)"
+msgstr "ELDP (důchodové pojištění, roční)"
+
+#. module: l10n_sk_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_eldp/models/l10n_sk_eldp.py:0
+msgid ""
+"Employee '%(name)s' needs a 9-10 digit birth number in the Identification "
+"No. field for the ELDP."
+msgstr ""
+"Zaměstnanec „%(name)s“ potřebuje pro ELDP v poli Identifikační č. rodné "
+"číslo o 9–10 číslicích."
+
+#. module: l10n_sk_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_eldp/models/l10n_sk_eldp.py:0
+msgid ""
+"Employee '%(name)s' needs a date of birth for the ELDP <datNarodenia> "
+"element."
+msgstr ""
+"Zaměstnanec „%(name)s“ potřebuje pro element ELDP <datNarodenia> datum "
+"narození."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__line_ids
+msgid "Employee declarations"
+msgstr "Hlášení zaměstnanců"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__lines_count
+msgid "Employees"
+msgstr "Zaměstnanci"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__filed_history_ids
+msgid "Filed history"
+msgstr "Historie podání"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.view_l10n_sk_eldp_form
+msgid "Generate"
+msgstr "Vygenerovat"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_has_error
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.view_l10n_sk_eldp_form
+msgid "Mark Submitted"
+msgstr "Označit jako podané"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba při doručování zprávy"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_ids
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__month
+msgid "Month"
+msgstr "Měsíc"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__name
+msgid "Name"
+msgstr "Název"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Další aktivita z kalendáře"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou při doručení"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__payment_date
+msgid ""
+"Payday reported to the authority (SK denVyplaty). Defaults to the period "
+"end."
+msgstr ""
+"Datum výplaty hlášené úřadu (SK denVyplaty). Výchozí hodnotou je konec "
+"období."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__payment_date
+msgid "Payment Date"
+msgstr "Datum výplaty"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.view_l10n_sk_eldp_form
+msgid "Reset to Draft"
+msgstr "Vrátit do konceptu"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_user_id
+msgid "Responsible User"
+msgstr "Odpovědný uživatel"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_eldp.menu_l10n_sk_eldp
+msgid "SK ELDP (pension)"
+msgstr "SK ELDP (důchodové pojištění)"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model,name:l10n_sk_hr_payroll_eldp.model_l10n_sk_eldp
+msgid "SK ELDP annual pension-insurance record sheet"
+msgstr "SK ELDP – roční evidenční list důchodového pojištění"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručení SMS"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__sp_vs
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
+msgid "Sociálna poisťovňa variable symbol"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po termínu: Termín již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Naplánováno: Budoucí aktivity."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submission_reference
+msgid "Submission Reference"
+msgstr "Reference podání"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submission_ids
+msgid "Submissions"
+msgstr "Podání"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submitted_date
+msgid "Submitted Date"
+msgstr "Datum odeslání"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pro vše, co opravuje dřívější podání."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Reference úřadu na opravované podání, pokud ji přijímající systém potřebuje "
+"ke spárování obou."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výjimečné aktivity na záznamu."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__version_id
+msgid "Version"
+msgstr "Verze"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__website_message_ids
+msgid "Website Messages"
+msgstr "Zprávy webu"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace na webu"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Zda jde o řádné podání za období, nebo o opravu již odeslaného. Volby jsou "
+"omezeny na to, co tento konkrétní úřad přijímá."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "Příloha XML"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__year
+msgid "Year"
+msgstr "Rok"

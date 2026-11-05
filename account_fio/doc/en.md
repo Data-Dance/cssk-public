@@ -1,7 +1,7 @@
 ---
 title: Fio banka — Connection
 summary: The Fio banka API tokens on the bank journal, a connection test, the 30-second call limit and warnings before a token expires.
-verified: 19.0.2.2.4
+verified: 19.0.2.2.5
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK EC Sales List (Súhrnný výkaz)
 summary: The Slovak EC sales list — súhrnný výkaz — computed from the intra-EU supply taxes of Odoo's Slovak chart and exported as Finančná správa XML in the vzor in force for the period.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## What it is for {#purpose}

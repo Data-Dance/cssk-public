@@ -1,7 +1,7 @@
 ---
 title: SK účtovné vzory — predkontácie interných dokladov
 summary: Pripravené slovenské predkontácie interných dokladov — peniaze na ceste cez 261 a preúčtovanie schváleného výsledku hospodárenia — ktoré z jednej zadanej sumy urobia vyrovnaný účtovný zápis v stave návrh.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK Register Extract (§ 3a, status, activities, filings)
 summary: Keeps a Slovak subject's register entry as data, composes the § 3a Obchodného zákonníka statement for your documents from it, and warns about partners the register shows as dissolved.
-verified: 19.0.2.0.1
+verified: 19.0.2.0.2
 ---
 
 ## What it is for {#purpose}

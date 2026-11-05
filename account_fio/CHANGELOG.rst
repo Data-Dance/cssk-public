@@ -5,6 +5,14 @@ Changelog
 All notable changes to **account_fio** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.2.2.5] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues: translated the strings that were still English.
+
 [19.0.2.2.4] — 2026-10-27
 -------------------------
 

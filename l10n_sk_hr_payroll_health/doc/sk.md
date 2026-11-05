@@ -1,7 +1,7 @@
 ---
 title: SK dávka 514 — mesačný výkaz preddavkov na zdravotné poistenie
 summary: Mesačný výkaz preddavkov na poistné pre slovenskú zdravotnú poisťovňu (VšZP, Dôvera, Union) v spoločnom formáte dávky 514, zostavený z výplatných pások mesiaca a vyexportovaný do XML.
-verified: 19.0.1.2.1
+verified: 19.0.1.2.2
 ---
 
 ## Na čo slúži {#purpose}

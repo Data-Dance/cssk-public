@@ -1,0 +1,623 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_sk_hr_payroll_rlfo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: cs_CZ\n"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_res_company__l10n_sk_sp_vs
+msgid ""
+"10-digit identification number assigned to the employer by the Sociálna "
+"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__sp_vs
+msgid ""
+"10-digit number the Sociálna poisťovňa assigned to the company. It is stored"
+" on the company and shared by every Sociálna poisťovňa filing (MVP, VPP, "
+"ELDP, RLFO)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akci"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimečné aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "Add at least one registration event before generating the RLFO."
+msgstr "Před vygenerováním RLFO přidejte alespoň jednu událost registrace."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model,name:l10n_sk_hr_payroll_rlfo.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"Company '%(company)s' needs a 10-digit Sociálna poisťovňa identification "
+"number for the RLFO <variabilnySymbol> element. Fill in 'Sociálna poisťovňa "
+"variable symbol' on this form."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"Company '%(company)s' needs an 8-12 digit IČO (Company Registry) for the "
+"RLFO <identifikator> element."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid "Correction Reference"
+msgstr "Reference opravy"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__country_id
+msgid "Country"
+msgstr "Země"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__create_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__currency_id
+msgid "Currency"
+msgstr "Měna"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__active_submission_id
+msgid "Current submission"
+msgstr "Aktuální doručení"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__date_from
+msgid "Date From"
+msgstr "Datum od"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__date_to
+msgid "Date To"
+msgstr "Datum do"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_start
+msgid ""
+"Date the social-insurance relationship arises (registration) / the original "
+"start reported with a de-registration."
+msgstr ""
+"Datum vzniku vztahu sociálního pojištění (přihláška) / původní začátek "
+"uváděný při odhlášce."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_end
+msgid "Date the social-insurance relationship ends (de-registration)."
+msgstr "Datum zániku vztahu sociálního pojištění (odhláška)."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_rl__od
+msgid "De-registration"
+msgstr "Odhláška"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"De-registration for '%(name)s' needs both the insurance start and end dates."
+msgstr "Odhláška pro „%(name)s“ potřebuje datum vzniku i zániku pojištění."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_state
+msgid "Delivery"
+msgstr "Doručení"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_res_company__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__employee_id
+msgid "Employee"
+msgstr "Zaměstnanec"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"Employee '%(name)s' needs a 9-10 digit birth number in the Identification "
+"No. field for the RLFO."
+msgstr ""
+"Zaměstnanec „%(name)s“ potřebuje pro RLFO v poli Identifikační č. rodné "
+"číslo o 9–10 číslicích."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__line_ids
+msgid "Employee declarations"
+msgstr "Hlášení zaměstnanců"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__lines_count
+msgid "Employees"
+msgstr "Zaměstnanci"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__typ_rl
+msgid "Event type"
+msgstr "Typ události"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__events_count
+msgid "Events"
+msgstr "Události"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__filed_history_ids
+msgid "Filed history"
+msgstr "Historie podání"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.view_l10n_sk_rlfo_form
+msgid "Generate"
+msgstr "Vygenerovat"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_has_error
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_end
+msgid "Insurance end (datZaniku)"
+msgstr "Zánik pojištění (datZaniku)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_start
+msgid "Insurance start (datVznikPoist)"
+msgstr "Vznik pojištění (datVznikPoist)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__write_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.view_l10n_sk_rlfo_form
+msgid "Mark Submitted"
+msgstr "Označit jako podané"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba při doručování zprávy"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_ids
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__month
+msgid "Month"
+msgstr "Měsíc"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__name
+msgid "Name"
+msgstr "Název"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Další aktivita z kalendáře"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_summary
+msgid "Next Activity Summary"
+msgstr "Souhrn další aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"No RLFO version is configured for this period. Check the shipped version "
+"data."
+msgstr ""
+"Pro toto období není nastavena žádná verze RLFO. Zkontrolujte dodaná data "
+"verzí."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou při doručení"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__payment_date
+msgid ""
+"Payday reported to the authority (SK denVyplaty). Defaults to the period "
+"end."
+msgstr ""
+"Datum výplaty hlášené úřadu (SK denVyplaty). Výchozí hodnotou je konec "
+"období."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__payment_date
+msgid "Payment Date"
+msgstr "Datum výplaty"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.actions.act_window,name:l10n_sk_hr_payroll_rlfo.action_l10n_sk_rlfo
+msgid "RLFO (registrations)"
+msgstr "RLFO (přihlášky)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "RLFO generated and XSD-validated."
+msgstr "RLFO vygenerováno a ověřeno proti XSD."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_rl__pa
+msgid "Registration"
+msgstr "Registrace"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__event_ids
+msgid "Registration events"
+msgstr "Události registrace"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "Registration for '%(name)s' needs an insurance start date."
+msgstr "Přihláška pro „%(name)s“ potřebuje datum vzniku pojištění."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__typ_zec
+msgid "Relationship type (typZec)"
+msgstr "Typ vztahu (typZec)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "Reset the declaration to draft before regenerating it."
+msgstr "Před opětovným vygenerováním vraťte hlášení do konceptu."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.view_l10n_sk_rlfo_form
+msgid "Reset to Draft"
+msgstr "Vrátit do konceptu"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_user_id
+msgid "Responsible User"
+msgstr "Odpovědný uživatel"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__rlfo_id
+msgid "Rlfo"
+msgstr "RLFO"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_rlfo.menu_l10n_sk_rlfo
+msgid "SK RLFO (registrations)"
+msgstr "SK RLFO (přihlášky)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model,name:l10n_sk_hr_payroll_rlfo.model_l10n_sk_rlfo
+msgid "SK RLFO natural-person registration batch"
+msgstr "SK RLFO – dávka registračních listů fyzických osob"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model,name:l10n_sk_hr_payroll_rlfo.model_l10n_sk_rlfo_event
+msgid "SK RLFO registration event"
+msgstr "SK RLFO – událost registrace"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručení SMS"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__sp_vs
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_res_company__l10n_sk_sp_vs
+msgid "Sociálna poisťovňa variable symbol"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po termínu: Termín již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Naplánováno: Budoucí aktivity."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_reference
+msgid "Submission Reference"
+msgstr "Reference podání"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submission_ids
+msgid "Submissions"
+msgstr "Podání"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submitted_date
+msgid "Submitted Date"
+msgstr "Datum odeslání"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pro vše, co opravuje dřívější podání."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Reference úřadu na opravované podání, pokud ji přijímající systém potřebuje "
+"ke spárování obou."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výjimečné aktivity na záznamu."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__version_id
+msgid "Version"
+msgstr "Verze"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__website_message_ids
+msgid "Website Messages"
+msgstr "Zprávy webu"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace na webu"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Zda jde o řádné podání za období, nebo o opravu již odeslaného. Volby jsou "
+"omezeny na to, co tento konkrétní úřad přijímá."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "Příloha XML"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__year
+msgid "Year"
+msgstr "Rok"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zec
+msgid "ZEC — employee, regular income"
+msgstr "ZEC — zaměstnanec, pravidelný příjem"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd1
+msgid "ZECD1 — DoVP, regular income"
+msgstr "ZECD1 — DoVP, pravidelný příjem"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd1n
+msgid "ZECD1N — DoVP, irregular income"
+msgstr "ZECD1N — DoVP, nepravidelný příjem"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd2
+msgid "ZECD2 — DoPČ, regular income"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd2n
+msgid "ZECD2N — DoPČ, irregular income"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd3
+msgid "ZECD3 — DoBPŠ, regular income"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecd3n
+msgid "ZECD3N — DoBPŠ, irregular income"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecn
+msgid "ZECN — employee, irregular income"
+msgstr "ZECN — zaměstnanec, nepravidelný příjem"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.rlfo_xml
+msgid "false"
+msgstr ""

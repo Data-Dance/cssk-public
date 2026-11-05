@@ -1,7 +1,7 @@
 ---
 title: CZ VAT Control Statement (Kontrolní hlášení)
 summary: The Czech kontrolní hlášení (DPHKH1) — sections A.1 to B.3 computed from the books with the 10 000 CZK split, checked against the form's requirements and exported as the EPO XML in the current structure for any period.
-verified: 19.0.1.10.0
+verified: 19.0.1.10.1
 ---
 
 ## What it is for {#purpose}

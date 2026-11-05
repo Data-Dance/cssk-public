@@ -1,7 +1,7 @@
 ---
 title: CZ Invoice (statutory PDF)
 summary: Adds the payment symbols and the statutory VAT phrases — exemption and "daň odvede zákazník" — to the printed Czech invoice.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK VAT Return (Daňové priznanie k DPH)
 summary: The Slovak VAT return computed from the tax tags of Odoo's Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.
-verified: 19.0.1.14.0
+verified: 19.0.1.14.1
 ---
 
 ## What it is for {#purpose}

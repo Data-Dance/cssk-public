@@ -1,7 +1,7 @@
 ---
 title: Czech EET 2.0 (Electronic Registration of Sales)
 summary: Registers contact payments received outside the till — cash, card or QR paid at the counter — with the Czech EET 2.0 system, keeps every data message with its confirmation code, retries until the tax authority has accepted it, and renews the cash-register certificate on its own.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.1
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: Tax Depreciation (CZ/SK)
 summary: A second, never-posted depreciation board per asset for Czech and Slovak tax depreciation, next to the accounting depreciation, with the year-end book-versus-tax comparison, deferred tax and a tax depreciation register.
-verified: 19.0.1.11.3
+verified: 19.0.1.11.4
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK odsouhlasení zůstatků a zápočet (saldokonto)
 summary: Odsouhlasení otevřených pohledávek a závazků partnera k datu s PDF k podpisu a zápočet, který vzájemné pohledávky a závazky vyrovná v účetnictví.
-verified: 19.0.1.2.1
+verified: 19.0.1.2.2
 ---
 
 ## K čemu slouží {#purpose}

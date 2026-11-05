@@ -104,7 +104,7 @@ msgstr "Země"
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_type__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_version__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Vytvořeno uživatelem"
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__create_date
@@ -112,13 +112,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_type__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_version__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Vytvořeno dne"
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__currency_id
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_line__company_currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Měna"
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__date_from
@@ -143,7 +143,7 @@ msgstr "Popis"
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_type__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_version__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný název"
 
 #. module: l10n_cssk_ec_summary_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.view_move_line_ec_audit
@@ -332,7 +332,7 @@ msgstr "Položka deníku"
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_type__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_version__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Naposledy upraveno uživatelem"
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__write_date
@@ -340,7 +340,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_type__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_version__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Naposledy upraveno dne"
 
 #. module: l10n_cssk_ec_summary_base
 #. odoo-python
@@ -686,7 +686,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_line__total_amount
 msgid ""
 "Effective reported value: the computed aggregate, or the manual override."
-msgstr ""
+msgstr "Skutečně vykazovaná hodnota: vypočtený souhrn, nebo ruční přepsání."
 
 #. module: l10n_cssk_ec_summary_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form
@@ -707,7 +707,7 @@ msgstr "Ruční hodnota"
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement_line__manual_value
 msgid "Manual value applied when 'Override' is ticked."
-msgstr ""
+msgstr "Ruční hodnota použitá při zaškrtnutí 'Override'."
 
 #. module: l10n_cssk_ec_summary_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form
@@ -743,6 +743,10 @@ msgid ""
 " across recompute and re-applied to the row with the same country / VAT / "
 "transaction code."
 msgstr ""
+"Zaškrtněte pro zadání ruční hodnoty tohoto řádku – slouží k opravě "
+"vykazované hodnoty (např. externí oprava, která ještě není zaúčtována). "
+"Hodnota se při přepočtu zachová a znovu použije pro řádek se stejnou zemí / "
+"DIČ / kódem plnění."
 
 #. module: l10n_cssk_ec_summary_base
 #. odoo-python
@@ -762,6 +766,9 @@ msgid ""
 " latest one; after a reset → recompute → resubmit cycle the previously-filed"
 " copies stay reachable here."
 msgstr ""
+"Všechna XML, která byla kdy pro toto podání označena jako podaná. „Podané "
+"XML“ je poslední z nich; po cyklu obnovení → přepočet → opětovné podání zde "
+"zůstávají dostupné i dříve podané kopie."
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,help:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__legacy
@@ -782,6 +789,8 @@ msgid ""
 "Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
 " it was captured if by hand."
 msgstr ""
+"Odkud podání pochází, např. „PREMIER“, „Money S4“, „i6“, „MRP“ – nebo jak "
+"bylo zachyceno, pokud ručně."
 
 #. module: l10n_cssk_ec_summary_base
 #: model:ir.model.fields,field_description:l10n_cssk_ec_summary_base.field_cssk_ec_summary_statement__legacy_reference
@@ -794,6 +803,8 @@ msgid ""
 "Identifier of the import batch or source document this filing was "
 "materialised from, so a figure can be traced back to what produced it."
 msgstr ""
+"Identifikátor importní dávky nebo zdrojového dokladu, ze kterého bylo toto "
+"podání vytvořeno, aby se údaj dal dohledat k jeho původu."
 
 #. module: l10n_cssk_ec_summary_base
 #. odoo-python

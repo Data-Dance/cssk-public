@@ -235,6 +235,9 @@ msgid ""
 " latest one; after a reset → recompute → resubmit cycle the previously-filed"
 " copies stay reachable here."
 msgstr ""
+"Všetky XML, ktoré boli kedy pre toto podanie označené ako podané. „Podané "
+"XML“ je posledné z nich; po cykle obnovenie → prepočet → opätovné podanie tu"
+" zostávajú dostupné aj predtým podané kópie."
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields.selection,name:l10n_sk_fs.selection__l10n_sk_uzpod__state__exported
@@ -307,6 +310,8 @@ msgid ""
 "Identifier of the import batch or source document this filing was "
 "materialised from, so a figure can be traced back to what produced it."
 msgstr ""
+"Identifikátor importnej dávky alebo zdrojového dokladu, z ktorého bolo toto "
+"podanie vytvorené, aby sa údaj dal dohľadať k jeho pôvodu."
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__message_needaction
@@ -549,7 +554,7 @@ msgstr ""
 #. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__legacy_stated_codes
 msgid "Rows the source states"
-msgstr ""
+msgstr "Riadky, ktoré zdroj uvádza"
 
 #. module: l10n_sk_fs
 #: model_terms:ir.ui.view,arch_db:l10n_sk_fs.report_l10n_sk_poznamky
@@ -693,6 +698,9 @@ msgid ""
 "\n"
 "A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
 msgstr ""
+"Kódy riadkov, ktoré mohlo obsahovať vlastné podanie zdrojového systému, oddelené čiarkou; zapisuje ich migrácia, ktorá tento záznam vytvorila.\n"
+"\n"
+"Zdroj tlačivo uchováva len zriedka: PREMIER drží desať súhrnných údajov tam, kde slovenské priznanie má tridsaťsedem riadkov. Každý riadok, ktorý zdroj uviesť nevie, tu chýba zo štrukturálneho dôvodu, nie preto, že by ho podanie vynechalo – porovnanie preto takéto riadky uvádza ako informatívne, nie ako rozdiely. Ak je pole prázdne, každý riadok sa považuje za taký, ktorý zdroj uviesť mohol, čo je správne čítanie podania zachyteného ručne."
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,help:l10n_sk_fs.field_l10n_sk_uzpod__legacy
@@ -812,6 +820,8 @@ msgid ""
 "Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
 " it was captured if by hand."
 msgstr ""
+"Odkiaľ podanie pochádza, napr. „PREMIER“, „Money S4“, „i6“, „MRP“ – alebo "
+"ako bolo zachytené, ak ručne."
 
 #. module: l10n_sk_fs
 #: model:ir.model.fields,field_description:l10n_sk_fs.field_l10n_sk_uzpod__xml_attachment_id

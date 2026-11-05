@@ -16,3 +16,11 @@ Added
   needs, validated against ``dposs_eu01.xsd``, pinned in
   ``data/SCHEMA_VERSION``.
 - Export preflight: the filer must have a Slovak IČ DPH (SK + 10 digits).
+
+[19.0.1.0.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Czech catalogue: translated the strings that were still English.

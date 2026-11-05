@@ -1,7 +1,7 @@
 ---
 title: CZ Přehled o výši pojistného (PVPOJ)
 summary: Měsíční přehled o výši pojistného pro ČSSZ — celkové pojistné na sociální zabezpečení zaměstnavatele za měsíc, sečtené z výplatních pásek a vyexportované do XML ve struktuře PVPOJ 2025.
-verified: 19.0.1.1.4
+verified: 19.0.1.1.5
 ---
 
 ## K čemu slouží {#purpose}

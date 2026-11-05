@@ -1,7 +1,7 @@
 ---
 title: SK Import Customs Declaration (JCD)
 summary: The Slovak customs declaration for imported goods as an accounting document — import VAT onto the right return rows, duty into the stock value, and the deduction held back until the confirmed customs document is on file.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## What it is for {#purpose}

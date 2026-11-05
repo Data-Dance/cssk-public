@@ -1,7 +1,7 @@
 ---
 title: SK Protokoly o zaradení a vyradení majetku
 summary: Protokol o zaradení dlhodobého majetku do používania a protokol o jeho vyradení, tlačené z evidencie majetku v ktorejkoľvek edícii Odoo.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Corporate Income Tax Return
 summary: The screen on which the corporate income tax return (DPPO) is prepared — the accounting result from the books, the accountant's adjustments, the tax computation, a schema-checked XML file and the year-end tax entry.
-verified: 19.0.1.5.8
+verified: 19.0.1.5.9
 ---
 
 ## What it is for {#purpose}

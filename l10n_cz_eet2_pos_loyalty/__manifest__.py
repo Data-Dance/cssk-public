@@ -6,7 +6,7 @@
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Localizations/Point of Sale",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "license": "AGPL-3",
     "depends": [
         "l10n_cz_eet2_pos",

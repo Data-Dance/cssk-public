@@ -1,7 +1,7 @@
 ---
 title: CZ přiznání k dani z příjmů PO (DPPDP9)
 summary: České přiznání k dani z příjmů právnických osob — ř. 10 z účetnictví, úpravy účetní, výpočet daně ve II. oddílu a soubor pro EPO ověřený proti schématu Finanční správy, včetně rozvahy a výkazu zisku a ztráty podaných uvnitř přiznání.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## K čemu slouží {#purpose}

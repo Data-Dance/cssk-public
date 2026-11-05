@@ -1,7 +1,7 @@
 ---
 title: payme (Slovensko)
 summary: Tlačí na faktúry odberateľom slovenský platobný odkaz payme ako QR kód; po naskenovaní sa otvorí banková aplikácia odberateľa s vyplnenou platbou.
-verified: 19.0.1.2.1
+verified: 19.0.1.2.2
 ---
 
 ## Na čo slúži {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK Vehicles and Fuel — VAT and Income-Tax Flat Rates
 summary: The 50 % VAT deduction on passenger vehicles used also privately (§ 85n) as purchase taxes, and the 80 % fuel flat rate for income tax as a split on the vendor bill — two independent Slovak regimes.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: SK Inventarizácia — inventúrny súpis a inventarizačný zápis
 summary: Inventarizácia podľa zákona o účtovníctve ako záznamy v Odoo — tri dni inventúry, inventúrne súpisy s množstvom a cenou a inventarizačný zápis s porovnaním so stavom v účtovníctve.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}

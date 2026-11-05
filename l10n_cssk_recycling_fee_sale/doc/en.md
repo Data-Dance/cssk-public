@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Recycling Fee on Sales Orders
 summary: Prices the CZ/SK recycling fee on sales order lines, carries it to the invoice, and in on-top mode invoices it as its own line.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 family: l10n_cssk_recycling_fee#sales-orders
 ---
 

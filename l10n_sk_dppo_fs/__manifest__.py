@@ -23,7 +23,7 @@ which is why this glue cannot live there.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.3",
+    "version": "19.0.1.1.4",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": [

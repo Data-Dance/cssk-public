@@ -1,7 +1,7 @@
 ---
 title: Czechia — Peněžní deník (cash journal for daňová evidence)
 summary: The Czech cash journal for daňová evidence — the categories Czech practice uses, the Czech chart mapped onto them, the peněžní deník PDF, the Příloha č. 1 figures including oddíl D, and the § 7b odst. 4 record.
-verified: 19.0.1.0.5
+verified: 19.0.1.0.6
 ---
 
 ## What it is for {#purpose}

@@ -15,6 +15,14 @@ Fixed
   services: Odoo drops a string domain when it copies a field into a related
   one.
 
+[19.0.1.0.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues: translated the strings that were still English.
+
 [19.0.1.0.0] — 2026-09-28
 -------------------------
 
