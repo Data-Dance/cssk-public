@@ -213,7 +213,7 @@ msgstr ""
 
 #. module: account_asset_tax
 #: model:ir.model,name:account_asset_tax.model_account_asset_book_tax_report_mixin
-msgid "Book vs Tax Depreciation Report (shared)"
+msgid "Depreciation Analysis Report (shared)"
 msgstr "Prehľad účtovných a daňových odpisov (spoločný)"
 
 #. module: account_asset_tax
@@ -328,8 +328,8 @@ msgstr "Vypočítať daňové odpisové plány"
 #. module: account_asset_tax
 #. odoo-python
 #: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
-msgid "Compute the reconciliation first."
-msgstr "Najprv vykonajte rekonciliáciu."
+msgid "Compute the comparison first."
+msgstr "Najprv vykonajte porovnanie."
 
 #. module: account_asset_tax
 #. odoo-python
@@ -968,8 +968,8 @@ msgstr ""
 
 #. module: account_asset_tax
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
-msgid "Reconciliation"
-msgstr "Rekonciliácia"
+msgid "Comparison"
+msgstr "Porovnanie"
 
 #. module: account_asset_tax
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.report_asset_tax_register
@@ -1141,8 +1141,8 @@ msgstr "Mixin daňových odpisov"
 #. odoo-python
 #: code:addons/account_asset_tax/wizard/account_asset_tax_reconciliation.py:0
 #: model:ir.ui.menu,name:account_asset_tax.menu_account_asset_tax_reconciliation
-msgid "Tax Depreciation Reconciliation"
-msgstr "Rekonciliácia daňových odpisov"
+msgid "Accounting vs Tax Depreciation"
+msgstr "Porovnanie účtovných a daňových odpisov"
 
 #. module: account_asset_tax
 #: model:ir.actions.act_window,name:account_asset_tax.action_account_asset_tax_reconciliation
@@ -1150,13 +1150,13 @@ msgstr "Rekonciliácia daňových odpisov"
 #: model:ir.model,name:account_asset_tax.model_account_asset_tax_reconciliation
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.report_reconciliation_document
 #: model_terms:ir.ui.view,arch_db:account_asset_tax.view_account_asset_tax_reconciliation_form
-msgid "Tax Depreciation Reconciliation (DPPO)"
-msgstr "Rekonciliácia daňových odpisov (DPPO)"
+msgid "Accounting vs Tax Depreciation (DPPO)"
+msgstr "Porovnanie účtovných a daňových odpisov (DPPO)"
 
 #. module: account_asset_tax
 #: model:ir.model,name:account_asset_tax.model_account_asset_tax_reconciliation_line
-msgid "Tax Depreciation Reconciliation Line"
-msgstr "Riadok rekonciliácie daňových odpisov"
+msgid "Accounting vs Tax Depreciation Line"
+msgstr "Riadok porovnania odpisov"
 
 #. module: account_asset_tax
 #: model:ir.actions.act_window,name:account_asset_tax.action_asset_tax_register
@@ -1535,7 +1535,7 @@ msgstr "Riadok pripočtu"
 #. module: account_asset_tax
 #: model:ir.model.fields,help:account_asset_tax.field_res_company__account_deferred_tax_id
 msgid ""
-"Balance-sheet deferred-tax account (CZ/SK 481). The reconciliation trues "
+"Balance-sheet deferred-tax account (CZ/SK 481). The comparison trues "
 "this account's balance at the period end up to the deferred tax on asset "
 "depreciation, so use an account (e.g. an analytical 481 sub-account) that "
 "holds no other deferred tax."

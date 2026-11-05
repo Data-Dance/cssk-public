@@ -203,7 +203,7 @@ class TestTaxBoardOCA(TransactionCase):
         wiz.action_compute()
         report = self.env.ref("account_asset_tax.action_report_reconciliation")
         html, _dummy = self.env["ir.actions.report"]._render_qweb_html(report.id, wiz.ids)
-        self.assertIn(b"Tax Depreciation Reconciliation", html)
+        self.assertIn(b"Accounting vs Tax Depreciation", html)
 
     def test_reconciliation_runs(self):
         asset = self._new_asset("linear")

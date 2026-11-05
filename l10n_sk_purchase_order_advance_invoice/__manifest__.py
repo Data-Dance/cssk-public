@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Received Advance Invoices",
-    "version": "19.0.1.0.2",
+    "version": "19.0.1.0.3",
     "summary": "Slovak chart wiring for purchase_order_advance_invoice.",
     "description": """
 Slovakia — Received Advance Invoices

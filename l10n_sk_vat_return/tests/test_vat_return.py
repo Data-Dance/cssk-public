@@ -377,14 +377,23 @@ class TestSkVatReturnVintages(TransactionCase):
         supply is either dropped or counted twice. The tags 23a/23b/23c are the
         deliberate exception — the 2025 vzor added a fourth deduction CATEGORY
         that has no DPHv21 home, and taxes carrying those tags postdate it.
+
+        r13 is left out of the partition on purpose: it is the TOTAL of every
+        exempt supply, so it repeats what r14 and r15 itemise (poučenie bod 31:
+        "Riadok 13 nie je súčtom riadkov 14 a 15" — more than their sum, not
+        apart from it). Its formula is pinned instead.
         """
         new_version, _new_codes = self._grid("dph_version_2025")
         old_version, _old_codes = self._grid("dph_version_2024")
+        for version in (new_version, old_version):
+            r13 = version.line_def_ids.filtered(lambda d: d.code == "r13")
+            self.assertEqual(r13.tag_formula, "-13|14|15", version.name)
 
         def tags(version):
             seen = []
             for ldef in version.line_def_ids.filtered(
-                    lambda d: d.kind == "tags" and d.tag_formula):
+                    lambda d: d.kind == "tags" and d.tag_formula
+                    and d.code != "r13"):
                 seen += [n.strip() for n in
                          ldef.tag_formula.lstrip("+-").split("|") if n.strip()]
             return seen

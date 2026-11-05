@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.5.0] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **A company charted after the install now gets the transaction codes.**
+  They were set only by the install hook, which reaches companies that
+  already had the l10n_sk chart, so every company charted later computed an
+  empty Súhrnný výkaz. The codes now come with the chart template
+  (``@template("sk", "account.tax")``), and the upgrade tags the taxes of
+  companies that missed them.
+
 [19.0.1.4.0] — 2026-10-27
 -------------------------
 

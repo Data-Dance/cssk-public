@@ -58,6 +58,13 @@ class TestCzEcSales(AccountTestInvoicingCommon):
             "statement_type_id": self.version.statement_type_ids[0].id,
         })
 
+    def test_a_company_charted_after_the_install_has_the_codes(self):
+        # setUpClass charts this company after the module was installed, which
+        # the install hook cannot reach; the codes must come with the chart.
+        for template, code in {"l10n_cz_supply_goods_eu": "0", "l10n_cz_supply_service_eu": "3"}.items():
+            tax = self.env.ref("account.%s_%s" % (self.company.id, template))
+            self.assertEqual(tax.cssk_ec_summary_code, code, template)
+
     def test_a_nasledne_hlaseni_cancels_with_storno_rows(self):
         """DPHSHV k_storno: a následné hlášení withdraws a filed row with a
         storno row (matched on k_stat, c_vat, k_pln_eu) and reports the

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Payment Symbols (VS/KS/SS)
 summary: Variable, constant and specific symbols on invoices, payments and bank statements, and matching incoming payments by them.
-verified: 19.0.1.4.1
+verified: 19.0.1.5.1
 ---
 
 ## What it is for {#purpose}
@@ -167,21 +167,32 @@ file as structured symbols. It has no screen of its own.
 
 ## SEPA / ISO 20022 credit transfers {#iso20022}
 
-With Odoo Enterprise's ISO 20022 export,
-[module:l10n_cssk_payment_symbols_iso20022](module:l10n_cssk_payment_symbols_iso20022)
-adds a choice to each bank journal, **CZ/SK Symbols in pain.001**:
+Two modules write the symbols into a SEPA credit transfer file (pain.001),
+one for each way Odoo produces it:
+
+- [module:l10n_cssk_payment_symbols_iso20022](module:l10n_cssk_payment_symbols_iso20022)
+  — Odoo Enterprise's ISO 20022 export (batch payments); option **CZ/SK
+  Symbols in pain.001** on the bank journal;
+- [module:l10n_cssk_payment_symbols_sepa_oca](module:l10n_cssk_payment_symbols_sepa_oca)
+  — the OCA payment order (`account_banking_sepa_credit_transfer`), which is
+  what Odoo Community uses; option **CZ/SK Symbols in SEPA Transfers** on the
+  bank journal.
+
+Both offer the same choices and write the same text:
 
 | Option | What is written into the file |
 |---|---|
-| Remittance info (default) | `/VS/…/KS/…/SS/…` appended to the unstructured remittance information; `PLATBA/VS/…` when there was none. A structured creditor reference (RF) is left as it is. |
-| EndToEndId = variable symbol | the bare variable symbol as the end-to-end identifier |
-| Do not export symbols | Odoo's standard file |
+| *EndToEndId (/VS…/SS…/KS…)* | the end-to-end identifier `/VS2026114455/SS77/KS0308`, the structure Slovak banks read (for example VÚB's SEPA format for clients). Default for Slovak companies in the OCA module. |
+| *Remittance info (/VS/…/KS/…/SS/…)* | `/VS/…/KS/…/SS/…` appended to the message for the payee; `PLATBA/VS/…` when there was none. A structured creditor reference (RF) is left as it is. Default for Czech companies in the OCA module, and the Enterprise default. |
+| *Do not export symbols* | the file as Odoo or OCA writes it. Default for other companies. |
 
-**Check with your bank before relying on either.** Banks differ in what they
-parse back into symbols, and the Slovak convention described
-[above](#legal) writes `?/VS…/SS…/KS…` — letters and digits without a slash
-between them, VS–SS–KS order — which neither option produces. Send one test
-payment and look at how the payee's statement shows it.
+With symbols exported, the OCA module pays bills with different symbols by
+separate transfers: one transfer carries one set of symbols, and a supplier
+could match neither bill on a merged one. Two transfers with the same symbols
+carry the same end-to-end identifier, as the banks' format implies.
+
+**Send one test payment before relying on it.** Banks differ in what they
+read back into symbols; look at how the payee's statement shows the payment.
 
 ## Limitations {#limitations}
 

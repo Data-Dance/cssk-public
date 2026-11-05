@@ -11,9 +11,21 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- TDADV journal and 324001 named in cs/sk/en, post-migrate — 19.0.1.1.2.
 - English name of 324001 (spec ``name`` as a dict) and the post-migrate that
   renames it — 19.0.1.1.1. 18.0 has the same Czech-only name. Needs the base
   helper carried over first.
+
+[19.0.1.1.2] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **The TDADV journal had only its Czech name**, stored as the English one.
+  It is now *Daňové doklady k přijatým platbám* / *Faktúry k prijatým
+  platbám* / *Tax Documents for Received Advance Payments*, and 324001 has a
+  Slovak name too. The upgrade renames both unless you renamed them.
 
 [19.0.1.1.1] — 2026-11-04
 -------------------------

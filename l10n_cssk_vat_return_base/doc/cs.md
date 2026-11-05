@@ -1,7 +1,7 @@
 ---
 title: Přiznání k DPH CZ/SK — společný základ
 summary: Obrazovky a postup, na kterých stojí české i slovenské přiznání k DPH — výpočet řádků z daňových štítků, kontrola proti účetním záznamům, export úředního XML a uchování podané verze.
-verified: 19.0.1.13.0
+verified: 19.0.1.13.1
 ---
 
 ## K čemu slouží {#purpose}

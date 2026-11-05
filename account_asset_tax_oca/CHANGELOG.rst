@@ -16,6 +16,17 @@ Carry-over to 18.0
   increased-first-year field shown for accelerated depreciation. 18.0 uses
   ``groups_id`` on actions, not ``group_ids``.
 
+[19.0.1.5.1] — 2026-11-04
+-------------------------
+
+Changed
+~~~~~~~
+
+- *Book vs Tax Depreciation* is now **Depreciation Analysis** (*Analýza
+  odpisov*, *Analýza odpisů*), so it is not taken for the *Accounting vs Tax
+  Depreciation* comparison next to it in the Reporting menu. An upgrade drops
+  the old Slovak and Czech names it shipped, so the new ones load.
+
 [19.0.1.5.0] — 2026-10-27
 -------------------------
 

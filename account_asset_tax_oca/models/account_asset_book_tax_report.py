@@ -14,7 +14,7 @@ class AccountAssetBookTaxReport(models.Model):
 
     _name = "account.asset.book.tax.report"
     _inherit = "account.asset.book.tax.report.mixin"
-    _description = "Book vs Tax Depreciation Report"
+    _description = "Depreciation Analysis Report"
     _auto = False
     _order = "asset_id, fiscal_year"
 

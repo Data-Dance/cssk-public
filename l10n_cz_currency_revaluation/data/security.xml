@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- account_multicurrency_revaluation shows its menus (Currency
+         Revaluation, Reverse Currency Revaluation) only to its own group,
+         which no accounting role implies, so nobody on a fresh database sees
+         them. The accountant role does the period-end revaluation: give it
+         the group. Adding an implied group also grants it to the existing
+         members of the role. -->
+    <record id="account.group_account_manager" model="res.groups">
+        <field name="implied_ids" eval="[(4, ref('account_multicurrency_revaluation.group_revaluation_additional'))]"/>
+    </record>
+</odoo>

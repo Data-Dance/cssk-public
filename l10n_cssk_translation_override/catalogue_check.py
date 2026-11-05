@@ -86,6 +86,19 @@ def _is_redefined(occ, msgid, redefined):
     return bool(m) and redefined.get(m.groups()) == msgid
 
 
+def _is_alias(occ, target, occurrences):
+    """A foreign record the target's template carries under the target's own
+    name, as an alias xmlid of the same record (OCA account_usability
+    19.0.1.1.0 adds ``account_usability.menu_finance`` for
+    ``account.menu_finance`` in a pre-init hook). Older versions of the target
+    rename the record without the alias, so an entry carries both."""
+    m = RECORD_OCC.match(occ)
+    if not m:
+        return False
+    model, field, xmlid = m.groups()
+    return f"model:{model},{field}:{target}.{xmlid.split('.', 1)[1]}" in occurrences
+
+
 def check_catalogue(path, find_module):
     """Return (problems, checked) for one override file.
 
@@ -133,7 +146,8 @@ def check_catalogue(path, find_module):
             continue
         occurrences, target_comments = known
         for occ, _line in entry.occurrences:
-            if occ not in occurrences and not _is_redefined(occ, entry.msgid, redefined):
+            if (occ not in occurrences and not _is_redefined(occ, entry.msgid, redefined)
+                    and not _is_alias(occ, target, occurrences)):
                 problems.append(f"{where}: occurrence {occ} not in {target}'s template")
         # Adding the marker a stale template lacks is fine (and necessary);
         # claiming the OTHER kind of code term is not.

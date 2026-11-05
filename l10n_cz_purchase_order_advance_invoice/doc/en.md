@@ -1,7 +1,7 @@
 ---
 title: Received Advance Invoices — Czech Accounts
 summary: Wires the received-advance settings to the Czech chart of accounts.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 family: purchase_order_advance_invoice#localization
 ---
 

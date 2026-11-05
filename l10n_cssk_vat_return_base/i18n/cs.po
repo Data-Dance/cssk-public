@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-28 22:38+0000\n"
+"POT-Creation-Date: 2026-11-04 12:58+0000\n"
 "PO-Revision-Date: 2026-06-13 20:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,6 +12,38 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "%s - rounding"
+msgstr "%s - zaokrouhlení"
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
+msgid ""
+"%s historical VAT rate(s) are available. They are archived: an importer can "
+"use them, and they will not appear when raising a new document."
+msgstr ""
+"K dispozici jsou historické sazby DPH (%s). Jsou archivované: importér je "
+"může použít a při vystavení nového dokladu se nezobrazí."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Šablona účtové osnovy"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
+msgid ""
+"Account the VAT closing clears the 343 sub-accounts into (343000 when "
+"empty). It then holds the period's own tax liability or excess deduction."
+msgstr ""
+"Účet, na který uzávěrka DPH zúčtuje analytické účty 343 (je-li prázdný, "
+"343000). Poté na něm zůstane vlastní daňová povinnost nebo nadměrný odpočet "
+"období."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__message_needaction
@@ -74,6 +106,11 @@ msgid "Amended / corrective"
 msgstr "Dodatečné / opravné"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__diff_line_code
+msgid "Amendment-difference line code"
+msgstr "Kód řádku rozdílu dodatečného podání"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__amendment_ids
 msgid "Amendments"
 msgstr "Dodatečná podání"
@@ -99,6 +136,17 @@ msgid "Cancelled"
 msgstr "Zrušeno"
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Carry excess deduction"
+msgstr "Převést nadměrný odpočet"
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid ""
+"Clear the period's VAT accounts into the settlement account (draft entry)."
+msgstr "Zúčtuje účty DPH období na účet zúčtování (návrh dokladu)."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__code
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__code
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_type__code
@@ -106,9 +154,25 @@ msgid "Code"
 msgstr "Kód"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__company_id
 msgid "Company"
 msgstr "Společnost"
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Compare with computed"
+msgstr "Porovnat s vypočteným"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_comparison_count
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Comparisons"
+msgstr "Porovnání"
 
 #. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
@@ -122,9 +186,30 @@ msgid "Compute the return before exporting."
 msgstr "Před exportem přiznání vypočítejte."
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavení konfigurace"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, které poslední export nezablokovaly, ale před podáním je "
+"třeba je projít, každá na samostatném řádku. Obnovují se při každém exportu; "
+"prázdné, pokud poslední export žádné nenašel."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__country_id
 msgid "Country"
 msgstr "Země"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.actions.server,name:l10n_cssk_vat_return_base.action_cssk_create_historic_vat_taxes
+msgid "Create historical VAT rates"
+msgstr "Vytvořit historické sazby DPH"
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__create_uid
@@ -151,6 +236,11 @@ msgid "Currency"
 msgstr "Měna"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__active_submission_id
+msgid "Current submission"
+msgstr "Aktuální podání"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__date_from
 msgid "Date From"
 msgstr "Datum od"
@@ -170,10 +260,20 @@ msgstr ""
 "(datumZisteniaDdp); povinné u dodatečného přiznání."
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_state
+msgid "Delivery"
+msgstr "Doručení"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__formula_note
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid "Derivation"
 msgstr "Odvození"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_source_tax_id
+msgid "Derived From"
+msgstr "Odvozeno z"
 
 #. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.view_move_line_dph_audit
@@ -186,12 +286,17 @@ msgid "Difference identification date"
 msgstr "Den zjištění rozdílu"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_type__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný název"
 
@@ -216,16 +321,32 @@ msgid "Effective value: the computed result, or the manual override."
 msgstr "Efektivní hodnota: vypočtený výsledek nebo ruční přepis."
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the "
+"latest one; after a reset → recompute → resubmit cycle the previously-filed "
+"copies stay reachable here."
+msgstr ""
+"Všechna XML, která byla kdy pro toto podání označena jako podaná. „Podané "
+"XML“ je poslední z nich; po cyklu obnovení → přepočet → opětovné podání zde "
+"zůstávají dostupné i dříve podané kopie."
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Every tax line of this return's period is already closed."
+msgstr "Všechny daňové řádky období tohoto přiznání jsou již uzavřené."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__excess_carried_in
 msgid ""
 "Excess deduction carried IN from a prior period to offset this period's own "
-"tax liability (§ 79). Use 'Carry excess deduction' to pull it from the prior"
-" return, or set it manually."
+"tax liability (§ 79). Use 'Carry excess deduction' to pull it from the prior "
+"return, or set it manually."
 msgstr ""
-"Nadměrný odpočet přenesený DO tohoto období z předchozího období k započtení"
-" vlastní daňové povinnosti tohoto období (§ 79). Použijte 'Carry excess "
-"deduction' pro jeho převzetí z předchozího přiznání, nebo jej nastavte "
-"ručně."
+"Nadměrný odpočet přenesený DO tohoto období z předchozího období k započtení "
+"vlastní daňové povinnosti tohoto období (§ 79). Použijte 'Carry excess "
+"deduction' pro jeho převzetí z předchozího přiznání, nebo jej nastavte ručně."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__excess_carried_in
@@ -238,6 +359,11 @@ msgid "Excess deduction to carry forward"
 msgstr "Nadměrný odpočet k převodu"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__excess_line_code
+msgid "Excess-deduction line code"
+msgstr "Kód řádku nadměrného odpočtu"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__xml_root_element
 msgid "Expected root element, e.g. 'DPH' / 'DPHDP3'."
 msgstr "Očekávaný kořenový element, např. 'DPH' / 'DPHDP3'."
@@ -246,6 +372,17 @@ msgstr "Očekávaný kořenový element, např. 'DPH' / 'DPHDP3'."
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid "Export XML"
 msgstr "Exportovat XML"
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Export or submit the return before closing its VAT."
+msgstr "Před uzávěrkou DPH přiznání exportujte nebo podejte."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornění exportu"
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__state__exported
@@ -258,9 +395,28 @@ msgid "Fa Xml Value"
 msgstr "Hodnota v XML FS"
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "File it"
+msgstr "Podat"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submitted_attachment_id
 msgid "Filed XML"
 msgstr "Podané XML"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
+msgid "Filed history"
+msgstr "Historie podání"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_from
+msgid ""
+"First day this rate applied. Set only on taxes generated for a rate that is "
+"no longer current."
+msgstr ""
+"První den platnosti této sazby. Vyplňuje se jen u daní vytvořených pro "
+"sazbu, která už neplatí."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__country_id
@@ -283,6 +439,11 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Font awesome ikona např. fa-tasks"
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_version_view_form
+msgid "Form line codes"
+msgstr "Kódy řádků formuláře"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__aggregate_formula
 msgid "Formula over line codes for kind=aggregate, e.g. 'r04 + r06'."
 msgstr "Vzorec nad kódy řádků pro kind=aggregate, např. 'r04 + r06'."
@@ -298,12 +459,29 @@ msgid "Has Source"
 msgstr "Má zdroj"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
+#: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__state__legacy
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Historical filing"
+msgstr "Historické podání"
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.view_account_tax_search_cssk_historic
+msgid "Historical rate"
+msgstr "Historická sazba"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_type__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__id
 msgid "ID"
 msgstr "ID"
 
@@ -316,6 +494,15 @@ msgstr "Ikona"
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
+msgstr ""
+"Identifikátor importní dávky nebo zdrojového dokladu, ze kterého bylo toto "
+"podání vytvořeno, aby se údaj dal dohledat k jeho původu."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__message_needaction
@@ -339,6 +526,11 @@ msgid "Is Leaf"
 msgstr "Je koncový řádek"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_move
+msgid "Journal Entry"
+msgstr "Účetní doklad"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model,name:l10n_cssk_vat_return_base.model_account_move_line
 msgid "Journal Item"
 msgstr "Položka deníku"
@@ -348,6 +540,21 @@ msgstr "Položka deníku"
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__kind
 msgid "Kind"
 msgstr "Druh"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_count
+msgid "L10N Cssk Closing Count"
+msgstr "Počet uzávěrek DPH"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
+msgid ""
+"Largest difference between the ledger and the return the VAT closing books "
+"as rounding. A larger one stops the closing."
+msgstr ""
+"Největší rozdíl mezi účetnictvím a přiznáním, který uzávěrka DPH zaúčtuje "
+"jako zaokrouhlení. Větší rozdíl uzávěrku zastaví."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__write_uid
@@ -368,6 +575,11 @@ msgid "Last Updated on"
 msgstr "Naposledy upraveno"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_to
+msgid "Last day this rate applied."
+msgstr "Poslední den platnosti této sazby."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__line_ids
 msgid "Line"
 msgstr "Řádek"
@@ -376,6 +588,57 @@ msgstr "Řádek"
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__line_def_ids
 msgid "Line Def"
 msgstr "Definice řádku"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
+msgid "Line Filter"
+msgstr "Filtr řádků"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__diff_line_code
+msgid ""
+"Line code of the 'difference vs the last known tax' row an amended "
+"(dodatočné) return reports, e.g. 'r36' on the SK DPHv25 form. Auto-filled "
+"from the original return on recompute; leave empty if the form has no such "
+"row."
+msgstr ""
+"Kód řádku „rozdíl oproti poslední známé dani“, který uvádí dodatečné "
+"přiznání, např. „r36“ na slovenském tiskopisu DPHv25. Při přepočtu se doplní "
+"z původního přiznání; nemá-li tiskopis takový řádek, ponechte prázdné."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__excess_line_code
+msgid ""
+"Line code of the period's excess deduction (nadmerný odpočet / nadměrný "
+"odpočet), e.g. 'r33' on the SK DPHv25 form. Drives the settlement and the "
+"carry-forward cap check; leave empty if the form has no such settlement."
+msgstr ""
+"Kód řádku nadměrného odpočtu období, např. „r33“ na slovenském tiskopisu "
+"DPHv25. Řídí vypořádání a kontrolu limitu převodu; nemá-li tiskopis takové "
+"vypořádání, ponechte prázdné."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
+msgid ""
+"Line code of the period's own tax liability (vlastná daňová povinnosť / "
+"vlastní daň), e.g. 'r32' on the SK DPHv25 form. Drives the § 79-style "
+"settlement (To pay / (refund)); leave empty if the form has no such "
+"settlement."
+msgstr ""
+"Kód řádku vlastní daňové povinnosti období, např. „r32“ na slovenském "
+"tiskopisu DPHv25. Řídí vypořádání obdobné § 79 (K úhradě / (vrácení)); nemá-"
+"li tiskopis takové vypořádání, ponechte prázdné."
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid ""
+"Line filter %r is not implemented for this country. A form line asking for a "
+"restriction nobody applies would report the whole of its tags instead of its "
+"share of them."
+msgstr ""
+"Filtr řádku %r není pro tuto zemi implementován. Řádek tiskopisu, který žádá "
+"omezení, jež nikdo neuplatní, by vykázal celé své štítky místo jejich podílu."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line__kind
@@ -430,6 +693,16 @@ msgid "My Activity Deadline"
 msgstr "Termín mé aktivity"
 
 #. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid ""
+"Nadmerný odpočet na prenos (%(out).2f) nemôže byť vyšší ako nadmerný odpočet "
+"obdobia %(code)s (%(excess).2f)."
+msgstr ""
+"Nadměrný odpočet k převodu (%(out).2f) nesmí být vyšší než nadměrný odpočet "
+"období %(code)s (%(excess).2f)."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__name
@@ -464,6 +737,21 @@ msgid "Next Activity Type"
 msgstr "Typ další aktivity"
 
 #. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
+msgid ""
+"No historical VAT rates are defined for this company's chart of accounts."
+msgstr ""
+"Pro účtovou osnovu této společnosti nejsou definovány žádné historické sazby "
+"DPH."
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "No miscellaneous journal to post the VAT closing in."
+msgstr "Chybí obecný deník, do kterého by se uzávěrka DPH zaúčtovala."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Počet akcí"
@@ -490,9 +778,51 @@ msgid "Only draft returns can be recomputed."
 msgstr "Přepočítat lze pouze přiznání ve stavu koncept."
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid ""
+"Open a delivery for this filing. With only "
+"the                                   manual channel installed this records "
+"who filed                                   it on the portal and holds the "
+"receipts."
+msgstr ""
+"Otevře doručení tohoto podání. Je-li nainstalován jen ruční kanál, "
+"zaznamená, kdo podání podal na portálu, a uchová potvrzení."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
+msgid ""
+"Optional extra restriction on the move lines a kind=tags line collects, "
+"named by a country module and resolved in ``_cssk_tag_line_filter``.\n"
+"\n"
+"It exists for a split that no TAG can express, because the chart has one tax "
+"where an older form had two rows. The Slovak § 69 ods. 3 is the case: the "
+"current tlačivo merges it into r09/r10, so l10n_sk carries a single reverse-"
+"charge family, and the pre-2021 vzory need it separated again.\n"
+"\n"
+"Left empty — which every line of every current form is — the line collects "
+"its tags exactly as before."
+msgstr ""
+"Volitelné doplňkové omezení účetních položek, které sbírá řádek typu „tags“; "
+"pojmenovává ho modul země a vyhodnocuje ho ``_cssk_tag_line_filter``.\n"
+"\n"
+"Existuje pro rozdělení, které nevyjádří žádný daňový štítek, protože osnova "
+"má jednu daň tam, kde starší tiskopis měl dva řádky. Příkladem je slovenský "
+"§ 69 ods. 3: současný tiskopis ho slučuje do r09/r10, takže l10n_sk má "
+"jedinou skupinu přenesení daňové povinnosti, a vzory z doby před rokem 2021 "
+"ji potřebují znovu oddělenou.\n"
+"\n"
+"Je-li prázdné – a takové je u každého řádku každého současného tiskopisu –, "
+"řádek sbírá své štítky přesně jako dosud."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__is_overridden
 msgid "Override"
 msgstr "Přepis"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
+msgid "Own-tax line code"
+msgstr "Kód řádku vlastní daně"
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__period_type
@@ -526,6 +856,21 @@ msgid "Quarterly"
 msgstr "Čtvrtletně"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_from
+msgid "Rate In Force From"
+msgstr "Sazba platná od"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_to
+msgid "Rate In Force Until"
+msgstr "Sazba platná do"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__rate_pairs
+msgid "Rate pairs"
+msgstr "Dvojice sazeb"
+
+#. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid "Reset this filing to draft? The originally filed copy is kept."
 msgstr ""
@@ -556,6 +901,31 @@ msgstr ""
 "přeneseného nadměrného odpočtu."
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
+msgid ""
+"Rounding of the return against the ledger, when the return pays less (648000 "
+"when empty)."
+msgstr ""
+"Zaokrouhlení přiznání vůči účetnictví, když přiznání platí méně (je-li "
+"prázdný, 648000)."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
+msgid ""
+"Rounding of the return against the ledger, when the return pays more (548000 "
+"when empty)."
+msgstr ""
+"Zaokrouhlení přiznání vůči účetnictví, když přiznání platí více (je-li "
+"prázdný, 548000)."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_stated_codes
+msgid "Rows the source states"
+msgstr "Řádky, které zdroj uvádí"
+
+#. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid "Rows tie out"
 msgstr "Řádky souhlasí"
@@ -573,15 +943,34 @@ msgid "Sequence"
 msgstr "Pořadí"
 
 #. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Set the VAT rounding accounts in the accounting settings."
+msgstr "Nastavte účty zaokrouhlení DPH v nastavení účetnictví."
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Set the VAT settlement account in the accounting settings."
+msgstr "Nastavte účet zúčtování DPH v nastavení účetnictví."
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
+msgid "Settlement"
+msgstr "Vypořádání"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__to_pay
 msgid ""
-"Settlement after the § 79 carry = r32 − r33 − carried_in + carried_out. "
-"Positive = tax to pay; negative = excess deduction to refund. Matches the "
-"filing header (UHRADIT)."
+"Settlement after the § 79 carry = own tax − excess deduction − carried_in + "
+"carried_out (line codes from the version). Positive = tax to pay; negative = "
+"excess deduction to refund. Matches the filing header (UHRADIT)."
 msgstr ""
-"Vyrovnání po převodu dle § 79 = r32 − r33 − carried_in + carried_out. Kladné"
-" = daň k úhradě; záporné = nadměrný odpočet k vrácení. Odpovídá hlavičce "
-"podání (UHRADIT)."
+"Vypořádání po převodu podle § 79 = vlastní daň − nadměrný odpočet − "
+"převedeno z minula + převedeno dál (kódy řádků z verze). Kladná částka = daň "
+"k úhradě; záporná = nadměrný odpočet k vrácení. Odpovídá hlavičce podání "
+"(UHRADIT)."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__source_domain
@@ -603,6 +992,16 @@ msgstr "Zdrojové doklady"
 #: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
 msgid "Source documents — %s %s"
 msgstr "Zdrojové doklady — %s %s"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
+msgid "Source reference"
+msgstr "Zdrojová reference"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
+msgid "Source system"
+msgstr "Zdrojový systém"
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__code
@@ -634,6 +1033,21 @@ msgstr ""
 "Naplánováno: Budoucí aktivity."
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__rate_pairs
+msgid ""
+"Statutory base/tax rate pairing for the kontrolné pravidlá, as a list of "
+"[base_line_code, tax_line_code, rate] items (rate may itself be a list when "
+"several rates share the rows), e.g. [['r03', 'r04', 23.0]] — the implied "
+"rate |tax|/|base|×100 must match. Version DATA, not code: the pairing "
+"follows the form vintage (DPHv25: 19/5/23; older forms: 10/20)."
+msgstr ""
+"Zákonné párování základu a daně se sazbou pro kontrolní pravidla jako seznam "
+"položek [kód_řádku_základu, kód_řádku_daně, sazba] (sazba může být i seznam, "
+"sdílí-li řádky více sazeb), např. [['r03', 'r04', 23.0]] – odvozená sazba |"
+"daň|/|základ|×100 musí souhlasit. Jsou to DATA verze, ne kód: párování "
+"sleduje ročník tiskopisu (DPHv25: 19/5/23; starší tiskopisy: 10/20)."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_reference
 msgid "Submission Reference"
 msgstr "Reference podání"
@@ -647,6 +1061,11 @@ msgstr "Typy podání"
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_reference
 msgid "Submission identifier / confirmation number from the FS portal."
 msgstr "Identifikátor podání / potvrzovací číslo z portálu FS."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_ids
+msgid "Submissions"
+msgstr "Podání"
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__state__submitted
@@ -664,6 +1083,11 @@ msgid "Tag Formula"
 msgstr "Vzorec značek"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_tax
+msgid "Tax"
+msgstr "Daň"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return_line__kind__tags
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return_line_def__kind__tags
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.view_move_line_dph_audit
@@ -674,8 +1098,12 @@ msgstr "Daňové značky"
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__tag_formula
 msgid "Tax-tag formula for kind=tags, e.g. '-03' (tag '03', sign −1)."
 msgstr ""
-"Vzorec daňových značek pro kind=tags, např. '-03' (značka '03', znaménko "
-"−1)."
+"Vzorec daňových značek pro kind=tags, např. '-03' (značka '03', znaménko −1)."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
+msgid "The VAT closing entry that cleared this tax line."
+msgstr "Uzávěrka DPH, která tento daňový řádek zúčtovala."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__country_id
@@ -683,9 +1111,40 @@ msgid "The country to use the tax reports from for this company"
 msgstr "Země, jejíž daňové výkazy se pro tuto společnost použijí"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_source_tax_id
+msgid ""
+"The current-rate tax this one was cloned from. Kept because the clone's "
+"repartition and tags come from it: if the statutory form ever stops treating "
+"rate slots as interchangeable, this is the list of taxes that assumption was "
+"applied to."
+msgstr ""
+"Daň s aktuální sazbou, ze které byla tato daň naklonována. Uchovává se, "
+"protože rozdělení a štítky klonu pocházejí z ní: pokud by tiskopis přestal "
+"považovat pozice sazeb za zaměnitelné, toto je seznam daní, na které se ten "
+"předpoklad uplatnil."
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__submitted_attachment_id
 msgid "The exact XML that was submitted; preserved across reset-to-draft."
 msgstr "Přesné XML, které bylo podáno; zachováno i po vrácení do konceptu."
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid "The form version %(version)s cannot be filed for a %(period)s period."
+msgstr "Verzi tiskopisu %(version)s nelze podat za %(period)s období."
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid ""
+"The ledger and the return disagree by %(diff)s: the tax lines of the period "
+"net to %(ledger)s, the return to %(expected)s. Check the unreconciled rows "
+"of the return before closing."
+msgstr ""
+"Účetnictví a přiznání se liší o %(diff)s: daňové řádky období dávají %"
+"(ledger)s, přiznání %(expected)s. Před uzávěrkou zkontrolujte neodsouhlasené "
+"řádky přiznání."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__original_return_id
@@ -704,18 +1163,79 @@ msgstr ""
 "příštím přiznání 'from the previous period'."
 
 #. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid ""
+"The return version %(version)s does not name its own-tax and excess-"
+"deduction lines, so the VAT closing has nothing to agree with."
+msgstr ""
+"Verze přiznání %(version)s neuvádí řádky vlastní daňové povinnosti a "
+"nadměrného odpočtu, takže uzávěrka DPH nemá s čím souhlasit."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, "
+"written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the "
+"Slovak priznanie has thirty-seven rows. Every row it cannot state is missing "
+"here for a structural reason, not because the filing omitted it — so the "
+"comparison reports those rows as informational instead of as differences. "
+"Left empty, every row is treated as one the source could have stated, which "
+"is the right reading of a filing captured by hand."
+msgstr ""
+"Kódy řádků, které mohlo obsahovat vlastní podání zdrojového systému, "
+"oddělené čárkou; zapisuje je migrace, která tento záznam vytvořila.\n"
+"\n"
+"Zdroj tiskopis uchovává jen zřídka: PREMIER drží deset souhrnných údajů tam, "
+"kde slovenské přiznání má třicet sedm řádků. Každý řádek, který zdroj uvést "
+"neumí, zde chybí ze strukturálního důvodu, ne proto, že by ho podání "
+"vynechalo – srovnání proto takové řádky uvádí jako informativní, ne jako "
+"rozdíly. Je-li pole prázdné, každý řádek se považuje za takový, který zdroj "
+"uvést mohl, což je správné čtení podání zachyceného ručně."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted "
+"for a period that predates this system, loaded from a migration. It is a "
+"historical fact, so it can never be exported, submitted or recomputed, and "
+"it is invisible to anything that looks for 'the return of the previous "
+"period'. It CAN be amended: a dodatočné filed later against a historical "
+"period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal "
+"— the two are written together and cannot come apart."
+msgstr ""
+"Toto podání nevzniklo v tomto systému – zaznamenává, co bylo skutečně podáno "
+"za období před jeho zavedením, a bylo načteno migrací. Je to historický "
+"fakt, proto ho nelze exportovat, podat ani přepočítat a nevidí ho nic, co "
+"hledá „přiznání předchozího období“. Opravit ho však lze: dodatečné přiznání "
+"podané později za historické období je běžné podatelné přiznání.\n"
+"\n"
+"Zaškrtnutí přepne záznam do stavu „Historické podání“, který je konečný – "
+"obě hodnoty se zapisují společně a nemohou se rozejít."
+
+#. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid ""
 "Tick <b>Override</b> on a line to enter a manual\n"
-"                                value (carryover / external lines, or to correct\n"
-"                                a computed line), then press <b>Compute</b> —\n"
-"                                overrides are preserved and flow into dependent\n"
+"                                value (carryover / external lines, or to "
+"correct\n"
+"                                a computed line), then press <b>Compute</b> "
+"—\n"
+"                                overrides are preserved and flow into "
+"dependent\n"
 "                                lines."
 msgstr ""
 "Zaškrtněte <b>Přepis</b> u řádku pro zadání ruční\n"
-"                                hodnoty (převodové / externí řádky, nebo k opravě\n"
-"                                vypočítaného řádku), poté stiskněte <b>Vypočítat</b> —\n"
-"                                přepisy se zachovají a promítnou se do závislých\n"
+"                                hodnoty (převodové / externí řádky, nebo k "
+"opravě\n"
+"                                vypočítaného řádku), poté stiskněte "
+"<b>Vypočítat</b> —\n"
+"                                přepisy se zachovají a promítnou se do "
+"závislých\n"
 "                                řádků."
 
 #. module: l10n_cssk_vat_return_base
@@ -760,6 +1280,11 @@ msgid "Unreconciled rows"
 msgstr "Nesouhlasící řádky"
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
+msgid "VAT Closing"
+msgstr "Uzávěrka DPH"
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model,name:l10n_cssk_vat_return_base.model_cssk_vat_return
 #: model:ir.ui.menu,name:l10n_cssk_vat_return_base.menu_cssk_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
@@ -801,10 +1326,76 @@ msgid "VAT Returns"
 msgstr "Přiznání k DPH"
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_amount
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_amount
+msgid "VAT closed"
+msgstr "Uzavřená DPH"
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid "VAT closing"
+msgstr "Uzávěrka DPH"
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "VAT closing %s"
+msgstr "Uzávěrka DPH %s"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_move_ids
+msgid "VAT closing entries"
+msgstr "Uzávěrky DPH"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid "VAT closing entry"
+msgstr "Účetní zápis uzávěrky DPH"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_return_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_return_id
+msgid "VAT closing of"
+msgstr "Uzávěrka DPH k"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
+msgid "VAT closing tolerance"
+msgstr "Tolerance uzávěrky DPH"
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid "VAT return"
+msgstr "přiznání k DPH"
+
+#. module: l10n_cssk_vat_return_base
 #. odoo-python
 #: code:addons/l10n_cssk_vat_return_base/models/account_move_line.py:0
 msgid "VAT return (DPH)"
 msgstr "Přiznání k DPH"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
+msgid "VAT rounding gain account"
+msgstr "Účet zisku ze zaokrouhlení DPH"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
+msgid "VAT rounding loss account"
+msgstr "Účet ztráty ze zaokrouhlení DPH"
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
+msgid "VAT settlement account"
+msgstr "Účet zúčtování DPH"
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__valid_from
@@ -842,6 +1433,24 @@ msgstr "Zprávy z webu"
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__website_message_ids
 msgid "Website communication history"
 msgstr "Historie komunikace přes web"
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
+msgid ""
+"Where the VAT closing of a filed return clears the VAT accounts, and where "
+"its rounding goes. Empty accounts fall back to 343000, 548000 and 648000."
+msgstr ""
+"Kam uzávěrka DPH podaného přiznání zúčtuje účty DPH a kam jde její "
+"zaokrouhlení. Prázdné účty se nahradí účty 343000, 548000 a 648000."
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how "
+"it was captured if by hand."
+msgstr ""
+"Odkud podání pochází, např. „PREMIER“, „Money S4“, „i6“, „MRP“ – nebo jak "
+"bylo zachyceno, pokud ručně."
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__xml_template_ref_id
@@ -882,598 +1491,6 @@ msgstr "ruční vstup"
 
 #. module: l10n_cssk_vat_return_base
 #. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
-msgid ""
-"%s historical VAT rate(s) are available. They are archived: an importer can "
-"use them, and they will not appear when raising a new document."
-msgstr ""
-"K dispozici jsou historické sazby DPH (%s). Jsou archivované: importér je "
-"může použít a při vystavení nového dokladu se nezobrazí."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__diff_line_code
-msgid "Amendment-difference line code"
-msgstr "Kód řádku rozdílu dodatečného podání"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.module.module,shortdesc:base.module_l10n_cssk_vat_return_base
-msgid "CZ/SK VAT Return — Shared Framework (DPH priznanie / DPHDP3)"
-msgstr "Přiznání k DPH CZ/SK — společný rámec (DPH priznanie / DPHDP3)"
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Compare with computed"
-msgstr "Porovnat s vypočteným"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.module.module,summary:base.module_l10n_cssk_vat_return_base
-msgid ""
-"Country-neutral framework for the Slovak and Czech VAT return: numbered "
-"report lines computed from tax tags + aggregate formulas, with an XSD-"
-"validated XML export. CE-clean (own tax-tag evaluator, no account_reports "
-"engine)."
-msgstr ""
-"Společný rámec slovenského a českého přiznání k DPH: číslované řádky výkazu "
-"počítané z daňových značek a souhrnných vzorců, s XML exportem ověřeným vůči"
-" XSD. Bez Enterprise (vlastní vyhodnocování daňových značek, bez nástroje "
-"account_reports)."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_source_tax_id
-msgid "Derived From"
-msgstr "Odvozeno z"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__excess_line_code
-msgid "Excess-deduction line code"
-msgstr "Kód řádku nadměrného odpočtu"
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "File it"
-msgstr "Podat"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_from
-msgid ""
-"First day this rate applied. Set only on taxes generated for a rate that is "
-"no longer current."
-msgstr ""
-"První den platnosti této sazby. Vyplňuje se jen u daní vytvořených pro "
-"sazbu, která už neplatí."
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_version_view_form
-msgid "Form line codes"
-msgstr "Kódy řádků formuláře"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
-#: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__state__legacy
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Historical filing"
-msgstr "Historické podání"
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.view_account_tax_search_cssk_historic
-msgid "Historical rate"
-msgstr "Historická sazba"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_to
-msgid "Last day this rate applied."
-msgstr "Poslední den platnosti této sazby."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
-msgid "Line Filter"
-msgstr "Filtr řádků"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__diff_line_code
-msgid ""
-"Line code of the 'difference vs the last known tax' row an amended "
-"(dodatočné) return reports, e.g. 'r36' on the SK DPHv25 form. Auto-filled "
-"from the original return on recompute; leave empty if the form has no such "
-"row."
-msgstr ""
-"Kód řádku „rozdíl oproti poslední známé dani“, který uvádí dodatečné "
-"přiznání, např. „r36“ na slovenském tiskopisu DPHv25. Při přepočtu se doplní"
-" z původního přiznání; nemá-li tiskopis takový řádek, ponechte prázdné."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__excess_line_code
-msgid ""
-"Line code of the period's excess deduction (nadmerný odpočet / nadměrný "
-"odpočet), e.g. 'r33' on the SK DPHv25 form. Drives the settlement and the "
-"carry-forward cap check; leave empty if the form has no such settlement."
-msgstr ""
-"Kód řádku nadměrného odpočtu období, např. „r33“ na slovenském tiskopisu "
-"DPHv25. Řídí vypořádání a kontrolu limitu převodu; nemá-li tiskopis takové "
-"vypořádání, ponechte prázdné."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
-msgid ""
-"Line code of the period's own tax liability (vlastná daňová povinnosť / "
-"vlastní daň), e.g. 'r32' on the SK DPHv25 form. Drives the § 79-style "
-"settlement (To pay / (refund)); leave empty if the form has no such "
-"settlement."
-msgstr ""
-"Kód řádku vlastní daňové povinnosti období, např. „r32“ na slovenském "
-"tiskopisu DPHv25. Řídí vypořádání obdobné § 79 (K úhradě / (vrácení)); nemá-"
-"li tiskopis takové vypořádání, ponechte prázdné."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"Line filter %r is not implemented for this country. A form line asking for a"
-" restriction nobody applies would report the whole of its tags instead of "
-"its share of them."
-msgstr ""
-"Filtr řádku %r není pro tuto zemi implementován. Řádek tiskopisu, který žádá"
-" omezení, jež nikdo neuplatní, by vykázal celé své štítky místo jejich "
-"podílu."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"Nadmerný odpočet na prenos (%(out).2f) nemôže byť vyšší ako nadmerný odpočet"
-" obdobia %(code)s (%(excess).2f)."
-msgstr ""
-"Nadměrný odpočet k převodu (%(out).2f) nesmí být vyšší než nadměrný odpočet "
-"období %(code)s (%(excess).2f)."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
-msgid ""
-"No historical VAT rates are defined for this company's chart of accounts."
-msgstr ""
-"Pro účtovou osnovu této společnosti nejsou definovány žádné historické sazby"
-" DPH."
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid ""
-"Open a delivery for this filing. With only the"
-"                                   manual channel installed this records who"
-" filed                                   it on the portal and holds the "
-"receipts."
-msgstr ""
-"Otevře doručení tohoto podání. Je-li nainstalován jen ruční kanál, "
-"zaznamená, kdo podání podal na portálu, a uchová potvrzení."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
-msgid ""
-"Optional extra restriction on the move lines a kind=tags line collects, named by a country module and resolved in ``_cssk_tag_line_filter``.\n"
-"\n"
-"It exists for a split that no TAG can express, because the chart has one tax where an older form had two rows. The Slovak § 69 ods. 3 is the case: the current tlačivo merges it into r09/r10, so l10n_sk carries a single reverse-charge family, and the pre-2021 vzory need it separated again.\n"
-"\n"
-"Left empty — which every line of every current form is — the line collects its tags exactly as before."
-msgstr ""
-"Volitelné doplňkové omezení účetních položek, které sbírá řádek typu „tags“; pojmenovává ho modul země a vyhodnocuje ho ``_cssk_tag_line_filter``.\n"
-"\n"
-"Existuje pro rozdělení, které nevyjádří žádný daňový štítek, protože osnova má jednu daň tam, kde starší tiskopis měl dva řádky. Příkladem je slovenský § 69 ods. 3: současný tiskopis ho slučuje do r09/r10, takže l10n_sk má jedinou skupinu přenesení daňové povinnosti, a vzory z doby před rokem 2021 ji potřebují znovu oddělenou.\n"
-"\n"
-"Je-li prázdné – a takové je u každého řádku každého současného tiskopisu –, řádek sbírá své štítky přesně jako dosud."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
-msgid "Own-tax line code"
-msgstr "Kód řádku vlastní daně"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_from
-msgid "Rate In Force From"
-msgstr "Sazba platná od"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_to
-msgid "Rate In Force Until"
-msgstr "Sazba platná do"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__rate_pairs
-msgid "Rate pairs"
-msgstr "Dvojice sazeb"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__to_pay
-msgid ""
-"Settlement after the § 79 carry = own tax − excess deduction − carried_in + "
-"carried_out (line codes from the version). Positive = tax to pay; negative ="
-" excess deduction to refund. Matches the filing header (UHRADIT)."
-msgstr ""
-"Vypořádání po převodu podle § 79 = vlastní daň − nadměrný odpočet − "
-"převedeno z minula + převedeno dál (kódy řádků z verze). Kladná částka = daň"
-" k úhradě; záporná = nadměrný odpočet k vrácení. Odpovídá hlavičce podání "
-"(UHRADIT)."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__rate_pairs
-msgid ""
-"Statutory base/tax rate pairing for the kontrolné pravidlá, as a list of "
-"[base_line_code, tax_line_code, rate] items (rate may itself be a list when "
-"several rates share the rows), e.g. [['r03', 'r04', 23.0]] — the implied "
-"rate |tax|/|base|×100 must match. Version DATA, not code: the pairing "
-"follows the form vintage (DPHv25: 19/5/23; older forms: 10/20)."
-msgstr ""
-"Zákonné párování základu a daně se sazbou pro kontrolní pravidla jako seznam"
-" položek [kód_řádku_základu, kód_řádku_daně, sazba] (sazba může být i "
-"seznam, sdílí-li řádky více sazeb), např. [['r03', 'r04', 23.0]] – odvozená "
-"sazba |daň|/|základ|×100 musí souhlasit. Jsou to DATA verze, ne kód: "
-"párování sleduje ročník tiskopisu (DPHv25: 19/5/23; starší tiskopisy: "
-"10/20)."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_source_tax_id
-msgid ""
-"The current-rate tax this one was cloned from. Kept because the clone's "
-"repartition and tags come from it: if the statutory form ever stops treating"
-" rate slots as interchangeable, this is the list of taxes that assumption "
-"was applied to."
-msgstr ""
-"Daň s aktuální sazbou, ze které byla tato daň naklonována. Uchovává se, "
-"protože rozdělení a štítky klonu pocházejí z ní: pokud by tiskopis přestal "
-"považovat pozice sazeb za zaměnitelné, toto je seznam daní, na které se ten "
-"předpoklad uplatnil."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
 #: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
 msgid "recomputed"
 msgstr "přepočteno"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
-msgid "Filed history"
-msgstr "Historie podání"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
-msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
-" latest one; after a reset → recompute → resubmit cycle the previously-filed"
-" copies stay reachable here."
-msgstr ""
-"Všechna XML, která byla kdy pro toto podání označena jako podaná. „Podané "
-"XML“ je poslední z nich; po cyklu obnovení → přepočet → opětovné podání zde "
-"zůstávají dostupné i dříve podané kopie."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
-msgid ""
-"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
-"\n"
-"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
-msgstr ""
-"Toto podání nevzniklo v tomto systému – zaznamenává, co bylo skutečně podáno za období před jeho zavedením, a bylo načteno migrací. Je to historický fakt, proto ho nelze exportovat, podat ani přepočítat a nevidí ho nic, co hledá „přiznání předchozího období“. Opravit ho však lze: dodatečné přiznání podané později za historické období je běžné podatelné přiznání.\n"
-"\n"
-"Zaškrtnutí přepne záznam do stavu „Historické podání“, který je konečný – obě hodnoty se zapisují společně a nemohou se rozejít."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
-msgid "Source system"
-msgstr "Zdrojový systém"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
-msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
-" it was captured if by hand."
-msgstr ""
-"Odkud podání pochází, např. „PREMIER“, „Money S4“, „i6“, „MRP“ – nebo jak "
-"bylo zachyceno, pokud ručně."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
-msgid "Source reference"
-msgstr "Zdrojová reference"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
-msgid ""
-"Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced it."
-msgstr ""
-"Identifikátor importní dávky nebo zdrojového dokladu, ze kterého bylo toto "
-"podání vytvořeno, aby se údaj dal dohledat k jeho původu."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid "VAT return"
-msgstr "přiznání k DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Carry excess deduction"
-msgstr "Převést nadměrný odpočet"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_comparison_count
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Comparisons"
-msgstr "Porovnání"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.actions.server,name:l10n_cssk_vat_return_base.action_cssk_create_historic_vat_taxes
-msgid "Create historical VAT rates"
-msgstr "Vytvořit historické sazby DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
-msgid "Settlement"
-msgstr "Vypořádání"
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid "The form version %(version)s cannot be filed for a %(period)s period."
-msgstr "Verzi tiskopisu %(version)s nelze podat za %(period)s období."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
-msgid "Export warnings"
-msgstr "Upozornění exportu"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
-msgid ""
-"Content checks that did not block the last export but need a look before "
-"filing, one per line. Refreshed on every export; empty when the last export "
-"raised none."
-msgstr ""
-"Kontroly obsahu, které poslední export nezablokovaly, ale před podáním je "
-"třeba je projít, každá na samostatném řádku. Obnovují se při každém exportu;"
-" prázdné, pokud poslední export žádné nenašel."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "%s - rounding"
-msgstr "%s - zaokrouhlení"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
-msgid "VAT settlement account"
-msgstr "Účet zúčtování DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
-msgid "VAT rounding loss account"
-msgstr "Účet ztráty ze zaokrouhlení DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
-msgid "VAT rounding gain account"
-msgstr "Účet zisku ze zaokrouhlení DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
-msgid "VAT closing tolerance"
-msgstr "Tolerance uzávěrky DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
-msgid "VAT closing entry"
-msgstr "Účetní zápis uzávěrky DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_return_id
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_return_id
-msgid "VAT closing of"
-msgstr "Uzávěrka DPH k"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_move_ids
-msgid "VAT closing entries"
-msgstr "Uzávěrky DPH"
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
-msgid "VAT closing"
-msgstr "Uzávěrka DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
-msgid "VAT Closing"
-msgstr "Uzávěrka DPH"
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "VAT closing %s"
-msgstr "Uzávěrka DPH %s"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_count
-msgid "L10N Cssk Closing Count"
-msgstr "Počet uzávěrek DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
-msgid "The VAT closing entry that cleared this tax line."
-msgstr "Uzávěrka DPH, která tento daňový řádek zúčtovala."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "Every tax line of this return's period is already closed."
-msgstr "Všechny daňové řádky období tohoto přiznání jsou již uzavřené."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "Export or submit the return before closing its VAT."
-msgstr "Před uzávěrkou DPH přiznání exportujte nebo podejte."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "No miscellaneous journal to post the VAT closing in."
-msgstr "Chybí obecný deník, do kterého by se uzávěrka DPH zaúčtovala."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "Set the VAT rounding accounts in the accounting settings."
-msgstr "Nastavte účty zaokrouhlení DPH v nastavení účetnictví."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "Set the VAT settlement account in the accounting settings."
-msgstr "Nastavte účet zúčtování DPH v nastavení účetnictví."
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
-msgid ""
-"Clear the period's VAT accounts into the settlement account (draft entry)."
-msgstr "Zúčtuje účty DPH období na účet zúčtování (návrh dokladu)."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
-msgid ""
-"Account the VAT closing clears the 343 sub-accounts into (343000 when "
-"empty). It then holds the period's own tax liability or excess deduction."
-msgstr ""
-"Účet, na který uzávěrka DPH zúčtuje analytické účty 343 (je-li prázdný, "
-"343000). Poté na něm zůstane vlastní daňová povinnost nebo nadměrný odpočet "
-"období."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
-msgid ""
-"Rounding of the return against the ledger, when the return pays more (548000"
-" when empty)."
-msgstr ""
-"Zaokrouhlení přiznání vůči účetnictví, když přiznání platí více (je-li "
-"prázdný, 548000)."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
-msgid ""
-"Rounding of the return against the ledger, when the return pays less (648000"
-" when empty)."
-msgstr ""
-"Zaokrouhlení přiznání vůči účetnictví, když přiznání platí méně (je-li "
-"prázdný, 648000)."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
-msgid ""
-"Largest difference between the ledger and the return the VAT closing books "
-"as rounding. A larger one stops the closing."
-msgstr ""
-"Největší rozdíl mezi účetnictvím a přiznáním, který uzávěrka DPH zaúčtuje "
-"jako zaokrouhlení. Větší rozdíl uzávěrku zastaví."
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
-msgid ""
-"Where the VAT closing of a filed return clears the VAT accounts, and where "
-"its rounding goes. Empty accounts fall back to 343000, 548000 and 648000."
-msgstr ""
-"Kam uzávěrka DPH podaného přiznání zúčtuje účty DPH a kam jde její "
-"zaokrouhlení. Prázdné účty se nahradí účty 343000, 548000 a 648000."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid ""
-"The ledger and the return disagree by %(diff)s: the tax lines of the period "
-"net to %(ledger)s, the return to %(expected)s. Check the unreconciled rows "
-"of the return before closing."
-msgstr ""
-"Účetnictví a přiznání se liší o %(diff)s: daňové řádky období dávají "
-"%(ledger)s, přiznání %(expected)s. Před uzávěrkou zkontrolujte "
-"neodsouhlasené řádky přiznání."
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid ""
-"The return version %(version)s does not name its own-tax and excess-"
-"deduction lines, so the VAT closing has nothing to agree with."
-msgstr ""
-"Verze přiznání %(version)s neuvádí řádky vlastní daňové povinnosti a "
-"nadměrného odpočtu, takže uzávěrka DPH nemá s čím souhlasit."
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_amount
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_amount
-msgid "VAT closed"
-msgstr "Uzavřená DPH"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_chart_template
-msgid "Account Chart Template"
-msgstr "Šablona účtové osnovy"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model,name:l10n_cssk_vat_return_base.model_res_company
-msgid "Companies"
-msgstr "Společnosti"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model,name:l10n_cssk_vat_return_base.model_res_config_settings
-msgid "Config Settings"
-msgstr "Nastavení konfigurace"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__active_submission_id
-msgid "Current submission"
-msgstr "Aktuální podání"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_state
-msgid "Delivery"
-msgstr "Doručení"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_move
-msgid "Journal Entry"
-msgstr "Účetní doklad"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_stated_codes
-msgid "Rows the source states"
-msgstr "Řádky, které zdroj uvádí"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_ids
-msgid "Submissions"
-msgstr "Podání"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_tax
-msgid "Tax"
-msgstr "Daň"
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_stated_codes
-msgid ""
-"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
-"\n"
-"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
-msgstr ""
-"Kódy řádků, které mohlo obsahovat vlastní podání zdrojového systému, oddělené čárkou; zapisuje je migrace, která tento záznam vytvořila.\n"
-"\n"
-"Zdroj tiskopis uchovává jen zřídka: PREMIER drží deset souhrnných údajů tam, kde slovenské přiznání má třicet sedm řádků. Každý řádek, který zdroj uvést neumí, zde chybí ze strukturálního důvodu, ne proto, že by ho podání vynechalo – srovnání proto takové řádky uvádí jako informativní, ne jako rozdíly. Je-li pole prázdné, každý řádek se považuje za takový, který zdroj uvést mohl, což je správné čtení podání zachyceného ručně."

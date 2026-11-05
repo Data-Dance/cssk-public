@@ -65,7 +65,7 @@ def advance_tax_doc_deadline(company, paid_date):
 
 
 def advance_account_names(name):
-    """``{lang: name}`` for a spec account name given as a str or a dict.
+    """``{lang: name}`` for a spec name given as a str or a dict.
 
     A plain str is the old spec shape: one name, stored as the English source.
     """
@@ -74,8 +74,17 @@ def advance_account_names(name):
     return {"en_US": name}
 
 
-def write_advance_account_names(account, names):
-    """Store every language of ``names`` on ``account``, installed or not.
+def _stored_names(record, field="name"):
+    record.flush_recordset([field])
+    record.env.cr.execute(
+        f'SELECT "{field}" FROM "{record._table}" WHERE id = %s', [record.id]
+    )
+    row = record.env.cr.fetchone()
+    return (row and row[0]) or {}
+
+
+def write_translated_names(record, names, field="name"):
+    """Store every language of ``names`` on ``record``, installed or not.
 
     The ORM's ``update_field_translations`` refuses languages that are not
     active, so a Slovak name written while only English is installed would be
@@ -85,28 +94,37 @@ def write_advance_account_names(account, names):
     """
     if not names:
         return
-    account.flush_recordset(["name"])
-    account.env.cr.execute(
-        "UPDATE account_account SET name = COALESCE(name, '{}'::jsonb) || %s::jsonb"
-        " WHERE id = %s",
-        [json.dumps(names), account.id],
+    record.flush_recordset([field])
+    record.env.cr.execute(
+        f'UPDATE "{record._table}" SET "{field}" = '
+        f'COALESCE("{field}", \'{{}}\'::jsonb) || %s::jsonb WHERE id = %s',
+        [json.dumps(names), record.id],
     )
-    account.invalidate_recordset(["name"])
+    record.invalidate_recordset([field])
 
 
-def adopt_advance_account_names(account, names):
-    """Give an existing account the names of the spec, if it still has ours.
+def adopt_translated_names(record, names, also_replace=(), field="name"):
+    """Give an existing record the names of the spec, if it still has ours.
 
-    Older versions created the account with only the national-language name,
-    stored as its English source. An account whose English name is still one
-    of the spec's non-English names was made that way and is renamed; one the
-    user renamed is left alone.
+    * Its English name is one of the spec's other-language names, or a default
+      an earlier version used (``also_replace``): it was made by us with a
+      national name stored as the English source, and gets all of ``names``.
+    * Its English name is already the spec's: only the languages it lacks are
+      added, so a translation someone corrected by hand survives.
+    * Anything else is a name the user chose, and is left alone.
     """
-    account.env.cr.execute(
-        "SELECT name->>'en_US' FROM account_account WHERE id = %s", [account.id]
-    )
-    row = account.env.cr.fetchone()
-    current = row and row[0]
+    stored = _stored_names(record, field)
+    current = stored.get("en_US")
     ours = {value for lang, value in names.items() if lang != "en_US"}
+    ours |= set(also_replace)
     if current in ours and current != names.get("en_US"):
-        write_advance_account_names(account, names)
+        write_translated_names(record, names, field)
+    elif current == names.get("en_US"):
+        missing = {lang: value for lang, value in names.items() if lang not in stored}
+        if missing:
+            write_translated_names(record, missing, field)
+
+
+# The names these helpers had when they only handled accounts.
+write_advance_account_names = write_translated_names
+adopt_advance_account_names = adopt_translated_names

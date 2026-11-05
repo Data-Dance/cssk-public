@@ -61,7 +61,7 @@ class AccountAssetBookTaxReportMixin(models.AbstractModel):
     """
 
     _name = "account.asset.book.tax.report.mixin"
-    _description = "Book vs Tax Depreciation Report (shared)"
+    _description = "Depreciation Analysis Report (shared)"
 
     company_id = fields.Many2one("res.company", readonly=True)
     currency_id = fields.Many2one(related="company_id.currency_id")

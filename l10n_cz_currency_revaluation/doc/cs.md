@@ -1,7 +1,7 @@
 ---
 title: CZ přepočet cizích měn k rozvahovému dni (kurzové rozdíly)
 summary: Přepočte zůstatky v cizí měně kurzem ČNB k rozvahovému dni a kurzové rozdíly zaúčtuje na 563 a 663 — průvodcem OCA v edici Community a úpravou Odoo v edici Enterprise.
-verified: 19.0.1.2.0
+verified: 19.0.1.4.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -53,7 +53,7 @@ instalaci, má-li ji společnost už načtenou:
 |---|---|
 | Účet kurzových ztrát | 563000, je-li prázdný |
 | Účet kurzových zisků | 663000, je-li prázdný |
-| Výchozí deník kurzových zisků a ztrát | deník **KURZ** *Kurzové rozdíly* typu *Ostatní*, který se založí, nemá-li společnost deník s tímto kódem |
+| Výchozí deník kurzových zisků a ztrát | deník kurzových rozdílů společnosti, do kterého Odoo účtuje realizované kurzové rozdíly; deník **KURZ** *Kurzové rozdíly* se založí, jen nemá-li společnost žádný |
 
 Najdete je v *Účetnictví → Konfigurace → Nastavení*, oddíl *Přecenění ve
 více měnách*, spolu s volbou *Automaticky zaúčtovat vytvořené zápisy*
@@ -61,10 +61,10 @@ více měnách*, spolu s volbou *Automaticky zaúčtovat vytvořené zápisy*
 
 ### Před prvním přepočtem {#before}
 
-1. **Přidělte si přístup.** Nabídky OCA vidí jen členové skupiny
-   *Zaúčtování dodatečných rezervních zápisů*, kterou ve výchozím stavu
-   nemá nikdo. Přidejte ji uživateli v *Nastavení → Uživatelé*, oddíl
-   *Extra práva*, který se zobrazí v režimu vývojáře.
+1. **Přístup.** Nabídky OCA vidí jen členové skupiny *Zaúčtování
+   dodatečných rezervních zápisů*; modul ji přidává roli *Hlavní účetní*.
+   Jinému uživateli ji přidáte v *Nastavení → Uživatelé*, oddíl *Extra
+   práva*, který se zobrazí v režimu vývojáře.
 2. **Vyberte účty k přepočtu.** Zaškrtněte *Povolit přecenění měny* u
    každého účtu, jehož zůstatek v cizí měně se má přepočítat: devizové
    bankovní účty a valutové pokladny (22x, 21x), pohledávky (311) a závazky
@@ -116,7 +116,7 @@ společnosti nastaví:
 |---|---|
 | Expense Provision Account (česky *Účet zajišťování výdajů*) | 563000 |
 | Income Provision Account (česky *Účet poskytování příjmů*) | 663000 |
-| Deník | KURZ *Kurzové rozdíly*, založený, pokud chybí, nemá-li společnost ještě deník pro přecenění |
+| Deník | deník kurzových rozdílů společnosti (KURZ se založí, jen nemá-li žádný), nemá-li společnost ještě deník pro přecenění |
 
 Při instalaci se oba účty **přepíšou**, ať bylo nastaveno cokoli. Český
 překlad Odoo obou polí je nesrozumitelný; jde o protiúčty pro ztrátu a pro
@@ -143,5 +143,5 @@ zaúčtuje storno úpravy, obvykle k prvnímu dni dalšího období.
 - Enterprise úpravu k datu storna vždy stornuje; ponechat ji nelze.
 - Žádný z modulů nekontroluje, které účty se přepočítávají: o tom, i o
   vyloučení záloh a jiných položek, rozhoduje vaše účetní.
-- Instalace založí deník KURZ u každé české společnosti, která nemá
-  nastavený deník pro přecenění, ať cizí měny používá, nebo ne.
+- Instalace nastaví deník pro přecenění u každé české společnosti, která ho
+  nemá, ať cizí měny používá, nebo ne.

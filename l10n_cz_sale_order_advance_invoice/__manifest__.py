@@ -1,6 +1,6 @@
 {
     "name": "Advance Invoices - Czech Localization",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "summary": "Czech chart wiring for advance invoices (zálohové faktury)",
     "description": """
 Czech localization of Advance Invoices

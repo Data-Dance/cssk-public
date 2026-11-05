@@ -1,7 +1,7 @@
 ---
 title: Párovanie OCA — účet protistrany
 summary: Zobrazí bankový účet protistrany na obrazovke párovania bankových výpisov OCA, aby sa dal určiť aj platiteľ, ktorý neuviedol variabilný symbol.
-verified: 19.0.1.0.0
+verified: 19.0.1.1.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -36,3 +36,5 @@ Nainštaluje sa sám vždy, keď je nainštalovaný `account_reconcile_oca`.
   protistrany nedodáva (napríklad ručne zadané), nezobrazia nič.
 - Sám nepáruje nič podľa čísla účtu; partnera podľa bankového účtu priraďuje
   import výpisu pri vzniku riadku.
+
+Tlačidlo na karte banky na riadiacom paneli navyše pomenuje **N na párovanie** namiesto OCA *Párovať N Položky*, ktoré sa po slovensky nedá správne vyskloňovať (1 položka, 2 položky, 5 položiek).

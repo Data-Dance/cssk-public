@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-28 22:38+0000\n"
+"POT-Creation-Date: 2026-11-04 12:57+0000\n"
 "PO-Revision-Date: 2026-06-13 20:27+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -12,6 +12,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : 3);\n"
+
+#. module: l10n_cssk_kv_kh_base
+#. odoo-python
+#: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
+msgid "(bez čísla)"
+msgstr "(bez čísla)"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model,name:l10n_cssk_kv_kh_base.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Šablona účtové osnovy"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__message_needaction
@@ -94,6 +105,11 @@ msgid "Balance"
 msgstr "Zůstatek"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__cssk_audit_base
+msgid "Base"
+msgstr "Základ"
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement_section_mixin__kod_opravy__1
 #: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement_summary_mixin__kod_opravy__1
 msgid "Cancellation (original data)"
@@ -111,14 +127,36 @@ msgid "Code"
 msgstr "Kód"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model,name:l10n_cssk_kv_kh_base.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__company_id
 msgid "Company"
 msgstr "Společnost"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_comparison_count
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
+msgid "Comparisons"
+msgstr "Porovnání"
+
+#. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
 msgid "Compute"
 msgstr "Vypočítat"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, které poslední export nezablokovaly, ale před podáním je "
+"třeba je projít, každá na samostatném řádku. Obnovují se při každém exportu; "
+"prázdné, pokud poslední export žádné nenašel."
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model,name:l10n_cssk_kv_kh_base.model_cssk_control_statement_summary_mixin
@@ -151,6 +189,16 @@ msgid "Control Statement Submission Type"
 msgstr "Typ podání kontrolního hlášení"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.actions.act_window,name:l10n_cssk_kv_kh_base.cssk_control_statement_type_action
+msgid "Control Statement Submission Types"
+msgstr "Typy podání kontrolního hlášení"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.ui.menu,name:l10n_cssk_kv_kh_base.menu_cssk_control_statement_type
+msgid "Control Statement Types"
+msgstr "Typy kontrolního hlášení"
+
+#. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_version_view_form
 msgid "Control Statement Version"
 msgstr "Verze kontrolního hlášení"
@@ -166,6 +214,11 @@ msgstr "Verze kontrolního hlášení (šablona KH / KV DPH)"
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_version_view_list
 msgid "Control Statement Versions"
 msgstr "Verze kontrolního hlášení"
+
+#. module: l10n_cssk_kv_kh_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_form_cssk_control_original_ref
+msgid "Control-statement VAT"
+msgstr "DIČ pro kontrolní hlášení"
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_form_cssk_control_original_ref
@@ -187,19 +240,30 @@ msgid "Control-statement section override"
 msgstr "Přepis sekce kontrolního hlášení"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__account_move__cssk_vat_correction__yes
+msgid "Correction"
+msgstr "Oprava"
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__kod_opravy
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement_summary_mixin__kod_opravy
 msgid ""
 "Correction code — filled only in an amended KV DPH (1 = cancellation of the "
 "original data, 2 = new / corrected data)."
 msgstr ""
-"Kód opravy — vyplňuje se jen v dodatečném KV DPH (1 = storno původních "
-"údajů, 2 = nové / opravené údaje)."
+"Kód opravy — vyplňuje se jen v dodatečném KV DPH (1 = storno původních údajů,"
+" 2 = nové / opravené údaje)."
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_type__country_id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__country_id
 msgid "Country"
 msgstr "Země"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__country_code
+msgid "Country Code"
+msgstr "Kód země"
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
@@ -212,7 +276,7 @@ msgstr "Moduly pro jednotlivé země sem vkládají záložky jednotlivých sekc
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_type__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Vytvořil"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__create_date
@@ -220,7 +284,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_type__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Vytvořeno"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__cssk_control_partner_vat_override
@@ -238,7 +302,12 @@ msgstr "Kód sekce kontrolního hlášení"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__company_currency_id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_summary_mixin__company_currency_id
 msgid "Currency"
-msgstr ""
+msgstr "Měna"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__active_submission_id
+msgid "Current submission"
+msgstr "Aktuální podání"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__date_from
@@ -256,12 +325,19 @@ msgid "Deducted Amount"
 msgstr "Odpočtená částka"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__submission_state
+msgid "Delivery"
+msgstr "Doručení"
+
+#. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_line_kvkh_audit
 msgid "Description"
 msgstr "Popis"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_journal__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_drill_mixin__display_name
@@ -272,8 +348,9 @@ msgstr "Popis"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_summary_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_type__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_res_company__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Zobrazovaný název"
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_line_kvkh_audit
@@ -301,6 +378,27 @@ msgid "Entry Ref Original"
 msgstr "Reference původního dokladu"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__entry_ref_original_xml
+msgid "Entry Ref Original Xml"
+msgstr "Původní reference dokladu (XML)"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__entry_ref_xml
+msgid "Entry Ref Xml"
+msgstr "Reference dokladu (XML)"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the "
+"latest one; after a reset → recompute → resubmit cycle the previously-filed "
+"copies stay reachable here."
+msgstr ""
+"Všechna XML, která byla kdy pro toto podání označena jako podaná. „Podané "
+"XML“ je poslední z nich; po cyklu obnovení → přepočet → opětovné podání zde "
+"zůstávají dostupné i dříve podané kopie."
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__xml_root_element
 msgid "Expected root element, e.g. 'KVDPH' / 'DPHKH1'."
 msgstr "Očekávaný kořenový element, např. 'KVDPH' / 'DPHKH1'."
@@ -309,6 +407,11 @@ msgstr "Očekávaný kořenový element, např. 'KVDPH' / 'DPHKH1'."
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
 msgid "Export XML"
 msgstr "Exportovat XML"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornění exportu"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement__state__exported
@@ -321,9 +424,19 @@ msgid "Fa Xml Value"
 msgstr "Hodnota v XML FS"
 
 #. module: l10n_cssk_kv_kh_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
+msgid "File it"
+msgstr "Podat"
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__submitted_attachment_id
 msgid "Filed XML"
 msgstr "Podané XML"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__filed_history_ids
+msgid "Filed history"
+msgstr "Historie podání"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__country_id
@@ -351,7 +464,15 @@ msgid "Has Message"
 msgstr "Má zprávu"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy
+#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement__state__legacy
+msgid "Historical filing"
+msgstr "Historické podání"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_chart_template__id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_journal__id
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_drill_mixin__id
@@ -362,8 +483,9 @@ msgstr "Má zprávu"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_summary_mixin__id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_type__id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__id
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_res_company__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__activity_exception_icon
@@ -374,6 +496,15 @@ msgstr "Ikona"
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr "Ikona označující výjimečnou aktivitu."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
+msgstr ""
+"Identifikátor importní dávky nebo zdrojového dokladu, ze kterého bylo toto "
+"podání vytvořeno, aby se údaj dal dohledat k jeho původu."
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__message_needaction
@@ -387,10 +518,22 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_journal__cssk_control_section_override
+msgid ""
+"If set, every VAT line of this journal is reported in this section of the "
+"control statement, whatever the section resolver would decide. Use the code "
+"as the form prints it, e.g. D.1 on the journal of a Slovak eKasa cash "
+"register, so its sales are reported as eKasa turnover rather than in D.2."
+msgstr ""
+"Je-li nastaveno, každý řádek s DPH v tomto deníku se vykáže v tomto oddílu "
+"kontrolního hlášení bez ohledu na to, co by určil resolver oddílů. Zadejte "
+"kód tak, jak jej uvádí tiskopis, např. D.1 v deníku slovenské pokladny eKasa."
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move_line__cssk_control_partner_vat_override
 msgid ""
-"If set, used instead of the partner VAT for control-statement classification"
-" (supports multi-VAT foreign branches; SK 'entry_vat')."
+"If set, used instead of the partner VAT for control-statement classification "
+"(supports multi-VAT foreign branches; SK 'entry_vat')."
 msgstr ""
 "Pokud je nastaveno, použije se místo DIČ DPH partnera pro klasifikaci "
 "kontrolního hlášení (podporuje zahraniční pobočky s více DIČ DPH; SK "
@@ -407,6 +550,7 @@ msgid "Journal"
 msgstr "Deník"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model,name:l10n_cssk_kv_kh_base.model_account_move
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__move_id
 msgid "Journal Entry"
 msgstr "Účetní zápis"
@@ -433,7 +577,7 @@ msgstr "Úplný stav KV (JSON)"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_type__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Naposledy upravil"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__write_date
@@ -441,7 +585,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_type__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Naposledy upraveno"
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
@@ -451,8 +595,8 @@ msgstr "Označit jako podané"
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_tax__cssk_control_is_reverse_charge
 msgid ""
-"Marks this tax as triggering reverse-charge classification (prenos/přenesení"
-" daňové povinnosti). Checked first by the resolver."
+"Marks this tax as triggering reverse-charge classification (prenos/přenesení "
+"daňové povinnosti). Checked first by the resolver."
 msgstr ""
 "Označuje tuto daň jako spouštějící klasifikaci přenesení daňové povinnosti "
 "(prenos/přenesení daňové povinnosti). Resolver ji kontroluje jako první."
@@ -512,6 +656,11 @@ msgid "Next Activity Type"
 msgstr "Typ další aktivity"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__account_move__cssk_vat_correction__no
+msgid "Not a correction"
+msgstr "Není oprava"
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__message_needaction_counter
 msgid "Number of Actions"
 msgstr "Počet akcí"
@@ -546,6 +695,35 @@ msgstr "Pouze řádky nad limitem"
 #: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement_section_code__threshold_behavior__below
 msgid "Only rows below threshold"
 msgstr "Pouze řádky pod limitem"
+
+#. module: l10n_cssk_kv_kh_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
+msgid ""
+"Open a delivery for this filing. With only the"
+"                                   manual channel installed this records who "
+"filed                                   it on the portal and holds the "
+"receipts."
+msgstr ""
+"Otevře doručení tohoto podání. Je-li nainstalován jen ruční kanál, zaznamená,"
+" kdo podání podal na portálu, a uchová potvrzení."
+
+#. module: l10n_cssk_kv_kh_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
+msgid "Opravné / následné"
+msgstr "Opravné / následné"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_bank_statement_line__cssk_control_original_ref
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move__cssk_control_original_ref
+msgid "Original document number"
+msgstr "Číslo původního dokladu"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_drill_mixin__is_overridden
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__is_overridden
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_summary_mixin__is_overridden
+msgid "Override"
+msgstr "Přepsat"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__partner_id
@@ -595,6 +773,26 @@ msgid "Quarterly"
 msgstr "Čtvrtletně"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__cssk_audit_rate
+msgid "Rate %"
+msgstr "Sazba %"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__account_move__cssk_vat_direction__purchase
+msgid "Received"
+msgstr "Přijato"
+
+#. module: l10n_cssk_kv_kh_base
+#. odoo-python
+#: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
+msgid ""
+"Recompute dropped %(count)s manual override(s) whose row no longer exists in the recomputed statement:\n"
+"%(rows)s"
+msgstr ""
+"Přepočet vynechal %(count)s ručních úprav, jejichž řádek již v přepočteném výkazu neexistuje:\n"
+"%(rows)s"
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement_section_code__aggregation__reconciliation
 msgid "Reconciliation lines (fixed)"
 msgstr "Řádky rozdílů (pevné)"
@@ -604,8 +802,7 @@ msgstr "Řádky rozdílů (pevné)"
 msgid ""
 "Reference of the original document for corrections (SK C.1/C.2, CZ negative "
 "rows)."
-msgstr ""
-"Reference původního dokladu pro opravy (SK C.1/C.2, CZ záporné řádky)."
+msgstr "Reference původního dokladu pro opravy (SK C.1/C.2, CZ záporné řádky)."
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
@@ -632,6 +829,11 @@ msgstr "Přenesení daňové povinnosti"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_summary_mixin__row_count
 msgid "Row Count"
 msgstr "Počet řádků"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_stated_codes
+msgid "Rows the source states"
+msgstr "Řádky, které zdroj uvádí"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__message_has_sms_error
@@ -661,6 +863,30 @@ msgid "Sequence"
 msgstr "Pořadí"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_bank_statement_line__cssk_vat_direction
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move__cssk_vat_direction
+msgid ""
+"Set on a journal entry that carries VAT to say which side of the control "
+"statement it belongs to. Leave empty on an invoice: its own type is the "
+"better answer, and is used when this is not set."
+msgstr ""
+"Nastavuje se na účetním záznamu s DPH a určuje, do které strany kontrolního "
+"hlášení patří. Na faktuře nechte prázdné: lepší odpovědí je její vlastní typ,"
+" který se použije, pokud toto pole není nastaveno."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_bank_statement_line__cssk_vat_correction
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move__cssk_vat_correction
+msgid ""
+"Set on a journal entry to say whether it is a correction (opravný doklad / dobropis) for control-statement purposes. Leave empty on an invoice: its own type answers, and is used when this is not set.\n"
+"\n"
+"Exists for the same reason as the VAT direction above. The Slovak resolver sends corrections to oddiel C.1 and C.2, and it decides by `move_type in ('out_refund', 'in_refund')` — which an imported credit note posted as a journal ENTRY does not satisfy. Measured on the i6 spike: 16 926 of its documents are entries against 4 invoices, so no document could ever reach C.1 or C.2 at all; and on the Money import, 22 credit notes are demoted to entries and lose the same test. The source knew it was a credit note and had nowhere to record it."
+msgstr ""
+"Nastavuje se na účetním záznamu a určuje, zda jde pro účely kontrolního hlášení o opravu (opravný doklad / dobropis). Na faktuře nechte prázdné: odpovídá její vlastní typ, který se použije, pokud toto pole není nastaveno.\n"
+"\n"
+"Existuje ze stejného důvodu jako směr DPH výše. Slovenský resolver posílá opravy do oddílů C.1 a C.2 a rozhoduje podle `move_type in ('out_refund', 'in_refund')` — což importovaný dobropis zaúčtovaný jako účetní ZÁZNAM nesplňuje. Naměřeno na zkušebním importu z i6: 16 926 jeho dokladů jsou záznamy proti 4 fakturám, takže žádný doklad se do C.1 ani C.2 nikdy nedostal; a při importu z Money se 22 dobropisů změní na záznamy a stejnou podmínku nesplní. Zdroj věděl, že jde o dobropis, ale neměl kam to zapsat."
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement_section_code__aggregation__single
 msgid "Single aggregated line"
 msgstr "Jeden agregovaný řádek"
@@ -669,8 +895,8 @@ msgstr "Jeden agregovaný řádek"
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__kv_full_state_json
 msgid ""
 "Snapshot of the FULL transaction list this amended KV represents (before it "
-"is reduced to a delta). It is the baseline the NEXT amendment diffs against,"
-" so chained amended statements stay correct."
+"is reduced to a delta). It is the baseline the NEXT amendment diffs against, "
+"so chained amended statements stay correct."
 msgstr ""
 "Snímek ÚPLNÉHO seznamu transakcí, který toto dodatečné KV představuje (před "
 "redukcí na rozdíl/delta). Je to základ, vůči němuž se porovnává PŘÍŠTÍ "
@@ -702,6 +928,16 @@ msgid "Source lines"
 msgstr "Zdrojové řádky"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_reference
+msgid "Source reference"
+msgstr "Zdrojová reference"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_source
+msgid "Source system"
+msgstr "Zdrojový systém"
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__state
 msgid "State"
 msgstr "Stav"
@@ -715,7 +951,6 @@ msgstr "Výkaz"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__statement_type_id
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__statement_type_ids
 msgid "Statement Type"
 msgstr "Typ výkazu"
 
@@ -738,14 +973,14 @@ msgid "Submission Reference"
 msgstr "Reference podání"
 
 #. module: l10n_cssk_kv_kh_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_version_view_form
-msgid "Submission Types"
-msgstr "Typy podání"
-
-#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__submission_reference
 msgid "Submission identifier / confirmation number from the FS portal."
 msgstr "Identifikátor podání / potvrzovací číslo z portálu FS."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__submission_ids
+msgid "Submissions"
+msgstr "Podání"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement__state__submitted
@@ -756,6 +991,11 @@ msgstr "Podáno"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__submitted_date
 msgid "Submitted Date"
 msgstr "Datum podání"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__account_move__cssk_vat_direction__sale
+msgid "Supplied"
+msgstr "Dodáno"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__supply_date
@@ -797,6 +1037,30 @@ msgstr ""
 "'l10n.sk.kv.dph.section.a1'."
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+"Dvoupísmenný kód země podle ISO.\n"
+"Pole můžete použít k rychlému vyhledávání."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move_line__cssk_control_rate_declared
+msgid ""
+"The VAT rate the source document states, for a line that carries the return tags without carrying the tax.\n"
+"\n"
+"Some statutory lines never named a rate — the CZ/SK reverse-charge band was one line for every rate until the vzor of 1. 7. 2025 — so their tag cannot say which rate applied and no amount of data will make it. Where the producer of the document knows, it says so here.\n"
+"\n"
+"It SELECTS among the taxes the tag already reaches; it never computes. A rate matching none of them is a mapping error and is refused, not applied. Ignored where the line carries a real tax."
+msgstr ""
+"Sazba DPH uvedená na zdrojovém dokladu, pro řádek, který nese značky přiznání, ale ne samotnou daň.\n"
+"\n"
+"Některé zákonné řádky sazbu nikdy neuváděly — pásmo přenesení daňové povinnosti bylo v CZ/SK až do vzoru od 1. 7. 2025 jedním řádkem pro všechny sazby — takže jejich značka nedokáže říct, která sazba se použila, a žádná data to nezmění. Pokud to tvůrce dokladu ví, uvede to zde.\n"
+"\n"
+"Sazba pouze VYBÍRÁ z daní, na které značka již dosahuje; nikdy nic nepočítá. Sazba, která neodpovídá žádné z nich, je chybou mapování a odmítne se, nepoužije. Ignoruje se, pokud řádek nese skutečnou daň."
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__country_id
 msgid "The country to use the tax reports from for this company"
 msgstr "Země, jejíž daňové výkazy se pro tuto společnost použijí"
@@ -807,10 +1071,62 @@ msgid "The exact XML that was submitted; preserved across reset-to-draft."
 msgstr "Přesné XML, které bylo podáno; zachováno i po vrácení do konceptu."
 
 #. module: l10n_cssk_kv_kh_base
+#. odoo-python
+#: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
+msgid "The form version %(version)s cannot be filed for a %(period)s period."
+msgstr "Verzi tiskopisu %(version)s nelze podat za %(period)s období."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_bank_statement_line__cssk_control_original_ref
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move__cssk_control_original_ref
+msgid ""
+"The number of the document this credit note or correction corrects, for when "
+"it is not linked to it — a credit note created by hand because it could not "
+"be raised from the invoice. The control statement reports it as the original "
+"document of a C.1 / C.2 row (Slovak kontrolný výkaz: poradové číslo pôvodnej "
+"faktúry). A linked original always wins over this."
+msgstr ""
+"Číslo dokladu, který tento dobropis nebo opravný doklad opravuje, není-li s "
+"ním propojen — dobropis vytvořený ručně, protože jej nebylo možné vystavit z "
+"faktury. Kontrolní výkaz jej uvádí jako původní doklad řádku C.1 / C.2. "
+"Propojený původní doklad má vždy přednost."
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__original_return_id
 msgid ""
 "The originally-filed statement this amended / corrective statement amends."
 msgstr "Původně podaný výkaz, který tento dodatečný / opravný výkaz mění."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__entry_ref_xml
+msgid ""
+"The reference as the STATEMENT can carry it: the KV DPH schema types it "
+"'\\S{1,32}', which forbids whitespace outright."
+msgstr ""
+"Reference ve tvaru, v jakém ji HLÁŠENÍ dokáže nést: schéma KV DPH ji typuje "
+"jako '\\S{1,32}', což zcela zakazuje mezery."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
+msgstr ""
+"Kódy řádků, které mohlo obsahovat vlastní podání zdrojového systému, oddělené čárkou; zapisuje je migrace, která tento záznam vytvořila.\n"
+"\n"
+"Zdroj tiskopis uchovává jen zřídka: PREMIER drží deset souhrnných údajů tam, kde slovenské přiznání má třicet sedm řádků. Každý řádek, který zdroj uvést neumí, zde chybí ze strukturálního důvodu, ne proto, že by ho podání vynechalo – srovnání proto takové řádky uvádí jako informativní, ne jako rozdíly. Je-li pole prázdné, každý řádek se považuje za takový, který zdroj uvést mohl, což je správné čtení podání zachyceného ručně."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
+msgstr ""
+"Toto podání nevzniklo v tomto systému – zaznamenává, co bylo skutečně podáno za období před jeho zavedením, a bylo načteno migrací. Je to historický fakt, proto ho nelze exportovat, podat ani přepočítat a nevidí ho nic, co hledá „přiznání předchozího období“. Opravit ho však lze: dodatečné přiznání podané později za historické období je běžné podatelné přiznání.\n"
+"\n"
+"Zaškrtnutí přepne záznam do stavu „Historické podání“, který je konečný – obě hodnoty se zapisují společně a nemohou se rozejít."
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_code__threshold_behavior
@@ -826,6 +1142,19 @@ msgstr "Měna limitu"
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__threshold_value
 msgid "Threshold Value"
 msgstr "Hodnota limitu"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_drill_mixin__is_overridden
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__is_overridden
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement_summary_mixin__is_overridden
+msgid ""
+"Tick to manually correct this row's amounts. The correction is preserved "
+"across recompute and re-applied to the row with the same identity (partner "
+"VAT / document / rate)."
+msgstr ""
+"Zaškrtněte pro ruční opravu částek tohoto řádku. Oprava se při přepočtu "
+"zachová a znovu se uplatní na řádek se stejnou identitou (DIČ partnera / "
+"doklad / sazba)."
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_line_kvkh_audit
@@ -851,6 +1180,11 @@ msgstr "Celkový základ daně"
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Typ výjimečné aktivity v záznamu."
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__cssk_audit_tax
+msgid "VAT"
+msgstr "DPH"
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.ui.menu,name:l10n_cssk_kv_kh_base.menu_cssk_control_statement
@@ -883,6 +1217,28 @@ msgid "VAT control statement (KV / KH)"
 msgstr "Kontrolní hlášení (KV / KH)"
 
 #. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_bank_statement_line__cssk_vat_correction
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move__cssk_vat_correction
+msgid "VAT correction"
+msgstr "Oprava DPH"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__cssk_audit_deducted
+msgid "VAT deducted"
+msgstr "Odpočtená DPH"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_bank_statement_line__cssk_vat_direction
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move__cssk_vat_direction
+msgid "VAT direction"
+msgstr "Směr DPH"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__cssk_control_rate_declared
+msgid "VAT rate declared"
+msgstr "Deklarovaná sazba DPH"
+
+#. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__valid_from
 msgid "Valid From"
 msgstr "Platné od"
@@ -900,7 +1256,6 @@ msgstr "Hodnota vystavená ve statutárním XML pro tento typ."
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__version_id
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_code__version_id
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_type__version_id
 msgid "Version"
 msgstr "Verze"
 
@@ -913,6 +1268,15 @@ msgstr "Zprávy z webu"
 #: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__website_message_ids
 msgid "Website communication history"
 msgstr "Historie komunikace přes web"
+
+#. module: l10n_cssk_kv_kh_base
+#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how "
+"it was captured if by hand."
+msgstr ""
+"Odkud podání pochází, např. „PREMIER“, „Money S4“, „i6“, „MRP“ – nebo jak "
+"bylo zachyceno, pokud ručně."
 
 #. module: l10n_cssk_kv_kh_base
 #: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_version__xml_template_ref_id
@@ -947,260 +1311,8 @@ msgstr "Název souboru XML schématu"
 #. module: l10n_cssk_kv_kh_base
 #. odoo-python
 #: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
-msgid "(bez čísla)"
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.module.module,summary:base.module_l10n_cssk_kv_kh_base
-msgid ""
-"Abstract framework for the Slovak KV DPH and Czech KH DPH VAT control "
-"statements: versioned templates, section/summary/reconciliation row mixins, "
-"move-line section assignment and an XSD-validated XML export pipeline."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.module.module,shortdesc:base.module_l10n_cssk_kv_kh_base
-msgid "CZ/SK Control Statement — Shared Framework"
-msgstr "CZ/SK kontrolní hlášení — sdílený rámec"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.actions.act_window,name:l10n_cssk_kv_kh_base.cssk_control_statement_type_action
-msgid "Control Statement Submission Types"
-msgstr "Typy podání kontrolního hlášení"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.ui.menu,name:l10n_cssk_kv_kh_base.menu_cssk_control_statement_type
-msgid "Control Statement Types"
-msgstr "Typy kontrolního hlášení"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__account_move__cssk_vat_correction__yes
-msgid "Correction"
-msgstr "Oprava"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__entry_ref_original_xml
-msgid "Entry Ref Original Xml"
-msgstr "Původní reference dokladu (XML)"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__entry_ref_xml
-msgid "Entry Ref Xml"
-msgstr "Reference dokladu (XML)"
-
-#. module: l10n_cssk_kv_kh_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
-msgid "File it"
-msgstr "Podat"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__cssk_control_statement__state__legacy
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy
-msgid "Historical filing"
-msgstr "Historické podání"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__account_move__cssk_vat_correction__no
-msgid "Not a correction"
-msgstr "Není oprava"
-
-#. module: l10n_cssk_kv_kh_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
-msgid ""
-"Open a delivery for this filing. With only the"
-"                                   manual channel installed this records who"
-" filed                                   it on the portal and holds the "
-"receipts."
-msgstr ""
-"Otevře doručení tohoto podání. Je-li nainstalován jen ruční kanál, "
-"zaznamená, kdo podání podal na portálu, a uchová potvrzení."
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_drill_mixin__is_overridden
-msgid "Override"
-msgstr "Přepsat"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__account_move__cssk_vat_direction__purchase
-msgid "Received"
-msgstr "Přijato"
-
-#. module: l10n_cssk_kv_kh_base
-#. odoo-python
-#: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
-msgid ""
-"Recompute dropped %(count)s manual override(s) whose row no longer exists in the recomputed statement:\n"
-"%(rows)s"
-msgstr ""
-"Přepočet vynechal %(count)s ručních úprav, jejichž řádek již v přepočteném výkazu neexistuje:\n"
-"%(rows)s"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move__cssk_vat_direction
-msgid ""
-"Set on a journal entry that carries VAT to say which side of the control "
-"statement it belongs to. Leave empty on an invoice: its own type is the "
-"better answer, and is used when this is not set."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move__cssk_vat_correction
-msgid ""
-"Set on a journal entry to say whether it is a correction (opravný doklad / dobropis) for control-statement purposes. Leave empty on an invoice: its own type answers, and is used when this is not set.\n"
-"\n"
-"Exists for the same reason as the VAT direction above. The Slovak resolver sends corrections to oddiel C.1 and C.2, and it decides by `move_type in ('out_refund', 'in_refund')` — which an imported credit note posted as a journal ENTRY does not satisfy. Measured on the i6 spike: 16 926 of its documents are entries against 4 invoices, so no document could ever reach C.1 or C.2 at all; and on the Money import, 22 credit notes are demoted to entries and lose the same test. The source knew it was a credit note and had nowhere to record it."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields.selection,name:l10n_cssk_kv_kh_base.selection__account_move__cssk_vat_direction__sale
-msgid "Supplied"
-msgstr "Dodáno"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move_line__cssk_control_rate_declared
-msgid ""
-"The VAT rate the source document states, for a line that carries the return tags without carrying the tax.\n"
-"\n"
-"Some statutory lines never named a rate — the CZ/SK reverse-charge band was one line for every rate until the vzor of 1. 7. 2025 — so their tag cannot say which rate applied and no amount of data will make it. Where the producer of the document knows, it says so here.\n"
-"\n"
-"It SELECTS among the taxes the tag already reaches; it never computes. A rate matching none of them is a mapping error and is refused, not applied. Ignored where the line carries a real tax."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement_section_mixin__entry_ref_xml
-msgid ""
-"The reference as the STATEMENT can carry it: the KV DPH schema types it "
-"'\\S{1,32}', which forbids whitespace outright."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_drill_mixin__is_overridden
-msgid ""
-"Tick to manually correct this row's amounts. The correction is preserved "
-"across recompute and re-applied to the row with the same identity (partner "
-"VAT / document / rate)."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move__cssk_vat_correction
-msgid "VAT correction"
-msgstr "Oprava DPH"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move__cssk_vat_direction
-msgid "VAT direction"
-msgstr "Směr DPH"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move_line__cssk_control_rate_declared
-msgid "VAT rate declared"
-msgstr "Deklarovaná sazba DPH"
-
-#. module: l10n_cssk_kv_kh_base
-#. odoo-python
-#: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
-msgid "recomputed"
-msgstr "přepočteno"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__filed_history_ids
-msgid "Filed history"
-msgstr "Historie podání"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__filed_history_ids
-msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
-" latest one; after a reset → recompute → resubmit cycle the previously-filed"
-" copies stay reachable here."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy
-msgid ""
-"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
-"\n"
-"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_source
-msgid "Source system"
-msgstr "Zdrojový systém"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_source
-msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
-" it was captured if by hand."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_reference
-msgid "Source reference"
-msgstr "Zdrojová reference"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__legacy_reference
-msgid ""
-"Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced it."
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#. odoo-python
-#: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
 msgid "control statement"
 msgstr "kontrolní hlášení"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_comparison_count
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
-msgid "Comparisons"
-msgstr "Porovnání"
-
-#. module: l10n_cssk_kv_kh_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_move_form_cssk_control_original_ref
-msgid "Control-statement VAT"
-msgstr "DIČ pro kontrolní hlášení"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__country_code
-msgid "Country Code"
-msgstr "Kód země"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_journal__cssk_control_section_override
-msgid ""
-"If set, every VAT line of this journal is reported in this section of the "
-"control statement, whatever the section resolver would decide. Use the code "
-"as the form prints it, e.g. D.1 on the journal of a Slovak eKasa cash "
-"register, so its sales are reported as eKasa turnover rather than in D.2."
-msgstr ""
-"Je-li nastaveno, každý řádek s DPH v tomto deníku se vykáže v tomto oddílu "
-"kontrolního hlášení bez ohledu na to, co by určil resolver oddílů. Zadejte "
-"kód tak, jak jej uvádí tiskopis, např. D.1 v deníku slovenské pokladny "
-"eKasa."
-
-#. module: l10n_cssk_kv_kh_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.cssk_control_statement_view_form
-msgid "Opravné / následné"
-msgstr ""
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__country_code
-msgid ""
-"The ISO country code in two chars. \n"
-"You can use this field for quick search."
-msgstr ""
-"Dvoupísmenný kód země podle ISO.\n"
-"Pole můžete použít k rychlému vyhledávání."
-
-#. module: l10n_cssk_kv_kh_base
-#. odoo-python
-#: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
-msgid "The form version %(version)s cannot be filed for a %(period)s period."
-msgstr "Verzi tiskopisu %(version)s nelze podat za %(period)s období."
 
 #. module: l10n_cssk_kv_kh_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_kv_kh_base.view_account_journal_form_cssk_control
@@ -1208,36 +1320,7 @@ msgid "e.g. D.1"
 msgstr "např. D.1"
 
 #. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_account_move__cssk_control_original_ref
-msgid "Original document number"
-msgstr "Číslo původního dokladu"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_account_move__cssk_control_original_ref
-msgid ""
-"The number of the document this credit note or correction corrects, for when"
-" it is not linked to it — a credit note created by hand because it could not"
-" be raised from the invoice. The control statement reports it as the "
-"original document of a C.1 / C.2 row (Slovak kontrolný výkaz: poradové číslo"
-" pôvodnej faktúry). A linked original always wins over this."
-msgstr ""
-"Číslo dokladu, který tento dobropis nebo opravný doklad opravuje, není-li s "
-"ním propojen — dobropis vytvořený ručně, protože jej nebylo možné vystavit z"
-" faktury. Kontrolní výkaz jej uvádí jako původní doklad řádku C.1 / C.2. "
-"Propojený původní doklad má vždy přednost."
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,field_description:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
-msgid "Export warnings"
-msgstr "Upozornění exportu"
-
-#. module: l10n_cssk_kv_kh_base
-#: model:ir.model.fields,help:l10n_cssk_kv_kh_base.field_cssk_control_statement__cssk_export_warnings
-msgid ""
-"Content checks that did not block the last export but need a look before "
-"filing, one per line. Refreshed on every export; empty when the last export "
-"raised none."
-msgstr ""
-"Kontroly obsahu, které poslední export nezablokovaly, ale před podáním je "
-"třeba je projít, každá na samostatném řádku. Obnovují se při každém "
-"exportu; prázdné, pokud poslední export žádné nenašel."
+#. odoo-python
+#: code:addons/l10n_cssk_kv_kh_base/models/cssk_control_statement.py:0
+msgid "recomputed"
+msgstr "přepočteno"

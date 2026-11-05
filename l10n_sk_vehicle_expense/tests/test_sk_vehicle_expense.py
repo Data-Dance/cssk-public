@@ -191,8 +191,9 @@ class TestSkVehicleExpense(AccountTestInvoicingCommon):
         self.env["l10n.sk.fuel.split"].create(dict(wizard_vals)).action_split()
         self.assertTrue(all(bill.invoice_line_ids.mapped("l10n_sk_fuel_split_done")))
 
+        # en_US: the message is translated, and the test database may have Slovak.
         with self.assertRaisesRegex(UserError, "already been split"):
-            self.env["l10n.sk.fuel.split"].create(
+            self.env["l10n.sk.fuel.split"].with_context(lang="en_US").create(
                 {
                     "move_id": bill.id,
                     "line_ids": [Command.set(bill.invoice_line_ids.ids)],

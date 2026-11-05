@@ -18,4 +18,6 @@ class AccountChartTemplate(models.AbstractModel):
 
     @template("sk", "res.company")
     def _get_sk_res_company_reval(self):
-        return {self.env.company.id: dict(SK_REVAL_ACCOUNTS)}
+        # Revalue through the chart's own exchange-difference journal: a
+        # second journal for the same differences is only confusing.
+        return {self.env.company.id: dict(SK_REVAL_ACCOUNTS, currency_reval_journal_id="exch")}

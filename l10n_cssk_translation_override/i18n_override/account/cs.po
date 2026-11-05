@@ -758,3 +758,136 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:account.view_account_group_form
 msgid "to"
 msgstr "do"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_lock_exception__tax_lock_date
+#: model:ir.model.fields,field_description:account.field_res_company__tax_lock_date
+#: model:ir.model.fields.selection,name:account.selection__account_lock_exception__lock_date_field__tax_lock_date
+msgid "Tax Return Lock Date"
+msgstr "Datum uzamčení DPH"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__tax_lock_date_message
+#: model:ir.model.fields,field_description:account.field_account_move__tax_lock_date_message
+msgid "Tax Lock Date Message"
+msgstr "Zpráva o datu uzamčení DPH"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_lock_exception__tax_lock_date
+msgid ""
+"The date the Tax Lock Date is set to by this exception. If the lock date is "
+"not changed it is set to the maximal date."
+msgstr ""
+"Datum, na které je touto výjimkou nastaveno datum uzamčení DPH. Pokud se "
+"datum uzamčení nezmění, je nastaveno na maximální datum."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_res_company__tax_lock_date
+msgid ""
+"Any entry with taxes up to and including that date will be postponed to a "
+"later time, in accordance with its journal's sequence. The tax lock date is "
+"automatically set when the tax closing entry is posted."
+msgstr ""
+"Všechny záznamy s daněmi do tohoto data včetně budou odloženy na pozdější "
+"datum v souladu s pořadím v deníku. Datum uzamčení DPH se nastaví "
+"automaticky při zaúčtování závěrečného daňového záznamu."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_line.py:0
+msgid ""
+"The operation is refused as it would impact an already issued tax statement."
+" Please change the journal entry date or the following lock dates to "
+"proceed: %(lock_date_info)s."
+msgstr ""
+"Operace je odmítnuta, protože by ovlivnila již podané daňové přiznání. "
+"Chcete-li pokračovat, změňte datum účetního záznamu nebo následující data "
+"uzamčení: %(lock_date_info)s."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/company.py:0
+msgid "A new Hard Lock Date must be posterior (or equal) to the previous one."
+msgstr ""
+"Nové datum pevného uzamčení musí být pozdější (nebo stejné) jako předchozí."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_secure_entries_wizard__not_hashable_unlocked_move_ids
+msgid ""
+"All unhashable moves before the selected date that are not protected by the "
+"Hard Lock Date"
+msgstr ""
+"Všechny nehašovatelné pohyby před vybraným datem, které nejsou chráněny "
+"datem pevného uzamčení"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_secure_entries_wizard__max_hash_date
+msgid ""
+"Highest Date such that all posted journal entries prior to (including) the "
+"date are secured. Only journal entries after the hard lock date are "
+"considered."
+msgstr ""
+"Nejpozdější datum, ke kterému jsou zabezpečeny všechny zaúčtované účetní "
+"záznamy včetně tohoto dne. Berou se v úvahu pouze účetní záznamy po datu "
+"pevného uzamčení."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/account_secure_entries_wizard.py:0
+msgid ""
+"There are entries that cannot be hashed. They can be protected by the Hard "
+"Lock Date."
+msgstr ""
+"Existují záznamy, které nelze hashovat. Lze je chránit datem pevného "
+"uzamčení."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_financial_year_op__fiscalyear_last_day
+#: model:ir.model.fields,field_description:account.field_res_company__fiscalyear_last_day
+msgid "Fiscalyear Last Day"
+msgstr "Poslední den účetního období"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_financial_year_op__fiscalyear_last_month
+#: model:ir.model.fields,field_description:account.field_res_company__fiscalyear_last_month
+msgid "Fiscalyear Last Month"
+msgstr "Poslední měsíc účetního období"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "To Validate"
+msgstr "ke schválení"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "Unpaid"
+msgstr "nezaplacené"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "To Pay"
+msgstr "k zaplacení"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "Late"
+msgstr "po splatnosti"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "To Review"
+msgstr "ke kontrole"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__payment_reference
+#: model:ir.model.fields,field_description:account.field_account_move__payment_reference
+#: model:ir.model.fields,field_description:account.field_account_payment__payment_reference
+#: model_terms:ir.ui.view,arch_db:account.report_statement
+msgid "Payment Reference"
+msgstr "Reference platby"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_bank_statement_line__payment_reference
+#: model:ir.model.fields,help:account.field_account_move__payment_reference
+msgid "The payment reference to set on journal items."
+msgstr "Reference platby, která se propíše na účetní položky."

@@ -2,8 +2,10 @@ from odoo import fields, models
 
 from ..tools import (
     adopt_advance_account_names,
+    adopt_translated_names,
     advance_account_names,
     write_advance_account_names,
+    write_translated_names,
 )
 
 
@@ -94,11 +96,23 @@ class ResCompany(models.Model):
                 ],
                 limit=1,
             )
-            if not journal:
+            names = advance_account_names(spec["journal_name"])
+            if journal:
+                adopt_translated_names(journal, names)
+            else:
                 journal = Journal.with_company(self).create({
-                    "name": spec["journal_name"],
+                    "name": names.get("en_US") or next(iter(names.values())),
                     "code": spec["journal_code"],
                     "type": "purchase",
                     "company_id": self.id,
                 })
+                write_translated_names(journal, names)
             self.advance_purchase_journal_id = journal
+        elif (
+            "journal_name" in spec
+            and self.advance_purchase_journal_id.code == spec.get("journal_code")
+        ):
+            adopt_translated_names(
+                self.advance_purchase_journal_id,
+                advance_account_names(spec["journal_name"]),
+            )

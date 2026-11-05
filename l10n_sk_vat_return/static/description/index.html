@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_vat_return/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK VAT Return (Daňové priznanie k DPH)</h1>
 <p class="cssk-summary">The Slovak VAT return computed from the tax tags of Odoo&#x27;s Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.13.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_statutory/static/description/index.html"><code>l10n_sk_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.14.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_statutory/static/description/index.html"><code>l10n_sk_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Slovak layer of the <a href="/l10n_cssk_vat_return_base/static/description/index.html">shared VAT-return engine</a>.
@@ -272,6 +272,34 @@ EU supplier lands on the wrong row. This module adds:</p>
 EU supplier the fiscal position then replaces it with the <em>EÚ S</em> tax; goods
 keep their usual tax and still go to rows 07/08. The taxes are added to every
 Slovak company when the module is installed or upgraded, only where missing.</p>
+<h2 id="exempt-rows">Exempt supplies: rows 13, 14 and 15</h2>
+<ul>
+<li><strong>Row 14</strong> is the base of <strong>goods</strong> supplied to another member state
+  exempt under § 43 ods. 1 a 4, and nothing else. Stock Odoo also put B2B
+  services to the EU (<em>0% EÚ S</em>) and the first buyer's triangular trade
+  (<em>0% EÚ TRI</em>) on it. Neither belongs there: a service with its place of
+  supply abroad (§ 15) is on no row of the return, only on the EC sales list,
+  and the poučenie excludes the first buyer of a triangular trade from rows 13
+  and 14. The module takes the row-14 tag off both taxes, and off the invoice
+  lines already posted with them.</li>
+<li><strong>Row 13</strong> is the total of <strong>every</strong> exempt supply (§ 28 to § 43, § 46,
+  § 47, § 48 ods. 8), so it includes what rows 14 and 15 itemise: domestic
+  exempt supplies, goods to the EU and exports. The vzory up to 2020 number
+  the same rows 15, 16 and 17.</li>
+</ul>
+<p>A return for a period with EU services that was computed before this change
+recomputes with a lower row 14. If such a return was filed, the figure filed
+was too high and a dodatočné priznanie corrects it.</p>
+<h2 id="debit-notes">Debit notes received (ťarchopis)</h2>
+<p>A debit note from a supplier corrects a deduction you have already claimed,
+so it goes on <strong>row 28</strong> with a minus sign, not on rows 19 to 21 as a new
+deduction (§ 53, poučenie bod 43). Where you self-assessed the tax, the base
+and the tax are corrected on rows 24 and 25 as well. The return treats a
+bill as a debit note when it was created with <em>Debit Note</em> (it links to the
+bill it corrects) or when its <em>VAT correction</em> is set to <em>Yes</em>. Set that by
+hand on an imported debit note whose original bill is not in Odoo, and set
+it to <em>No</em> on a linked bill that is not a correction. Supplier credit notes
+already reach row 28 through their taxes and are unchanged.</p>
 <h2 id="par53b">§ 53b correction of deducted tax</h2>
 <p><em>Accounting → Accounting → Oprava odpočítanej dane (§ 53b)</em> opens a wizard:</p>
 <table>
@@ -353,7 +381,7 @@ the reduced rate, and a second family with the same name would collide.</p>
 <li>Nothing is filed from here: export the XML and submit it on the portal of
   Finančná správa, then mark the return submitted.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.13.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.14.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

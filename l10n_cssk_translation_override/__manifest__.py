@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Translation Overrides",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.3",
     "summary": "Slovak and Czech translations that complete or correct those "
                "shipped by Odoo and by OCA modules, without patching them.",
     "author": "Data Dance s.r.o.",

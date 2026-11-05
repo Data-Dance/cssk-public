@@ -1,7 +1,7 @@
 ---
 title: SK Súhrnný výkaz
 summary: Slovenský súhrnný výkaz vypočítaný z daní pre dodania do EÚ v slovenskej účtovej osnove Odoo a exportovaný do XML finančnej správy podľa vzoru platného pre dané obdobie.
-verified: 19.0.1.4.0
+verified: 19.0.1.5.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -73,9 +73,9 @@ označia príslušné políčko druhu súhrnného výkazu.
 
 ## Nastavenie {#setup}
 
-Pri inštalácii modul nastaví kód plnenia na daniach pre dodania do EÚ pri
-každej spoločnosti, ktorá v tej chvíli používa slovenskú účtovú osnovu, ak
-tam kód ešte nie je:
+Modul nastaví kód plnenia na daniach pre dodania do EÚ pri každej
+spoločnosti so slovenskou účtovou osnovou, či ju mala už pri inštalácii
+modulu, alebo ju dostala neskôr, ak tam kód ešte nie je:
 
 | Daň slovenskej osnovy Odoo | Kód |
 |---|---|

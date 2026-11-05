@@ -35,9 +35,9 @@ class AccountPaymentLine(models.Model):
     def _check_payment_symbols_cz(self):
         for rec in self:
             for label, value, max_len in (
-                ("Variable Symbol", rec.variable_symbol, 10),
-                ("Constant Symbol", rec.constant_symbol, 4),
-                ("Specific Symbol", rec.specific_symbol, 10),
+                (_("Variable Symbol"), rec.variable_symbol, 10),
+                (_("Constant Symbol"), rec.constant_symbol, 4),
+                (_("Specific Symbol"), rec.specific_symbol, 10),
             ):
                 if value and (not value.isdigit() or len(value) > max_len):
                     raise ValidationError(_(

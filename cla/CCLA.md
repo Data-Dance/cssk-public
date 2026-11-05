@@ -1,6 +1,6 @@
 # Corporate Contributor Licence Agreement
 
-**Data Dance s.r.o.** — v1.0
+**Data Dance s.r.o.** — v1.1
 
 This agreement is for a **legal entity** whose employees or contractors
 contribute to software published by Data Dance s.r.o. ("**Data Dance**").
@@ -86,8 +86,9 @@ where that person has signed the Individual CLA in their own right.
 
 ## 7. No obligation, no warranty
 
-Sections 7 (No obligation), 8 (No warranty) and 9 (Notification) of the
-[Individual CLA](ICLA.md) apply equally to the Corporation.
+Sections 7 (No obligation; open-source covenant), 8 (No warranty) and
+9 (Notification) of the [Individual CLA](ICLA.md) apply equally to the
+Corporation.
 
 ## 8. Governing law
 

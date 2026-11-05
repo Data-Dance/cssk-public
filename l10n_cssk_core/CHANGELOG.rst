@@ -16,6 +16,18 @@ Carry-over to 18.0
   ``sk_SK`` as ``%d.%m.%Y``. The ``%d/%m/%Y`` is a 19.0 regression in
   ``base/data/res.lang.csv``.
 
+[19.0.1.19.1] — 2026-11-04
+--------------------------
+
+Fixed
+~~~~~
+
+- Every bank-fee posting was labelled "Bank Fees" in Slovak and Czech: core
+  translates chart records by xmlid, and the lines of its *Bank Fees* and
+  *Internal Transfers* reconciliation models have none. Their labels are now
+  translated at chart load, when a language is installed, and on upgrade; a
+  label a user changed is kept.
+
 [19.0.1.19.0] — 2026-11-02
 --------------------------
 

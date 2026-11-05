@@ -1,7 +1,7 @@
 ---
 title: Tax Depreciation (CZ/SK)
-summary: A second, never-posted depreciation board per asset for Czech and Slovak tax depreciation, next to the accounting depreciation, with the year-end book-versus-tax reconciliation, deferred tax and a tax depreciation register.
-verified: 19.0.1.11.0
+summary: A second, never-posted depreciation board per asset for Czech and Slovak tax depreciation, next to the accounting depreciation, with the year-end book-versus-tax comparison, deferred tax and a tax depreciation register.
+verified: 19.0.1.11.3
 ---
 
 ## What it is for {#purpose}
@@ -124,8 +124,8 @@ depreciation board, which this module leaves untouched.
    | Field | Used for |
    |---|---|
    | Tax Vehicle Depreciation Cap | The statutory vehicle limit for assets ticked *Apply Vehicle Depreciation Cap*, in company currency: 2 000 000 Kč for a Czech company, 48 000 € for a Slovak one. 0 = no limit. See the field of the same name on the asset for what each country does with it. |
-   | Deferred Tax Journal | The miscellaneous journal for the deferred-tax entry from the [reconciliation](#reconciliation). |
-   | Deferred Tax Account (481) | The balance-sheet deferred-tax account. Use one that holds only the deferred tax on depreciation (for example an analytical 481 sub-account): the reconciliation trues its whole balance up. |
+   | Deferred Tax Journal | The miscellaneous journal for the deferred-tax entry from the [comparison](#reconciliation). |
+   | Deferred Tax Account (481) | The balance-sheet deferred-tax account. Use one that holds only the deferred tax on depreciation (for example an analytical 481 sub-account): the comparison trues its whole balance up. |
    | Deferred Tax P&L Account (592) | The profit-and-loss deferred-tax account. |
 
 3. **Defaults per asset category.** Set *Track Tax Depreciation*, the group,
@@ -170,7 +170,7 @@ Open the asset and the **Tax Depreciation** tab:
 | Increased First-Year Rate | CZ, straight-line or accelerated, groups 1–3, first depreciator only: +10 % for any such asset, +15 % only for the water-treatment and recycling equipment of § 31 odst. 3, +20 % only for agricultural and forestry machines of a mainly agricultural taxpayer (§ 31 odst. 2); never for the assets in § 31 odst. 5. The field's help lists the conditions. Straight-line uses the higher first-year rate table, accelerated adds the percentage of the entry price to the first-year charge. Refused outside Czech groups 1–3. |
 | Tax Method Locked | Ticked automatically when the first year is filed (see [Closing a tax year](#year-close)); the method and group can then no longer be changed. |
 | Tax Entry Value | The tax entry price (*vstupná cena* / *vstupní cena*). Filled from the accounting acquisition value when tracking is switched on; change it where the tax price differs. |
-| Apply Vehicle Depreciation Cap | A passenger vehicle under the company's *Tax Vehicle Depreciation Cap*. **CZ** (§ 30e): the board is computed on the limit, which is the deductible share of each depreciation. **SK** (§ 17 ods. 34): the board keeps the full depreciation and its hidden *Vehicle Add-back (SK §17(34))* column shows, per year, the excess over straight-line depreciation of 48 000 € — see [Year-end reconciliation](#reconciliation). |
+| Apply Vehicle Depreciation Cap | A passenger vehicle under the company's *Tax Vehicle Depreciation Cap*. **CZ** (§ 30e): the board is computed on the limit, which is the deductible share of each depreciation. **SK** (§ 17 ods. 34): the board keeps the full depreciation and its hidden *Vehicle Add-back (SK §17(34))* column shows, per year, the excess over straight-line depreciation of 48 000 € — see [Year-end comparison](#reconciliation). |
 | Depreciate Whole Months in Disposal Year | SK only (§ 22 ods. 12): keep the depreciation for the whole months held in the year of disposal. Tick it for assets depreciated under § 26 ods. 6 and 7 and, if you choose, for assets whose residual is deductible only up to the sale proceeds (passenger cars, boats, aircraft, motorcycles, group-6 buildings sold …). Unticked, the year of disposal carries no depreciation. |
 | Tax In-Service Date | The date of putting into use for tax purposes. Empty = the accounting depreciation start date. |
 | Tax Depreciated / Tax Residual Value | The sum of filed board lines, and the sum of the board lines not yet filed. |
@@ -284,9 +284,9 @@ From then on:
 
 The *Backfill (migration)* wizard is the only way to reopen filed years.
 
-## Year-end reconciliation and deferred tax {#reconciliation}
+## Year-end comparison and deferred tax {#reconciliation}
 
-*Accounting → Reporting → Tax Depreciation Reconciliation*. Choose the period
+*Accounting → Reporting → Accounting vs Tax Depreciation*. Choose the period
 (default: the current calendar year), check the **Income Tax Rate (%)**
 (default 21) and click **Compute**. One line per tax-tracked asset:
 
@@ -338,7 +338,7 @@ other. The Czech return module does not read these figures.
   difference, with group subtotals and a total. An asset on a monthly
   (§ 30a) board appears once, with the year's months added up. Its headings
   are in Slovak and English.
-- **Book vs Tax Depreciation** (*Accounting → Reporting*): pivot, graph and
+- **Depreciation Analysis** (*Accounting → Reporting*): pivot, graph and
   list of accounting against tax depreciation per asset and year, by group.
   *Book Depreciation* counts every accounting depreciation line of the year,
   *Book Depreciation (Posted)* only those already posted; *Filed* filters the
@@ -419,7 +419,7 @@ can be.
   interruptions (the module does not know when an asset was unused), and the
   depreciation thresholds (1 700 € / 80 000 Kč) — whether an asset is
   depreciated for tax at all is your decision.
-- The reconciliation compares depreciation only. The difference between the
+- The comparison covers depreciation only. The difference between the
   accounting and tax residual value of a disposed asset is not computed.
 - The deferred-tax entry trues up the **whole posted balance** of the 481
   account at the period end against the depreciation difference alone. Use

@@ -4,16 +4,43 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0+e\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-28 22:38+0000\n"
-"PO-Revision-Date: 2026-06-28 22:38+0000\n"
+"POT-Creation-Date: 2026-11-04 12:58+0000\n"
+"PO-Revision-Date: 2026-11-04 12:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "%s - rounding"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
+msgid ""
+"%s historical VAT rate(s) are available. They are archived: an importer can "
+"use them, and they will not appear when raising a new document."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_chart_template
+msgid "Account Chart Template"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
+msgid ""
+"Account the VAT closing clears the 343 sub-accounts into (343000 when "
+"empty). It then holds the period's own tax liability or excess deduction."
+msgstr ""
 
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__message_needaction
@@ -76,6 +103,11 @@ msgid "Amended / corrective"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__diff_line_code
+msgid "Amendment-difference line code"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__amendment_ids
 msgid "Amendments"
 msgstr ""
@@ -101,6 +133,17 @@ msgid "Cancelled"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Carry excess deduction"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid ""
+"Clear the period's VAT accounts into the settlement account (draft entry)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__code
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__code
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_type__code
@@ -108,8 +151,24 @@ msgid "Code"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__company_id
 msgid "Company"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Compare with computed"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_comparison_count
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Comparisons"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -124,8 +183,26 @@ msgid "Compute the return before exporting."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__country_id
 msgid "Country"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.actions.server,name:l10n_cssk_vat_return_base.action_cssk_create_historic_vat_taxes
+msgid "Create historical VAT rates"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -153,6 +230,11 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__active_submission_id
+msgid "Current submission"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__date_from
 msgid "Date From"
 msgstr ""
@@ -170,9 +252,19 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_state
+msgid "Delivery"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__formula_note
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid "Derivation"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_source_tax_id
+msgid "Derived From"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -186,12 +278,17 @@ msgid "Difference identification date"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_type__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -216,6 +313,20 @@ msgid "Effective value: the computed result, or the manual override."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Every tax line of this return's period is already closed."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__excess_carried_in
 msgid ""
 "Excess deduction carried IN from a prior period to offset this period's own "
@@ -234,6 +345,11 @@ msgid "Excess deduction to carry forward"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__excess_line_code
+msgid "Excess-deduction line code"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__xml_root_element
 msgid "Expected root element, e.g. 'DPH' / 'DPHDP3'."
 msgstr ""
@@ -241,6 +357,17 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid "Export XML"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Export or submit the return before closing its VAT."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
+msgid "Export warnings"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -254,8 +381,25 @@ msgid "Fa Xml Value"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "File it"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submitted_attachment_id
 msgid "Filed XML"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
+msgid "Filed history"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_from
+msgid ""
+"First day this rate applied. Set only on taxes generated for a rate that is "
+"no longer current."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -279,6 +423,11 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_version_view_form
+msgid "Form line codes"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__aggregate_formula
 msgid "Formula over line codes for kind=aggregate, e.g. 'r04 + r06'."
 msgstr ""
@@ -294,12 +443,29 @@ msgid "Has Source"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
+#: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__state__legacy
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Historical filing"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.view_account_tax_search_cssk_historic
+msgid "Historical rate"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_type__id
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__id
 msgid "ID"
 msgstr ""
 
@@ -311,6 +477,13 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__activity_exception_icon
 msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -335,6 +508,11 @@ msgid "Is Leaf"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model,name:l10n_cssk_vat_return_base.model_account_move_line
 msgid "Journal Item"
 msgstr ""
@@ -343,6 +521,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__kind
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__kind
 msgid "Kind"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_count
+msgid "L10N Cssk Closing Count"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
+msgid ""
+"Largest difference between the ledger and the return the VAT closing books "
+"as rounding. A larger one stops the closing."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -364,6 +555,11 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_to
+msgid "Last day this rate applied."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__line_ids
 msgid "Line"
 msgstr ""
@@ -371,6 +567,46 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__line_def_ids
 msgid "Line Def"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
+msgid "Line Filter"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__diff_line_code
+msgid ""
+"Line code of the 'difference vs the last known tax' row an amended "
+"(dodatočné) return reports, e.g. 'r36' on the SK DPHv25 form. Auto-filled "
+"from the original return on recompute; leave empty if the form has no such "
+"row."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__excess_line_code
+msgid ""
+"Line code of the period's excess deduction (nadmerný odpočet / nadměrný "
+"odpočet), e.g. 'r33' on the SK DPHv25 form. Drives the settlement and the "
+"carry-forward cap check; leave empty if the form has no such settlement."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
+msgid ""
+"Line code of the period's own tax liability (vlastná daňová povinnosť / "
+"vlastní daň), e.g. 'r32' on the SK DPHv25 form. Drives the § 79-style "
+"settlement (To pay / (refund)); leave empty if the form has no such "
+"settlement."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid ""
+"Line filter %r is not implemented for this country. A form line asking for a"
+" restriction nobody applies would report the whole of its tags instead of "
+"its share of them."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -426,6 +662,14 @@ msgid "My Activity Deadline"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid ""
+"Nadmerný odpočet na prenos (%(out).2f) nemôže byť vyšší ako nadmerný odpočet"
+" obdobia %(code)s (%(excess).2f)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__name
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__name
@@ -458,6 +702,19 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
+msgid ""
+"No historical VAT rates are defined for this company's chart of accounts."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "No miscellaneous journal to post the VAT closing in."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
@@ -484,8 +741,32 @@ msgid "Only draft returns can be recomputed."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid ""
+"Open a delivery for this filing. With only the"
+"                                   manual channel installed this records who"
+" filed                                   it on the portal and holds the "
+"receipts."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
+msgid ""
+"Optional extra restriction on the move lines a kind=tags line collects, named by a country module and resolved in ``_cssk_tag_line_filter``.\n"
+"\n"
+"It exists for a split that no TAG can express, because the chart has one tax where an older form had two rows. The Slovak § 69 ods. 3 is the case: the current tlačivo merges it into r09/r10, so l10n_sk carries a single reverse-charge family, and the pre-2021 vzory need it separated again.\n"
+"\n"
+"Left empty — which every line of every current form is — the line collects its tags exactly as before."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line__is_overridden
 msgid "Override"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
+msgid "Own-tax line code"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -520,6 +801,21 @@ msgid "Quarterly"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_from
+msgid "Rate In Force From"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_to
+msgid "Rate In Force Until"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__rate_pairs
+msgid "Rate pairs"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid "Reset this filing to draft? The originally filed copy is kept."
 msgstr ""
@@ -547,6 +843,27 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
+msgid ""
+"Rounding of the return against the ledger, when the return pays less (648000"
+" when empty)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
+msgid ""
+"Rounding of the return against the ledger, when the return pays more (548000"
+" when empty)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_stated_codes
+msgid "Rows the source states"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
 msgid "Rows tie out"
 msgstr ""
@@ -564,11 +881,29 @@ msgid "Sequence"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Set the VAT rounding accounts in the accounting settings."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "Set the VAT settlement account in the accounting settings."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
+msgid "Settlement"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__to_pay
 msgid ""
-"Settlement after the § 79 carry = r32 − r33 − carried_in + carried_out. "
-"Positive = tax to pay; negative = excess deduction to refund. Matches the "
-"filing header (UHRADIT)."
+"Settlement after the § 79 carry = own tax − excess deduction − carried_in + "
+"carried_out (line codes from the version). Positive = tax to pay; negative ="
+" excess deduction to refund. Matches the filing header (UHRADIT)."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -590,6 +925,16 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
 msgid "Source documents — %s %s"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
+msgid "Source reference"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
+msgid "Source system"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -618,6 +963,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__rate_pairs
+msgid ""
+"Statutory base/tax rate pairing for the kontrolné pravidlá, as a list of "
+"[base_line_code, tax_line_code, rate] items (rate may itself be a list when "
+"several rates share the rows), e.g. [['r03', 'r04', 23.0]] — the implied "
+"rate |tax|/|base|×100 must match. Version DATA, not code: the pairing "
+"follows the form vintage (DPHv25: 19/5/23; older forms: 10/20)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_reference
 msgid "Submission Reference"
 msgstr ""
@@ -630,6 +985,11 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_reference
 msgid "Submission identifier / confirmation number from the FS portal."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__submission_ids
+msgid "Submissions"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -648,6 +1008,11 @@ msgid "Tag Formula"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model,name:l10n_cssk_vat_return_base.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return_line__kind__tags
 #: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return_line_def__kind__tags
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.view_move_line_dph_audit
@@ -660,13 +1025,42 @@ msgid "Tax-tag formula for kind=tags, e.g. '-03' (tag '03', sign −1)."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
+msgid "The VAT closing entry that cleared this tax line."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__country_id
 msgid "The country to use the tax reports from for this company"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_source_tax_id
+msgid ""
+"The current-rate tax this one was cloned from. Kept because the clone's "
+"repartition and tags come from it: if the statutory form ever stops treating"
+" rate slots as interchangeable, this is the list of taxes that assumption "
+"was applied to."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__submitted_attachment_id
 msgid "The exact XML that was submitted; preserved across reset-to-draft."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid "The form version %(version)s cannot be filed for a %(period)s period."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid ""
+"The ledger and the return disagree by %(diff)s: the tax lines of the period "
+"net to %(ledger)s, the return to %(expected)s. Check the unreconciled rows "
+"of the return before closing."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -680,6 +1074,30 @@ msgid ""
 "The part of THIS period's excess deduction not refunded but carried OUT to "
 "the next period (§ 79 election — the remainder is refunded). Becomes the "
 "next return's 'from the previous period'."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid ""
+"The return version %(version)s does not name its own-tax and excess-"
+"deduction lines, so the VAT closing has nothing to agree with."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -729,6 +1147,11 @@ msgid "Unreconciled rows"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
+msgid "VAT Closing"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #: model:ir.model,name:l10n_cssk_vat_return_base.model_cssk_vat_return
 #: model:ir.ui.menu,name:l10n_cssk_vat_return_base.menu_cssk_vat_return
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
@@ -770,9 +1193,75 @@ msgid "VAT Returns"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_amount
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_amount
+msgid "VAT closed"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid "VAT closing"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
+msgid "VAT closing %s"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_move_ids
+msgid "VAT closing entries"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
+msgid "VAT closing entry"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_return_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_return_id
+msgid "VAT closing of"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
+msgid "VAT closing tolerance"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#. odoo-python
+#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
+msgid "VAT return"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #. odoo-python
 #: code:addons/l10n_cssk_vat_return_base/models/account_move_line.py:0
 msgid "VAT return (DPH)"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
+msgid "VAT rounding gain account"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
+msgid "VAT rounding loss account"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
+msgid "VAT settlement account"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -810,6 +1299,20 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
+msgid ""
+"Where the VAT closing of a filed return clears the VAT accounts, and where "
+"its rounding goes. Empty accounts fall back to 343000, 548000 and 648000."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -851,467 +1354,6 @@ msgstr ""
 
 #. module: l10n_cssk_vat_return_base
 #. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
-msgid ""
-"%s historical VAT rate(s) are available. They are archived: an importer can "
-"use them, and they will not appear when raising a new document."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__diff_line_code
-msgid "Amendment-difference line code"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.module.module,shortdesc:base.module_l10n_cssk_vat_return_base
-msgid "CZ/SK VAT Return — Shared Framework (DPH priznanie / DPHDP3)"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Compare with computed"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.module.module,summary:base.module_l10n_cssk_vat_return_base
-msgid ""
-"Country-neutral framework for the Slovak and Czech VAT return: numbered "
-"report lines computed from tax tags + aggregate formulas, with an XSD-"
-"validated XML export. CE-clean (own tax-tag evaluator, no account_reports "
-"engine)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_source_tax_id
-msgid "Derived From"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__excess_line_code
-msgid "Excess-deduction line code"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "File it"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_from
-msgid ""
-"First day this rate applied. Set only on taxes generated for a rate that is "
-"no longer current."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_version_view_form
-msgid "Form line codes"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
-#: model:ir.model.fields.selection,name:l10n_cssk_vat_return_base.selection__cssk_vat_return__state__legacy
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Historical filing"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.view_account_tax_search_cssk_historic
-msgid "Historical rate"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_to
-msgid "Last day this rate applied."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
-msgid "Line Filter"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__diff_line_code
-msgid ""
-"Line code of the 'difference vs the last known tax' row an amended "
-"(dodatočné) return reports, e.g. 'r36' on the SK DPHv25 form. Auto-filled "
-"from the original return on recompute; leave empty if the form has no such "
-"row."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__excess_line_code
-msgid ""
-"Line code of the period's excess deduction (nadmerný odpočet / nadměrný "
-"odpočet), e.g. 'r33' on the SK DPHv25 form. Drives the settlement and the "
-"carry-forward cap check; leave empty if the form has no such settlement."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
-msgid ""
-"Line code of the period's own tax liability (vlastná daňová povinnosť / "
-"vlastní daň), e.g. 'r32' on the SK DPHv25 form. Drives the § 79-style "
-"settlement (To pay / (refund)); leave empty if the form has no such "
-"settlement."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"Line filter %r is not implemented for this country. A form line asking for a"
-" restriction nobody applies would report the whole of its tags instead of "
-"its share of them."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid ""
-"Nadmerný odpočet na prenos (%(out).2f) nemôže byť vyšší ako nadmerný odpočet"
-" obdobia %(code)s (%(excess).2f)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/res_company.py:0
-msgid ""
-"No historical VAT rates are defined for this company's chart of accounts."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid ""
-"Open a delivery for this filing. With only the"
-"                                   manual channel installed this records who"
-" filed                                   it on the portal and holds the "
-"receipts."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__line_filter
-msgid ""
-"Optional extra restriction on the move lines a kind=tags line collects, named by a country module and resolved in ``_cssk_tag_line_filter``.\n"
-"\n"
-"It exists for a split that no TAG can express, because the chart has one tax where an older form had two rows. The Slovak § 69 ods. 3 is the case: the current tlačivo merges it into r09/r10, so l10n_sk carries a single reverse-charge family, and the pre-2021 vzory need it separated again.\n"
-"\n"
-"Left empty — which every line of every current form is — the line collects its tags exactly as before."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
-msgid "Own-tax line code"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_from
-msgid "Rate In Force From"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_valid_to
-msgid "Rate In Force Until"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__rate_pairs
-msgid "Rate pairs"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__to_pay
-msgid ""
-"Settlement after the § 79 carry = own tax − excess deduction − carried_in + "
-"carried_out (line codes from the version). Positive = tax to pay; negative ="
-" excess deduction to refund. Matches the filing header (UHRADIT)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_version__rate_pairs
-msgid ""
-"Statutory base/tax rate pairing for the kontrolné pravidlá, as a list of "
-"[base_line_code, tax_line_code, rate] items (rate may itself be a list when "
-"several rates share the rows), e.g. [['r03', 'r04', 23.0]] — the implied "
-"rate |tax|/|base|×100 must match. Version DATA, not code: the pairing "
-"follows the form vintage (DPHv25: 19/5/23; older forms: 10/20)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_tax__cssk_historic_source_tax_id
-msgid ""
-"The current-rate tax this one was cloned from. Kept because the clone's "
-"repartition and tags come from it: if the statutory form ever stops treating"
-" rate slots as interchangeable, this is the list of taxes that assumption "
-"was applied to."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
 #: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
 msgid "recomputed"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
-msgid "Filed history"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__filed_history_ids
-msgid ""
-"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
-" latest one; after a reset → recompute → resubmit cycle the previously-filed"
-" copies stay reachable here."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy
-msgid ""
-"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
-"\n"
-"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
-msgid "Source system"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_source
-msgid ""
-"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
-" it was captured if by hand."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
-msgid "Source reference"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__legacy_reference
-msgid ""
-"Identifier of the import batch or source document this filing was "
-"materialised from, so a figure can be traced back to what produced it."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid "VAT return"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Carry excess deduction"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_comparison_count
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Comparisons"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.actions.server,name:l10n_cssk_vat_return_base.action_cssk_create_historic_vat_taxes
-msgid "Create historical VAT rates"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
-msgid "Settlement"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
-msgid "The form version %(version)s cannot be filed for a %(period)s period."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
-msgid "Export warnings"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__cssk_export_warnings
-msgid ""
-"Content checks that did not block the last export but need a look before "
-"filing, one per line. Refreshed on every export; empty when the last export "
-"raised none."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "%s - rounding"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
-msgid "VAT settlement account"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
-msgid "VAT rounding loss account"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
-msgid "VAT rounding gain account"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
-msgid "VAT closing tolerance"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
-msgid "VAT closing entry"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_return_id
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_return_id
-msgid "VAT closing of"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_move_ids
-msgid "VAT closing entries"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
-msgid "VAT closing"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
-msgid "VAT Closing"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "VAT closing %s"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__l10n_cssk_closing_count
-msgid "L10N Cssk Closing Count"
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_account_move_line__l10n_cssk_vat_closing_move_id
-msgid "The VAT closing entry that cleared this tax line."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "Every tax line of this return's period is already closed."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "Export or submit the return before closing its VAT."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "No miscellaneous journal to post the VAT closing in."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "Set the VAT rounding accounts in the accounting settings."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid "Set the VAT settlement account in the accounting settings."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_form_vat_closing
-msgid ""
-"Clear the period's VAT accounts into the settlement account (draft entry)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_settlement_account_id
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_settlement_account_id
-msgid ""
-"Account the VAT closing clears the 343 sub-accounts into (343000 when "
-"empty). It then holds the period's own tax liability or excess deduction."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_loss_account_id
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_loss_account_id
-msgid ""
-"Rounding of the return against the ledger, when the return pays more (548000"
-" when empty)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_rounding_gain_account_id
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_rounding_gain_account_id
-msgid ""
-"Rounding of the return against the ledger, when the return pays less (648000"
-" when empty)."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_company__l10n_cssk_vat_closing_tolerance
-#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_res_config_settings__l10n_cssk_vat_closing_tolerance
-msgid ""
-"Largest difference between the ledger and the return the VAT closing books "
-"as rounding. A larger one stops the closing."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.res_config_settings_view_form_vat_closing
-msgid ""
-"Where the VAT closing of a filed return clears the VAT accounts, and where "
-"its rounding goes. Empty accounts fall back to 343000, 548000 and 648000."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid ""
-"The ledger and the return disagree by %(diff)s: the tax lines of the period "
-"net to %(ledger)s, the return to %(expected)s. Check the unreconciled rows "
-"of the return before closing."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#. odoo-python
-#: code:addons/l10n_cssk_vat_return_base/models/vat_closing.py:0
-msgid ""
-"The return version %(version)s does not name its own-tax and excess-"
-"deduction lines, so the VAT closing has nothing to agree with."
-msgstr ""
-
-#. module: l10n_cssk_vat_return_base
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_bank_statement_line__l10n_cssk_vat_closing_amount
-#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_account_move__l10n_cssk_vat_closing_amount
-msgid "VAT closed"
 msgstr ""

@@ -1,7 +1,7 @@
 ---
 title: Zálohové faktury — české účty
 summary: Napojí nastavení zálohových faktur na českou účtovou osnovu.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 family: sale_order_advance_invoice#localization
 ---
 

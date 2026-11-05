@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_currency_revaluation/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ Foreign-Currency Revaluation (kurzové rozdíly)</h1>
 <p class="cssk-summary">Revalues foreign-currency balances at the ČNB rate of the balance-sheet date and books the differences on 563 and 663 — with the OCA wizard on Community and Odoo&#x27;s adjustment entry on Enterprise.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>l10n_cz</code>, <a href="/account_multicurrency_revaluation/static/description/index.html"><code>account_multicurrency_revaluation</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>l10n_cz</code>, <a href="/account_multicurrency_revaluation/static/description/index.html"><code>account_multicurrency_revaluation</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>At the balance-sheet date, open receivables and payables in a foreign
@@ -109,7 +109,7 @@ install for a company that already has it:</p>
 </tr>
 <tr>
 <td>Currency gain &amp; loss Default Journal</td>
-<td>a journal <strong>KURZ</strong> <em>Kurzové rozdíly</em> of type <em>Miscellaneous</em>, created if the company has none with that code</td>
+<td>the company's exchange-difference journal, where Odoo posts realised exchange differences; a journal <strong>KURZ</strong> <em>Kurzové rozdíly</em> is created only if the company has none</td>
 </tr>
 </tbody>
 </table>
@@ -118,11 +118,11 @@ install for a company that already has it:</p>
 (off: the entries are created as drafts).</p>
 <h3 id="before">Before the first revaluation</h3>
 <ol>
-<li><strong>Give yourself access.</strong> The OCA menus are visible only to members of
-   the group <em>Additional provisioning entries posting</em> (<em>Zaúčtování
-   dodatečných rezervních zápisů</em>), which nobody has by default. Add it on
-   the user in <em>Settings → Users</em>, section <em>Extra Rights</em>, which appears in
-   developer mode.</li>
+<li><strong>Access.</strong> The OCA menus are visible only to members of the group
+   <em>Additional provisioning entries posting</em> (<em>Zaúčtování dodatečných
+   rezervních zápisů</em>); the module adds it to the <em>Accountant</em> role. Give
+   it to another user in <em>Settings → Users</em>, section <em>Extra Rights</em>, which
+   appears in developer mode.</li>
 <li><strong>Choose the accounts to revalue.</strong> Tick <em>Allow Currency Revaluation</em> on
    each account whose foreign-currency balance is to be revalued: the
    foreign-currency bank and cash accounts (22x, 21x), receivables (311) and
@@ -185,7 +185,7 @@ company:</p>
 </tr>
 <tr>
 <td>Journal</td>
-<td>KURZ <em>Kurzové rozdíly</em>, created if missing, when the company has no revaluation journal yet</td>
+<td>the company's exchange-difference journal (KURZ is created only if it has none), when the company has no revaluation journal yet</td>
 </tr>
 </tbody>
 </table>
@@ -214,10 +214,10 @@ provision accounts above.</p>
   month and silently limits the revaluation to items dated from then on.</li>
 <li>Neither module checks which accounts are revalued: that, and whether
   advances or other items are excluded, is decided by your accountant.</li>
-<li>The hook creates the journal KURZ on every Czech company that has no
-  revaluation journal set, whether or not it uses foreign currencies.</li>
+<li>The hook sets a revaluation journal on every Czech company that has none,
+  whether or not it uses foreign currencies.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

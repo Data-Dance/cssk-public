@@ -1,7 +1,7 @@
 ---
 title: SK Daňové priznanie k DPH
 summary: Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.
-verified: 19.0.1.13.1
+verified: 19.0.1.14.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -180,6 +180,37 @@ Na produktoch – službách nastavte ako daň dodávateľa daň *S*. Na faktúr
 dodávateľa z EÚ ju fiškálna pozícia nahradí daňou *EÚ S*; tovar si ponechá
 svoju daň a ide ďalej do riadkov 07/08. Dane sa doplnia každej slovenskej
 spoločnosti pri inštalácii a aktualizácii modulu, len ak chýbajú.
+
+## Oslobodené plnenia: riadky 13, 14 a 15 {#exempt-rows}
+
+- **Riadok 14** je základ dane za **tovar** dodaný do iného členského štátu
+  oslobodený podľa § 43 ods. 1 a 4, a nič iné. Štandardné Odoo doň dávalo aj
+  služby pre zdaniteľné osoby v EÚ (*0% EÚ S*) a trojstranný obchod prvého
+  odberateľa (*0% EÚ TRI*). Ani jedno tam nepatrí: služba s miestom dodania
+  v zahraničí (§ 15) sa v priznaní neuvádza v žiadnom riadku, len v súhrnnom
+  výkaze, a poučenie prvého odberateľa pri trojstrannom obchode z riadkov 13
+  a 14 výslovne vylučuje. Modul obom daniam značku riadku 14 odoberie, a to aj
+  na už zaúčtovaných riadkoch faktúr.
+- **Riadok 13** je súčet **všetkých** oslobodených plnení (§ 28 až § 43,
+  § 46, § 47, § 48 ods. 8), teda zahŕňa aj to, čo rozpisujú riadky 14 a 15:
+  tuzemské oslobodené plnenia, tovar do EÚ a vývoz. Vzory do roku 2020 tie
+  isté riadky číslujú 15, 16 a 17.
+
+Priznanie za obdobie so službami do EÚ, vypočítané pred touto zmenou, sa po
+prepočítaní zníži v riadku 14. Ak už bolo podané, uvedená suma bola vyššia,
+ako mala byť, a opraví ju dodatočné priznanie.
+
+## Prijatý ťarchopis {#debit-notes}
+
+Ťarchopis od dodávateľa opravuje už uplatnený odpočet, preto patrí do
+**riadku 28** so znamienkom mínus, nie do riadkov 19 až 21 ako nový odpočet
+(§ 53, poučenie bod 43). Ak ste daň samozdanili, opraví sa súčasne základ
+a daň v riadkoch 24 a 25. Priznanie považuje prijatú faktúru za ťarchopis,
+ak bola vytvorená tlačidlom *Ťarchopis* (odkazuje na faktúru, ktorú opravuje),
+alebo ak má pole *Oprava DPH* nastavené na *Áno*. Na importovanom ťarchopise,
+ktorého pôvodná faktúra v Odoo nie je, ho nastavte ručne; na prepojenej
+faktúre, ktorá opravou nie je, ho nastavte na *Nie*. Prijaté dobropisy sa do
+riadku 28 dostávajú cez svoje dane už teraz a nemenia sa.
 
 ## Oprava odpočítanej dane podľa § 53b {#par53b}
 

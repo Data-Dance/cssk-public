@@ -33,7 +33,7 @@ class AccountAssetTaxReconciliation(models.TransientModel):
     }
 
     _name = "account.asset.tax.reconciliation"
-    _description = "Tax Depreciation Reconciliation (DPPO)"
+    _description = "Accounting vs Tax Depreciation (DPPO)"
 
     company_id = fields.Many2one(
         "res.company", required=True, default=lambda self: self.env.company,
@@ -159,13 +159,13 @@ class AccountAssetTaxReconciliation(models.TransientModel):
             "res_id": self.id,
             "view_mode": "form",
             "target": "new",
-            "name": _("Tax Depreciation Reconciliation"),
+            "name": _("Accounting vs Tax Depreciation"),
         }
 
     def action_print_pdf(self):
         self.ensure_one()
         if not self.line_ids:
-            raise UserError(_("Compute the reconciliation first."))
+            raise UserError(_("Compute the comparison first."))
         return self.env.ref(
             "account_asset_tax.action_report_reconciliation").report_action(self)
 
@@ -175,7 +175,7 @@ class AccountAssetTaxReconciliation(models.TransientModel):
         if xlsxwriter is None:
             raise UserError(_("The python 'xlsxwriter' library is not available."))
         if not self.line_ids:
-            raise UserError(_("Compute the reconciliation first."))
+            raise UserError(_("Compute the comparison first."))
         buf = io.BytesIO()
         wb = xlsxwriter.Workbook(buf, {"in_memory": True})
         ws = wb.add_worksheet("DPPO Table B")
@@ -239,7 +239,7 @@ class AccountAssetTaxReconciliation(models.TransientModel):
                 "Configure the deferred-tax journal and the 481 / 592 accounts on "
                 "the company before posting deferred tax."))
         if not self.line_ids:
-            raise UserError(_("Compute the reconciliation first."))
+            raise UserError(_("Compute the comparison first."))
         ccy = company.currency_id
         closing_dtl = sum(self.line_ids.mapped("deferred_tax"))   # +DTL / -DTA
         # current DTL = credit balance on the 481 account AT THE PERIOD END:
@@ -292,7 +292,7 @@ class AccountAssetTaxReconciliation(models.TransientModel):
 
 class AccountAssetTaxReconciliationLine(models.TransientModel):
     _name = "account.asset.tax.reconciliation.line"
-    _description = "Tax Depreciation Reconciliation Line"
+    _description = "Accounting vs Tax Depreciation Line"
     _order = "asset_name"
 
     wizard_id = fields.Many2one(

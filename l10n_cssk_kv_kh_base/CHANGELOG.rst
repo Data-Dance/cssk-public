@@ -8,6 +8,18 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.2.4.1] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues brought up to date with the code: the journal
+  items' audit columns (*Base*, *Rate %*, *VAT*, *VAT deducted* → *Základ*,
+  *Sadzba % / Sazba %*, *DPH*, *Odpočítaná DPH / Odpočtená DPH*), the
+  submission fields, the historical-filing help texts and the technical fields
+  Czech lacked. The template is re-exported from a Community database.
+
 [19.0.2.4.0] — 2026-10-27
 -------------------------
 

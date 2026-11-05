@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Payment Symbols — Payment Orders",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "summary": "Copy invoice VS/KS/SS onto OCA payment order lines.",
     "description": """
 CZ/SK Payment Symbols — Payment Orders

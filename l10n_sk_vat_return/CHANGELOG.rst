@@ -17,6 +17,34 @@ Carry-over to 18.0
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
 
+[19.0.1.14.0] — 2026-11-04
+--------------------------
+
+Fixed
+~~~~~
+
+- **r14 is § 43 goods only.** Stock ``l10n_sk`` tags row 14 on *0% EÚ S*
+  (a § 15 service, which is on no row of the return) and *0% EÚ TRI* (the
+  first buyer of a trojstranný obchod, whom the poučenie excludes from r13
+  and r14). The tag comes off both taxes, after every load of the Slovak
+  chart, and off the lines already booked with them — in SQL, since
+  ``tax_tag_ids`` is lock-date protected. Measured on a POHODA SK agenda:
+  23–57 k€ a month on r14 against 0.00 in all nine filed returns. **Periods
+  with EU services recompute lower on r14**; a return filed from Odoo for one
+  of them overstated r14.
+- **r13 totals every exempt supply** (§ 28 – § 43, § 46, § 47, § 48 ods. 8),
+  tags 13, 14 and 15, as stock Odoo's own report does. It read tag 13 alone,
+  so goods to the EU and exports never reached it. The same on r15 of the
+  vzory to 2020.
+- **A received debit note (ťarchopis) corrects the deduction on r28**, with a
+  minus (§ 53, poučenie bod 43), and a self-assessed one also r24 / r25 — the
+  rows its tax's refund legs name. It was filed on r20 / r21 (r09 / r10 /
+  r19 when self-assessed) as a new deduction; r33 was right either way. A
+  bill is a debit note when it has ``debit_origin_id`` or *VAT correction* =
+  *Yes* (``l10n_cssk_kv_kh_base``), the rule KV DPH uses for oddiel C.2. Only
+  the return reads it so: the lines, the VAT closing and other reports keep
+  the debit note's own tags.
+
 [19.0.1.13.1] — 2026-10-27
 --------------------------
 

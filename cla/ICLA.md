@@ -1,6 +1,6 @@
 # Individual Contributor Licence Agreement
 
-**Data Dance s.r.o.** — v1.0
+**Data Dance s.r.o.** — v1.1
 
 Thank you for your interest in contributing to software published by
 Data Dance s.r.o., a company incorporated in the Slovak Republic
@@ -115,12 +115,37 @@ consent to Your Contributions being modified, combined with other works,
 translated and distributed in modified form. You agree not to exercise Your
 personal rights in a manner that would frustrate the licences granted here.
 
-## 7. No obligation
+## 7. No obligation; open-source covenant
 
 You understand that the decision to include Your Contribution in any product or
 source repository is entirely at the discretion of Data Dance, and that this
 agreement does not oblige Data Dance to use, publish or distribute Your
-Contribution.
+Contribution, except as set out in the open-source covenant below.
+
+**Open-source covenant.** If Data Dance distributes Your Contribution under any
+licence, Data Dance will make that Contribution, as incorporated into the Work,
+available to the public in source-code form under the GNU Affero General Public
+License, version 3 or any later version, or under another licence approved by
+the Open Source Initiative. Data Dance will do so within ninety (90) days of
+first distributing it, and will keep it available for as long as Data Dance
+continues to distribute it under any licence.
+
+For the purposes of this covenant:
+
+a. *"Distribute"* includes conveying a copy to any third party and making the
+   Contribution available for users to interact with remotely over a computer
+   network.
+
+b. The covenant applies to Contributions submitted to a Work that, at the time
+   of submission, Data Dance publishes under an open-source licence.
+
+c. The covenant does not limit the licence granted in section 2. Data Dance may
+   continue to license Your Contribution under proprietary or commercial terms,
+   provided that it is also available as set out above.
+
+d. The covenant is irrevocable, survives any withdrawal of Your acceptance of
+   this agreement, and binds any successor to or assignee of Data Dance's rights
+   in the Work.
 
 ## 8. No warranty
 

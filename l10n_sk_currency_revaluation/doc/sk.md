@@ -1,7 +1,7 @@
 ---
 title: SK prepočet cudzích mien ku dňu závierky (kurzové rozdiely)
 summary: Prepočíta zostatky v cudzej mene referenčným kurzom ku dňu závierky a kurzové rozdiely zaúčtuje na 563 a 663 — sprievodcom OCA v edícii Community a korekčným záznamom Odoo v edícii Enterprise.
-verified: 19.0.1.1.0
+verified: 19.0.1.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -52,7 +52,7 @@ pri inštalácii, ak ju spoločnosť už má:
 |---|---|
 | Účet kurzových strát | 563000, ak je prázdny |
 | Účet kurzových ziskov | 663000, ak je prázdny |
-| Predvolený denník kurzových ziskov a strát | denník **KURZ** *Kurzové rozdiely* typu *Rôzne*, ktorý sa založí, ak spoločnosť denník s týmto kódom nemá |
+| Predvolený denník kurzových ziskov a strát | denník kurzových rozdielov spoločnosti, do ktorého Odoo účtuje realizované kurzové rozdiely; denník **KURZ** *Kurzové rozdiely* sa založí, len ak spoločnosť žiadny nemá |
 
 Nájdete ich v *Účtovníctvo → Konfigurácia → Nastavenia*, oddiel *Precenenie
 vo viacerých menách*, spolu s voľbou *Automaticky zaúčtovať vytvorené
@@ -60,10 +60,10 @@ zápisy* (vypnutá: zápisy vzniknú ako návrh).
 
 ### Pred prvým prepočtom {#before}
 
-1. **Prideľte si prístup.** Ponuky OCA vidia len členovia skupiny
-   *Zaúčtovanie dodatočných rezervných zápisov*, ktorú predvolene nemá
-   nikto. Pridajte ju používateľovi v *Nastavenia → Používatelia*, oddiel
-   *Extra Rights*, ktorý sa zobrazí v režime vývojára.
+1. **Prístup.** Ponuky OCA vidia len členovia skupiny *Zaúčtovanie
+   dodatočných rezervných zápisov*; modul ju pridáva role *Hlavný
+   účtovník*. Inému používateľovi ju pridáte v *Nastavenia → Používatelia*,
+   oddiel *Ďalšie práva*, ktorý sa zobrazí v režime vývojára.
 2. **Vyberte účty na prepočet.** Zaškrtnite *Povoliť precenenie meny* pri
    každom účte, ktorého zostatok v cudzej mene sa má prepočítať: devízové
    bankové účty a valutové pokladnice (22x, 21x), pohľadávky (311), záväzky
@@ -105,7 +105,7 @@ spoločnosti nastaví:
 |---|---|
 | Účet rezervy na náklady | 563000 |
 | Účet rezervy na výnosy | 663000 |
-| Denník | KURZ *Kurzové rozdiely*, založený, ak chýba, keď spoločnosť ešte nemá denník na precenenie |
+| Denník | denník kurzových rozdielov spoločnosti (KURZ sa založí, len ak žiadny nemá), keď spoločnosť ešte nemá denník na precenenie |
 
 Pri inštalácii sa oba účty **prepíšu**, nech bolo nastavené čokoľvek.
 Slovenský preklad Odoo je zavádzajúci: s rezervami tieto účty nesúvisia,
@@ -131,5 +131,5 @@ vždy zaúčtuje storno korekcie, zvyčajne k prvému dňu ďalšieho obdobia.
   *Vylúčené účty*; Odoo si voľbu pamätá pre každý účet a menu) ešte pred
   vytvorením záznamu.
 - Enterprise korekciu k dátumu storna vždy stornuje; ponechať ju nemožno.
-- Inštalácia založí denník KURZ v každej slovenskej spoločnosti, ktorá nemá
-  nastavený denník na precenenie, bez ohľadu na to, či cudzie meny používa.
+- Inštalácia nastaví denník na precenenie v každej slovenskej spoločnosti,
+  ktorá ho nemá, bez ohľadu na to, či cudzie meny používa.

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Payment Symbols — Payment Orders
 summary: Copies the variable, constant and specific symbol of each document onto OCA payment order lines.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 family: l10n_cssk_payment_symbols#payment-orders
 ---
 

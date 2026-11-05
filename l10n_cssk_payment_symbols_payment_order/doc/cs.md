@@ -1,7 +1,7 @@
 ---
 title: Platební symboly CZ/SK — platební příkazy
 summary: Přenáší variabilní, konstantní a specifický symbol dokladu na řádky platebních příkazů OCA.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 family: l10n_cssk_payment_symbols#payment-orders
 ---
 

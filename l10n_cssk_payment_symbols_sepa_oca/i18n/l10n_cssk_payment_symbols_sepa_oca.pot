@@ -1,0 +1,75 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_payment_symbols_sepa_oca
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 17:36+0000\n"
+"PO-Revision-Date: 2026-11-04 17:36+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_sepa_oca.field_account_journal__l10n_cssk_sepa_symbol_placement
+msgid "CZ/SK Symbols in SEPA Transfers"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_sepa_oca.field_account_journal__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_sepa_oca.field_account_payment_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_sepa_oca.field_account_payment_order__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_symbols_sepa_oca.selection__account_journal__l10n_cssk_sepa_symbol_placement__none
+msgid "Do not export symbols"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_symbols_sepa_oca.selection__account_journal__l10n_cssk_sepa_symbol_placement__end_to_end
+msgid "EndToEndId (/VS…/SS…/KS…)"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_sepa_oca.field_account_journal__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_sepa_oca.field_account_payment_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_sepa_oca.field_account_payment_order__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model,name:l10n_cssk_payment_symbols_sepa_oca.model_account_journal
+msgid "Journal"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model,name:l10n_cssk_payment_symbols_sepa_oca.model_account_payment_line
+msgid "Payment Lines"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model,name:l10n_cssk_payment_symbols_sepa_oca.model_account_payment_order
+msgid "Payment Order"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model.fields.selection,name:l10n_cssk_payment_symbols_sepa_oca.selection__account_journal__l10n_cssk_sepa_symbol_placement__ustrd
+msgid "Remittance info (/VS/…/KS/…/SS/…)"
+msgstr ""
+
+#. module: l10n_cssk_payment_symbols_sepa_oca
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols_sepa_oca.field_account_journal__l10n_cssk_sepa_symbol_placement
+msgid ""
+"Where the SEPA credit transfer file of a payment order carries the payment "
+"symbols. EndToEndId in the form /VS…/SS…/KS… is what Slovak banks read; the "
+"remittance information is the placement documented by the Czech Banking "
+"Association. Send one test payment and check how it appears on the payee's "
+"statement."
+msgstr ""

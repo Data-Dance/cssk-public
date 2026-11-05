@@ -20,6 +20,9 @@ def post_init_hook(env):
     if companies:
         # Before the historical rates, so a clone run afterwards sees them.
         env["account.chart.template"]._cssk_load_sk_eu_service_taxes(companies)
+        # EU services and the first buyer's trojstranný obchod off r14 — on
+        # the taxes and on the lines already posted with them.
+        env["account.chart.template"]._cssk_sk_drop_r14_tag(companies)
         companies._cssk_create_historic_vat_taxes()
         _logger.info(
             "l10n_sk_vat_return: historical VAT rates prepared for %s company "

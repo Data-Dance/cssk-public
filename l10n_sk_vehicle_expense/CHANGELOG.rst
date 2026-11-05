@@ -15,6 +15,17 @@ Fixed
   accounts: Odoo drops a string domain when it copies a field into a related
   one.
 
+[19.0.1.1.1] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- The vehicle taxes created for a company whose chart predates the module
+  were named in English only (*23% VEHICLE (50% deduction)*): the install
+  hook did not apply the template's Slovak names. It does now, and an upgrade
+  fills them in where missing.
+
 [19.0.1.1.0] — 2026-10-27
 -------------------------
 

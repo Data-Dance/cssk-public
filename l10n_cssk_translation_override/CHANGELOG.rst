@@ -5,6 +5,49 @@ Changelog
 All notable changes to **l10n_cssk_translation_override** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.0.3] — 2026-11-05
+-------------------------
+
+Changed
+~~~~~~~
+
+- ``account``: the counters on the journal dashboard follow a number, so they
+  start lower-case (*1 na zaúčtovanie*, *14 nezaplatené*, *3 k úhrade*,
+  *2 na kontrolu*; Czech likewise). *Late* is *po splatnosti*, which agrees
+  with any number. Only the dashboard view is affected; filters keep their
+  capitals.
+- ``account``: Czech *Payment Reference* is *Reference platby*, not
+  *Variabilní symbol*. It is a free-text field; the variable symbol is the
+  separate digits-only field of ``l10n_cssk_payment_symbols``.
+
+[19.0.1.0.2] — 2026-11-04
+-------------------------
+
+Added
+~~~~~
+
+- Catalogue for OCA ``account_lock_date_update`` (its wizard was English in
+  both languages; upstream Slovak and Czech had 8 of 26 terms).
+
+Changed
+~~~~~~~
+
+- Lock dates follow one pattern, as the company fields and the OCA wizard:
+  *Globálny dátum uzamknutia* (Odoo's *Globálne* was a grammar error),
+  *Dátum uzamknutia DPH* / *Datum uzamčení DPH* for the tax return lock date
+  (was *Termín uzávierky daňového priznania*, which reads as a filing
+  deadline, and *Datum uzamčení zúčtování daně*), and the help texts and
+  messages that name them (*dátum daňového zámku*, *pevného zámku*, "Nové
+  dátum" and a Czech message that lost its meaning).
+- ``account``: *Reverse Entry* → *Stornovať* (was *Záznam storna*),
+  *Change Period* → *Zmeniť obdobie* (was *Obdobie zmeny*); the company's
+  fiscal year end fields say *účtovné obdobie / účetní období*, and Slovak
+  *Last Month* no longer reads as "previous month".
+- ``account_usability``: the *Fiscal Year Last Day* setting of OCA
+  19.0.1.1.0 is translated. That version aliases ``account.menu_finance`` as
+  ``account_usability.menu_finance``; the *Accounting* entry carries both, and
+  ``catalogue_check`` accepts an alias the target's template carries.
+
 [19.0.1.0.1] — 2026-11-04
 -------------------------
 

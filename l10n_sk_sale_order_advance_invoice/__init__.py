@@ -5,7 +5,11 @@ from odoo.addons.sale_order_advance_invoice.tools import apply_advance_invoice_s
 # Account codes resolved against the installed l10n_sk chart (chart_template = 'sk').
 SK_SPEC = {
     "journal_code": "TDADV",
-    "journal_name": "Faktúry k prijatým platbám",
+    "journal_name": {
+        "en_US": "Tax Documents for Received Advance Payments",
+        "sk_SK": "Faktúry k prijatým platbám",
+        "cs_CZ": "Daňové doklady k přijatým platbám",
+    },
     # The standard SK chart has 324000 (Prijaté preddavky) but no reconcilable
     # clearing account, so we ship one.
     "create_accounts": [
@@ -14,6 +18,7 @@ SK_SPEC = {
             "name": {
                 "en_US": "Advances received – clearing (tax document)",
                 "sk_SK": "Prijaté preddavky – zúčtovanie (daňový doklad)",
+                "cs_CZ": "Přijaté zálohy – zúčtování (daňový doklad)",
             },
             "account_type": "asset_receivable",
             "reconcile": True,

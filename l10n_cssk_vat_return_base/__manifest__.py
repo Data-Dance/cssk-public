@@ -1,6 +1,6 @@
 {
     "name": "CZ/SK VAT Return — Shared Framework (DPH priznanie / DPHDP3)",
-    "version": "19.0.1.13.0",
+    "version": "19.0.1.13.1",
     "summary": "Country-neutral framework for the Slovak and Czech VAT return: "
                "numbered report lines computed from tax tags + aggregate "
                "formulas, with an XSD-validated XML export. CE-clean (own "

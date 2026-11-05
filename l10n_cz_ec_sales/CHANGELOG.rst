@@ -8,6 +8,9 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.0] — 2026-11-04
+-------------------------
+
 Added
 ~~~~~
 
@@ -21,6 +24,16 @@ Changed
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+Fixed
+~~~~~
+
+- **A company charted after the install now gets the transaction codes.**
+  They were set only by the install hook, which reaches companies that
+  already had the l10n_cz chart, so every company charted later computed an
+  empty Souhrnné hlášení. The codes now come with the chart template
+  (``@template("cz", "account.tax")``), and the upgrade tags the taxes of
+  companies that missed them.
 
 [19.0.1.3.0] — 2026-10-27
 -------------------------

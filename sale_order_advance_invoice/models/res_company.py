@@ -2,9 +2,15 @@ from odoo import api, Command, fields, models
 
 from ..tools import (
     adopt_advance_account_names,
+    adopt_translated_names,
     advance_account_names,
     write_advance_account_names,
+    write_translated_names,
 )
+
+#: The journal name used when no localization names it.
+DEFAULT_ADVANCE_JOURNAL_NAME = "Tax Documents for Advance Invoices"
+
 
 
 class ResCompany(models.Model):
@@ -89,6 +95,10 @@ class ResCompany(models.Model):
                 journal = company._get_or_create_advance_invoice_journal(spec)
                 if journal:
                     vals["advance_invoice_journal_id"] = journal.id
+            else:
+                company._adopt_advance_journal_names(
+                    company.advance_invoice_journal_id, spec
+                )
 
             if vals:
                 company.write(vals)
@@ -164,10 +174,31 @@ class ResCompany(models.Model):
             [("company_id", "=", self.id), ("code", "=", code)], limit=1
         )
         if journal:
+            self._adopt_advance_journal_names(journal, spec)
             return journal
-        return Journal.create({
-            "name": spec.get("journal_name", "Tax Documents for Advance Invoices"),
+        names = advance_account_names(
+            spec.get("journal_name", DEFAULT_ADVANCE_JOURNAL_NAME)
+        )
+        journal = Journal.create({
+            "name": names.get("en_US") or next(iter(names.values())),
             "code": code,
             "type": "general",
             "company_id": self.id,
         })
+        write_translated_names(journal, names)
+        return journal
+
+    def _adopt_advance_journal_names(self, journal, spec):
+        """Name the localization's journal in every language of the spec.
+
+        Only the journal with the spec's code, and only while it still has a
+        name we gave it: the generic default, or the national name an earlier
+        version stored as its English source.
+        """
+        self.ensure_one()
+        if "journal_name" not in spec or journal.code != spec.get("journal_code", "TDADV"):
+            return
+        adopt_translated_names(
+            journal, advance_account_names(spec["journal_name"]),
+            also_replace={DEFAULT_ADVANCE_JOURNAL_NAME},
+        )

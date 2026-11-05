@@ -1,7 +1,7 @@
 ---
 title: SK EC Sales List (Súhrnný výkaz)
 summary: The Slovak EC sales list — súhrnný výkaz — computed from the intra-EU supply taxes of Odoo's Slovak chart and exported as Finančná správa XML in the vzor in force for the period.
-verified: 19.0.1.4.0
+verified: 19.0.1.5.0
 ---
 
 ## What it is for {#purpose}
@@ -76,9 +76,10 @@ which tick the matching box of *druh súhrnného výkazu* in the XML.
 
 ## Setting it up {#setup}
 
-When the module is installed, it sets the transaction code on the intra-EU
-taxes of every company that uses the Slovak chart of accounts at that moment,
-unless a code is already there:
+The module sets the transaction code on the intra-EU taxes of every company
+that uses the Slovak chart of accounts, whether the company had the chart
+when the module was installed or got it later, unless a code is already
+there:
 
 | Tax of Odoo's Slovak chart (English name / Slovak name) | Code |
 |---|---|

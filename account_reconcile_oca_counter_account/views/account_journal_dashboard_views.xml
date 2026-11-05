@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- account_reconcile_oca labels the dashboard button "Reconcile N Items".
+         The view is translated term by term around the number, so "Items"
+         is translated once, whatever N is, and cannot agree with it in a
+         language with plural forms: Slovak needs položka / položky /
+         položiek, Czech položka / položky / položek. Word it as Odoo
+         Enterprise does, "N to reconcile", which needs no agreement
+         ("10 na párovanie", "10 ke spárování"). Drop this once OCA words its
+         button the same way. -->
+    <record id="account_journal_dashboard_kanban_view_reconcile_count" model="ir.ui.view">
+        <field name="name">account.journal.dashboard.kanban.reconcile.count</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account_reconcile_oca.account_journal_dashboard_kanban_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[t[@t-esc='dashboard.number_to_reconcile']]" position="replace">
+                <button
+                    type="action"
+                    t-if="dashboard.number_to_reconcile > 0"
+                    name="%(account_reconcile_oca.action_bank_statement_line_reconcile)s"
+                    class="btn btn-primary"
+                ><t t-esc="dashboard.number_to_reconcile" /> to reconcile</button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

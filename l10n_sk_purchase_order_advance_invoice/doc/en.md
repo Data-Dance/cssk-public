@@ -1,7 +1,7 @@
 ---
 title: Received Advance Invoices — Slovak Accounts
 summary: Wires the received-advance settings to the Slovak chart of accounts.
-verified: 19.0.1.0.2
+verified: 19.0.1.0.3
 family: purchase_order_advance_invoice#localization
 ---
 

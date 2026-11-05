@@ -85,6 +85,7 @@ version of this guide quotes the Slovak screens.</p>
 </tr>
 </tbody>
 </table>
+<p><img alt="The Accounting → Accounting menu: journal entries, cut-offs, lock dates, bank and cash, reconciliation" src="img/menus.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <h2 id="roles">Who may do what</h2>
 <p>A user's <em>Accounting</em> role (<em>Settings → Users &amp; Companies → Users</em>, tab
 <em>Access Rights</em>) decides what they see:</p>
@@ -114,6 +115,7 @@ version of this guide quotes the Slovak screens.</p>
 </tr>
 </tbody>
 </table>
+<p><img alt="The Accounting role on a user's Access Rights tab" src="img/roles.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <p>The localization adds two roles for the statutory filings — who may <em>prepare</em>
 a VAT return or control statement and who may <em>file</em> it — so filing can stay
 with the accountant even where others prepare the returns.</p>
@@ -287,7 +289,8 @@ the ledgers and the tax returns. A posted entry can go back to draft with
 <em>Reset to Draft</em> while its period is open; otherwise you reverse it.</p>
 <p><em>Accounting → Accounting → Closing → Secure Entries</em> seals posted entries with
 an unbroken hash chain, so any later change is detectable. It does not close a
-period — it proves the books were not altered.</p>
+period — it proves the books were not altered. Until entries are secured for
+the first time, this menu item shows only in developer mode.</p>
 <h2 id="lock">Closing a period</h2>
 <p>Odoo protects a closed period with <strong>lock dates</strong>: nothing dated on or before
 a lock date can be posted or changed. Set them in <em>Accounting → Accounting →
@@ -322,6 +325,7 @@ Lock Dates</em> — only the <em>Accountant</em> role can — and click <strong>
 </tr>
 </tbody>
 </table>
+<p><img alt="Lock Dates: the reversible sale, purchase, tax return and global dates, and the irreversible hard lock date" src="img/lock.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <p>A lock date cannot lie in the future. The first four can be moved back if a
 correction turns out to be needed; keep the hard lock date for a year whose
 účtovná závierka has been filed. Filing a VAT return does not lock its period

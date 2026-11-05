@@ -47,7 +47,7 @@ Wizards
   improvement / suspension / disposal) and re-plan the board from that point.
 * **Close Tax Depreciation Year** — freeze the board up to a filed fiscal year so
   later edits cannot change an already-submitted DPPO.
-* **Tax Depreciation Reconciliation (DPPO)** — accounting-vs-tax reconciliation
+* **Accounting vs Tax Depreciation (DPPO)** — accounting-vs-tax comparison
   for a fiscal period: computes the §23 add-back/deduction, optionally posts the
   deferred-tax entry, and exports XLSX / PDF.
 

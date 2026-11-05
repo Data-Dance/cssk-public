@@ -11,9 +11,37 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- journal names per language (``_adopt_advance_journal_names``, generic
+  ``write_translated_names`` / ``adopt_translated_names`` in ``tools.py``) —
+  19.0.2.8.4.
 - the per-language ``name`` in ``create_accounts`` (``advance_account_names``
   / ``write_advance_account_names`` / ``adopt_advance_account_names`` in
   ``tools.py``, used by ``_ensure_advance_accounts``) — 19.0.2.8.2.
+
+[19.0.2.8.4] — 2026-11-04
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The localization's journal is named in every language of its spec.**
+  ``journal_name`` may be a ``{lang: name}`` dict like the account names; a
+  new TDADV journal gets all of them, an existing one is renamed only while it
+  still carries a name we gave it (the generic *Tax Documents for Advance
+  Invoices* or the national name stored as its English source), and one whose
+  English name is already ours only gets the languages it lacks. The name
+  helpers in ``tools.py`` now work for any record (``write_translated_names``,
+  ``adopt_translated_names``).
+
+[19.0.2.8.3] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- The **Advance Invoices** menu under Accounting stayed English in Slovak and
+  Czech: the template listed only the Sales menu, and Odoo drops a
+  translation's record occurrences the template lacks.
 
 [19.0.2.8.2] — 2026-11-04
 -------------------------

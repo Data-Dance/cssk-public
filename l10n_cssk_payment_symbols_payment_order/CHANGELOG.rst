@@ -25,6 +25,15 @@ Changed
   copyright, so a proprietary licence on a module deriving from it was not
   sustainable.
 
+[19.0.1.0.1] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak and Czech catalogues: the payment-line symbol fields and the
+  validation message were English, including the symbol name in the message.
+
 [19.0.1.0.0] — 2026-07-18
 -------------------------
 

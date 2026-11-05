@@ -7,7 +7,11 @@ from odoo.addons.purchase_order_advance_invoice.tools import (
 # Account codes resolved against the installed l10n_cz chart (chart_template = 'cz').
 CZ_SPEC = {
     "journal_code": "PDADV",
-    "journal_name": "Daňové doklady k odeslaným platbám",
+    "journal_name": {
+        "en_US": "Tax Documents for Sent Advance Payments",
+        "sk_SK": "Faktúry k odoslaným platbám",
+        "cs_CZ": "Daňové doklady k odeslaným platbám",
+    },
     # The standard CZ chart has 314000 (Poskytnuté provozní zálohy) but no
     # reconcilable clearing account, so we ship one. Payable type: it is the
     # payment-term leg of the received tax document.
@@ -16,6 +20,7 @@ CZ_SPEC = {
             "code": "314001",
             "name": {
                 "en_US": "Advances provided – clearing (tax document)",
+                "sk_SK": "Poskytnuté preddavky – zúčtovanie (daňový doklad)",
                 "cs_CZ": "Poskytnuté zálohy – zúčtování (daňový doklad)",
             },
             "account_type": "liability_payable",

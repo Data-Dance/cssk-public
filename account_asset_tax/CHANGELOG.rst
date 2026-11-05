@@ -16,6 +16,39 @@ Carry-over to 18.0
   32 odst. 2 písm. a) first-year increase (engine, mixin constraint and
   help). Port the engine and wizard changes and their tests.
 
+[19.0.1.11.3] — 2026-11-04
+--------------------------
+
+Changed
+~~~~~~~
+
+- The shared model of the *Depreciation Analysis* (formerly *Book vs Tax
+  Depreciation*) is described by its new name.
+
+[19.0.1.11.2] — 2026-11-04
+--------------------------
+
+Fixed
+~~~~~
+
+- After an upgrade to 1.11.1 the menu, action and report of the comparison
+  kept their old Slovak and Czech names (*Rekonciliácia daňových odpisov*):
+  Odoo does not overwrite an existing translation when it reloads a
+  catalogue. A migration drops the old names it shipped, so the new ones load.
+
+[19.0.1.11.1] — 2026-11-04
+--------------------------
+
+Changed
+~~~~~~~
+
+- **"Accounting vs Tax Depreciation"**, formerly *Tax Depreciation
+  Reconciliation*: the screen compares the accounting depreciation with the tax
+  depreciation, and *reconciliation* means matching entries in Odoo. Slovak
+  *Porovnanie účtovných a daňových odpisov*, Czech *Porovnání účetních a
+  daňových odpisů* (menu, wizard, PDF and its title), replacing *Rekonciliácia
+  / Rekonciliace*. Technical names (model, xmlids) are unchanged.
+
 [19.0.1.10.0] — 2026-10-27
 --------------------------
 

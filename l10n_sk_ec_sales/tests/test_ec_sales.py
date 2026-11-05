@@ -60,6 +60,13 @@ class TestSkEcSalesCompute(AccountTestInvoicingCommon):
             "statement_type_id": self.version.statement_type_ids[0].id,
         })
 
+    def test_a_company_charted_after_the_install_has_the_codes(self):
+        # setUpClass charts this company after the module was installed, which
+        # the install hook cannot reach; the codes must come with the chart.
+        for template, code in {"vy_eu_m": "0", "vy_eu_t": "1", "vy_eu_s": "2"}.items():
+            tax = self.env.ref("account.%s_%s" % (self.company.id, template))
+            self.assertEqual(tax.cssk_ec_summary_code, code, template)
+
     def test_a_period_the_version_does_not_allow_is_refused(self):
         """``allow_monthly`` / ``allow_quarterly`` on the version used to be
         stored and never read, so switching one off changed nothing."""

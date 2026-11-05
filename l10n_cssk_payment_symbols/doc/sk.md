@@ -1,7 +1,7 @@
 ---
 title: Platobné symboly CZ/SK (VS/KS/SS)
 summary: Variabilný, konštantný a špecifický symbol na faktúrach, platbách a bankových výpisoch a párovanie prijatých platieb podľa nich.
-verified: 19.0.1.4.1
+verified: 19.0.1.5.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -164,21 +164,33 @@ ako štruktúrované symboly. Vlastnú obrazovku nemá.
 
 ## SEPA úhrady / ISO 20022 {#iso20022}
 
-Pri exporte ISO 20022 v Odoo Enterprise pridá modul
-[module:l10n_cssk_payment_symbols_iso20022](module:l10n_cssk_payment_symbols_iso20022)
-ku každému bankovému denníku voľbu **CZ/SK Symbols in pain.001**:
+Symboly do súboru SEPA úhrad (pain.001) zapisujú dva moduly, pre každý zo
+spôsobov, ktorými ho Odoo vytvára:
+
+- [module:l10n_cssk_payment_symbols_iso20022](module:l10n_cssk_payment_symbols_iso20022)
+  — export ISO 20022 v Odoo Enterprise (dávkové platby); voľba **CZ/SK
+  Symbols in pain.001** na bankovom denníku;
+- [module:l10n_cssk_payment_symbols_sepa_oca](module:l10n_cssk_payment_symbols_sepa_oca)
+  — platobný príkaz OCA (`account_banking_sepa_credit_transfer`), ktorý
+  používa Odoo Community; voľba **Platobné symboly CZ/SK v SEPA úhradách** na
+  bankovom denníku.
+
+Oba ponúkajú tie isté voľby a zapisujú ten istý text:
 
 | Voľba | Čo sa zapíše do súboru |
 |---|---|
-| *Remittance info* (predvolené) | `/VS/…/KS/…/SS/…` pripojené k neštruktúrovanej informácii pre príjemcu; `PLATBA/VS/…`, ak žiadna nebola. Štruktúrovaná referencia veriteľa (RF) ostane nezmenená. |
-| *EndToEndId = variable symbol* | samotný variabilný symbol ako identifikátor end-to-end |
-| *Do not export symbols* | štandardný súbor Odoo |
+| *EndToEndId (/VS…/SS…/KS…)* | identifikátor end-to-end `/VS2026114455/SS77/KS0308`, štruktúra, ktorú čítajú slovenské banky (napríklad formát SEPA pre klientov VÚB). Predvolené pre slovenské spoločnosti v module OCA. |
+| *Správa pre príjemcu (/VS/…/KS/…/SS/…)* | `/VS/…/KS/…/SS/…` pripojené k správe pre príjemcu; `PLATBA/VS/…`, ak žiadna nebola. Štruktúrovaná referencia veriteľa (RF) ostane nezmenená. Predvolené pre české spoločnosti v module OCA a v Enterprise. |
+| *Symboly neexportovať* | súbor tak, ako ho zapíše Odoo alebo OCA. Predvolené pre ostatné spoločnosti. |
 
-**Pred použitím ktorejkoľvek voľby si to overte vo svojej banke.** Banky sa
-líšia v tom, čo spätne rozpoznajú ako symboly, a slovenská konvencia opísaná
-[vyššie](#legal) zapisuje `?/VS…/SS…/KS…` — písmená a číslice bez lomky medzi
-nimi, v poradí VS–SS–KS — čo nevytvára ani jedna z volieb. Pošlite jednu
-skúšobnú platbu a pozrite sa, ako sa zobrazí na výpise príjemcu.
+Pri exporte symbolov uhradí modul OCA faktúry s rôznymi symbolmi samostatnými
+prevodmi: jeden prevod nesie jednu sadu symbolov a na spojenom prevode by
+dodávateľ nespároval ani jednu faktúru. Dva prevody s rovnakými symbolmi majú
+rovnaký identifikátor end-to-end, ako to vyplýva z formátu bánk.
+
+**Pred spoľahnutím sa pošlite jednu skúšobnú platbu.** Banky sa líšia v tom,
+čo spätne rozpoznajú ako symboly; pozrite sa, ako sa platba zobrazí na výpise
+príjemcu.
 
 ## Obmedzenia {#limitations}
 

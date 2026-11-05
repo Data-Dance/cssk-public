@@ -1,7 +1,7 @@
 ---
 title: CZ Foreign-Currency Revaluation (kurzové rozdíly)
 summary: Revalues foreign-currency balances at the ČNB rate of the balance-sheet date and books the differences on 563 and 663 — with the OCA wizard on Community and Odoo's adjustment entry on Enterprise.
-verified: 19.0.1.2.0
+verified: 19.0.1.4.0
 ---
 
 ## What it is for {#purpose}
@@ -57,7 +57,7 @@ install for a company that already has it:
 |---|---|
 | Revaluation loss account | 563000, if empty |
 | Revaluation gain account | 663000, if empty |
-| Currency gain & loss Default Journal | a journal **KURZ** *Kurzové rozdíly* of type *Miscellaneous*, created if the company has none with that code |
+| Currency gain & loss Default Journal | the company's exchange-difference journal, where Odoo posts realised exchange differences; a journal **KURZ** *Kurzové rozdíly* is created only if the company has none |
 
 They are in *Accounting → Configuration → Settings*, section
 *Multicurrency revaluation*, together with *Auto Post Created Entries*
@@ -65,11 +65,11 @@ They are in *Accounting → Configuration → Settings*, section
 
 ### Before the first revaluation {#before}
 
-1. **Give yourself access.** The OCA menus are visible only to members of
-   the group *Additional provisioning entries posting* (*Zaúčtování
-   dodatečných rezervních zápisů*), which nobody has by default. Add it on
-   the user in *Settings → Users*, section *Extra Rights*, which appears in
-   developer mode.
+1. **Access.** The OCA menus are visible only to members of the group
+   *Additional provisioning entries posting* (*Zaúčtování dodatečných
+   rezervních zápisů*); the module adds it to the *Accountant* role. Give
+   it to another user in *Settings → Users*, section *Extra Rights*, which
+   appears in developer mode.
 2. **Choose the accounts to revalue.** Tick *Allow Currency Revaluation* on
    each account whose foreign-currency balance is to be revalued: the
    foreign-currency bank and cash accounts (22x, 21x), receivables (311) and
@@ -124,7 +124,7 @@ company:
 |---|---|
 | Expense Provision Account | 563000 |
 | Income Provision Account | 663000 |
-| Journal | KURZ *Kurzové rozdíly*, created if missing, when the company has no revaluation journal yet |
+| Journal | the company's exchange-difference journal (KURZ is created only if it has none), when the company has no revaluation journal yet |
 
 On install both accounts are **overwritten**, whatever was set before.
 
@@ -154,5 +154,5 @@ provision accounts above.
   month and silently limits the revaluation to items dated from then on.
 - Neither module checks which accounts are revalued: that, and whether
   advances or other items are excluded, is decided by your accountant.
-- The hook creates the journal KURZ on every Czech company that has no
-  revaluation journal set, whether or not it uses foreign currencies.
+- The hook sets a revaluation journal on every Czech company that has none,
+  whether or not it uses foreign currencies.

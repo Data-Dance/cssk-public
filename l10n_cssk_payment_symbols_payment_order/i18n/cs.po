@@ -1,0 +1,93 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_payment_symbols_payment_order
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-04 15:50+0000\n"
+"PO-Revision-Date: 2026-11-04 15:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#. odoo-python
+#: code:addons/l10n_cssk_payment_symbols_payment_order/models/account_payment_line.py:0
+msgid "%(label)s must be a numeric string up to %(max_len)s digits."
+msgstr "%(label)s musí být číselný řetězec s nejvýše %(max_len)s číslicemi."
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#. odoo-python
+#: code:addons/l10n_cssk_payment_symbols_payment_order/models/account_payment_line.py:0
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_payment_order.field_account_payment_line__constant_symbol
+msgid "Constant Symbol"
+msgstr "Konstantní symbol"
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols_payment_order.field_account_payment_line__constant_symbol
+msgid ""
+"Czech/Slovak payment Constant Symbol (KS). Up to 4 digits. If empty, falls "
+"back to a `KS:` token in the communication."
+msgstr ""
+"Konstantní symbol platby (KS). Nejvýše 4 číslice. Je-li prázdný, použije se "
+"údaj `KS:` ve zprávě pro příjemce."
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols_payment_order.field_account_payment_line__specific_symbol
+msgid ""
+"Czech/Slovak payment Specific Symbol (SS). Up to 10 digits. If empty, falls "
+"back to a `SS:` token in the communication."
+msgstr ""
+"Specifický symbol platby (SS). Nejvýše 10 číslic. Je-li prázdný, použije se "
+"údaj `SS:` ve zprávě pro příjemce."
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#: model:ir.model.fields,help:l10n_cssk_payment_symbols_payment_order.field_account_payment_line__variable_symbol
+msgid ""
+"Czech/Slovak payment Variable Symbol (VS). Up to 10 digits. If empty, falls "
+"back to a `VS:` token in the communication."
+msgstr ""
+"Variabilní symbol platby (VS). Nejvýše 10 číslic. Je-li prázdný, použije se "
+"údaj `VS:` ve zprávě pro příjemce."
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_payment_order.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_payment_order.field_account_payment_line__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_payment_order.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_payment_order.field_account_payment_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#: model:ir.model,name:l10n_cssk_payment_symbols_payment_order.model_account_move_line
+msgid "Journal Item"
+msgstr "Účetní položka"
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#: model:ir.model,name:l10n_cssk_payment_symbols_payment_order.model_account_payment_line
+msgid "Payment Lines"
+msgstr "Řádky platby"
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#. odoo-python
+#: code:addons/l10n_cssk_payment_symbols_payment_order/models/account_payment_line.py:0
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_payment_order.field_account_payment_line__specific_symbol
+msgid "Specific Symbol"
+msgstr "Specifický symbol"
+
+#. module: l10n_cssk_payment_symbols_payment_order
+#. odoo-python
+#: code:addons/l10n_cssk_payment_symbols_payment_order/models/account_payment_line.py:0
+#: model:ir.model.fields,field_description:l10n_cssk_payment_symbols_payment_order.field_account_payment_line__variable_symbol
+msgid "Variable Symbol"
+msgstr "Variabilní symbol"

@@ -133,3 +133,30 @@ class TestRenamedRecordCheck(TransactionCase):
         text = "\n".join(problems)
         self.assertNotIn("CSSK Renamed", text)
         self.assertIn("CSSK Wrong English", text)
+
+    def test_checker_accepts_an_alias_xmlid_of_the_record(self):
+        """OCA account_usability 19.0.1.1.0 aliases account.menu_finance as
+        account_usability.menu_finance, so its template exports the menu under
+        the alias. An entry keeps the real xmlid too, for older versions."""
+        def check(pot_occurrence):
+            with tempfile.TemporaryDirectory() as tmp:
+                mod = os.path.join(tmp, "fake_aliaser")
+                os.makedirs(os.path.join(mod, "i18n"))
+                with open(os.path.join(mod, "i18n", "fake_aliaser.pot"), "w") as fh:
+                    fh.write(f'msgid ""\nmsgstr ""\n\n#. module: fake_aliaser\n#: {pot_occurrence}\n'
+                             'msgid "CSSK Alias"\nmsgstr ""\n')
+                over = os.path.join(tmp, "over", "fake_aliaser")
+                os.makedirs(over)
+                path = os.path.join(over, "sk.po")
+                with open(path, "wb") as fh:
+                    fh.write(_po("CSSK Alias", "ok", module="fake_aliaser"))
+                problems, checked = catalogue_check.check_catalogue(
+                    path, lambda name: mod if name == "fake_aliaser" else None
+                )
+            self.assertTrue(checked)
+            return "\n".join(problems)
+
+        self.assertEqual(check("model:ir.ui.menu,name:fake_aliaser.menu_administration"), "")
+        # same msgid, but the template does not carry this record at all
+        self.assertIn("not in fake_aliaser's template",
+                      check("model:ir.ui.menu,name:fake_aliaser.menu_other"))

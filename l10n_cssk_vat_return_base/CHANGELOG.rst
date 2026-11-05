@@ -19,6 +19,20 @@ Carry-over to 18.0
   ``res.company`` before porting. Nothing on 18.0 is broken without it -
   18.0 users post the closing by hand as before.
 
+[19.0.1.13.1] — 2026-11-04
+--------------------------
+
+Fixed
+~~~~~
+
+- The Settings subheading *Settlement* (block *VAT Closing*) and 20 other
+  strings are translated again. Their Slovak and Czech entries were right, but
+  the module's ``.pot`` dated from June: Odoo merges every ``.po`` with the
+  module's ``.pot`` before loading it, which turns an entry the ``.pot`` lacks
+  into an obsolete one and replaces the ``.po``'s references with the
+  ``.pot``'s. The ``.pot`` is re-exported from a Community database.
+  ``tools/check_translation_quality.py --loadable`` now reports such entries.
+
 [19.0.1.13.0] — 2026-11-02
 --------------------------
 

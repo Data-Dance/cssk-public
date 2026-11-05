@@ -61,6 +61,33 @@ Fixed
   person. A known payer, or an amount only one of them has, still decides
   it.
 
+[19.0.1.5.1] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- The Czech relabel of core's *Payment Reference* never loaded: Odoo merges a
+  catalogue with the module's own template first, which dropped the entry's
+  references to ``account``'s fields. It now lives in
+  ``l10n_cssk_translation_override`` (*Reference platby*).
+- Catalogues: the inherited model names and *Display Name* / *ID* were empty.
+
+[19.0.1.5.0] — 2026-11-04
+-------------------------
+
+Added
+~~~~~
+
+- ``tools.end_to_end_id`` and ``tools.remittance_suffix``: the symbols as an
+  outgoing payment carries them (``/VS…/SS…/KS…`` in the end-to-end
+  identifier, ``/VS/…/KS/…/SS/…`` in the remittance information), shared by
+  the Enterprise ISO 20022 bridge and the new OCA SEPA bridge so the two
+  cannot drift apart.
+- The SEPA section of the guide covers both bridges and describes the
+  options as they are (it still described an EndToEndId holding the bare
+  variable symbol).
+
 [19.0.1.4.0] — 2026-10-08
 -------------------------
 

@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="action_report_reconciliation" model="ir.actions.report">
-        <field name="name">Tax Depreciation Reconciliation (DPPO)</field>
+        <field name="name">Accounting vs Tax Depreciation (DPPO)</field>
         <field name="model">account.asset.tax.reconciliation</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">account_asset_tax.report_reconciliation_document</field>
@@ -15,7 +15,7 @@
             <t t-foreach="docs" t-as="o">
                 <t t-call="web.external_layout">
                     <div class="page">
-                        <h2>Tax Depreciation Reconciliation (DPPO)</h2>
+                        <h2>Accounting vs Tax Depreciation (DPPO)</h2>
                         <p>
                             <strong>Period:</strong>
                             <span t-field="o.date_from"/> – <span t-field="o.date_to"/>

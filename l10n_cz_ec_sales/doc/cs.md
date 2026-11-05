@@ -1,7 +1,7 @@
 ---
 title: Souhrnné hlášení CZ
 summary: České souhrnné hlášení — tiskopis EPO DPHSHV — vypočtené z daní pro plnění do EU v české účtové osnově Odoo a exportované jako XML pro EPO.
-verified: 19.0.1.3.0
+verified: 19.0.1.4.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -72,9 +72,9 @@ Storno řádek nese `k_storno="A"` a jen kód státu, DIČ a kód plnění.
 
 ## Nastavení {#setup}
 
-Při instalaci modul nastaví kód plnění na daních pro plnění do EU u každé
-společnosti, která v tu chvíli používá českou účtovou osnovu, pokud tam kód
-ještě není:
+Modul nastaví kód plnění na daních pro plnění do EU u každé společnosti
+s českou účtovou osnovou, ať ji měla už při instalaci modulu, nebo ji dostala
+později, pokud tam kód ještě není:
 
 | Daň české osnovy Odoo | Kód |
 |---|---|

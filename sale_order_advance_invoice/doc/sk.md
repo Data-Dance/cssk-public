@@ -1,7 +1,7 @@
 ---
 title: Zálohové faktúry (predaj)
 summary: Zálohová (preddavková) faktúra ako samostatný doklad, faktúra ku každej prijatej platbe a odpočet preddavku na vyúčtovacej faktúre.
-verified: 19.0.2.8.2
+verified: 19.0.2.8.4
 ---
 
 ## Na čo slúži {#purpose}

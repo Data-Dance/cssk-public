@@ -11,6 +11,8 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- journal names per language in ``_apply_purchase_advance_setup`` —
+  19.0.1.2.2.
 - the per-language ``name`` in ``create_accounts`` (helpers in ``tools.py``,
   used by ``_apply_purchase_advance_setup``) — 19.0.1.2.1.
 
@@ -19,6 +21,17 @@ Fixed
 
 - The *advance purchase journal* picker in Settings listed every journal: Odoo
   drops a string domain when it copies a field into a related one.
+
+[19.0.1.2.2] — 2026-11-04
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The localization's journal is named in every language of its spec**, as
+  on the sale side: ``journal_name`` may be a ``{lang: name}`` dict, the PDADV
+  journal gets all of them, and an existing one is renamed only while it still
+  carries our name.
 
 [19.0.1.2.1] — 2026-11-04
 -------------------------

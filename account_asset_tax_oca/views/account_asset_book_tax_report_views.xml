@@ -4,7 +4,7 @@
         <field name="name">account.asset.book.tax.report.pivot</field>
         <field name="model">account.asset.book.tax.report</field>
         <field name="arch" type="xml">
-            <pivot string="Book vs Tax Depreciation" sample="1">
+            <pivot string="Depreciation Analysis" sample="1">
                 <field name="tax_class_id" type="row"/>
                 <field name="asset_id" type="row"/>
                 <field name="fiscal_year" type="col"/>
@@ -19,7 +19,7 @@
         <field name="name">account.asset.book.tax.report.graph</field>
         <field name="model">account.asset.book.tax.report</field>
         <field name="arch" type="xml">
-            <graph string="Book vs Tax Depreciation" type="bar" sample="1">
+            <graph string="Depreciation Analysis" type="bar" sample="1">
                 <field name="fiscal_year"/>
                 <field name="difference" type="measure"/>
             </graph>
@@ -51,7 +51,7 @@
         <field name="name">account.asset.book.tax.report.search</field>
         <field name="model">account.asset.book.tax.report</field>
         <field name="arch" type="xml">
-            <search string="Book vs Tax Depreciation">
+            <search string="Depreciation Analysis">
                 <field name="asset_id"/>
                 <field name="tax_class_id"/>
                 <field name="fiscal_year"/>
@@ -70,14 +70,14 @@
     </record>
 
     <record id="action_asset_book_tax_report" model="ir.actions.act_window">
-        <field name="name">Book vs Tax Depreciation</field>
+        <field name="name">Depreciation Analysis</field>
         <field name="res_model">account.asset.book.tax.report</field>
         <field name="view_mode">pivot,graph,list</field>
         <field name="search_view_id" ref="view_asset_book_tax_report_search"/>
     </record>
 
     <menuitem id="menu_asset_book_tax_report"
-              name="Book vs Tax Depreciation"
+              name="Depreciation Analysis"
               parent="account.menu_finance_reports"
               action="action_asset_book_tax_report"
               sequence="98"

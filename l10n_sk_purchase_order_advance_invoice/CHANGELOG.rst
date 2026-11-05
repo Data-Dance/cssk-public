@@ -11,6 +11,7 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- PDADV journal and 314001 named in sk/cs/en, post-migrate — 19.0.1.0.3.
 - English name of 314001 (spec ``name`` as a dict) and the post-migrate that
   renames it — 19.0.1.0.2. 18.0 has the same Slovak-only name. Needs the base
   helper carried over first.
@@ -22,6 +23,17 @@ Changed
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+[19.0.1.0.3] — 2026-11-04
+-------------------------
+
+Fixed
+~~~~~
+
+- **The PDADV journal had only its Slovak name**, stored as the English one.
+  It is now *Faktúry k odoslaným platbám* / *Daňové doklady k odeslaným
+  platbám* / *Tax Documents for Sent Advance Payments*, and 314001 has a
+  Czech name too. The upgrade renames both unless you renamed them.
 
 [19.0.1.0.2] — 2026-11-04
 -------------------------

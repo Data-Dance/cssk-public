@@ -22,6 +22,11 @@ alone is exactly the guess that puts a receivable against the wrong customer.
 This module adds ``account_number`` and ``partner_bank_id`` to the reconciliation
 form. Nothing else — no fields, no logic.
 
+It also words the dashboard button "N to reconcile" instead of OCA's
+"Reconcile N Items", which no language with plural forms can translate
+(Slovak and Czech need a different noun for 1, 2-4 and 5+), until OCA
+changes its own label.
+
 It is deliberately generic: it names no bank, so it serves the Tatra banka and
 Fio banka importers, the GPC file importer and anything else in that family
 equally. Worth proposing upstream.
@@ -29,10 +34,13 @@ equally. Worth proposing upstream.
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
     "category": "Accounting/Bank",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "license": "AGPL-3",
     "depends": ["account_reconcile_oca"],
-    "data": ["views/account_bank_statement_line_views.xml"],
+    "data": [
+        "views/account_bank_statement_line_views.xml",
+        "views/account_journal_dashboard_views.xml",
+    ],
     "auto_install": True,
     "installable": True,
 }

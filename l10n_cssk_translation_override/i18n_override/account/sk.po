@@ -1052,7 +1052,7 @@ msgstr "Komu"
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
 msgid "To Pay"
-msgstr "K úhrade"
+msgstr "k úhrade"
 
 #. module: account
 #: model:ir.model.fields.selection,name:account.selection__account_analytic_line__analytic_profitability__uncategorized
@@ -1280,3 +1280,122 @@ msgstr ""
 "    • prvá skupina zachytáva celú časť\n"
 "    • druhá skupina zachytáva desatinnú časť (posledné dve číslice)\n"
 "    "
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_lock_exception__fiscalyear_lock_date
+#: model:ir.model.fields,field_description:account.field_res_company__fiscalyear_lock_date
+#: model:ir.model.fields.selection,name:account.selection__account_lock_exception__lock_date_field__fiscalyear_lock_date
+msgid "Global Lock Date"
+msgstr "Globálny dátum uzamknutia"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_lock_exception__tax_lock_date
+#: model:ir.model.fields,field_description:account.field_res_company__tax_lock_date
+#: model:ir.model.fields.selection,name:account.selection__account_lock_exception__lock_date_field__tax_lock_date
+msgid "Tax Return Lock Date"
+msgstr "Dátum uzamknutia DPH"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__tax_lock_date_message
+#: model:ir.model.fields,field_description:account.field_account_move__tax_lock_date_message
+msgid "Tax Lock Date Message"
+msgstr "Správa o dátume uzamknutia DPH"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_lock_exception__tax_lock_date
+msgid ""
+"The date the Tax Lock Date is set to by this exception. If the lock date is "
+"not changed it is set to the maximal date."
+msgstr ""
+"Dátum, na ktorý je podľa tejto výnimky nastavený dátum uzamknutia DPH. Ak sa"
+" dátum uzamknutia nezmení, je nastavený na maximálny dátum."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_res_company__tax_lock_date
+msgid ""
+"Any entry with taxes up to and including that date will be postponed to a "
+"later time, in accordance with its journal's sequence. The tax lock date is "
+"automatically set when the tax closing entry is posted."
+msgstr ""
+"Všetky záznamy s daňami do tohto dátumu vrátane budú odložené na neskôr, v "
+"súlade s poradovým číslom v denníku. Dátum uzamknutia DPH sa nastaví "
+"automaticky pri zaúčtovaní záverečného daňového záznamu."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/company.py:0
+msgid "A new Hard Lock Date must be posterior (or equal) to the previous one."
+msgstr ""
+"Nový dátum trvalého uzamknutia musí byť neskorší (alebo rovnaký) ako "
+"predchádzajúci."
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_secure_entries_wizard__max_hash_date
+msgid ""
+"Highest Date such that all posted journal entries prior to (including) the "
+"date are secured. Only journal entries after the hard lock date are "
+"considered."
+msgstr ""
+"Najneskorší dátum, ku ktorému sú zabezpečené všetky zaúčtované účtovné "
+"záznamy vrátane tohto dňa. Zohľadňujú sa iba účtovné záznamy po dátume "
+"trvalého uzamknutia."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/company.py:0
+msgid "The Hard Lock Date cannot be removed."
+msgstr "Dátum trvalého uzamknutia nemožno odstrániť."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/wizard/account_secure_entries_wizard.py:0
+msgid ""
+"There are entries that cannot be hashed. They can be protected by the Hard "
+"Lock Date."
+msgstr ""
+"Existujú záznamy, ktoré nie je možné hashovať. Je možné ich chrániť dátumom "
+"trvalého uzamknutia."
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+msgid "Reverse Entry"
+msgstr "Stornovať"
+
+#. module: account
+#: model:ir.actions.server,name:account.action_automatic_entry_change_period
+#: model:ir.model.fields.selection,name:account.selection__account_automatic_entry_wizard__action__change_period
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+msgid "Change Period"
+msgstr "Zmeniť obdobie"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_financial_year_op__fiscalyear_last_day
+#: model:ir.model.fields,field_description:account.field_res_company__fiscalyear_last_day
+msgid "Fiscalyear Last Day"
+msgstr "Posledný deň účtovného obdobia"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_financial_year_op__fiscalyear_last_month
+#: model:ir.model.fields,field_description:account.field_res_company__fiscalyear_last_month
+msgid "Fiscalyear Last Month"
+msgstr "Posledný mesiac účtovného obdobia"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "To Validate"
+msgstr "na zaúčtovanie"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "Unpaid"
+msgstr "nezaplatené"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "Late"
+msgstr "po splatnosti"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.account_journal_dashboard_kanban_view
+msgid "To Review"
+msgstr "na kontrolu"

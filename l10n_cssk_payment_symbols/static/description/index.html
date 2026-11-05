@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CZ/SK Payment Symbols (VS/KS/SS)</title>
 <meta name="cssk-guide-topic" content="start">
-<meta name="cssk-guide-order" content="10">
+<meta name="cssk-guide-order" content="11">
 <meta name="cssk-guide-country" content="both">
 <style>
 body{margin:0;background:#fff;color:#1f2328;font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cssk_payment_symbols/static/description/index_sk.html">Slovenčina</a> · <a href="/l10n_cssk_payment_symbols/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ/SK Payment Symbols (VS/KS/SS)</h1>
 <p class="cssk-summary">Variable, constant and specific symbols on invoices, payments and bank statements, and matching incoming payments by them.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code></td></tr><tr><th>Extended by</th><td><code>account_abo_batch</code>, <code>account_multicash_batch</code>, <code>account_payment_fio_batch</code>, <code>account_payment_tatrabanka</code> <span class="cssk-note">(delivered separately)</span>, <code>account_payment_tatrabanka_batch</code> <span class="cssk-note">(delivered separately)</span>, <code>l10n_cssk_hr_payroll_garnishment_account</code>, <code>l10n_cssk_payment_symbols_ee</code>, <code>l10n_cssk_payment_symbols_iso20022</code>, <code>l10n_cssk_payment_symbols_oca</code>, <code>l10n_cssk_payment_symbols_payment_order</code>, <code>l10n_cz_base</code>, <code>l10n_cz_invoice</code>, <code>l10n_sk_invoice</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.5.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code></td></tr><tr><th>Extended by</th><td><code>account_abo_batch</code>, <code>account_multicash_batch</code>, <code>account_payment_fio_batch</code>, <code>account_payment_tatrabanka</code> <span class="cssk-note">(delivered separately)</span>, <code>account_payment_tatrabanka_batch</code> <span class="cssk-note">(delivered separately)</span>, <code>l10n_cssk_hr_payroll_garnishment_account</code>, <code>l10n_cssk_payment_symbols_ee</code>, <code>l10n_cssk_payment_symbols_iso20022</code>, <code>l10n_cssk_payment_symbols_oca</code>, <code>l10n_cssk_payment_symbols_payment_order</code>, <code>l10n_cz_base</code>, <code>l10n_cz_invoice</code>, <code>l10n_sk_invoice</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Czech or Slovak payer identifies what they are paying with numeric <strong>payment
@@ -250,9 +250,18 @@ The domestic bank-file exporters —
 <code>account_multicash</code> — write them into the
 file as structured symbols. It has no screen of its own.</p>
 <h2 id="iso20022">SEPA / ISO 20022 credit transfers</h2>
-<p>With Odoo Enterprise's ISO 20022 export,
-<code>l10n_cssk_payment_symbols_iso20022</code>
-adds a choice to each bank journal, <strong>CZ/SK Symbols in pain.001</strong>:</p>
+<p>Two modules write the symbols into a SEPA credit transfer file (pain.001),
+one for each way Odoo produces it:</p>
+<ul>
+<li><code>l10n_cssk_payment_symbols_iso20022</code>
+  — Odoo Enterprise's ISO 20022 export (batch payments); option <strong>CZ/SK
+  Symbols in pain.001</strong> on the bank journal;</li>
+<li><code>l10n_cssk_payment_symbols_sepa_oca</code>
+  — the OCA payment order (<code>account_banking_sepa_credit_transfer</code>), which is
+  what Odoo Community uses; option <strong>CZ/SK Symbols in SEPA Transfers</strong> on the
+  bank journal.</li>
+</ul>
+<p>Both offer the same choices and write the same text:</p>
 <table>
 <thead>
 <tr>
@@ -262,24 +271,25 @@ adds a choice to each bank journal, <strong>CZ/SK Symbols in pain.001</strong>:<
 </thead>
 <tbody>
 <tr>
-<td>Remittance info (default)</td>
-<td><code>/VS/…/KS/…/SS/…</code> appended to the unstructured remittance information; <code>PLATBA/VS/…</code> when there was none. A structured creditor reference (RF) is left as it is.</td>
+<td><em>EndToEndId (/VS…/SS…/KS…)</em></td>
+<td>the end-to-end identifier <code>/VS2026114455/SS77/KS0308</code>, the structure Slovak banks read (for example VÚB's SEPA format for clients). Default for Slovak companies in the OCA module.</td>
 </tr>
 <tr>
-<td>EndToEndId = variable symbol</td>
-<td>the bare variable symbol as the end-to-end identifier</td>
+<td><em>Remittance info (/VS/…/KS/…/SS/…)</em></td>
+<td><code>/VS/…/KS/…/SS/…</code> appended to the message for the payee; <code>PLATBA/VS/…</code> when there was none. A structured creditor reference (RF) is left as it is. Default for Czech companies in the OCA module, and the Enterprise default.</td>
 </tr>
 <tr>
-<td>Do not export symbols</td>
-<td>Odoo's standard file</td>
+<td><em>Do not export symbols</em></td>
+<td>the file as Odoo or OCA writes it. Default for other companies.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Check with your bank before relying on either.</strong> Banks differ in what they
-parse back into symbols, and the Slovak convention described
-<a href="#legal">above</a> writes <code>?/VS…/SS…/KS…</code> — letters and digits without a slash
-between them, VS–SS–KS order — which neither option produces. Send one test
-payment and look at how the payee's statement shows it.</p>
+<p>With symbols exported, the OCA module pays bills with different symbols by
+separate transfers: one transfer carries one set of symbols, and a supplier
+could match neither bill on a merged one. Two transfers with the same symbols
+carry the same end-to-end identifier, as the banks' format implies.</p>
+<p><strong>Send one test payment before relying on it.</strong> Banks differ in what they
+read back into symbols; look at how the payee's statement shows the payment.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>The variable symbol is derived from the document number. A sequence with a
@@ -289,7 +299,7 @@ payment and look at how the payee's statement shows it.</p>
   foreign-currency multi-document matching, nothing across companies.</li>
 <li>Symbols are read from statement lines when they are created, not later.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2011/169">Vyhláška č. 169/2011 Sb., o stanovení pravidel pro tvorbu čísla účtu v platebním styku</a></li></ul><p>Text checked against module version: 19.0.1.4.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2011/169">Vyhláška č. 169/2011 Sb., o stanovení pravidel pro tvorbu čísla účtu v platebním styku</a></li></ul><p>Text checked against module version: 19.0.1.5.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

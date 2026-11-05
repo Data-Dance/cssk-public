@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VAT Return — Shared Engine
 summary: The screens and the workflow behind the Slovak and Czech VAT returns — compute the rows from tax tags, check them against the journal items, export the official XML and keep the filed copy.
-verified: 19.0.1.13.0
+verified: 19.0.1.13.1
 ---
 
 ## What it is for {#purpose}

@@ -69,6 +69,10 @@ class AccountChartTemplate(models.AbstractModel):
                     "23 %% or 19 %% VAT group); create them by hand",
                     company.display_name, exc_info=True)
                 continue
+            # _load_data drops the ``name@sk`` columns: only a chart load
+            # applies them, through _load_translations. Without this the
+            # taxes stayed English in Slovak.
+            loader._load_translations(companies=company)
             loaded += len(missing)
         return loaded
 

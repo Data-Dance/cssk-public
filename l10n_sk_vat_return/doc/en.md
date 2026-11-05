@@ -1,7 +1,7 @@
 ---
 title: SK VAT Return (Daňové priznanie k DPH)
 summary: The Slovak VAT return computed from the tax tags of Odoo's Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.
-verified: 19.0.1.13.1
+verified: 19.0.1.14.0
 ---
 
 ## What it is for {#purpose}
@@ -181,6 +181,37 @@ Set the *S* tax as the vendor tax of your service products. On a bill from an
 EU supplier the fiscal position then replaces it with the *EÚ S* tax; goods
 keep their usual tax and still go to rows 07/08. The taxes are added to every
 Slovak company when the module is installed or upgraded, only where missing.
+
+## Exempt supplies: rows 13, 14 and 15 {#exempt-rows}
+
+- **Row 14** is the base of **goods** supplied to another member state
+  exempt under § 43 ods. 1 a 4, and nothing else. Stock Odoo also put B2B
+  services to the EU (*0% EÚ S*) and the first buyer's triangular trade
+  (*0% EÚ TRI*) on it. Neither belongs there: a service with its place of
+  supply abroad (§ 15) is on no row of the return, only on the EC sales list,
+  and the poučenie excludes the first buyer of a triangular trade from rows 13
+  and 14. The module takes the row-14 tag off both taxes, and off the invoice
+  lines already posted with them.
+- **Row 13** is the total of **every** exempt supply (§ 28 to § 43, § 46,
+  § 47, § 48 ods. 8), so it includes what rows 14 and 15 itemise: domestic
+  exempt supplies, goods to the EU and exports. The vzory up to 2020 number
+  the same rows 15, 16 and 17.
+
+A return for a period with EU services that was computed before this change
+recomputes with a lower row 14. If such a return was filed, the figure filed
+was too high and a dodatočné priznanie corrects it.
+
+## Debit notes received (ťarchopis) {#debit-notes}
+
+A debit note from a supplier corrects a deduction you have already claimed,
+so it goes on **row 28** with a minus sign, not on rows 19 to 21 as a new
+deduction (§ 53, poučenie bod 43). Where you self-assessed the tax, the base
+and the tax are corrected on rows 24 and 25 as well. The return treats a
+bill as a debit note when it was created with *Debit Note* (it links to the
+bill it corrects) or when its *VAT correction* is set to *Yes*. Set that by
+hand on an imported debit note whose original bill is not in Odoo, and set
+it to *No* on a linked bill that is not a correction. Supplier credit notes
+already reach row 28 through their taxes and are unchanged.
 
 ## § 53b correction of deducted tax {#par53b}
 

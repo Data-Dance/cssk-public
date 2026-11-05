@@ -5,19 +5,20 @@ výkaz (EC sales list) transaction code, so cssk.ec.summary collects them withou
 manual per-company tax configuration. Identifies the taxes by their l10n_sk
 chart-template xmlids (account.<company>_<template>), so it is translation- and
 rename-proof.
+
+Companies charted after the install get the codes from the chart template
+(models/account_chart_template.py); this hook covers the ones charted before.
 """
 import logging
 
-_logger = logging.getLogger(__name__)
+from .models.account_chart_template import EC_CODES
 
-# l10n_sk tax template -> Súhrnný výkaz transaction code (KOD_PLN):
-#   0 = dodanie tovaru, 1 = trojstranný obchod, 2 = dodanie služby
-_EC_CODES = {"vy_eu_m": "0", "vy_eu_t": "1", "vy_eu_s": "2"}
+_logger = logging.getLogger(__name__)
 
 
 def post_init_hook(env):
     for company in env["res.company"].search([("chart_template", "=", "sk")]):
-        for template, code in _EC_CODES.items():
+        for template, code in EC_CODES.items():
             tax = env.ref(
                 "account.%s_%s" % (company.id, template), raise_if_not_found=False)
             if tax and not tax.cssk_ec_summary_code:

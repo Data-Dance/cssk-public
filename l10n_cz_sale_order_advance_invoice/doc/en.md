@@ -1,7 +1,7 @@
 ---
 title: Advance Invoices — Czech Accounts
 summary: Wires the advance-invoice settings to the Czech chart of accounts.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 family: sale_order_advance_invoice#localization
 ---
 

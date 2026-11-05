@@ -1,7 +1,7 @@
 ---
 title: OCA Reconciliation — Counterparty Account
 summary: Shows the counterparty's bank account on the OCA bank reconciliation screen, so a payer who quoted no variable symbol can still be identified.
-verified: 19.0.1.0.0
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}
@@ -36,3 +36,5 @@ It installs itself whenever `account_reconcile_oca` is installed.
   show nothing.
 - It does not match anything by account number by itself; partner matching by
   bank account is done by the statement import when the line is created.
+
+It also words the dashboard button as **N to reconcile** instead of OCA's *Reconcile N Items*, which cannot be translated into a language where the noun has to agree with the number (Slovak *10 na párovanie*, Czech *10 ke spárování*).

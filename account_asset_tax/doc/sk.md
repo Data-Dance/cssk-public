@@ -1,7 +1,7 @@
 ---
 title: Daňové odpisy (CZ/SK)
 summary: Druhý, nikdy nezaúčtovaný odpisový plán ku každému majetku pre české a slovenské daňové odpisy popri účtovných, s ročným porovnaním účtovných a daňových odpisov, odloženou daňou a registrom daňových odpisov.
-verified: 19.0.1.11.0
+verified: 19.0.1.11.3
 ---
 
 ## Na čo slúži {#purpose}
@@ -280,7 +280,7 @@ Uzavreté roky otvorí len sprievodca *Doplniť (migrácia)*.
 
 ## Ročné porovnanie a odložená daň {#reconciliation}
 
-*Účtovníctvo → Výkazy → Rekonciliácia daňových odpisov*. Zvoľte obdobie
+*Účtovníctvo → Výkazy → Porovnanie účtovných a daňových odpisov*. Zvoľte obdobie
 (predvolený je aktuálny kalendárny rok), skontrolujte **Sadzbu dane z príjmov
 (%)** (predvolená 21) a kliknite na **Vypočítať**. Jeden riadok za každý
 sledovaný majetok:
@@ -332,7 +332,7 @@ smerom, súčty sa líšia. Český modul priznania tieto sumy z tohto modulu ne
   metóda a účtovný odpis s rozdielom, so súčtami za skupiny a celkovým
   súčtom. Majetok s mesačným plánom (§ 30a) je v ňom raz, so sčítanými
   mesiacmi roka. Hlavičky stĺpcov sú slovensky a anglicky.
-- **Účtovné vs. daňové odpisy** (*Účtovníctvo → Výkazy*): kontingenčná
+- **Analýza odpisov** (*Účtovníctvo → Výkazy*): kontingenčná
   tabuľka, graf a zoznam účtovných a daňových odpisov podľa majetku, roka a
   skupiny. *Účtovný odpis* počíta všetky účtovné odpisy roka, *Účtovný odpis
   (zaúčtovaný)* len zaúčtované; filter *Podané* ukáže zmrazené roky.

@@ -21,7 +21,7 @@ class ResCompany(models.Model):
     account_deferred_tax_id = fields.Many2one(
         "account.account", string="Deferred Tax Account (481)",
         check_company=True,
-        help="Balance-sheet deferred-tax account (CZ/SK 481). The reconciliation "
+        help="Balance-sheet deferred-tax account (CZ/SK 481). The comparison "
         "trues this account's balance at the period end up to the deferred tax "
         "on asset depreciation, so use an account (e.g. an analytical 481 "
         "sub-account) that holds no other deferred tax.",

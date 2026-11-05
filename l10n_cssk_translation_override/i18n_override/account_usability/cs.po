@@ -55,6 +55,7 @@ msgstr ""
 #. module: account_usability
 #: model:ir.ui.menu,name:account.menu_finance
 #: model:ir.module.category,name:base.module_category_accounting_accounting
+#: model:ir.ui.menu,name:account_usability.menu_finance
 msgid "Accounting"
 msgstr "Účetnictví"
 
@@ -72,3 +73,18 @@ msgstr "Účetní"
 #: model:res.groups,name:account.group_account_manager
 msgid "Accountant"
 msgstr "Hlavní účetní"
+
+#. module: account_usability
+#: model_terms:ir.ui.view,arch_db:account_usability.res_config_settings_view_form
+msgid "Fiscal Year Last Day"
+msgstr "Poslední den účetního období"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_res_config_settings__fiscalyear_last_day
+msgid "Fiscalyear Last Day"
+msgstr "Poslední den účetního období"
+
+#. module: account_usability
+#: model:ir.model.fields,field_description:account_usability.field_res_config_settings__fiscalyear_last_month
+msgid "Fiscalyear Last Month"
+msgstr "Poslední měsíc účetního období"
