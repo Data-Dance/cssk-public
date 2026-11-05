@@ -144,7 +144,21 @@ class L10nSkHealth(models.Model):
             return slips
         return slips.filtered(
             lambda s: s.employee_id._l10n_sk_health_insurer()
-            == self.insurer_code)
+            == self.insurer_code and not self._old_age_agreement(s))
+
+    def _old_age_agreement(self, payslip):
+        """§10b(1)(a) points 3/4, z.580/2004: excluded agreement income.
+
+        An old-age pension does not exempt an ordinary employment contract.
+        The payslip's historical version decides, never today's employee card.
+        Other pension/student profiles need their own eligibility handling.
+        """
+        version = self._payslip_version(payslip)
+        return bool(version
+                    and "l10n_sk_agreement_type" in version._fields
+                    and "l10n_sk_pension_type" in version._fields
+                    and version.l10n_sk_agreement_type in ("dopc", "dovp")
+                    and version.l10n_sk_pension_type == "old_age")
 
     # ------------------------------------------------------------------
     @staticmethod
