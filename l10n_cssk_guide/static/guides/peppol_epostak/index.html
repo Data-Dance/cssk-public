@@ -7,7 +7,7 @@
 <title>E-invoices via Peppol — your own ePošťák contract</title>
 <meta name="cssk-guide-topic" content="edi">
 <meta name="cssk-guide-order" content="1">
-<meta name="cssk-guide-country" content="both">
+<meta name="cssk-guide-country" content="sk">
 <meta name="cssk-guide-kind" content="task">
 <style>
 body{margin:0;background:#fff;color:#1f2328;font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -31,11 +31,11 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <body>
 <main class="cssk-doc">
 <p class="cssk-note"><a href="../../../../index.html">← User guide</a></p>
-<nav class="cssk-lang"><b>English</b> · <a href="index_sk.html">Slovenčina</a> · <a href="index_cs.html">Čeština</a></nav>
+<nav class="cssk-lang"><b>English</b> · <a href="index_sk.html">Slovenčina</a></nav>
 <p class="cssk-note">Task guide</p>
 <h1>E-invoices via Peppol — your own ePošťák contract</h1>
 <p class="cssk-summary">For companies with their own ePošťák contract — connecting with the keys from your ePošťák account, Peppol addresses, which invoices go electronically, delivery states and received invoices as drafts.</p>
-<table class="cssk-facts"><tr><th>Country</th><td>Czech Republic and Slovakia</td></tr><tr><th>Edition</th><td>Odoo Community</td></tr><tr><th>Covers</th><td><a href="../../../../edi_base/static/description/index.html"><code>edi_base</code></a>, <a href="../../../../edi_base_peppol/static/description/index.html"><code>edi_base_peppol</code></a>, <a href="../../../../edi_epostak_base/static/description/index.html"><code>edi_epostak_base</code></a>, <a href="../../../../edi_epostak_connector_sapi/static/description/index.html"><code>edi_epostak_connector_sapi</code></a>, <a href="../../../../edi_epostak_peppol/static/description/index.html"><code>edi_epostak_peppol</code></a>, <a href="../../../../l10n_sk_ubl_bis3/static/description/index.html"><code>l10n_sk_ubl_bis3</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Country</th><td>Slovakia</td></tr><tr><th>Edition</th><td>Odoo Community</td></tr><tr><th>Covers</th><td><a href="../../../../edi_base/static/description/index.html"><code>edi_base</code></a>, <a href="../../../../edi_base_peppol/static/description/index.html"><code>edi_base_peppol</code></a>, <a href="../../../../edi_epostak_base/static/description/index.html"><code>edi_epostak_base</code></a>, <a href="../../../../edi_epostak_connector_sapi/static/description/index.html"><code>edi_epostak_connector_sapi</code></a>, <a href="../../../../edi_epostak_peppol/static/description/index.html"><code>edi_epostak_peppol</code></a>, <a href="../../../../l10n_sk_ubl_bis3/static/description/index.html"><code>l10n_sk_ubl_bis3</code></a></td></tr></table>
 <h2 id="purpose">What this guide is for</h2>
 <p><strong>Peppol</strong> is the European network for exchanging e-invoices. An invoice on it
 is not a PDF but an XML file (Peppol BIS Billing 3.0) that the customer's system
@@ -45,15 +45,13 @@ are found on it by your <strong>Peppol address</strong>.</p>
 contract with the ePošťák access point</strong>. If you subscribe to the Data Dance
 hosting service, we set the connection up for you — see
 <a href="../../../../l10n_cssk_guide/static/guides/peppol_hosted/index.html">E-invoices via Peppol — Data Dance subscribers</a>.</p>
-<p><strong>Slovakia:</strong> from 1 January 2027 an e-invoice is mandatory for supplies to a
+<p><strong>From 1 January 2027</strong> an e-invoice is mandatory for supplies to a
 domestic taxable person (and to a non-taxable legal person established in
 Slovakia), except exempt supplies and simplified invoices, and everyone
 receiving such invoices must be able to receive them
 (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/#paragraf-85o">§ 85o of the VAT Act</a>). Until the end of 2026
 an e-invoice may be sent only with the customer's consent.
-<strong>Czech Republic:</strong> there is no general obligation; an electronic tax document
-may be issued only with the customer's consent
-(<a href="https://e-sbirka.gov.cz/sb/2004/235">§ 26 of the VAT Act</a>). Details are in
+Details are in
 <a href="../../../../edi_base_peppol/static/description/index.html#legal"><code>edi_base_peppol</code></a>.</p>
 <h2 id="connection">Connecting to ePošťák</h2>
 <ol>
@@ -73,8 +71,6 @@ may be issued only with the customer's consent
 <p>While the <em>Sandbox</em> environment is selected a yellow bar says so — sandbox
 invoices never reach the real network, so you can try things safely there.
 Each environment has its own credentials.</p>
-<p>ePošťák is a Slovak access point; whether it registers a Czech company too,
-check with ePošťák directly.</p>
 <p>The <em>Electronic Invoicing → Enable PEPPOL</em> setting in <em>Settings → Accounting</em>
 is another route into the same network: it registers your company with Odoo
 S.A. as the access point. A Peppol address can be registered with only one
@@ -84,10 +80,9 @@ access point, so leave it off when you use ePošťák.</p>
 <li><strong>Permission.</strong> <em>Settings → EDI</em>, block <strong>Peppol BIS3 (this company)</strong>:
    tick <strong>Allow e-invoicing via Peppol</strong> and choose the <strong>Peppol scope</strong>:</li>
 <li><em>Slovak mandate: domestic B2B and B2G only</em> — the invoices the Slovak
-     mandate covers go electronically, the rest as PDF. Applies to a Slovak
-     company only;</li>
+     mandate covers go electronically, the rest as PDF;</li>
 <li><em>Any customer with a Peppol address</em> — electronically to everyone who has
-     one. Choose this for a Czech company.</li>
+     one.</li>
 </ol>
 <p><strong>Auto-send Peppol on Invoice Post</strong> sends an invoice as soon as it is
    posted; without it you send it with <strong>Send</strong>. <strong>Peppol Purchase Journal</strong>
@@ -95,13 +90,10 @@ access point, so leave it off when you use ePošťák.</p>
 <p><img alt="EDI settings: the Peppol BIS3 block with e-invoicing allowed, the scope and auto-send; the ePošťák section below" src="img/settings.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <ol>
 <li><strong>Your company's Peppol address.</strong> On the company's contact, <em>Invoicing</em>
-   tab: <strong>Peppol e-address (EAS)</strong> and <strong>Peppol endpoint</strong>.</li>
-<li>A Slovak company: <code>0245</code> and your <strong>DIČ</strong> (ten digits) — not the IČ DPH and
-     not the IČO.</li>
-<li>A Czech company: <code>9929</code> and your <strong>DIČ</strong> (for example <code>CZ12345678</code>); Odoo
-     fills it in from the DIČ — check it.</li>
+   tab: <strong>Peppol e-address (EAS)</strong> <code>0245</code> and the <strong>Peppol endpoint</strong> = your
+   <strong>DIČ</strong> (ten digits). Not the IČ DPH and not the IČO.</li>
 <li><strong>Your customers' Peppol addresses</strong> in the same place on their contacts,
-   by their country in the same way. Before the first invoice, check that the
+   likewise <code>0245</code> and their DIČ. Before the first invoice, check that the
    customer is reachable on the network — see the
    <a href="../../../../edi_epostak_peppol/static/description/index.html#reachability">Peppol address check</a>.</li>
 <li>If a customer should receive invoices otherwise than the scope decides, set
@@ -190,7 +182,7 @@ poll</strong>; <strong>Poll inbound now</strong> collects immediately.</p>
 <strong>Send</strong>. The <strong>Send via Peppol</strong> and <strong>Peppol Response…</strong> buttons and the
 <strong>Peppol EDI Messages</strong> tab are visible to users with the <em>EDI User</em> group. All
 messages are also in the <em>EDI → Messages</em> app.</p>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Walked through on Odoo 19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Walked through on Odoo 19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

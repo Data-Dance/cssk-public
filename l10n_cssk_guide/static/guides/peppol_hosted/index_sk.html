@@ -7,7 +7,7 @@
 <title>Elektronické faktúry cez Peppol — predplatitelia Data Dance</title>
 <meta name="cssk-guide-topic" content="edi">
 <meta name="cssk-guide-order" content="0">
-<meta name="cssk-guide-country" content="both">
+<meta name="cssk-guide-country" content="sk">
 <meta name="cssk-guide-kind" content="task">
 <style>
 body{margin:0;background:#fff;color:#1f2328;font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -31,11 +31,11 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <body>
 <main class="cssk-doc">
 <p class="cssk-note"><a href="../../../../index_sk.html">← Používateľská príručka</a></p>
-<nav class="cssk-lang"><a href="index.html">English</a> · <b>Slovenčina</b> · <a href="index_cs.html">Čeština</a></nav>
+<nav class="cssk-lang"><a href="index.html">English</a> · <b>Slovenčina</b></nav>
 <p class="cssk-note">Návod k úlohe</p>
 <h1>Elektronické faktúry cez Peppol — predplatitelia Data Dance</h1>
 <p class="cssk-summary">Pre predplatiteľov hostovanej služby Data Dance — pripojenie do siete Peppol zariadime my, bez vlastnej zmluvy a bez kľúčov; Peppol adresy, ktoré faktúry odídu elektronicky, stavy doručenia a prijaté faktúry ako koncepty.</p>
-<table class="cssk-facts"><tr><th>Krajina</th><td>Česko a Slovensko</td></tr><tr><th>Edícia</th><td>Odoo Community</td></tr><tr><th>Zahŕňa</th><td><a href="../../../../edi_base/static/description/index_sk.html"><code>edi_base</code></a>, <a href="../../../../edi_base_peppol/static/description/index_sk.html"><code>edi_base_peppol</code></a>, <a href="../../../../edi_epostak_base/static/description/index_sk.html"><code>edi_epostak_base</code></a>, <a href="../../../../edi_epostak_connector_sapi/static/description/index_sk.html"><code>edi_epostak_connector_sapi</code></a>, <a href="../../../../edi_epostak_peppol/static/description/index_sk.html"><code>edi_epostak_peppol</code></a>, <code>edi_epostak_broker_client</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <a href="../../../../l10n_sk_ubl_bis3/static/description/index_sk.html"><code>l10n_sk_ubl_bis3</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Krajina</th><td>Slovensko</td></tr><tr><th>Edícia</th><td>Odoo Community</td></tr><tr><th>Zahŕňa</th><td><a href="../../../../edi_base/static/description/index_sk.html"><code>edi_base</code></a>, <a href="../../../../edi_base_peppol/static/description/index_sk.html"><code>edi_base_peppol</code></a>, <a href="../../../../edi_epostak_base/static/description/index_sk.html"><code>edi_epostak_base</code></a>, <a href="../../../../edi_epostak_connector_sapi/static/description/index_sk.html"><code>edi_epostak_connector_sapi</code></a>, <a href="../../../../edi_epostak_peppol/static/description/index_sk.html"><code>edi_epostak_peppol</code></a>, <code>edi_epostak_broker_client</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <a href="../../../../l10n_sk_ubl_bis3/static/description/index_sk.html"><code>l10n_sk_ubl_bis3</code></a></td></tr></table>
 <h2 id="purpose">Na čo slúži tento návod</h2>
 <p><strong>Peppol</strong> je európska sieť na výmenu elektronických faktúr. Faktúra v nej nie
 je PDF, ale súbor XML (Peppol BIS Billing 3.0), ktorý systém odberateľa načíta
@@ -46,14 +46,12 @@ Peppol vás pripojí Data Dance cez prístupový bod ePošťák: nepotrebujete v
 zmluvu s prístupovým bodom ani žiadne kľúče. Ak si Odoo prevádzkujete sami s
 vlastnou zmluvou s ePošťákom, pozri návod
 <a href="../../../../l10n_cssk_guide/static/guides/peppol_epostak/index_sk.html">Elektronické faktúry cez Peppol — vlastná zmluva s ePošťákom</a>.</p>
-<p><strong>Slovensko:</strong> od 1. januára 2027 je elektronická faktúra povinná pri dodaní
+<p><strong>Od 1. januára 2027</strong> je elektronická faktúra povinná pri dodaní
 tuzemskej zdaniteľnej osobe (a nezdaniteľnej právnickej osobe so sídlom v
 tuzemsku), okrem oslobodených plnení a zjednodušených faktúr, a každý, kto také
 faktúry dostáva, ich musí vedieť prijať
 (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/#paragraf-85o">§ 85o zákona o DPH</a>). Do konca roka 2026 možno
 elektronickú faktúru poslať len so súhlasom odberateľa.
-<strong>Česko:</strong> všeobecná povinnosť neexistuje; elektronický daňový doklad možno
-vystaviť len so súhlasom odberateľa (<a href="https://e-sbirka.gov.cz/sb/2004/235">§ 26 zákona o DPH</a>).
 Podrobnosti sú v module <a href="../../../../edi_base_peppol/static/description/index_sk.html#legal"><code>edi_base_peppol</code></a>.</p>
 <h2 id="connection">Pripojenie</h2>
 <p><strong>Pripojenie zapne náš tím</strong> — požiadajte oň. Nainštalujeme moduly Peppol a
@@ -64,7 +62,6 @@ Data Dance. Tieto polia nemeňte — vymazaním <strong>URL brokera</strong> by 
 prerušilo.</p>
 <p>Vy nastavíte len to, čo nasleduje: povolenie e-fakturácie, rozsah a Peppol
 adresy. <strong>Prenos Peppol</strong> nechajte tak, ako je — jediným prenosom je ePošťák.</p>
-<p>Pre českú spoločnosť sa o pripojení najprv poraďte s nami.</p>
 <p>Nastavenie <em>Elektronická fakturácia → Aktivovať PEPPOL</em> v <em>Nastavenia →
 Účtovníctvo</em> je iná cesta do tej istej siete: zaregistruje vašu spoločnosť s
 prístupovým bodom spoločnosti Odoo S.A. Peppol adresa môže byť zaregistrovaná
@@ -76,10 +73,9 @@ pripojenie cez Data Dance ho nepotrebuje.</p>
    spoločnosť)</strong>: zaškrtnite <strong>Povoliť e-fakturáciu cez Peppol</strong> a zvoľte
    <strong>Rozsah Peppol</strong>:</li>
 <li><em>Slovenská povinnosť: len domáce B2B a B2G</em> — elektronicky odídu faktúry,
-     ktorých sa slovenská povinnosť týka, ostatné ako PDF. Platí len pre
-     slovenskú spoločnosť;</li>
+     ktorých sa slovenská povinnosť týka, ostatné ako PDF;</li>
 <li><em>Každý odberateľ s Peppol adresou</em> — elektronicky každému, kto Peppol
-     adresu má. Toto zvoľte pre českú spoločnosť.</li>
+     adresu má.</li>
 </ol>
 <p><strong>Automaticky odoslať cez Peppol pri zaúčtovaní faktúry</strong> pošle faktúru
    hneď po zaúčtovaní; bez neho ju pošlete tlačidlom <strong>Odoslať</strong>. <strong>Nákupný
@@ -87,13 +83,10 @@ pripojenie cez Data Dance ho nepotrebuje.</p>
 <p><img alt="Nastavenia EDI: blok Peppol BIS3 s povolením e-fakturácie, rozsahom a automatickým odosielaním; pod ním časť ePošťák" src="img/settings.sk.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <ol>
 <li><strong>Peppol adresa vašej spoločnosti.</strong> Na kontakte spoločnosti, karta
-   <em>Fakturácia</em>: <strong>Peppol e-adresa (EAS)</strong> a <strong>Peppol koncový bod</strong>.</li>
-<li>Slovenská spoločnosť: <code>0245</code> a vaše <strong>DIČ</strong> (desať číslic) — nie IČ DPH a
-     nie IČO.</li>
-<li>Česká spoločnosť: <code>9929</code> a vaše <strong>DIČ</strong> (napríklad <code>CZ12345678</code>); Odoo ho
-     z DIČ vyplní samo, skontrolujte ho.</li>
-<li><strong>Peppol adresy odberateľov</strong> na tom istom mieste ich kontaktu, podľa ich
-   krajiny rovnako. Pred prvou faktúrou overte, že je odberateľ v sieti
+   <em>Fakturácia</em>: <strong>Peppol e-adresa (EAS)</strong> <code>0245</code> a <strong>Peppol koncový bod</strong> =
+   vaše <strong>DIČ</strong> (desať číslic). Nie IČ DPH a nie IČO.</li>
+<li><strong>Peppol adresy odberateľov</strong> na tom istom mieste ich kontaktu, rovnako
+   <code>0245</code> a ich DIČ. Pred prvou faktúrou overte, že je odberateľ v sieti
    dosiahnuteľný — pozri
    <a href="../../../../edi_epostak_peppol/static/description/index_sk.html#reachability">kontrolu Peppol adresy</a>.</li>
 <li>Ak má niektorý odberateľ dostávať faktúry inak, než určuje rozsah, nastavte
@@ -184,7 +177,7 @@ hneď.</p>
 <strong>Odoslať</strong>. Tlačidlá <strong>Odoslať cez Peppol</strong> a <strong>Peppol odpoveď…</strong> a záložku
 <strong>Peppol EDI správy</strong> vidia používatelia so skupinou <em>Používateľ EDI</em>. Všetky
 správy sú aj v aplikácii <em>EDI → Správy</em>.</p>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Overené krok za krokom na Odoo 19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Overené krok za krokom na Odoo 19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
