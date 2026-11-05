@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_cssk_receipt_capture/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="../../../l10n_cssk_receipt_capture/static/description/index_cs.html">Čeština</a></nav>
 <h1>Spracovanie pokladničných dokladov (bločky / účtenky)</h1>
 <p class="cssk-summary">Načíta pokladničné doklady z QR kódu, fotografie alebo nahraných výdavkov, overí, či ich sumy sedia, a vytvorí z nich koncept nákupnej účtenky alebo výdavok zamestnanca s DPH rozdelenou podľa sadzieb.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="../../../l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a></td></tr><tr><th>Rozširujú ho</th><td><code>l10n_cssk_receipt_capture_ai</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <a href="../../../l10n_cssk_receipt_capture_expense/static/description/index_sk.html"><code>l10n_cssk_receipt_capture_expense</code></a>, <a href="../../../l10n_sk_ekasa_receipt/static/description/index_sk.html"><code>l10n_sk_ekasa_receipt</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="../../../l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a></td></tr><tr><th>Rozširujú ho</th><td><code>l10n_cssk_receipt_capture_ai</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <a href="../../../l10n_cssk_receipt_capture_expense/static/description/index_sk.html"><code>l10n_cssk_receipt_capture_expense</code></a>, <a href="../../../l10n_sk_ekasa_receipt/static/description/index_sk.html"><code>l10n_sk_ekasa_receipt</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Pohonné hmoty, stravovanie, drobné nákupy: podnik zbiera množstvo
@@ -130,12 +130,12 @@ zaokrúhlená na centy by nesedela (31,17 l nafty za 57,85 € nie je
 </table>
 <p>Čítanie sa spustí, keď:</p>
 <ul>
-<li>používateľ s právom <em>Fakturácia</em> stlačí na doklade <strong>Capture</strong> (spracovať;
-  doklad v stave <em>New</em>, <em>Error</em> alebo <em>Needs Review</em>);</li>
-<li><strong>ktorýkoľvek zamestnanec</strong> naskenuje QR kód cez <strong>Scan Receipt</strong> (kamera
+<li>používateľ s právom <em>Fakturácia</em> stlačí na doklade <strong>Zachytiť</strong> (spracovať;
+  doklad v stave <em>Nové</em>, <em>Chyba</em> alebo <em>Na kontrolu</em>);</li>
+<li><strong>ktorýkoľvek zamestnanec</strong> naskenuje QR kód cez <strong>Naskenovať bloček</strong> (kamera
   sa číta v prehliadači; na server príde len dekódovaný text);</li>
 <li><strong>ktorýkoľvek zamestnanec</strong> nahrá obrázky bločkov v aplikácii Výdavky,
-  keď je zapnuté <em>Capture on Expense Upload</em> (predvolené) — jedno čítanie na
+  keď je zapnuté <em>Zachytiť pri nahratí výdavku</em> (predvolené) — jedno čítanie na
   obrázok, s právami superpoužívateľa, aby zamestnanci nepotrebovali prístup
   k účtovníctvu;</li>
 <li>čítanie zlyhalo z <strong>dočasného</strong> dôvodu (služba je preťažená alebo
@@ -145,11 +145,10 @@ zaokrúhlená na centy by nesedela (31,17 l nafty za 57,85 € nie je
 </ul>
 <p>Poskytovatelia sa skúšajú v poradí, najprv tí, čo čítajú kód: pri zapnutom
 overení v eKase sa slovenský bloček s čitateľným QR kódom k modelu nikdy
-nedostane. Každý pokus sa zaznamená pri doklade (<strong>Attempts</strong>) s výsledkom,
+nedostane. Každý pokus sa zaznamená pri doklade (<strong>Pokusy</strong>) s výsledkom,
 trvaním a pri čítaní pomocou AI aj s tokenmi a cenou.</p>
 <h2 id="setup">Nastavenie</h2>
-<p><em>Účtovníctvo → Konfigurácia → Nastavenia</em>, blok <strong>Fiscal Receipt Capture</strong>
-(popisy sú v angličtine; modul ešte nemá slovenský preklad):</p>
+<p><em>Účtovníctvo → Konfigurácia → Nastavenia</em>, blok <strong>Zachytávanie pokladničných dokladov</strong>:</p>
 <table>
 <thead>
 <tr>
@@ -159,23 +158,23 @@ trvaním a pri čítaní pomocou AI aj s tokenmi a cenou.</p>
 </thead>
 <tbody>
 <tr>
-<td>Receipt Journal (denník)</td>
+<td>Denník bločkov</td>
 <td>nákupný denník pre nákupné účtenky; ak je prázdny, použije sa prvý</td>
 </tr>
 <tr>
-<td>Default Expense Account (nákladový účet)</td>
+<td>Predvolený nákladový účet</td>
 <td>účet všetkých riadkov; <strong>povinný</strong>, inak sa nákupná účtenka nevytvorí</td>
 </tr>
 <tr>
-<td>Document Detail (podrobnosť)</td>
-<td><em>One line per VAT rate</em> (riadok za sadzbu, predvolené — zaúčtuje presne základ, ktorý vykázal predávajúci) alebo <em>One line per receipt item</em> (riadok za položku)</td>
+<td>Podrobnosť dokladu</td>
+<td><em>Riadok za každú sadzbu DPH</em> (riadok za sadzbu, predvolené — zaúčtuje presne základ, ktorý vykázal predávajúci) alebo <em>Riadok za každú položku dokladu</em> (riadok za položku)</td>
 </tr>
 <tr>
-<td>Auto-create Seller</td>
-<td>zatiaľ nemá žiadny účinok: predávajúci sa vytvára tlačidlom <strong>Create Seller</strong></td>
+<td>Automaticky vytvoriť predávajúceho</td>
+<td>zatiaľ nemá žiadny účinok: predávajúci sa vytvára tlačidlom <strong>Vytvoriť predávajúceho</strong></td>
 </tr>
 <tr>
-<td>Receipts: AI Model Chain</td>
+<td>Bločky: reťazec modelov AI</td>
 <td>s čítaním pomocou AI, pozri <a href="#ai-reader">nižšie</a></td>
 </tr>
 </tbody>
@@ -185,25 +184,25 @@ trvaním a pri čítaní pomocou AI aj s tokenmi a cenou.</p>
 je nainštalovaný, inak z predvolenej nákupnej dane spoločnosti alebo z
 tuzemskej nákupnej dane s touto sadzbou. Mapovanie, ktoré priraďuje sadzbe
 daň s inou sadzbou, sa odmietne.</p>
-<p><em>Účtovníctvo → Konfigurácia → Účtovníctvo → Capture Providers</em> (správcovia
+<p><em>Účtovníctvo → Konfigurácia → Účtovníctvo → Poskytovatelia údajov</em> (správcovia
 účtovníctva) uvádza poskytovateľov s poradím, krajinami a prepínačom
-<em>Active</em>.</p>
+<em>Aktívne</em>.</p>
 <p>Na čítanie QR kódov z fotografií potrebuje server balík Pythonu
 <code>zxing-cpp</code>; bez neho to doklad uvedie a skenovanie kamerou funguje ďalej.</p>
 <h2 id="usage">Práca s dokladmi</h2>
-<p><em>Účtovníctvo → Dodávatelia → Fiscal Receipts</em>:</p>
+<p><em>Účtovníctvo → Dodávatelia → Pokladničné doklady</em>:</p>
 <ul>
-<li><strong>Scan Receipt</strong> — otvorí kameru; naskenujte daňový QR kód. Vernostný
+<li><strong>Naskenovať bloček</strong> — otvorí kameru; naskenujte daňový QR kód. Vernostný
   alebo webový odkaz vytlačený vedľa neho sa odmietne a skener zostane
   otvorený.</li>
-<li><strong>Captured Receipts</strong> — všetky doklady. <em>Nový</em>, priložte fotografiu
-  (<em>Source image</em>) alebo vložte text QR kódu (<em>QR payload</em>) a stlačte
-  <strong>Capture</strong>.</li>
-<li><strong>To Review</strong> — nové, neúspešné a odložené doklady.</li>
+<li><strong>Zachytené doklady</strong> — všetky doklady. <em>Nový</em>, priložte fotografiu
+  (<em>Zdrojový obrázok</em>) alebo vložte text QR kódu (<em>Text QR kódu</em>) a stlačte
+  <strong>Zachytiť</strong>.</li>
+<li><strong>Na kontrolu</strong> — nové, neúspešné a odložené doklady.</li>
 </ul>
-<p>Stavy: <em>New</em> (nový) → <em>Captured</em> (všetko sedí), <em>Needs Review</em> (niektorá
-kontrola zlyhala; dôvod je uvedený), <em>Error</em> (zdroj odmietol alebo doklad
-nemal kto prečítať; dôvod je uvedený) → <em>Posted</em>, keď z neho vznikol doklad.</p>
+<p>Stavy: <em>Nové</em> (nový) → <em>Zachytené</em> (všetko sedí), <em>Na kontrolu</em> (niektorá
+kontrola zlyhala; dôvod je uvedený), <em>Chyba</em> (zdroj odmietol alebo doklad
+nemal kto prečítať; dôvod je uvedený) → <em>Zaúčtované</em>, keď z neho vznikol doklad.</p>
 <p><strong>Kontroly, kým sa doklad považuje za zachytený:</strong></p>
 <ul>
 <li>suma dokladu existuje a základ plus DPH sa jej rovná;</li>
@@ -217,19 +216,19 @@ nemal kto prečítať; dôvod je uvedený) → <em>Posted</em>, keď z neho vzni
   spoločnosti.</li>
 </ul>
 <p>Doklad s identifikátorom, ktorý už bol zachytený, sa odmietne ako duplicita.
-<strong>Accept Anyway</strong> presunie odložený doklad do stavu <em>Captured</em> na vašu
+<strong>Napriek tomu prijať</strong> presunie odložený doklad do stavu <em>Zachytené</em> na vašu
 zodpovednosť; nahlásený rozdiel zostane v chatteri.</p>
 <p><strong>Predávajúci</strong> sa hľadá podľa IČ DPH, potom IČO, potom DIČ — nikdy podľa
-názvu. <strong>Create Seller</strong> vytvorí partnera z názvu, IČ DPH a IČO na doklade.
+názvu. <strong>Vytvoriť predávajúceho</strong> vytvorí partnera z názvu, IČ DPH a IČO na doklade.
 Prevádzka, kde bol doklad vyhotovený, sa uchová ako poznámka a k partnerovi
 sa nedostane.</p>
 <p><strong>DPH, ktorú nemožno odpočítať.</strong> Ak suma dokladu prekročí hranicu uvedenú
 vyššie (400 eur pri predávajúcom so slovenským IČ DPH, 10 000 Kč pri
 českom; podľa krajiny spoločnosti, ak doklad IČ DPH neuvádza), doklad to
 uvedie a jeho DPH sa zaúčtuje ako súčasť nákladu. Ak máte na nákup riadnu
-faktúru, zaškrtnite <strong>Full invoice held</strong>. Nákupnú účtenku z takého dokladu
+faktúru, zaškrtnite <strong>Máme riadnu faktúru</strong>. Nákupnú účtenku z takého dokladu
 nemožno zaúčtovať s DPH.</p>
-<p><strong>Create Vendor Receipt</strong> vytvorí <strong>koncept</strong> <em>Nákupnej účtenky</em> s dátumom
+<p><strong>Vytvoriť nákupnú účtenku</strong> vytvorí <strong>koncept</strong> <em>Nákupnej účtenky</em> s dátumom
 dokladu a jeho identifikátorom ako referenciou, s jedným riadkom za sadzbu
 DPH alebo za položku (množstvo 1, suma bez DPH, predvolený nákladový účet) a
 s kópiou fotografie. Odmietne sa, ak niektorá sadzba nemá nákupnú daň, ak je
@@ -256,12 +255,12 @@ vyťažovanie faktúr pomocou AI <span class="cssk-note">(dodáva sa samostatne)
   IČ DPH z registra zhoduje s prečítaným — alebo, ak IČ DPH na porovnanie
   chýba, ak si názvy neodporujú. Inak zostane prečítaný údaj a chatter
   uvedie prečo.</li>
-<li><strong>Reťazec modelov:</strong> <em>Receipts: AI Model Chain</em> v nastaveniach dokladov —
+<li><strong>Reťazec modelov:</strong> <em>Bločky: reťazec modelov AI</em> v nastaveniach dokladov —
   ten istý mechanizmus ako pri faktúrach, zvyčajne so silnejším modelom,
   lebo termopapier sa číta horšie ako PDF. Ak je prázdny, použije sa
   predvolený poskytovateľ a model vyťažovania faktúr, ktorého <strong>prah istoty</strong>
   platí aj tu.</li>
-<li>Záložka <strong>AI Reading</strong> ukazuje istotu, poznámky modelu, tokeny a cenu
+<li>Záložka <strong>Čítanie pomocou AI</strong> ukazuje istotu, poznámky modelu, tokeny a cenu
   (cez sprostredkovateľa bez ceny).</li>
 </ul>
 <p>Každé čítanie je platené volanie; kto ho môže spustiť, pozri v časti
@@ -270,19 +269,19 @@ vyťažovanie faktúr pomocou AI <span class="cssk-note">(dodáva sa samostatne)
 <p><a href="../../../l10n_cssk_receipt_capture_expense/static/description/index_sk.html"><code>l10n_cssk_receipt_capture_expense</code></a>
 prepojí doklady s aplikáciou Výdavky v Odoo (Community):</p>
 <ul>
-<li><strong>Create Expenses</strong> na zachytenom doklade (používatelia s právom
+<li><strong>Vytvoriť výdavky</strong> na zachytenom doklade (používatelia s právom
   <em>Fakturácia</em>) vytvorí <strong>jeden</strong> výdavok za celý doklad bez ohľadu na počet
   sadzieb DPH, pre zamestnanca aktuálneho používateľa, v kategórii
-  nastavenej v <em>Výdavky → Konfigurácia → Nastavenia → Receipt Capture</em>
-  (<em>Receipt Expense Category</em>; ak je prázdna, všeobecná kategória výdavkov
+  nastavenej v <em>Výdavky → Konfigurácia → Nastavenia → Zachytávanie dokladov</em>
+  (<em>Kategória výdavkov z bločkov</em>; ak je prázdna, všeobecná kategória výdavkov
   Odoo). Jeho suma a DPH sa porovnajú s dokladom.</li>
 <li><strong>Nahratie bločkov vo Výdavkoch</strong> (<em>Výdavky → Moje výdaje</em>, tlačidlo
   <em>Nahrať</em>; Odoo tu v slovenčine používa české slovo „výdaje“) — pri
-  zapnutom <em>Capture on Expense Upload</em> sa z každého obrázka stane doklad a
+  zapnutom <em>Zachytiť pri nahratí výdavku</em> sa z každého obrázka stane doklad a
   prečíta sa; čisté prečítanie vyplní výdavok (sumu, dane, dodávateľa),
   inak výdavok ukáže dôvod. Upozornenie zhrnie, koľko sa prečítalo, koľko
   treba skontrolovať a koľko zlyhalo.</li>
-<li><strong>Scan Receipt</strong> a <strong>My Receipts</strong> sú v ponuke <em>Výdavky → Moje výdaje</em>;
+<li><strong>Naskenovať bloček</strong> a <strong>Moje bločky</strong> sú v ponuke <em>Výdavky → Moje výdaje</em>;
   zamestnanec vidí doklady, ktoré zachytil, a tie, ktoré patria k jeho
   vlastným výdavkom.</li>
 <li><strong>Viac sadzieb DPH na jednom výdavku.</strong> Odoo uplatní všetky dane výdavku
@@ -301,17 +300,17 @@ prepojí doklady s aplikáciou Výdavky v Odoo (Community):</p>
   všeobecné pravidlo 100 eur podľa § 74 ods. 3 písm. a) sa neuplatňuje. Pri
   českých účtenkách modul predpokladá, že účtenka do 10 000 Kč je platným
   zjednodušeným daňovým dokladom; jej obsah nekontroluje.</li>
-<li><strong>Auto-create Seller</strong> v nastaveniach nemá žiadny účinok.</li>
+<li><strong>Automaticky vytvoriť predávajúceho</strong> v nastaveniach nemá žiadny účinok.</li>
 <li>Vrátenia a opravy na bločku sa automaticky nezaúčtujú.</li>
 <li>Množstvá položiek sú len informatívne; každý riadok má množstvo 1.</li>
 <li>Všetky riadky idú na predvolený nákladový účet; pohonné hmoty,
   stravovanie a ostatné preúčtujte dodatočne.</li>
 <li>Nahrávanie bločkov zamestnancami spúšťa platené čítania pomocou AI bez
-  účasti účtovníka; ak to nechcete, vypnite <em>Capture on Expense Upload</em>.</li>
+  účasti účtovníka; ak to nechcete, vypnite <em>Zachytiť pri nahratí výdavku</em>.</li>
 <li>Údaje z čítania pomocou AI sú prečítaním papiera: kontroly zachytia sumy,
   ktoré nesedia, nie sumu prečítanú všade rovnako nesprávne.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/384/">Zákon č. 384/2025 Z. z. o evidencii tržieb a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2025/384/">Zákon č. 384/2025 Z. z. o evidencii tržieb a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
