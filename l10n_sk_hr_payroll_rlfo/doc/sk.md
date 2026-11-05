@@ -1,7 +1,7 @@
 ---
 title: SK RLFO — prihlásenie a odhlásenie zamestnancov
 summary: Prihlášky a odhlášky zamestnancov do Sociálnej poisťovne zadané ako dávka udalostí a vyexportované do XML overeného voči oficiálnej schéme.
-verified: 19.0.1.2.2
+verified: 19.0.1.3.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -35,6 +35,12 @@ Odkazy sú na [zákon o sociálnom poistení](law:sk/2003/461).
 - **Prerušenie.** Prerušenie poistenia sa oznamuje do ôsmich dní —
   [§ 231 ods. 1 písm. d)](law:sk/2003/461#paragraf-231.odsek-1.pismeno-d).
   Túto udalosť modul nevytvára.
+- **Štatutári s účasťou.** Pri prihlásení zamestnávateľ oznamuje, či je
+  zamestnanec štatutárnym orgánom alebo členom štatutárneho orgánu
+  s **najmenej 50 % účasťou na majetku zamestnávateľa**, a každú zmenu tejto
+  skutočnosti do ôsmich dní —
+  [§ 231 ods. 1 písm. o)](law:sk/2003/461#paragraf-231.odsek-1.pismeno-o).
+  V prihláške je to prvok `zamSUcastou`.
 - Tlačivo a spôsob zasielania určuje Sociálna poisťovňa —
   [§ 231 ods. 2](law:sk/2003/461#paragraf-231.odsek-2).
 
@@ -55,7 +61,8 @@ Odkazy sú na [zákon o sociálnom poistení](law:sk/2003/461).
 ## Zostavenie dávky {#usage}
 
 *Mzdové hlásenia → SK RLFO (registrácie)*, potom *Nové*. *Rok* a *Mesiac*
-dávku len pomenúvajú, udalosti neobmedzujú.
+udalosti neobmedzujú, ale určujú vzor: dávka za január 2027 a neskôr sa
+vygeneruje v schéme RLZEC 2027, skoršia v RLZEC 2026.
 
 V časti *Registračné udalosti* pridajte riadok za každú udalosť:
 
@@ -66,6 +73,8 @@ V časti *Registračné udalosti* pridajte riadok za každú udalosť:
 | *Typ vzťahu (typZec)* | navrhne sa zo zmluvy zamestnanca, dá sa zmeniť — pozri nižšie |
 | *Vznik poistenia (datVznikPoist)* | povinný pri oboch typoch udalosti |
 | *Zánik poistenia (datZaniku)* | povinný pri odhláške |
+| *Štatutár s účasťou 50 % a viac* | pri prihláške: *Neoverené* (predvolené), *Nie je štatutárnym orgánom ani jeho členom s najmenej 50 % účasťou* alebo *Štatutárny orgán alebo jeho člen s najmenej 50 % účasťou* |
+| *Doklad o účasti* | pri prihláške: odkiaľ odpoveď pochádza a k akému dátumu — výpis z obchodného registra, rozhodnutie spoločníkov alebo „bežný zamestnanec, bez štatutárnej funkcie“ |
 
 Typ vzťahu sa navrhne podľa polí zmluvy *Typ dohody* a *Pravidelný mesačný
 príjem*:
@@ -80,13 +89,20 @@ príjem*:
 *ZECN* (zamestnanec s nepravidelným príjmom) možno zvoliť ručne. Všetky kódy
 dohôd vrátane DoBPŠ sa odhlasujú vetvou schémy pre dohody.
 
-Potom **Generovať**. XML sa overí voči `RLZEC-v2026.xsd` a priloží; nahrajte
+Stav účasti je skutočnosť ku dňu prihlásenia a zadáva sa pri každej udalosti.
+Neberie sa z políčka zamestnanca *Oslobodený od garančného poistenia*, ktoré
+sa neskôr môže zmeniť. Po vygenerovaní dávky sú obe polia zamknuté; na opravu
+vráťte dávku do konceptu.
+
+Potom **Generovať**. XML sa overí voči schéme vzoru (`RLZEC-v2026.xsd` alebo
+`RLZEC-v2027.xsd`) a priloží; nahrajte
 ho na portál Sociálnej poisťovne a kliknite na **Označiť ako odoslané**.
 Odhláška sa zapíše do vetvy podľa typu vzťahu (dohoda, nepravidelný príjem
 alebo pracovný pomer s pravidelným príjmom).
 
 Generovanie sa zastaví, ak dávka nemá žiadnu udalosť, ak zamestnanec nemá
-platné rodné číslo alebo ak chýba dátum, ktorý udalosť vyžaduje.
+platné rodné číslo, ak chýba dátum, ktorý udalosť vyžaduje, alebo ak má
+prihláška stav účasti *Neoverené* či žiadny doklad.
 
 ## Obmedzenia {#limitations}
 
@@ -102,5 +118,8 @@ platné rodné číslo alebo ak chýba dátum, ktorý udalosť vyžaduje.
   dvojslovné priezvisko ako *Anna Mária Nová Kováčová* skontrolujte v XML.
 - Kontaktné údaje v súbore sú telefón a e-mail spoločnosti a meno užívateľa,
   ktorý dávku generuje.
-- Dodáva sa len vzor RLZEC 2026. Overenie voči schéme kontroluje tvar súboru,
-  nie údaje.
+- Zmena stavu účasti po prihlásení je *zmena*, ktorú modul nevytvára.
+- Dodávajú sa vzory RLZEC 2026 a 2027. Nové prvky schémy 2027 pre odvodovú
+  odpočítateľnú položku rodiča na materskej, otcovskej alebo rodičovskej
+  dovolenke sa nevytvárajú. Overenie voči schéme kontroluje tvar súboru, nie
+  údaje.

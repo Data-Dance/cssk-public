@@ -1,7 +1,7 @@
 ---
 title: SK Social Insurance Registration of Employees (RLFO)
 summary: Registrations (prihláška) and de-registrations (odhláška) of employees with the Sociálna poisťovňa, entered as a batch of events and exported as XML checked against the official schema.
-verified: 19.0.1.2.2
+verified: 19.0.1.3.1
 ---
 
 ## What it is for {#purpose}
@@ -36,6 +36,11 @@ References are to the [Social Insurance Act](law:sk/2003/461).
 - **Interruption.** An interruption of the insurance is reported within eight
   days — [§ 231 ods. 1 písm. d)](law:sk/2003/461#paragraf-231.odsek-1.pismeno-d).
   This module does not produce that event.
+- **Statutory owners.** With the registration, the employer reports whether
+  the employee is a statutory body, or a member of one, with **at least 50 %
+  of the employer's property**, and reports any change of that within eight
+  days — [§ 231 ods. 1 písm. o)](law:sk/2003/461#paragraf-231.odsek-1.pismeno-o).
+  The registration carries it as `zamSUcastou`.
 - The form and the way of sending it are set by the Sociálna poisťovňa —
   [§ 231 ods. 2](law:sk/2003/461#paragraf-231.odsek-2).
 
@@ -56,7 +61,9 @@ References are to the [Social Insurance Act](law:sk/2003/461).
 ## Preparing a batch {#usage}
 
 *Payroll Declarations → SK RLFO (registrations)*, then *New*. *Year* and
-*Month* only name the batch; they do not limit the events.
+*Month* do not limit the events, but they choose the form vintage: a batch
+for January 2027 or later is generated in the RLZEC 2027 schema, an earlier
+one in RLZEC 2026.
 
 Add one line per event under *Registration events*:
 
@@ -67,6 +74,8 @@ Add one line per event under *Registration events*:
 | *Relationship type (typZec)* | proposed from the employee's contract, editable — see below |
 | *Insurance start (datVznikPoist)* | required for both event types |
 | *Insurance end (datZaniku)* | required for a de-registration |
+| *Statutory owner 50%+* | for a registration: *Not reviewed* (the default), *Not a statutory member with at least 50% ownership*, or *Statutory member with at least 50% ownership* |
+| *Ownership evidence* | for a registration: where the answer comes from, with its date — the commercial register extract, the shareholders' resolution, or "ordinary employee, no statutory role" |
 
 The relationship type is proposed from the contract's *Agreement Type* and
 *Regular monthly income*:
@@ -82,13 +91,20 @@ The relationship type is proposed from the contract's *Agreement Type* and
 agreement codes, the DoBPŠ ones included, are de-registered through the
 agreement branch of the schema.
 
-Then **Generate**. The XML is validated against `RLZEC-v2026.xsd` and attached;
+The ownership status is a fact as of the registration, entered for each
+event. It is not taken from the employee's *Guarantee-insurance exempt* box,
+which can change later. Once the batch is generated both fields are locked;
+reset the batch to draft to correct them.
+
+Then **Generate**. The XML is validated against the vintage's schema
+(`RLZEC-v2026.xsd` or `RLZEC-v2027.xsd`) and attached;
 upload it to the Sociálna poisťovňa portal and click **Mark Submitted**. A
 de-registration is written in the branch that matches its relationship type
 (agreement, irregular income, or regular employment).
 
 Generation stops if the batch has no events, if an employee lacks a valid
-birth number, or if a date required for the event is missing.
+birth number, if a date required for the event is missing, or if a
+registration's ownership status is *Not reviewed* or has no evidence.
 
 ## Limitations {#limitations}
 
@@ -105,5 +121,8 @@ birth number, or if a date required for the event is missing.
   check a two-word surname such as *Anna Mária Nová Kováčová* in the XML.
 - Contact data in the file are the company's phone and e-mail and the name of
   the user who generates the batch.
-- Only the RLZEC 2026 vintage is shipped. Schema validation checks the shape
-  of the file, not the data.
+- A change of the ownership status after the registration is a *zmena*,
+  which this module does not produce.
+- RLZEC 2026 and 2027 are shipped. The 2027 schema's new elements for the
+  agreement OOP of a parent on maternity, paternity or parental leave are not
+  produced. Schema validation checks the shape of the file, not the data.
