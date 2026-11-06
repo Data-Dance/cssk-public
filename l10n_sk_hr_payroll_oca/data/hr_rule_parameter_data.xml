@@ -1177,4 +1177,10 @@
         <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_pn_max_dvz"/>
         <field name="date_from">2027-01-01</field>
     </record>
+    <!-- z.461/2003 §138b: 50% of 2025 average wage 1620 = 810 from 2027. -->
+    <record id="rule_parameter_2027_dohoda_oop_seasonal" model="hr.rule.parameter.value">
+        <field name="parameter_value">810</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_dohoda_oop_seasonal"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
 </odoo>

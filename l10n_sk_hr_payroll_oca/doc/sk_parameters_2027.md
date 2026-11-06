@@ -1,6 +1,6 @@
 # Dated parameters from 1 January 2027
 
-Checked 2026-11-05. Eleven new values are appended; no 2026 value is overwritten.
+Checked 2026-11-06. Twelve new values are appended; no 2026 value is overwritten.
 
 Sources and derivation:
 
@@ -10,4 +10,4 @@ Sources and derivation:
 - [SP2027 daily ceiling](https://socpoist.sk/news/zmena-2027-socialna-poistovna-bude-vyplacat-vyssie-maximalne-sumy-davok-nemocenske-materske):106.5206.
 - [NIP2027 minimum wage](https://www.ip.gov.sk/inspektorat-prace-kosice/domov/aktuality/minimalna-mzda-minimalne-mzdove-naroky-roku-2027.html): hourly5.586 (40-hour week).
 
-Tax figures are calculated from the enacted multipliers and published reference amounts; they are not presented as an already-published FS2027 parameter table. This data update does not implement new personal eligibility profiles, all absence/transition cases, new annual forms, or the full 2027 payroll workflow. OOP300 is the separate PR13; this patch does not duplicate it.
+The seasonal OOP follows z.461/2003 §138b: 50% of 2025 average wage 1620 = 810, replacing 762 only from January 2027. Tax figures are calculated from the enacted multipliers and published reference amounts; they are not presented as an already-published FS2027 parameter table. This data update does not implement new personal eligibility profiles, all absence/transition cases, new annual forms, or the full 2027 payroll workflow. OOP300 was accepted upstream as 19.0.1.19.4; this patch is rebased on that version and does not duplicate it.
