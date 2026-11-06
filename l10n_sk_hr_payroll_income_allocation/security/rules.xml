@@ -1,0 +1,12 @@
+<odoo>
+    <record id="allocation_company_rule" model="ir.rule">
+        <field name="name">Historical assessment calculations in allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_income_allocation"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="allocation_line_company_rule" model="ir.rule">
+        <field name="name">Historical assessment rows in allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_income_allocation_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
