@@ -117,6 +117,18 @@ class L10nSkHealth(models.Model):
                 raise UserError(_(
                     "Select the target health insurer on the dávka "
                     "514."))
+            # Inspect the unfiltered set: excluded agreements must not hide a
+            # disagreement between the statutory fact and the payroll switch.
+            for slip in super(L10nSkHealth, rec)._get_period_payslips():
+                version = rec._payslip_version(slip)
+                if not version or version.l10n_sk_agreement_type not in ("dopc", "dovp"):
+                    continue
+                if bool(version.l10n_sk_health_exempt) != rec._pension_agreement(slip):
+                    raise UserError(_(
+                        "Payslip '%(name)s': the pension type and health-exempt "
+                        "setting disagree for this agreement. Review the historical "
+                        "version and recalculate payroll before generating the 514.",
+                        name=slip.display_name))
             # <CompanyIDTaxCode> was the one identification element nothing
             # checked. _digits() turns a missing DIČ into "", so the dávka went
             # to the insurer with an empty tax code and no error anywhere —
@@ -144,21 +156,22 @@ class L10nSkHealth(models.Model):
             return slips
         return slips.filtered(
             lambda s: s.employee_id._l10n_sk_health_insurer()
-            == self.insurer_code and not self._old_age_agreement(s))
+            == self.insurer_code and not self._pension_agreement(s))
 
-    def _old_age_agreement(self, payslip):
+    def _pension_agreement(self, payslip):
         """§10b(1)(a) points 3/4, z.580/2004: excluded agreement income.
 
-        An old-age pension does not exempt an ordinary employment contract.
+        Every pension selection maps to an excluded statutory pension group.
+        The exclusion has no income limit or one-agreement claim condition.
+        A pension does not exempt an ordinary employment contract.
         The payslip's historical version decides, never today's employee card.
-        Other pension/student profiles need their own eligibility handling.
         """
         version = self._payslip_version(payslip)
         return bool(version
                     and "l10n_sk_agreement_type" in version._fields
                     and "l10n_sk_pension_type" in version._fields
                     and version.l10n_sk_agreement_type in ("dopc", "dovp")
-                    and version.l10n_sk_pension_type == "old_age")
+                    and version.l10n_sk_pension_type)
 
     # ------------------------------------------------------------------
     @staticmethod
