@@ -1,6 +1,6 @@
 {
     "name": "SK Localization — Statutory Reference Data",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "summary": "Slovak statutory reference registries: daňové úrady and person "
                "types.",
     "description": """

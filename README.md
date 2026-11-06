@@ -82,7 +82,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_payment_reliability` | 19.0.1.2.1 | Czech provider for the CZ/SK supplier-reliability check: nespolehlivý plátce + zveřejněné účty from the MFČR ADIS web service (rozhraniCRPDPH). |
 | `l10n_cz_purchase_order_advance_invoice` | 19.0.1.0.3 | Czech chart wiring for purchase_order_advance_invoice. |
 | `l10n_cz_sale_order_advance_invoice` | 19.0.1.1.2 | Czech chart wiring for advance invoices (zálohové faktury) |
-| `l10n_cz_statutory` | 19.0.1.3.1 | Czech statutory reference registries: finanční úřady (seeded from the official l10n_cz.tax_office codelist) and person types. |
+| `l10n_cz_statutory` | 19.0.1.3.2 | Czech statutory reference registries: finanční úřady (seeded from the official l10n_cz.tax_office codelist) and person types. |
 | `l10n_cz_vat_return` | 19.0.1.16.0 | Czech VAT return (přiznání k DPH / DPHDP3) on the shared VAT-return framework: line set mapped to the l10n_cz tax tags + the EPO Pisemnost/DPHDP3 XML export. |
 | `l10n_cz_vat_status` | 19.0.1.1.1 | The Czech company's own VAT registration status over time, and what it does to invoices, bills, DPHDP3 and the kontrolní hlášení. |
 | `l10n_cz_vat_status_purchase` | 19.0.1.0.0 | Purchase order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
@@ -117,7 +117,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_health` | 19.0.1.2.2 | Monthly Slovak health-insurance advances statement (Mesačný výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / Union — employer header + per-employee… |
 | `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.2 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
 | `l10n_sk_hr_payroll_mvp` | 19.0.1.1.2 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
-| `l10n_sk_hr_payroll_oca` | 19.0.1.19.4 | Slovak payroll rules for the payroll engine |
+| `l10n_sk_hr_payroll_oca` | 19.0.1.20.0 | Slovak payroll rules for the payroll engine |
 | `l10n_sk_hr_payroll_parity` | 19.0.1.8.1 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and… |
 | `l10n_sk_hr_payroll_rlfo` | 19.0.1.3.1 | Slovak social-insurance registration of employees (RLFO / RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška events built from the employee +… |
 | `l10n_sk_hr_payroll_surcharges` | 19.0.1.2.7 | Engine-neutral statutory wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 and § 96… |
@@ -135,7 +135,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_purchase_order_advance_invoice` | 19.0.1.0.3 | Slovak chart wiring for purchase_order_advance_invoice. |
 | `l10n_sk_sale_order_advance_invoice` | 19.0.1.1.2 | Slovak chart wiring for advance invoices (preddavkové faktúry) |
 | `l10n_sk_single_entry_closing` | 19.0.1.1.1 | The closing a SZČO keeping jednoduché účtovníctvo files: výkaz o príjmoch a výdavkoch from the peňažný denník, výkaz o majetku a záväzkoch from the ledger. |
-| `l10n_sk_statutory` | 19.0.1.0.0 | Slovak statutory reference registries: daňové úrady and person types. |
+| `l10n_sk_statutory` | 19.0.1.0.1 | Slovak statutory reference registries: daňové úrady and person types. |
 | `l10n_sk_trade_registry` | 19.0.2.0.2 | Keep the register, court and oddiel/vložka as data and compose the § 3a Obchodného zákonníka sentence from them, instead of typing it once into the company… |
 | `l10n_sk_ubl_bis3` | 19.0.3.4.1 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
 | `l10n_sk_vat_registration` | 19.0.1.1.1 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |

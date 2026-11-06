@@ -1,6 +1,6 @@
 {
     "name": "CZ Localization — Statutory Reference Data",
-    "version": "19.0.1.3.1",
+    "version": "19.0.1.3.2",
     "summary": "Czech statutory reference registries: finanční úřady (seeded "
                "from the official l10n_cz.tax_office codelist) and person types.",
     "description": """

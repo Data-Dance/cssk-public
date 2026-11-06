@@ -12,6 +12,28 @@ Carry-over to 18.0
   from 1. 1. 2027 (``rule_parameter_dohoda_oop_2027``). Data only; the 18.0
   rules read the same parameter. **DISCHARGED 2026-11-05 — do not port this
   again**: on 18.0 as 18.0.2.7.1 (merge 3d2a6d07).
+- **19.0.1.20.0 (2026-11-06), not yet on 18.0:** the dated 2027 parameter
+  values (maximum base, health minimum base, NČZD and its taper, tax bands,
+  child-bonus taper, minimum hourly wage, maximum DVZ, seasonal OOP 810) and
+  ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
+  same codes, so the records port as they are. Adapt the test to the 18.0
+  contract (``contract_id``) and payslip states.
+
+[19.0.1.20.0] — 2026-11-06
+==========================
+
+**Added**
+
+- **Dated parameters from January 2027.** Twelve values follow the 2027
+  reference amounts: the social-insurance maximum base 17 820 (11 × the 2025
+  average wage of 1 620), the health minimum base 295.22, the NČZD of
+  516.64 a month and 6 199.62 a year with its taper (threshold 27 101.20,
+  constant 15 233.35), the monthly and annual tax bands, the child-bonus
+  taper threshold 29 160, the minimum hourly wage 5.586, the maximum
+  nemocenské DVZ 106.5206, and the seasonal-work OOP under § 138b of
+  461/2003, which rises from 762 to 810. Payslips and annual reconciliations
+  before 2027 keep their 2026 values. The derivation of each figure is in
+  the comment above the records. Contributed by votrelec (cssk-public#17).
 
 [19.0.1.19.4] — 2026-11-05
 ==========================

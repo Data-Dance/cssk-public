@@ -1121,4 +1121,89 @@
         <field name="rule_parameter_id" ref="rule_parameter_prekazka_vazne_pct"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
+
+    <!-- ===================================================================
+         Dated values from 1. 1. 2027 (cssk-public#17, votrelec). No 2026
+         value is overwritten.
+         Social insurance, z. 461/2003: priemerná mzda 2025 = 1 620,
+           VVZ 2025 = 19 440 (Sociálna poisťovňa).
+           § 138 ods. 9: monthly maximum base 11 × 1 620 = 17 820.
+           Nemocenské: maximum DVZ 2 × 19 440 / 365 = 106.5206.
+         Health insurance, z. 580/2004: minimum base = životné minimum
+           295.22 (opatrenie 155/2026 Z. z.).
+         Income tax, z. 595/2003, from ŽM 295.22:
+           § 11: NČZD 21 × ŽM = 6 199.62 a year, 516.64 a month;
+                 taper threshold 91.8 × ŽM = 27 101.20, constant
+                 51.6 × ŽM = 15 233.35 (minus a third of the base).
+           § 15: bands 154.8 / 212.4 / 264 × ŽM = 45 700.06 / 62 704.73 /
+                 77 938.08 a year; monthly ceilings are the annual ones / 12
+                 (3 808.34 / 5 225.39 / 6 494.84). Never derive the annual
+                 bands from the rounded monthly ones.
+           § 33: child-bonus taper threshold 18 × 1 620 = 29 160.
+         Minimum wage (oznámenie 232/2026 Z. z.): 5.586 an hour.
+         The tax figures are computed from the enacted multipliers; FS SR had
+         not published its own 2027 table when they were added.
+         =================================================================== -->
+    <record id="rule_parameter_2027_monthly_taxable_max" model="hr.rule.parameter.value">
+        <field name="parameter_value">17820</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_monthly_taxable_max"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_health_min_base" model="hr.rule.parameter.value">
+        <field name="parameter_value">295.22</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_health_min_base"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_monthly" model="hr.rule.parameter.value">
+        <field name="parameter_value">516.64</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_monthly"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_annual" model="hr.rule.parameter.value">
+        <field name="parameter_value">6199.62</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_annual"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_taper_threshold" model="hr.rule.parameter.value">
+        <field name="parameter_value">27101.20</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_threshold"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_taper_const" model="hr.rule.parameter.value">
+        <field name="parameter_value">15233.35</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_const"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_income_tax_bands" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 3808.34], [0.25, 5225.39], [0.30, 6494.84], [0.35, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_income_tax_bands"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_income_tax_bands_annual" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 45700.06], [0.25, 62704.73], [0.30, 77938.08], [0.35, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_income_tax_bands_annual"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_child_bonus_taper_threshold" model="hr.rule.parameter.value">
+        <field name="parameter_value">29160</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_child_bonus_taper_threshold"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_min_hourly_wage" model="hr.rule.parameter.value">
+        <field name="parameter_value">5.586</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_min_hourly_wage"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_pn_max_dvz" model="hr.rule.parameter.value">
+        <field name="parameter_value">106.5206</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_pn_max_dvz"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <!-- z.461/2003 §138b: 50 % of one twelfth of the VVZ two years back,
+         0.5 × 19 440 / 12 = 810 from 2027 (762 in 2026). -->
+    <record id="rule_parameter_2027_dohoda_oop_seasonal" model="hr.rule.parameter.value">
+        <field name="parameter_value">810</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_dohoda_oop_seasonal"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
 </odoo>

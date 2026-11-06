@@ -16,6 +16,19 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.0.1] — 2026-11-06
+-------------------------
+
+Fixed
+~~~~~
+
+- The person types were seeded with the native name as the English source, so
+  an English user saw "Právnická osoba" and the Slovak/Czech catalogue
+  translated it into itself. The source is now "Natural person" / "Legal
+  entity", with "Fyzická osoba" / "Právnická osoba" in both the Slovak and the
+  Czech catalogue. The data is ``noupdate``, so a migration rewrites the
+  existing records, unless someone renamed one.
+
 [19.0.1.0.0] — 2026-07-04
 -------------------------
 
