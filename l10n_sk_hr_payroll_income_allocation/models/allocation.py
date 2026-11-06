@@ -58,7 +58,7 @@ def months(start, end):
     return result
 
 
-def allocate(amount, start, end, settled_on, ledger):
+def allocate(amount, start, end, settled_on, ledger, statutory):
     """Equal exact shares per eligible insurance month, then floor BASES.
 
     Full-cap months are excluded independently per channel (§139b(2)). A
@@ -73,9 +73,9 @@ def allocate(amount, start, end, settled_on, ledger):
         raise ValueError('Provide insurance and settlement dates.')
     if start > end or settled_on <= end:
         raise ValueError('Settlement must follow the end of the insurance relationship.')
-    if settled_on.year != 2027 or end.year not in (2026, 2027):
-        raise ValueError('This reviewed rule vintage covers 2027 settlement and the 2026/2027 last insurance year.')
     expected = months(start, end)
+    if not isinstance(statutory, dict) or set(statutory) != set(expected):
+        raise ValueError('Supply dated statutory parameters for every historical month.')
     if not isinstance(ledger, list) or len(ledger) != len(expected):
         raise ValueError('The complete last insurance year must be covered explicitly.')
     sources = {}
@@ -104,8 +104,10 @@ def allocate(amount, start, end, settled_on, ledger):
                 raw = rational(source['raw_before'])
                 base, oop = (decimal(source[key]) for key in ('base_before', 'oop'))
                 cap = None if source['cap'] is None else decimal(source['cap'])
-                nominal_oop = {2026: Decimal(200), 2027: Decimal(300)}[end.year]
-                maximum = {2026: Decimal(16764), 2027: Decimal(17820)}[end.year]
+                nominal_oop = decimal(statutory[month]['oop'])
+                maximum = decimal(statutory[month]['maximum'])
+                if not nominal_oop or not maximum:
+                    raise ValueError('Dated statutory OOP and maximum must be positive.')
                 if oop not in (Decimal(0), nominal_oop):
                     raise ValueError('Supply zero or the nominal claimed agreement OOP for the historical year, not the deduction used up by the original income.')
                 if cap is not None and (cap != floor_cent(cap) or cap > maximum):

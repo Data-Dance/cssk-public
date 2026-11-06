@@ -1,77 +1,48 @@
-# Historical social assessment register — explicit limited scope
+---
+title: Historical social assessment register
+summary: Reviewed historical fund bases and dated standard premiums for additional income; foundation for a paying slip and ZECN VPP integration.
+verified: 19.0.1.2.0
+---
 
-This is a self-contained OCA-payroll add-on with no dependency on private/local
-adapters. It adds `l10n.sk.income.allocation` and calculated fund/month rows to
-the payroll declarations menu. It does not change existing payslip rules or
-declare the complete post-termination payroll workflow implemented.
+## Purpose {#purpose}
 
-## Calculation and statutory references
+Allocate income after insurance ends to the last insurance year's months under
+[§139b](law:sk/2003/461#paragraf-139b). Keep employee/employer funds separate,
+exact fractions for later settlements and cent-rounded monthly bases/premiums.
+Exclude documented paid-at-ceiling months; do not redistribute near-ceiling
+excess. Accident insurance remains uncapped.
 
-Reviewed vintage: settlement in2027, last insurance year2026/2027, EUR.
-The base calculation uses the last insurance year and explicit historical
-insurance/ceiling facts under [461/2003§139b](https://static.slov-lex.sk/static/SK/ZZ/2003/461/20270101.print.html).
-Claimed nominal agreement OOP is200for2026 or300for2027; the original utilized
-deduction is not a new claim. Full paid-ceiling months are excluded per channel;
-near-ceiling excess is not reassigned to other months. The accident channel is
-uncapped. Bases are floored to cents; exact fractions retain the unreduced
-history for subsequent settlements. No residual cent is assigned to the final
-month. Coverage and effective partial-month/concurrent-employment ceilings are
-reviewed inputs, not inferred personal eligibility.
+## Operation {#operation}
 
-The separate standard-premium action requires an explicit review reference for
-coverage, standard rates and absence of special relief. It applies §§129–137:
-NP1.4/1.4, SP4/14, IP3/3, PVN1 employee and0.5/1 employer depending on PFP
-coverage, UP0.8 employer, GP0.25 employer, RFS4.75 employer, PFP0.5 employer.
-Only insured channels are charged. Each additional fund/month premium is
-floored before totals. This is the premium on each newly assessed base, not a
-recalculation by subtracting two rounded cumulative premium totals.
+Create a register from payroll declarations. Enter dates, assigned IČPV, gross
+income and documentary references. **Prepare editable history** creates
+month/fund rows. Review coverage, exact unreduced base, original assessed base,
+nominal claimed OOP, effective ceiling, actual payment at ceiling and evidence
+in every row. Preparation does not infer eligibility. Missing row evidence
+blocks calculation. This is an editable fallback for history outside Odoo;
+automatic import of confirmed payslips is a later step.
 
-The source for allocation and ceiling-month exclusion is also summarized by
-[Sociálna poisťovňa](https://www.socpoist.sk/kto-som/zamestnavatel/zasielanie-vykazov-dokladov/spravne-vyplnit-vykazy-poistneho).
-Legal interpretation and unsupported workflows remain subject to review.
+Calculate bases, review standard coverage without special relief, then
+calculate premiums. OOP, maximum and every rate come from native dated
+parameters for the historical month. No 2027-only lock remains. Missing
+historical parameters raise; future legislative values still require review
+and maintenance. Effective ceilings can be below the statutory maximum.
 
-## Input ledger
+The optional hidden JSON ledger remains for API compatibility. It cannot be
+combined with editable rows. Both representations explicitly cover all twelve
+fund channels and every month, including uninsured channels.
 
-The `ledger` JSON list covers every month of insurance in the last insurance
-year, including uninsured months. Each item has `month` (`YYYY-MM`) and a
-`funds` object containing all twelve channels:
+## Evidence and integration {#integration}
 
-`np_ee,np_er,sp_ee,sp_er,ip_ee,ip_er,pvn_ee,pvn_er,up_er,gp_er,rfs_er,pfp_er`.
+Actions archive inputs/results and digests. Reset keeps archives; calculated
+rows cannot be edited. Changed dated values invalidate retries.
 
-Every channel supplies exactly:
+Intended path: **historical evidence → bases → premiums → native paying slip,
+health/tax/accounting → ZECN fund/month VPP**. The result rows will feed VPP and
+the same register will supply the slip, avoiding duplicate historical input.
+This module does not alter ordinary salary rules or bypass their period guard.
 
-```json
-{"insured": true, "raw_before": "200", "base_before": "0",
- "oop": "300", "cap": "17820", "paid_at_cap": false}
-```
-
-`raw_before` also accepts exact fraction strings returned as `raw_after` by an
-earlier calculation. Uninsured channels have zero bases/OOP. `cap:null` is used
-for accident insurance and inactive channels; insured capped channels require
-the reviewed effective ceiling. `paid_at_cap` is a documented payment fact,
-not inferred merely because the computed base equals the maximum.
-
-Original bases must reconcile with unreduced income, nominal OOP and ceiling.
-Every employee and employer channel is separate, so their remaining ceilings
-need not be equal. The supplied facts, not the arithmetic engine, decide who
-was insured and entitled to a deduction in each period.
-
-## Evidence, retry and limitations
-
-Source changes require explicit reset. Each calculation creates a private
-JSON attachment with inputs, results and a digest. Reset preserves archives.
-Retries preserve existing rows and attachments. The premium review is frozen
-after premium calculation and cleared on reset. Normal payroll-user access
-and allowed-company scope are tested.
-
-A synthetic three-month200/month agreement with nominal OOP300 and a late400
-has additional pension bases33.33each, total99.99; accident bases133.33each,
-total399.99. Standard employee social3.99, employer22.89, total26.88. Gross
-remains400. These values are not a net-pay calculation.
-
-Still outside scope: automatic source-history/insured-interval import, personal
-eligibility, special contribution relief, negative corrections, health
-insurance, income tax, native payslip creation/posting, VPP export and portal
-acceptance. Future work must use the same historical evidence for payroll and
-reporting; this register must not be advertised as completing issue12's ZECN
-workflow. Tests cover arithmetic and the register, not an accepted live filing.
+Not implemented here: automatic history import, eligibility adjudication,
+special relief, negative corrections, health/tax, native posting, official VPP
+or authority acceptance. This module alone does not complete #12. Synthetic
+future parameter tests verify date-driven behavior, not future legal values.

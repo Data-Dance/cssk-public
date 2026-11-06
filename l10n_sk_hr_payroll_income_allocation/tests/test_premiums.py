@@ -4,11 +4,17 @@ from copy import deepcopy
 from datetime import date
 from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import UserError
-from ..allocation import allocate, CHANNELS
-from ..premiums import calculate_standard_premiums
+from ..models.allocation import CHANNELS
+from ..models.premiums import calculate_standard_premiums as calculate_raw_premiums
 from . import test_allocation as fixtures
 
 ledger = fixtures.ledger
+allocate = fixtures.allocate
+
+
+def calculate_standard_premiums(bases):
+    rows = [{'month': row['month']} for row in bases['funds']['np_ee']['rows']]
+    return calculate_raw_premiums(bases, fixtures.statutory(rows))
 
 
 @tagged('post_install', '-at_install')

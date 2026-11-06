@@ -4,7 +4,22 @@ from copy import deepcopy
 from datetime import date
 from odoo.tests import TransactionCase, tagged
 from odoo.exceptions import UserError
-from ..allocation import CHANNELS, allocate
+from ..models.allocation import CHANNELS, allocate as allocate_raw
+
+
+def statutory(rows):
+    # Independent test fixtures, never runtime defaults.
+    rates = {'np_ee': '1.4', 'np_er': '1.4', 'sp_ee': '4', 'sp_er': '14',
+             'ip_ee': '3', 'ip_er': '3', 'pvn_ee': '1', 'pvn_er': '.5',
+             'pvn_er_no_shorttime': '1', 'up_er': '.8', 'gp_er': '.25',
+             'rfs_er': '4.75', 'pfp_er': '.5'}
+    return {row['month']: {'oop': '200' if row['month'].startswith('2026') else '300',
+                           'maximum': '16764' if row['month'].startswith('2026') else '17820',
+                           'rates': dict(rates)} for row in rows}
+
+
+def allocate(amount, start, end, settled, rows):
+    return allocate_raw(amount, start, end, settled, rows, statutory(rows))
 
 
 def ledger(months=('2027-01', '2027-02', '2027-03'), raw='200', oop='300'):
@@ -126,8 +141,8 @@ class TestAllocation(TransactionCase):
         rows = ledger()
         rows[0]['funds']['sp_ee']['cap'] = '20000'
         with self.assertRaises(ValueError): self.calc(rows=rows)
-        with self.assertRaises(ValueError):
-            allocate('100', date(2027, 1, 1), date(2027, 3, 31), date(2028, 1, 1), ledger())
+        result = allocate('100', date(2027, 1, 1), date(2027, 3, 31), date(2028, 1, 1), ledger())
+        self.assertEqual(result['settled_on'], '2028-01-01')
 
     def test_non_euro_register_is_rejected(self):
         rec = self.record()

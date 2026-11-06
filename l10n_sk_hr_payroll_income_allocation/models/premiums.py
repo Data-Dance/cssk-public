@@ -10,16 +10,10 @@ from copy import deepcopy
 from decimal import Decimal
 from .allocation import CHANNELS, decimal, floor_cent
 
-RATES = {'np_ee': '1.4', 'np_er': '1.4', 'sp_ee': '4', 'sp_er': '14',
-         'ip_ee': '3', 'ip_er': '3', 'pvn_ee': '1', 'up_er': '.8',
-         'gp_er': '.25', 'rfs_er': '4.75', 'pfp_er': '.5'}
-
-
-def calculate_standard_premiums(bases):
+def calculate_standard_premiums(bases, statutory):
     if (bases.get('version') != 1 or bases.get('scope') != 'assessment_bases_only'
-            or not str(bases.get('settled_on', '')).startswith('2027-')
             or set(bases.get('funds', {})) != set(CHANNELS)):
-        raise ValueError('Provide the reviewed 2027 assessment-base calculation.')
+        raise ValueError('Provide the reviewed assessment-base calculation.')
     result = deepcopy(bases)
     pfp = {row['month']: row for row in result['funds']['pfp_er']['rows']}
     ee = er = Decimal(0)
@@ -36,9 +30,16 @@ def calculate_standard_premiums(bases):
             base = decimal(row['additional_base'])
             if base != floor_cent(base) or (not row['insured'] and base):
                 raise ValueError('A premium needs a reconciled cent-rounded insured base.')
-            rate = Decimal(RATES.get(channel, '1'))
+            if row['month'] not in statutory:
+                raise ValueError('Supply dated premium rates for every historical month.')
+            rates = statutory[row['month']]['rates']
+            if set(rates) != set(CHANNELS) | {'pvn_er_no_shorttime'}:
+                raise ValueError('Supply the complete dated premium-rate set.')
+            rate = decimal(rates[channel])
             if channel == 'pvn_er':
-                rate = Decimal('.5') if pfp[row['month']]['insured'] else Decimal('1')
+                rate = decimal(rates['pvn_er'] if pfp[row['month']]['insured'] else rates['pvn_er_no_shorttime'])
+            if rate > 100:
+                raise ValueError('A premium percentage cannot exceed 100.')
             if not row['insured']:
                 rate = Decimal(0)
             amount = floor_cent(base * rate / 100)
@@ -52,7 +53,7 @@ def calculate_standard_premiums(bases):
         else:
             er += total
     result.update(scope='assessment_bases_and_standard_social_premiums',
-                  premium_policy='2027-standard-no-relief-v1',
+                  premium_policy='dated-standard-no-relief-v2',
                   employee_social=f'{ee:.2f}', employer_social=f'{er:.2f}',
                   total_social=f'{ee+er:.2f}', premiums_calculated=True,
                   payroll_posted=False, official_submission=False)
