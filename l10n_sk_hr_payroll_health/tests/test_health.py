@@ -146,7 +146,7 @@ class TestHealth514(TransactionCase):
                     declaration._preflight()
 
     def test_health_switch_must_match_statutory_pension_fact(self):
-        for pension, exempt in (("disability", False), (False, True)):
+        for pension, exempt in (("disability", False), ("old_age", False)):
             with self.subTest(pension=pension, exempt=exempt):
                 _, slip = self._employee_payslip(200, "dopc", pension)
                 self._version(slip).l10n_sk_health_exempt = exempt
@@ -154,6 +154,33 @@ class TestHealth514(TransactionCase):
                     "company_id": self.company.id, "year": "2026", "month": "3"})
                 with self.assertRaises(UserError):
                     declaration.action_generate()
+
+    def test_foreign_insured_agreement_without_pension_is_excluded(self):
+        for agreement in ("dopc", "dovp"):
+            _, slip = self._employee_payslip(200, agreement)
+            self._version(slip).l10n_sk_health_exempt = True
+            slip.compute_sheet()
+            slip.action_payslip_done()
+            declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+                "company_id": self.company.id, "year": "2026", "month": "3"})
+            declaration._preflight()
+            self.assertNotIn(slip, declaration._get_period_payslips())
+            self.assertEqual(slip.get_salary_line_total("HEALTH"), 0)
+            self.assertEqual(slip.get_salary_line_total("HEALTHEMPLOYER"), 0)
+
+    def test_mismatch_at_another_insurer_does_not_block_this_insurer(self):
+        _, broken = self._employee_payslip(200, "dopc", "disability")
+        broken.employee_id.l10n_sk_health_insurer_code = "25"
+        self._version(broken).l10n_sk_health_exempt = False
+        good_employee, good = self._employee_payslip()
+        good_employee.l10n_sk_health_insurer_code = "24"
+        declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3", "insurer_code": "24"})
+        declaration._preflight()
+        self.assertIn(good, declaration._get_period_payslips())
+        self.assertNotIn(broken, declaration._get_period_payslips())
+        declaration.insurer_code = "25"
+        with self.assertRaises(UserError): declaration._preflight()
 
     def _version(self, slip):
         return self.env["l10n.sk.health"]._payslip_version(slip)
