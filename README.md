@@ -43,7 +43,7 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-185 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+186 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
 ### Czech Republic (38)
 
@@ -88,7 +88,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_vat_status_purchase` | 19.0.1.0.0 | Purchase order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
 | `l10n_cz_vat_status_sale` | 19.0.1.0.0 | Sales order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
 
-### Slovakia (51)
+### Slovakia (52)
 
 | Module | Version | What it does |
 |---|---|---|
@@ -115,6 +115,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_base` | 19.0.1.1.2 | Engine-neutral base for the Slovak payroll: the employment forms (pracovný pomer, DoVP, DoPČ, DoBPŠ) and one table saying which contributions and entitlements… |
 | `l10n_sk_hr_payroll_eldp` | 19.0.1.1.2 | Annual per-employee Slovak pension record (ELDP) filed to the Sociálna poisťovňa — aggregates each year's pension assessment base and insured period per… |
 | `l10n_sk_hr_payroll_health` | 19.0.1.2.3 | Monthly Slovak health-insurance advances statement (Mesačný výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / Union — employer header + per-employee… |
+| `l10n_sk_hr_payroll_income_allocation` | 19.0.1.2.0 | Reviewed historical social bases and dated premiums for additional income |
 | `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.2 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
 | `l10n_sk_hr_payroll_mvp` | 19.0.1.1.2 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
 | `l10n_sk_hr_payroll_oca` | 19.0.1.20.0 | Slovak payroll rules for the payroll engine |

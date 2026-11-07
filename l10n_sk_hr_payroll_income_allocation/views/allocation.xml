@@ -1,0 +1,49 @@
+<odoo>
+    <record id="allocation_list" model="ir.ui.view">
+        <field name="name">l10n.sk.income.allocation.list</field><field name="model">l10n.sk.income.allocation</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="employee_id"/><field name="insurance_end"/><field name="settled_on"/><field name="amount"/><field name="currency_id" column_invisible="True"/><field name="state"/></list></field>
+    </record>
+    <record id="allocation_form" model="ir.ui.view">
+        <field name="name">l10n.sk.income.allocation.form</field><field name="model">l10n.sk.income.allocation</field>
+        <field name="arch" type="xml">
+            <form><header>
+                <button name="action_calculate" type="object" string="Calculate historical bases" class="oe_highlight" invisible="state != 'draft'"/>
+                <button name="action_prepare_history" type="object" string="Prepare editable history" invisible="state != 'draft'"/>
+                <button name="action_reset" type="object" string="Reset calculation" invisible="state == 'draft'"/>
+                <button name="action_calculate_standard_premiums" type="object" string="Calculate reviewed standard social premiums" invisible="state != 'calculated'"/>
+                <field name="state" widget="statusbar"/>
+            </header><sheet>
+                <div class="alert alert-info" role="status">Historical social bases and reviewed standard premiums. Health insurance, tax, payslip posting and the official VPP are separate steps.</div>
+                <group>
+                    <field name="name" readonly="state != 'draft'"/><field name="employee_id" readonly="state != 'draft'"/><field name="company_id" groups="base.group_multi_company"/>
+                    <field name="icpv" readonly="state != 'draft'"/><field name="insurance_start" readonly="state != 'draft'"/>
+                    <field name="insurance_end" readonly="state != 'draft'"/><field name="settled_on" readonly="state != 'draft'"/>
+                    <field name="amount" readonly="state != 'draft'"/><field name="currency_id" invisible="True"/>
+                    <field name="evidence" readonly="state != 'draft'"/><field name="history_evidence" readonly="state != 'draft'"/>
+                    <field name="ledger" invisible="True"/>
+                </group><group><field name="input_digest"/><field name="calculation_attachment_id"/>
+                    <field name="premium_evidence" readonly="state == 'premiums'"/>
+                    <field name="premium_digest"/><field name="premium_attachment_id"/>
+                </group>
+                <field name="history_ids" readonly="state != 'draft'"><list editable="bottom">
+                    <field name="month"/><field name="channel"/><field name="insured"/>
+                    <field name="raw_before"/><field name="base_before"/><field name="oop"/>
+                    <field name="uncapped"/><field name="cap" readonly="uncapped"/>
+                    <field name="paid_at_cap"/><field name="evidence"/>
+                    <field name="currency_id" column_invisible="True"/>
+                </list></field>
+                <field name="line_ids"><list create="0" edit="0" delete="0">
+                    <field name="month"/><field name="channel"/><field name="insured"/><field name="excluded_at_cap"/>
+                    <field name="exact_share"/><field name="base_before"/><field name="base_after"/><field name="additional_base"/>
+                    <field name="rate"/><field name="premium"/>
+                    <field name="currency_id" column_invisible="True"/>
+                </list></field>
+                <group invisible="1"><field name="result"/></group>
+            </sheet><chatter/></form>
+        </field>
+    </record>
+    <record id="allocation_action" model="ir.actions.act_window">
+        <field name="name">Historical social assessment bases</field><field name="res_model">l10n.sk.income.allocation</field><field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="allocation_menu" name="Historical social assessment bases" parent="l10n_cssk_payroll_declaration_base.menu_cssk_payroll_declaration_root" action="allocation_action" sequence="43"/>
+</odoo>

@@ -1,0 +1,761 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_hr_payroll_income_allocation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-07 15:21+0000\n"
+"PO-Revision-Date: 2026-11-07 15:21+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "A fund/month assessment row changed before premium calculation."
+msgstr ""
+"Řádek vyměřovacího základu fondu/měsíce se změnil před výpočtem pojistného."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__ledger
+msgid "API compatibility only. Use editable history rows in the form."
+msgstr ""
+"Pouze pro kompatibilitu s API. Ve formuláři použijte upravitelné řádky "
+"historie."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_needaction
+msgid "Action Needed"
+msgstr "Vyžadována akce"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Typ výjimečné aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__additional_base
+msgid "Additional Base"
+msgstr "Dodatečný základ"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__amount
+msgid "Additional gross income"
+msgstr "Dodatečný hrubý příjem"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__premium
+msgid "Additional social premium"
+msgstr "Dodatečné sociální pojistné"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__allocation_id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__allocation_id
+msgid "Allocation"
+msgstr "Rozpočítání"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__base_after
+msgid "Base After"
+msgstr "Základ po"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__base_before
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__base_before
+msgid "Base Before"
+msgstr "Základ před"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation__state__calculated
+msgid "Bases calculated"
+msgstr "Základy vypočteny"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Calculate and review the historical assessment bases first."
+msgstr "Nejprve vypočtěte a zkontrolujte historické vyměřovací základy."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_income_allocation.allocation_form
+msgid "Calculate historical bases"
+msgstr "Vypočítat historické základy"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_income_allocation.allocation_form
+msgid "Calculate reviewed standard social premiums"
+msgstr "Vypočítat ověřené standardní sociální pojistné"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid ""
+"Calculate the historical assessment bases using the calculation action."
+msgstr "Historické vyměřovací základy vypočtěte tlačítkem výpočtu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Calculated evidence must be reset before deletion."
+msgstr "Vypočtené podklady je třeba před smazáním vrátit do návrhu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model,name:l10n_sk_hr_payroll_income_allocation.model_l10n_sk_income_allocation_line
+msgid "Calculated historical fund/month assessment base"
+msgstr "Vypočtený historický vyměřovací základ fondu/měsíce"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__calculation_attachment_id
+msgid "Calculation Attachment"
+msgstr "Příloha výpočtu"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__channel
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__channel
+msgid "Channel"
+msgstr "Kanál"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__company_id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__company_id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/history.py:0
+msgid "Company and currency are inherited from the register."
+msgstr "Společnost a měna se přebírají z registru."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__create_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__create_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__currency_id
+msgid "Currency"
+msgstr "Měna"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation__state__draft
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_income_allocation.constraint_l10n_sk_income_allocation_history_month_fund_unique
+msgid "Each historical month/fund must occur exactly once."
+msgstr "Každý historický měsíc/fond se musí vyskytovat právě jednou."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model,name:l10n_sk_hr_payroll_income_allocation.model_l10n_sk_income_allocation_history
+msgid "Editable reviewed historical fund/month facts"
+msgstr "Upravitelné ověřené historické údaje fondů/měsíců"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__employee_id
+msgid "Employee"
+msgstr "Zaměstnanec"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__evidence
+msgid "Evidence"
+msgstr "Podklad"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__exact_share
+msgid "Exact Share"
+msgstr "Přesný podíl"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__raw_before
+msgid "Exact unreduced base, including fractions such as 1000/3."
+msgstr "Přesný nesnížený základ včetně zlomků, například 1000/3."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__excluded_at_cap
+msgid "Excluded At Cap"
+msgstr "Vyloučeno pro maximum"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__month
+msgid "First day of the historical calendar month."
+msgstr "První den historického kalendářního měsíce."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_follower_ids
+msgid "Followers"
+msgstr "Odběratelé"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odběratelé (partneři)"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona v rámci awesome font, např. fa-tasks"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model,name:l10n_sk_hr_payroll_income_allocation.model_l10n_sk_income_allocation
+msgid "Historical assessment-base calculation, not posted payroll"
+msgstr "Výpočet historických vyměřovacích základů, nikoli zaúčtované mzdy"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__history_evidence
+msgid "Historical bases, OOP and ceilings evidence"
+msgstr "Podklady k historickým základům, OOP a maximům"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid ""
+"Historical result rows are generated by the calculation, not entered "
+"separately."
+msgstr "Historické řádky výsledku vytváří výpočet, nezadávají se samostatně."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.actions.act_window,name:l10n_sk_hr_payroll_income_allocation.allocation_action
+#: model:ir.ui.menu,name:l10n_sk_hr_payroll_income_allocation.allocation_menu
+msgid "Historical social assessment bases"
+msgstr "Historické vyměřovací základy sociálního pojištění"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_income_allocation.allocation_form
+msgid ""
+"Historical social bases and reviewed standard premiums. Health insurance, "
+"tax, payslip posting and the official VPP are separate steps."
+msgstr ""
+"Historické základy sociálního pojištění a ověřené standardní pojistné. "
+"Zdravotní pojištění, daň, zaúčtování na výplatní pásce a úřední VPP jsou "
+"samostatné kroky."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona, která označuje výjimečnou aktivitu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_has_error
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud zaškrtnuto, některé zprávy mají chybu při doručení."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__settled_on
+msgid "Income settled for payment on"
+msgstr "Příjem zúčtovaný k výplatě dne"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__input_digest
+msgid "Input Digest"
+msgstr "Otisk vstupů"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__insurance_end
+msgid "Insurance End"
+msgstr "Konec pojištění"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__insurance_start
+msgid "Insurance Start"
+msgstr "Začátek pojištění"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__insured
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__insured
+msgid "Insured"
+msgstr "Pojištěn"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_is_follower
+msgid "Is Follower"
+msgstr "Je odběratel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__write_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__write_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__ledger
+msgid "Legacy API historical ledger"
+msgstr "Původní historická evidence přes API"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__line_ids
+msgid "Line"
+msgstr "Řádek"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba při doručování zprávy"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_ids
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__month
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__month
+msgid "Month"
+msgstr "Měsíc"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__name
+msgid "Name"
+msgstr "Název"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Událost v kalendáři další aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_summary
+msgid "Next Activity Summary"
+msgstr "Popis další aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__oop
+msgid "Nominal claimed agreement OOP"
+msgstr "Uplatněný odpočet OOP dohody (nominálně)"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou při doručení"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__premium_attachment_id
+msgid "Premium Attachment"
+msgstr "Příloha pojistného"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__premium_digest
+msgid "Premium Digest"
+msgstr "Otisk pojistného"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__paid_at_cap
+msgid "Premium paid at ceiling"
+msgstr "Pojistné zaplacené z maximálního základu"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Premium results do not match the calculated fund/month rows."
+msgstr "Výsledky pojistného neodpovídají vypočteným řádkům fondů/měsíců."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_income_allocation.allocation_form
+msgid "Prepare editable history"
+msgstr "Připravit upravitelnou historii"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Prepare history only on an empty draft register."
+msgstr "Historii lze připravit pouze v prázdném registru ve stavu návrh."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_line__rate
+msgid "Rate (%)"
+msgstr "Sazba (%)"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__raw_before
+msgid "Raw Before"
+msgstr "Původní základ před"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Record the actual sources of the settlement and historical fund facts."
+msgstr "Uveďte skutečné zdroje zúčtování a historických údajů fondů."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__evidence
+msgid ""
+"Reference to reviewed payroll, payment and coverage evidence; required for "
+"calculation."
+msgstr ""
+"Odkaz na ověřené mzdové podklady, doklady o úhradě a pojištění; povinný pro "
+"výpočet."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid ""
+"Reset and recalculate the source register to change historical result rows."
+msgstr ""
+"Chcete-li změnit historické řádky výsledku, vraťte zdrojový registr do "
+"návrhu a přepočítejte jej."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid ""
+"Reset and recalculate the source register to remove historical result rows."
+msgstr ""
+"Chcete-li odstranit historické řádky výsledku, vraťte zdrojový registr do "
+"návrhu a přepočítejte jej."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_income_allocation.allocation_form
+msgid "Reset calculation"
+msgstr "Vrátit výpočet do návrhu"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/history.py:0
+msgid "Reset the register before changing historical facts."
+msgstr "Před změnou historických údajů vraťte registr do návrhu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/history.py:0
+msgid "Reset the register before deleting historical facts."
+msgstr "Před smazáním historických údajů vraťte registr do návrhu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Reset this calculation to draft before changing its source evidence."
+msgstr "Před změnou zdrojových podkladů vraťte tento výpočet do návrhu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovědný uživatel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__result
+msgid "Result"
+msgstr "Výsledek"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid ""
+"Review every historical row and record its evidence before calculation."
+msgstr ""
+"Před výpočtem zkontrolujte každý historický řádek a uveďte jeho podklad."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__premium_evidence
+msgid "Review of standard rates, coverage and absence of relief"
+msgstr "Kontrola standardních sazeb, pojištění a absence úlev"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid ""
+"Review the historical insurance coverage and confirm standard rates without "
+"special relief."
+msgstr ""
+"Zkontrolujte historické pojištění a potvrďte standardní sazby bez zvláštních"
+" úlev."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__icpv
+msgid "Reviewed SP relationship identifier"
+msgstr "Ověřený identifikátor pojistného vztahu (IČPV)"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__cap
+msgid "Reviewed effective ceiling"
+msgstr "Ověřený účinný maximální základ"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__history_ids
+msgid "Reviewed historical fund facts"
+msgstr "Ověřené historické údaje fondů"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručení SMS"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__evidence
+msgid "Settlement/insurance evidence"
+msgstr "Podklady k zúčtování a pojištění"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation__state__premiums
+msgid "Standard social premiums calculated"
+msgstr "Standardní sociální pojistné vypočteno"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základě aktivit\n"
+"Po splatnosti: Datum již uplynul\n"
+"Dnes: Datum aktivity je dnes\n"
+"Plánováno: Budoucí aktivity."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Supply the insurance relationship dates first."
+msgstr "Nejprve zadejte data pojistného vztahu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Supply the twelve-digit relationship identifier assigned by SP."
+msgstr ""
+"Zadejte dvanáctimístný identifikátor pojistného vztahu přidělený Sociálnou "
+"poisťovňou."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "The calculated inputs have changed. Review the historical calculation."
+msgstr "Vypočtené vstupy se změnily. Zkontrolujte historický výpočet."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "The calculation belongs to a company outside the active scope."
+msgstr "Výpočet patří společnosti mimo aktivní rozsah."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "The premium review no longer matches its archived calculation."
+msgstr "Kontrola pojistného již neodpovídá archivovanému výpočtu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "This Slovak social assessment register requires amounts in EUR."
+msgstr "Tento slovenský registr vyměřovacích základů vyžaduje částky v EUR."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výjimečné aktivity na záznamu."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation_history__uncapped
+msgid "Uncapped"
+msgstr "Bez maxima"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/models.py:0
+msgid "Use either editable historical rows or the API ledger, not both."
+msgstr ""
+"Použijte buď upravitelné historické řádky, nebo evidenci přes API, ne obojí."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_income_allocation/models/history.py:0
+msgid "Use the first day of the historical calendar month."
+msgstr "Použijte první den historického kalendářního měsíce."
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__website_message_ids
+msgid "Website Messages"
+msgstr "Zprávy webstránky"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_income_allocation.field_l10n_sk_income_allocation__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace webstránky"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__gp_er
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__gp_er
+msgid "gp_er"
+msgstr "GP – zaměstnavatel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__ip_ee
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__ip_ee
+msgid "ip_ee"
+msgstr "IP – zaměstnanec"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__ip_er
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__ip_er
+msgid "ip_er"
+msgstr "IP – zaměstnavatel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__np_ee
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__np_ee
+msgid "np_ee"
+msgstr "NP – zaměstnanec"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__np_er
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__np_er
+msgid "np_er"
+msgstr "NP – zaměstnavatel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__pfp_er
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__pfp_er
+msgid "pfp_er"
+msgstr "Zkrácená práce – zaměstnavatel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__pvn_ee
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__pvn_ee
+msgid "pvn_ee"
+msgstr "PvN – zaměstnanec"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__pvn_er
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__pvn_er
+msgid "pvn_er"
+msgstr "PvN – zaměstnavatel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__rfs_er
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__rfs_er
+msgid "rfs_er"
+msgstr "RFS – zaměstnavatel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__sp_ee
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__sp_ee
+msgid "sp_ee"
+msgstr "SP – zaměstnanec"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__sp_er
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__sp_er
+msgid "sp_er"
+msgstr "SP – zaměstnavatel"
+
+#. module: l10n_sk_hr_payroll_income_allocation
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_history__channel__up_er
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_income_allocation.selection__l10n_sk_income_allocation_line__channel__up_er
+msgid "up_er"
+msgstr "ÚP – zaměstnavatel"
