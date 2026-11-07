@@ -467,3 +467,23 @@ msgstr "Príloha XML"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__year
 msgid "Year"
 msgstr "Rok"
+
+#. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__replaced_vpp_id
+msgid "Replaces filed VPP"
+msgstr "Nahrádza podaný VPP"
+
+#. module: l10n_sk_hr_payroll_vpp
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid "Reset the VPP to draft before changing its period or correction identity. The filed copy is retained."
+msgstr "Pred zmenou obdobia alebo opravnej identity vráťte VPP do návrhu. Podaná kópia sa zachová."
+
+#. module: l10n_sk_hr_payroll_vpp
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid "A regular VPP cannot replace a filed VPP. Select Corrective."
+msgstr "Riadny VPP nemôže nahrádzať podaný VPP. Vyberte opravný výkaz."
+
+#. module: l10n_sk_hr_payroll_vpp
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid "Choose the retained filed VPP for this exact company and settlement period."
+msgstr "Vyberte uchovaný podaný VPP presne tejto firmy a obdobia zúčtovania."
