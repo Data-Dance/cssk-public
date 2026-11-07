@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_hr_payroll_health/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Monthly Health Insurance Statement (dávka 514)</h1>
 <p class="cssk-summary">The monthly výkaz preddavkov na poistné for a Slovak health insurer (VšZP, Dôvera, Union) in the common dávka 514 format, built from the month&#x27;s payslips and exported as XML.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.3</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Every month the employer reports to each <strong>health insurer</strong> the health
@@ -127,6 +127,20 @@ insurer on every employee rather than relying on the default.</p>
 <p>Generation stops if the IČO, the DIČ, the payer number or the insurer is
 missing, if an employee has no valid birth number, or if there are no payslips
 for the month.</p>
+<p><strong>Who is left out.</strong> A DoVP or DoPČ worker is not reported, and does not
+count as an employee of the insurer, when the contract the payslip was
+computed on has either
+- a <strong>Pension granted (SK)</strong>: the statute excludes agreement income of every
+  pensioner group the field offers, with no income limit or claim
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-10b.odsek-1.pismeno-a">§ 10b ods. 1 písm. a)</a>); or
+- <strong>Health-insurance exempt</strong> ticked without a pension, for example a worker
+  covered by another state's legislation (an A1 form). Keeping that evidence
+  is up to you.</p>
+<p>An ordinary employment contract stays on the statement even with a pension.
+A DoVP or DoPČ with a pension but <em>Health-insurance exempt</em> not ticked stops
+generation: its payslip carries health advances for income the statute
+excludes. Tick the box on that contract and recalculate the payslip. The check
+covers only the insurer the statement is addressed to.</p>
 <h2 id="output">What the statement contains</h2>
 <table>
 <thead>
@@ -181,7 +195,7 @@ element, the three header blocks and that the number of rows matches.</p>
   that the insurer will accept the file. Reconcile the first statement with
   the insurer.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.2.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.2.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
