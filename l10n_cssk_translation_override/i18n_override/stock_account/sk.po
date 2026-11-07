@@ -38,6 +38,15 @@ msgid "Debit"
 msgstr "Má dať"
 
 #. module: stock_account
+#: model:ir.model.fields,help:stock_account.field_stock_location__valuation_account_id
+msgid ""
+"Expense account used to re-qualify products removed from stock and sent to "
+"this location"
+msgstr ""
+"Nákladový účet, na ktorý sa preúčtujú produkty vyskladnené a presunuté do "
+"tejto lokácie"
+
+#. module: stock_account
 #: model:ir.model.fields.selection,name:stock_account.selection__product_category__property_cost_method__fifo
 #: model:ir.model.fields.selection,name:stock_account.selection__product_template__cost_method__fifo
 #: model:ir.model.fields.selection,name:stock_account.selection__res_company__cost_method__fifo

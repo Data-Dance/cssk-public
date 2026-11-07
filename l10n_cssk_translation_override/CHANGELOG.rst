@@ -5,6 +5,33 @@ Changelog
 All notable changes to **l10n_cssk_translation_override** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.3.0] — 2026-11-06
+-------------------------
+
+Fixed
+~~~~~
+
+- Accounting terms in Czech and Slovak follow the accounting and VAT acts
+  rather than Odoo's community translation, which used cash-basis words
+  for a double-entry ledger:
+
+  - an account type is *Výnosy* / *Náklady*, never *Příjem* / *Výdaj*
+    (Slovak *Príjem* / *Výdavky*), and "Other Income" is *Ostatní výnosy*
+    (*Ostatné výnosy*), not the bare *Ostatní* Czech had;
+  - the tax type is *Výstup* / *Vstup* (daň na výstupu / na vstupu,
+    § 72 ZDPH, § 49 of the Slovak act), not *Prodej* / *Nákup*;
+  - the income account is *Účet výnosů* (on products, the company, journals,
+    the cash difference accounts, the early-payment discount and the
+    invoice analysis). The account groups offered in spreadsheets and the
+    invoicing dashboard's income KPI follow too. So do the point-of-sale
+    message about a missing income account (Czech) and the stock location's
+    expense-account help (Slovak).
+
+  Only the tax-type selection is retranslated. Sales journals, sale orders
+  and the Sales menu keep *Prodej* / *Predaj*. The single-entry cash journal
+  (*daňová evidence*), where *příjem* / *výdaj* is the statutory term, and
+  *výdaje / příjmy příštích období* (accounts 383 and 385) are unchanged.
+
 [19.0.1.2.0] — 2026-11-05
 -------------------------
 

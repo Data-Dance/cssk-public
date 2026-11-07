@@ -4,3 +4,4 @@ from . import test_override
 from . import test_shipped_catalogues
 from . import test_code_named_records
 from . import test_renamed_records
+from . import test_accounting_terms

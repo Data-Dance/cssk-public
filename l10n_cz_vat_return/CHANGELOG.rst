@@ -39,7 +39,7 @@ Carried over
   return that was already filed.
 
 [19.0.1.16.0] — 2026-11-05
--------------------------
+--------------------------
 
 Fixed
 ~~~~~
@@ -57,7 +57,7 @@ Fixed
   with. The same defect is in Odoo's ``l10n_cz`` on 19.0 and master.
 
 [19.0.1.15.0] — 2026-11-05
--------------------------
+--------------------------
 
 Changed
 ~~~~~~~

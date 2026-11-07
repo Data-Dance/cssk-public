@@ -114,7 +114,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_annual_tax_report` | 19.0.2.0.4 | Annual Slovak employer income-tax report (Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti, § 39 ods. 9) for the Finančná správa — aggregate… |
 | `l10n_sk_hr_payroll_base` | 19.0.1.1.2 | Engine-neutral base for the Slovak payroll: the employment forms (pracovný pomer, DoVP, DoPČ, DoBPŠ) and one table saying which contributions and entitlements… |
 | `l10n_sk_hr_payroll_eldp` | 19.0.1.1.2 | Annual per-employee Slovak pension record (ELDP) filed to the Sociálna poisťovňa — aggregates each year's pension assessment base and insured period per… |
-| `l10n_sk_hr_payroll_health` | 19.0.1.2.2 | Monthly Slovak health-insurance advances statement (Mesačný výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / Union — employer header + per-employee… |
+| `l10n_sk_hr_payroll_health` | 19.0.1.2.3 | Monthly Slovak health-insurance advances statement (Mesačný výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / Union — employer header + per-employee… |
 | `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.2 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
 | `l10n_sk_hr_payroll_mvp` | 19.0.1.1.2 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
 | `l10n_sk_hr_payroll_oca` | 19.0.1.20.0 | Slovak payroll rules for the payroll engine |
@@ -182,7 +182,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.1 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
 | `l10n_cssk_submission_base` | 19.0.1.1.2 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
-| `l10n_cssk_translation_override` | 19.0.1.2.0 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
+| `l10n_cssk_translation_override` | 19.0.1.3.0 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
 | `l10n_cssk_vat_return_base` | 19.0.1.13.1 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
 | `l10n_cssk_vies` | 19.0.2.1.1 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
 

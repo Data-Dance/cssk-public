@@ -81,7 +81,11 @@ class TestHealth514(TransactionCase):
             return "ee"
         return None
 
-    def _employee_payslip(self, wage=2000.0):
+    def _employee_payslip(self, wage=2000.0, agreement="none", pension=False):
+        structure = self.structure
+        if agreement != "none":
+            module = "l10n_sk_hr_payroll_oca" if self.engine == "oca" else "l10n_sk_hr_payroll"
+            structure = self.env.ref(module + ".hr_payroll_structure_sk_" + agreement)
         emp_vals = {
             "name": "Jozko Mrkvicka",
             "company_id": self.company.id,
@@ -92,16 +96,19 @@ class TestHealth514(TransactionCase):
             "wage": wage,
         }
         if self.engine == "oca":
-            emp_vals["struct_id"] = self.structure.id
+            emp_vals["struct_id"] = structure.id
         else:
-            emp_vals["structure_type_id"] = self.structure.type_id.id
+            emp_vals["structure_type_id"] = structure.type_id.id
         employee = self.env["hr.employee"].with_company(
             self.company).create(emp_vals)
+        if pension:
+            employee.version_id.write({"l10n_sk_pension_type": pension,
+                                       "l10n_sk_health_exempt": agreement != "none"})
 
         slip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip",
             "employee_id": employee.id,
-            "struct_id": self.structure.id,
+            "struct_id": structure.id,
             "company_id": self.company.id,
             "date_from": date(2026, 3, 1),
             "date_to": date(2026, 3, 31),
@@ -111,6 +118,83 @@ class TestHealth514(TransactionCase):
         slip.compute_sheet()
         confirm_payslips(slip)
         return employee, slip
+
+    def test_old_age_agreement_is_not_health_employment(self):
+        for agreement in ("dopc", "dovp"):
+            with self.subTest(agreement=agreement):
+                _, slip = self._employee_payslip(200, agreement, "old_age")
+                declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+                    "company_id": self.company.id, "year": "2026", "month": "3"})
+                self.assertNotIn(slip, declaration._get_period_payslips())
+
+    def test_old_age_employment_stays_in_health_report(self):
+        _, slip = self._employee_payslip(2000, "none", "old_age")
+        declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3"})
+        self.assertIn(slip, declaration._get_period_payslips())
+
+    def test_all_statutory_pension_agreements_are_excluded(self):
+        for pension in ("old_age", "early_old_age", "disability_over_70",
+                        "disability", "disability_at_age", "service_at_age",
+                        "disability_service"):
+            for agreement in ("dopc", "dovp"):
+                with self.subTest(pension=pension, agreement=agreement):
+                    _, slip = self._employee_payslip(200, agreement, pension)
+                    declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+                        "company_id": self.company.id, "year": "2026", "month": "3"})
+                    self.assertNotIn(slip, declaration._get_period_payslips())
+                    declaration._preflight()
+
+    def test_health_switch_must_match_statutory_pension_fact(self):
+        for pension, exempt in (("disability", False), ("old_age", False)):
+            with self.subTest(pension=pension, exempt=exempt):
+                _, slip = self._employee_payslip(200, "dopc", pension)
+                self._version(slip).l10n_sk_health_exempt = exempt
+                declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+                    "company_id": self.company.id, "year": "2026", "month": "3"})
+                with self.assertRaises(UserError):
+                    declaration.action_generate()
+
+    def test_foreign_insured_agreement_without_pension_is_excluded(self):
+        for agreement in ("dopc", "dovp"):
+            _, slip = self._employee_payslip(200, agreement)
+            self._version(slip).l10n_sk_health_exempt = True
+            slip.compute_sheet()
+            slip.action_payslip_done()
+            declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+                "company_id": self.company.id, "year": "2026", "month": "3"})
+            declaration._preflight()
+            self.assertNotIn(slip, declaration._get_period_payslips())
+            self.assertEqual(slip.get_salary_line_total("HEALTH"), 0)
+            self.assertEqual(slip.get_salary_line_total("HEALTHEMPLOYER"), 0)
+
+    def test_mismatch_at_another_insurer_does_not_block_this_insurer(self):
+        _, broken = self._employee_payslip(200, "dopc", "disability")
+        broken.employee_id.l10n_sk_health_insurer_code = "25"
+        self._version(broken).l10n_sk_health_exempt = False
+        good_employee, good = self._employee_payslip()
+        good_employee.l10n_sk_health_insurer_code = "24"
+        declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3", "insurer_code": "24"})
+        declaration._preflight()
+        self.assertIn(good, declaration._get_period_payslips())
+        self.assertNotIn(broken, declaration._get_period_payslips())
+        declaration.insurer_code = "25"
+        with self.assertRaises(UserError): declaration._preflight()
+
+    def _version(self, slip):
+        return self.env["l10n.sk.health"]._payslip_version(slip)
+
+    def test_later_contract_cannot_add_old_age_agreement_to_health(self):
+        employee, slip = self._employee_payslip(200, "dopc", "old_age")
+        employee.create_version({"date_version": date(2026, 4, 1),
+                                 "l10n_sk_pension_type": False,
+                                 "l10n_sk_health_exempt": False})
+        self.assertFalse(employee.version_id.l10n_sk_pension_type)
+        self.assertEqual(self.env['l10n.sk.health']._payslip_version(slip).l10n_sk_pension_type, 'old_age')
+        declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2026", "month": "3"})
+        self.assertNotIn(slip, declaration._get_period_payslips())
 
     def test_generate_and_validate(self):
         employee, slip = self._employee_payslip()

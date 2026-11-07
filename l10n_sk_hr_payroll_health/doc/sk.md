@@ -1,7 +1,7 @@
 ---
 title: SK dávka 514 — mesačný výkaz preddavkov na zdravotné poistenie
 summary: Mesačný výkaz preddavkov na poistné pre slovenskú zdravotnú poisťovňu (VšZP, Dôvera, Union) v spoločnom formáte dávky 514, zostavený z výplatných pások mesiaca a vyexportovaný do XML.
-verified: 19.0.1.2.2
+verified: 19.0.1.2.3
 ---
 
 ## Na čo slúži {#purpose}
@@ -76,6 +76,23 @@ každom zamestnancovi.
 Generovanie sa zastaví, ak chýba IČO, DIČ, číslo platiteľa alebo poisťovňa,
 ak zamestnanec nemá platné rodné číslo alebo ak za mesiac neexistuje žiadna
 výplatná páska.
+
+**Kto sa nevykazuje.** Dohodár na DoVP alebo DoPČ sa nevykazuje a nepočíta sa
+medzi zamestnancov poisťovne, ak zmluva, podľa ktorej bola výplatná páska
+vypočítaná, má
+- vyplnený **Priznaný dôchodok (SK)**: zákon vylučuje príjem z dohody pri
+  všetkých skupinách dôchodcov, ktoré pole ponúka, bez limitu príjmu a bez
+  uplatnenia
+  ([§ 10b ods. 1 písm. a)](law:sk/2004/580#paragraf-10b.odsek-1.pismeno-a)); alebo
+- zaškrtnuté **Oslobodený od zdravotného poistenia** bez dôchodku, napríklad
+  pri dohodárovi, na ktorého sa vzťahujú právne predpisy iného štátu
+  (formulár A1). Doklad o tom uchovávate vy.
+
+Bežný pracovný pomer zostáva vo výkaze aj pri dôchodku. Dohoda s dôchodkom bez
+zaškrtnutého *Oslobodený od zdravotného poistenia* generovanie zastaví: jej
+výplatná páska obsahuje preddavky z príjmu, ktorý zákon vylučuje. Zaškrtnite
+pole na tejto zmluve a výplatnú pásku prepočítajte. Kontrola sa týka len
+poisťovne, ktorej je výkaz určený.
 
 ## Obsah výkazu {#output}
 

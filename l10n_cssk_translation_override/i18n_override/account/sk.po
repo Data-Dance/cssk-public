@@ -273,6 +273,16 @@ msgid "Default"
 msgstr "Predvolené"
 
 #. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_journal_form
+msgid "Default Expense Account"
+msgstr "Predvolený účet nákladov"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_journal_form
+msgid "Default Income Account"
+msgstr "Predvolený účet výnosov"
+
+#. module: account
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_line__company_price_include
 #: model:ir.model.fields,field_description:account.field_account_move__company_price_include
 #: model:ir.model.fields,field_description:account.field_account_tax__company_price_include
@@ -378,6 +388,13 @@ msgid "Expense"
 msgstr "Náklady"
 
 #. module: account
+#: model:account.account,name:account.1_expense
+#: model:ir.model.fields.selection,name:account.selection__account_account__account_type__expense
+#: model_terms:ir.ui.view,arch_db:account.view_account_search
+msgid "Expenses"
+msgstr "Náklady"
+
+#. module: account
 #: model:ir.model.fields,field_description:account.field_account_move_send_wizard__extra_edis
 msgid "Extra Edis"
 msgstr "Ďalšie formáty EDI"
@@ -476,6 +493,15 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
 
 #. module: account
+#: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
+msgid ""
+"If empty, the discount will be discounted directly on the income/expense "
+"account. If set, discount on invoices will be realized in separate accounts."
+msgstr ""
+"Ak je prázdne, zľava sa zaúčtuje priamo na účet výnosov/nákladov. Ak je "
+"nastavené, zľava na faktúrach sa zaúčtuje na samostatné účty."
+
+#. module: account
 #: model:ir.model.fields.selection,name:account.selection__account_invoice_report__payment_state__in_payment
 #: model:ir.model.fields.selection,name:account.selection__account_move__payment_state__in_payment
 #: model:ir.model.fields.selection,name:account.selection__account_move__status_in_payment__in_payment
@@ -488,6 +514,15 @@ msgstr "Prebieha platba"
 #: model:ir.model.fields,field_description:account.field_account_move__secure_sequence_number
 msgid "Inalterability No Gap Sequence #"
 msgstr "Č. nemennej postupnosti bez medzier"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/account_type_selection/account_type_selection.js:0
+#: model:ir.model.fields.selection,name:account.selection__account_account__account_type__income
+#: model:ir.model.fields.selection,name:account.selection__account_account__internal_group__income
+#: model_terms:ir.ui.view,arch_db:account.view_account_search
+msgid "Income"
+msgstr "Výnosy"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_move_line_form
@@ -584,6 +619,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:account.field_account_journal__kanban_dashboard_graph
 msgid "Kanban Dashboard Graph"
 msgstr "Graf riadiaceho panela kanban"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_product_product__property_account_expense_id
+#: model:ir.model.fields,help:account.field_product_template__property_account_expense_id
+msgid ""
+"Keep this field empty to use the default value from the product category. If"
+" anglo-saxon accounting with automated valuation method is configured, the "
+"expense account on the product category will be used."
+msgstr ""
+"Ak chcete použiť predvolenú hodnotu z kategórie produktu, nechajte toto pole"
+" prázdne. Ak je nakonfigurované anglosaské účtovníctvo s automatizovanou "
+"metódou oceňovania, použije sa nákladový účet z kategórie produktov."
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_line__sanitize_payment_reference
@@ -732,6 +779,19 @@ msgstr ""
 "}}."
 
 #. module: account
+#: model:account.group,name:account.2_us_group_7
+#: model:ir.model.fields.selection,name:account.selection__account_account__account_type__expense_other
+msgid "Other Expenses"
+msgstr "Ostatné náklady"
+
+#. module: account
+#: model:account.account,name:account.1_other_income
+#: model:account.account,name:account.2_account_account_us_other_income
+#: model:ir.model.fields.selection,name:account.selection__account_account__account_type__income_other
+msgid "Other Income"
+msgstr "Ostatné výnosy"
+
+#. module: account
 #: model_terms:ir.ui.view,arch_db:account.portal_invoice_page
 #: model_terms:ir.ui.view,arch_db:account.view_account_invoice_filter
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_line_payment_filter
@@ -791,12 +851,17 @@ msgstr "Ziskovosť"
 #: model:account.journal,name:account.1_purchase
 #: model:account.journal,name:account.2_purchase
 #: model:ir.actions.act_window,name:account.action_account_moves_journal_purchase
-#: model:ir.model.fields.selection,name:account.selection__account_tax__type_tax_use__purchase
 #: model_terms:ir.ui.view,arch_db:account.view_account_journal_search
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_filter
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_line_filter
 msgid "Purchases"
 msgstr "Nákupy"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_tax__type_tax_use__purchase
+msgctxt "account.tax,type_tax_use"
+msgid "Purchases"
+msgstr "Vstup"
 
 #. module: account
 #. odoo-javascript
@@ -841,6 +906,11 @@ msgid "Responsible User"
 msgstr "Zodpovedný používateľ"
 
 #. module: account
+#: model:ir.model.fields,field_description:account.field_account_invoice_report__account_id
+msgid "Revenue/Expense Account"
+msgstr "Účet výnosov/nákladov"
+
+#. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_reversal
 msgid "Reverse Journal Entry"
 msgstr "Stornovať účtovný záznam"
@@ -849,6 +919,12 @@ msgstr "Stornovať účtovný záznam"
 #: model:ir.model.fields,field_description:account.field_account_account__root_id
 msgid "Root"
 msgstr "Koreň"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_tax__type_tax_use__sale
+msgctxt "account.tax,type_tax_use"
+msgid "Sales"
+msgstr "Výstup"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_account_journal_search
@@ -1071,6 +1147,19 @@ msgstr "Nekategorizované"
 #: model_terms:ir.ui.view,arch_db:account.document_tax_totals_template
 msgid "Untaxed Amount"
 msgstr "Suma bez dane"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_account__include_initial_balance
+msgid ""
+"Used in reports to know if we should consider journal items from the "
+"beginning of time instead of from the fiscal year only. Account types that "
+"should be reset to zero at each new fiscal year (like expenses, revenue..) "
+"should not have this option set."
+msgstr ""
+"Používa sa vo výkazoch na určenie, či sa majú zahrnúť položky denníka od "
+"samého začiatku, alebo iba od začiatku účtovného obdobia. Typy účtov, ktoré "
+"sa na začiatku každého účtovného obdobia nulujú (napríklad nákladové a "
+"výnosové účty), by nemali mať túto možnosť nastavenú."
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_line__user_id

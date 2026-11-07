@@ -10,6 +10,26 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.3] — 2026-11-07
+-------------------------
+
+Fixed
+~~~~~
+
+- **Pensioners and foreign-insured workers on DoVP/DoPČ are left out of the
+  dávka 514.** § 10b ods. 1 písm. a) z. 580/2004 excludes agreement income of
+  every pensioner group *Pension granted (SK)* offers; the contract the payslip
+  was computed on decides, not the employee's current one. A health-exempt
+  agreement without a pension (e.g. an A1 worker) is left out too, so the
+  payslip (no advances) and the statement (no row) agree. Contributed by
+  votrelec (cssk-public #15).
+- Generation stops when a DoVP/DoPČ has a pension but is not marked
+  health-exempt, since its payslip then carries advances the statute excludes.
+  Only the insurer the statement is addressed to is checked.
+
+18.0 carry-over: not ported. 18.0's ``hr.contract`` has no pension type; the
+health-exempt half applies there and is still to do.
+
 [19.0.1.2.2] — 2026-11-05
 -------------------------
 

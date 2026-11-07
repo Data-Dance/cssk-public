@@ -35,6 +35,13 @@ msgid "Account Reconcile Model Line"
 msgstr "Řádek párovacího modelu"
 
 #. module: account
+#: model:ir.model.fields,help:account.field_res_config_settings__account_journal_early_pay_discount_loss_account_id
+msgid ""
+"Account for the difference amount after the expense discount has been "
+"granted"
+msgstr "Účet pro zaúčtování rozdílu po poskytnutí slevy za včasnou úhradu"
+
+#. module: account
 #: model:ir.model.fields,help:account.field_account_account__group_id
 msgid "Account prefixes can determine account groups."
 msgstr "Předčíslí účtů mohou určovat skupiny účtů."
@@ -134,6 +141,16 @@ msgid "Bill"
 msgstr "Přijatá faktura"
 
 #. module: account
+#: model:ir.model.fields,field_description:account.field_res_company__default_cash_difference_expense_account_id
+msgid "Cash Difference Expense"
+msgstr "Účet nákladů z hotovostních rozdílů"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_res_company__default_cash_difference_income_account_id
+msgid "Cash Difference Income"
+msgstr "Účet výnosů z hotovostních rozdílů"
+
+#. module: account
 #: model:ir.ui.menu,name:account.account_closing_menu
 msgid "Closing"
 msgstr "Uzávěrka"
@@ -176,6 +193,16 @@ msgid "Date Range"
 msgstr "Rozsah dat"
 
 #. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_journal_form
+msgid "Default Expense Account"
+msgstr "Výchozí účet nákladů"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.view_account_journal_form
+msgid "Default Income Account"
+msgstr "Výchozí účet výnosů"
+
+#. module: account
 #: model:ir.model.fields.selection,name:account.selection__account_account__account_type__expense_depreciation
 msgid "Depreciation"
 msgstr "Odpis"
@@ -213,6 +240,16 @@ msgid ""
 msgstr ""
 "E-mailové adresy, které mají dostávat kopie faktur a upomínky k vrácení. "
 "Jednotlivé adresy oddělte znakem ';'."
+
+#. module: account
+#. odoo-javascript
+#. odoo-python
+#: code:addons/account/static/src/components/account_type_selection/account_type_selection.js:0
+#: code:addons/account/wizard/accrued_orders.py:0
+#: model:ir.model.fields.selection,name:account.selection__account_account__internal_group__expense
+#: model:ir.model.fields.selection,name:account.selection__account_automatic_entry_wizard__account_type__expense
+msgid "Expense"
+msgstr "Náklady"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_move_line__first_reconciled_lines_id
@@ -335,9 +372,36 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
 
 #. module: account
+#: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
+msgid ""
+"If empty, the discount will be discounted directly on the income/expense "
+"account. If set, discount on invoices will be realized in separate accounts."
+msgstr ""
+"Pokud je prázdný, sleva se zaúčtuje přímo na výnosový/nákladový účet. Je-li "
+"nastaven, sleva z faktur se zaúčtuje na samostatné účty."
+
+#. module: account
 #: model:ir.model.fields,help:account.field_account_move_reversal__journal_id
 msgid "If empty, uses the journal of the journal entry to be reversed."
 msgstr "Pokud není vyplněno, použije se deník opravovaného účetního záznamu."
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/account_type_selection/account_type_selection.js:0
+#: model:ir.model.fields.selection,name:account.selection__account_account__account_type__income
+#: model:ir.model.fields.selection,name:account.selection__account_account__internal_group__income
+#: model_terms:ir.ui.view,arch_db:account.view_account_search
+msgid "Income"
+msgstr "Výnosy"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_product_category__property_account_income_categ_id
+#: model:ir.model.fields,field_description:account.field_product_product__property_account_income_id
+#: model:ir.model.fields,field_description:account.field_product_template__property_account_income_id
+#: model:ir.model.fields,field_description:account.field_res_company__income_account_id
+#: model:ir.model.fields,field_description:account.field_res_config_settings__income_account_id
+msgid "Income Account"
+msgstr "Účet výnosů"
 
 #. module: account
 #. odoo-javascript
@@ -438,6 +502,13 @@ msgid "Open"
 msgstr "Otevřené"
 
 #. module: account
+#: model:account.account,name:account.1_other_income
+#: model:account.account,name:account.2_account_account_us_other_income
+#: model:ir.model.fields.selection,name:account.selection__account_account__account_type__income_other
+msgid "Other Income"
+msgstr "Ostatní výnosy"
+
+#. module: account
 #: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
 msgid "Package"
 msgstr "Balíček"
@@ -456,6 +527,12 @@ msgstr "Zaúčtováno"
 #: model:ir.model.fields,field_description:account.field_account_analytic_line__analytic_profitability
 msgid "Profitability"
 msgstr "Ziskovost"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_tax__type_tax_use__purchase
+msgctxt "account.tax,type_tax_use"
+msgid "Purchases"
+msgstr "Vstup"
 
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
@@ -514,6 +591,11 @@ msgid "Residual"
 msgstr "Zbývající částka"
 
 #. module: account
+#: model:ir.model.fields,field_description:account.field_account_invoice_report__account_id
+msgid "Revenue/Expense Account"
+msgstr "Účet výnosů/nákladů"
+
+#. module: account
 #: model:ir.actions.act_window,name:account.action_view_account_move_reversal
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_reversal
 msgid "Reverse"
@@ -523,6 +605,12 @@ msgstr "Vytvořit opravný záznam"
 #: model_terms:ir.ui.view,arch_db:account.view_account_move_reversal
 msgid "Reverse Journal Entry"
 msgstr "Vytvořit opravný záznam"
+
+#. module: account
+#: model:ir.model.fields.selection,name:account.selection__account_tax__type_tax_use__sale
+msgctxt "account.tax,type_tax_use"
+msgid "Sales"
+msgstr "Výstup"
 
 #. module: account
 #: model:ir.model.fields,field_description:account.field_account_bank_statement_line__sequence

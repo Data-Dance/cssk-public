@@ -1,7 +1,7 @@
 ---
 title: SK Monthly Health Insurance Statement (dávka 514)
 summary: The monthly výkaz preddavkov na poistné for a Slovak health insurer (VšZP, Dôvera, Union) in the common dávka 514 format, built from the month's payslips and exported as XML.
-verified: 19.0.1.2.2
+verified: 19.0.1.2.3
 ---
 
 ## What it is for {#purpose}
@@ -77,6 +77,22 @@ insurer on every employee rather than relying on the default.
 Generation stops if the IČO, the DIČ, the payer number or the insurer is
 missing, if an employee has no valid birth number, or if there are no payslips
 for the month.
+
+**Who is left out.** A DoVP or DoPČ worker is not reported, and does not
+count as an employee of the insurer, when the contract the payslip was
+computed on has either
+- a **Pension granted (SK)**: the statute excludes agreement income of every
+  pensioner group the field offers, with no income limit or claim
+  ([§ 10b ods. 1 písm. a)](law:sk/2004/580#paragraf-10b.odsek-1.pismeno-a)); or
+- **Health-insurance exempt** ticked without a pension, for example a worker
+  covered by another state's legislation (an A1 form). Keeping that evidence
+  is up to you.
+
+An ordinary employment contract stays on the statement even with a pension.
+A DoVP or DoPČ with a pension but *Health-insurance exempt* not ticked stops
+generation: its payslip carries health advances for income the statute
+excludes. Tick the box on that contract and recalculate the payslip. The check
+covers only the insurer the statement is addressed to.
 
 ## What the statement contains {#output}
 
