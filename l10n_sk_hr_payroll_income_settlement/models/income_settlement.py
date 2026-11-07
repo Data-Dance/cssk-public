@@ -46,7 +46,8 @@ class Settlement(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        if any(self._protected & values.keys() for values in vals_list):
+        if (any('default_' + key in self.env.context for key in self._protected)
+                or any(self._protected & values.keys() for values in vals_list)):
             raise UserError(_('Use the calculation action to generate settlement evidence.'))
         return super().create(vals_list)
 

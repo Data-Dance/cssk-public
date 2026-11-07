@@ -174,6 +174,14 @@ class TestSettlement(TransactionCase):
         rec.allocation_id.action_reset()
         self.assertTrue(attachment.exists())
 
+    def test_context_defaults_cannot_forge_calculated_evidence(self):
+        rec = self.record()
+        values = {'name': 'Synthetic context guard', 'allocation_id': rec.allocation_id.id,
+                  'evidence': 'Synthetic reviewed facts', 'facts': rec.facts}
+        for key in ('state', 'result', 'input_digest', 'attachment_id'):
+            with self.subTest(field=key), self.assertRaises(UserError):
+                self.env[rec._name].with_context(**{'default_' + key: True}).create(values)
+
     def test_dated_parameter_change_invalidates_retry(self):
         rec = self.record()
         rec.action_calculate()
