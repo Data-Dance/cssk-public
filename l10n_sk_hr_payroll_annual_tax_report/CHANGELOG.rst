@@ -134,3 +134,11 @@ Fixed
   otherwise Slovak screen. The template and the catalogues now carry them,
   and the Slovak is written.
 
+19.0.2.1.1 (2026-11-07)
+~~~~~~~~~~~~~~~~~~~~~~
+
+* End HLASENIEv23 / rh2023 applicability on 2025-12-31, including existing
+  installations through an upgrade migration. Reject its export for 2026+.
+* The 2026 statutory layout has different Part V row meanings; schema validity
+  against rh2023 does not make a 2026 filing correct. A current adapter is needed.
+

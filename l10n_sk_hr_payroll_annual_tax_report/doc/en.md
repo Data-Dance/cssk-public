@@ -1,7 +1,7 @@
 ---
 title: SK Annual Tax Report (Hlásenie)
 summary: The employer's annual report on employment income, withheld tax advances and the child tax bonus, with one annex column per employee, generated from the year's payslips as XML for the Slovak financial administration.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## What it is for {#purpose}
@@ -116,4 +116,14 @@ The report accepts *riadne*, *opravné* and *dodatočné* filings. Set
 amending report unless a regular one is already marked submitted — but see
 [Limitations](#limitations): it currently looks for that original in the
 **same month** in which the new record was created.
+
+## Form edition cutoff
+
+Version 19.0.2.1.1 limits rh2023 / HLASENIEv23 to tax years through 2025,
+including an upgrade migration for existing version records. Export for 2026+
+is rejected. The Ministry's 2026 form changes Part V row meanings; a successful
+old XSD check cannot prove compliance with the new form. Install a reviewed
+current form adapter before filing. This module does not yet supply that adapter.
+
+Source: https://www.mfsr.sk/files/archiv/75/HLASENIEv26-v1.2.pdf
 

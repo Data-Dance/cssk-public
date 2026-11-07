@@ -78,6 +78,10 @@ class L10nSkHlasenie(models.Model):
     def _preflight(self):
         super()._preflight()
         for rec in self:
+            if int(rec.year) >= 2026 and rec.version_id.xml_schema_filename == 'data/rh2023.xsd':
+                raise UserError(_(
+                    'The 2026 annual statement has a new statutory layout. '
+                    'Do not file rh2023 XML for 2026 or later; install a reviewed current form adapter.'))
             dic = rec._company_dic(rec.company_id)
             if not (dic.isdigit() and len(dic) == 10):
                 raise UserError(_(

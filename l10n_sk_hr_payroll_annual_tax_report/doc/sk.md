@@ -1,7 +1,7 @@
 ---
 title: SK Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti
 summary: Ročné hlásenie zamestnávateľa o príjmoch zo závislej činnosti, zrazených preddavkoch na daň a daňovom bonuse, s údajmi o každom zamestnancovi, zostavené z výplatných pások roka ako XML pre finančnú správu.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -108,4 +108,14 @@ opravy** na *Corrective* alebo *Supplementary*. Modul opravné ani dodatočné
 hlásenie nevygeneruje, kým nie je riadne hlásenie označené ako odoslané — pozri
 však [Obmedzenia](#limitations): pôvodné hlásenie dnes hľadá len v **tom istom
 mesiaci**, v ktorom bol nový záznam vytvorený.
+
+## Platnosť ročníka formulára
+
+Verzia 19.0.2.1.1 obmedzuje rh2023 / HLASENIEv23 na daňové roky do 2025
+vrátane; existujúce záznamy upraví upgrade migrácia. Export za 2026 a neskôr
+sa zastaví. Predpísaný vzor 2026 mení význam riadkov časti V; úspešná kontrola
+starou XSD preto nepreukazuje správnosť nového podania. Pred podaním treba
+overený adaptér aktuálneho formulára, ktorý tento modul zatiaľ nedodáva.
+
+Zdroj: https://www.mfsr.sk/files/archiv/75/HLASENIEv26-v1.2.pdf
 

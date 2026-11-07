@@ -147,12 +147,13 @@ class TestHlasenie(TransactionCase):
             "company_id": self.company.id,
             "year": str(YEAR),
         })
-        self.assertTrue(decl.version_id, "Hlásenie version should default")
+        # The discontinued form need not default from today; generation resolves the selected historical period.
         self.assertEqual(decl.date_from, date(YEAR, 1, 1))
         self.assertEqual(decl.date_to, date(YEAR, 12, 31))
         decl.action_generate()
         self.assertEqual(decl.state, "generated")
         self.assertEqual(decl.lines_count, 2)
+        self.assertTrue(decl.version_id, "Generation must resolve the historical form edition")
 
         xml_bytes = base64.b64decode(decl.xml_attachment_id.datas)
         schema = etree.XMLSchema(etree.parse(
@@ -403,6 +404,12 @@ class TestHlasenie(TransactionCase):
         rec.action_compute()
         with self.assertRaises(UserError):
             self._hlasenie().action_generate()
+
+    def test_old_xml_is_not_current_for_the_new2026_layout(self):
+        report = self._hlasenie(year='2026', version_id=self.env.ref(
+            'l10n_sk_hr_payroll_annual_tax_report.hlasenie_version_2023').id)
+        with self.assertRaisesRegex(UserError, 'new statutory layout'):
+            report._preflight()
 
 @tagged("post_install", "-at_install")
 class TestSchemaPins(TransactionCase):
