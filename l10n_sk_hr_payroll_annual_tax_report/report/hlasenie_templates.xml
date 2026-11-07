@@ -15,32 +15,53 @@
     <!-- One Časť V column (c5stlpecType). ``col`` is a dict; a blank trailing
          column supplies only 'empty' + 'dopln_udaj' so col.get(...) empties. -->
     <template id="hlasenie_c5_column">
-        <c5rodneCislo t-out="col.get('rodne_cislo')"/>
+        <c5rodneCislo t-out="col.get('rodne_cislo', '')"/>
         <c5ic/>
-        <c5doplnUdaj t-out="col.get('dopln_udaj')"/>
-        <c5priezvisko t-out="col.get('priezvisko')"/>
-        <c5meno t-out="col.get('meno')"/>
-        <c5ulica t-out="col.get('ulica')"/>
-        <c5cislo t-out="col.get('cislo')"/>
-        <c5psc t-out="col.get('psc')"/>
-        <c5obec t-out="col.get('obec')"/>
-        <c5stat t-out="col.get('stat')"/>
-        <c5kodStatu/>
-        <c5r3a t-out="col.get('r3a')"/>
-        <c5r3b/>
-        <c5r3c/>
-        <c5r4a t-out="col.get('r4a')"/>
-        <c5r4b/>
-        <c5r5/>
-        <c5r6 t-out="col.get('r6')"/>
-        <c5r7suma/>
-        <c5r7sumaDds/>
-        <c5r8suma t-out="col.get('r8suma')"/>
-        <c5r8deti/>
-        <c5r9/>
-        <c5r10/>
+        <c5doplnUdaj t-out="col.get('dopln_udaj', '')"/>
+        <c5priezvisko t-out="col.get('priezvisko', '')"/>
+        <c5meno t-out="col.get('meno', '')"/>
+        <c5ulica t-out="col.get('ulica', '')"/>
+        <c5cislo t-out="col.get('cislo', '')"/>
+        <c5psc t-out="col.get('psc', '')"/>
+        <c5obec t-out="col.get('obec', '')"/>
+        <c5stat t-out="col.get('stat', '')"/>
+        <c5kodStatu t-out="col.get('kod_statu', '')"/>
+        <c5r3a t-out="col.get('r3a', '')"/>
+        <c5r3b t-out="col.get('r3b', '')"/>
+        <c5r3c t-out="col.get('r3c', '')"/>
+        <c5r4a t-out="col.get('r4a', '')"/>
+        <c5r4b t-out="col.get('r4b', '')"/>
+        <c5r5 t-out="col.get('r5', '')"/>
+        <c5r6 t-out="col.get('r6', '')"/>
+        <c5r7suma t-out="col.get('r7suma', '')"/>
+        <c5r7sumaDds t-out="col.get('r7sumaDds', '')"/>
+        <c5r8suma t-out="col.get('r8suma', '')"/>
+        <c5r8deti t-out="col.get('r8deti', '')"/>
+        <c5r9 t-out="col.get('r9', '')"/>
+        <c5r10 t-out="col.get('r10', '')"/>
     </template>
 
+    <template id="hlasenie_month_boxes">
+        <box00 t-out="months['0']"/><box01 t-out="months['1']"/><box02 t-out="months['2']"/>
+        <box03 t-out="months['3']"/><box04 t-out="months['4']"/><box05 t-out="months['5']"/>
+        <box06 t-out="months['6']"/><box07 t-out="months['7']"/><box08 t-out="months['8']"/>
+        <box09 t-out="months['9']"/><box10 t-out="months['10']"/><box11 t-out="months['11']"/>
+        <box12 t-out="months['12']"/>
+    </template>
+    <template id="hlasenie_c4_column">
+        <rodneCislo t-out="col.get('rodne_cislo', '')"/><ic/>
+        <priezvisko t-out="col.get('priezvisko', '')"/><meno t-out="col.get('meno', '')"/>
+        <ulica t-out="col.get('ulica', '')"/><cislo t-out="col.get('cislo', '')"/>
+        <psc t-out="col.get('psc', '')"/><obec t-out="col.get('obec', '')"/>
+        <stat t-out="col.get('stat', '')"/><kodStatu t-out="col.get('kod_statu', '')"/>
+        <r3a t-out="col.get('r3a', '')"/><r3b/>
+        <r4><t t-call="l10n_sk_hr_payroll_annual_tax_report.hlasenie_month_boxes">
+            <t t-set="months" t-value="col['months']"/>
+        </t></r4>
+        <r5a t-out="col.get('r5a', '')"/><r5b t-out="col.get('r5b', '')"/>
+        <r6 t-out="col.get('r6', '')"/><r7suma t-out="col.get('r7suma', '')"/>
+        <r7deti t-out="col.get('r7deti', '')"/><r8ano t-out="col['r8ano']"/>
+    </template>
     <template id="hlasenie_xml">
         <dokument>
             <hlavicka>
@@ -95,7 +116,7 @@
                 </dedicZastupca>
                 <tel t-out="h['tel']"/>
                 <email t-out="h['email']"/>
-                <datumZuctovania/>
+                <datumZuctovania t-out="h['datum_zuctovania']"/>
                 <osobitneZaznamy>
                     <uvadzam>0</uvadzam>
                     <zaznam/>
@@ -143,6 +164,15 @@
                     <rE/>
                     <rF/>
                 </cast3>
+                <cast4 t-foreach="pages4" t-as="page">
+                    <strana><aktualna t-out="page['aktualna']"/><celkovo t-out="page['celkovo']"/></strana>
+                    <stlpec1><t t-call="l10n_sk_hr_payroll_annual_tax_report.hlasenie_c4_column">
+                        <t t-set="col" t-value="page['col1']"/>
+                    </t></stlpec1>
+                    <stlpec2><t t-call="l10n_sk_hr_payroll_annual_tax_report.hlasenie_c4_column">
+                        <t t-set="col" t-value="page['col2']"/>
+                    </t></stlpec2>
+                </cast4>
                 <cast5 t-foreach="pages" t-as="page">
                     <c5strana>
                         <c5aktualna t-out="page['aktualna']"/>

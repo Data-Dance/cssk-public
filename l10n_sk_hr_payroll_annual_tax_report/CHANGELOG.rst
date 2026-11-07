@@ -1,3 +1,16 @@
+19.0.2.1.0 (2026-11-07)
+~~~~~~~~~~~~~~~~~~~~~~
+
+* Route employees without employer RZD to Part IV, with month boxes, separate
+  employee social/health insurance and withheld advance in their statutory rows.
+* Add an engine bridge for reviewed Part V annual inputs; annual gross,
+  insurance, allowances and advance have different meanings from monthly totals.
+  Known RZD without a bridge is rejected rather than silently misclassified.
+* Count and paginate Parts IV/V independently, preserving a valid empty second
+  column. Report the last reviewed RZD completion date.
+* Missing child identities/months and foreign residence require a dedicated
+  adapter; a numeric child bonus alone is not a complete statutory annex.
+
 Unreleased
 ~~~~~~~~~~
 

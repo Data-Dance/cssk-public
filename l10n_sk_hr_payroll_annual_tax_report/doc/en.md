@@ -1,7 +1,7 @@
 ---
 title: SK Annual Tax Report (Hlásenie)
 summary: The employer's annual report on employment income, withheld tax advances and the child tax bonus, with one annex column per employee, generated from the year's payslips as XML for the Slovak financial administration.
-verified: 19.0.2.0.4
+verified: 19.0.2.1.0
 ---
 
 ## What it is for {#purpose}
@@ -67,7 +67,7 @@ príjmov*). Statutory terms are given in Slovak.
 1. Choose the **Year**. The period is always 1 January to 31 December.
 2. Leave **Correction Type** on *Regular* for the ordinary filing.
 3. Click **Generate**. The module collects every non-cancelled payslip of the
-   company whose period lies in the year — **drafts included** — builds one
+   company whose period lies in the year — **confirmed payslips only** — builds one
    annex column per employee, renders the XML and validates it against the
    official schema `rh2023.xsd`. If an employee lacks a birth number, the
    error names them and nothing is generated.
@@ -76,36 +76,38 @@ príjmov*). Statutory terms are given in Slovak.
 5. Click **Mark Submitted** once filed; the filed copy is kept and the record
    locked. *Reset to Draft* unlocks it.
 
-## What goes onto the form {#mapping}
+## Annex mapping and verified scope {#mapping}
 
-**Part I (employer totals):**
 
-| Row | Filled with |
-|---|---|
-| r. 00 | the sum of `GROSS` for the year |
-| r. 01 | the withheld advance before the bonus: `INCOMETAX19` + `INCOMETAX25` on Enterprise, `INCOMETAX` on the OCA engine |
-| r. 04 | equal to r. 01 (rows 02 and 03 are left empty) |
-| r. 05 | the sum of `CHILD_BONUS`, capped at r. 04 |
-| r. 06 | the employee premium — always 0.00, as no payroll rule produces it |
+Version 19.0.2.1.0, 7 November 2026. Uses the bundled, unchanged rh2023 XSD.
+This is not certification of a later form edition or acceptance by the authority.
 
-**Part III (recapitulation of the child tax bonus):**
+Part IV reports this employer's income for employees without employer annual
+reconciliation (RZD). Part V reports annual reconciliation data, including all
+employers' income separately from this employer's contribution. Its r4a/r4b are
+employee social/health insurance; withheld advance belongs to r6. The old export
+sent every employee to Part V and placed advance tax in r4a.
 
-| Row | Filled with |
-|---|---|
-| r. A | the whole child bonus paid in the year (sum of `CHILD_BONUS`) |
-| r. B | the part paid out of the withheld advances — equal to r. 05 |
-| r. C | r. A − r. B: the bonus the company paid from its own money because it exceeded the advances |
+The country report remains engine-neutral. `_annual_settlement_column(line)`
+is the engine bridge: return `None` for Part IV, or reviewed Part V values using
+the QWeb column keys and `completed_on` (DD.MM.YYYY). If an installed engine
+exposes a computed/posted RZD but has no bridge, export stops. Completion of RZD
+is distinct from subsequent payment of its balance. Foreign residence and child
+bonus without full child identity/entitlement-month data are explicit open
+adapters, never silently omitted.
 
-**Part V (per employee), two employees per page:** birth number, name,
-private address, state `SK`, taxable income (r. 3a, from `GROSS`), withheld
-advances (r. 4a), employee premium (r. 6) and the child bonus paid (r. 8).
-With an odd number of employees the last page has an empty second column.
+Part IV month flags use the selected payroll intervals and historical versions.
+Date-of-payment/tax-year selection must be supplied by the applicable payroll
+adapter; this patch does not claim that a payslip date alone proves payment.
+Parts IV/V have independent employee/page counts and odd-column padding.
 
-Part IV is never filled: every employee goes into Part V. Part II, rows D–F
-of Part III,
-the remaining rows of Part I, the number of children per employee, and the
-counts and sums of the § 33a interest bonus and of the recreation allowance in
-the header are left empty.
+Legal mapping: Finančná správa HLASENIEv23 instructions, Parts IV and V:
+https://pfseform.financnasprava.sk/Formulare/Poucenia/HLASENIEv23-poucenie.pdf
+
+Tests exercise native OCA payroll, XML/XSD, independent sections, proper row
+meanings and the explicit missing-information guards. Enterprise runtime is not
+claimed tested by an OCA run. The general bridge regression supplies a reviewed
+adapter fixture; production annual calculation belongs to the engine bridge.
 
 ## Corrections {#corrections}
 
@@ -115,34 +117,3 @@ amending report unless a regular one is already marked submitted — but see
 [Limitations](#limitations): it currently looks for that original in the
 **same month** in which the new record was created.
 
-## Limitations {#limitations}
-
-- **Check the figures before filing.** The schema check proves the shape of
-  the file, not the amounts. No report produced here has been confirmed by a
-  live submission; reconcile the first one by hand, and check the column
-  meanings against the current official instructions (*poučenie*) for the
-  year you file.
-- **Two-word surnames.** Without separate name fields, only the last word is
-  taken as the surname; check Part V for an employee with a two-word surname.
-- **Row 5 and Part III are capped on the year's totals.** Row 5 is the
-  smaller of the year's bonus and row 4. If in some months the bonus exceeded
-  that month's advances and you claimed the difference back through the
-  monthly overviews instead of offsetting it later, compare rows 5 and C with
-  your monthly filings before submitting.
-- The annex state is always `SK`; foreign residents and employees taxed by
-  withholding (*zrážková daň*) are not treated separately.
-- **The annual reconciliation (*ročné zúčtovanie*) is not reported.** Rows
-  for its results, the number of children per employee, insurance
-  contributions and non-taxable parts of the base are left empty.
-- **Draft payslips count**, and payslips are taken by their period, not by the
-  payout date.
-- **Amending reports and the month.** A corrective or supplementary report
-  finds its original only if it was created in the same calendar month as the
-  submitted original; otherwise generation is refused with "There is no
-  submitted … to amend". The date the reasons for a *dodatočné hlásenie* were
-  found is left empty.
-- The legal-form element of the header is the *Právna forma* recorded on the company's contact by `l10n_sk_trade_registry`; without that module, or with the field empty, the element stays empty.
-- Only the 2023 vintage ships. Check that the Finančná správa still accepts it
-  for the year you are filing.
-- Nothing is sent to the authority: *Mark Submitted* only records that you
-  filed it.
