@@ -5,6 +5,11 @@ Changelog
 Unreleased
 ==========
 
+- Annual reconciliation gathers only confirmed OCA payslips of its company;
+  draft/waiting calculations and foreign-company lines are excluded.
+- Use period end as the annual selection key, matching declarations, and
+  confirm the existing annual gathering fixture before computing its totals.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

@@ -339,10 +339,11 @@ class L10nSkTaxReconciliation(models.Model):
         self.ensure_one()
         return self.env["hr.payslip"].search(
             [
+                ("company_id", "=", self.company_id.id),
                 ("employee_id", "=", self.employee_id.id),
-                ("date_from", ">=", date(self.year, 1, 1)),
+                ("date_to", ">=", date(self.year, 1, 1)),
                 ("date_to", "<=", date(self.year, 12, 31)),
-                ("state", "!=", "cancel"),
+                ("state", "=", "done"),
                 ("id", "!=", self.settlement_payslip_id.id),
             ]
         )
