@@ -1,7 +1,7 @@
 ---
 title: SK VPP — výkaz poistného a príspevkov (dohody)
 summary: Výkaz poistného a príspevkov za zamestnancov s nepravidelným príjmom — v praxi dohody DoVP a DoPČ — zostavený z výplatných pások mesiaca a vyexportovaný do XML overeného voči oficiálnej schéme.
-verified: 19.0.1.1.2
+verified: 19.0.1.1.3
 ---
 
 ## Na čo slúži {#purpose}
@@ -68,7 +68,7 @@ Rovnaké údaje spoločnosti a zamestnancov ako pri MVP:
 ## Obsah výkazu {#output}
 
 - **Hlavička.** *Číslo výkazu* `MM99RRRR` a *obdobie výplaty príjmov*
-  `MMRRRR`, oboje zo zvoleného mesiaca; typ výkazu R (riadny).
+  `MMRRRR`, oboje zo zvoleného mesiaca; typ výkazu R (riadny) alebo O (opravný).
 - **Fondy.** Rovnaké kódy pravidiel ako pri MVP (SICK/SICKEMPLOYER,
   PENSION/PENSIONEMPLOYER, DISABILITY/DISABILITYEMPLOYER,
   UNEMPLOYMENT/UNEMPLOYMENTEMPLOYER, ACCIDENT, GUARANTEEEMPLOYER,
@@ -82,18 +82,34 @@ Rovnaké údaje spoločnosti a zamestnancov ako pri MVP:
 
 ## Obmedzenia {#limitations}
 
-- **Výber podľa typu dohody, nie podľa pravidelnosti príjmu.** Každá DoVP
-  a DoPČ ide do VPP s kódom nepravidelného príjmu, aj keď má označený
-  pravidelný mesačný príjem (taká patrí do MVP s kódom ZECD1/ZECD2). Keďže MVP
-  dohody nevylučuje, taký dohodár sa objaví na oboch výkazoch. Dohoda
-  o brigádnickej práci študentov (DoBPŠ) sa do VPP nedostane nikdy.
-- Typ dohody sa číta z aktuálnej zmluvy zamestnanca, nie zo zmluvy, podľa
-  ktorej bola výplatná páska vypočítaná.
-- Započítajú sa aj koncepty výplatných pások, vynechajú sa len zrušené.
-  Výplatná páska presahujúca hranicu mesiaca sa ignoruje. Mesiac je obdobie
+- Výber používa historický vzťah a pravidelnosť príjmu potvrdenej pásky.
+  Nepravidelné DoVP, DoPČ a DoBPŠ patria sem; bežné pravidelné dohody ostávajú
+  na MVP. Úplné rozpočítanie príjmu po skončení vyžaduje vlastné overené
+  historické fondové napojenie, ktoré táto oprava nepridáva.
+- Výplatná páska presahujúca hranicu mesiaca sa ignoruje. Mesiac je obdobie
   výplatnej pásky, ktoré sa môže líšiť od mesiaca, v ktorom bol príjem
   zúčtovaný na výplatu.
-- Počet dní je pri každom riadku celý kalendárny mesiac; príznak výnimky
-  z vymeriavacieho základu je vždy 0.
-- Len riadny výkaz; opravy cez portál. Dodáva sa len vzor VPP 2026.
+- Počet dní sleduje prekryv vzťahu s mesiacom; osobitné udalosti prílohy
+  a fondové výnimky vyžadujú vlastné spracovanie. Príznak výnimky je0.
+- Dodáva sa vzor VPP 2026; úspešná schéma nepotvrdzuje prijatie portálom.
 - Overenie voči schéme kontroluje tvar súboru, nie sumy.
+
+
+# Opravný VPP
+
+Vygenerujte riadny natívny VPP; stav podaný zaznamenajte až po skutočnom podaní.
+Pre opravu vytvorte nový VPP rovnakej firmy a mesiaca zúčtovania, vyberte opravný
+typ a prepojte uchovaný podaný výkaz. Vygenerujte a overte XML štandardným postupom.
+Výstup používa typ O, pôvodné číslo MM99RRRR a všetky aktuálne zdroje daného
+obdobia. Nahrádza celý pôvodný výkaz. Pôvodná podaná príloha zostáva v natívnej
+histórii bez zmeny.
+
+Zmena firmy, obdobia, verzie či opravnej identity už vygenerovaného výkazu
+vyžaduje návrat do návrhu. Riadny výkaz nemôže odkazovať na nahrádzaný výkaz.
+Pôvodný musí mať stav podaný a uchovanú prílohu tej istej firmy a obdobia.
+Označenie syntetického testu ako podaného nevykonáva žiadny prenos na úrad.
+
+Táto funkcia neopravuje samotnú mzdu ani jej účtovný doklad. Oprava mzdy
+a celkové odsúhlasenie sú samostatné workflow.
+
+Zdroj: [poučenie SP k hlavičke](https://www.socpoist.sk/api/idsp/download/a4ab64fb-25b4-4321-9059-342b5945cd20).

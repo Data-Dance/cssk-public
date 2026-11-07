@@ -1,7 +1,7 @@
 ---
 title: SK Social Insurance Statement for Work Agreements (VPP)
 summary: The výkaz poistného a príspevkov for employees with an irregular income — in practice the DoVP and DoPČ work agreements — built from the month's payslips and exported as XML checked against the official schema.
-verified: 19.0.1.1.2
+verified: 19.0.1.1.3
 ---
 
 ## What it is for {#purpose}
@@ -69,7 +69,7 @@ The same company and employee data as the MVP:
 ## What the statement contains {#output}
 
 - **Header.** *Číslo výkazu* `MM99RRRR` and *obdobie výplaty príjmov*
-  `MMRRRR`, both from the chosen month; statement type R (regular).
+  `MMRRRR`, both from the chosen month; statement type R (regular) or O (corrective).
 - **Funds.** The same rule codes as on the MVP (SICK/SICKEMPLOYER,
   PENSION/PENSIONEMPLOYER, DISABILITY/DISABILITYEMPLOYER,
   UNEMPLOYMENT/UNEMPLOYMENTEMPLOYER, ACCIDENT, GUARANTEEEMPLOYER,
@@ -83,19 +83,34 @@ The same company and employee data as the MVP:
 
 ## Limitations {#limitations}
 
-- **Selection is by agreement type, not by income regularity.** Every DoVP and
-  DoPČ goes on the VPP with an irregular-income code, even one marked as having
-  a regular monthly income (which belongs on the MVP with code ZECD1/ZECD2).
-  Since the MVP does not leave agreements out, such a worker appears on both
-  statements. A student agreement (DoBPŠ) is never put on the VPP.
-- The agreement type is read from the employee's current contract, not from
-  the contract the payslip was computed on.
-- Draft payslips count; only cancelled ones are left out. A payslip whose
-  period crosses the month boundary is ignored. The month is the payslip
+- Selection uses the confirmed payslip's historical relationship and income
+  regularity. Irregular DoVP, DoPČ and DoBPŠ belong here; ordinary regular
+  agreements remain on MVP. A full post-insurance allocation needs its own
+  reviewed historical fund/month integration and is not added by this change.
+- A payslip whose period crosses the month boundary is ignored. The month is the payslip
   period, which may differ from the month in which the income was accounted
   for payment.
-- Days are the full calendar month for every row; the assessment-base
-  exception flag is always 0.
-- Only a regular statement; corrections go through the portal. Only the
-  VPP 2026 vintage is shipped.
+- Days follow the employment overlap with the month; special annex events
+  and per-fund base exceptions still need their own handling. The exception flag is 0.
+- The VPP 2026 vintage is shipped; schema success is not portal acceptance.
 - Schema validation checks the shape of the file, not the figures.
+
+
+# Corrective VPP
+
+Generate a regular native VPP and record its filed status only after actual submission.
+For a correction, create a new VPP for the same company and settlement month,
+select Corrective and link the retained filed VPP. Generate and validate normally.
+The output uses O and the original MM99YYYY number, with every current source
+row for that period. It replaces the previous statement; it is not a difference.
+The previous filed attachment remains unchanged in its native retention history.
+
+Changing a generated report's company, period, version or correction identity
+requires resetting to draft. A regular report cannot carry a replacement link.
+The original must be marked submitted and have a retained filed attachment for
+the exact company/period. Marking a synthetic test report submitted does not send it anywhere.
+
+This function does not correct the underlying payroll or its posted accounting
+entry. Payroll correction and reconciliation remain separate workflows.
+
+Source: [SP header instructions](https://www.socpoist.sk/api/idsp/download/a4ab64fb-25b4-4321-9059-342b5945cd20).
