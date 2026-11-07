@@ -1,0 +1,17 @@
+<odoo>
+    <record id="vpp_correction_form" model="ir.ui.view">
+        <field name="name">l10n.sk.vpp.correction.form</field>
+        <field name="model">l10n.sk.vpp</field>
+        <field name="inherit_id" ref="l10n_sk_hr_payroll_vpp.view_l10n_sk_vpp_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='version_id']" position="before">
+                <field name="correction_type" readonly="state != 'draft'"/>
+                <field name="replaced_vpp_id" readonly="state != 'draft'"
+                       invisible="correction_type != 'corrective'"
+                       domain="[('company_id', '=', company_id), ('state', '=', 'submitted')]"/>
+                <field name="correction_reference" readonly="state != 'draft'"
+                       invisible="correction_type != 'corrective'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
