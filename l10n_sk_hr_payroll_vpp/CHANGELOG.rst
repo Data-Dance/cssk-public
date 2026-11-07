@@ -2,6 +2,17 @@
 Changelog
 =========
 
+19.0.1.2.0 (2026-11-07)
+~~~~~~~~~~~~~~~~~~~~~~
+
+* Support full corrective VPP (typVykazu O), linked to a retained filed
+  original of the same company and settlement period.
+* Preserve filed copies and protect generated identity until reset to draft.
+* Prefill the sole retained original through the base declaration lookup in
+  both form and API; leave ambiguous choices explicit.
+* Export the updated POT and retain Slovak code-string extraction metadata.
+* Test complete replacement, missing original, period mismatch and retention.
+
 Unreleased
 ~~~~~~~~~~
 

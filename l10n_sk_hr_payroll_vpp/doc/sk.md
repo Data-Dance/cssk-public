@@ -1,7 +1,7 @@
 ---
 title: SK VPP — výkaz poistného a príspevkov (dohody)
 summary: Výkaz poistného a príspevkov za zamestnancov s nepravidelným príjmom — v praxi dohody DoVP a DoPČ — zostavený z výplatných pások mesiaca a vyexportovaný do XML overeného voči oficiálnej schéme.
-verified: 19.0.1.1.3
+verified: 19.0.1.2.0
 ---
 
 ## Na čo slúži {#purpose}
