@@ -5,7 +5,7 @@ BOTH payroll engines. Detects whichever SK payroll engine is installed (the ``pa
 ``l10n_sk_hr_payroll_oca`` or the ``l10n_sk_hr_payroll`` EE engine), drives it
 to a full year of monthly payslips for two employees, generates the annual
 Hlásenie and validates the produced XML against the shipped ``rh2023.xsd`` —
-asserting the aggregate totals and a per-employee annex (Časť V) row match the
+asserting the aggregate totals and a per-employee annex (Časť IV) row match the
 summed payslips."""
 import base64
 import unittest
@@ -179,7 +179,7 @@ class TestHlasenie(TransactionCase):
         self.assertAlmostEqual(
             float(root.findtext("telo/cast1/r04")), tax, 2)
 
-        # per-employee annex Časť V: exactly one page (two columns), and emp1's
+        # per-employee annex Časť IV: exactly one page (two columns), and emp1's
         # column carries emp1's annual income + withheld advance.
         pages = root.findall("telo/cast4")
         self.assertEqual(len(pages), 1)

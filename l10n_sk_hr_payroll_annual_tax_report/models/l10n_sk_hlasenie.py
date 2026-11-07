@@ -10,13 +10,13 @@ the fourth month after the year end (§ 39 ods. 9 zák. 595/2003 Z. z.).
 It is the ANNUAL counterpart of the monthly Prehľad (``l10n.sk.prehlad``): it
 reuses the same tax-rule derivations (r00 income ← Σ GROSS, withheld advance ←
 INCOMETAX / INCOMETAX19+25, daňový bonus ← CHILD_BONUS) but aggregates over the
-whole calendar YEAR *and* carries a full per-employee annex (Časť V — one row
+whole calendar YEAR *and* carries a per-employee annexes (Časť IV/V — one row
 per employee with the year's income, withheld advance and daňový bonus). The
 per-employee rows are ``cssk.payroll.employee.declaration`` records, exactly as
 in the MVP annex pattern.
 
 The XML matches the official schema ``data/rh2023.xsd`` (root ``dokument``, no
-target namespace, ``elementFormDefault="qualified"``). Časť V is paginated two
+target namespace, ``elementFormDefault="qualified"``). Each annex section is paginated two
 employees per page (``cast5`` → ``c5stlpec1`` + ``c5stlpec2``); an odd trailing
 column is emitted empty (every annex element is an optional type).
 """
@@ -198,7 +198,7 @@ class L10nSkHlasenie(models.Model):
         return ""
 
     # ------------------------------------------------------------------
-    # Per-employee annex (Časť V) — two employees per page/column pair.
+    # Per-employee annexes (Časť IV/V) — two employees per page/column pair.
     # ------------------------------------------------------------------
     def _annex_identity(self, employee):
         rc = self._digits(employee.identification_id)
