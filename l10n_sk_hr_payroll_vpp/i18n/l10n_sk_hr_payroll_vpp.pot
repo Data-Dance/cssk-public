@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 22:27+0000\n"
-"PO-Revision-Date: 2026-10-27 22:27+0000\n"
+"POT-Creation-Date: 2026-11-07 13:47+0000\n"
+"PO-Revision-Date: 2026-11-07 13:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,12 @@ msgid ""
 "10-digit number the Sociálna poisťovňa assigned to the company. It is stored"
 " on the company and shared by every Sociálna poisťovňa filing (MVP, VPP, "
 "ELDP, RLFO)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_vpp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid "A regular VPP cannot replace a filed VPP. Select Corrective."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_vpp
@@ -58,6 +64,13 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_vpp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid ""
+"Choose the retained filed VPP for this exact company and settlement period."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_vpp
@@ -326,8 +339,21 @@ msgid "Payment Date"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__replaced_vpp_id
+msgid "Replaces filed VPP"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__report_code
 msgid "Report Code"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_vpp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid ""
+"Reset the VPP to draft before changing its period or correction identity. "
+"The filed copy is retained."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_vpp

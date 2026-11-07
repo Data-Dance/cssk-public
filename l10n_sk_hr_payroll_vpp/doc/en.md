@@ -81,26 +81,14 @@ The same company and employee data as the MVP:
   (*ZECD1N* for DoVP, *ZECD2N* for DoPČ — the irregular-income variants),
   assessment base (*GROSS*), days, hours and the amounts per fund.
 
-## Limitations {#limitations}
-
-- Selection uses the confirmed payslip's historical relationship and income
-  regularity. Irregular DoVP, DoPČ and DoBPŠ belong here; ordinary regular
-  agreements remain on MVP. A full post-insurance allocation needs its own
-  reviewed historical fund/month integration and is not added by this change.
-- A payslip whose period crosses the month boundary is ignored. The month is the payslip
-  period, which may differ from the month in which the income was accounted
-  for payment.
-- Days follow the employment overlap with the month; special annex events
-  and per-fund base exceptions still need their own handling. The exception flag is 0.
-- The VPP 2026 vintage is shipped; schema success is not portal acceptance.
-- Schema validation checks the shape of the file, not the figures.
-
-
-# Corrective VPP
+## Corrective filing {#correction}
 
 Generate a regular native VPP and record its filed status only after actual submission.
 For a correction, create a new VPP for the same company and settlement month,
 select Corrective and link the retained filed VPP. Generate and validate normally.
+The form and API prefill the original using the declaration base's filed-period
+lookup when exactly one retained candidate exists. With multiple candidates,
+choose the intended original explicitly; the program does not guess.
 The output uses O and the original MM99YYYY number, with every current source
 row for that period. It replaces the previous statement; it is not a difference.
 The previous filed attachment remains unchanged in its native retention history.
@@ -114,3 +102,17 @@ This function does not correct the underlying payroll or its posted accounting
 entry. Payroll correction and reconciliation remain separate workflows.
 
 Source: [SP header instructions](https://www.socpoist.sk/api/idsp/download/a4ab64fb-25b4-4321-9059-342b5945cd20).
+
+## Limitations {#limitations}
+
+- Selection uses the confirmed payslip's historical relationship and income
+  regularity. Irregular DoVP, DoPČ and DoBPŠ belong here; ordinary regular
+  agreements remain on MVP. A full post-insurance allocation needs its own
+  reviewed historical fund/month integration and is not added by this change.
+- A payslip whose period crosses the month boundary is ignored. The month is the payslip
+  period, which may differ from the month in which the income was accounted
+  for payment.
+- Days follow the employment overlap with the month; special annex events
+  and per-fund base exceptions still need their own handling. The exception flag is 0.
+- The VPP 2026 vintage is shipped; schema success is not portal acceptance.
+- Schema validation checks the shape of the file, not the figures.

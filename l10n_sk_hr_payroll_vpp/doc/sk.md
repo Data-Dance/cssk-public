@@ -80,22 +80,11 @@ Rovnaké údaje spoločnosti a zamestnancov ako pri MVP:
   DoVP, *ZECD2N* pre DoPČ — varianty s nepravidelným príjmom), vymeriavací
   základ (*GROSS*), dni, hodiny a sumy za jednotlivé fondy.
 
-## Obmedzenia {#limitations}
+## Opravný výkaz {#correction}
 
-- Výber používa historický vzťah a pravidelnosť príjmu potvrdenej pásky.
-  Nepravidelné DoVP, DoPČ a DoBPŠ patria sem; bežné pravidelné dohody ostávajú
-  na MVP. Úplné rozpočítanie príjmu po skončení vyžaduje vlastné overené
-  historické fondové napojenie, ktoré táto oprava nepridáva.
-- Výplatná páska presahujúca hranicu mesiaca sa ignoruje. Mesiac je obdobie
-  výplatnej pásky, ktoré sa môže líšiť od mesiaca, v ktorom bol príjem
-  zúčtovaný na výplatu.
-- Počet dní sleduje prekryv vzťahu s mesiacom; osobitné udalosti prílohy
-  a fondové výnimky vyžadujú vlastné spracovanie. Príznak výnimky je0.
-- Dodáva sa vzor VPP 2026; úspešná schéma nepotvrdzuje prijatie portálom.
-- Overenie voči schéme kontroluje tvar súboru, nie sumy.
-
-
-# Opravný VPP
+Formulár aj API predvyplnia pôvodný výkaz cez vyhľadanie podaného obdobia
+v základnom module, ak existuje práve jeden uchovaný kandidát. Pri viacerých
+kandidátoch vyberte pôvodný výkaz výslovne; program medzi nimi neháda.
 
 Vygenerujte riadny natívny VPP; stav podaný zaznamenajte až po skutočnom podaní.
 Pre opravu vytvorte nový VPP rovnakej firmy a mesiaca zúčtovania, vyberte opravný
@@ -113,3 +102,17 @@ Táto funkcia neopravuje samotnú mzdu ani jej účtovný doklad. Oprava mzdy
 a celkové odsúhlasenie sú samostatné workflow.
 
 Zdroj: [poučenie SP k hlavičke](https://www.socpoist.sk/api/idsp/download/a4ab64fb-25b4-4321-9059-342b5945cd20).
+
+## Obmedzenia {#limitations}
+
+- Výber používa historický vzťah a pravidelnosť príjmu potvrdenej pásky.
+  Nepravidelné DoVP, DoPČ a DoBPŠ patria sem; bežné pravidelné dohody ostávajú
+  na MVP. Úplné rozpočítanie príjmu po skončení vyžaduje vlastné overené
+  historické fondové napojenie, ktoré táto oprava nepridáva.
+- Výplatná páska presahujúca hranicu mesiaca sa ignoruje. Mesiac je obdobie
+  výplatnej pásky, ktoré sa môže líšiť od mesiaca, v ktorom bol príjem
+  zúčtovaný na výplatu.
+- Počet dní sleduje prekryv vzťahu s mesiacom; osobitné udalosti prílohy
+  a fondové výnimky vyžadujú vlastné spracovanie. Príznak výnimky je 0.
+- Dodáva sa vzor VPP 2026; úspešná schéma nepotvrdzuje prijatie portálom.
+- Overenie voči schéme kontroluje tvar súboru, nie sumy.
