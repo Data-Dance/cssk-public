@@ -117,6 +117,20 @@ class L10nSkHealth(models.Model):
                 raise UserError(_(
                     "Select the target health insurer on the dávka "
                     "514."))
+            # Inspect the unfiltered set: excluded agreements must not hide a
+            # disagreement between the statutory fact and the payroll switch.
+            for slip in super(L10nSkHealth, rec)._get_period_payslips():
+                if slip.employee_id._l10n_sk_health_insurer() != rec.insurer_code:
+                    continue
+                version = rec._payslip_version(slip)
+                if not version or version.l10n_sk_agreement_type not in ("dopc", "dovp"):
+                    continue
+                if rec._pension_agreement(slip) and not version.l10n_sk_health_exempt:
+                    raise UserError(_(
+                        "Payslip '%(name)s': the pension type and health-exempt "
+                        "setting disagree for this agreement. Review the historical "
+                        "version and recalculate payroll before generating the 514.",
+                        name=slip.display_name))
             # <CompanyIDTaxCode> was the one identification element nothing
             # checked. _digits() turns a missing DIČ into "", so the dávka went
             # to the insurer with an empty tax code and no error anywhere —
@@ -144,7 +158,36 @@ class L10nSkHealth(models.Model):
             return slips
         return slips.filtered(
             lambda s: s.employee_id._l10n_sk_health_insurer()
-            == self.insurer_code)
+            == self.insurer_code and not self._excluded_agreement(s))
+
+    def _excluded_agreement(self, payslip):
+        """Also respect other legislation, e.g. a documented foreign A1.
+
+        A pension implies exclusion, but exclusion does not imply a pension.
+        The health-exempt flag is currently the payroll's way to express the
+        latter case. Its legal evidence remains the operator's responsibility.
+        """
+        version = self._payslip_version(payslip)
+        return bool(self._pension_agreement(payslip) or (
+            version and "l10n_sk_agreement_type" in version._fields
+            and "l10n_sk_health_exempt" in version._fields
+            and version.l10n_sk_agreement_type in ("dopc", "dovp")
+            and version.l10n_sk_health_exempt))
+
+    def _pension_agreement(self, payslip):
+        """§10b(1)(a) points 3/4, z.580/2004: excluded agreement income.
+
+        Every pension selection maps to an excluded statutory pension group.
+        The exclusion has no income limit or one-agreement claim condition.
+        A pension does not exempt an ordinary employment contract.
+        The payslip's historical version decides, never today's employee card.
+        """
+        version = self._payslip_version(payslip)
+        return bool(version
+                    and "l10n_sk_agreement_type" in version._fields
+                    and "l10n_sk_pension_type" in version._fields
+                    and version.l10n_sk_agreement_type in ("dopc", "dovp")
+                    and version.l10n_sk_pension_type)
 
     # ------------------------------------------------------------------
     @staticmethod
