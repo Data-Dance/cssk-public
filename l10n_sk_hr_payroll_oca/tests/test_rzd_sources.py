@@ -1,4 +1,4 @@
-# Copyright 2026 Projekt Firma SRO
+# Copyright 2026 votrelec
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """Annual source isolation; no banking or tax-authority transport."""
 from odoo.tests import TransactionCase, tagged
