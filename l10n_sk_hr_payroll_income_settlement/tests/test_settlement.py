@@ -101,6 +101,19 @@ class TestSettlement(TransactionCase):
         self.assertEqual(pension['nczd_monthly_total'], '0.00')
         self.assertEqual(pension['salary_amounts']['NET'], '208.01')
 
+    def test_january_pension_does_not_gain_monthly_allowance_from_checkbox(self):
+        result = self.calculate('400', 'pension', agreement='dopc', pension='old_age',
+            pension_at_jan1=True, tax_declaration=True, minimum_exception='state_insured')
+        self.assertEqual(result['salary_amounts']['INCOMETAX'], '-75.24')
+        self.assertEqual(result['salary_amounts']['NET'], '320.77')
+        self.assertEqual(result['nczd_monthly_total'], '0.00')
+
+    def test_pensioner_second_payment_consolidates_without_monthly_allowance(self):
+        result = self.calculate(tax_declaration=True, pension_at_jan1=True,
+            other_tax_base='500', other_tax_withheld='95')
+        self.assertEqual(result['salary_amounts']['INCOMETAX'], '-48.79')
+        self.assertEqual(result['nczd_monthly_total'], '0.00')
+
     def test_another_monthly_payment_uses_remaining_band_not_new_low_band(self):
         result = self.calculate(other_tax_base='4000', other_tax_withheld='771.50')
         self.assertEqual(result['monthly_tax_base_total'], '4256.80')
