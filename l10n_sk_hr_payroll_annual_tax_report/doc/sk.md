@@ -109,7 +109,7 @@ hlásenie nevygeneruje, kým nie je riadne hlásenie označené ako odoslané �
 však [Obmedzenia](#limitations): pôvodné hlásenie dnes hľadá len v **tom istom
 mesiaci**, v ktorom bol nový záznam vytvorený.
 
-## Platnosť ročníka formulára
+## Platnosť ročníka formulára {#form-edition-cutoff}
 
 Verzia 19.0.2.1.1 obmedzuje rh2023 / HLASENIEv23 na daňové roky do 2025
 vrátane; existujúce záznamy upraví upgrade migrácia. Export za 2026 a neskôr
@@ -117,9 +117,16 @@ sa zastaví. Predpísaný vzor 2026 mení význam riadkov časti V; úspešná k
 starou XSD preto nepreukazuje správnosť nového podania. Pred podaním treba
 overený adaptér aktuálneho formulára, ktorý tento modul zatiaľ nedodáva.
 
+Bez ďalších mostov export dnes podporuje iba zamestnancov, ktorým tento
+zamestnávateľ nevykonal RZD a nevyplatil daňový bonus na dieťa, za daňové roky
+do 2025. Existujúce RZD vyžaduje most časti V; každý bonus na dieťa potrebuje
+evidenciu identity/mesiacov a výstup detskej prílohy. Väčšina reálnych
+zamestnávateľov preto potrebuje ďalšie adaptéry aj pri opravných a dodatočných
+podaniach za historické roky.
+
 Zdroj: https://www.mfsr.sk/files/archiv/75/HLASENIEv26-v1.2.pdf
 
-## Most evidencie nárokov na deti
+## Most evidencie nárokov na deti {#child-entitlement-bridge}
 
 `_annual_child_bonus_details(line, bonus)` rozširuje skutočný zamestnanecký
 stĺpec časti IV. Evidencia nárokov môže odovzdať overené identity a mesiace detí

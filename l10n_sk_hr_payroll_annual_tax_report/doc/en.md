@@ -117,7 +117,7 @@ amending report unless a regular one is already marked submitted — but see
 [Limitations](#limitations): it currently looks for that original in the
 **same month** in which the new record was created.
 
-## Form edition cutoff
+## Form edition cutoff {#form-edition-cutoff}
 
 Version 19.0.2.1.1 limits rh2023 / HLASENIEv23 to tax years through 2025,
 including an upgrade migration for existing version records. Export for 2026+
@@ -125,9 +125,15 @@ is rejected. The Ministry's 2026 form changes Part V row meanings; a successful
 old XSD check cannot prove compliance with the new form. Install a reviewed
 current form adapter before filing. This module does not yet supply that adapter.
 
+Without additional bridges, the exporter currently supports only employees for
+whom this employer did not perform RZD and who received no child bonus, for tax
+years through 2025. Known RZD requires a Part V bridge; any child bonus requires
+a child-identity/month bridge and annex renderer. Thus most real employers need
+additional adapters even for corrective/supplementary historical filings.
+
 Source: https://www.mfsr.sk/files/archiv/75/HLASENIEv26-v1.2.pdf
 
-## Child entitlement engine bridge
+## Child entitlement engine bridge {#child-entitlement-bridge}
 
 `_annual_child_bonus_details(line, bonus)` extends the actual Part IV employee
 column. An entitlement engine can supply reviewed child identities and months
