@@ -1,8 +1,6 @@
-# Czech EET 2.0 — Point of Sale (`l10n_cz_eet2_pos`)
+# l10n_cz_eet2_pos: developer notes
 
-Registers Point-of-Sale **contact payments** with the Czech EET 2.0 system and
-prints the returned **POK** on the receipt. Odoo 19.0. Depends on `l10n_cz_eet2`
-and `point_of_sale`.
+Not user documentation: this file is not rendered into a page.
 
 ## How it works
 - **Registration.** When the frontend syncs an order
@@ -40,12 +38,6 @@ and `point_of_sale`.
 - **Resend.** The backend POS order form has a *Resend to EET* button for orders
   not yet accepted (e.g. after a temporary error `kod<0`). EET 2.0 has **no offline
   PKP/BKP code** — offline handling is resend-based.
-
-## Configuration
-- **POS ▸ Configuration ▸ Point of Sale**: set *EET 2.0 PoS ID* (`id_pokl`, ≤20
-  chars; falls back to the POS name) and optionally the unit id (`id_jednotky`).
-- **POS ▸ Configuration ▸ Payment Methods**: toggle *EET 2.0 Contact Payment*.
-- Company-level EIC, environment and certificate come from the base module.
 
 ## Field mapping (order → Trzba)
 `eic_popl`←company · `id_jednotky`←config/company · `id_pokl`←config/name ·

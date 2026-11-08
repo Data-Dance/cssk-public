@@ -8,3 +8,5 @@ family: l10n_cssk_receipt_capture#expenses
 Adds **Create Expenses** to a captured receipt — one expense for the whole receipt, whatever its VAT rates, with the VAT figure and the journal entry built rate by rate from the receipt's recap — and makes the Expenses app read receipts: each image an employee uploads becomes a captured receipt and, when it reads cleanly, fills its expense; **Scan Receipt** and **My Receipts** appear under *Expenses → My Expenses*. An expense edited away from its receipt refuses to post, and a receipt claimed as expenses cannot also become a vendor receipt.
 
 It needs [module:l10n_cssk_receipt_capture](module:l10n_cssk_receipt_capture) and Odoo's Expenses app (Community). Its settings, *Capture on Expense Upload* (on by default) and *Receipt Expense Category*, are under *Expenses → Configuration → Settings*; with the AI reader installed, every upload is a paid reading.
+
+Above the simplified-invoice limit a receipt becomes a single expense at the gross amount with no VAT: the VAT is not deductible from the receipt and is part of the cost. Grouping receipts by business trip is not done here.

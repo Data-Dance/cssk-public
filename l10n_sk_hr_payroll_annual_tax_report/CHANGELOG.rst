@@ -1,5 +1,41 @@
+=========
+Changelog
+=========
+
 Unreleased
-~~~~~~~~~~
+----------
+
+- *18.0 carry-over:* the Part IV / Part V routing, the row mapping and the
+  2025 cutoff of rh2023 of 19.0.2.1.1 are not on 18.0 yet.
+
+[19.0.2.1.1] — 2026-11-08
+-------------------------
+
+Fixed
+~~~~~
+
+- **Every employee was in the wrong part of the annex, and the advance in
+  the insurance row.** HLASENIEv23 puts employees whose annual
+  reconciliation this employer did not do in Part IV, and only those it did
+  in Part V. Part IV now carries the month boxes, the employee's social and
+  health insurance in their own rows and the withheld advance in its row.
+  Part IV and Part V are counted and paginated independently.
+- **No filing on the obsolete form.** The bundled HLASENIEv23 / rh2023
+  edition now ends on 31 December 2025, on existing databases too (an
+  upgrade migration), and the export refuses 2026 and later. The 2026 form
+  gives the rows of Part V other meanings, so passing the old schema would
+  not make a 2026 filing correct.
+- **Incomplete annexes are refused.** An employee with an annual
+  reconciliation done by this employer, or with a child tax bonus, needs
+  data the module does not hold yet (the reconciliation's annual figures;
+  the children's identities and months). The export stops for them rather
+  than guessing from monthly totals. Engine bridges for both are exposed as
+  extension points; the guide states which cases export today.
+
+Contributed by votrelec (cssk-public#22).
+
+Changed
+~~~~~~~
 
 * **Renamed from ``l10n_sk_hr_payroll_hlasenie`` to ``l10n_sk_hr_payroll_annual_tax_report``.** The technical
   name is English now, like every other module here; the statutory form keeps its
@@ -120,4 +156,3 @@ Fixed
   emitted. An absent term cannot be translated and shows English in an
   otherwise Slovak screen. The template and the catalogues now carry them,
   and the Slovak is written.
-

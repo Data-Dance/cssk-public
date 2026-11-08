@@ -155,3 +155,4 @@ tax tags of Odoo's Slovak chart:
   authority.
 - The default taxable amount and the account mapping are a starting point and
   should be reviewed with your accountant.
+- It does not file anything with the customs authority and has no eCustoms/eDovoz connection.

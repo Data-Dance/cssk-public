@@ -4,17 +4,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:45+0000\n"
-"PO-Revision-Date: 2026-07-06 21:45+0000\n"
+"POT-Creation-Date: 2026-11-07 20:43+0000\n"
+"PO-Revision-Date: 2026-11-07 20:43+0000\n"
 "Last-Translator: \n"
-"Language-Team: Slovak (https://www.transifex.com/)\n"
-"Language: sk_SK\n"
+"Language-Team: \n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__message_needaction
@@ -42,6 +42,16 @@ msgid "Activity Type Icon"
 msgstr "Ikona typu aktivity"
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"An annual settlement exists. Install its reviewed Hlásenie Part V bridge "
+"before exporting."
+msgstr ""
+"Existuje ročné zúčtovanie. Pred exportom nainštalujte jeho overený most pre "
+"časť V Hlásenia."
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.actions.act_window,name:l10n_sk_hr_payroll_annual_tax_report.action_l10n_sk_hlasenie
 msgid "Annual tax reconciliation statement"
 msgstr "Hlásenie o vyúčtovaní dane"
@@ -50,6 +60,16 @@ msgstr "Hlásenie o vyúčtovaní dane"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__message_attachment_count
 msgid "Attachment Count"
 msgstr "Počet príloh"
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"Child bonus requires reviewed child identities and entitlement months in the"
+" annual annex."
+msgstr ""
+"Daňový bonus vyžaduje v ročnej prílohe overenú identitu detí a mesiace "
+"nároku."
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__company_id
@@ -127,13 +147,11 @@ msgstr "Zobrazovaný názov"
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
 msgid ""
-"Employee '%(name)s' needs a 9-10 digit birth number in the Identification "
-"No. field for the annual tax reconciliation statement per-employee annex "
-"(Part V)."
+"Employee '%(name)s' needs a 9-10 digit Slovak birth number for the annual "
+"tax annex."
 msgstr ""
-"Zamestnanec '%(name)s' potrebuje 9- až 10-miestne rodné číslo v poli "
-"Identifikačné č. pre prílohu hlásenia o vyúčtovaní dane za zamestnancov "
-"(Časť V)."
+"Zamestnanec '%(name)s' potrebuje pre ročnú daňovú prílohu slovenské rodné "
+"číslo s 9 až 10 číslicami."
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__line_ids
@@ -326,6 +344,15 @@ msgid "Responsible User"
 msgstr "Zodpovedný užívateľ"
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"Review foreign residence and identification before exporting this employee."
+msgstr ""
+"Pred exportom tohto zamestnanca overte zahraničný pobyt a identifikačné "
+"údaje."
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.ui.menu,name:l10n_sk_hr_payroll_annual_tax_report.menu_l10n_sk_hlasenie
 msgid "SK annual tax reconciliation statement"
 msgstr "SK hlásenie o vyúčtovaní dane"
@@ -377,6 +404,16 @@ msgstr "Dátum odoslania"
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__is_correction
 msgid "Technical: true for anything that amends an earlier filing."
 msgstr "Technické: pravda pre všetko, čo opravuje skoršie podanie."
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"The 2026 annual statement has a new statutory layout. Do not file rh2023 XML"
+" for 2026 or later; install a reviewed current form adapter."
+msgstr ""
+"Hlásenie za rok 2026 má nové predpísané usporiadanie. Nepodávajte XML rh2023"
+" za rok 2026 ani neskôr; nainštalujte overený adaptér aktuálneho formulára."
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__correction_reference

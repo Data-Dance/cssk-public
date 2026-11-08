@@ -80,3 +80,4 @@ iná české. Jazyk používateľa nerozhoduje.
 - Množstvo a jednotková cena sa netlačia; peňažná suma je súčet záznamu.
 - Takto sa dá vytlačiť každý záznam vrátane faktúr, hoci tie už majú externý
   doklad.
+- Modul OCA `account_move_print` tlačí všeobecný „Journal Entry“ a možno ho nainštalovať súčasne.

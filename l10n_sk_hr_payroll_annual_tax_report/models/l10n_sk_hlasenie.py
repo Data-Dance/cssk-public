@@ -10,13 +10,13 @@ the fourth month after the year end (§ 39 ods. 9 zák. 595/2003 Z. z.).
 It is the ANNUAL counterpart of the monthly Prehľad (``l10n.sk.prehlad``): it
 reuses the same tax-rule derivations (r00 income ← Σ GROSS, withheld advance ←
 INCOMETAX / INCOMETAX19+25, daňový bonus ← CHILD_BONUS) but aggregates over the
-whole calendar YEAR *and* carries a full per-employee annex (Časť V — one row
+whole calendar YEAR *and* carries a per-employee annexes (Časť IV/V — one row
 per employee with the year's income, withheld advance and daňový bonus). The
 per-employee rows are ``cssk.payroll.employee.declaration`` records, exactly as
 in the MVP annex pattern.
 
 The XML matches the official schema ``data/rh2023.xsd`` (root ``dokument``, no
-target namespace, ``elementFormDefault="qualified"``). Časť V is paginated two
+target namespace, ``elementFormDefault="qualified"``). Each annex section is paginated two
 employees per page (``cast5`` → ``c5stlpec1`` + ``c5stlpec2``); an odd trailing
 column is emitted empty (every annex element is an optional type).
 """
@@ -78,6 +78,10 @@ class L10nSkHlasenie(models.Model):
     def _preflight(self):
         super()._preflight()
         for rec in self:
+            if int(rec.year) >= 2026 and rec.version_id.xml_schema_filename == 'data/rh2023.xsd':
+                raise UserError(_(
+                    'The 2026 annual statement has a new statutory layout. '
+                    'Do not file rh2023 XML for 2026 or later; install a reviewed current form adapter.'))
             dic = rec._company_dic(rec.company_id)
             if not (dic.isdigit() and len(dic) == 10):
                 raise UserError(_(
@@ -144,7 +148,7 @@ class L10nSkHlasenie(models.Model):
         r_b = r05
         r_c = round(r_a - r_b, 2)
 
-        pages, emp_count = self._build_annex_pages()
+        pages4, pages5, count4, count5 = self._build_annex_sections()
         today = fields.Date.context_today(self)
         # The house number is split off the street (l10n_cssk_core), never
         # Street 2 — a building, a floor or a c/o line.
@@ -166,11 +170,14 @@ class L10nSkHlasenie(models.Model):
             "email": (company.email or "")[:255],
             "vypracoval": (user.name or "Odoo Payroll")[:255],
             "datum": today.strftime("%d.%m.%Y"),
-            # counts (we emit only Časť V, never Časť IV)
-            "pocet_stran_c4": "0",
-            "pocet_zam_c4": "0",
-            "pocet_stran_c5": str(len(pages)),
-            "pocet_zam_c5": str(emp_count),
+            "datum_zuctovania": max((col['completed_on'] for page in pages5
+                for col in (page['col1'], page['col2']) if col.get('completed_on')),
+                key=lambda value: tuple(reversed(value.split('.'))), default=''),
+            # independent counts for the two statutory employee groups
+            "pocet_stran_c4": str(len(pages4)),
+            "pocet_zam_c4": str(count4),
+            "pocet_stran_c5": str(len(pages5)),
+            "pocet_zam_c5": str(count5),
         }
         body = {
             # I. časť — vyúčtovanie preddavkov na daň (aggregate)
@@ -186,7 +193,7 @@ class L10nSkHlasenie(models.Model):
             # bank IBAN for the žiadosť o vrátenie preplatku
             "iban": self._company_iban(company),
         }
-        return {"h": header, "b": body, "pages": pages}
+        return {"h": header, "b": body, "pages": pages5, "pages4": pages4}
 
     def _company_iban(self, company):
         banks = company.partner_id.bank_ids
@@ -195,79 +202,113 @@ class L10nSkHlasenie(models.Model):
         return ""
 
     # ------------------------------------------------------------------
-    # Per-employee annex (Časť V) — two employees per page/column pair.
+    # Per-employee annexes (Časť IV/V) — two employees per page/column pair.
     # ------------------------------------------------------------------
-    def _build_annex_column(self, line):
-        """One filled Časť V column (``c5stlpecType``) from an employee row."""
-        employee = line.employee_id
+    def _annex_identity(self, employee):
         rc = self._digits(employee.identification_id)
         if not (9 <= len(rc) <= 10):
             raise UserError(_(
-                "Employee '%(name)s' needs a 9-10 digit birth number "
-                "in the Identification No. field for the annual tax "
-                "reconciliation statement per-employee annex (Part V).",
-                name=employee.display_name))
+                "Employee '%(name)s' needs a 9-10 digit Slovak birth number "
+                "for the annual tax annex.", name=employee.display_name))
+        first, last = self._split_person_name(employee)
+        street, number = split_street_text(
+            getattr(employee, 'private_street', '') or '',
+            getattr(employee, 'private_street2', '') or '')
+        country = getattr(employee, 'private_country_id', False)
+        if country and country.code != 'SK':
+            raise UserError(_('Review foreign residence and identification before exporting this employee.'))
+        return {'empty': False, 'rodne_cislo': rc, 'meno': first[:24],
+                'priezvisko': last[:36], 'ulica': street[:255], 'cislo': number[:20],
+                'psc': self._digits(getattr(employee, 'private_zip', '') or '')[:5],
+                'obec': (getattr(employee, 'private_city', '') or '')[:255],
+                'stat': 'Slovensko', 'kod_statu': '703'}
+
+    def _annual_settlement_column(self, line):
+        """Engine bridge hook: reviewed Part V values, or None for Part IV.
+
+        A computed RZD is not equivalent to a payment. An installed engine
+        must supply its own reviewed annual values rather than map monthly
+        tax to Part V's insurance fields. Fail on known RZD without a bridge.
+        """
+        if 'l10n.sk.tax.reconciliation' in self.env:
+            rec = self.env['l10n.sk.tax.reconciliation'].search([
+                ('company_id', '=', self.company_id.id),
+                ('employee_id', '=', line.employee_id.id),
+                ('year', '=', int(self.year)), ('state', 'in', ['computed', 'posted'])], limit=1)
+            if rec:
+                raise UserError(_('An annual settlement exists. Install its reviewed Hlásenie Part V bridge before exporting.'))
+        return None
+
+    def _build_part4_column(self, line):
+        col = self._annex_identity(line.employee_id)
         totals = line.values_json or {}
-        # Last word = surname, the rest = first name(s); separate first /
-        # last name fields win when hr_employee_firstname provides them.
-        meno, priezvisko = self._split_person_name(employee)
-        meno, priezvisko = meno[:24], priezvisko[:36]
-        ulica, cislo = split_street_text(
-            getattr(employee, "private_street", "") or "",
-            getattr(employee, "private_street2", "") or "")
-        income = abs(round(totals.get("GROSS", 0.0), 2))
-        advance = self._tax_advance_total(totals)
+        # The declaration adapter is the source of both the selected payroll
+        # and its historical versions; never use today's employee contract.
+        slips = self._get_period_payslips().filtered(lambda slip: slip.employee_id == line.employee_id)
+        months = set()
+        for slip in slips:
+            start, end = max(slip.date_from, self.date_from), min(slip.date_to, self.date_to)
+            if start <= end:
+                months.update(range(start.month, end.month + 1))
+        nczd = any(getattr(self._payslip_version(slip), 'l10n_sk_tax_declaration_signed', False)
+                   for slip in slips)
         bonus = abs(round(totals.get(BONUS_CODE, 0.0), 2))
-        premium = abs(round(totals.get(EMPLOYEE_PREMIUM_CODE, 0.0), 2))
-        return {
-            "empty": False,
-            "rodne_cislo": rc,          # c5rodneCislo (optInt)
-            "dopln_udaj": "0",          # c5doplnUdaj (only_0_1)
-            "priezvisko": priezvisko,
-            "meno": meno,
-            "ulica": ulica[:255],
-            "cislo": cislo[:20],
-            "psc": self._digits(getattr(employee, "private_zip", "") or "")[:5],
-            "obec": (getattr(employee, "private_city", "") or "")[:255],
-            "stat": "SK",
-            "r3a": "%.2f" % income,     # úhrn zdaniteľných príjmov
-            "r4a": "%.2f" % advance,    # úhrn zrazených preddavkov na daň
-            "r6": "%.2f" % premium,     # zamestnanecká prémia
-            "r8suma": "%.2f" % bonus,   # daňový bonus § 33
-        }
+        child_details = self._annual_child_bonus_details(line, bonus)
+        health = sum_concept(totals, 'HEALTH_EE') + sum_concept(totals, 'HEALTH_TOPUP')
+        # Like MVP, remove health from the misleadingly named payroll total:
+        # SOCIALEMPLOYEETOTAL includes BOTH employee social and health.
+        social = sum_concept(totals, 'SOCIAL_EE_TOTAL') - health
+        col.update({'r3a': '%.2f' % abs(totals.get('GROSS', 0)),
+                    'r5a': '%.2f' % abs(social), 'r5b': '%.2f' % abs(health),
+                    'r6': '%.2f' % self._tax_advance_total(totals),
+                    'r7suma': '0.00', 'r7deti': '0', 'r8ano': '1' if nczd else '0',
+                    'months': {str(n): '1' if (len(months) == 12 if n == 0 else n in months and len(months) != 12)
+                               else '0' for n in range(13)}})
+        col.update(child_details)
+        return col
+
+    def _annual_child_bonus_details(self, line, bonus):
+        """Cooperative adapter for documented child identities and months.
+
+        The numeric monthly bonus cannot identify children or distinguish
+        birth/age/parental entitlement periods. Keep that source validation
+        with the entitlement engine; the base exporter remains fail-closed.
+        """
+        if bonus:
+            raise UserError(_('Child bonus requires reviewed child identities and entitlement months in the annual annex.'))
+        return {}
 
     @staticmethod
     def _empty_annex_column():
-        """A blank trailing column (odd employee count). ``c5doplnUdaj`` is a
-        mandatory 0/1 flag; every other element is an optional type emitted as
-        an empty string (an explicit "" so QWeb keeps the element — a ``None``
-        value would drop it)."""
-        keys = ("rodne_cislo", "priezvisko", "meno", "ulica", "cislo", "psc",
-                "obec", "stat", "r3a", "r4a", "r6", "r8suma")
-        col = {k: "" for k in keys}
-        col["empty"] = True
-        col["dopln_udaj"] = "0"
-        return col
+        return {'empty': True, 'dopln_udaj': '0', 'r8ano': '0',
+                'months': {str(n): '0' for n in range(13)}}
+
+    def _paginate_annex(self, columns):
+        count = len(columns)
+        columns = list(columns)
+        if count % 2:
+            columns.append(self._empty_annex_column())
+        pages = [{'aktualna': str(n + 1), 'celkovo': str(len(columns) // 2),
+                  'col1': columns[2 * n], 'col2': columns[2 * n + 1]}
+                 for n in range(len(columns) // 2)]
+        return pages, count
+
+    def _build_annex_sections(self):
+        self.ensure_one()
+        part4, part5 = [], []
+        for line in self._sheet_lines().sorted('sequence'):
+            annual = self._annual_settlement_column(line)
+            if annual is None:
+                part4.append(self._build_part4_column(line))
+            else:
+                identity = self._annex_identity(line.employee_id)
+                identity.update(annual)
+                part5.append(identity)
+        pages4, count4 = self._paginate_annex(part4)
+        pages5, count5 = self._paginate_annex(part5)
+        return pages4, pages5, count4, count5
 
     def _build_annex_pages(self):
-        """Return ``(pages, employee_count)`` where each page is
-        ``{'aktualna', 'celkovo', 'col1', 'col2'}`` holding two annex columns."""
-        self.ensure_one()
-        columns = [
-            self._build_annex_column(line)
-            for line in self._sheet_lines().sorted("sequence")
-        ]
-        emp_count = len(columns)
-        # pad to an even number so every page has both columns
-        if emp_count % 2:
-            columns.append(self._empty_annex_column())
-        total_pages = len(columns) // 2
-        pages = []
-        for idx in range(total_pages):
-            pages.append({
-                "aktualna": str(idx + 1),
-                "celkovo": str(total_pages),
-                "col1": columns[2 * idx],
-                "col2": columns[2 * idx + 1],
-            })
-        return pages, emp_count
+        """Compatibility hook for consumers that specifically ask for Part V."""
+        _pages4, pages5, _count4, count5 = self._build_annex_sections()
+        return pages5, count5

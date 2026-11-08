@@ -924,12 +924,13 @@ class TestSkPayroll(TransactionCase):
         """Seed 12 monthly payslips, gather, and post the settlement (2026)."""
         for month in range(1, 13):
             last = 28 if month == 2 else 30
-            self._make_payslip(
+            source = self._make_payslip(
                 self.contract,
                 self.employee,
                 date(2026, month, 1),
                 date(2026, month, last),
             )
+            source.action_payslip_done()
         rz = self.env["l10n.sk.tax.reconciliation"].create(
             {
                 "employee_id": self.employee.id,
@@ -965,6 +966,7 @@ class TestSkPayroll(TransactionCase):
         rz.gather_from_payslips = False
         rz.annual_advance_tax = rz.annual_advance_tax + 50.0
         rz.settlement_payslip_id = settlement_slip.id
+        rz.action_compute()
         rz.action_post_settlement()
         self.assertTrue(rz.settlement_line_posted)
         self.assertEqual(rz.state, "posted")

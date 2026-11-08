@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_sk_hr_payroll_annual_tax_report
+# * l10n_sk_hr_payroll_annual_tax_report
 #
 msgid ""
 msgstr ""
@@ -8,11 +8,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: cs_CZ\n"
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__message_needaction
@@ -62,6 +62,8 @@ msgid ""
 "the annual tax reconciliation statement <dic> element. Set 'DIČ' on the "
 "company."
 msgstr ""
+"Společnost '%(company)s' potřebuje 10místné DIČ (daňové identifikační číslo)"
+" pro element <dic> hlásenia o vyúčtování daně. Nastavte 'DIČ' u společnosti."
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__correction_reference
@@ -119,18 +121,6 @@ msgid "Display Name"
 msgstr "Zobrazovaný název"
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
-#. odoo-python
-#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
-msgid ""
-"Employee '%(name)s' needs a 9-10 digit birth number in the Identification "
-"No. field for the annual tax reconciliation statement per-employee annex "
-"(Part V)."
-msgstr ""
-"Zaměstnanec '%(name)s' potřebuje v poli Identifikační číslo 9–10místné rodné"
-" číslo pro přílohu dokladu o ročním zúčtování daně za jednotlivé zaměstnance"
-" (V. oddíl)."
-
-#. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__line_ids
 msgid "Employee declarations"
 msgstr "Hlášení zaměstnanců"
@@ -178,7 +168,7 @@ msgstr "Má zprávu"
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__activity_exception_icon
@@ -421,3 +411,61 @@ msgstr "Příloha XML"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__year
 msgid "Year"
 msgstr "Rok"
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"An annual settlement exists. Install its reviewed Hlásenie Part V bridge "
+"before exporting."
+msgstr ""
+"Existuje roční zúčtování. Před exportem nainstalujte jeho ověřený most pro "
+"část V Hlásenia."
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"Child bonus requires reviewed child identities and entitlement months in the"
+" annual annex."
+msgstr ""
+"Daňový bonus vyžaduje v roční příloze ověřenou identitu dětí a měsíce "
+"nároku."
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"Employee '%(name)s' needs a 9-10 digit Slovak birth number for the annual "
+"tax annex."
+msgstr ""
+"Zaměstnanec '%(name)s' potřebuje pro roční daňovou přílohu slovenské rodné "
+"číslo s 9 až 10 číslicemi."
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"Review foreign residence and identification before exporting this employee."
+msgstr ""
+"Před exportem tohoto zaměstnance ověřte zahraniční pobyt a identifikační "
+"údaje."
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"The 2026 annual statement has a new statutory layout. Do not file rh2023 XML"
+" for 2026 or later; install a reviewed current form adapter."
+msgstr ""
+"Hlásenie za rok 2026 má nové předepsané uspořádání. Nepodávejte XML rh2023 "
+"za rok 2026 ani později; nainstalujte ověřený adaptér aktuálního formuláře."
+
+#~ msgid ""
+#~ "Employee '%(name)s' needs a 9-10 digit birth number in the Identification "
+#~ "No. field for the annual tax reconciliation statement per-employee annex "
+#~ "(Part V)."
+#~ msgstr ""
+#~ "Zaměstnanec '%(name)s' potřebuje v poli Identifikační číslo 9–10místné rodné"
+#~ " číslo pro přílohu dokladu o ročním zúčtování daně za jednotlivé zaměstnance"
+#~ " (V. oddíl)."

@@ -87,3 +87,4 @@ company prints the Czech ones. The user's language does not matter.
 - Quantities and unit prices are not printed; the amount is the entry total.
 - Every entry can be printed this way, including invoices and bills, although
   they already have an external document.
+- OCA's `account_move_print` is a generic "Journal Entry" printout and can be installed alongside.

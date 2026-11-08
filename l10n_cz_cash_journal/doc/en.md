@@ -147,3 +147,4 @@ and debts — and record any differences; use the printout as the form for that.
 - Row numbers follow Příloha č. 1 as the module knows it; check them against
   the current year's form.
 - The spreadsheet has no Czech grid sheet; use the PDF for the book layout.
+- Oddíl D row 9 *Mzdy* is read as unpaid wages (331). The form's instructions do not say whether it means the liability or the year's wage cost, and the two differ: confirm it with your accountant before filing.

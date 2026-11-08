@@ -8,3 +8,5 @@ family: l10n_cz_invoice#payment-mode
 Tiskne **platební režim** faktury (pole *Payment Mode*) pod nadpisem *Forma úhrady* v řádku s daty a platebními symboly české faktury — tam, kde ji český čtenář hledá. Nemá-li faktura platební režim nebo není-li společnost česká, netiskne se nic.
 
 Nainstaluje se sám, jsou-li nainstalovány česká faktura i platební režimy OCA (`account_payment_mode`), a nemá žádná nastavení.
+
+Hotovostní a kartové faktury lze uhradit už při potvrzení, viz [module:account_payment_mode_pay_on_post](module:account_payment_mode_pay_on_post).

@@ -169,3 +169,4 @@ nainštaluje automaticky.
   modul neaktualizuje.
 - Poskytovateľ sa zakladá automaticky len pri inštalácii a opísanou akciou.
   Meny aktivované neskôr sa do existujúceho poskytovateľa nepridajú.
+- V júni 2026 bol kanál Tatra banky za ochranou proti robotom, ktorá klientom mimo prehliadača odpovedá HTTP 403, takže plánované sťahovanie zo servera môže zlyhať, kým server túto ochranu neprejde.

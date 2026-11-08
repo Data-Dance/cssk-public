@@ -5,7 +5,7 @@ BOTH payroll engines. Detects whichever SK payroll engine is installed (the ``pa
 ``l10n_sk_hr_payroll_oca`` or the ``l10n_sk_hr_payroll`` EE engine), drives it
 to a full year of monthly payslips for two employees, generates the annual
 Hlásenie and validates the produced XML against the shipped ``rh2023.xsd`` —
-asserting the aggregate totals and a per-employee annex (Časť V) row match the
+asserting the aggregate totals and a per-employee annex (Časť IV) row match the
 summed payslips."""
 import base64
 import unittest
@@ -28,6 +28,10 @@ class TestHlasenie(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # The assertions match English messages; a database with Slovak
+        # loaded would otherwise raise them translated.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
+        cls.env.user.lang = "en_US"
         cls.engine = cls._detect_engine()
         if not cls.engine:
             raise unittest.SkipTest(
@@ -147,12 +151,13 @@ class TestHlasenie(TransactionCase):
             "company_id": self.company.id,
             "year": str(YEAR),
         })
-        self.assertTrue(decl.version_id, "Hlásenie version should default")
+        # The discontinued form need not default from today; generation resolves the selected historical period.
         self.assertEqual(decl.date_from, date(YEAR, 1, 1))
         self.assertEqual(decl.date_to, date(YEAR, 12, 31))
         decl.action_generate()
         self.assertEqual(decl.state, "generated")
         self.assertEqual(decl.lines_count, 2)
+        self.assertTrue(decl.version_id, "Generation must resolve the historical form edition")
 
         xml_bytes = base64.b64decode(decl.xml_attachment_id.datas)
         schema = etree.XMLSchema(etree.parse(
@@ -166,7 +171,7 @@ class TestHlasenie(TransactionCase):
         self.assertEqual(
             root.findtext("hlavicka/zdanovacieObdobie/rok"), str(YEAR))
         self.assertEqual(root.findtext("hlavicka/druhHlasenia/rh"), "1")
-        self.assertEqual(root.findtext("hlavicka/pocetZamC5"), "2")
+        self.assertEqual(root.findtext("hlavicka/pocetZamC4"), "2")
         # sídlo: the house number split off the street, never Street 2
         self.assertEqual(root.findtext("hlavicka/sidlo/ulica"), "Hlavna")
         self.assertEqual(root.findtext("hlavicka/sidlo/cislo"), "1")
@@ -179,22 +184,22 @@ class TestHlasenie(TransactionCase):
         self.assertAlmostEqual(
             float(root.findtext("telo/cast1/r04")), tax, 2)
 
-        # per-employee annex Časť V: exactly one page (two columns), and emp1's
+        # per-employee annex Časť IV: exactly one page (two columns), and emp1's
         # column carries emp1's annual income + withheld advance.
-        pages = root.findall("telo/cast5")
+        pages = root.findall("telo/cast4")
         self.assertEqual(len(pages), 1)
-        cols = (root.findall("telo/cast5/c5stlpec1")
-                + root.findall("telo/cast5/c5stlpec2"))
-        by_rc = {c.findtext("c5rodneCislo"): c for c in cols}
+        cols = (root.findall("telo/cast4/stlpec1")
+                + root.findall("telo/cast4/stlpec2"))
+        by_rc = {c.findtext("rodneCislo"): c for c in cols}
         self.assertIn("8501011234", by_rc)
         col1 = by_rc["8501011234"]
-        self.assertEqual(col1.findtext("c5ulica"), "Krátka")
-        self.assertEqual(col1.findtext("c5cislo"), "7/3")
+        self.assertEqual(col1.findtext("ulica"), "Krátka")
+        self.assertEqual(col1.findtext("cislo"), "7/3")
         self.assertAlmostEqual(
-            float(col1.findtext("c5r3a")),
+            float(col1.findtext("r3a")),
             abs(round(t1.get("GROSS", 0.0), 2)), 2)
         self.assertAlmostEqual(
-            float(col1.findtext("c5r4a")), self._advance(t1), 2)
+            float(col1.findtext("r6")), self._advance(t1), 2)
 
     def test_odd_employee_count_pads_with_empty_column(self):
         """A single employee still produces a valid page whose second column is
@@ -211,12 +216,12 @@ class TestHlasenie(TransactionCase):
             file_path("l10n_sk_hr_payroll_annual_tax_report/data/rh2023.xsd")))
         root = etree.fromstring(xml_bytes)
         schema.assertValid(root)
-        self.assertEqual(root.findtext("hlavicka/pocetZamC5"), "1")
-        self.assertEqual(len(root.findall("telo/cast5")), 1)
+        self.assertEqual(root.findtext("hlavicka/pocetZamC4"), "1")
+        self.assertEqual(len(root.findall("telo/cast4")), 1)
         # the filler column carries no birth number but a mandatory 0 flag
-        col2 = root.find("telo/cast5/c5stlpec2")
-        self.assertFalse((col2.findtext("c5rodneCislo") or "").strip())
-        self.assertEqual(col2.findtext("c5doplnUdaj"), "0")
+        col2 = root.find("telo/cast4/stlpec2")
+        self.assertFalse((col2.findtext("rodneCislo") or "").strip())
+        self.assertEqual(col2.findtext("r8ano"), "0")
 
     def test_missing_dic_raises(self):
         emp = self._create_employee("No Dic", "7705054567", 1600.0)
@@ -301,7 +306,7 @@ class TestHlasenie(TransactionCase):
     # ------------------------------------------------------------------
     # III. časť — bonus paid beyond the advances (2026-10-27)
     # ------------------------------------------------------------------
-    def test_bonus_beyond_the_advances_is_recapitulated(self):
+    def test_bonus_aggregate_and_missing_child_annex_guard(self):
         """r. 5 is capped at r. 4, so a bonus larger than the withheld advances
         was reported nowhere: III. časť (rA/rB/rC) was emitted empty. The
         poučenie: A = the whole bonus, B = the part paid from the advances,
@@ -317,7 +322,11 @@ class TestHlasenie(TransactionCase):
         self.assertGreater(bonus, advance,
                            "premise: the bonus exceeds the withheld advances")
         decl = self._hlasenie()
-        decl.action_generate()
+        with self.assertRaisesRegex(UserError, 'Child bonus requires'):
+            decl.action_generate()
+        from unittest.mock import patch
+        with patch.object(type(decl), '_build_annex_sections', return_value=([], [], 0, 0)):
+            decl.action_generate()
         root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
         etree.XMLSchema(etree.parse(file_path(
             "l10n_sk_hr_payroll_annual_tax_report/data/rh2023.xsd"))
@@ -343,10 +352,88 @@ class TestHlasenie(TransactionCase):
         decl = self._hlasenie()
         decl.action_generate()
         root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
-        col = root.find("telo/cast5/c5stlpec1")
-        self.assertEqual(col.findtext("c5meno"), "Ján Peter")
-        self.assertEqual(col.findtext("c5priezvisko"), "Novák")
+        col = root.find("telo/cast4/stlpec1")
+        self.assertEqual(col.findtext("meno"), "Ján Peter")
+        self.assertEqual(col.findtext("priezvisko"), "Novák")
 
+
+    def test_child_bridge_extends_the_real_employee_column(self):
+        emp = self._create_employee('Child bridge', '8501011234', 915)
+        emp.version_id.write({'l10n_sk_tax_declaration_signed': True, 'l10n_sk_children_under_15': 1})
+        totals = self._year_of_payslips(emp)
+        report = self._hlasenie()
+        data = report._collect_payslip_totals(report._get_period_payslips())
+        report._prepare_employee_declarations(data)
+        line = report._sheet_lines().filtered(lambda item: item.employee_id == emp)
+        with self.assertRaisesRegex(UserError, 'Child bonus requires'):
+            report._build_part4_column(line)
+        from unittest.mock import patch
+        reviewed = {'r7suma': '%.2f' % totals['CHILD_BONUS'], 'r7deti': '1',
+            'child_details': [{'name': 'Documented child', 'months': [9, 10, 11, 12]}]}
+        with patch.object(type(report), '_annual_child_bonus_details', return_value=reviewed) as adapter:
+            column = report._build_part4_column(line)
+        adapter.assert_called_once_with(line, abs(round(totals['CHILD_BONUS'], 2)))
+        self.assertEqual(column['child_details'], reviewed['child_details'])
+        self.assertEqual(column['r7deti'], '1')
+        self.assertEqual(column['r3a'], '%.2f' % abs(totals['GROSS']))
+
+    def test_part4_reports_insurance_separately_and_full_year_box(self):
+        emp = self._create_employee('SYNTHETIC No RZD', '8501011234', 2000)
+        totals = self._year_of_payslips(emp)
+        report = self._hlasenie()
+        report.action_generate()
+        root = etree.fromstring(base64.b64decode(report.xml_attachment_id.datas))
+        col = root.find('telo/cast4/stlpec1')
+        self.assertEqual(col.findtext('r4/box00'), '1')
+        self.assertTrue(all(col.findtext('r4/box%02d' % n) == '0' for n in range(1, 13)))
+        self.assertAlmostEqual(float(col.findtext('r5a')), abs(totals['SOCIALEMPLOYEETOTAL']) - abs(totals['HEALTH']) - abs(totals.get('HEALTHDOPLATOK', 0)))
+        self.assertAlmostEqual(float(col.findtext('r5b')), abs(totals['HEALTH']))
+        self.assertAlmostEqual(float(col.findtext('r6')), self._advance(totals))
+        self.assertFalse(root.findall('telo/cast5'))
+
+    def test_mixed_annual_bridge_is_partitioned_and_paginated_independently(self):
+        from unittest.mock import patch
+        first = self._create_employee('SYNTHETIC No RZD', '8501011234', 2000)
+        second = self._create_employee('SYNTHETIC Has RZD', '9002022345', 1500)
+        self._year_of_payslips(first)
+        self._year_of_payslips(second)
+        report = self._hlasenie()
+        def bridge(record, line):
+            if line.employee_id == first:
+                return None
+            # A reviewed engine adapter supplies these statutory Part V values.
+            return {'dopln_udaj': '0', 'r3a': '20000.00', 'r3b': '18000.00',
+                    'r4a': '1500.00', 'r4b': '800.00', 'r5': '5753.79',
+                    'r6': '2000.00', 'r7suma': '0.00', 'r7sumaDds': '180.00',
+                    'r8suma': '0.00', 'r8deti': '0', 'r10': '0.00',
+                    'completed_on': '12.03.2026'}
+        with patch.object(type(report), '_annual_settlement_column', bridge):
+            report.action_generate()
+        root = etree.fromstring(base64.b64decode(report.xml_attachment_id.datas))
+        for part in ('4', '5'):
+            self.assertEqual(root.findtext('hlavicka/pocetZamC' + part), '1')
+            self.assertEqual(root.findtext('hlavicka/pocetStranC' + part), '1')
+        self.assertEqual(root.findtext('telo/cast4/stlpec1/rodneCislo'), '8501011234')
+        self.assertEqual(root.findtext('telo/cast5/c5stlpec1/c5rodneCislo'), '9002022345')
+        self.assertEqual(root.findtext('telo/cast5/c5stlpec1/c5r4a'), '1500.00')
+        self.assertEqual(root.findtext('telo/cast5/c5stlpec1/c5r6'), '2000.00')
+        self.assertEqual(root.findtext('hlavicka/datumZuctovania'), '12.03.2026')
+
+    def test_unknown_annual_engine_bridge_fails_on_existing_rzd(self):
+        if 'l10n.sk.tax.reconciliation' not in self.env:
+            self.skipTest('The selected engine does not expose RZD')
+        emp = self._seed_year()
+        rec = self.env['l10n.sk.tax.reconciliation'].create({
+            'company_id': self.company.id, 'employee_id': emp.id, 'year': YEAR})
+        rec.action_compute()
+        with self.assertRaises(UserError):
+            self._hlasenie().action_generate()
+
+    def test_old_xml_is_not_current_for_the_new2026_layout(self):
+        report = self._hlasenie(year='2026', version_id=self.env.ref(
+            'l10n_sk_hr_payroll_annual_tax_report.hlasenie_version_2023').id)
+        with self.assertRaisesRegex(UserError, 'new statutory layout'):
+            report._preflight()
 
 @tagged("post_install", "-at_install")
 class TestSchemaPins(TransactionCase):

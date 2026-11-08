@@ -160,3 +160,4 @@ electronically.
   inventarizácia stays editable — *Ukončená* locks nothing.
 - No differences are posted; the manká, prebytky and adjustments to valuation
   are entered by the accountant from the zápis.
+- The asset protocols (*zaraďovací* / *vyraďovací*) are not part of this module: they are in [module:l10n_sk_asset_protocol_base](module:l10n_sk_asset_protocol_base), which needs the asset register.

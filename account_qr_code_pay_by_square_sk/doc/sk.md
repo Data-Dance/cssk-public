@@ -17,6 +17,8 @@ akým Odoo pre každú faktúru vyberá formát — opisuje modul
 [module:account_qr_code_frame_provider](module:account_qr_code_frame_provider),
 ktorý sa nainštaluje spolu s týmto modulom.
 
+Kód sa generuje offline priamo na vašom serveri; žiadna externá služba sa nevolá.
+
 ## Nastavenie {#setup}
 
 1. Zapnite *QR kódy* v *Účtovníctvo → Konfigurácia → Nastavenia* — pozri

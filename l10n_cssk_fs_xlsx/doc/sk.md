@@ -8,3 +8,5 @@ family: l10n_cssk_fs_base#xlsx
 Pridá na každý účtovný výkaz, ktorý nie je v stave Návrh, tlačidlo **Export do XLSX**. Zošit obsahuje každý riadok s brutto, korekciou, netto a netto predchádzajúceho obdobia a pod každým riadkom počítaným z účtov účty, z ktorých sa skladá, s ich vlastnými podielmi; slovenská Úč POD má samostatný hárok pre súvahu a pre výkaz ziskov a strát.
 
 Nainštaluje sa sám, keď je nainštalovaný mechanizmus účtovných výkazov aj modul excelových výkazov `report_xlsx`, a nemá žiadne nastavenia.
+
+Údaje sú uložené riadky výkazu vrátane ručných úprav. Ak sa účtovníctvo zmenilo, výkaz najprv prepočítajte.

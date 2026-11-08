@@ -4,3 +4,4 @@ from . import test_sk_dovolenka_accrual
 from . import test_sk_obstacle_quota
 from . import test_payslip_company_rules
 from . import test_rules_shared
+from . import test_rzd_sources

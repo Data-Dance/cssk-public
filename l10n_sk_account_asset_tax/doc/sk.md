@@ -67,3 +67,4 @@ aktualizácii modulu nahrajú znova, takže ručné zmeny aktualizáciu nepreži
 - V čom sa plán od zákona odchyľuje alebo čo nepokrýva — rok vyradenia,
   osobné automobily od 48 000 eur, odpisovanie mikrodaňovníka —, uvádza
   [návode k daňovým odpisom](module:account_asset_tax#limitations).
+- Nehmotný majetok nemá odpisovú skupinu: zákon zaraďuje len hmotný majetok, preto je prázdna skupina pri nehmotnom majetku správna a konečná.

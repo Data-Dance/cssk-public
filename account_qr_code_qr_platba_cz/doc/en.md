@@ -18,6 +18,8 @@ how Odoo picks a format for each invoice — is described in
 [module:account_qr_code_frame_provider](module:account_qr_code_frame_provider),
 installed with this module.
 
+The code is generated offline, entirely on your server; no external service is called.
+
 ## Setting it up {#setup}
 
 1. Switch on *QR Codes* in *Accounting → Configuration → Settings* — see

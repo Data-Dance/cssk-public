@@ -1,7 +1,6 @@
-# Czech EET 2.0 — POS gift cards and eWallets (`l10n_cz_eet2_pos_loyalty`)
+# l10n_cz_eet2_pos_loyalty: developer notes
 
-Bridge between `l10n_cz_eet2_pos` and `pos_loyalty`. Installs itself when both
-are present. Odoo 19.0.
+Not user documentation: this file is not rendered into a page.
 
 ## Why
 A gift card or eWallet is a *prostředek k platbě v omezené síti*
@@ -31,6 +30,3 @@ existed).
 A *voucher for one specific good or service* (FS Q&A 585, type 2) is not a
 limited-network instrument: its sale is a plain sale and its redemption is not a
 payment. Model such vouchers as ordinary products, not as gift cards.
-
-## Configuration
-None. Amounts follow the base module's CZK conversion.

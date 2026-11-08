@@ -8,6 +8,10 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.21.1 (2026-11-08), not yet on 18.0:** the RZD reads only
+  confirmed payslips of its own company, keyed by period end
+  (cssk-public#20). On 18.0 the confirmed state is ``done`` as well; port
+  ``tests/test_rzd_sources.py`` with ``contract_id`` for the version.
 - **19.0.1.21.0 (2026-11-08), not yet on 18.0:** the pensioner NČZD in
   the RZD (§ 11 ods. 6). On 18.0 the field goes on ``hr.contract`` and the
   RZD reads the contract running on 1 January.
@@ -21,6 +25,21 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.21.1] — 2026-11-08
+==========================
+
+Fixed
+~~~~~
+
+- **The annual tax reconciliation reads only confirmed payslips of its own
+  company.** It took every payslip of the employee that was not cancelled,
+  in any company, so draft and waiting calculations and another company's
+  payroll entered the annual income, insurance and withheld tax. It now
+  reads the payslips the payroll declarations read: confirmed (``done``)
+  payslips of the reconciliation's company, by the year their period ends
+  in, so a payslip that crosses the year boundary counts once. Contributed
+  by votrelec (cssk-public#20).
 
 [19.0.1.21.0] — 2026-11-08
 ==========================

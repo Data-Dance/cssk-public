@@ -1,7 +1,7 @@
 ---
 title: SK Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti
 summary: Ročné hlásenie zamestnávateľa o príjmoch zo závislej činnosti, zrazených preddavkoch na daň a daňovom bonuse, s údajmi o každom zamestnancovi, zostavené z výplatných pások roka ako XML pre finančnú správu.
-verified: 19.0.2.0.4
+verified: 19.0.2.1.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -63,7 +63,7 @@ Odkazy sú na [zákon o dani z príjmov](law:sk/2003/595).
 1. Zvoľte **Rok**. Obdobím je vždy 1. január až 31. december.
 2. **Typ opravy** nechajte na *Regular* (riadne hlásenie).
 3. Kliknite na **Generovať**. Modul zoberie všetky nezrušené výplatné pásky
-   spoločnosti, ktorých obdobie leží v danom roku — **vrátane konceptov** —,
+   spoločnosti, ktorých obdobie leží v danom roku — **iba potvrdené pásky** —,
    pre každého zamestnanca vytvorí stĺpec prílohy, vykreslí XML a overí ho
    voči oficiálnej schéme `rh2023.xsd`. Ak niektorému zamestnancovi chýba
    rodné číslo, chyba ho menuje a nič sa nevygeneruje.
@@ -72,36 +72,34 @@ Odkazy sú na [zákon o dani z príjmov](law:sk/2003/595).
 5. Po podaní kliknite na **Označiť ako odoslané**; podaná kópia sa uchová a
    záznam sa uzamkne. *Vrátiť do konceptu* ho odomkne.
 
-## Čo sa vyplní do tlačiva {#mapping}
+## Prílohy a overený rozsah {#mapping}
 
-**I. časť (súhrn za zamestnávateľa):**
 
-| Riadok | Čím sa vyplní |
-|---|---|
-| r. 00 | súčet `GROSS` za rok |
-| r. 01 | zrazený preddavok pred bonusom: `INCOMETAX19` + `INCOMETAX25` pri Enterprise, `INCOMETAX` pri jadre OCA |
-| r. 04 | rovná sa r. 01 (r. 02 a 03 zostanú prázdne) |
-| r. 05 | súčet `CHILD_BONUS`, najviac do výšky r. 04 |
-| r. 06 | zamestnanecká prémia — vždy 0,00, žiadne mzdové pravidlo ju nevytvára |
+Verzia 19.0.2.1.0, 7.11.2026. Používa nezmenenú priloženú XSD rh2023;
+nejde o potvrdenie nového ročníka formulára ani prijatia úradom.
 
-**III. časť (rekapitulácia daňového bonusu):**
+Bez vykonaného RZD patrí zamestnanec do časti IV. Časť V obsahuje údaje RZD:
+celkový príjem zo všetkých zamestnávateľov a osobitne príjem tohto zamestnávateľa,
+sociálne a zdravotné poistné, nezdaniteľné časti a preddavky. Riadky r4a/r4b
+nie sú daň; preddavok patrí do r6. Pôvodný export dával všetkých do časti V.
 
-| Riadok | Čím sa vyplní |
-|---|---|
-| r. A | celý daňový bonus vyplatený za rok (súčet `CHILD_BONUS`) |
-| r. B | časť vyplatená z úhrnu zrazených preddavkov — rovná sa r. 05 |
-| r. C | r. A − r. B: bonus vyplatený z vlastných prostriedkov zamestnávateľa, lebo prevýšil preddavky |
+Samotný formulárový modul neimplementuje druhý mzdový výpočet. Most
+`_annual_settlement_column(line)` vráti None pre časť IV alebo overené údaje
+časti V a `completed_on` vo formáte DD.MM.RRRR. Známe vypočítané/naviazané RZD
+bez mosta export zastaví. Vykonanie RZD nie je jeho následná výplata.
 
-**V. časť (za každého zamestnanca), dvaja zamestnanci na stranu:** rodné
-číslo, meno, súkromná adresa, štát `SK`, zdaniteľné príjmy (r. 3a, z `GROSS`),
-zrazené preddavky (r. 4a), zamestnanecká prémia (r. 6) a vyplatený daňový
-bonus (r. 8). Pri nepárnom počte zamestnancov má posledná strana druhý stĺpec
-prázdny.
+Časti IV/V sa počítajú a stránkujú samostatne. Mesiace vychádzajú z vybraných
+pások a ich historických verzií. Priradenie podľa skutočnej výplaty a daňového
+roka musí zabezpečiť mzdový adaptér; dátum pásky sám nedokazuje výplatu.
+Daňový bonus bez identít detí a mesiacov nároku ani zahraničný pobyt sa nesmú
+potichu vynechať: vyžadujú doplnený adaptér.
 
-IV. časť sa nevypĺňa nikdy: všetci zamestnanci idú do V. časti. II. časť,
-riadky D až F III. časti, ostatné riadky I. časti, počet detí pri zamestnancovi a počty a sumy
-daňového bonusu na zaplatené úroky (§ 33a) a príspevku na rekreáciu v hlavičke
-zostanú prázdne.
+Právny podklad: poučenie FS k HLASENIEv23, časti IV/V:
+https://pfseform.financnasprava.sk/Formulare/Poucenia/HLASENIEv23-poucenie.pdf
+
+Testy overujú OCA, XML/XSD, rozdelenie a význam riadkov. Beh OCA sa nevydáva
+za otestovanie Enterprise. Zmiešaný komponentový test používa vzor overeného
+mosta; reálne ročné údaje musí dodať implementácia konkrétneho mzdového jadra.
 
 ## Opravy {#corrections}
 
@@ -111,33 +109,30 @@ hlásenie nevygeneruje, kým nie je riadne hlásenie označené ako odoslané �
 však [Obmedzenia](#limitations): pôvodné hlásenie dnes hľadá len v **tom istom
 mesiaci**, v ktorom bol nový záznam vytvorený.
 
-## Obmedzenia {#limitations}
+## Platnosť ročníka formulára {#form-edition-cutoff}
 
-- **Sumy pred podaním skontrolujte.** Kontrola voči schéme overí tvar súboru,
-  nie sumy. Žiadne hlásenie z tohto modulu zatiaľ nebolo overené skutočným
-  podaním; prvé odsúhlaste ručne a význam stĺpcov porovnajte s aktuálnym
-  poučením na vyplnenie hlásenia za príslušný rok.
-- **Dvojslovné priezviská.** Bez samostatných polí pre meno sa za priezvisko
-  berie len posledné slovo; pri zamestnancovi s dvojslovným priezviskom
-  skontrolujte V. časť.
-- **Riadok 5 a III. časť sa obmedzujú na ročné úhrny.** Riadok 5 je menšia
-  z dvoch súm: ročný bonus a riadok 4. Ak v niektorých mesiacoch bonus prevýšil
-  preddavky daného mesiaca a rozdiel ste si nárokovali v mesačných prehľadoch
-  namiesto neskoršieho započítania, pred podaním porovnajte riadky 5 a C so
-  svojimi mesačnými prehľadmi.
-- Štát v prílohe je vždy `SK`; daňovníci s pobytom v zahraničí a príjmy
-  zdaňované zrážkovou daňou sa osobitne nerozlišujú.
-- **Ročné zúčtovanie sa nevykazuje.** Riadky pre jeho výsledky, počet detí pri
-  zamestnancovi, poistné a nezdaniteľné časti základu dane zostanú prázdne.
-- **Započítavajú sa aj koncepty** výplatných pások a pásky sa vyberajú podľa
-  obdobia, nie podľa dňa výplaty.
-- **Opravné a dodatočné hlásenie a mesiac.** Opravné alebo dodatočné hlásenie
-  nájde pôvodné len vtedy, ak bolo vytvorené v tom istom kalendárnom mesiaci
-  ako odoslané riadne hlásenie; inak generovanie skončí hlásením „There is no
-  submitted … to amend“. Dátum zistenia dôvodov na podanie dodatočného
-  hlásenia zostane prázdny.
-- Element právnej formy v hlavičke: *Právna forma* zapísaná na kontakte spoločnosti modulom `l10n_sk_trade_registry`; bez tohto modulu alebo pri prázdnom poli zostáva element prázdny.
-- Dodáva sa len vzor 2023. Overte, že ho finančná správa za rok, ktorý
-  podávate, stále prijíma.
-- Úradu sa nič neposiela: *Označiť ako odoslané* len zaznamená, že ste
-  hlásenie podali.
+Verzia 19.0.2.1.1 obmedzuje rh2023 / HLASENIEv23 na daňové roky do 2025
+vrátane; existujúce záznamy upraví upgrade migrácia. Export za 2026 a neskôr
+sa zastaví. Predpísaný vzor 2026 mení význam riadkov časti V; úspešná kontrola
+starou XSD preto nepreukazuje správnosť nového podania. Pred podaním treba
+overený adaptér aktuálneho formulára, ktorý tento modul zatiaľ nedodáva.
+
+Bez ďalších mostov export dnes podporuje iba zamestnancov, ktorým tento
+zamestnávateľ nevykonal RZD a nevyplatil daňový bonus na dieťa, za daňové roky
+do 2025. Existujúce RZD vyžaduje most časti V; každý bonus na dieťa potrebuje
+evidenciu identity/mesiacov a výstup detskej prílohy. Väčšina reálnych
+zamestnávateľov preto potrebuje ďalšie adaptéry aj pri opravných a dodatočných
+podaniach za historické roky.
+
+Zdroj: https://www.mfsr.sk/files/archiv/75/HLASENIEv26-v1.2.pdf
+
+## Most evidencie nárokov na deti {#child-entitlement-bridge}
+
+`_annual_child_bonus_details(line, bonus)` rozširuje skutočný zamestnanecký
+stĺpec časti IV. Evidencia nárokov môže odovzdať overené identity a mesiace detí
+bez kopírovania výpočtu príjmov, poistného a preddavkov. Výsledok sa pripojí
+k stĺpcu; evidencia musí zabezpečiť aj overený výstup príloh detí. Základná
+implementácia naďalej odmietne nenulový bonus bez podkladov detí. Tento hook
+nedodáva výpočet nárokov ani nový ročník formulára. Izolovane prešlo 17 testov
+vrátane pôvodného odmietnutia a mosta cez skutočnú metódu stĺpca zamestnanca.
+

@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 22:27+0000\n"
-"PO-Revision-Date: 2026-10-27 22:27+0000\n"
+"POT-Creation-Date: 2026-11-07 20:43+0000\n"
+"PO-Revision-Date: 2026-11-07 20:43+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -41,6 +41,14 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"An annual settlement exists. Install its reviewed Hlásenie Part V bridge "
+"before exporting."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.actions.act_window,name:l10n_sk_hr_payroll_annual_tax_report.action_l10n_sk_hlasenie
 msgid "Annual tax reconciliation statement"
 msgstr ""
@@ -48,6 +56,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"Child bonus requires reviewed child identities and entitlement months in the"
+" annual annex."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
@@ -123,9 +139,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
 msgid ""
-"Employee '%(name)s' needs a 9-10 digit birth number in the Identification "
-"No. field for the annual tax reconciliation statement per-employee annex "
-"(Part V)."
+"Employee '%(name)s' needs a 9-10 digit Slovak birth number for the annual "
+"tax annex."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
@@ -317,6 +332,13 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"Review foreign residence and identification before exporting this employee."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.ui.menu,name:l10n_sk_hr_payroll_annual_tax_report.menu_l10n_sk_hlasenie
 msgid "SK annual tax reconciliation statement"
 msgstr ""
@@ -363,6 +385,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_annual_tax_report
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_annual_tax_report.field_l10n_sk_hlasenie__is_correction
 msgid "Technical: true for anything that amends an earlier filing."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_annual_tax_report
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_annual_tax_report/models/l10n_sk_hlasenie.py:0
+msgid ""
+"The 2026 annual statement has a new statutory layout. Do not file rh2023 XML"
+" for 2026 or later; install a reviewed current form adapter."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_annual_tax_report

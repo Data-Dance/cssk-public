@@ -175,3 +175,4 @@ automatically.
 - A provider is created automatically only on installation and by the action
   described above. Currencies activated later are not added to an existing
   provider.
+- In June 2026 Tatra banka's feed sat behind a bot challenge that answers HTTP 403 to non-browser clients, so a scheduled fetch from a server can fail until the host can pass it.

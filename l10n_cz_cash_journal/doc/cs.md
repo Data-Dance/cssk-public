@@ -145,3 +145,4 @@ případné rozdíly; výtisk slouží jako formulář k tomu.
   tiskopisu pro příslušný rok.
 - Tabulka XLSX nemá list s českým uspořádáním; uspořádání deníku poskytuje
   PDF.
+- Oddíl D, řádek 9 *Mzdy* se čte jako nevyplacené mzdy (331). Pokyny k tiskopisu neříkají, zda jde o závazek, nebo o mzdové náklady roku, a to se liší: před podáním to ověřte s účetním.

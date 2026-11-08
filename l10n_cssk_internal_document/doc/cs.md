@@ -78,3 +78,4 @@ jiná české. Jazyk uživatele nerozhoduje.
 - Množství a jednotková cena se netisknou; peněžní částka je součet záznamu.
 - Takto lze vytisknout každý záznam včetně faktur, ačkoli ty již externí doklad
   mají.
+- Modul OCA `account_move_print` tiskne obecný „Journal Entry“ a lze jej nainstalovat současně.

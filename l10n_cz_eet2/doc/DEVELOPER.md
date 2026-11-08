@@ -1,19 +1,6 @@
-# Czech EET 2.0 for Odoo (`l10n_cz_eet2`)
+# l10n_cz_eet2: developer notes
 
-Sends registered-sale data messages to the Czech **EET 2.0** system
-(Elektronická evidence tržeb), data-interface **v4.1**, over SOAP + WS-Security.
-
-Target: **Odoo 19.0**. Depends only on `cryptography`, `lxml`, `requests`
-(no `zeep`/`signxml` needed — the WS-Security signature is built directly).
-
-## Status
-- **`lib/eet2_client.py`** — pure-Python client (build ▸ sign ▸ send ▸ parse).
-  **Proven end-to-end against the live government playground**
-  (`https://pg.trzbyeet.gov.cz/.../v4`): a production-mode message is accepted and
-  returns a POK ending in `-ff` (the playground fictitious marker); a bad
-  signature would return error `kod=4`.
-- Odoo layer: certificate store, company config, a "message" model with a
-  **Send to EET** button, security groups, views, settings.
+Not user documentation: this file is not rendered into a page.
 
 ## Signature profile (spec §5.2, all mandatory)
 Sign **only** `<soapenv:Body>` · digest **SHA-256** · signature **RSA-SHA256** ·
@@ -117,14 +104,3 @@ dependency:
   POK), waiting at most the company's *Response Time Limit* (mezní doba odezvy,
   § 19 ZoET, default 5 s, at least 2 s) and falls back to the cron on failure;
   `account.payment` enqueues and lets the cron send (posting stays fast).
-
-## POS layer
-`l10n_cz_eet2_pos` (separate module, depends on this + `point_of_sale`) registers
-contact-payment POS orders and prints the POK on the receipt via a **synchronous
-send during payment validation**.
-
-## Not yet done (next layers)
-- EET OFF opt-out and the pověření / zastoupení fields have no UI beyond the
-  message form.
-
-The full verified spec notes are kept in the project's internal EET 2.0 notes.

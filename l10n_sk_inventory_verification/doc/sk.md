@@ -155,3 +155,4 @@ elektronicky.
   inventarizácia zostáva upraviteľná — stav *Ukončená* nič nezamyká.
 - Rozdiely sa nezaúčtujú; manká, prebytky a úpravy ocenenia zaúčtuje
   účtovník podľa zápisu.
+- Protokoly o zaradení a vyradení majetku nie sú súčasťou tohto modulu: sú v module [module:l10n_sk_asset_protocol_base](module:l10n_sk_asset_protocol_base), ktorý potrebuje register majetku.

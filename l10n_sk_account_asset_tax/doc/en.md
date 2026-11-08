@@ -68,3 +68,4 @@ module is updated, so changes made by hand do not survive an update.
   disposal year, cars from 48 000 €, the micro-taxpayer regime — is listed in
   the
   [tax depreciation guide](module:account_asset_tax#limitations).
+- Intangible assets have no depreciation group: the Act classifies only tangible assets, so an empty group on an intangible asset is correct and final.

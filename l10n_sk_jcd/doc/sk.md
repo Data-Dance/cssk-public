@@ -148,3 +148,4 @@ daňových značiek slovenskej účtovej osnovy Odoo:
 - Ide len o účtovný doklad: colnému orgánu sa nič nepodáva.
 - Predvolený základ dane a priradenie účtov sú východiskom a treba ich
   odsúhlasiť s účtovníkom.
+- Modul nič nepodáva colnému orgánu a nemá napojenie na eCustoms ani eDovoz.
