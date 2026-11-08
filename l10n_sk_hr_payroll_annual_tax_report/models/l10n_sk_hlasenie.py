@@ -253,8 +253,7 @@ class L10nSkHlasenie(models.Model):
         nczd = any(getattr(self._payslip_version(slip), 'l10n_sk_tax_declaration_signed', False)
                    for slip in slips)
         bonus = abs(round(totals.get(BONUS_CODE, 0.0), 2))
-        if bonus:
-            raise UserError(_('Child bonus requires reviewed child identities and entitlement months in the annual annex.'))
+        child_details = self._annual_child_bonus_details(line, bonus)
         health = sum_concept(totals, 'HEALTH_EE') + sum_concept(totals, 'HEALTH_TOPUP')
         # Like MVP, remove health from the misleadingly named payroll total:
         # SOCIALEMPLOYEETOTAL includes BOTH employee social and health.
@@ -265,7 +264,19 @@ class L10nSkHlasenie(models.Model):
                     'r7suma': '0.00', 'r7deti': '0', 'r8ano': '1' if nczd else '0',
                     'months': {str(n): '1' if (len(months) == 12 if n == 0 else n in months and len(months) != 12)
                                else '0' for n in range(13)}})
+        col.update(child_details)
         return col
+
+    def _annual_child_bonus_details(self, line, bonus):
+        """Cooperative adapter for documented child identities and months.
+
+        The numeric monthly bonus cannot identify children or distinguish
+        birth/age/parental entitlement periods. Keep that source validation
+        with the entitlement engine; the base exporter remains fail-closed.
+        """
+        if bonus:
+            raise UserError(_('Child bonus requires reviewed child identities and entitlement months in the annual annex.'))
+        return {}
 
     @staticmethod
     def _empty_annex_column():

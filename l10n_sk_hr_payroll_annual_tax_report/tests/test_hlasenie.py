@@ -353,6 +353,26 @@ class TestHlasenie(TransactionCase):
         self.assertEqual(col.findtext("priezvisko"), "Novák")
 
 
+    def test_child_bridge_extends_the_real_employee_column(self):
+        emp = self._create_employee('Child bridge', '8501011234', 915)
+        emp.version_id.write({'l10n_sk_tax_declaration_signed': True, 'l10n_sk_children_under_15': 1})
+        totals = self._year_of_payslips(emp)
+        report = self._hlasenie()
+        data = report._collect_payslip_totals(report._get_period_payslips())
+        report._prepare_employee_declarations(data)
+        line = report._sheet_lines().filtered(lambda item: item.employee_id == emp)
+        with self.assertRaisesRegex(UserError, 'Child bonus requires'):
+            report._build_part4_column(line)
+        from unittest.mock import patch
+        reviewed = {'r7suma': '%.2f' % totals['CHILD_BONUS'], 'r7deti': '1',
+            'child_details': [{'name': 'Documented child', 'months': [9, 10, 11, 12]}]}
+        with patch.object(type(report), '_annual_child_bonus_details', return_value=reviewed) as adapter:
+            column = report._build_part4_column(line)
+        adapter.assert_called_once_with(line, abs(round(totals['CHILD_BONUS'], 2)))
+        self.assertEqual(column['child_details'], reviewed['child_details'])
+        self.assertEqual(column['r7deti'], '1')
+        self.assertEqual(column['r3a'], '%.2f' % abs(totals['GROSS']))
+
     def test_part4_reports_insurance_separately_and_full_year_box(self):
         emp = self._create_employee('SYNTHETIC No RZD', '8501011234', 2000)
         totals = self._year_of_payslips(emp)

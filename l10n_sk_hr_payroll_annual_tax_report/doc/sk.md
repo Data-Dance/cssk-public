@@ -119,3 +119,13 @@ overený adaptér aktuálneho formulára, ktorý tento modul zatiaľ nedodáva.
 
 Zdroj: https://www.mfsr.sk/files/archiv/75/HLASENIEv26-v1.2.pdf
 
+## Most evidencie nárokov na deti
+
+`_annual_child_bonus_details(line, bonus)` rozširuje skutočný zamestnanecký
+stĺpec časti IV. Evidencia nárokov môže odovzdať overené identity a mesiace detí
+bez kopírovania výpočtu príjmov, poistného a preddavkov. Výsledok sa pripojí
+k stĺpcu; evidencia musí zabezpečiť aj overený výstup príloh detí. Základná
+implementácia naďalej odmietne nenulový bonus bez podkladov detí. Tento hook
+nedodáva výpočet nárokov ani nový ročník formulára. Izolovane prešlo 17 testov
+vrátane pôvodného odmietnutia a mosta cez skutočnú metódu stĺpca zamestnanca.
+

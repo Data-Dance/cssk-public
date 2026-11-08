@@ -127,3 +127,14 @@ current form adapter before filing. This module does not yet supply that adapter
 
 Source: https://www.mfsr.sk/files/archiv/75/HLASENIEv26-v1.2.pdf
 
+## Child entitlement engine bridge
+
+`_annual_child_bonus_details(line, bonus)` extends the actual Part IV employee
+column. An entitlement engine can supply reviewed child identities and months
+without copying the income/insurance/advance calculation. Its result is merged
+into that column; it must also provide its reviewed output adapter for child
+annexes. The default implementation still refuses a nonzero bonus without
+child evidence. This extension point does not supply an entitlement calculator
+or a new statutory form edition. Isolated module tests: 17 passing, including
+the unchanged refusal and a bridge through the real employee-column method.
+

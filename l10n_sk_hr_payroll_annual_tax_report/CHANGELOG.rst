@@ -1,3 +1,11 @@
+19.0.2.1.1 (2026-11-08)
+~~~~~~~~~~~~~~~~~~~~~~
+
+* Expose a cooperative child-details bridge on the actual Part IV column.
+  Default source validation is retained; this is an extension point, not
+  an implementation of the annual child entitlement calculator or 2026 form.
+* Restrict the bundled rh2023 edition to 2025 and earlier, including upgrades.
+
 19.0.2.1.0 (2026-11-07)
 ~~~~~~~~~~~~~~~~~~~~~~
 
