@@ -20,6 +20,22 @@ class HrVersion(models.Model):
         tracking=True,
     )
 
+    l10n_sk_nczd_pension_annual = fields.Monetary(
+        string="Pension at 1 January (yearly)",
+        currency_field="currency_id",
+        help="For the annual tax reconciliation (§ 11 ods. 6 ZDP): the yearly "
+        "amount, 13th pension included, of an old-age, early old-age or "
+        "service pension, a compensatory supplement, or a foreign pension of "
+        "the same kind, that the employee was drawing at the start of the tax "
+        "year (or was granted back to it). The taxpayer's NČZD is reduced by "
+        "it, to nothing when the pension is higher. Disability, widow's and "
+        "orphan's pensions do not count. Leave empty when there is no such "
+        "pension. The monthly advances are not affected (§ 35 ods. 1 "
+        "písm. b)).",
+        groups="payroll.group_payroll_user",
+        tracking=True,
+    )
+
     # --- Child tax bonus ----------------------------------------------------
     l10n_sk_children_under_15 = fields.Integer(
         string="Children < 15y (tax bonus)",
@@ -308,6 +324,12 @@ class HrVersion(models.Model):
         tracking=True,
     )
 
+    @api.constrains("l10n_sk_nczd_pension_annual")
+    def _check_l10n_sk_nczd_pension_annual(self):
+        for version in self:
+            if version.l10n_sk_nczd_pension_annual < 0:
+                raise UserError(_("The pension at 1 January cannot be negative."))
+
     @api.model
     def _get_whitelist_fields_from_template(self):
         """Allow the Slovak payroll fields to be copied from a contract template.
@@ -318,6 +340,7 @@ class HrVersion(models.Model):
         whitelisted_fields = super()._get_whitelist_fields_from_template() or []
         whitelisted_fields += [
             "l10n_sk_tax_declaration_signed",
+            "l10n_sk_nczd_pension_annual",
             "l10n_sk_children_under_15",
             "l10n_sk_children_15_18",
             "l10n_sk_ztp",

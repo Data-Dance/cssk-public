@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_sk_hr_payroll_oca
+# 	* l10n_sk_hr_payroll_oca
 #
 msgid ""
 msgstr ""
@@ -8,11 +8,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: cs_CZ\n"
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value
@@ -401,7 +401,7 @@ msgstr "Zaměstnanec"
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_version
-msgid "Employee Contract"
+msgid "Employee Contract / Version"
 msgstr "Smlouva zaměstnance"
 
 #. module: l10n_sk_hr_payroll_oca
@@ -488,6 +488,28 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_meal_allowance_type__financial
 msgid "Financial contribution"
 msgstr "Finanční příspěvek"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_nczd_pension_annual
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_nczd_pension_annual
+msgid ""
+"For the annual tax reconciliation (§ 11 ods. 6 ZDP): the yearly amount, 13th"
+" pension included, of an old-age, early old-age or service pension, a "
+"compensatory supplement, or a foreign pension of the same kind, that the "
+"employee was drawing at the start of the tax year (or was granted back to "
+"it). The taxpayer's NČZD is reduced by it, to nothing when the pension is "
+"higher. Disability, widow's and orphan's pensions do not count. Leave empty "
+"when there is no such pension. The monthly advances are not affected (§ 35 "
+"ods. 1 písm. b))."
+msgstr ""
+"Pro roční zúčtování slovenské daně (§ 11 ods. 6 ZDP): roční částka "
+"starobního, předčasného starobního nebo výsluhového důchodu, vyrovnávacího "
+"příplatku nebo zahraničního důchodu stejného druhu včetně 13. důchodu, který"
+" zaměstnanec pobíral na začátku zdaňovacího období (nebo mu byl k němu "
+"přiznán zpětně). O tuto částku se sníží nezdanitelná část základu daně na "
+"daňovníka, a je-li důchod vyšší, neuplatní se vůbec. Invalidní, vdovský a "
+"sirotčí důchod se nezapočítává. Pokud zaměstnanec takový důchod nepobírá, "
+"nechte pole prázdné. Měsíční zálohy to neovlivní (§ 35 ods. 1 písm. b))."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__date_from
@@ -923,6 +945,13 @@ msgstr "Důchodové pojištění"
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_pension_contribution_employer
 msgid "Pension Contribution (Employer)"
 msgstr "Důchodové pojištění (zaměstnavatel)"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_nczd_pension_annual
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_nczd_pension_annual
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__pension_annual
+msgid "Pension at 1 January (yearly)"
+msgstr "Důchod k 1. lednu (ročně)"
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_pension_type
@@ -1599,6 +1628,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid "The pension at 1 January cannot be negative."
+msgstr "Důchod k 1. lednu nemůže být záporný."
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_pension_type
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_pension_type
 msgid ""
@@ -1767,6 +1803,21 @@ msgstr ""
 "PŘÍJMU, nikoli druhem dohody — viz příznak Pravidelný měsíční příjem. "
 "Zdravotní pojištění se vztahuje na všechny, pokud pracovník není pojištěncem"
 " státu."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__pension_annual
+msgid ""
+"Yearly old-age, early old-age or service pension, 13th included, that the "
+"employee drew at the start of the year (§ 11 ods. 6 ZDP). Taken from the "
+"contract version in force on 1 January; correct it here to what the employee"
+" declared. The taxpayer's NČZD is reduced by it, to nothing when the pension"
+" is higher."
+msgstr ""
+"Roční starobní, předčasný starobní nebo výsluhový důchod včetně 13. důchodu,"
+" který zaměstnanec pobíral na začátku roku (§ 11 ods. 6 ZDP). Přebírá se z "
+"verze smlouvy platné k 1. lednu; zde jej opravte na částku, kterou "
+"zaměstnanec uvedl. O tuto částku se sníží nezdanitelná část základu daně na "
+"daňovníka, a je-li důchod vyšší, neuplatní se vůbec."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_ztp

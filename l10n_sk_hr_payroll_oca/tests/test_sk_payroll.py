@@ -14,6 +14,7 @@ from datetime import date
 
 from psycopg2 import IntegrityError
 
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import mute_logger
 
@@ -840,6 +841,67 @@ class TestSkPayroll(TransactionCase):
         # 3000 − 2706,78 = 293,22 preplatok
         self.assertAlmostEqual(rz.result_amount, 293.22, places=2)
         self.assertEqual(rz.result_type, "preplatok")
+
+    # ---- § 11 ods. 6: a pension at 1 January reduces the taxpayer's NČZD ----
+    def _rz_2025(self, **vals):
+        values = {
+            "employee_id": self.employee_nodecl.id,
+            "company_id": self.company.id,
+            "year": 2025,
+            "gather_from_payslips": False,
+            "annual_tax_base": 20000.0,
+            "annual_advance_tax": 3000.0,
+        }
+        values.update(vals)
+        return self.env["l10n.sk.tax.reconciliation"].create(values)
+
+    def test_rz_pension_below_nczd_reduces_it(self):
+        """A 3 000 pension leaves 5 753,79 − 3 000 = 2 753,79 of NČZD (2025)."""
+        rz = self._rz_2025(pension_annual=3000.0)
+        self.assertAlmostEqual(rz.nczd_taxpayer, 2753.79, places=2)
+        # taxable 17 246,21 -> 19 % = 3 276,78
+        self.assertAlmostEqual(rz.taxable_base, 17246.21, places=2)
+        self.assertAlmostEqual(rz.annual_tax, 3276.78, places=2)
+
+    def test_rz_pension_above_nczd_removes_it(self):
+        """A pension higher than the NČZD removes it altogether (2025)."""
+        rz = self._rz_2025(pension_annual=6000.0)
+        self.assertAlmostEqual(rz.nczd_taxpayer, 0.0, places=2)
+        self.assertAlmostEqual(rz.annual_tax, 3800.0, places=2)
+
+    def test_rz_pension_reduces_the_tapered_nczd(self):
+        """The pension comes off the amount after the § 11 ods. 2 taper."""
+        rz = self._rz_2025(annual_tax_base=30000.0, pension_annual=3000.0)
+        # tapered 4 610,36 − 3 000 = 1 610,36
+        self.assertAlmostEqual(rz.nczd_taxpayer, 1610.36, places=2)
+
+    def test_rz_pension_comes_from_the_version_on_1_january(self):
+        """The RZD reads the version in force on 1 January, not a later one,
+        and an amount corrected on the RZD is kept."""
+        version = self.employee_nodecl.version_id
+        version.l10n_sk_nczd_pension_annual = 3000.0
+        self.employee_nodecl.create_version({
+            "date_version": date(2025, 7, 1),
+            "l10n_sk_nczd_pension_annual": 9000.0,
+        })
+        rz = self._rz_2025()
+        self.assertAlmostEqual(rz.pension_annual, 3000.0, places=2)
+        self.assertAlmostEqual(rz.nczd_taxpayer, 2753.79, places=2)
+        rz.pension_annual = 1000.0
+        rz.annual_advance_tax = 2900.0
+        self.assertAlmostEqual(rz.pension_annual, 1000.0, places=2)
+        self.assertAlmostEqual(rz.nczd_taxpayer, 4753.79, places=2)
+
+    def test_rz_negative_pension_is_refused(self):
+        with self.assertRaises(UserError):
+            self._rz_2025(pension_annual=-6000.0)
+        with self.assertRaises(UserError):
+            self.employee_nodecl.version_id.l10n_sk_nczd_pension_annual = -1.0
+
+    def test_rz_no_pension_keeps_the_full_nczd(self):
+        rz = self._rz_2025()
+        self.assertEqual(rz.pension_annual, 0.0)
+        self.assertAlmostEqual(rz.nczd_taxpayer, 5753.79, places=2)
 
     def test_rz_dds_cap_and_spouse(self):
         """DDS is capped at 180; spouse NČZD adds to the total (2025)."""

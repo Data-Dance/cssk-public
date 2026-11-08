@@ -8,6 +8,9 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.21.0 (2026-11-08), not yet on 18.0:** the pensioner NČZD in
+  the RZD (§ 11 ods. 6). On 18.0 the field goes on ``hr.contract`` and the
+  RZD reads the contract running on 1 January.
 - **19.0.1.19.4 (2026-11-05), not yet on 18.0:** the EUR 300 agreement OOP
   from 1. 1. 2027 (``rule_parameter_dohoda_oop_2027``). Data only; the 18.0
   rules read the same parameter. **DISCHARGED 2026-11-05 — do not port this
@@ -18,6 +21,24 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.21.0] — 2026-11-08
+==========================
+
+Fixed
+~~~~~
+
+- **The annual tax reconciliation reduces a pensioner's NČZD.** § 11 ods. 6
+  ZDP: a taxpayer drawing an old-age, early old-age or service pension (or a
+  foreign one of the same kind) at the start of the year gets the
+  non-taxable part per taxpayer only as far as it exceeds the pension, 13th
+  pension included, and none when the pension is higher. The RZD gave every
+  pensioner the full amount, so it refunded tax that was owed. The contract
+  version has a new *Pension at 1 January (yearly)* amount; the RZD takes it
+  from the version in force on 1 January, shows it, and lets it be
+  corrected to what the employee declared. The monthly advances are
+  unchanged: § 35 ods. 1 písm. b) applies the full monthly NČZD and leaves
+  ods. 6 to the reconciliation.
 
 [19.0.1.20.0] — 2026-11-06
 ==========================

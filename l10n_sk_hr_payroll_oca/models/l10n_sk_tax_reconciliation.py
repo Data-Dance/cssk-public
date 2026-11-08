@@ -97,6 +97,17 @@ class L10nSkTaxReconciliation(models.Model):
     )
 
     # --- Annual reconciliation inputs (per §38 / §11 ZDP) ------------------
+    pension_annual = fields.Monetary(
+        string="Pension at 1 January (yearly)",
+        compute="_compute_pension_annual",
+        store=True,
+        readonly=False,
+        help="Yearly old-age, early old-age or service pension, 13th included, "
+        "that the employee drew at the start of the year (§ 11 ods. 6 ZDP). "
+        "Taken from the contract version in force on 1 January; correct it "
+        "here to what the employee declared. The taxpayer's NČZD is reduced "
+        "by it, to nothing when the pension is higher.",
+    )
     nczd_spouse = fields.Monetary(
         string="Spouse Non-taxable Part (NČZD)",
         help="Annual non-taxable part for a spouse (§11 ods. 3 ZDP), up to "
@@ -192,6 +203,28 @@ class L10nSkTaxReconciliation(models.Model):
     # ------------------------------------------------------------------
     # Statutory parameter accessor (dated, at year end)
     # ------------------------------------------------------------------
+    @api.depends("employee_id", "year")
+    def _compute_pension_annual(self):
+        """The yearly pension from the contract version in force on 1 January.
+
+        Recomputed only when the employee or the year changes, so an amount
+        corrected here is kept, and a later edit of the version does not move
+        a reconciliation already made.
+        """
+        for rec in self:
+            employee = rec.employee_id
+            if not employee or not rec.year:
+                rec.pension_annual = 0.0
+                continue
+            version = employee._get_version(date(rec.year, 1, 1))
+            rec.pension_annual = version.l10n_sk_nczd_pension_annual or 0.0
+
+    @api.constrains("pension_annual")
+    def _check_pension_annual(self):
+        for rec in self:
+            if rec.pension_annual < 0:
+                raise UserError(_("The pension at 1 January cannot be negative."))
+
     def _l10n_sk_rule_parameter(self, code):
         """Return the dated statutory parameter ``code`` at the tax-year end."""
         self.ensure_one()
@@ -208,6 +241,7 @@ class L10nSkTaxReconciliation(models.Model):
         "annual_child_bonus_paid",
         "nczd_spouse",
         "dds_contributions",
+        "pension_annual",
         "employee_premium",
         "year",
         "employee_id",
@@ -233,6 +267,10 @@ class L10nSkTaxReconciliation(models.Model):
                 const = rec._l10n_sk_rule_parameter("l10n_sk_nczd_taper_const")
                 divisor = rec._l10n_sk_rule_parameter("l10n_sk_nczd_taper_divisor")
                 nczd_tp = max(0.0, const - base / divisor)
+            # § 11 ods. 6: a pension drawn at the start of the year (13th
+            # included) reduces the amount above; one higher than it removes
+            # it altogether.
+            nczd_tp = max(0.0, nczd_tp - (rec.pension_annual or 0.0))
             nczd_tp = round(nczd_tp, 2)
 
             # --- Other NČZD: na manželku + DDS (capped) --------------------

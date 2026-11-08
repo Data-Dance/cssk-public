@@ -380,7 +380,7 @@ msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_version
-msgid "Employee Contract"
+msgid "Employee Contract / Version"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -463,6 +463,20 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_meal_allowance_type__financial
 msgid "Financial contribution"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_nczd_pension_annual
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_nczd_pension_annual
+msgid ""
+"For the annual tax reconciliation (§ 11 ods. 6 ZDP): the yearly amount, 13th"
+" pension included, of an old-age, early old-age or service pension, a "
+"compensatory supplement, or a foreign pension of the same kind, that the "
+"employee was drawing at the start of the tax year (or was granted back to "
+"it). The taxpayer's NČZD is reduced by it, to nothing when the pension is "
+"higher. Disability, widow's and orphan's pensions do not count. Leave empty "
+"when there is no such pension. The monthly advances are not affected (§ 35 "
+"ods. 1 písm. b))."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -875,6 +889,13 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_pension_contribution_employer
 msgid "Pension Contribution (Employer)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_nczd_pension_annual
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_nczd_pension_annual
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__pension_annual
+msgid "Pension at 1 January (yearly)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1510,6 +1531,13 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid "The pension at 1 January cannot be negative."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_pension_type
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_pension_type
 msgid ""
@@ -1660,6 +1688,16 @@ msgid ""
 " follows the INCOME REGULARITY rather than the kind of agreement — see the "
 "Regular monthly income flag. Health insurance applies to all of them unless "
 "the worker is a state insuree."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__pension_annual
+msgid ""
+"Yearly old-age, early old-age or service pension, 13th included, that the "
+"employee drew at the start of the year (§ 11 ods. 6 ZDP). Taken from the "
+"contract version in force on 1 January; correct it here to what the employee"
+" declared. The taxpayer's NČZD is reduced by it, to nothing when the pension"
+" is higher."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca

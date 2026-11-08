@@ -13,6 +13,7 @@
             <xpath expr="//group[@name='contract']" position="after">
                 <group string="Slovak Payroll" groups="payroll.group_payroll_user">
                     <field name="l10n_sk_tax_declaration_signed"/>
+                    <field name="l10n_sk_nczd_pension_annual"/>
                     <field name="l10n_sk_ztp"/>
                     <field name="l10n_sk_children_under_15"/>
                     <field name="l10n_sk_children_15_18"/>
@@ -68,6 +69,7 @@
                 <group name="l10n_sk_payroll" invisible="company_country_code != 'SK'">
                     <group string="Slovak Payroll" groups="payroll.group_payroll_user">
                         <field name="l10n_sk_tax_declaration_signed"/>
+                        <field name="l10n_sk_nczd_pension_annual"/>
                         <field name="l10n_sk_ztp"/>
                         <field name="l10n_sk_children_under_15"/>
                         <field name="l10n_sk_children_15_18"/>
