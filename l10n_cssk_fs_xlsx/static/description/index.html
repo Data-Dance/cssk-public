@@ -34,6 +34,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <div class="cssk-family">This module is part of a family documented in one place. The full guide: <a href="../../../l10n_cssk_fs_base/static/description/index.html#xlsx"><code>l10n_cssk_fs_base</code></a></div>
 <p>Adds an <strong>Export XLSX</strong> button to every financial statement that is not a draft. The workbook lists each row with brutto, korekcia, netto and the prior-period netto, and under each row computed from accounts, the accounts behind it with their own contributions; the Slovak Úč POD gets one sheet for the súvaha and one for the výkaz ziskov a strát.</p>
 <p>It installs itself when the financial statements framework and the Excel reporting module <code>report_xlsx</code> are both installed, and has no settings.</p>
+<p>The figures are the statement's stored rows, overrides included. Recompute the statement first if the ledger has changed.</p>
 <footer><p>Text checked against module version: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>

@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_hr_payroll_annual_tax_report/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Annual Tax Report (Hlásenie)</h1>
 <p class="cssk-summary">The employer&#x27;s annual report on employment income, withheld tax advances and the child tax bonus, with one annex column per employee, generated from the year&#x27;s payslips as XML for the Slovak financial administration.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.0.4</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.1.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>After the end of each year a Slovak employer that withholds income tax files
@@ -93,7 +93,7 @@ príjmov</em>). Statutory terms are given in Slovak.</p>
 <li>Choose the <strong>Year</strong>. The period is always 1 January to 31 December.</li>
 <li>Leave <strong>Correction Type</strong> on <em>Regular</em> for the ordinary filing.</li>
 <li>Click <strong>Generate</strong>. The module collects every non-cancelled payslip of the
-   company whose period lies in the year — <strong>drafts included</strong> — builds one
+   company whose period lies in the year — <strong>confirmed payslips only</strong> — builds one
    annex column per employee, renders the XML and validates it against the
    official schema <code>rh2023.xsd</code>. If an employee lacks a birth number, the
    error names them and nothing is generated.</li>
@@ -102,109 +102,59 @@ príjmov</em>). Statutory terms are given in Slovak.</p>
 <li>Click <strong>Mark Submitted</strong> once filed; the filed copy is kept and the record
    locked. <em>Reset to Draft</em> unlocks it.</li>
 </ol>
-<h2 id="mapping">What goes onto the form</h2>
-<p><strong>Part I (employer totals):</strong></p>
-<table>
-<thead>
-<tr>
-<th>Row</th>
-<th>Filled with</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>r. 00</td>
-<td>the sum of <code>GROSS</code> for the year</td>
-</tr>
-<tr>
-<td>r. 01</td>
-<td>the withheld advance before the bonus: <code>INCOMETAX19</code> + <code>INCOMETAX25</code> on Enterprise, <code>INCOMETAX</code> on the OCA engine</td>
-</tr>
-<tr>
-<td>r. 04</td>
-<td>equal to r. 01 (rows 02 and 03 are left empty)</td>
-</tr>
-<tr>
-<td>r. 05</td>
-<td>the sum of <code>CHILD_BONUS</code>, capped at r. 04</td>
-</tr>
-<tr>
-<td>r. 06</td>
-<td>the employee premium — always 0.00, as no payroll rule produces it</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Part III (recapitulation of the child tax bonus):</strong></p>
-<table>
-<thead>
-<tr>
-<th>Row</th>
-<th>Filled with</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>r. A</td>
-<td>the whole child bonus paid in the year (sum of <code>CHILD_BONUS</code>)</td>
-</tr>
-<tr>
-<td>r. B</td>
-<td>the part paid out of the withheld advances — equal to r. 05</td>
-</tr>
-<tr>
-<td>r. C</td>
-<td>r. A − r. B: the bonus the company paid from its own money because it exceeded the advances</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Part V (per employee), two employees per page:</strong> birth number, name,
-private address, state <code>SK</code>, taxable income (r. 3a, from <code>GROSS</code>), withheld
-advances (r. 4a), employee premium (r. 6) and the child bonus paid (r. 8).
-With an odd number of employees the last page has an empty second column.</p>
-<p>Part IV is never filled: every employee goes into Part V. Part II, rows D–F
-of Part III,
-the remaining rows of Part I, the number of children per employee, and the
-counts and sums of the § 33a interest bonus and of the recreation allowance in
-the header are left empty.</p>
+<h2 id="mapping">Annex mapping and verified scope</h2>
+<p>Version 19.0.2.1.0, 7 November 2026. Uses the bundled, unchanged rh2023 XSD.
+This is not certification of a later form edition or acceptance by the authority.</p>
+<p>Part IV reports this employer's income for employees without employer annual
+reconciliation (RZD). Part V reports annual reconciliation data, including all
+employers' income separately from this employer's contribution. Its r4a/r4b are
+employee social/health insurance; withheld advance belongs to r6. The old export
+sent every employee to Part V and placed advance tax in r4a.</p>
+<p>The country report remains engine-neutral. <code>_annual_settlement_column(line)</code>
+is the engine bridge: return <code>None</code> for Part IV, or reviewed Part V values using
+the QWeb column keys and <code>completed_on</code> (DD.MM.YYYY). If an installed engine
+exposes a computed/posted RZD but has no bridge, export stops. Completion of RZD
+is distinct from subsequent payment of its balance. Foreign residence and child
+bonus without full child identity/entitlement-month data are explicit open
+adapters, never silently omitted.</p>
+<p>Part IV month flags use the selected payroll intervals and historical versions.
+Date-of-payment/tax-year selection must be supplied by the applicable payroll
+adapter; this patch does not claim that a payslip date alone proves payment.
+Parts IV/V have independent employee/page counts and odd-column padding.</p>
+<p>Legal mapping: Finančná správa HLASENIEv23 instructions, Parts IV and V:
+https://pfseform.financnasprava.sk/Formulare/Poucenia/HLASENIEv23-poucenie.pdf</p>
+<p>Tests exercise native OCA payroll, XML/XSD, independent sections, proper row
+meanings and the explicit missing-information guards. Enterprise runtime is not
+claimed tested by an OCA run. The general bridge regression supplies a reviewed
+adapter fixture; production annual calculation belongs to the engine bridge.</p>
 <h2 id="corrections">Corrections</h2>
 <p>The report accepts <em>riadne</em>, <em>opravné</em> and <em>dodatočné</em> filings. Set
 <strong>Correction Type</strong> to <em>Corrective</em> or <em>Supplementary</em>. The module refuses an
 amending report unless a regular one is already marked submitted — but see
 <a href="#limitations">Limitations</a>: it currently looks for that original in the
 <strong>same month</strong> in which the new record was created.</p>
-<h2 id="limitations">Limitations</h2>
-<ul>
-<li><strong>Check the figures before filing.</strong> The schema check proves the shape of
-  the file, not the amounts. No report produced here has been confirmed by a
-  live submission; reconcile the first one by hand, and check the column
-  meanings against the current official instructions (<em>poučenie</em>) for the
-  year you file.</li>
-<li><strong>Two-word surnames.</strong> Without separate name fields, only the last word is
-  taken as the surname; check Part V for an employee with a two-word surname.</li>
-<li><strong>Row 5 and Part III are capped on the year's totals.</strong> Row 5 is the
-  smaller of the year's bonus and row 4. If in some months the bonus exceeded
-  that month's advances and you claimed the difference back through the
-  monthly overviews instead of offsetting it later, compare rows 5 and C with
-  your monthly filings before submitting.</li>
-<li>The annex state is always <code>SK</code>; foreign residents and employees taxed by
-  withholding (<em>zrážková daň</em>) are not treated separately.</li>
-<li><strong>The annual reconciliation (<em>ročné zúčtovanie</em>) is not reported.</strong> Rows
-  for its results, the number of children per employee, insurance
-  contributions and non-taxable parts of the base are left empty.</li>
-<li><strong>Draft payslips count</strong>, and payslips are taken by their period, not by the
-  payout date.</li>
-<li><strong>Amending reports and the month.</strong> A corrective or supplementary report
-  finds its original only if it was created in the same calendar month as the
-  submitted original; otherwise generation is refused with "There is no
-  submitted … to amend". The date the reasons for a <em>dodatočné hlásenie</em> were
-  found is left empty.</li>
-<li>The legal-form element of the header is the <em>Právna forma</em> recorded on the company's contact by <code>l10n_sk_trade_registry</code>; without that module, or with the field empty, the element stays empty.</li>
-<li>Only the 2023 vintage ships. Check that the Finančná správa still accepts it
-  for the year you are filing.</li>
-<li>Nothing is sent to the authority: <em>Mark Submitted</em> only records that you
-  filed it.</li>
-</ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.2.0.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<h2 id="form-edition-cutoff">Form edition cutoff</h2>
+<p>Version 19.0.2.1.1 limits rh2023 / HLASENIEv23 to tax years through 2025,
+including an upgrade migration for existing version records. Export for 2026+
+is rejected. The Ministry's 2026 form changes Part V row meanings; a successful
+old XSD check cannot prove compliance with the new form. Install a reviewed
+current form adapter before filing. This module does not yet supply that adapter.</p>
+<p>Without additional bridges, the exporter currently supports only employees for
+whom this employer did not perform RZD and who received no child bonus, for tax
+years through 2025. Known RZD requires a Part V bridge; any child bonus requires
+a child-identity/month bridge and annex renderer. Thus most real employers need
+additional adapters even for corrective/supplementary historical filings.</p>
+<p>Source: https://www.mfsr.sk/files/archiv/75/HLASENIEv26-v1.2.pdf</p>
+<h2 id="child-entitlement-bridge">Child entitlement engine bridge</h2>
+<p><code>_annual_child_bonus_details(line, bonus)</code> extends the actual Part IV employee
+column. An entitlement engine can supply reviewed child identities and months
+without copying the income/insurance/advance calculation. Its result is merged
+into that column; it must also provide its reviewed output adapter for child
+annexes. The default implementation still refuses a nonzero bonus without
+child evidence. This extension point does not supply an entitlement calculator
+or a new statutory form edition. Isolated module tests: 17 passing, including
+the unchanged refusal and a bridge through the real employee-column method.</p>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.2.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
