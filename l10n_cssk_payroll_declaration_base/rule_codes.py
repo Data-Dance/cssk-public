@@ -105,6 +105,11 @@ RULE_CODES = {
         "GROSS": {ENGINE_OCA: ("GROSS",), ENGINE_EE: ("GROSS",)},
         "NET": {ENGINE_OCA: ("NET",), ENGINE_EE: ("NET",)},
         "INCOME_TAX": {ENGINE_OCA: ("INCOMETAX",), ENGINE_EE: ("INCOMETAX",)},
+        # § 6 odst. 4 ZDP as worded from 2027: the separate base for the
+        # advance, which the JMHZ reports apart from the ordinary base.
+        "SEPARATE_TAX_BASE": {
+            ENGINE_OCA: ("PAR6BASE",), ENGINE_EE: ("PAR6BASE",),
+        },
         "INCOME_TAX_TOTAL": {
             ENGINE_OCA: ("INCOMETAXTOT",), ENGINE_EE: ("INCOMETAXTOT",),
         },

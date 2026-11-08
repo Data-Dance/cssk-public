@@ -147,6 +147,16 @@ class TestVyuctovani(TransactionCase):
         self.assertLess(tax, int(round(before_credits)))
         self.assertFalse(vetao[0].get("kc_dpzi05"), "no child bonus here")
 
+    def test_2027_is_refused(self):
+        """Act No. 360/2025 Sb.: no annual statement from the 2027 tax
+        period; the data go monthly into the JMHZ. 2026 is still filed."""
+        from odoo.exceptions import UserError
+        decl = self.env["l10n.cz.vyuctovani"].with_company(
+            self.company).create({"company_id": self.company.id,
+                                  "year": "2027"})
+        with self.assertRaisesRegex(UserError, "discontinued.*JMHZ"):
+            decl.action_generate()
+
     def test_submit_locks(self):
         self._employee_payslip()
         decl = self.env["l10n.cz.vyuctovani"].with_company(

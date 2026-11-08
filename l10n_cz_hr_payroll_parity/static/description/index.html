@@ -29,7 +29,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b></nav>
 <h1>Czechia: Payroll Engine Parity Harness</h1>
 <p class="cssk-summary">Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Czech implementations and asserts they produce identical figures.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.3</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.4</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="what-it-is-for">What it is for</h2>
 <p>The Czech localisation exists in two engine flavours — <code>l10n_cz_hr_payroll_oca</code> on the OCA <code>payroll</code> engine and <code>l10n_cz_hr_payroll_ee</code> on Enterprise <code>hr_payroll</code> — and they are meant to be interchangeable. Until this module, that was a convention rather than a checked property: each suite asserted its own numbers in its own database, so a divergence introduced on one side would surface as a wrong payslip rather than as a failing test.</p>
@@ -37,7 +37,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <p>It is the Czech counterpart of <code>l10n_sk_hr_payroll_parity</code>, which has caught three real divergences — an average-earnings divisor, a draft-payslip filter, and a basic-wage proration base. Every one was found by accident first, because no scenario happened to reach it. The scenarios here therefore aim at the seams deliberately: real leaves rather than only payslip inputs, and a full-time week that is not the same length every day.</p>
 <h2 id="known-issues">Known issues</h2>
 <ul>
-<li>The scenarios cover the absence path and the employer-side obstacles. The income-tax bands, the slevy and the annual reconciliation are still asserted only inside each engine's own suite.</li>
+<li>The scenarios cover the absence path, the employer-side obstacles and a 2027 DPP without a declaration (the separate tax base of § 6 odst. 4). The income-tax bands, the slevy and the annual reconciliation are still asserted only inside each engine's own suite.</li>
 <li>Declaration parity covers the PVPOJ (monthly) and the ELDP (annual).</li>
 <li>The Vyúčtování is NOT asserted, and deliberately so: its Part I reports the tax advance BEFORE the sleva na poplatníka where the payslip withholds it after, and which of the two the form wants is question 6 in docs/cz-otazky-pro-mzdoveho-odbornika.md. Asserting the current figure would bless a number nobody has checked.</li>
 <li>The ONZ is event-shaped (registration on hire) rather than payslip-derived, so it needs a different kind of assertion — the same situation as the Slovak RLFO.</li>
@@ -54,7 +54,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 </ul>
 <p>The whitelisted contract-template fields are identical on both sides, unlike the Slovak pair where three fields exist only on OCA.</p>
 <p>Note the tool's reach: it diffs Python methods, so an XML rule body is invisible to it. The ten-cent meal divergence fixed in d989909 was found by a different check entirely (<code>tools/find_unproduced_selections.py</code>).</p>
-<footer><p>Text checked against module version: 19.0.1.2.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.2.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

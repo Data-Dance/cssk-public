@@ -8,6 +8,12 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- The 2027 minimum wage, 24 900 Kč / 148.30 Kč an hour (sdělení MPSV
+  č. 171/2026 Sb.); manifest 19.0.1.2.0.
+
 Changed
 ~~~~~~~
 

@@ -25,4 +25,10 @@
         <field name="amount_monthly">22400</field>
         <field name="amount_hourly">134.40</field>
     </record>
+    <!-- 2027: sdělení MPSV č. 171/2026 Sb. -->
+    <record id="minimum_wage_2027" model="l10n.cz.minimum.wage">
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+        <field name="amount_monthly">24900</field>
+        <field name="amount_hourly">148.30</field>
+    </record>
 </odoo>

@@ -1,7 +1,7 @@
 ---
 title: CZ Annual Statement of Employment Income Tax (DPZVD)
 summary: The employer's annual vyúčtování daně z příjmů ze závislé činnosti for the Finanční správa — the year's tax advances by month, the monthly employee counts and Příloha č. 1 (employees per municipality), as EPO XML in the DPZVD6 structure.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}
@@ -35,6 +35,12 @@ References are to the [Income Taxes Act](law:cz/1992/586).
 - **When.** Within two months after the end of the calendar year, or by
   **20 March** when filed electronically (§ 38j odst. 5). The time limit
   cannot be extended (§ 38j odst. 7).
+- **Last year: 2026.** [Act No. 360/2025 Sb.](law:cz/2025/360) abolishes
+  the statement from the **2027** tax period. The statement for 2026 is
+  still filed, by 20 March 2027. From 2027 the advances, bonuses and annual
+  reconciliation results are reported every month in the *jednotné měsíční
+  hlášení zaměstnavatele* (JMHZ) under the [JMHZ Act](law:cz/2025/323),
+  which this module does not produce. The module refuses 2027 and later.
 - **Annexes.** The statement has annexes: the number of employees at
   1 December by municipality of work, an overview of tax non-residents, and
   overviews of corrections (§ 38j odst. 8). The module produces the first,
@@ -115,6 +121,7 @@ A payslip is assigned to the month in which its period ends.
   over), the other columns of Part I, the annexes other than Příloha č. 1
   and the overviews of non-residents (`VetaC`, `VetaH`) are left for you to
   complete.
+- **Not for 2027 and later**; see [Legal background](#legal).
 - **Withholding tax** at the special rate (on small *dohody*) is not
   included; it is reported on a separate statement the module does not
   produce.

@@ -1,7 +1,7 @@
 ---
 title: Příplatky ke mzdě (CZ)
 summary: Zákonné příplatky ke mzdě za práci přesčas, ve svátek, v noci, v sobotu a v neděli a ve ztíženém pracovním prostředí, mzda za práci přesčas a doplatek do minimální mzdy, z datovaných sazeb, pro obě mzdová jádra.
-verified: 19.0.1.1.2
+verified: 19.0.1.2.0
 ---
 
 ## Na co slouží {#purpose}
@@ -66,7 +66,8 @@ nese příplatek podle § 114, § 116 i § 118.
 2. Zkontrolujte sazby v *Zaměstnanci → Konfigurace → Czech Wage Surcharges*:
    - **Minimální mzda** (*Czech Minimum Wage*) — jeden záznam na datum
      účinnosti s měsíční a hodinovou částkou. Dodávají se roky 2025
-     (20 800 Kč / 124,40 Kč) a 2026 (22 400 Kč / 134,40 Kč); záznam na další
+     (20 800 Kč / 124,40 Kč), 2026 (22 400 Kč / 134,40 Kč) a 2027 (24 900 Kč /
+     148,30 Kč); záznam na další
      rok přidejte, jakmile ho MPSV vyhlásí.
    - **Sazby příplatků** (*Czech Wage Surcharges*) — jeden záznam na datum
      účinnosti s procenty: přesčas (*Overtime %*) 25, svátek (*Public

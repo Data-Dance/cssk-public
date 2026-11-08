@@ -162,6 +162,31 @@ SCENARIOS = [
         },
     },
     {
+        "key": "dpp_without_declaration_2027",
+        "doc": "The same DPP in June 2027. Act No. 360/2025 Sb. rewords § 6 "
+        "odst. 4 ZDP: the income stays a separate base, but for the advance "
+        "at the § 38h rate instead of the srážková daň, so the 15 % moves to "
+        "INCOMETAX (base rounded up to whole hundreds, 8 000 already is) and "
+        "the payslip marks the separate base the JMHZ reports apart.",
+        "requires": [],
+        "wage": 8000.0,
+        "period": ((2027, 6, 1), (2027, 6, 30)),
+        "version": {
+            "l10n_cz_agreement_type": "dpp",
+            "l10n_cz_tax_declaration": False,
+        },
+        "calendar_hours": {"0": 4.0},
+        "leaves": [],
+        "expected": {
+            "GROSS": 8000.00,
+            "SOCIAL_EE_TOTAL": 0.00,
+            "HEALTH_EE": 0.00,
+            "INCOME_TAX": -1200.00,
+            "SEPARATE_TAX_BASE": 8000.00,
+            "NET": 6800.00,
+        },
+    },
+    {
         "key": "sick_beyond_fourteen_days",
         "doc": "A DPN lasting all June. § 192 odst. 1 ZP: the employer pays "
         "náhrada mzdy for the first 14 calendar days only (1-14 June, 80 h); "

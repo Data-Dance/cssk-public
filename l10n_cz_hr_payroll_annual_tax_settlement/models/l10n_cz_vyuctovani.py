@@ -79,6 +79,17 @@ class L10nCzVyuctovani(models.Model):
             else:
                 rec.date_from = rec.date_to = False
 
+    def _successor_hint(self):
+        # Act No. 360/2025 Sb. ends the employer's annual statement with the
+        # 2026 tax period (filed by 20 March 2027); from 2027 the tax advances,
+        # bonuses and annual reconciliation results go monthly into the JMHZ.
+        return _(
+            "From the 2027 tax period the annual statement is no longer "
+            "filed (Act No. 360/2025 Coll.); the tax advances, child tax "
+            "bonuses and annual reconciliation results are reported every "
+            "month in the unified monthly employer report (JMHZ, Act No. "
+            "323/2025 Coll.).")
+
     def _get_period_payslips(self):
         self.ensure_one()
         if "hr.payslip" not in self.env:

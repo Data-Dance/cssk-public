@@ -8,6 +8,9 @@ Unreleased
 Added
 ~~~~~
 
+- ``SEPARATE_TAX_BASE`` in the Czech rule-code map: ``PAR6BASE`` on both
+  engines, the separate tax base of § 6 odst. 4 ZDP from 2027.
+
 - ``_payslip_version(payslip)``: the contract version a payslip was computed
   on, engine-neutral (Enterprise ``version_id``, OCA ``contract_id``), falling
   back to the version in force on its end date. Declarations that classify a

@@ -31,6 +31,8 @@ References are to the `Income Taxes Act <https://e-sbirka.gov.cz/sb/1992/586>`__
 
 - **When.** Within two months after the end of the calendar year, or by **20 March** when filed electronically (§ 38j odst. 5). The time limit cannot be extended (§ 38j odst. 7).
 
+- **Last year: 2026.** `Act No. 360/2025 Sb. <https://e-sbirka.gov.cz/sb/2025/360>`__ abolishes the statement from the **2027** tax period. The statement for 2026 is still filed, by 20 March 2027. From 2027 the advances, bonuses and annual reconciliation results are reported every month in the *jednotné měsíční hlášení zaměstnavatele* (JMHZ) under the `JMHZ Act <https://e-sbirka.gov.cz/sb/2025/323>`__, which this module does not produce. The module refuses 2027 and later.
+
 - **Annexes.** The statement has annexes: the number of employees at 1 December by municipality of work, an overview of tax non-residents, and overviews of corrections (§ 38j odst. 8). The module produces the first, *Příloha č. 1 — Počet zaměstnanců* (§ 38j odst. 1); the others it does not.
 
 - **Part I, column 1** of the form (``kc_dpzi01``) is, according to the instructions to the form (*pokyny k vyplnění*, MFin 5459/1), the total of the advances **after the monthly tax credits** (§ 35ba, § 35c and § 35d) that should have been withheld for each month; **column 5** the monthly tax bonuses paid. Part II row 1 is the total of column 1 and row 4 the total of column 5.
@@ -109,6 +111,8 @@ Limitations
 
 - **Only Part I columns 1, 2 and 5, Part II rows 1 and 4.** The other rows of Part II (annual reconciliations, refunds, corrections, amounts paid over), the other columns of Part I, the annexes other than Příloha č. 1 and the overviews of non-residents (``VetaC``, ``VetaH``) are left for you to complete.
 
+- **Not for 2027 and later**; see `Legal background <#legal>`__.
+
 - **Withholding tax** at the special rate (on small *dohody*) is not included; it is reported on a separate statement the module does not produce.
 
 - **Employee counts** start from the employees with a payslip in the month; someone still employed on the last day but with no payslip that month is not counted.
@@ -123,7 +127,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_annual_tax_settlement``
-- **Version:** 19.0.1.1.1
+- **Version:** 19.0.1.1.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``

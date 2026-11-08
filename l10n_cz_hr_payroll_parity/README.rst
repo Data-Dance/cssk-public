@@ -23,7 +23,7 @@ It is the Czech counterpart of ``l10n_sk_hr_payroll_parity``, which has caught t
 Known issues
 ==============
 
-- The scenarios cover the absence path and the employer-side obstacles. The income-tax bands, the slevy and the annual reconciliation are still asserted only inside each engine's own suite.
+- The scenarios cover the absence path, the employer-side obstacles and a 2027 DPP without a declaration (the separate tax base of § 6 odst. 4). The income-tax bands, the slevy and the annual reconciliation are still asserted only inside each engine's own suite.
 
 - Declaration parity covers the PVPOJ (monthly) and the ELDP (annual).
 
@@ -57,7 +57,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_parity``
-- **Version:** 19.0.1.2.3
+- **Version:** 19.0.1.2.4
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``l10n_cssk_payroll_declaration_base``

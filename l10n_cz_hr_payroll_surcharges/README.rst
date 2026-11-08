@@ -76,7 +76,7 @@ Setting it up
 
 2. Check the rates under *Employees → Configuration → Czech Wage Surcharges*:
 
-3. **Czech Minimum Wage** — one record per start date with the monthly and hourly amount. 2025 (20 800 Kč / 124.40 Kč) and 2026 (22 400 Kč / 134.40 Kč) are shipped; add the next year's record when MPSV announces it.
+3. **Czech Minimum Wage** — one record per start date with the monthly and hourly amount. 2025 (20 800 Kč / 124.40 Kč), 2026 (22 400 Kč / 134.40 Kč) and 2027 (24 900 Kč / 148.30 Kč) are shipped; add the next year's record when MPSV announces it.
 
 4. **Czech Wage Surcharges** — one record per start date with the percentages: *Overtime %* 25, *Public holiday %* 100, *Night work %* 10, *Saturday/Sunday %* 10, *Difficult environment %* 10, and *Standard weekly hours* 40. One record dated 1 January 2024 is shipped. If you pay more than the minimum, raise the figure or add a record dated from the agreement. *Night work % (agreed)* and *Saturday/Sunday % (agreed)* are empty; fill them in only if a collective or individual agreement sets another minimum. Only HR managers can change these records, and none of the five percentages can be zero.
 
@@ -168,7 +168,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_surcharges``
-- **Version:** 19.0.1.1.2
+- **Version:** 19.0.1.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``

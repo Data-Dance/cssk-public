@@ -1,0 +1,7 @@
+<odoo>
+    <record id="settlement_company_rule" model="ir.rule">
+        <field name="name">Income settlements in allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_income_settlement"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

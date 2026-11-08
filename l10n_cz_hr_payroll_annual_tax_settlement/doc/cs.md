@@ -1,7 +1,7 @@
 ---
 title: CZ Vyúčtování daně z příjmů ze závislé činnosti (DPZVD)
 summary: Roční vyúčtování daně z příjmů ze závislé činnosti zaměstnavatele pro Finanční správu — zálohy na daň za jednotlivé měsíce, měsíční počty zaměstnanců a příloha č. 1 (zaměstnanci podle obcí) jako XML pro EPO ve struktuře DPZVD6.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## K čemu slouží {#purpose}
@@ -34,6 +34,12 @@ Odkazy směřují na [zákon o daních z příjmů](law:cz/1992/586).
 - **Kdy.** Do dvou měsíců po uplynutí kalendářního roku, při elektronickém
   podání do **20. března** (§ 38j odst. 5). Lhůtu nelze prodloužit (§ 38j
   odst. 7).
+- **Naposledy za rok 2026.** [Zákon č. 360/2025 Sb.](law:cz/2025/360)
+  vyúčtování ruší od zdaňovacího období **2027**. Za rok 2026 se ještě
+  podává, do 20. března 2027. Od roku 2027 se zálohy, bonusy a výsledky
+  ročního zúčtování vykazují každý měsíc v jednotném měsíčním hlášení
+  zaměstnavatele (JMHZ) podle [zákona o JMHZ](law:cz/2025/323), které tento
+  modul nevytváří. Rok 2027 a pozdější modul odmítne.
 - **Přílohy.** K vyúčtování patří počet zaměstnanců k 1. prosinci podle
   obce místa výkonu práce, přehled o daňových nerezidentech a přehledy
   o dodatečných opravách (§ 38j odst. 8). Modul vytváří první z nich,
@@ -107,6 +113,7 @@ Výplatní páska se přiřadí k měsíci, ve kterém končí její období.
 
 ## Omezení {#limitations}
 
+- **Ne pro rok 2027 a pozdější**; viz [Právní rámec](#legal).
 - **Jen sloupce 1, 2 a 5 oddílu I a řádky 1 a 4 oddílu II.** Ostatní řádky
   oddílu II (roční zúčtování, vrácené přeplatky, opravy, odvedené částky),
   ostatní sloupce oddílu I, přílohy kromě přílohy č. 1 a přehledy

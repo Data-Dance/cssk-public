@@ -5,6 +5,9 @@ Changelog
 Unreleased
 ==========
 
+* A June 2027 parity scenario: a DPP without a declaration, taxed by the
+  advance on the separate base of § 6 odst. 4 ZDP (``SEPARATE_TAX_BASE``).
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules

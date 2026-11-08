@@ -60,7 +60,8 @@ class TestCzPayroll(TransactionCase):
             version.write(version_vals)
         return employee, version
 
-    def _payslip(self, employee, contract):
+    def _payslip(self, employee, contract, date_from=date(2026, 3, 1),
+                 date_to=date(2026, 3, 31)):
         payslip = (
             self.env["hr.payslip"]
             .with_company(self.company)
@@ -71,8 +72,8 @@ class TestCzPayroll(TransactionCase):
                     "contract_id": contract.id,
                     "struct_id": self.structure.id,
                     "company_id": self.company.id,
-                    "date_from": date(2026, 3, 1),
-                    "date_to": date(2026, 3, 31),
+                    "date_from": date_from,
+                    "date_to": date_to,
                 }
             )
         )
@@ -259,6 +260,121 @@ class TestCzPayroll(TransactionCase):
         self.assertEqual(self._t(p, "INCOMETAX"), 0.0)     # replaced by WHTAX
         self.assertEqual(self._t(p, "WHTAX"), -1200.0)     # 15 % of 8000
         self.assertEqual(self._t(p, "NET"), 6800.0)        # 8000 - 1200
+
+    def test_dpp_below_threshold_2027_taxed_by_advance(self):
+        """DPP 8000, no declaration, January 2027: no srážková daň.
+
+        Act No. 360/2025 Sb. rewords § 6 odst. 4 ZDP from 1 January 2027; the
+        income is a separate base for the advance, without credits since no
+        declaration is signed. Same 15 %, now on the INCOMETAX line.
+        """
+        emp, con = self._employee(
+            "Karel Dohodar 2027",
+            wage=8000.0,
+            l10n_cz_agreement_type="dpp",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(self._t(p, "WHTAX"), 0.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -1200.0)  # 15 % of 8000
+        self.assertEqual(self._t(p, "TAXCREDIT"), 0.0)
+        self.assertEqual(self._t(p, "NET"), 6800.0)
+        # ... and marked as the separate base the JMHZ reports apart.
+        self.assertEqual(self._t(p, "PAR6BASE"), 8000.0)
+
+    def test_dpp_below_threshold_december_2026_still_withheld(self):
+        """The period decides, not the payment date: a December 2026 DPP is
+        still taxed by srážková daň even when paid in January 2027."""
+        emp, con = self._employee(
+            "Karel Dohodar Prosinec",
+            wage=8000.0,
+            l10n_cz_agreement_type="dpp",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2026, 12, 1), date(2026, 12, 31))
+        self.assertEqual(self._t(p, "INCOMETAX"), 0.0)
+        self.assertEqual(self._t(p, "WHTAX"), -1200.0)
+        self.assertEqual(self._t(p, "PAR6BASE"), 0.0)
+
+    def test_small_employment_2026_is_withheld(self):
+        """A pracovní poměr below the 4 500 rozhodný příjem, no declaration,
+        2026: § 6 odst. 4 písm. b) ZDP is not limited to dohody, so the final
+        withholding tax applies, not the advance."""
+        emp, con = self._employee(
+            "Malý Rozsah 2026",
+            wage=4000.0,
+            l10n_cz_agreement_type="standard",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2026, 11, 1), date(2026, 11, 30))
+        self.assertEqual(self._t(p, "INCOMETAX"), 0.0)
+        self.assertEqual(self._t(p, "WHTAX"), -600.0)
+
+    def test_2027_statutory_figures(self):
+        """The 2027 statutory figures, from their published sources: the
+        průměrná mzda of NV č. 177/2026 Sb. (48 900 x 1,0565, rounded up) and
+        its multiples, the minimum wage of sdělení č. 171/2026 Sb. and what
+        follows from it, the DPP amount of sdělení č. 184/2026 Sb., and the
+        sick-pay thresholds of sdělení č. 185/2026 Sb. x 0.175. Hand-copied,
+        not read back from the data file."""
+        on = date(2027, 1, 1)
+        expected = {
+            "l10n_cz_avg_wage": 51663.0,
+            "l10n_cz_social_max_base": 2479824.0,
+            "l10n_cz_tax_threshold_month": 154989.0,
+            "l10n_cz_tax_threshold_year": 1859868.0,
+            "l10n_cz_health_min_base": 24900.0,
+            "l10n_cz_min_wage": 24900.0,
+            "l10n_cz_min_wage_hourly": 148.30,
+            "l10n_cz_bonus_min_income_month": 12450.0,
+            "l10n_cz_bonus_min_income_year": 149400.0,
+            "l10n_cz_dpp_threshold": 12500.0,
+            "l10n_cz_dpc_threshold": 5000.0,
+            "l10n_cz_sick_rh1": 301.53,
+            "l10n_cz_sick_rh2": 452.20,
+            "l10n_cz_sick_rh3": 904.23,
+        }
+        for code, value in expected.items():
+            self.assertAlmostEqual(
+                float(self.env['hr.rule.parameter']._get_parameter_value(code, on)), value, 2, code)
+
+    def test_dpc_below_threshold_2027_taxed_by_advance(self):
+        """DPČ 4000 (< rozhodný příjem), no declaration, January 2027: the
+        advance, not srážková daň."""
+        emp, con = self._employee(
+            "Dana Dohodarka 2027",
+            wage=4000.0,
+            l10n_cz_agreement_type="dpc",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(self._t(p, "WHTAX"), 0.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -600.0)  # 15 % of 4000
+        self.assertEqual(self._t(p, "PAR6BASE"), 4000.0)
+
+    def test_separate_base_2027_is_only_without_declaration_below_limit(self):
+        """§ 6 odst. 4 písm. b) covers any employment below the rozhodný
+        příjem, a pracovní poměr included; a declaration, or income at the
+        limit, takes it out."""
+        cases = (("standard", 4000.0, False, 4000.0),
+                 ("standard", 4000.0, True, 0.0),
+                 ("dpc", 5000.0, False, 0.0),
+                 ("dpp", 12499.0, False, 12499.0))
+        for agreement, wage, declared, expected in cases:
+            emp, con = self._employee(
+                "Par6 %s %s %s" % (agreement, wage, declared),
+                wage=wage,
+                l10n_cz_agreement_type=agreement,
+                l10n_cz_tax_declaration=declared,
+                resource_calendar_id=self._part_time_calendar(5).id,
+            )
+            p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+            self.assertEqual(self._t(p, "PAR6BASE"), expected,
+                             (agreement, wage, declared))
 
     def test_dpp_at_threshold_insured(self):
         """DPP, wage exactly 12000 (2026), no declaration.

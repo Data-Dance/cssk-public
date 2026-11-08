@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 22:27+0000\n"
-"PO-Revision-Date: 2026-10-27 22:27+0000\n"
+"POT-Creation-Date: 2026-11-08 13:04+0000\n"
+"PO-Revision-Date: 2026-11-08 13:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -544,6 +544,11 @@ msgid "Czech Republic: ZTP/P holder credit / year"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_wh_tax_dependent
+msgid "Czech Republic: withholding tax on low employment income"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_prekazka_povetrnost_pct
 msgid "Czechia: Employer obstacle — adverse weather (%)"
 msgstr ""
@@ -638,7 +643,7 @@ msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_version
-msgid "Employee Contract"
+msgid "Employee Contract / Version"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -868,6 +873,13 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_birth_number
+msgid ""
+"Leave empty for a spouse with no Czech birth number; the date of birth then "
+"identifies them."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_life_insurance
 msgid "Life insurance"
 msgstr ""
@@ -927,6 +939,13 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_bonus_paid
 msgid ""
 "Monthly child tax bonuses paid by previous employers, from their Potvrzení."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_months
+msgid ""
+"Months at whose start the employee lived in one household with the spouse "
+"and a maintained child under 3 (§ 35ba odst. 1 písm. b) ZDP)."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1065,6 +1084,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_performed_date
+msgid "Performed on"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
 msgid "Post to Payslip"
 msgstr ""
@@ -1153,6 +1177,12 @@ msgid "Salary Structure"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_tax_base_par6_rule
+#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_tax_base_par6
+msgid "Separate Tax Base (§ 6 odst. 4)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_payroll_cz_annual_tax_recon__state__done
 msgid "Settled"
 msgstr ""
@@ -1233,8 +1263,48 @@ msgid "Social insurance discount category"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
+msgid "Spouse (§ 35ba odst. 1 písm. b))"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_credit
 msgid "Spouse credit"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_months
+msgid "Spouse credit: months"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp_months
+msgid "Spouse credit: of which ZTP/P months"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp
+msgid "Spouse holds ZTP/P"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_birth_number
+msgid "Spouse: birth number"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_birthday
+msgid "Spouse: date of birth"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_first_name
+msgid "Spouse: first name"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_surname
+msgid "Spouse: surname"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1284,6 +1354,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_tax_declaration
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_tax_declaration
 msgid "Taxpayer declaration signed"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp
+msgid ""
+"The spouse was granted a ZTP/P card; the credit is doubled for the months at"
+" whose start this was so."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1346,6 +1423,15 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_garnishment_rule
 msgid "Wage Garnishment"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_performed_date
+msgid ""
+"When the reconciliation was done. Set when it is first computed. A "
+"reconciliation paid out on a payslip is reported in the monthly employer "
+"report of that payslip's month; one with nothing to pay out, in the month of"
+" this date."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca

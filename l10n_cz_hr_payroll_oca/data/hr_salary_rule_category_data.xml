@@ -109,6 +109,12 @@
         <field name="code">TAXBASE</field>
     </record>
 
+    <record id="hr_payroll_tax_base_par6" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
+        <field name="name">Separate Tax Base (§ 6 odst. 4)</field>
+        <field name="code">PAR6BASE</field>
+    </record>
+
     <record id="hr_payroll_meal_employee" model="hr.salary.rule.category">
         <field name="company_id" eval="False"/>
         <field name="name">Meal Allowance (Employee)</field>

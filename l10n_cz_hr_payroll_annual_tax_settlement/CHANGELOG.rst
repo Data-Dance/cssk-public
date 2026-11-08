@@ -37,6 +37,19 @@ Carry-over to 20.0:
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.2] — 2026-11-07
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The statement ends with the 2026 tax period.** Act No. 360/2025 Coll.
+  abolishes the annual vyúčtování daně z příjmů ze závislé činnosti from the
+  2027 tax period; the data are reported monthly in the JMHZ (Act No.
+  323/2025 Coll.). The form version now closes on 31 December 2026, and a
+  statement for 2027 or later is refused with a pointer to the JMHZ. A
+  post-migration writes ``valid_to`` on the ``noupdate`` version record.
+
 [19.0.1.1.1] — 2026-11-05
 -------------------------
 

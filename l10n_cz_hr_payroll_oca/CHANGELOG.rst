@@ -2,6 +2,105 @@
 Changelog
 =========
 
+[Unreleased]
+------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+Owed to the 18.0 branch, which carries this module with NONE of the
+following (checked 2026-11-08: no 2027 value and no
+``l10n_cz_wh_tax_dependent`` in its rule parameters). Without them an
+18.0 payroll for January 2027 runs on the 2026 figures and still withholds
+tax on small agreements:
+
+- 1e30418b: no withholding tax from January 2027
+  (``l10n_cz_wh_tax_dependent``).
+- f239ad96: ``PAR6BASE``, the separate base of § 6 odst. 4 from 2027, and
+  the 2027 DPP amount and rozhodný příjem.
+- 4ff8086b: the other 2027 figures; small-scale employment withheld up to
+  2026; the limits on TAXBASE; no negative withholding.
+
+On 18.0 the salary-rule localdict names the contract ``contract`` on both
+engines (19.0 Enterprise: ``version``).
+
+[19.0.1.16.0] — 2026-11-08
+--------------------------
+
+Added
+~~~~~
+
+- **The 2027 statutory figures.** Average wage 51 663 Kč (NV č. 177/2026
+  Sb.: 48 900 Kč x 1,0565, rounded up) and what follows from it: the
+  maximum assessment base 2 479 824 Kč (48x) and the 23 % threshold
+  154 989 Kč a month / 1 859 868 Kč a year (3x / 36x). Minimum wage
+  24 900 Kč / 148.30 Kč an hour (sdělení č. 171/2026 Sb.), which is also
+  the health minimum base, and the bonus income tests 12 450 Kč a month /
+  149 400 Kč a year. Sick-pay reduction thresholds 301.53 / 452.20 /
+  904.23 Kč (sdělení č. 185/2026 Sb., x 0.175). Unchanged rates and credits
+  carry over. The tax-exempt meal allowance and the garnishment amounts
+  for 2027 were not published yet: the 2026 values apply until added.
+
+Fixed
+~~~~~
+
+- **Withholding tax on small-scale employment up to 2026.** § 6 odst. 4
+  písm. b) ZDP covers any employment below the rozhodný příjem, not only a
+  DPČ: a pracovní poměr below 4 500 Kč without a declaration was taxed by
+  the advance instead. The limits now count the taxable income (sick pay
+  included), so a month of sick leave is not mistaken for one.
+
+[19.0.1.15.0] — 2026-11-08
+--------------------------
+
+Added
+~~~~~
+
+- **Separate tax base (§ 6 odst. 4), ``PAR6BASE``.** From January 2027
+  Act No. 360/2025 Sb. keeps income without a declaration below the limits
+  (a DPP below the DPP amount, any income below the rozhodný příjem) a
+  separate base, but for the advance instead of the withholding tax. The
+  amount is unchanged (``INCOMETAX``); the new memo line marks it for the
+  monthly employer report.
+- **2027 limits**: the DPP amount 12 500 Kč (sdělení č. 184/2026 Sb.) and
+  the rozhodný příjem 5 000 Kč, from the 2027 average wage of 51 663 Kč
+  (NV č. 177/2026 Sb.).
+
+Fixed
+~~~~~
+
+- Comments, docs and the 19.0.1.13.4/19.0.1.12.3 entry said Act No.
+  360/2025 Sb. repeals § 6 odst. 4 ZDP; it rewords it.
+
+[19.0.1.14.0] — 2026-11-08
+--------------------------
+
+Added
+~~~~~
+
+- **The spouse on the annual tax reconciliation**: name, birth number or
+  date of birth, ZTP/P, and the months of the credit, which the Czech monthly
+  employer report (JMHZ) has to carry with the spouse credit.
+- **Performed on**: the date the reconciliation was done, set when it is
+  first computed; posting the settlement now also records the payslip it was
+  posted to. The monthly employer report reports the reconciliation in that
+  payslip's month.
+
+[19.0.1.13.4] — 2026-11-07
+--------------------------
+
+Changed
+~~~~~~~
+
+- **No withholding tax (srážková daň) on employment income from January
+  2027.** Act No. 360/2025 Coll. repeals § 6 odst. 4 of the Income Taxes
+  Act from 1 January 2027: a DPP below the DPP threshold, or a DPČ below the
+  rozhodný příjem, without a taxpayer declaration is then taxed by the
+  ordinary advance (``INCOMETAX``), not by ``WHTAX``. Credits still need the
+  declaration. The period decides, not the payment date, so a December 2026
+  agreement paid in January 2027 is still withheld. A new dated rule
+  parameter, ``l10n_cz_wh_tax_dependent``, carries the switch.
+
 [19.0.1.13.3] — 2026-11-05
 --------------------------
 

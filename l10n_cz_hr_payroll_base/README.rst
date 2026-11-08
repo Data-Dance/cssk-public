@@ -88,13 +88,13 @@ The figures the payslip uses come from these acts. Paragraph references were che
 
 - **Health insurance** is 13.5 % of the assessment base (`§ 2 of Act 592/1992 Sb. <https://e-sbirka.gov.cz/sb/1992/592>`__), rounded up to whole crowns per employee, one third paid by the employee (`§ 9 odst. 2 of Act 48/1997 Sb. <https://e-sbirka.gov.cz/sb/1997/48>`__). The minimum assessment base is the minimum wage, reduced by calendar days for a partial month of employment and for days of important personal obstacles such as sickness (`§ 3 odst. 6 and 9 <https://e-sbirka.gov.cz/sb/1992/592>`__). An employee below it pays 13.5 % of the difference, unless the shortfall comes from an obstacle on the employer's side, which the employer pays (`§ 3 odst. 10 <https://e-sbirka.gov.cz/sb/1992/592>`__); the minimum base does not apply to the persons listed in § 3 odst. 8, among them ZTP and ZTP/P card holders and those for whom the state pays.
 
-- **Agreements.** A DPP is sickness-insured in a month in which its income reaches 25 % of the average wage rounded down to 500 Kč (`§ 7a of Act 187/2006 Sb. <https://e-sbirka.gov.cz/sb/2006/187>`__); a DPČ, like any other employment, once the income reaches the *rozhodný příjem* (`§ 6 odst. 2 <https://e-sbirka.gov.cz/sb/2006/187>`__). Below those amounts, and without a signed declaration, the income is taxed by a final withholding tax (`§ 6 odst. 4 of the Income Tax Act <https://e-sbirka.gov.cz/sb/1992/586>`__).
+- **Agreements.** A DPP is sickness-insured in a month in which its income reaches 25 % of the average wage rounded down to 500 Kč (`§ 7a of Act 187/2006 Sb. <https://e-sbirka.gov.cz/sb/2006/187>`__); a DPČ, like any other employment, once the income reaches the *rozhodný příjem* (`§ 6 odst. 2 <https://e-sbirka.gov.cz/sb/2006/187>`__). Below those amounts, and without a signed declaration, the income is taxed by a final withholding tax (`§ 6 odst. 4 of the Income Tax Act <https://e-sbirka.gov.cz/sb/1992/586>`__) — for periods up to December 2026 only. From 1 January 2027 `Act No. 360/2025 Sb. <https://e-sbirka.gov.cz/sb/2025/360>`__ rewords that provision: the same income stays a separate base, but for an advance at the ordinary rate instead of the final withholding tax. The payslip taxes it with the ordinary advance and marks it as the separate base (*Separate Tax Base (§ 6 odst. 4)*), which the monthly employer report shows apart. The limit counts each employment on its own. The period the income belongs to decides, so a December 2026 agreement paid in January 2027 is still withheld.
 
 - **Income tax.** The monthly advance is 15 % of the base and 23 % of the part above three times the average wage; the base is rounded up to whole hundreds of crowns (`§ 38h odst. 1 and 2 <https://e-sbirka.gov.cz/sb/1992/586>`__). The tax credits are `§ 35ba <https://e-sbirka.gov.cz/sb/1992/586>`__, the child tax benefit and bonus `§ 35c and § 35d <https://e-sbirka.gov.cz/sb/1992/586>`__; a monthly bonus is paid only when that month's income reaches half the minimum wage. The declaration (*prohlášení poplatníka*) is made within 30 days of joining and by 15 February each year (`§ 38k odst. 4 <https://e-sbirka.gov.cz/sb/1992/586>`__). The annual reconciliation is `§ 38ch <https://e-sbirka.gov.cz/sb/1992/586>`__.
 
 - **Meal allowance.** A *stravenkový paušál* is tax-exempt up to 70 % of the upper limit of the meal allowance for a 5–12 hour business trip (`§ 6 odst. 9 písm. b) <https://e-sbirka.gov.cz/sb/1992/586>`__).
 
-- **Minimum wage and wage replacements.** The minimum wage is set under `§ 111 of the Labour Code <https://e-sbirka.gov.cz/sb/2006/262>`__ and announced by an MPSV communication (for 2026, No. 356/2025 Sb.). A wage below it is topped up with a *doplatek*, compared per hour unless the monthly minimum wage was agreed in advance; overtime pay and surcharges do not count towards it (`§ 111 odst. 1 and 2 <https://e-sbirka.gov.cz/sb/2006/262>`__). An overtime hour is paid its wage plus a surcharge (`§ 114 odst. 1 <https://e-sbirka.gov.cz/sb/2006/262>`__). Holiday is paid at average earnings (`§ 222 <https://e-sbirka.gov.cz/sb/2006/262>`__); employer-side obstacles at at least 80 % (downtime) or 60 % (weather) (`§ 207 <https://e-sbirka.gov.cz/sb/2006/262>`__), 100 % for other reasons (`§ 208 <https://e-sbirka.gov.cz/sb/2006/262>`__) and at least 60 % for short-time working only where a union agreement or internal rule says so (`§ 209 <https://e-sbirka.gov.cz/sb/2006/262>`__). Sick pay for the first 14 calendar days of incapacity is 60 % of reduced average earnings, the reduction thresholds being the sickness-insurance ones multiplied by 0.175 and rounded up to the haléř (`§ 192 <https://e-sbirka.gov.cz/sb/2006/262>`__); it is taxed as employment income but carries no insurance. Average earnings are §§ 351–362.
+- **Minimum wage and wage replacements.** The minimum wage is set under `§ 111 of the Labour Code <https://e-sbirka.gov.cz/sb/2006/262>`__ and announced by an MPSV communication (for 2026, No. 356/2025 Sb.; for 2027, No. 171/2026 Sb.). A wage below it is topped up with a *doplatek*, compared per hour unless the monthly minimum wage was agreed in advance; overtime pay and surcharges do not count towards it (`§ 111 odst. 1 and 2 <https://e-sbirka.gov.cz/sb/2006/262>`__). An overtime hour is paid its wage plus a surcharge (`§ 114 odst. 1 <https://e-sbirka.gov.cz/sb/2006/262>`__). Holiday is paid at average earnings (`§ 222 <https://e-sbirka.gov.cz/sb/2006/262>`__); employer-side obstacles at at least 80 % (downtime) or 60 % (weather) (`§ 207 <https://e-sbirka.gov.cz/sb/2006/262>`__), 100 % for other reasons (`§ 208 <https://e-sbirka.gov.cz/sb/2006/262>`__) and at least 60 % for short-time working only where a union agreement or internal rule says so (`§ 209 <https://e-sbirka.gov.cz/sb/2006/262>`__). Sick pay for the first 14 calendar days of incapacity is 60 % of reduced average earnings, the reduction thresholds being the sickness-insurance ones multiplied by 0.175 and rounded up to the haléř (`§ 192 <https://e-sbirka.gov.cz/sb/2006/262>`__); it is taxed as employment income but carries no insurance. Average earnings are §§ 351–362.
 
 - **Annual leave** is at least four weeks a year (`§ 212 <https://e-sbirka.gov.cz/sb/2006/262>`__), accrued in hours by worked weeks (`§ 213 <https://e-sbirka.gov.cz/sb/2006/262>`__); untaken leave must be scheduled by the end of the following year (`§ 218 <https://e-sbirka.gov.cz/sb/2006/262>`__).
 
@@ -157,7 +157,7 @@ In the order the rules run:
 
 8. Agreements below their threshold pay neither insurance.
 
-9. **Tax Base** = gross pay plus sickness compensation. **Income Tax Advance**: the base rounded up to whole hundreds of crowns, 15 % up to the monthly threshold and 23 % above. **Withholding Tax** instead for an agreement below its threshold without a declaration: 15 % of the whole-crown gross, no credits.
+9. **Tax Base** = gross pay plus sickness compensation. **Income Tax Advance**: the base rounded up to whole hundreds of crowns, 15 % up to the monthly threshold and 23 % above. **Withholding Tax** instead for an agreement below its threshold without a declaration: 15 % of the whole-crown gross, no credits. From the January 2027 payslip such an agreement gets the advance instead, still without credits (rule parameter ``l10n_cz_wh_tax_dependent``).
 
 10. **Tax Credits** with a signed declaration, at most the advance.
 
@@ -180,53 +180,70 @@ Every rate and amount is a dated value, so a payslip uses the figure in force on
    * - Figure
      - 2025
      - 2026
+     - 2027
    * - Average wage (for insurance and tax)
      - 46 557 Kč
      - 48 967 Kč
+     - 51 663 Kč
    * - Social insurance, employee / employer
      - 7.1 % / 24.8 %
+     - same
      - same
    * - Maximum annual assessment base (48×)
      - 2 234 736 Kč
      - 2 350 416 Kč
+     - 2 479 824 Kč
    * - Health insurance, employee / employer
      - 4.5 % / 9 %
+     - same
      - same
    * - Minimum wage, monthly / hourly (= health minimum base)
      - 20 800 Kč / 124.40 Kč
      - 22 400 Kč / 134.40 Kč
+     - 24 900 Kč / 148.30 Kč
    * - DPP threshold (25 % of the average wage)
      - 11 500 Kč
      - 12 000 Kč
+     - 12 500 Kč
    * - DPČ threshold (*rozhodný příjem*)
      - 4 500 Kč
      - 4 500 Kč
+     - 5 000 Kč
    * - Income tax
      - 15 %, 23 % above 139 671 Kč a month
      - 15 %, 23 % above 146 901 Kč a month
+     - 15 %, 23 % above 154 989 Kč a month
    * - Taxpayer credit, monthly / annual
      - 2 570 / 30 840 Kč
+     - same
      - same
    * - ZTP/P credit, monthly / annual
      - 1 345 / 16 140 Kč
      - same
+     - same
    * - Disability credit I/II, III (monthly)
      - 210 / 420 Kč
+     - same
      - same
    * - Child tax benefit per month, 1st / 2nd / 3rd+ child
      - 1 267 / 1 860 / 2 320 Kč
      - same
+     - same
    * - Monthly bonus income test (½ minimum wage)
      - 10 400 Kč
      - 11 200 Kč
+     - 12 450 Kč
    * - Tax-exempt meal allowance per shift
      - 123.90 Kč
      - 129.50 Kč
+     - not published yet
    * - Sick pay reduction thresholds (hourly)
      - 271.60 / 407.40 / 814.80 Kč
      - 285.78 / 428.58 / 856.98 Kč
+     - 301.53 / 452.20 / 904.23 Kč
    * - Social insurance discount
      - 5 %, base capped at 1.5× the average wage and 1.15 % of it per hour, 138 hours
+     - same
      - same
 
 Employer obstacle rates (80 / 60 / 100 %, and 60 % as the floor for short-time working) and the annual deduction caps (48 000 Kč for pension and life insurance products, 150 000 Kč for mortgage interest, 30 % of the base for gifts) are dated from 2024. On Enterprise you add a new dated value under *Rule Parameters* to roll a figure forward.
@@ -381,13 +398,15 @@ Limitations
 
 - **OCA engine.** The **Czech Payroll Code** of your own time-off types is set on the time-off type form, next to *Count as*; a type without a code is treated as an ordinary absence.
 
-- The figures are shipped for 2025 and 2026. Check them against the law before using a later period.
+- The withholding-tax limits (up to 2026) and the separate base (from 2027) are tested per payslip. On the payslip two agreements with the company that are each below the limit but not together are treated as below it; the monthly employer report applies the limit to the person's total.
+
+- The figures are shipped for 2025 to 2027. For 2027 the tax-exempt meal allowance and the garnishment amounts (non-seizable amount) are still missing: they were not published by November 2026, so the 2026 values apply until they are added. Check the figures against the law before using a later period.
 
 Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_base``
-- **Version:** 19.0.1.1.1
+- **Version:** 19.0.1.1.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``hr_holidays``

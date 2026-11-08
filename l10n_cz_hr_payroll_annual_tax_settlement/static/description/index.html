@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_hr_payroll_annual_tax_settlement/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ Annual Statement of Employment Income Tax (DPZVD)</h1>
 <p class="cssk-summary">The employer&#x27;s annual vyúčtování daně z příjmů ze závislé činnosti for the Finanční správa — the year&#x27;s tax advances by month, the monthly employee counts and Příloha č. 1 (employees per municipality), as EPO XML in the DPZVD6 structure.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Every employer that paid employment income in a year files the
@@ -59,6 +59,12 @@ záloh</em>): that is done per employee in the payroll module itself.</p>
 <li><strong>When.</strong> Within two months after the end of the calendar year, or by
   <strong>20 March</strong> when filed electronically (§ 38j odst. 5). The time limit
   cannot be extended (§ 38j odst. 7).</li>
+<li><strong>Last year: 2026.</strong> <a href="https://e-sbirka.gov.cz/sb/2025/360">Act No. 360/2025 Sb.</a> abolishes
+  the statement from the <strong>2027</strong> tax period. The statement for 2026 is
+  still filed, by 20 March 2027. From 2027 the advances, bonuses and annual
+  reconciliation results are reported every month in the <em>jednotné měsíční
+  hlášení zaměstnavatele</em> (JMHZ) under the <a href="https://e-sbirka.gov.cz/sb/2025/323">JMHZ Act</a>,
+  which this module does not produce. The module refuses 2027 and later.</li>
 <li><strong>Annexes.</strong> The statement has annexes: the number of employees at
   1 December by municipality of work, an overview of tax non-residents, and
   overviews of corrections (§ 38j odst. 8). The module produces the first,
@@ -184,6 +190,7 @@ work counted in Příloha č. 1 has no 6-digit ZÚJ code.</p>
   over), the other columns of Part I, the annexes other than Příloha č. 1
   and the overviews of non-residents (<code>VetaC</code>, <code>VetaH</code>) are left for you to
   complete.</li>
+<li><strong>Not for 2027 and later</strong>; see <a href="#legal">Legal background</a>.</li>
 <li><strong>Withholding tax</strong> at the special rate (on small <em>dohody</em>) is not
   included; it is reported on a separate statement the module does not
   produce.</li>
@@ -199,7 +206,7 @@ work counted in Příloha č. 1 has no 6-digit ZÚJ code.</p>
 <li>Schema validation checks the shape of the file, not the figures. No
   statement from this module has been confirmed by a live filing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li></ul><p>Text checked against module version: 19.0.1.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/2025/360">Zákon č. 360/2025 Sb., kterým se mění některé zákony v souvislosti s přijetím zákona o jednotném měsíčním hlášení zaměstnavatele</a></li><li><a href="https://e-sbirka.gov.cz/sb/2025/323">Zákon č. 323/2025 Sb., o jednotném měsíčním hlášení zaměstnavatele</a></li></ul><p>Text checked against module version: 19.0.1.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

@@ -22,6 +22,12 @@
         <field name="rule_parameter_id" ref="rule_parameter_avg_wage"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+    <!-- 2027: průměrná mzda 2027 = 48 900 Kč x 1,0565 = 51 662,85, rounded up (NV č. 177/2026 Sb., § 1). -->
+    <record id="rule_parameter_avg_wage_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">51663</field>
+        <field name="rule_parameter_id" ref="rule_parameter_avg_wage"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
 
     <!-- Maximum annual social base (48x average wage) -->
     <record id="rule_parameter_social_max_base" model="hr.rule.parameter">
@@ -38,6 +44,12 @@
         <field name="parameter_value">2350416</field>
         <field name="rule_parameter_id" ref="rule_parameter_social_max_base"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+    <!-- 2027: 48 x the 2027 průměrná mzda 51 663 (§ 15a zák. č. 589/1992 Sb.). -->
+    <record id="rule_parameter_social_max_base_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">2479824</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_max_base"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
     </record>
 
     <!-- Social insurance rate - employee (7.1 % = 6.5 pension + 0.6 sickness) -->
@@ -124,6 +136,12 @@
         <field name="rule_parameter_id" ref="rule_parameter_health_min_base"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+    <!-- 2027: the 2027 minimum wage, sdělení MPSV č. 171/2026 Sb. -->
+    <record id="rule_parameter_health_min_base_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">24900</field>
+        <field name="rule_parameter_id" ref="rule_parameter_health_min_base"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
 
     <!-- Income tax band 1 rate (15 %) -->
     <record id="rule_parameter_tax_rate_1" model="hr.rule.parameter">
@@ -174,6 +192,12 @@
         <field name="parameter_value">146901</field>
         <field name="rule_parameter_id" ref="rule_parameter_tax_threshold_month"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+    <!-- 2027: 3 x the 2027 průměrná mzda 51 663 (§ 38h ZDP). -->
+    <record id="rule_parameter_tax_threshold_month_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">154989</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_threshold_month"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
     </record>
 
     <!-- Sleva na poplatníka (basic taxpayer credit) / month -->
@@ -311,6 +335,12 @@
         <field name="rule_parameter_id" ref="rule_parameter_bonus_min_income_month"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+    <!-- 2027: half the 2027 minimum wage 24 900 (§ 35d ZDP). -->
+    <record id="rule_parameter_bonus_min_income_month_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">12450</field>
+        <field name="rule_parameter_id" ref="rule_parameter_bonus_min_income_month"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
 
     <!-- DPP insurance threshold: 25 % of the average wage, rounded down to
          whole 500 Kč (§ 7a odst. 1 zák. 187/2006 Sb. as amended by zák.
@@ -334,9 +364,38 @@
         <field name="rule_parameter_id" ref="rule_parameter_dpp_threshold"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+    <!-- 2027: Sdělení MPSV č. 184/2026 Sb.: a quarter of the 2027 average wage (51 663 Kč, NV č. 177/2026 Sb.) rounded down to 500. -->
+    <record id="rule_parameter_dpp_threshold_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">12500</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dpp_threshold"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
+
+    <!-- Srážková daň on low employment income (§ 6 odst. 4 ZDP): a DPP below
+         the DPP threshold, or other employment below the rozhodný příjem, with
+         no taxpayer declaration. True while it applies. Act No. 360/2025 Sb.
+         (Čl. VI bod 10) rewords § 6 odst. 4 from 1 January 2027: the same
+         income stays a separate base, but for the tax ADVANCE at the § 38h
+         rate instead of the final withholding tax. The engine looks the value up at the
+         payslip date_to, so the period the income belongs to decides. -->
+    <record id="rule_parameter_wh_tax_dependent" model="hr.rule.parameter">
+        <field name="name">Czech Republic: withholding tax on low employment income</field>
+        <field name="code">l10n_cz_wh_tax_dependent</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_wh_tax_dependent_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">True</field>
+        <field name="rule_parameter_id" ref="rule_parameter_wh_tax_dependent"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_wh_tax_dependent_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">False</field>
+        <field name="rule_parameter_id" ref="rule_parameter_wh_tax_dependent"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
 
     <!-- DPČ / small-scale general insurance threshold (rozhodný příjem, ~1/10
-         average wage rounded to 500). 4,500 in 2025 and 2026. Also the ceiling
+         average wage rounded to 500). 4,500 in 2025 and 2026, 5,000 in 2027. Also the ceiling
          under which srážková daň applies to a dohoda without a declaration. -->
     <record id="rule_parameter_dpc_threshold" model="hr.rule.parameter">
         <field name="name">Czech Republic: DPČ insurance threshold</field>
@@ -352,6 +411,12 @@
         <field name="parameter_value">4500</field>
         <field name="rule_parameter_id" ref="rule_parameter_dpc_threshold"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+    <!-- 2027: A tenth of the 2027 average wage (51 663 Kč, NV č. 177/2026 Sb.) rounded down to 500 (§ 6 odst. 2 zák. č. 187/2006 Sb.). -->
+    <record id="rule_parameter_dpc_threshold_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">5000</field>
+        <field name="rule_parameter_id" ref="rule_parameter_dpc_threshold"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
     </record>
 
     <!-- Stravenkový paušál tax-exempt limit / shift -->
@@ -387,6 +452,12 @@
         <field name="rule_parameter_id" ref="rule_parameter_min_wage"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+    <!-- 2027: sdělení MPSV č. 171/2026 Sb. -->
+    <record id="rule_parameter_min_wage_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">24900</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_wage"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
 
     <!-- Minimum wage / hour (40h/week). Floor for the průměrný výdělek
          (§357 zákoníku práce: the average earnings may not be lower than the
@@ -406,6 +477,12 @@
         <field name="parameter_value">134.40</field>
         <field name="rule_parameter_id" ref="rule_parameter_min_wage_hourly"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+    <!-- 2027: sdělení MPSV č. 171/2026 Sb. -->
+    <record id="rule_parameter_min_wage_hourly_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">148.30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_min_wage_hourly"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
     </record>
 
     <!-- ================================================================ -->
@@ -509,6 +586,12 @@
         <field name="rule_parameter_id" ref="rule_parameter_sick_rh1"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+    <!-- 2027: sdělení MPSV č. 185/2026 Sb.: 1 723 Kč x 0.175, rounded up to the haléř (§ 192 odst. 3 ZP). -->
+    <record id="rule_parameter_sick_rh1_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">301.53</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh1"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
 
     <!-- 2nd hourly reduction threshold (denní 2328 / 2449 x 0.175) -->
     <record id="rule_parameter_sick_rh2" model="hr.rule.parameter">
@@ -526,6 +609,12 @@
         <field name="rule_parameter_id" ref="rule_parameter_sick_rh2"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+    <!-- 2027: sdělení MPSV č. 185/2026 Sb.: 2 584 Kč x 0.175 (§ 192 odst. 3 ZP). -->
+    <record id="rule_parameter_sick_rh2_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">452.20</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh2"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
+    </record>
 
     <!-- 3rd hourly reduction threshold (denní 4656 / 4897 x 0.175) -->
     <record id="rule_parameter_sick_rh3" model="hr.rule.parameter">
@@ -542,6 +631,12 @@
         <field name="parameter_value">856.98</field>
         <field name="rule_parameter_id" ref="rule_parameter_sick_rh3"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+    <!-- 2027: sdělení MPSV č. 185/2026 Sb.: 5 167 Kč x 0.175, rounded up to the haléř (§ 192 odst. 3 ZP). -->
+    <record id="rule_parameter_sick_rh3_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">904.23</field>
+        <field name="rule_parameter_id" ref="rule_parameter_sick_rh3"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
     </record>
     <!-- ================================================================ -->
     <!-- Annual tax reconciliation (roční zúčtování, §38ch/§38ča ZDP).    -->
@@ -566,6 +661,12 @@
         <field name="parameter_value">1762812</field>
         <field name="rule_parameter_id" ref="rule_parameter_tax_threshold_year"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+    <!-- 2027: 36 x the 2027 průměrná mzda 51 663 (§ 16 ZDP). -->
+    <record id="rule_parameter_tax_threshold_year_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">1859868</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_threshold_year"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
     </record>
 
     <!-- Sleva na poplatníka / year (30 840; always applied in full) -->
@@ -702,6 +803,12 @@
         <field name="parameter_value">134400</field>
         <field name="rule_parameter_id" ref="rule_parameter_bonus_min_income_year"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
+    </record>
+    <!-- 2027: 6 x the 2027 minimum wage 24 900 (§ 35c ZDP). -->
+    <record id="rule_parameter_bonus_min_income_year_2027" model="hr.rule.parameter.value">
+        <field name="parameter_value">149400</field>
+        <field name="rule_parameter_id" ref="rule_parameter_bonus_min_income_year"/>
+        <field name="date_from" eval="datetime(2027, 1, 1).date()"/>
     </record>
 
     <!-- §15 pension+life joint cap / year (48 000; DPS+ŽP+DIP) -->

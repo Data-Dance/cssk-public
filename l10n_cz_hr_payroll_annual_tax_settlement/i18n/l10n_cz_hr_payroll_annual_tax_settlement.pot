@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:14+0000\n"
-"PO-Revision-Date: 2026-07-06 21:14+0000\n"
+"POT-Creation-Date: 2026-11-07 13:16+0000\n"
+"PO-Revision-Date: 2026-11-07 13:16+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,18 @@ msgstr ""
 msgid ""
 "1-4 digit numeric code of the locally competent tax office from the ÚFO "
 "register — the annual tax settlement <VetaD c_ufo_cil> attribute."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_cssk_tax_authority__l10n_cz_zuj_code
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_code
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_code
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_code
+msgid ""
+"6-digit code of the municipality (základní územní jednotka) this address "
+"lies in, from the Finanční správa register Obce ZUJ. Used in Příloha č. 1 of"
+" the annual tax settlement for employees whose place of work is this "
+"address."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
@@ -45,6 +57,11 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__activity_type_icon
 msgid "Activity Type Icon"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_annual_tax_settlement.view_company_form_vyuctovani
+msgid "Annual tax settlement (FÚ)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
@@ -89,6 +106,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model,name:l10n_cz_hr_payroll_annual_tax_settlement.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__correction_reference
+msgid "Correction Reference"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__correction_type
+msgid "Correction Type"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__country_id
 msgid "Country"
 msgstr ""
@@ -109,6 +141,11 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__active_submission_id
+msgid "Current submission"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model,name:l10n_cz_hr_payroll_annual_tax_settlement.model_l10n_cz_vyuctovani
 msgid "Czech Annual Tax Settlement Statement (DPZVD6)"
 msgstr ""
@@ -124,8 +161,14 @@ msgid "Date To"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__submission_state
+msgid "Delivery"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -175,6 +218,16 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_annual_tax_settlement/models/l10n_cz_vyuctovani.py:0
+msgid ""
+"From the 2027 tax period the annual statement is no longer filed (Act No. "
+"360/2025 Coll.); the tax advances, child tax bonuses and annual "
+"reconciliation results are reported every month in the unified monthly "
+"employer report (JMHZ, Act No. 323/2025 Coll.)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_annual_tax_settlement.view_l10n_cz_vyuctovani_form
 msgid "Generate"
 msgstr ""
@@ -187,6 +240,7 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__id
 msgid "ID"
 msgstr ""
 
@@ -209,6 +263,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__message_has_error
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__is_correction
+msgid "Is Correction"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
@@ -252,6 +311,22 @@ msgid "Month"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_cssk_tax_authority__l10n_cz_zuj_code
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_code
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_code
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_code
+msgid "Municipality code (ZÚJ)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_cssk_tax_authority__l10n_cz_zuj_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_name
+msgid "Municipality name (ZÚJ)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__my_activity_date_deadline
 msgid "My Activity Deadline"
 msgstr ""
@@ -259,6 +334,14 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_cssk_tax_authority__l10n_cz_zuj_name
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_name
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_name
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_name
+msgid "Name of the municipality exactly as in the Obce ZUJ register."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
@@ -319,6 +402,20 @@ msgid "Payment Date"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_annual_tax_settlement/models/l10n_cz_vyuctovani.py:0
+msgid ""
+"Příloha č. 1 to the annual tax settlement counts employees per municipality "
+"of their place of work, and these addresses have no 6-digit municipality "
+"code (ZÚJ): %(places)s. Set 'Municipality code (ZÚJ)' on each of them."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__report_code
+msgid "Report Code"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_annual_tax_settlement.view_l10n_cz_vyuctovani_form
 msgid "Reset to Draft"
 msgstr ""
@@ -353,6 +450,11 @@ msgid "Submission Reference"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__submission_ids
+msgid "Submissions"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__submitted_date
 msgid "Submitted Date"
 msgstr ""
@@ -360,6 +462,18 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_fu_code
 msgid "Tax office code (FÚ)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
@@ -390,6 +504,14 @@ msgid "Website communication history"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__xml_attachment_id
 msgid "Xml Attachment"
 msgstr ""
@@ -397,55 +519,4 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_annual_tax_settlement
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__year
 msgid "Year"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_annual_tax_settlement
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_l10n_cz_vyuctovani__report_code
-msgid "Report Code"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_annual_tax_settlement
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_annual_tax_settlement.view_company_form_vyuctovani
-msgid "Annual tax settlement (FÚ)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_annual_tax_settlement
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_code
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_code
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_code
-msgid "Municipality code (ZÚJ)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_annual_tax_settlement
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_name
-msgid "Municipality name (ZÚJ)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_annual_tax_settlement
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_code
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_code
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_code
-msgid ""
-"6-digit code of the municipality (základní územní jednotka) this address "
-"lies in, from the Finanční správa register Obce ZUJ. Used in Příloha č. 1 of"
-" the annual tax settlement for employees whose place of work is this "
-"address."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_annual_tax_settlement
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_company__l10n_cz_zuj_name
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_partner__l10n_cz_zuj_name
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_annual_tax_settlement.field_res_users__l10n_cz_zuj_name
-msgid "Name of the municipality exactly as in the Obce ZUJ register."
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_annual_tax_settlement
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_annual_tax_settlement/models/l10n_cz_vyuctovani.py:0
-msgid ""
-"Příloha č. 1 to the annual tax settlement counts employees per municipality "
-"of their place of work, and these addresses have no 6-digit municipality "
-"code (ZÚJ): %(places)s. Set 'Municipality code (ZÚJ)' on each of them."
 msgstr ""

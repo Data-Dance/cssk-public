@@ -22,6 +22,12 @@ class TestCzSurchargeData(TransactionCase):
         self.assertEqual(wage.amount_monthly, 22400.0)
         self.assertEqual(wage.amount_hourly, 134.40)
 
+    def test_minimum_wage_2027(self):
+        # Sdělení MPSV č. 171/2026 Sb.
+        wage = self.env.ref(MOD + ".minimum_wage_2027")
+        self.assertEqual(wage.amount_monthly, 24900.0)
+        self.assertEqual(wage.amount_hourly, 148.30)
+
     def test_minimum_wage_2025(self):
         wage = self.env.ref(MOD + ".minimum_wage_2025")
         self.assertEqual(wage.amount_monthly, 20800.0)

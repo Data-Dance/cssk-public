@@ -106,6 +106,34 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         "Previous employers: child bonuses paid",
         help="Monthly child tax bonuses paid by previous employers, from "
              "their Potvrzení.")
+    # The spouse the credit is claimed for. The monthly employer report
+    # (JMHZ, attributes 10420-10430 and 10539-10542) identifies them and the
+    # child under 3 that made the claim possible, so the amount alone is not
+    # enough to report it.
+    l10n_cz_spouse_first_name = fields.Char("Spouse: first name")
+    l10n_cz_spouse_surname = fields.Char("Spouse: surname")
+    l10n_cz_spouse_birthday = fields.Date("Spouse: date of birth")
+    l10n_cz_spouse_birth_number = fields.Char(
+        "Spouse: birth number",
+        help="Leave empty for a spouse with no Czech birth number; the date "
+             "of birth then identifies them.")
+    l10n_cz_spouse_ztpp = fields.Boolean(
+        "Spouse holds ZTP/P",
+        help="The spouse was granted a ZTP/P card; the credit is doubled for "
+             "the months at whose start this was so.")
+    l10n_cz_spouse_months = fields.Integer(
+        "Spouse credit: months",
+        help="Months at whose start the employee lived in one household with "
+             "the spouse and a maintained child under 3 (§ 35ba odst. 1 "
+             "písm. b) ZDP).")
+    l10n_cz_spouse_ztpp_months = fields.Integer(
+        "Spouse credit: of which ZTP/P months")
+    l10n_cz_performed_date = fields.Date(
+        "Performed on",
+        help="When the reconciliation was done. Set when it is first "
+             "computed. A reconciliation paid out on a payslip is reported "
+             "in the monthly employer report of that payslip's month; one "
+             "with nothing to pay out, in the month of this date.")
     l10n_cz_spouse_credit = fields.Monetary(
         "Spouse credit",
         help="Annual spouse tax credit (24 840; 49 680 for a ZTP/P "
@@ -210,6 +238,8 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
     def action_compute(self):
         for rec in self:
             rec._l10n_cz_compute_one()
+            if not rec.l10n_cz_performed_date:
+                rec.l10n_cz_performed_date = fields.Date.context_today(rec)
         return True
 
     def _l10n_cz_compute_one(self):
@@ -353,5 +383,7 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         else:
             payslip.write({"input_line_ids": [(0, 0, vals)]})
         payslip.compute_sheet()
-        self.state = "done"
+        # The monthly employer report (JMHZ) reports the reconciliation in
+        # the month of the payslip that paid it out.
+        self.write({"state": "done", "l10n_cz_settlement_payslip_id": payslip.id})
         return payslip

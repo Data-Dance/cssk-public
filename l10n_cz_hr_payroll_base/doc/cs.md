@@ -1,7 +1,7 @@
 ---
 title: Česká mzdová agenda
 summary: Česká mzdová agenda na jednom místě — měsíční výplatní páska pro pracovní poměr, DPP a DPČ v aplikaci OCA payroll nebo v Odoo Enterprise Payroll, s datovanými zákonnými sazbami, nepřítomnostmi, ročním zúčtováním daně a zaúčtováním do hlavní knihy.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## Na co slouží {#purpose}
@@ -78,7 +78,15 @@ paragrafy byly ověřeny proti úplným zněním účinným v říjnu 2026.
   každého jiného zaměstnání, od rozhodného příjmu
   ([§ 6 odst. 2](law:cz/2006/187)). Pod těmito částkami a bez podepsaného
   prohlášení se příjem zdaňuje srážkovou daní
-  ([§ 6 odst. 4 zákona o daních z příjmů](law:cz/1992/586)).
+  ([§ 6 odst. 4 zákona o daních z příjmů](law:cz/1992/586)) — jen za
+  období do prosince 2026. Od 1. ledna 2027 [zákon č. 360/2025 Sb.](law:cz/2025/360)
+  toto ustanovení mění: týž příjem zůstává samostatným základem, ale pro
+  zálohu běžnou sazbou místo srážkové daně. Výplatní páska ho zdaní běžnou
+  zálohou a označí jako samostatný základ (*Separate Tax Base (§ 6 odst.
+  4)*), který jednotné měsíční hlášení vykazuje zvlášť. Limit se posuzuje
+  u každého pracovněprávního vztahu zvlášť.
+  Rozhoduje období, k němuž příjem patří: dohoda za prosinec 2026 vyplacená
+  v lednu 2027 se ještě zdaní srážkou.
 - **Daň z příjmů.** Měsíční záloha činí 15 % ze základu a 23 % z části
   přesahující trojnásobek průměrné mzdy; základ se zaokrouhluje na celé
   stokoruny nahoru ([§ 38h odst. 1 a 2](law:cz/1992/586)). Slevy na dani
@@ -93,7 +101,7 @@ paragrafy byly ověřeny proti úplným zněním účinným v říjnu 2026.
   ([§ 6 odst. 9 písm. b)](law:cz/1992/586)).
 - **Minimální mzda a náhrady mzdy.** Minimální mzdu upravuje
   [§ 111 zákoníku práce](law:cz/2006/262) a vyhlašuje ji sdělení MPSV (pro
-  rok 2026 č. 356/2025 Sb.). Nižší mzdu dorovnává doplatek, porovnávaný za
+  rok 2026 č. 356/2025 Sb., pro rok 2027 č. 171/2026 Sb.). Nižší mzdu dorovnává doplatek, porovnávaný za
   hodinu, nebyla-li předem sjednána měsíční minimální mzda; mzda za práci
   přesčas a příplatky se do mzdy pro tento účel nezahrnují
   ([§ 111 odst. 1 a 2](law:cz/2006/262)). Za hodinu práce přesčas přísluší
@@ -192,7 +200,9 @@ V pořadí, v jakém pravidla běží:
 9. **Základ daně** = hrubá mzda a náhrada mzdy při nemoci. **Záloha na daň z příjmů**: základ
    zaokrouhlený na celé stokoruny nahoru, 15 % do měsíční hranice a 23 % nad
    ni. U dohody pod hranicí bez prohlášení místo ní **Srážková daň**: 15 % z
-   hrubé mzdy v celých korunách, bez slev.
+   hrubé mzdy v celých korunách, bez slev. Od výplatní pásky za leden 2027
+   se taková dohoda zdaní zálohou, stále bez slev (parametr pravidla
+   `l10n_cz_wh_tax_dependent`).
 10. **Slevy na dani** při podepsaném prohlášení, nejvýše do výše zálohy.
 11. **Daňové zvýhodnění na dítě** do výše zbývající daně a **Daňový bonus na
     dítě** za zbytek, dosáhne-li základ daně poloviny minimální mzdy.
@@ -207,24 +217,24 @@ V pořadí, v jakém pravidla běží:
 Každá sazba a částka je datovaná hodnota, páska tedy použije hodnotu platnou
 k jejímu datu. Dodávané hodnoty:
 
-| Hodnota | 2025 | 2026 |
-|---|---|---|
-| Průměrná mzda (pro pojistné a daň) | 46 557 Kč | 48 967 Kč |
-| Sociální pojištění zaměstnanec / zaměstnavatel | 7,1 % / 24,8 % | beze změny |
-| Maximální roční vyměřovací základ (48×) | 2 234 736 Kč | 2 350 416 Kč |
-| Zdravotní pojištění zaměstnanec / zaměstnavatel | 4,5 % / 9 % | beze změny |
-| Minimální mzda měsíční / hodinová (= minimální vyměřovací základ ZP) | 20 800 Kč / 124,40 Kč | 22 400 Kč / 134,40 Kč |
-| Hranice pro DPP (25 % průměrné mzdy) | 11 500 Kč | 12 000 Kč |
-| Rozhodný příjem pro DPČ | 4 500 Kč | 4 500 Kč |
-| Daň z příjmů | 15 %, 23 % nad 139 671 Kč měsíčně | 15 %, 23 % nad 146 901 Kč měsíčně |
-| Sleva na poplatníka měsíčně / ročně | 2 570 / 30 840 Kč | beze změny |
-| Sleva na držitele ZTP/P měsíčně / ročně | 1 345 / 16 140 Kč | beze změny |
-| Sleva na invaliditu I./II., III. stupně (měsíčně) | 210 / 420 Kč | beze změny |
-| Daňové zvýhodnění měsíčně na 1. / 2. / 3. a další dítě | 1 267 / 1 860 / 2 320 Kč | beze změny |
-| Podmínka příjmu pro měsíční bonus (½ minimální mzdy) | 10 400 Kč | 11 200 Kč |
-| Osvobozený stravenkový paušál za směnu | 123,90 Kč | 129,50 Kč |
-| Redukční hranice náhrady mzdy (hodinové) | 271,60 / 407,40 / 814,80 Kč | 285,78 / 428,58 / 856,98 Kč |
-| Sleva na pojistném | 5 %, základ nejvýše 1,5× průměrné mzdy a 1,15 % průměrné mzdy na hodinu, 138 hodin | beze změny |
+| Hodnota | 2025 | 2026 | 2027 |
+|---|---|---|---|
+| Průměrná mzda (pro pojistné a daň) | 46 557 Kč | 48 967 Kč | 51 663 Kč |
+| Sociální pojištění zaměstnanec / zaměstnavatel | 7,1 % / 24,8 % | beze změny | beze změny |
+| Maximální roční vyměřovací základ (48×) | 2 234 736 Kč | 2 350 416 Kč | 2 479 824 Kč |
+| Zdravotní pojištění zaměstnanec / zaměstnavatel | 4,5 % / 9 % | beze změny | beze změny |
+| Minimální mzda měsíční / hodinová (= minimální vyměřovací základ ZP) | 20 800 Kč / 124,40 Kč | 22 400 Kč / 134,40 Kč | 24 900 Kč / 148,30 Kč |
+| Hranice pro DPP (25 % průměrné mzdy) | 11 500 Kč | 12 000 Kč | 12 500 Kč |
+| Rozhodný příjem pro DPČ | 4 500 Kč | 4 500 Kč | 5 000 Kč |
+| Daň z příjmů | 15 %, 23 % nad 139 671 Kč měsíčně | 15 %, 23 % nad 146 901 Kč měsíčně | 15 %, 23 % nad 154 989 Kč měsíčně |
+| Sleva na poplatníka měsíčně / ročně | 2 570 / 30 840 Kč | beze změny | beze změny |
+| Sleva na držitele ZTP/P měsíčně / ročně | 1 345 / 16 140 Kč | beze změny | beze změny |
+| Sleva na invaliditu I./II., III. stupně (měsíčně) | 210 / 420 Kč | beze změny | beze změny |
+| Daňové zvýhodnění měsíčně na 1. / 2. / 3. a další dítě | 1 267 / 1 860 / 2 320 Kč | beze změny | beze změny |
+| Podmínka příjmu pro měsíční bonus (½ minimální mzdy) | 10 400 Kč | 11 200 Kč | 12 450 Kč |
+| Osvobozený stravenkový paušál za směnu | 123,90 Kč | 129,50 Kč | zatím nevyhlášeno |
+| Redukční hranice náhrady mzdy (hodinové) | 271,60 / 407,40 / 814,80 Kč | 285,78 / 428,58 / 856,98 Kč | 301,53 / 452,20 / 904,23 Kč |
+| Sleva na pojistném | 5 %, základ nejvýše 1,5× průměrné mzdy a 1,15 % průměrné mzdy na hodinu, 138 hodin | beze změny | beze změny |
 
 Sazby náhrad za překážky na straně zaměstnavatele (80 / 60 / 100 % a 60 %
 jako spodní hranice pro částečnou nezaměstnanost) a
@@ -413,5 +423,12 @@ ustanovení. Stránka každého hlášení uvádí za která.
 - **Jádro OCA.** **Český mzdový kód** vlastních typů nepřítomností nastavíte
   na formuláři typu nepřítomnosti vedle pole *Count as*; typ bez kódu se
   bere jako běžná nepřítomnost.
-- Hodnoty se dodávají pro roky 2025 a 2026. Před použitím pro pozdější
-  období je ověřte podle platných předpisů.
+- Limity srážkové daně (do roku 2026) a samostatného základu (od roku 2027)
+  se posuzují u každé výplatní pásky zvlášť. Dvě dohody se společností, z
+  nichž každá je pod limitem, ale dohromady ne, se na pásce berou jako pod
+  limitem; jednotné měsíční hlášení posoudí limit u souhrnu za osobu.
+- Hodnoty se dodávají pro roky 2025 až 2027. Pro rok 2027 zatím chybí
+  osvobozený stravenkový paušál a částky pro srážky ze mzdy (nezabavitelná
+  částka): k listopadu 2026 nebyly vyhlášeny, takže do jejich doplnění platí
+  hodnoty pro rok 2026. Před použitím pro pozdější období je ověřte podle
+  platných předpisů.

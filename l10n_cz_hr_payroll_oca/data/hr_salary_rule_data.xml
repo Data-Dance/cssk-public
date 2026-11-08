@@ -344,6 +344,41 @@ result = categories.GROSS + categories.SICKNAHRADA
         <field name="appears_on_payslip" eval="True"/>
     </record>
 
+    <!-- 131. SEPARATE TAX BASE (§ 6 odst. 4 ZDP as worded from 1 January 2027 by
+         Act No. 360/2025 Sb., Čl. VI bod 10). With no taxpayer declaration, a
+         DPP below the DPP insurance amount (písm. a)) or any employment income
+         below the rozhodný příjem (písm. b)) is a separate base for the tax
+         advance at the § 38h rate. INCOMETAX taxes it like any advance; this
+         memo line only marks it, because the monthly employer report (JMHZ)
+         reports it apart (attributes 10555, 10307 and 10309). Up to December
+         2026 the same income bore the withholding tax (WHTAX) instead. The
+         limit applies per payslip: income from another employment with the
+         same employer is not added. -->
+    <record id="cz_tax_base_par6_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
+        <field name="category_id" ref="hr_payroll_tax_base_par6"/>
+        <field name="name">Separate Tax Base (§ 6 odst. 4)</field>
+        <field name="sequence">131</field>
+        <field name="code">PAR6BASE</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+if payslip.rule_parameter('l10n_cz_wh_tax_dependent') or contract.l10n_cz_tax_declaration:
+    result = False
+else:
+    if contract.l10n_cz_agreement_type == 'dpp':
+        thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
+    else:
+        thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
+    # The limit counts the taxable income, sick pay included.
+    result = categories.TAXBASE &lt; thr
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.TAXBASE
+        </field>
+        <field name="appears_on_payslip" eval="False"/>
+    </record>
+
     <!-- 170. INCOME TAX ADVANCE (15 % / 23 % two-band).
          Monthly base rounded UP to whole 100 Kč (§38h ZDP). -->
     <record id="cz_income_tax_rule" model="hr.salary.rule">
@@ -354,18 +389,24 @@ result = categories.GROSS + categories.SICKNAHRADA
         <field name="code">INCOMETAX</field>
         <field name="condition_select">python</field>
         <field name="condition_python">
-# Advance (zálohová) tax applies to standard employment, to insured dohody
-# (income &gt;= threshold), or to any dohoda where the taxpayer declaration is
-# signed. Below-threshold dohody without a declaration are taxed by the final
-# withholding tax (WHTAX) instead.
+# Advance (zálohová) tax applies to income at or above the threshold (the DPP
+# amount for a DPP, the rozhodný příjem for any other employment), or to any
+# income where the taxpayer declaration is signed. Below-threshold income
+# without a declaration is taxed by the final withholding tax (WHTAX)
+# instead - but only for periods up to December 2026.
+# From 1 January 2027 Act No. 360/2025 Sb. turns that income into a separate
+# base for the ADVANCE (§ 6 odst. 4 as reworded), so every dohoda is taxed
+# here (l10n_cz_wh_tax_dependent); PAR6BASE marks the separate base.
+# § 6 odst. 4 písm. b) is not limited to dohody: any employment below the
+# rozhodný příjem (zaměstnání malého rozsahu) is withheld too. The limit
+# counts the taxable income (TAXBASE), sick pay included.
 agr = contract.l10n_cz_agreement_type
 if agr == 'dpp':
     thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
-elif agr == 'dpc':
-    thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
-    thr = 0.0
-result = agr == 'standard' or categories.GROSS &gt;= thr or contract.l10n_cz_tax_declaration
+    thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
+result = (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
+          or categories.TAXBASE &gt;= thr or contract.l10n_cz_tax_declaration)
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -384,8 +425,14 @@ result = -tax
     <!-- 175. WITHHOLDING TAX (srážková daň, daň vybíraná srážkou) - the final 15 %
          tax on a below-threshold dohoda when no taxpayer declaration is signed
          (§ 6 odst. 4 ZDP). For a DPP the ceiling is the DPP insurance amount
-         (§ 6 odst. 4 písm. a) ZDP), for a DPČ the rozhodný příjem (písm. b)).
+         (§ 6 odst. 4 písm. a) ZDP), for any other employment - a DPČ or a
+         pracovní poměr - the rozhodný příjem (písm. b)).
          Base and tax rounded down to whole CZK. No credits.
+         Periods up to December 2026 only: from 1 January 2027 Act No.
+         360/2025 Sb. taxes the same income by an advance on a separate base
+         (§ 6 odst. 4 as reworded, see PAR6BASE), and the regime follows the period
+         the income belongs to (a December 2026 DPP paid in January 2027 is
+         still withheld). Gated by l10n_cz_wh_tax_dependent.
          Sources (2025/2026 limits & treatment):
          https://www.finance.cz/clanky/553494-prace-na-dohody-dpp-dpc-v-roce-2026-jak-se-zmeni-limity-a-zdaneni-prace-na-dohodu/
          https://www.mesec.cz/clanky/dohoda-o-pracovni-cinnosti-dpc-2025-jak-na-dane-a-pojistne-odvody/ -->
@@ -398,20 +445,28 @@ result = -tax
         <field name="condition_select">python</field>
         <field name="condition_python">
 agr = contract.l10n_cz_agreement_type
-if agr not in ('dpp', 'dpc') or contract.l10n_cz_tax_declaration:
+# No srážková daň on employment income for periods from January 2027 (§ 6
+# odst. 4 ZDP as reworded by Act No. 360/2025 Sb.); the advance takes over.
+if (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
+        or contract.l10n_cz_tax_declaration):
     result = False
 else:
+    # A DPP below the DPP amount (písm. a)), any other employment below the
+    # rozhodný příjem (písm. b)), a pracovní poměr included. The limit counts
+    # the taxable income, sick pay included (a month of sick leave is not a
+    # small-scale employment).
     if agr == 'dpp':
         thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
     else:
         thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
-    result = categories.GROSS &lt; thr
+    result = categories.TAXBASE &lt; thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # Srážková daň uses the same 15 % statutory rate as the first income-tax band.
 rate = payslip.rule_parameter('l10n_cz_tax_rate_1')
-base = int(categories.GROSS)
+# A correction month can make the base negative; withholding is never a refund.
+base = max(int(categories.TAXBASE), 0)
 result = -int(base * rate / 100.0)
         </field>
         <field name="appears_on_payslip" eval="True"/>

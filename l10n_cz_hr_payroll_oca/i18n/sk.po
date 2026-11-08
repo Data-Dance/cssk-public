@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_cz_hr_payroll_oca
+# * l10n_cz_hr_payroll_oca
 #
 msgid ""
 msgstr ""
@@ -8,11 +8,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: sk_SK\n"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value
@@ -1431,3 +1431,105 @@ msgstr "Rok"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
 msgid "of which ZTP/P Children"
 msgstr "z toho deti so ZTP/P"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_wh_tax_dependent
+msgid "Czech Republic: withholding tax on low employment income"
+msgstr "Česká republika: Zrážková daň z nízkych príjmov zo závislej činnosti"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_version
+msgid "Employee Contract / Version"
+msgstr "Pracovná zmluva / verzia"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_birth_number
+msgid ""
+"Leave empty for a spouse with no Czech birth number; the date of birth then "
+"identifies them."
+msgstr ""
+"Nechajte prázdne pri manželovi bez českého rodného čísla; identifikuje ho "
+"potom dátum narodenia."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_months
+msgid ""
+"Months at whose start the employee lived in one household with the spouse "
+"and a maintained child under 3 (§ 35ba odst. 1 písm. b) ZDP)."
+msgstr ""
+"Mesiace, na ktorých začiatku zamestnanec žil v spoločne hospodáriacej "
+"domácnosti s manželom a vyživovaným dieťaťom do 3 rokov (§ 35ba odst. 1 "
+"písm. b) ZDP)."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_performed_date
+msgid "Performed on"
+msgstr "Vykonané dňa"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
+msgid "Spouse (§ 35ba odst. 1 písm. b))"
+msgstr "Manžel (§ 35ba odst. 1 písm. b))"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_months
+msgid "Spouse credit: months"
+msgstr "Zľava na manžela: počet mesiacov"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp_months
+msgid "Spouse credit: of which ZTP/P months"
+msgstr "Zľava na manžela: z toho mesiacov ZTP/P"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp
+msgid "Spouse holds ZTP/P"
+msgstr "Manžel je držiteľom ZTP/P"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_birth_number
+msgid "Spouse: birth number"
+msgstr "Manžel: rodné číslo"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_birthday
+msgid "Spouse: date of birth"
+msgstr "Manžel: dátum narodenia"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_first_name
+msgid "Spouse: first name"
+msgstr "Manžel: meno"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_surname
+msgid "Spouse: surname"
+msgstr "Manžel: priezvisko"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp
+msgid ""
+"The spouse was granted a ZTP/P card; the credit is doubled for the months at"
+" whose start this was so."
+msgstr ""
+"Manželovi bol priznaný preukaz ZTP/P; zľava sa zdvojnásobuje za mesiace, na "
+"ktorých začiatku to tak bolo."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_performed_date
+msgid ""
+"When the reconciliation was done. Set when it is first computed. A "
+"reconciliation paid out on a payslip is reported in the monthly employer "
+"report of that payslip's month; one with nothing to pay out, in the month of"
+" this date."
+msgstr ""
+"Kedy bolo ročné zúčtovanie vykonané. Nastaví sa pri prvom výpočte. "
+"Zúčtovanie vyplatené na výplatnej páske sa vykáže v mesačnom hlásení "
+"zamestnávateľa za mesiac tejto pásky; zúčtovanie, z ktorého nie je čo "
+"vyplatiť, v mesiaci tohto dátumu."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_tax_base_par6_rule
+#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_tax_base_par6
+msgid "Separate Tax Base (§ 6 odst. 4)"
+msgstr "Samostatný základ pre výpočet preddavku (§ 6 odst. 4)"

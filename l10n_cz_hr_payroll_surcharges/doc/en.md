@@ -1,7 +1,7 @@
 ---
 title: CZ Wage Surcharges (příplatky)
 summary: Statutory Czech wage surcharges for overtime, public-holiday, night, weekend and difficult-environment work, the wage for overtime hours and the minimum wage top-up, from dated rates, on either payroll engine.
-verified: 19.0.1.1.2
+verified: 19.0.1.2.0
 ---
 
 ## What it is for {#purpose}
@@ -64,8 +64,8 @@ earns § 114, § 116 and § 118 together.
 1. Install the bridge for your engine (see [Payroll engines](#engines)).
 2. Check the rates under *Employees → Configuration → Czech Wage Surcharges*:
    - **Czech Minimum Wage** — one record per start date with the monthly and
-     hourly amount. 2025 (20 800 Kč / 124.40 Kč) and 2026 (22 400 Kč /
-     134.40 Kč) are shipped; add the next year's record when MPSV announces
+     hourly amount. 2025 (20 800 Kč / 124.40 Kč), 2026 (22 400 Kč /
+     134.40 Kč) and 2027 (24 900 Kč / 148.30 Kč) are shipped; add the next year's record when MPSV announces
      it.
    - **Czech Wage Surcharges** — one record per start date with the
      percentages: *Overtime %* 25, *Public holiday %* 100, *Night work %* 10,

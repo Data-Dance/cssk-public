@@ -2,6 +2,15 @@
 Changelog
 =========
 
+[19.0.1.1.2] — 2026-11-08
+-------------------------
+
+Changed
+~~~~~~~
+
+- Guide: the 2027 statutory figures, what is not published yet, and the
+  separate tax base of § 6 odst. 4 from 2027.
+
 [19.0.1.1.1] — 2026-11-05
 -------------------------
 

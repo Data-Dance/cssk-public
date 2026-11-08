@@ -1,7 +1,7 @@
 ---
 title: Czech Payroll
 summary: The Czech payroll family in one place — the monthly payslip for a pracovní poměr, DPP and DPČ on either the OCA payroll app or Odoo Enterprise Payroll, with dated statutory rates, time off, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}
@@ -78,7 +78,14 @@ checked against the consolidated texts in force in October 2026.
   employment, once the income reaches the *rozhodný příjem*
   ([§ 6 odst. 2](law:cz/2006/187)). Below those amounts, and without a
   signed declaration, the income is taxed by a final withholding tax
-  ([§ 6 odst. 4 of the Income Tax Act](law:cz/1992/586)).
+  ([§ 6 odst. 4 of the Income Tax Act](law:cz/1992/586)) — for periods up to
+  December 2026 only. From 1 January 2027 [Act No. 360/2025 Sb.](law:cz/2025/360)
+  rewords that provision: the same income stays a separate base, but for
+  an advance at the ordinary rate instead of the final withholding tax. The
+  payslip taxes it with the ordinary advance and marks it as the separate
+  base (*Separate Tax Base (§ 6 odst. 4)*), which the monthly employer
+  report shows apart. The limit counts each employment on its own. The period the income belongs to decides, so a December
+  2026 agreement paid in January 2027 is still withheld.
 - **Income tax.** The monthly advance is 15 % of the base and 23 % of the
   part above three times the average wage; the base is rounded up to whole
   hundreds of crowns ([§ 38h odst. 1 and 2](law:cz/1992/586)). The tax
@@ -93,7 +100,7 @@ checked against the consolidated texts in force in October 2026.
   ([§ 6 odst. 9 písm. b)](law:cz/1992/586)).
 - **Minimum wage and wage replacements.** The minimum wage is set under
   [§ 111 of the Labour Code](law:cz/2006/262) and announced by an MPSV
-  communication (for 2026, No. 356/2025 Sb.). A wage below it is topped up
+  communication (for 2026, No. 356/2025 Sb.; for 2027, No. 171/2026 Sb.). A wage below it is topped up
   with a *doplatek*, compared per hour unless the monthly minimum wage was
   agreed in advance; overtime pay and surcharges do not count towards it
   ([§ 111 odst. 1 and 2](law:cz/2006/262)). An overtime hour is paid its
@@ -186,7 +193,9 @@ In the order the rules run:
 9. **Tax Base** = gross pay plus sickness compensation. **Income Tax Advance**: the base rounded up to
    whole hundreds of crowns, 15 % up to the monthly threshold and 23 % above.
    **Withholding Tax** instead for an agreement below its threshold without a
-   declaration: 15 % of the whole-crown gross, no credits.
+   declaration: 15 % of the whole-crown gross, no credits. From the January
+   2027 payslip such an agreement gets the advance instead, still without
+   credits (rule parameter `l10n_cz_wh_tax_dependent`).
 10. **Tax Credits** with a signed declaration, at most the advance.
 11. **Child Tax Benefit** up to the remaining tax, and **Child Tax Bonus**
     for the rest if the tax base reaches half the minimum wage.
@@ -201,24 +210,24 @@ In the order the rules run:
 Every rate and amount is a dated value, so a payslip uses the figure in force
 on its date. The values shipped:
 
-| Figure | 2025 | 2026 |
-|---|---|---|
-| Average wage (for insurance and tax) | 46 557 Kč | 48 967 Kč |
-| Social insurance, employee / employer | 7.1 % / 24.8 % | same |
-| Maximum annual assessment base (48×) | 2 234 736 Kč | 2 350 416 Kč |
-| Health insurance, employee / employer | 4.5 % / 9 % | same |
-| Minimum wage, monthly / hourly (= health minimum base) | 20 800 Kč / 124.40 Kč | 22 400 Kč / 134.40 Kč |
-| DPP threshold (25 % of the average wage) | 11 500 Kč | 12 000 Kč |
-| DPČ threshold (*rozhodný příjem*) | 4 500 Kč | 4 500 Kč |
-| Income tax | 15 %, 23 % above 139 671 Kč a month | 15 %, 23 % above 146 901 Kč a month |
-| Taxpayer credit, monthly / annual | 2 570 / 30 840 Kč | same |
-| ZTP/P credit, monthly / annual | 1 345 / 16 140 Kč | same |
-| Disability credit I/II, III (monthly) | 210 / 420 Kč | same |
-| Child tax benefit per month, 1st / 2nd / 3rd+ child | 1 267 / 1 860 / 2 320 Kč | same |
-| Monthly bonus income test (½ minimum wage) | 10 400 Kč | 11 200 Kč |
-| Tax-exempt meal allowance per shift | 123.90 Kč | 129.50 Kč |
-| Sick pay reduction thresholds (hourly) | 271.60 / 407.40 / 814.80 Kč | 285.78 / 428.58 / 856.98 Kč |
-| Social insurance discount | 5 %, base capped at 1.5× the average wage and 1.15 % of it per hour, 138 hours | same |
+| Figure | 2025 | 2026 | 2027 |
+|---|---|---|---|
+| Average wage (for insurance and tax) | 46 557 Kč | 48 967 Kč | 51 663 Kč |
+| Social insurance, employee / employer | 7.1 % / 24.8 % | same | same |
+| Maximum annual assessment base (48×) | 2 234 736 Kč | 2 350 416 Kč | 2 479 824 Kč |
+| Health insurance, employee / employer | 4.5 % / 9 % | same | same |
+| Minimum wage, monthly / hourly (= health minimum base) | 20 800 Kč / 124.40 Kč | 22 400 Kč / 134.40 Kč | 24 900 Kč / 148.30 Kč |
+| DPP threshold (25 % of the average wage) | 11 500 Kč | 12 000 Kč | 12 500 Kč |
+| DPČ threshold (*rozhodný příjem*) | 4 500 Kč | 4 500 Kč | 5 000 Kč |
+| Income tax | 15 %, 23 % above 139 671 Kč a month | 15 %, 23 % above 146 901 Kč a month | 15 %, 23 % above 154 989 Kč a month |
+| Taxpayer credit, monthly / annual | 2 570 / 30 840 Kč | same | same |
+| ZTP/P credit, monthly / annual | 1 345 / 16 140 Kč | same | same |
+| Disability credit I/II, III (monthly) | 210 / 420 Kč | same | same |
+| Child tax benefit per month, 1st / 2nd / 3rd+ child | 1 267 / 1 860 / 2 320 Kč | same | same |
+| Monthly bonus income test (½ minimum wage) | 10 400 Kč | 11 200 Kč | 12 450 Kč |
+| Tax-exempt meal allowance per shift | 123.90 Kč | 129.50 Kč | not published yet |
+| Sick pay reduction thresholds (hourly) | 271.60 / 407.40 / 814.80 Kč | 285.78 / 428.58 / 856.98 Kč | 301.53 / 452.20 / 904.23 Kč |
+| Social insurance discount | 5 %, base capped at 1.5× the average wage and 1.15 % of it per hour, 138 hours | same | same |
 
 Employer obstacle rates (80 / 60 / 100 %, and 60 % as the floor for
 short-time working) and the annual deduction caps
@@ -408,5 +417,13 @@ Each report's page says which.
 - **OCA engine.** The **Czech Payroll Code** of your own time-off types is
   set on the time-off type form, next to *Count as*; a type without a code
   is treated as an ordinary absence.
-- The figures are shipped for 2025 and 2026. Check them against the law
-  before using a later period.
+- The withholding-tax limits (up to 2026) and the separate base (from
+  2027) are tested per payslip. On the payslip two agreements with the
+  company that are each below the limit but not together are treated as
+  below it; the monthly employer report applies the limit to the person's
+  total.
+- The figures are shipped for 2025 to 2027. For 2027 the tax-exempt meal
+  allowance and the garnishment amounts (non-seizable amount) are still
+  missing: they were not published by November 2026, so the 2026 values
+  apply until they are added. Check the figures against the law before
+  using a later period.

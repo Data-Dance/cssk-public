@@ -1,7 +1,7 @@
 ---
 title: Czechia: Payroll Engine Parity Harness
 summary: Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Czech implementations and asserts they produce identical figures.
-verified: 19.0.1.2.3
+verified: 19.0.1.2.4
 ---
 
 ## What it is for
@@ -14,7 +14,7 @@ It is the Czech counterpart of `l10n_sk_hr_payroll_parity`, which has caught thr
 
 ## Known issues
 
-- The scenarios cover the absence path and the employer-side obstacles. The income-tax bands, the slevy and the annual reconciliation are still asserted only inside each engine's own suite.
+- The scenarios cover the absence path, the employer-side obstacles and a 2027 DPP without a declaration (the separate tax base of § 6 odst. 4). The income-tax bands, the slevy and the annual reconciliation are still asserted only inside each engine's own suite.
 - Declaration parity covers the PVPOJ (monthly) and the ELDP (annual).
 - The Vyúčtování is NOT asserted, and deliberately so: its Part I reports the tax advance BEFORE the sleva na poplatníka where the payslip withholds it after, and which of the two the form wants is question 6 in docs/cz-otazky-pro-mzdoveho-odbornika.md. Asserting the current figure would bless a number nobody has checked.
 - The ONZ is event-shaped (registration on hire) rather than payslip-derived, so it needs a different kind of assertion — the same situation as the Slovak RLFO.
