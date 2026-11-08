@@ -1,7 +1,7 @@
 ---
 title: SK Invoice (statutory PDF)
 summary: Adds the customer's DIČ, the payment symbols and the statutory VAT phrases — exemption and reverse charge — to the printed Slovak invoice.
-verified: 19.0.1.0.6
+verified: 19.0.1.0.8
 ---
 
 ## What it is for {#purpose}
@@ -20,8 +20,8 @@ registry entry. This module adds the four things it is missing:
    `l10n_sk` prints "ID:" (even in Slovak).
 
 Your own company's block in the header then reads IČ DPH, IČO and DIČ, each
-once: core `l10n_sk` adds its own IČ DPH line next to the one every Odoo
-layout already prints, and the module drops the second copy.
+once. Core `l10n_sk` used to add a second IČ DPH line, which Odoo removed in
+October 2026; on an older Odoo 19.0 the IČ DPH prints twice, so update Odoo.
 
 Everything it prints appears only on documents of a company whose country is
 Slovakia, so it does no harm in a multi-company database with other

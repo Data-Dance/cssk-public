@@ -1,7 +1,7 @@
 ---
 title: CZ VAT Return (DPHDP3)
 summary: The Czech VAT return computed from the tax tags of Odoo's Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.
-verified: 19.0.1.12.0
+verified: 19.0.1.16.0
 ---
 
 ## What it is for {#purpose}
@@ -179,6 +179,21 @@ the chart's taxes so that the return can report them:
   the EU acquisition taxes, so a bill from an EU supplier self-assesses the tax
   instead of keeping the Czech rate. Only links are added; a mapping set by
   hand is kept.
+- **Intra-Community sales of services.** `l10n_cz` also names the domestic
+  goods sale taxes as the originals of `0% EU S`, so a goods line got both
+  `0% EU G` and `0% EU S` and its base was declared twice (ř. 20 and 21, in
+  the kontrolní hlášení and in the souhrnné hlášení), while a service with
+  `21% S` kept Czech VAT. `0% EU S` now replaces `21% S` and `12% S` only.
+  Posted documents keep their taxes.
+- **Extra-Community purchases.** The same fault on the *Extra-Community*
+  position mapped one goods line onto three taxes and declared it on ř. 7,
+  12 and 42, and left a service bought outside the EU at Czech 21 %. Goods and
+  services are now mapped apart.
+- **Asset acquisitions (ř. 47).** `l10n_cz` ships no tax for *hodnota
+  pořízeného majetku*, so ř. 47 was always 0.00. Every purchase tax deductible
+  on ř. 40–44 gets a *Majetek* twin (`21% G Majetek`, `21% EU G Majetek`, …),
+  identical except that it also reports the base on ř. 47. Pick the twin on
+  the line of a bill for a long-term asset.
 
 ## Bad-debt corrections {#bad-debt}
 

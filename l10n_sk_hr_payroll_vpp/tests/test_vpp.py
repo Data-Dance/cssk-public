@@ -227,6 +227,124 @@ class TestVpp(TransactionCase):
         self.assertEqual(self.company.l10n_sk_sp_vs, "9988776655")
 
 
+    def test_corrective_full_replacement_and_retained_original(self):
+        self._dohodar_payslip()
+        original = self._vpp()
+        original.action_generate()
+        original.action_submit()  # Local test status, no authority transport.
+        filed = original.submitted_attachment_id
+        original_bytes = base64.b64decode(filed.datas)
+        before = etree.fromstring(original_bytes)
+        self._dohodar_payslip(wage=500, identification='8501021234')
+        correction = self._vpp()
+        correction.write({'correction_type': 'corrective', 'replaced_vpp_id': original.id})
+        correction.action_generate()
+        after = etree.fromstring(base64.b64decode(correction.xml_attachment_id.datas))
+        self.assertEqual(after.find('v:typVykazu', NS).text, 'O')
+        self.assertEqual(after.find('v:cisloVykazu', NS).text, before.find('v:cisloVykazu', NS).text)
+        self.assertGreater(float(after.find('.//v:spoluPoistne', NS).text), float(before.find('.//v:spoluPoistne', NS).text))
+        self.assertEqual({row.get('rc') for row in after.findall('.//v:poistneZamestnanca', NS)},
+                         {'8501011234', '8501021234'})
+        self.assertEqual(base64.b64decode(filed.datas), original_bytes)
+        self.assertEqual(original.state, 'submitted')
+
+    def test_corrective_requires_exact_filed_period(self):
+        from odoo.exceptions import UserError
+        self._dohodar_payslip()
+        original = self._vpp()
+        original.action_generate()
+        correction = self._vpp()
+        correction.write({'correction_type': 'corrective', 'replaced_vpp_id': original.id})
+        with self.assertRaises(UserError):
+            correction.action_generate()
+        original.action_submit()
+        correction.month = '4'
+        with self.assertRaises(UserError):
+            correction.action_generate()
+
+    def test_generated_identity_and_filed_retention(self):
+        from odoo.exceptions import UserError
+        self._dohodar_payslip()
+        original = self._vpp()
+        original.action_generate()
+        with self.assertRaises(UserError):
+            original.correction_type = 'corrective'
+        original.action_submit()
+        filed = original.submitted_attachment_id
+        with self.assertRaises(UserError):
+            original.month = '4'
+        original.action_reset_to_draft()
+        original.month = '4'
+        self.assertEqual(original.submitted_attachment_id, filed)
+        self.assertIn(filed, original.filed_history_ids)
+
+    def test_regular_cannot_replace_a_filing(self):
+        from odoo.exceptions import UserError
+        self._dohodar_payslip()
+        original = self._vpp()
+        original.action_generate()
+        original.action_submit()
+        report = self._vpp()
+        report.replaced_vpp_id = original
+        with self.assertRaises(UserError):
+            report.action_generate()
+
+
+    def test_corrective_prefills_unique_original_for_api_create_and_write(self):
+        self._dohodar_payslip()
+        original = self._vpp()
+        original.action_generate()
+        original.action_submit()
+        correction = self._vpp()
+        correction.correction_type = 'corrective'
+        self.assertEqual(correction.replaced_vpp_id, original)
+        direct = self.env['l10n.sk.vpp'].with_company(self.company).create({
+            'company_id': self.company.id, 'year': original.year, 'month': original.month,
+            'correction_type': 'corrective'})
+        self.assertEqual(direct.replaced_vpp_id, original)
+
+    def test_corrective_prefills_unique_original_in_unsaved_form(self):
+        self._dohodar_payslip()
+        original = self._vpp()
+        original.action_generate()
+        original.action_submit()
+        form = self.env['l10n.sk.vpp'].with_company(self.company).new({
+            'company_id': self.company.id, 'year': original.year, 'month': original.month,
+            'correction_type': 'corrective'})
+        form._onchange_replaced_vpp()
+        self.assertEqual(form.replaced_vpp_id, original)
+        form.correction_type = 'regular'
+        form._onchange_replaced_vpp()
+        self.assertFalse(form.replaced_vpp_id)
+
+    def test_prefill_never_guesses_between_multiple_filed_candidates(self):
+        self._dohodar_payslip()
+        for _index in range(2):
+            original = self._vpp()
+            original.action_generate()
+            original.action_submit()
+        correction = self._vpp()
+        correction.correction_type = 'corrective'
+        self.assertFalse(correction.replaced_vpp_id)
+        correction.replaced_vpp_id = original
+        correction.action_generate()
+
+    def test_prefill_respects_period_and_explicit_missing_link(self):
+        self._dohodar_payslip()
+        original = self._vpp()
+        original.action_generate()
+        original.action_submit()
+        correction = self._vpp()
+        correction.write({'month': '4', 'correction_type': 'corrective'})
+        self.assertFalse(correction.replaced_vpp_id)
+        correction.month = original.month
+        self.assertEqual(correction.replaced_vpp_id, original)
+        explicit = self.env['l10n.sk.vpp'].with_company(self.company).create({
+            'company_id': self.company.id, 'year': original.year, 'month': original.month,
+            'correction_type': 'corrective', 'replaced_vpp_id': False})
+        self.assertFalse(explicit.replaced_vpp_id)
+
+
 @tagged("post_install", "-at_install")
 class TestSchemaPins(TransactionCase):
     """The bundled schemas must match data/SCHEMA_VERSION.

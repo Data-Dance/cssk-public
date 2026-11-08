@@ -1,7 +1,7 @@
 ---
 title: CZ Přiznání k DPH (DPHDP3)
 summary: České přiznání k DPH vypočtené z daňových štítků české účtové osnovy Odoo a exportované jako XML DPHDP3 pro EPO, pro každé období ověřené proti aktuálnímu úřednímu XSD.
-verified: 19.0.1.12.0
+verified: 19.0.1.16.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -178,6 +178,21 @@ osnovy tak, aby je přiznání umělo vykázat:
   pořízení z EU, takže přijatá faktura od dodavatele z EU daň samovyměří a
   neponechá českou sazbu. Vazby se jen přidávají; ručně nastavené mapování
   zůstane.
+- **Poskytnutí služeb do jiného členského státu.** `l10n_cz` uvádí tuzemské
+  prodejní daně pro zboží i jako původní daně k `0% EU S`, takže řádek se
+  zbožím dostal `0% EU G` i `0% EU S` a jeho základ se přiznal dvakrát (ř. 20
+  a 21, v kontrolním i souhrnném hlášení), zatímco služba s `21% S` si
+  ponechala českou DPH. `0% EU S` nyní nahrazuje jen `21% S` a `12% S`.
+  Zaúčtované doklady si ponechají své daně.
+- **Nákupy ze třetích zemí.** Stejná chyba ve fiskální pozici
+  *Mimo Společenství* mapovala jeden řádek se zbožím na tři daně a přiznala ho
+  na ř. 7, 12 a 42, a službu nakoupenou mimo EU nechala s českou sazbou 21 %.
+  Zboží a služby se nyní mapují odděleně.
+- **Pořízení majetku (ř. 47).** `l10n_cz` nedodává žádnou daň pro *hodnotu
+  pořízeného majetku*, takže ř. 47 byl vždy 0,00. Každá nákupní daň
+  s odpočtem na ř. 40–44 dostane dvojče *Majetek* (`21% G Majetek`,
+  `21% EU G Majetek`, …), shodné až na to, že základ vykáže i na ř. 47. Na
+  řádku přijaté faktury za dlouhodobý majetek zvolte toto dvojče.
 
 ## Opravy u nedobytných pohledávek {#bad-debt}
 

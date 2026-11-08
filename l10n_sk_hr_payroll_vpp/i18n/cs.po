@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_sk_hr_payroll_vpp
+# 	* l10n_sk_hr_payroll_vpp
 #
 msgid ""
 msgstr ""
@@ -8,11 +8,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: cs_CZ\n"
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_res_company__l10n_sk_sp_vs
@@ -20,6 +20,8 @@ msgid ""
 "10-digit identification number assigned to the employer by the Sociálna "
 "poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
 msgstr ""
+"10místné identifikační číslo přidělené zaměstnavateli Sociálnou poisťovňou —"
+" element <variabilnySymbol> výkazů SP (MVP / VPP)."
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__sp_vs
@@ -28,6 +30,15 @@ msgid ""
 " on the company and shared by every Sociálna poisťovňa filing (MVP, VPP, "
 "ELDP, RLFO)."
 msgstr ""
+"10místné číslo, které společnosti přidělila Sociálna poisťovňa. Ukládá se na"
+" společnosti a používají ho všechny výkazy pro Sociálnu poisťovňu (MVP, VPP,"
+" ELDP, RLFO)."
+
+#. module: l10n_sk_hr_payroll_vpp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid "A regular VPP cannot replace a filed VPP. Select Corrective."
+msgstr "Řádný VPP nemůže nahradit podaný VPP. Zvolte opravný výkaz."
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__message_needaction
@@ -60,6 +71,13 @@ msgid "Attachment Count"
 msgstr "Počet příloh"
 
 #. module: l10n_sk_hr_payroll_vpp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid ""
+"Choose the retained filed VPP for this exact company and settlement period."
+msgstr "Zvolte uchovaný podaný VPP právě této společnosti a období zúčtování."
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model,name:l10n_sk_hr_payroll_vpp.model_res_company
 msgid "Companies"
 msgstr "Společnosti"
@@ -77,6 +95,9 @@ msgid ""
 "for the VPP <variabilnySymbol> element. Fill in 'Sociálna poisťovňa variable"
 " symbol' on this form."
 msgstr ""
+"Společnost '%(company)s' potřebuje 10místný variabilní symbol Sociálnej "
+"poisťovne pro element <variabilnySymbol> výkazu VPP. Vyplňte 'Variabilní "
+"symbol Sociálnej poisťovne' v tomto formuláři."
 
 #. module: l10n_sk_hr_payroll_vpp
 #. odoo-python
@@ -85,6 +106,8 @@ msgid ""
 "Company '%(company)s' needs an 8-12 digit IČO (Company Registry) for the VPP"
 " <identifikator> element."
 msgstr ""
+"Společnost '%(company)s' potřebuje 8- až 12místné IČO (Company Registry) pro"
+" element <identifikator> výkazu VPP."
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__correction_reference
@@ -201,7 +224,7 @@ msgstr "Má zprávu"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_res_company__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__activity_exception_icon
@@ -329,9 +352,24 @@ msgid "Payment Date"
 msgstr "Datum výplaty"
 
 #. module: l10n_sk_hr_payroll_vpp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__replaced_vpp_id
+msgid "Replaces filed VPP"
+msgstr "Nahrazuje podaný VPP"
+
+#. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__report_code
 msgid "Report Code"
 msgstr "Kód výkazu"
+
+#. module: l10n_sk_hr_payroll_vpp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_vpp/models/vpp_correction.py:0
+msgid ""
+"Reset the VPP to draft before changing its period or correction identity. "
+"The filed copy is retained."
+msgstr ""
+"Před změnou období nebo druhu opravy vraťte VPP do návrhu. Podaná kopie se "
+"zachová."
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_vpp.view_l10n_sk_vpp_form
@@ -362,7 +400,7 @@ msgstr "Chyba doručení SMS"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__sp_vs
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_res_company__l10n_sk_sp_vs
 msgid "Sociálna poisťovňa variable symbol"
-msgstr ""
+msgstr "Variabilní symbol Sociálnej poisťovne"
 
 #. module: l10n_sk_hr_payroll_vpp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_vpp.field_l10n_sk_vpp__state

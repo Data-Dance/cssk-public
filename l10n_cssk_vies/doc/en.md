@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VIES — direct check and proof of consultation
 summary: Checks EU VAT numbers directly against the European Commission's VIES service, without Odoo IAP, and keeps every check with its consultation number as evidence.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## What it is for {#purpose}

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Translation Overrides
 summary: Slovak and Czech wording for Odoo and OCA screens where their own translation is missing, wrong or inconsistent with Czech/Slovak accounting terminology.
-verified: 19.0.1.0.0
+verified: 19.0.1.3.0
 ---
 
 ## What it is for {#purpose}
@@ -52,5 +52,14 @@ Messages produced in code change after the Odoo server is restarted.
   operation types such as *Receipts*, routes, code-created journals, POS
   payment methods — get their Slovak or Czech name too, also on a database
   set up in English. A name you translated or changed yourself is kept.
+- Accounting terms follow the Czech and Slovak accounting and VAT acts rather
+  than Odoo's community translation: an account type is *Výnosy* / *Náklady*
+  (not *Příjem* / *Výdaj*), the tax type is *Výstup* / *Vstup* (not
+  *Prodej* / *Nákup*), and the income account is *Účet výnosů* (*Účet
+  výnosov*). Sales journals, sale orders, the Sales menu and the single-entry
+  cash journal (*daňová evidence*) keep their usual words.
+- A journal's payment methods are named in the company's language, so
+  payment labels no longer read "Manual Payment: …" in a Slovak or Czech
+  company.
 - Account, tax and journal names come from the chart of accounts and belong
   to each company; they are not changed by this module.

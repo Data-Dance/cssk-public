@@ -1,7 +1,7 @@
 ---
 title: CZ Statutory Reference Data
 summary: The Czech tax offices, taxpayer types and filer details that every Czech electronic filing (EPO) needs, and the bad-debt correction flag on invoices.
-verified: 19.0.1.3.1
+verified: 19.0.1.3.2
 ---
 
 ## What it is for {#purpose}
@@ -14,8 +14,8 @@ it and who prepared it. This module supplies that data once, for all of
 those forms:
 
 - **the Czech tax offices** (*finanční úřady*) with their codes;
-- **the taxpayer types** *Fyzická osoba* (natural person) and *Právnická
-  osoba* (legal entity);
+- **the taxpayer types** *Natural person* and *Legal entity* (*Fyzická
+  osoba* and *Právnická osoba* in Slovak and Czech);
 - **the filer details** on the company: the authorised signatory, who
   prepared the filing, and a representative such as a tax adviser;
 - a **check before export** that the company's tax office can be filed;
@@ -49,7 +49,7 @@ with Czech data so that none of it loads on a Slovak database.
 |---|---|
 | Tax Authority (*Finanční úřad*) | The **regional** tax office the company files to, e.g. *Finanční úřad pro Jihomoravský kraj*. Its code is filed as `c_ufo`. |
 | Tax Office (CZ) (*Finanční Úřad (CZ)*) | Odoo's own field: the **territorial workplace** (*územní pracoviště*). Its code is filed as `c_pracufo`. Optional. |
-| Entity Type (*Typ subjektu*) | *Právnická osoba* or *Fyzická osoba*. Decides whether filings are made as a legal entity (`typ_ds` P) or a natural person (F). Empty counts as a legal entity. |
+| Entity Type (*Typ subjektu*) | *Legal entity* or *Natural person*. Decides whether filings are made as a legal entity (`typ_ds` P) or a natural person (F). Empty counts as a legal entity. |
 | NACE (main activity) | On the company's contact; filed as the activity code. |
 
 Both tax-office fields show as *Finanční úřad* in Czech, which is easy to

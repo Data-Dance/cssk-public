@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VIES — priame overenie a doklad o overení
 summary: Overuje IČ DPH z iných členských štátov priamo v systéme VIES Európskej komisie, bez Odoo IAP, a každé overenie aj s číslom overenia uchová ako doklad.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## Na čo slúži {#purpose}

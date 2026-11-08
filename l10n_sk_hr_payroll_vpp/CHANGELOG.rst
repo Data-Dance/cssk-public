@@ -5,7 +5,32 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
-* **Fixed: a dohoda with regular income is no longer reported on the VPP.**
+* **19.0.1.2.0 (2026-11-08), not yet on 18.0:** the regular-income
+  classification (cssk-public#12). ``l10n_cssk-18.0`` has the same
+  agreement-kind predicate. There the payslip's contract is ``hr.contract``
+  (``contract_id``), not ``hr.version``, so ``_payslip_version`` needs an
+  18.0 form.
+* **19.0.1.2.0 (2026-11-08), not yet on 18.0:** the corrective VPP
+  (cssk-public#19), ``models/vpp_correction.py`` and its view and tests.
+
+[19.0.1.2.0] — 2026-11-08
+-------------------------
+
+Added
+~~~~~
+
+* **Corrective VPP** (``typVykazu`` *O*). A corrective statement replaces
+  the regular one in full and keeps its number. It is tied to a filed
+  original of the same company and settlement period, whose filed copy is
+  kept; the only retained original is filled in on the form and through the
+  API, and a choice between several is left to the user. Company, period,
+  version and correction type are locked once the statement is generated,
+  until it is reset to draft. Contributed by votrelec (cssk-public#19).
+
+Fixed
+~~~~~
+
+* **A dohoda with regular income is no longer reported on the VPP.**
   The VPP took every DoVP and DoPČ payslip by agreement kind alone, so a
   monthly-paid DoPČ appeared both here (as ``ZECD2N``, irregular) and on the
   MVP (cssk-public#12). A payslip now reaches the VPP when its own contract
@@ -15,9 +40,8 @@ Unreleased
   does not move a past period. Still not covered: regular income paid after
   the insurance relationship ended (``ZECN``).
 
-  *18.0 carry-over:* ``l10n_cssk-18.0`` has the same agreement-kind predicate.
-  There the payslip's contract is ``hr.contract`` (``contract_id``), not
-  ``hr.version``, so ``_payslip_version`` needs an 18.0 form.
+Changed
+~~~~~~~
 
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo

@@ -1,7 +1,7 @@
 ---
 title: SK faktúra (zákonné PDF)
 summary: Doplní do tlačenej slovenskej faktúry DIČ odberateľa, platobné symboly a zákonné formulácie o oslobodení od dane a prenesení daňovej povinnosti.
-verified: 19.0.1.0.6
+verified: 19.0.1.0.8
 ---
 
 ## Na čo slúži {#purpose}
@@ -21,8 +21,9 @@ ktoré v nej chýbajú:
    `l10n_sk` tam tlačí „ID:“ (aj v slovenčine).
 
 Údaje vašej spoločnosti v hlavičke potom obsahujú IČ DPH, IČO a DIČ, každé
-raz: základný modul `l10n_sk` pridáva vlastný riadok s IČ DPH k tomu, ktorý
-už tlačí každé rozloženie Odoo, a modul druhý výskyt vypúšťa.
+raz. Základný modul `l10n_sk` pridával druhý riadok s IČ DPH, ktorý Odoo
+v októbri 2026 odstránilo; na staršom Odoo 19.0 sa IČ DPH tlačí dvakrát,
+preto Odoo aktualizujte.
 
 Všetko sa tlačí len na dokladoch spoločnosti so sídlom na Slovensku, takže
 modul neprekáža v databáze, kde sú aj spoločnosti z iných krajín.

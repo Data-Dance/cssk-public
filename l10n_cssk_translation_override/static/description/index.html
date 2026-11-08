@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cssk_translation_override/static/description/index_sk.html">Slovenčina</a> · <a href="/l10n_cssk_translation_override/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ/SK Translation Overrides</h1>
 <p class="cssk-summary">Slovak and Czech wording for Odoo and OCA screens where their own translation is missing, wrong or inconsistent with Czech/Slovak accounting terminology.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>base</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>base</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Odoo and the OCA modules ship their own Slovak and Czech translations. Some
@@ -77,10 +77,19 @@ Corrections for a module you do not have installed are simply skipped.</p>
   operation types such as <em>Receipts</em>, routes, code-created journals, POS
   payment methods — get their Slovak or Czech name too, also on a database
   set up in English. A name you translated or changed yourself is kept.</li>
+<li>Accounting terms follow the Czech and Slovak accounting and VAT acts rather
+  than Odoo's community translation: an account type is <em>Výnosy</em> / <em>Náklady</em>
+  (not <em>Příjem</em> / <em>Výdaj</em>), the tax type is <em>Výstup</em> / <em>Vstup</em> (not
+  <em>Prodej</em> / <em>Nákup</em>), and the income account is <em>Účet výnosů</em> (<em>Účet
+  výnosov</em>). Sales journals, sale orders, the Sales menu and the single-entry
+  cash journal (<em>daňová evidence</em>) keep their usual words.</li>
+<li>A journal's payment methods are named in the company's language, so
+  payment labels no longer read "Manual Payment: …" in a Slovak or Czech
+  company.</li>
 <li>Account, tax and journal names come from the chart of accounts and belong
   to each company; they are not changed by this module.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

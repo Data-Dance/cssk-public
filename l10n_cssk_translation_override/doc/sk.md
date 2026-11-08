@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Translation Overrides
 summary: Slovenské a české znenie obrazoviek Odoo a modulov OCA tam, kde ich vlastný preklad chýba, je nesprávny alebo nezodpovedá účtovnej terminológii.
-verified: 19.0.1.0.0
+verified: 19.0.1.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -53,5 +53,13 @@ Hlásenia z kódu sa zmenia po reštarte servera Odoo.
   v mieste predaja — dostanú slovenský alebo český názov aj v databáze
   založenej v angličtine. Názov, ktorý ste preložili alebo zmenili sami, sa
   ponechá.
+- Účtovné pojmy sa riadia zákonom o účtovníctve a zákonom o DPH, nie
+  komunitným prekladom Odoo: typ účtu je *Výnosy* / *Náklady* (nie *Príjem* /
+  *Výdavky*), typ dane je *Výstup* / *Vstup* (nie *Predaj* / *Nákup*) a účet
+  výnosov je *Účet výnosov*. Predajné denníky, predajné objednávky, menu
+  *Predaj* a peňažný denník jednoduchého účtovníctva si ponechávajú zaužívané
+  slová.
+- Spôsoby platby denníka sa pomenujú v jazyku spoločnosti, takže popisy
+  platieb v slovenskej alebo českej spoločnosti už nie sú „Manual Payment: …“.
 - Názvy účtov, daní a denníkov pochádzajú z účtovej osnovy a patria každej
   spoločnosti zvlášť; tento modul ich nemení.

@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VIES — přímé ověření a doklad o ověření
 summary: Ověřuje DIČ z jiných členských států přímo v systému VIES Evropské komise, bez Odoo IAP, a každé ověření i s číslem ověření uchová jako doklad.
-verified: 19.0.2.1.0
+verified: 19.0.2.1.1
 ---
 
 ## K čemu slouží {#purpose}

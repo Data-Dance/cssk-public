@@ -264,6 +264,21 @@ the chart's taxes so that the return can report them:</p>
   the EU acquisition taxes, so a bill from an EU supplier self-assesses the tax
   instead of keeping the Czech rate. Only links are added; a mapping set by
   hand is kept.</li>
+<li><strong>Intra-Community sales of services.</strong> <code>l10n_cz</code> also names the domestic
+  goods sale taxes as the originals of <code>0% EU S</code>, so a goods line got both
+  <code>0% EU G</code> and <code>0% EU S</code> and its base was declared twice (ř. 20 and 21, in
+  the kontrolní hlášení and in the souhrnné hlášení), while a service with
+  <code>21% S</code> kept Czech VAT. <code>0% EU S</code> now replaces <code>21% S</code> and <code>12% S</code> only.
+  Posted documents keep their taxes.</li>
+<li><strong>Extra-Community purchases.</strong> The same fault on the <em>Extra-Community</em>
+  position mapped one goods line onto three taxes and declared it on ř. 7,
+  12 and 42, and left a service bought outside the EU at Czech 21 %. Goods and
+  services are now mapped apart.</li>
+<li><strong>Asset acquisitions (ř. 47).</strong> <code>l10n_cz</code> ships no tax for <em>hodnota
+  pořízeného majetku</em>, so ř. 47 was always 0.00. Every purchase tax deductible
+  on ř. 40–44 gets a <em>Majetek</em> twin (<code>21% G Majetek</code>, <code>21% EU G Majetek</code>, …),
+  identical except that it also reports the base on ř. 47. Pick the twin on
+  the line of a bill for a long-term asset.</li>
 </ul>
 <h2 id="bad-debt">Bad-debt corrections</h2>
 <p>A document flagged with <strong>Oprava u nedobytné pohledávky</strong> (a field added by
@@ -341,7 +356,7 @@ three years between are not excluded by its dates.</p>
 <li>The rows follow <code>l10n_cz</code>'s tags. A tax created by hand without the right
   tags reaches the wrong row or none.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.12.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.16.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

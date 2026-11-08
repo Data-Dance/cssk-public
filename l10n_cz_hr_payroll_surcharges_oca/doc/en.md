@@ -1,7 +1,7 @@
 ---
 title: CZ Wage Surcharges (OCA)
 summary: The Czech wage surcharges as salary rules of the OCA payroll app.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.3
 family: l10n_cz_hr_payroll_surcharges#engines
 ---
 
