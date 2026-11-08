@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_hr_payroll_vpp/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK VPP — výkaz poistného a príspevkov (dohody)</h1>
 <p class="cssk-summary">Výkaz poistného a príspevkov za zamestnancov s nepravidelným príjmom — v praxi dohody DoVP a DoPČ — zostavený z výplatných pások mesiaca a vyexportovaný do XML overeného voči oficiálnej schéme.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Zamestnanec, ktorému právny vzťah zakladá právo na <strong>nepravidelný príjem</strong>, je
@@ -93,7 +93,7 @@ a funguje s oboma mzdovými jadrami — pozri
 <h2 id="output">Obsah výkazu</h2>
 <ul>
 <li><strong>Hlavička.</strong> <em>Číslo výkazu</em> <code>MM99RRRR</code> a <em>obdobie výplaty príjmov</em>
-  <code>MMRRRR</code>, oboje zo zvoleného mesiaca; typ výkazu R (riadny).</li>
+  <code>MMRRRR</code>, oboje zo zvoleného mesiaca; typ výkazu R (riadny) alebo O (opravný).</li>
 <li><strong>Fondy.</strong> Rovnaké kódy pravidiel ako pri MVP (SICK/SICKEMPLOYER,
   PENSION/PENSIONEMPLOYER, DISABILITY/DISABILITYEMPLOYER,
   UNEMPLOYMENT/UNEMPLOYMENTEMPLOYER, ACCIDENT, GUARANTEEEMPLOYER,
@@ -105,25 +105,38 @@ a funguje s oboma mzdovými jadrami — pozri
   DoVP, <em>ZECD2N</em> pre DoPČ — varianty s nepravidelným príjmom), vymeriavací
   základ (<em>GROSS</em>), dni, hodiny a sumy za jednotlivé fondy.</li>
 </ul>
+<h2 id="correction">Opravný výkaz</h2>
+<p>Formulár aj API predvyplnia pôvodný výkaz cez vyhľadanie podaného obdobia
+v základnom module, ak existuje práve jeden uchovaný kandidát. Pri viacerých
+kandidátoch vyberte pôvodný výkaz výslovne; program medzi nimi neháda.</p>
+<p>Vygenerujte riadny natívny VPP; stav podaný zaznamenajte až po skutočnom podaní.
+Pre opravu vytvorte nový VPP rovnakej firmy a mesiaca zúčtovania, vyberte opravný
+typ a prepojte uchovaný podaný výkaz. Vygenerujte a overte XML štandardným postupom.
+Výstup používa typ O, pôvodné číslo MM99RRRR a všetky aktuálne zdroje daného
+obdobia. Nahrádza celý pôvodný výkaz. Pôvodná podaná príloha zostáva v natívnej
+histórii bez zmeny.</p>
+<p>Zmena firmy, obdobia, verzie či opravnej identity už vygenerovaného výkazu
+vyžaduje návrat do návrhu. Riadny výkaz nemôže odkazovať na nahrádzaný výkaz.
+Pôvodný musí mať stav podaný a uchovanú prílohu tej istej firmy a obdobia.
+Označenie syntetického testu ako podaného nevykonáva žiadny prenos na úrad.</p>
+<p>Táto funkcia neopravuje samotnú mzdu ani jej účtovný doklad. Oprava mzdy
+a celkové odsúhlasenie sú samostatné workflow.</p>
+<p>Zdroj: <a href="https://www.socpoist.sk/api/idsp/download/a4ab64fb-25b4-4321-9059-342b5945cd20">poučenie SP k hlavičke</a>.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
-<li><strong>Výber podľa typu dohody, nie podľa pravidelnosti príjmu.</strong> Každá DoVP
-  a DoPČ ide do VPP s kódom nepravidelného príjmu, aj keď má označený
-  pravidelný mesačný príjem (taká patrí do MVP s kódom ZECD1/ZECD2). Keďže MVP
-  dohody nevylučuje, taký dohodár sa objaví na oboch výkazoch. Dohoda
-  o brigádnickej práci študentov (DoBPŠ) sa do VPP nedostane nikdy.</li>
-<li>Typ dohody sa číta z aktuálnej zmluvy zamestnanca, nie zo zmluvy, podľa
-  ktorej bola výplatná páska vypočítaná.</li>
-<li>Započítajú sa aj koncepty výplatných pások, vynechajú sa len zrušené.
-  Výplatná páska presahujúca hranicu mesiaca sa ignoruje. Mesiac je obdobie
+<li>Výber používa historický vzťah a pravidelnosť príjmu potvrdenej pásky.
+  Nepravidelné DoVP, DoPČ a DoBPŠ patria sem; bežné pravidelné dohody ostávajú
+  na MVP. Úplné rozpočítanie príjmu po skončení vyžaduje vlastné overené
+  historické fondové napojenie, ktoré táto oprava nepridáva.</li>
+<li>Výplatná páska presahujúca hranicu mesiaca sa ignoruje. Mesiac je obdobie
   výplatnej pásky, ktoré sa môže líšiť od mesiaca, v ktorom bol príjem
   zúčtovaný na výplatu.</li>
-<li>Počet dní je pri každom riadku celý kalendárny mesiac; príznak výnimky
-  z vymeriavacieho základu je vždy 0.</li>
-<li>Len riadny výkaz; opravy cez portál. Dodáva sa len vzor VPP 2026.</li>
+<li>Počet dní sleduje prekryv vzťahu s mesiacom; osobitné udalosti prílohy
+  a fondové výnimky vyžadujú vlastné spracovanie. Príznak výnimky je 0.</li>
+<li>Dodáva sa vzor VPP 2026; úspešná schéma nepotvrdzuje prijatie portálom.</li>
 <li>Overenie voči schéme kontroluje tvar súboru, nie sumy.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

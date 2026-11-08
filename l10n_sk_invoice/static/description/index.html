@@ -50,8 +50,8 @@ registry entry. This module adds the four things it is missing:</p>
    <code>l10n_sk</code> prints "ID:" (even in Slovak).</li>
 </ol>
 <p>Your own company's block in the header then reads IČ DPH, IČO and DIČ, each
-once: core <code>l10n_sk</code> adds its own IČ DPH line next to the one every Odoo
-layout already prints, and the module drops the second copy.</p>
+once. Core <code>l10n_sk</code> used to add a second IČ DPH line, which Odoo removed in
+October 2026; on an older Odoo 19.0 the IČ DPH prints twice, so update Odoo.</p>
 <p>Everything it prints appears only on documents of a company whose country is
 Slovakia, so it does no harm in a multi-company database with other
 countries.</p>
@@ -185,7 +185,7 @@ after the automatic phrase. It is not copied when the invoice is duplicated.</p>
 <li>The statutory phrases are in Slovak with an English gloss; they are not
   translated into the customer's language.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.0.6 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.0.8 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

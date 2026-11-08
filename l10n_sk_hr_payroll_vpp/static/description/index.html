@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_hr_payroll_vpp/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Social Insurance Statement for Work Agreements (VPP)</h1>
 <p class="cssk-summary">The výkaz poistného a príspevkov for employees with an irregular income — in practice the DoVP and DoPČ work agreements — built from the month&#x27;s payslips and exported as XML checked against the official schema.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>An employee whose legal relationship gives a right to an <strong>irregular income</strong>
@@ -94,7 +94,7 @@ and works with either Slovak payroll engine — see
 <h2 id="output">What the statement contains</h2>
 <ul>
 <li><strong>Header.</strong> <em>Číslo výkazu</em> <code>MM99RRRR</code> and <em>obdobie výplaty príjmov</em>
-  <code>MMRRRR</code>, both from the chosen month; statement type R (regular).</li>
+  <code>MMRRRR</code>, both from the chosen month; statement type R (regular) or O (corrective).</li>
 <li><strong>Funds.</strong> The same rule codes as on the MVP (SICK/SICKEMPLOYER,
   PENSION/PENSIONEMPLOYER, DISABILITY/DISABILITYEMPLOYER,
   UNEMPLOYMENT/UNEMPLOYMENTEMPLOYER, ACCIDENT, GUARANTEEEMPLOYER,
@@ -106,26 +106,38 @@ and works with either Slovak payroll engine — see
   (<em>ZECD1N</em> for DoVP, <em>ZECD2N</em> for DoPČ — the irregular-income variants),
   assessment base (<em>GROSS</em>), days, hours and the amounts per fund.</li>
 </ul>
+<h2 id="correction">Corrective filing</h2>
+<p>Generate a regular native VPP and record its filed status only after actual submission.
+For a correction, create a new VPP for the same company and settlement month,
+select Corrective and link the retained filed VPP. Generate and validate normally.
+The form and API prefill the original using the declaration base's filed-period
+lookup when exactly one retained candidate exists. With multiple candidates,
+choose the intended original explicitly; the program does not guess.
+The output uses O and the original MM99YYYY number, with every current source
+row for that period. It replaces the previous statement; it is not a difference.
+The previous filed attachment remains unchanged in its native retention history.</p>
+<p>Changing a generated report's company, period, version or correction identity
+requires resetting to draft. A regular report cannot carry a replacement link.
+The original must be marked submitted and have a retained filed attachment for
+the exact company/period. Marking a synthetic test report submitted does not send it anywhere.</p>
+<p>This function does not correct the underlying payroll or its posted accounting
+entry. Payroll correction and reconciliation remain separate workflows.</p>
+<p>Source: <a href="https://www.socpoist.sk/api/idsp/download/a4ab64fb-25b4-4321-9059-342b5945cd20">SP header instructions</a>.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li><strong>Selection is by agreement type, not by income regularity.</strong> Every DoVP and
-  DoPČ goes on the VPP with an irregular-income code, even one marked as having
-  a regular monthly income (which belongs on the MVP with code ZECD1/ZECD2).
-  Since the MVP does not leave agreements out, such a worker appears on both
-  statements. A student agreement (DoBPŠ) is never put on the VPP.</li>
-<li>The agreement type is read from the employee's current contract, not from
-  the contract the payslip was computed on.</li>
-<li>Draft payslips count; only cancelled ones are left out. A payslip whose
-  period crosses the month boundary is ignored. The month is the payslip
+<li>Selection uses the confirmed payslip's historical relationship and income
+  regularity. Irregular DoVP, DoPČ and DoBPŠ belong here; ordinary regular
+  agreements remain on MVP. A full post-insurance allocation needs its own
+  reviewed historical fund/month integration and is not added by this change.</li>
+<li>A payslip whose period crosses the month boundary is ignored. The month is the payslip
   period, which may differ from the month in which the income was accounted
   for payment.</li>
-<li>Days are the full calendar month for every row; the assessment-base
-  exception flag is always 0.</li>
-<li>Only a regular statement; corrections go through the portal. Only the
-  VPP 2026 vintage is shipped.</li>
+<li>Days follow the employment overlap with the month; special annex events
+  and per-fund base exceptions still need their own handling. The exception flag is 0.</li>
+<li>The VPP 2026 vintage is shipped; schema success is not portal acceptance.</li>
 <li>Schema validation checks the shape of the file, not the figures.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text checked against module version: 19.0.1.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text checked against module version: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
