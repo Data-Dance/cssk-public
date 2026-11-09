@@ -92,16 +92,16 @@
                 <t t-foreach="sections_by_code.get('C.1', [])" t-as="row">
                     <C1 t-att-KOpr="row.kod_opravy or None"
                         t-att-Odb="row.partner_vat or None"
-                        t-att-FO="row.entry_ref_original_xml or (row.kod_opravy == '1' and row.entry_ref_xml) or None"
-                        t-att-FP="row.entry_ref_xml"
+                        t-att-FO="row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_original_xml or None"
                         t-att-ZR="'%.2f' % row.tax_base_amount"
                         t-att-DR="'%.2f' % row.tax_amount"/>
                 </t>
                 <t t-foreach="sections_by_code.get('C.2', [])" t-as="row">
                     <C2 t-att-KOpr="row.kod_opravy or None"
                         t-att-Dod="row.partner_vat or None"
-                        t-att-FO="row.entry_ref_original_xml or (row.kod_opravy == '1' and row.entry_ref_xml) or None"
-                        t-att-FP="row.entry_ref_xml"
+                        t-att-FO="row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_original_xml or None"
                         t-att-ZR="'%.2f' % row.tax_base_amount"
                         t-att-DR="'%.2f' % row.tax_amount"
                         t-att-S="'%d' % round(row.tax_rate)"
@@ -208,16 +208,16 @@
                 <t t-foreach="sections_by_code.get('C.1', [])" t-as="row">
                     <C1 t-att-KOpr="row.kod_opravy or None"
                         t-att-Odb="row.partner_vat or None"
-                        t-att-FO="row.entry_ref_original_xml or (row.kod_opravy == '1' and row.entry_ref_xml) or None"
-                        t-att-FP="row.entry_ref_xml"
+                        t-att-FO="row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_original_xml or None"
                         t-att-ZR="'%.2f' % row.tax_base_amount"
                         t-att-DR="'%.2f' % row.tax_amount"/>
                 </t>
                 <t t-foreach="sections_by_code.get('C.2', [])" t-as="row">
                     <C2 t-att-KOpr="row.kod_opravy or None"
                         t-att-Dod="row.partner_vat or None"
-                        t-att-FO="row.entry_ref_original_xml or (row.kod_opravy == '1' and row.entry_ref_xml) or None"
-                        t-att-FP="row.entry_ref_xml"
+                        t-att-FO="row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_original_xml or None"
                         t-att-ZR="'%.2f' % row.tax_base_amount"
                         t-att-DR="'%.2f' % row.tax_amount"
                         t-att-S="'%d' % round(row.tax_rate)"
@@ -332,16 +332,16 @@
                 <t t-foreach="sections_by_code.get('C.1', [])" t-as="row">
                     <C1 t-att-KOpr="row.kod_opravy or None"
                         t-att-Odb="row.partner_vat or None"
-                        t-att-FO="row.entry_ref_original_xml or (row.kod_opravy == '1' and row.entry_ref_xml) or None"
-                        t-att-FP="row.entry_ref_xml"
+                        t-att-FO="row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_original_xml or None"
                         t-att-ZR="'%.2f' % row.tax_base_amount"
                         t-att-DR="'%.2f' % row.tax_amount"/>
                 </t>
                 <t t-foreach="sections_by_code.get('C.2', [])" t-as="row">
                     <C2 t-att-KOpr="row.kod_opravy or None"
                         t-att-Dod="row.partner_vat or None"
-                        t-att-FO="row.entry_ref_original_xml or (row.kod_opravy == '1' and row.entry_ref_xml) or None"
-                        t-att-FP="row.entry_ref_xml"
+                        t-att-FO="row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_original_xml or None"
                         t-att-ZR="'%.2f' % row.tax_base_amount"
                         t-att-DR="'%.2f' % row.tax_amount"
                         t-att-S="'%d' % round(row.tax_rate)"
@@ -441,16 +441,16 @@
                 <t t-foreach="sections_by_code.get('C.1', [])" t-as="row">
                     <C1 t-att-KOpr="row.kod_opravy or None"
                         t-att-Odb="row.partner_vat or None"
-                        t-att-FO="row.entry_ref_original_xml or (row.kod_opravy == '1' and row.entry_ref_xml) or None"
-                        t-att-FP="row.entry_ref_xml"
+                        t-att-FO="row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_original_xml or None"
                         t-att-ZR="'%.2f' % row.tax_base_amount"
                         t-att-DR="'%.2f' % row.tax_amount"/>
                 </t>
                 <t t-foreach="sections_by_code.get('C.2', [])" t-as="row">
                     <C2 t-att-KOpr="row.kod_opravy or None"
                         t-att-Dod="row.partner_vat or None"
-                        t-att-FO="row.entry_ref_original_xml or (row.kod_opravy == '1' and row.entry_ref_xml) or None"
-                        t-att-FP="row.entry_ref_xml"
+                        t-att-FO="row.entry_ref_xml"
+                        t-att-FP="row.entry_ref_original_xml or None"
                         t-att-ZR="'%.2f' % row.tax_base_amount"
                         t-att-DR="'%.2f' % row.tax_amount"
                         t-att-S="'%d' % round(row.tax_rate)"

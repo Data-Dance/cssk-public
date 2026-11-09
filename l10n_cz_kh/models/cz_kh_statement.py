@@ -14,7 +14,7 @@ from odoo.exceptions import UserError
 #     (A1 duzp, A2/A4 dppd, B1 duzp, B2 dppd); the template renders '' for a
 #     missing date, which fails XSD validation with a cryptic type error.
 _KH_VAT_SECTIONS = ("A1", "A4", "B1", "B2")
-_KH_DATE_SECTIONS = ("A1", "A2", "A4", "B1", "B2")
+_KH_DATE_SECTIONS = ("A1", "A2", "A3", "A4", "B1", "B2")
 
 
 class CSSKControlStatement(models.Model):
@@ -22,6 +22,7 @@ class CSSKControlStatement(models.Model):
 
     cz_a1_ids = fields.One2many("l10n.cz.kh.a1", "statement_id")
     cz_a2_ids = fields.One2many("l10n.cz.kh.a2", "statement_id")
+    cz_a3_ids = fields.One2many("l10n.cz.kh.a3", "statement_id")
     cz_a4_ids = fields.One2many("l10n.cz.kh.a4", "statement_id")
     cz_a5_ids = fields.One2many("l10n.cz.kh.a5", "statement_id")
     cz_b1_ids = fields.One2many("l10n.cz.kh.b1", "statement_id")
@@ -52,6 +53,7 @@ class CSSKControlStatement(models.Model):
         if self.country_id.code == "CZ":
             return {
                 "A1": self.cz_a1_ids, "A2": self.cz_a2_ids,
+                "A3": self.cz_a3_ids,
                 "A4": self.cz_a4_ids, "A5": self.cz_a5_ids,
                 "B1": self.cz_b1_ids, "B2": self.cz_b2_ids,
                 "B3": self.cz_b3_ids,

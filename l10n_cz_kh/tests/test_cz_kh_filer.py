@@ -204,6 +204,24 @@ class TestCzKhFiler(AccountTestInvoicingCommon):
         self.assertFalse(st.cz_a4_ids.filtered(lambda r: r.move_id == inv))
         self.assertTrue(st.cz_a5_ids)
 
+    def test_investment_gold_goes_to_a3(self):
+        gold = self.env["account.chart.template"].ref("l10n_cz_investment_gold")
+        inv = self.env["account.move"].create({
+            "move_type": "out_invoice", "partner_id": self.partner.id,
+            "invoice_date": fields.Date.context_today(self.env.user),
+            "invoice_line_ids": [Command.create({
+                "name": "zlato", "quantity": 1, "price_unit": 50000.0,
+                "tax_ids": [Command.set(gold.ids)]})],
+        })
+        inv.action_post()
+        st = self._statement()
+        self.assertFalse(st.cz_a4_ids)
+        row = self._export(st).find(".//VetaA3")
+        self.assertEqual(row.get("osv_plneni"), "50000")
+        self.assertEqual(row.get("vatid_odb"), "46342958")
+        self.assertEqual(row.get("k_stat"), "CZ")
+        self.assertIsNone(row.get("jm_prijm_obch"))
+
     def test_a_bad_debt_correction_is_a4_whatever_its_amount(self):
         """A small correction would otherwise vanish into the A.5 aggregate,
         which has no zdph_44 to carry the flag."""

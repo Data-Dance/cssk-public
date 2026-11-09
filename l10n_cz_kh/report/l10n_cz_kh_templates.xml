@@ -41,6 +41,15 @@
                             t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
                             t-att-zakl_dane3="('%.0f' % r.base_red3) if r.base_red3 else None" t-att-dan3="('%.0f' % r.tax_red3) if r.tax_red3 else None"/>
                 </t>
+                <t t-foreach="sections_by_code['A3']" t-as="r">
+                    <VetaA3 t-att-k_stat="r.partner_country_code or None"
+                            t-att-vatid_odb="(r.partner_vat_stripped or None) if r.partner_country_code else None"
+                            t-att-jm_prijm_obch="None if r.partner_vat_stripped else r.partner_id.name"
+                            t-att-m_pobytu_sidlo="None if r.partner_vat_stripped else (r.partner_id.contact_address or '').replace('\n', ', ').strip(', ')"
+                            t-att-c_evid_dd="r.entry_ref"
+                            t-att-dup="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
+                            t-att-osv_plneni="'%.0f' % r.base_std"/>
+                </t>
                 <!-- kod_rezim_pl is always 0 (běžné plnění) and VetaB2 pomer
                      always N: the module has no data for the § 89 / § 90
                      special schemes or for a § 75 poměrný odpočet. A company

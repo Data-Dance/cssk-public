@@ -47,7 +47,8 @@ result = contract.wage * payslip.l10n_cz_worked_ratio()
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 result_qty = worked_days.WORK100.number_of_days if 'WORK100' in worked_days.dict else 0.0
-result = min(contract.l10n_cz_meal_allowance, payslip.rule_parameter('l10n_cz_meal_exempt'))
+allowance = contract.l10n_cz_meal_allowance
+result = min(allowance, payslip.rule_parameter('l10n_cz_meal_exempt')) if allowance else 0.0
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -546,16 +547,13 @@ result = min(credits, tax)
         <field name="sequence">172</field>
         <field name="code">CHILDBEN</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_cz_tax_declaration and (contract.l10n_cz_children_t1 + contract.l10n_cz_children_t2 + contract.l10n_cz_children_t3) &gt; 0</field>
+        <field name="condition_python">result = contract.l10n_cz_tax_declaration and contract._l10n_cz_child_benefit(payslip.date_from, payslip.rule_parameter) &gt; 0</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-p1 = payslip.rule_parameter('l10n_cz_child_1')
-p2 = payslip.rule_parameter('l10n_cz_child_2')
-p3 = payslip.rule_parameter('l10n_cz_child_3')
-benefit = contract.l10n_cz_children_t1 * p1 + contract.l10n_cz_children_t2 * p2 + contract.l10n_cz_children_t3 * p3
-# ZTP/P children double the benefit. Precise per-child tier doubling is P2;
-# approximated here by adding one extra 1st-tier amount per ZTP/P child.
-benefit += contract.l10n_cz_children_ztpp * p1
+# The month's children: the child records month by month (birth month
+# included), else the contract's counts. A ZTP/P child counts twice at its
+# own order's amount (§ 35c odst. 7 ZDP).
+benefit = contract._l10n_cz_child_benefit(payslip.date_from, payslip.rule_parameter)
 tax_after = max(-result_rules.INCOMETAX.total - result_rules.TAXCREDIT.total, 0)
 result = min(benefit, tax_after)
         </field>
@@ -572,18 +570,15 @@ result = min(benefit, tax_after)
         <field name="sequence">173</field>
         <field name="code">CHILDBONUS</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_cz_tax_declaration and (contract.l10n_cz_children_t1 + contract.l10n_cz_children_t2 + contract.l10n_cz_children_t3) &gt; 0</field>
+        <field name="condition_python">result = contract.l10n_cz_tax_declaration and contract._l10n_cz_child_benefit(payslip.date_from, payslip.rule_parameter) &gt; 0</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-p1 = payslip.rule_parameter('l10n_cz_child_1')
-p2 = payslip.rule_parameter('l10n_cz_child_2')
-p3 = payslip.rule_parameter('l10n_cz_child_3')
-benefit = contract.l10n_cz_children_t1 * p1 + contract.l10n_cz_children_t2 * p2 + contract.l10n_cz_children_t3 * p3
-benefit += contract.l10n_cz_children_ztpp * p1
+benefit = contract._l10n_cz_child_benefit(payslip.date_from, payslip.rule_parameter)
 bonus = benefit - result_rules.CHILDBEN.total
 threshold = payslip.rule_parameter('l10n_cz_bonus_min_income_month')
 # The income test counts every příjem ze závislé činnosti, sick pay included.
-if categories.TAXBASE &gt;= threshold and bonus &gt; 0:
+# § 35d odst. 4 ZDP: the monthly bonus is paid only from 50 Kč.
+if categories.TAXBASE &gt;= threshold and bonus &gt;= 50:
     result = bonus
 else:
     result = 0

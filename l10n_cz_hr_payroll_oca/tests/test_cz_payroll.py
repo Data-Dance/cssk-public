@@ -468,6 +468,12 @@ class TestCzPayroll(TransactionCase):
         slip2.credit_note = True
         slip2.action_payslip_done()
 
+    def test_a_2027_meal_allowance_needs_a_2027_limit(self):
+        emp, con = self._employee(
+            "Stravenka", wage=40000.0, l10n_cz_meal_allowance=100.0)
+        with self.assertRaisesRegex(UserError, "l10n_cz_meal_exempt"):
+            self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+
     def test_dpp_at_threshold_insured(self):
         """DPP, wage exactly 12000 (2026), no declaration.
 
@@ -545,6 +551,34 @@ class TestCzPayroll(TransactionCase):
         self.assertEqual(self._t(p, "TAXCREDIT"), 2570.0)
         self.assertEqual(self._t(p, "CHILDBEN"), 1930.0)     # capped by tax after credit
         self.assertEqual(self._t(p, "CHILDBONUS"), 5837.0)   # 7767 benefit - 1930
+
+    def test_child_bonus_below_50_kc_is_not_paid(self):
+        """§ 35d odst. 4: the monthly bonus is paid only from 50 Kč. 25 400 ->
+        advance 3810 - 2570 credit = 1240 left; the 1267 benefit leaves a
+        27 Kč bonus, which is not paid (it comes back in the annual
+        reconciliation)."""
+        emp, con = self._employee(
+            "Maly Bonus", wage=25400.0, l10n_cz_tax_declaration=True,
+            l10n_cz_children_t1=1,
+        )
+        p = self._payslip(emp, con)
+        self.assertEqual(self._t(p, "CHILDBEN"), 1240.0)
+        self.assertEqual(self._t(p, "CHILDBONUS"), 0.0)
+
+    def test_ztpp_child_is_doubled_at_its_own_order(self):
+        """§ 35c odst. 7: a ZTP/P second child adds the second child's amount
+        again (1860), not the first child's (1267)."""
+        emp, con = self._employee(
+            "ZTP Rodic", wage=30000.0, l10n_cz_tax_declaration=True)
+        Child = self.env["l10n.cz.employee.child"]
+        Child.create({"employee_id": emp.id, "first_name": "Prvni",
+                      "surname": "Dite", "birthday": date(2015, 1, 1)})
+        Child.create({"employee_id": emp.id, "first_name": "Druhe",
+                      "surname": "Dite", "birthday": date(2018, 1, 1),
+                      "order": "2", "ztpp": True})
+        p = self._payslip(emp, con)
+        benefit = self._t(p, "CHILDBEN") + self._t(p, "CHILDBONUS")
+        self.assertEqual(benefit, 1267.0 + 2 * 1860.0)
 
     # -- P3: worked-days proration of BASIC -------------------------------
 

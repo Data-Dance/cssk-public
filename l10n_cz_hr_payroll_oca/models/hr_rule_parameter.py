@@ -4,6 +4,9 @@
 # reference dated statutory values (insurance ceilings, tax thresholds, credits,
 # ...) that change from year to year.
 
+from odoo.addons.l10n_cz_hr_payroll_base.models.annual_parameters import (
+    check_annual_value,
+)
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
@@ -60,6 +63,7 @@ class HrRuleParameter(models.Model):
                 )
                 % {"code": code, "date": date}
             )
+        check_annual_value(code, date, value.date_from)
         return safe_eval(value.parameter_value)
 
 

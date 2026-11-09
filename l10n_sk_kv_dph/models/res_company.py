@@ -7,9 +7,12 @@ from odoo import models
 
 _logger = logging.getLogger(__name__)
 
-#: The sale-side domestic reverse-charge tax (§69 ods. 12) that carries an
-#: issued 0 % supply into KV oddiel A.2. Chart-template xmlid suffix.
-SK_RC_OUT_TEMPLATE = "vs_rc_out"
+#: The sale-side domestic reverse-charge taxes (§69 ods. 12): chart-template
+#: xmlid suffix, name, and whether the supplier leaves it out of KV DPH.
+SK_RC_OUT_TAXES = (
+    ("vs_rc_out", "0% Reverse charge supplied (§69/12 f–j, A.2)", False),
+    ("vs_rc_out_ae", "0% Reverse charge supplied (§69/12 a–e, not in KV)", True),
+)
 
 #: Self-assessment purchase taxes that belong in KV oddiel B.1:
 #: - vs_rc_*     domestic reverse charge (prenos DP, § 69 ods. 12)
@@ -36,52 +39,47 @@ class ResCompany(models.Model):
         return super()._cssk_reverse_charge_tax_templates()
 
     def _cssk_ensure_rc_out_tax(self):
-        """Create the sale-side §69/12 reverse-charge tax on existing SK companies.
+        """Create the sale-side §69/12 reverse-charge taxes on existing SK companies.
 
         The chart-template ``@template`` records only materialise when the SK
-        chart is loaded (a new company), so a company that already had the chart
-        when this module shipped would never get the tax. This creates it (once,
-        idempotent via its chart-style external id) so an issued §69/12 supply has
-        a 0 % tax to carry it into KV oddiel A.2 — the counterpart to the received
-        ``vs_rc_*`` taxes that feed B.1. Same three-occasion reasoning as the
-        reverse-charge flagging above.
+        chart is loaded, so a company that already had the chart would never
+        get them. Idempotent via their chart-style external ids. Letters f) to
+        j) go to oddiel A.2; a) to e) stay out of the supplier's statement.
         """
         created = 0
         for company in self:
             if company.chart_template != "sk":
                 continue
-            name = "account.%s_%s" % (company.id, SK_RC_OUT_TEMPLATE)
-            if self.env.ref(name, raise_if_not_found=False):
-                continue
             group = self.env.ref(
                 "account.%s_tax_group_vat_0" % company.id, raise_if_not_found=False)
-            if not group:
-                _logger.warning("SK company %s has no VAT 0%% tax group — cannot "
-                                "create the §69/12 sale-side reverse-charge tax",
-                                company.display_name)
-                continue
-            rep = [
-                (0, 0, {"repartition_type": "base", "document_type": "invoice",
-                        "factor_percent": 100}),
-                (0, 0, {"repartition_type": "tax", "document_type": "invoice",
-                        "factor_percent": 100}),
-                (0, 0, {"repartition_type": "base", "document_type": "refund",
-                        "factor_percent": 100}),
-                (0, 0, {"repartition_type": "tax", "document_type": "refund",
-                        "factor_percent": 100}),
-            ]
-            tax = self.env["account.tax"].create({
-                "name": "0% Reverse charge supplied (§69/12, A.2)",
-                "amount": 0.0, "amount_type": "percent", "type_tax_use": "sale",
-                "tax_group_id": group.id, "company_id": company.id,
-                "cssk_control_is_reverse_charge": True,
-                "repartition_line_ids": rep,
-            })
-            self.env["ir.model.data"].create({
-                "module": "account", "name": "%s_%s" % (company.id, SK_RC_OUT_TEMPLATE),
-                "model": "account.tax", "res_id": tax.id, "noupdate": True,
-            })
-            created += 1
-            _logger.info("§69/12 sale-side reverse-charge tax created for %s",
-                         company.display_name)
+            for template, label, excluded in SK_RC_OUT_TAXES:
+                name = "account.%s_%s" % (company.id, template)
+                if self.env.ref(name, raise_if_not_found=False):
+                    continue
+                if not group:
+                    _logger.warning("SK company %s has no VAT 0%% tax group — cannot "
+                                    "create the §69/12 sale-side reverse-charge tax",
+                                    company.display_name)
+                    break
+                rep = [
+                    (0, 0, {"repartition_type": rtype, "document_type": dtype,
+                            "factor_percent": 100})
+                    for dtype in ("invoice", "refund")
+                    for rtype in ("base", "tax")
+                ]
+                tax = self.env["account.tax"].create({
+                    "name": label,
+                    "amount": 0.0, "amount_type": "percent", "type_tax_use": "sale",
+                    "tax_group_id": group.id, "company_id": company.id,
+                    "cssk_control_is_reverse_charge": True,
+                    "l10n_sk_kv_supplier_excluded": excluded,
+                    "repartition_line_ids": rep,
+                })
+                self.env["ir.model.data"].create({
+                    "module": "account", "name": "%s_%s" % (company.id, template),
+                    "model": "account.tax", "res_id": tax.id, "noupdate": True,
+                })
+                created += 1
+                _logger.info("§69/12 sale-side tax %s created for %s",
+                             template, company.display_name)
         return created

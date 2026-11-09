@@ -51,7 +51,7 @@ class ProductTemplate(models.Model):
         "§ 69 ods. 12 písm. f) to i). Oddiel A.2 of the kontrolný výkaz then "
         "reports, per invoice, the commodity code (f, g) or the kind of goods "
         "(h, i), and the quantity with its unit. Leave empty for everything "
-        "else, including the other § 69 ods. 12 supplies (scrap, construction "
+        "else, including the other § 69 ods. 12 supplies (construction "
         "work), for which A.2 carries only the base.",
     )
     l10n_sk_kv_cn_code = fields.Char(

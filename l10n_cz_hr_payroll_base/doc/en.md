@@ -1,7 +1,7 @@
 ---
 title: Czech Payroll
 summary: The Czech payroll family in one place — the monthly payslip for a pracovní poměr, DPP and DPČ on either the OCA payroll app or Odoo Enterprise Payroll, with dated statutory rates, time off, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.1.2
+verified: 19.0.1.5.0
 ---
 
 ## What it is for {#purpose}
@@ -148,7 +148,32 @@ checked against the consolidated texts in force in October 2026.
 | Garnishment dependents | Dependants raising the non-seizable amount when a garnishment is entered as a payslip input. |
 | Working pensioner discount | Lowers the employee's social insurance by 6.5 % of the assessment base, rounded up to whole crowns. Tick it from the month the employee applies with proof. |
 | Social insurance discount category | One of the § 7a categories for the employer's 5 % discount. |
-| Children (1st tier), (2nd tier), (3rd+ tier), of which ZTP/P Children | Number of children for the child tax benefit, by order. |
+| Children (1st tier), (2nd tier), (3rd+ tier), of which ZTP/P Children | Number of children for the child tax benefit, by order. Used only while no child is recorded under *Children (tax benefit)*: counts cannot say in which months a child was claimed. |
+
+### Children for the child tax benefit {#children}
+
+Record each child under *Children (tax benefit)* on the employee's *Payroll*
+tab: name, date of birth (or birth number), whether the child holds a ZTP/P
+card, and the order the employee claims it in (1, 2, 3 for the third and
+every further child, or *N* for a child in the household the employee does
+not claim). Once any child is recorded, the payslip and the annual tax
+reconciliation count the children month by month and ignore the counts on
+the contract.
+
+A child counts in a month when the conditions are met at its start
+([§ 35c odst. 10](law:cz/1992/586)), and already in the month of birth.
+
+- *Claimed from*: leave it empty to claim from birth. Otherwise enter a day
+  in the first month that counts: the month of adoption, of placement into
+  care replacing the parents' or of the start of studies counts itself; for
+  any other start (the child moved in, the other parent stopped claiming)
+  enter the first day of the next month.
+- *Claimed to*: the last day the conditions are met. That month still counts.
+- A ZTP/P child is doubled at the amount of its own order
+  ([§ 35c odst. 7](law:cz/1992/586)).
+
+Two children cannot both be claimed as the first, or both as the second, in
+the same months.
 
 ## How the payslip is computed {#payslip}
 
@@ -198,8 +223,10 @@ In the order the rules run:
    2027 payslip such an agreement gets the advance instead, still without
    credits (rule parameter `l10n_cz_wh_tax_dependent`).
 10. **Tax Credits** with a signed declaration, at most the advance.
-11. **Child Tax Benefit** up to the remaining tax, and **Child Tax Bonus**
-    for the rest if the tax base reaches half the minimum wage.
+11. **Child Tax Benefit** for the month's children (see
+    [Children](#children)) up to the remaining tax, and **Child Tax Bonus**
+    for the rest if the tax base reaches half the minimum wage and the bonus
+    is at least 50 Kč ([§ 35d odst. 4](law:cz/1992/586)).
 12. **Wage Garnishment** and the other deductions (see
     [Garnishments](#garnishment)), **Reimbursement**, and the **Annual Tax
     Settlement** when present.
@@ -400,16 +427,17 @@ Each report's page says which.
   through the *Sick Hours* input are paid as entered.
 - **Average earnings** count only the basic wage of the previous quarter, not
   surcharges or bonuses, and test "any hours worked" instead of 21 days.
-- **Child tax benefit.** A ZTP/P child adds one first-tier amount instead of
-  doubling that child's own tier, which is too little for a second or third
-  child. The 50 Kč monthly and 100 Kč annual bonus minimums are not applied.
-- **Annual tax reconciliation.** There is no button to post the result to a
-  payslip, so the record never reaches *Settled*; enter the input by hand.
-  Only this employer's validated payslips are read — figures from an earlier
-  employer's certificate are not added. The 50 Kč refund minimum, the gift
-  minimum and the 300 000 Kč mortgage cap for older loans are not applied.
-  The rule that one record exists per employee and year is not enforced in
-  Odoo 19.
+- **Child tax benefit.** A child's order and ZTP/P hold for its whole claim;
+  when they change, end the record and add another. Without child records
+  the contract's counts are used, and a ZTP/P child is then doubled at the
+  first child's amount; the reconciliation applies the counts of the version
+  in force on each month's first day, and the first version's counts to the
+  months before it. Whether another person in the household claims the same
+  child ([§ 35c odst. 9](law:cz/1992/586)) is not checked.
+- **Annual tax reconciliation.** Only this employer's validated payslips are
+  read; an earlier employer's income, advances and bonuses are entered from
+  its certificate. The gift minimum and the 300 000 Kč mortgage cap for older
+  loans are not applied.
 - **Annual leave plans.** The plans assume a 40-hour week; for other hours
   scale the accrual, and the four-week minimum of § 213 odst. 3 is not
   enforced. Nothing reminds the employer of the § 218 odst. 3 deadline to

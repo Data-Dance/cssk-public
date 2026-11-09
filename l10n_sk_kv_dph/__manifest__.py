@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Kontrolný výkaz DPH (KV DPH)",
-    "version": "19.0.2.5.2",
+    "version": "19.0.2.8.0",
     "summary": "Slovak VAT control statement (Kontrolný výkaz DPH) — sections "
                "A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared "
                "l10n_cssk_kv_kh_base framework.",
@@ -33,6 +33,7 @@ account_reports**, so it works on Community and Enterprise, 18.0 and 19.0.
         "views/account_move_views.xml",
         "views/cssk_control_statement_views.xml",
         "views/product_views.xml",
+        "views/account_tax_views.xml",
     ],
     "post_init_hook": "post_init_hook",
     "installable": True,

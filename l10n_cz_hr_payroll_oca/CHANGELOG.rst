@@ -27,6 +27,43 @@ tax on small agreements:
 On 18.0 the salary-rule localdict names the contract ``contract`` on both
 engines (19.0 Enterprise: ``version``).
 
+Owed to the 18.0 branch: the child tax benefit month by month
+(19.0.1.20.0, 2026-11-09). 18.0 keeps the
+children's counts on ``hr.contract``; the month helpers go on the contract,
+and the reconciliation reads the contract in force on each month's first day
+instead of ``_get_version``.
+
+[19.0.1.20.0] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- **The child tax benefit is counted month by month.** The annual tax
+  reconciliation multiplied today's child counts by twelve, so a child born
+  in September was reconciled as twelve months instead of four, and a child
+  who left the household in the spring as the whole year. It now adds up
+  each month: the employee's child records, or else the counts of the
+  version in force on the month's first day. The payslip reads the same
+  month's children.
+- **A ZTP/P child is doubled at its own order's amount**, not at the first
+  child's (§ 35c odst. 7 ZDP), when the children are recorded.
+- **The monthly child bonus is paid only from 50 Kč** (§ 35d odst. 4 ZDP);
+  a smaller one is left to the annual reconciliation.
+
+Added
+~~~~~
+
+- The children list on the employee's *Payroll* tab.
+
+[19.0.1.19.0] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- a payslip using the meal limit or a garnishment amount refuses last year's figure from 2027; a payslip without a meal allowance no longer reads the limit.
+
 [19.0.1.18.0] — 2026-11-09
 --------------------------
 

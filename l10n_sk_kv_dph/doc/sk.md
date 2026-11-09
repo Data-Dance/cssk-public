@@ -1,7 +1,7 @@
 ---
 title: Kontrolný výkaz DPH (KV DPH)
 summary: Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.
-verified: 19.0.2.5.2
+verified: 19.0.2.7.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -190,6 +190,9 @@ Pred vytvorením súboru export zastaví a vymenuje chybné doklady, ak:
   odstránia automaticky; číslo sa neskracuje, lebo finančná správa ho páruje
   s podaním dodávateľa);
 - riadok v A.1, A.2, B.1 alebo B.2 nemá deň dodania;
+- riadok v C.2 nemá číslo dobropisu alebo ťarchopisu od dodávateľa (zadajte ho
+  ako *referenciu faktúry*); obe čísla v C.2 sú dodávateľove, nikdy nie naše
+  interné;
 - riadok v C.1 alebo C.2 nemá číslo opravovanej faktúry (zadajte ho na
   dobropise ako *Original document number*; pri dodávateľskom dobropise sa
   číta aj *Zdrojový dokument*, ak neobsahuje číslo nákupnej objednávky);
@@ -220,10 +223,16 @@ mesiac alebo rok a štvrťrok).
   prenos daňovej povinnosti (čaká sa na potvrdenie účtovníka), takže sa v B.1
   neobjavia.
 - Hranica 5 000 eur na faktúre pri mobilných telefónoch a integrovaných
-  obvodoch podľa § 69 ods. 12 písm. h) a i) sa nekontroluje; kategóriu
-  nastavte len pri tovare, ktorý ju spĺňa.
+  obvodoch (§ 69 ods. 12 písm. h) a i)) je upozornenie na faktúre, po
+  kategóriách; daň sa nemení automaticky.
 - Atribút `ONP` v C.1 / C.2 (oprava pri nedobytnej pohľadávke, od vzoru 2023)
   sa nevypĺňa nikdy.
 - Pravidlá zaradenia sú najlepším možným odhadom; najmä zoznam tovarov podľa
   § 69 ods. 12 a oddiel D.1 ešte musí potvrdiť slovenský účtovník. Každý
   výkaz pred podaním skontrolujte.
+
+## Prenos mimo výkazu {#rc-a-e}
+
+Daň pre § 69 ods. 12 písm. a) až e) použite pri šrote, emisných kvótach,
+nehnuteľnostiach a tovare ako predmete záruky. Tieto dodania uvádza len príjemca
+v B.1, vo výkaze dodávateľa sa preto neobjavia.

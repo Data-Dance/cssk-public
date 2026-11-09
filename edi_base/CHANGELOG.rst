@@ -23,6 +23,14 @@ Fixed
   message's outcome before the next send (``ir.cron._commit_progress``), so
   a run that dies late keeps what the provider already accepted.
 
+[19.0.1.9.3] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- a company record rule on EDI messages.
+
 [19.0.1.9.2] — 2026-11-09
 -------------------------
 

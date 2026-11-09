@@ -646,20 +646,8 @@ msgstr "SK KV DPH detailný oddiel (mixin)"
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_rc_goods
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_rc_goods
-msgid ""
-"Set on goods whose domestic supply is reverse-charged under § 69 ods. 12 "
-"písm. f) to i). Oddiel A.2 of the kontrolný výkaz then reports, per invoice,"
-" the commodity code (f, g) or the kind of goods (h, i), and the quantity "
-"with its unit. Leave empty for everything else, including the other § 69 "
-"ods. 12 supplies (scrap, construction work), for which A.2 carries only the "
-"base."
-msgstr ""
-"Nastavte pri tovare, ktorého tuzemské dodanie podlieha prenesenej daňovej "
-"povinnosti podľa § 69 ods. 12 písm. f) až i). Oddiel A.2 kontrolného výkazu "
-"potom pri každej faktúre uvedie číselný kód tovaru (f, g) alebo druh tovaru "
-"(h, i) a množstvo s mernou jednotkou. Pri všetkom ostatnom nechajte prázdne,"
-" aj pri ostatných dodaniach podľa § 69 ods. 12 (odpad, šrot, stavebné "
-"práce), pri ktorých A.2 obsahuje len základ dane."
+msgid "Set on goods whose domestic supply is reverse-charged under § 69 ods. 12 písm. f) to i). Oddiel A.2 of the kontrolný výkaz then reports, per invoice, the commodity code (f, g) or the kind of goods (h, i), and the quantity with its unit. Leave empty for everything else, including the other § 69 ods. 12 supplies (construction work), for which A.2 carries only the base."
+msgstr "Nastavte pri tovare, ktorého tuzemské dodanie podlieha prenesenej daňovej povinnosti podľa § 69 ods. 12 písm. f) až i). Oddiel A.2 kontrolného výkazu potom pri každej faktúre uvedie číselný kód tovaru (f, g) alebo druh tovaru (h, i) a množstvo s mernou jednotkou. Pri všetkom ostatnom nechajte prázdne, aj pri ostatných dodaniach podľa § 69 ods. 12 (stavebné práce), pri ktorých A.2 obsahuje len základ dane."
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_bank_statement_line__l10n_sk_kv_is_simplified
@@ -989,3 +977,32 @@ msgstr "Obrat (vrátane DPH)"
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__turnover
 msgid "SumaObratov: the eKasa turnover, VAT included."
 msgstr "SumaObratov: obrat z eKasy vrátane DPH."
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_tax__l10n_sk_kv_supplier_excluded
+msgid "Supplier omits from KV DPH"
+msgstr "Dodávateľ neuvádza v KV DPH"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_account_tax__l10n_sk_kv_supplier_excluded
+msgid "For a sale-side domestic reverse charge under § 69 ods. 12 písm. a) to e). The supplier does not report these supplies in the kontrolný výkaz; only the recipient reports them, in B.1."
+msgstr "Pri tuzemskom prenose daňovej povinnosti na strane predaja podľa § 69 ods. 12 písm. a) až e). Dodávateľ tieto dodania v kontrolnom výkaze neuvádza; uvádza ich len príjemca v B.1."
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/account_move.py:0
+msgid "%(goods)s: the base on this invoice is %(total).2f €, under 5 000 €, so reverse charge does not apply and VAT is due."
+msgstr "%(goods)s: základ dane na tejto faktúre je %(total).2f €, teda pod 5 000 €, preto sa prenos daňovej povinnosti neuplatní a daň sa má uviesť."
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/account_move.py:0
+msgid "%(goods)s: the base on this invoice is %(total).2f €, so reverse charge applies if the customer is a VAT payer."
+msgstr "%(goods)s: základ dane na tejto faktúre je %(total).2f €, preto sa uplatní prenos daňovej povinnosti, ak je odberateľ platiteľom DPH."
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+#, python-format
+msgid "C.2: %(n)d row(s) without the supplier's number of the credit or debit note; enter it as the Bill Reference and recompute: %(refs)s"
+msgstr "C.2: %(n)d riadok/riadkov bez čísla dobropisu alebo ťarchopisu od dodávateľa; zadajte ho ako referenciu faktúry a prepočítajte: %(refs)s"

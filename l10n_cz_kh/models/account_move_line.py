@@ -69,6 +69,8 @@ class AccountMoveLine(models.Model):
         is_rc = bool(taxes.filtered("cssk_control_is_reverse_charge"))
         is_eu = self._cssk_cz_is_eu()
         rows = self._cz_kh_return_rows()
+        if is_out and self._cz_kh_is_investment_gold(taxes):
+            return "A3"
         if is_out:
             # The supplied side of § 92a is recognised by its row as well as by
             # the flag: the flag is set on the PURCHASE taxes only, so the
@@ -96,6 +98,13 @@ class AccountMoveLine(models.Model):
             # whatever the tax on the line says, as in ``_cssk_cz_is_eu``.
             return "A2"
         return "B2"           # domestic received supply (split B2/B3)
+
+    def _cz_kh_is_investment_gold(self, taxes):
+        """Whether the line carries the chart's investment gold tax."""
+        gold = self.env["account.chart.template"].with_company(
+            self.company_id).ref(
+                "l10n_cz_investment_gold", raise_if_not_found=False)
+        return bool(gold and gold in taxes)
 
     def _cz_kh_return_rows(self):
         """DPHDP3 rows this base line reports, from its VAT-return tags."""

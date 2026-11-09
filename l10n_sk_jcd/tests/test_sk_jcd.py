@@ -45,7 +45,18 @@ class TestSkJcd(AccountTestInvoicingCommon):
 
     # ------------------------------------------------------------------
     def _historic_clone(self, current, rate, valid_from, valid_to):
-        """A historical rate as the generator makes one: an archived clone."""
+        """A historical rate as the generator makes one: an archived clone.
+
+        With l10n_sk_vat_return installed the chart already holds the real
+        one. A second clone at the same rate would be an interchangeable
+        variant, and posting would take the older of the two.
+        """
+        existing = self.env["account.tax"].with_context(active_test=False).search([
+            ("cssk_historic_source_tax_id", "=", current.id),
+            ("amount", "=", rate),
+        ], limit=1)
+        if existing:
+            return existing
         clone = current.copy({"name": "%g%% historic" % rate, "amount": rate})
         clone.write({
             "cssk_historic_valid_from": valid_from,

@@ -5,7 +5,7 @@ Changelog
 Unreleased
 ==========
 
-- **19.0.1.22.0 (2026-11-09), not yet on 18.0:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
+- **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~

@@ -142,7 +142,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_kh``
-- **Version:** 19.0.1.10.3
+- **Version:** 19.0.1.11.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_kv_kh_base``, ``l10n_cz``, ``l10n_cz_statutory``

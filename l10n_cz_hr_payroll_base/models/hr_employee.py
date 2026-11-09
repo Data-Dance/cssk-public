@@ -63,6 +63,14 @@ class HrEmployee(models.Model):
         readonly=False, related="version_id.l10n_cz_social_discount_category",
         inherited=True, groups=CZ_PAYROLL_GROUP)
 
+    l10n_cz_child_ids = fields.One2many(
+        "l10n.cz.employee.child", "employee_id", "Children (tax benefit)",
+        groups=CZ_PAYROLL_GROUP,
+        help="The children the child tax benefit is claimed for, with the "
+             "months of the claim. When any is recorded, the payslip and the "
+             "annual tax reconciliation count these month by month and the "
+             "child counts on the contract are not used.")
+
     def _l10n_cz_sick_hours_after_employer_period(
         self, date_from, date_to, calendar, is_sick_type
     ):

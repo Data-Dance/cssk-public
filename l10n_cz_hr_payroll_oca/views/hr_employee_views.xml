@@ -35,6 +35,24 @@
                     <field name="l10n_cz_children_ztpp"/>
                 </group>
             </group>
+            <group name="payroll_group" position="after">
+                <group string="Children (tax benefit)" name="l10n_cz_child_records" groups="payroll.group_payroll_user"
+                       invisible="company_country_code != 'CZ'">
+                    <field name="l10n_cz_child_ids" nolabel="1" colspan="2">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="first_name"/>
+                            <field name="surname"/>
+                            <field name="birthday"/>
+                            <field name="birth_number" optional="show"/>
+                            <field name="ztpp"/>
+                            <field name="order"/>
+                            <field name="date_from" optional="show"/>
+                            <field name="date_to" optional="show"/>
+                        </list>
+                    </field>
+                </group>
+            </group>
         </field>
     </record>
 </odoo>

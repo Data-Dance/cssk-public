@@ -1,7 +1,7 @@
 ---
 title: Česká mzdová agenda
 summary: Česká mzdová agenda na jednom místě — měsíční výplatní páska pro pracovní poměr, DPP a DPČ v aplikaci OCA payroll nebo v Odoo Enterprise Payroll, s datovanými zákonnými sazbami, nepřítomnostmi, ročním zúčtováním daně a zaúčtováním do hlavní knihy.
-verified: 19.0.1.1.2
+verified: 19.0.1.5.0
 ---
 
 ## Na co slouží {#purpose}
@@ -152,7 +152,32 @@ paragrafy byly ověřeny proti úplným zněním účinným v říjnu 2026.
 | Vyživované osoby pro exekuci | Vyživované osoby zvyšující nezabavitelnou částku, zadává-li se srážka jako vstup výplatní pásky. |
 | Sleva pro pracujícího důchodce | Snižuje pojistné zaměstnance o 6,5 % vyměřovacího základu, zaokrouhleno na celé koruny nahoru. Zaškrtněte od měsíce, kdy zaměstnanec o slevu požádá a doloží nárok. |
 | Kategorie slevy na pojistném | Jedna z kategorií podle § 7a pro 5% slevu zaměstnavatele. |
-| Děti (1. dítě), Děti (2. dítě), Děti (3. a další dítě), z toho dětí se ZTP/P | Počet dětí pro daňové zvýhodnění podle pořadí. |
+| Děti (1. dítě), Děti (2. dítě), Děti (3. a další dítě), z toho dětí se ZTP/P | Počet dětí pro daňové zvýhodnění podle pořadí. Použije se jen tehdy, když v části *Děti (daňové zvýhodnění)* není zapsané žádné dítě: z počtů nelze poznat, ve kterých měsících se zvýhodnění uplatňovalo. |
+
+### Děti pro daňové zvýhodnění {#children}
+
+Každé dítě zapište na kartě zaměstnance do části *Děti (daňové zvýhodnění)*:
+jméno, datum narození (nebo rodné číslo), zda je držitelem průkazu ZTP/P a
+pořadí, ve kterém na ně zaměstnanec zvýhodnění uplatňuje (1, 2, 3 pro třetí
+a každé další dítě, nebo *N* pro dítě ve společné domácnosti, na které je
+neuplatňuje). Jakmile je zapsané alespoň jedno dítě, výplatní páska i roční
+zúčtování počítají děti měsíc po měsíci a počty na smlouvě nepoužijí.
+
+Dítě se započte za měsíc, na jehož počátku byly splněny podmínky
+([§ 35c odst. 10](law:cz/1992/586)), a už za měsíc narození.
+
+- *Uplatňováno od*: nechte prázdné, uplatňuje-li se od narození. Jinak zadejte
+  den v prvním započítávaném měsíci: měsíc osvojení, převzetí do péče
+  nahrazující péči rodičů nebo zahájení soustavné přípravy na budoucí povolání
+  se počítá sám; při jiném začátku (dítě se přistěhovalo, druhý z rodičů
+  přestal uplatňovat) zadejte první den následujícího měsíce.
+- *Uplatňováno do*: poslední den, kdy jsou podmínky splněny. Tento měsíc se
+  ještě započte.
+- Dítě se ZTP/P se započte dvakrát, částkou podle svého pořadí
+  ([§ 35c odst. 7](law:cz/1992/586)).
+
+Dvě děti nemohou být ve stejných měsících uplatněny obě jako první ani obě
+jako druhé.
 
 ## Jak se výplatní páska počítá {#payslip}
 
@@ -205,8 +230,10 @@ V pořadí, v jakém pravidla běží:
    se taková dohoda zdaní zálohou, stále bez slev (parametr pravidla
    `l10n_cz_wh_tax_dependent`).
 10. **Slevy na dani** při podepsaném prohlášení, nejvýše do výše zálohy.
-11. **Daňové zvýhodnění na dítě** do výše zbývající daně a **Daňový bonus na
-    dítě** za zbytek, dosáhne-li základ daně poloviny minimální mzdy.
+11. **Daňové zvýhodnění na dítě** za děti daného měsíce (viz
+    [Děti](#children)) do výše zbývající daně a **Daňový bonus na dítě** za
+    zbytek, dosáhne-li základ daně poloviny minimální mzdy a činí-li bonus
+    alespoň 50 Kč ([§ 35d odst. 4](law:cz/1992/586)).
 12. **Exekuční srážky ze mzdy** a další srážky (viz [Srážky ze
     mzdy](#garnishment)), **Proplacení výdajů** a případně **Roční zúčtování
     daně**.
@@ -406,17 +433,17 @@ ustanovení. Stránka každého hlášení uvádí za která.
 - **Průměrný výdělek** zahrnuje jen základní mzdu předchozího čtvrtletí, ne
   příplatky ani odměny, a místo 21 odpracovaných dnů testuje „alespoň nějaké
   odpracované hodiny“.
-- **Daňové zvýhodnění.** Dítě se ZTP/P přidá jednu částku za první dítě
-  místo zdvojnásobení částky podle svého pořadí, u druhého a dalšího dítěte
-  tedy příliš málo. Minimum měsíčního bonusu 50 Kč a ročního 100 Kč se
-  neuplatňuje.
-- **Roční zúčtování daně.** Tlačítko pro převod výsledku do výplatní pásky
-  neexistuje, záznam se proto nikdy nedostane do stavu *Vyrovnáno*; vstup
-  zadejte ručně. Načítají se jen potvrzené pásky tohoto zaměstnavatele —
-  údaje z potvrzení předchozího plátce se nepřičítají. Minimum přeplatku
-  50 Kč, minimální výše daru a limit 300 000 Kč u starších úvěrů se
-  neuplatňují. Pravidlo jednoho záznamu na zaměstnance a rok se v Odoo 19
-  nevynucuje.
+- **Daňové zvýhodnění.** Pořadí dítěte a ZTP/P platí po celou dobu
+  uplatňování; když se změní, ukončete záznam a přidejte nový. Bez záznamů
+  dětí se použijí počty na smlouvě a dítě se ZTP/P se pak zdvojnásobí částkou
+  za první dítě; roční zúčtování použije počty verze platné k prvnímu dni
+  každého měsíce a pro měsíce před první verzí počty první verze. Zda totéž
+  dítě neuplatňuje jiná osoba ve společné domácnosti
+  ([§ 35c odst. 9](law:cz/1992/586)), se nekontroluje.
+- **Roční zúčtování daně.** Načítají se jen potvrzené pásky tohoto
+  zaměstnavatele; příjmy, zálohy a bonusy od předchozího plátce se zadávají
+  z jeho potvrzení. Minimální výše daru a limit 300 000 Kč u starších úvěrů
+  se neuplatňují.
 - **Plány dovolené.** Plány předpokládají 40hodinový týden; při jiné délce
   upravte přírůstek. Minimum 4 odpracovaných týdnů podle § 213 odst. 3 se
   nevynucuje. Na lhůtu § 218 odst. 3 k určení převedené dovolené nic

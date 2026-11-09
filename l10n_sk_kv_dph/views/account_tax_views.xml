@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_tax_form_kv_supplier_excluded" model="ir.ui.view">
+        <field name="name">account.tax.form.sk.kv.supplier.excluded</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="l10n_cssk_kv_kh_base.view_tax_form_cssk_control"/>
+        <field name="arch" type="xml">
+            <field name="cssk_control_is_reverse_charge" position="after">
+                <field name="l10n_sk_kv_supplier_excluded"
+                       invisible="country_code != 'SK' or type_tax_use != 'sale' or not cssk_control_is_reverse_charge"/>
+            </field>
+        </field>
+    </record>
+</odoo>

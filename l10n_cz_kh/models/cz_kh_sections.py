@@ -128,7 +128,7 @@ class L10nCzKhRowMixin(models.AbstractModel):
                     "line": line, "lines": self.env["account.move.line"],
                 }
             b["lines"] |= line
-            if code == "A1" or rate >= 20:
+            if code in ("A1", "A3") or rate >= 20:
                 # A.1 has one base "bez rozlišení sazby daně": the supplier
                 # charges no VAT, so the stock 0 % RC sale tax must not send
                 # the base to a reduced-rate column the row does not have.
@@ -358,6 +358,13 @@ class L10nCzKhA2(models.Model):
     _inherit = "l10n.cz.kh.detail.all"
     _description = "KH A2 — acquisition from EU"
     _cz_code = "A2"
+
+
+class L10nCzKhA3(models.Model):
+    _name = "l10n.cz.kh.a3"
+    _inherit = "l10n.cz.kh.detail.all"
+    _description = "KH A3 — investment gold"
+    _cz_code = "A3"
 
 
 class L10nCzKhB1(models.Model):

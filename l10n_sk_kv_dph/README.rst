@@ -148,6 +148,8 @@ Before rendering, the export stops and names the documents at fault when:
 
 - a row in A.1, A.2, B.1 or B.2 has no supply date;
 
+- a C.2 row has no supplier's number of the credit or debit note (enter it as the *Bill Reference*); both numbers on a C.2 row are the supplier's, never our internal ones;
+
 - a C.1 or C.2 row has no number of the corrected invoice (enter it as *Original document number* on the credit note; on a vendor credit note the *Source Document* is read too, unless it names a purchase order);
 
 - an A.2 row of písm. f) or g) goods has no commodity code or one outside the statutory chapters, or a row of § 69 ods. 12 goods has a unit that converts to none of kg, t, m, ks.
@@ -165,17 +167,22 @@ Limitations
 
 - Triangular trade and the self-assessment of import VAT are not marked as reverse charge, pending an accountant's confirmation, so they do not appear in B.1.
 
-- The 5 000 eur invoice threshold that applies to mobile phones and integrated circuits under § 69 ods. 12 písm. h) and i) is not checked; set the product category only on goods that qualify.
+- The 5 000 eur invoice threshold for mobile phones and integrated circuits (§ 69 ods. 12 písm. h) and i)) is a warning on the invoice, per category; the tax is not changed for you.
 
 - The ``ONP`` attribute of C.1 / C.2 (correction of an uncollectible receivable, available from the 2023 form) is never filled.
 
 - The section rules are a best effort; the § 69 ods. 12 goods list and D.1 in particular still need confirmation by a Slovak accountant. Review each statement before filing.
 
+Reverse charge outside the statement
+======================================
+
+Use the sale tax for § 69 ods. 12 písm. a) to e) on scrap, emission quotas, opted or forced property sales and collateral goods. Only the recipient reports these supplies, in B.1, so they appear nowhere in the supplier's statement.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_kv_dph``
-- **Version:** 19.0.2.5.2
+- **Version:** 19.0.2.8.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_kv_kh_base``, ``l10n_sk``

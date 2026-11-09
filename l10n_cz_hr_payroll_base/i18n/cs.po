@@ -1,6 +1,7 @@
-# Czech translation for the module.
-# Copyright (C) Data Dance s.r.o.
-# This file is distributed under the same license as the module.
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_hr_payroll_base
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: l10n_cz_hr_payroll_base\n"
@@ -14,6 +15,37 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : n != 1 && "
 "n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 2 : 3);\n"
+
+#. module: l10n_cz_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/hr_employee_child.py:0
+msgid ""
+"%(one)s and %(two)s are both claimed as child %(order)s for the same months. "
+"Give one of them the next order, or end one claim before the other starts."
+msgstr ""
+"%(one)s a %(two)s jsou ve stejných měsících obě uplatněny jako dítě %"
+"(order)s. Dejte jednomu z nich další pořadí, nebo ukončete jedno uplatňování "
+"dřív, než začne druhé."
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__l10n_cz_employee_child__order__1
+msgid "1 – first child"
+msgstr "1 – první dítě"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__l10n_cz_employee_child__order__2
+msgid "2 – second child"
+msgstr "2 – druhé dítě"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__l10n_cz_employee_child__order__3
+msgid "3 – third and further child"
+msgstr "3 – třetí a každé další dítě"
+
+#. module: l10n_cz_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_base.res_config_settings_view_form_l10n_cz_payroll
+msgid "<span>%</span>"
+msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model,name:l10n_cz_hr_payroll_base.model_hr_leave_accrual_plan
@@ -52,17 +84,26 @@ msgstr "Průměrný hodinový výdělek"
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_avg_hourly_earnings
 msgid ""
 "Average hourly earnings from the previous quarter, used to compute the "
-"sickness compensation for the first 14 calendar days of temporary "
-"incapacity."
+"sickness compensation for the first 14 calendar days of temporary incapacity."
 msgstr ""
 "Průměrný hodinový výdělek z předchozího čtvrtletí, používaný pro výpočet "
 "náhrady mzdy při nemoci za prvních 14 kalendářních dnů dočasné pracovní "
 "neschopnosti."
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__birth_number
+msgid "Birth number"
+msgstr "Rodné číslo"
+
+#. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__carer
 msgid "Carer of a dependent person (§7a/1/c)"
 msgstr "Pečující o závislou osobu (§7a/1/c)"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model,name:l10n_cz_hr_payroll_base.model_l10n_cz_employee_child
+msgid "Child maintained by a Czech employee (tax benefit)"
+msgstr "Vyživované dítě zaměstnance (daňové zvýhodnění)"
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t1
@@ -83,6 +124,46 @@ msgid "Children (3rd+ tier)"
 msgstr "Děti (3. a další dítě)"
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_child_ids
+msgid "Children (tax benefit)"
+msgstr "Děti (daňové zvýhodnění)"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__date_from
+msgid "Claimed from"
+msgstr "Uplatňováno od"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__date_to
+msgid "Claimed to"
+msgstr "Uplatňováno do"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model,name:l10n_cz_hr_payroll_base.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_company_country_code
+msgid "Company Country (Czech payroll)"
+msgstr "Země společnosti (česká mzdová agenda)"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model,name:l10n_cz_hr_payroll_base.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavení konfigurace"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__create_uid
+msgid "Created by"
+msgstr "Vytvořil"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__create_date
+msgid "Created on"
+msgstr "Vytvořeno"
+
+#. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_agreement_type__dpp
 msgid "DPP (agreement to perform work)"
 msgstr "DPP (dohoda o provedení práce)"
@@ -91,6 +172,11 @@ msgstr "DPP (dohoda o provedení práce)"
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_agreement_type__dpc
 msgid "DPČ (agreement to perform working activity)"
 msgstr "DPČ (dohoda o pracovní činnosti)"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__birthday
+msgid "Date of birth"
+msgstr "Datum narození"
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_disability
@@ -102,6 +188,9 @@ msgstr "Určuje slevu na invaliditu (základní / rozšířenou)."
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_leave_accrual_plan__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný název"
 
@@ -123,18 +212,19 @@ msgstr ""
 msgid ""
 "Eligibility category for the 5 % employer social-insurance discount (§7a of "
 "Act 589/1992). The discount applies only for a shorter working time of 8-30 "
-"h/week (except employees under 21) with a monthly assessment base up to 1.5x"
-" the average wage. Only one employer may claim it per employee; the intent "
+"h/week (except employees under 21) with a monthly assessment base up to 1.5x "
+"the average wage. Only one employer may claim it per employee; the intent "
 "must be notified to ČSSZ."
 msgstr ""
 "Kategorie nároku na 5% slevu zaměstnavatele na pojistném (§7a zák. "
 "589/1992). Sleva náleží pouze při kratší pracovní době 8-30 h/týden (kromě "
-"zaměstnanců do 21 let) a měsíčním vyměřovacím základu do 1,5násobku průměrné"
-" mzdy. Nárok může uplatnit jen jeden zaměstnavatel; úmysl je nutné oznámit "
+"zaměstnanců do 21 let) a měsíčním vyměřovacím základu do 1,5násobku průměrné "
+"mzdy. Nárok může uplatnit jen jeden zaměstnavatel; úmysl je nutné oznámit "
 "ČSSZ."
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model,name:l10n_cz_hr_payroll_base.model_hr_employee
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__employee_id
 msgid "Employee"
 msgstr "Zaměstnanec"
 
@@ -158,6 +248,11 @@ msgstr ""
 "držitele ZTP/P."
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__first_name
+msgid "First name"
+msgstr "Jméno"
+
+#. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_garnishment_dependents
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_garnishment_dependents
 msgid "Garnishment dependents"
@@ -167,6 +262,9 @@ msgstr "Vyživované osoby pro exekuci"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_leave_accrual_plan__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__id
 msgid "ID"
 msgstr "ID"
 
@@ -197,10 +295,53 @@ msgid "Invalidity III degree"
 msgstr "Invalidita III. stupně"
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__date_to
+msgid ""
+"Last day the conditions are met: the child left the household, ended their "
+"studies, or the other parent claims from the next month. The month of that "
+"day is still claimed."
+msgstr ""
+"Poslední den, kdy jsou splněny podmínky: dítě odešlo ze společné domácnosti, "
+"ukončilo studium, nebo druhý z rodičů uplatňuje od následujícího měsíce. "
+"Měsíc tohoto dne se ještě uplatní."
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__date_from
+msgid ""
+"Leave empty to claim from the month of birth. Otherwise a day of the first "
+"month the benefit is due (§ 35c odst. 10 ZDP): the month of adoption, of "
+"placement into care replacing the parents' or of the start of studies counts "
+"itself; any other start (the child came to the household, the other parent "
+"stopped claiming) counts from the next month, so enter the first day of that "
+"month."
+msgstr ""
+"Nechte prázdné, uplatňuje-li se od měsíce narození. Jinak zadejte den v "
+"prvním měsíci, za který zvýhodnění náleží (§ 35c odst. 10 ZDP): měsíc "
+"osvojení, převzetí do péče nahrazující péči rodičů nebo zahájení soustavné "
+"přípravy na budoucí povolání se počítá sám; při jiném začátku (dítě se "
+"přistěhovalo, druhý z rodičů přestal uplatňovat) se počítá až následující "
+"měsíc, zadejte proto jeho první den."
+
+#. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_meal_allowance
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_meal_allowance
 msgid "Meal allowance / shift"
 msgstr "Stravenkový paušál / směna"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__l10n_cz_employee_child__order__n
+msgid "N – not claimed"
+msgstr "N – neuplatňováno"
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_leave_accrual_plan__name
@@ -216,21 +357,31 @@ msgstr "Žádná"
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_ztpp
-msgid "Number of children holding a ZTP/P card (benefit doubled)."
+msgid ""
+"Number of children holding a ZTP/P card (benefit doubled). Used only while "
+"no child is recorded under Children (tax benefit); with records the payslip "
+"counts those, month by month."
 msgstr ""
-"Počet dětí, které jsou držiteli průkazu ZTP/P (zvýhodnění se zdvojnásobuje)."
+"Počet dětí s průkazem ZTP/P (zvýhodnění se zdvojnásobuje). Použije se jen "
+"tehdy, když v části Děti (daňové zvýhodnění) není zapsané žádné dítě; se "
+"záznamy výplatní páska počítá je, měsíc po měsíci."
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_garnishment_dependents
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_garnishment_dependents
 msgid ""
-"Number of dependents (spouse/children) counted for the non-attachable amount"
-" when computing a wage garnishment. Each adds 1/4 of the base protected "
+"Number of dependents (spouse/children) counted for the non-attachable amount "
+"when computing a wage garnishment. Each adds 1/4 of the base protected "
 "amount."
 msgstr ""
 "Počet vyživovaných osob (manžel/ka, děti) započtených do nezabavitelné "
 "částky při výpočtu exekuční srážky. Každá zvyšuje základní nezabavitelnou "
 "částku o 1/4."
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__order
+msgid "Order (tax benefit)"
+msgstr "Pořadí (daňové zvýhodnění)"
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__over55
@@ -249,8 +400,8 @@ msgid ""
 "Pensioner / student / parental leave / jobseeker / disabled: the health-"
 "insurance minimum-base top-up does not apply."
 msgstr ""
-"Důchodce / student / rodičovská dovolená / uchazeč o zaměstnání / invalidní:"
-" doplatek do minimálního vyměřovacího základu zdravotního pojištění se "
+"Důchodce / student / rodičovská dovolená / uchazeč o zaměstnání / invalidní: "
+"doplatek do minimálního vyměřovacího základu zdravotního pojištění se "
 "neuplatní."
 
 #. module: l10n_cz_hr_payroll_base
@@ -264,6 +415,17 @@ msgstr ""
 "zdanitelný přebytek je součástí fáze P2."
 
 #. module: l10n_cz_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_base.res_config_settings_view_form_l10n_cz_payroll
+msgid ""
+"Percentage of average earnings paid for částečná nezaměstnanost. 100 % "
+"unless an agreement with the trade union or an internal regulation sets less "
+"(not below 60 %)."
+msgstr ""
+"Procento průměrného výdělku vyplácené při částečné nezaměstnanosti. 100 %, "
+"nestanoví-li nižší sazbu dohoda s odborovou organizací nebo vnitřní předpis "
+"(nejméně 60 %)."
+
+#. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__disabled
 msgid "Person with a disability (§7a/1/f)"
 msgstr "Osoba se zdravotním postižením (§7a/1/f)"
@@ -272,6 +434,22 @@ msgstr "Osoba se zdravotním postižením (§7a/1/f)"
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__retraining
 msgid "Retraining participant (§7a/1/e)"
 msgstr "Účastník rekvalifikace (§7a/1/e)"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__sequence
+msgid "Sequence"
+msgstr "Pořadí"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_company__l10n_cz_partial_unemployment_pct
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_partial_unemployment_pct
+msgid "Short-time work compensation (%)"
+msgstr "Náhrada mzdy při částečné nezaměstnanosti (%)"
+
+#. module: l10n_cz_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_base.res_config_settings_view_form_l10n_cz_payroll
+msgid "Short-time work compensation (§ 209)"
+msgstr "Náhrada mzdy při částečné nezaměstnanosti (§ 209)"
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_social_discount_category
@@ -301,32 +479,67 @@ msgid "Student preparing for a profession (§7a/1/d)"
 msgstr "Student připravující se na povolání (§7a/1/d)"
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__surname
+msgid "Surname"
+msgstr "Příjmení"
+
+#. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_tax_declaration
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_tax_declaration
 msgid "Taxpayer declaration signed"
 msgstr "Podepsané prohlášení poplatníka"
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__under21
-msgid "Younger than 21 (§7a/1/g)"
-msgstr "Mladší 21 let (§7a/1/g)"
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_company_country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_ztpp
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_ztpp
-msgid "of which ZTP/P Children"
-msgstr "z toho dětí se ZTP/P"
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/hr_employee_child.py:0
+msgid "The birth number of %(child)s must have 9 or 10 digits."
+msgstr "Rodné číslo dítěte %(child)s musí mít 9 nebo 10 číslic."
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_company__l10n_cz_partial_unemployment_pct
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_partial_unemployment_pct
-msgid "Short-time work compensation (%)"
-msgstr "Náhrada mzdy při částečné nezaměstnanosti (%)"
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__ztpp
+msgid ""
+"The child holds a ZTP/P card: the benefit for the child is doubled (§ 35c "
+"odst. 7 ZDP)."
+msgstr ""
+"Dítě je držitelem průkazu ZTP/P: zvýhodnění na ně se zdvojnásobuje (§ 35c "
+"odst. 7 ZDP)."
 
 #. module: l10n_cz_hr_payroll_base
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_base.res_config_settings_view_form_l10n_cz_payroll
-msgid "Short-time work compensation (§ 209)"
-msgstr "Náhrada mzdy při částečné nezaměstnanosti (§ 209)"
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_child_ids
+msgid ""
+"The children the child tax benefit is claimed for, with the months of the "
+"claim. When any is recorded, the payslip and the annual tax reconciliation "
+"count these month by month and the child counts on the contract are not used."
+msgstr ""
+"Děti, na které se uplatňuje daňové zvýhodnění, s měsíci uplatňování. Je-li "
+"zapsané alespoň jedno, výplatní páska i roční zúčtování daně je počítají "
+"měsíc po měsíci a počty dětí na smlouvě nepoužijí."
+
+#. module: l10n_cz_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/hr_employee_child.py:0
+msgid "The claim period of %(child)s ends before it starts."
+msgstr "Období uplatňování dítěte %(child)s končí dřív, než začíná."
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__order
+msgid ""
+"The order the employee claims the benefit in — 1, 2, 3 for the third and "
+"every further child — or N for a child maintained in the household but not "
+"claimed by this employee. The employee chooses the order; it need not follow "
+"age."
+msgstr ""
+"Pořadí, ve kterém zaměstnanec zvýhodnění uplatňuje — 1, 2, 3 pro třetí a "
+"každé další dítě — nebo N pro dítě vyživované ve společné domácnosti, na "
+"které ho tento zaměstnanec neuplatňuje. Pořadí volí zaměstnanec; nemusí "
+"odpovídat věku."
 
 #. module: l10n_cz_hr_payroll_base
 #. odoo-python
@@ -335,29 +548,37 @@ msgid "The short-time work compensation must be between 0 % and 100 %."
 msgstr "Náhrada mzdy při částečné nezaměstnanosti musí být mezi 0 % a 100 %."
 
 #. module: l10n_cz_hr_payroll_base
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_base.res_config_settings_view_form_l10n_cz_payroll
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t1
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t2
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t3
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_t1
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_t2
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_t3
 msgid ""
-"Percentage of average earnings paid for částečná nezaměstnanost. 100 % "
-"unless an agreement with the trade union or an internal regulation sets less"
-" (not below 60 %)."
-msgstr "Procento průměrného výdělku vyplácené při částečné nezaměstnanosti. 100 %, nestanoví-li nižší sazbu dohoda s odborovou organizací nebo vnitřní předpis (nejméně 60 %)."
+"Used only while no child is recorded under Children (tax benefit); with "
+"records the payslip counts those, month by month."
+msgstr ""
+"Použije se jen tehdy, když v části Děti (daňové zvýhodnění) není zapsané "
+"žádné dítě; se záznamy výplatní páska počítá je, měsíc po měsíci."
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_res_company__l10n_cz_partial_unemployment_pct
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_partial_unemployment_pct
 msgid ""
-"Wage compensation for částečná nezaměstnanost (§ 209 of the Labour Code), as"
-" a percentage of average earnings. Without an agreement with the trade "
-"union, or an internal regulation where there is no union, it is a jiná "
-"překážka na straně zaměstnavatele under § 208 and paid in full: leave 100 %."
-" Enter the agreed rate only when such an agreement or regulation exists; "
-"payslips never pay less than the statutory minimum of 60 %."
-msgstr "Náhrada mzdy při částečné nezaměstnanosti (§ 209 zákoníku práce) v procentech průměrného výdělku. Bez dohody s odborovou organizací, nebo vnitřního předpisu tam, kde odborová organizace nepůsobí, jde o jinou překážku na straně zaměstnavatele podle § 208 a náhrada přísluší v plné výši: ponechte 100 %. Sjednanou sazbu zadejte jen tehdy, když taková dohoda nebo předpis existuje; výplatní páska nikdy nezaplatí méně než zákonných 60 %."
-
-#. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_company_country_code
-msgid "Company Country (Czech payroll)"
-msgstr "Země společnosti (česká mzdová agenda)"
+"Wage compensation for částečná nezaměstnanost (§ 209 of the Labour Code), as "
+"a percentage of average earnings. Without an agreement with the trade union, "
+"or an internal regulation where there is no union, it is a jiná překážka na "
+"straně zaměstnavatele under § 208 and paid in full: leave 100 %. Enter the "
+"agreed rate only when such an agreement or regulation exists; payslips never "
+"pay less than the statutory minimum of 60 %."
+msgstr ""
+"Náhrada mzdy při částečné nezaměstnanosti (§ 209 zákoníku práce) v "
+"procentech průměrného výdělku. Bez dohody s odborovou organizací, nebo "
+"vnitřního předpisu tam, kde odborová organizace nepůsobí, jde o jinou "
+"překážku na straně zaměstnavatele podle § 208 a náhrada přísluší v plné "
+"výši: ponechte 100 %. Sjednanou sazbu zadejte jen tehdy, když taková dohoda "
+"nebo předpis existuje; výplatní páska nikdy nezaplatí méně než zákonných 60 "
+"%."
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_pensioner_discount
@@ -366,10 +587,49 @@ msgstr "Sleva pro pracujícího důchodce"
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_pensioner_discount
-msgid "Lowers the employee's social insurance by 6.5 % of the assessment base. For an old-age pensioner at pension age, drawing the pension in full, for the whole calendar month. The employee applies to the employer with the proof; it cannot be applied retroactively and is claimed once across all jobs with one employer."
-msgstr "Snižuje pojistné zaměstnance na sociální pojištění o 6,5 % vyměřovacího základu. Pro starobního důchodce v důchodovém věku, který pobírá důchod v plné výši, po celý kalendářní měsíc. Zaměstnanec o slevu žádá u zaměstnavatele a doloží nárok; nelze ji uplatnit zpětně a uplatňuje se jednou pro všechna zaměstnání u jednoho zaměstnavatele."
+msgid ""
+"Lowers the employee's social insurance by 6.5 % of the assessment base. For "
+"an old-age pensioner at pension age, drawing the pension in full, for the "
+"whole calendar month. The employee applies to the employer with the proof; "
+"it cannot be applied retroactively and is claimed once across all jobs with "
+"one employer."
+msgstr ""
+"Snižuje pojistné zaměstnance na sociální pojištění o 6,5 % vyměřovacího "
+"základu. Pro starobního důchodce v důchodovém věku, který pobírá důchod v "
+"plné výši, po celý kalendářní měsíc. Zaměstnanec o slevu žádá u "
+"zaměstnavatele a doloží nárok; nelze ji uplatnit zpětně a uplatňuje se "
+"jednou pro všechna zaměstnání u jednoho zaměstnavatele."
 
 #. odoo-python
 #: code:addons/l10n_cz_hr_payroll_base/models/insurance_month.py:0
-msgid "The agreements of %(employee)s add up to %(total).2f this month, so these payslips must be recomputed or corrected before confirming: %(payslips)s"
-msgstr "Dohody zaměstnance %(employee)s dávají v tomto měsíci dohromady %(total).2f, proto je třeba před potvrzením přepočítat nebo opravit tyto výplatní pásky: %(payslips)s"
+msgid ""
+"The agreements of %(employee)s add up to %(total).2f this month, so these "
+"payslips must be recomputed or corrected before confirming: %(payslips)s"
+msgstr ""
+"Dohody zaměstnance %(employee)s dávají v tomto měsíci dohromady %(total).2f, "
+"proto je třeba před potvrzením přepočítat nebo opravit tyto výplatní pásky: %"
+"(payslips)s"
+
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/annual_parameters.py:0
+msgid ""
+"The %(year)s value of salary rule parameter %(code)s has not been entered "
+"yet; the latest one is from %(found)s."
+msgstr ""
+"Hodnota parametru mzdového pravidla %(code)s pro rok %(year)s ještě nebyla "
+"zadána; poslední je z roku %(found)s."
+
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__under21
+msgid "Younger than 21 (§7a/1/g)"
+msgstr "Mladší 21 let (§7a/1/g)"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__ztpp
+msgid "ZTP/P holder"
+msgstr "Držitel ZTP/P"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_ztpp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_ztpp
+msgid "of which ZTP/P Children"
+msgstr "z toho dětí se ZTP/P"

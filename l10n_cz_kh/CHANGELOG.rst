@@ -38,6 +38,14 @@ Carry-over to 18.0
   cash-basis entry through ``_cssk_vat_document`` (commit 02eda35); ports with
   the ``l10n_cssk_kv_kh_base`` change it depends on.
 
+[19.0.1.11.0] — 2026-11-09
+--------------------------
+
+Added
+~~~~~
+
+- section A.3, investment gold, from the chart's investment gold tax.
+
 [19.0.1.10.3] — 2026-11-09
 --------------------------
 

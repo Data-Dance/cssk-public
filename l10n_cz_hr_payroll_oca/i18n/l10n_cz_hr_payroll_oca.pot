@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-08 13:04+0000\n"
-"PO-Revision-Date: 2026-11-08 13:04+0000\n"
+"POT-Creation-Date: 2026-11-09 00:11+0000\n"
+"PO-Revision-Date: 2026-11-09 00:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -195,6 +195,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t3
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_t3
 msgid "Children (3rd+ tier)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_child_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
+msgid "Children (tax benefit)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -994,7 +1000,10 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
-msgid "Number of children holding a ZTP/P card (benefit doubled)."
+msgid ""
+"Number of children holding a ZTP/P card (benefit doubled). Used only while "
+"no child is recorded under Children (tax benefit); with records the payslip "
+"counts those, month by month."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1357,6 +1366,15 @@ msgid "Taxpayer declaration signed"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_child_ids
+msgid ""
+"The children the child tax benefit is claimed for, with the months of the "
+"claim. When any is recorded, the payslip and the annual tax reconciliation "
+"count these month by month and the child counts on the contract are not "
+"used."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp
 msgid ""
 "The spouse was granted a ZTP/P card; the credit is doubled for the months at"
@@ -1401,6 +1419,18 @@ msgstr ""
 #: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_unpaid
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czunpaid
 msgid "Unpaid Leave"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t1
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t2
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t3
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_t1
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_t2
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_t3
+msgid ""
+"Used only while no child is recorded under Children (tax benefit); with "
+"records the payslip counts those, month by month."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca

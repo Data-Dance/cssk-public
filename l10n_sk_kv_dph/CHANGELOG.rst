@@ -8,6 +8,57 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0: the FO / FP correction of 19.0.2.6.0. DISCHARGED (18.0.2.4.0).
+
+[19.0.2.8.0] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- **C.2 no longer falls back to internal numbers.** FO and FP are the
+  supplier's; the tax administration cannot match our own. The export refuses
+  a row without them and says which document needs the number. Confirmed by
+  the accountant.
+
+[19.0.2.7.0] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- **§ 69 ods. 12 písm. a) až e) no longer reach A.2.** Only the recipient reports
+  scrap, emission quotas, opted or forced property sales and collateral goods
+  (B.1). A new sale tax, ``vs_rc_out_ae``, carries them; assign it to such
+  supplies, including invoices of an open period.
+
+Added
+~~~~~
+
+- Invoice warning for the 5 000 € base per category of mobile phones and
+  integrated circuits (§ 69 ods. 12 písm. h) and i)).
+
+[19.0.2.6.1] — 2026-11-09
+-------------------------
+
+Removed
+~~~~~~~
+
+- The old FO / FP layout kept for cancellation rows: no statement was filed
+  with it. A C.1 / C.2 row of any kind now needs the corrected invoice's number.
+
+[19.0.2.6.0] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- **C.1 / C.2: FO and FP were filed the wrong way round.** Every vzor defines
+  FO as the number of the corrective invoice and FP as the number of the
+  original one. Both are plain invoice numbers, so the XSD could not see it.
+  A cancellation row (kód opravy 1) of a row filed before this version still
+  repeats it as it was filed.
+
 [19.0.2.5.2] — 2026-11-05
 -------------------------
 

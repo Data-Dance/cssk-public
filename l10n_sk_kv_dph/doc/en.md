@@ -1,7 +1,7 @@
 ---
 title: SK VAT Control Statement (KV DPH)
 summary: The Slovak kontrolný výkaz DPH — sections A.1 to D.2 computed from the books, checked against the form's requirements and exported as the Finančná správa XML in the form version in force for the period.
-verified: 19.0.2.5.2
+verified: 19.0.2.7.0
 ---
 
 ## What it is for {#purpose}
@@ -196,6 +196,9 @@ Before rendering, the export stops and names the documents at fault when:
   are removed automatically; the number is not shortened, because the tax
   administration matches it against the supplier's own filing);
 - a row in A.1, A.2, B.1 or B.2 has no supply date;
+- a C.2 row has no supplier's number of the credit or debit note (enter it as
+  the *Bill Reference*); both numbers on a C.2 row are the supplier's, never
+  our internal ones;
 - a C.1 or C.2 row has no number of the corrected invoice (enter it as
   *Original document number* on the credit note; on a vendor credit note the
   *Source Document* is read too, unless it names a purchase order);
@@ -224,11 +227,17 @@ the period (year and month, or year and quarter).
 - Triangular trade and the self-assessment of import VAT are not marked as
   reverse charge, pending an accountant's confirmation, so they do not appear
   in B.1.
-- The 5 000 eur invoice threshold that applies to mobile phones and integrated
-  circuits under § 69 ods. 12 písm. h) and i) is not checked; set the product
-  category only on goods that qualify.
+- The 5 000 eur invoice threshold for mobile phones and integrated circuits
+  (§ 69 ods. 12 písm. h) and i)) is a warning on the invoice, per category; the
+  tax is not changed for you.
 - The `ONP` attribute of C.1 / C.2 (correction of an uncollectible receivable,
   available from the 2023 form) is never filled.
 - The section rules are a best effort; the § 69 ods. 12 goods list and D.1 in
   particular still need confirmation by a Slovak accountant. Review each
   statement before filing.
+
+## Reverse charge outside the statement {#rc-a-e}
+
+Use the sale tax for § 69 ods. 12 písm. a) to e) on scrap, emission quotas, opted
+or forced property sales and collateral goods. Only the recipient reports these
+supplies, in B.1, so they appear nowhere in the supplier's statement.

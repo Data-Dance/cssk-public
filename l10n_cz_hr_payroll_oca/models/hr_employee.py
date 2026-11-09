@@ -24,3 +24,4 @@ class HrEmployee(models.Model):
     l10n_cz_garnishment_dependents = fields.Integer(groups=CZ_PAYROLL_GROUP)
     l10n_cz_avg_hourly_earnings = fields.Monetary(groups=CZ_PAYROLL_GROUP)
     l10n_cz_social_discount_category = fields.Selection(groups=CZ_PAYROLL_GROUP)
+    l10n_cz_child_ids = fields.One2many(groups=CZ_PAYROLL_GROUP)

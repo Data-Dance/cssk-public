@@ -2,6 +2,49 @@
 Changelog
 =========
 
+[Unreleased]
+------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+Owed to the 18.0 branch: the child records and the month helpers
+(19.0.1.5.0, 2026-11-09). 18.0 keeps the
+children's counts on ``hr.contract``; the month helpers go on the contract,
+and the reconciliation reads the contract in force on each month's first day
+instead of ``_get_version``.
+
+[19.0.1.5.0] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- **Children for the child tax benefit** (``l10n.cz.employee.child``, on the
+  employee): name, date of birth or birth number, ZTP/P, the order of the
+  claim, and an optional *Claimed from* / *Claimed to*. A child counts in the
+  month of birth and in every month of the claim (§ 35c odst. 10 ZDP); a
+  ZTP/P child is doubled at its own order's amount (§ 35c odst. 7). Two
+  children cannot be claimed as the first, or as the second, in the same
+  months. The payslip and the annual tax reconciliation of both engines read
+  the month's children from here; without any record they use the counts on
+  the contract version, as before.
+
+Changed
+~~~~~~~
+
+- Guide: how to record the children; the reconciliation's limitations no
+  longer list what the engines fixed in October 2026 (posting, previous
+  employers, the 50 Kč minimum, one record a year).
+
+[19.0.1.4.0] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- a guard refusing to carry the meal limit and garnishment amounts into a later year, from 2027.
+
 [19.0.1.3.0] — 2026-11-09
 -------------------------
 

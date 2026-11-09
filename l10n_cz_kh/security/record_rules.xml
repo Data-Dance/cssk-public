@@ -15,6 +15,11 @@
         <field name="model_id" ref="model_l10n_cz_kh_a4"/>
         <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
     </record>
+    <record id="rule_l10n_cz_kh_a3_company" model="ir.rule">
+        <field name="name">KH section A3: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_kh_a3"/>
+        <field name="domain_force">[('statement_id.company_id', 'in', company_ids)]</field>
+    </record>
     <record id="rule_l10n_cz_kh_a5_company" model="ir.rule">
         <field name="name">KH section A5: multi-company</field>
         <field name="model_id" ref="model_l10n_cz_kh_a5"/>
