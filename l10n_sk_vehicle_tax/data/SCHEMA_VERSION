@@ -1,0 +1,11 @@
+dmv2025.xsd     8c4d66e464d8c98327bbaa8af3846783  10875
+
+Verified byte-identical to the published copy on 2026-11-09.
+Source: https://ekr.financnasprava.sk/Formulare/XSD/dmv2025.xsd
+SHA256: d1b154eb027c5d70ed4afaeef85add1612a74674960cfd4665be1cd476502b57
+The schema annotation itself says DMVv20; that stamp does not identify its vintage.
+
+Refresh: download the official file without newline conversion, compare its
+hashes/size and statutory form changes, update this pin and the runtime digest
+together, and rerun all XML/XSD, calculation and retention tests. Preserve the
+original CRLF bytes when transferring patches; prefer a Git checkout for schemas.

@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-08 23:00+0000\n"
-"PO-Revision-Date: 2026-11-08 23:00+0000\n"
+"POT-Creation-Date: 2026-11-09 09:47+0000\n"
+"PO-Revision-Date: 2026-11-09 09:47+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -48,6 +48,15 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+#: model:ir.model.constraint,message:l10n_sk_vehicle_tax.constraint_l10n_sk_vehicle_tax_return_one_regular_filing
+msgid ""
+"A regular vehicle tax return is already filed for this company and year. "
+"Prepare a correction of that filing."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid "A retained vehicle tax filing cannot be deleted."
 msgstr ""
 
@@ -76,6 +85,18 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__advances_paid
 msgid "Actually paid advances"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Add a new vehicle line instead of reassigning its retained fleet identity."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Add company fleet vehicles"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -301,6 +322,11 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_engine_cm3
+msgid "Cylinder capacity (cm³)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__date_from
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__date_from
 msgid "Date From"
@@ -323,6 +349,7 @@ msgid "Discovery Date"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_ir_attachment__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__display_name
@@ -338,6 +365,11 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__state__draft
 msgid "Draft"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_eu_category
+msgid "EU vehicle category"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -366,6 +398,11 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__advances_evidence
 msgid "Evidence of paid advances or reviewed zero"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_not_taxable_reason
+msgid "Exemption or outside-scope evidence"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -422,8 +459,18 @@ msgid "First Registered"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_first_registration_date
+msgid "First registration on technical certificate"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__scope_evidence
 msgid "Fleet completeness, registration and taxpayer review"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__vehicle_id
+msgid "Fleet vehicle"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -434,6 +481,11 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_partner_ids
 msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__fuel_type
+msgid "Fuel Type"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -448,11 +500,17 @@ msgid "Historical filing"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_hybrid_documented
+msgid "Hybrid propulsion documented"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__hydrogen
 msgid "Hydrogen"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_ir_attachment__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__id
@@ -496,41 +554,49 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__l1e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l1e
 msgid "L1e"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__l2e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l2e
 msgid "L2e"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__l3e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l3e
 msgid "L3e"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__l4e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l4e
 msgid "L4e"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__l5e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l5e
 msgid "L5e"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__l6e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l6e
 msgid "L6e"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__l7e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l7e
 msgid "L7e"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__fuel_type__lng
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__lng
 msgid "LNG"
 msgstr ""
@@ -577,13 +643,31 @@ msgid "Line"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__m1
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__m1
 msgid "M1"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__m2
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__m2
+msgid "M2"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__m3
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__m3
+msgid "M3"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__state__submitted
 msgid "Marked filed"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_max_mass_kg
+msgid "Maximum permissible mass (kg)"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -603,8 +687,21 @@ msgid "Motor vehicle tax"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__n1
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__n1
 msgid "N1"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__n2
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__n2
+msgid "N2"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__n3
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__n3
+msgid "N3"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -629,6 +726,11 @@ msgid "Number of Actions"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_axles
+msgid "Number of axles"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_has_error_counter
 msgid "Number of errors"
 msgstr ""
@@ -641,6 +743,30 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_has_error_counter
 msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__o1
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__o1
+msgid "O1"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__o2
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__o2
+msgid "O2"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__o3
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__o3
+msgid "O3"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_eu_category__o4
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__o4
+msgid "O4"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -732,8 +858,25 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_tax
 #. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
+msgid "Record the electric vehicle power in kW on its fleet record."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid "Recorded filing confirmation. The exact vehicle tax XML is retained."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Refresh fleet snapshot"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Refresh the reviewed vehicle snapshot through its fleet record."
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -744,6 +887,11 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__registration_number
 msgid "Registration Number"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_registered_in_sk
+msgid "Registration in Slovakia reviewed"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -793,8 +941,28 @@ msgid "Result"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Retain the exemption or outside-scope evidence on the fleet vehicle."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
+msgid "Retain the section 8 evidence for an overridden liability event."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__return_id
 msgid "Return"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
+msgid ""
+"Review Slovak registration, ordinary taxpayer a/b and actual "
+"registration/acquisition dates on the fleet vehicle."
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -814,6 +982,13 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__zero_liability_reviewed
 msgid "Review complete removal of a prior erroneous tax liability"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
+msgid ""
+"Review documented fleet propulsion before claiming vehicle-tax treatment."
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -857,6 +1032,12 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Review the imported fleet documents and liability before calculation."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid ""
 "Review the overpayment request date, evidence and a valid IBAN belonging to "
 "the filing company."
@@ -892,6 +1073,11 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_liability_from_override
+msgid "Reviewed liability event override"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.model,name:l10n_sk_vehicle_tax.model_l10n_sk_vehicle_tax_line
 msgid "Reviewed vehicle tax technical facts"
 msgstr ""
@@ -909,6 +1095,17 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__schedule
 msgid "Schedule"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_liability_override_reason
+msgid "Section 8 liability override evidence"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Select a fleet vehicle belonging to the return company."
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -935,6 +1132,11 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model,name:l10n_sk_vehicle_tax.model_l10n_sk_vehicle_tax_return
 msgid "Slovak motor vehicle tax return"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.fleet_vehicle_form_sk_tax
+msgid "Slovak vehicle tax"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -1068,6 +1270,14 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"The fleet source changed. Refresh its draft snapshot and review the vehicle "
+"facts again."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid "The measurement exceeds the reviewed statutory bands."
 msgstr ""
 
@@ -1134,6 +1344,16 @@ msgid "Use the vehicle tax workflow actions to change the filing state."
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model,name:l10n_sk_vehicle_tax.model_fleet_vehicle
+msgid "Vehicle"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__vehicle_source
+msgid "Vehicle Source"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid "Vehicle facts cannot be moved to another return or company."
@@ -1154,11 +1374,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_tax_exempt
+msgid "Vehicle tax exemption reviewed"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid ""
 "Vehicle tax results and filing archives are generated by the filing "
 "workflow."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_dmv_taxpayer
+msgid "Vehicle taxpayer under section 3"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -1229,26 +1459,31 @@ msgid "Year"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_dmv_taxpayer__a
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__a
 msgid "a"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_dmv_taxpayer__b
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__b
 msgid "b"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_dmv_taxpayer__c
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__c
 msgid "c"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_dmv_taxpayer__d
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__d
 msgid "d"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_dmv_taxpayer__e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__e
 msgid "e"
 msgstr ""

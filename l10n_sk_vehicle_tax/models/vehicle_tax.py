@@ -11,6 +11,7 @@ import base64
 import hashlib
 import json
 import re
+from calendar import monthrange
 from datetime import date, timedelta
 from decimal import Decimal
 from lxml import etree
@@ -71,6 +72,7 @@ class VehicleTaxVersion(models.Model):
     source_url = fields.Char(required=True)
 
     def write(self, values):
+        self.check_access('write')
         if self:
             self.env.cr.execute('SELECT id FROM l10n_sk_vehicle_tax_version WHERE id IN %s ORDER BY id FOR UPDATE',
                                 [tuple(self.ids)])
@@ -88,6 +90,9 @@ class VehicleTaxReturn(models.Model):
     _order = 'year desc, id desc'
     _cssk_form_label = _lt('motor vehicle tax return')
     _cssk_xml_name_fallback = 'DMVv25'
+    _one_regular_filing = models.UniqueIndex(
+        "(company_id, year) WHERE filing_type = 'regular' AND state = 'submitted'",
+        "A regular vehicle tax return is already filed for this company and year. Prepare a correction of that filing.")
 
     name = fields.Char(compute='_compute_name', store=True)
     company_id = fields.Many2one('res.company', required=True, default=lambda self: self.env.company,
@@ -147,14 +152,18 @@ class VehicleTaxReturn(models.Model):
     @api.depends('year', 'company_id', 'filing_type')
     def _compute_name(self):
         for rec in self:
-            rec.name = 'DMVv25-%s-%s-%s' % (rec.company_id.id, rec.year, rec.filing_type)
+            rec.name = 'DMVv25-%s-%s-%s-%s' % (rec.company_id.name, rec.year, rec.filing_type, rec.id)
 
     @api.depends('year')
     def _compute_dates(self):
         for rec in self:
-            if not 2025 <= rec.year <= 9998:
-                raise UserError(_('This vehicle tax form requires a calendar year from 2025 to 9998.'))
-            rec.date_from, rec.date_to = date(rec.year, 1, 1), date(rec.year, 12, 31)
+            rec.date_from = date(rec.year, 1, 1) if 2025 <= rec.year <= 9998 else False
+            rec.date_to = date(rec.year, 12, 31) if 2025 <= rec.year <= 9998 else False
+
+    @api.constrains('year')
+    def _check_year(self):
+        if any(not 2025 <= rec.year <= 9998 for rec in self):
+            raise UserError(_('This vehicle tax form requires a calendar year from 2025 to 9998.'))
 
     @api.depends('result')
     def _compute_totals(self):
@@ -401,14 +410,17 @@ class VehicleTaxReturn(models.Model):
             technical = vehicle['facts']
             start = fields.Date.to_date(technical['liability_from'])
             end = fields.Date.to_date(technical['liability_to'])
+            start = start.replace(day=1)
+            end = end.replace(day=monthrange(end.year, end.month)[1]) if end else None
+            electric = technical['propulsion'] == 'electric'
             value = {'r01': dated(fields.Date.to_date(technical['first_registered'])),
                 'r02vzniku': dated(start) if start.year == self.year else '',
                 'r02zaniku': dated(end) if end and end.year == self.year else '',
                 'r03Kategoria': technical['category'], 'r06-EVC': technical['registration_number'],
-                'r07-ObjemValcov': str(technical['engine_cm3']) if technical['engine_cm3'] else '',
-                'r08-VykonMotora': str(technical['power_kw']) if technical['power_kw'] else '',
-                'r09Hmotnost': str(Decimal(str(technical['weight_kg']))/1000) if technical['weight_kg'] else '',
-                'r10PocetNaprav': str(technical['axles']) if technical['axles'] else '',
+                'r07-ObjemValcov': str(int(technical['engine_cm3'])) if not electric and technical['category'] != 'N1' else '',
+                'r08-VykonMotora': str(technical['power_kw']) if electric else '',
+                'r09Hmotnost': str(Decimal(str(technical['weight_kg']))/1000) if technical['category'] == 'N1' else '',
+                'r10PocetNaprav': str(technical['axles']) if technical['category'] == 'N1' else '',
                 'r11pism': technical['taxpayer'], 'r13sadzba': str(int(Decimal(vehicle['annual_base']))),
                 'r16hybrid': int(technical['propulsion'] == 'hybrid'),
                 'r16plyn': int(technical['propulsion'] in ('cng', 'lng')),
@@ -417,7 +429,7 @@ class VehicleTaxReturn(models.Model):
                 value.update({f'r15rocnaSadzba_{index}': segment['annual_after_age'],
                     f'r17sadzba{index}': segment['annual_final'],
                     f'r19sadzba{index}': segment['annual_final'],
-                    f'r20aPocMesS{index}': segment['month_count'] if len(vehicle['segments']) > 1 or segment['month_count'] < 12 else '',
+                    f'r20aPocMesS{index}': segment['month_count'],
                     f'r21dan{index}': segment['tax']})
                 # MF/017488/2024-726: without combined-transport relief,
                 # r19 repeats r17; blank is not a faithful completed form.
@@ -486,6 +498,10 @@ class VehicleTaxReturn(models.Model):
                 if rec.state == 'submitted':
                     rec._check_xml()
                     continue
+                if rec.filing_type == 'regular' and self.search_count([
+                        ('company_id', '=', rec.company_id.id), ('year', '=', rec.year),
+                        ('filing_type', '=', 'regular'), ('state', '=', 'submitted'), ('id', '!=', rec.id)]):
+                    raise UserError(_('A regular vehicle tax return is already filed for this company and year. Prepare a correction of that filing.'))
                 if rec.state != 'exported' or not rec.submission_reference or not rec.filing_evidence:
                     raise UserError(_('Export first and record the actual filing confirmation and evidence.'))
                 attachment = rec._check_xml()
@@ -558,6 +574,23 @@ class VehicleTaxReturn(models.Model):
             'message': _('Projected tax was suggested from the known vehicles. Review the complete next January fleet, additions, disposals and rate edition before calculating the return.')}}
 
 
+    def action_add_fleet_vehicles(self):
+        self.ensure_one()
+        self._check_edit_lines()
+        vehicles = self.env['fleet.vehicle'].with_context(active_test=False).search([
+            ('company_id', '=', self.company_id.id),
+            '|', ('acquisition_date', '=', False), ('acquisition_date', '<=', self.date_to),
+            '|', ('write_off_date', '=', False), ('write_off_date', '>=', self.date_from)])
+        for vehicle in vehicles - self.line_ids.vehicle_id:
+            if vehicle.l10n_sk_tax_exempt or vehicle.l10n_sk_not_taxable_reason:
+                if not (vehicle.l10n_sk_not_taxable_reason or '').strip():
+                    raise UserError(_('Retain the exemption or outside-scope evidence on the fleet vehicle.'))
+                continue
+            self.env['l10n.sk.vehicle.tax.line'].create({'return_id': self.id, 'vehicle_id': vehicle.id,
+                'evidence': _('Review the imported fleet documents and liability before calculation.')})
+        return True
+
+
 class VehicleTaxLine(models.Model):
     _name = 'l10n.sk.vehicle.tax.line'
     _description = 'Reviewed vehicle tax technical facts'
@@ -566,8 +599,11 @@ class VehicleTaxLine(models.Model):
 
     return_id = fields.Many2one('l10n.sk.vehicle.tax.return', required=True, ondelete='cascade', index=True)
     company_id = fields.Many2one(related='return_id.company_id', store=True)
+    vehicle_id = fields.Many2one('fleet.vehicle', check_company=True, ondelete='restrict', string='Fleet vehicle')
+    vehicle_source = fields.Json(readonly=True, copy=False)
     registration_number = fields.Char(required=True)
-    category = fields.Selection([(key, key) for key in ('M1', 'N1', 'L1e', 'L2e', 'L3e', 'L4e', 'L5e', 'L6e', 'L7e')],
+    category = fields.Selection([(key, key) for key in ('M1', 'M2', 'M3', 'N1', 'N2', 'N3',
+        'O1', 'O2', 'O3', 'O4', 'L1e', 'L2e', 'L3e', 'L4e', 'L5e', 'L6e', 'L7e')],
                                  required=True, default='M1')
     first_registered = fields.Date(required=True)
     liability_from = fields.Date(required=True)
@@ -575,9 +611,9 @@ class VehicleTaxLine(models.Model):
     propulsion = fields.Selection([('combustion', 'Combustion'), ('lpg', 'LPG'),
         ('hybrid', 'Documented hybrid'), ('cng', 'CNG'), ('lng', 'LNG'), ('hydrogen', 'Hydrogen'),
         ('electric', 'Electric only')], required=True, default='combustion')
-    engine_cm3 = fields.Float(digits=(12, 3))
+    engine_cm3 = fields.Integer()
     power_kw = fields.Float(digits=(12, 3))
-    weight_kg = fields.Float(digits=(12, 3))
+    weight_kg = fields.Integer()
     axles = fields.Integer()
     taxpayer = fields.Selection([(key, key) for key in ('a', 'b', 'c', 'd', 'e')], required=True, default='a')
     facts_reviewed = fields.Boolean(string='Taxable in Slovakia; technical document and liability reviewed')
@@ -591,6 +627,12 @@ class VehicleTaxLine(models.Model):
         normalized = []
         for values in values_list:
             values = dict(values)
+            if 'vehicle_source' in values or 'default_vehicle_source' in self.env.context:
+                raise UserError(_('Refresh the reviewed vehicle snapshot through its fleet record.'))
+            vehicle = self.env['fleet.vehicle'].browse(values.get('vehicle_id') or self.env.context.get('default_vehicle_id')).exists()
+            if vehicle:
+                source = vehicle._l10n_sk_vehicle_tax_identity()
+                values = {**source['facts'], **values, 'vehicle_id': vehicle.id, 'vehicle_source': source}
             values.setdefault('return_id', self.env.context.get('default_return_id'))
             if not values['return_id']:
                 raise UserError(_('Choose the vehicle tax return before adding technical facts.'))
@@ -607,10 +649,30 @@ class VehicleTaxLine(models.Model):
         return super(VehicleTaxLine, self.with_context(clean_context)).create(normalized)
 
     def write(self, values):
+        if 'vehicle_source' in values:
+            raise UserError(_('Refresh the reviewed vehicle snapshot through its fleet record.'))
         if {'return_id', 'company_id'} & values.keys():
             raise UserError(_('Vehicle facts cannot be moved to another return or company.'))
         self.return_id._check_edit_lines()
+        if 'vehicle_id' in values:
+            raise UserError(_('Add a new vehicle line instead of reassigning its retained fleet identity.'))
         return super().write(values)
+
+    def action_refresh_vehicle(self):
+        self.return_id._check_edit_lines()
+        for line in self:
+            if not line.vehicle_id or line.vehicle_id.company_id != line.company_id:
+                raise UserError(_('Select a fleet vehicle belonging to the return company.'))
+            source = line.vehicle_id._l10n_sk_vehicle_tax_identity()
+            super(VehicleTaxLine, line).write({**source['facts'], 'vehicle_source': source,
+                'facts_reviewed': False})
+        return True
+
+    @api.onchange('vehicle_id')
+    def _onchange_vehicle(self):
+        for line in self.filtered('vehicle_id'):
+            line.update(line.vehicle_id._l10n_sk_vehicle_tax_facts())
+            line.facts_reviewed = False
 
     def unlink(self):
         self.return_id._check_edit_lines()
@@ -623,10 +685,17 @@ class VehicleTaxLine(models.Model):
             'zero_liability_reviewed')
         return dict({key: fields.Date.to_string(getattr(self, key)) if key in
                 ('first_registered', 'liability_from', 'liability_to') else getattr(self, key) for key in names}
-            , previous_line=self.previous_line_id.id)
+            , previous_line=self.previous_line_id.id,
+            vehicle_source=self.vehicle_id._l10n_sk_vehicle_tax_identity() if self.vehicle_id else None)
 
     def _calculate(self):
         self.ensure_one()
+        if not self.vehicle_id or self.vehicle_id.company_id != self.company_id:
+            raise UserError(_('Select a fleet vehicle belonging to the return company.'))
+        source = self.vehicle_id._l10n_sk_vehicle_tax_identity()
+        facts = self._facts()
+        if (source != self.vehicle_source or any(facts[key] != value for key, value in source['facts'].items())):
+            raise UserError(_('The fleet source changed. Refresh its draft snapshot and review the vehicle facts again.'))
         if not self.facts_reviewed or not self.evidence or not self.registration_number.strip():
             raise UserError(_('Review the vehicle technical document, Slovak taxable status and liability evidence.'))
         if self.category == 'N1' and (self.axles < 1 or not 0 < self.weight_kg <= 3500):
@@ -663,9 +732,21 @@ class VehicleTaxAttachment(models.Model):
         return self.env['l10n.sk.vehicle.tax.return'].browse(ids).exists()
 
     def write(self, values):
-        if self._vehicle_returns() and {'datas', 'raw', 'db_datas', 'store_fname', 'res_model', 'res_id',
-                'res_field', 'company_id', 'public', 'access_token', 'type', 'url', 'mimetype', 'checksum', 'file_size'} & values.keys():
-            raise UserError(_('Vehicle tax XML snapshots cannot be replaced or reassigned. Export a new snapshot.'))
+        returns = self._vehicle_returns()
+        protected = self.filtered(lambda attachment: any(
+            attachment in (rec.filed_history_ids | rec.xml_attachment_id) for rec in returns))
+        for attachment in protected:
+            if any(key in values and values[key] != attachment[key] for key in ('store_fname', 'checksum', 'file_size')):
+                raise UserError(_('Vehicle tax XML snapshots cannot be replaced or reassigned. Export a new snapshot.'))
+            if any(key in values and values[key] != attachment[key] for key in
+                   ('res_model', 'res_id', 'res_field', 'company_id', 'type', 'url')):
+                raise UserError(_('Vehicle tax XML snapshots cannot be replaced or reassigned. Export a new snapshot.'))
+            for key in ('datas', 'raw', 'db_datas'):
+                if key in values:
+                    value = values[key] or b''
+                    raw = base64.b64decode(value) if key == 'datas' else value
+                    if raw != attachment.raw:
+                        raise UserError(_('Vehicle tax XML snapshots cannot be replaced or reassigned. Export a new snapshot.'))
         return super().write(values)
 
     def unlink(self):
@@ -673,10 +754,3 @@ class VehicleTaxAttachment(models.Model):
         if returns.filtered(lambda rec: bool((rec.filed_history_ids | rec.xml_attachment_id) & self)):
             raise UserError(_('The active or filed vehicle tax XML snapshot must be retained.'))
         return super().unlink()
-
-    def _to_http_stream(self):
-        for rec in self._vehicle_returns():
-            rec.check_access('read')
-            if rec.xml_attachment_id & self and rec.state != 'submitted':
-                rec._check_xml()
-        return super()._to_http_stream()

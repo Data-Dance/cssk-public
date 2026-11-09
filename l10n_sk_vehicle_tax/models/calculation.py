@@ -94,10 +94,12 @@ def calculate_vehicle(*, year, category, first_registered, liability_from,
     if category not in {'L', 'M1', 'N1'} or propulsion not in PROPULSIONS:
         raise ValueError('Review an L, M1 or N1 vehicle and its documented propulsion.')
     if (not isinstance(first_registered, date) or not isinstance(liability_from, date)
-            or liability_from.day != 1 or (liability_to is not None
-                and (not isinstance(liability_to, date)
-                     or liability_to.day != monthrange(liability_to.year, liability_to.month)[1]))):
+            or (liability_to is not None and not isinstance(liability_to, date))):
         raise ValueError('Use the first and last calendar days of the reviewed liability months.')
+    if liability_to and liability_to < liability_from:
+        raise ValueError('Liability dates must reconcile with first registration and their order.')
+    liability_from = liability_from.replace(day=1)
+    liability_to = liability_to.replace(day=monthrange(liability_to.year, liability_to.month)[1]) if liability_to else None
     first_month = first_registered.replace(day=1)
     if liability_from < first_month or (liability_to and liability_to < liability_from):
         raise ValueError('Liability dates must reconcile with first registration and their order.')
@@ -106,6 +108,8 @@ def calculate_vehicle(*, year, category, first_registered, liability_from,
     if start > end and not allow_empty_year:
         raise ValueError('This vehicle has no reviewed taxable month in the return year.')
     cm3, kw, kg = map(number, (engine_cm3, power_kw, weight_kg))
+    if category == 'N1' and not 0 < kg <= 3500:
+        raise ValueError('An N1 vehicle requires its documented maximum permissible mass.')
     electric = propulsion == 'electric'
     if electric:
         if not kw:

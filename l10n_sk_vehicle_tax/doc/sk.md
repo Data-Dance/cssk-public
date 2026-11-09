@@ -1,8 +1,12 @@
-# Daň z motorových vozidiel — DMVv25
+---
+title: Daň z motorových vozidiel — DMVv25
+summary: Príprava slovenskej dane z motorových vozidiel z natívnej evidencie vozidiel.
+verified: 19.0.1.1.0
+---
 
 Účtovníctvo → Výkazy → Zákonné výkazy → Daň z motorových vozidiel.
 
-## Rozsah
+## Rozsah {#scope}
 
 Slovenské právnické osoby, bežný kalendárny rok, EUR a vozidlá L1e–L7e, M1 alebo
 N1. Výpočet používa overené celé mesiace daňovej povinnosti. Odpočet DPH,
@@ -11,7 +15,20 @@ Iné kategórie, oslobodenia, kombinovaná doprava, osobitné skrátené obdobia
 a opakovaný vznik/zánik pri rovnakom EČV nie sú rozsahom tejto verzie.
 Nepodporované voľby ani duplicitné vozidlá sa nemajú zameniť za bežný prípad.
 
-## Príprava
+## Príprava {#preparation}
+
+V **Evidencii vozidiel → Vozidlá → Slovenská daň z vozidiel** doplňte údaje
+osvedčenia. Prvá evidencia nie je dátum nadobudnutia/evidencie u firmy.
+Výkon elektromobilu musí byť v kW; hybridný pohon musí byť doložený.
+Táto verzia počíta bežných daňovníkov a/b; oslobodenie či vylúčenie má
+výslovný dôvod na karte vozidla.
+
+Tlačidlo **Pridať firemné vozidlá** zahrnie aj vozidlá predané alebo archivované
+počas roka. Overte prenesené snímky. Po zmene karty použite v návrhu priznania
+**Obnoviť snímku vozidla** a znova overte podklady. Technické údaje sa neopisujú
+do druhej evidencie. Skutočné dátumy nadobudnutia/evidencie a zrušenia evidencie
+výpočet prevedie na zákonné hranice mesiacov. Výnimka podľa §8 má na karte
+osobitný dátum a odôvodnenie. Modul knihy jázd sa nevyžaduje.
 
 1. Doplňte DIČ a sídlo firmy. Firma nemusí byť platiteľom DPH. Ulica a číslo
    používajú spoločnú funkciu lokalizácie.
@@ -30,9 +47,11 @@ Nepodporované voľby ani duplicitné vozidlá sa nemajú zameniť za bežný pr
 5. Stiahnite XML. Pri zmene podkladov, firmy, šablóny alebo verzie sa nepodaný
    výpočet/export stane neaktuálnym. Vráťte ho do návrhu a znova vypočítajte.
 
-## Opravy a archív
+## Opravy a archív {#corrections}
 
 Zaevidovanie podania vyžaduje jeho identifikátor a skutočný doklad o podaní.
+Na firmu a rok je povolené jedno riadne podanie aj pri súbehu viacerých
+pracovníkov. Ďalšie podanie pripravte ako opravu s väzbou na pôvodné.
 Tlačidlo samo nič neodosiela. Uchová sa presné XML, výpočet aj podklady.
 Podané priznanie nemožno meniť, resetovať ani vymazať; jeho stiahnutie
 neprehodnocuje dnešné firemné údaje.
@@ -55,19 +74,22 @@ dane automaticky nemení už platný rozpis preddavkov. Žiadosť o vrátenie
 vyžaduje kladný preplatok, overenie a vlastný firemný IBAN. Nie je to prijatá
 vratka. Pri príprave opravy sa žiadosť nekopíruje, aby nevznikla duplicitná.
 
-## Účtovanie a overenie
+## Účtovanie a overenie {#verification}
 
 Ide o podklady daňového priznania, nie ďalšiu účtovnú knihu. Zápisy a platby
 sa vykonávajú v natívnom účtovníctve a bankovom párovaní. Samotný výpočet
 nevytvára zápis ani platbu. Prístup rešpektuje aktívne firmy a práva účtovníka
 aj správcu. Generované sumy a archívy sú chránené aj pri priamom API/default_*.
+Účtovník číta kartu vozidla, ktorú udržiava správca evidencie vozidiel.
+Zákonné edície upravuje systémový administrátor. Presun uloženia XML medzi
+databázou a súbormi i vytvorenie prístupového tokenu zachovávajú presné bajty.
 
 Odoo testy spustite s `--test-enable --test-tags=/l10n_sk_vehicle_tax` pri
 inštalácii/aktualizácii modulu. Overujú príklad FS2026 s hybridom86,95,
 viacstranové a nulové XML, opravy, zastarané podklady, firemné práva aj tok
 bežného účtovného správcu bez sudo. XSD nie je potvrdením prijatia úradom.
 
-## Primárne zdroje
+## Primárne zdroje {#sources}
 
 - [Zákon361/2014, zverejnené znenie od2025](https://static.slov-lex.sk/static/SK/ZZ/2014/361/20250101.print.html).
 - [Poučenie MF/017488/2024-726](https://www.mfsr.sk/files/archiv/71/Poucenie-na-vyplnenie-DP-k-DzMV_v2025_final.pdf).

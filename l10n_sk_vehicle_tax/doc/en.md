@@ -1,8 +1,12 @@
-# Motor vehicle tax — DMVv25
+---
+title: Motor vehicle tax — DMVv25
+summary: Prepare Slovak calendar-year motor vehicle tax from the native fleet register.
+verified: 19.0.1.1.0
+---
 
 Accounting → Reporting → Statutory Reports → Motor vehicle tax.
 
-## Scope
+## Scope {#scope}
 
 Slovak legal entities with an ordinary calendar-year period, EUR amounts and
 L1e–L7e, M1 or N1 vehicles. Liability uses reviewed whole months, independently
@@ -12,7 +16,21 @@ liability intervals for the same registration are outside this edition.
 The application blocks these unsupported selections or duplicate rows rather
 than classifying them as an ordinary vehicle.
 
-## Preparing a return
+## Preparing a return {#preparation}
+
+Use **Fleet → Vehicles → Slovak vehicle tax** to record the certificate facts.
+The first registration is separate from the company's acquisition/registration
+date. Power for electric vehicles must be in kW. Document hybrid status before
+claiming its reduction. This edition calculates ordinary taxpayers a/b;
+record exemptions/outside-scope grounds explicitly instead of discarding a car.
+
+**Add company fleet vehicles** includes vehicles sold or archived during the
+year. Review the imported snapshots. A later fleet edit requires **Refresh
+fleet snapshot** and a new review on the draft return. Technical facts are not
+retyped into a parallel register. Liability comes from acquisition/registration
+and cancellation events; the engine converts their actual dates to statutory
+month boundaries. A section 8 exception has an explicit dated override and
+reason on the fleet record. No trip-log module is required.
 
 1. Complete the company's DIČ and registered address. VAT registration is not
    required. Street/house number use the common localization address helper.
@@ -32,9 +50,11 @@ than classifying them as an ordinary vehicle.
 5. Download the XML. An unfiled calculation/export becomes stale if its facts,
    company identification, template or edition change. Reset and recalculate.
 
-## Corrections and retained filings
+## Corrections and retained filings {#corrections}
 
 Recording a filing requires a reference and actual confirmation evidence.
+Only one regular filing is allowed per company/year, including concurrent
+workers. Use a correction linked to that original for subsequent filings.
 This action records a fact; it does not transmit the return. The exact XML,
 calculation and source workpaper are retained. A filed return cannot be edited,
 reset or deleted. Its download does not reinterpret today's company data.
@@ -60,7 +80,7 @@ applicable advance schedule. A separate company-IBAN repayment request requires
 a positive overpayment and review; it is not a received refund. Such a request
 is cleared when preparing a correction, preventing accidental duplicate requests.
 
-## Architecture and verification
+## Architecture and verification {#verification}
 
 The domain models are technical filing workpapers. Accounting entries and bank
 payments remain native `account.move` / payment / reconciliation operations;
@@ -68,6 +88,9 @@ this calculation creates none. No public context flag bypasses generated-field
 guards. Child facts and filings have active-company rules; accounting users and
 managers have explicit native-style ACL. Draft facts may be edited; generated
 results, active XML and filed snapshots are protected in both UI and API.
+Accounting users read fleet sources; a fleet officer maintains them. Statutory
+editions are system-administrator configuration. Same-content storage migration
+and download-token generation preserve the exact XML rather than replacing it.
 
 Run Odoo with `--test-enable --test-tags=/l10n_sk_vehicle_tax` and install/upgrade
 this module. Tests cover the official 2026 hybrid example (86.95), segment
@@ -75,7 +98,7 @@ rounding, multi-page/zero-rate XML, corrections, stale facts, direct API/default
 guards, company isolation and an ordinary accounting manager without sudo.
 XSD validation is distinct from acceptance by an authority.
 
-## Primary sources and edition maintenance
+## Primary sources and edition maintenance {#sources}
 
 - [Act361/2014, published version effective from2025](https://static.slov-lex.sk/static/SK/ZZ/2014/361/20250101.print.html).
 - [MF/017488/2024-726 instructions](https://www.mfsr.sk/files/archiv/71/Poucenie-na-vyplnenie-DP-k-DzMV_v2025_final.pdf).

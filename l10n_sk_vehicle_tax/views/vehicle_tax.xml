@@ -41,18 +41,21 @@
                     </group>
                     <notebook>
                         <page string="Vehicles">
+                            <button name="action_add_fleet_vehicles" type="object" string="Add company fleet vehicles" invisible="state != 'draft'"/>
                             <field name="line_ids" readonly="state != 'draft'">
-                                <list><field name="registration_number"/><field name="category"/>
+                                <list><field name="vehicle_id"/><field name="registration_number"/><field name="category"/>
                                     <field name="first_registered"/><field name="liability_from"/><field name="liability_to"/>
                                     <field name="propulsion"/><field name="facts_reviewed"/>
                                 </list>
                                 <form><group><group>
-                                    <field name="registration_number"/><field name="category"/><field name="first_registered"/>
-                                    <field name="liability_from"/><field name="liability_to"/><field name="taxpayer"/>
+                                    <field name="vehicle_id" required="1" readonly="id"/>
+                                    <button name="action_refresh_vehicle" type="object" string="Refresh fleet snapshot"/>
+                                    <field name="registration_number" readonly="1"/><field name="category" readonly="1"/><field name="first_registered" readonly="1"/>
+                                    <field name="liability_from" readonly="1"/><field name="liability_to" readonly="1"/><field name="taxpayer" readonly="1"/>
                                     <field name="previous_line_id"/>
                                     <field name="zero_liability_reviewed"/>
-                                </group><group><field name="propulsion"/><field name="engine_cm3"/>
-                                    <field name="power_kw"/><field name="weight_kg"/><field name="axles"/>
+                                </group><group><field name="propulsion" readonly="1"/><field name="engine_cm3" readonly="1"/>
+                                    <field name="power_kw" readonly="1"/><field name="weight_kg" readonly="1"/><field name="axles" readonly="1"/>
                                     <field name="facts_reviewed"/><field name="evidence"/>
                                 </group></group></form>
                             </field>
