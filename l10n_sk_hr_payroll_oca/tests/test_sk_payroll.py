@@ -1645,3 +1645,86 @@ class TestSkPayroll(TransactionCase):
         p = self._make_payslip(contract, employee, date(2026, 11, 1), date(2026, 11, 30))
         # Allowance at 400: 380 - 2 x 20 = 340; halved 170; base 230; 5 %.
         self.assertAlmostEqual(p.get_salary_line_total("HEALTH"), -11.5, places=2)
+
+    def _average_short_day_fixture(self, days=21, daily_hours=4):
+        calendar = self.env['resource.calendar'].create({'name': 'Average short working days',
+            'company_id': self.company.id, 'tz': 'Europe/Bratislava',
+            'attendance_ids': [(5, 0, 0)] + [(0, 0, {'name': str(day), 'dayofweek': str(day),
+                'hour_from': 8, 'hour_to': 8+daily_hours, 'day_period': 'morning'}) for day in range(5)]})
+        contract, employee = self._make_contract('Average part-time employee', 2400,
+            date(2026, 1, 1), calendar)
+        # March 3–31 has exactly 21 working days; March 4–31 has 20.
+        source = self._worked_payslip(contract, employee, date(2026, 3, 24-days), date(2026, 3, 31))
+        source.action_payslip_done()
+        self.assertAlmostEqual(source.get_salary_line_total('GROSS'), 2400)
+        worked = source.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100')
+        self.assertAlmostEqual(sum(worked.mapped('number_of_days')), days)
+        self.assertAlmostEqual(sum(worked.mapped('number_of_hours')), days*daily_hours)
+        contract.wage = 2000
+        target = self._make_payslip(contract, employee, date(2026, 6, 1), date(2026, 6, 30))
+        return source, target
+
+    def test_average_21_short_days_uses_actual_wage_with_fewer_than_168_hours(self):
+        source, target = self._average_short_day_fixture()
+        self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(), 28.5714, places=4)
+
+    def test_average_20_short_days_uses_probable_earnings(self):
+        source, target = self._average_short_day_fixture(days=20)
+        self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(),
+            round(2000/target.l10n_sk_scheduled_hours(), 4), places=4)
+        self.assertNotAlmostEqual(target.l10n_sk_average_hourly_earnings(), 30, places=4)
+
+    def test_average_168_hours_counts_even_with_fewer_than_21_days(self):
+        source, target = self._average_short_day_fixture(days=20, daily_hours=8.4)
+        self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(), 14.2857, places=4)
+
+    def test_average_other_company_history_is_excluded(self):
+        source, target = self._average_short_day_fixture()
+        other = self.env['res.company'].create({'name': 'Other average company'})
+        self.env.user.company_ids |= other
+        foreign = self.env['hr.payslip'].create({'name': 'Foreign-company average source',
+            'company_id': other.id, 'employee_id': source.employee_id.id,
+            'date_from': source.date_from, 'date_to': source.date_to, 'state': 'done'})
+        rule = source.line_ids.filtered(lambda line: line.code == 'GROSS').salary_rule_id
+        self.env['hr.payslip.line'].create({'name': 'Foreign gross', 'slip_id': foreign.id,
+            'company_id': other.id, 'employee_id': source.employee_id.id, 'contract_id': source.contract_id.id,
+            'salary_rule_id': rule.id, 'code': 'GROSS', 'category_id': rule.category_id.id,
+            'amount': 99999, 'quantity': 1, 'rate': 100})
+        self.assertNotIn(foreign, target._l10n_sk_average_payslips())
+        self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(), 28.5714, places=4)
+
+    def test_average_native_refund_cancels_wage_and_worked_time(self):
+        source, target = self._average_short_day_fixture()
+        contract = source.contract_id
+        contract.wage = 2400
+        refund = source.copy({'credit_note': True})
+        refund.compute_sheet()
+        refund.action_payslip_done()
+        contract.wage = 2000
+        self.assertAlmostEqual(refund.get_salary_line_total('GROSS'), 2400)
+        self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(),
+            round(2000/target.l10n_sk_scheduled_hours(), 4), places=4)
+        # An actual replacement then supplies only its own wage and time.
+        contract.wage = 2800
+        replacement = source.copy({'credit_note': False})
+        replacement.compute_sheet()
+        replacement.action_payslip_done()
+        contract.wage = 2000
+        self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(), 33.3333, places=4)
+
+    def test_average_rehire_does_not_reuse_previous_employment(self):
+        source, target = self._average_short_day_fixture()
+        source.contract_id.contract_date_end = date(2026, 3, 31)
+        target.employee_id.create_version({'date_version': date(2026, 4, 1),
+            'contract_date_start': date(2026, 4, 1), 'contract_date_end': False, 'wage': 2000})
+        target.contract_id = target.employee_id._get_version(date(2026, 6, 1))
+        self.assertNotIn(source, target._l10n_sk_average_payslips())
+        self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(),
+            round(2000/target.l10n_sk_scheduled_hours(), 4), places=4)
+
+    def test_average_wage_version_change_preserves_same_employment(self):
+        source, target = self._average_short_day_fixture()
+        target.employee_id.create_version({'date_version': date(2026, 4, 1), 'wage': 1800})
+        target.contract_id = target.employee_id._get_version(date(2026, 6, 1))
+        self.assertIn(source, target._l10n_sk_average_payslips())
+        self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(), 28.5714, places=4)

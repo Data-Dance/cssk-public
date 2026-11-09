@@ -28,6 +28,27 @@ Carry-over to 18.0
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
 
+[19.0.1.24.0] — 2026-11-09
+==========================
+
+Fixed
+~~~~~
+
+- Use actual average hourly earnings after at least 21 worked days OR 168
+  worked hours (§ 134 ods. 3), including part-time employees with short days.
+- Keep determining-quarter sources inside the payroll company and employment
+  start, while retaining wage-version changes within the same employment.
+- Net native credit notes against both wage and worked time, so a refunded
+  original does not count twice or distort a replacement's average.
+
+Added
+~~~~~
+
+- Cooperative hooks for source selection, counted wage and worked time, for
+  benefit classification and extensions retaining superseded financial records.
+- Regression cases with actual calendars, threshold alternatives, company
+  isolation, refunds/replacements and rehire versus wage-version changes.
+
 [19.0.1.21.1] — 2026-11-08
 ==========================
 

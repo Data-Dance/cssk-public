@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.22.0
+verified: 19.0.1.24.0
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -20,3 +20,30 @@ source selection with payroll declarations. It does not establish actual
 payment, statutory tax-year attribution or eligibility for employer RZD;
 those still require the relevant payroll records and legal review. Extensions
 retaining explicit financial replacements must also filter superseded sources.
+## Average earnings sources {#average-sources}
+
+For the determining quarter, actual average hourly earnings are used when the
+employee worked at least **21 days or 168 hours**. Short part-time days count
+as days; the test is not hours alone. Below both thresholds, the existing
+probable-earnings fallback applies. Only confirmed payslips of the same company
+and employment start supply wage and worked time. A wage-version change within
+that employment keeps its history; a genuine rehire does not inherit the old
+employment's average. Simultaneous employments use separate employee records,
+as required by the native HR contract model.
+
+Native credit notes subtract both their counted wage and worked time. A
+refund/replacement pair therefore supplies the replacement's actual amounts
+rather than two copies of the original time. Confirmed wages are distinct
+from evidence of bank payment.
+
+The default counted wage remains GROSS less the existing wage-replacement
+codes. Extensions can refine `_l10n_sk_average_counted_wage`, select effective
+sources through `_l10n_sk_average_payslips`, and extend worked time through
+`_l10n_sk_average_worked_time`. Tax/insurance GROSS alone does not establish the
+Labour Code classification of a noncash benefit. This fix does not implement
+allocation of remuneration for periods longer than a quarter (§ 134 ods. 6),
+all minimum-wage grades or an independently reviewed probable-wage input.
+
+Source: [Labour Code § 134](https://static.slov-lex.sk/static/SK/ZZ/2001/311/20261202.html),
+including paragraphs 1–7, verified against the published version applying from
+2 December 2026. Review future amendments for each actual payroll period.
