@@ -4,6 +4,17 @@ Not user documentation: this file is not rendered into a page.
 
 ## Parameters
 
+The BASIC rule delegates to `l10n_sk_basic_salary(contract, worked_days,
+scheduled_hours=None)`. Override it cooperatively rather than replacing the
+salary-rule body. An integration calculating dated wage segments can pass
+each segment's whole-period calendar divisor. Aggregate the wage into one
+monthly BASIC before evaluating monthly insurance and tax rules; this hook
+does not itself select or consolidate historical employment versions.
+
+The OCA WORK100 source includes scheduled absence time. The helper subtracts
+the common `l10n_sk_absence_codes()` once for both monthly and hourly wages.
+Leave compensation remains in its own salary rule and category.
+
 - Monthly salary structure *Slovakia: Regular Pay* (`SKMONTHLY`).
 * **Social insurance** — sickness, old-age pension, disability, unemployment,
   guarantee, accident and reserve fund, split into employee and employer

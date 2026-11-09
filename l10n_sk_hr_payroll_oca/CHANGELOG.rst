@@ -5,6 +5,12 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.22.1 (2026-11-09), not yet on 18.0:** hourly BASIC removes approved
+  absence hours before separate leave compensation is added. The BASIC rule
+  delegates to a cooperative country-level helper with an optional calendar
+  divisor for dated wage segments. Before porting to 18.0, review that engine's
+  paid-time source; do not subtract absence twice from an already net amount.
+
 - **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0

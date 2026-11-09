@@ -11,12 +11,15 @@
 #     (health rate 4% -> 5%, NČZD 479.48 -> 497.23).
 
 from datetime import date
+from types import SimpleNamespace
+from unittest.mock import patch
 
 from psycopg2 import IntegrityError
 
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import mute_logger
+from odoo.addons.payroll.models.base_browsable import WorkedDays
 
 
 @tagged("post_install", "-at_install")
@@ -124,6 +127,91 @@ class TestSkPayroll(TransactionCase):
         )
         payslip.compute_sheet()
         return payslip
+
+    def test_basic_salary_rule_calls_cooperative_country_hook(self):
+        payslip = self._make_payslip(
+            self.contract_nodecl,
+            self.employee_nodecl,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+        )
+        with patch.object(
+            type(payslip), "l10n_sk_basic_salary", return_value=1234.56
+        ) as hook:
+            payslip.compute_sheet()
+        hook.assert_called_once()
+        self.assertEqual(payslip.get_salary_line_total("BASIC"), 1234.56)
+        self.assertEqual(payslip.get_salary_line_total("GROSS"), 1234.56)
+
+    def test_basic_salary_hook_preserves_segment_divisor_and_absence_signs(self):
+        payslip = self._make_payslip(
+            self.contract_nodecl,
+            self.employee_nodecl,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+        )
+        for sign in (-1, 1):
+            worked = WorkedDays(
+                self.employee_nodecl.id,
+                {
+                    "WORK100": SimpleNamespace(number_of_hours=88),
+                    "DOVOLENKA": SimpleNamespace(number_of_hours=sign * 8),
+                },
+                self.env,
+            )
+            self.assertAlmostEqual(
+                payslip.l10n_sk_basic_salary(
+                    self.contract_nodecl, worked, scheduled_hours=176
+                ),
+                2000 * 80 / 176,
+            )
+        empty = WorkedDays(self.employee_nodecl.id, {}, self.env)
+        self.assertEqual(
+            payslip.l10n_sk_basic_salary(self.contract_nodecl, empty), 2000
+        )
+
+    def test_basic_salary_hook_preserves_hourly_wage(self):
+        payslip = self._make_payslip(
+            self.contract_nodecl,
+            self.employee_nodecl,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+        )
+        self.contract_nodecl.l10n_sk_hourly_wage = 20
+        worked = WorkedDays(
+            self.employee_nodecl.id,
+            {
+                "WORK100": SimpleNamespace(number_of_hours=2.5),
+            },
+            self.env,
+        )
+        self.assertEqual(payslip.l10n_sk_basic_salary(self.contract_nodecl, worked), 50)
+        missing_work = WorkedDays(self.employee_nodecl.id, {
+            "DOVOLENKA": SimpleNamespace(number_of_hours=8),
+        }, self.env)
+        self.assertEqual(
+            payslip.l10n_sk_basic_salary(self.contract_nodecl, missing_work), 0)
+
+    def test_hourly_wage_excludes_approved_leave_from_basic(self):
+        contract, employee, _calendar = self._abs_setup()
+        contract.write({"wage": 3520, "l10n_sk_hourly_wage": 20})
+        self._seed_prior_quarter(contract, employee)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_dovolenka", date(2026, 6, 8), date(2026, 6, 8)
+        )
+        for positive in (False, True):
+            with self.subTest(leaves_positive=positive):
+                self.env["ir.config_parameter"].sudo().set_param(
+                    "payroll.leaves_positive", positive
+                )
+                payslip = self._worked_payslip(
+                    contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+                )
+                self.assertEqual(payslip.get_salary_line_total("BASIC"), 3360)
+                self.assertEqual(
+                    payslip.get_salary_line_total("DOVOLENKA_NAHRADA"), 160
+                )
+                self.assertEqual(payslip.get_salary_line_total("GROSS"), 3520)
 
     def test_2026_payslip(self):
         """2026: health ee 5%, NČZD 497.23, bonus for 2 children."""
