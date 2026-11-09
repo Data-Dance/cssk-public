@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../account_asset_tax/static/description/index_sk.html">Slovenčina</a> · <a href="../../../account_asset_tax/static/description/index_cs.html">Čeština</a></nav>
 <h1>Tax Depreciation (CZ/SK)</h1>
 <p class="cssk-summary">A second, never-posted depreciation board per asset for Czech and Slovak tax depreciation, next to the accounting depreciation, with the year-end book-versus-tax comparison, deferred tax and a tax depreciation register.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.11.4</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code></td></tr><tr><th>Extended by</th><td><code>account_asset_tax_ee</code>, <code>account_asset_tax_oca</code>, <code>l10n_cz_account_asset_tax</code>, <code>l10n_sk_account_asset_tax</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.12.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code></td></tr><tr><th>Extended by</th><td><code>account_asset_tax_ee</code>, <code>account_asset_tax_oca</code>, <code>l10n_cz_account_asset_tax</code>, <code>l10n_sk_account_asset_tax</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Czech and Slovak companies depreciate every fixed asset <strong>twice</strong>:</p>
@@ -453,10 +453,13 @@ is decided on the return; the wizard shows the amount.</p>
 <li><strong>Export XLSX</strong> and <strong>Print PDF</strong> give the table as a spreadsheet or a PDF.</li>
 </ul>
 <p>The Slovak corporate tax return in
-<code>l10n_sk_dppo</code> reads rows 150 and 250 from this
-module automatically (not the vehicle add-back, which you enter yourself
-when it applies). It takes the <strong>company total</strong> — accounting minus tax
-for all assets together — whereas the wizard shows add-backs and deductions
+<code>l10n_sk_dppo</code> fills its Table B from this
+module automatically, and rows 150 and 250 follow from it (not the vehicle
+add-back, which you enter yourself when it applies): accounting
+depreciation, tax depreciation, the charge a suspended year would have
+carried (§ 22 ods. 9) and the § 22 ods. 12 part in the year of sale, for
+assets on a tangible asset account (not 01x). It takes the <strong>company
+total</strong> — accounting minus tax for all those assets together — whereas the wizard shows add-backs and deductions
 asset by asset, so the two differ when some assets go one way and some the
 other. The Czech return module does not read these figures.</p>
 <h2 id="register">Register and analysis</h2>
@@ -554,7 +557,7 @@ can be.</p>
   calendar year gets calendar-year boards.</li>
 <li>The register's headings are Slovak/English also for Czech companies.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.11.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.12.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

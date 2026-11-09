@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../account_asset_tax/static/description/index.html">English</a> · <a href="../../../account_asset_tax/static/description/index_sk.html">Slovenčina</a> · <b>Čeština</b></nav>
 <h1>Daňové odpisy (CZ/SK)</h1>
 <p class="cssk-summary">Druhý, nikdy neúčtovaný odpisový plán ke každému majetku pro české a slovenské daňové odpisy vedle účetních, s ročním porovnáním účetních a daňových odpisů, odloženou daní a registrem daňových odpisů.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.11.4</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code></td></tr><tr><th>Rozšiřují jej</th><td><code>account_asset_tax_ee</code>, <code>account_asset_tax_oca</code>, <code>l10n_cz_account_asset_tax</code>, <code>l10n_sk_account_asset_tax</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.12.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code></td></tr><tr><th>Rozšiřují jej</th><td><code>account_asset_tax_ee</code>, <code>account_asset_tax_oca</code>, <code>l10n_cz_account_asset_tax</code>, <code>l10n_sk_account_asset_tax</code></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>České a slovenské společnosti odepisují každý dlouhodobý majetek <strong>dvakrát</strong>:</p>
@@ -448,8 +448,10 @@ v přiznání; průvodce ukazuje částku.</p>
 <li><strong>Export XLSX</strong> a <strong>Tisk PDF</strong> dají tabulku jako sešit nebo PDF.</li>
 </ul>
 <p>Slovenské přiznání právnické osoby v modulu
-<code>l10n_sk_dppo</code> si řádky 150 a 250 načte z tohoto
-modulu samo (připočtení za vozidlo ne — to zadáte sami, uplatní-li se), a to jako <strong>souhrn za společnost</strong>, kdežto průvodce ukazuje
+<code>l10n_sk_dppo</code> si z tohoto modulu samo vyplní
+tabulku B a z ní řádky 150 a 250 (připočtení za vozidlo ne — to zadáte
+sami, uplatní-li se), za majetek na účtu hmotného majetku (ne 01x), a to
+jako <strong>souhrn za společnost</strong>, kdežto průvodce ukazuje
 připočitatelné a odečitatelné částky po jednotlivých majetcích. Český modul
 přiznání tyto řádky z tohoto modulu nenačítá.</p>
 <h2 id="register">Registr a analýza</h2>
@@ -540,7 +542,7 @@ obou registrů majetku.</p>
   kalendářního dostane plány po kalendářních letech.</li>
 <li>Záhlaví registru jsou slovensko-anglická i pro české společnosti.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.11.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.12.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
