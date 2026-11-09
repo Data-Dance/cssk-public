@@ -1,19 +1,23 @@
-# Prílohy DPPO: tabuľky A a B
+---
+title: Položková tabuľka A DPPO
+summary: Nákladové položky s dokladmi napĺňajú natívne riadky tabuľky A podľa vzoru priznania, bez nahradenia odpisového registra a histórie podaní.
+verified: 19.0.1.0.0
+---
 
-Na priznaní zapnite **Použiť overené tabuľky A a B**. Položky tabuľky A
-zaraďte do predpísaných riadkov A1 až A16 a uchovajte podklady. Súčet A17
-sa prenesie do hlavného riadka 130. Zadané sumy musia pokrývať celú firmu.
+## Účel {#purpose}
 
-Do B1 zadajte účtovné odpisy, do B2 daňové odpisy pred odpočítaním B3/B4,
-do B3 neuplatnenú časť prenajatého majetku a do B4 prerušené odpisy.
-Pomerný odpis pri predaji patrí do B5, nie súčasne do B2. Program spočíta
-B6 = B2 − B3 − B4 + B5 a rozdiel proti B1 premietne do riadka 150 alebo 250.
-Ostatné daňové úpravy vrátane riadka 290 zostávajú natívnymi vstupmi DPPO.
+Doplnok zoskupuje nedaňové náklady do vstupných riadkov tabuľky A zvoleného vzoru DPPO. Vyžaduje l10n_sk_dppo aspoň19.0.1.5.0 a l10n_cssk_income_tax_base aspoň19.0.1.6.0. Daň ďalej počítajú natívne riadky priznania. Tabuľku B a r150/r250 napĺňa odpisový register a natívne ručné vstupy.
 
-Po overení úplnosti vypočítajte priznanie a vyexportujte XML. Zmena kníh,
-podkladov alebo hlavných riadkov vyžaduje nový výpočet. Ručne zadaný
-hlavný riadok, ktorý odporuje prílohe, program odmietne. Pôvodný podaný
-súbor zostáva uchovaný. Označenie podania v programe nič neposiela úradu.
+## Postup {#workflow}
 
-Implementovaná je štruktúra DPPOv25; overenie neskoršieho ročníka je
-samostatná úloha. Ostatné prílohy a osobitné režimy sa nedopĺňajú odhadom.
+Zapnite položkový rozpis, vyberte riadok, zadajte sumu a dôkaz. Overte celý rozpis a prepočítajte priznanie. Viaceré položky jedného riadka sa sčítajú. Popisy vychádzajú z príslušného vzoru; súčtový riadok staršieho formulára nemožno zadať ako nákladovú položku.
+
+Doplnok spravuje iba riadky s položkami. Ostatné ručné vstupy A a všetky vstupy B zachováva. Pri zapnutom rozpise má súčet položiek prednosť. Odstránenie položky či vypnutie doplnku pri prepočte uvoľní predchádzajúce generované prepisy; nezávisle zmenená ručná hodnota zostáva. Po zmene súm treba pred exportom prepočet.
+
+## Dodatočné priznanie a história {#amendments}
+
+Natívne vytvorenie dodatočného priznania skopíruje položky a riadky, ale zruší overenie a jeho dôkaz. Opravu samostatne overte a prepočítajte. Archiváciu podaného XML rieši spoločný rámec. Doplnok nezasahuje do príloh, sťahovania súborov, šablón tabuľky B ani výpočtového jadra. Zmena sídla alebo zaúčtovanie daňovej rezervy neblokuje stiahnutie starého exportu.
+
+## Rozsah {#scope}
+
+Daňovú uznateľnosť a dôkazy posudzuje účtovník. Nevzniká druhá účtovná kniha ani vlastný archív podaní. Aktualizácia súkromných experimentálnych inštalácií pôvodného nevydaného A/B doplnku vyžaduje samostatné overenie migrácie.

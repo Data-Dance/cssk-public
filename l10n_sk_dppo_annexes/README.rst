@@ -1,23 +1,18 @@
-Slovak DPPO reviewed Tables A and B
-===================================
+SK DPPO itemised Table A
+===========================
 
-Extends the native DPPOv25 return with structured, evidenced Table A items,
-Table B depreciation amounts and their XML export. It does not maintain
-another accounting ledger or automatically classify the company's expenses.
+Evidenced non-deductible expense items feed the selected return version's
+native Table A input rows. Native return lines calculate the totals and r130.
+Table B and r150/r250 keep the native depreciation-register source.
 
-Enable reviewed annexes on the return, enter the complete company workpaper,
-then calculate using the native action. A17 feeds r130. B6 is B2 minus B3
-minus B4 plus B5; the difference between B1 and B6 feeds r150 or r250.
-Proportional sale-year depreciation belongs to B5, not also to B2.
-Conflicting manual main-row values are refused rather than silently discarded.
-Other reviewed adjustments, such as r290, remain native DPPO inputs.
+Requires l10n_sk_dppo 19.0.1.5.0 and l10n_cssk_income_tax_base 19.0.1.6.0.
+Enable the workpaper, enter expense rows, amounts and evidence, review it and
+compute the return. Amendments copy the items but require independent review.
+Removing items or disabling the workpaper releases generated overrides on
+recompute while retaining unrelated manual rows.
 
-Evidence covers the posted ledger, complete entered annexes, main rows,
-company header, schema and template. Changed sources require recalculation.
-Exported/submitted inputs and exact XML snapshots are retained; filing status
-records a separately verified external filing and never sends a return.
+Native filing history retains exported XML. This module does not replace
+attachments, download streams, the Table B template or the tax calculation.
 
-The feature is opt-in for compatibility. A blank legacy annex export is not
-evidence that complete statutory annexes were prepared. This implementation
-targets the held DPPOv25 layout; later statutory editions require review.
-Other tables and special-company regimes are not inferred by this addon.
+See doc/en.md and doc/sk.md for workflow and scope. Documentation-generator
+validation is not available in the generated public repository.

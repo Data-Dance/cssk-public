@@ -1,8 +1,22 @@
+=========
 Changelog
 =========
 
-19.0.1.0.0 (2026-11-09)
------------------------
+All notable changes to l10n_sk_dppo_annexes are documented here.
+Format follows Keep a Changelog.
 
-* Add reviewed Tables A/B, native r130/r150/r250 reconciliation, QWeb XML,
-  stale-source checks and retained filing evidence for DPPOv25.
+[Unreleased]
+------------
+
+Added
+~~~~~
+
+- Itemised Table A workpaper feeding native versioned a01-a16 inputs.
+- Amendment review reset, removal/disable cleanup and asset-register coexistence.
+
+Changed
+~~~~~~~
+
+- Rebased the unreleased contribution on l10n_sk_dppo 19.0.1.5.0.
+- Removed duplicated B fields, tax-spine calculations, fixed-version XML and
+  ledger/hash/attachment machinery; native return and filing workflows own them.
