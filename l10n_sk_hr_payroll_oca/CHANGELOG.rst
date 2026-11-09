@@ -5,6 +5,11 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.24.3:** subtract separately recorded absence days and hours from
+  WORK100 in the average's worked-time hook, with either leave-sign setting;
+  use the persistent origin in a virtual payslip's history domain. Regression
+  covers approved leave, the following-quarter rate and unsaved previews.
+
 - **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0

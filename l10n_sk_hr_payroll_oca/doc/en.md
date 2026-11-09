@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.24.0
+verified: 19.0.1.24.3
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -50,3 +50,7 @@ all minimum-wage grades or an independently reviewed probable-wage input.
 Source: [Labour Code § 134](https://static.slov-lex.sk/static/SK/ZZ/2001/311/20261202.html),
 including paragraphs 1–7, verified against the published version applying from
 2 December 2026. Review future amendments for each actual payroll period.
+
+## Actual worked time in the average {#average-worked-time}
+
+WORK100 is the gross scheduled time; separately recorded approved absence rows are deducted by absolute days and hours before applying the 21-day or168-hour threshold and wage/hour division. This follows the same absence-code taxonomy as BASIC, with identical results for either leave-sign setting. Refund direction remains applied once by the caller. An unsaved payslip preview excludes its persistent origin rather than passing a temporary NewId into the history domain.

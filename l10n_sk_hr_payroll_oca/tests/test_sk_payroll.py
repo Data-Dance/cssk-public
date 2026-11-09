@@ -635,6 +635,53 @@ class TestSkPayroll(TransactionCase):
         self.assertAlmostEqual(hours, 176.0, places=2)
         return p
 
+    def _check_average_source_with_approved_leave(self, positive):
+        self.env["ir.config_parameter"].sudo().set_param(
+            "payroll.leaves_positive", "1" if positive else False
+        )
+        contract, employee, _cal = self._abs_setup()
+        self._make_leave(
+            employee, "l10n_sk_leave_type_dovolenka", date(2026, 3, 9), date(2026, 3, 9)
+        )
+        source = self._worked_payslip(
+            contract, employee, date(2026, 3, 1), date(2026, 3, 31)
+        )
+        source.action_payslip_done()
+        self.assertEqual(source._l10n_sk_average_worked_time(), (21.0, 168.0))
+        self.assertAlmostEqual(
+            source._l10n_sk_average_counted_wage(), 1909.09, places=2
+        )
+        target = self._worked_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        self.assertAlmostEqual(
+            target.l10n_sk_average_hourly_earnings(), 11.3636, places=4
+        )
+
+    def test_average_source_excludes_approved_negative_leave(self):
+        self._check_average_source_with_approved_leave(False)
+
+    def test_average_source_excludes_approved_positive_leave(self):
+        self._check_average_source_with_approved_leave(True)
+
+    def test_virtual_average_assessment_uses_confirmed_sources(self):
+        contract, employee, _cal = self._abs_setup()
+        source = self._seed_prior_quarter(contract, employee, bonus=400.0)
+        preview = self.env["hr.payslip"].new(
+            {
+                "company_id": self.company.id,
+                "employee_id": employee.id,
+                "contract_id": contract.id,
+                "struct_id": contract.struct_id.id,
+                "date_from": date(2026, 6, 1),
+                "date_to": date(2026, 6, 30),
+            }
+        )
+        self.assertEqual(preview._l10n_sk_average_payslips(), source)
+        self.assertAlmostEqual(
+            preview.l10n_sk_average_hourly_earnings(), 13.6364, places=4
+        )
+
     def test_average_hourly_earnings_from_prior_quarter(self):
         """PHZ comes from the SEEDED quarter, not the fallback.
 

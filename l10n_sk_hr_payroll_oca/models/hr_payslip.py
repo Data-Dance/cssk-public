@@ -194,7 +194,7 @@ class HrPayslip(models.Model):
         q_start, q_end = self._l10n_sk_previous_quarter()
         slips = self.search([('employee_id', '=', self.employee_id.id),
             ('company_id', '=', self.company_id.id), ('date_from', '>=', q_start),
-            ('date_to', '<=', q_end), ('state', '=', 'done'), ('id', '!=', self.id)])
+            ('date_to', '<=', q_end), ('state', '=', 'done'), ('id', 'not in', self._origin.ids)])
         version = self._l10n_sk_version()
         if version.contract_date_start:
             # A wage/version change within one employment keeps its start;
@@ -213,8 +213,19 @@ class HrPayslip(models.Model):
     def _l10n_sk_average_worked_time(self):
         """Worked days/hours before credit-note sign, excluding absences."""
         self.ensure_one()
-        worked = self.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100')
-        return sum(worked.mapped('number_of_days')), sum(worked.mapped('number_of_hours'))
+        worked = self.worked_days_line_ids.filtered(lambda line: line.code == "WORK100")
+        # OCA WORK100 is the full scheduled time; leave is separate. The
+        # payroll.leaves_positive setting changes the leave sign, not whether
+        # an absence was worked. Reuse the country module's shared taxonomy.
+        absences = self.worked_days_line_ids.filtered(
+            lambda line: line.code in self.l10n_sk_absence_codes()
+        )
+        return (
+            sum(worked.mapped("number_of_days"))
+            - sum(abs(line.number_of_days) for line in absences),
+            sum(worked.mapped("number_of_hours"))
+            - sum(abs(line.number_of_hours) for line in absences),
+        )
 
     def l10n_sk_average_hourly_earnings(self):
         """Priemerný hodinový zárobok per §134 Zákonníka práce (č. 311/2001).
